@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
 import {Observable} from "rxjs/internal/Observable";
 import {UserService} from "../services/user.service";
-import {UserRolesEnum} from "../enums/user-roles.enum";
+import {UserRoleEnum} from "../enums/user-role.enum";
 
 @Injectable()
 export class TraineeGuard implements CanActivate {
@@ -13,7 +13,7 @@ export class TraineeGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    if (this.userService.isAuthenticated() && this.userService.getUserRole().contains(UserRolesEnum.Trainee)) {
+    if (this.userService.isAuthenticated() && this.userService.getUserRole().contains(UserRoleEnum.Trainee)) {
       return true;
     }
     this.router.navigate(['home']);
