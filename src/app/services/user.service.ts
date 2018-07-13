@@ -5,10 +5,11 @@ import {UserRolesEnum} from "../enums/user-roles.enum";
 
 @Injectable()
 export class UserService {
+
   private _activeUser: User;
 
   getUserRole(): Set<UserRolesEnum> {
-    return this._activeUser === null ? new Set<UserRolesEnum>() : this._activeUser.roles;
+    return this._activeUser === undefined ? new Set<UserRolesEnum>() : this._activeUser.roles;
   }
 
   isAuthenticated(): boolean {

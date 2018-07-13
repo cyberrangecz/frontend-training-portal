@@ -5,41 +5,42 @@ import {LoginGuard} from "./guards/login-guard.service";
 import {DesignerGuard} from "./guards/designer-guard.service";
 import {OrganizerGuard} from "./guards/organizer-guard.service";
 import {TraineeGuard} from "./guards/trainee-guard.service";
+import {NotFoundComponent} from "./components/not-found/not-found.component";
 
 const routes: Routes = [
   {
-    path: 'overview',
-    loadChildren: '',
+    path: 'home',
+    loadChildren: 'app/components/portal/portal.module#PortalModule',
     canActivate: [AuthGuard]
   },
   {
     path: 'login',
-    loadChildren: '',
+    loadChildren: 'app/components/login/login.module#LoginModule',
     canActivate: [LoginGuard]
   },
   {
     path: 'designer',
-    loadChildren: '',
+    loadChildren: 'app/components/designer/designer.module#DesignerModule',
     canActivate: [DesignerGuard]
   },
   {
     path: 'organizer',
-    loadChildren: '',
+    loadChildren: 'app/components/organizer/organizer.module#OrganizerModule',
     canActivate: [OrganizerGuard]
   },
   {
     path: 'trainee',
-    loadChildren: '',
+    loadChildren: 'app/components/trainee/trainee.module#TraineeModule',
     canActivate: [TraineeGuard]
   },
   {
     path: '',
-    redirectTo: 'overview',
+    redirectTo: 'home',
     pathMatch: 'full'
   },
   {
     path: '**',
-    // component: NotFoundComponent
+    component: NotFoundComponent
   }
 ];
 

@@ -13,10 +13,10 @@ export class TraineeGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    if (this.userService.getUserRole().contains(UserRolesEnum.Trainee)) {
+    if (this.userService.isAuthenticated() && this.userService.getUserRole().contains(UserRolesEnum.Trainee)) {
       return true;
     }
-    this.router.navigate(['overview']);
+    this.router.navigate(['home']);
     return false;
   }
 

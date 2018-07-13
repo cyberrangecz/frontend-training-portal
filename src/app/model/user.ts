@@ -12,4 +12,9 @@ export class User {
     this.name = name;
     this.roles = roles;
   }
+
+  toString(): string {
+    return 'id: ' + this.id + '\n'
+    + 'name: ' + this.name + '\n'
+  }
 }
