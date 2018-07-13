@@ -5,6 +5,8 @@ import {PortalRoutingModule} from "./portal-routing.module";
 import {PortalMaterialModule} from "./portal-material.module";
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { UserMenuComponent } from './toolbar/user-menu/user-menu.component';
+import { SidenavComponent } from './sidenav/sidenav.component';
+import { PortalContentComponent } from './content/portal-content.component';
 
 @NgModule({
   imports: [
@@ -15,7 +17,9 @@ import { UserMenuComponent } from './toolbar/user-menu/user-menu.component';
   declarations: [
     PortalComponent,
     ToolbarComponent,
-    UserMenuComponent
+    UserMenuComponent,
+    SidenavComponent,
+    PortalContentComponent
   ],
   providers: [
 

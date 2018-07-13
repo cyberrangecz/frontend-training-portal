@@ -1,1 +1,19 @@
 <portal-toolbar></portal-toolbar>
+<mat-drawer-container class="container" autosize>
+  <mat-drawer #drawer class="sidenav" mode="side">
+    <portal-sidenav></portal-sidenav>
+  </mat-drawer>
+
+  <div class="sidenav-content">
+    <button
+      class="sidenav-button"
+      type="button"
+      mat-icon-button
+      (click)="drawer.toggle(); toggleSidenav()">
+      <mat-icon *ngIf="!isSidenavOpen">menu</mat-icon>
+      <mat-icon *ngIf="isSidenavOpen">chevron_left</mat-icon>
+    </button>
+    <portal-content></portal-content>
+  </div>
+
+</mat-drawer-container>
