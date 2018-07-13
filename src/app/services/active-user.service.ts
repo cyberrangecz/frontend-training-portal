@@ -4,7 +4,7 @@ import Set from "typescript-collections/dist/lib/Set";
 import {UserRoleEnum} from "../enums/user-role.enum";
 
 @Injectable()
-export class UserService {
+export class ActiveUserService {
 
   private _activeUser: User;
 
