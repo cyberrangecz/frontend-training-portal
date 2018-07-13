@@ -3,6 +3,10 @@ import {RouterModule, Routes} from "@angular/router";
 
 const routes: Routes = [
   {
+    path: 'overview',
+    loadChildren: ''
+  },
+  {
     path: 'login',
     loadChildren: ''
   },
@@ -17,6 +21,15 @@ const routes: Routes = [
   {
     path: 'trainee',
     loadChildren: ''
+  },
+  {
+    path: '',
+    redirectTo: 'overview',
+    pathMatch: 'full'
+  },
+  {
+    path: '**',
+    // component: NotFoundComponent
   }
 ];
 
