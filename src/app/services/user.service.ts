@@ -10,4 +10,9 @@ export class UserService {
   getUserRole(): Set<UserRolesEnum> {
     return this._activeUser === null ? new Set<UserRolesEnum>() : this._activeUser.roles;
   }
+
+  isAuthenticated(): boolean {
+    // connect to OIDC later
+    return true;
+  }
 }

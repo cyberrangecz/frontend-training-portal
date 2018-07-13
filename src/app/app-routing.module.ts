@@ -1,26 +1,36 @@
 import {NgModule} from "@angular/core";
 import {RouterModule, Routes} from "@angular/router";
+import {AuthGuard} from "./guards/auth-guard.service";
+import {LoginGuard} from "./guards/login-guard.service";
+import {DesignerGuard} from "./guards/designer-guard.service";
+import {OrganizerGuard} from "./guards/organizer-guard.service";
+import {TraineeGuard} from "./guards/trainee-guard.service";
 
 const routes: Routes = [
   {
     path: 'overview',
-    loadChildren: ''
+    loadChildren: '',
+    canActivate: [AuthGuard]
   },
   {
     path: 'login',
-    loadChildren: ''
+    loadChildren: '',
+    canActivate: [LoginGuard]
   },
   {
     path: 'designer',
-    loadChildren: ''
+    loadChildren: '',
+    canActivate: [DesignerGuard]
   },
   {
     path: 'organizer',
-    loadChildren: ''
+    loadChildren: '',
+    canActivate: [OrganizerGuard]
   },
   {
     path: 'trainee',
-    loadChildren: ''
+    loadChildren: '',
+    canActivate: [TraineeGuard]
   },
   {
     path: '',
