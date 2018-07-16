@@ -1,6 +1,5 @@
 import {Injectable} from "@angular/core";
 import {User} from "../model/user/user";
-import Set from "typescript-collections/dist/lib/Set";
 import {UserRoleEnum} from "../enums/user-role.enum";
 
 @Injectable()
@@ -8,12 +7,24 @@ export class ActiveUserService {
 
   private _activeUser: User;
 
-  getUserRole(): Set<UserRoleEnum> {
-    return this._activeUser === undefined ? new Set<UserRoleEnum>() : this._activeUser.roles;
+  isDesigner(): boolean {
+    return this._activeUser === undefined ? false : this._activeUser.roles.contains(UserRoleEnum.Designer);
+  }
+
+  isOrganizer(): boolean {
+    return this._activeUser === undefined ? false : this._activeUser.roles.contains(UserRoleEnum.Organizer);
+  }
+
+  isTrainee(): boolean {
+    return this._activeUser === undefined ? false : this._activeUser.roles.contains(UserRoleEnum.Trainee);
   }
 
   isAuthenticated(): boolean {
     // TODO: connect to OIDC later
     return true;
+  }
+
+  setActiveUser(user: User) {
+    this._activeUser = user;
   }
 }

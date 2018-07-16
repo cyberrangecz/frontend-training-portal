@@ -14,7 +14,7 @@ export class OrganizerGuard implements CanActivate {
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    if (this.userService.isAuthenticated() && this.userService.getUserRole().contains(UserRoleEnum.Organizer)) {
+    if (this.userService.isAuthenticated() && this.userService.isOrganizer()) {
       return true;
     }
     this.router.navigate(['home']);

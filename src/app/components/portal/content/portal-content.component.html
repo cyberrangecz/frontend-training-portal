@@ -19,14 +19,11 @@
 
   <div class="portal-menu">
     <div class="left-line">
-    <button mat-raised-button color="primary">
-        Designer
-      </button>
-      <button mat-raised-button color="primary">
-        Organizer
-      </button>
-      <button mat-raised-button color="primary">
-        Trainee
+      <button *ngFor="let trainingRole of trainingRoles"
+              mat-raised-button color="primary"
+              [disabled]="trainingRole.disabled"
+              (click)="navigateToRoute(trainingRole.route)">
+        {{ trainingRole.name }}
       </button>
     </div>
 

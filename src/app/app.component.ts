@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {UserLoaderService} from "./services/data-loaders/user-loader.service";
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Kypo Trainings';
+
+  constructor(private userLoaderService: UserLoaderService) {
+    this.userLoaderService.loadActiveUser();
+  }
+
 }

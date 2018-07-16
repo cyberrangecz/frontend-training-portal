@@ -1,0 +1,16 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Test user",
+      "roles": [
+        {
+          "name": "designer"
+        },
+        {
+          "name": "organizer"
+        }
+      ]
+    }
+  ]
+}

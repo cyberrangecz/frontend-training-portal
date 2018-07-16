@@ -13,7 +13,7 @@ export class DesignerGuard implements CanActivate {
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    if (this.userService.isAuthenticated() && this.userService.getUserRole().contains(UserRoleEnum.Designer)) {
+    if (this.userService.isAuthenticated() && this.userService.isDesigner()) {
       return true;
     }
     this.router.navigate(['home']);
