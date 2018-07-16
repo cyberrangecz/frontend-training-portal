@@ -6,6 +6,7 @@ import {DesignerMaterialModule} from "./designer-material.module";
 import {SharedModule} from "../shared/shared.module";
 import { TrainingDefinitionComponent } from './training-definition/training-definition.component';
 import { SandboxDefinitionComponent } from './sandbox-definition/sandbox-definition.component';
+import {TrainingDefinitionLoaderService} from "../../services/data-loaders/training-definition-loader.service";
 
 @NgModule({
   imports: [
@@ -20,7 +21,7 @@ import { SandboxDefinitionComponent } from './sandbox-definition/sandbox-definit
     SandboxDefinitionComponent
   ],
   providers: [
-
+    TrainingDefinitionLoaderService
   ]
 })
 

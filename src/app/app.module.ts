@@ -13,6 +13,7 @@ import {TraineeGuard} from "./guards/trainee-guard.service";
 import {HttpClientModule} from "@angular/common/http";
 import {UserLoaderService} from "./services/data-loaders/user-loader.service";
 import {SharedModule} from "./components/shared/shared.module";
+import {SharedMaterialModule} from "./components/shared/shared-material.module";
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import {SharedModule} from "./components/shared/shared.module";
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    SharedModule
+    SharedModule,
+    SharedMaterialModule
   ],
   providers: [
     AuthGuard,

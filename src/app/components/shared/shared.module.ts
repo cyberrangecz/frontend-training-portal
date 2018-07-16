@@ -1,15 +1,18 @@
 import {NgModule} from "@angular/core";
-import {SharedToolbarComponent} from "./shared-toolbar/shared-toolbar.component";
 import {SharedMaterialModule} from "./shared-material.module";
 import {NotFoundComponent} from "./not-found/not-found.component";
 import {CommonModule} from "@angular/common";
 import {RouterModule} from "@angular/router";
+import {SidenavComponent} from "./sidenav/sidenav.component";
+import {UserMenuComponent} from "./toolbar/user-menu/user-menu.component";
+import {ToolbarComponent} from "./toolbar/toolbar.component";
 
 @NgModule({
   declarations: [
-    SharedToolbarComponent,
-    NotFoundComponent
-
+    NotFoundComponent,
+    ToolbarComponent,
+    UserMenuComponent,
+    SidenavComponent
   ],
   imports: [
     CommonModule,
@@ -17,8 +20,10 @@ import {RouterModule} from "@angular/router";
     SharedMaterialModule
   ],
   exports: [
-    SharedToolbarComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    ToolbarComponent,
+    UserMenuComponent,
+    SidenavComponent
   ]
 })
 

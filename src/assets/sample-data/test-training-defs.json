@@ -1,0 +1,73 @@
+{
+  "training_defs": [
+    {
+      "id": 1,
+      "sandbox_definition": 1,
+      "title": "Training Definition 1",
+      "description": "This is first test training definition",
+      "authors": [
+        {
+          "id": 1
+        },
+        {
+          "id": 2
+        }
+      ],
+      "prerequisites": "",
+      "outcomes": "",
+      "state": "released",
+      "levels": [
+        {
+        "id": 1
+        },
+        {
+          "id": 2
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "sandbox_definition": 2,
+      "title": "Training Definition 2",
+      "description": "This is second test training definition",
+      "authors": [
+        {
+          "id": 1
+        }
+      ],
+      "prerequisites": "",
+      "outcomes": "",
+      "state": "archived",
+      "levels": [
+        {
+          "id": 1
+        },
+        {
+          "id": 2
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "sandbox_definition": 1,
+      "title": "Training Definition 3",
+      "description": "This is third test training definition",
+      "authors": [
+        {
+          "id": 2
+        }
+      ],
+      "prerequisites": "",
+      "outcomes": "",
+      "state": "released",
+      "levels": [
+        {
+          "id": 1
+        },
+        {
+          "id": 2
+        }
+      ]
+    }
+  ]
+}

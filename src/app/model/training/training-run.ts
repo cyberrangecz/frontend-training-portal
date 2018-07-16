@@ -1,5 +1,5 @@
 import {User} from "../user/user";
-import {AbstractLevel} from "../level/abstract-level";
+import {number} from "../level/abstract-level";
 import {TrainingRunStateEnum} from "../../enums/training-run-state-enum";
 
 export class TrainingRun {
@@ -10,12 +10,12 @@ export class TrainingRun {
   user: User;
   startTime: Date;
   endTime: Date;
-  currentLevel: AbstractLevel;
+  currentLevel: number;
   eventLogReference: string;
   state: TrainingRunStateEnum;
 
 
-  constructor(id: number, trainingInstance: number, sandboxInstance: number, user: User, startTime: Date, endTime: Date, currentLevel: AbstractLevel, eventLogReference: string, state: TrainingRunStateEnum) {
+  constructor(id: number, trainingInstance: number, sandboxInstance: number, user: User, startTime: Date, endTime: Date, currentLevel: number, eventLogReference: string, state: TrainingRunStateEnum) {
     this.id = id;
     this.trainingInstance = trainingInstance;
     this.sandboxInstance = sandboxInstance;

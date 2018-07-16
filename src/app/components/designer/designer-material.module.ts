@@ -1,12 +1,34 @@
 import {NgModule} from "@angular/core";
-import {MatDividerModule} from "@angular/material";
+import {
+  MatButtonModule,
+  MatDividerModule,
+  MatFormFieldModule, MatIconModule, MatInputModule,
+  MatPaginatorModule,
+  MatSortModule,
+  MatTableModule
+} from "@angular/material";
 
 @NgModule({
   imports: [
-    MatDividerModule
+    MatDividerModule,
+    MatButtonModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule
   ],
   exports: [
-    MatDividerModule
+    MatDividerModule,
+    MatButtonModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule
+
   ]
 })
 

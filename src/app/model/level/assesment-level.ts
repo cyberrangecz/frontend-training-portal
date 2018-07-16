@@ -1,8 +1,8 @@
-import {AbstractLevel} from "./abstract-level";
+import {number} from "./abstract-level";
 import {AssessmentTypeEnum} from "../../enums/assessment-type-enum";
 import {TrainingDefinition} from "../training/training-definition";
 
-export class AssesmentLevel extends AbstractLevel {
+export class AssesmentLevel extends number {
   questions: JSON;
   instructions: string;
   assessmentType: AssessmentTypeEnum;

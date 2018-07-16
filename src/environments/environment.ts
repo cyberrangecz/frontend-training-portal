@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
 
-  getUsersUri: 'assets/sample-data/test-user.json'
+  getUsersUri: 'assets/sample-data/test-users.json',
+  getTrainingDefsUri: 'assets/sample-data/test-training-defs.json'
 };
 
 /*

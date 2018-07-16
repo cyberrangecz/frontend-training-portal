@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'portal-user-menu',
+  selector: 'toolbar-user-menu',
   templateUrl: './user-menu.component.html',
   styleUrls: ['./user-menu.component.css']
 })

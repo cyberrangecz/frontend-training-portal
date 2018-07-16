@@ -1,8 +1,8 @@
-import {AbstractLevel} from "./abstract-level";
+import {number} from "./abstract-level";
 import {Hint} from "./hint";
 import {TrainingDefinition} from "../training/training-definition";
 
-export class GameLevel extends AbstractLevel {
+export class GameLevel extends number {
 
   flag: string;
   hints: Hint[];

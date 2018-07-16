@@ -1,3 +1,82 @@
-<p>
-  training-definition works!
-</p>
+<h2>Training Definition</h2>
+<div class="train-def">
+
+  <div class="train-def-buttons">
+    <button mat-stroked-button color="primary"
+      (click)="newTrainingDefinition()">
+      New Training Definition
+    </button>
+    <button mat-stroked-button color="primary"
+            (click)="uploadTrainingDefinition()">
+      Upload Training Definition
+    </button>
+  </div>
+
+  <div class="train-def-table">
+
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>
+
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" matSort>
+
+        <!-- TITLE Column -->
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+          <td mat-cell *matCellDef="let training"> {{training.title}}</td>
+        </ng-container>
+
+        <!-- DESCRIPTION Column -->
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+          <td mat-cell *matCellDef="let training"> {{training.description}}</td>
+        </ng-container>
+
+        <!-- STATUS Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+          <td mat-cell *matCellDef="let training"> {{training.status}}</td>
+        </ng-container>
+
+        <!-- AUTHORS Column -->
+        <ng-container matColumnDef="authors">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Authors</th>
+          <td mat-cell *matCellDef="let training"> {{training.authors}}</td>
+        </ng-container>
+
+        <!--ACTIONS Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
+          <td mat-cell *matCellDef="let training">
+
+            <div class="action-buttons">
+              <button mat-icon-button color="primary"
+                      (click)="downloadTrainingDefinition(training.id)">
+                <mat-icon aria-label="Download training definition button">
+                  cloud_download</mat-icon>
+              </button>
+
+              <button mat-icon-button color="primary"
+                      (click)="editTrainingDefinition(training.id)">
+                <mat-icon aria-label="Edit training definition button">
+                  create</mat-icon>
+              </button>
+
+              <button mat-icon-button color="primary"
+                      (click)="deleteTrainingDefinition(training.id)">
+                <mat-icon aria-label="Delete training definition button"
+                >delete</mat-icon>
+              </button>
+            </div>
+
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    </div>
+  </div>
+</div>

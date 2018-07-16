@@ -1,7 +1,7 @@
-import {AbstractLevel} from "./abstract-level";
+import {number} from "./abstract-level";
 import {TrainingDefinition} from "../training/training-definition";
 
-export class InfoLevel extends AbstractLevel {
+export class InfoLevel extends number {
   content: Blob; // HTML -> use string?
 
 

@@ -1,19 +1,51 @@
-<portal-toolbar></portal-toolbar>
-<mat-drawer-container class="container" autosize>
-  <mat-drawer #drawer class="sidenav" mode="side">
-    <portal-sidenav></portal-sidenav>
-  </mat-drawer>
+<div class="portal-content">
+  <h1>KYPO Portal</h1>
+  <h2>Choose your role...</h2>
 
-  <div class="sidenav-content">
-    <button
-      class="sidenav-button"
-      type="button"
-      mat-icon-button
-      (click)="drawer.toggle(); toggleSidenav()">
-      <mat-icon *ngIf="!isSidenavOpen">menu</mat-icon>
-      <mat-icon *ngIf="isSidenavOpen">chevron_left</mat-icon>
-    </button>
-    <portal-content></portal-content>
+
+  <div class="portal-menu-header">
+    <div class="left-line-header">
+      <h3>Trainings</h3>
+    </div>
+
+    <div class="middle-line-header" >
+      <h3>Cyber Exercises</h3>
+    </div>
+
+    <div class="right-line-header">
+      <h3>Other Agendas</h3>
+    </div>
   </div>
 
-</mat-drawer-container>
+  <div class="portal-menu">
+    <div class="left-line">
+      <button *ngFor="let trainingRole of trainingRoles"
+              mat-raised-button color="primary"
+              [disabled]="trainingRole.disabled"
+              (click)="navigateToRoute(trainingRole.route)">
+        {{ trainingRole.name }}
+      </button>
+    </div>
+
+    <div class="middle-line">
+      <button mat-raised-button color="primary" disabled="true">
+        Designer
+      </button>
+      <button mat-raised-button color="primary" disabled="true">
+        Organizer
+      </button>
+      <button mat-raised-button color="primary" disabled="true">
+        Participant
+      </button>
+    </div>
+
+    <div class="right-line">
+      <button mat-raised-button color="primary" disabled="true">
+        Administrator
+      </button>
+      <button mat-raised-button color="primary" disabled="true">
+        Sandbox Designer
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 import {TrainingDefinition} from "../training/training-definition";
 
-export abstract class AbstractLevel {
+export abstract class number {
   id: number;
   trainingDefinition: TrainingDefinition;
   title: string;

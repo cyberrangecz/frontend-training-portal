@@ -1,0 +1,29 @@
+
+h2 {
+  text-align: center;
+  margin: 50px auto;
+}
+.train-def {
+  display: flex;
+  flex-direction: row;
+}
+
+.train-def-buttons {
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.train-def-table {
+  flex-grow: 4;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td, th {
+  width: 20%;
+}
+
+
