@@ -5,7 +5,7 @@ import {LoginGuard} from "./guards/login-guard.service";
 import {DesignerGuard} from "./guards/designer-guard.service";
 import {OrganizerGuard} from "./guards/organizer-guard.service";
 import {TraineeGuard} from "./guards/trainee-guard.service";
-import {NotFoundComponent} from "./components/not-found/not-found.component";
+import {NotFoundComponent} from "./components/shared/not-found/not-found.component";
 
 const routes: Routes = [
   {

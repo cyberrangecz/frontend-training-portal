@@ -11,19 +11,19 @@ import {DesignerGuard} from "./guards/designer-guard.service";
 import {OrganizerGuard} from "./guards/organizer-guard.service";
 import {TraineeGuard} from "./guards/trainee-guard.service";
 import {HttpClientModule} from "@angular/common/http";
-import { NotFoundComponent } from './components/not-found/not-found.component';
 import {UserLoaderService} from "./services/data-loaders/user-loader.service";
+import {SharedModule} from "./components/shared/shared.module";
 
 @NgModule({
   declarations: [
-    AppComponent,
-    NotFoundComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SharedModule
   ],
   providers: [
     AuthGuard,

@@ -24,6 +24,10 @@ export class ActiveUserService {
     return true;
   }
 
+  getActiveUser(): User {
+    return this._activeUser;
+  }
+
   setActiveUser(user: User) {
     this._activeUser = user;
   }
