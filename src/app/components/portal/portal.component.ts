@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActiveUserService} from "../../services/active-user.service";
 import {Router} from "@angular/router";
 
@@ -7,11 +7,13 @@ import {Router} from "@angular/router";
   templateUrl: './portal.component.html',
   styleUrls: ['./portal.component.css']
 })
-export class PortalComponent implements OnInit {
+export class PortalComponent implements OnInit, OnDestroy {
 
   trainingRoles;
   cyberExerciseRoles;
   otherAgendaRoles;
+
+  userChangeSubscription;
 
   constructor(
     private activeUserService: ActiveUserService,
@@ -20,9 +22,20 @@ export class PortalComponent implements OnInit {
     this.createTrainingButtons();
     this.createCyberExButtons();
     this.createOtherAgendaButtons();
+    this.subscribeUserChange();
   }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    if (this.userChangeSubscription) {
+      this.userChangeSubscription.unsubscribe();
+    }
+  }
+
+  navigateToRoute(route: string) {
+    this.router.navigate([route]);
   }
 
   private createTrainingButtons() {
@@ -81,8 +94,14 @@ export class PortalComponent implements OnInit {
     ];
   }
 
-  navigateToRoute(route: string) {
-    this.router.navigate([route]);
+
+  private subscribeUserChange() {
+    this.userChangeSubscription = this.activeUserService.onActiveUserChanged.
+      subscribe(id => {
+        this.createTrainingButtons();
+        this.createCyberExButtons();
+        this.createOtherAgendaButtons();
+    });
   }
 
 }

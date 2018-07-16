@@ -7,10 +7,14 @@ import {UserLoaderService} from "./services/data-loaders/user-loader.service";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Kypo Trainings';
+
+  isSidenavOpen: boolean = false;
 
   constructor(private userLoaderService: UserLoaderService) {
     this.userLoaderService.loadActiveUser();
   }
 
+  toggleSidenav() {
+    this.isSidenavOpen = !this.isSidenavOpen;
+  }
 }
