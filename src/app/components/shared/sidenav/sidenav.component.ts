@@ -37,7 +37,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
       },
       {
         title: 'Organizer',
-        visible: this.activeUserService.isDesigner(),
+        visible: this.activeUserService.isOrganizer(),
         route: '/organizer'
       },
       {
