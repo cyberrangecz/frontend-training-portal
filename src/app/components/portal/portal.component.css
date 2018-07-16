@@ -1,17 +1,13 @@
-.sidenav-container {
-  height: 100%;
+.container {
+  height: calc(100vh - 64px);
+  width: 100%;
 }
 
-.sidenav-content {
-  display: flex;
-  height: 100%;
-}
-
-portal-content {
-  width: 90%;
-
-}
 
 .sidenav {
   padding: 20px;
+}
+
+.sidenav-content {
+  height: 100%;
 }
