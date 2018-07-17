@@ -1,8 +1,7 @@
-import {TrainingDefinition} from "../training/training-definition";
 
-export abstract class number {
+export abstract class AbstractLevel {
   id: number;
-  trainingDefinition: TrainingDefinition;
+  trainingDefinitionId: number;
   title: string;
   maxScore: number = 0;
   order: number;
@@ -10,9 +9,9 @@ export abstract class number {
   postHook: Blob;
 
 
-  constructor(id: number, trainingDefinition: TrainingDefinition, title: string, maxScore: number, order: number, preHook: Blob, postHook: Blob) {
+  constructor(id: number, trainingDefinitionId: number, title: string, maxScore: number, order: number, preHook: Blob, postHook: Blob) {
     this.id = id;
-    this.trainingDefinition = trainingDefinition;
+    this.trainingDefinitionId = trainingDefinitionId;
     this.title = title;
     this.maxScore = maxScore;
     this.order = order;

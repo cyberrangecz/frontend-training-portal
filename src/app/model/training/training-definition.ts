@@ -3,7 +3,7 @@ import {TrainingDefinitionStateEnum} from "../../enums/training-definition-state
 export class TrainingDefinition {
 
   id: number;
-  sandboxDefinition: number;
+  sandboxDefinitionId: number;
   title: string;
   description: string;
   authors: number[];
@@ -13,9 +13,9 @@ export class TrainingDefinition {
   levels: number[];
 
 
-  constructor(id: number, sandboxDefinition: number, authors: number[], state: TrainingDefinitionStateEnum, levels: number[]) {
+  constructor(id: number, sandboxDefinitionId: number, authors: number[], state: TrainingDefinitionStateEnum, levels: number[]) {
     this.id = id;
-    this.sandboxDefinition = sandboxDefinition;
+    this.sandboxDefinitionId = sandboxDefinitionId;
     this.authors = authors;
     this.state = state;
     this.levels = levels;

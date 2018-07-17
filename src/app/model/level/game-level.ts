@@ -1,8 +1,8 @@
-import {number} from "./abstract-level";
+import {AbstractLevel} from "./abstract-level";
 import {Hint} from "./hint";
 import {TrainingDefinition} from "../training/training-definition";
 
-export class GameLevel extends number {
+export class GameLevel extends AbstractLevel {
 
   flag: string;
   hints: Hint[];
@@ -14,8 +14,8 @@ export class GameLevel extends number {
   attachments: string[];
 
 
-  constructor(id: number, trainingDefinition: TrainingDefinition, title: string, maxScore: number, order: number, preHook: Blob, postHook: Blob, flag: string, hints: Hint[], content: Blob, solution: Blob, incorrectFlagPenalty: number, solutionPenalty: number) {
-    super(id, trainingDefinition, title, maxScore, order, preHook, postHook);
+  constructor(id: number, trainingDefinitionId: number, title: string, maxScore: number, order: number, preHook: Blob, postHook: Blob, flag: string, hints: Hint[], content: Blob, solution: Blob, incorrectFlagPenalty: number, solutionPenalty: number) {
+    super(id, trainingDefinitionId, title, maxScore, order, preHook, postHook);
     this.flag = flag;
     this.hints = hints;
     this.content = content;

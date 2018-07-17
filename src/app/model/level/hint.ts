@@ -1,16 +1,14 @@
-import {GameLevel} from "./game-level";
-
 export class Hint {
   id: number;
-  gameLevel: GameLevel;
+  gameLevelId: number;
   title: string;
   content: Blob; // HTML
   hintPenalty: number = 0;
 
 
-  constructor(id: number, gameLevel: GameLevel, title: string, content: Blob, hintPenalty: number) {
+  constructor(id: number, gameLevelId: number, title: string, content: Blob, hintPenalty: number) {
     this.id = id;
-    this.gameLevel = gameLevel;
+    this.gameLevelId = gameLevelId;
     this.title = title;
     this.content = content;
     this.hintPenalty = hintPenalty;

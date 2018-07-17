@@ -1,15 +1,14 @@
-import {number} from "./abstract-level";
 import {AssessmentTypeEnum} from "../../enums/assessment-type-enum";
-import {TrainingDefinition} from "../training/training-definition";
+import {AbstractLevel} from "./abstract-level";
 
-export class AssesmentLevel extends number {
+export class AssesmentLevel extends AbstractLevel {
   questions: JSON;
   instructions: string;
   assessmentType: AssessmentTypeEnum;
 
 
-  constructor(id: number, trainingDefinition: TrainingDefinition, title: string, maxScore: number, order: number, preHook: Blob, postHook: Blob, questions: JSON, assessmentType: AssessmentTypeEnum) {
-    super(id, trainingDefinition, title, maxScore, order, preHook, postHook);
+  constructor(id: number, trainingDefinitionId: number, title: string, maxScore: number, order: number, preHook: Blob, postHook: Blob, questions: JSON, assessmentType: AssessmentTypeEnum) {
+    super(id, trainingDefinitionId, title, maxScore, order, preHook, postHook);
     this.questions = questions;
     this.assessmentType = assessmentType;
   }
