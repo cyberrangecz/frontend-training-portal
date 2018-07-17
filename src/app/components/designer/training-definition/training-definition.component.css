@@ -1,24 +1,40 @@
-
 h2 {
   text-align: center;
-  margin: 50px auto;
+  margin: 20px auto;
 }
 .train-def {
+  padding: 20px;
   display: flex;
   flex-direction: row;
 }
 
 .train-def-buttons {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   flex-grow: 1;
+  flex-shrink: 1;
+}
+
+.train-def-buttons button {
+  margin-top: 20px;
 }
 
 .train-def-table {
-  flex-grow: 4;
+  flex-grow: 2;
 }
 
 .mat-form-field {
   font-size: 14px;
+  width: 100%;
+}
+
+.mat-sort-header-container {
+  align-items: center;
+}
+
+table {
   width: 100%;
 }
 
