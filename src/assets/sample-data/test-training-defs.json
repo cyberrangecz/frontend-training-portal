@@ -68,6 +68,28 @@
           "id": 2
         }
       ]
+    },
+    {
+      "id": 4,
+      "sandbox_definition": 1,
+      "title": "Training Definition 4",
+      "description": "This is fourth test training definition",
+      "authors": [
+        {
+          "id": 1
+        }
+      ],
+      "prerequisites": "",
+      "outcomes": "",
+      "state": "unreleased",
+      "levels": [
+        {
+          "id": 1
+        },
+        {
+          "id": 2
+        }
+      ]
     }
   ]
 }

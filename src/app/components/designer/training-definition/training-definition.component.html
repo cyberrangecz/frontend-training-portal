@@ -15,7 +15,7 @@
   <div class="train-def-table">
 
     <mat-form-field>
-      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter by title or status">
     </mat-form-field>
 
     <div class="mat-elevation-z8">
@@ -29,47 +29,84 @@
 
         <!-- DESCRIPTION Column -->
         <ng-container matColumnDef="description">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+          <th mat-header-cell *matHeaderCellDef>Description</th>
           <td mat-cell *matCellDef="let training"> {{training.description}}</td>
         </ng-container>
 
         <!-- STATUS Column -->
         <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-          <td mat-cell *matCellDef="let training"> {{training.status}}</td>
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let training"> {{training.state}}</td>
         </ng-container>
 
         <!-- AUTHORS Column -->
         <ng-container matColumnDef="authors">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Authors</th>
+          <th mat-header-cell *matHeaderCellDef>Authors</th>
           <td mat-cell *matCellDef="let training"> {{training.authors}}</td>
         </ng-container>
 
         <!--ACTIONS Column -->
         <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let training">
 
             <div class="action-buttons">
-              <button mat-icon-button color="primary"
-                      (click)="downloadTrainingDefinition(training.id)">
-                <mat-icon aria-label="Download training definition button">
-                  cloud_download</mat-icon>
-              </button>
-
-              <button mat-icon-button color="primary"
+              <!-- EDIT button -->
+              <button *ngIf="training.state === trainingStateEnum.Unreleased"
+                      mat-icon-button color="primary"
                       (click)="editTrainingDefinition(training.id)">
-                <mat-icon aria-label="Edit training definition button">
+                <mat-icon
+                    matTooltip="Edit training definition"
+                    aria-label="Edit training definition button">
                   create</mat-icon>
               </button>
 
-              <button mat-icon-button color="primary"
-                      (click)="deleteTrainingDefinition(training.id)">
-                <mat-icon aria-label="Delete training definition button"
+              <!-- CLONE button -->
+              <button *ngIf="training.state === trainingStateEnum.Released ||
+                             training.state === trainingStateEnum.Archived"
+                      mat-icon-button color="primary"
+                      (click)="cloneTrainingDefinition(training.id)">
+                <mat-icon
+                    matTooltip="Clone training definition"
+                    aria-label="Clone training definition button">
+                  file_copy</mat-icon>
+              </button>
+
+                <!-- REMOVE button -->
+              <button *ngIf="training.state === trainingStateEnum.Unreleased ||
+                             training.state === trainingStateEnum.Archived"
+                      mat-icon-button color="primary"
+                      (click)="removeTrainingDefinition(training.id)">
+                <mat-icon
+                      matTooltip="Remove training definition"
+                      aria-label="Remove training definition button"
                 >delete</mat-icon>
               </button>
-            </div>
 
+              <!-- DOWNLOAD button -->
+                <button mat-icon-button color="primary"
+                        (click)="downloadTrainingDefinition(training.id)">
+                  <mat-icon
+                    matTooltip="Download training definition"
+                    aria-label="Download training definition button">
+                    cloud_download</mat-icon>
+                </button>
+
+              <!-- ARCHIVE button -->
+
+              <!-- TODO: Archive - change the state of the training definition to archived
+              (trainingDefinition.state='archived'). This action disables instantiating
+              the training definition in the organizer's view. Only those definition,
+               which instances are all terminated can be archived, i.e., there must not be
+               any active or scheduled instance of the training definition. -->
+              <button mat-icon-button color="primary"
+                      (click)="archiveTrainingDefinition(training.id)">
+                <mat-icon
+                  matTooltip="Archive training definition"
+                  aria-label="Archive training definition button">
+                  archive</mat-icon>
+              </button>
+            </div>
           </td>
         </ng-container>
 

@@ -56,7 +56,7 @@ export class TrainingDefinitionLoaderService {
     if (state === 'archived') {
       return TrainingDefinitionStateEnum.Archived;
     }
-     /// throw error
+     // throw error
   }
 
   private getAuthorIds(authors): number[] {

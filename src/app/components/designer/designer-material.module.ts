@@ -5,7 +5,7 @@ import {
   MatFormFieldModule, MatIconModule, MatInputModule,
   MatPaginatorModule,
   MatSortModule,
-  MatTableModule
+  MatTableModule, MatTooltipModule
 } from "@angular/material";
 
 @NgModule({
@@ -17,7 +17,8 @@ import {
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
+    MatTooltipModule
   ],
   exports: [
     MatDividerModule,
@@ -27,7 +28,8 @@ import {
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
+    MatTooltipModule
 
   ]
 })

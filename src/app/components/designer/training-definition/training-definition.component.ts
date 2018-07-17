@@ -3,6 +3,7 @@ import {TrainingDefinitionLoaderService} from "../../../services/data-loaders/tr
 import {TrainingDefinition} from "../../../model/training/training-definition";
 import {ActiveUserService} from "../../../services/active-user.service";
 import {MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
+import {TrainingDefinitionStateEnum} from "../../../enums/training-definition-state-enum";
 
 @Component({
   selector: 'designer-training-definition',
@@ -10,6 +11,9 @@ import {MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
   styleUrls: ['./training-definition.component.css']
 })
 export class TrainingDefinitionComponent implements OnInit {
+
+  // needed to compare against enums in template
+  trainingStateEnum = TrainingDefinitionStateEnum;
 
   displayedColumns: string[] = ['title', 'description', 'status', 'authors', 'actions'];
 
@@ -21,17 +25,10 @@ export class TrainingDefinitionComponent implements OnInit {
   constructor(
     private activeUserService: ActiveUserService,
     private trainingDefinitionLoader: TrainingDefinitionLoaderService) {
-
-    this.trainingDefinitionLoader.getTrainingDefsByUser(this.activeUserService.getActiveUser())
-      .subscribe(trainings => {
-        this.dataSource = new MatTableDataSource(trainings);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      });
+    this.createTableDataSource();
   }
 
   ngOnInit() {
-
   }
 
   applyFilter(filterValue: string) {
@@ -59,8 +56,31 @@ export class TrainingDefinitionComponent implements OnInit {
 
   }
 
-  deleteTrainingDefinition(id: number) {
+  removeTrainingDefinition(id: number) {
     console.log(id);
+  }
+
+  cloneTrainingDefinition(id: number) {
+    console.log(id);
+  }
+
+  archiveTrainingDefinition(id: number) {
+    console.log(id);
+  }
+
+  private createTableDataSource() {
+    this.trainingDefinitionLoader.getTrainingDefsByUser(this.activeUserService.getActiveUser())
+      .subscribe(trainings => {
+
+        this.dataSource = new MatTableDataSource(trainings);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+
+        this.dataSource.filterPredicate =
+          (data: TrainingDefinition, filter: string) =>
+            data.title.toLowerCase().indexOf(filter) !== -1
+            || data.state.toLowerCase().indexOf(filter) !== -1;
+      });
   }
 
 }
