@@ -14,11 +14,11 @@ h2 {
   flex-direction: column;
   justify-content: center;
   flex-grow: 1;
-  flex-shrink: 1;
 }
 
 .sandbox-def-buttons button {
   margin-top: 20px;
+  max-width: 200px;
 }
 
 .sandbox-def-table {
@@ -38,6 +38,18 @@ table {
   width: 100%;
 }
 
-td, th {
+td.title, th.title {
   width: 25%;
+}
+
+td.description, th.description {
+  width: 30%;
+}
+
+td.authors, th.authors {
+  width: 25%;
+}
+
+td.actions, th.actions {
+  width: 20%;
 }

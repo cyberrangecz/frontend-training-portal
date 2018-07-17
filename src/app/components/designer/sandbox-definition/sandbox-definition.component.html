@@ -19,26 +19,26 @@
 
         <!-- TITLE Column -->
         <ng-container matColumnDef="title">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
-          <td mat-cell *matCellDef="let sandbox"> {{sandbox.title}}</td>
+          <th class="title" mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+          <td class="title" mat-cell *matCellDef="let sandbox"> {{sandbox.title}}</td>
         </ng-container>
 
         <!-- ASSOCIATED TRAINING DEFS Column -->
         <ng-container matColumnDef="associatedTrainingDefs">
-          <th mat-header-cell *matHeaderCellDef>Associated Training Definitions</th>
-          <td mat-cell *matCellDef="let sandbox"> </td>
+          <th class="assocTrainingDefs" mat-header-cell *matHeaderCellDef>Associated Training Definitions</th>
+          <td class="assocTrainingDefs" mat-cell *matCellDef="let sandbox"> </td>
         </ng-container>
 
         <!-- AUTHORS Column -->
         <ng-container matColumnDef="authors">
-          <th mat-header-cell *matHeaderCellDef>Authors</th>
-          <td mat-cell *matCellDef="let sandbox"> {{sandbox.authors}}</td>
+          <th class="authors" mat-header-cell *matHeaderCellDef>Authors</th>
+          <td class="authors" mat-cell *matCellDef="let sandbox"> {{sandbox.authors}}</td>
         </ng-container>
 
         <!-- ACTIONS Column -->
         <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef>Actions</th>
-          <td mat-cell *matCellDef="let sandbox">
+          <th class="actions" mat-header-cell *matHeaderCellDef>Actions</th>
+          <td class="actions" mat-cell *matCellDef="let sandbox">
 
             <div class="action-buttons">
               <!-- REMOVE button-->

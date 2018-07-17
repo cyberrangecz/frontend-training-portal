@@ -14,11 +14,11 @@ h2 {
   flex-direction: column;
   justify-content: center;
   flex-grow: 1;
-  flex-shrink: 1;
 }
 
 .train-def-buttons button {
   margin-top: 20px;
+  max-width: 200px;
 }
 
 .train-def-table {
@@ -38,8 +38,27 @@ table {
   width: 100%;
 }
 
-td, th {
+
+td.title, th.title {
   width: 20%;
 }
+
+td.description, th.description {
+  width: 30%;
+}
+
+td.authors, th.authors {
+  width: 20%;
+}
+
+td.actions, th.actions {
+  width: 20%;
+}
+
+td.state, th.state {
+  width: 10%;
+}
+
+
 
 
