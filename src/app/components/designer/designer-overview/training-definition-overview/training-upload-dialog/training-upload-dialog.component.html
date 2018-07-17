@@ -1,10 +1,12 @@
 <h1 mat-dialog-title>Upload Training Definition</h1>
 <mat-divider></mat-divider>
 <div mat-dialog-content>
-  <p *ngIf="uploadedFile">
+  <p *ngIf="uploadedFile"
+      class="mat-body-1">
     {{ uploadedFile }}
   </p>
-  <p *ngIf="!uploadedFile">
+  <p *ngIf="!uploadedFile"
+     class="mat-body-1">
     No file
   </p>
   <button mat-raised-button
