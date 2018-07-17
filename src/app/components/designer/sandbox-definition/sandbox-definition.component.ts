@@ -1,11 +1,13 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
+import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
 import {SandboxDefinition} from "../../../model/sandbox/sandbox-definition";
 import {ActiveUserService} from "../../../services/active-user.service";
 import {TrainingDefinition} from "../../../model/training/training-definition";
 import {SandboxDefinitionLoaderService} from "../../../services/data-loaders/sandbox-definition-loader.service";
 import {TrainingDefinitionLoaderService} from "../../../services/data-loaders/training-definition-loader.service";
 import {Dictionary} from "typescript-collections";
+import {DesignerAlertService} from "../../../services/event-services/designer-alert.service";
+import {SandboxUploadDialogComponent} from "./sandbox-upload-dialog/sandbox-upload-dialog.component";
 
 @Component({
   selector: 'designer-sandbox-definition',
@@ -22,6 +24,8 @@ export class SandboxDefinitionComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
+    private dialog: MatDialog,
+    private designerAlertService: DesignerAlertService,
     private activeUserService: ActiveUserService,
     private trainingDefinitionLoader: TrainingDefinitionLoaderService,
     private sandboxDefinitionLoader: SandboxDefinitionLoaderService
@@ -37,6 +41,15 @@ export class SandboxDefinitionComponent implements OnInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  uploadSandboxDefinition() {
+    const dialogRef = this.dialog.open(SandboxUploadDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.designerAlertService.emitAlertMessage(result.type, result.message);
+      }
+    });
   }
 
   removeSandboxDefinition(id: number) {

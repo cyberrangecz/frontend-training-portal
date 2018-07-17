@@ -2,8 +2,11 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {TrainingDefinitionLoaderService} from "../../../services/data-loaders/training-definition-loader.service";
 import {TrainingDefinition} from "../../../model/training/training-definition";
 import {ActiveUserService} from "../../../services/active-user.service";
-import {MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
+import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
 import {TrainingDefinitionStateEnum} from "../../../enums/training-definition-state.enum";
+import {ActivatedRoute, Router} from "@angular/router";
+import {TrainingUploadDialogComponent} from "./training-upload-dialog/training-upload-dialog.component";
+import {DesignerAlertService} from "../../../services/event-services/designer-alert.service";
 
 @Component({
   selector: 'designer-training-definition',
@@ -23,7 +26,11 @@ export class TrainingDefinitionComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private dialog: MatDialog,
     private activeUserService: ActiveUserService,
+    private designerAlertService: DesignerAlertService,
     private trainingDefinitionLoader: TrainingDefinitionLoaderService) {
     this.createTableDataSource();
   }
@@ -39,11 +46,16 @@ export class TrainingDefinitionComponent implements OnInit {
   }
 
   newTrainingDefinition() {
-
+    this.router.navigate(['trainings/new'], {relativeTo: this.activatedRoute})
   }
 
   uploadTrainingDefinition() {
-
+    const dialogRef = this.dialog.open(TrainingUploadDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.designerAlertService.emitAlertMessage(result.type, result.message);
+      }
+    });
   }
 
   editTrainingDefinition(id: number) {

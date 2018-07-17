@@ -9,6 +9,8 @@ import {TrainingDefinitionLoaderService} from "../../services/data-loaders/train
 import { DesignerAlertComponent } from './designer-overview/designer-alert/designer-alert.component';
 import {DesignerAlertService} from "../../services/event-services/designer-alert.service";
 import {SandboxDefinitionLoaderService} from "../../services/data-loaders/sandbox-definition-loader.service";
+import { TrainingUploadDialogComponent } from './training-definition/training-upload-dialog/training-upload-dialog.component';
+import { SandboxUploadDialogComponent } from './sandbox-definition/sandbox-upload-dialog/sandbox-upload-dialog.component';
 
 @NgModule({
   imports: [
@@ -20,12 +22,18 @@ import {SandboxDefinitionLoaderService} from "../../services/data-loaders/sandbo
     DesignerOverviewComponent,
     TrainingDefinitionComponent,
     SandboxDefinitionComponent,
-    DesignerAlertComponent
+    DesignerAlertComponent,
+    TrainingUploadDialogComponent,
+    SandboxUploadDialogComponent
   ],
   providers: [
     TrainingDefinitionLoaderService,
     SandboxDefinitionLoaderService,
     DesignerAlertService
+  ],
+  entryComponents: [
+    TrainingUploadDialogComponent,
+    SandboxUploadDialogComponent
   ]
 })
 

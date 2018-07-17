@@ -1,0 +1,20 @@
+<h1 mat-dialog-title>Upload Training Definition</h1>
+<mat-divider></mat-divider>
+<div mat-dialog-content>
+  <p *ngIf="uploadedFile">
+    {{ uploadedFile }}
+  </p>
+  <p *ngIf="!uploadedFile">
+    No file
+  </p>
+  <button mat-raised-button
+          (click)="chooseFile()"
+          color="accent">Choose file
+  </button>
+</div>
+<div mat-dialog-actions>
+  <button (click)="cancel()" mat-button color="primary">Cancel</button>
+  <button (click)="upload()" mat-button color="primary">Upload</button>
+</div>
+
+
