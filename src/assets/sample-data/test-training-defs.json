@@ -90,6 +90,138 @@
           "id": 2
         }
       ]
+    },
+    {
+      "id": 5,
+      "sandbox_definition": 1,
+      "title": "Training Definition 5",
+      "description": "Test",
+      "authors": [
+        {
+          "id": 1
+        }
+      ],
+      "prerequisites": "",
+      "outcomes": "",
+      "state": "unreleased",
+      "levels": [
+        {
+          "id": 1
+        },
+        {
+          "id": 2
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "sandbox_definition": 1,
+      "title": "Training Definition 6",
+      "description": "Test",
+      "authors": [
+        {
+          "id": 2
+        }
+      ],
+      "prerequisites": "",
+      "outcomes": "",
+      "state": "unreleased",
+      "levels": [
+        {
+          "id": 1
+        },
+        {
+          "id": 2
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "sandbox_definition": 1,
+      "title": "Training Definition 7",
+      "description": "Test",
+      "authors": [
+        {
+          "id": 1
+        }
+      ],
+      "prerequisites": "",
+      "outcomes": "",
+      "state": "released",
+      "levels": [
+        {
+          "id": 1
+        },
+        {
+          "id": 2
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "sandbox_definition": 1,
+      "title": "Training Definition 8",
+      "description": "Test",
+      "authors": [
+        {
+          "id": 1
+        }
+      ],
+      "prerequisites": "",
+      "outcomes": "",
+      "state": "archived",
+      "levels": [
+        {
+          "id": 1
+        },
+        {
+          "id": 2
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "sandbox_definition": 1,
+      "title": "Training Definition 9",
+      "description": "Test",
+      "authors": [
+        {
+          "id": 1
+        }
+      ],
+      "prerequisites": "",
+      "outcomes": "",
+      "state": "unreleased",
+      "levels": [
+        {
+          "id": 1
+        },
+        {
+          "id": 2
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "sandbox_definition": 1,
+      "title": "Training Definition 10",
+      "description": "Test",
+      "authors": [
+        {
+          "id": 1
+        }
+      ],
+      "prerequisites": "",
+      "outcomes": "",
+      "state": "unreleased",
+      "levels": [
+        {
+          "id": 1
+        },
+        {
+          "id": 2
+        }
+      ]
     }
   ]
 }

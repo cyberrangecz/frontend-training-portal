@@ -8,6 +8,7 @@ import { SandboxDefinitionComponent } from './sandbox-definition/sandbox-definit
 import {TrainingDefinitionLoaderService} from "../../services/data-loaders/training-definition-loader.service";
 import { DesignerAlertComponent } from './designer-overview/designer-alert/designer-alert.component';
 import {DesignerAlertService} from "../../services/event-services/designer-alert.service";
+import {SandboxDefinitionLoaderService} from "../../services/data-loaders/sandbox-definition-loader.service";
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import {DesignerAlertService} from "../../services/event-services/designer-alert
   ],
   providers: [
     TrainingDefinitionLoaderService,
+    SandboxDefinitionLoaderService,
     DesignerAlertService
   ]
 })

@@ -13,12 +13,13 @@ export class TrainingDefinitionLoaderService {
   constructor(private http: HttpClient) {
   }
 
-  getTrainingDefsByUser(user: User): Observable<TrainingDefinition[]> {
-    return this.http.get(environment.getTrainingDefsUri).pipe(map(response =>
+  getTrainingDefsByUserId(userId: number): Observable<TrainingDefinition[]> {
+    return this.http.get(environment.getTrainingDefsUri)
+      .pipe(map(response =>
        this.parseTrainingDefs(response))
     )
       .pipe(map(trainings =>
-      this.filterTrainingDefsByUserId(user.id, trainings)));
+      this.filterTrainingDefsByUserId(userId, trainings)));
   }
 
   private filterTrainingDefsByUserId(id: number, trainingDefs: TrainingDefinition[]): TrainingDefinition[] {

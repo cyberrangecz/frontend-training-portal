@@ -2,7 +2,6 @@ import {Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
 import {ActiveUserService} from "../services/active-user.service";
 import {Observable} from "rxjs/internal/Observable";
-import {UserRoleEnum} from "../enums/user-role.enum";
 
 @Injectable()
 export class DesignerGuard implements CanActivate {

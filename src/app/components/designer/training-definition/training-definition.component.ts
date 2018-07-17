@@ -69,7 +69,7 @@ export class TrainingDefinitionComponent implements OnInit {
   }
 
   private createTableDataSource() {
-    this.trainingDefinitionLoader.getTrainingDefsByUser(this.activeUserService.getActiveUser())
+    this.trainingDefinitionLoader.getTrainingDefsByUserId(this.activeUserService.getActiveUser().id)
       .subscribe(trainings => {
 
         this.dataSource = new MatTableDataSource(trainings);
