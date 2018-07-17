@@ -1,4 +1,4 @@
-import {TrainingDefinitionStateEnum} from "../../enums/training-definition-state-enum";
+import {TrainingDefinitionStateEnum} from "../../enums/training-definition-state.enum";
 
 export class TrainingDefinition {
 

@@ -6,6 +6,8 @@ import {DesignerMaterialModule} from "./designer-material.module";
 import { TrainingDefinitionComponent } from './training-definition/training-definition.component';
 import { SandboxDefinitionComponent } from './sandbox-definition/sandbox-definition.component';
 import {TrainingDefinitionLoaderService} from "../../services/data-loaders/training-definition-loader.service";
+import { DesignerAlertComponent } from './designer-overview/designer-alert/designer-alert.component';
+import {DesignerAlertService} from "../../services/event-services/designer-alert.service";
 
 @NgModule({
   imports: [
@@ -16,10 +18,12 @@ import {TrainingDefinitionLoaderService} from "../../services/data-loaders/train
   declarations: [
     DesignerOverviewComponent,
     TrainingDefinitionComponent,
-    SandboxDefinitionComponent
+    SandboxDefinitionComponent,
+    DesignerAlertComponent
   ],
   providers: [
-    TrainingDefinitionLoaderService
+    TrainingDefinitionLoaderService,
+    DesignerAlertService
   ]
 })
 

@@ -1,4 +1,4 @@
-import {AssessmentTypeEnum} from "../../enums/assessment-type-enum";
+import {AssessmentTypeEnum} from "../../enums/assessment-type.enum";
 import {AbstractLevel} from "./abstract-level";
 
 export class AssesmentLevel extends AbstractLevel {

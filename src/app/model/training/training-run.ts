@@ -1,5 +1,5 @@
 import {User} from "../user/user";
-import {TrainingRunStateEnum} from "../../enums/training-run-state-enum";
+import {TrainingRunStateEnum} from "../../enums/training-run-state.enum";
 
 export class TrainingRun {
 

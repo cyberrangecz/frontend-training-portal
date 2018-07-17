@@ -3,7 +3,7 @@ import {TrainingDefinitionLoaderService} from "../../../services/data-loaders/tr
 import {TrainingDefinition} from "../../../model/training/training-definition";
 import {ActiveUserService} from "../../../services/active-user.service";
 import {MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
-import {TrainingDefinitionStateEnum} from "../../../enums/training-definition-state-enum";
+import {TrainingDefinitionStateEnum} from "../../../enums/training-definition-state.enum";
 
 @Component({
   selector: 'designer-training-definition',

@@ -4,7 +4,7 @@ import {User} from "../../model/user/user";
 import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
 import {TrainingDefinition} from "../../model/training/training-definition";
-import {TrainingDefinitionStateEnum} from "../../enums/training-definition-state-enum";
+import {TrainingDefinitionStateEnum} from "../../enums/training-definition-state.enum";
 import {Observable} from "rxjs/internal/Observable";
 
 @Injectable()
