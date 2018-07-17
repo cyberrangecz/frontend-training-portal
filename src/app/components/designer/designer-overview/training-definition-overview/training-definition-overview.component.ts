@@ -1,19 +1,19 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {TrainingDefinitionLoaderService} from "../../../services/data-loaders/training-definition-loader.service";
-import {TrainingDefinition} from "../../../model/training/training-definition";
-import {ActiveUserService} from "../../../services/active-user.service";
+import {TrainingDefinitionLoaderService} from "../../../../services/data-loaders/training-definition-loader.service";
+import {TrainingDefinition} from "../../../../model/training/training-definition";
+import {ActiveUserService} from "../../../../services/active-user.service";
 import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
-import {TrainingDefinitionStateEnum} from "../../../enums/training-definition-state.enum";
+import {TrainingDefinitionStateEnum} from "../../../../enums/training-definition-state.enum";
 import {ActivatedRoute, Router} from "@angular/router";
 import {TrainingUploadDialogComponent} from "./training-upload-dialog/training-upload-dialog.component";
-import {DesignerAlertService} from "../../../services/event-services/designer-alert.service";
+import {DesignerAlertService} from "../../../../services/event-services/designer-alert.service";
 
 @Component({
-  selector: 'designer-training-definition',
-  templateUrl: './training-definition.component.html',
-  styleUrls: ['./training-definition.component.css']
+  selector: 'designer-overview-training-definition',
+  templateUrl: './training-definition-overview.component.html',
+  styleUrls: ['./training-definition-overview.component.css']
 })
-export class TrainingDefinitionComponent implements OnInit {
+export class TrainingDefinitionOverviewComponent implements OnInit {
 
   // needed to compare against enums in template
   trainingStateEnum = TrainingDefinitionStateEnum;

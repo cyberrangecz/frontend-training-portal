@@ -38,4 +38,4 @@ import {
   ]
 })
 
-export class DesignerMaterialModule {}
+export class DesignerOverviewMaterialModule {}

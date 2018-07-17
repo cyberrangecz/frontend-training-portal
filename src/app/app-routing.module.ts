@@ -20,7 +20,7 @@ const routes: Routes = [
   },
   {
     path: 'designer',
-    loadChildren: 'app/components/designer/designer.module#DesignerModule',
+    loadChildren: 'app/components/designer/designer-overview/designer-overview.module#DesignerOverviewModule',
     canActivate: [DesignerGuard]
   },
   {

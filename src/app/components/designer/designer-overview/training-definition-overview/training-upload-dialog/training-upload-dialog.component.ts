@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import {DesignerAlertMessageEnum} from "../../../../enums/designer-alert-message.enum";
 import {MatDialogRef} from "@angular/material";
+import {DesignerAlertMessageEnum} from "../../../../../enums/designer-alert-message.enum";
 
 @Component({
-  selector: 'app-sandbox-upload-dialog',
-  templateUrl: './sandbox-upload-dialog.component.html',
-  styleUrls: ['./sandbox-upload-dialog.component.css']
+  selector: 'designer-training-upload-dialog',
+  templateUrl: './training-upload-dialog.component.html',
+  styleUrls: ['./training-upload-dialog.component.css']
 })
-export class SandboxUploadDialogComponent implements OnInit {
+export class TrainingUploadDialogComponent implements OnInit {
 
   uploadedFile;
 
-  constructor(public dialogRef: MatDialogRef<SandboxUploadDialogComponent>) {
+  constructor(public dialogRef: MatDialogRef<TrainingUploadDialogComponent>){
 
   }
 
@@ -32,7 +32,7 @@ export class SandboxUploadDialogComponent implements OnInit {
     // TODO: upload file and return result
     const result = {
       type: DesignerAlertMessageEnum.Success,
-      message: 'Sandbox was succesfully uploaded.'
+      message: 'Training was succesfully uploaded.'
     };
     this.dialogRef.close(result)
   }
@@ -40,5 +40,4 @@ export class SandboxUploadDialogComponent implements OnInit {
   chooseFile() {
     // TODO: choose file
   }
-
 }

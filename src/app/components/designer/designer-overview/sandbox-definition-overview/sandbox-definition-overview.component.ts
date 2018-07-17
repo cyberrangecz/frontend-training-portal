@@ -1,20 +1,19 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
-import {SandboxDefinition} from "../../../model/sandbox/sandbox-definition";
-import {ActiveUserService} from "../../../services/active-user.service";
-import {TrainingDefinition} from "../../../model/training/training-definition";
-import {SandboxDefinitionLoaderService} from "../../../services/data-loaders/sandbox-definition-loader.service";
-import {TrainingDefinitionLoaderService} from "../../../services/data-loaders/training-definition-loader.service";
-import {Dictionary} from "typescript-collections";
-import {DesignerAlertService} from "../../../services/event-services/designer-alert.service";
+import {SandboxDefinition} from "../../../../model/sandbox/sandbox-definition";
+import {ActiveUserService} from "../../../../services/active-user.service";
+import {TrainingDefinition} from "../../../../model/training/training-definition";
+import {SandboxDefinitionLoaderService} from "../../../../services/data-loaders/sandbox-definition-loader.service";
+import {TrainingDefinitionLoaderService} from "../../../../services/data-loaders/training-definition-loader.service";
+import {DesignerAlertService} from "../../../../services/event-services/designer-alert.service";
 import {SandboxUploadDialogComponent} from "./sandbox-upload-dialog/sandbox-upload-dialog.component";
 
 @Component({
-  selector: 'designer-sandbox-definition',
-  templateUrl: './sandbox-definition.component.html',
-  styleUrls: ['./sandbox-definition.component.css']
+  selector: 'designer-overview-sandbox-definition',
+  templateUrl: './sandbox-definition-overview.component.html',
+  styleUrls: ['./sandbox-definition-overview.component.css']
 })
-export class SandboxDefinitionComponent implements OnInit {
+export class SandboxDefinitionOverviewComponent implements OnInit {
 
   displayedColumns: string[] = ['title', 'associatedTrainingDefs', 'authors', 'actions'];
 
