@@ -5,7 +5,7 @@ import {ActiveUserService} from "../../../../services/active-user.service";
 import {TrainingDefinition} from "../../../../model/training/training-definition";
 import {SandboxDefinitionGetterService} from "../../../../services/data-getters/sandbox-definition-getter.service";
 import {TrainingDefinitionGetterService} from "../../../../services/data-getters/training-definition-getter.service";
-import {DesignerAlertService} from "../../../../services/event-services/designer-alert.service";
+import {AlertService} from "../../../../services/event-services/alert.service";
 import {SandboxUploadDialogComponent} from "./sandbox-upload-dialog/sandbox-upload-dialog.component";
 import {SandboxDefinitionSetterService} from "../../../../services/data-setters/sandbox-definition-setter.service";
 
@@ -25,7 +25,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private designerAlertService: DesignerAlertService,
+    private designerAlertService: AlertService,
     private activeUserService: ActiveUserService,
     private trainingDefinitionGetter: TrainingDefinitionGetterService,
     private sandboxDefinitionGetter: SandboxDefinitionGetterService,

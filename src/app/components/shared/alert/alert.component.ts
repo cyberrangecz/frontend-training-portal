@@ -1,19 +1,19 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {DesignerAlertMessageEvent} from "../../../../model/events/designer-alert-message-event";
-import {DesignerAlertService} from "../../../../services/event-services/designer-alert.service";
+import {DesignerAlertMessageEvent} from "../../../model/events/designer-alert-message-event";
+import {AlertService} from "../../../services/event-services/alert.service";
 
 @Component({
-  selector: 'overview-designer-alert',
-  templateUrl: './designer-alert.component.html',
-  styleUrls: ['./designer-alert.component.css']
+  selector: 'shared-alert',
+  templateUrl: './alert.component.html',
+  styleUrls: ['./alert.component.css']
 })
-export class DesignerAlertComponent implements OnInit, OnDestroy {
+export class AlertComponent implements OnInit, OnDestroy {
 
   message: DesignerAlertMessageEvent = null;
 
   alertSubscription;
 
-  constructor(private designerAlertService: DesignerAlertService) {
+  constructor(private designerAlertService: AlertService) {
     this.subscribeAlert();
   }
 

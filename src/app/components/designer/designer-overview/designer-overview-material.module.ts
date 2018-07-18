@@ -20,7 +20,6 @@ import {
     MatInputModule,
     MatIconModule,
     MatTooltipModule,
-    MatCardModule,
     MatDialogModule
   ],
   exports: [
@@ -33,7 +32,6 @@ import {
     MatInputModule,
     MatIconModule,
     MatTooltipModule,
-    MatCardModule,
     MatDialogModule
   ]
 })

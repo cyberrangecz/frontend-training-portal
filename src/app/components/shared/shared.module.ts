@@ -6,13 +6,15 @@ import {RouterModule} from "@angular/router";
 import {SidenavComponent} from "./sidenav/sidenav.component";
 import {UserMenuComponent} from "./toolbar/user-menu/user-menu.component";
 import {ToolbarComponent} from "./toolbar/toolbar.component";
+import {AlertComponent} from "./alert/alert.component";
 
 @NgModule({
   declarations: [
     NotFoundComponent,
     ToolbarComponent,
     UserMenuComponent,
-    SidenavComponent
+    SidenavComponent,
+    AlertComponent
   ],
   imports: [
     CommonModule,
@@ -23,7 +25,8 @@ import {ToolbarComponent} from "./toolbar/toolbar.component";
     NotFoundComponent,
     ToolbarComponent,
     UserMenuComponent,
-    SidenavComponent
+    SidenavComponent,
+    AlertComponent
   ]
 })
 

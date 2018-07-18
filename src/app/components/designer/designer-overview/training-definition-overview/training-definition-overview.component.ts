@@ -6,7 +6,7 @@ import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from "@angular/mat
 import {TrainingDefinitionStateEnum} from "../../../../enums/training-definition-state.enum";
 import {ActivatedRoute, Router} from "@angular/router";
 import {TrainingUploadDialogComponent} from "./training-upload-dialog/training-upload-dialog.component";
-import {DesignerAlertService} from "../../../../services/event-services/designer-alert.service";
+import {AlertService} from "../../../../services/event-services/alert.service";
 import {TrainingDefinitionSetterService} from "../../../../services/data-setters/training-definition-setter.service";
 
 @Component({
@@ -31,7 +31,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private dialog: MatDialog,
     private activeUserService: ActiveUserService,
-    private designerAlertService: DesignerAlertService,
+    private designerAlertService: AlertService,
     private trainingDefinitionGetter: TrainingDefinitionGetterService,
     private trainingDefinitionSetter: TrainingDefinitionSetterService) {
 

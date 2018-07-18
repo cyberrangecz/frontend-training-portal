@@ -3,7 +3,7 @@ import {Subject} from "rxjs/internal/Subject";
 import {Observable} from "rxjs/internal/Observable";
 import {DesignerAlertMessageEnum} from "../../enums/designer-alert-message.enum";
 
-export class DesignerAlertService {
+export class AlertService {
 
   private _onAlertEventEmittedSubject: Subject<DesignerAlertMessageEvent> = new Subject();
   onAlertEventEmitted: Observable<DesignerAlertMessageEvent> = this._onAlertEventEmittedSubject.asObservable();
