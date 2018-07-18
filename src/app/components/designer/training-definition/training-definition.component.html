@@ -1,5 +1,11 @@
 <shared-alert></shared-alert>
-<training-configuration
-  [trainingDefinition]="trainingDefinition$ | async">
-</training-configuration>
-<training-level-stepper></training-level-stepper>
+<div class="content">
+  <training-configuration
+    [trainingDefinition]="trainingDefinition$ | async">
+  </training-configuration>
+  <div class="level">
+    <training-level-stepper></training-level-stepper>
+  </div>
+</div>
+
+

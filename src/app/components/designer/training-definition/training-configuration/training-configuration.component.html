@@ -1,3 +1,41 @@
-<p>
-  {{ trainingDefinition.title }}
-</p>
+<div class="configuration">
+  <h1>Description</h1>
+  <div class="form-container">
+    <mat-form-field>
+      <input matInput placeholder="Title">
+    </mat-form-field>
+
+    <button mat-raised-button color="accent">
+      Choose
+    </button>
+
+    <mat-form-field>
+      <textarea matInput placeholder="Description"></textarea>
+    </mat-form-field>
+
+    <mat-form-field>
+      <textarea matInput placeholder="Prerequisites"></textarea>
+    </mat-form-field>
+
+    <mat-form-field>
+      <textarea matInput placeholder="Outcomes"></textarea>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select placeholder="State">
+        <mat-option value="unreleased">Unreleased</mat-option>
+        <mat-option value="released">Released</mat-option>
+        <mat-option value="archived">Archived</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button color="accent">
+      Choose
+    </button>
+
+    <button mat-raised-button color="primary">
+      Save changes
+    </button>
+  </div>
+</div>
+
