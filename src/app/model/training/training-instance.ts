@@ -1,6 +1,3 @@
-import {User} from "../user/user";
-import {SandboxInstance} from "../sandbox/sandbox-instance";
-
 export class TrainingInstance {
 
   id: number;
@@ -10,18 +7,17 @@ export class TrainingInstance {
   title: string;
   poolSize: number;
   sandboxInstancesIds: number[];
-  organizers: User[];
+  organizersIds: number[];
   keyword: string;
 
 
-  constructor(id: number, trainingDefinitionId: number, startTime: Date, endTime: Date, poolSize: number, sandboxInstancesIds: number[], organizers: User[], keyword: string) {
-    this.id = id;
+  constructor(trainingDefinitionId: number, startTime: Date, endTime: Date, poolSize: number, sandboxInstancesIds: number[], organizersIds: number[], keyword: string) {
     this.trainingDefinitionId = trainingDefinitionId;
     this.startTime = startTime;
     this.endTime = endTime;
     this.poolSize = poolSize;
     this.sandboxInstancesIds = sandboxInstancesIds;
-    this.organizers = organizers;
+    this.organizersIds = organizersIds;
     this.keyword = keyword;
   }
 }

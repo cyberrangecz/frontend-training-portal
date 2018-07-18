@@ -6,15 +6,23 @@ import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
 
 @Injectable()
-export class SandboxDefinitionLoaderService {
+export class SandboxDefinitionGetterService {
 
   constructor(private http: HttpClient) {
   }
 
-  getSandboxDefsByUserId(userId: number): Observable<SandboxDefinition[]> {
+
+  getSandboxDefs(): Observable<SandboxDefinition[]> {
     return this.http.get(environment.getSandboxDefsUri)
       .pipe(map(response =>
       this.parseSandboxDefs(response)));
+  }
+
+  getSandboxDefsByUserId(userId: number): Observable<SandboxDefinition[]> {
+    return this.getSandboxDefs()
+      .pipe(map(sandboxDefs =>
+        sandboxDefs.filter(sandboxDef =>
+        sandboxDef.authors.includes(userId))));
   }
 
   private parseSandboxDefs(sandboxDefsJson): SandboxDefinition[] {
@@ -22,15 +30,16 @@ export class SandboxDefinitionLoaderService {
 
     sandboxDefsJson.sandbox_defs.forEach(sandboxJson => {
       const sandbox = new SandboxDefinition(
-        sandboxJson.id,
         sandboxJson.title,
-        this.getAuthorIds(sandboxJson.authors));
+        this.parseAuthorIds(sandboxJson.authors));
+      sandbox.id = sandboxJson.id;
+
       sandboxDefs.push(sandbox);
     });
     return sandboxDefs;
   }
 
-  private getAuthorIds(authorsJson) {
+  private parseAuthorIds(authorsJson) {
     const ids: number[] = [];
     authorsJson.forEach(author => ids.push(author.id));
     return ids;

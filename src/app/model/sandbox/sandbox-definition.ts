@@ -4,8 +4,7 @@ export class SandboxDefinition {
   authors: number[];
 
 
-  constructor(id: number, title: string, authors: number[]) {
-    this.id = id;
+  constructor(title: string, authors: number[]) {
     this.title = title;
     this.authors = authors;
   }

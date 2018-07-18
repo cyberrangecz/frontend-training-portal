@@ -5,8 +5,8 @@ export class InfoLevel extends AbstractLevel {
   content: Blob; // HTML -> use string?
 
 
-  constructor(id: number, trainingDefinitionId: number, title: string, maxScore: number, order: number, preHook: Blob, postHook: Blob, content: Blob) {
-    super(id, trainingDefinitionId, title, maxScore, order, preHook, postHook);
+  constructor(trainingDefinitionId: number, title: string, maxScore: number, order: number, preHook: Blob, postHook: Blob, content: Blob) {
+    super(trainingDefinitionId, title, maxScore, order, preHook, postHook);
     this.content = content;
   }
 }

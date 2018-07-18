@@ -1,0 +1,42 @@
+{
+  "training_instances": [
+    {
+      "id": 1,
+      "training_definition_id": 1,
+      "start_time": "12/12/2018",
+      "end_time": "13/12/2018",
+      "title": "Training Instance 1",
+      "pool_size": 100,
+      "sandbox_instances": [
+        {
+          "id": 1
+        }
+      ],
+      "organizers": [
+        {
+          "id": 1
+        }
+      ],
+      "keyword": "test"
+    },
+    {
+      "id": 2,
+      "training_definition_id": 4,
+      "start_time": "12/12/2017",
+      "end_time": "13/12/2017",
+      "title": "Training Instance 2",
+      "pool_size": 100,
+      "sandbox_instances": [
+        {
+          "id": 1
+        }
+      ],
+      "organizers": [
+        {
+          "id": 1
+        }
+      ],
+      "keyword": "canbearchived"
+    }
+  ]
+}

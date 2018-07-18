@@ -8,7 +8,7 @@ import {UserRoleEnum} from "../../enums/user-role.enum";
 import {Set} from "typescript-collections"
 
 @Injectable()
-export class UserLoaderService {
+export class UserGetterService {
 
   constructor(private http: HttpClient,
               private activeUserService: ActiveUserService) {

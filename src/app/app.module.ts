@@ -11,7 +11,7 @@ import {DesignerGuard} from "./guards/designer-guard.service";
 import {OrganizerGuard} from "./guards/organizer-guard.service";
 import {TraineeGuard} from "./guards/trainee-guard.service";
 import {HttpClientModule} from "@angular/common/http";
-import {UserLoaderService} from "./services/data-loaders/user-loader.service";
+import {UserGetterService} from "./services/data-getters/user-getter.service";
 import {SharedModule} from "./components/shared/shared.module";
 import {SharedMaterialModule} from "./components/shared/shared-material.module";
 
@@ -34,7 +34,7 @@ import {SharedMaterialModule} from "./components/shared/shared-material.module";
     OrganizerGuard,
     TraineeGuard,
     ActiveUserService,
-    UserLoaderService
+    UserGetterService
   ],
   bootstrap: [AppComponent]
 })

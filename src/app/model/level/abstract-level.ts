@@ -9,8 +9,7 @@ export abstract class AbstractLevel {
   postHook: Blob;
 
 
-  constructor(id: number, trainingDefinitionId: number, title: string, maxScore: number, order: number, preHook: Blob, postHook: Blob) {
-    this.id = id;
+  constructor(trainingDefinitionId: number, title: string, maxScore: number, order: number, preHook: Blob, postHook: Blob) {
     this.trainingDefinitionId = trainingDefinitionId;
     this.title = title;
     this.maxScore = maxScore;

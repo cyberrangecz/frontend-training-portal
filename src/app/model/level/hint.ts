@@ -6,8 +6,7 @@ export class Hint {
   hintPenalty: number = 0;
 
 
-  constructor(id: number, gameLevelId: number, title: string, content: Blob, hintPenalty: number) {
-    this.id = id;
+  constructor(gameLevelId: number, title: string, content: Blob, hintPenalty: number) {
     this.gameLevelId = gameLevelId;
     this.title = title;
     this.content = content;

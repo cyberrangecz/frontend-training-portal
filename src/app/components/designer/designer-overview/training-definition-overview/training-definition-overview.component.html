@@ -24,7 +24,9 @@
         <!-- TITLE Column -->
         <ng-container matColumnDef="title">
           <th class="title" mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
-          <td class="title" mat-cell *matCellDef="let training"> {{training.title}}</td>
+          <td class="title" mat-cell *matCellDef="let training">
+            {{training.title}}
+          </td>
         </ng-container>
 
         <!-- DESCRIPTION Column -->
@@ -65,7 +67,7 @@
               <button *ngIf="training.state === trainingStateEnum.Released ||
                              training.state === trainingStateEnum.Archived"
                       mat-icon-button color="primary"
-                      (click)="cloneTrainingDefinition(training.id)">
+                      (click)="cloneTrainingDefinition(training)">
                 <mat-icon
                     matTooltip="Clone training definition"
                     aria-label="Clone training definition button">
@@ -76,7 +78,7 @@
               <button *ngIf="training.state === trainingStateEnum.Unreleased ||
                              training.state === trainingStateEnum.Archived"
                       mat-icon-button color="primary"
-                      (click)="removeTrainingDefinition(training.id)">
+                      (click)="removeTrainingDefinition(training)">
                 <mat-icon
                       matTooltip="Remove training definition"
                       aria-label="Remove training definition button"
@@ -93,14 +95,10 @@
                 </button>
 
               <!-- ARCHIVE button -->
-
-              <!-- TODO: Archive - change the state of the training definition to archived
-              (trainingDefinition.state='archived'). This action disables instantiating
-              the training definition in the organizer's view. Only those definition,
-               which instances are all terminated can be archived, i.e., there must not be
-               any active or scheduled instance of the training definition. -->
-              <button mat-icon-button color="primary"
-                      (click)="archiveTrainingDefinition(training.id)">
+              <button *ngIf="training.state !== trainingStateEnum.Archived
+                              && training.canBeArchived"
+                      mat-icon-button color="primary"
+                      (click)="archiveTrainingDefinition(training)">
                 <mat-icon
                   matTooltip="Archive training definition"
                   aria-label="Archive training definition button">

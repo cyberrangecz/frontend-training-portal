@@ -12,12 +12,14 @@ export class TrainingDefinition {
   state: TrainingDefinitionStateEnum;
   levels: number[];
 
+  canBeArchived: boolean;
 
-  constructor(id: number, sandboxDefinitionId: number, authors: number[], state: TrainingDefinitionStateEnum, levels: number[]) {
-    this.id = id;
+
+  constructor(sandboxDefinitionId: number, authors: number[], state: TrainingDefinitionStateEnum, levels: number[]) {
     this.sandboxDefinitionId = sandboxDefinitionId;
     this.authors = authors;
     this.state = state;
     this.levels = levels;
+    this.canBeArchived = false;
   }
 }

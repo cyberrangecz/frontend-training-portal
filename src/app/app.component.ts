@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {UserLoaderService} from "./services/data-loaders/user-loader.service";
+import {UserGetterService} from "./services/data-getters/user-getter.service";
 
 @Component({
   selector: 'app-root',
@@ -10,7 +10,7 @@ export class AppComponent {
 
   isSidenavOpen: boolean = false;
 
-  constructor(private userLoaderService: UserLoaderService) {
+  constructor(private userLoaderService: UserGetterService) {
     this.userLoaderService.loadActiveUser();
   }
 

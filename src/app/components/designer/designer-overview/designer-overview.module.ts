@@ -5,12 +5,14 @@ import {DesignerOverviewComponent} from "./designer-overview.component";
 import {DesignerOverviewMaterialModule} from "./designer-overview-material.module";
 import { TrainingDefinitionOverviewComponent } from './training-definition-overview/training-definition-overview.component';
 import { SandboxDefinitionOverviewComponent } from './sandbox-definition-overview/sandbox-definition-overview.component';
-import {TrainingDefinitionLoaderService} from "../../../services/data-loaders/training-definition-loader.service";
+import {TrainingDefinitionGetterService} from "../../../services/data-getters/training-definition-getter.service";
 import { DesignerAlertComponent } from './designer-alert/designer-alert.component';
 import {DesignerAlertService} from "../../../services/event-services/designer-alert.service";
-import {SandboxDefinitionLoaderService} from "../../../services/data-loaders/sandbox-definition-loader.service";
+import {SandboxDefinitionGetterService} from "../../../services/data-getters/sandbox-definition-getter.service";
 import { TrainingUploadDialogComponent } from './training-definition-overview/training-upload-dialog/training-upload-dialog.component';
 import { SandboxUploadDialogComponent } from './sandbox-definition-overview/sandbox-upload-dialog/sandbox-upload-dialog.component';
+import {TrainingDefinitionSetterService} from "../../../services/data-setters/training-definition-setter.service";
+import {TrainingInstanceGetterService} from "../../../services/data-getters/training-instance-getter.service";
 
 @NgModule({
   imports: [
@@ -27,8 +29,10 @@ import { SandboxUploadDialogComponent } from './sandbox-definition-overview/sand
     SandboxUploadDialogComponent
   ],
   providers: [
-    TrainingDefinitionLoaderService,
-    SandboxDefinitionLoaderService,
+    TrainingDefinitionGetterService,
+    TrainingDefinitionSetterService,
+    TrainingInstanceGetterService,
+    SandboxDefinitionGetterService,
     DesignerAlertService
   ],
   entryComponents: [

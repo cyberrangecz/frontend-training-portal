@@ -14,8 +14,8 @@ export class GameLevel extends AbstractLevel {
   attachments: string[];
 
 
-  constructor(id: number, trainingDefinitionId: number, title: string, maxScore: number, order: number, preHook: Blob, postHook: Blob, flag: string, hints: Hint[], content: Blob, solution: Blob, incorrectFlagPenalty: number, solutionPenalty: number) {
-    super(id, trainingDefinitionId, title, maxScore, order, preHook, postHook);
+  constructor(trainingDefinitionId: number, title: string, maxScore: number, order: number, preHook: Blob, postHook: Blob, flag: string, hints: Hint[], content: Blob, solution: Blob, incorrectFlagPenalty: number, solutionPenalty: number) {
+    super(trainingDefinitionId, title, maxScore, order, preHook, postHook);
     this.flag = flag;
     this.hints = hints;
     this.content = content;

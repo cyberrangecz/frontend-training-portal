@@ -3,8 +3,8 @@ import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from "@angular/mat
 import {SandboxDefinition} from "../../../../model/sandbox/sandbox-definition";
 import {ActiveUserService} from "../../../../services/active-user.service";
 import {TrainingDefinition} from "../../../../model/training/training-definition";
-import {SandboxDefinitionLoaderService} from "../../../../services/data-loaders/sandbox-definition-loader.service";
-import {TrainingDefinitionLoaderService} from "../../../../services/data-loaders/training-definition-loader.service";
+import {SandboxDefinitionGetterService} from "../../../../services/data-getters/sandbox-definition-getter.service";
+import {TrainingDefinitionGetterService} from "../../../../services/data-getters/training-definition-getter.service";
 import {DesignerAlertService} from "../../../../services/event-services/designer-alert.service";
 import {SandboxUploadDialogComponent} from "./sandbox-upload-dialog/sandbox-upload-dialog.component";
 
@@ -26,8 +26,8 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
     private dialog: MatDialog,
     private designerAlertService: DesignerAlertService,
     private activeUserService: ActiveUserService,
-    private trainingDefinitionLoader: TrainingDefinitionLoaderService,
-    private sandboxDefinitionLoader: SandboxDefinitionLoaderService
+    private trainingDefinitionLoader: TrainingDefinitionGetterService,
+    private sandboxDefinitionLoader: SandboxDefinitionGetterService
   ) {
     this.createTableDataSource();
   }
