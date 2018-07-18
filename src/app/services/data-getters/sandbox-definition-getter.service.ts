@@ -4,11 +4,15 @@ import {Observable} from "rxjs/internal/Observable";
 import {SandboxDefinition} from "../../model/sandbox/sandbox-definition";
 import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
+import {TrainingDefinitionGetterService} from "./training-definition-getter.service";
+import {TrainingDefinitionStateEnum} from "../../enums/training-definition-state.enum";
 
 @Injectable()
 export class SandboxDefinitionGetterService {
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private trainingDefinitionGetter: TrainingDefinitionGetterService) {
   }
 
 
@@ -33,7 +37,7 @@ export class SandboxDefinitionGetterService {
         sandboxJson.title,
         this.parseAuthorIds(sandboxJson.authors));
       sandbox.id = sandboxJson.id;
-
+      this.determineIfSandboxCanBeRemoved(sandbox);
       sandboxDefs.push(sandbox);
     });
     return sandboxDefs;
@@ -43,5 +47,14 @@ export class SandboxDefinitionGetterService {
     const ids: number[] = [];
     authorsJson.forEach(author => ids.push(author.id));
     return ids;
+  }
+
+  determineIfSandboxCanBeRemoved(sandbox: SandboxDefinition) {
+    // TODO: implement more effectively, this way all trainings are requested for each sandbox
+    this.trainingDefinitionGetter.getTrainingDefsBySandboxDefId(sandbox.id)
+      .subscribe(trainings =>
+        sandbox.canBeRemoved = trainings.length === 0
+          || trainings.every(training =>
+            training.state === TrainingDefinitionStateEnum.Archived));
   }
 }

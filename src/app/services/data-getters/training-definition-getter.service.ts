@@ -24,11 +24,13 @@ export class TrainingDefinitionGetterService {
   getTrainingDefsByUserId(userId: number): Observable<TrainingDefinition[]> {
     return this.getTrainingDefs()
       .pipe(map(trainings =>
-      this.filterTrainingDefsByUserId(userId, trainings)));
+        trainings.filter(training => training.authors.includes(userId))));
   }
 
-  private filterTrainingDefsByUserId(id: number, trainingDefs: TrainingDefinition[]): TrainingDefinition[] {
-    return trainingDefs.filter(training => training.authors.includes(id));
+  getTrainingDefsBySandboxDefId(sandboxId: number): Observable<TrainingDefinition[]> {
+    return this.getTrainingDefs()
+      .pipe(map(trainings =>
+        trainings.filter(training => training.sandboxDefinitionId === sandboxId)));
   }
 
   private parseTrainingDefs(trainingDefsJson) {
@@ -46,13 +48,12 @@ export class TrainingDefinitionGetterService {
       training.description = trainingJson.description;
       training.prerequisites = trainingJson.prerequisites;
       training.outcomes = trainingJson.outcomes;
-      this.determineIfTrainingCanBeArchived(training);
       trainingDefs.push(training);
     });
     return trainingDefs;
   }
 
-  private determineIfTrainingCanBeArchived(trainingDef: TrainingDefinition) {
+  determineIfTrainingCanBeArchived(trainingDef: TrainingDefinition) {
    // TODO: implement more effectively. This way, all instances are requested for each training definition
     this.trainingInstanceGetter.getTrainingInstancesByTrainingDefinitionId(trainingDef.id)
       .subscribe((trainingInstances) => {

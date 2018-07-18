@@ -2,7 +2,7 @@
   "training_defs": [
     {
       "id": 1,
-      "sandbox_definition": 1,
+      "sandbox_definition": 2,
       "title": "Training Definition 1",
       "description": "This is first test training definition",
       "authors": [
@@ -49,7 +49,7 @@
     },
     {
       "id": 3,
-      "sandbox_definition": 1,
+      "sandbox_definition": 4,
       "title": "Training Definition 3",
       "description": "This is third test training definition",
       "authors": [

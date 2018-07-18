@@ -13,6 +13,7 @@ import { TrainingUploadDialogComponent } from './training-definition-overview/tr
 import { SandboxUploadDialogComponent } from './sandbox-definition-overview/sandbox-upload-dialog/sandbox-upload-dialog.component';
 import {TrainingDefinitionSetterService} from "../../../services/data-setters/training-definition-setter.service";
 import {TrainingInstanceGetterService} from "../../../services/data-getters/training-instance-getter.service";
+import {SandboxDefinitionSetterService} from "../../../services/data-setters/sandbox-definition-setter.service";
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import {TrainingInstanceGetterService} from "../../../services/data-getters/trai
     TrainingDefinitionSetterService,
     TrainingInstanceGetterService,
     SandboxDefinitionGetterService,
+    SandboxDefinitionSetterService,
     DesignerAlertService
   ],
   entryComponents: [

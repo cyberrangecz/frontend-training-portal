@@ -26,7 +26,7 @@
         <!-- ASSOCIATED TRAINING DEFS Column -->
         <ng-container matColumnDef="associatedTrainingDefs">
           <th class="assocTrainingDefs" mat-header-cell *matHeaderCellDef>Associated Training Definitions</th>
-          <td class="assocTrainingDefs" mat-cell *matCellDef="let sandbox"> </td>
+          <td class="assocTrainingDefs" mat-cell *matCellDef="let sandbox"> {{sandbox.associatedTrainingDefs }}</td>
         </ng-container>
 
         <!-- AUTHORS Column -->
@@ -42,9 +42,9 @@
 
             <div class="action-buttons">
               <!-- REMOVE button-->
-              <button *ngIf="true"
+              <button *ngIf="sandbox.canBeRemoved"
                       mat-icon-button color="primary"
-                      (click)="removeSandboxDefinition(sandbox.id)">
+                      (click)="removeSandboxDefinition(sandbox)">
                 <mat-icon
                   matTooltip="Remove sandbox definition"
                   aria-label="Remove sandbox definition button">
@@ -52,7 +52,7 @@
               </button>
 
               <!-- UPDATE button-->
-              <button *ngIf="true"
+              <button *ngIf="sandbox.canBeRemoved"
                       mat-icon-button color="primary"
                       (click)="updateSandboxDefinition(sandbox.id)">
                 <mat-icon

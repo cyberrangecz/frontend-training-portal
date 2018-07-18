@@ -22,4 +22,8 @@ export class TrainingDefinition {
     this.levels = levels;
     this.canBeArchived = false;
   }
+
+  toString() {
+    return this.id;
+  }
 }

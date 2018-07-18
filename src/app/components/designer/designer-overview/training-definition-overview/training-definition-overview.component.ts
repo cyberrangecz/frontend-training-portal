@@ -105,6 +105,9 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
   private createTableDataSource() {
     this.trainingDefinitionGetter.getTrainingDefsByUserId(this.activeUserService.getActiveUser().id)
       .subscribe(trainings => {
+        trainings.forEach(training =>
+          this.trainingDefinitionGetter.determineIfTrainingCanBeArchived(training));
+
         this.dataSource = new MatTableDataSource(trainings);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;

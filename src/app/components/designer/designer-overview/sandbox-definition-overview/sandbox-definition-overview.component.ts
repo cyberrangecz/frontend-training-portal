@@ -7,6 +7,7 @@ import {SandboxDefinitionGetterService} from "../../../../services/data-getters/
 import {TrainingDefinitionGetterService} from "../../../../services/data-getters/training-definition-getter.service";
 import {DesignerAlertService} from "../../../../services/event-services/designer-alert.service";
 import {SandboxUploadDialogComponent} from "./sandbox-upload-dialog/sandbox-upload-dialog.component";
+import {SandboxDefinitionSetterService} from "../../../../services/data-setters/sandbox-definition-setter.service";
 
 @Component({
   selector: 'designer-overview-sandbox-definition',
@@ -26,8 +27,9 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
     private dialog: MatDialog,
     private designerAlertService: DesignerAlertService,
     private activeUserService: ActiveUserService,
-    private trainingDefinitionLoader: TrainingDefinitionGetterService,
-    private sandboxDefinitionLoader: SandboxDefinitionGetterService
+    private trainingDefinitionGetter: TrainingDefinitionGetterService,
+    private sandboxDefinitionGetter: SandboxDefinitionGetterService,
+    private sandboxDefinitionSetter: SandboxDefinitionSetterService
   ) {
     this.createTableDataSource();
   }
@@ -51,24 +53,42 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
     });
   }
 
-  removeSandboxDefinition(id: number) {
+  removeSandboxDefinition(sandbox: SandboxDefinition) {
+    const index = this.dataSource.data.indexOf(sandbox);
+    if (index > -1) {
+      this.dataSource.data.splice(index,1);
+    }
+    this.dataSource = new MatTableDataSource<SandboxDefinition>(this.dataSource.data);
+
+    this.sandboxDefinitionSetter.removeSandboxDefinition(sandbox.id);
   }
 
   updateSandboxDefinition(id: number) {
+    // TODO: replace original file with the new one
+    this.uploadSandboxDefinition();
   }
 
   deploySandboxDefinition(id: number) {
+    // TODO: deploy
   }
 
   private createTableDataSource() {
-    this.sandboxDefinitionLoader.getSandboxDefsByUserId(this.activeUserService.getActiveUser().id)
+    this.sandboxDefinitionGetter.getSandboxDefsByUserId(this.activeUserService.getActiveUser().id)
       .subscribe(sandboxes => {
+
+        sandboxes.forEach((sandbox) => {
+          this.trainingDefinitionGetter.getTrainingDefsBySandboxDefId(sandbox.id)
+            .subscribe(assocTrainings =>
+              sandbox.associatedTrainingDefs = assocTrainings);
+          this.sandboxDefinitionGetter.determineIfSandboxCanBeRemoved(sandbox);
+          });
+
         this.dataSource = new MatTableDataSource(sandboxes);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
 
         this.dataSource.filterPredicate =
-          (data: TrainingDefinition, filter: string) =>
+          (data: SandboxDefinition, filter: string) =>
             data.title.toLowerCase().indexOf(filter) !== -1
       });
   }
