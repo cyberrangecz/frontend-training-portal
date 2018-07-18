@@ -14,12 +14,13 @@ export class SidenavComponent implements OnInit, OnDestroy {
   userChangeSubscription;
 
   constructor(private activeUserService: ActiveUserService) {
-    this.createTrainings();
-    this.setActiveTrainings();
-    this.subscribeUserChange();
+
   }
 
   ngOnInit() {
+    this.createTrainings();
+    this.setActiveTrainings();
+    this.subscribeUserChange();
   }
 
   ngOnDestroy() {

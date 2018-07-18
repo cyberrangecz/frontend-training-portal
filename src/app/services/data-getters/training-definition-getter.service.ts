@@ -21,6 +21,13 @@ export class TrainingDefinitionGetterService {
         this.parseTrainingDefs(response)));
   }
 
+  getTrainingDefById(id: number): Observable<TrainingDefinition> {
+    // TODO: Use backend getById for better performance
+    return this.getTrainingDefs()
+      .pipe(map(trainings =>
+        trainings.find(training => training.id === id)));
+  }
+
   getTrainingDefsByUserId(userId: number): Observable<TrainingDefinition[]> {
     return this.getTrainingDefs()
       .pipe(map(trainings =>

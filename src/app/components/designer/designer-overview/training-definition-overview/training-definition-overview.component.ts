@@ -34,11 +34,10 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
     private designerAlertService: AlertService,
     private trainingDefinitionGetter: TrainingDefinitionGetterService,
     private trainingDefinitionSetter: TrainingDefinitionSetterService) {
-
-    this.createTableDataSource();
   }
 
   ngOnInit() {
+    this.createTableDataSource();
   }
 
   applyFilter(filterValue: string) {

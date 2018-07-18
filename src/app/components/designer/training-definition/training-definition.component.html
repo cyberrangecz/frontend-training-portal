@@ -1,3 +1,5 @@
 <shared-alert></shared-alert>
-<training-configuration></training-configuration>
+<training-configuration
+  [trainingDefinition]="trainingDefinition$ | async">
+</training-configuration>
 <training-level-stepper></training-level-stepper>

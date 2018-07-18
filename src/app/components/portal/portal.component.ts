@@ -18,14 +18,13 @@ export class PortalComponent implements OnInit, OnDestroy {
   constructor(
     private activeUserService: ActiveUserService,
     private router: Router) {
+  }
 
+  ngOnInit() {
     this.createTrainingButtons();
     this.createCyberExButtons();
     this.createOtherAgendaButtons();
     this.subscribeUserChange();
-  }
-
-  ngOnInit() {
   }
 
   ngOnDestroy() {

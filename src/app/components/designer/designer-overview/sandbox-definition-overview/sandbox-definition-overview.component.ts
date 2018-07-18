@@ -31,10 +31,10 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
     private sandboxDefinitionGetter: SandboxDefinitionGetterService,
     private sandboxDefinitionSetter: SandboxDefinitionSetterService
   ) {
-    this.createTableDataSource();
   }
 
   ngOnInit() {
+    this.createTableDataSource();
   }
 
   applyFilter(filterValue: string) {
