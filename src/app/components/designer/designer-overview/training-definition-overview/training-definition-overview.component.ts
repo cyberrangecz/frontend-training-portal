@@ -46,7 +46,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
   }
 
   newTrainingDefinition() {
-    this.router.navigate(['trainings/new'], {relativeTo: this.activatedRoute})
+    this.router.navigate(['training'], {relativeTo: this.activatedRoute})
   }
 
   uploadTrainingDefinition() {

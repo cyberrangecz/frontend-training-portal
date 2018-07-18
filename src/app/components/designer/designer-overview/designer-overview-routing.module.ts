@@ -6,6 +6,10 @@ const routes: Routes = [
   {
     path: '',
     component: DesignerOverviewComponent
+  },
+  {
+    path: 'training',
+    loadChildren: 'app/components/designer/training-definition/training-definition.module#TrainingDefinitionModule'
   }
 ];
 
