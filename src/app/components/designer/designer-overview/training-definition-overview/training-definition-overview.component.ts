@@ -81,7 +81,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
   cloneTrainingDefinition(training: TrainingDefinition) {
     const clone = new TrainingDefinition(
       training.sandboxDefinitionId,
-      training.authors,
+      training.authorIds,
       training.state,
       training.levels,
     );

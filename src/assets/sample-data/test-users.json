@@ -11,6 +11,60 @@
           "name": "organizer"
         }
       ]
+    },
+    {
+      "id": 2,
+      "name": "Karel Novák",
+      "roles": [
+        {
+          "name": "designer"
+        },
+        {
+          "name": "organizer"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Martin Malý",
+      "roles": [
+        {
+          "name": "organizer"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Petr Starý",
+      "roles": [
+        {
+          "name": "designer"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Jan Mladý",
+      "roles": [
+        {
+          "name": "designer"
+        },
+        {
+          "name": "organizer"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Daniel Nový",
+      "roles": [
+        {
+          "name": "designer"
+        },
+        {
+          "name": "organizer"
+        }
+      ]
     }
   ]
 }

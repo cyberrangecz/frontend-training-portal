@@ -1,41 +1,84 @@
 <div class="configuration">
   <h1>Description</h1>
   <div class="form-container">
-    <mat-form-field>
-      <input matInput placeholder="Title">
+
+    <!-- TITLE field-->
+    <mat-form-field appearance="outline">
+      <mat-label>Title</mat-label>
+      <input matInput placeholder="Title" [(ngModel)]="title">
+      <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title=''">
+        <mat-icon>close</mat-icon>
+      </button>
     </mat-form-field>
 
-    <button mat-raised-button color="accent">
-      Choose
-    </button>
+    <!-- AUTHORS field-->
+    <div class="line-with-button">
+      <p *ngIf="authors">Authors: {{ authors }}</p>
+      <p *ngIf="!authors">Authors:</p>
+      <span class="spacer"></span>
+      <button (click)="chooseAuthors()"
+        mat-raised-button color="accent">
+        Choose
+      </button>
+    </div>
 
-    <mat-form-field>
-      <textarea matInput placeholder="Description"></textarea>
+    <!-- DESCRIPTION field-->
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea matInput placeholder="Description" [(ngModel)]="description"></textarea>
+      <button mat-button *ngIf="description" matSuffix mat-icon-button aria-label="Clear" (click)="description=''">
+        <mat-icon>close</mat-icon>
+      </button>
     </mat-form-field>
 
-    <mat-form-field>
-      <textarea matInput placeholder="Prerequisites"></textarea>
+    <!-- PREREQUISITES field-->
+    <mat-form-field appearance="outline">
+      <mat-label>Prerequisites</mat-label>
+      <textarea matInput placeholder="Prerequisites" [(ngModel)]="prerequisites"></textarea>
+      <button mat-button *ngIf="prerequisites" matSuffix mat-icon-button aria-label="Clear" (click)="prerequisites=''">
+        <mat-icon>close</mat-icon>
+      </button>
     </mat-form-field>
 
-    <mat-form-field>
-      <textarea matInput placeholder="Outcomes"></textarea>
+    <!-- OUTCOMES field-->
+    <mat-form-field appearance="outline">
+      <mat-label>Outcomes</mat-label>
+      <textarea matInput placeholder="Outcomes" [(ngModel)]="outcomes"></textarea>
+      <button mat-button *ngIf="outcomes" matSuffix mat-icon-button aria-label="Clear" (click)="outcomes=''">
+        <mat-icon>close</mat-icon>
+      </button>
     </mat-form-field>
 
-    <mat-form-field>
-      <mat-select placeholder="State">
-        <mat-option value="unreleased">Unreleased</mat-option>
-        <mat-option value="released">Released</mat-option>
-        <mat-option value="archived">Archived</mat-option>
+    <!-- STATE field-->
+    <mat-form-field appearance="outline">
+      <mat-label>State</mat-label>
+      <mat-select  placeholder="State"
+                   [(ngModel)]="selectedState">
+        <mat-option *ngFor="let state of states"
+                    [value]="state">
+          {{ state | titlecase }}
+        </mat-option>
       </mat-select>
     </mat-form-field>
 
-    <button mat-raised-button color="accent">
-      Choose
-    </button>
+    <!-- SANDBOX DEFINITION field-->
+    <div class="line-with-button">
+      <p *ngIf="sandboxDef"> Sandbox Definition: {{ sandboxDef }}</p>
+      <p *ngIf="!sandboxDef">Sandbox Definition:</p>
+      <span class="spacer"></span>
+      <button (click)="chooseSandboxDefs()"
+        mat-raised-button color="accent">
+        Choose
+      </button>
+    </div>
 
-    <button mat-raised-button color="primary">
-      Save changes
-    </button>
+    <!-- SAVE button-->
+    <div class="main-button">
+      <button (click)="saveTrainingDef()"
+        mat-raised-button color="primary">
+        Save changes
+      </button>
+    </div>
   </div>
 </div>
 

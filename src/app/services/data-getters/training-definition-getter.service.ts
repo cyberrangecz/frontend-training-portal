@@ -31,7 +31,7 @@ export class TrainingDefinitionGetterService {
   getTrainingDefsByUserId(userId: number): Observable<TrainingDefinition[]> {
     return this.getTrainingDefs()
       .pipe(map(trainings =>
-        trainings.filter(training => training.authors.includes(userId))));
+        trainings.filter(training => training.authorIds.includes(userId))));
   }
 
   getTrainingDefsBySandboxDefId(sandboxId: number): Observable<TrainingDefinition[]> {

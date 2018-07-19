@@ -3,13 +3,13 @@ shared-alert {
 }
 
 .content {
+  margin: 20px;
   display: flex;
   justify-content: center;
-  height: 100%;
 }
 
 .level {
-  flex-grow: 6;
+  flex-grow: 10;
   display: flex;
   flex-direction: column;
 }
@@ -19,4 +19,5 @@ training-configuration {
 }
 
 training-level-stepper {
+
 }

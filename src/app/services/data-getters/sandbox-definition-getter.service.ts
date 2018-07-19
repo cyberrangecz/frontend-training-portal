@@ -22,11 +22,18 @@ export class SandboxDefinitionGetterService {
       this.parseSandboxDefs(response)));
   }
 
+  getSandboxDefById(sandboxId: number): Observable<SandboxDefinition> {
+    return this.getSandboxDefs().pipe(map(sandboxes => {
+      const filtered = sandboxes.filter(sandbox => sandbox.id === sandboxId);
+      return filtered ? filtered[0] : null;
+    }));
+  }
+
   getSandboxDefsByUserId(userId: number): Observable<SandboxDefinition[]> {
     return this.getSandboxDefs()
       .pipe(map(sandboxDefs =>
         sandboxDefs.filter(sandboxDef =>
-        sandboxDef.authors.includes(userId))));
+        sandboxDef.authorIds.includes(userId))));
   }
 
   private parseSandboxDefs(sandboxDefsJson): SandboxDefinition[] {

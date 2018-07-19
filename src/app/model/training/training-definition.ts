@@ -6,7 +6,7 @@ export class TrainingDefinition {
   sandboxDefinitionId: number;
   title: string;
   description: string;
-  authors: number[];
+  authorIds: number[];
   prerequisites: string;
   outcomes: string;
   state: TrainingDefinitionStateEnum;
@@ -15,15 +15,15 @@ export class TrainingDefinition {
   canBeArchived: boolean;
 
 
-  constructor(sandboxDefinitionId: number, authors: number[], state: TrainingDefinitionStateEnum, levels: number[]) {
+  constructor(sandboxDefinitionId: number, authorIds: number[], state: TrainingDefinitionStateEnum, levels: number[]) {
     this.sandboxDefinitionId = sandboxDefinitionId;
-    this.authors = authors;
+    this.authorIds = authorIds;
     this.state = state;
     this.levels = levels;
     this.canBeArchived = false;
   }
 
   toString() {
-    return this.id;
+    return this.title;
   }
 }

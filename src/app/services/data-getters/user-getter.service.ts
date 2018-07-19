@@ -6,6 +6,7 @@ import {map} from "rxjs/operators";
 import {User} from "../../model/user/user";
 import {UserRoleEnum} from "../../enums/user-role.enum";
 import {Set} from "typescript-collections"
+import {Observable} from "rxjs/internal/Observable";
 
 @Injectable()
 export class UserGetterService {
@@ -15,7 +16,6 @@ export class UserGetterService {
   }
 
   loadUsers() {
-    // TODO: load users from endpoint
     return this.http.get(environment.getUsersUri)
       .pipe(map( (response) => {
           return this.parseUsersJson(response);
@@ -23,12 +23,32 @@ export class UserGetterService {
       ));
   }
 
+  loadUserById(userId: number): Observable<User> {
+    return this.loadUsers().pipe(map(users => {
+      const filtered = users.filter(user => user.id === userId);
+      return filtered ? filtered[0] : null;
+    }));
+  }
+
+  loadUsersByIds(usersIds: number[]): Observable<User[]> {
+    return this.loadUsers().pipe(map(users => {
+      return users.filter(user => usersIds.includes(user.id))
+    }));
+  }
+
+  loadUsersByRoles(roles: UserRoleEnum[]) {
+    return this.loadUsers().pipe(map(users => {
+      return users.filter(user =>
+      roles.every(role =>
+        user.roles.contains(role)))
+    }));
+  }
+
   loadActiveUser() {
     // TESTING ONLY
     this.loadUsers()
       .subscribe(
         (users) => {
-          console.log(users);
           this.activeUserService.setActiveUser(users[0]);
         }
       );

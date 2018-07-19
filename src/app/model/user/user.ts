@@ -14,7 +14,6 @@ export class User {
   }
 
   toString(): string {
-    return 'id: ' + this.id + '\n'
-    + 'name: ' + this.name + '\n'
+    return this.name;
   }
 }

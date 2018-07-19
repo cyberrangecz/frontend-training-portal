@@ -2,7 +2,6 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
 import {SandboxDefinition} from "../../../../model/sandbox/sandbox-definition";
 import {ActiveUserService} from "../../../../services/active-user.service";
-import {TrainingDefinition} from "../../../../model/training/training-definition";
 import {SandboxDefinitionGetterService} from "../../../../services/data-getters/sandbox-definition-getter.service";
 import {TrainingDefinitionGetterService} from "../../../../services/data-getters/training-definition-getter.service";
 import {AlertService} from "../../../../services/event-services/alert.service";
