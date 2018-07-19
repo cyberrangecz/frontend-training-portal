@@ -9,12 +9,20 @@ import {Set} from "typescript-collections"
 import {Observable} from "rxjs/internal/Observable";
 
 @Injectable()
+/**
+ * Service to abstract communication with User endpoint.
+ * Can retrieve users based on various parameters.
+ */
 export class UserGetterService {
 
   constructor(private http: HttpClient,
               private activeUserService: ActiveUserService) {
   }
 
+  /**
+   * Loads all users
+   * @returns {Observable<User[]>} Observable of created users list based on received response
+   */
   loadUsers() {
     return this.http.get(environment.getUsersUri)
       .pipe(map( (response) => {
@@ -23,6 +31,11 @@ export class UserGetterService {
       ));
   }
 
+  /**
+   * Loads user with specified id
+   * @param {number} userId id of user which should be retrieved
+   * @returns {Observable<User>} Observable of retrieved user, null if user with such id does not exist
+   */
   loadUserById(userId: number): Observable<User> {
     return this.loadUsers().pipe(map(users => {
       const filtered = users.filter(user => user.id === userId);
@@ -30,13 +43,23 @@ export class UserGetterService {
     }));
   }
 
+  /**
+   * Loads users matching list of ids
+   * @param {number[]} usersIds ids of users which should be retrieved
+   * @returns {Observable<User[]>} Observable of retrieved users list, empty list if no ids are matching
+   */
   loadUsersByIds(usersIds: number[]): Observable<User[]> {
     return this.loadUsers().pipe(map(users => {
       return users.filter(user => usersIds.includes(user.id))
     }));
   }
 
-  loadUsersByRoles(roles: UserRoleEnum[]) {
+  /**
+   * Loads users having provided roles
+   * @param {UserRoleEnum[]} roles list of roles which users must have
+   * @returns {Observable<User[]>} Observable of list of users having all provided roles
+   */
+  loadUsersByRoles(roles: UserRoleEnum[]): Observable<User[]> {
     return this.loadUsers().pipe(map(users => {
       return users.filter(user =>
       roles.every(role =>
@@ -54,6 +77,11 @@ export class UserGetterService {
       );
   }
 
+  /**
+   * Parses JSON from HTTP response
+   * @param usersJson JSON from HTTP response
+   * @returns {User[]} List of users created based on received JSON
+   */
   private parseUsersJson(usersJson): User[] {
     const users: User[] = [];
     usersJson.users.forEach(user => {
@@ -63,6 +91,11 @@ export class UserGetterService {
     return users;
   }
 
+  /**
+   * Parses user roles JSON
+   * @param rolesJson JSON with user roles
+   * @returns {Set<UserRoleEnum>} Set of all user roles
+   */
   private getUserRoles(rolesJson): Set<UserRoleEnum> {
     const roles: Set<UserRoleEnum> = new Set<UserRoleEnum>();
     rolesJson.forEach(role => {

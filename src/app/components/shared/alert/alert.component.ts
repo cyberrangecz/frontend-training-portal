@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {DesignerAlertMessageEvent} from "../../../model/events/designer-alert-message-event";
+import {AlertEvent} from "../../../model/events/alert-event";
 import {AlertService} from "../../../services/event-services/alert.service";
 
 @Component({
@@ -9,7 +9,7 @@ import {AlertService} from "../../../services/event-services/alert.service";
 })
 export class AlertComponent implements OnInit, OnDestroy {
 
-  message: DesignerAlertMessageEvent = null;
+  message: AlertEvent = null;
 
   alertSubscription;
 

@@ -1,4 +1,4 @@
-export enum DesignerAlertMessageEnum {
+export enum AlertTypeEnum {
   Error = 'error',
   Success = 'success',
   Info = 'info',

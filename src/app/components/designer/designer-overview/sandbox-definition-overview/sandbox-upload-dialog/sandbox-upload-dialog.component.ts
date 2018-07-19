@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {DesignerAlertMessageEnum} from "../../../../../enums/designer-alert-message.enum";
+import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
 import {MatDialogRef} from "@angular/material";
 
 @Component({
@@ -21,7 +21,7 @@ export class SandboxUploadDialogComponent implements OnInit {
   cancel() {
     // Only for testing purposes, return null in production
     const result = {
-      type: DesignerAlertMessageEnum.Info,
+      type: AlertTypeEnum.Info,
       message: 'File upload was canceled.'
     };
     this.dialogRef.close(result);
@@ -31,7 +31,7 @@ export class SandboxUploadDialogComponent implements OnInit {
   upload() {
     // TODO: upload file and return result
     const result = {
-      type: DesignerAlertMessageEnum.Success,
+      type: AlertTypeEnum.Success,
       message: 'Sandbox was succesfully uploaded.'
     };
     this.dialogRef.close(result)

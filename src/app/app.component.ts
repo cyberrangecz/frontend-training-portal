@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import {UserGetterService} from "./services/data-getters/user-getter.service";
 
+/**
+ * Main component serving as wrapper for sidenav, toolbar and inner routed views
+ */
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

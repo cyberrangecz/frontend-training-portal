@@ -3,7 +3,7 @@ import {TrainingDefinition} from "../../../../model/training/training-definition
 import {TrainingDefinitionStateEnum} from "../../../../enums/training-definition-state.enum";
 import {TrainingDefinitionSetterService} from "../../../../services/data-setters/training-definition-setter.service";
 import {AlertService} from "../../../../services/event-services/alert.service";
-import {DesignerAlertMessageEnum} from "../../../../enums/designer-alert-message.enum";
+import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
 import {SandboxDefinitionPickerComponent} from "./sandbox-definition-picker/sandbox-definition-picker.component";
 import {MatDialog} from "@angular/material";
 import {AuthorsPickerComponent} from "./authors-picker/authors-picker.component";
@@ -80,7 +80,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.setInputValuesToTrainingDef();
     if (this.validateTrainingDef()) {
       this.trainingDefinitionSetter.addTrainingDefinition(this.trainingDefinition);
-      this.alertService.emitAlertMessage(DesignerAlertMessageEnum.Success, 'Training definition was successfully saved');
+      this.alertService.emitAlert(AlertTypeEnum.Success, 'Training definition was successfully saved');
     } else {
       // error message
     }

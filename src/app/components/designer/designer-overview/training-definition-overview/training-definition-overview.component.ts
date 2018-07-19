@@ -55,7 +55,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
     const dialogRef = this.dialog.open(TrainingUploadDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.designerAlertService.emitAlertMessage(result.type, result.message);
+        this.designerAlertService.emitAlert(result.type, result.message);
       }
     });
   }
@@ -102,7 +102,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
   }
 
   private createTableDataSource() {
-    this.trainingDefinitionGetter.getTrainingDefsByUserId(this.activeUserService.getActiveUser().id)
+    this.trainingDefinitionGetter.getTrainingDefsByAuthorId(this.activeUserService.getActiveUser().id)
       .subscribe(trainings => {
         trainings.forEach(training =>
           this.trainingDefinitionGetter.determineIfTrainingCanBeArchived(training));

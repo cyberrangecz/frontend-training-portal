@@ -47,7 +47,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
     const dialogRef = this.dialog.open(SandboxUploadDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.designerAlertService.emitAlertMessage(result.type, result.message);
+        this.designerAlertService.emitAlert(result.type, result.message);
       }
     });
   }
@@ -72,7 +72,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
   }
 
   private createTableDataSource() {
-    this.sandboxDefinitionGetter.getSandboxDefsByUserId(this.activeUserService.getActiveUser().id)
+    this.sandboxDefinitionGetter.getSandboxDefsByAuthorId(this.activeUserService.getActiveUser().id)
       .subscribe(sandboxes => {
 
         sandboxes.forEach((sandbox) => {
