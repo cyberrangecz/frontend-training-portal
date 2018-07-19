@@ -12,6 +12,9 @@ import {SandboxDefinition} from "../../../../model/sandbox/sandbox-definition";
 import {UserGetterService} from "../../../../services/data-getters/user-getter.service";
 import {SandboxDefinitionGetterService} from "../../../../services/data-getters/sandbox-definition-getter.service";
 
+/**
+ * Component for creating new or editing already existing training definition
+ */
 @Component({
   selector: 'training-configuration',
   templateUrl: './training-configuration.component.html',
@@ -50,6 +53,9 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Displays Material modal with list of authors and assigns selected authors to the training definition
+   */
   chooseAuthors() {
     const dialogRef = this.dialog.open(AuthorsPickerComponent);
 

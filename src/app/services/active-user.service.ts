@@ -33,6 +33,10 @@ export class ActiveUserService {
     return this._activeUser;
   }
 
+  /**
+   * Sets active user
+   * @param {User} user user to be set as active
+   */
   setActiveUser(user: User) {
     this._activeUser = user;
     this._onActiveUserChangedSubject.next(user.id);
