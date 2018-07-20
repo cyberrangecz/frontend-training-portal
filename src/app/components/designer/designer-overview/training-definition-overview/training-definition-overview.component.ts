@@ -113,13 +113,15 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
     const clone = new TrainingDefinition(
       trainingDef.sandboxDefinitionId,
       trainingDef.authorIds,
-      trainingDef.state,
+      TrainingDefinitionStateEnum.Unreleased,
       trainingDef.levels,
     );
     clone.title = 'Clone of ' + trainingDef.title;
     clone.outcomes = trainingDef.outcomes;
     clone.prerequisites = trainingDef.prerequisites;
     clone.description = trainingDef.description;
+
+    this.trainingDefinitionGetter.determineIfTrainingCanBeArchived(clone);
 
     this.dataSource.data.push(clone);
     this.dataSource = new MatTableDataSource<TrainingDefinition>(this.dataSource.data);
