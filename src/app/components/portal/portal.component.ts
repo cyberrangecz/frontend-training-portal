@@ -7,6 +7,10 @@ import {Router} from "@angular/router";
   templateUrl: './portal.component.html',
   styleUrls: ['./portal.component.css']
 })
+/**
+ * Main component of portal page. Portal page is a main crossroad of possible sub pages. Only those matching with user
+ * role are accessible.
+ */
 export class PortalComponent implements OnInit, OnDestroy {
 
   trainingRoles;
@@ -33,10 +37,17 @@ export class PortalComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Navigates to specified route
+   * @param {string} route route to which should router navigate
+   */
   navigateToRoute(route: string) {
     this.router.navigate([route]);
   }
 
+  /**
+   * Creates source objects for KYPO trainings buttons. Visibility is determined based on user roles.
+   */
   private createTrainingButtons() {
     this.trainingRoles = [
       {
@@ -58,6 +69,9 @@ export class PortalComponent implements OnInit, OnDestroy {
     ];
   }
 
+  /**
+   * Creates source objects for CyberEx buttons.
+   */
   private createCyberExButtons() {
     this.cyberExerciseRoles = [
       {
@@ -78,6 +92,9 @@ export class PortalComponent implements OnInit, OnDestroy {
     ];
   }
 
+  /**
+   * Creates source objects for other agenda buttons.
+   */
   private createOtherAgendaButtons() {
     this.otherAgendaRoles = [
       {
@@ -93,7 +110,9 @@ export class PortalComponent implements OnInit, OnDestroy {
     ];
   }
 
-
+  /**
+   * Subscribes to changes in active user (logged out/in) and recalculates source objects and visibility based on roles of new user.
+   */
   private subscribeUserChange() {
     this.userChangeSubscription = this.activeUserService.onActiveUserChanged.
       subscribe(id => {

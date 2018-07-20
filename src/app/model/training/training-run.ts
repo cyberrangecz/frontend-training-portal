@@ -1,5 +1,8 @@
 import {TrainingRunStateEnum} from "../../enums/training-run-state.enum";
 
+/**
+ * Class representing training run of an instance
+ */
 export class TrainingRun {
 
   id: number;

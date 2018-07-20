@@ -49,12 +49,12 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if ('trainingDefinition' in changes) {
-      this.resolveInputTraining();
+      this.resolveInitialTraining();
     }
   }
 
   /**
-   * Displays Material modal with list of authors and assigns selected authors to the training definition
+   * Displays dialog window with list of authors and assigns selected authors to the training definition
    */
   chooseAuthors() {
     const dialogRef = this.dialog.open(AuthorsPickerComponent);
@@ -65,7 +65,9 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
       }
     });
   }
-
+  /**
+   * Displays dialog window with list of sandbox definitions and assigns selected sandbox definition to the training definition
+   */
   chooseSandboxDefs() {
     const dialogRef = this.dialog.open(SandboxDefinitionPickerComponent);
 
@@ -76,6 +78,9 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     });
   }
 
+  /**
+   * Saves created or edited training definition, validates the input and send request to save the training definition in database
+   */
   saveTrainingDef() {
     this.setInputValuesToTrainingDef();
     if (this.validateTrainingDef()) {
@@ -86,7 +91,10 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     }
   }
 
-  private resolveInputTraining() {
+  /**
+   * Resolves whether the training definition passed from parent component is null (create new) or not (edit existing)
+   */
+  private resolveInitialTraining() {
     if (!this.trainingDefinition) {
       this.initValuesForNewTraining();
       this.trainingDefinition = new TrainingDefinition(
@@ -101,6 +109,9 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Sets initial values of input elements if new training definition is created
+   */
   private initValuesForNewTraining() {
     this.title = '';
     this.description = '';
@@ -109,6 +120,9 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.selectedState = 'unreleased';
   }
 
+  /**
+   * Sets initial values of input elements if existing training definition is edited
+   */
   private initValuesForEdit() {
     this.title = this.trainingDefinition.title;
     this.description = this.trainingDefinition.description;
@@ -122,6 +136,9 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
       .subscribe(sandbox => this.sandboxDef = sandbox)
   }
 
+  /**
+   * Sets validated values from user input to the training definition object
+   */
   private setInputValuesToTrainingDef() {
     this.trainingDefinition.title = this.title;
     this.trainingDefinition.authorIds = this.authors.map(author => author.id);
@@ -132,8 +149,12 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.trainingDefinition.sandboxDefinitionId = this.sandboxDef.id;
   }
 
+  /**
+   * Validates user input for the training definition
+   * @returns {boolean} return true if input passes the validation, false otherwise
+   */
   private validateTrainingDef(): boolean {
-    // TODO: Validate
+    // TODO: Validate input
     return true;
   }
 }

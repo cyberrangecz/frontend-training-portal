@@ -11,6 +11,10 @@ import {Observable} from "rxjs/internal/Observable";
   templateUrl: './training-definition.component.html',
   styleUrls: ['./training-definition.component.css']
 })
+/**
+ * Main component of training definition. Servers mainly as a wrapper and resolves id of a training specified in the URL.
+ * Training definition with provided id is retrieved from the server and passed to child component
+ */
 export class TrainingDefinitionComponent implements OnInit {
 
   trainingDefinition$: Observable<TrainingDefinition>;

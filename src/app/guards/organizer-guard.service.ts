@@ -4,6 +4,9 @@ import {Observable} from "rxjs/internal/Observable";
 import {ActiveUserService} from "../services/active-user.service";
 
 @Injectable()
+/**
+ * Guard which determines if user is signed in and has role of organizer.
+ */
 export class OrganizerGuard implements CanActivate {
 
 

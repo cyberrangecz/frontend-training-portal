@@ -10,6 +10,9 @@ import {SelectionModel} from "@angular/cdk/collections";
   templateUrl: './sandbox-definition-picker.component.html',
   styleUrls: ['./sandbox-definition-picker.component.css']
 })
+/**
+ * Component of sandbox definition picker dialog window. Lets the user to choose from list of sandbox definitions which will be associated with the training definition
+ */
 export class SandboxDefinitionPickerComponent implements OnInit {
 
   sandboxDefs$: Observable<SandboxDefinition[]>;
@@ -28,6 +31,9 @@ export class SandboxDefinitionPickerComponent implements OnInit {
     this.sandboxDefs$ = this.sandboxDefinitionGetter.getSandboxDefs();
   }
 
+  /**
+   * Closes the dialog window and passes the selected option to its parent component
+   */
   confirm() {
     const result = {
       type: 'confirm',
@@ -36,6 +42,9 @@ export class SandboxDefinitionPickerComponent implements OnInit {
     this.dialogRef.close(result);
   }
 
+  /**
+   * Closes the dialog window without passing the selected option
+   */
   cancel() {
     const result = {
       type: 'cancel',

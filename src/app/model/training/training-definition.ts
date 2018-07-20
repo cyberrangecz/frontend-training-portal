@@ -1,5 +1,8 @@
 import {TrainingDefinitionStateEnum} from "../../enums/training-definition-state.enum";
 
+/**
+ * Class representing training definition in a system.
+ */
 export class TrainingDefinition {
 
   id: number;

@@ -1,7 +1,9 @@
 import {AbstractLevel} from "./abstract-level";
 import {Hint} from "./hint";
-import {TrainingDefinition} from "../training/training-definition";
 
+/**
+ * Class representing level in a training of type Game
+ */
 export class GameLevel extends AbstractLevel {
 
   flag: string;

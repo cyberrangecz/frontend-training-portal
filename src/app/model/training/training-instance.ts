@@ -1,3 +1,6 @@
+/**
+ * Class representing training instance of a definition.
+ */
 export class TrainingInstance {
 
   id: number;

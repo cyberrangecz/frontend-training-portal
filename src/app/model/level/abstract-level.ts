@@ -1,4 +1,6 @@
-
+/**
+ * Parent class of all level types. Can't be instantiated
+ */
 export abstract class AbstractLevel {
   id: number;
   trainingDefinitionId: number;

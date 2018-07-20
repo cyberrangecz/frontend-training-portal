@@ -6,6 +6,9 @@ import {ActiveUserService} from "../../../services/active-user.service";
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.css']
 })
+/**
+ * Component of sidebar navigation. Changes dynamically based on roles of a user
+ */
 export class SidenavComponent implements OnInit, OnDestroy {
 
   private trainings;
@@ -29,6 +32,9 @@ export class SidenavComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Creates source objects for training navigation links
+   */
   private createTrainings() {
     this.trainings = [
       {
@@ -49,10 +55,16 @@ export class SidenavComponent implements OnInit, OnDestroy {
     ];
   }
 
+  /**
+   * Sets active trainings based on visibility of training objects
+   */
   private setActiveTrainings() {
     this.activeTrainings = this.trainings.filter(training => training.visible);
   }
 
+  /**
+   * Subscribes for changes of active (logged in) user and in case of changes recalculates visibility of trainings based on his roles.
+   */
   private subscribeUserChange() {
     this.userChangeSubscription = this.activeUserService.onActiveUserChanged
       .subscribe(id => {

@@ -1,5 +1,8 @@
 import {TrainingDefinition} from "../training/training-definition";
 
+/**
+ * Class representing sandbox definition in a system
+ */
 export class SandboxDefinition {
   id: number;
   title: string;

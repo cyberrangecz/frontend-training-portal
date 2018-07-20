@@ -5,6 +5,9 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './designer-overview.component.html',
   styleUrls: ['./designer-overview.component.css']
 })
+/**
+ * Main component of designer overview. Serves mainly as a wrapper for smaller components
+ */
 export class DesignerOverviewComponent implements OnInit {
 
   constructor() { }

@@ -4,6 +4,9 @@ import {ActiveUserService} from "../services/active-user.service";
 import {Observable} from "rxjs/internal/Observable";
 
 @Injectable()
+/**
+ * Guard which determines if user is signed in and has role of designer.
+ */
 export class DesignerGuard implements CanActivate {
 
   constructor(

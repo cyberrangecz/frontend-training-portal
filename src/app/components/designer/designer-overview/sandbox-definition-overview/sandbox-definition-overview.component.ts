@@ -13,6 +13,10 @@ import {SandboxDefinitionSetterService} from "../../../../services/data-setters/
   templateUrl: './sandbox-definition-overview.component.html',
   styleUrls: ['./sandbox-definition-overview.component.css']
 })
+/**
+ * Component displaying overview of sandbox definitions. Contains button for upload sandbox definitions,
+ * table with all sandbox definitions associated with currently logged in user and possible actions for sandbox definition.
+ */
 export class SandboxDefinitionOverviewComponent implements OnInit {
 
   displayedColumns: string[] = ['title', 'associatedTrainingDefs', 'authors', 'actions'];
@@ -36,6 +40,10 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
     this.createTableDataSource();
   }
 
+  /**
+   * Applies filter data source
+   * @param {string} filterValue value by which the data should be filtered. Inserted by user
+   */
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
     if (this.dataSource.paginator) {
@@ -43,6 +51,9 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
     }
   }
 
+  /**
+   * Displays dialog window to upload a file with sandbox definition and creates alert with a result of the upload
+   */
   uploadSandboxDefinition() {
     const dialogRef = this.dialog.open(SandboxUploadDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
@@ -51,26 +62,42 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
       }
     });
   }
-
-  removeSandboxDefinition(sandbox: SandboxDefinition) {
-    const index = this.dataSource.data.indexOf(sandbox);
+  /**
+   * Removes sandbox definition from data source and sends request to delete the sandbox in database
+   * @param {SandboxDefinition} sandboxDef sandbox definition which should be deleted
+   */
+  removeSandboxDefinition(sandboxDef: SandboxDefinition) {
+    const index = this.dataSource.data.indexOf(sandboxDef);
     if (index > -1) {
       this.dataSource.data.splice(index,1);
     }
     this.dataSource = new MatTableDataSource<SandboxDefinition>(this.dataSource.data);
 
-    this.sandboxDefinitionSetter.removeSandboxDefinition(sandbox.id);
+    this.sandboxDefinitionSetter.removeSandboxDefinition(sandboxDef.id);
   }
 
+  /**
+   * Replaces the original sandbox definition with a new one uploaded by the user.
+   * Opens dialog window where user can choose file to upload
+   * @param {number} id id of sandbox definition which should be replaced
+   */
   updateSandboxDefinition(id: number) {
     // TODO: replace original file with the new one
     this.uploadSandboxDefinition();
   }
 
+  /**
+   * Deploys sandbox definition TBD
+   * @param {number} id id of sandbox definition which should be deployed
+   */
   deploySandboxDefinition(id: number) {
     // TODO: deploy
   }
 
+  /**
+   * Creates table data source from sandbox definitions retrieved from a server. Only sandbox definitions where
+   * active user is listed as an author are shown
+   */
   private createTableDataSource() {
     this.sandboxDefinitionGetter.getSandboxDefsByAuthorId(this.activeUserService.getActiveUser().id)
       .subscribe(sandboxes => {

@@ -1,6 +1,8 @@
 import {AbstractLevel} from "./abstract-level";
-import {TrainingDefinition} from "../training/training-definition";
 
+/**
+ * Class representing single level in a training of type Info
+ */
 export class InfoLevel extends AbstractLevel {
   content: Blob; // HTML -> use string?
 

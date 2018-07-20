@@ -1,7 +1,10 @@
 import {AssessmentTypeEnum} from "../../enums/assessment-type.enum";
 import {AbstractLevel} from "./abstract-level";
 
-export class AssesmentLevel extends AbstractLevel {
+/**
+ * Class representing level in a game of type Assessment
+ */
+export class AssessmentLevel extends AbstractLevel {
   questions: JSON;
   instructions: string;
   assessmentType: AssessmentTypeEnum;

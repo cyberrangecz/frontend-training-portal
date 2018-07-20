@@ -10,6 +10,9 @@ import {UserRoleEnum} from "../../../../../enums/user-role.enum";
   templateUrl: './authors-picker.component.html',
   styleUrls: ['./authors-picker.component.css']
 })
+/**
+ * Component of authors picker dialog window. Lets the user to choose from list of authors which will be associated with the training definition
+ */
 export class AuthorsPickerComponent implements OnInit {
 
   authors$: Observable<User[]>;
@@ -24,8 +27,10 @@ export class AuthorsPickerComponent implements OnInit {
     this.authors$ = this.userGetter.loadUsersByRoles([UserRoleEnum.Designer]);
   }
 
+  /**
+   * Closes the dialog window and passes the selected option to its parent component
+   */
   confirm() {
-
     const result = {
       type: 'confirm',
       authors: this.selectedAuthors
@@ -33,6 +38,9 @@ export class AuthorsPickerComponent implements OnInit {
     this.dialogRef.close(result);
   }
 
+  /**
+   * Closes the dialog window without passing the selected option
+   */
   cancel() {
     const result = {
       type: 'cancel',

@@ -7,6 +7,9 @@ import {MatDialogRef} from "@angular/material";
   templateUrl: './sandbox-upload-dialog.component.html',
   styleUrls: ['./sandbox-upload-dialog.component.css']
 })
+/**
+ * Component of sandbox definition upload dialog window
+ */
 export class SandboxUploadDialogComponent implements OnInit {
 
   uploadedFile;
@@ -18,6 +21,9 @@ export class SandboxUploadDialogComponent implements OnInit {
   ngOnInit() {
   }
 
+  /**
+   * Cancels the upload and closes the dialog window
+   */
   cancel() {
     // Only for testing purposes, return null in production
     const result = {
@@ -28,6 +34,9 @@ export class SandboxUploadDialogComponent implements OnInit {
     // this.dialogRef.close(null);
   }
 
+  /**
+   * Uploads chosen file to a server and displays result of the upload
+   */
   upload() {
     // TODO: upload file and return result
     const result = {
@@ -37,6 +46,9 @@ export class SandboxUploadDialogComponent implements OnInit {
     this.dialogRef.close(result)
   }
 
+  /**
+   * Enables user to choose the file which should be uploaded
+   */
   chooseFile() {
     // TODO: choose file
   }

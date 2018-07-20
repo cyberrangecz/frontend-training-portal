@@ -14,9 +14,13 @@ import {TrainingDefinitionSetterService} from "../../../../services/data-setters
   templateUrl: './training-definition-overview.component.html',
   styleUrls: ['./training-definition-overview.component.css']
 })
+/**
+ * Component displaying overview of training definitions. Contains buttons for upload and creating new training definitions,
+ * table with all training definitions associated with currently logged in user and possible actions for each training definition.
+ */
 export class TrainingDefinitionOverviewComponent implements OnInit {
 
-  // needed to compare against enums in template
+  // needed to compare values against enums in a template
   trainingStateEnum = TrainingDefinitionStateEnum;
 
   displayedColumns: string[] = ['title', 'description', 'status', 'authors', 'actions'];
@@ -40,6 +44,10 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
     this.createTableDataSource();
   }
 
+  /**
+   * Applies filter data source
+   * @param {string} filterValue value by which the data should be filtered. Inserted by user
+   */
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
     if (this.dataSource.paginator) {
@@ -47,10 +55,16 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
     }
   }
 
+  /**
+   * Navigates to training sub route with parameters indicating creation of a new training definition
+   */
   newTrainingDefinition() {
     this.router.navigate(['training', { id: null }], { relativeTo: this.activatedRoute })
   }
 
+  /**
+   * Displays dialog window to upload a file with training definition and creates alert with a result of the upload
+   */
   uploadTrainingDefinition() {
     const dialogRef = this.dialog.open(TrainingUploadDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
@@ -60,35 +74,52 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
     });
   }
 
+  /**
+   * Navigates to training sub route with parameters indicating editing of an existing training definition
+   * @param {number} trainingDefId id of a training definition which should be edited
+   */
   editTrainingDefinition(trainingDefId: number) {
     this.router.navigate(['training', { id: trainingDefId }], { relativeTo: this.activatedRoute })
   }
 
+  /**
+   * Downloads selected training definitions
+   * @param {number} id id of training definition which should be downloaded
+   */
   downloadTrainingDefinition(id: number) {
     // TODO: Download training definition
   }
 
-  removeTrainingDefinition(training: TrainingDefinition) {
-    const index = this.dataSource.data.indexOf(training);
+  /**
+   * Removes training definition from data source and sends request to delete the training in database
+   * @param {TrainingDefinition} trainingDef training definition which should be deleted
+   */
+  removeTrainingDefinition(trainingDef: TrainingDefinition) {
+    const index = this.dataSource.data.indexOf(trainingDef);
     if (index > -1) {
       this.dataSource.data.splice(index,1);
     }
     this.dataSource = new MatTableDataSource<TrainingDefinition>(this.dataSource.data);
 
-    this.trainingDefinitionSetter.removeTrainingDefinition(training.id);
+    this.trainingDefinitionSetter.removeTrainingDefinition(trainingDef.id);
   }
 
-  cloneTrainingDefinition(training: TrainingDefinition) {
+  /**
+   * Clones chosen training definition with title of 'Clone of ...' and sets same values of attributes as the original training definition.
+   * Sends request to create new cloned training definition in a database
+   * @param {TrainingDefinition} trainingDef training definition which should be cloned
+   */
+  cloneTrainingDefinition(trainingDef: TrainingDefinition) {
     const clone = new TrainingDefinition(
-      training.sandboxDefinitionId,
-      training.authorIds,
-      training.state,
-      training.levels,
+      trainingDef.sandboxDefinitionId,
+      trainingDef.authorIds,
+      trainingDef.state,
+      trainingDef.levels,
     );
-    clone.title = 'Clone of ' + training.title;
-    clone.outcomes = training.outcomes;
-    clone.prerequisites = training.prerequisites;
-    clone.description = training.description;
+    clone.title = 'Clone of ' + trainingDef.title;
+    clone.outcomes = trainingDef.outcomes;
+    clone.prerequisites = trainingDef.prerequisites;
+    clone.description = trainingDef.description;
 
     this.dataSource.data.push(clone);
     this.dataSource = new MatTableDataSource<TrainingDefinition>(this.dataSource.data);
@@ -96,11 +127,19 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
     this.trainingDefinitionSetter.addTrainingDefinition(clone);
   }
 
-  archiveTrainingDefinition(training: TrainingDefinition) {
-    training.state = TrainingDefinitionStateEnum.Archived;
-    this.trainingDefinitionSetter.editTrainingDefinition(training);
+  /**
+   * Archives chosen training definition and sends request to edit the training definition in a database
+   * @param {TrainingDefinition} trainingDef training definition which should be edited
+   */
+  archiveTrainingDefinition(trainingDef: TrainingDefinition) {
+    trainingDef.state = TrainingDefinitionStateEnum.Archived;
+    this.trainingDefinitionSetter.editTrainingDefinition(trainingDef);
   }
 
+  /**
+   * Creates table data source from training definitions retrieved from a server. Only training definitions where
+   * active user is listed as an author are shown
+   */
   private createTableDataSource() {
     this.trainingDefinitionGetter.getTrainingDefsByAuthorId(this.activeUserService.getActiveUser().id)
       .subscribe(trainings => {

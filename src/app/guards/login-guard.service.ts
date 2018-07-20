@@ -4,6 +4,9 @@ import {ActiveUserService} from "../services/active-user.service";
 import {Observable} from "rxjs/internal/Observable";
 
 @Injectable()
+/**
+ * Guard which determines if user is NOT signed in and can access login page.
+ */
 export class LoginGuard implements CanActivate {
 
   constructor(
