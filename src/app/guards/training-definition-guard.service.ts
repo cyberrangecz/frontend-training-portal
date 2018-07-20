@@ -1,15 +1,18 @@
 import {Injectable} from "@angular/core";
-import {ActivatedRouteSnapshot, CanActivate, ParamMap, Router, RouterStateSnapshot} from "@angular/router";
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
 import {Observable} from "rxjs/internal/Observable";
 import {ActiveUserService} from "../services/active-user.service";
 import {TrainingDefinitionGetterService} from "../services/data-getters/training-definition-getter.service";
 import {map} from "rxjs/operators";
+import {TrainingDefinitionStateEnum} from "../enums/training-definition-state.enum";
+import {AlertService} from "../services/event-services/alert.service";
 
 @Injectable()
 export class TrainingDefinitionGuard implements CanActivate {
 
   constructor(
     private router: Router,
+    private alertService: AlertService,
     private activeUserService: ActiveUserService,
     private trainingDefinitionGetter: TrainingDefinitionGetterService) {
   }
@@ -25,19 +28,17 @@ export class TrainingDefinitionGuard implements CanActivate {
 
     // iq is not a number and does not equal null
     if (Number.isNaN(id) && paramString !== 'null') {
-      this.router.navigate(['designer/training', {id: null}]);
+      this.router.navigate(['not-authorized']);
       return false;
     }
 
     return this.trainingDefinitionGetter.getTrainingDefById(id)
       .pipe(map((trainingDef => {
-        // training definition with such id does not exist
-        if (!trainingDef) {
-          this.router.navigate(['designer/training', {id: null}]);
-          return false;
-          // training definition with such id exists but user is not authorized to access it
-        } else if (!trainingDef.authorIds.includes(this.activeUserService.getActiveUser().id)) {
-          this.router.navigate(['designer']);
+        // Training definition with such id either does not exist, cannot be edited or user is not authorized to edit it
+        if (!trainingDef
+          || trainingDef.state !== TrainingDefinitionStateEnum.Unreleased
+          || !trainingDef.authorIds.includes(this.activeUserService.getActiveUser().id)) {
+          this.router.navigate(['not-authorized']);
           return false;
         }
         return true;

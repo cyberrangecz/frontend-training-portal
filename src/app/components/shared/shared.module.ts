@@ -7,6 +7,8 @@ import {SidenavComponent} from "./sidenav/sidenav.component";
 import {UserMenuComponent} from "./toolbar/user-menu/user-menu.component";
 import {ToolbarComponent} from "./toolbar/toolbar.component";
 import {AlertComponent} from "./alert/alert.component";
+import {NotAuthorizedComponent} from "./not-authorized/not-authorized.component";
+import {AlertService} from "../../services/event-services/alert.service";
 
 @NgModule({
   declarations: [
@@ -14,7 +16,8 @@ import {AlertComponent} from "./alert/alert.component";
     ToolbarComponent,
     UserMenuComponent,
     SidenavComponent,
-    AlertComponent
+    AlertComponent,
+    NotAuthorizedComponent
   ],
   imports: [
     CommonModule,
@@ -26,7 +29,11 @@ import {AlertComponent} from "./alert/alert.component";
     ToolbarComponent,
     UserMenuComponent,
     SidenavComponent,
-    AlertComponent
+    AlertComponent,
+    NotAuthorizedComponent
+  ],
+  providers: [
+    AlertService
   ]
 })
 

@@ -6,6 +6,7 @@ import {DesignerGuard} from "./guards/designer-guard.service";
 import {OrganizerGuard} from "./guards/organizer-guard.service";
 import {TraineeGuard} from "./guards/trainee-guard.service";
 import {NotFoundComponent} from "./components/shared/not-found/not-found.component";
+import {NotAuthorizedComponent} from "./components/shared/not-authorized/not-authorized.component";
 
 const routes: Routes = [
   {
@@ -32,6 +33,10 @@ const routes: Routes = [
     path: 'trainee',
     loadChildren: 'app/components/trainee/trainee.module#TraineeModule',
     canActivate: [TraineeGuard]
+  },
+  {
+    path: 'not-authorized',
+    component: NotAuthorizedComponent
   },
   {
     path: '',
