@@ -1,12 +1,12 @@
 <div class="alert">
-  <mat-card *ngIf="message"
-            ngClass="{{message.type}}">
+  <mat-card *ngIf="alert"
+            ngClass="{{alert.type}}">
     <mat-card-header>
-      <mat-card-title>{{ message.type }}</mat-card-title>
+      <mat-card-title>{{ alert.type }}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <p>
-        {{ message.payload }}
+      <p *ngFor="let message of messages">
+        {{ message }}
       </p>
     </mat-card-content>
     <mat-card-actions>

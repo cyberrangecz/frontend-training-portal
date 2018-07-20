@@ -91,7 +91,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
       this.trainingDefinitionSetter.addTrainingDefinition(this.trainingDefinition);
       this.alertService.emitAlert(AlertTypeEnum.Success, 'Training definition was successfully saved');
     } else {
-      // error message
+      // error alert
     }
   }
 

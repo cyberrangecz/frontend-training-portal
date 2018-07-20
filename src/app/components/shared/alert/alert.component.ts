@@ -8,11 +8,12 @@ import {AlertService} from "../../../services/event-services/alert.service";
   styleUrls: ['./alert.component.css']
 })
 /**
- * Displays alert message in form of Material card. Colour is derived from type of the alert and message from alert event is displayed
+ * Displays alert alert in form of Material card. Colour is derived from type of the alert and alert from alert event is displayed
  */
 export class AlertComponent implements OnInit, OnDestroy {
 
-  message: AlertEvent = null;
+  alert: AlertEvent = null;
+  messages: string[];
 
   alertSubscription;
 
@@ -33,7 +34,7 @@ export class AlertComponent implements OnInit, OnDestroy {
    * Deletes current alert
    */
   dismissAlert() {
-    this.message = null;
+    this.alert = null;
   }
 
   /**
@@ -42,7 +43,8 @@ export class AlertComponent implements OnInit, OnDestroy {
   private subscribeAlert() {
     this.alertSubscription = this.designerAlertService.onAlertEventEmitted.subscribe(
       alert => {
-        this.message = alert;
+        this.alert = alert;
+        this.messages = alert.payload.split('\n');
       }
     )
   }

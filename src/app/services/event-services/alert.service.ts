@@ -18,7 +18,7 @@ export class AlertService {
   /**
    * Emits new alert
    * @param {AlertTypeEnum} alertType type of alert
-   * @param {string} message message to display to user
+   * @param {string} message alert to display to user
    */
   emitAlert(alertType: AlertTypeEnum, message: string) {
     this._onAlertEventEmittedSubject.next(new AlertEvent(alertType, message));
