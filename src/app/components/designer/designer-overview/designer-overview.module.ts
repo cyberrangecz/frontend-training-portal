@@ -15,6 +15,7 @@ import {TrainingDefinitionSetterService} from "../../../services/data-setters/tr
 import {TrainingInstanceGetterService} from "../../../services/data-getters/training-instance-getter.service";
 import {SandboxDefinitionSetterService} from "../../../services/data-setters/sandbox-definition-setter.service";
 import {SharedModule} from "../../shared/shared.module";
+import {TrainingDefinitionGuard} from "../../../guards/training-definition-guard.service";
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import {SharedModule} from "../../shared/shared.module";
     SandboxUploadDialogComponent
   ],
   providers: [
+    TrainingDefinitionGuard,
     TrainingDefinitionGetterService,
     TrainingDefinitionSetterService,
     TrainingInstanceGetterService,

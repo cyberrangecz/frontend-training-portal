@@ -27,6 +27,13 @@ export class TrainingDefinitionComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getTrainingDefFromUrl();
+  }
+
+  /**
+   * Gets training definition from url parameter and passes it to child components.
+   */
+  private getTrainingDefFromUrl() {
     this.trainingDefinition$ = this.route.paramMap
       .pipe(switchMap((params: ParamMap) => {
         const id = +params.get('id');

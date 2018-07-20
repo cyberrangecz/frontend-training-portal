@@ -11,6 +11,8 @@ import {User} from "../../../../model/user/user";
 import {SandboxDefinition} from "../../../../model/sandbox/sandbox-definition";
 import {UserGetterService} from "../../../../services/data-getters/user-getter.service";
 import {SandboxDefinitionGetterService} from "../../../../services/data-getters/sandbox-definition-getter.service";
+import {Router} from "@angular/router";
+import {ActiveUserService} from "../../../../services/active-user.service";
 
 /**
  * Component for creating new or editing already existing training definition
@@ -35,7 +37,9 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
   states: string[];
 
   constructor(
+    private router: Router,
     private dialog: MatDialog,
+    private activeUserService: ActiveUserService,
     private alertService: AlertService,
     private userGetter: UserGetterService,
     private sandboxDefinitionGetter: SandboxDefinitionGetterService,

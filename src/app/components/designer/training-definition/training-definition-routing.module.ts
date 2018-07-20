@@ -5,7 +5,7 @@ import {TrainingDefinitionComponent} from "./training-definition.component";
 const routes: Routes = [
   {
     path: '',
-    component: TrainingDefinitionComponent
+    component: TrainingDefinitionComponent,
   },
 ];
 

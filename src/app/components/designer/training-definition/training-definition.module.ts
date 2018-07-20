@@ -9,6 +9,7 @@ import {SharedModule} from "../../shared/shared.module";
 import {FormsModule} from "@angular/forms";
 import { AuthorsPickerComponent } from './training-configuration/authors-picker/authors-picker.component';
 import { SandboxDefinitionPickerComponent } from './training-configuration/sandbox-definition-picker/sandbox-definition-picker.component';
+import {TrainingDefinitionGuard} from "../../../guards/training-definition-guard.service";
 
 @NgModule({
   imports: [
