@@ -13,8 +13,8 @@
 
     <!-- AUTHORS field-->
     <div class="line-with-button">
-      <p *ngIf="authors">Authors: {{ authors }}</p>
-      <p *ngIf="!authors">Authors:</p>
+      <p *ngIf="authors" style="color: black">Authors: {{ authors }}</p>
+      <p *ngIf="!authors">Authors*</p>
       <span class="spacer"></span>
       <button (click)="chooseAuthors()"
         mat-raised-button color="accent">
@@ -63,8 +63,8 @@
 
     <!-- SANDBOX DEFINITION field-->
     <div class="line-with-button">
-      <p *ngIf="sandboxDef"> Sandbox Definition: {{ sandboxDef }}</p>
-      <p *ngIf="!sandboxDef">Sandbox Definition:</p>
+      <p *ngIf="sandboxDef" style="color: black"> Sandbox Definition: {{ sandboxDef }}</p>
+      <p *ngIf="!sandboxDef">Sandbox Definition*</p>
       <span class="spacer"></span>
       <button (click)="chooseSandboxDefs()"
         mat-raised-button color="accent">

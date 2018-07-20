@@ -27,6 +27,6 @@ export class TrainingDefinition {
   }
 
   toString() {
-    return this.title;
+    return this.id;
   }
 }

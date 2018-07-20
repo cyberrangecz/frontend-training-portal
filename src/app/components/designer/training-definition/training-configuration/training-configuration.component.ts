@@ -86,8 +86,8 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
    * Saves created or edited training definition, validates the input and send request to save the training definition in database
    */
   saveTrainingDef() {
-    this.setInputValuesToTrainingDef();
-    if (this.validateTrainingDef()) {
+    if (this.validateInput()) {
+      this.setInputValuesToTrainingDef();
       this.trainingDefinitionSetter.addTrainingDefinition(this.trainingDefinition);
       this.alertService.emitAlert(AlertTypeEnum.Success, 'Training definition was successfully saved');
     } else {
@@ -157,8 +157,19 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
    * Validates user input for the training definition
    * @returns {boolean} return true if input passes the validation, false otherwise
    */
-  private validateTrainingDef(): boolean {
+  private validateInput(): boolean {
     // TODO: Validate input
+    let errorMessage: string = '';
+    if (!this.authors || this.authors.length === 0) {
+      errorMessage += 'Authors cannot be empty\n';
+    }
+    if (!this.sandboxDef) {
+      errorMessage += 'Sandbox definition cannot be empty\n';
+    }
+    if (errorMessage !== '') {
+      this.alertService.emitAlert(AlertTypeEnum.Error, errorMessage);
+      return false;
+    }
     return true;
   }
 }
