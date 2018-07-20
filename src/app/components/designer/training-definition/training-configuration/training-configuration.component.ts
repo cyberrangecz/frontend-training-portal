@@ -160,6 +160,10 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
   private validateInput(): boolean {
     // TODO: Validate input
     let errorMessage: string = '';
+    if (!this.title || this.title.replace(/\s/g, '') === '') {
+      errorMessage += 'Title cannot be empty\n'
+    }
+
     if (!this.authors || this.authors.length === 0) {
       errorMessage += 'Authors cannot be empty\n';
     }

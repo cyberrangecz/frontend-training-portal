@@ -4,6 +4,8 @@ import {map, switchMap} from "rxjs/operators";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {TrainingDefinitionGetterService} from "../../../services/data-getters/training-definition-getter.service";
 import {Observable} from "rxjs/internal/Observable";
+import {AbstractLevel} from "../../../model/level/abstract-level";
+import {LevelGetterService} from "../../../services/data-getters/level-getter.service";
 
 
 @Component({
@@ -18,26 +20,40 @@ import {Observable} from "rxjs/internal/Observable";
 export class TrainingDefinitionComponent implements OnInit {
 
   trainingDefinition$: Observable<TrainingDefinition>;
+  levels$: Observable<AbstractLevel[]>;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private trainingDefinitionGetter: TrainingDefinitionGetterService) {
+    private trainingDefinitionGetter: TrainingDefinitionGetterService,
+    private levelGetter: LevelGetterService) {
 
   }
 
   ngOnInit() {
     this.getTrainingDefFromUrl();
+    this.getLevelsByTrainingDefFromUrl();
   }
 
   /**
-   * Gets training definition from url parameter and passes it to child components.
+   * Gets training definition from url parameter and passes it to child component
    */
   private getTrainingDefFromUrl() {
     this.trainingDefinition$ = this.route.paramMap
       .pipe(switchMap((params: ParamMap) => {
         const id = +params.get('id');
         return id === null ? null : this.trainingDefinitionGetter.getTrainingDefById(id);
+      }));
+  }
+
+  /**
+   * Gets levels assigned to the training definition specified in url parameter and passes it to child component
+   */
+  private getLevelsByTrainingDefFromUrl() {
+    this.levels$ = this.route.paramMap
+      .pipe(switchMap((params: ParamMap) => {
+        const id = +params.get('id');
+        return id === null ? null : this.levelGetter.getLevelsByTrainingDefId(id);
       }));
   }
 

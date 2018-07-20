@@ -1,3 +1,10 @@
-<p>
-  training-level-stepper works!
-</p>
+<mat-horizontal-stepper  #stepper>
+  <mat-step *ngFor="let level of levels">
+    {{ level }}
+  </mat-step>
+  <button mat-icon-button
+          color="primary"
+          (click)="addLevel()">
+    <mat-icon>add_circle</mat-icon>
+  </button>
+</mat-horizontal-stepper>

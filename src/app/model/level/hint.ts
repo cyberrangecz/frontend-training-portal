@@ -9,8 +9,7 @@ export class Hint {
   hintPenalty: number = 0;
 
 
-  constructor(gameLevelId: number, title: string, content: Blob, hintPenalty: number) {
-    this.gameLevelId = gameLevelId;
+  constructor(title: string, content: Blob, hintPenalty: number) {
     this.title = title;
     this.content = content;
     this.hintPenalty = hintPenalty;

@@ -1,0 +1,12 @@
+{
+  "levels": [
+    {
+      "id": 1,
+      "type": "assessment",
+      "training_definition_id": 1,
+      "title": "test level",
+      "max_score": 100,
+      "order": 1
+    }
+  ]
+}
