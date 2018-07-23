@@ -24,6 +24,8 @@ export class TrainingDefinitionComponent implements OnInit {
   levels$: Observable<AbstractLevel[]>;
   trainingDefId: number;
 
+  isTrainingSaved: boolean;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -37,6 +39,10 @@ export class TrainingDefinitionComponent implements OnInit {
     this.getLevelsByTrainingDefFromUrl();
   }
 
+  trainingSavedChange(event: boolean) {
+    this.isTrainingSaved = event;
+  }
+
   /**
    * Gets training definition from url parameter and passes it to child component
    */
@@ -44,6 +50,7 @@ export class TrainingDefinitionComponent implements OnInit {
     this.trainingDefinition$ = this.route.paramMap
       .pipe(switchMap((params: ParamMap) => {
         this.trainingDefId = +params.get('id');
+        this.isTrainingSaved = !Number.isNaN(this.trainingDefId);
         return this.trainingDefId === null ? null : this.trainingDefinitionGetter.getTrainingDefById(this.trainingDefId);
       }));
   }

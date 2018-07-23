@@ -2,12 +2,16 @@
 <div class="content">
   <div class="training-config">
     <training-configuration
+      (isTrainingSaved)="trainingSavedChange($event)"
       [trainingDefinition]="trainingDefinition$ | async">
     </training-configuration>
   </div>
   <mat-divider [vertical]="true"></mat-divider>
   <div class="level">
-    <training-level-stepper [trainingDefinitionId]="trainingDefId" [levels]="levels$ | async"></training-level-stepper>
+    <training-level-stepper
+      [isTrainingSaved]="isTrainingSaved"
+      [trainingDefinitionId]="trainingDefId"
+      [levels]="levels$ | async"></training-level-stepper>
   </div>
 </div>
 

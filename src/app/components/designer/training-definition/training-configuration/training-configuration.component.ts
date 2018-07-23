@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {TrainingDefinition} from "../../../../model/training/training-definition";
 import {TrainingDefinitionStateEnum} from "../../../../enums/training-definition-state.enum";
 import {TrainingDefinitionSetterService} from "../../../../services/data-setters/training-definition-setter.service";
@@ -25,6 +25,8 @@ import {ActiveUserService} from "../../../../services/active-user.service";
 export class TrainingConfigurationComponent implements OnInit, OnChanges {
 
   @Input('trainingDefinition') trainingDefinition: TrainingDefinition;
+  @Output('isTrainingSaved') savedTrainingChange = new EventEmitter<boolean>();
+
   editMode: boolean;
 
   title: string;
@@ -90,6 +92,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     if (this.validateInput()) {
       this.setInputValuesToTrainingDef();
       this.sendRequestToSaveChanges();
+      this.savedTrainingChange.emit(true);
       this.alertService.emitAlert(AlertTypeEnum.Success, 'Training definition was successfully saved');
     } else {
       // error alert

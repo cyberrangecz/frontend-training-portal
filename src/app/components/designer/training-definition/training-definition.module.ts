@@ -10,6 +10,7 @@ import {FormsModule} from "@angular/forms";
 import { AuthorsPickerComponent } from './training-configuration/authors-picker/authors-picker.component';
 import { SandboxDefinitionPickerComponent } from './training-configuration/sandbox-definition-picker/sandbox-definition-picker.component';
 import {LevelGetterService} from "../../../services/data-getters/level-getter.service";
+import {LevelConfigurationModule} from "./level-configuration/level-configuration.module";
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import {LevelGetterService} from "../../../services/data-getters/level-getter.se
     FormsModule,
     SharedModule,
     TrainingDefinitionRoutingModule,
-    TrainingDefinitionMaterialModule
+    TrainingDefinitionMaterialModule,
+    LevelConfigurationModule
   ],
   declarations: [
     TrainingDefinitionComponent,

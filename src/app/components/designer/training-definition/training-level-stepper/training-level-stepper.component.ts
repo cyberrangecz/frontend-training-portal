@@ -13,6 +13,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class TrainingLevelStepperComponent implements OnInit, OnChanges {
 
+  @Input('isTrainingSaved') isTrainingSaved: boolean;
   @Input('trainingDefinitionId') trainingDefinitionId: number;
   @Input('levels') levels: AbstractLevel[];
 
@@ -28,6 +29,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
       this.resolveInitialLevels();
     }
   }
+
 
   private resolveInitialLevels() {
     if (!this.levels) {
@@ -74,7 +76,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
   }
 
   navigateTo(event) {
-    this.router.navigate(['', {outlets: {'level': [event.selectedIndex]}}], {relativeTo: this.activatedRoute});
+    this.router.navigate(['levels', {outlets: {'level': [event.selectedIndex]}}], {relativeTo: this.activatedRoute});
   }
 }
 
