@@ -20,7 +20,9 @@ import {LevelGetterService} from "../../../services/data-getters/level-getter.se
 export class TrainingDefinitionComponent implements OnInit {
 
   trainingDefinition$: Observable<TrainingDefinition>;
+
   levels$: Observable<AbstractLevel[]>;
+  trainingDefId: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -41,8 +43,8 @@ export class TrainingDefinitionComponent implements OnInit {
   private getTrainingDefFromUrl() {
     this.trainingDefinition$ = this.route.paramMap
       .pipe(switchMap((params: ParamMap) => {
-        const id = +params.get('id');
-        return id === null ? null : this.trainingDefinitionGetter.getTrainingDefById(id);
+        this.trainingDefId = +params.get('id');
+        return this.trainingDefId === null ? null : this.trainingDefinitionGetter.getTrainingDefById(this.trainingDefId);
       }));
   }
 

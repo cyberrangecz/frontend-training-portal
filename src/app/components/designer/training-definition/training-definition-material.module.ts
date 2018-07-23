@@ -4,7 +4,7 @@ import {
   MatDialogModule, MatDividerModule,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule, MatListModule,
+  MatInputModule, MatListModule, MatMenuModule,
   MatSelectModule, MatStepperModule
 } from "@angular/material";
 
@@ -18,7 +18,9 @@ import {
     MatDialogModule,
     MatDividerModule,
     MatListModule,
-    MatStepperModule
+    MatStepperModule,
+    MatMenuModule,
+    MatDividerModule
   ],
   exports: [
     MatFormFieldModule,
@@ -29,7 +31,9 @@ import {
     MatDialogModule,
     MatDividerModule,
     MatListModule,
-    MatStepperModule
+    MatStepperModule,
+    MatMenuModule,
+    MatDividerModule
   ]
 })
 

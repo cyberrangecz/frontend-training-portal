@@ -96,6 +96,9 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Sends request to endpoint to save changes in edited training definition or to create a new one based on currently active mode
+   */
   private sendRequestToSaveChanges() {
     if (this.editMode) {
       this.trainingDefinitionSetter.editTrainingDefinition(this.trainingDefinition);

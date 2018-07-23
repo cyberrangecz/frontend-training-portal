@@ -1,10 +1,38 @@
-<mat-horizontal-stepper  #stepper>
-  <mat-step *ngFor="let level of levels">
-    {{ level }}
-  </mat-step>
-  <button mat-icon-button
-          color="primary"
-          (click)="addLevel()">
+<div class="header">
+  <h2>Levels</h2>
+  <button class="add-level" mat-icon-button color="primary" [matMenuTriggerFor]="menu">
     <mat-icon>add_circle</mat-icon>
   </button>
-</mat-horizontal-stepper>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item
+            (click)="addGameLevel()">
+      <mat-icon>videogame_asset</mat-icon>
+      <span>Game level</span>
+    </button>
+    <button mat-menu-item
+            (click)="addAssessmentLevel()">
+      <mat-icon>question_answer</mat-icon>
+      <span>Assessment level</span>
+    </button>
+    <button mat-menu-item
+            (click)="addInfoLevel()">
+      <mat-icon>info</mat-icon>
+      <span>Info level</span>
+    </button>
+  </mat-menu>
+</div>
+
+
+<div class="content">
+  <mat-horizontal-stepper
+    (selectionChange)="navigateTo($event)"
+    *ngIf="levels.length > 0" #stepper>
+    <mat-step *ngFor="let level of levels; index as i">
+      <ng-template matStepLabel>Level {{ i + 1 }}</ng-template>
+      <div class="step-content">
+        <router-outlet name="level"></router-outlet>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>
+

@@ -1,9 +1,13 @@
 <shared-alert></shared-alert>
 <div class="content">
-  <training-configuration
-    [trainingDefinition]="trainingDefinition$ | async"></training-configuration>
+  <div class="training-config">
+    <training-configuration
+      [trainingDefinition]="trainingDefinition$ | async">
+    </training-configuration>
+  </div>
+  <mat-divider [vertical]="true"></mat-divider>
   <div class="level">
-    <training-level-stepper [levels]="levels$ | async"></training-level-stepper>
+    <training-level-stepper [trainingDefinitionId]="trainingDefId" [levels]="levels$ | async"></training-level-stepper>
   </div>
 </div>
 

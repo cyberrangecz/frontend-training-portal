@@ -7,6 +7,11 @@ const routes: Routes = [
     path: '',
     component: TrainingDefinitionComponent,
   },
+  {
+    path: 'level',
+    loadChildren: 'app/components/designer/training-definition/level-configuration/level-configuration.module#LevelConfigurationModule',
+    outlet: 'level'
+  }
 ];
 
 @NgModule({

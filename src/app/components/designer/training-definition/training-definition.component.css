@@ -1,23 +1,25 @@
-shared-alert {
-
-}
 
 .content {
   margin: 20px;
   display: flex;
+  width: calc(100% - 40px);
   justify-content: center;
 }
 
 .level {
-  flex-grow: 10;
+  flex: 80%;
+  margin: 20px;
   display: flex;
   flex-direction: column;
 }
 
-training-configuration {
-  flex-grow: 1;
+.training-config {
+  flex: 20%;
+  min-width: 20%;
 }
 
-training-level-stepper {
-
+@media screen and (max-width: 800px) {
+  .content {
+    flex-direction: column;
+  }
 }
