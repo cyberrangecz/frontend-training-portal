@@ -8,6 +8,7 @@
 
 .level {
   flex: 80%;
+  max-width: calc(80% - 20px);
   margin: 20px;
   display: flex;
   flex-direction: column;
