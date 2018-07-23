@@ -25,6 +25,7 @@ import {ActiveUserService} from "../../../../services/active-user.service";
 export class TrainingConfigurationComponent implements OnInit, OnChanges {
 
   @Input('trainingDefinition') trainingDefinition: TrainingDefinition;
+  editMode: boolean;
 
   title: string;
   description: string;
@@ -88,10 +89,18 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
   saveTrainingDef() {
     if (this.validateInput()) {
       this.setInputValuesToTrainingDef();
-      this.trainingDefinitionSetter.addTrainingDefinition(this.trainingDefinition);
+      this.sendRequestToSaveChanges();
       this.alertService.emitAlert(AlertTypeEnum.Success, 'Training definition was successfully saved');
     } else {
       // error alert
+    }
+  }
+
+  private sendRequestToSaveChanges() {
+    if (this.editMode) {
+      this.trainingDefinitionSetter.editTrainingDefinition(this.trainingDefinition);
+    } else {
+      this.trainingDefinitionSetter.addTrainingDefinition(this.trainingDefinition);
     }
   }
 
@@ -100,6 +109,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
    */
   private resolveInitialTraining() {
     if (!this.trainingDefinition) {
+      this.editMode = false;
       this.initValuesForNewTraining();
       this.trainingDefinition = new TrainingDefinition(
         null,
@@ -109,6 +119,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
       );
       this.trainingDefinition.title = 'New Training Definition'
     } else {
+      this.editMode = true;
       this.initValuesForEdit();
     }
   }
