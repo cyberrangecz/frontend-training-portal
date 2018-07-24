@@ -25,12 +25,11 @@
 
 <div class="content">
   <mat-horizontal-stepper
-    (selectionChange)="navigateTo($event)"
     *ngIf="levels.length > 0" #stepper>
     <mat-step *ngFor="let level of levels; index as i">
       <ng-template matStepLabel>Level {{ i + 1 }}</ng-template>
       <div class="step-content">
-        <router-outlet name="level"></router-outlet>
+        <level-configuration [level]="level"></level-configuration>
       </div>
     </mat-step>
   </mat-horizontal-stepper>

@@ -175,7 +175,6 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
    * @returns {boolean} return true if input passes the validation, false otherwise
    */
   private validateInput(): boolean {
-    // TODO: Validate input
     let errorMessage: string = '';
     if (!this.title || this.title.replace(/\s/g, '') === '') {
       errorMessage += 'Title cannot be empty\n'

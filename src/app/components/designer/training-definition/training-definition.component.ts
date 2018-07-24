@@ -49,9 +49,12 @@ export class TrainingDefinitionComponent implements OnInit {
   private getTrainingDefFromUrl() {
     this.trainingDefinition$ = this.route.paramMap
       .pipe(switchMap((params: ParamMap) => {
-        this.trainingDefId = +params.get('id');
-        this.isTrainingSaved = !Number.isNaN(this.trainingDefId);
-        return this.trainingDefId === null ? null : this.trainingDefinitionGetter.getTrainingDefById(this.trainingDefId);
+        if (params.get('id')) {
+          this.trainingDefId = +params.get('id');
+          this.isTrainingSaved = true;
+          return this.trainingDefId === null ? null : this.trainingDefinitionGetter.getTrainingDefById(this.trainingDefId);
+        }
+        this.isTrainingSaved = false;
       }));
   }
 

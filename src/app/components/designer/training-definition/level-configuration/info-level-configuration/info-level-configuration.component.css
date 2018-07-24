@@ -1,0 +1,36 @@
+div .level {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+}
+
+div .header {
+  display: flex;
+  align-items: baseline;
+  flex-direction: row;
+  margin-bottom: 40px;
+}
+
+div .spacer {
+  flex: 1 1 auto;
+}
+
+div .content {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  width: 60%;
+}
+
+@media screen and (max-width: 800px) {
+  div .content {
+    width: 100%;
+  }
+}
+
+div .footer {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+
+}

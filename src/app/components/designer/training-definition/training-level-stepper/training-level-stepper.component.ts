@@ -4,7 +4,6 @@ import {InfoLevel} from "../../../../model/level/info-level";
 import {GameLevel} from "../../../../model/level/game-level";
 import {AssessmentLevel} from "../../../../model/level/assessment-level";
 import {AssessmentTypeEnum} from "../../../../enums/assessment-type.enum";
-import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'training-level-stepper',
@@ -17,8 +16,8 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
   @Input('trainingDefinitionId') trainingDefinitionId: number;
   @Input('levels') levels: AbstractLevel[];
 
-  constructor(private router: Router,
-              private activatedRoute: ActivatedRoute) {
+
+  constructor() {
   }
 
   ngOnInit() {
@@ -73,10 +72,6 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
       null,
       AssessmentTypeEnum.Questionnaire)
     );
-  }
-
-  navigateTo(event) {
-    this.router.navigate(['levels', {outlets: {'level': [event.selectedIndex]}}], {relativeTo: this.activatedRoute});
   }
 }
 

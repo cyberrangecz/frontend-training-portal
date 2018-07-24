@@ -19,7 +19,6 @@ export class TrainingDefinitionGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     const id = +route.paramMap.get('id');
-
     return this.trainingDefinitionGetter.getTrainingDefById(id)
       .pipe(map((trainingDef => {
         // Training definition with such id either does not exist, cannot be edited or user is not authorized to edit it
