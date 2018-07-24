@@ -18,19 +18,7 @@ export class TrainingDefinitionGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    const paramString = route.paramMap.get('id');
-    const id = +paramString;
-
-    // id equals null
-    if (Number.isNaN(id) && paramString === 'null') {
-      return true;
-    }
-
-    // iq is not a number and does not equal null
-    if (Number.isNaN(id) && paramString !== 'null') {
-      this.router.navigate(['not-authorized']);
-      return false;
-    }
+    const id = +route.paramMap.get('id');
 
     return this.trainingDefinitionGetter.getTrainingDefById(id)
       .pipe(map((trainingDef => {

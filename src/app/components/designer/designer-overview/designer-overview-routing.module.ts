@@ -9,7 +9,11 @@ const routes: Routes = [
     component: DesignerOverviewComponent
   },
   {
-    path: 'training',
+    path: 'training/new',
+    loadChildren: 'app/components/designer/training-definition/training-definition.module#TrainingDefinitionModule',
+  },
+  {
+    path: 'training/:id',
     loadChildren: 'app/components/designer/training-definition/training-definition.module#TrainingDefinitionModule',
     canActivate: [TrainingDefinitionGuard]
   }

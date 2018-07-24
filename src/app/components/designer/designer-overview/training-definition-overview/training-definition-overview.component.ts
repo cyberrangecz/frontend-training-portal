@@ -59,7 +59,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    * Navigates to training sub route with parameters indicating creation of a new training definition
    */
   newTrainingDefinition() {
-    this.router.navigate(['training', { id: null }], { relativeTo: this.activatedRoute })
+    this.router.navigate(['training/new'], { relativeTo: this.activatedRoute })
   }
 
   /**
@@ -79,7 +79,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    * @param {number} trainingDefId id of a training definition which should be edited
    */
   editTrainingDefinition(trainingDefId: number) {
-    this.router.navigate(['training', { id: trainingDefId }], { relativeTo: this.activatedRoute })
+    this.router.navigate(['training', trainingDefId], { relativeTo: this.activatedRoute })
   }
 
   /**
