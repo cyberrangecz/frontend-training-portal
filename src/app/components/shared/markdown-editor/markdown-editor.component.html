@@ -1,0 +1,16 @@
+<div class="wrapper">
+  <div class="mrkdwn-editor">
+    <div class="mrkdwn-menu">
+      <mat-button-toggle-group>
+        <mat-button-toggle [checked]="editContent" (click)="editContent = true">
+          Edit
+        </mat-button-toggle>
+        <mat-button-toggle [checked]="!editContent" (click)="editContent = false">
+          Preview
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+    <textarea *ngIf="editContent" [(ngModel)]="content" name="content" (ngModelChange)="contentChanged()"></textarea>
+    <ngx-md *ngIf="!editContent" [data]="content"></ngx-md>
+  </div>
+</div>

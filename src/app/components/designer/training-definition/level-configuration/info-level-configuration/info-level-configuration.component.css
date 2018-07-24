@@ -8,7 +8,7 @@ div .header {
   display: flex;
   align-items: baseline;
   flex-direction: row;
-  margin-bottom: 40px;
+  margin-bottom: 25px;
 }
 
 div .spacer {
@@ -19,7 +19,7 @@ div .content {
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
-  width: 60%;
+  width: 70%;
 }
 
 @media screen and (max-width: 800px) {
@@ -27,10 +27,14 @@ div .content {
     width: 100%;
   }
 }
+shared-markdown-editor {
+  height: 40vh;
+}
 
 div .footer {
   display: flex;
   flex-direction: row;
   align-items: baseline;
-
 }
+
+

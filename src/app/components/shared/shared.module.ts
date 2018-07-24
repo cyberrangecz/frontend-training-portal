@@ -9,6 +9,9 @@ import {ToolbarComponent} from "./toolbar/toolbar.component";
 import {AlertComponent} from "./alert/alert.component";
 import {NotAuthorizedComponent} from "./not-authorized/not-authorized.component";
 import {AlertService} from "../../services/event-services/alert.service";
+import { MarkdownEditorComponent } from './markdown-editor/markdown-editor.component';
+import {NgxMdModule} from "ngx-md";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -17,11 +20,14 @@ import {AlertService} from "../../services/event-services/alert.service";
     UserMenuComponent,
     SidenavComponent,
     AlertComponent,
-    NotAuthorizedComponent
+    NotAuthorizedComponent,
+    MarkdownEditorComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
+    FormsModule,
+    NgxMdModule.forRoot(),
     SharedMaterialModule
   ],
   exports: [
@@ -30,7 +36,8 @@ import {AlertService} from "../../services/event-services/alert.service";
     UserMenuComponent,
     SidenavComponent,
     AlertComponent,
-    NotAuthorizedComponent
+    NotAuthorizedComponent,
+    MarkdownEditorComponent
   ],
   providers: [
     AlertService

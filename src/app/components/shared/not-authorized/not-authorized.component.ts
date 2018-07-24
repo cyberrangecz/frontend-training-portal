@@ -3,7 +3,7 @@ import {AlertService} from "../../../services/event-services/alert.service";
 import {AlertTypeEnum} from "../../../enums/alert-type.enum";
 
 @Component({
-  selector: 'app-not-authorized',
+  selector: 'shared-not-authorized',
   templateUrl: './not-authorized.component.html',
   styleUrls: ['./not-authorized.component.css']
 })

@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActiveUserService} from "../../../services/active-user.service";
 
 @Component({
-  selector: 'app-sidenav',
+  selector: 'shared-sidenav',
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.css']
 })

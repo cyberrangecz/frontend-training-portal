@@ -18,13 +18,8 @@
     </mat-form-field>
 
     <!-- CONTENT filed -->
-    <mat-form-field appearance="outline">
-      <mat-label>Content</mat-label>
-      <textarea matInput placeholder="Content" [(ngModel)]="content" required></textarea>
-      <button mat-button *ngIf="content" matSuffix mat-icon-button aria-label="Clear" (click)="content=''">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
+    <h3>Content</h3>
+    <shared-markdown-editor [(content)]="content"></shared-markdown-editor>
   </div>
 
   <div class="footer">

@@ -7,12 +7,14 @@ import { InfoLevelConfigurationComponent } from './info-level-configuration/info
 import { AssessmentLevelConfigurationComponent } from './assessment-level-configuration/assessment-level-configuration.component';
 import { LevelConfigurationComponent } from './level-configuration.component';
 import {LevelService} from "../../../../services/level.service";
+import {SharedModule} from "../../../shared/shared.module";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    LevelConfigurationMaterialModule
+    LevelConfigurationMaterialModule,
+    SharedModule
   ],
   exports: [
     LevelConfigurationComponent
