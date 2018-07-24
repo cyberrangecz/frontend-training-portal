@@ -1,3 +1,74 @@
-<p>
-  game-level-configuration works!
-</p>
+<div class="level">
+  <div class="header">
+    <h2>Game Level Detail</h2>
+    <span class="spacer"></span>
+    <button mat-raised-button color="primary" (click)="saveChanges()">
+      Save Changes
+    </button>
+  </div>
+
+  <div class="content">
+    <div class="left-panel">
+      <!-- TITLE filed -->
+      <mat-form-field appearance="outline">
+        <mat-label>Title</mat-label>
+        <input matInput placeholder="Title" [(ngModel)]="title" required>
+        <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <!--CONTENT field -->
+      <h3>Content</h3>
+      <shared-markdown-editor class="mrkdwn-content" [(content)]="content"></shared-markdown-editor>
+
+      <!--SOLUTION field -->
+      <h3>Solution</h3>
+      <shared-markdown-editor class="mrkdwn-solution" [(content)]="solution"></shared-markdown-editor>
+    </div>
+
+    <div class="right-panel">
+      <!-- MAX SCORE filed -->
+      <mat-form-field appearance="outline" hintLabel="Number in range from 0 to 1000">
+        <mat-label>Maximal Score</mat-label>
+        <input matInput placeholder="Maximal Score" type="number" max="1000" min="0" [(ngModel)]="maxScore" required>
+      </mat-form-field>
+
+      <!-- SOLUTION PENALTY field -->
+      <mat-form-field appearance="outline" hintLabel="Number in range from 0 to 1000">
+        <mat-label>Solution Penalty</mat-label>
+        <input matInput placeholder="Solution Penalty" type="number" max="1000" min="0" [(ngModel)]="solutionPenalty" required>
+      </mat-form-field>
+
+      <!-- INCORRECT FLAG PENALTY field -->
+      <mat-form-field appearance="outline" hintLabel="Number in range from 0 to 1000">
+        <mat-label>Incorrect Flag Penalty</mat-label>
+        <input matInput placeholder="Incorrect Flag Penalty" type="number" max="1000" min="0" [(ngModel)]="incorrectFlagPenalty" required>
+      </mat-form-field>
+
+      <!-- FLAG field -->
+      <mat-form-field appearance="outline" hintLabel="Max 50 characters">
+        <mat-label>Flag</mat-label>
+        <input matInput placeholder="Flag" maxlength="50" [(ngModel)]="flag" required>
+        <button mat-button *ngIf="flag" matSuffix mat-icon-button aria-label="Clear" (click)="flag=''">
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-hint align="end">{{flag?.length || 0}}/50</mat-hint>
+      </mat-form-field>
+
+      <!-- ESTIMATED DURATION field -->
+      <mat-form-field appearance="outline" hintLabel="Number in seconds">
+        <mat-label>Estimated Duration</mat-label>
+        <input matInput placeholder="Estimated Duration in Seconds" type="number" [(ngModel)]="estimatedDuration">
+      </mat-form-field>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span class="spacer"></span>
+    <button mat-raised-button color="primary" (click)="saveChanges()">
+      Save Changes
+    </button>
+  </div>
+</div>
