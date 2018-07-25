@@ -1,9 +1,9 @@
 import {NgModule} from "@angular/core";
 import {
-  MatButtonModule,
+  MatButtonModule, MatExpansionModule,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule
+  MatInputModule, MatStepperModule
 } from "@angular/material";
 
 @NgModule({
@@ -11,13 +11,17 @@ import {
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
+    MatExpansionModule,
+    MatStepperModule
   ],
   exports: [
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
+    MatExpansionModule,
+    MatStepperModule
   ]
 })
 export class LevelConfigurationMaterialModule {}

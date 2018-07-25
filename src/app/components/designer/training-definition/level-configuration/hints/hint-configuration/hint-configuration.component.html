@@ -1,0 +1,30 @@
+<div class="hint">
+  <div class="header">
+    <h3>Hint {{order + 1}}</h3>
+
+    <!-- TITLE filed -->
+    <div class="title">
+      <mat-form-field appearance="outline">
+        <mat-label>Title</mat-label>
+        <input matInput placeholder="Title" [(ngModel)]="title" required>
+        <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+
+    <!-- INCORRECT FLAG PENALTY field -->
+    <div class="penalty">
+      <mat-form-field appearance="outline" hintLabel="Number in range from 0 to 1000">
+        <mat-label>Hint Penalty</mat-label>
+        <input matInput placeholder="Hint Penalty" type="number" max="1000" min="0" [(ngModel)]="hintPenalty" required>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="content">
+    <!--CONTENT field -->
+    <h3>Content</h3>
+    <shared-markdown-editor class="mrkdwn-content" [(content)]="content"></shared-markdown-editor>
+  </div>
+</div>

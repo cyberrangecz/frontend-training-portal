@@ -1,0 +1,36 @@
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Hints
+      </mat-panel-title>
+      <mat-panel-description>
+        {{ hints.length }} hints currently added to this level
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <!-- ADD HINT button -->
+    <div class="header">
+      <h3>Hints</h3>
+      <button class="add-hint" mat-icon-button color="primary" (click)="addHint()">
+        <mat-icon>add_circle</mat-icon>
+      </button>
+    </div>
+
+    <!-- HINT stepper -->
+    <div class="hint-stepper">
+      <mat-horizontal-stepper
+        *ngIf="hints.length > 0" #stepper>
+        <mat-step *ngFor="let hint of hints; index as i">
+          <ng-template matStepLabel>Hint {{ i + 1 }}</ng-template>
+          <div class="step-content">
+            <hint-configuration [(hint)]="hints[i]" [order]="i"></hint-configuration>
+          </div>
+        </mat-step>
+      </mat-horizontal-stepper>
+
+
+    </div>
+
+  </mat-expansion-panel>
+</mat-accordion>

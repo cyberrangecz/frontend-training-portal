@@ -26,7 +26,6 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
   constructor(private alertService: AlertService) { }
 
   ngOnInit() {
-    console.log(this.level);
   }
 
   ngOnChanges(changes: SimpleChanges) {

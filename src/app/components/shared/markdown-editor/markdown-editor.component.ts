@@ -7,7 +7,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 })
 export class MarkdownEditorComponent implements OnInit {
 
-  @Input('content') content: Blob;
+  @Input('content') content: string;
   @Output() contentChange = new EventEmitter();
   editContent = true;
 

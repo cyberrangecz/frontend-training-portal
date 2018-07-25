@@ -8,6 +8,8 @@ import { AssessmentLevelConfigurationComponent } from './assessment-level-config
 import { LevelConfigurationComponent } from './level-configuration.component';
 import {LevelService} from "../../../../services/level.service";
 import {SharedModule} from "../../../shared/shared.module";
+import { HintStepperComponent } from './hints/hint-stepper/hint-stepper.component';
+import { HintConfigurationComponent } from './hints/hint-configuration/hint-configuration.component';
 
 @NgModule({
   imports: [
@@ -23,7 +25,9 @@ import {SharedModule} from "../../../shared/shared.module";
   GameLevelConfigurationComponent,
   InfoLevelConfigurationComponent,
   AssessmentLevelConfigurationComponent,
-  LevelConfigurationComponent
+  LevelConfigurationComponent,
+  HintStepperComponent,
+  HintConfigurationComponent
   ],
   providers: [
     LevelService
