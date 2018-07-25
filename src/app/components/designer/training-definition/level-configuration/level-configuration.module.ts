@@ -10,6 +10,8 @@ import {LevelService} from "../../../../services/level.service";
 import {SharedModule} from "../../../shared/shared.module";
 import { HintStepperComponent } from './hints/hint-stepper/hint-stepper.component';
 import { HintConfigurationComponent } from './hints/hint-configuration/hint-configuration.component';
+import { QuestionStepperComponent } from './questions/question-stepper/question-stepper.component';
+import { QuestionConfigurationComponent } from './questions/question-configuration/question-configuration.component';
 
 @NgModule({
   imports: [
@@ -27,7 +29,9 @@ import { HintConfigurationComponent } from './hints/hint-configuration/hint-conf
   AssessmentLevelConfigurationComponent,
   LevelConfigurationComponent,
   HintStepperComponent,
-  HintConfigurationComponent
+  HintConfigurationComponent,
+  QuestionStepperComponent,
+  QuestionConfigurationComponent
   ],
   providers: [
     LevelService

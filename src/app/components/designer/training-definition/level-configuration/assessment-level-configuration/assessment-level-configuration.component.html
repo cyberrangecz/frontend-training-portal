@@ -1,3 +1,51 @@
-<p>
-  assessment-level-configuration works!
-</p>
+<div class="level">
+  <div class="header">
+    <h2>Assessment Level Detail</h2>
+    <span class="spacer"></span>
+    <button mat-raised-button color="primary" (click)="saveChanges()">
+      Save Changes
+    </button>
+  </div>
+
+  <div class="content">
+    <div class="panel-wrapper">
+      <div class="left-panel">
+        <!-- TITLE field -->
+        <mat-form-field appearance="outline">
+          <mat-label>Title</mat-label>
+          <input matInput placeholder="Title" [(ngModel)]="title" required>
+          <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title=''">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <!-- INSTRUCTIONS field -->
+        <mat-form-field appearance="outline">
+          <mat-label>Instructions</mat-label>
+          <textarea matInput placeholder="Instructions" [(ngModel)]="instructions">
+          <button mat-button *ngIf="instructions" matSuffix mat-icon-button aria-label="Clear" (click)="instructions=''">
+            <mat-icon>close</mat-icon>
+          </button>
+          </textarea>
+        </mat-form-field>
+      </div>
+      <div class="right-panel">
+
+        <!-- MAX SCORE field -->
+        <mat-form-field appearance="outline" hintLabel="Number in range from 0 to 1000">
+          <mat-label>Maximal Score</mat-label>
+          <input matInput placeholder="Maximal Score" type="number" max="1000" min="0" [(ngModel)]="maxScore" required>
+        </mat-form-field>
+      </div>
+    </div>
+    <!--QUESTIONS component -->
+    <question-stepper [(questions)]="questions"></question-stepper>
+  </div>
+
+  <div class="footer">
+    <span class="spacer"></span>
+    <button mat-raised-button color="primary" (click)="saveChanges()">
+      Save Changes
+    </button>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+/deep/.mat-horizontal-stepper-header-container {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  margin-bottom: 20px;
+}
+
+h3 {
+  margin: 0;
+}

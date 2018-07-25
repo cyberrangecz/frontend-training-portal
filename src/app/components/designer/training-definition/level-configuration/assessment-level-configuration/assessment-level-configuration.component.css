@@ -1,0 +1,66 @@
+div .level {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+}
+
+div .header {
+  display: flex;
+  align-items: baseline;
+  flex-direction: row;
+  margin-bottom: 25px;
+}
+
+div .spacer {
+  flex: 1 1 auto;
+}
+
+div .content {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+div .panel-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+div .left-panel {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 3;
+  margin-right: 30px
+}
+
+div .right-panel {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin-left: 30px;
+}
+
+div .right-panel mat-form-field {
+  margin-bottom: 20px;
+}
+
+div .footer {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+@media screen and (max-width: 800px) {
+  div .panel-wrapper {
+    flex-direction: column;
+  }
+  div .left-panel {
+    margin-right: 0;
+  }
+
+  div .right-panel {
+    margin-left: 0;
+  }
+
+}

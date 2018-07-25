@@ -98,9 +98,9 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
     this.title = this.level.title;
     this.content = this.level.content;
     this.solution = this.level.solution;
-    this.maxScore = 1000;
+    this.maxScore = this.level.maxScore;
     this.flag = this.level.flag;
-    this.solutionPenalty = this.maxScore - 1;
+    this.solutionPenalty = this.level.solutionPenalty;
     this.incorrectFlagPenalty = this.level.incorrectFlagPenalty;
     this.estimatedDuration = this.level.estimatedDuration;
     this.hints = this.level.hints;
