@@ -3,7 +3,7 @@ import {
   MatButtonModule, MatExpansionModule,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule, MatStepperModule
+  MatInputModule, MatStepperModule, MatTooltipModule
 } from "@angular/material";
 
 @NgModule({
@@ -13,7 +13,8 @@ import {
     MatInputModule,
     MatIconModule,
     MatExpansionModule,
-    MatStepperModule
+    MatStepperModule,
+    MatTooltipModule
   ],
   exports: [
     MatButtonModule,
@@ -21,7 +22,8 @@ import {
     MatInputModule,
     MatIconModule,
     MatExpansionModule,
-    MatStepperModule
+    MatStepperModule,
+    MatTooltipModule
   ]
 })
 export class LevelConfigurationMaterialModule {}

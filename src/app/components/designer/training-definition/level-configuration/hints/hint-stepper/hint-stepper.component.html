@@ -12,7 +12,8 @@
     <!-- ADD HINT button -->
     <div class="header">
       <h3>Hints</h3>
-      <button class="add-hint" mat-icon-button color="primary" (click)="addHint()">
+      <button class="add-hint" mat-icon-button color="primary" (click)="addHint()"
+              matTooltip="Add new hint">
         <mat-icon>add_circle</mat-icon>
       </button>
     </div>
@@ -28,9 +29,6 @@
           </div>
         </mat-step>
       </mat-horizontal-stepper>
-
-
     </div>
-
   </mat-expansion-panel>
 </mat-accordion>

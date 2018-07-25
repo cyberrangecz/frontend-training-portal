@@ -1,5 +1,15 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output, QueryList,
+  SimpleChanges,
+  ViewChildren
+} from '@angular/core';
 import {Hint} from "../../../../../../model/level/hint";
+import {HintConfigurationComponent} from "../hint-configuration/hint-configuration.component";
 
 @Component({
   selector: 'hint-stepper',
@@ -10,6 +20,9 @@ export class HintStepperComponent implements OnInit, OnChanges {
 
   @Input('hints') hints: Hint[];
   @Output('hints') hintsChange = new EventEmitter();
+
+  @ViewChildren(HintConfigurationComponent) hintConfigurationChildren: QueryList<HintConfigurationComponent>;
+
 
   constructor() { }
 
@@ -28,6 +41,10 @@ export class HintStepperComponent implements OnInit, OnChanges {
       '',
       0));
     this.hintsChanged();
+  }
+
+  saveChanges() {
+    this.hintConfigurationChildren.forEach(child => child.saveChanges());
   }
 
   private resolveInitialHints() {

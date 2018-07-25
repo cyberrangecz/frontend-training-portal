@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {Hint} from "../../../../../../model/level/hint";
 import {AlertTypeEnum} from "../../../../../../enums/alert-type.enum";
 import {AlertService} from "../../../../../../services/event-services/alert.service";
@@ -54,6 +54,7 @@ export class HintConfigurationComponent implements OnInit, OnChanges {
   }
 
   private validateInput(): boolean {
+    let errorTitle = 'Hint ' + (this.order + 1) + ':\n';
     let errorMessage: string = '';
 
     if (!this.title || this.title.replace(/\s/g, '') === '') {
@@ -69,7 +70,7 @@ export class HintConfigurationComponent implements OnInit, OnChanges {
     }
 
     if (errorMessage !== '') {
-      this.alertService.emitAlert(AlertTypeEnum.Error, errorMessage);
+      this.alertService.emitAlert(AlertTypeEnum.Error, errorTitle + errorMessage);
       return false;
     }
     return true;

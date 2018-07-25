@@ -1,8 +1,9 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {GameLevel} from "../../../../../model/level/game-level";
 import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
 import {AlertService} from "../../../../../services/event-services/alert.service";
 import {Hint} from "../../../../../model/level/hint";
+import {HintStepperComponent} from "../hints/hint-stepper/hint-stepper.component";
 
 @Component({
   selector: 'game-level-configuration',
@@ -12,6 +13,9 @@ import {Hint} from "../../../../../model/level/hint";
 export class GameLevelConfigurationComponent implements OnInit, OnChanges {
 
   @Input('level') level: GameLevel;
+
+  @ViewChild(HintStepperComponent) childComponent: HintStepperComponent;
+
 
   title: string;
   content: string;
@@ -37,6 +41,7 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
   saveChanges() {
     if (this.validateChanges()) {
       this.setInputValuesToLevel();
+      this.childComponent.saveChanges();
       // TODO: call service and save level through rest
     }
   }

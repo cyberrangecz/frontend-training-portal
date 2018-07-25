@@ -5,7 +5,7 @@ import {
   MatFormFieldModule,
   MatIconModule,
   MatInputModule, MatListModule, MatMenuModule,
-  MatSelectModule, MatStepperModule
+  MatSelectModule, MatStepperModule, MatTooltipModule
 } from "@angular/material";
 
 @NgModule({
@@ -20,7 +20,7 @@ import {
     MatListModule,
     MatStepperModule,
     MatMenuModule,
-    MatDividerModule
+    MatTooltipModule,
   ],
   exports: [
     MatFormFieldModule,
@@ -33,7 +33,7 @@ import {
     MatListModule,
     MatStepperModule,
     MatMenuModule,
-    MatDividerModule
+    MatTooltipModule
   ]
 })
 
