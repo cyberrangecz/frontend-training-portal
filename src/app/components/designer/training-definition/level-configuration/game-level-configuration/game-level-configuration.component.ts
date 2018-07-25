@@ -48,6 +48,28 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
     if (!this.title || this.title.replace(/\s/g, '') === '') {
       errorMessage += 'Title cannot be empty\n'
     }
+    if (!this.content || this.content.replace(/\s/g, '') === '') {
+      errorMessage += 'Content cannot be empty\n'
+    }
+    if (!this.solution || this.solution.replace(/\s/g, '') === '') {
+      errorMessage += 'Solution cannot be empty\n'
+    }
+    if (!this.flag || this.flag.replace(/\s/g, '') === '' || this.flag.length > 50) {
+      errorMessage += 'Flag cannot be empty or larger than 50 characters\n'
+    }
+    if (!this.incorrectFlagPenalty || this.incorrectFlagPenalty < 0 || this.incorrectFlagPenalty > 1000) {
+      errorMessage += 'Incorrect flag penalty must be a number in range from 0 to 1000\n'
+    }
+    if (!this.maxScore || this.maxScore < 0 || this.maxScore > 1000) {
+      errorMessage += 'Maximal score must be a number in range from 0 to 1000\n'
+    }
+    if (!this.solutionPenalty || this.solutionPenalty < 0 || this.solutionPenalty > 1000) {
+      errorMessage += 'Solution penalty must be a number in range from 0 to 1000\n'
+    }
+
+    if (!this.estimatedDuration || this.solutionPenalty < 0) {
+      errorMessage += 'Estimated duration must be a positive number\n'
+    }
 
     if (errorMessage !== '') {
       this.alertService.emitAlert(AlertTypeEnum.Error, errorMessage);
