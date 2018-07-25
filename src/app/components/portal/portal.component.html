@@ -2,23 +2,11 @@
   <h1>KYPO Portal</h1>
   <h2>Choose your role...</h2>
 
-
-  <div class="portal-menu-header">
-    <div class="left-line-header">
-      <h3>Trainings</h3>
-    </div>
-
-    <div class="middle-line-header" >
-      <h3>Cyber Exercises</h3>
-    </div>
-
-    <div class="right-line-header">
-      <h3>Other Agendas</h3>
-    </div>
-  </div>
-
   <div class="portal-menu">
     <div class="left-line">
+      <div class="left-line-header">
+        <h3>Trainings</h3>
+      </div>
       <button *ngFor="let trainingRole of trainingRoles"
               mat-raised-button color="primary"
               [disabled]="trainingRole.disabled"
@@ -28,6 +16,9 @@
     </div>
 
     <div class="middle-line">
+      <div class="middle-line-header" >
+        <h3>Cyber Exercises</h3>
+      </div>
       <button mat-raised-button color="primary" disabled="true">
         Designer
       </button>
@@ -40,6 +31,9 @@
     </div>
 
     <div class="right-line">
+      <div class="right-line-header">
+        <h3>Other Agendas</h3>
+      </div>
       <button mat-raised-button color="primary" disabled="true">
         Administrator
       </button>

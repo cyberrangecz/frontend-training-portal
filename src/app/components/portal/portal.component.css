@@ -14,45 +14,6 @@ h2 {
   width: 100%;
 }
 
-.portal-menu-header {
-  margin: auto;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-
-h3 {
-  width: 150px;
-}
-
-.left-line-header {
-  margin: auto;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-.middle-line-header {
-  margin: auto;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-.right-line-header {
-  margin: auto;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
 .portal-menu {
   margin: auto;
   display: flex;
@@ -92,4 +53,10 @@ button {
   height: 100px;
   width: 150px;
   margin-bottom: 50px;
+}
+
+@media screen and (max-width: 800px) {
+  .portal-menu {
+    flex-direction: column;
+  }
 }

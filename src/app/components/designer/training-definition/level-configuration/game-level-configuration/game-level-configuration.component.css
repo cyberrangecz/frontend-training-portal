@@ -62,7 +62,7 @@ div .footer {
 }
 
 @media screen and (max-width: 800px) {
-  div .content {
+  div .panel-wrapper {
     flex-direction: column;
   }
   div .left-panel {

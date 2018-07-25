@@ -23,4 +23,11 @@
   .content {
     flex-direction: column;
   }
+  .level {
+    flex: 100%;
+    max-width: calc(100% - 20px);
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+  }
 }

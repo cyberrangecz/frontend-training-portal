@@ -53,3 +53,18 @@ td.authors, th.authors {
 td.actions, th.actions {
   width: 20%;
 }
+
+@media screen and (max-width: 800px) {
+  .sandbox-def {
+    flex-direction: column;
+  }
+
+  .sandbox-def-buttons {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+  }
+}

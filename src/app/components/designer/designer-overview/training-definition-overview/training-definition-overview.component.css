@@ -59,6 +59,21 @@ td.state, th.state {
   width: 10%;
 }
 
+@media screen and (max-width: 800px) {
+  .train-def {
+    flex-direction: column;
+  }
+
+  .train-def-buttons {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+  }
+}
+
 
 
 

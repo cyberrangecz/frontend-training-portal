@@ -43,7 +43,7 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
       this.setInputValuesToLevel();
       this.childComponent.saveChanges();
       // TODO: call service and save level through rest
-    }
+      }
   }
 
   private validateChanges(): boolean {

@@ -26,7 +26,7 @@ div .title {
 }
 
 div .penalty {
-  flex-grow: 1
+  flex-grow: 1;
 }
 
 mat-form-field {
@@ -41,6 +41,15 @@ shared-markdown-editor {
 
 @media screen and (max-width: 800px) {
   div .header {
-    flex-direction: row;
+    flex-direction: column;
+  }
+
+  div .title {
+    width: 100%;
+    margin: 0;
+  }
+
+  div .penalty {
+    width: 100%;
   }
 }
