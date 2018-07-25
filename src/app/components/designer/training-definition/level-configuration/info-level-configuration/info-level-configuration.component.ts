@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {InfoLevel} from "../../../../../model/level/info-level";
 import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
 import {AlertService} from "../../../../../services/event-services/alert.service";
@@ -8,17 +8,22 @@ import {AlertService} from "../../../../../services/event-services/alert.service
   templateUrl: './info-level-configuration.component.html',
   styleUrls: ['./info-level-configuration.component.css']
 })
-export class InfoLevelConfigurationComponent implements OnInit {
+export class InfoLevelConfigurationComponent implements OnInit, OnChanges {
 
   @Input('level') level: InfoLevel;
 
   title: string;
-  content: Blob; // will be HTML or something
+  content: string; // MARKDOWN
 
   constructor(private alertService: AlertService) { }
 
   ngOnInit() {
-    this.setInitialValues();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if ('level' in changes) {
+      this.setInitialValues();
+    }
   }
 
   saveChanges() {

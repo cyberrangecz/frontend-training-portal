@@ -82,12 +82,12 @@ export class LevelGetterService {
 
   private parseAssessmentLevel(levelJson): AssessmentLevel {
     const level = new AssessmentLevel(
-      levelJson.training_def_id,
+      levelJson.training_definition_id,
       levelJson.title,
       levelJson.max_score,
       levelJson.order,
-      new Blob(levelJson.preHook),
-      new Blob(levelJson.postHook),
+      levelJson.pre_hook,
+      levelJson.post_hook,
       levelJson.questions,
       this.parseAssessmentTypeString2Enum(levelJson));
     level.id = levelJson.id;
@@ -96,16 +96,16 @@ export class LevelGetterService {
 
   private parseGameLevel(levelJson): GameLevel {
     const level = new GameLevel(
-      levelJson.training_def_id,
+      levelJson.training_definition_id,
       levelJson.title,
       levelJson.max_score,
       levelJson.order,
-      new Blob(levelJson.preHook),
-      new Blob(levelJson.postHook),
+      levelJson.pre_hook,
+      levelJson.post_hook,
       levelJson.flag,
       this.parseHints(levelJson.id, levelJson.hints),
-      new Blob(levelJson.content),
-      new Blob(levelJson.solution),
+      levelJson.content,
+     levelJson.solution,
       levelJson.incorrect_flag_penalty,
       levelJson.solution_penalty);
 
@@ -117,12 +117,12 @@ export class LevelGetterService {
 
   private parseInfoLevel(levelJson): InfoLevel {
     const level = new InfoLevel(
-      levelJson.training_def_id,
+      levelJson.training_definition_id,
       levelJson.title,
       levelJson.max_score,
       levelJson.order,
-      new Blob(levelJson.preHook),
-      new Blob(levelJson.postHook),
+      levelJson.pre_hook,
+      levelJson.post_hook,
       levelJson.content);
     level.id = levelJson.id;
     return level;
@@ -133,7 +133,7 @@ export class LevelGetterService {
     hintsJson.forEach(hintJson => {
       const hint = new Hint(
         hintJson.title,
-        new Blob(hintJson.content),
+        hintJson.content,
         hintJson.hintPenalty);
       hint.id = hintJson.id;
       hint.gameLevelId = levelId;

@@ -7,11 +7,11 @@ export abstract class AbstractLevel {
   title: string;
   maxScore: number = 0;
   order: number;
-  preHook: Blob;
-  postHook: Blob;
+  preHook: string;
+  postHook: string;
 
 
-  constructor(trainingDefinitionId: number, title: string, maxScore: number, order: number, preHook: Blob, postHook: Blob) {
+  constructor(trainingDefinitionId: number, title: string, maxScore: number, order: number, preHook: string, postHook: string) {
     this.trainingDefinitionId = trainingDefinitionId;
     this.title = title;
     this.maxScore = maxScore;

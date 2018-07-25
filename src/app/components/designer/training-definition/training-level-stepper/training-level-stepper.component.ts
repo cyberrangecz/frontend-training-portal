@@ -41,9 +41,9 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
       "New Info Level",
       0,
       this.levels.length,
-      new Blob(),
-      new Blob(),
-      new Blob));
+      '',
+      '',
+      ''));
   }
 
   addGameLevel() {
@@ -51,12 +51,12 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
       "New Game Level",
       0,
       this.levels.length,
-      new Blob(),
-      new Blob(),
+      '',
+      '',
       '',
       [],
-      new Blob(),
-      new Blob(),
+      '',
+      '',
       0,
       0)
       );
@@ -67,8 +67,8 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
       "New Assessment Level",
       0,
       this.levels.length,
-      new Blob(),
-      new Blob(),
+      '',
+      '',
       null,
       AssessmentTypeEnum.Questionnaire)
     );

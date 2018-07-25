@@ -3,10 +3,59 @@
     {
       "id": 1,
       "type": "assessment",
-      "training_definition_id": 1,
+      "training_definition_id": 4,
+      "title": "Test assessment Level",
+      "max_score": 100,
+      "order": 1,
+      "pre_hook": "",
+      "post_hook": "",
+      "questions": "",
+      "instructions": "",
+      "assessmentType": "test"
+    },
+    {
+      "id": 2,
+      "type": "info",
+      "training_definition_id": 4,
       "title": "test level",
       "max_score": 100,
-      "order": 1
+      "order": 2,
+      "pre_hook": "",
+      "post_hook": "",
+      "content": "## This is test info level content"
+    },
+    {
+      "id": 3,
+      "type": "game",
+      "training_definition_id": 4,
+      "title": "Test Game Level",
+      "max_score": 100,
+      "order": 3,
+      "pre_hook": "",
+      "post_hook": "",
+      "flag": "@#!@$!xsads@",
+      "hints": [
+
+      ],
+      "content": "## This is test game level content",
+      "solution": "** This is test game level solution **",
+      "incorrect_flag_penalty": 20,
+      "solution_penalty": 30,
+      "estimated_duration": 5664,
+      "attachments:": [
+
+      ]
+    },
+    {
+      "id": 4,
+      "type": "info",
+      "training_definition_id": 4,
+      "title": "Test Info Level",
+      "max_score": 100,
+      "order": 4,
+      "pre_hook": "",
+      "post_hook": "",
+      "content": "## This is test info level content"
     }
   ]
 }

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {GameLevel} from "../../../../../model/level/game-level";
 import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
 import {AlertService} from "../../../../../services/event-services/alert.service";
@@ -9,13 +9,13 @@ import {Hint} from "../../../../../model/level/hint";
   templateUrl: './game-level-configuration.component.html',
   styleUrls: ['./game-level-configuration.component.css']
 })
-export class GameLevelConfigurationComponent implements OnInit {
+export class GameLevelConfigurationComponent implements OnInit, OnChanges {
 
   @Input('level') level: GameLevel;
 
   title: string;
-  content: Blob;
-  solution: Blob;
+  content: string;
+  solution: string;
   maxScore: number;
   solutionPenalty: number;
   incorrectFlagPenalty: number;
@@ -26,7 +26,13 @@ export class GameLevelConfigurationComponent implements OnInit {
   constructor(private alertService: AlertService) { }
 
   ngOnInit() {
-    this.setInitialValues();
+    console.log(this.level);
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if ('level' in changes) {
+      this.setInitialValues();
+    }
   }
 
   saveChanges() {
