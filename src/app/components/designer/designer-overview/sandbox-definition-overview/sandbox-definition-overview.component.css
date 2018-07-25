@@ -21,8 +21,15 @@ h2 {
   max-width: 200px;
 }
 
+.sandbox-def-table-wrapper {
+  flex-grow: 9;
+}
+
 .sandbox-def-table {
-  flex-grow: 2;
+  width: 70%;
+  margin: auto auto;
+  justify-items: center;
+  justify-content: center;
 }
 
 .mat-form-field {
@@ -66,5 +73,9 @@ td.actions, th.actions {
     justify-content: center;
     align-items: center;
     flex-grow: 1;
+  }
+
+  .sandbox-def-table {
+    width: 100%;
   }
 }

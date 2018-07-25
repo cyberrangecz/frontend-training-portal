@@ -12,80 +12,80 @@
     </button>
   </div>
 
-  <div class="train-def-table">
+  <div class="train-def-table-wrapper">
+    <div class="train-def-table">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter by title or status">
+      </mat-form-field>
 
-    <mat-form-field>
-      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter by title or status">
-    </mat-form-field>
+      <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort>
 
-    <div class="mat-elevation-z8">
-      <table mat-table [dataSource]="dataSource" matSort>
+          <!-- TITLE Column -->
+          <ng-container matColumnDef="title">
+            <th class="title" mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+            <td class="title" mat-cell *matCellDef="let training">
+              {{training.title}}
+            </td>
+          </ng-container>
 
-        <!-- TITLE Column -->
-        <ng-container matColumnDef="title">
-          <th class="title" mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
-          <td class="title" mat-cell *matCellDef="let training">
-            {{training.title}}
-          </td>
-        </ng-container>
+          <!-- DESCRIPTION Column -->
+          <ng-container matColumnDef="description">
+            <th class="description" mat-header-cell *matHeaderCellDef>Description</th>
+            <td class="description" mat-cell *matCellDef="let training"> {{training.description}}</td>
+          </ng-container>
 
-        <!-- DESCRIPTION Column -->
-        <ng-container matColumnDef="description">
-          <th class="description" mat-header-cell *matHeaderCellDef>Description</th>
-          <td class="description" mat-cell *matCellDef="let training"> {{training.description}}</td>
-        </ng-container>
+          <!-- STATUS Column -->
+          <ng-container matColumnDef="status">
+            <th class="status" mat-header-cell *matHeaderCellDef>Status</th>
+            <td class="status" mat-cell *matCellDef="let training"> {{training.state}}</td>
+          </ng-container>
 
-        <!-- STATUS Column -->
-        <ng-container matColumnDef="status">
-          <th class="status" mat-header-cell *matHeaderCellDef>Status</th>
-          <td class="status" mat-cell *matCellDef="let training"> {{training.state}}</td>
-        </ng-container>
+          <!-- AUTHORS Column -->
+          <ng-container matColumnDef="authors">
+            <th class="authors" mat-header-cell *matHeaderCellDef>Authors</th>
+            <td class="authors" mat-cell *matCellDef="let training"> {{training.authorIds}}</td>
+          </ng-container>
 
-        <!-- AUTHORS Column -->
-        <ng-container matColumnDef="authors">
-          <th class="authors" mat-header-cell *matHeaderCellDef>Authors</th>
-          <td class="authors" mat-cell *matCellDef="let training"> {{training.authorIds}}</td>
-        </ng-container>
+          <!--ACTIONS Column -->
+          <ng-container matColumnDef="actions">
+            <th class="actions" mat-header-cell *matHeaderCellDef >Actions</th>
+            <td class="actions" mat-cell *matCellDef="let training">
 
-        <!--ACTIONS Column -->
-        <ng-container matColumnDef="actions">
-          <th class="actions" mat-header-cell *matHeaderCellDef >Actions</th>
-          <td class="actions" mat-cell *matCellDef="let training">
-
-            <div class="action-buttons">
-              <!-- EDIT button -->
-              <button *ngIf="training.state === trainingStateEnum.Unreleased"
-                      mat-icon-button color="primary"
-                      (click)="editTrainingDefinition(training.id)">
-                <mat-icon
+              <div class="action-buttons">
+                <!-- EDIT button -->
+                <button *ngIf="training.state === trainingStateEnum.Unreleased"
+                        mat-icon-button color="primary"
+                        (click)="editTrainingDefinition(training.id)">
+                  <mat-icon
                     matTooltip="Edit training definition"
                     aria-label="Edit training definition button">
-                  create</mat-icon>
-              </button>
+                    create</mat-icon>
+                </button>
 
-              <!-- CLONE button -->
-              <button *ngIf="training.state === trainingStateEnum.Released ||
+                <!-- CLONE button -->
+                <button *ngIf="training.state === trainingStateEnum.Released ||
                              training.state === trainingStateEnum.Archived"
-                      mat-icon-button color="primary"
-                      (click)="cloneTrainingDefinition(training)">
-                <mat-icon
+                        mat-icon-button color="primary"
+                        (click)="cloneTrainingDefinition(training)">
+                  <mat-icon
                     matTooltip="Clone training definition"
                     aria-label="Clone training definition button">
-                  file_copy</mat-icon>
-              </button>
+                    file_copy</mat-icon>
+                </button>
 
                 <!-- REMOVE button -->
-              <button *ngIf="training.state === trainingStateEnum.Unreleased ||
+                <button *ngIf="training.state === trainingStateEnum.Unreleased ||
                              training.state === trainingStateEnum.Archived"
-                      mat-icon-button color="primary"
-                      (click)="removeTrainingDefinition(training)">
-                <mat-icon
-                      matTooltip="Remove training definition"
-                      aria-label="Remove training definition button"
-                >delete</mat-icon>
-              </button>
+                        mat-icon-button color="primary"
+                        (click)="removeTrainingDefinition(training)">
+                  <mat-icon
+                    matTooltip="Remove training definition"
+                    aria-label="Remove training definition button"
+                  >delete</mat-icon>
+                </button>
 
-              <!-- DOWNLOAD button -->
+                <!-- DOWNLOAD button -->
                 <button mat-icon-button color="primary"
                         (click)="downloadTrainingDefinition(training.id)">
                   <mat-icon
@@ -94,24 +94,25 @@
                     cloud_download</mat-icon>
                 </button>
 
-              <!-- ARCHIVE button -->
-              <button *ngIf="training.state !== trainingStateEnum.Archived
+                <!-- ARCHIVE button -->
+                <button *ngIf="training.state !== trainingStateEnum.Archived
                               && training.canBeArchived"
-                      mat-icon-button color="primary"
-                      (click)="archiveTrainingDefinition(training)">
-                <mat-icon
-                  matTooltip="Archive training definition"
-                  aria-label="Archive training definition button">
-                  archive</mat-icon>
-              </button>
-            </div>
-          </td>
-        </ng-container>
+                        mat-icon-button color="primary"
+                        (click)="archiveTrainingDefinition(training)">
+                  <mat-icon
+                    matTooltip="Archive training definition"
+                    aria-label="Archive training definition button">
+                    archive</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+      </div>
     </div>
   </div>
 </div>

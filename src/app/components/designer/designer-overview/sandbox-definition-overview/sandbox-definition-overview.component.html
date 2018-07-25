@@ -8,76 +8,76 @@
     </button>
   </div>
 
-  <div class="sandbox-def-table">
+  <div class="sandbox-def-table-wrapper">
+    <div class="sandbox-def-table">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter by title">
+      </mat-form-field>
 
-    <mat-form-field>
-      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter by title">
-    </mat-form-field>
+      <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort>
 
-    <div class="mat-elevation-z8">
-      <table mat-table [dataSource]="dataSource" matSort>
+          <!-- TITLE Column -->
+          <ng-container matColumnDef="title">
+            <th class="title" mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+            <td class="title" mat-cell *matCellDef="let sandbox"> {{sandbox.title}}</td>
+          </ng-container>
 
-        <!-- TITLE Column -->
-        <ng-container matColumnDef="title">
-          <th class="title" mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
-          <td class="title" mat-cell *matCellDef="let sandbox"> {{sandbox.title}}</td>
-        </ng-container>
+          <!-- ASSOCIATED TRAINING DEFS Column -->
+          <ng-container matColumnDef="associatedTrainingDefs">
+            <th class="assocTrainingDefs" mat-header-cell *matHeaderCellDef>Associated Training Definitions</th>
+            <td class="assocTrainingDefs" mat-cell *matCellDef="let sandbox"> {{sandbox.associatedTrainingDefs }}</td>
+          </ng-container>
 
-        <!-- ASSOCIATED TRAINING DEFS Column -->
-        <ng-container matColumnDef="associatedTrainingDefs">
-          <th class="assocTrainingDefs" mat-header-cell *matHeaderCellDef>Associated Training Definitions</th>
-          <td class="assocTrainingDefs" mat-cell *matCellDef="let sandbox"> {{sandbox.associatedTrainingDefs }}</td>
-        </ng-container>
+          <!-- AUTHORS Column -->
+          <ng-container matColumnDef="authors">
+            <th class="authors" mat-header-cell *matHeaderCellDef>Authors</th>
+            <td class="authors" mat-cell *matCellDef="let sandbox"> {{sandbox.authorIds}}</td>
+          </ng-container>
 
-        <!-- AUTHORS Column -->
-        <ng-container matColumnDef="authors">
-          <th class="authors" mat-header-cell *matHeaderCellDef>Authors</th>
-          <td class="authors" mat-cell *matCellDef="let sandbox"> {{sandbox.authorIds}}</td>
-        </ng-container>
+          <!-- ACTIONS Column -->
+          <ng-container matColumnDef="actions">
+            <th class="actions" mat-header-cell *matHeaderCellDef>Actions</th>
+            <td class="actions" mat-cell *matCellDef="let sandbox">
 
-        <!-- ACTIONS Column -->
-        <ng-container matColumnDef="actions">
-          <th class="actions" mat-header-cell *matHeaderCellDef>Actions</th>
-          <td class="actions" mat-cell *matCellDef="let sandbox">
+              <div class="action-buttons">
+                <!-- REMOVE button-->
+                <button *ngIf="sandbox.canBeRemoved"
+                        mat-icon-button color="primary"
+                        (click)="removeSandboxDefinition(sandbox)">
+                  <mat-icon
+                    matTooltip="Remove sandbox definition"
+                    aria-label="Remove sandbox definition button">
+                    delete</mat-icon>
+                </button>
 
-            <div class="action-buttons">
-              <!-- REMOVE button-->
-              <button *ngIf="sandbox.canBeRemoved"
-                      mat-icon-button color="primary"
-                      (click)="removeSandboxDefinition(sandbox)">
-                <mat-icon
-                  matTooltip="Remove sandbox definition"
-                  aria-label="Remove sandbox definition button">
-                  delete</mat-icon>
-              </button>
+                <!-- UPDATE button-->
+                <button *ngIf="sandbox.canBeRemoved"
+                        mat-icon-button color="primary"
+                        (click)="updateSandboxDefinition(sandbox.id)">
+                  <mat-icon
+                    matTooltip="Update sandbox definition"
+                    aria-label="Update sandbox definition button">
+                    cached</mat-icon>
+                </button>
 
-              <!-- UPDATE button-->
-              <button *ngIf="sandbox.canBeRemoved"
-                      mat-icon-button color="primary"
-                      (click)="updateSandboxDefinition(sandbox.id)">
-                <mat-icon
-                  matTooltip="Update sandbox definition"
-                  aria-label="Update sandbox definition button">
-                  cached</mat-icon>
-              </button>
-
-              <!-- DEPLOY button-->
-              <button *ngIf="true"
-                      mat-icon-button color="primary"
-                      (click)="deploySandboxDefinition(sandbox.id)">
-                <mat-icon
-                  matTooltip="Deploy sandbox definition"
-                  aria-label="Deploy sandbox definition button">
-                  launch</mat-icon>
-              </button>
-            </div>
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                <!-- DEPLOY button-->
+                <button *ngIf="true"
+                        mat-icon-button color="primary"
+                        (click)="deploySandboxDefinition(sandbox.id)">
+                  <mat-icon
+                    matTooltip="Deploy sandbox definition"
+                    aria-label="Deploy sandbox definition button">
+                    launch</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+      </div>
     </div>
   </div>
 </div>
