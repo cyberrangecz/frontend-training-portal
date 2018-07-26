@@ -15,13 +15,14 @@
     <div class="panel-wrapper">
       <div class="left-panel">
         <!-- START TIME field -->
-        <mat-form-field appearance="outline">
-          <mat-label>Start Time</mat-label>
-          <input matInput placeholder="Start Time" [(ngModel)]="startTime" required>
-          <button mat-button *ngIf="startTime" matSuffix mat-icon-button aria-label="Clear" (click)="startTime=null">
-            <mat-icon>close</mat-icon>
-          </button>
-        </mat-form-field>
+<!--        <form [formGroup]="startTimeForm">
+          <mat-form-field appearance="outline">
+            <mat-placeholder>Start Time</mat-placeholder>
+            <mat-datetimepicker-toggle [for]="datetimePicker" matSuffix></mat-datetimepicker-toggle>
+            <mat-datetimepicker #datetimePicker type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+            <input matInput formControlName="startTimeForm" [matDatetimepicker]="datetimePicker" required autocomplete="false">
+          </mat-form-field>
+        </form>-->
 
         <!-- POOL SIZE filed -->
         <mat-form-field appearance="outline" hintLabel="Number in range from 1 to 100">
@@ -43,13 +44,16 @@
 
       <div class="right-panel">
         <!-- END TIME field -->
-        <mat-form-field appearance="outline">
-          <mat-label>End Time</mat-label>
-          <input matInput placeholder="End Time" [(ngModel)]="endTime" required>
-          <button mat-button *ngIf="endTime" matSuffix mat-icon-button aria-label="Clear" (click)="endTime=null">
-            <mat-icon>close</mat-icon>
-          </button>
-        </mat-form-field>
+<!--
+        <form [formGroup]="endTimeForm">
+          <mat-form-field appearance="outline">
+            <mat-placeholder>End Time</mat-placeholder>
+            <mat-datetimepicker-toggle [for]="datetimePicker" matSuffix></mat-datetimepicker-toggle>
+            <mat-datetimepicker #datetimePicker type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+            <input matInput formControlName="endTimeForm" [matDatetimepicker]="datetimePicker" required autocomplete="false">
+          </mat-form-field>
+        </form>
+-->
 
           <!-- ORGANIZERS field-->
           <div class="line-with-button">
