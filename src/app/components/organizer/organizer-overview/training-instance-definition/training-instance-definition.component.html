@@ -1,0 +1,75 @@
+<div class="container">
+  <div class="header">
+    <h3>New Training Instance</h3>
+  </div>
+  <div class="content">
+    <!--TITLE field-->
+    <mat-form-field appearance="outline">
+      <mat-label>Title</mat-label>
+      <input matInput placeholder="Title" [(ngModel)]="title" required>
+      <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title=''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <div class="panel-wrapper">
+      <div class="left-panel">
+        <!-- START TIME field -->
+        <mat-form-field appearance="outline">
+          <mat-label>Start Time</mat-label>
+          <input matInput placeholder="Start Time" [(ngModel)]="startTime" required>
+          <button mat-button *ngIf="startTime" matSuffix mat-icon-button aria-label="Clear" (click)="startTime=null">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <!-- POOL SIZE filed -->
+        <mat-form-field appearance="outline" hintLabel="Number in range from 1 to 100">
+          <mat-label>Pool Size</mat-label>
+          <input matInput placeholder="Pool Size" type="number" max="100" min="1" [(ngModel)]="poolSize" required>
+        </mat-form-field>
+
+        <!-- TRAINING DEFINITION field-->
+        <div class="line-with-button">
+          <p *ngIf="trainingDefinition" style="color: black">Training Definition: {{ trainingDefinition }}</p>
+          <p *ngIf="!trainingDefinition">TrainingDefinition*</p>
+          <span class="spacer"></span>
+          <button (click)="chooseTrainingDefinition()"
+                  mat-raised-button color="accent">
+            Choose
+          </button>
+        </div>
+      </div>
+
+      <div class="right-panel">
+        <!-- END TIME field -->
+        <mat-form-field appearance="outline">
+          <mat-label>End Time</mat-label>
+          <input matInput placeholder="End Time" [(ngModel)]="endTime" required>
+          <button mat-button *ngIf="endTime" matSuffix mat-icon-button aria-label="Clear" (click)="endTime=null">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+
+          <!-- ORGANIZERS field-->
+          <div class="line-with-button">
+            <p *ngIf="organizers" style="color: black">Organizers: {{ organizers }}</p>
+            <p *ngIf="!organizers">Organizers*</p>
+            <span class="spacer"></span>
+            <button (click)="chooseOrganizers()"
+                    mat-raised-button color="accent">
+              Choose
+            </button>
+          </div>
+
+        <div class="save-button">
+          <span class="spacer"></span>
+          <button mat-raised-button class="main" color="primary" (click)="saveChanges()">
+            Save Changes
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

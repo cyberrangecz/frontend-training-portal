@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {TrainingInstancesListComponent} from "./training-instance-overview/training-instances-list.component";
 
 @Component({
   selector: 'organizer-overview',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OrganizerOverviewComponent implements OnInit {
 
+  @ViewChild(TrainingInstancesListComponent) trainingInstancesListComponent: TrainingInstancesListComponent;
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  refreshTrainingInstanceOverview() {
+    this.trainingInstancesListComponent.refreshData();
   }
 
 }

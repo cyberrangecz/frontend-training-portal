@@ -38,6 +38,19 @@ export class TrainingInstanceGetterService {
   }
 
   /**
+   * Retrieves training instances by organizer id
+   * @param {number} organizerId Id of one of the organizer of the training
+   * @returns {Observable<TrainingInstance[]>} Observable of training instances list
+   */
+  getTrainingInstancesByOrganizersId(organizerId: number): Observable<TrainingInstance[]> {
+    return this.getTrainingInstances()
+      .pipe(map(trainingInstances =>
+        trainingInstances.filter(trainingInstance =>
+          trainingInstance.organizersIds.includes(organizerId))
+      ));
+  }
+
+  /**
    * Parses JSON from HTTP request
    * @param instancesJson received JSON
    * @returns {TrainingInstance[]} List of training instances created based on provided JSON
@@ -50,7 +63,6 @@ export class TrainingInstanceGetterService {
         instanceJson.start_time,
         instanceJson.end_time,
         instanceJson.pool_size,
-        this.parseSandboxInstancesIds(instanceJson.sandbox_instances),
         this.parseOrganizersIds(instanceJson.organizers),
         instanceJson.keyword);
       trainingInstance.id = instanceJson.id;
