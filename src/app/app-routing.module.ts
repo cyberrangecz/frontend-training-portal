@@ -26,7 +26,7 @@ const routes: Routes = [
   },
   {
     path: 'organizer',
-    loadChildren: 'app/components/organizer/organizer.module#OrganizerModule',
+    loadChildren: 'app/components/organizer/organizer.module#OrganizerOverviewModule',
     canActivate: [OrganizerGuard]
   },
   {

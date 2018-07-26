@@ -1,21 +1,22 @@
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
-import {OrganizerRoutingModule} from "./organizer-routing.module";
+import {OrganizerOverviewRoutingModule} from "./organizer-overview-routing.module";
 import {OrganizerOverviewComponent} from "./organizer-overview.component";
+import {TrainingInstanceGuard} from "../../../guards/training-instance-guard.service";
 
 @NgModule({
   imports: [
     CommonModule,
-    OrganizerRoutingModule
+    OrganizerOverviewRoutingModule
   ],
   declarations: [
     OrganizerOverviewComponent
   ],
   providers: [
-
+    TrainingInstanceGuard
   ]
 })
 
-export class OrganizerModule {
+export class OrganizerOverviewModule {
 
 }

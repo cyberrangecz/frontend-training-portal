@@ -1,11 +1,11 @@
 import {NgModule} from "@angular/core";
 import {RouterModule, Routes} from "@angular/router";
-import {ScoreScatterPlotViewComponent} from "./score-scatter-plot-view.component";
+import {TrainingSummaryComponent} from "./training-summary.component";
 
 const routes: Routes = [
   {
     path: '',
-    component: ScoreScatterPlotViewComponent
+    component: TrainingSummaryComponent,
   },
 
 ];
@@ -15,6 +15,6 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 
-export class ScoreScatterPlotViewRoutingModule {
+export class TrainingSummaryRoutingModule {
 
 }

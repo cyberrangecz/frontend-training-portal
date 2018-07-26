@@ -7,6 +7,7 @@ import {NgModule} from "@angular/core";
 
   ]
 })
-export class TrainingInstanceOverviewMaterialModule {
+
+export class TrainingSummaryMaterialModule {
 
 }
