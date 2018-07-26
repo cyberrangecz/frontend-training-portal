@@ -11,6 +11,7 @@ import { AuthorsPickerComponent } from './training-configuration/authors-picker/
 import { SandboxDefinitionPickerComponent } from './training-configuration/sandbox-definition-picker/sandbox-definition-picker.component';
 import {LevelGetterService} from "../../../services/data-getters/level-getter.service";
 import {LevelConfigurationModule} from "./level-configuration/level-configuration.module";
+import {PipesModule} from "../../../pipes/pipes.module";
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import {LevelConfigurationModule} from "./level-configuration/level-configuratio
     SharedModule,
     TrainingDefinitionRoutingModule,
     TrainingDefinitionMaterialModule,
-    LevelConfigurationModule
+    LevelConfigurationModule,
+    PipesModule.forRoot()
   ],
   declarations: [
     TrainingDefinitionComponent,

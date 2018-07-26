@@ -1,5 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {LevelService} from "../../../../services/level.service";
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {AbstractLevel} from "../../../../model/level/abstract-level";
 import {GameLevel} from "../../../../model/level/game-level";
 import {AssessmentLevel} from "../../../../model/level/assessment-level";
@@ -10,7 +9,7 @@ import {InfoLevel} from "../../../../model/level/info-level";
   templateUrl: './level-configuration.component.html',
   styleUrls: ['./level-configuration.component.css']
 })
-export class LevelConfigurationComponent implements OnInit {
+export class LevelConfigurationComponent implements OnInit, OnChanges {
 
   @Input('level') level: AbstractLevel;
 
@@ -19,8 +18,14 @@ export class LevelConfigurationComponent implements OnInit {
   isAssessmentLevelActive: boolean;
 
   ngOnInit() {
-    this.resolveLevelType();
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if ('level' in changes) {
+      this.resolveLevelType();
+    }
+  }
+
 
   private resolveLevelType() {
     this.isGameLevelActive = this.level instanceof GameLevel;

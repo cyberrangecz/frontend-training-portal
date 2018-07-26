@@ -16,6 +16,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
   @Input('trainingDefinitionId') trainingDefinitionId: number;
   @Input('levels') levels: AbstractLevel[];
 
+  selectedStep: number = 0;
 
   constructor() {
   }
@@ -26,13 +27,6 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if ('levels' in changes) {
       this.resolveInitialLevels();
-    }
-  }
-
-
-  private resolveInitialLevels() {
-    if (!this.levels) {
-      this.levels = [];
     }
   }
 
@@ -72,6 +66,45 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
       null,
       AssessmentTypeEnum.Questionnaire)
     );
+  }
+
+  swapLeft() {
+    console.log(this.levels);
+    if (this.selectedStep !== 0) {
+      const tempLevel = this.levels[this.selectedStep - 1];
+      tempLevel.order += 1;
+
+      this.levels[this.selectedStep].order -= 1;
+      this.levels[this.selectedStep - 1] = this.levels[this.selectedStep];
+      this.levels[this.selectedStep] = tempLevel;
+      this.selectedStep -= 1;
+      // TODO: save edited order in db
+    }
+  }
+
+  swapRight() {
+    console.log(this.levels);
+    if (this.selectedStep !== this.levels.length - 1) {
+      const tempLevel = this.levels[this.selectedStep + 1];
+      tempLevel.order -= 1;
+
+      this.levels[this.selectedStep].order += 1;
+      this.levels[this.selectedStep + 1] = this.levels[this.selectedStep];
+      this.levels[this.selectedStep] = tempLevel;
+      console.log(this.levels);
+      this.selectedStep += 1;
+      // TODO: save edited order in db
+    }
+  }
+
+  selectionChanged(event) {
+    this.selectedStep = event.selectedIndex;
+  }
+
+  private resolveInitialLevels() {
+    if (!this.levels) {
+      this.levels = [];
+    }
   }
 }
 

@@ -1,5 +1,6 @@
 import {AbstractLevel} from "./abstract-level";
 import {Hint} from "./hint";
+import {LevelTypeEnum} from "../../enums/level-type.enum";
 
 /**
  * Class representing level in a training of type Game
@@ -17,7 +18,7 @@ export class GameLevel extends AbstractLevel {
 
 
   constructor(trainingDefinitionId: number, title: string, maxScore: number, order: number, preHook: string, postHook: string, flag: string, hints: Hint[], content: string, solution: string, incorrectFlagPenalty: number, solutionPenalty: number) {
-    super(trainingDefinitionId, title, maxScore, order, preHook, postHook);
+    super(trainingDefinitionId, title, maxScore, order, preHook, postHook, LevelTypeEnum.Game);
     this.flag = flag;
     this.hints = hints;
     this.content = content;
