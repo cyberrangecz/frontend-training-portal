@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'training-results',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TrainingResultsComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    private activeRoute: ActivatedRoute) { }
 
   ngOnInit() {
   }
 
+  navigateTo(path: string) {
+    this.router.navigate([{ outlets: { view: path } }], {relativeTo: this.activeRoute});
+  }
 }

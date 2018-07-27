@@ -1,14 +1,14 @@
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import { CombinedViewComponent } from './combined-view.component';
-import {ScoreDevelopmentViewMaterialModule} from "../score-development-view/score-development-view-material.module";
-import {ScoreDevelopmentViewRoutingModule} from "../score-development-view/score-development-view-routing.module";
+import {CombinedViewMaterialModule} from "./combined-view-material.module";
+import {CombinedViewRoutingModule} from "./combined-view-routing.module";
 
 @NgModule({
   imports: [
     CommonModule,
-    ScoreDevelopmentViewMaterialModule,
-    ScoreDevelopmentViewRoutingModule
+    CombinedViewMaterialModule,
+    CombinedViewRoutingModule
   ],
   declarations: [
   CombinedViewComponent

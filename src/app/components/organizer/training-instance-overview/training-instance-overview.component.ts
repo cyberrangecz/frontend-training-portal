@@ -10,14 +10,21 @@ export class TrainingInstanceOverviewComponent implements OnInit {
   navLinks = [
     {
       path: 'summary',
+      icon: 'list_alt',
       label: 'Summary'
     },
     {
       path: 'progress',
+      icon: 'timeline',
       label: 'Progress'
-    },
+    }
+    ];
+
+  nestedNavLinks = [
     {
       path: 'results',
+      secondaryPath: 'visualization',
+      icon: 'assessment',
       label: 'Results'
     }
     ];
