@@ -13,6 +13,7 @@ export class TrainingResultsComponent implements OnInit {
     private activeRoute: ActivatedRoute) { }
 
   ngOnInit() {
+    this.router.navigate([{ outlets: { view: 'score-development' } }], {relativeTo: this.activeRoute});
   }
 
   navigateTo(path: string) {
