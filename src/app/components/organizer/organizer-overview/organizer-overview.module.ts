@@ -43,7 +43,9 @@ import { TrainingDeleteDialogComponent } from './training-instance-overview/trai
   ],
   entryComponents: [
     OrganizersPickerComponent,
-    TrainingDefinitionPickerComponent
+    TrainingDefinitionPickerComponent,
+    TrainingDeleteDialogComponent,
+    TrainingEditPopupComponent
   ]
 })
 

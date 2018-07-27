@@ -1,15 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
+import {TrainingInstance} from "../../../../../model/training/training-instance";
 
 @Component({
-  selector: 'app-training-delete-dialog',
+  selector: 'training-delete-dialog',
   templateUrl: './training-delete-dialog.component.html',
   styleUrls: ['./training-delete-dialog.component.css']
 })
 export class TrainingDeleteDialogComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public dialogRef: MatDialogRef<TrainingDeleteDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: TrainingInstance
+  ) { }
 
   ngOnInit() {
   }
 
+  confirm() {
+    this.dialogRef.close({
+      type: 'confirm'
+    });
+  }
+
+  cancel() {
+    this.dialogRef.close();
+  }
 }

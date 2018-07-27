@@ -20,6 +20,8 @@ export class TrainingInstanceDefinitionComponent implements OnInit, OnChanges {
   @Input('trainingInstance') trainingInstance: TrainingInstance;
   @Output('trainingChange') trainingChange = new EventEmitter();
 
+  editMode: boolean;
+
   title: string;
   startTime: Date = new Date();
   endTime: Date = new Date();
@@ -68,7 +70,11 @@ export class TrainingInstanceDefinitionComponent implements OnInit, OnChanges {
   saveChanges() {
     if (this.validateInputValues()) {
       this.setInputValuesToTraining();
-      // save in REST
+      if (this.editMode) {
+        // update in REST
+      } else {
+        // save in REST
+      }
       this.trainingChanged();
     }
   }
@@ -79,8 +85,10 @@ export class TrainingInstanceDefinitionComponent implements OnInit, OnChanges {
 
   private resolveInputTrainingInstance() {
     if (this.trainingInstance) {
+      this.editMode = true;
       this.setInputValuesFromTraining()
     } else {
+      this.editMode =false;
       this.createNewTrainingInstance();
     }
   }

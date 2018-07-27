@@ -4,6 +4,9 @@ import {TrainingInstance} from "../../../../model/training/training-instance";
 import {AlertService} from "../../../../services/event-services/alert.service";
 import {ActiveUserService} from "../../../../services/active-user.service";
 import {TrainingInstanceGetterService} from "../../../../services/data-getters/training-instance-getter.service";
+import {TrainingDefinitionPickerComponent} from "../training-instance-definition/training-definition-picker/training-definition-picker.component";
+import {TrainingEditPopupComponent} from "./training-edit-popup/training-edit-popup.component";
+import {TrainingDeleteDialogComponent} from "./training-delete-dialog/training-delete-dialog.component";
 
 @Component({
   selector: 'training-instances-list',
@@ -40,12 +43,31 @@ export class TrainingInstancesListComponent implements OnInit {
   }
 
   editTraining(training: TrainingInstance) {
-    // TODO: open popup with training instance definition in edit mode
-  }
+    const dialogRef = this.dialog.open(TrainingEditPopupComponent, {
+      data: training
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.type === 'confirm') {
+        this.refreshData();
+      }
+    });  }
 
   removeTraining(training: TrainingInstance) {
-    // TODO: open popup to confirm and call rest to delete from db
-  }
+    const dialogRef = this.dialog.open(TrainingDeleteDialogComponent, {
+      data: training
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.type === 'confirm') {
+        const index = this.dataSource.data.indexOf(training);
+        if (index > -1) {
+          this.dataSource.data.splice(index, 1);
+        }
+        this.dataSource = new MatTableDataSource<TrainingInstance>(this.dataSource.data);
+        // call REST API to remove from db
+      }
+    });  }
 
   archiveTraining(training: TrainingInstance) {
     // TODO: call rest to download all training instances data
