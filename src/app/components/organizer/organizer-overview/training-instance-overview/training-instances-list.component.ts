@@ -4,7 +4,6 @@ import {TrainingInstance} from "../../../../model/training/training-instance";
 import {AlertService} from "../../../../services/event-services/alert.service";
 import {ActiveUserService} from "../../../../services/active-user.service";
 import {TrainingInstanceGetterService} from "../../../../services/data-getters/training-instance-getter.service";
-import {TrainingDefinitionPickerComponent} from "../training-instance-definition/training-definition-picker/training-definition-picker.component";
 import {TrainingEditPopupComponent} from "./training-edit-popup/training-edit-popup.component";
 import {TrainingDeleteDialogComponent} from "./training-delete-dialog/training-delete-dialog.component";
 
@@ -65,7 +64,7 @@ export class TrainingInstancesListComponent implements OnInit {
           this.dataSource.data.splice(index, 1);
         }
         this.dataSource = new MatTableDataSource<TrainingInstance>(this.dataSource.data);
-        // call REST API to remove from db
+        // TODO: call REST API to remove from db
       }
     });  }
 

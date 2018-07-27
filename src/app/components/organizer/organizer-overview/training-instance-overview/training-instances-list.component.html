@@ -12,7 +12,18 @@
           <!-- TITLE Column -->
           <ng-container matColumnDef="title">
             <th class="title" mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
-            <td class="title" mat-cell *matCellDef="let training"> {{training.title}}</td>
+            <td class="title" mat-cell *matCellDef="let training">
+              <div *ngIf="training.startTime.valueOf() < now && training.endTime.valueOf() > now;
+              then clickableTitle else nonClickableTitle"></div>
+
+              <ng-template #clickableTitle>
+                <a class="training-link" mat-button color="primary"
+                   [routerLink]="['training', training.id, 'overview', { outlets: { display: ['summary'] }}]">
+                  {{ training.title }}</a>
+              </ng-template>
+
+              <ng-template #nonClickableTitle>{{training.title}}</ng-template>
+            </td>
           </ng-container>
 
           <!-- DATE Column -->

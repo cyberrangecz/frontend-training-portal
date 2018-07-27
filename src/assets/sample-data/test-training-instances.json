@@ -12,7 +12,7 @@
           "id": 1
         }
       ],
-      "keyword": "test"
+      "keyword": "123"
     },
     {
       "id": 2,
@@ -26,13 +26,13 @@
           "id": 1
         }
       ],
-      "keyword": "canbearchived"
+      "keyword": "password"
     },
     {
       "id": 3,
       "training_definition_id": 2,
       "start_time": "12/12/2017",
-      "end_time": "13/12/2017",
+      "end_time": "12/13/2017",
       "title": "Training Instance 3",
       "pool_size": 100,
       "organizers": [
@@ -40,7 +40,21 @@
           "id": 2
         }
       ],
-      "keyword": "test2"
+      "keyword": "123456789"
+    },
+    {
+      "id": 4,
+      "training_definition_id": 2,
+      "start_time": "12/12/2017",
+      "end_time": "12/13/2019",
+      "title": "Training Instance 4",
+      "pool_size": 10,
+      "organizers": [
+        {
+          "id": 1
+        }
+      ],
+      "keyword": "abcdefgh"
     }
   ]
 }

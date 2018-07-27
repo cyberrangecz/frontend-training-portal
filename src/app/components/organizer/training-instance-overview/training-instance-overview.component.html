@@ -1,3 +1,30 @@
-<p>
-  training-instance-overview works!
-</p>
+<div class="container">
+  <div class="header">
+    <h1>Training Overview</h1>
+  </div>
+  <div class="content">
+    <nav mat-tab-nav-bar color="accent">
+      <a mat-tab-link
+         [routerLink]="[{ outlets: { display: ['summary'] } }]"
+         routerLinkActive #rla="routerLinkActive"
+         [active]="rla.isActive">
+        Summary
+      </a>
+      <a mat-tab-link
+         [routerLink]="[{ outlets: { display: ['progress'] } }]"
+         routerLinkActive #rla="routerLinkActive"
+         [active]="rla.isActive">
+        Progress
+      </a>
+      <a mat-tab-link
+         [routerLink]="[{ outlets: { display: ['results'] } }]"
+         routerLinkActive #rla="routerLinkActive"
+         [active]="rla.isActive">
+        Results
+      </a>
+    </nav>
+    <router-outlet name="display"></router-outlet>
+  </div>
+
+</div>
+
