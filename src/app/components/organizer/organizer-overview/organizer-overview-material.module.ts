@@ -1,14 +1,13 @@
 import {NgModule} from "@angular/core";
 import {
-  MatButtonModule, MatDatepickerModule,
+  MatButtonModule,
   MatDialogModule, MatDividerModule,
   MatFormFieldModule, MatIconModule,
-  MatInputModule, MatListModule, MatNativeDateModule, MatOptionModule,
+  MatInputModule, MatListModule, MatOptionModule,
   MatSelectModule,
   MatTableModule, MatTooltipModule
 } from "@angular/material";
 
-import { MatDatetimepickerModule } from "@mat-datetimepicker/core";
 
 
 @NgModule({
@@ -24,8 +23,6 @@ import { MatDatetimepickerModule } from "@mat-datetimepicker/core";
     MatDividerModule,
     MatListModule,
     MatOptionModule,
-    MatDatepickerModule,
-    MatNativeDateModule
   ],
   exports: [
     MatFormFieldModule,
@@ -39,8 +36,6 @@ import { MatDatetimepickerModule } from "@mat-datetimepicker/core";
     MatDividerModule,
     MatListModule,
     MatOptionModule,
-    MatDatepickerModule,
-    MatNativeDateModule
   ]
 })
 

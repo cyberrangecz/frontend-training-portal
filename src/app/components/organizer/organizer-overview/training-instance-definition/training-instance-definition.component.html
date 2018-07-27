@@ -15,14 +15,18 @@
     <div class="panel-wrapper">
       <div class="left-panel">
         <!-- START TIME field -->
-<!--        <form [formGroup]="startTimeForm">
-          <mat-form-field appearance="outline">
-            <mat-placeholder>Start Time</mat-placeholder>
-            <mat-datetimepicker-toggle [for]="datetimePicker" matSuffix></mat-datetimepicker-toggle>
-            <mat-datetimepicker #datetimePicker type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
-            <input matInput formControlName="startTimeForm" [matDatetimepicker]="datetimePicker" required autocomplete="false">
-          </mat-form-field>
-        </form>-->
+        <mat-form-field appearance="outline">
+          <mat-label>Start Time</mat-label>
+          <div class="input-wrapper">
+            <input matInput
+                   placeholder="Start Time"
+                   required
+                   [(ngModel)]="startTime"
+                   [owlDateTimeTrigger]="startTimePicker"
+                   [owlDateTime]="startTimePicker">
+            <owl-date-time #startTimePicker></owl-date-time>
+          </div>
+        </mat-form-field>
 
         <!-- POOL SIZE filed -->
         <mat-form-field appearance="outline" hintLabel="Number in range from 1 to 100">
@@ -44,16 +48,19 @@
 
       <div class="right-panel">
         <!-- END TIME field -->
-<!--
-        <form [formGroup]="endTimeForm">
-          <mat-form-field appearance="outline">
-            <mat-placeholder>End Time</mat-placeholder>
-            <mat-datetimepicker-toggle [for]="datetimePicker" matSuffix></mat-datetimepicker-toggle>
-            <mat-datetimepicker #datetimePicker type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
-            <input matInput formControlName="endTimeForm" [matDatetimepicker]="datetimePicker" required autocomplete="false">
-          </mat-form-field>
-        </form>
--->
+        <mat-form-field appearance="outline">
+          <mat-label>End Time</mat-label>
+          <div class="input-wrapper">
+            <input
+              matInput
+              placeholder="Start Time"
+              required
+              [(ngModel)]="endTime"
+             [owlDateTimeTrigger]="endTimePicker"
+              [owlDateTime]="endTimePicker">
+            <owl-date-time #endTimePicker></owl-date-time>
+          </div>
+        </mat-form-field>
 
           <!-- ORGANIZERS field-->
           <div class="line-with-button">

@@ -6,22 +6,21 @@ import {TrainingInstanceGuard} from "../../../guards/training-instance-guard.ser
 import { TrainingInstanceDefinitionComponent } from './training-instance-definition/training-instance-definition.component';
 import { TrainingInstancesListComponent } from './training-instance-overview/training-instances-list.component';
 import {SharedModule} from "../../shared/shared.module";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormsModule} from "@angular/forms";
 import {OrganizerOverviewMaterialModule} from "./organizer-overview-material.module";
 import { OrganizersPickerComponent } from './training-instance-definition/organizers-picker/organizers-picker.component';
 import { TrainingDefinitionPickerComponent } from './training-instance-definition/training-definition-picker/training-definition-picker.component';
 import {TrainingDefinitionGetterService} from "../../../services/data-getters/training-definition-getter.service";
 import {TrainingInstanceGetterService} from "../../../services/data-getters/training-instance-getter.service";
-import {MatDatetimepickerModule, MatNativeDatetimeModule} from "@mat-datetimepicker/core";
+import {OwlDateTimeModule, OwlNativeDateTimeModule} from "ng-pick-datetime";
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
     FormsModule,
-    ReactiveFormsModule,
-    MatDatetimepickerModule,
-    MatNativeDatetimeModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
     OrganizerOverviewMaterialModule,
     OrganizerOverviewRoutingModule,
 

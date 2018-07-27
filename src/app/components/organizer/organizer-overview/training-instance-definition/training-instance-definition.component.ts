@@ -3,7 +3,6 @@ import {TrainingDefinition} from "../../../../model/training/training-definition
 import {User} from "../../../../model/user/user";
 import {AlertService} from "../../../../services/event-services/alert.service";
 import {MatDialog} from "@angular/material";
-import {AuthorsPickerComponent} from "../../../designer/training-definition/training-configuration/authors-picker/authors-picker.component";
 import {OrganizersPickerComponent} from "./organizers-picker/organizers-picker.component";
 import {TrainingDefinitionPickerComponent} from "./training-definition-picker/training-definition-picker.component";
 
@@ -17,8 +16,8 @@ export class TrainingInstanceDefinitionComponent implements OnInit {
   @Output('trainingChange') trainingChange = new EventEmitter();
 
   title: string;
-  startTime: Date;
-  endTime: Date;
+  startTime: Date = new Date();
+  endTime: Date = new Date();
   poolSize: number;
   organizers: User[];
   trainingDefinition: TrainingDefinition;
