@@ -60,8 +60,8 @@ export class TrainingInstanceGetterService {
     instancesJson.training_instances.forEach(instanceJson => {
       const trainingInstance = new TrainingInstance(
         instanceJson.training_definition_id,
-        instanceJson.start_time,
-        instanceJson.end_time,
+        new Date(instanceJson.start_time),
+        new Date(instanceJson.end_time),
         instanceJson.pool_size,
         this.parseOrganizersIds(instanceJson.organizers),
         instanceJson.keyword);

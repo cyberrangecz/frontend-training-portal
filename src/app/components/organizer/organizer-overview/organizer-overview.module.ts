@@ -13,6 +13,8 @@ import { TrainingDefinitionPickerComponent } from './training-instance-definitio
 import {TrainingDefinitionGetterService} from "../../../services/data-getters/training-definition-getter.service";
 import {TrainingInstanceGetterService} from "../../../services/data-getters/training-instance-getter.service";
 import {OwlDateTimeModule, OwlNativeDateTimeModule} from "ng-pick-datetime";
+import { TrainingEditPopupComponent } from './training-instance-overview/training-edit-popup/training-edit-popup.component';
+import { TrainingDeleteDialogComponent } from './training-instance-overview/training-delete-dialog/training-delete-dialog.component';
 
 @NgModule({
   imports: [
@@ -30,7 +32,9 @@ import {OwlDateTimeModule, OwlNativeDateTimeModule} from "ng-pick-datetime";
     TrainingInstanceDefinitionComponent,
     TrainingInstancesListComponent,
     OrganizersPickerComponent,
-    TrainingDefinitionPickerComponent
+    TrainingDefinitionPickerComponent,
+    TrainingEditPopupComponent,
+    TrainingDeleteDialogComponent
   ],
   providers: [
     TrainingInstanceGuard,

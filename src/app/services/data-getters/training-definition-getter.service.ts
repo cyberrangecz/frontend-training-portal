@@ -42,6 +42,16 @@ export class TrainingDefinitionGetterService {
   }
 
   /**
+   * Retrieves training definitions in released state
+   * @returns {Observable<TrainingDefinition[]>} Observable of retrieved list of training definitions
+   */
+  getReleasedTrainingDefs(): Observable<TrainingDefinition[]> {
+    return this.getTrainingDefs()
+      .pipe(map(trainings =>
+      trainings.filter(training => training.state === TrainingDefinitionStateEnum.Released)));
+  }
+
+  /**
    * Retrieves training definition by id of its author
    * @param {number} userId id of training definition author
    * @returns {Observable<TrainingDefinition[]>} Observable of list of training definitions matching authors id

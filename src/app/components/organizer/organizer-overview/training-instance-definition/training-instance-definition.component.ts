@@ -68,7 +68,6 @@ export class TrainingInstanceDefinitionComponent implements OnInit, OnChanges {
   saveChanges() {
     if (this.validateInputValues()) {
       this.setInputValuesToTraining();
-      console.log(this.trainingInstance);
       // save in REST
       this.trainingChanged();
     }

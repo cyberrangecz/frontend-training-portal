@@ -1,0 +1,59 @@
+h2 {
+  text-align: center;
+  margin: 20px auto;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.mat-sort-header-container {
+  align-items: center;
+}
+
+.training {
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  width: 90vh;
+}
+
+.training-table-wrapper {
+  flex-grow: 10;
+}
+
+.training-table {
+  width: 100%;
+  margin: auto auto;
+  justify-items: center;
+  justify-content: center;
+}
+
+table {
+  width: 100%;
+}
+
+td.title, th.title {
+  width: 20%;
+}
+
+td.date, th.date {
+  width: 30%;
+}
+
+td.state, th.state {
+  width: 15%;
+}
+
+td.poolSize, th.poolSize {
+  width: 5%;
+}
+
+td.password, th.password {
+  width: 10%;
+}
+
+td.actions, th.actions {
+  width: 20%;
+}

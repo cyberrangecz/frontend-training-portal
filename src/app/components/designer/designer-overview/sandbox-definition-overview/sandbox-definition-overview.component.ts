@@ -28,7 +28,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private designerAlertService: AlertService,
+    private alertService: AlertService,
     private activeUserService: ActiveUserService,
     private trainingDefinitionGetter: TrainingDefinitionGetterService,
     private sandboxDefinitionGetter: SandboxDefinitionGetterService,
@@ -58,7 +58,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
     const dialogRef = this.dialog.open(SandboxUploadDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.designerAlertService.emitAlert(result.type, result.message);
+        this.alertService.emitAlert(result.type, result.message);
       }
     });
   }

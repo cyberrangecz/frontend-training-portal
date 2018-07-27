@@ -4,7 +4,7 @@
       "id": 1,
       "training_definition_id": 1,
       "start_time": "12/12/2018",
-      "end_time": "13/12/2018",
+      "end_time": "12/13/2018",
       "title": "Training Instance 1",
       "pool_size": 100,
       "organizers": [
@@ -18,7 +18,7 @@
       "id": 2,
       "training_definition_id": 4,
       "start_time": "12/12/2017",
-      "end_time": "13/12/2017",
+      "end_time": "12/13/2017",
       "title": "Training Instance 2",
       "pool_size": 100,
       "organizers": [
