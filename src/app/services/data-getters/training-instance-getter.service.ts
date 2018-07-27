@@ -26,6 +26,18 @@ export class TrainingInstanceGetterService {
   }
 
   /**
+   * Retrieves training instance by  id
+   * @param {number} id of the training distance
+   * @returns {Observable<TrainingInstance>} Observable of training instance, null if no such training instance is found
+   */
+  getTrainingInstanceById(id: number): Observable<TrainingInstance> {
+    return this.getTrainingInstances()
+      .pipe(map(trainingInstances =>
+        trainingInstances.find(trainingInstance => trainingInstance.id === id)
+      ));
+  }
+
+  /**
    * Retrieves training instances by its definition id
    * @param {number} trainingDefId Id of training definition associated with training instance
    * @returns {Observable<TrainingInstance[]>} Observable of training instances list

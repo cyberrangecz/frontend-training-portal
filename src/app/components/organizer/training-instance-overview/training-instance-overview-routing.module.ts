@@ -1,6 +1,7 @@
 import {RouterModule, Routes} from "@angular/router";
 import {NgModule} from "@angular/core";
 import {TrainingInstanceOverviewComponent} from "./training-instance-overview.component";
+import {TrainingInstanceGuard} from "../../../guards/training-instance-guard.service";
 
 const routes: Routes = [
   {
