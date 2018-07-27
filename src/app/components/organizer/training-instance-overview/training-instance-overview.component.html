@@ -5,22 +5,11 @@
   <div class="content">
     <nav mat-tab-nav-bar color="accent">
       <a mat-tab-link
-         [routerLink]="[{ outlets: { display: ['summary'] } }]"
+         *ngFor="let link of navLinks"
+         [routerLink]="[{ outlets: { display: [link.path] } }]"
          routerLinkActive #rla="routerLinkActive"
          [active]="rla.isActive">
-        Summary
-      </a>
-      <a mat-tab-link
-         [routerLink]="[{ outlets: { display: ['progress'] } }]"
-         routerLinkActive #rla="routerLinkActive"
-         [active]="rla.isActive">
-        Progress
-      </a>
-      <a mat-tab-link
-         [routerLink]="[{ outlets: { display: ['results'] } }]"
-         routerLinkActive #rla="routerLinkActive"
-         [active]="rla.isActive">
-        Results
+        {{ link.label }}
       </a>
     </nav>
     <router-outlet name="display"></router-outlet>

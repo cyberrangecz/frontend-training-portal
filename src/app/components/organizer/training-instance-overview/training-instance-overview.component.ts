@@ -7,6 +7,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TrainingInstanceOverviewComponent implements OnInit {
 
+  navLinks = [
+    {
+      path: 'summary',
+      label: 'Summary'
+    },
+    {
+      path: 'progress',
+      label: 'Progress'
+    },
+    {
+      path: 'results',
+      label: 'Results'
+    }
+    ];
+
   constructor() { }
 
   ngOnInit() {
