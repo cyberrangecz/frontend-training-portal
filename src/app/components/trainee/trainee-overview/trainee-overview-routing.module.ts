@@ -6,6 +6,11 @@ const routes: Routes = [
   {
     path: '',
     component: TraineeOverviewComponent
+  },
+  {
+    path: 'training/:id',
+    loadChildren: 'app/components/trainee/training-run/training-run.module#TrainingRunModule',
+    canActivate: []
   }
 ];
 

@@ -1,16 +1,17 @@
 import {NgModule} from "@angular/core";
-import {Routes} from "@angular/router";
+import {RouterModule, Routes} from "@angular/router";
+import {TrainingRunResultsComponent} from "./training-run-results.component";
 
 const routes: Routes = [
   {
-    path: ''
-  }
-  ];
+    path: '',
+    component: TrainingRunResultsComponent,
+  },
+];
 
 @NgModule({
-  imports: [
-
-  ]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
 })
 export class TrainingRunResultsRoutingModule {
 

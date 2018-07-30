@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="header">
+    <h2>Access Training Run</h2>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="content">
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput placeholder="Password" [(ngModel)]="password" required>
+      <button mat-button *ngIf="password" matSuffix mat-icon-button aria-label="Clear" (click)="password=''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <span class="spacer"></span>
+    <button mat-raised-button color="primary" (click)="access()">OK</button>
+  </div>
+</div>
+
