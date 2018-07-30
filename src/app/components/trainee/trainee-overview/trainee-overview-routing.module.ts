@@ -1,6 +1,6 @@
 import {RouterModule, Routes} from "@angular/router";
 import {NgModule} from "@angular/core";
-import {TraineeOverviewComponent} from "./trainee-overview/trainee-overview.component";
+import {TraineeOverviewComponent} from "./trainee-overview.component";
 
 const routes: Routes = [
   {
@@ -14,6 +14,6 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 
-export class TraineeRoutingModule {
+export class TraineeOverviewRoutingModule {
 
 }

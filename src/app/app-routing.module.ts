@@ -31,7 +31,7 @@ const routes: Routes = [
   },
   {
     path: 'trainee',
-    loadChildren: 'app/components/trainee/trainee.module#TraineeModule',
+    loadChildren: 'app/components/trainee/trainee-overview/trainee-overview.module#TraineeOverviewModule',
     canActivate: [TraineeGuard]
   },
   {
