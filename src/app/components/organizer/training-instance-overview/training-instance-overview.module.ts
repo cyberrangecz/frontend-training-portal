@@ -12,7 +12,6 @@ import {ActiveTrainingInstanceService} from "../../../services/active-training-i
     TrainingInstanceOverviewMaterialModule
   ],
   declarations: [
-
   TrainingInstanceOverviewComponent],
   providers: [
     ActiveTrainingInstanceService

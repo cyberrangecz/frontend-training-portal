@@ -26,7 +26,7 @@ export class ActiveTrainingInstanceService {
    * Sets active training instance
    * @param {TrainingInstance} training instance to be set as active
    */
-  setActiveUser(training: TrainingInstance) {
+  setActiveTrainingInstance(training: TrainingInstance) {
     this._activeInstance = training;
     this._onActiveTrainingChangedSubject.next(training.id);
   }

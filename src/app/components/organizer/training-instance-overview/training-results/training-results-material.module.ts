@@ -6,7 +6,7 @@ import {MatButtonModule, MatDividerModule, MatIconModule, MatMenuModule} from "@
     MatMenuModule,
     MatButtonModule,
     MatIconModule,
-    MatDividerModule
+    MatDividerModule,
   ],
   exports: [
     MatMenuModule,

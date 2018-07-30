@@ -10,3 +10,7 @@
 .content {
   display:flex;
 }
+
+button.trigger {
+  margin-top: 20px;
+}
