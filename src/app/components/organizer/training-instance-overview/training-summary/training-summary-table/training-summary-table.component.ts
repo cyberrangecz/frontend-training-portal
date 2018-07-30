@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-training-summary-table',
+  selector: 'training-summary-table',
   templateUrl: './training-summary-table.component.html',
   styleUrls: ['./training-summary-table.component.css']
 })

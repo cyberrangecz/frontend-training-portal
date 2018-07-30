@@ -9,4 +9,11 @@
 
 .content {
   display: flex;
+  flex-direction: row;
+}
+
+@media screen and (max-width: 800px) {
+  .content {
+    flex-direction: column;
+  }
 }
