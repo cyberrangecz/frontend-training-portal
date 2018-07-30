@@ -8,6 +8,8 @@ import { TraineeTrainingsTableComponent } from './trainee-trainings-table/traine
 import {FormsModule} from "@angular/forms";
 import {SharedModule} from "../../shared/shared.module";
 import {TrainingInstanceGetterService} from "../../../services/data-getters/training-instance-getter.service";
+import {TrainingRunGetterService} from "../../../services/data-getters/training-run-getter.service";
+import {LevelGetterService} from "../../../services/data-getters/level-getter.service";
 
 @NgModule({
   imports: [
@@ -23,7 +25,9 @@ import {TrainingInstanceGetterService} from "../../../services/data-getters/trai
     TraineeTrainingsTableComponent
   ],
   providers: [
-    TrainingInstanceGetterService
+    TrainingInstanceGetterService,
+    TrainingRunGetterService,
+    LevelGetterService
   ]
 })
 

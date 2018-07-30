@@ -1,3 +1,69 @@
-<p>
-  trainee-trainings-table works!
-</p>
+<div class="training">
+  <div class="training-table-wrapper">
+    <div class="training-table">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter by training instance ID">
+      </mat-form-field>
+
+      <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort>
+
+          <!-- TRAINING INSTANCE TITLE Column -->
+          <ng-container matColumnDef="title">
+            <th class="title" mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+            <td class="title" mat-cell *matCellDef="let training">
+              {{ training.trainingInstance?.title }}
+            </td>
+          </ng-container>
+
+          <!-- DATE Column -->
+          <ng-container matColumnDef="date">
+            <th class="date" mat-header-cell *matHeaderCellDef>Date</th>
+            <td class="date" mat-cell *matCellDef="let training">
+              {{ training.trainingInstance?.startTime.toDateString() }} - {{ training.trainingInstance?.endTime.toDateString() }}
+            </td>
+          </ng-container>
+
+          <!-- COMPLETED LEVELS Column -->
+          <ng-container matColumnDef="completedLevels">
+            <th class="completedLevels" mat-header-cell *matHeaderCellDef>Completed Levels</th>
+            <td class="completedLevels" mat-cell *matCellDef="let training">
+              {{ training?.completedLevels }}/{{ training?.totalLevels }}
+            </td>
+          </ng-container>
+
+          <!-- ACTIONS Column -->
+          <ng-container matColumnDef="actions">
+            <th class="actions" mat-header-cell *matHeaderCellDef>Actions</th>
+            <td class="actions" mat-cell *matCellDef="let training">
+
+              <div class="action-buttons">
+                <!-- TRY AGAIN button-->
+                <button *ngIf="training.trainingInstance?.startTime <= now && training.trainingInstance?.endTime >= now"
+                  mat-icon-button color="primary"
+                  (click)="tryAgain(training.trainingInstance)">
+                  <mat-icon
+                    matTooltip="Try again"
+                    aria-label="Try again button">
+                    refresh</mat-icon>
+                </button>
+                <!-- RESULTS button-->
+                <button *ngIf="training.trainingRun?.state === 'archived'"
+                        mat-icon-button color="primary"
+                        (click)="accessResults(training.trainingRun)">
+                  <mat-icon
+                    matTooltip="Access results"
+                    aria-label="Access results button">
+                    assessment</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>

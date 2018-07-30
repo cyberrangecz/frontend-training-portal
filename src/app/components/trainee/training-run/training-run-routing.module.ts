@@ -13,12 +13,12 @@ const routes: Routes = [
           {
             path: 'level/:order',
             loadChildren: 'app/components/trainee/training-run/training-run-level/training-run-level.module#TrainingRunLevelModule',
-            outlet: 'training-run'
+            outlet: 'game'
           },
           {
             path: 'results',
             loadChildren: 'app/components/trainee/training-run/training-run-results/training-run-results.module#TrainingRunResultsModule',
-            outlet: 'training-run'
+            outlet: 'game'
           }
         ]
       }

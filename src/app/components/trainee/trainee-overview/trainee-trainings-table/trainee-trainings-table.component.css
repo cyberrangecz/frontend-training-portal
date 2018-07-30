@@ -1,0 +1,46 @@
+mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.mat-sort-header-container {
+  align-items: center;
+}
+
+.training {
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+}
+
+.training-table-wrapper {
+  flex-grow: 10;
+}
+
+.training-table {
+  width: 100%;
+  margin: auto auto;
+  justify-items: center;
+  justify-content: center;
+}
+
+table {
+  width: 100%;
+}
+
+td.title, th.title {
+  width: 30%;
+}
+
+td.date, th.date {
+  width: 40%;
+}
+
+td.completedLevels, th.completedLevels {
+  width: 20%;
+}
+
+td.actions, th.actions {
+  width: 10%;
+}
+
