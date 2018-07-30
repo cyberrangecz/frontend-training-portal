@@ -7,7 +7,7 @@ import {TrainingInstance} from "../model/training/training-instance";
  * Service maintaining active training instance for sub component of organizers training overview
  */
 @Injectable()
-export class ActiveUserService {
+export class ActiveTrainingInstanceService {
 
   private _activeInstance: TrainingInstance;
 
