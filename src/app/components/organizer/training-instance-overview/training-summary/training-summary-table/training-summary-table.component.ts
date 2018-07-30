@@ -3,8 +3,6 @@ import {MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
 import {TrainingRun} from "../../../../../model/training/training-run";
 import {TrainingInstance} from "../../../../../model/training/training-instance";
 import {ActiveTrainingInstanceService} from "../../../../../services/active-training-instance.service";
-import {UserGetterService} from "../../../../../services/data-getters/user-getter.service";
-import {SandboxDefinitionGetterService} from "../../../../../services/data-getters/sandbox-definition-getter.service";
 import {TrainingRunGetterService} from "../../../../../services/data-getters/training-run-getter.service";
 
 @Component({
@@ -26,10 +24,7 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
 
   constructor(
     private activeTrainingInstanceService: ActiveTrainingInstanceService,
-    private trainingRunGetter: TrainingRunGetterService,
-    private userGetter: UserGetterService,
-    private sandboxDefinitionGetter: SandboxDefinitionGetterService
-  ) { }
+    private trainingRunGetter: TrainingRunGetterService) { }
 
   ngOnInit() {
     this.loadActiveTraining();
@@ -55,7 +50,37 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
       })
   }
 
+  revertTrainingRun(training: TrainingRun) {
+    // TODO: Revert
+  }
+
+  /**
+   * Applies filter data source
+   * @param {string} filterValue value by which the data should be filtered. Inserted by user
+   */
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+  /**
+   * Creates table data source from training runs retrieved from a server.
+   */
   private createDataSource() {
+    if (this.trainingInstance) {
+      this.trainingRunGetter.getTrainingRunsByTrainingInstanceId(this.trainingInstance.id)
+        .subscribe(trainings => {
+          this.dataSource = new MatTableDataSource(trainings);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+
+          this.dataSource.filterPredicate =
+            (data: TrainingRun, filter: string) =>
+              data.state.toLowerCase().indexOf(filter) !== -1
+        });
+    }
 
   }
 

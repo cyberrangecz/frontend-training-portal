@@ -5,10 +5,13 @@ import {TrainingSummaryMaterialModule} from "./training-summary-material.module"
 import {TrainingSummaryRoutingModule} from "./training-summary-routing.module";
 import { TrainingInfoComponent } from './training-info/training-info.component';
 import { TrainingSummaryTableComponent } from './training-summary-table/training-summary-table.component';
+import {TrainingRunGetterService} from "../../../../services/data-getters/training-run-getter.service";
+import {SharedModule} from "../../../shared/shared.module";
 
 @NgModule({
   imports: [
     CommonModule,
+    SharedModule,
     TrainingSummaryMaterialModule,
     TrainingSummaryRoutingModule
   ],
@@ -18,6 +21,7 @@ import { TrainingSummaryTableComponent } from './training-summary-table/training
   TrainingSummaryTableComponent
   ],
   providers: [
+    TrainingRunGetterService
   ]
 })
 

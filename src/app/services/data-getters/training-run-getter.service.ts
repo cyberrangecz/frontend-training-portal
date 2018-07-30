@@ -13,7 +13,7 @@ export class TrainingRunGetterService {
   }
 
   getTrainingRuns(): Observable<TrainingRun[]> {
-    return this.http.get(environment.getTrainingInstancesUri)
+    return this.http.get(environment.getTrainingRunsUri)
       .pipe(map(response =>
         this.parseTrainingRuns(response)));
   }
@@ -39,9 +39,14 @@ export class TrainingRunGetterService {
       trainings.filter(training => training.sandboxInstanceId === sandboxId)));
   }
 
+  getTrainingRunsByTrainingInstanceId(trainingId: number): Observable<TrainingRun[]> {
+    return this.getTrainingRuns().pipe(map(trainings =>
+      trainings.filter(training => training.trainingInstanceId === trainingId)));
+  }
+
   private parseTrainingRuns(trainingsJSON): TrainingRun[] {
     const trainings: TrainingRun[] = [];
-    trainingsJSON.forEach(trainingJSON => {
+    trainingsJSON.training_runs.forEach(trainingJSON => {
       const training = new TrainingRun(
         trainingJSON.training_instance_id,
         trainingJSON.sandbox_instance_id,
@@ -53,6 +58,7 @@ export class TrainingRunGetterService {
         this.parseTrainingRunStateString2Enum(trainingJSON.state)
       );
       training.id = trainingJSON.id;
+      trainings.push(training);
     });
     return trainings;
   }

@@ -12,6 +12,18 @@
   flex-direction: row;
 }
 
+training-info {
+  flex-grow: 1;
+}
+
+training-summary-table {
+  flex-grow: 1;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
 @media screen and (max-width: 800px) {
   .content {
     flex-direction: column;

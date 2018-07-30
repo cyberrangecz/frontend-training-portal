@@ -1,3 +1,60 @@
-<p>
-  training-summary-table works!
-</p>
+<div class="training">
+  <div class="training-table-wrapper">
+    <div class="training-table">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter by state">
+      </mat-form-field>
+
+      <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort>
+
+          <!-- SANDBOX ID Column -->
+          <ng-container matColumnDef="sandboxId">
+            <th class="sandboxId" mat-header-cell *matHeaderCellDef mat-sort-header>Sandbox ID</th>
+            <td class="sandboxId" mat-cell *matCellDef="let training">
+              {{ training.sandboxInstanceId }}
+            </td>
+          </ng-container>
+
+          <!-- PLAYER ID Column -->
+          <ng-container matColumnDef="playerId">
+            <th class="playerId" mat-header-cell *matHeaderCellDef>Player ID</th>
+            <td class="playerId" mat-cell *matCellDef="let training">
+              {{ training.userId }}
+            </td>
+          </ng-container>
+
+          <!-- STATE Column -->
+          <ng-container matColumnDef="state">
+            <th class="state" mat-header-cell *matHeaderCellDef>State</th>
+            <td class="state" mat-cell *matCellDef="let training">
+              {{ training.state }}
+            </td>
+          </ng-container>
+
+          <!-- ACTIONS Column -->
+          <ng-container matColumnDef="actions">
+            <th class="actions" mat-header-cell *matHeaderCellDef>Actions</th>
+            <td class="actions" mat-cell *matCellDef="let training">
+
+              <div class="action-buttons">
+                <!-- REVERT button-->
+                <button
+                        mat-icon-button color="primary"
+                        (click)="revertTrainingRun(training)">
+                  <mat-icon
+                    matTooltip="Revert training run"
+                    aria-label="Revert training run button">
+                    rotate_left</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>
