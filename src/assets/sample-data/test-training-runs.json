@@ -1,0 +1,15 @@
+{
+  "training_runs": [
+    {
+      "id": 1,
+      "training_instance_id": 1,
+      "sandbox_instance_id": 1,
+      "user_id": 1,
+      "start_time": "10/10/2018",
+      "end_time": "11/10/2018",
+      "current_level": 0,
+      "event_log_reference": "",
+      "state": "allocated"
+    }
+  ]
+}

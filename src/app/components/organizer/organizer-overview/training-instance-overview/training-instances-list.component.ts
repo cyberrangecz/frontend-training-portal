@@ -72,7 +72,7 @@ export class TrainingInstancesListComponent implements OnInit {
     // TODO: call rest to download all training instances data
   }
 
-  allocateTraining(trainign: TrainingInstance) {
+  allocateTraining(training: TrainingInstance) {
     // TODO: call REST to allocate number of sandboxes (pool size)
   }
 
