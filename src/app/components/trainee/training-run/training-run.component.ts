@@ -42,6 +42,8 @@ export class TrainingRunComponent implements OnInit {
     this.trainingRun.currentLevel++;
     this.selectedStep += 1;
     this.activeLevelsService.nextLevel();
+    this.router.navigate(['level', this.selectedStep + 1], {relativeTo: this.activeRoute.parent});
+
   }
 
   showResults() {
@@ -52,6 +54,8 @@ export class TrainingRunComponent implements OnInit {
     this.selectedStep = event.selectedIndex;
     this.trainingRun.currentLevel = this.selectedStep;
     this.activeLevelsService.setActiveLevel(this.selectedStep);
+    this.router.navigate(['level', this.selectedStep + 1], {relativeTo: this.activeRoute.parent});
+
   }
 
   private initDataFromUrl() {
@@ -75,10 +79,10 @@ export class TrainingRunComponent implements OnInit {
   }
 
   private findInitialLevel() {
-    const firstLevel = +this.activeRoute.snapshot.paramMap.get('firstLevel');
-    if (firstLevel && !Number.isNaN(firstLevel)) {
-      this.selectedStep = firstLevel - 1;
-      this.activeLevelsService.setActiveLevel(firstLevel - 1);
+    const initialLevel = +this.activeRoute.snapshot.paramMap.get('order');
+    if (initialLevel && !Number.isNaN(initialLevel)) {
+      this.selectedStep = initialLevel - 1;
+      this.activeLevelsService.setActiveLevel(initialLevel - 1);
     }
   }
 }

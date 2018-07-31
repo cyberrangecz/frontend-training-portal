@@ -1,21 +1,19 @@
-<mat-horizontal-stepper *ngIf="withStepper && levels"
-                        (selectionChange)="stepClick($event)"
-                        [selectedIndex]="selectedStep"
-                        [linear]="true"
-                        #stepper>
-  <mat-step *ngFor="let level of levels"
-            [editable]="false">
-    <ng-template matStepLabel>{{ level.title }}</ng-template>
-    <div>
-      <button *ngIf="selectedStep + 1 < levels.length" mat-button matStepperNext >Next</button>
-      <button *ngIf="selectedStep + 1 === levels.length" mat-button (click)="showResults()">Finish</button>
-    </div>
-  </mat-step>
-</mat-horizontal-stepper>
-<training-run-level></training-run-level>
-<div class="without-stepper" *ngIf="!withStepper && levels">
-  <div>
-    <button *ngIf="selectedStep + 1 < levels.length" mat-button (click)="nextLevel()">Next</button>
-    <button *ngIf="selectedStep + 1 === levels.length" mat-button (click)="showResults()">Finish</button>
+<div class="content">
+  <mat-horizontal-stepper *ngIf="withStepper && levels"
+                          (selectionChange)="stepClick($event)"
+                          [selectedIndex]="selectedStep"
+                          [linear]="true"
+                          #stepper>
+    <mat-step *ngFor="let level of levels; index as i"
+              [editable]="false"
+              [completed]="i <= selectedStep">
+      <ng-template matStepLabel>{{ level.title }}</ng-template>
+    </mat-step>
+  </mat-horizontal-stepper>
+  <training-run-level></training-run-level>
+  <div class="main-button" *ngIf="levels">
+    <button *ngIf="selectedStep + 1 < levels.length" mat-raised-button color="primary" (click)="nextLevel()">Next</button>
+    <button *ngIf="selectedStep + 1 === levels.length" mat-raised-button color="primary" (click)="showResults()">Finish</button>
   </div>
 </div>
+

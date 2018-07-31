@@ -4,7 +4,7 @@ import {TrainingRunComponent} from "./training-run.component";
 
 const routes: Routes = [
   {
-    path: 'play/:firstLevel',
+    path: 'level/:order',
     component: TrainingRunComponent
   },
   {
@@ -13,7 +13,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'play/1',
+    redirectTo: 'level/1',
     pathMatch: 'full'
   },
 ];

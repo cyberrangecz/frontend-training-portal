@@ -1,0 +1,13 @@
+.content {
+  padding: 50px;
+}
+
+.main-button {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end
+}
+
+button {
+  margin-right: 50px;
+}
