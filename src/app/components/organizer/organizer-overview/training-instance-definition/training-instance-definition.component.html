@@ -37,7 +37,7 @@
         <!-- TRAINING DEFINITION field-->
         <div class="line-with-button">
           <p *ngIf="trainingDefinition" style="color: black">Training Definition: {{ trainingDefinition }}</p>
-          <p *ngIf="!trainingDefinition">TrainingDefinition*</p>
+          <p *ngIf="!trainingDefinition">Training Definition*</p>
           <span class="spacer"></span>
           <button (click)="chooseTrainingDefinition()"
                   mat-raised-button color="accent">
@@ -64,8 +64,8 @@
 
           <!-- ORGANIZERS field-->
           <div class="line-with-button">
-            <p *ngIf="organizers" style="color: black">Organizers: {{ organizers }}</p>
-            <p *ngIf="!organizers">Organizers*</p>
+            <p *ngIf="organizers && organizers.length > 0" style="color: black">Organizers: {{ organizers }}</p>
+            <p *ngIf="!organizers || organizers.length === 0">Organizers*</p>
             <span class="spacer"></span>
             <button (click)="chooseOrganizers()"
                     mat-raised-button color="accent">
