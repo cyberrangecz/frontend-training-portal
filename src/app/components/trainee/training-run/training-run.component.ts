@@ -22,6 +22,7 @@ export class TrainingRunComponent implements OnInit {
 
   selectedStep: number;
   withStepper: boolean;
+  withTimer: boolean;
 
   constructor(
     private router: Router,
@@ -36,6 +37,7 @@ export class TrainingRunComponent implements OnInit {
     this.initDataFromUrl();
     this.selectedStep = 0;
     this.withStepper = true;
+    this.withTimer = false;
   }
 
   nextLevel() {
