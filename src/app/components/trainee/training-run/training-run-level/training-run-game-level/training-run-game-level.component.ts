@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {GameLevel} from "../../../../../model/level/game-level";
 
 @Component({
   selector: 'training-run-game-level',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./training-run-game-level.component.css']
 })
 export class TrainingRunGameLevelComponent implements OnInit {
+
+  @Input('level') level: GameLevel;
 
   constructor() { }
 

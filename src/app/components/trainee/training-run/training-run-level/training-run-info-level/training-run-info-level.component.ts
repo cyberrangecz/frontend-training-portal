@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {InfoLevel} from "../../../../../model/level/info-level";
 
 @Component({
   selector: 'training-run-info-level',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./training-run-info-level.component.css']
 })
 export class TrainingRunInfoLevelComponent implements OnInit {
+
+  @Input('level') level: InfoLevel;
 
   constructor() { }
 
