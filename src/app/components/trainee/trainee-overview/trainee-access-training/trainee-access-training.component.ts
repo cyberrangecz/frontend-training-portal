@@ -30,7 +30,7 @@ export class TraineeAccessTrainingComponent implements OnInit {
           if (trainingInstance) {
             // TODO: pass training instance to REST, get training run and navigate to it
             const trainingRunId = 1;
-            this.router.navigate(['training', trainingRunId], {relativeTo: this.activeRoute});
+            this.router.navigate(['training', trainingRunId, 'step'], {relativeTo: this.activeRoute});
           } else {
             this.alertService.emitAlert(AlertTypeEnum.Error, 'Wrong password');
           }

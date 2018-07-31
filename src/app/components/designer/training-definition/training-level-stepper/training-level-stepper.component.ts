@@ -91,7 +91,6 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
       this.levels[this.selectedStep].order += 1;
       this.levels[this.selectedStep + 1] = this.levels[this.selectedStep];
       this.levels[this.selectedStep] = tempLevel;
-      console.log(this.levels);
       this.selectedStep += 1;
       // TODO: save edited order in db
     }

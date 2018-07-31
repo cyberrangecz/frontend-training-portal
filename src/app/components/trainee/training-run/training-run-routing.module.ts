@@ -7,7 +7,7 @@ const routes: Routes = [
     path: '',
     children: [
       {
-        path: '',
+        path: 'step',
         component: TrainingRunComponent,
         children: [
           {

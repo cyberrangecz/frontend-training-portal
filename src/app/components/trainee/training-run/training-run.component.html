@@ -1,3 +1,23 @@
-<p>
-  training-run works!
-</p>
+<mat-horizontal-stepper *ngIf="withStepper && levels"
+                        (selectionChange)="stepClick($event)"
+                        [selectedIndex]="selectedStep"
+                        [linear]="true"
+                        #stepper>
+  <mat-step *ngFor="let level of levels"
+            [editable]="false">
+    <ng-template matStepLabel>{{ level.title }}</ng-template>
+    <div>
+      <router-outlet name="game"></router-outlet>
+      <button *ngIf="selectedStep + 1 < levels.length" mat-button matStepperNext >Next</button>
+      <button *ngIf="selectedStep + 1 === levels.length" mat-button (click)="showResults()">Finish</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>
+
+<div class="without-stepper" *ngIf="!withStepper && levels">
+  <div>
+    <router-outlet name="game"></router-outlet>
+    <button *ngIf="selectedStep + 1 < levels.length" mat-button (click)="nextLevel()">Next</button>
+    <button *ngIf="selectedStep + 1 === levels.length" mat-button (click)="showResults()">Finish</button>
+  </div>
+</div>
