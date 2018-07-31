@@ -14,14 +14,14 @@ import { TrainingRunAssessmentLevelComponent } from './training-run-assessment-l
     TrainingRunLevelRoutingModule
   ],
   declarations: [
-
   TrainingRunLevelComponent,
-
   TrainingRunInfoLevelComponent,
-
   TrainingRunGameLevelComponent,
-
-  TrainingRunAssessmentLevelComponent],
+  TrainingRunAssessmentLevelComponent
+  ],
+  exports: [
+    TrainingRunLevelComponent
+  ],
   providers: [
 
   ]

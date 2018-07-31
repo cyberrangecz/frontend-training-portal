@@ -47,11 +47,16 @@ export class TraineeTrainingsTableComponent implements OnInit {
   tryAgain(trainingInstance: TrainingInstance) {
     // TODO: allocate new sandbox etc and get ID of training run
     const trainingRunId = 1;
-    this.router.navigate(['training', trainingRunId, 'step'], {relativeTo: this.activeRoute});
+    const firstLevel = 1;
+    this.router.navigate(['training', trainingRunId, 'play', firstLevel], {relativeTo: this.activeRoute});
+  }
+
+  continueInTrainingRun(trainingRun: TrainingRun) {
+    this.router.navigate(['training', trainingRun.id, 'play', trainingRun.currentLevel], {relativeTo: this.activeRoute});
   }
 
   accessResults(trainingRun: TrainingRun) {
-    this.router.navigate(['training', trainingRun.id, 'step', { outlets: { game: ['results'] }}],{relativeTo: this.activeRoute})
+    this.router.navigate(['training', trainingRun.id, 'results'],{relativeTo: this.activeRoute})
   }
 
   /**

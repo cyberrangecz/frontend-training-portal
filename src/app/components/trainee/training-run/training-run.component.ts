@@ -6,6 +6,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {LevelGetterService} from "../../../services/data-getters/level-getter.service";
 import {TrainingRunGetterService} from "../../../services/data-getters/training-run-getter.service";
 import {TrainingInstanceGetterService} from "../../../services/data-getters/training-instance-getter.service";
+import {ActiveTrainingRunLevelsService} from "../../../services/active-training-run-levels.service";
 
 
 @Component({
@@ -21,9 +22,11 @@ export class TrainingRunComponent implements OnInit {
 
   selectedStep: number;
   withStepper: boolean;
+
   constructor(
     private router: Router,
     private activeRoute: ActivatedRoute,
+    private activeLevelsService: ActiveTrainingRunLevelsService,
     private levelGetter: LevelGetterService,
     private trainingRunGetter: TrainingRunGetterService,
     private trainingInstanceGetter: TrainingInstanceGetterService) {
@@ -38,17 +41,17 @@ export class TrainingRunComponent implements OnInit {
   nextLevel() {
     this.trainingRun.currentLevel++;
     this.selectedStep += 1;
-    this.router.navigate([{ outlets: { game: ['level', this.selectedStep + 1] } }], {relativeTo: this.activeRoute});
+    this.activeLevelsService.nextLevel();
   }
 
   showResults() {
-    this.router.navigate([{ outlets: { game: ['results'] } }], {relativeTo: this.activeRoute});
+    this.router.navigate(['results'], {relativeTo: this.activeRoute.parent});
   }
 
   stepClick(event) {
     this.selectedStep = event.selectedIndex;
     this.trainingRun.currentLevel = this.selectedStep;
-    this.router.navigate([{ outlets: { game: ['level', this.selectedStep + 1] } }], {relativeTo: this.activeRoute});
+    this.activeLevelsService.setActiveLevel(this.selectedStep);
   }
 
   private initDataFromUrl() {
@@ -63,10 +66,19 @@ export class TrainingRunComponent implements OnInit {
               this.levelGetter.getLevelsByTrainingDefId(trainingInstance.id)
                 .subscribe(levels => {
                   this.levels = levels;
-                  this.router.navigate([{ outlets: { game: ['level', this.selectedStep + 1] } }], {relativeTo: this.activeRoute});
+                  this.activeLevelsService.setActiveLevels(this.levels);
+                  this.findInitialLevel();
                 })
             })
         })
+    }
+  }
+
+  private findInitialLevel() {
+    const firstLevel = +this.activeRoute.snapshot.paramMap.get('firstLevel');
+    if (firstLevel && !Number.isNaN(firstLevel)) {
+      this.selectedStep = firstLevel - 1;
+      this.activeLevelsService.setActiveLevel(firstLevel - 1);
     }
   }
 }

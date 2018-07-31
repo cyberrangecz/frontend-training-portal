@@ -4,26 +4,18 @@ import {TrainingRunComponent} from "./training-run.component";
 
 const routes: Routes = [
   {
+    path: 'play/:firstLevel',
+    component: TrainingRunComponent
+  },
+  {
+    path: 'results',
+    loadChildren: 'app/components/trainee/training-run/training-run-results/training-run-results.module#TrainingRunResultsModule',
+  },
+  {
     path: '',
-    children: [
-      {
-        path: 'step',
-        component: TrainingRunComponent,
-        children: [
-          {
-            path: 'level/:order',
-            loadChildren: 'app/components/trainee/training-run/training-run-level/training-run-level.module#TrainingRunLevelModule',
-            outlet: 'game'
-          },
-          {
-            path: 'results',
-            loadChildren: 'app/components/trainee/training-run/training-run-results/training-run-results.module#TrainingRunResultsModule',
-            outlet: 'game'
-          }
-        ]
-      }
-    ]
-  }
+    redirectTo: 'play/1',
+    pathMatch: 'full'
+  },
 ];
 
 @NgModule({

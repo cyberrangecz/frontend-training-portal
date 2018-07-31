@@ -10,21 +10,22 @@ import {AbstractLevel} from "../model/level/abstract-level";
 export class ActiveTrainingRunLevelsService {
 
   private _activeLevels: AbstractLevel[];
+  private _activeLevel: AbstractLevel;
 
-  private _onActiveLevelsChangedSubject: Subject<AbstractLevel[]> = new Subject<AbstractLevel[]>();
+  private _onActiveLevelChangedSubject: Subject<AbstractLevel> = new Subject<AbstractLevel>();
 
   /**
-   * Observable of active levels changes
+   * Observable of active level changes
    * @type {Observable<AbstractLevel[]>}
    */
-  onActiveLevelChanged: Observable<AbstractLevel[]> = this._onActiveLevelsChangedSubject.asObservable();
+  onActiveLevelChanged: Observable<AbstractLevel> = this._onActiveLevelChangedSubject.asObservable();
 
   getActiveLevels(): AbstractLevel[] {
     return this._activeLevels;
   }
 
-  getActiveLevel(index: number) {
-    return this._activeLevels[index];
+  getActiveLevel() {
+    return this._activeLevel;
   }
 
   /**
@@ -33,7 +34,18 @@ export class ActiveTrainingRunLevelsService {
    */
   setActiveLevels(levels: AbstractLevel[]) {
     this._activeLevels = levels;
-    this._onActiveLevelsChangedSubject.next(levels);
+  }
+
+  setActiveLevel(index: number) {
+    this._activeLevel = this._activeLevels[index];
+    this._onActiveLevelChangedSubject.next(this._activeLevel);
+  }
+
+  nextLevel() {
+    const index = this._activeLevels.indexOf(this._activeLevel);
+    if (index + 1 < this._activeLevels.length) {
+      this.setActiveLevel(index + 1);
+    }
   }
 
 }
