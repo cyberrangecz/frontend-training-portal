@@ -1,20 +1,26 @@
-div .container {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-
-}
-
-div .header {
-  text-align: center;
-  align-items: center;
-  align-content: center;
-}
-
-div .content {
-  margin-top: 100px;
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
   align-content: center;
 }
+
+.header {
+  margin-top: 50px;
+  text-align: center;
+  width: 60%;
+
+}
+
+.content {
+  margin-top: 50px;
+  display: flex;
+  width: 60%;
+}
+
+@media screen and (max-width: 800px) {
+  .content {
+    width: 90%;
+  }
+}
+
