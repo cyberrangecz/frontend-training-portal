@@ -13,16 +13,17 @@
           <ng-container matColumnDef="title">
             <th class="title" mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
             <td class="title" mat-cell *matCellDef="let training">
-              <div *ngIf="training.startTime.valueOf() < now && training.endTime.valueOf() > now;
+              <div *ngIf="training.trainingInstance?.startTime.valueOf() < now
+                            && training.trainingInstance?.endTime.valueOf() > now;
               then clickableTitle else nonClickableTitle"></div>
 
               <ng-template #clickableTitle>
                 <a class="training-link" mat-button color="primary"
-                   [routerLink]="['training', training.id, 'overview', { outlets: { display: ['summary'] }}]">
-                  {{ training.title }}</a>
+                   [routerLink]="['training', training.trainingInstance?.id, 'overview', { outlets: { display: ['summary'] }}]">
+                  {{ training.trainingInstance?.title }}</a>
               </ng-template>
 
-              <ng-template #nonClickableTitle>{{training.title}}</ng-template>
+              <ng-template #nonClickableTitle>{{training.trainingInstance?.title}}</ng-template>
             </td>
           </ng-container>
 
@@ -30,25 +31,27 @@
           <ng-container matColumnDef="date">
             <th class="date" mat-header-cell *matHeaderCellDef>Date</th>
             <td class="date" mat-cell *matCellDef="let training">
-              {{ training.startTime.toDateString() }} - {{ training.endTime.toDateString() }}</td>
+              {{ training.trainingInstance?.startTime.toDateString() }} - {{ training.trainingInstance?.endTime.toDateString() }}</td>
           </ng-container>
 
-          <!-- STATE Column -->
-          <ng-container matColumnDef="state">
-            <th class="state" mat-header-cell *matHeaderCellDef>State</th>
-            <td class="state" mat-cell *matCellDef="let training"> Undefined</td>
+          <!-- TRAINING DEFINITION TITLE Column -->
+          <ng-container matColumnDef="trainingDefinition">
+            <th class="trainingDefinition" mat-header-cell *matHeaderCellDef>Training Definition</th>
+            <td class="trainingDefinition" mat-cell *matCellDef="let training">
+              {{ training.trainingDefinitionTitle }}
+            </td>
           </ng-container>
 
           <!-- POOLSIZE Column -->
           <ng-container matColumnDef="poolSize">
             <th class="poolSize" mat-header-cell *matHeaderCellDef>Pool Size</th>
-            <td class="poolSize" mat-cell *matCellDef="let training"> {{ training.poolSize }}</td>
+            <td class="poolSize" mat-cell *matCellDef="let training"> {{ training.trainingInstance?.poolSize }}</td>
           </ng-container>
 
           <!-- PASSWORD Column -->
           <ng-container matColumnDef="password">
             <th class="password" mat-header-cell *matHeaderCellDef>Password</th>
-            <td class="password" mat-cell *matCellDef="let training"> {{ training.keyword }}</td>
+            <td class="password" mat-cell *matCellDef="let training"> {{ training.trainingInstance?.keyword }}</td>
           </ng-container>
 
           <!-- ACTIONS Column -->
@@ -59,9 +62,9 @@
               <div class="action-buttons">
 
                 <!-- EDIT button-->
-                <button *ngIf="training.startTime.valueOf() > now"
+                <button *ngIf="training.trainingInstance?.startTime.valueOf() > now"
                         mat-icon-button color="primary"
-                        (click)="editTraining(training)">
+                        (click)="editTraining(training.trainingInstance)">
                   <mat-icon
                     matTooltip="Edit training instance"
                     aria-label="Edit training instance">
@@ -69,7 +72,7 @@
                 </button>
 
                 <!-- REMOVE button-->
-                <button *ngIf="training.endTime.valueOf() < now"
+                <button *ngIf="training.trainingInstance?.endTime.valueOf() < now"
                         mat-icon-button color="primary"
                         (click)="removeTraining(training)">
                   <mat-icon
@@ -79,9 +82,9 @@
                 </button>
 
                 <!-- ARCHIVE button-->
-                <button *ngIf="training.endTime.valueOf() < now"
+                <button *ngIf="training.trainingInstance?.endTime.valueOf() < now"
                         mat-icon-button color="primary"
-                        (click)="archiveTraining(training)">
+                        (click)="archiveTraining(training.trainingInstance)">
                   <mat-icon
                     matTooltip="Archive training instance"
                     aria-label="Archive training instance button">
@@ -91,7 +94,7 @@
                 <!-- ALLOCATE button-->
                 <button
                         mat-icon-button color="primary"
-                        (click)="allocateTraining(training)">
+                        (click)="allocateTraining(training.trainingInstance)">
                   <mat-icon
                     matTooltip="Allocate resources for training instance"
                     aria-label="Allocate resources for training instance button">
