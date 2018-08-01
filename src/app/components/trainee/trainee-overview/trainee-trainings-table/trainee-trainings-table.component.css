@@ -17,6 +17,10 @@ mat-form-field {
   flex-grow: 10;
 }
 
+.training-link {
+  padding:0;
+}
+
 .training-table {
   width: 100%;
   margin: auto auto;

@@ -51,10 +51,6 @@ export class TraineeTrainingsTableComponent implements OnInit {
     this.router.navigate(['training', trainingRunId, 'level', firstLevel], {relativeTo: this.activeRoute});
   }
 
-  continueInTrainingRun(trainingRun: TrainingRun) {
-    this.router.navigate(['training', trainingRun.id, 'level', trainingRun.currentLevel], {relativeTo: this.activeRoute});
-  }
-
   accessResults(trainingRun: TrainingRun) {
     this.router.navigate(['training', trainingRun.id, 'results'],{relativeTo: this.activeRoute})
   }

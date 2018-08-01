@@ -58,6 +58,8 @@ export class TrainingRunGetterService {
         this.parseTrainingRunStateString2Enum(trainingJSON.state)
       );
       training.id = trainingJSON.id;
+      training.currentLevel = trainingJSON.current_level;
+      training.showProgress = trainingJSON.show_progress;
       trainings.push(training);
     });
     return trainings;
