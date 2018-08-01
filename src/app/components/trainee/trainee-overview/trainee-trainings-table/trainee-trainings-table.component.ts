@@ -9,7 +9,6 @@ import {ActiveUserService} from "../../../../services/active-user.service";
 import {LevelGetterService} from "../../../../services/data-getters/level-getter.service";
 
 export class TraineeAccessedTrainingsTableData {
-  completedLevels: number;
   totalLevels: number;
   trainingRun: TrainingRun;
   trainingInstance: TrainingInstance;
@@ -26,8 +25,6 @@ export class TraineeTrainingsTableComponent implements OnInit {
 
   now: number = Date.now();
   dataSource: MatTableDataSource<TraineeAccessedTrainingsTableData>;
-
-  dataLoaded = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -80,9 +77,11 @@ export class TraineeTrainingsTableComponent implements OnInit {
               tableRow.trainingInstance = trainingInstance;
               this.levelGetter.getLevelsByTrainingDefId(trainingInstance.trainingDefinitionId)
                 .subscribe(
-                  levels => tableRow.totalLevels = levels.length);
+                  levels =>  {
+                    console.log(levels);
+                    tableRow.totalLevels = levels.length
+                  });
             });
-          // TODO: GET completed levels
           data.push(tableRow);
         });
         this.dataSource = new MatTableDataSource(data);

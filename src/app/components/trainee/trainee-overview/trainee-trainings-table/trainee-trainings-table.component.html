@@ -37,7 +37,7 @@
           <ng-container matColumnDef="completedLevels">
             <th class="completedLevels" mat-header-cell *matHeaderCellDef>Completed Levels</th>
             <td class="completedLevels" mat-cell *matCellDef="let training">
-              {{ training?.completedLevels }}/{{ training?.totalLevels }}
+              {{ training.trainingRun.currentLevel }}/{{ training?.totalLevels }}
             </td>
           </ng-container>
 
