@@ -28,6 +28,7 @@ export class TrainingInstanceDefinitionComponent implements OnInit, OnChanges {
   poolSize: number;
   organizers: User[];
   trainingDefinition: TrainingDefinition;
+  password: string;
 
 
   constructor(
@@ -104,6 +105,10 @@ export class TrainingInstanceDefinitionComponent implements OnInit, OnChanges {
       errorMessage += 'Pool size must be number in range from 1 to 100\n'
     }
 
+    if (!this.password || this.password.replace(/\s/g, '') === '') {
+      errorMessage += 'Password cannot be empty\n'
+    }
+
     if (!this.organizers) {
       errorMessage += 'Organizers must not be empty\n'
     }
@@ -142,6 +147,7 @@ export class TrainingInstanceDefinitionComponent implements OnInit, OnChanges {
     this.trainingInstance.poolSize = this.poolSize;
     this.trainingInstance.organizersIds = this.organizers.map(user => user.id);
     this.trainingInstance.trainingDefinitionId = this.trainingDefinition.id;
+    this.trainingInstance.keyword = this.password;
   }
 
   private setInputValuesFromTraining() {
@@ -153,6 +159,7 @@ export class TrainingInstanceDefinitionComponent implements OnInit, OnChanges {
       .subscribe(organizers => this.organizers = organizers);
     this.trainingDefinitionGetter.getTrainingDefById(this.trainingInstance.trainingDefinitionId)
       .subscribe(trainingDef => this.trainingDefinition = trainingDef);
+    this.password = this.trainingInstance.keyword;
 
   }
 
