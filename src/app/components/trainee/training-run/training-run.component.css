@@ -1,5 +1,7 @@
 .content {
   padding: 50px;
+  display: flex;
+  flex-direction: column;
 }
 
 .main-button {
@@ -10,4 +12,10 @@
 
 button {
   margin-right: 50px;
+}
+
+.timer {
+  margin: 10px 10px;
+  display: flex;
+  justify-content: flex-end;
 }

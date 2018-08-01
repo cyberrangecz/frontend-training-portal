@@ -1,4 +1,6 @@
 <div class="content">
+
+  <!-- LEVEL STEPPER -->
   <mat-horizontal-stepper *ngIf="withStepper && levels"
                           (selectionChange)="stepClick($event)"
                           [selectedIndex]="selectedStep"
@@ -21,6 +23,13 @@
       <ng-template matStepLabel>{{ i + 1 | levelStepperLabel:levels.length }}</ng-template>
     </mat-step>
   </mat-horizontal-stepper>
+
+  <!-- TIMER -->
+  <div class="timer">
+    <training-timer *ngIf="withTimer && trainingRun" [startTime]="trainingRun.startTime"></training-timer>
+  </div>
+
+  <!-- CONTENT OF ACTIVE LEVEL -->
   <training-run-level></training-run-level>
   <div class="main-button" *ngIf="levels">
     <button *ngIf="selectedStep + 1 < levels.length"

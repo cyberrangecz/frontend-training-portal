@@ -1,0 +1,42 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+}
+
+.header {
+  margin-top: 50px;
+  text-align: center;
+  width: 90%;
+
+}
+
+.content {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+}
+
+.left-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.middle-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.right-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (max-width: 800px) {
+  .content {
+    width: 100%;
+  }
+}
+

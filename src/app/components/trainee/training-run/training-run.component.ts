@@ -41,7 +41,7 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
     this.subscribeLevelLockChange();
     this.selectedStep = 0;
     this.withStepper = true;
-    this.withTimer = false;
+    this.withTimer = true;
   }
 
   ngOnDestroy() {

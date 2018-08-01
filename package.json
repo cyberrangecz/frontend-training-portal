@@ -26,6 +26,7 @@
     "core-js": "^2.5.4",
     "hammerjs": "^2.0.8",
     "ng-pick-datetime": "^6.0.10",
+    "ngx-countdown-timer": "^0.1.9",
     "ngx-md": "^6.0.0",
     "rxjs": "^6.0.0",
     "typescript-collections": "^1.3.2",
