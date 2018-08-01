@@ -65,8 +65,8 @@ export class HintConfigurationComponent implements OnInit, OnChanges {
       errorMessage += 'Content cannot be empty\n'
     }
 
-    if (!this.hintPenalty || this.hintPenalty < 0 || this.hintPenalty > 1000) {
-      errorMessage += 'Hint penalty must be a number in range from 0 to 1000\n'
+    if (!this.hintPenalty || this.hintPenalty < 0 || this.hintPenalty > 50) {
+      errorMessage += 'Hint penalty must be a number in range from 0 to 50\n'
     }
 
     if (errorMessage !== '') {

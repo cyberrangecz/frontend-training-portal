@@ -65,10 +65,10 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
       errorMessage += 'Incorrect flag penalty must be a number in range from 0 to 1000\n'
     }
     if (!this.maxScore || this.maxScore < 0 || this.maxScore > 1000) {
-      errorMessage += 'Maximal score must be a number in range from 0 to 1000\n'
+      errorMessage += 'Maximal score must be a number in range from 0 to 100\n'
     }
-    if (!this.solutionPenalty || this.solutionPenalty < 0 || this.solutionPenalty > 1000) {
-      errorMessage += 'Solution penalty must be a number in range from 0 to 1000\n'
+    if (!this.solutionPenalty || this.solutionPenalty < 0 || this.solutionPenalty > this.maxScore - 1) {
+      errorMessage += 'Solution penalty must be a number in range from 0 to ' + (this.maxScore - 1) + '\n'
     }
 
     if (!this.estimatedDuration || this.solutionPenalty < 0) {
