@@ -8,6 +8,7 @@ import {TrainingRunLevelModule} from "./training-run-level/training-run-level.mo
 import {PipesModule} from "../../../pipes/pipes.module";
 import { TrainingTimerComponent } from './training-timer/training-timer.component';
 import {CountdownTimerModule} from "ngx-countdown-timer";
+import {TrainingDefinitionGetterService} from "../../../services/data-getters/training-definition-getter.service";
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import {CountdownTimerModule} from "ngx-countdown-timer";
     TrainingTimerComponent,
   ],
   providers: [
-    ActiveTrainingRunLevelsService
+    ActiveTrainingRunLevelsService,
+    TrainingDefinitionGetterService
   ]
 })
 export class TrainingRunModule { }

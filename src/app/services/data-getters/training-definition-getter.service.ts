@@ -93,6 +93,7 @@ export class TrainingDefinitionGetterService {
       training.description = trainingJson.description;
       training.prerequisites = trainingJson.prerequisites;
       training.outcomes = trainingJson.outcomes;
+      training.showProgress = trainingJson.show_progress;
       trainingDefs.push(training);
     });
     return trainingDefs;

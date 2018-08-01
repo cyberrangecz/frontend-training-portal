@@ -36,6 +36,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
   authors: User[];
   sandboxDef: SandboxDefinition;
   selectedState: string;
+  showProgress: boolean;
 
   states: string[];
 
@@ -123,7 +124,8 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
         TrainingDefinitionStateEnum.Unreleased,
         []
       );
-      this.trainingDefinition.title = 'New Training Definition'
+      this.trainingDefinition.title = 'New Training Definition';
+      this.showProgress = true;
     } else {
       this.editMode = true;
       this.initValuesForEdit();
@@ -150,7 +152,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.prerequisites = this.trainingDefinition.prerequisites;
     this.outcomes = this.trainingDefinition.outcomes;
     this.selectedState = this.trainingDefinition.state;
-
+    this.showProgress = this.trainingDefinition.showProgress;
     this.userGetter.loadUsersByIds(this.trainingDefinition.authorIds)
       .subscribe(authors => this.authors = authors);
     this.sandboxDefinitionGetter.getSandboxDefById(this.trainingDefinition.sandboxDefinitionId)
@@ -168,6 +170,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.trainingDefinition.outcomes = this.outcomes;
     this.trainingDefinition.state = TrainingDefinitionStateEnum[this.selectedState.charAt(0).toUpperCase() + this.selectedState.slice(1)];
     this.trainingDefinition.sandboxDefinitionId = this.sandboxDef.id;
+    this.trainingDefinition.showProgress = this.showProgress;
   }
 
   /**

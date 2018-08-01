@@ -7,6 +7,7 @@ import {LevelGetterService} from "../../../services/data-getters/level-getter.se
 import {TrainingRunGetterService} from "../../../services/data-getters/training-run-getter.service";
 import {TrainingInstanceGetterService} from "../../../services/data-getters/training-instance-getter.service";
 import {ActiveTrainingRunLevelsService} from "../../../services/active-training-run-levels.service";
+import {TrainingDefinitionGetterService} from "../../../services/data-getters/training-definition-getter.service";
 
 
 @Component({
@@ -33,7 +34,8 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
     private activeLevelsService: ActiveTrainingRunLevelsService,
     private levelGetter: LevelGetterService,
     private trainingRunGetter: TrainingRunGetterService,
-    private trainingInstanceGetter: TrainingInstanceGetterService) {
+    private trainingInstanceGetter: TrainingInstanceGetterService,
+    private trainingDefinitionGetter: TrainingDefinitionGetterService) {
   }
 
   ngOnInit() {
@@ -81,12 +83,16 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
           this.trainingInstanceGetter.getTrainingInstanceById(trainingRun.trainingInstanceId)
             .subscribe(trainingInstance => {
               this.trainingInstance = trainingInstance;
-              this.levelGetter.getLevelsByTrainingDefId(trainingInstance.id)
-                .subscribe(levels => {
-                  this.levels = levels;
-                  this.activeLevelsService.setActiveLevels(this.levels);
-                  this.findInitialLevel();
-                })
+              this.trainingDefinitionGetter.getTrainingDefById(trainingInstance.trainingDefinitionId)
+                .subscribe(trainingDefinition => {
+                  this.withStepper = trainingDefinition.showProgress;
+                  this.levelGetter.getLevelsByTrainingDefId(trainingInstance.trainingDefinitionId)
+                    .subscribe(levels => {
+                      this.levels = levels;
+                      this.activeLevelsService.setActiveLevels(this.levels);
+                      this.findInitialLevel();
+                    })
+                });
             })
         })
     }

@@ -14,6 +14,7 @@ export class TrainingDefinition {
   outcomes: string;
   state: TrainingDefinitionStateEnum;
   levels: number[];
+  showProgress: boolean;
 
   canBeArchived: boolean;
 

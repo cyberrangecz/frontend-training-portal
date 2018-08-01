@@ -14,8 +14,6 @@ export class TrainingRun {
   currentLevel: number;
   eventLogReference: string;
   state: TrainingRunStateEnum;
-  showProgress: boolean;
-
 
   constructor(trainingInstanceId: number, sandboxInstanceId: number, userId: number, startTime: Date, endTime: Date, currentLevel: number, eventLogReference: string, state: TrainingRunStateEnum) {
     this.trainingInstanceId = trainingInstanceId;

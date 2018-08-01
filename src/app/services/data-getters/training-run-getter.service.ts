@@ -44,22 +44,21 @@ export class TrainingRunGetterService {
       trainings.filter(training => training.trainingInstanceId === trainingId)));
   }
 
-  private parseTrainingRuns(trainingsJSON): TrainingRun[] {
+  private parseTrainingRuns(trainingJson): TrainingRun[] {
     const trainings: TrainingRun[] = [];
-    trainingsJSON.training_runs.forEach(trainingJSON => {
+    trainingJson.training_runs.forEach(trainingJson => {
       const training = new TrainingRun(
-        trainingJSON.training_instance_id,
-        trainingJSON.sandbox_instance_id,
-        trainingJSON.user_id,
-        new Date(trainingJSON.start_time),
-        new Date(trainingJSON.end_time),
-        trainingJSON.current_level,
-        trainingJSON.event_log_reference,
-        this.parseTrainingRunStateString2Enum(trainingJSON.state)
+        trainingJson.training_instance_id,
+        trainingJson.sandbox_instance_id,
+        trainingJson.user_id,
+        new Date(trainingJson.start_time),
+        new Date(trainingJson.end_time),
+        trainingJson.current_level,
+        trainingJson.event_log_reference,
+        this.parseTrainingRunStateString2Enum(trainingJson.state)
       );
-      training.id = trainingJSON.id;
-      training.currentLevel = trainingJSON.current_level;
-      training.showProgress = trainingJSON.show_progress;
+      training.id = trainingJson.id;
+      training.currentLevel = trainingJson.current_level;
       trainings.push(training);
     });
     return trainings;
