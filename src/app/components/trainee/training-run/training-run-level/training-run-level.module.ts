@@ -8,9 +8,7 @@ import { TrainingRunGameLevelComponent } from './training-run-game-level/trainin
 import { TrainingRunAssessmentLevelComponent } from './training-run-assessment-level/training-run-assessment-level.component';
 import {NgxMdModule} from "ngx-md";
 import {FormsModule} from "@angular/forms";
-import { UserActionDialogComponent } from '../../traning-run/training-run-level/training-run-game-level/user-action-dialog/user-action-dialog.component';
-import { UserActionDialogDirective } from '../../traning-run/training-run-level/training-run-game-level/user-action-dialog.directive';
-
+import {UserActionDialogComponent} from "./training-run-game-level/user-action-dialog/user-action-dialog.component";
 @NgModule({
   imports: [
     CommonModule,
@@ -24,14 +22,16 @@ import { UserActionDialogDirective } from '../../traning-run/training-run-level/
     TrainingRunInfoLevelComponent,
     TrainingRunGameLevelComponent,
     TrainingRunAssessmentLevelComponent,
-    UserActionDialogComponent,
-    UserActionDialogDirective,
+    UserActionDialogComponent
   ],
   exports: [
     TrainingRunLevelComponent
   ],
   providers: [
 
+  ],
+  entryComponents: [
+    UserActionDialogComponent
   ]
 })
 

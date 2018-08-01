@@ -2,6 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {GameLevel} from "../../../../../model/level/game-level";
 import {Hint} from "../../../../../model/level/hint";
 import {ActiveTrainingRunLevelsService} from "../../../../../services/active-training-run-levels.service";
+import {MatDialog} from "@angular/material";
+import {UserActionDialogComponent} from "./user-action-dialog/user-action-dialog.component";
 
 @Component({
   selector: 'training-run-game-level',
@@ -18,20 +20,49 @@ export class TrainingRunGameLevelComponent implements OnInit {
   solutionShown = false;
   hintButtons = [];
 
-  constructor(private activeLevelService: ActiveTrainingRunLevelsService) { }
+  constructor(
+    private dialog: MatDialog,
+    private activeLevelService: ActiveTrainingRunLevelsService) { }
 
   ngOnInit() {
     this.displayedText = this.level.content;
     this.initHintButtons()
   }
 
-  showHint(hint: Hint, index: number) {
-    this.displayedText += '\n ** HINT ' + index + ": **\n" + hint.content;
+  showHint(hintButton, index: number) {
+    const dialogRef = this.dialog.open(UserActionDialogComponent, {
+      data: {
+        dataType: 'hint',
+        dialogType: 'warning',
+        penalty: hintButton.hint.hintPenalty
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.type === 'confirm') {
+        this.displayedText += '\n\n## <span style="color:slateblue">HINT ' + index + ":</span>\n" + hintButton.hint.content;
+        hintButton.displayed = true;
+        // TODO: Call REST to inform about hint taken
+      }
+    })
   }
 
   showSolution() {
-    this.solutionShown = true;
-    this.displayedText = this.level.solution;
+    const dialogRef = this.dialog.open(UserActionDialogComponent, {
+      data: {
+        dataType: 'solution',
+        dialogType: 'warning',
+        penalty: this.level.solutionPenalty
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.type === 'confirm') {
+        this.solutionShown = true;
+        this.displayedText = this.level.solution;
+        // TODO: Call REST to inform about solution taken
+      }
+    })
   }
 
   submitFlag() {
@@ -39,7 +70,14 @@ export class TrainingRunGameLevelComponent implements OnInit {
       this.activeLevelService.unlockCurrentLevel();
       this.correctFlag = true;
     } else {
-
+      const dialogRef = this.dialog.open(UserActionDialogComponent, {
+        data: {
+          dataType: 'flag',
+          dialogType: 'failure',
+          penalty: this.level.incorrectFlagPenalty
+        }
+      });
+      // TODO: Call REST to inform about incorrect flag
     }
   }
 

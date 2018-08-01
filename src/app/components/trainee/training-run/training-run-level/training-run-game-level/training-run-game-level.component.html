@@ -15,13 +15,19 @@
         <button
           *ngFor="let hintButton of hintButtons; index as i"
           mat-raised-button color="primary"
-          [disabled]="solutionShown || hintButton.displayed"
-          (click)="showHint(hintButton.hint, i + 1); hintButton.displayed = true">
-          HINT {{ i + 1 }}
+          [disabled]="correctFlag || solutionShown || hintButton.displayed"
+          (click)="showHint(hintButton, i + 1);"
+          matTooltip="Display hint">
+          Hint {{ i + 1 }}
         </button>
 
         <!-- SOLUTION BUTTON-->
-        <button mat-raised-button color="warn" [disabled]="solutionShown" (click)="showSolution()">Solution</button>
+        <button mat-raised-button color="warn"
+                [disabled]="correctFlag || solutionShown"
+                (click)="showSolution()"
+                matTooltip="Display solution">
+          Solution
+        </button>
       </div>
       <div class="level-content">
         <ngx-md [data]="displayedText"></ngx-md>
@@ -31,12 +37,15 @@
         <!-- FLAG field-->
         <mat-form-field appearance="outline">
           <mat-label>Flag</mat-label>
-          <input matInput placeholder="Flag" [(ngModel)]="flag" required>
-          <button mat-button *ngIf="flag" matSuffix mat-icon-button aria-label="Clear" (click)="flag=''">
+          <input matInput placeholder="Flag" [disabled]="correctFlag" [(ngModel)]="flag" required>
+          <button mat-button *ngIf="flag" [disabled]="correctFlag" matSuffix mat-icon-button aria-label="Clear" (click)="flag=''">
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
-        <button mat-button color="accent" [disabled]="correctFlag" (click)="submitFlag()"> Submit</button>
+        <button mat-button color="accent"
+                [disabled]="!flag || correctFlag"
+                (click)="submitFlag()">
+          Submit</button>
       </div>
     </div>
   </div>
