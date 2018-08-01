@@ -6,6 +6,12 @@ import {ActiveUserService} from "../../../../services/active-user.service";
 import {TrainingInstanceGetterService} from "../../../../services/data-getters/training-instance-getter.service";
 import {TrainingEditPopupComponent} from "./training-edit-popup/training-edit-popup.component";
 import {TrainingDeleteDialogComponent} from "./training-delete-dialog/training-delete-dialog.component";
+import {TrainingDefinitionGetterService} from "../../../../services/data-getters/training-definition-getter.service";
+
+export class TrainingInstancesTableDataSource {
+  trainingDefinitionTitle: string;
+  trainingInstance: TrainingInstance;
+}
 
 @Component({
   selector: 'training-instances-list',
@@ -14,9 +20,9 @@ import {TrainingDeleteDialogComponent} from "./training-delete-dialog/training-d
 })
 export class TrainingInstancesListComponent implements OnInit {
 
-  displayedColumns: string[] = ['title', 'date', 'state', 'poolSize', 'password', 'actions'];
+  displayedColumns: string[] = ['title', 'date', 'trainingDefinition', 'poolSize', 'password', 'actions'];
 
-  dataSource: MatTableDataSource<TrainingInstance>;
+  dataSource: MatTableDataSource<TrainingInstancesTableDataSource>;
 
   now: number;
 
@@ -28,7 +34,8 @@ export class TrainingInstancesListComponent implements OnInit {
     private dialog: MatDialog,
     private alertService: AlertService,
     private activeUserService: ActiveUserService,
-    private trainingInstanceGetter: TrainingInstanceGetterService
+    private trainingInstanceGetter: TrainingInstanceGetterService,
+    private trainingDefinitionGetter: TrainingDefinitionGetterService
   ) { }
 
   ngOnInit() {
@@ -52,7 +59,7 @@ export class TrainingInstancesListComponent implements OnInit {
       }
     });  }
 
-  removeTraining(training: TrainingInstance) {
+  removeTraining(training: TrainingInstancesTableDataSource) {
     const dialogRef = this.dialog.open(TrainingDeleteDialogComponent, {
       data: training
     });
@@ -63,7 +70,7 @@ export class TrainingInstancesListComponent implements OnInit {
         if (index > -1) {
           this.dataSource.data.splice(index, 1);
         }
-        this.dataSource = new MatTableDataSource<TrainingInstance>(this.dataSource.data);
+        this.dataSource = new MatTableDataSource<TrainingInstancesTableDataSource>(this.dataSource.data);
         // TODO: call REST API to remove from db
       }
     });  }
@@ -94,13 +101,25 @@ export class TrainingInstancesListComponent implements OnInit {
   private createTableDataSource() {
     this.trainingInstanceGetter.getTrainingInstancesByOrganizersId(this.activeUserService.getActiveUser().id)
       .subscribe(trainings => {
-        this.dataSource = new MatTableDataSource(trainings);
+        const data: TrainingInstancesTableDataSource[] = [];
+        trainings.forEach(training => {
+          const tableRow = new TrainingInstancesTableDataSource();
+          tableRow.trainingInstance = training;
+
+          this.trainingDefinitionGetter.getTrainingDefById(training.id)
+            .subscribe(trainingDef =>
+              tableRow.trainingDefinitionTitle = trainingDef.title);
+
+          data.push(tableRow);
+        });
+
+        this.dataSource = new MatTableDataSource(data);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
 
         this.dataSource.filterPredicate =
-          (data: TrainingInstance, filter: string) =>
-            data.title.toLowerCase().indexOf(filter) !== -1
+          (data: TrainingInstancesTableDataSource, filter: string) =>
+            data.trainingInstance.title.toLowerCase().indexOf(filter) !== -1
       });
   }
 
