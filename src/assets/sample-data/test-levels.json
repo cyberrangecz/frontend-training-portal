@@ -58,7 +58,7 @@
       "solution": "** Solution is: ** 123456",
       "incorrect_flag_penalty": 20,
       "solution_penalty": 30,
-      "estimated_duration": 5664,
+      "estimated_duration": 20,
       "attachments:": [
 
       ]

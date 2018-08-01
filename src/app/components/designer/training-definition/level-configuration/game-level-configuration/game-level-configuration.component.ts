@@ -71,8 +71,10 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
       errorMessage += 'Solution penalty must be a number in range from 0 to ' + (this.maxScore - 1) + '\n'
     }
 
-    if (!this.estimatedDuration || this.solutionPenalty < 0) {
-      errorMessage += 'Estimated duration must be a positive number\n'
+    if (!this.estimatedDuration && this.estimatedDuration !== 0) {
+      this.estimatedDuration = 60;
+    } else if (this.estimatedDuration < 1 || this.estimatedDuration > 60) {
+      errorMessage += 'Estimated duration must be a number in range from 1 to 60\n'
     }
 
     if (errorMessage !== '') {
