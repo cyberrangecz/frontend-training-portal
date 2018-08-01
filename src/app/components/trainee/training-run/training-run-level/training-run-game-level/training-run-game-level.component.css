@@ -55,11 +55,13 @@ mat-form-field {
   width: 300px;
 }
 
-
-
 @media screen and (max-width: 800px) {
   .content {
     width: 90%;
+    flex-direction: column;
+  }
+
+  .container {
     flex-direction: column;
   }
 }
