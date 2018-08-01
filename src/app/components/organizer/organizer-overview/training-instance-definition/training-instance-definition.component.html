@@ -34,16 +34,12 @@
           <input matInput placeholder="Pool Size" type="number" max="100" min="1" [(ngModel)]="poolSize" required>
         </mat-form-field>
 
-        <!-- TRAINING DEFINITION field-->
-        <div class="line-with-button">
-          <p *ngIf="trainingDefinition" style="color: black">Training Definition: {{ trainingDefinition }}</p>
-          <p *ngIf="!trainingDefinition">Training Definition*</p>
-          <span class="spacer"></span>
-          <button (click)="chooseTrainingDefinition()"
-                  mat-raised-button color="accent">
-            Choose
-          </button>
-        </div>
+        <!-- PASSWORD filed -->
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input matInput placeholder="Password" [(ngModel)]="password" required>
+        </mat-form-field>
+
       </div>
 
       <div class="right-panel">
@@ -72,6 +68,17 @@
               Choose
             </button>
           </div>
+
+        <!-- TRAINING DEFINITION field-->
+        <div class="line-with-button">
+          <p *ngIf="trainingDefinition" style="color: black">Training Definition: {{ trainingDefinition }}</p>
+          <p *ngIf="!trainingDefinition">Training Definition*</p>
+          <span class="spacer"></span>
+          <button (click)="chooseTrainingDefinition()"
+                  mat-raised-button color="accent">
+            Choose
+          </button>
+        </div>
 
         <div class="save-button">
           <span class="spacer"></span>
