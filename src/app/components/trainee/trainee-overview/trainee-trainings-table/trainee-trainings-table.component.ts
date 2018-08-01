@@ -78,7 +78,6 @@ export class TraineeTrainingsTableComponent implements OnInit {
               this.levelGetter.getLevelsByTrainingDefId(trainingInstance.trainingDefinitionId)
                 .subscribe(
                   levels =>  {
-                    console.log(levels);
                     tableRow.totalLevels = levels.length
                   });
             });
