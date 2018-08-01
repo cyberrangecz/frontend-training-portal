@@ -1,3 +1,43 @@
-<p>
-  training-run-game-level works!
-</p>
+<div class="container">
+  <div class="header">
+    <h1>{{ level.title }}</h1>
+  </div>
+  <div class="content">
+    <div class="left-panel">
+
+      <!-- TOPOLOGY COMPONENT-->
+      <img width="700" height="600" src="/assets/sample-data/topology.png">
+    </div>
+    <div class="right-panel">
+      <div class="hint-bar">
+
+        <!-- HINT BUTTONS-->
+        <button
+          *ngFor="let hintButton of hintButtons; index as i"
+          mat-raised-button color="primary"
+          [disabled]="solutionShown || hintButton.displayed"
+          (click)="showHint(hintButton.hint, i + 1); hintButton.displayed = true">
+          HINT {{ i + 1 }}
+        </button>
+
+        <!-- SOLUTION BUTTON-->
+        <button mat-raised-button color="warn" [disabled]="solutionShown" (click)="showSolution()">Solution</button>
+      </div>
+      <div class="level-content">
+        <ngx-md [data]="displayedText"></ngx-md>
+      </div>
+      <div class="flag-input">
+
+        <!-- FLAG field-->
+        <mat-form-field appearance="outline">
+          <mat-label>Flag</mat-label>
+          <input matInput placeholder="Flag" [(ngModel)]="flag" required>
+          <button mat-button *ngIf="flag" matSuffix mat-icon-button aria-label="Clear" (click)="flag=''">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <button mat-button color="accent" [disabled]="correctFlag" (click)="submitFlag()"> Submit</button>
+      </div>
+    </div>
+  </div>
+</div>

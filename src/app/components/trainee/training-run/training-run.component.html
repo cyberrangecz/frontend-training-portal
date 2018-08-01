@@ -23,8 +23,18 @@
   </mat-horizontal-stepper>
   <training-run-level></training-run-level>
   <div class="main-button" *ngIf="levels">
-    <button *ngIf="selectedStep + 1 < levels.length" mat-raised-button color="primary" (click)="nextLevel()">Next</button>
-    <button *ngIf="selectedStep + 1 === levels.length" mat-raised-button color="primary" (click)="showResults()">Finish</button>
+    <button *ngIf="selectedStep + 1 < levels.length"
+            [disabled]="isActiveLevelLocked"
+            mat-raised-button color="primary"
+            (click)="nextLevel()"
+    >Next
+    </button>
+    <button *ngIf="selectedStep + 1 === levels.length"
+            [disabled]="isActiveLevelLocked"
+            mat-raised-button color="primary"
+            (click)="showResults()">
+      Finish
+    </button>
   </div>
 </div>
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TrainingRun} from "../../../model/training/training-run";
 import {TrainingInstance} from "../../../model/training/training-instance";
 import {AbstractLevel} from "../../../model/level/abstract-level";
@@ -14,7 +14,7 @@ import {ActiveTrainingRunLevelsService} from "../../../services/active-training-
   templateUrl: './training-run.component.html',
   styleUrls: ['./training-run.component.css']
 })
-export class TrainingRunComponent implements OnInit {
+export class TrainingRunComponent implements OnInit, OnDestroy {
 
   trainingRun: TrainingRun;
   trainingInstance: TrainingInstance;
@@ -23,6 +23,9 @@ export class TrainingRunComponent implements OnInit {
   selectedStep: number;
   withStepper: boolean;
   withTimer: boolean;
+
+  isActiveLevelLocked = true;
+  levelLockSubscription;
 
   constructor(
     private router: Router,
@@ -35,17 +38,25 @@ export class TrainingRunComponent implements OnInit {
 
   ngOnInit() {
     this.initDataFromUrl();
+    this.subscribeLevelLockChange();
     this.selectedStep = 0;
     this.withStepper = true;
     this.withTimer = false;
   }
 
-  nextLevel() {
-    this.trainingRun.currentLevel++;
-    this.selectedStep += 1;
-    this.activeLevelsService.nextLevel();
-    this.router.navigate(['level', this.selectedStep + 1], {relativeTo: this.activeRoute.parent});
+  ngOnDestroy() {
+    if (this.levelLockSubscription) {
+      this.levelLockSubscription.unsubscribe();
+    }
+  }
 
+  nextLevel() {
+    if (!this.isActiveLevelLocked) {
+      this.trainingRun.currentLevel++;
+      this.selectedStep += 1;
+      this.activeLevelsService.nextLevel();
+      this.router.navigate(['level', this.selectedStep + 1], {relativeTo: this.activeRoute.parent});
+    }
   }
 
   showResults() {
@@ -53,11 +64,12 @@ export class TrainingRunComponent implements OnInit {
   }
 
   stepClick(event) {
-    this.selectedStep = event.selectedIndex;
-    this.trainingRun.currentLevel = this.selectedStep;
-    this.activeLevelsService.setActiveLevel(this.selectedStep);
-    this.router.navigate(['level', this.selectedStep + 1], {relativeTo: this.activeRoute.parent});
-
+    if (!this.isActiveLevelLocked) {
+      this.selectedStep = event.selectedIndex;
+      this.trainingRun.currentLevel = this.selectedStep;
+      this.activeLevelsService.setActiveLevel(this.selectedStep);
+      this.router.navigate(['level', this.selectedStep + 1], {relativeTo: this.activeRoute.parent});
+    }
   }
 
   private initDataFromUrl() {
@@ -87,6 +99,11 @@ export class TrainingRunComponent implements OnInit {
       this.activeLevelsService.setActiveLevel(initialLevel - 1);
     }
   }
-}
 
+  private subscribeLevelLockChange() {
+    this.activeLevelsService.onLevelLockChanged.subscribe(
+      lockChange => this.isActiveLevelLocked = lockChange
+    );
+  }
+}
 

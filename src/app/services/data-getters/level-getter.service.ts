@@ -134,9 +134,10 @@ export class LevelGetterService {
       const hint = new Hint(
         hintJson.title,
         hintJson.content,
-        hintJson.hintPenalty);
+        hintJson.hint_penalty);
       hint.id = hintJson.id;
       hint.gameLevelId = levelId;
+      hints.push(hint);
     });
     return hints;
   }

@@ -7,10 +7,14 @@ import { TrainingRunInfoLevelComponent } from './training-run-info-level/trainin
 import { TrainingRunGameLevelComponent } from './training-run-game-level/training-run-game-level.component';
 import { TrainingRunAssessmentLevelComponent } from './training-run-assessment-level/training-run-assessment-level.component';
 import {NgxMdModule} from "ngx-md";
+import {FormsModule} from "@angular/forms";
+import { UserActionDialogComponent } from '../../traning-run/training-run-level/training-run-game-level/user-action-dialog/user-action-dialog.component';
+import { UserActionDialogDirective } from '../../traning-run/training-run-level/training-run-game-level/user-action-dialog.directive';
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     TrainingRunLevelMaterialModule,
     TrainingRunLevelRoutingModule,
     NgxMdModule.forRoot(),
@@ -20,6 +24,8 @@ import {NgxMdModule} from "ngx-md";
     TrainingRunInfoLevelComponent,
     TrainingRunGameLevelComponent,
     TrainingRunAssessmentLevelComponent,
+    UserActionDialogComponent,
+    UserActionDialogDirective,
   ],
   exports: [
     TrainingRunLevelComponent

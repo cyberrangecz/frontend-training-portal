@@ -13,12 +13,16 @@ export class ActiveTrainingRunLevelsService {
   private _activeLevel: AbstractLevel;
 
   private _onActiveLevelChangedSubject: Subject<AbstractLevel> = new Subject<AbstractLevel>();
-
   /**
    * Observable of active level changes
    * @type {Observable<AbstractLevel[]>}
    */
   onActiveLevelChanged: Observable<AbstractLevel> = this._onActiveLevelChangedSubject.asObservable();
+
+  private _onLevelLockChangedSubject: Subject<boolean> = new Subject<boolean>();
+  onLevelLockChanged: Observable<boolean> = this._onLevelLockChangedSubject.asObservable();
+
+  currentLevelLocked: boolean = true;
 
   getActiveLevels(): AbstractLevel[] {
     return this._activeLevels;
@@ -41,10 +45,17 @@ export class ActiveTrainingRunLevelsService {
     this._onActiveLevelChangedSubject.next(this._activeLevel);
   }
 
+  unlockCurrentLevel() {
+    this.currentLevelLocked = false;
+    this._onLevelLockChangedSubject.next(false);
+  }
+
   nextLevel() {
     const index = this._activeLevels.indexOf(this._activeLevel);
     if (index + 1 < this._activeLevels.length) {
       this.setActiveLevel(index + 1);
+      this.currentLevelLocked = true;
+      this._onLevelLockChangedSubject.next(true);
     }
   }
 

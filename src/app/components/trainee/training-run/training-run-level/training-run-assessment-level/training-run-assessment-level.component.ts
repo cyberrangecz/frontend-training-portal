@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AssessmentLevel} from "../../../../../model/level/assessment-level";
+import {ActiveTrainingRunLevelsService} from "../../../../../services/active-training-run-levels.service";
 
 @Component({
   selector: 'training-run-assessment-level',
@@ -10,9 +11,10 @@ export class TrainingRunAssessmentLevelComponent implements OnInit {
 
   @Input('level') level: AssessmentLevel;
 
-  constructor() { }
+  constructor(private activeLevelService: ActiveTrainingRunLevelsService) { }
 
   ngOnInit() {
+    this.activeLevelService.unlockCurrentLevel();
   }
 
 }
