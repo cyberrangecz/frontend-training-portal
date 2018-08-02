@@ -1,5 +1,5 @@
 Implementation of the frontend for KYPO Trainings (former Capture the flag games).
 
-Contact person: Vit Rusnak (rusnak@ics.muni.cz)
+Contact person: Vít Rusňák (rusnak@ics.muni.cz)
 
-Developers: TODO
+Developers: Martin Hamerník (445720@mail.muni.cz)
