@@ -10,6 +10,7 @@ import {SharedModule} from "../../shared/shared.module";
 import {TrainingInstanceGetterService} from "../../../services/data-getters/training-instance-getter.service";
 import {TrainingRunGetterService} from "../../../services/data-getters/training-run-getter.service";
 import {LevelGetterService} from "../../../services/data-getters/level-getter.service";
+import {TrainingRunGuard} from "../../../guards/training-run-guard.service";
 
 @NgModule({
   imports: [
@@ -27,7 +28,8 @@ import {LevelGetterService} from "../../../services/data-getters/level-getter.se
   providers: [
     TrainingInstanceGetterService,
     TrainingRunGetterService,
-    LevelGetterService
+    LevelGetterService,
+    TrainingRunGuard
   ]
 })
 

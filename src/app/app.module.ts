@@ -14,6 +14,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {UserGetterService} from "./services/data-getters/user-getter.service";
 import {SharedModule} from "./components/shared/shared.module";
 import {SharedMaterialModule} from "./components/shared/shared-material.module";
+import {TrainingDistractionFreeModeService} from "./services/training-distraction-free-mode.service";
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import {SharedMaterialModule} from "./components/shared/shared-material.module";
     OrganizerGuard,
     TraineeGuard,
     ActiveUserService,
-    UserGetterService
+    UserGetterService,
+    TrainingDistractionFreeModeService
   ],
   bootstrap: [AppComponent]
 })

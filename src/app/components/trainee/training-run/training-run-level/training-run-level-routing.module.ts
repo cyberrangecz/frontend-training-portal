@@ -5,7 +5,7 @@ import {TrainingRunLevelComponent} from "./training-run-level.component";
 const routes: Routes = [
   {
     path: '',
-    component: TrainingRunLevelComponent,
+    component: TrainingRunLevelComponent
   },
 ];
 

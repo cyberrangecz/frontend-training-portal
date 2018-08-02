@@ -9,6 +9,7 @@ import {PipesModule} from "../../../pipes/pipes.module";
 import { TrainingTimerComponent } from './training-timer/training-timer.component';
 import {CountdownTimerModule} from "ngx-countdown-timer";
 import {TrainingDefinitionGetterService} from "../../../services/data-getters/training-definition-getter.service";
+import {TrainingRunLevelsGuard} from "../../../guards/training-run-levels-guard.service";
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import {TrainingDefinitionGetterService} from "../../../services/data-getters/tr
   ],
   providers: [
     ActiveTrainingRunLevelsService,
-    TrainingDefinitionGetterService
+    TrainingDefinitionGetterService,
+    TrainingRunLevelsGuard
   ]
 })
 export class TrainingRunModule { }
