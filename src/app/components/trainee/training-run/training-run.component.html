@@ -1,8 +1,8 @@
 <div class="content">
 
   <!-- LEVEL STEPPER -->
-  <mat-horizontal-stepper *ngIf="withStepper && levels"
-                          (selectionChange)="selectedStepChanged($event)"
+  <mat-horizontal-stepper class="training-run"
+                          *ngIf="withStepper && levels"
                           [selectedIndex]="selectedStep"
                           [linear]="true"
                           #stepper>

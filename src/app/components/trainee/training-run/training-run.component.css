@@ -19,3 +19,7 @@ button {
   display: flex;
   justify-content: flex-end;
 }
+
+.training-run {
+  pointer-events: none !important;
+}

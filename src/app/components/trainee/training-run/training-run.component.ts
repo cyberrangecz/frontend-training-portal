@@ -76,19 +76,6 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Reacts on event when selected step is changed
-   * @param event event of material stepper
-   */
-  selectedStepChanged(event) {
-    if (!this.isActiveLevelLocked) {
-      this.selectedStep = event.selectedIndex;
-      this.trainingRun.currentLevel = this.selectedStep;
-      this.activeLevelsService.setActiveLevel(this.selectedStep);
-      this.router.navigate(['level', this.selectedStep + 1], {relativeTo: this.activeRoute.parent});
-    }
-  }
-
-  /**
    * Loads all necessary data about levels and trainings from url and sets up the training
    */
   private initDataFromUrl() {
