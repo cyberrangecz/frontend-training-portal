@@ -25,6 +25,7 @@ export class TrainingDefinitionComponent implements OnInit {
   trainingDefId: number;
 
   isTrainingSaved: boolean;
+  isSidenavOpen: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -69,4 +70,7 @@ export class TrainingDefinitionComponent implements OnInit {
       }));
   }
 
+  toggleSidenav() {
+    this.isSidenavOpen = !this.isSidenavOpen;
+  }
 }

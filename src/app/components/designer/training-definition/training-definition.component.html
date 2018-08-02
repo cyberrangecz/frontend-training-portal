@@ -1,18 +1,37 @@
-<shared-alert></shared-alert>
-<div class="content">
-  <div class="training-config">
-    <training-configuration
-      (isTrainingSaved)="trainingSavedChange($event)"
-      [trainingDefinition]="trainingDefinition$ | async">
-    </training-configuration>
-  </div>
-  <mat-divider [vertical]="true"></mat-divider>
-  <div class="level">
-    <training-level-stepper
-      [isTrainingSaved]="isTrainingSaved"
-      [trainingDefinitionId]="trainingDefId"
-      [levels]="levels$ | async"></training-level-stepper>
-  </div>
-</div>
+ <mat-drawer-container class="container" autosize>
+    <mat-drawer #drawer class="sidenav" mode="side" [opened]="isSidenavOpen">
+
+      <div class="training-config">
+        <training-configuration
+          (isTrainingSaved)="trainingSavedChange($event)"
+          [trainingDefinition]="trainingDefinition$ | async">
+        </training-configuration>
+      </div>
+
+    </mat-drawer>
+    <div class="sidenav-content">
+      <button
+        class="sidenav-button"
+        type="button"
+        mat-icon-button
+        (click)="drawer.toggle(); toggleSidenav()">
+        <mat-icon *ngIf="!isSidenavOpen">edit</mat-icon>
+        <mat-icon *ngIf="isSidenavOpen">chevron_left</mat-icon>
+      </button>
+
+      <shared-alert></shared-alert>
+      <div class="content">
+        <div class="level">
+          <training-level-stepper
+            [isTrainingSaved]="isTrainingSaved"
+            [trainingDefinitionId]="trainingDefId"
+            [levels]="levels$ | async"></training-level-stepper>
+        </div>
+      </div>
+
+    </div>
+ </mat-drawer-container>
+
+
 
 

@@ -1,15 +1,17 @@
-
 .content {
-  margin: 20px;
   display: flex;
-  width: calc(100% - 40px);
+  width: 100%;
+  height: calc(100vh - 150px);
   justify-content: center;
 }
 
+.sidenav {
+  width: 20%;
+}
+
 .level {
-  flex: 80%;
-  max-width: calc(80% - 20px);
-  margin: 20px;
+  flex: 90%;
+  max-width: 90%;
   display: flex;
   flex-direction: column;
 }
@@ -18,6 +20,7 @@
   flex: 20%;
   min-width: 20%;
 }
+
 
 @media screen and (max-width: 800px) {
   .content {
