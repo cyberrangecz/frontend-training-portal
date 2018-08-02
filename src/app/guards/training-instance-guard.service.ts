@@ -24,7 +24,8 @@ export class TrainingInstanceGuard implements CanActivate {
       .pipe(map((trainingInstance => {
         // Training instance with such id either does not exist or user is not authorized to display it
         if (!trainingInstance
-          || (trainingInstance.startTime.valueOf() > now || trainingInstance.endTime.valueOf() < now)
+          || trainingInstance.startTime.valueOf() > now
+          || trainingInstance.endTime.valueOf() < now
           || !trainingInstance.organizersIds.includes(this.activeUserService.getActiveUser().id)) {
           this.router.navigate(['not-authorized']);
           return false;
