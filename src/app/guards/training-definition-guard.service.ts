@@ -7,6 +7,9 @@ import {map} from "rxjs/operators";
 import {TrainingDefinitionStateEnum} from "../enums/training-definition-state.enum";
 import {AlertService} from "../services/event-services/alert.service";
 
+/**
+ * Guard which determines if user can access training definition with id specified in url parameters
+ */
 @Injectable()
 export class TrainingDefinitionGuard implements CanActivate {
 

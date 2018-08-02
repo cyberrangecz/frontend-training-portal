@@ -10,6 +10,9 @@ import {HintStepperComponent} from "../hints/hint-stepper/hint-stepper.component
   templateUrl: './game-level-configuration.component.html',
   styleUrls: ['./game-level-configuration.component.css']
 })
+/**
+ * Component for configuration of new or existing game level
+ */
 export class GameLevelConfigurationComponent implements OnInit, OnChanges {
 
   @Input('level') level: GameLevel;
@@ -38,6 +41,9 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Validates users input, sets input values to the game level object and calls REST API to save changes
+   */
   saveChanges() {
     if (this.validateChanges()) {
       this.setInputValuesToLevel();
@@ -46,6 +52,10 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
       }
   }
 
+  /**
+   * Validates user input, displays error message if errors are found
+   * @returns {boolean} true if user input passes the validation, false otherwise
+   */
   private validateChanges(): boolean {
     let errorMessage: string = '';
 
@@ -84,6 +94,9 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
     return true;
   }
 
+  /**
+   * Sets user input values to the game level object
+   */
   private setInputValuesToLevel() {
     this.level.title = this.title;
     this.level.content = this.content;
@@ -96,6 +109,9 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
     this.level.hints = this.hints;
   }
 
+  /**
+   * Sets initial values from passed game level object to inputs (edit mode)
+   */
   private setInitialValues() {
     this.title = this.level.title;
     this.content = this.level.content;

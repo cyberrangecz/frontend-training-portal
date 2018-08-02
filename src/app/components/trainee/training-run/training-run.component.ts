@@ -15,6 +15,10 @@ import {TrainingDefinitionGetterService} from "../../../services/data-getters/tr
   templateUrl: './training-run.component.html',
   styleUrls: ['./training-run.component.css']
 })
+/**
+ * Main component of players (trainee) training. Displays window with current level of a training and navigation to the next.
+ * Optionally displays stepper with progress of the training and timer counting time from the start of a training.
+ */
 export class TrainingRunComponent implements OnInit, OnDestroy {
 
   trainingRun: TrainingRun;
@@ -52,6 +56,9 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * If it is possible (user finished current level), sets next level as active and navigates to it
+   */
   nextLevel() {
     if (!this.isActiveLevelLocked) {
       this.trainingRun.currentLevel++;
@@ -61,11 +68,18 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Navigates to page with results of current training
+   */
   showResults() {
     this.router.navigate(['results'], {relativeTo: this.activeRoute.parent});
   }
 
-  stepClick(event) {
+  /**
+   * Reacts on event when selected step is changed
+   * @param event event of material stepper
+   */
+  selectedStepChanged(event) {
     if (!this.isActiveLevelLocked) {
       this.selectedStep = event.selectedIndex;
       this.trainingRun.currentLevel = this.selectedStep;
@@ -74,6 +88,9 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Loads all necessary data about levels and trainings from url and sets up the training
+   */
   private initDataFromUrl() {
     const id = +this.activeRoute.snapshot.paramMap.get('id');
     if (id && !Number.isNaN(id)) {
@@ -98,6 +115,9 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Finds initial level based on parameter passed in url and sets it as an active level
+   */
   private findInitialLevel() {
     const initialLevel = +this.activeRoute.snapshot.paramMap.get('order');
     if (initialLevel && !Number.isNaN(initialLevel)) {
@@ -106,6 +126,9 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Subscribes to changes in level lock. Component is informed when user finished all necessary actions in the current level and is ready to continue
+   */
   private subscribeLevelLockChange() {
     this.activeLevelsService.onLevelLockChanged.subscribe(
       lockChange => this.isActiveLevelLocked = lockChange

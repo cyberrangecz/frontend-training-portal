@@ -9,6 +9,9 @@ import {ActivatedRoute, Router} from "@angular/router";
   templateUrl: './trainee-access-training.component.html',
   styleUrls: ['./trainee-access-training.component.css']
 })
+/**
+ * Components where user can access active training run by inserting correct password
+ */
 export class TraineeAccessTrainingComponent implements OnInit {
 
   password: string;
@@ -22,6 +25,10 @@ export class TraineeAccessTrainingComponent implements OnInit {
   ngOnInit() {
   }
 
+  /**
+   * Finds active training run with matching password and allocates resources for the trainee.
+   * If resources are allocated, navigates user to the first level of the training
+   */
   access() {
     // TODO: Find active run with matching password, find available sandbox and redirect to level 1
     if (this.password && this.password.replace(/\s/g, '') !== '') {

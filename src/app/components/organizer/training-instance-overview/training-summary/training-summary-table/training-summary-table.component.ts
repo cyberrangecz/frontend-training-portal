@@ -10,6 +10,9 @@ import {TrainingRunGetterService} from "../../../../../services/data-getters/tra
   templateUrl: './training-summary-table.component.html',
   styleUrls: ['./training-summary-table.component.css']
 })
+/**
+ * Component for displaying summary of training in form of a material table
+ */
 export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
 
   displayedColumns: string[] = ['sandboxId', 'playerId', 'state', 'actions'];
@@ -38,10 +41,16 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Loads active training (selected by user) from service
+   */
   private loadActiveTraining() {
     this.trainingInstance = this.activeTrainingInstanceService.getActiveTrainingInstance();
   }
 
+  /**
+   * Subscribes to changes of active training. If active training is changes, reloads data and creates new data source
+   */
   private subscribeActiveTrainingChanges() {
     this.activeTrainingSubscription = this.activeTrainingInstanceService.onActiveTrainingChanged
       .subscribe(change => {
@@ -50,6 +59,10 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
       })
   }
 
+  /**
+   *
+   * @param {TrainingRun} training
+   */
   revertTrainingRun(training: TrainingRun) {
     // TODO: Revert
   }

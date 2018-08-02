@@ -11,6 +11,9 @@ import {TrainingDefinitionGetterService} from "../../../../../services/data-gett
   templateUrl: './training-definition-picker.component.html',
   styleUrls: ['./training-definition-picker.component.css']
 })
+/**
+ * Popup dialog to choose from training definition which will be associated with the training instance
+ */
 export class TrainingDefinitionPickerComponent implements OnInit {
 
   trainingDefs$: Observable<TrainingDefinition[]>;

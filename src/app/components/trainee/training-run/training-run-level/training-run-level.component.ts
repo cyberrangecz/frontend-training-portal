@@ -11,6 +11,10 @@ import {GameLevel} from "../../../../model/level/game-level";
   templateUrl: './training-run-level.component.html',
   styleUrls: ['./training-run-level.component.css']
 })
+/**
+ * Component to display one level in a training run. Serves mainly as a wrapper which determines the type of the training
+ * and displays child component accordingly
+ */
 export class TrainingRunLevelComponent implements OnInit, OnDestroy {
 
   level: AbstractLevel;
@@ -34,10 +38,16 @@ export class TrainingRunLevelComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Loads level from service maintaining active level
+   */
   private initLevel() {
     this.level = this.activeLevelsService.getActiveLevel();
   }
 
+  /**
+   * Resolves type of a passed level
+   */
   private resolveLevelType() {
     if (this.level) {
       this.isInfoLevel = this.level instanceof InfoLevel;
@@ -46,6 +56,10 @@ export class TrainingRunLevelComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Subscribes to changes of active level. If active level is changes, it re-initializes level data and displays
+   * different child component if its type is changed
+   */
   private subscribeForActiveLevelChanges() {
     this.activeLevelsChangeSubscription = this.activeLevelsService.onActiveLevelChanged
       .subscribe(activeLevel => {

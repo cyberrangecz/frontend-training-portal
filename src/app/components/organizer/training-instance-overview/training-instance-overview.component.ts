@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {TrainingInstanceGetterService} from "../../../services/data-getters/training-instance-getter.service";
 import {ActiveTrainingInstanceService} from "../../../services/active-training-instance.service";
@@ -7,6 +7,9 @@ import {ActiveTrainingInstanceService} from "../../../services/active-training-i
   templateUrl: './training-instance-overview.component.html',
   styleUrls: ['./training-instance-overview.component.css']
 })
+/**
+ * Main component of training instance overview. Tab with navigation to child components
+ */
 export class TrainingInstanceOverviewComponent implements OnInit {
 
   navLinks = [
@@ -39,6 +42,9 @@ export class TrainingInstanceOverviewComponent implements OnInit {
     this.setActiveTrainingInstanceFromUrl()
   }
 
+  /**
+   * Gets id of training instance from url and sets it as active for child components
+   */
   private setActiveTrainingInstanceFromUrl() {
     const snapshot = this.route.snapshot;
     const id = +snapshot.paramMap.get('id');

@@ -18,6 +18,9 @@ export class TrainingInstancesTableDataSource {
   templateUrl: './training-instances-list.component.html',
   styleUrls: ['./training-instances-list.component.css']
 })
+/**
+ * Component for list of training instance displayed in form of a table. Only training instances where the active user is listed as an organizer is shown
+ */
 export class TrainingInstancesListComponent implements OnInit {
 
   displayedColumns: string[] = ['title', 'date', 'trainingDefinition', 'poolSize', 'password', 'actions'];
@@ -43,11 +46,18 @@ export class TrainingInstancesListComponent implements OnInit {
     this.createTableDataSource();
   }
 
+  /**
+   * Reloads data and creates new table data source
+   */
   refreshData() {
     this.now = Date.now();
     this.createTableDataSource();
   }
 
+  /**
+   * Opens popup dialog with component for editing existing training instance
+   * @param {TrainingInstance} training training instance which should be edited
+   */
   editTraining(training: TrainingInstance) {
     const dialogRef = this.dialog.open(TrainingEditPopupComponent, {
       data: training
@@ -59,6 +69,11 @@ export class TrainingInstancesListComponent implements OnInit {
       }
     });  }
 
+  /**
+   * Opens popup dialog to confirm if the user really wants to delete the training instance. If the action is
+   * confirmed, training instance is removed and REST API called to remove training from endpoint
+   * @param {TrainingInstancesTableDataSource} training training instance which should be removed
+   */
   removeTraining(training: TrainingInstancesTableDataSource) {
     const dialogRef = this.dialog.open(TrainingDeleteDialogComponent, {
       data: training
@@ -75,10 +90,18 @@ export class TrainingInstancesListComponent implements OnInit {
       }
     });  }
 
+  /**
+   *
+   * @param {TrainingInstance} training
+   */
   archiveTraining(training: TrainingInstance) {
     // TODO: call rest to download all training instances data
   }
 
+  /**
+   *
+   * @param {TrainingInstance} training
+   */
   allocateTraining(training: TrainingInstance) {
     // TODO: call REST to allocate number of sandboxes (pool size)
   }

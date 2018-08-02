@@ -2,7 +2,7 @@
 
   <!-- LEVEL STEPPER -->
   <mat-horizontal-stepper *ngIf="withStepper && levels"
-                          (selectionChange)="stepClick($event)"
+                          (selectionChange)="selectedStepChanged($event)"
                           [selectedIndex]="selectedStep"
                           [linear]="true"
                           #stepper>

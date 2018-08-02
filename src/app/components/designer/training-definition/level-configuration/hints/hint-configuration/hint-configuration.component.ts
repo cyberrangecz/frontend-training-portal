@@ -8,6 +8,9 @@ import {AlertService} from "../../../../../../services/event-services/alert.serv
   templateUrl: './hint-configuration.component.html',
   styleUrls: ['./hint-configuration.component.css']
 })
+/**
+ * Component for configuration of new or existing game level hint
+ */
 export class HintConfigurationComponent implements OnInit, OnChanges {
 
   @Input('hint') hint: Hint;
@@ -29,6 +32,9 @@ export class HintConfigurationComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Validates user input, sets input values to hint object and saves hints through REST API
+   */
   saveChanges() {
     if (this.validateInput()) {
       this.setInputValuesToHint();
@@ -37,22 +43,35 @@ export class HintConfigurationComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Emits event if hint is saved
+   */
   private hintChanged() {
     this.hintChange.emit(this.hint);
   }
 
+  /**
+   * Sets initial values from hint object to inputs (edit mode)
+   */
   private setInitialValues() {
     this.title = this.hint.title;
     this.content = this.hint.content;
     this.hintPenalty = this.hint.hintPenalty;
   }
 
+  /**
+   * Sets values from user input values to hint object
+   */
   private setInputValuesToHint() {
     this.hint.title = this.title;
     this.hint.content = this.content;
     this.hint.hintPenalty = this.hintPenalty;
   }
 
+  /**
+   * Validates user input, displays error message if errors are found
+   * @returns {boolean} true if user input passes the validation, false otherwise
+   */
   private validateInput(): boolean {
     let errorTitle = 'Hint ' + (this.order + 1) + ':\n';
     let errorMessage: string = '';

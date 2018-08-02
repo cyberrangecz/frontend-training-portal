@@ -11,6 +11,9 @@ import {UserGetterService} from "../../../../../services/data-getters/user-gette
   templateUrl: './training-info.component.html',
   styleUrls: ['./training-info.component.css']
 })
+/**
+ * Displays info about currently active training instance
+ */
 export class TrainingInfoComponent implements OnInit, OnDestroy {
 
   training: TrainingInstance;
@@ -28,6 +31,9 @@ export class TrainingInfoComponent implements OnInit, OnDestroy {
     this.subscribeActiveTrainingChanges();
   }
 
+  /**
+   * Loads all required data from endpoints
+   */
   private loadData() {
     this.training = this.activeTrainingInstanceService.getActiveTrainingInstance();
     if (this.training) {
@@ -38,6 +44,9 @@ export class TrainingInfoComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Subscribes to changes of active training, reloads data if active training is changed
+   */
   private subscribeActiveTrainingChanges() {
     this.trainingChangesSubscription = this.activeTrainingInstanceService.onActiveTrainingChanged
       .subscribe(change => this.loadData());

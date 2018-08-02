@@ -10,6 +10,9 @@ import {AssessmentTypeEnum} from "../../../../enums/assessment-type.enum";
   templateUrl: './training-level-stepper.component.html',
   styleUrls: ['./training-level-stepper.component.css']
 })
+/**
+ * Component of training level stepper which is used to create new or edit existing levels in training definition.
+ */
 export class TrainingLevelStepperComponent implements OnInit, OnChanges {
 
   @Input('isTrainingSaved') isTrainingSaved: boolean;
@@ -30,6 +33,9 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Creates new info level with default values
+   */
   addInfoLevel() {
     this.levels.push(new InfoLevel(this.trainingDefinitionId,
       "New Info Level",
@@ -40,6 +46,9 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
       ''));
   }
 
+  /**
+   * Creates new game level with default values
+   */
   addGameLevel() {
     this.levels.push(new GameLevel(this.trainingDefinitionId,
       "New Game Level",
@@ -56,6 +65,9 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
       );
   }
 
+  /**
+   * Creates new assessment level with default values
+   */
   addAssessmentLevel() {
     this.levels.push(new AssessmentLevel(this.trainingDefinitionId,
       "New Assessment Level",
@@ -68,8 +80,10 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
     );
   }
 
+  /**
+   * Swaps order of currently selected level with level next to him (to the left)
+   */
   swapLeft() {
-    console.log(this.levels);
     if (this.selectedStep !== 0) {
       const tempLevel = this.levels[this.selectedStep - 1];
       tempLevel.order += 1;
@@ -81,9 +95,10 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
       // TODO: save edited order in db
     }
   }
-
+  /**
+   * Swaps order of currently selected level with level next to him (to the right)
+   */
   swapRight() {
-    console.log(this.levels);
     if (this.selectedStep !== this.levels.length - 1) {
       const tempLevel = this.levels[this.selectedStep + 1];
       tempLevel.order -= 1;
@@ -96,10 +111,17 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Triggered after selection of active level is changes in the stepper
+   * @param event event of active level change
+   */
   selectionChanged(event) {
     this.selectedStep = event.selectedIndex;
   }
 
+  /**
+   * Initializes levels with default values
+   */
   private resolveInitialLevels() {
     if (!this.levels) {
       this.levels = [];

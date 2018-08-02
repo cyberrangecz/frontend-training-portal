@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {GameLevel} from "../../../../../model/level/game-level";
-import {Hint} from "../../../../../model/level/hint";
 import {ActiveTrainingRunLevelsService} from "../../../../../services/active-training-run-levels.service";
 import {MatDialog} from "@angular/material";
 import {UserActionDialogComponent} from "./user-action-dialog/user-action-dialog.component";
@@ -10,6 +9,10 @@ import {UserActionDialogComponent} from "./user-action-dialog/user-action-dialog
   templateUrl: './training-run-game-level.component.html',
   styleUrls: ['./training-run-game-level.component.css']
 })
+/**
+ * Component of a game level in a training run. Users needs to find out correct solution (flag) and submit it
+ * before he can continue to the next level.
+ */
 export class TrainingRunGameLevelComponent implements OnInit {
 
   @Input('level') level: GameLevel;
@@ -29,6 +32,12 @@ export class TrainingRunGameLevelComponent implements OnInit {
     this.initHintButtons()
   }
 
+  /**
+   * Displays popup dialog asking for users confirmation of the action. If the action is confirmed by user,
+   * selected hint is displayed and information about penalty for taking the hint send to the endpoint
+   * @param hintButton hint button clicked by the user
+   * @param {number} index index of the hint (order)
+   */
   showHint(hintButton, index: number) {
     const dialogRef = this.dialog.open(UserActionDialogComponent, {
       data: {
@@ -47,6 +56,10 @@ export class TrainingRunGameLevelComponent implements OnInit {
     })
   }
 
+  /**
+   * Displays popup dialog asking for users confirmation of the action. If the action is confirmed by user,
+   * the solution is  displayed and information about penalty for displaying the solutions is send to the endpoint
+   */
   showSolution() {
     const dialogRef = this.dialog.open(UserActionDialogComponent, {
       data: {
@@ -65,6 +78,11 @@ export class TrainingRunGameLevelComponent implements OnInit {
     })
   }
 
+  /**
+   * Checks whether the flag is correct. If true, the level is unlocked and the user can continue to the next one,
+   * otherwise popup dialog informing the user about penalty for submitting incorrect flag is displayed and the information
+   * is send to the endpoint
+   */
   submitFlag() {
     if (this.flag === this.level.flag) {
       this.activeLevelService.unlockCurrentLevel();
@@ -81,6 +99,9 @@ export class TrainingRunGameLevelComponent implements OnInit {
     }
   }
 
+  /**
+   * Initializes hint buttons from hints of the game level
+   */
   private initHintButtons() {
     this.level.hints.forEach(hint =>
       this.hintButtons.push(

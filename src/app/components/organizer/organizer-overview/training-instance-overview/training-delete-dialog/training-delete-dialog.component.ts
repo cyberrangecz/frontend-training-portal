@@ -7,6 +7,9 @@ import {TrainingInstance} from "../../../../../model/training/training-instance"
   templateUrl: './training-delete-dialog.component.html',
   styleUrls: ['./training-delete-dialog.component.css']
 })
+/**
+ * Popup dialog component to confirm delete action of training instance
+ */
 export class TrainingDeleteDialogComponent implements OnInit {
 
   constructor(

@@ -19,6 +19,9 @@ export class TraineeAccessedTrainingsTableData {
   templateUrl: './trainee-trainings-table.component.html',
   styleUrls: ['./trainee-trainings-table.component.css']
 })
+/**
+ * Component to display available trainings for trainee in form of a material table
+ */
 export class TraineeTrainingsTableComponent implements OnInit {
 
   displayedColumns: string[] = ['title', 'date', 'completedLevels', 'actions'];
@@ -41,6 +44,10 @@ export class TraineeTrainingsTableComponent implements OnInit {
     this.createDataSource();
   }
 
+  /**
+   * Allocates resources for new sandbox and starts new training run on a first level
+   * @param {TrainingInstance} trainingInstance training instance which should be started
+   */
   tryAgain(trainingInstance: TrainingInstance) {
     // TODO: allocate new sandbox etc and get ID of training run
     const trainingRunId = 1;
@@ -48,6 +55,10 @@ export class TraineeTrainingsTableComponent implements OnInit {
     this.router.navigate(['training', trainingRunId, 'level', firstLevel], {relativeTo: this.activeRoute});
   }
 
+  /**
+   * Navigates to page with results of selected training run
+   * @param {TrainingRun} trainingRun training run which results should be displayed
+   */
   accessResults(trainingRun: TrainingRun) {
     this.router.navigate(['training', trainingRun.id, 'results'],{relativeTo: this.activeRoute})
   }
@@ -63,6 +74,9 @@ export class TraineeTrainingsTableComponent implements OnInit {
     }
   }
 
+  /**
+   * Loads necessary data from endpoint and create data source for the table
+   */
   private createDataSource() {
     this.trainingRunGetter.getTrainingRunsByPlayerId(this.activeUserService.getActiveUser().id)
       .subscribe(trainingRuns => {

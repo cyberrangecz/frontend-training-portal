@@ -16,6 +16,9 @@ import {HintConfigurationComponent} from "../hint-configuration/hint-configurati
   templateUrl: './hint-stepper.component.html',
   styleUrls: ['./hint-stepper.component.css']
 })
+/**
+ * Hint stepper component, to navigate through existing hints and creating new hints
+ */
 export class HintStepperComponent implements OnInit, OnChanges {
 
   @Input('hints') hints: Hint[];
@@ -35,6 +38,9 @@ export class HintStepperComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Creates new hint with default values
+   */
   addHint() {
     this.hints.push(new Hint(
       'New hint',
@@ -43,16 +49,25 @@ export class HintStepperComponent implements OnInit, OnChanges {
     this.hintsChanged();
   }
 
+  /**
+   * Saves all created hints
+   */
   saveChanges() {
     this.hintConfigurationChildren.forEach(child => child.saveChanges());
   }
 
+  /**
+   * Initializes hints if no hints are passed from parents component
+   */
   private resolveInitialHints() {
     if (!this.hints) {
       this.hints = [];
     }
   }
 
+  /**
+   * Emits event if new hint is added or saved
+   */
   private hintsChanged() {
     this.hintsChange.emit(this.hints);
   }

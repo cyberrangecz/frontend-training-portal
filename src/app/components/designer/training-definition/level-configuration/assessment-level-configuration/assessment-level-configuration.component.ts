@@ -9,6 +9,9 @@ import {QuestionStepperComponent} from "../questions/question-stepper/question-s
   templateUrl: './assessment-level-configuration.component.html',
   styleUrls: ['./assessment-level-configuration.component.css']
 })
+/**
+ * Component for configuration of new or existing assessment levels
+ */
 export class AssessmentLevelConfigurationComponent implements OnInit {
 
   @ViewChild(QuestionStepperComponent) childComponent: QuestionStepperComponent;
@@ -31,6 +34,9 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
     }
   }
 
+  /**
+   * Validates input, sets values to the level object and calls REST API to save changes
+   */
   saveChanges() {
     if (this.validateChanges()) {
       this.setInputValuesToLevel();
@@ -39,6 +45,10 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
     }
   }
 
+  /**
+   * Validates user input, displays error message if error is found
+   * @returns {boolean} true if input passes the validation, false otherwise
+   */
   private validateChanges(): boolean {
     let errorMessage: string = '';
 
@@ -61,6 +71,9 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
     return true;
   }
 
+  /**
+   * Sets user input values to the level object
+   */
   private setInputValuesToLevel() {
     this.level.title = this.title;
     this.level.instructions = this.instructions;
@@ -68,6 +81,9 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
     this.level.questions = this.questions[0];
   }
 
+  /**
+   * Sets values to the inputs from passed level object (edit mode)
+   */
   private setInitialValues() {
     this.title = this.level.title;
     this.maxScore = this.level.maxScore;

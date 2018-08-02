@@ -4,7 +4,7 @@ import {Observable} from "rxjs/internal/Observable";
 import {AbstractLevel} from "../model/level/abstract-level";
 
 /**
- * Service maintaining active levels instance for sub component of trainee training run
+ * Service maintaining levels of training and active level instance for sub component of trainee training run
  */
 @Injectable()
 export class ActiveTrainingRunLevelsService {
@@ -40,16 +40,26 @@ export class ActiveTrainingRunLevelsService {
     this._activeLevels = levels;
   }
 
+  /**
+   * Sets currently active level
+   * @param {number} index order of the level
+   */
   setActiveLevel(index: number) {
     this._activeLevel = this._activeLevels[index];
     this._onActiveLevelChangedSubject.next(this._activeLevel);
   }
 
+  /**
+   * Unlocks current level (when all actions in the current level are finished) and user can move to the next level
+   */
   unlockCurrentLevel() {
     this.currentLevelLocked = false;
     this._onLevelLockChangedSubject.next(false);
   }
 
+  /**
+   * Sets the next level in order as active
+   */
   nextLevel() {
     const index = this._activeLevels.indexOf(this._activeLevel);
     if (index + 1 < this._activeLevels.length) {

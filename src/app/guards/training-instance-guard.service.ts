@@ -5,6 +5,9 @@ import {map} from "rxjs/operators";
 import {TrainingInstanceGetterService} from "../services/data-getters/training-instance-getter.service";
 import {ActiveUserService} from "../services/active-user.service";
 
+/**
+ * Guard which determines if the user can access training instance with id provided in url parameter
+ */
 @Injectable()
 export class TrainingInstanceGuard implements CanActivate {
 

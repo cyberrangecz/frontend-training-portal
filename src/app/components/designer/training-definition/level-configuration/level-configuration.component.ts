@@ -9,6 +9,9 @@ import {InfoLevel} from "../../../../model/level/info-level";
   templateUrl: './level-configuration.component.html',
   styleUrls: ['./level-configuration.component.css']
 })
+/**
+ * Main component of level configuration. Serves as a wrapper and resolver of level type and displays specific component accordingly
+ */
 export class LevelConfigurationComponent implements OnInit, OnChanges {
 
   @Input('level') level: AbstractLevel;
@@ -26,7 +29,9 @@ export class LevelConfigurationComponent implements OnInit, OnChanges {
     }
   }
 
-
+  /**
+   * Resolves type of level
+   */
   private resolveLevelType() {
     this.isGameLevelActive = this.level instanceof GameLevel;
     this.isInfoLevelActive = this.level instanceof InfoLevel;

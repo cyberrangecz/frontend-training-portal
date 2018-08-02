@@ -6,6 +6,10 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
   templateUrl: './user-action-dialog.component.html',
   styleUrls: ['./user-action-dialog.component.css']
 })
+/**
+ * Component of a popup dialog to display data based on users action in the game level.
+ * Is used to confirm if user wants to take hint or solution and to inform user about incorrectly submitted flag
+ */
 export class UserActionDialogComponent implements OnInit {
 
   constructor(

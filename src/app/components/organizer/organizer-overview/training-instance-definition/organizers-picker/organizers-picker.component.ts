@@ -10,6 +10,9 @@ import {UserRoleEnum} from "../../../../../enums/user-role.enum";
   templateUrl: './organizers-picker.component.html',
   styleUrls: ['./organizers-picker.component.css']
 })
+/**
+ * Component of popup dialog to choose from a list of possible organizers of the training instance
+ */
 export class OrganizersPickerComponent implements OnInit {
 
   organizers$: Observable<User[]>;

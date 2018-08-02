@@ -15,6 +15,9 @@ import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
   templateUrl: './training-instance-definition.component.html',
   styleUrls: ['./training-instance-definition.component.css']
 })
+/**
+ * Component for creating new or editing existing training instance
+ */
 export class TrainingInstanceDefinitionComponent implements OnInit, OnChanges {
 
   @Input('trainingInstance') trainingInstance: TrainingInstance;
@@ -39,15 +42,18 @@ export class TrainingInstanceDefinitionComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.resolveInputTrainingInstance();
+    this.resolveInitialInputValues();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if ('trainingInstance' in changes) {
-      this.resolveInputTrainingInstance();
+      this.resolveInitialInputValues();
     }
   }
 
+  /**
+   * Opens popup dialog to choose organizers from a list
+   */
   chooseOrganizers() {
     const dialogRef = this.dialog.open(OrganizersPickerComponent);
 
@@ -58,6 +64,9 @@ export class TrainingInstanceDefinitionComponent implements OnInit, OnChanges {
     });
   }
 
+  /**
+   * Opens popup dialog to choose training definition from a list
+   */
   chooseTrainingDefinition() {
     const dialogRef = this.dialog.open(TrainingDefinitionPickerComponent);
 
@@ -68,23 +77,32 @@ export class TrainingInstanceDefinitionComponent implements OnInit, OnChanges {
     });
   }
 
+  /**
+   * Validates user input, sets input values to training instance object and calls REST API to save the changes in an endpoint
+   */
   saveChanges() {
     if (this.validateInputValues()) {
       this.setInputValuesToTraining();
       if (this.editMode) {
-        // update in REST
+        // TODO: update in REST
       } else {
-        // save in REST
+        // TODO: save in REST
       }
       this.trainingChanged();
     }
   }
 
+  /**
+   * Emits event when training instance is saved
+   */
   trainingChanged() {
     this.trainingChange.emit();
   }
 
-  private resolveInputTrainingInstance() {
+  /**
+   * Resolves whether user is editing existing training or creating new and sets initial values accordingly
+   */
+  private resolveInitialInputValues() {
     if (this.trainingInstance) {
       this.editMode = true;
       this.setInputValuesFromTraining()
@@ -94,6 +112,10 @@ export class TrainingInstanceDefinitionComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Validates user input. Displays error message if errors are found
+   * @returns {boolean} true if user input passes the validation, false otherwise
+   */
   private validateInputValues(): boolean {
     let errorMessage: string = '';
 
@@ -140,6 +162,9 @@ export class TrainingInstanceDefinitionComponent implements OnInit, OnChanges {
     return true;
   }
 
+  /**
+   * Sets user input values to the training instance object
+   */
   private setInputValuesToTraining() {
     this.trainingInstance.startTime = this.startTime;
     this.trainingInstance.endTime = this.endTime;
@@ -150,6 +175,9 @@ export class TrainingInstanceDefinitionComponent implements OnInit, OnChanges {
     this.trainingInstance.keyword = this.password;
   }
 
+  /**
+   * Sets initial input values from passed training instance object (edit mode)
+   */
   private setInputValuesFromTraining() {
     this.startTime = this.trainingInstance.startTime;
     this.endTime = this.trainingInstance.endTime;
@@ -163,6 +191,9 @@ export class TrainingInstanceDefinitionComponent implements OnInit, OnChanges {
 
   }
 
+  /**
+   * Creates new object of training instance with default values
+   */
   private createNewTrainingInstance() {
     this.trainingInstance = new TrainingInstance(null, new Date(), new Date(), null, [], '');
   }

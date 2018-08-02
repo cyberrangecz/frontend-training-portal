@@ -6,6 +6,9 @@ import {TrainingInstancesListComponent} from "./training-instance-overview/train
   templateUrl: './organizer-overview.component.html',
   styleUrls: ['./organizer-overview.component.css']
 })
+/**
+ * Main component of organizer overview. Wrapper for child components (definition of new training instance and overivew of  existing training instances)
+ */
 export class OrganizerOverviewComponent implements OnInit {
 
   @ViewChild(TrainingInstancesListComponent) trainingInstancesListComponent: TrainingInstancesListComponent;

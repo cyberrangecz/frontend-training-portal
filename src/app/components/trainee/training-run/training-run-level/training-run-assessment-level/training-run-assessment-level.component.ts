@@ -7,6 +7,9 @@ import {ActiveTrainingRunLevelsService} from "../../../../../services/active-tra
   templateUrl: './training-run-assessment-level.component.html',
   styleUrls: ['./training-run-assessment-level.component.css']
 })
+/**
+ * Component for displaying assessment level in a training
+ */
 export class TrainingRunAssessmentLevelComponent implements OnInit {
 
   @Input('level') level: AssessmentLevel;

@@ -12,7 +12,8 @@ import {Hint} from "../../model/level/hint";
 
 @Injectable()
 /**
- *
+ * Service abstracting the level endpoint.
+ * Can retrieve level or levels based on several parameters
  */
 export class LevelGetterService {
 
@@ -20,9 +21,9 @@ export class LevelGetterService {
   }
 
   /**
-   *
-   * @param {number} levelId
-   * @returns {Observable<AbstractLevel>}
+   * Returns level with matching id
+   * @param {number} levelId id of level which should be retrieved
+   * @returns {Observable<AbstractLevel>} observable of retrieved level, null if no such level is found
    */
   getLevelById(levelId: number): Observable<AbstractLevel> {
     return this.getLevels().pipe(map(levels => {
@@ -32,8 +33,8 @@ export class LevelGetterService {
   }
 
   /**
-   *
-   * @returns {Observable<AbstractLevel[]>}
+   * Returns all levels
+   * @returns {Observable<AbstractLevel[]>} observable of list of levels
    */
   getLevels(): Observable<AbstractLevel[]> {
     return this.http.get(environment.getLevelsUri).pipe(map(response => {
@@ -43,9 +44,9 @@ export class LevelGetterService {
 
 
   /**
-   *
-   * @param {number} trainingDefId
-   * @returns {Observable<AbstractLevel[]>}
+   * Returns all levels with matching training definition id
+   * @param {number} trainingDefId id of training definition by which should levels be retrieved
+   * @returns {Observable<AbstractLevel[]>} observable of list of levels with matching training definition id
    */
   getLevelsByTrainingDefId(trainingDefId: number): Observable<AbstractLevel[]> {
     return this.getLevels().pipe(map(levels => {
@@ -55,9 +56,9 @@ export class LevelGetterService {
   }
 
   /**
-   *
-   * @param levelsJson
-   * @returns {AbstractLevel[]}
+   * Parses response from server to level objects
+   * @param levelsJson json from http response
+   * @returns {AbstractLevel[]} list of created objects
    */
   private parseLevels(levelsJson): AbstractLevel[] {
     const levels: AbstractLevel[] = [];
@@ -95,6 +96,11 @@ export class LevelGetterService {
     return level;
   }
 
+  /**
+   * Parses json from http response and creates game level object
+   * @param levelJson json from http response
+   * @returns {GameLevel} game level object with parameters from json
+   */
   private parseGameLevel(levelJson): GameLevel {
     const level = new GameLevel(
       levelJson.training_definition_id,
@@ -116,6 +122,11 @@ export class LevelGetterService {
     return level;
   }
 
+  /**
+   * Parses json from http response and creates info level object
+   * @param levelJson json from http response
+   * @returns {InfoLevel}  info level object with parameters from json
+   */
   private parseInfoLevel(levelJson): InfoLevel {
     const level = new InfoLevel(
       levelJson.training_definition_id,
@@ -129,6 +140,12 @@ export class LevelGetterService {
     return level;
   }
 
+  /**
+   * Parses json from http response and creates hint objects
+   * @param {number} levelId id of level which is associated with hints
+   * @param hintsJson json from http response
+   * @returns {Hint[]} list of hints with parameters from json
+   */
   private parseHints(levelId: number, hintsJson): Hint[] {
     const hints: Hint[] = [];
     hintsJson.forEach(hintJson => {
@@ -143,12 +160,22 @@ export class LevelGetterService {
     return hints;
   }
 
+  /**
+   * TBD
+   * @param attachmentsJson
+   * @returns {string[]}
+   */
   private parseAttachments(attachmentsJson): string[] {
     const attachments: string[] = [];
 
     return attachments;
   }
 
+  /**
+   * Parses type of assessment from string to enum
+   * @param {string} assessmentType string description of assessment type
+   * @returns {AssessmentTypeEnum} matched assessment type enum
+   */
   private parseAssessmentTypeString2Enum(assessmentType: string): AssessmentTypeEnum {
     if (assessmentType === 'test') {
       return AssessmentTypeEnum.Test;
