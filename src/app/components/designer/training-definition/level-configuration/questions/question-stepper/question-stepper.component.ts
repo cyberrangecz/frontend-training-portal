@@ -23,6 +23,7 @@ export class QuestionStepperComponent implements OnInit, OnChanges {
 
   @ViewChildren(QuestionConfigurationComponent) questionConfigurationChildren: QueryList<QuestionConfigurationComponent>;
 
+  dirty = false;
 
   constructor() { }
 
@@ -35,13 +36,23 @@ export class QuestionStepperComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Determines whether the user has saved all his work and can leave the component
+   * @returns {boolean} true does not have any unsaved changes, false otherwise
+   */
+  canDeactivate(): boolean {
+    return !this.dirty && this.questionConfigurationChildren.toArray().every(child => child.canDeactivate());
+  }
+
   addQuestion() {
     this.questions.push('new question');
+    this.dirty = true;
     this.questionsChanged();
   }
 
   saveChanges() {
     this.questionConfigurationChildren.forEach(child => child.saveChanges());
+    this.dirty = false;
   }
 
   private resolveInitialQuestions() {

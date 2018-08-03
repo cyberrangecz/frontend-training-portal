@@ -11,15 +11,15 @@
     <!-- TITLE filed -->
     <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>
-      <input matInput placeholder="Title" [(ngModel)]="title" required>
-      <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title=''">
+      <input (change)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
+      <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title=''; contentChanged()">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
 
     <!-- CONTENT filed -->
     <h3>Content</h3>
-    <shared-markdown-editor [(content)]="content"></shared-markdown-editor>
+    <shared-markdown-editor (change)="contentChanged()" [(content)]="content"></shared-markdown-editor>
   </div>
 
   <div class="footer">

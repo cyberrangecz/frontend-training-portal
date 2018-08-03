@@ -38,6 +38,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
   selectedState: string;
   showProgress: boolean;
 
+  dirty = false;
   states: string[];
 
   constructor(
@@ -62,6 +63,15 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
   }
 
   /**
+   * Checks if all changes are saved and if user can navigate to another component
+   * @returns {boolean} true if all changes are saved, false otherwise
+   */
+  canDeactivate(): boolean {
+    return !this.dirty;
+
+  }
+
+  /**
    * Displays dialog window with list of authors and assigns selected authors to the training definition
    */
   chooseAuthors() {
@@ -70,6 +80,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
         this.authors = result.authors;
+        this.dirty = true;
       }
     });
   }
@@ -82,6 +93,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
         this.sandboxDef = result.sandboxDef;
+        this.dirty = true;
       }
     });
   }
@@ -94,10 +106,14 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
       this.setInputValuesToTrainingDef();
       this.sendRequestToSaveChanges();
       this.savedTrainingChange.emit(true);
-      this.alertService.emitAlert(AlertTypeEnum.Success, 'Training definition was successfully saved');
+      this.dirty = false;
     } else {
       // error alert
     }
+  }
+
+  contentChanged() {
+    this.dirty = true;
   }
 
   /**

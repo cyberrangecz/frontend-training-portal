@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {TrainingDefinition} from "../../../model/training/training-definition";
 import {map, switchMap} from "rxjs/operators";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
@@ -6,6 +6,11 @@ import {TrainingDefinitionGetterService} from "../../../services/data-getters/tr
 import {Observable} from "rxjs/internal/Observable";
 import {AbstractLevel} from "../../../model/level/abstract-level";
 import {LevelGetterService} from "../../../services/data-getters/level-getter.service";
+import {TrainingConfigurationComponent} from "./training-configuration/training-configuration.component";
+import {TrainingLevelStepperComponent} from "./training-level-stepper/training-level-stepper.component";
+import {MatDialog} from "@angular/material";
+import {UnsavedChangesDialogComponent} from "./unsaved-changes-dialog/unsaved-changes-dialog.component";
+import {of} from "rxjs/internal/observable/of";
 
 
 @Component({
@@ -19,6 +24,9 @@ import {LevelGetterService} from "../../../services/data-getters/level-getter.se
  */
 export class TrainingDefinitionComponent implements OnInit {
 
+  @ViewChild(TrainingConfigurationComponent) trainingConfigurationComponent;
+  @ViewChild(TrainingLevelStepperComponent) trainingLevelStepperComponent;
+
   trainingDefinition$: Observable<TrainingDefinition>;
 
   levels$: Observable<AbstractLevel[]>;
@@ -30,6 +38,7 @@ export class TrainingDefinitionComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private dialog: MatDialog,
     private trainingDefinitionGetter: TrainingDefinitionGetterService,
     private levelGetter: LevelGetterService) {
 
@@ -42,6 +51,36 @@ export class TrainingDefinitionComponent implements OnInit {
 
   trainingSavedChange(event: boolean) {
     this.isTrainingSaved = event;
+  }
+
+  /**
+   * Determines if all changes in sub components are saved and user can navigate to different component
+   * @returns {Observable<boolean>} true if saved all his changes or agreed with leaving without saving them, false otherwise
+   */
+  canDeactivate(): Observable<boolean> {
+    const isTrainingChangesSaved =  this.trainingConfigurationComponent.canDeactivate();
+    const canDeactivateLevels = this.trainingLevelStepperComponent.canDeactivate();
+    const isLevelChangesSaved = canDeactivateLevels.every(level => level.canDeactivate);
+    const messages: string[] = [];
+
+    if (!isTrainingChangesSaved) {
+      messages.push('Training definition is not saved.')
+    }
+    if (!isLevelChangesSaved) {
+      messages.push('Following levels are not saved: ' + canDeactivateLevels.filter(level => !level.canDeactivate).map(level => level.order) + '.');
+    }
+
+    if (messages.length > 0) {
+      const dialogRef = this.dialog.open(UnsavedChangesDialogComponent, {
+        data: messages
+      });
+
+      return dialogRef.afterClosed().pipe(map(result => {
+        return result && result.type === 'confirm'
+      }));
+    } else {
+      return of(true);
+    }
   }
 
   /**

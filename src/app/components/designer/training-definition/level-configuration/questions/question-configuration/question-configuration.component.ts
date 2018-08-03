@@ -10,13 +10,23 @@ export class QuestionConfigurationComponent implements OnInit {
   @Input('question') question: string;
   @Output('question') questionChange = new EventEmitter();
 
+  dirty = false;
+
   constructor() { }
 
   ngOnInit() {
   }
 
-  saveChanges() {
+  /**
+   * Determines whether the user has saved all his work and can leave the component
+   * @returns {boolean} true does not have any unsaved changes, false otherwise
+   */
+  canDeactivate(): boolean {
+    return !this.dirty
+  }
 
+  saveChanges() {
+    this.dirty = false;
   }
 
 }

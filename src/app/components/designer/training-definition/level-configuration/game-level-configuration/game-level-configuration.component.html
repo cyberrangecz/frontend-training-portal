@@ -13,45 +13,45 @@
         <!-- TITLE filed -->
         <mat-form-field appearance="outline">
           <mat-label>Title</mat-label>
-          <input matInput placeholder="Title" [(ngModel)]="title" required>
-          <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title=''">
+          <input (change)="onContentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
+          <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title=''; onContentChanged()">
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
 
         <!--CONTENT field -->
         <h3>Content</h3>
-        <shared-markdown-editor class="mrkdwn-content" [(content)]="content"></shared-markdown-editor>
+        <shared-markdown-editor class="mrkdwn-content" (change)="onContentChanged()" [(content)]="content"></shared-markdown-editor>
 
         <!--SOLUTION field -->
         <h3>Solution</h3>
-        <shared-markdown-editor class="mrkdwn-solution" [(content)]="solution"></shared-markdown-editor>
+        <shared-markdown-editor class="mrkdwn-solution" (change)="onContentChanged()" [(content)]="solution"></shared-markdown-editor>
       </div>
 
       <div class="right-panel">
         <!-- MAX SCORE filed -->
         <mat-form-field appearance="outline" hintLabel="Number in range from 0 to 100">
           <mat-label>Maximal Score</mat-label>
-          <input matInput placeholder="Maximal Score" type="number" max="100" min="0" [(ngModel)]="maxScore" required>
+          <input matInput (change)="onContentChanged()" placeholder="Maximal Score" type="number" max="100" min="0" [(ngModel)]="maxScore" required>
         </mat-form-field>
 
         <!-- SOLUTION PENALTY field -->
         <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxScore - 1 }}">
           <mat-label>Solution Penalty</mat-label>
-          <input matInput placeholder="Solution Penalty" type="number" [max]="maxScore - 1" min="0" [(ngModel)]="solutionPenalty" required>
+          <input matInput (change)="onContentChanged()" placeholder="Solution Penalty" type="number" [max]="maxScore - 1" min="0" [(ngModel)]="solutionPenalty" required>
         </mat-form-field>
 
         <!-- INCORRECT FLAG PENALTY field -->
         <mat-form-field appearance="outline" hintLabel="Number in range from 0 to 100">
           <mat-label>Incorrect Flag Penalty</mat-label>
-          <input matInput placeholder="Incorrect Flag Penalty" type="number" max="100" min="0" [(ngModel)]="incorrectFlagPenalty" required>
+          <input matInput (change)="onContentChanged()" placeholder="Incorrect Flag Penalty" type="number" max="100" min="0" [(ngModel)]="incorrectFlagPenalty" required>
         </mat-form-field>
 
         <!-- FLAG field -->
         <mat-form-field appearance="outline" hintLabel="Max 50 characters">
           <mat-label>Flag</mat-label>
-          <input matInput placeholder="Flag" maxlength="50" [(ngModel)]="flag" required>
-          <button mat-button *ngIf="flag" matSuffix mat-icon-button aria-label="Clear" (click)="flag=''">
+          <input matInput (change)="onContentChanged()" placeholder="Flag" maxlength="50" [(ngModel)]="flag" required>
+          <button mat-button *ngIf="flag" matSuffix mat-icon-button aria-label="Clear" (click)="flag=''; onContentChanged()">
             <mat-icon>close</mat-icon>
           </button>
           <mat-hint align="end">{{flag?.length || 0}}/50</mat-hint>
@@ -60,7 +60,7 @@
         <!-- ESTIMATED DURATION field -->
         <mat-form-field appearance="outline" hintLabel="Number in minutes. Range from 1 to 60">
           <mat-label>Estimated Duration</mat-label>
-          <input matInput placeholder="Estimated Duration in Seconds" type="number" max="60" min="1" [(ngModel)]="estimatedDuration">
+          <input matInput (change)="onContentChanged()" placeholder="Estimated Duration in Seconds" type="number" max="60" min="1" [(ngModel)]="estimatedDuration">
         </mat-form-field>
       </div>
     </div>

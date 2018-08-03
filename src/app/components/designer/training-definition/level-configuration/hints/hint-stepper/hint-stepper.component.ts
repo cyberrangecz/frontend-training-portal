@@ -26,6 +26,7 @@ export class HintStepperComponent implements OnInit, OnChanges {
 
   @ViewChildren(HintConfigurationComponent) hintConfigurationChildren: QueryList<HintConfigurationComponent>;
 
+  dirty = false;
 
   constructor() { }
 
@@ -39,6 +40,14 @@ export class HintStepperComponent implements OnInit, OnChanges {
   }
 
   /**
+   * Determines whether the user has saved all his work and can leave the component
+   * @returns {boolean} true does not have any unsaved changes, false otherwise
+   */
+  canDeactivate(): boolean {
+    return !this.dirty && this.hintConfigurationChildren.toArray().every(child => child.canDeactivate());
+  }
+
+  /**
    * Creates new hint with default values
    */
   addHint() {
@@ -46,6 +55,7 @@ export class HintStepperComponent implements OnInit, OnChanges {
       'New hint',
       '',
       0));
+    this.dirty = true;
     this.hintsChanged();
   }
 
@@ -54,6 +64,7 @@ export class HintStepperComponent implements OnInit, OnChanges {
    */
   saveChanges() {
     this.hintConfigurationChildren.forEach(child => child.saveChanges());
+    this.dirty = false;
   }
 
   /**

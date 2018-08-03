@@ -12,6 +12,7 @@ import { SandboxDefinitionPickerComponent } from './training-configuration/sandb
 import {LevelGetterService} from "../../../services/data-getters/level-getter.service";
 import {LevelConfigurationModule} from "./level-configuration/level-configuration.module";
 import {PipesModule} from "../../../pipes/pipes.module";
+import { UnsavedChangesDialogComponent } from './unsaved-changes-dialog/unsaved-changes-dialog.component';
 
 @NgModule({
   imports: [
@@ -28,14 +29,16 @@ import {PipesModule} from "../../../pipes/pipes.module";
     TrainingConfigurationComponent,
     TrainingLevelStepperComponent,
     AuthorsPickerComponent,
-    SandboxDefinitionPickerComponent
+    SandboxDefinitionPickerComponent,
+    UnsavedChangesDialogComponent
   ],
   providers: [
     LevelGetterService
   ],
   entryComponents: [
     SandboxDefinitionPickerComponent,
-    AuthorsPickerComponent
+    AuthorsPickerComponent,
+    UnsavedChangesDialogComponent
   ]
 })
 

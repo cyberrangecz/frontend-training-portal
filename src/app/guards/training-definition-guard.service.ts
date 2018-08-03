@@ -1,17 +1,18 @@
 import {Injectable} from "@angular/core";
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
+import {ActivatedRouteSnapshot, CanActivate, CanDeactivate, Router, RouterStateSnapshot} from "@angular/router";
 import {Observable} from "rxjs/internal/Observable";
 import {ActiveUserService} from "../services/active-user.service";
 import {TrainingDefinitionGetterService} from "../services/data-getters/training-definition-getter.service";
 import {map} from "rxjs/operators";
 import {TrainingDefinitionStateEnum} from "../enums/training-definition-state.enum";
 import {AlertService} from "../services/event-services/alert.service";
+import {TrainingDefinitionComponent} from "../components/designer/training-definition/training-definition.component";
 
 /**
  * Guard which determines if user can access training definition with id specified in url parameters
  */
 @Injectable()
-export class TrainingDefinitionGuard implements CanActivate {
+export class TrainingDefinitionGuard implements CanActivate, CanDeactivate<TrainingDefinitionComponent> {
 
   constructor(
     private router: Router,
@@ -35,5 +36,8 @@ export class TrainingDefinitionGuard implements CanActivate {
       })));
   }
 
+  canDeactivate(component: TrainingDefinitionComponent, currentRoute: ActivatedRouteSnapshot, currentState: RouterStateSnapshot, nextState?: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+    return component.canDeactivate();
+  }
 
 }

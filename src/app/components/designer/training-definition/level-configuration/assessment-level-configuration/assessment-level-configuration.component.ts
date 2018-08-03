@@ -22,6 +22,8 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
   maxScore: number;
   questions: string[];
 
+  dirty = false;
+
   constructor(private alertService: AlertService) { }
 
   ngOnInit() {
@@ -35,14 +37,30 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
   }
 
   /**
+   * Determines whether the user has saved all his work and can leave the component
+   * @returns {boolean} true does not have any unsaved changes, false otherwise
+   */
+  canDeactivate(): boolean {
+    return !this.dirty && this.childComponent.canDeactivate();
+  }
+  /**
    * Validates input, sets values to the level object and calls REST API to save changes
    */
   saveChanges() {
     if (this.validateChanges()) {
       this.setInputValuesToLevel();
       this.childComponent.saveChanges();
+      this.dirty = false;
       // TODO: call service and save level through rest
+      this.level.id = -999 // change to id retrieved from rest later
     }
+  }
+
+  /**
+   * Reacts on change in inputs. Sets dirty to true
+   */
+  contentChanged() {
+    this.dirty = true;
   }
 
   /**

@@ -30,6 +30,8 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
   estimatedDuration: number;
   hints: Hint[];
 
+  dirty = false;
+
   constructor(private alertService: AlertService) { }
 
   ngOnInit() {
@@ -42,14 +44,31 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
   }
 
   /**
+   * Determines whether the user has saved all his work and can leave the component
+   * @returns {boolean} true does not have any unsaved changes, false otherwise
+   */
+  canDeactivate(): boolean {
+    return !this.dirty && this.childComponent.canDeactivate();
+  }
+
+  /**
+   * Reacts on change in inputs, sets dirty to true
+   */
+  onContentChanged() {
+    this.dirty = true;
+  }
+
+  /**
    * Validates users input, sets input values to the game level object and calls REST API to save changes
    */
   saveChanges() {
     if (this.validateChanges()) {
       this.setInputValuesToLevel();
       this.childComponent.saveChanges();
+      this.dirty = false;
       // TODO: call service and save level through rest
-      }
+      this.level.id = -999 // change to id retrieved from rest later
+    }
   }
 
   /**

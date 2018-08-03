@@ -6,8 +6,8 @@
     <div class="title">
       <mat-form-field appearance="outline">
         <mat-label>Title</mat-label>
-        <input matInput placeholder="Title" [(ngModel)]="title" required>
-        <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title=''">
+        <input (change)="onContentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
+        <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title=''; onContentChanged()">
           <mat-icon>close</mat-icon>
         </button>
       </mat-form-field>
@@ -17,7 +17,7 @@
     <div class="penalty">
       <mat-form-field appearance="outline" hintLabel="Number in range from 0 to 50">
         <mat-label>Hint Penalty</mat-label>
-        <input matInput placeholder="Hint Penalty" type="number" max="50" min="0" [(ngModel)]="hintPenalty" required>
+        <input (change)="onContentChanged()" matInput placeholder="Hint Penalty" type="number" max="50" min="0" [(ngModel)]="hintPenalty" required>
       </mat-form-field>
     </div>
   </div>
@@ -25,6 +25,6 @@
   <div class="content">
     <!--CONTENT field -->
     <h3>Content</h3>
-    <shared-markdown-editor class="mrkdwn-content" [(content)]="content"></shared-markdown-editor>
+    <shared-markdown-editor (change)="onContentChanged()" class="mrkdwn-content" [(content)]="content"></shared-markdown-editor>
   </div>
 </div>

@@ -21,6 +21,8 @@ export class HintConfigurationComponent implements OnInit, OnChanges {
   content: string;
   hintPenalty: number;
 
+  dirty = false;
+
   constructor(private alertService: AlertService) { }
 
   ngOnInit() {
@@ -33,14 +35,30 @@ export class HintConfigurationComponent implements OnInit, OnChanges {
   }
 
   /**
+   * Determines whether the user has saved all his work and can leave the component
+   * @returns {boolean} true does not have any unsaved changes, false otherwise
+   */
+  canDeactivate(): boolean {
+    return !this.dirty;
+  }
+
+  /**
    * Validates user input, sets input values to hint object and saves hints through REST API
    */
   saveChanges() {
     if (this.validateInput()) {
       this.setInputValuesToHint();
       this.hintChanged();
+      this.dirty = false;
       // TODO: save through rest api
     }
+  }
+
+  /**
+   * Reacts on changes in inputs. Sets dirty to true
+   */
+  onContentChanged() {
+    this.dirty = true;
   }
 
   /**
@@ -84,7 +102,7 @@ export class HintConfigurationComponent implements OnInit, OnChanges {
       errorMessage += 'Content cannot be empty\n'
     }
 
-    if (!this.hintPenalty || this.hintPenalty < 0 || this.hintPenalty > 50) {
+    if (Number.isNaN(this.hintPenalty) || this.hintPenalty < 0 || this.hintPenalty > 50) {
       errorMessage += 'Hint penalty must be a number in range from 0 to 50\n'
     }
 

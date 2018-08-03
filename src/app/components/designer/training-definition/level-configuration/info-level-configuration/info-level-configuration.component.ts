@@ -18,6 +18,8 @@ export class InfoLevelConfigurationComponent implements OnInit, OnChanges {
   title: string;
   content: string;
 
+  dirty = false;
+
   constructor(private alertService: AlertService) { }
 
   ngOnInit() {
@@ -30,13 +32,30 @@ export class InfoLevelConfigurationComponent implements OnInit, OnChanges {
   }
 
   /**
+   * Determines whether the user has saved all his work and can leave the component
+   * @returns {boolean} true does not have any unsaved changes, false otherwise
+   */
+  canDeactivate(): boolean {
+    return !this.dirty;
+  }
+
+  /**
    * Validates and saves input values to the level object and calls REST API of server to save changes
    */
   saveChanges() {
     if (this.validateChanges()) {
       this.setInputValuesToLevel();
+      this.dirty = false;
       // TODO: call service and save level through rest
+      this.level.id = -999 // change to id retrieved from rest later
     }
+  }
+
+  /**
+   * Reacts on change in inputs. Sets dirty to true
+   */
+  contentChanged() {
+    this.dirty = true;
   }
 
   /**

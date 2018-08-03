@@ -1,8 +1,11 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {AbstractLevel} from "../../../../model/level/abstract-level";
 import {GameLevel} from "../../../../model/level/game-level";
 import {AssessmentLevel} from "../../../../model/level/assessment-level";
 import {InfoLevel} from "../../../../model/level/info-level";
+import {GameLevelConfigurationComponent} from "./game-level-configuration/game-level-configuration.component";
+import {AssessmentLevelConfigurationComponent} from "./assessment-level-configuration/assessment-level-configuration.component";
+import {InfoLevelConfigurationComponent} from "./info-level-configuration/info-level-configuration.component";
 
 @Component({
   selector: 'level-configuration',
@@ -13,6 +16,11 @@ import {InfoLevel} from "../../../../model/level/info-level";
  * Main component of level configuration. Serves as a wrapper and resolver of level type and displays specific component accordingly
  */
 export class LevelConfigurationComponent implements OnInit, OnChanges {
+
+  @ViewChild(GameLevelConfigurationComponent) gameLevelComponent;
+  @ViewChild(AssessmentLevelConfigurationComponent) assessmentLevelComponent;
+  @ViewChild(InfoLevelConfigurationComponent) infoLevelComponent;
+
 
   @Input('level') level: AbstractLevel;
 
@@ -26,6 +34,20 @@ export class LevelConfigurationComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if ('level' in changes) {
       this.resolveLevelType();
+    }
+  }
+
+  /**
+   * Determines whether the user has saved all his work and can leave the component
+   * @returns {boolean} true does not have any unsaved changes, false otherwise
+   */
+  canDeactivate(): boolean {
+    if (this.isGameLevelActive) {
+      return this.gameLevelComponent.canDeactivate();
+    } else if (this.isAssessmentLevelActive) {
+      return this.assessmentLevelComponent.canDeactivate()
+    } else {
+      return this.infoLevelComponent.canDeactivate();
     }
   }
 
