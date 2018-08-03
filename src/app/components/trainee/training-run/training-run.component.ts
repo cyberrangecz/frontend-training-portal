@@ -61,9 +61,9 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
    */
   nextLevel() {
     if (!this.isActiveLevelLocked) {
-      this.trainingRun.currentLevel++;
       this.selectedStep += 1;
       this.activeLevelsService.nextLevel();
+      this.trainingRun.currentLevel = this.activeLevelsService.getActiveLevel().id;
       this.router.navigate(['level', this.selectedStep + 1], {relativeTo: this.activeRoute.parent});
     }
   }
@@ -110,6 +110,7 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
     if (initialLevel && !Number.isNaN(initialLevel)) {
       this.selectedStep = initialLevel - 1;
       this.activeLevelsService.setActiveLevel(initialLevel - 1);
+      this.trainingRun.currentLevel = this.activeLevelsService.getActiveLevel().id;
     }
   }
 
