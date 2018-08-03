@@ -28,6 +28,7 @@
     "ng-pick-datetime": "^6.0.10",
     "ngx-countdown-timer": "^0.1.9",
     "ngx-md": "^6.0.0",
+    "npm": "^6.3.0",
     "rxjs": "^6.0.0",
     "typescript-collections": "^1.3.2",
     "zone.js": "^0.8.26"
