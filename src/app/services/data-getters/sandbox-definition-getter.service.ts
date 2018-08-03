@@ -66,7 +66,6 @@ export class SandboxDefinitionGetterService {
         sandboxJson.title,
         this.parseAuthorIds(sandboxJson.authors));
       sandbox.id = sandboxJson.id;
-      this.determineIfSandboxCanBeRemoved(sandbox);
       sandboxDefs.push(sandbox);
     });
     return sandboxDefs;
@@ -83,17 +82,5 @@ export class SandboxDefinitionGetterService {
     return ids;
   }
 
-  /**
-   * Determines if sandbox definition can be removed (if sandbox is not associated with any training definition or all
-   * associated training definitions are archived.
-   * @param {SandboxDefinition} sandbox
-   */
-  determineIfSandboxCanBeRemoved(sandbox: SandboxDefinition) {
-    // TODO: implement more effectively, this way all trainings are requested for each sandbox
-    this.trainingDefinitionGetter.getTrainingDefsBySandboxDefId(sandbox.id)
-      .subscribe(trainings =>
-        sandbox.canBeRemoved = trainings.length === 0
-          || trainings.every(training =>
-            training.state === TrainingDefinitionStateEnum.Archived));
-  }
+
 }

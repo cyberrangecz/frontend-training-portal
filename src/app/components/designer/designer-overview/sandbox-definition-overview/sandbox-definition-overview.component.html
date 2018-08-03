@@ -20,31 +20,31 @@
           <!-- TITLE Column -->
           <ng-container matColumnDef="title">
             <th class="title" mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
-            <td class="title" mat-cell *matCellDef="let sandbox"> {{sandbox.title}}</td>
+            <td class="title" mat-cell *matCellDef="let data"> {{ data.sandbox?.title }}</td>
           </ng-container>
 
           <!-- ASSOCIATED TRAINING DEFS Column -->
           <ng-container matColumnDef="associatedTrainingDefs">
             <th class="assocTrainingDefs" mat-header-cell *matHeaderCellDef>Associated Training Definitions</th>
-            <td class="assocTrainingDefs" mat-cell *matCellDef="let sandbox"> {{sandbox.associatedTrainingDefs }}</td>
+            <td class="assocTrainingDefs" mat-cell *matCellDef="let data"> {{data.associatedTrainingDefinitions }}</td>
           </ng-container>
 
           <!-- AUTHORS Column -->
           <ng-container matColumnDef="authors">
             <th class="authors" mat-header-cell *matHeaderCellDef>Authors</th>
-            <td class="authors" mat-cell *matCellDef="let sandbox"> {{sandbox.authorIds}}</td>
+            <td class="authors" mat-cell *matCellDef="let data"> {{ data.sandbox?.authorIds }}</td>
           </ng-container>
 
           <!-- ACTIONS Column -->
           <ng-container matColumnDef="actions">
             <th class="actions" mat-header-cell *matHeaderCellDef>Actions</th>
-            <td class="actions" mat-cell *matCellDef="let sandbox">
+            <td class="actions" mat-cell *matCellDef="let data">
 
               <div class="action-buttons">
                 <!-- REMOVE button-->
-                <button *ngIf="sandbox.canBeRemoved"
+                <button *ngIf="data.canBeRemoved"
                         mat-icon-button color="primary"
-                        (click)="removeSandboxDefinition(sandbox)">
+                        (click)="removeSandboxDefinition(data)">
                   <mat-icon
                     matTooltip="Remove sandbox definition"
                     aria-label="Remove sandbox definition button">
@@ -52,9 +52,9 @@
                 </button>
 
                 <!-- UPDATE button-->
-                <button *ngIf="sandbox.canBeRemoved"
+                <button *ngIf="data.canBeRemoved"
                         mat-icon-button color="primary"
-                        (click)="updateSandboxDefinition(sandbox.id)">
+                        (click)="updateSandboxDefinition(data.sandbox?.id)">
                   <mat-icon
                     matTooltip="Update sandbox definition"
                     aria-label="Update sandbox definition button">
@@ -64,7 +64,7 @@
                 <!-- DEPLOY button-->
                 <button *ngIf="true"
                         mat-icon-button color="primary"
-                        (click)="deploySandboxDefinition(sandbox.id)">
+                        (click)="deploySandboxDefinition(data.sandbox?.id)">
                   <mat-icon
                     matTooltip="Deploy sandbox definition"
                     aria-label="Deploy sandbox definition button">

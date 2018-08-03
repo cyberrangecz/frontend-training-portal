@@ -8,9 +8,6 @@ export class SandboxDefinition {
   title: string;
   authorIds: number[];
 
-  canBeRemoved: boolean;
-  associatedTrainingDefs: TrainingDefinition[];
-
   constructor(title: string, authorIds: number[]) {
     this.title = title;
     this.authorIds = authorIds;

@@ -7,6 +7,14 @@ import {TrainingDefinitionGetterService} from "../../../../services/data-getters
 import {AlertService} from "../../../../services/event-services/alert.service";
 import {SandboxUploadDialogComponent} from "./sandbox-upload-dialog/sandbox-upload-dialog.component";
 import {SandboxDefinitionSetterService} from "../../../../services/data-setters/sandbox-definition-setter.service";
+import {TrainingDefinitionStateEnum} from "../../../../enums/training-definition-state.enum";
+import {TrainingDefinition} from "../../../../model/training/training-definition";
+
+export class SandboxDefinitionTableData {
+  sandbox: SandboxDefinition;
+  associatedTrainingDefinitions: TrainingDefinition[];
+  canBeRemoved: boolean;
+}
 
 @Component({
   selector: 'designer-overview-sandbox-definition',
@@ -21,7 +29,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
 
   displayedColumns: string[] = ['title', 'associatedTrainingDefs', 'authors', 'actions'];
 
-  dataSource: MatTableDataSource<SandboxDefinition>;
+  dataSource: MatTableDataSource<SandboxDefinitionTableData>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -63,17 +71,17 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
     });
   }
   /**
-   * Removes sandbox definition from data source and sends request to delete the sandbox in database
-   * @param {SandboxDefinition} sandboxDef sandbox definition which should be deleted
+   * Removes sandbox definition data object from data source and sends request to delete the sandbox in database
+   * @param {SandboxDefinitionTableData} sandboxDataObject sandbox definition data object which should be deleted
    */
-  removeSandboxDefinition(sandboxDef: SandboxDefinition) {
-    const index = this.dataSource.data.indexOf(sandboxDef);
+  removeSandboxDefinition(sandboxDataObject: SandboxDefinitionTableData) {
+    const index = this.dataSource.data.indexOf(sandboxDataObject);
     if (index > -1) {
       this.dataSource.data.splice(index,1);
     }
-    this.dataSource = new MatTableDataSource<SandboxDefinition>(this.dataSource.data);
+    this.dataSource = new MatTableDataSource<SandboxDefinitionTableData>(this.dataSource.data);
 
-    this.sandboxDefinitionSetter.removeSandboxDefinition(sandboxDef.id);
+    this.sandboxDefinitionSetter.removeSandboxDefinition(sandboxDataObject.sandbox.id);
   }
 
   /**
@@ -101,22 +109,39 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
   private createTableDataSource() {
     this.sandboxDefinitionGetter.getSandboxDefsByAuthorId(this.activeUserService.getActiveUser().id)
       .subscribe(sandboxes => {
+        const sandboxDataObjects: SandboxDefinitionTableData[] = [];
 
         sandboxes.forEach((sandbox) => {
+          const sandboxDataObject = new SandboxDefinitionTableData();
+          sandboxDataObject.sandbox = sandbox;
           this.trainingDefinitionGetter.getTrainingDefsBySandboxDefId(sandbox.id)
-            .subscribe(assocTrainings =>
-              sandbox.associatedTrainingDefs = assocTrainings);
-          this.sandboxDefinitionGetter.determineIfSandboxCanBeRemoved(sandbox);
+            .subscribe(assocTrainings => {
+                sandboxDataObject.associatedTrainingDefinitions = assocTrainings;
+                sandboxDataObject.canBeRemoved = this.canSandboxBeRemoved(sandbox, assocTrainings);
+            });
+          sandboxDataObjects.push(sandboxDataObject);
           });
-
-        this.dataSource = new MatTableDataSource(sandboxes);
+        this.dataSource = new MatTableDataSource(sandboxDataObjects);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
 
         this.dataSource.filterPredicate =
-          (data: SandboxDefinition, filter: string) =>
-            data.title.toLowerCase().indexOf(filter) !== -1
+          (data: SandboxDefinitionTableData, filter: string) =>
+            data.sandbox.title.toLowerCase().indexOf(filter) !== -1
       });
+  }
+
+
+  /**
+   * Determines if sandbox definition can be removed (if sandbox is not associated with any training definition or all
+   * associated training definitions are archived.
+   * @param {SandboxDefinition} sandbox definition to determine if can be removed
+   * @param {TrainingDefinition[]} assocTrainings training definitions associated with the sandbox definitions
+   * @returns {boolean} true if sandbox definition can be removed, false otherwise
+   */
+  canSandboxBeRemoved(sandbox: SandboxDefinition, assocTrainings: TrainingDefinition[]): boolean {
+        return assocTrainings.length === 0 || assocTrainings.every(training =>
+            training.state === TrainingDefinitionStateEnum.Archived);
   }
 
 }
