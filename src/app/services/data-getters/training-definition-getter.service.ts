@@ -100,20 +100,6 @@ export class TrainingDefinitionGetterService {
   }
 
   /**
-   * Determines if training can be archived (no training instance associated with the definition is running or scheduled to run in a future)
-   * @param {TrainingDefinition} trainingDef
-   */
-  determineIfTrainingCanBeArchived(trainingDef: TrainingDefinition) {
-   // TODO: implement more effectively. This way, all instances are requested for each training definition
-    this.trainingInstanceGetter.getTrainingInstancesByTrainingDefinitionId(trainingDef.id)
-      .subscribe((trainingInstances) => {
-        trainingDef.canBeArchived = trainingInstances.every(trainingInstance =>
-          (trainingInstance.startTime.valueOf() <= Date.now()
-            && trainingInstance.endTime.valueOf() <= Date.now()))
-      });
-  }
-
-  /**
    * Converts string to state enum
    * @param {string} state string of state
    * @returns {TrainingDefinitionStateEnum} matched state enum

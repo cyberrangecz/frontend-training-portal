@@ -24,39 +24,39 @@
           <!-- TITLE Column -->
           <ng-container matColumnDef="title">
             <th class="title" mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
-            <td class="title" mat-cell *matCellDef="let training">
-              {{training.title}}
+            <td class="title" mat-cell *matCellDef="let data">
+              {{ data.trainingDefinition?.title }}
             </td>
           </ng-container>
 
           <!-- DESCRIPTION Column -->
           <ng-container matColumnDef="description">
             <th class="description" mat-header-cell *matHeaderCellDef>Description</th>
-            <td class="description" mat-cell *matCellDef="let training"> {{training.description}}</td>
+            <td class="description" mat-cell *matCellDef="let data"> {{ data.trainingDefinition?.description }}</td>
           </ng-container>
 
           <!-- STATUS Column -->
           <ng-container matColumnDef="status">
             <th class="status" mat-header-cell *matHeaderCellDef>Status</th>
-            <td class="status" mat-cell *matCellDef="let training"> {{training.state}}</td>
+            <td class="status" mat-cell *matCellDef="let data"> {{ data.trainingDefinition?.state }}</td>
           </ng-container>
 
           <!-- AUTHORS Column -->
           <ng-container matColumnDef="authors">
             <th class="authors" mat-header-cell *matHeaderCellDef>Authors</th>
-            <td class="authors" mat-cell *matCellDef="let training"> {{training.authorIds}}</td>
+            <td class="authors" mat-cell *matCellDef="let data"> {{ data.trainingDefinition?.authorIds }}</td>
           </ng-container>
 
           <!--ACTIONS Column -->
           <ng-container matColumnDef="actions">
             <th class="actions" mat-header-cell *matHeaderCellDef >Actions</th>
-            <td class="actions" mat-cell *matCellDef="let training">
+            <td class="actions" mat-cell *matCellDef="let data">
 
               <div class="action-buttons">
                 <!-- EDIT button -->
-                <button *ngIf="training.state === trainingStateEnum.Unreleased"
+                <button *ngIf="data.trainingDefinition?.state === trainingStateEnum.Unreleased"
                         mat-icon-button color="primary"
-                        (click)="editTrainingDefinition(training.id)">
+                        (click)="editTrainingDefinition(data.trainingDefinition?.id)">
                   <mat-icon
                     matTooltip="Edit training definition"
                     aria-label="Edit training definition button">
@@ -64,10 +64,10 @@
                 </button>
 
                 <!-- CLONE button -->
-                <button *ngIf="training.state === trainingStateEnum.Released ||
-                             training.state === trainingStateEnum.Archived"
+                <button *ngIf="data.trainingDefinition?.state === trainingStateEnum.Released ||
+                             data.trainingDefinition?.state === trainingStateEnum.Archived"
                         mat-icon-button color="primary"
-                        (click)="cloneTrainingDefinition(training)">
+                        (click)="cloneTrainingDefinition(data.trainingDefinition)">
                   <mat-icon
                     matTooltip="Clone training definition"
                     aria-label="Clone training definition button">
@@ -75,10 +75,10 @@
                 </button>
 
                 <!-- REMOVE button -->
-                <button *ngIf="training.state === trainingStateEnum.Unreleased ||
-                             training.state === trainingStateEnum.Archived"
+                <button *ngIf="data.trainingDefinition?.state === trainingStateEnum.Unreleased ||
+                             data.trainingDefinition?.state === trainingStateEnum.Archived"
                         mat-icon-button color="primary"
-                        (click)="removeTrainingDefinition(training)">
+                        (click)="removeTrainingDefinition(data)">
                   <mat-icon
                     matTooltip="Remove training definition"
                     aria-label="Remove training definition button"
@@ -87,7 +87,7 @@
 
                 <!-- DOWNLOAD button -->
                 <button mat-icon-button color="primary"
-                        (click)="downloadTrainingDefinition(training.id)">
+                        (click)="downloadTrainingDefinition(data.trainingDefinition?.id)">
                   <mat-icon
                     matTooltip="Download training definition"
                     aria-label="Download training definition button">
@@ -95,10 +95,10 @@
                 </button>
 
                 <!-- ARCHIVE button -->
-                <button *ngIf="training.state !== trainingStateEnum.Archived
-                              && training.canBeArchived"
+                <button *ngIf="data.trainingDefinition?.state !== trainingStateEnum.Archived
+                              && data.canBeArchived"
                         mat-icon-button color="primary"
-                        (click)="archiveTrainingDefinition(training)">
+                        (click)="archiveTrainingDefinition(data.trainingDefinition)">
                   <mat-icon
                     matTooltip="Archive training definition"
                     aria-label="Archive training definition button">

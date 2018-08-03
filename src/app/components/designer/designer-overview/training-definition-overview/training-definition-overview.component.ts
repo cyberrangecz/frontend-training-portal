@@ -8,6 +8,14 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {TrainingUploadDialogComponent} from "./training-upload-dialog/training-upload-dialog.component";
 import {AlertService} from "../../../../services/event-services/alert.service";
 import {TrainingDefinitionSetterService} from "../../../../services/data-setters/training-definition-setter.service";
+import {TrainingInstanceGetterService} from "../../../../services/data-getters/training-instance-getter.service";
+import {map} from "rxjs/operators";
+import {Observable} from "rxjs/internal/Observable";
+
+export class TrainingDefinitionDataObject {
+  trainingDefinition: TrainingDefinition;
+  canBeArchived: boolean;
+}
 
 @Component({
   selector: 'designer-overview-training-definition',
@@ -25,7 +33,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
 
   displayedColumns: string[] = ['title', 'description', 'status', 'authors', 'actions'];
 
-  dataSource: MatTableDataSource<TrainingDefinition>;
+  dataSource: MatTableDataSource<TrainingDefinitionDataObject>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -36,6 +44,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
     private dialog: MatDialog,
     private activeUserService: ActiveUserService,
     private designerAlertService: AlertService,
+    private trainingInstanceGetter: TrainingInstanceGetterService,
     private trainingDefinitionGetter: TrainingDefinitionGetterService,
     private trainingDefinitionSetter: TrainingDefinitionSetterService) {
   }
@@ -94,14 +103,14 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    * Removes training definition from data source and sends request to delete the training in database
    * @param {TrainingDefinition} trainingDef training definition which should be deleted
    */
-  removeTrainingDefinition(trainingDef: TrainingDefinition) {
-    const index = this.dataSource.data.indexOf(trainingDef);
+  removeTrainingDefinition(trainingDefDataObject: TrainingDefinitionDataObject) {
+    const index = this.dataSource.data.indexOf(trainingDefDataObject);
     if (index > -1) {
       this.dataSource.data.splice(index,1);
     }
-    this.dataSource = new MatTableDataSource<TrainingDefinition>(this.dataSource.data);
+    this.dataSource = new MatTableDataSource<TrainingDefinitionDataObject>(this.dataSource.data);
 
-    this.trainingDefinitionSetter.removeTrainingDefinition(trainingDef.id);
+    this.trainingDefinitionSetter.removeTrainingDefinition(trainingDefDataObject.trainingDefinition.id);
   }
 
   /**
@@ -120,13 +129,17 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
     clone.outcomes = trainingDef.outcomes;
     clone.prerequisites = trainingDef.prerequisites;
     clone.description = trainingDef.description;
-
-    this.trainingDefinitionGetter.determineIfTrainingCanBeArchived(clone);
-
-    this.dataSource.data.push(clone);
-    this.dataSource = new MatTableDataSource<TrainingDefinition>(this.dataSource.data);
+    clone.state = TrainingDefinitionStateEnum.Unreleased;
 
     this.trainingDefinitionSetter.addTrainingDefinition(clone);
+
+    const cloneDataObject = new TrainingDefinitionDataObject();
+    cloneDataObject.trainingDefinition = clone;
+    cloneDataObject.canBeArchived = false;
+
+    this.dataSource.data.push(cloneDataObject);
+    this.dataSource = new MatTableDataSource<TrainingDefinitionDataObject>(this.dataSource.data);
+
   }
 
   /**
@@ -145,18 +158,39 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
   private createTableDataSource() {
     this.trainingDefinitionGetter.getTrainingDefsByAuthorId(this.activeUserService.getActiveUser().id)
       .subscribe(trainings => {
-        trainings.forEach(training =>
-          this.trainingDefinitionGetter.determineIfTrainingCanBeArchived(training));
+        const trainingDefinitionDataObjects: TrainingDefinitionDataObject[] = [];
 
-        this.dataSource = new MatTableDataSource(trainings);
+        trainings.forEach(training => {
+          const trainingDefinitionDataObject = new TrainingDefinitionDataObject();
+          trainingDefinitionDataObject.trainingDefinition = training;
+          this.canTrainingBeArchived(training).subscribe(result =>
+            trainingDefinitionDataObject.canBeArchived = result);
+          trainingDefinitionDataObjects.push(trainingDefinitionDataObject);
+        });
+
+        this.dataSource = new MatTableDataSource(trainingDefinitionDataObjects);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
 
         this.dataSource.filterPredicate =
-          (data: TrainingDefinition, filter: string) =>
-            data.title.toLowerCase().indexOf(filter) !== -1
-            || data.state.toLowerCase().indexOf(filter) !== -1;
+          (data: TrainingDefinitionDataObject, filter: string) =>
+            data.trainingDefinition.title.toLowerCase().indexOf(filter) !== -1
+            || data.trainingDefinition.state.toLowerCase().indexOf(filter) !== -1;
       });
   }
 
+
+  /**
+   * Determines if training can be archived (no training instance associated with the definition is running or scheduled to run in a future)
+   * @param {TrainingDefinition} trainingDef training definition which ability to be archives should be determined
+   * @returns {Observable<boolean>} true if can be archived, false otherwise
+   */
+ private canTrainingBeArchived(trainingDef: TrainingDefinition): Observable<boolean> {
+  return this.trainingInstanceGetter.getTrainingInstancesByTrainingDefinitionId(trainingDef.id)
+    .pipe(map((trainingInstances) => {
+      return trainingInstances.every(trainingInstance =>
+        (trainingInstance.startTime.valueOf() <= Date.now()
+          && trainingInstance.endTime.valueOf() <= Date.now()))
+    }));
+  }
 }
