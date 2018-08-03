@@ -90,14 +90,14 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
     if (!this.flag || this.flag.replace(/\s/g, '') === '' || this.flag.length > 50) {
       errorMessage += 'Flag cannot be empty or larger than 50 characters\n'
     }
-    if (!this.incorrectFlagPenalty || this.incorrectFlagPenalty < 0 || this.incorrectFlagPenalty > 100) {
+    if (Number.isNaN(this.incorrectFlagPenalty) || this.incorrectFlagPenalty < 0 || this.incorrectFlagPenalty > 100) {
       errorMessage += 'Incorrect flag penalty must be a number in range from 0 to 100\n'
     }
-    if (!this.maxScore || this.maxScore < 0 || this.maxScore > 100) {
+    if (Number.isNaN(this.maxScore) || this.maxScore < 0 || this.maxScore > 100) {
       errorMessage += 'Maximal score must be a number in range from 0 to 100\n'
     }
-    if (!this.solutionPenalty || this.solutionPenalty < 0 || this.solutionPenalty > this.maxScore - 1) {
-      errorMessage += 'Solution penalty must be a number in range from 0 to ' + (this.maxScore - 1) + '\n'
+    if (Number.isNaN(this.solutionPenalty) || this.solutionPenalty < 0 || this.solutionPenalty > Math.max(0, (this.maxScore - 1))) {
+      errorMessage += 'Solution penalty must be a number in range from 0 to ' + Math.max(0, (this.maxScore - 1)) + '\n'
     }
 
     if (!this.estimatedDuration && this.estimatedDuration !== 0) {
