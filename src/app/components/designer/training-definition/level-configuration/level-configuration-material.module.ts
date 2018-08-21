@@ -1,6 +1,6 @@
 import {NgModule} from "@angular/core";
 import {
-  MatButtonModule, MatExpansionModule,
+  MatButtonModule, MatCheckboxModule, MatExpansionModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule, MatStepperModule, MatTooltipModule
@@ -14,7 +14,8 @@ import {
     MatIconModule,
     MatExpansionModule,
     MatStepperModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatCheckboxModule
   ],
   exports: [
     MatButtonModule,
@@ -23,7 +24,8 @@ import {
     MatIconModule,
     MatExpansionModule,
     MatStepperModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatCheckboxModule
   ]
 })
 export class LevelConfigurationMaterialModule {}

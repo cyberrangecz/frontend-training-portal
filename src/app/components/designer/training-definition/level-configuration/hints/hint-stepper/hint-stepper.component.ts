@@ -22,11 +22,13 @@ import {HintConfigurationComponent} from "../hint-configuration/hint-configurati
 export class HintStepperComponent implements OnInit, OnChanges {
 
   @Input('hints') hints: Hint[];
+  @Input('levelMaxScore') levelMaxScore: number;
   @Output('hints') hintsChange = new EventEmitter();
 
   @ViewChildren(HintConfigurationComponent) hintConfigurationChildren: QueryList<HintConfigurationComponent>;
 
   dirty = false;
+  initialPenaltySum: number;
 
   constructor() { }
 
@@ -36,6 +38,7 @@ export class HintStepperComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if ('hints' in changes) {
       this.resolveInitialHints();
+      this.calculateInitialHintPenaltySum();
     }
   }
 
@@ -81,6 +84,26 @@ export class HintStepperComponent implements OnInit, OnChanges {
    */
   private hintsChanged() {
     this.hintsChange.emit(this.hints);
+  }
+
+  /**
+   * Calculates initial hint penalty sum from level max score and sum of hints penalties.
+   * Should be used only to calculate the sum BEFORE hint components are initialized
+   */
+  private calculateInitialHintPenaltySum() {
+    this.initialPenaltySum = this.hints.map(hint => hint.hintPenalty)
+      .reduce((sum, currentPenalty) => sum + currentPenalty);
+  }
+
+  /**
+   * Calculates max hint penalty from level max score and sum of hints penalties. Updates initial penalty sum for new added hints
+   * Should be used only to calculate the sum AFTER hint components are initialized
+   */
+  private calculateHintPenaltySum() {
+    const hintsPenaltySum = this.hintConfigurationChildren.map(child => child.hintPenalty)
+      .reduce((sum, currentPenalty) => sum + currentPenalty);
+    this.initialPenaltySum = hintsPenaltySum;
+    this.hintConfigurationChildren.forEach(child => child.calculateMaxHintPenalty(hintsPenaltySum));
   }
 
 }

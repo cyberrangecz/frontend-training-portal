@@ -25,7 +25,11 @@
         <mat-step *ngFor="let hint of hints; index as i">
           <ng-template matStepLabel>Hint {{ i + 1 }}</ng-template>
           <div class="step-content">
-            <hint-configuration [(hint)]="hints[i]" [order]="i"></hint-configuration>
+            <hint-configuration [(hint)]="hints[i]"
+                                (penaltyChange)="calculateHintPenaltySum()"
+                                [levelMaxScore]="levelMaxScore"
+                                [initHintPenaltySum]="initialPenaltySum"
+                                [order]="i"></hint-configuration>
           </div>
         </mat-step>
       </mat-horizontal-stepper>

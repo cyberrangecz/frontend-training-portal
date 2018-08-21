@@ -2,7 +2,9 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {GameLevel} from "../../../../../model/level/game-level";
 import {ActiveTrainingRunLevelsService} from "../../../../../services/active-training-run-levels.service";
 import {MatDialog} from "@angular/material";
-import {UserActionDialogComponent} from "./user-action-dialog/user-action-dialog.component";
+import {RevealHintDialogComponent} from "./user-action-dialogs/reveal-hint-dialog/reveal-hint-dialog.component";
+import {RevealSolutionDialogComponent} from "./user-action-dialogs/reveal-solution-dialog/reveal-solution-dialog.component";
+import {WrongFlagDialogComponent} from "./user-action-dialogs/wrong-flag-dialog/wrong-flag-dialog.component";
 
 @Component({
   selector: 'training-run-game-level',
@@ -41,11 +43,9 @@ export class TrainingRunGameLevelComponent implements OnInit {
    * @param {number} index index of the hint (order)
    */
   showHint(hintButton, index: number) {
-    const dialogRef = this.dialog.open(UserActionDialogComponent, {
+    const dialogRef = this.dialog.open(RevealHintDialogComponent, {
       data: {
         title: hintButton.hint.title,
-        dialogType: 'warning',
-        dataType: 'hint',
         penalty: hintButton.hint.hintPenalty
       }
     });
@@ -61,48 +61,82 @@ export class TrainingRunGameLevelComponent implements OnInit {
 
   /**
    * Displays popup dialog asking for users confirmation of the action. If the action is confirmed by user,
-   * the solution is  displayed and information about penalty for displaying the solutions is send to the endpoint
+   * the solution is displayed.
    */
-  showSolution() {
-    const dialogRef = this.dialog.open(UserActionDialogComponent, {
+  showSolutionButtonClick() {
+    const dialogRef = this.dialog.open(RevealSolutionDialogComponent, {
       data: {
         title: 'solution',
-        dialogType: 'warning',
-        dataType: 'solution',
-        penalty: this.level.solutionPenalty
+        isPenalized: this.level.solutionPenalized,
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
-        this.solutionShown = true;
-        this.displayedText = this.level.solution;
+        this.revealSolution();
         // TODO: Call REST to inform about solution taken
       }
     })
   }
 
   /**
-   * Checks whether the flag is correct. If true, the level is unlocked and the user can continue to the next one,
-   * otherwise popup dialog informing the user about penalty for submitting incorrect flag is displayed and the information
-   * is send to the endpoint
+   * Checks whether the flag is correct and perform appropriate actions
    */
   submitFlag() {
     if (this.flag === this.level.flag) {
-      this.activeLevelService.unlockCurrentLevel();
-      this.correctFlag = true;
-      this.nextLevel.emit(this.level.order + 1);
+      this.runActionsAfterCorrectFlagSubmitted();
     } else {
-      const dialogRef = this.dialog.open(UserActionDialogComponent, {
-        data: {
-          dataType: 'flag',
-          dialogType: 'failure',
-          penalty: this.level.incorrectFlagPenalty
-        }
-      });
-      // TODO: Call REST to inform about incorrect flag
+      this.runActionsAfterWrongFlagSubmitted()
     }
   }
+
+  /**
+   * The level is unlocked and the user can continue to the next one
+   */
+  private runActionsAfterCorrectFlagSubmitted() {
+    // TODO: Call REST to update incorrect flag count
+    this.level.incorrectFlagCount = 0;
+    this.activeLevelService.unlockCurrentLevel();
+    this.correctFlag = true;
+    this.nextLevel.emit(this.level.order + 1);
+  }
+
+  /**
+   * otherwise popup dialog informing the user about penalty for submitting incorrect flag is displayed and the information
+   * is send to the endpoint
+   */
+  private runActionsAfterWrongFlagSubmitted() {
+    if (!this.solutionShown) {
+      // TODO: Call REST to increase incorrect flag count
+      this.level.incorrectFlagCount++;
+      if (this.level.incorrectFlagCount === this.level.incorrectFlagLimit) {
+        this.revealSolution();
+      }
+    }
+
+    const dialogRef = this.dialog.open(WrongFlagDialogComponent, {
+      data: {
+        incorrectFlagCount: this.level.incorrectFlagCount,
+        incorrectFlagLimit: this.level.incorrectFlagLimit
+      }
+    });
+    // TODO: Call REST to inform about incorrect flag
+  }
+
+  /**
+   * Reveals solution text and deducts points if solution is penalized
+   */
+  private revealSolution() {
+    if (this.level.solutionPenalized) {
+      // TODO: deduct remaining points (via REST?)
+      let pointsToDeduct = this.level.maxScore - this.hintButtons
+        .map(hintButton => hintButton.displayed ? hintButton.hint.hintPenalty : 0)
+        .reduce((sum, currentHintPoints) => sum + currentHintPoints);
+    }
+    this.solutionShown = true;
+    this.displayedText = this.level.solution;
+  }
+
 
   /**
    * Initializes hint buttons from hints of the game level
@@ -113,8 +147,7 @@ export class TrainingRunGameLevelComponent implements OnInit {
         {
           displayed: false,
           hint: hint
-        }
-        )
+        })
     );
   }
 }

@@ -74,8 +74,8 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
       errorMessage += 'Title cannot be empty\n'
     }
 
-    if (!this.maxScore || this.maxScore < 0 || this.maxScore > 1000) {
-      errorMessage += 'Maximal score must be a number in range from 0 to 1000\n'
+    if (!this.maxScore || this.maxScore < 0 || this.maxScore > 100) {
+      errorMessage += 'Maximal score must be a number in range from 0 to 100\n'
     }
 
     if (!this.questions) {

@@ -24,8 +24,8 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
   content: string;
   solution: string;
   maxScore: number;
-  solutionPenalty: number;
-  incorrectFlagPenalty: number;
+  solutionPenalized: boolean;
+  incorrectFlagLimit: number;
   flag: string;
   estimatedDuration: number;
   hints: Hint[];
@@ -90,14 +90,11 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
     if (!this.flag || this.flag.replace(/\s/g, '') === '' || this.flag.length > 50) {
       errorMessage += 'Flag cannot be empty or larger than 50 characters\n'
     }
-    if (Number.isNaN(this.incorrectFlagPenalty) || this.incorrectFlagPenalty < 0 || this.incorrectFlagPenalty > 100) {
-      errorMessage += 'Incorrect flag penalty must be a number in range from 0 to 100\n'
+    if (Number.isNaN(this.incorrectFlagLimit) || this.incorrectFlagLimit < 0) {
+      errorMessage += 'Incorrect flag limit must be a positive number\n'
     }
     if (Number.isNaN(this.maxScore) || this.maxScore < 0 || this.maxScore > 100) {
       errorMessage += 'Maximal score must be a number in range from 0 to 100\n'
-    }
-    if (Number.isNaN(this.solutionPenalty) || this.solutionPenalty < 0 || this.solutionPenalty > Math.max(0, (this.maxScore - 1))) {
-      errorMessage += 'Solution penalty must be a number in range from 0 to ' + Math.max(0, (this.maxScore - 1)) + '\n'
     }
 
     if (!this.estimatedDuration && this.estimatedDuration !== 0) {
@@ -122,8 +119,8 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
     this.level.solution  = this.solution;
     this.level.maxScore = this.maxScore;
     this.level.flag = this.flag;
-    this.level.solutionPenalty = this.solutionPenalty;
-    this.level.incorrectFlagPenalty = this.incorrectFlagPenalty;
+    this.level.solutionPenalized = this.solutionPenalized;
+    this.level.incorrectFlagLimit = this.incorrectFlagLimit;
     this.level.estimatedDuration = this.estimatedDuration;
     this.level.hints = this.hints;
   }
@@ -137,8 +134,8 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
     this.solution = this.level.solution;
     this.maxScore = this.level.maxScore;
     this.flag = this.level.flag;
-    this.solutionPenalty = this.level.solutionPenalty;
-    this.incorrectFlagPenalty = this.level.incorrectFlagPenalty;
+    this.solutionPenalized = this.level.solutionPenalized;
+    this.incorrectFlagLimit = this.level.incorrectFlagLimit;
     this.estimatedDuration = this.level.estimatedDuration;
     this.hints = this.level.hints;
   }
