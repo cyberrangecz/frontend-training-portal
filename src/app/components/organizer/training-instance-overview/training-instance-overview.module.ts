@@ -11,7 +11,7 @@ import { Kypo2TrainingsVisualizationOverviewLibModule } from 'kypo2-trainings-vi
     CommonModule,
     TrainingInstanceOverviewRoutingModule,
     TrainingInstanceOverviewMaterialModule,
-    Kypo2TrainingsVisualizationOverviewLibModule
+    
   ],
   declarations: [
   TrainingInstanceOverviewComponent],
