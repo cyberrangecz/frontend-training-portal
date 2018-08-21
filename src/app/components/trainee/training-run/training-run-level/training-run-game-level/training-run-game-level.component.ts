@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {GameLevel} from "../../../../../model/level/game-level";
 import {ActiveTrainingRunLevelsService} from "../../../../../services/active-training-run-levels.service";
 import {MatDialog} from "@angular/material";
@@ -16,6 +16,8 @@ import {UserActionDialogComponent} from "./user-action-dialog/user-action-dialog
 export class TrainingRunGameLevelComponent implements OnInit {
 
   @Input('level') level: GameLevel;
+
+  @Output('nextLevel') nextLevel: EventEmitter<number> = new EventEmitter<number>();
 
   displayedText: string;
   flag: string;
@@ -89,6 +91,7 @@ export class TrainingRunGameLevelComponent implements OnInit {
     if (this.flag === this.level.flag) {
       this.activeLevelService.unlockCurrentLevel();
       this.correctFlag = true;
+      this.nextLevel.emit(this.level.order + 1);
     } else {
       const dialogRef = this.dialog.open(UserActionDialogComponent, {
         data: {
