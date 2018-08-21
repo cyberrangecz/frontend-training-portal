@@ -75,7 +75,6 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
    * @param {boolean} value true if next level button should be displayed, false otherwise
    */
   setDisplayNextLevelButton(value: boolean) {
-    console.log(value);
     this.displayNextButton = value;
   }
 

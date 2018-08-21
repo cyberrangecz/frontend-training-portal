@@ -1,0 +1,11 @@
+<div class="prompt">
+  <h1 mat-dialog-title>{{ data.title | titlecase }}</h1>
+  <div mat-dialog-content>
+    <p class="mat-body-1">Do you really want to unlock this hint?</p>
+    <p class="mat-body-1">It will cost you {{ data.penalty }} points.</p>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button cdkFocusInitial (click)="cancel()">Cancel</button>
+    <button mat-button (click)="confirm()">Pick</button>
+  </div>
+</div>

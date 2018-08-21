@@ -8,7 +8,9 @@ import { TrainingRunGameLevelComponent } from './training-run-game-level/trainin
 import { TrainingRunAssessmentLevelComponent } from './training-run-assessment-level/training-run-assessment-level.component';
 import {NgxMdModule} from "ngx-md";
 import {FormsModule} from "@angular/forms";
-import {UserActionDialogComponent} from "./training-run-game-level/user-action-dialog/user-action-dialog.component";
+import {RevealHintDialogComponent} from "./training-run-game-level/user-action-dialogs/reveal-hint-dialog/reveal-hint-dialog.component";
+import { RevealSolutionDialogComponent } from './training-run-game-level/user-action-dialogs/reveal-solution-dialog/reveal-solution-dialog.component';
+import { WrongFlagDialogComponent } from './training-run-game-level/user-action-dialogs/wrong-flag-dialog/wrong-flag-dialog.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -22,7 +24,9 @@ import {UserActionDialogComponent} from "./training-run-game-level/user-action-d
     TrainingRunInfoLevelComponent,
     TrainingRunGameLevelComponent,
     TrainingRunAssessmentLevelComponent,
-    UserActionDialogComponent
+    RevealHintDialogComponent,
+    RevealSolutionDialogComponent,
+    WrongFlagDialogComponent
   ],
   exports: [
     TrainingRunLevelComponent
@@ -31,7 +35,9 @@ import {UserActionDialogComponent} from "./training-run-game-level/user-action-d
 
   ],
   entryComponents: [
-    UserActionDialogComponent
+    RevealHintDialogComponent,
+    RevealSolutionDialogComponent,
+    WrongFlagDialogComponent
   ]
 })
 

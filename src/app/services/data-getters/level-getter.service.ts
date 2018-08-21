@@ -112,9 +112,10 @@ export class LevelGetterService {
       levelJson.flag,
       this.parseHints(levelJson.id, levelJson.hints),
       levelJson.content,
-     levelJson.solution,
-      levelJson.incorrect_flag_penalty,
-      levelJson.solution_penalty);
+      levelJson.solution,
+      levelJson.incorrect_flag_count,
+      levelJson.incorrect_flag_limit,
+      levelJson.solution_penalized);
 
     level.id = levelJson.id;
     level.estimatedDuration = levelJson.estimated_duration;

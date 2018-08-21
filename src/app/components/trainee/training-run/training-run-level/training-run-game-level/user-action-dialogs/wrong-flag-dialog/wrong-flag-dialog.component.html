@@ -1,0 +1,11 @@
+<div class="wrong-flag">
+  <h1 mat-dialog-title>{{ data.title | titlecase}}</h1>
+  <div mat-dialog-content>
+    <p class="mat-body-1">You have submitted incorrect flag.</p>
+    <p class="mat-body-1" *ngIf="data.incorrectFlagLimit - data.incorrectFlagCount > 0">You have {{ data.incorrectFlagLimit - data.incorrectFlagCount }} remaining attempts.</p>
+    <p class="mat-body-1" *ngIf="data.incorrectFlagLimit - data.incorrectFlagCount <= 0">Please insert flag shown in the solution.</p>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="confirm()">OK</button>
+  </div>
+</div>

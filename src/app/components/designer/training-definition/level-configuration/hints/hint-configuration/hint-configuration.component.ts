@@ -14,13 +14,18 @@ import {AlertService} from "../../../../../../services/event-services/alert.serv
 export class HintConfigurationComponent implements OnInit, OnChanges {
 
   @Input('hint') hint: Hint;
+  @Input('levelMaxScore') levelMaxScore: number;
+  @Input('initHintPenaltySum') initHintPenaltySum: number;
   @Input('order') order: number;
+
   @Output('hint') hintChange = new EventEmitter();
+  @Output('penaltyChange') penaltyChange = new EventEmitter<number>();
 
   title: string;
   content: string;
   hintPenalty: number;
 
+  maxHintPenalty: number;
   dirty = false;
 
   constructor(private alertService: AlertService) { }
@@ -50,7 +55,7 @@ export class HintConfigurationComponent implements OnInit, OnChanges {
       this.setInputValuesToHint();
       this.hintChanged();
       this.dirty = false;
-      // TODO: save through rest api
+        // TODO: save through rest api
     }
   }
 
@@ -59,6 +64,13 @@ export class HintConfigurationComponent implements OnInit, OnChanges {
    */
   onContentChanged() {
     this.dirty = true;
+  }
+
+  /**
+   * Reacts on changes in hint penalty input
+   */
+  onPenaltyChanged() {
+    this.penaltyChange.emit();
   }
 
   /**
@@ -75,6 +87,7 @@ export class HintConfigurationComponent implements OnInit, OnChanges {
     this.title = this.hint.title;
     this.content = this.hint.content;
     this.hintPenalty = this.hint.hintPenalty;
+    this.calculateInitialMaxHintPenalty();
   }
 
   /**
@@ -84,6 +97,17 @@ export class HintConfigurationComponent implements OnInit, OnChanges {
     this.hint.title = this.title;
     this.hint.content = this.content;
     this.hint.hintPenalty = this.hintPenalty;
+  }
+
+  /**
+   * Calculates maximal value of hint penalty (sum of all hint penalties must be lower then level max score)
+   */
+  calculateMaxHintPenalty(hintsPenaltySum: number) {
+    this.maxHintPenalty = this.levelMaxScore - (hintsPenaltySum - this.hintPenalty);
+  }
+
+  private calculateInitialMaxHintPenalty() {
+    this.maxHintPenalty = this.levelMaxScore - (this.initHintPenaltySum - this.hintPenalty);
   }
 
   /**
@@ -102,8 +126,8 @@ export class HintConfigurationComponent implements OnInit, OnChanges {
       errorMessage += 'Content cannot be empty\n'
     }
 
-    if (Number.isNaN(this.hintPenalty) || this.hintPenalty < 0 || this.hintPenalty > 50) {
-      errorMessage += 'Hint penalty must be a number in range from 0 to 50\n'
+    if (Number.isNaN(this.hintPenalty) || this.hintPenalty < 0 || this.hintPenalty > this.maxHintPenalty) {
+      errorMessage += 'Hint penalty must be a number in range from 0 to ' + this.maxHintPenalty + '\n'
     }
 
     if (errorMessage !== '') {

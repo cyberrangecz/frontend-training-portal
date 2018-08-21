@@ -11,19 +11,23 @@ export class GameLevel extends AbstractLevel {
   hints: Hint[];
   content: string; // HTML
   solution: string; // HTML
-  incorrectFlagPenalty: number = 0;
-  solutionPenalty: number = this.maxScore - 1;
+  incorrectFlagCount: number = 0;
+  incorrectFlagLimit: number = 5;
+  solutionPenalized: boolean = true;
   estimatedDuration: number;
   attachments: string[];
 
 
-  constructor(trainingDefinitionId: number, title: string, maxScore: number, order: number, preHook: string, postHook: string, flag: string, hints: Hint[], content: string, solution: string, incorrectFlagPenalty: number, solutionPenalty: number) {
+  constructor(trainingDefinitionId: number, title: string, maxScore: number, order: number,
+              preHook: string, postHook: string, flag: string, hints: Hint[], content: string, solution: string,
+              incorrectFlagCount: number, incorrectFlagLimit: number, solutionPenalized: boolean) {
     super(trainingDefinitionId, title, maxScore, order, preHook, postHook, LevelTypeEnum.Game);
     this.flag = flag;
     this.hints = hints;
     this.content = content;
     this.solution = solution;
-    this.incorrectFlagPenalty = incorrectFlagPenalty;
-    this.solutionPenalty = solutionPenalty;
+    this.incorrectFlagLimit = incorrectFlagLimit;
+    this.incorrectFlagCount = incorrectFlagCount;
+    this.solutionPenalized = solutionPenalized;
   }
 }
