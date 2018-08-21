@@ -50,8 +50,9 @@
       ],
       "content": "You would like to get to files saved on the webserver. If you register to the site, you may notice there is a possibility to upload files to the web. Try to find     out how this could be exploited.\nIf you manage to upload some file on the server, the server will tell you its hash. Use first 5 characters as the flag.",
       "solution": "Register on the webpage. On the left side, click on Documents. Click on select file and select c99.php. Then click on upload. The hash will appear in green box. Use it's first 5 characters as the flag. [61a92]",
-      "incorrect_flag_penalty": 20,
-      "solution_penalty": 30,
+      "incorrect_flag_limit": 5,
+      "incorrect_flag_count": 0,
+      "solution_penalized": true,
       "estimated_duration": 20,
       "attachments:": [
 

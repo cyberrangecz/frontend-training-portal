@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UserActionDialogComponent } from './user-action-dialog.component';
+import { RevealHintDialogComponent } from './reveal-hint-dialog.component';
 
-describe('UserActionDialogComponent', () => {
-  let component: UserActionDialogComponent;
-  let fixture: ComponentFixture<UserActionDialogComponent>;
+describe('RevealHintDialogComponent', () => {
+  let component: RevealHintDialogComponent;
+  let fixture: ComponentFixture<RevealHintDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UserActionDialogComponent ]
+      declarations: [ RevealHintDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UserActionDialogComponent);
+    fixture = TestBed.createComponent(RevealHintDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

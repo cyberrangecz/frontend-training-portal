@@ -15,9 +15,9 @@
 
     <!-- HINT PENALTY field -->
     <div class="penalty">
-      <mat-form-field appearance="outline" hintLabel="Number in range from 0 to 50">
+      <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxHintPenalty }}">
         <mat-label>Hint Penalty</mat-label>
-        <input (change)="onContentChanged()" matInput placeholder="Hint Penalty" type="number" max="50" min="0" [(ngModel)]="hintPenalty" required>
+        <input (change)="onContentChanged(); onPenaltyChanged()" matInput placeholder="Hint Penalty" type="number" [max]="maxHintPenalty" min="0" [(ngModel)]="hintPenalty" required>
       </mat-form-field>
     </div>
   </div>

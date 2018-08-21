@@ -7,7 +7,7 @@ export abstract class AbstractLevel {
   id: number;
   trainingDefinitionId: number;
   title: string;
-  maxScore: number = 0;
+  maxScore: number;
   order: number;
   preHook: string;
   postHook: string;

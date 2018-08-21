@@ -35,16 +35,10 @@
           <input matInput (change)="onContentChanged()" placeholder="Maximal Score" type="number" max="100" min="0" [(ngModel)]="maxScore" required>
         </mat-form-field>
 
-        <!-- SOLUTION PENALTY field -->
-        <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxScore - 1 }}">
-          <mat-label>Solution Penalty</mat-label>
-          <input matInput (change)="onContentChanged()" placeholder="Solution Penalty" type="number" [max]="maxScore - 1" min="0" [(ngModel)]="solutionPenalty" required>
-        </mat-form-field>
-
-        <!-- INCORRECT FLAG PENALTY field -->
-        <mat-form-field appearance="outline" hintLabel="Number in range from 0 to 100">
-          <mat-label>Incorrect Flag Penalty</mat-label>
-          <input matInput (change)="onContentChanged()" placeholder="Incorrect Flag Penalty" type="number" max="100" min="0" [(ngModel)]="incorrectFlagPenalty" required>
+        <!-- INCORRECT FLAG LIMIT field -->
+        <mat-form-field appearance="outline" hintLabel="A positive number">
+          <mat-label>Incorrect Flag Limit</mat-label>
+          <input matInput (change)="onContentChanged()" placeholder="Incorrect Flag Limit" type="number" min="0" [(ngModel)]="incorrectFlagLimit" required>
         </mat-form-field>
 
         <!-- FLAG field -->
@@ -62,11 +56,14 @@
           <mat-label>Estimated Duration</mat-label>
           <input matInput (change)="onContentChanged()" placeholder="Estimated Duration in Seconds" type="number" max="60" min="1" [(ngModel)]="estimatedDuration">
         </mat-form-field>
+
+        <!-- SOLUTION PENALIZED field -->
+        <mat-checkbox (change)="onContentChanged()" [(ngModel)]="solutionPenalized">Solution Penalized</mat-checkbox>
       </div>
     </div>
 
     <!--HINTS component -->
-    <hint-stepper [(hints)]="hints"></hint-stepper>
+    <hint-stepper [(hints)]="hints" [levelMaxScore]="level.maxScore"></hint-stepper>
   </div>
 
   <div class="footer">

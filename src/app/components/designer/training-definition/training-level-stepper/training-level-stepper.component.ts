@@ -73,7 +73,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
   addGameLevel() {
     this.levels.push(new GameLevel(this.trainingDefinitionId,
       "New Game Level",
-      0,
+      100,
       this.levels.length + 1,
       '',
       '',
@@ -82,7 +82,8 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
       '',
       '',
       0,
-      0)
+      5,
+      true)
       );
   }
 
