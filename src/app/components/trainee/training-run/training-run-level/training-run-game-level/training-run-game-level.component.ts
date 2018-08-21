@@ -41,15 +41,16 @@ export class TrainingRunGameLevelComponent implements OnInit {
   showHint(hintButton, index: number) {
     const dialogRef = this.dialog.open(UserActionDialogComponent, {
       data: {
-        dataType: 'hint',
+        title: hintButton.hint.title,
         dialogType: 'warning',
+        dataType: 'hint',
         penalty: hintButton.hint.hintPenalty
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
-        this.displayedText += '\n\n## <span style="color:slateblue">HINT ' + index + ":</span>\n" + hintButton.hint.content;
+        this.displayedText += '\n\n## <span style="color:slateblue">Hint ' + index + ": " + hintButton.hint.title + "</span>\n" + hintButton.hint.content;
         hintButton.displayed = true;
         // TODO: Call REST to inform about hint taken
       }
@@ -63,8 +64,9 @@ export class TrainingRunGameLevelComponent implements OnInit {
   showSolution() {
     const dialogRef = this.dialog.open(UserActionDialogComponent, {
       data: {
-        dataType: 'solution',
+        title: 'solution',
         dialogType: 'warning',
+        dataType: 'solution',
         penalty: this.level.solutionPenalty
       }
     });
