@@ -1,5 +1,5 @@
 <div class="prompt" *ngIf="data.dialogType === 'warning'">
-  <h1 mat-dialog-title>{{ data.dataType | titlecase }}</h1>
+  <h1 mat-dialog-title>{{ data.title | titlecase }}</h1>
   <div mat-dialog-content>
     <p class="mat-body-1">Do you want to unlock {{ data.dataType }}?</p>
     <p class="mat-body-1">It will cost you {{ data.penalty }} points.</p>
@@ -11,7 +11,7 @@
 </div>
 
 <div class="wrong-flag" *ngIf="data.dialogType === 'failure'">
-  <h1 mat-dialog-title>{{ data.dataType | titlecase}}</h1>
+  <h1 mat-dialog-title>{{ data.title | titlecase}}</h1>
   <div mat-dialog-content>
     <p class="mat-body-1">You have submitted incorrect flag.</p>
     <p class="mat-body-1">{{ data.penalty }} penalty points were added.</p>

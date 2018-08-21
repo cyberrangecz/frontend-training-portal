@@ -17,7 +17,7 @@
           mat-raised-button color="primary"
           [disabled]="correctFlag || solutionShown || hintButton.displayed"
           (click)="showHint(hintButton, i + 1);"
-          matTooltip="Display hint">
+          matTooltip="{{ hintButton.hint.title }}">
           Hint {{ i + 1 }}
         </button>
 
