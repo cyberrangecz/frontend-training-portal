@@ -4,12 +4,14 @@ import { TrainingInstanceOverviewComponent } from './training-instance-overview.
 import {TrainingInstanceOverviewRoutingModule} from "./training-instance-overview-routing.module";
 import {TrainingInstanceOverviewMaterialModule} from "./training-instance-overview-material.module";
 import {ActiveTrainingInstanceService} from "../../../services/active-training-instance.service";
+import { Kypo2TrainingsVisualizationOverviewLibModule } from 'kypo2-trainings-visualization-overview-lib';
 
 @NgModule({
   imports: [
     CommonModule,
     TrainingInstanceOverviewRoutingModule,
-    TrainingInstanceOverviewMaterialModule
+    TrainingInstanceOverviewMaterialModule,
+    
   ],
   declarations: [
   TrainingInstanceOverviewComponent],
