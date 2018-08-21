@@ -30,9 +30,12 @@
   </div>
 
   <!-- CONTENT OF ACTIVE LEVEL -->
-  <training-run-level></training-run-level>
+  <training-run-level (nextLevel)="nextLevel()"
+                      (displayNextLevelButton)="setDisplayNextLevelButton($event)">
+
+  </training-run-level>
   <div class="main-button" *ngIf="levels">
-    <button *ngIf="selectedStep + 1 < levels.length"
+    <button *ngIf="selectedStep + 1 < levels.length && displayNextButton"
             [disabled]="isActiveLevelLocked"
             mat-raised-button color="primary"
             (click)="nextLevel()"

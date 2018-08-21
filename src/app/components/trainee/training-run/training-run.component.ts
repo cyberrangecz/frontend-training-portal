@@ -29,7 +29,9 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
   withStepper: boolean;
   withTimer: boolean;
 
+  displayNextButton = false;
   isActiveLevelLocked = true;
+
   levelLockSubscription;
 
   constructor(
@@ -66,6 +68,15 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
       this.trainingRun.currentLevel = this.activeLevelsService.getActiveLevel().id;
       this.router.navigate(['level', this.selectedStep + 1], {relativeTo: this.activeRoute.parent});
     }
+  }
+
+  /**
+   * Sets if the next level button should be displayed
+   * @param {boolean} value true if next level button should be displayed, false otherwise
+   */
+  setDisplayNextLevelButton(value: boolean) {
+    console.log(value);
+    this.displayNextButton = value;
   }
 
   /**

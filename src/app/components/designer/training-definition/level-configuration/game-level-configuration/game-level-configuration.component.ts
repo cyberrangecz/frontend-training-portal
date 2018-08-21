@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {GameLevel} from "../../../../../model/level/game-level";
 import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
 import {AlertService} from "../../../../../services/event-services/alert.service";

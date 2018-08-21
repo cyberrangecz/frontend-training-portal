@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {ActivatedRoute, ParamMap} from "@angular/router";
 import {ActiveTrainingRunLevelsService} from "../../../../services/active-training-run-levels.service";
 import {AbstractLevel} from "../../../../model/level/abstract-level";
@@ -16,6 +16,9 @@ import {GameLevel} from "../../../../model/level/game-level";
  * and displays child component accordingly
  */
 export class TrainingRunLevelComponent implements OnInit, OnDestroy {
+
+  @Output('nextLevel') nextLevel: EventEmitter<number> = new EventEmitter<number>();
+  @Output('displayNextLevelButton') displayNextLevelButton: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   level: AbstractLevel;
   isInfoLevel = false;
@@ -43,6 +46,7 @@ export class TrainingRunLevelComponent implements OnInit, OnDestroy {
    */
   private initLevel() {
     this.level = this.activeLevelsService.getActiveLevel();
+    this.setDisplayNextButtonValue();
   }
 
   /**
@@ -57,6 +61,24 @@ export class TrainingRunLevelComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Decides whether next level button in training page should be displayed or not (game level)
+   */
+  private setDisplayNextButtonValue() {
+    if (this.isGameLevel) {
+      this.displayNextLevelButton.emit(false);
+    } else {
+      this.displayNextLevelButton.emit(true);
+    }
+  }
+
+  /**
+   * Catches next level event from sub component and passes it to to parent
+   */
+  private moveToNextLevel() {
+    this.nextLevel.emit(this.level.order + 1);
+  }
+
+  /**
    * Subscribes to changes of active level. If active level is changes, it re-initializes level data and displays
    * different child component if its type is changed
    */
@@ -65,6 +87,7 @@ export class TrainingRunLevelComponent implements OnInit, OnDestroy {
       .subscribe(activeLevel => {
         this.level = activeLevel;
         this.resolveLevelType();
+        this.setDisplayNextButtonValue();
       })
   }
 }
