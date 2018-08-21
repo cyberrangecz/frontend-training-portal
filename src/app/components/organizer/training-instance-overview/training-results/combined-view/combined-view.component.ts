@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { GAME_INFORMATION } from '../../../../shared/mocks/information.mock';
+import { EVENTS } from '../../../../shared/mocks/events.mock';
 
 @Component({
   selector: 'combined-view',
@@ -6,6 +8,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./combined-view.component.css']
 })
 export class CombinedViewComponent implements OnInit {
+
+  mockFeedbackLearnerId = 9003575;
+  mockGameData = {information: GAME_INFORMATION, events: EVENTS};
 
   constructor() { }
 
