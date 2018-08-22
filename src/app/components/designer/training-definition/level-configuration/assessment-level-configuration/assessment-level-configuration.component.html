@@ -20,15 +20,10 @@
         </mat-form-field>
 
         <!-- INSTRUCTIONS field -->
-        <mat-form-field appearance="outline">
-          <mat-label>Instructions</mat-label>
-          <textarea (change)="contentChanged()" matInput placeholder="Instructions" [(ngModel)]="instructions">
-          <button mat-button *ngIf="instructions" matSuffix mat-icon-button aria-label="Clear" (click)="instructions=''; contentChanged()">
-            <mat-icon>close</mat-icon>
-          </button>
-          </textarea>
-        </mat-form-field>
+        <h3>Instructions</h3>
+        <shared-markdown-editor class="mrkdwn-content" (change)="contentChanged()" [(content)]="instructions"></shared-markdown-editor>
       </div>
+
       <div class="right-panel">
 
         <!-- MAX SCORE field -->
