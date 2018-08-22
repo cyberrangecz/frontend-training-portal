@@ -10,6 +10,8 @@ import {
 } from '@angular/core';
 import {Hint} from "../../../../../../model/level/hint";
 import {HintConfigurationComponent} from "../hint-configuration/hint-configuration.component";
+import {MatDialog} from "@angular/material";
+import {DeleteDialogComponent} from "../../../delete-dialog/delete-dialog.component";
 
 @Component({
   selector: 'hint-stepper',
@@ -31,7 +33,7 @@ export class HintStepperComponent implements OnInit, OnChanges {
   initialPenaltySum: number;
   selectedStep: number = 0;
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit() {
   }
@@ -76,12 +78,24 @@ export class HintStepperComponent implements OnInit, OnChanges {
    * @param {Hint} hint hint which should be deleted
    */
   deleteHint(hint: Hint) {
-    const index = this.hints.indexOf(hint);
-    if (index > - 1) {
-      this.hints.splice(index, 1);
-    }
-    this.changeSelectedStepAfterRemoving(index);
-    this.hintsChanged();
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+    data:
+      {
+      type: 'hint',
+      title: hint.title
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.type === 'confirm') {
+        const index = this.hints.indexOf(hint);
+        if (index > - 1) {
+          this.hints.splice(index, 1);
+        }
+        this.changeSelectedStepAfterRemoving(index);
+        this.hintsChanged();
+      }
+    });
   }
 
   /**

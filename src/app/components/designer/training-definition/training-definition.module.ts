@@ -13,6 +13,7 @@ import {LevelGetterService} from "../../../services/data-getters/level-getter.se
 import {LevelConfigurationModule} from "./level-configuration/level-configuration.module";
 import {PipesModule} from "../../../pipes/pipes.module";
 import { UnsavedChangesDialogComponent } from './unsaved-changes-dialog/unsaved-changes-dialog.component';
+import {DeleteDialogComponent} from "./delete-dialog/delete-dialog.component";
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { UnsavedChangesDialogComponent } from './unsaved-changes-dialog/unsaved-
     TrainingLevelStepperComponent,
     AuthorsPickerComponent,
     SandboxDefinitionPickerComponent,
-    UnsavedChangesDialogComponent
+    UnsavedChangesDialogComponent,
+    DeleteDialogComponent
   ],
   providers: [
     LevelGetterService
@@ -38,7 +40,8 @@ import { UnsavedChangesDialogComponent } from './unsaved-changes-dialog/unsaved-
   entryComponents: [
     SandboxDefinitionPickerComponent,
     AuthorsPickerComponent,
-    UnsavedChangesDialogComponent
+    UnsavedChangesDialogComponent,
+    DeleteDialogComponent
   ]
 })
 

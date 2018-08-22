@@ -5,6 +5,8 @@ import {GameLevel} from "../../../../model/level/game-level";
 import {AssessmentLevel} from "../../../../model/level/assessment-level";
 import {AssessmentTypeEnum} from "../../../../enums/assessment-type.enum";
 import {LevelConfigurationComponent} from "../level-configuration/level-configuration.component";
+import {DeleteDialogComponent} from "../delete-dialog/delete-dialog.component";
+import {MatDialog} from "@angular/material";
 
 @Component({
   selector: 'training-level-stepper',
@@ -24,7 +26,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
 
   selectedStep: number = 0;
 
-  constructor() {
+  constructor(public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -138,10 +140,22 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    * @param {number} index index of level which should be deleted
    */
   deleteLevel(index: number) {
-    this.levels.splice(index, 1);
-    this.decreaseOrderOfLevelsFromIndex(index);
-    // TODO: save changes in the db
-    this.changeSelectedStepAfterRemoving(index);
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data:
+        {
+          type: 'level',
+          title: this.levels[index].title
+        }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.type === 'confirm') {
+        this.levels.splice(index, 1);
+        this.decreaseOrderOfLevelsFromIndex(index);
+        // TODO: save changes in the db
+        this.changeSelectedStepAfterRemoving(index);
+      }
+    });
   }
 
   /**
