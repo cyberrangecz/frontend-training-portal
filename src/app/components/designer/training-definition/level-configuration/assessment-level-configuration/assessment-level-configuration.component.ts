@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {AssessmentLevel} from "../../../../../model/level/assessment-level";
 import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
 import {AlertService} from "../../../../../services/event-services/alert.service";
@@ -16,6 +16,8 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
 
   @ViewChild(QuestionStepperComponent) childComponent: QuestionStepperComponent;
   @Input('level') level: AssessmentLevel;
+
+  @Output('deleteLevel') deleteLevel: EventEmitter<number> = new EventEmitter();
 
   title: string;
   instructions: string;
@@ -61,6 +63,13 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
    */
   contentChanged() {
     this.dirty = true;
+  }
+
+  /**
+   * Emits event saying that this level should be deleted
+   */
+  onDeleteLevel() {
+    this.deleteLevel.emit(this.level.order - 1); // -1 because levels are ordered 1,2,3,4...
   }
 
   /**

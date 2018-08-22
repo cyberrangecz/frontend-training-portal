@@ -5,6 +5,8 @@ import {GameLevel} from "../../../../model/level/game-level";
 import {AssessmentLevel} from "../../../../model/level/assessment-level";
 import {AssessmentTypeEnum} from "../../../../enums/assessment-type.enum";
 import {LevelConfigurationComponent} from "../level-configuration/level-configuration.component";
+import {DeleteDialogComponent} from "../delete-dialog/delete-dialog.component";
+import {MatDialog} from "@angular/material";
 
 @Component({
   selector: 'training-level-stepper',
@@ -24,7 +26,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
 
   selectedStep: number = 0;
 
-  constructor() {
+  constructor(public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -130,6 +132,51 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
       this.levels[this.selectedStep] = tempLevel;
       this.selectedStep += 1;
       // TODO: save edited order in db
+    }
+  }
+
+  /**
+   * Deletes level on given index
+   * @param {number} index index of level which should be deleted
+   */
+  deleteLevel(index: number) {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data:
+        {
+          type: 'level',
+          title: this.levels[index].title
+        }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.type === 'confirm') {
+        this.levels.splice(index, 1);
+        this.decreaseOrderOfLevelsFromIndex(index);
+        // TODO: save changes in the db
+        this.changeSelectedStepAfterRemoving(index);
+      }
+    });
+  }
+
+  /**
+   * Decreases order of levels by one (typically after removing a level) from given index
+   * @param {number} index of a level from which onwards should the order be decreased
+   */
+  private decreaseOrderOfLevelsFromIndex(index: number) {
+    for (let i = index; i < this.levels.length; i++) {
+      this.levels[i].order--;
+    }
+  }
+
+  /**
+   * Changes selected step to the one before removed or to first one if the first step is removed
+   * @param {number} index index of the removed step
+   */
+  private changeSelectedStepAfterRemoving(index: number) {
+    if (index === 0) {
+      this.selectedStep = 0;
+    } else {
+      this.selectedStep--;
     }
   }
 

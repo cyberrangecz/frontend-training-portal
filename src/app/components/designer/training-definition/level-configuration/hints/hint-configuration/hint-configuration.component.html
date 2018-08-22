@@ -27,4 +27,6 @@
     <h3>Content</h3>
     <shared-markdown-editor (change)="onContentChanged()" class="mrkdwn-content" [(content)]="content"></shared-markdown-editor>
   </div>
+
+  <button mat-raised-button color="warn" (click)="onDeleteHint()">Delete hint</button>
 </div>

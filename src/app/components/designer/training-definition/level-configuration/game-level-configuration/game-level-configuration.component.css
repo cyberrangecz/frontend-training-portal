@@ -61,6 +61,10 @@ div .footer {
   align-items: baseline;
 }
 
+button {
+  margin-right: 15px;
+}
+
 @media screen and (max-width: 800px) {
   div .panel-wrapper {
     flex-direction: column;

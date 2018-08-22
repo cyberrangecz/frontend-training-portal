@@ -10,6 +10,8 @@ import {
 } from '@angular/core';
 import {Hint} from "../../../../../../model/level/hint";
 import {HintConfigurationComponent} from "../hint-configuration/hint-configuration.component";
+import {MatDialog} from "@angular/material";
+import {DeleteDialogComponent} from "../../../delete-dialog/delete-dialog.component";
 
 @Component({
   selector: 'hint-stepper',
@@ -29,8 +31,9 @@ export class HintStepperComponent implements OnInit, OnChanges {
 
   dirty = false;
   initialPenaltySum: number;
+  selectedStep: number = 0;
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit() {
   }
@@ -68,6 +71,51 @@ export class HintStepperComponent implements OnInit, OnChanges {
   saveChanges() {
     this.hintConfigurationChildren.forEach(child => child.saveChanges());
     this.dirty = false;
+  }
+
+  /**
+   * Deletes given hint from list of hints
+   * @param {Hint} hint hint which should be deleted
+   */
+  deleteHint(hint: Hint) {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+    data:
+      {
+      type: 'hint',
+      title: hint.title
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.type === 'confirm') {
+        const index = this.hints.indexOf(hint);
+        if (index > - 1) {
+          this.hints.splice(index, 1);
+        }
+        this.changeSelectedStepAfterRemoving(index);
+        this.hintsChanged();
+      }
+    });
+  }
+
+  /**
+   * Triggered after selection of active level is changes in the stepper
+   * @param event event of active level change
+   */
+  selectionChanged(event) {
+    this.selectedStep = event.selectedIndex;
+  }
+
+  /**
+   * Changes selected step to the one before removed or to first one if the first step is removed
+   * @param {number} index index of the removed step
+   */
+  private changeSelectedStepAfterRemoving(index: number) {
+    if (index === 0) {
+      this.selectedStep = 0;
+    } else {
+      this.selectedStep--;
+    }
   }
 
   /**
