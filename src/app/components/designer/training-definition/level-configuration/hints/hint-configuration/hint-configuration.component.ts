@@ -20,7 +20,7 @@ export class HintConfigurationComponent implements OnInit, OnChanges {
 
   @Output('hint') hintChange = new EventEmitter();
   @Output('penaltyChange') penaltyChange = new EventEmitter<number>();
-
+  @Output('deleteHint') deleteHint = new EventEmitter<Hint>();
   title: string;
   content: string;
   hintPenalty: number;
@@ -74,6 +74,20 @@ export class HintConfigurationComponent implements OnInit, OnChanges {
   }
 
   /**
+   * Calculates maximal value of hint penalty (sum of all hint penalties must be lower then level max score)
+   */
+  calculateMaxHintPenalty(hintsPenaltySum: number) {
+    this.maxHintPenalty = this.levelMaxScore - (hintsPenaltySum - this.hintPenalty);
+  }
+
+  /**
+   * Emits event to delete this hint
+   */
+  onDeleteHint() {
+    this.deleteHint.emit(this.hint);
+  }
+
+  /**
    * Emits event if hint is saved
    */
   private hintChanged() {
@@ -97,13 +111,6 @@ export class HintConfigurationComponent implements OnInit, OnChanges {
     this.hint.title = this.title;
     this.hint.content = this.content;
     this.hint.hintPenalty = this.hintPenalty;
-  }
-
-  /**
-   * Calculates maximal value of hint penalty (sum of all hint penalties must be lower then level max score)
-   */
-  calculateMaxHintPenalty(hintsPenaltySum: number) {
-    this.maxHintPenalty = this.levelMaxScore - (hintsPenaltySum - this.hintPenalty);
   }
 
   private calculateInitialMaxHintPenalty() {

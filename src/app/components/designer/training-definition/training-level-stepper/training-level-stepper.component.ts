@@ -141,6 +141,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
     this.levels.splice(index, 1);
     this.decreaseOrderOfLevelsFromIndex(index);
     // TODO: save changes in the db
+    this.changeSelectedStepAfterRemoving(index);
   }
 
   /**
@@ -150,6 +151,18 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
   private decreaseOrderOfLevelsFromIndex(index: number) {
     for (let i = index; i < this.levels.length; i++) {
       this.levels[i].order--;
+    }
+  }
+
+  /**
+   * Changes selected step to the one before removed or to first one if the first step is removed
+   * @param {number} index index of the removed step
+   */
+  private changeSelectedStepAfterRemoving(index: number) {
+    if (index === 0) {
+      this.selectedStep = 0;
+    } else {
+      this.selectedStep--;
     }
   }
 
