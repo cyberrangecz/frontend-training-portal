@@ -55,7 +55,7 @@
     </ng-template>
 
     <mat-step *ngFor="let level of levels; index as i">
-      <ng-template matStepLabel>{{ i + 1 | levelStepperLabel:levels.length }}</ng-template>
+      <ng-template matStepLabel>{{ level.title | levelStepperLabel: i + 1: levels.length }}</ng-template>
       <div class="step-content">
         <level-configuration [level]="level"></level-configuration>
       </div>
