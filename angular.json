@@ -23,7 +23,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/kypo2-trainings-visualization-overview-lib/styles.scss"
             ],
             "scripts": []
           },
