@@ -1,3 +1,3 @@
-<game-level-configuration *ngIf="isGameLevelActive" [level]="level"></game-level-configuration>
-<info-level-configuration *ngIf="isInfoLevelActive" [level]="level"></info-level-configuration>
-<assessment-level-configuration *ngIf="isAssessmentLevelActive" [level]="level"></assessment-level-configuration>
+<game-level-configuration *ngIf="isGameLevelActive" (deleteLevel)="onDeleteLevel($event)" [level]="level"></game-level-configuration>
+<info-level-configuration *ngIf="isInfoLevelActive" (deleteLevel)="onDeleteLevel($event)" [level]="level"></info-level-configuration>
+<assessment-level-configuration *ngIf="isAssessmentLevelActive" (deleteLevel)="onDeleteLevel($event)" [level]="level"></assessment-level-configuration>

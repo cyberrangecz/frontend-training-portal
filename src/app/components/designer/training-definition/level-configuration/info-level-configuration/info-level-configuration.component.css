@@ -22,6 +22,10 @@ div .content {
   width: 70%;
 }
 
+button {
+  margin-right: 15px;
+}
+
 @media screen and (max-width: 800px) {
   div .content {
     width: 100%;

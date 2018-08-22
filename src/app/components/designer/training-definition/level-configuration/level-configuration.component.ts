@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {AbstractLevel} from "../../../../model/level/abstract-level";
 import {GameLevel} from "../../../../model/level/game-level";
 import {AssessmentLevel} from "../../../../model/level/assessment-level";
@@ -24,6 +24,8 @@ export class LevelConfigurationComponent implements OnInit, OnChanges {
 
   @Input('level') level: AbstractLevel;
 
+  @Output('deleteLevel') deleteLevel: EventEmitter<number> = new EventEmitter();
+
   isGameLevelActive: boolean;
   isInfoLevelActive: boolean;
   isAssessmentLevelActive: boolean;
@@ -35,6 +37,14 @@ export class LevelConfigurationComponent implements OnInit, OnChanges {
     if ('level' in changes) {
       this.resolveLevelType();
     }
+  }
+
+  /**
+   * Emits event saying that level with given index should be deleted
+   * @param {number} index index of a level which should be deleted
+   */
+  onDeleteLevel(index: number) {
+    this.deleteLevel.emit(index);
   }
 
   /**

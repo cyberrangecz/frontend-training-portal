@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {InfoLevel} from "../../../../../model/level/info-level";
 import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
 import {AlertService} from "../../../../../services/event-services/alert.service";
@@ -15,6 +15,8 @@ export class InfoLevelConfigurationComponent implements OnInit, OnChanges {
 
   @Input('level') level: InfoLevel;
 
+  @Output('deleteLevel') deleteLevel: EventEmitter<number> = new EventEmitter();
+
   title: string;
   content: string;
 
@@ -29,6 +31,13 @@ export class InfoLevelConfigurationComponent implements OnInit, OnChanges {
     if ('level' in changes) {
       this.setInitialValues();
     }
+  }
+
+  /**
+   * Emits event saying that this level should be deleted
+   */
+  onDeleteLevel() {
+    this.deleteLevel.emit(this.level.order - 1); // -1 because levels are ordered 1,2,3,4...
   }
 
   /**

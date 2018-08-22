@@ -134,6 +134,26 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
   }
 
   /**
+   * Deletes level on given index
+   * @param {number} index index of level which should be deleted
+   */
+  deleteLevel(index: number) {
+    this.levels.splice(index, 1);
+    this.decreaseOrderOfLevelsFromIndex(index);
+    // TODO: save changes in the db
+  }
+
+  /**
+   * Decreases order of levels by one (typically after removing a level) from given index
+   * @param {number} index of a level from which onwards should the order be decreased
+   */
+  private decreaseOrderOfLevelsFromIndex(index: number) {
+    for (let i = index; i < this.levels.length; i++) {
+      this.levels[i].order--;
+    }
+  }
+
+  /**
    * Triggered after selection of active level is changes in the stepper
    * @param event event of active level change
    */
