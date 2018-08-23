@@ -45,12 +45,12 @@ div .right-panel mat-form-field {
   margin-bottom: 20px;
 }
 
-shared-markdown-editor.mrkdwn-content {
+markdown-editor.mrkdwn-content {
   margin-bottom: 20px;
   height: 30vh;
 }
 
-shared-markdown-editor.mrkdwn-solution {
+markdown-editor.mrkdwn-solution {
   margin-bottom: 20px;
   height: 30vh;
 }

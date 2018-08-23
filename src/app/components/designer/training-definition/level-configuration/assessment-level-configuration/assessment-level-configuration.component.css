@@ -55,12 +55,12 @@ button {
   margin-right: 15px;
 }
 
-shared-markdown-editor.mrkdwn-content {
+markdown-editor.mrkdwn-content {
   margin-bottom: 20px;
   height: 30vh;
 }
 
-shared-markdown-editor.mrkdwn-solution {
+markdown-editor.mrkdwn-solution {
   margin-bottom: 20px;
   height: 30vh;
 }

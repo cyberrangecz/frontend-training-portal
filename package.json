@@ -25,6 +25,7 @@
     "@angular/router": "^6.0.3",
     "core-js": "^2.5.4",
     "hammerjs": "^2.0.8",
+    "markdown-editor": "git+ssh://git@gitlab.ics.muni.cz:kypo2/frontend-new/markdown-editor-component.git#package",
     "ng-pick-datetime": "^6.0.10",
     "ngx-countdown-timer": "^0.1.9",
     "ngx-md": "^6.0.0",

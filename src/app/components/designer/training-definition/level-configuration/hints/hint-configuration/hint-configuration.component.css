@@ -34,7 +34,7 @@ mat-form-field {
 }
 
 
-shared-markdown-editor {
+markdown-editor {
   margin-bottom: 20px;
   height: 30vh;
 }
