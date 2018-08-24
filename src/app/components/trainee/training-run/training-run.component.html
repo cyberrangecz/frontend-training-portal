@@ -20,7 +20,7 @@
     <mat-step *ngFor="let level of levels; index as i"
               [editable]="false"
               [completed]="i <= selectedStep">
-      <ng-template matStepLabel>{{ i + 1 | levelStepperLabel:levels.length }}</ng-template>
+      <ng-template matStepLabel>{{ level.title | levelStepperLabel: i + 1: levels.length }}</ng-template>
     </mat-step>
   </mat-horizontal-stepper>
 

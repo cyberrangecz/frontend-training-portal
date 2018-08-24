@@ -11,13 +11,16 @@ import {FormsModule} from "@angular/forms";
 import {RevealHintDialogComponent} from "./training-run-game-level/user-action-dialogs/reveal-hint-dialog/reveal-hint-dialog.component";
 import { RevealSolutionDialogComponent } from './training-run-game-level/user-action-dialogs/reveal-solution-dialog/reveal-solution-dialog.component';
 import { WrongFlagDialogComponent } from './training-run-game-level/user-action-dialogs/wrong-flag-dialog/wrong-flag-dialog.component';
+ import {GraphModule} from "graph-topology";
+import {CustomTopologyConfig} from "./training-run-game-level/graph-topology-config";
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     TrainingRunLevelMaterialModule,
     TrainingRunLevelRoutingModule,
-    NgxMdModule.forRoot(),
+    GraphModule.forRoot(new CustomTopologyConfig()),
+    NgxMdModule.forRoot()
   ],
   declarations: [
     TrainingRunLevelComponent,
@@ -32,7 +35,6 @@ import { WrongFlagDialogComponent } from './training-run-game-level/user-action-
     TrainingRunLevelComponent
   ],
   providers: [
-
   ],
   entryComponents: [
     RevealHintDialogComponent,
@@ -42,5 +44,4 @@ import { WrongFlagDialogComponent } from './training-run-game-level/user-action-
 })
 
 export class TrainingRunLevelModule {
-
 }

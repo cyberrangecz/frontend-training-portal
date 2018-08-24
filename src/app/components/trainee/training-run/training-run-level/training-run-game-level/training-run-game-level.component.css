@@ -55,6 +55,10 @@ mat-form-field {
   width: 300px;
 }
 
+lib-force-graph {
+  width: 1080px;
+}
+
 @media screen and (max-width: 800px) {
   .content {
     width: 90%;

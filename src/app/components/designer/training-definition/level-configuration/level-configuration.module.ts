@@ -11,7 +11,7 @@ import { HintStepperComponent } from './hints/hint-stepper/hint-stepper.componen
 import { HintConfigurationComponent } from './hints/hint-configuration/hint-configuration.component';
 import { QuestionStepperComponent } from './questions/question-stepper/question-stepper.component';
 import { QuestionConfigurationComponent } from './questions/question-configuration/question-configuration.component';
-import { MarkdownEditorModule } from "markdown-editor/dist/markdown-editor-lib";
+import { MarkdownEditorModule } from "markdown-editor-lib"
 
 @NgModule({
   imports: [
