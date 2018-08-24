@@ -25,7 +25,6 @@ import {PipesModule} from "./pipes/pipes.module";
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    PipesModule.forRoot(),
     HttpClientModule,
     AppRoutingModule,
     SharedModule,

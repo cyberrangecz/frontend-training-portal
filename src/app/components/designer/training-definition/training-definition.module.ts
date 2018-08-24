@@ -23,6 +23,8 @@ import {DeleteDialogComponent} from "./delete-dialog/delete-dialog.component";
     TrainingDefinitionRoutingModule,
     TrainingDefinitionMaterialModule,
     LevelConfigurationModule,
+    PipesModule.forRoot(),
+
   ],
   declarations: [
     TrainingDefinitionComponent,
