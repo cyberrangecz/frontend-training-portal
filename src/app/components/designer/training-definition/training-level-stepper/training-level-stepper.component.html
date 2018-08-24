@@ -1,10 +1,10 @@
 <div class="header">
   <h2>Levels</h2>
-  <button class="add-level" mat-icon-button color="primary" [disabled]="!isTrainingSaved" [matMenuTriggerFor]="menu"
+  <button class="add-level" mat-icon-button color="primary" [disabled]="!isTrainingSaved" [matMenuTriggerFor]="levelMenu"
           matTooltip="Add new level">
     <mat-icon>add_circle</mat-icon>
   </button>
-  <mat-menu #menu="matMenu">
+  <mat-menu #levelMenu="matMenu">
     <button mat-menu-item
             (click)="addGameLevel()">
       <mat-icon>videogame_asset</mat-icon>

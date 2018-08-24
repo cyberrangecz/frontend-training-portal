@@ -12,11 +12,11 @@ import {
 import {QuestionConfigurationComponent} from "../question-configuration/question-configuration.component";
 
 @Component({
-  selector: 'question-stepper',
-  templateUrl: './question-stepper.component.html',
-  styleUrls: ['./question-stepper.component.css']
+  selector: 'question-overview',
+  templateUrl: './questions-overview.component.html',
+  styleUrls: ['./questions-overview.component.css']
 })
-export class QuestionStepperComponent implements OnInit, OnChanges {
+export class QuestionsOverviewComponent implements OnInit, OnChanges {
 
   @Input('questions') questions: string[];
   @Output('questions') questionsChange = new EventEmitter();
@@ -44,11 +44,34 @@ export class QuestionStepperComponent implements OnInit, OnChanges {
     return !this.dirty && this.questionConfigurationChildren.toArray().every(child => child.canDeactivate());
   }
 
-  addQuestion() {
+  /**
+   * Creates new free form question
+   */
+  addFFQ() {
     this.questions.push('new question');
     this.dirty = true;
     this.questionsChanged();
   }
+
+  /**
+   * Creates new multiple choice question
+   */
+  addMCQ() {
+    this.questions.push('new question');
+    this.dirty = true;
+    this.questionsChanged();
+  }
+
+  /**
+   * Creates new extended matching items question
+   */
+  addEMI() {
+    this.questions.push('new question');
+    this.dirty = true;
+    this.questionsChanged();
+  }
+
+
 
   saveChanges() {
     this.questionConfigurationChildren.forEach(child => child.saveChanges());

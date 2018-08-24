@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild
 import {AssessmentLevel} from "../../../../../model/level/assessment-level";
 import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
 import {AlertService} from "../../../../../services/event-services/alert.service";
-import {QuestionStepperComponent} from "../questions/question-stepper/question-stepper.component";
+import {QuestionsOverviewComponent} from "../questions/questions-overview/questions-overview.component";
 
 @Component({
   selector: 'assessment-level-configuration',
@@ -14,7 +14,7 @@ import {QuestionStepperComponent} from "../questions/question-stepper/question-s
  */
 export class AssessmentLevelConfigurationComponent implements OnInit {
 
-  @ViewChild(QuestionStepperComponent) childComponent: QuestionStepperComponent;
+  @ViewChild(QuestionsOverviewComponent) childComponent: QuestionsOverviewComponent;
   @Input('level') level: AssessmentLevel;
 
   @Output('deleteLevel') deleteLevel: EventEmitter<number> = new EventEmitter();

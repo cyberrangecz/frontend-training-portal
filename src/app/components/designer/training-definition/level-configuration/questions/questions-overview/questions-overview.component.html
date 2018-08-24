@@ -1,0 +1,45 @@
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Questions
+      </mat-panel-title>
+      <mat-panel-description>
+        {{ questions.length }} questions currently added to this level
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <!-- ADD QUESTION button -->
+    <div class="header">
+      <button class="add-question" mat-button color="primary" [matMenuTriggerFor]="questionsMenu"
+              matTooltip="Add new question">
+        Add Question
+      </button>
+    </div>
+
+    <mat-menu #questionsMenu="matMenu">
+      <button mat-menu-item
+              (click)="addFFQ()">
+        <mat-icon>help_outline</mat-icon>
+        <span>Free-form Question</span>
+      </button>
+      <button mat-menu-item
+              (click)="addMCQ()">
+        <mat-icon>check_circle</mat-icon>
+        <span>Multiple Choice Question</span>
+      </button>
+
+      <button mat-menu-item
+              (click)="addEMI()">
+        <mat-icon>list_alt</mat-icon>
+        <span>Extended Matching Items Questions</span>
+      </button>
+    </mat-menu>
+
+    <!-- QUESTIONS -->
+    <question-configuration
+      *ngFor="let question of questions; index as i"
+      [(question)]="questions[i]">
+    </question-configuration>
+  </mat-expansion-panel>
+</mat-accordion>

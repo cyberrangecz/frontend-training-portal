@@ -9,7 +9,7 @@ import { LevelConfigurationComponent } from './level-configuration.component';
 import {SharedModule} from "../../../shared/shared.module";
 import { HintStepperComponent } from './hints/hint-stepper/hint-stepper.component';
 import { HintConfigurationComponent } from './hints/hint-configuration/hint-configuration.component';
-import { QuestionStepperComponent } from './questions/question-stepper/question-stepper.component';
+import { QuestionsOverviewComponent } from './questions/questions-overview/questions-overview.component';
 import { QuestionConfigurationComponent } from './questions/question-configuration/question-configuration.component';
 import { MarkdownEditorModule } from "markdown-editor-lib"
 
@@ -31,7 +31,7 @@ import { MarkdownEditorModule } from "markdown-editor-lib"
   LevelConfigurationComponent,
   HintStepperComponent,
   HintConfigurationComponent,
-  QuestionStepperComponent,
+  QuestionsOverviewComponent,
   QuestionConfigurationComponent
   ],
   providers: [
