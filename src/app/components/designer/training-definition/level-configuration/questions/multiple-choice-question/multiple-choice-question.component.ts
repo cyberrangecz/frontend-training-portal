@@ -17,6 +17,12 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
   title: string;
   options: string[];
   correctAnswersIndexes: number[];
+  score: number;
+  penalty: number;
+  required: boolean;
+
+  maxQuestionScore: number = 100;
+  maxQuestionPenalty: number = 100;
 
   dirty = false;
 
@@ -25,14 +31,27 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
   ngOnInit() {
   }
 
+
   ngOnChanges(changes: SimpleChanges): void {
     if ('question' in changes) {
       this.setInitialValues();
     }
   }
 
+  trackByFn(index: any, item: any) {
+    return index;
+  }
+
   contentChanged() {
     this.dirty = true;
+  }
+
+  onScoreChanged() {
+
+  }
+
+  onPenaltyChanged() {
+
   }
 
   /**
@@ -44,27 +63,31 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
   }
 
   saveChanges() {
-    this.dirty = false;
+    if (this.validateInput()) {
+      this.setInputValues();
+      // TODO: Save to REST
+      this.dirty = false;
+    }
   }
 
   onAnswerChanged(event: MatCheckboxChange, index: number) {
     if (event.checked) {
       this.correctAnswersIndexes.push(index);
     } else {
-      this.removeFromCorrectAnswers(index);
+      this.removeFromCorrectAnswer(index);
     }
   }
 
   deleteOption(index: number) {
     this.options.splice(index, 1);
-    this.removeFromCorrectAnswers(index);
+    this.removeFromCorrectAnswer(index);
   }
 
   addOption() {
     this.options.push('');
   }
 
-  private removeFromCorrectAnswers(index: number) {
+  private removeFromCorrectAnswer(index: number) {
     const indexToRemove = this.correctAnswersIndexes.indexOf(index);
     if (indexToRemove != -1) {
       this.correctAnswersIndexes.splice(indexToRemove, 1);
@@ -75,12 +98,18 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
     this.title = this.question.title;
     this.options = this.question.options;
     this.correctAnswersIndexes = this.question.correctAnswersIndexes;
+    this.score = this.question.score;
+    this.penalty = this.question.penalty;
+    this.required = this.question.required;
   }
 
   private setInputValues() {
     this.question.title = this.title;
     this.question.options = this.options;
     this.question.correctAnswersIndexes = this.correctAnswersIndexes;
+    this.question.penalty = this.penalty;
+    this.question.score = this.score;
+    this.question.required = this.required;
 
     if (this.correctAnswersIndexes.length > 0) {
       this.question.type = QuestionTypeEnum.Test;
@@ -97,8 +126,16 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
       errorMessage += 'Title cannot be empty\n'
     }
 
+    if (Number.isNaN(this.penalty) || this.penalty < 0 || this.penalty > this.maxQuestionPenalty) {
+      errorMessage += 'Question penalty must be a number in range from 0 to ' + this.maxQuestionPenalty + '\n'
+    }
+
+    if (Number.isNaN(this.score) || this.score < 0 || this.score > this.maxQuestionScore) {
+      errorMessage += 'Question score must be a number in range from 0 to ' + this.maxQuestionScore + '\n'
+    }
+
     for (let i = 0; i < this.options.length; i++) {
-      if (this.options[i] || this.options[i].replace(/\s/g, '') === '') {
+      if (!this.options[i] || this.options[i].replace(/\s/g, '') === '') {
         errorMessage += (i + 1) + '. option cannot be empty\n'
       }
     }

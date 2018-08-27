@@ -3,7 +3,7 @@ import {
   MatButtonModule, MatCardModule, MatCheckboxModule, MatDividerModule, MatExpansionModule,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule, MatMenuModule, MatStepperModule, MatTooltipModule
+  MatInputModule, MatMenuModule, MatRadioModule, MatStepperModule, MatTooltipModule
 } from "@angular/material";
 
 @NgModule({
@@ -18,7 +18,8 @@ import {
     MatCheckboxModule,
     MatMenuModule,
     MatDividerModule,
-    MatCardModule
+    MatCardModule,
+    MatRadioModule
   ],
   exports: [
     MatButtonModule,
@@ -31,7 +32,8 @@ import {
     MatCheckboxModule,
     MatMenuModule,
     MatDividerModule,
-    MatCardModule
+    MatCardModule,
+    MatRadioModule
   ]
 })
 export class LevelConfigurationMaterialModule {}

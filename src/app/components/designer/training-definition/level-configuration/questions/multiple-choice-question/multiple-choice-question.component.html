@@ -1,30 +1,51 @@
-<!-- TITLE field-->
-<mat-form-field appearance="outline">
-  <mat-label>Title</mat-label>
-  <input (change)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
-  <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title =''; contentChanged()">
-    <mat-icon>close</mat-icon>
-  </button>
-</mat-form-field>
+<div class="content">
 
-<!-- OPTIONS field -->
-<div *ngFor="let option of options; index as i" class="option">
-  <mat-checkbox (change)="onAnswerChanged($event, i)"></mat-checkbox>
-  <mat-form-field appearance="outline">
-    <mat-label>Option</mat-label>
-    <input (change)="contentChanged()" matInput placeholder="Option" [(ngModel)]="options[i]">
-    <button mat-button *ngIf="option" matSuffix mat-icon-button aria-label="Clear" (click)="options[i]= '';contentChanged()">
-      <mat-icon>close</mat-icon>
+  <div class="left-panel">
+  <!-- TITLE field-->
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input (change)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
+      <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title =''; contentChanged()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <!-- OPTIONS field -->
+    <div *ngFor="let option of options; index as i; trackBy: trackByFn" class="option">
+      <mat-checkbox [checked]="correctAnswersIndexes.includes(i)" (change)="onAnswerChanged($event, i)"></mat-checkbox>
+      <mat-form-field>
+        <mat-label>Option {{ i + 1 }}</mat-label>
+        <input (change)="contentChanged()" matInput placeholder="Option {{ i + 1 }}" [(ngModel)]="options[i]">
+        <button mat-button *ngIf="option" matSuffix mat-icon-button aria-label="Clear" (click)="options[i]= ''; contentChanged()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <button mat-button matSuffix mat-icon-button aria-label="Delete option" color="warn" matTooltip="Delete option"
+              (click)="deleteOption(i); contentChanged()">
+        <mat-icon>remove_circle</mat-icon>
+      </button>
+    </div>
+
+    <button mat-button matSuffix mat-icon-button aria-label="Add new option" color="primary" matTooltip="Add new option"
+            (click)="addOption(); contentChanged()">
+      <mat-icon>add_circle</mat-icon>
     </button>
-  </mat-form-field>
-  <button mat-button matSuffix mat-icon-button aria-label="Delete option" matTooltip="Delete option"
-          (click)="deleteOption(i); contentChanged()">
-    <mat-icon>remove_circle</mat-icon>
-  </button>
-</div>
+  </div>
 
-<button mat-button matSuffix mat-icon-button aria-label="Add new option" matTooltip="Add new option"
-        (click)="addOption(); contentChanged()">
-  <mat-icon>add_circle</mat-icon>
-</button>
+  <mat-divider [vertical]="true"></mat-divider>
+
+  <div class="right-panel">
+    <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionScore }}">
+      <mat-label>Score</mat-label>
+      <input (change)="contentChanged(); onScoreChanged()" matInput placeholder="Score" type="number" [max]="maxQuestionScore" min="0" [(ngModel)]="score" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionPenalty }}">
+      <mat-label>Penalty</mat-label>
+      <input (change)="contentChanged(); onPenaltyChanged()" matInput placeholder="Question Penalty" type="number" [max]="maxQuestionPenalty" min="0" [(ngModel)]="penalty" required>
+    </mat-form-field>
+
+    <mat-checkbox [ngModel]="required"></mat-checkbox>
+  </div>
+</div>
 

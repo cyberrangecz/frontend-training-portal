@@ -42,7 +42,11 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
   }
 
   saveChanges() {
-    this.dirty = false;
+    if (this.validateInput()) {
+      this.setInputValues();
+      // TODO: Save to REST
+      this.dirty = false;
+    }
   }
 
   private setInitialValues() {

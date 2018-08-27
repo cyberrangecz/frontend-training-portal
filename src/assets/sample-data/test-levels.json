@@ -25,7 +25,10 @@
             "Pasta",
             "Salad"
           ],
-          "is_test": false
+          "score": 80,
+          "penalty": 20,
+          "required": true,
+          "is_test": true
         },
         {
           "id": 3,
@@ -40,7 +43,7 @@
             "False"
           ],
           "is_test": true,
-          "correctAnswers": [
+          "correct_answers": [
             {
               "x": 1,
               "y": 2
@@ -49,7 +52,10 @@
               "x": 2,
               "y": 1
             }
-          ]
+          ],
+          "score": 80,
+          "penalty": 20,
+          "required": true
         }
       ],
       "instructions": "# Crinibus frontemque satus \n## Colla alimentaque aurum per germanam petit \nLorem markdownum convicia dira; toto utque inpietate fide nostrae sanguine solem \nsociam nunc nulla, scelerique procubuit truces. Si iam venenis postquam nunc \nferarum! Morsa ratibusque redde alumnus magnae terram, caesus animoque iniqui \nmiserrima timori et non emissumque canes percusserat veras. \n",

@@ -1,0 +1,28 @@
+mat-checkbox {
+  margin: 0 10px;
+}
+
+mat-form-field {
+  min-width: 25%;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+}
+
+.left-panel {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 7;
+}
+
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 3;
+}
+
+mat-divider {
+  margin: 0 20px;
+}

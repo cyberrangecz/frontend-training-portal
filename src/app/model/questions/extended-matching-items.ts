@@ -11,6 +11,10 @@ import {AbstractQuestion} from "./abstract-question";
  */
 export class ExtendedMatchingItems extends AbstractQuestion {
 
+  score: number;
+  penalty: number;
+  required: boolean;
+
   rows: string[];
   cols: string[];
 

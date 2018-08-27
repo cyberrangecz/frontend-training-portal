@@ -229,6 +229,9 @@ export class LevelGetterService {
     question.type = this.resolveQuestionType(questionJson);
     question.correctAnswersIndexes = this.parseMCQAnswers(questionJson);
     questionJson.options.forEach(option => question.options.push(option));
+    question.score = questionJson.score;
+    question.penalty = questionJson.penalty;
+    question.required = questionJson.required;
     return question;
   }
 
@@ -246,6 +249,9 @@ export class LevelGetterService {
     questionJson.rows.forEach(row => question.rows.push(row));
     questionJson.cols.forEach(col => question.cols.push(col));
     question.correctAnswers = this.parseEMIAnswers(questionJson);
+    question.score = questionJson.score;
+    question.penalty = questionJson.penalty;
+    question.required = questionJson.required;
     return question;
   }
 
