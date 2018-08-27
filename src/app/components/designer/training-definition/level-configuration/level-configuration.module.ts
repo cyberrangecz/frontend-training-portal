@@ -11,7 +11,10 @@ import { HintStepperComponent } from './hints/hint-stepper/hint-stepper.componen
 import { HintConfigurationComponent } from './hints/hint-configuration/hint-configuration.component';
 import { QuestionsOverviewComponent } from './questions/questions-overview/questions-overview.component';
 import { QuestionConfigurationComponent } from './questions/question-configuration/question-configuration.component';
-import { MarkdownEditorModule } from "markdown-editor-lib"
+import { MarkdownEditorModule } from "markdown-editor-lib";
+import { FreeFormQuestionComponent } from './questions/free-form-question/free-form-question.component';
+import { MultipleChoiceQuestionComponent } from './questions/multiple-choice-question/multiple-choice-question.component';
+import { ExtendedMatchingItemsComponent } from './questions/extended-matching-items/extended-matching-items.component'
 
 @NgModule({
   imports: [
@@ -32,7 +35,10 @@ import { MarkdownEditorModule } from "markdown-editor-lib"
   HintStepperComponent,
   HintConfigurationComponent,
   QuestionsOverviewComponent,
-  QuestionConfigurationComponent
+  QuestionConfigurationComponent,
+  FreeFormQuestionComponent,
+  MultipleChoiceQuestionComponent,
+  ExtendedMatchingItemsComponent
   ],
   providers: [
   ]

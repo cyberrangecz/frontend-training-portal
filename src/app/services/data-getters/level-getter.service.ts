@@ -9,6 +9,11 @@ import {GameLevel} from "../../model/level/game-level";
 import {InfoLevel} from "../../model/level/info-level";
 import {AssessmentTypeEnum} from "../../enums/assessment-type.enum";
 import {Hint} from "../../model/level/hint";
+import {AbstractQuestion} from "../../model/questions/abstract-question";
+import {FreeFormQuestion} from "../../model/questions/free-form-question";
+import {QuestionTypeEnum} from "../../enums/question-type.enum";
+import {MultipleChoiceQuestion} from "../../model/questions/multiple-choice-question";
+import {ExtendedMatchingItems} from "../../model/questions/extended-matching-items";
 
 @Injectable()
 /**
@@ -89,7 +94,7 @@ export class LevelGetterService {
       levelJson.order,
       levelJson.pre_hook,
       levelJson.post_hook,
-      levelJson.questions,
+      this.parseQuestions(levelJson.questions),
       this.parseAssessmentTypeString2Enum(levelJson));
     level.id = levelJson.id;
     level.instructions = levelJson.instructions;
@@ -159,6 +164,117 @@ export class LevelGetterService {
       hints.push(hint);
     });
     return hints;
+  }
+
+  /**
+   * Parses JSON from http response and creates question objects for assessment level
+   * @param questionsJson json from http response
+   * @returns {AbstractQuestion[]} list of parsed questions
+   */
+  private parseQuestions(questionsJson): AbstractQuestion[] {
+    const questions: AbstractQuestion[] = [];
+    questionsJson.forEach(questionJson => {
+      questions.push(this.parseQuestion(questionJson));
+    });
+    return questions
+  }
+
+  /**
+   * resolves type of question and creates appropriate object with parameters
+   * @param questionJson json from http response
+   * @returns {AbstractQuestion} parsed question
+   */
+  private parseQuestion(questionJson): AbstractQuestion {
+    if (questionJson.type === 'ffq') {
+      return this.parseFreeFormQuestion(questionJson);
+    }
+    if (questionJson.type === 'emi') {
+      return this.parseExtendedMatchingItems(questionJson);
+    }
+    if (questionJson.type === 'mcq') {
+      return this.parseMultipleChoiceQuestion(questionJson);
+    }
+  }
+
+  /**
+   * Resolves if question is assessment of test (has correct answers)
+   * @param questionJson json from http response
+   * @returns {QuestionTypeEnum} Test if has correct answers, Assessment otherwise
+   */
+  private resolveQuestionType(questionJson): QuestionTypeEnum {
+    return questionJson.is_test ? QuestionTypeEnum.Test : QuestionTypeEnum.Assessment;
+  }
+
+  /**
+   * Parses free form question json
+   * @param questionJson json from http response
+   * @returns {FreeFormQuestion} free form question with attributes from the json
+   */
+  private parseFreeFormQuestion(questionJson): FreeFormQuestion {
+    const question = new FreeFormQuestion(questionJson.title);
+    question.id = questionJson.id;
+    question.type = this.resolveQuestionType(questionJson);
+    question.correctAnswer = questionJson.correct_answer;
+    return question;
+  }
+
+  /**
+   * Parses multiple choice question json
+   * @param questionJson json from http response
+   * @returns {MultipleChoiceQuestion} multiple choice question with attributes from the json
+   */
+  private parseMultipleChoiceQuestion(questionJson): MultipleChoiceQuestion {
+    const question = new MultipleChoiceQuestion(questionJson.title);
+    question.id = questionJson.id;
+    question.type = this.resolveQuestionType(questionJson);
+    question.correctAnswersIndexes = this.parseMCQAnswers(questionJson);
+    questionJson.options.forEach(option => question.options.push(option));
+    return question;
+  }
+
+  /**
+   * Parses extended matching items json
+   * @param questionJson json from http response
+   * @returns {ExtendedMatchingItems} extended matching items with attributes from the json
+   */
+  private parseExtendedMatchingItems(questionJson): ExtendedMatchingItems {
+    const question = new ExtendedMatchingItems(questionJson.title);
+    question.rows = [];
+    question.cols = [];
+    question.id = questionJson.id;
+    question.type = this.resolveQuestionType(questionJson);
+    questionJson.rows.forEach(row => question.rows.push(row));
+    questionJson.cols.forEach(col => question.cols.push(col));
+    question.correctAnswers = this.parseEMIAnswers(questionJson);
+    return question;
+  }
+
+  /**
+   * Parses answers for MCQ questions
+   * @param questionJson json from http response
+   * @returns {number[]} List of indexes of correct answers
+   */
+  private parseMCQAnswers(questionJson) {
+    const answers: number[] = [];
+    if (questionJson.correct_answers) {
+      questionJson.correct_answers.forEach(answer =>
+      answers.push(answer));
+    }
+    return answers;
+  }
+
+  /**
+   * Parses answers for EMI questions.
+   * @param questionJson json from http response
+   * @returns {{x: number; y: number}[]} List of objects with x, y coords of correct answers
+   */
+  private parseEMIAnswers(questionJson) {
+    const answers: {x: number, y: number }[] = [];
+    if (questionJson.correct_answers) {
+      questionJson.correct_answers.forEach(answer =>
+        answers.push({x: answer.x, y: answer.y}));
+    }
+    return answers;
   }
 
   /**

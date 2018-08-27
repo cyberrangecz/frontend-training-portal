@@ -1,0 +1,30 @@
+<!-- TITLE field-->
+<mat-form-field appearance="outline">
+  <mat-label>Title</mat-label>
+  <input (change)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
+  <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title =''; contentChanged()">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-form-field>
+
+<!-- OPTIONS field -->
+<div *ngFor="let option of options; index as i" class="option">
+  <mat-checkbox (change)="onAnswerChanged($event, i)"></mat-checkbox>
+  <mat-form-field appearance="outline">
+    <mat-label>Option</mat-label>
+    <input (change)="contentChanged()" matInput placeholder="Option" [(ngModel)]="options[i]">
+    <button mat-button *ngIf="option" matSuffix mat-icon-button aria-label="Clear" (click)="options[i]= '';contentChanged()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+  <button mat-button matSuffix mat-icon-button aria-label="Delete option" matTooltip="Delete option"
+          (click)="deleteOption(i); contentChanged()">
+    <mat-icon>remove_circle</mat-icon>
+  </button>
+</div>
+
+<button mat-button matSuffix mat-icon-button aria-label="Add new option" matTooltip="Add new option"
+        (click)="addOption(); contentChanged()">
+  <mat-icon>add_circle</mat-icon>
+</button>
+

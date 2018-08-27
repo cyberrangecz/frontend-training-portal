@@ -10,6 +10,10 @@ import {
   ViewChildren
 } from '@angular/core';
 import {QuestionConfigurationComponent} from "../question-configuration/question-configuration.component";
+import {AbstractQuestion} from "../../../../../../model/questions/abstract-question";
+import {FreeFormQuestion} from "../../../../../../model/questions/free-form-question";
+import {MultipleChoiceQuestion} from "../../../../../../model/questions/multiple-choice-question";
+import {ExtendedMatchingItems} from "../../../../../../model/questions/extended-matching-items";
 
 @Component({
   selector: 'question-overview',
@@ -18,9 +22,7 @@ import {QuestionConfigurationComponent} from "../question-configuration/question
 })
 export class QuestionsOverviewComponent implements OnInit, OnChanges {
 
-  @Input('questions') questions: string[];
-  @Output('questions') questionsChange = new EventEmitter();
-
+  @Input('questions') questions: AbstractQuestion[];
   @ViewChildren(QuestionConfigurationComponent) questionConfigurationChildren: QueryList<QuestionConfigurationComponent>;
 
   dirty = false;
@@ -48,30 +50,29 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
    * Creates new free form question
    */
   addFFQ() {
-    this.questions.push('new question');
+    this.questions.push(new FreeFormQuestion('New Free Form Question'));
     this.dirty = true;
-    this.questionsChanged();
   }
 
   /**
    * Creates new multiple choice question
    */
   addMCQ() {
-    this.questions.push('new question');
+    this.questions.push(new MultipleChoiceQuestion('New Multiple Choice Question'));
     this.dirty = true;
-    this.questionsChanged();
   }
 
   /**
    * Creates new extended matching items question
    */
   addEMI() {
-    this.questions.push('new question');
+    this.questions.push(new ExtendedMatchingItems('New Extended Matching Items'));
     this.dirty = true;
-    this.questionsChanged();
   }
 
-
+  deleteQuestion(index: number) {
+    this.questions.splice(index, 1);
+  }
 
   saveChanges() {
     this.questionConfigurationChildren.forEach(child => child.saveChanges());
@@ -82,9 +83,5 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
     if (!this.questions) {
       this.questions = [];
     }
-  }
-
-  private questionsChanged() {
-    this.questionsChange.emit(this.questions);
   }
 }

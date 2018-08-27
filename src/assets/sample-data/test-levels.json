@@ -9,7 +9,49 @@
       "order": 1,
       "pre_hook": "",
       "post_hook": "",
-      "questions": "",
+      "questions": [
+        {
+          "id": 1,
+          "title": "How are you?",
+          "type": "ffq",
+          "is_test": false
+        },
+        {
+          "id": 2,
+          "title": "What is you favourite food?",
+          "type": "mcq",
+          "options": [
+            "Pizza",
+            "Pasta",
+            "Salad"
+          ],
+          "is_test": false
+        },
+        {
+          "id": 3,
+          "title": "Match correct answers!",
+          "type": "emi",
+          "rows": [
+            "Tomato is a vegetable",
+            "Banana is a fruit"
+          ],
+          "cols": [
+            "True",
+            "False"
+          ],
+          "is_test": true,
+          "correctAnswers": [
+            {
+              "x": 1,
+              "y": 2
+            },
+            {
+              "x": 2,
+              "y": 1
+            }
+          ]
+        }
+      ],
       "instructions": "# Crinibus frontemque satus \n## Colla alimentaque aurum per germanam petit \nLorem markdownum convicia dira; toto utque inpietate fide nostrae sanguine solem \nsociam nunc nulla, scelerique procubuit truces. Si iam venenis postquam nunc \nferarum! Morsa ratibusque redde alumnus magnae terram, caesus animoque iniqui \nmiserrima timori et non emissumque canes percusserat veras. \n",
       "assessmentType": "test"
     },

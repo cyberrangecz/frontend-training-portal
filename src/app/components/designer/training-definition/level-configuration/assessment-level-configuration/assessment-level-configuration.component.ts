@@ -3,6 +3,7 @@ import {AssessmentLevel} from "../../../../../model/level/assessment-level";
 import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
 import {AlertService} from "../../../../../services/event-services/alert.service";
 import {QuestionsOverviewComponent} from "../questions/questions-overview/questions-overview.component";
+import {AbstractQuestion} from "../../../../../model/questions/abstract-question";
 
 @Component({
   selector: 'assessment-level-configuration',
@@ -22,7 +23,7 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
   title: string;
   instructions: string;
   maxScore: number;
-  questions: string[];
+  questions: AbstractQuestion[];
 
   dirty = false;
 
@@ -105,7 +106,7 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
     this.level.title = this.title;
     this.level.instructions = this.instructions;
     this.level.maxScore = this.maxScore;
-    this.level.questions = this.questions[0];
+    this.level.questions = this.questions;
   }
 
   /**
@@ -114,7 +115,7 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
   private setInitialValues() {
     this.title = this.level.title;
     this.maxScore = this.level.maxScore;
-    this.questions = [this.level.questions];
+    this.questions = this.level.questions;
     this.instructions = this.level.instructions;
   }
 

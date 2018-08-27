@@ -11,7 +11,7 @@
 
     <!-- ADD QUESTION button -->
     <div class="header">
-      <button class="add-question" mat-button color="primary" [matMenuTriggerFor]="questionsMenu"
+      <button class="add-question" mat-raised-button color="primary" [matMenuTriggerFor]="questionsMenu"
               matTooltip="Add new question">
         Add Question
       </button>
@@ -37,9 +37,29 @@
     </mat-menu>
 
     <!-- QUESTIONS -->
-    <question-configuration
-      *ngFor="let question of questions; index as i"
-      [(question)]="questions[i]">
-    </question-configuration>
+    <div *ngFor="let question of questions; index as i" class="question">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>
+            <h3>Question {{ i + 1 }}: {{ question.title }}</h3>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <question-configuration
+            [question]="question">
+          </question-configuration>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button color="warn" (click)="deleteQuestion(i)">Delete Question</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+    <div class="footer">
+      <button class="add-question" mat-raised-button color="primary" [matMenuTriggerFor]="questionsMenu"
+              matTooltip="Add new question">
+        Add Question
+      </button>
+    </div>
   </mat-expansion-panel>
 </mat-accordion>

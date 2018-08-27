@@ -1,0 +1,17 @@
+<!-- TITLE field-->
+<mat-form-field appearance="outline">
+  <mat-label>Title</mat-label>
+  <input (change)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
+  <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title=''; contentChanged()">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-form-field>
+
+<!-- CORRECT ANSWER filed -->
+<mat-form-field appearance="outline">
+  <mat-label>Answer</mat-label>
+  <input (change)="contentChanged()" matInput placeholder="Answer" [(ngModel)]="answer">
+  <button mat-button *ngIf="answer" matSuffix mat-icon-button aria-label="Clear" (click)="answer=''; contentChanged()">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-form-field>
