@@ -1,0 +1,54 @@
+mat-checkbox {
+  margin: 0 10px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+table {
+  margin-top: 10px;
+  overflow-x: scroll;
+  display: table;
+  table-layout: fixed;
+  max-width: 500px;
+
+}
+
+tr {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  align-content: baseline;
+}
+
+td, th {
+  width: 130px;
+  text-align: center;
+}
+
+tr.inner:hover {
+  background-color: #ddd;
+}
+
+mat-form-field.col-field {
+  margin-bottom: -1.25em;
+  width: 130px;
+}
+
+mat-form-field.row-field {
+  margin-bottom: -1.25em;
+  width: 130px;
+}
+
+.right-panel mat-form-field {
+  width: 100%;
+}
+
+mat-divider {
+  margin: 0 20px;
+}
+
+@media screen and (max-width: 850px) {
+}

@@ -1,18 +1,6 @@
 .content {
   display: flex;
-  flex-direction: row;
-}
-
-.left-panel {
-  display: flex;
   flex-direction: column;
-  flex-grow: 7;
-}
-
-.right-panel {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 3;
 }
 
 mat-divider {
