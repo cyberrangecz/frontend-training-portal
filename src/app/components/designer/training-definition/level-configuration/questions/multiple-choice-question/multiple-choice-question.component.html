@@ -10,6 +10,9 @@
       </button>
     </mat-form-field>
 
+
+    <button mat-button color="warn" (click)="clearAnswers()" class="clear-answers">Clear Answers</button>
+
     <!-- OPTIONS field -->
     <div *ngFor="let option of options; index as i; trackBy: trackByFn" class="option">
       <mat-checkbox [checked]="correctAnswersIndexes.includes(i)" (change)="onAnswerChanged($event, i)"></mat-checkbox>

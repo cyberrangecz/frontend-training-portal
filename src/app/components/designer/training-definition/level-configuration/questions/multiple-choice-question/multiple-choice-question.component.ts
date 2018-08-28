@@ -54,6 +54,10 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
 
   }
 
+  clearAnswers() {
+    this.correctAnswersIndexes = [];
+  }
+
   /**
    * Determines whether the user has saved all his work and can leave the component
    * @returns {boolean} true if does not have any unsaved changes, false otherwise

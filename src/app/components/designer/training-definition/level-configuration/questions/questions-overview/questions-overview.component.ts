@@ -58,7 +58,10 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
    * Creates new multiple choice question
    */
   addMCQ() {
-    this.questions.push(new MultipleChoiceQuestion('New Multiple Choice Question'));
+    const newMcq = new MultipleChoiceQuestion('New Multiple Choice Question');
+    newMcq.options.push("");
+    newMcq.options.push("");
+    this.questions.push(newMcq);
     this.dirty = true;
   }
 
@@ -66,7 +69,12 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
    * Creates new extended matching items question
    */
   addEMI() {
-    this.questions.push(new ExtendedMatchingItems('New Extended Matching Items'));
+    const newEmi = new ExtendedMatchingItems('New Extended Matching Items');
+    newEmi.cols.push("");
+    newEmi.cols.push("");
+    newEmi.rows.push("");
+    newEmi.rows.push("");
+    this.questions.push(newEmi);
     this.dirty = true;
   }
 
