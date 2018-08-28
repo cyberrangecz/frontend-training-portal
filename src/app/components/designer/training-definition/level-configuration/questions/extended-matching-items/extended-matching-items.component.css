@@ -9,42 +9,60 @@ mat-checkbox {
 
 table {
   margin-top: 10px;
-  overflow-x: scroll;
-  display: table;
-  table-layout: fixed;
-  max-width: 500px;
-
+  max-width: 100%;
+  overflow-x: auto;
+  display: flex;
+  align-items: center;
+  align-content: center;
 }
 
 tr {
   display: flex;
   flex-direction: row;
-  align-items: baseline;
-  align-content: baseline;
+  align-items: center;
+  align-content: center;
+  border-bottom: 1px solid #ddd;
 }
 
-td, th {
+tr.first-row {
+  border-top: 0;
+}
+
+tr.last-row {
+  border-bottom: 0;
+}
+tr.inner:hover {
+  background-color: gainsboro;
+}
+
+tr mat-form-field {
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: -1.25em;
+  width: 120px;
+}
+
+td {
+  padding: 0;
   width: 130px;
   text-align: center;
-}
-
-tr.inner:hover {
-  background-color: #ddd;
+  align-items: center;
+  align-content: center;
 }
 
 .form-container > * {
+  display: flex;
+  flex-direction: column;
   width: 90%;
-  margin: 10px;
+  margin-bottom: 10px;
 }
 
 mat-form-field.col-field {
-  margin-bottom: -1.25em;
-  width: 130px;
+  width: 120px;
 }
 
 mat-form-field.row-field {
-  margin-bottom: -1.25em;
-  width: 130px;
+  width: 120px;
 }
 
 .right-panel mat-form-field {
@@ -53,6 +71,10 @@ mat-form-field.row-field {
 
 mat-divider {
   margin: 0 20px;
+}
+
+button.clear-answers {
+  width: 120px;
 }
 
 @media screen and (max-width: 850px) {

@@ -2,7 +2,7 @@
 
   <div class="left-panel">
   <!-- TITLE field-->
-    <mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>
       <input (change)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
       <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title =''; contentChanged()">
@@ -35,12 +35,12 @@
   <mat-divider [vertical]="true"></mat-divider>
 
   <div class="right-panel">
-    <mat-form-field hintLabel="Number in range from 0 to {{ maxQuestionScore }}">
+    <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionScore }}">
       <mat-label>Score</mat-label>
       <input (change)="contentChanged(); onScoreChanged()" matInput placeholder="Score" type="number" [max]="maxQuestionScore" min="0" [(ngModel)]="score" required>
     </mat-form-field>
 
-    <mat-form-field hintLabel="Number in range from 0 to {{ maxQuestionPenalty }}">
+    <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionPenalty }}">
       <mat-label>Penalty</mat-label>
       <input (change)="contentChanged(); onPenaltyChanged()" matInput placeholder="Question Penalty" type="number" [max]="maxQuestionPenalty" min="0" [(ngModel)]="penalty" required>
     </mat-form-field>

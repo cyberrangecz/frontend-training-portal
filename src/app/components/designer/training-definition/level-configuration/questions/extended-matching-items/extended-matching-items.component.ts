@@ -88,6 +88,12 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
     }
   }
 
+  clearAnswers() {
+    this.correctAnswers = [];
+    this.radioButtons.forEach(button => button.checked = false);
+  }
+
+
   onAnswerChanged(i: number, j: number) {
     this.deleteAnswerByRow(i);
     this.correctAnswers.push({x: i, y: j});
@@ -99,7 +105,7 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
   }
 
   addRow() {
-    this.rows.push("New row");
+    this.rows.push("");
   }
 
   deleteColumn(index: number) {
@@ -108,7 +114,7 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
   }
 
   addColumn() {
-    this.cols.push("New column");
+    this.cols.push("");
   }
 
   private deleteAnswersByCol(colIndex: number) {
