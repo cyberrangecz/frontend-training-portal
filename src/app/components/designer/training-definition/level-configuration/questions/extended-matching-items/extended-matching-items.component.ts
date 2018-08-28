@@ -1,5 +1,5 @@
 import {
-  AfterViewInit,
+  AfterViewInit, ChangeDetectorRef,
   Component,
   Input,
   OnChanges,
@@ -38,7 +38,8 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
 
   @ViewChildren(MatRadioButton) radioButtons: QueryList<MatRadioButton>;
 
-  constructor(private alertService: AlertService) { }
+  constructor(private cdRef:ChangeDetectorRef,
+              private alertService: AlertService) { }
 
   ngOnInit() {
   }
@@ -47,11 +48,13 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
   ngOnChanges(changes: SimpleChanges): void {
     if ('question' in changes) {
       this.setInitialValues();
+
     }
   }
 
   ngAfterViewInit() {
     this.setInitialStateOfRadioButtons();
+    this.cdRef.detectChanges();
   }
 
   trackByFn(index: any, item: any) {
