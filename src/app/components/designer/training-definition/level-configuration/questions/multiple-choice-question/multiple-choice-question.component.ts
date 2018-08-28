@@ -123,7 +123,7 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
   }
 
   private validateInput(): boolean {
-    let errorTitle = 'Question ' + ':\n';
+    let errorTitle = 'Question: ' + this.question.title + '\n';
     let errorMessage: string = '';
 
     if (!this.title || this.title.replace(/\s/g, '') === '') {
@@ -136,6 +136,10 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
 
     if (Number.isNaN(this.score) || this.score < 0 || this.score > this.maxQuestionScore) {
       errorMessage += 'Question score must be a number in range from 0 to ' + this.maxQuestionScore + '\n'
+    }
+
+    if (this.options.length === 0) {
+      errorMessage += 'Options cannot be empty\n'
     }
 
     for (let i = 0; i < this.options.length; i++) {

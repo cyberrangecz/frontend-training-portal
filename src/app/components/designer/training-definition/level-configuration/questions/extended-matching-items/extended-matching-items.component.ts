@@ -12,8 +12,7 @@ import {ExtendedMatchingItems} from "../../../../../../model/questions/extended-
 import {QuestionTypeEnum} from "../../../../../../enums/question-type.enum";
 import {AlertService} from "../../../../../../services/event-services/alert.service";
 import {AlertTypeEnum} from "../../../../../../enums/alert-type.enum";
-import {MatRadioButton, MatRadioChange} from "@angular/material";
-import index from "@angular/cli/lib/cli";
+import {MatRadioButton} from "@angular/material";
 
 @Component({
   selector: 'extended-matching-items',
@@ -82,7 +81,6 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
   saveChanges() {
     if (this.validateInput()) {
       this.setInputValues();
-      console.log(this.question);
       // TODO: Save to REST
       this.dirty = false;
     }
@@ -179,7 +177,7 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
   }
 
   private validateInput(): boolean {
-    let errorTitle = 'Question ' + ':\n';
+    let errorTitle = 'Question: ' + this.question.title + '\n';
     let errorMessage: string = '';
 
     if (!this.title || this.title.replace(/\s/g, '') === '') {
@@ -194,11 +192,35 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
       errorMessage += 'Question score must be a number in range from 0 to ' + this.maxQuestionScore + '\n'
     }
 
-/*    for (let i = 0; i < this.options.length; i++) {
-      if (!this.options[i] || this.options[i].replace(/\s/g, '') === '') {
-        errorMessage += (i + 1) + '. option cannot be empty\n'
+    if (this.rows.length === 0) {
+      errorMessage += 'Rows cannot be empty\n'
+    }
+
+    if (this.cols.length === 0) {
+      errorMessage += 'Columns cannot be empty\n'
+    }
+
+    for (let i = 0; i < this.rows.length; i++) {
+      if (!this.rows[i] || this.rows[i].replace(/\s/g, '') === '') {
+        errorMessage += (i + 1) + '. row cannot be empty\n'
       }
-    }*/
+    }
+
+    for (let i = 0; i < this.cols.length; i++) {
+      if (!this.cols[i] || this.cols[i].replace(/\s/g, '') === '') {
+        errorMessage += (i + 1) + '. column cannot be empty\n'
+      }
+    }
+
+    if (this.correctAnswers.length > 0) {
+      this.correctAnswers.sort((fst, snd) => fst.x - snd.x);
+      for (let i = 0; i < this.rows.length; i++) {
+        if (!this.correctAnswers[i]) {
+          errorMessage += 'Either none or all answers in EMI have to be selected\n';
+          break;
+        }
+      }
+    }
 
     if (errorMessage !== '') {
       this.alertService.emitAlert(AlertTypeEnum.Error, errorTitle + errorMessage);
