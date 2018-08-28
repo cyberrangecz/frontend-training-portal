@@ -32,6 +32,11 @@ tr.inner:hover {
   background-color: #ddd;
 }
 
+.form-container > * {
+  width: 90%;
+  margin: 10px;
+}
+
 mat-form-field.col-field {
   margin-bottom: -1.25em;
   width: 130px;

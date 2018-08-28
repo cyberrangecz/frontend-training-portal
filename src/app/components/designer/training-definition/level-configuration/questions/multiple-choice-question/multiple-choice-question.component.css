@@ -2,8 +2,8 @@ mat-checkbox {
   margin: 0 10px;
 }
 
-mat-form-field {
-  min-width: 25%;
+.option mat-form-field {
+  width: 30%;
 }
 
 .content {
@@ -28,6 +28,11 @@ mat-form-field {
 .right-panel mat-form-field {
   width: 100%;
 }
+
+.right-panel > * {
+  margin: 10px;
+}
+
 
 mat-divider {
   margin: 0 20px;

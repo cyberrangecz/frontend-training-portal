@@ -1,25 +1,26 @@
 <div class="content">
- <!-- TITLE field-->
-  <mat-form-field>
-    <mat-label>Title</mat-label>
-    <input (change)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
-    <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title =''; contentChanged()">
-      <mat-icon>close</mat-icon>
-    </button>
-  </mat-form-field>
+  <div class="form-container">
+    <!-- TITLE field-->
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input (change)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
+      <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title =''; contentChanged()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
 
-  <mat-form-field hintLabel="Number in range from 0 to {{ maxQuestionScore }}">
-    <mat-label>Score</mat-label>
-    <input (change)="contentChanged(); onScoreChanged()" matInput placeholder="Score" type="number" [max]="maxQuestionScore" min="0" [(ngModel)]="score" required>
-  </mat-form-field>
+    <mat-form-field hintLabel="Number in range from 0 to {{ maxQuestionScore }}">
+      <mat-label>Score</mat-label>
+      <input (change)="contentChanged(); onScoreChanged()" matInput placeholder="Score" type="number" [max]="maxQuestionScore" min="0" [(ngModel)]="score" required>
+    </mat-form-field>
 
-  <mat-form-field hintLabel="Number in range from 0 to {{ maxQuestionPenalty }}">
-    <mat-label>Penalty</mat-label>
-    <input (change)="contentChanged(); onPenaltyChanged()" matInput placeholder="Question Penalty" type="number" [max]="maxQuestionPenalty" min="0" [(ngModel)]="penalty" required>
-  </mat-form-field>
+    <mat-form-field hintLabel="Number in range from 0 to {{ maxQuestionPenalty }}">
+      <mat-label>Penalty</mat-label>
+      <input (change)="contentChanged(); onPenaltyChanged()" matInput placeholder="Question Penalty" type="number" [max]="maxQuestionPenalty" min="0" [(ngModel)]="penalty" required>
+    </mat-form-field>
 
-  <mat-checkbox [ngModel]="required">Required</mat-checkbox>
-
+    <mat-checkbox [ngModel]="required">Required</mat-checkbox>
+  </div>
   <table>
     <!-- DELETE COL BUTTONS -->
     <tr>
