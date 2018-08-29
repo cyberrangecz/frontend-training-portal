@@ -4,6 +4,8 @@ import {AbstractQuestion} from "../../../../../../model/questions/abstract-quest
 import {FreeFormQuestion} from "../../../../../../model/questions/free-form-question";
 import {MultipleChoiceQuestion} from "../../../../../../model/questions/multiple-choice-question";
 import {ExtendedMatchingItems} from "../../../../../../model/questions/extended-matching-items";
+import {DeleteDialogComponent} from "../../../delete-dialog/delete-dialog.component";
+import {MatDialog} from "@angular/material";
 
 @Component({
   selector: 'question-overview',
@@ -21,7 +23,7 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
 
   dirty = false;
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit() {
   }
@@ -81,7 +83,19 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
    * @param index index of question which should be deleted
    */
   deleteQuestion(index: number) {
-    this.questions.splice(index, 1);
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data:
+        {
+          type: 'question',
+          title: this.questions[index].title
+        }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.type === 'confirm') {
+        this.questions.splice(index, 1);
+      }
+    });
   }
 
   /**
