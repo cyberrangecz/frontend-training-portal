@@ -33,21 +33,27 @@
             (click)="addOption(); contentChanged()">
       <mat-icon>add_circle</mat-icon>
     </button>
+
+    <!-- NOTE -->
+    <p class="note">Note: Do not forget to select correct answers</p>
   </div>
 
   <mat-divider [vertical]="true"></mat-divider>
 
   <div class="right-panel">
+    <!-- SCORE field -->
     <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionScore }}">
       <mat-label>Score</mat-label>
       <input (change)="contentChanged(); onScoreChanged()" matInput placeholder="Score" type="number" [max]="maxQuestionScore" min="0" [(ngModel)]="score" required>
     </mat-form-field>
 
+    <!-- PENALTY field -->
     <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionPenalty }}">
       <mat-label>Penalty</mat-label>
       <input (change)="contentChanged(); onPenaltyChanged()" matInput placeholder="Question Penalty" type="number" [max]="maxQuestionPenalty" min="0" [(ngModel)]="penalty" required>
     </mat-form-field>
 
+    <!-- REQUIRED checkbox -->
     <mat-checkbox [ngModel]="required">Required</mat-checkbox>
   </div>
 </div>

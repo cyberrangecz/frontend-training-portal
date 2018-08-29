@@ -19,6 +19,9 @@ import {MatRadioButton} from "@angular/material";
   templateUrl: './extended-matching-items.component.html',
   styleUrls: ['./extended-matching-items.component.css']
 })
+/**
+ * Component of a question of type Extended Matching Items
+ */
 export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Input('question') question: ExtendedMatchingItems;
@@ -57,18 +60,32 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
     this.cdRef.detectChanges();
   }
 
+  /**
+   * Helper method to enable tracking a variable accessed by *ngFor index
+   * @param index
+   * @param item
+   */
   trackByFn(index: any, item: any) {
     return index;
   }
 
+  /**
+   * User made a change in the input
+   */
   contentChanged() {
     this.dirty = true;
   }
 
+  /**
+   * Max score of a question changed
+   */
   onScoreChanged() {
 
   }
 
+  /**
+   * Penalty for wrong answer changed
+   */
   onPenaltyChanged() {
 
   }
@@ -81,6 +98,9 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
     return !this.dirty;
   }
 
+  /**
+   * Validates input and saved data through REST
+   */
   saveChanges() {
     if (this.validateInput()) {
       this.setInputValues();
@@ -89,35 +109,61 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
     }
   }
 
+  /**
+   * Clears all correct answers
+   */
   clearAnswers() {
     this.correctAnswers = [];
     this.radioButtons.forEach(button => button.checked = false);
   }
 
 
+  /**
+   * Adds answer chosen by a user as a correct answer
+   * @param i row coordinate in the matrix representing the possible answers (EMI table)
+   * @param j col coordinate in the matrix representing the possible answers (EMI table)
+   */
   onAnswerChanged(i: number, j: number) {
     this.deleteAnswerByRow(i);
     this.correctAnswers.push({x: i, y: j});
   }
 
+  /**
+   * Deletes row from the EMI table
+   * @param index row coordinate in the matrix representing the EMI table
+   */
   deleteRow(index: number) {
     this.rows.splice(index, 1);
     this.deleteAnswerByRow(index);
   }
 
+  /**
+   * Adds new row to the EMI table
+   */
   addRow() {
     this.rows.push("");
   }
 
+  /**
+   * Deletes column from the EMI table
+   * @param index column coordinate in the matrix representing the EMI table
+   */
   deleteColumn(index: number) {
     this.cols.splice(index, 1);
     this.deleteAnswersByCol(index);
   }
 
+  /**
+   * Adds new column to the EMI table
+   */
   addColumn() {
     this.cols.push("");
   }
 
+  /**
+   * Deletes all correct (selected) answers in a given column (usually used after the column itself was deleted)
+   * @param colIndex index of a column in a matrix representing the EMI table
+   */
   private deleteAnswersByCol(colIndex: number) {
     const answersToDelete = this.correctAnswers.filter(answer => answer.y === colIndex);
     if (answersToDelete.length > 0) {
@@ -130,6 +176,10 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
     }
   }
 
+  /**
+   * Deletes correct (selected) answer in a given row (usually used after the column itself was deleted)
+   * @param rowIndex index of a row in a matrix representing the EMI table
+   */
   private deleteAnswerByRow(rowIndex: number) {
     const answerToDelete = this.correctAnswers.find(answer => answer.x === rowIndex);
     if (answerToDelete) {
@@ -140,6 +190,9 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
     }
   }
 
+  /**
+   * Sets initial values from passed question object to user input components
+   */
   private setInitialValues() {
     this.title = this.question.title;
     this.rows = this.question.rows;
@@ -150,6 +203,9 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
     this.required = this.question.required;
     }
 
+  /**
+   * Sets values from user input components to the question object
+   */
   private setInputValues() {
     this.question.title = this.title;
     this.question.rows = this.rows;
@@ -166,6 +222,9 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
     }
   }
 
+  /**
+   * Sets initial state of every radio button (checked / not checked) based on the correct answers coordinates
+   */
   private setInitialStateOfRadioButtons() {
     this.radioButtons.forEach(button => {
       const buttonValue = {
@@ -179,6 +238,9 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
     });
   }
 
+  /**
+   * Validates user input and calls alert service if there are any errors
+   */
   private validateInput(): boolean {
     let errorTitle = 'Question: ' + this.question.title + '\n';
     let errorMessage: string = '';

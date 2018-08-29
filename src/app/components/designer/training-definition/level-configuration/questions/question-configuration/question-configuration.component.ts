@@ -12,6 +12,9 @@ import {AbstractQuestion} from "../../../../../../model/questions/abstract-quest
   templateUrl: './question-configuration.component.html',
   styleUrls: ['./question-configuration.component.css']
 })
+/**
+ * Wrapper component of a specific question type. Resolves type of the question and creates sub component accordingly
+ */
 export class QuestionConfigurationComponent implements OnInit, OnChanges {
 
   @Input('question') question: AbstractQuestion;
@@ -35,6 +38,9 @@ export class QuestionConfigurationComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Validates input and saves changes of a child component
+   */
   saveChanges() {
     if (this.isFfq) {
       return this.ffqChild.saveChanges();
@@ -59,6 +65,9 @@ export class QuestionConfigurationComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Resolves whether the question is Free Form, Extended Matching Items, or Multiple Choice Question
+   */
   private resolveQuestionType() {
     this.isFfq = this.question instanceof FreeFormQuestion;
     this.isEmi = this.question instanceof ExtendedMatchingItems;

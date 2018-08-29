@@ -66,6 +66,8 @@ markdown-editor.mrkdwn-solution {
 }
 
 
+
+
 @media screen and (max-width: 800px) {
   div .panel-wrapper {
     flex-direction: column;

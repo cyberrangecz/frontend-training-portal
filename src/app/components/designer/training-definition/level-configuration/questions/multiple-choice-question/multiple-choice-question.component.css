@@ -42,6 +42,11 @@ mat-divider {
   margin: 0 20px;
 }
 
+p.note {
+  text-align: right;
+}
+
+
 @media screen and (max-width: 850px) {
   .content {
     display: flex;

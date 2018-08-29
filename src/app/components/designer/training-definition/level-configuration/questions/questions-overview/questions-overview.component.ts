@@ -20,6 +20,9 @@ import {ExtendedMatchingItems} from "../../../../../../model/questions/extended-
   templateUrl: './questions-overview.component.html',
   styleUrls: ['./questions-overview.component.css']
 })
+/**
+ * Wrapper component for questions inside the assessment level. Creates child question components.
+ */
 export class QuestionsOverviewComponent implements OnInit, OnChanges {
 
   @Input('questions') questions: AbstractQuestion[];
@@ -78,13 +81,21 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
     this.dirty = true;
   }
 
+  /**
+   * Deletes question on given index
+   * @param index index of question which should be deleted
+   */
   deleteQuestion(index: number) {
     this.questions.splice(index, 1);
   }
 
+  /**
+   * Validates input of every child component and saves user input to REST
+   */
   saveChanges() {
     this.questionConfigurationChildren.forEach(child => child.saveChanges());
     this.dirty = false;
+    // TODO: Save to REST (here or in child?)
   }
 
   private resolveInitialQuestions() {

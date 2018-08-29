@@ -47,6 +47,7 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
   canDeactivate(): boolean {
     return !this.dirty && this.childComponent.canDeactivate();
   }
+
   /**
    * Validates input, sets values to the level object and calls REST API to save changes
    */
