@@ -41,7 +41,7 @@ export class HintStepperComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if ('hints' in changes) {
       this.resolveInitialHints();
-      this.calculateInitialHintPenaltySum();
+      this.setInitialHintPenaltySum();
     }
   }
 
@@ -135,12 +135,16 @@ export class HintStepperComponent implements OnInit, OnChanges {
   }
 
   /**
-   * Calculates initial hint penalty sum from level max score and sum of hints penalties.
+   * Calculates and sets initial hint penalty sum from level max score and sum of hints penalties.
    * Should be used only to calculate the sum BEFORE hint components are initialized
    */
-  private calculateInitialHintPenaltySum() {
-    this.initialPenaltySum = this.hints.map(hint => hint.hintPenalty)
-      .reduce((sum, currentPenalty) => sum + currentPenalty);
+  private setInitialHintPenaltySum() {
+    if (this.hints.length === 0) {
+      this.initialPenaltySum = 0;
+    } else {
+      this.initialPenaltySum = this.hints.map(hint => hint.hintPenalty)
+        .reduce((sum, currentPenalty) => sum + currentPenalty);
+    }
   }
 
   /**
