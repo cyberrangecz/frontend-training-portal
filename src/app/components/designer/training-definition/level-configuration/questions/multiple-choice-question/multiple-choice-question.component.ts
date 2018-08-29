@@ -1,9 +1,9 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {MultipleChoiceQuestion} from "../../../../../../model/questions/multiple-choice-question";
-import {QuestionTypeEnum} from "../../../../../../enums/question-type.enum";
 import {AlertService} from "../../../../../../services/event-services/alert.service";
 import {AlertTypeEnum} from "../../../../../../enums/alert-type.enum";
 import {MatCheckboxChange} from "@angular/material";
+import {AssessmentTypeEnum} from "../../../../../../enums/assessment-type.enum";
 
 @Component({
   selector: 'multiple-choice-question',
@@ -16,6 +16,7 @@ import {MatCheckboxChange} from "@angular/material";
 export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
 
   @Input('question') question: MultipleChoiceQuestion;
+  @Input('isTest') isTest: boolean;
 
   title: string;
   options: string[];
@@ -39,6 +40,11 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
     if ('question' in changes) {
       this.setInitialValues();
     }
+    if ('isTest' in changes) {
+      if (this.isTest) {
+        this.required = true;
+      }
+    }
   }
 
   /**
@@ -56,21 +62,6 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
   contentChanged() {
     this.dirty = true;
   }
-
-  /**
-   * Max score of a question changed
-   */
-  onScoreChanged() {
-
-  }
-
-  /**
-   * Penalty for wrong answer changed
-   */
-  onPenaltyChanged() {
-
-  }
-
   /**
    * Deletes all answers selected by user
    */
@@ -164,14 +155,14 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
     this.question.title = this.title;
     this.question.options = this.options;
     this.question.correctAnswersIndexes = this.correctAnswersIndexes;
-    this.question.penalty = this.penalty;
-    this.question.score = this.score;
     this.question.required = this.required;
 
-    if (this.correctAnswersIndexes.length > 0) {
-      this.question.type = QuestionTypeEnum.Test;
+    if (this.question.required) {
+      this.question.penalty = this.penalty;
+      this.question.score = this.score;
     } else {
-      this.question.type = QuestionTypeEnum.Assessment;
+      this.question.penalty = 0;
+      this.question.score = 0;
     }
   }
 

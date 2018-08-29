@@ -6,6 +6,7 @@ import {ExtendedMatchingItems} from "../../../../../../model/questions/extended-
 import {FreeFormQuestion} from "../../../../../../model/questions/free-form-question";
 import {MultipleChoiceQuestion} from "../../../../../../model/questions/multiple-choice-question";
 import {AbstractQuestion} from "../../../../../../model/questions/abstract-question";
+import {AssessmentTypeEnum} from "../../../../../../enums/assessment-type.enum";
 
 @Component({
   selector: 'question-configuration',
@@ -18,6 +19,7 @@ import {AbstractQuestion} from "../../../../../../model/questions/abstract-quest
 export class QuestionConfigurationComponent implements OnInit, OnChanges {
 
   @Input('question') question: AbstractQuestion;
+  @Input('isTest') isTest: boolean;
 
   isFfq: boolean = false;
   isMcq: boolean = false;

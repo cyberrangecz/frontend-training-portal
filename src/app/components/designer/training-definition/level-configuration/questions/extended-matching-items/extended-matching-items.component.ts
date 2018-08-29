@@ -1,5 +1,6 @@
 import {
-  AfterViewInit, ChangeDetectorRef,
+  AfterViewInit,
+  ChangeDetectorRef,
   Component,
   Input,
   OnChanges,
@@ -9,7 +10,6 @@ import {
   ViewChildren
 } from '@angular/core';
 import {ExtendedMatchingItems} from "../../../../../../model/questions/extended-matching-items";
-import {QuestionTypeEnum} from "../../../../../../enums/question-type.enum";
 import {AlertService} from "../../../../../../services/event-services/alert.service";
 import {AlertTypeEnum} from "../../../../../../enums/alert-type.enum";
 import {MatRadioButton} from "@angular/material";
@@ -25,6 +25,7 @@ import {MatRadioButton} from "@angular/material";
 export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Input('question') question: ExtendedMatchingItems;
+  @Input('isTest') isTest: boolean;
 
   title: string;
   rows: string[];
@@ -51,7 +52,11 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
   ngOnChanges(changes: SimpleChanges): void {
     if ('question' in changes) {
       this.setInitialValues();
-
+    }
+    if ('isTest' in changes) {
+      if (this.isTest) {
+        this.required = true;
+      }
     }
   }
 
@@ -74,20 +79,6 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
    */
   contentChanged() {
     this.dirty = true;
-  }
-
-  /**
-   * Max score of a question changed
-   */
-  onScoreChanged() {
-
-  }
-
-  /**
-   * Penalty for wrong answer changed
-   */
-  onPenaltyChanged() {
-
   }
 
   /**
@@ -211,15 +202,16 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
     this.question.rows = this.rows;
     this.question.cols = this.cols;
     this.question.correctAnswers = this.correctAnswers;
-    this.question.penalty = this.penalty;
-    this.question.score = this.score;
     this.question.required = this.required;
 
-    if (this.correctAnswers.length > 0) {
-      this.question.type = QuestionTypeEnum.Test;
+    if (this.question.required) {
+      this.question.penalty = this.penalty;
+      this.question.score = this.score;
     } else {
-      this.question.type = QuestionTypeEnum.Assessment;
+      this.question.penalty = 0;
+      this.question.score = 0;
     }
+
   }
 
   /**

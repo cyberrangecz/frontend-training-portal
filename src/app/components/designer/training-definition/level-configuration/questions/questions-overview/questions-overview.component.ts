@@ -1,14 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  QueryList,
-  SimpleChanges,
-  ViewChildren
-} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, QueryList, SimpleChanges, ViewChildren} from '@angular/core';
 import {QuestionConfigurationComponent} from "../question-configuration/question-configuration.component";
 import {AbstractQuestion} from "../../../../../../model/questions/abstract-question";
 import {FreeFormQuestion} from "../../../../../../model/questions/free-form-question";
@@ -26,6 +16,7 @@ import {ExtendedMatchingItems} from "../../../../../../model/questions/extended-
 export class QuestionsOverviewComponent implements OnInit, OnChanges {
 
   @Input('questions') questions: AbstractQuestion[];
+  @Input('isTest') isTest: boolean;
   @ViewChildren(QuestionConfigurationComponent) questionConfigurationChildren: QueryList<QuestionConfigurationComponent>;
 
   dirty = false;
@@ -53,7 +44,9 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
    * Creates new free form question
    */
   addFFQ() {
-    this.questions.push(new FreeFormQuestion('New Free Form Question'));
+    const newFfq = new FreeFormQuestion('New Free Form Question');
+    newFfq.required = this.isTest;
+    this.questions.push(newFfq);
     this.dirty = true;
   }
 
@@ -64,6 +57,7 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
     const newMcq = new MultipleChoiceQuestion('New Multiple Choice Question');
     newMcq.options.push("");
     newMcq.options.push("");
+    newMcq.required = this.isTest;
     this.questions.push(newMcq);
     this.dirty = true;
   }
@@ -73,6 +67,7 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
    */
   addEMI() {
     const newEmi = new ExtendedMatchingItems('New Extended Matching Items');
+    newEmi.required = this.isTest;
     newEmi.cols.push("");
     newEmi.cols.push("");
     newEmi.rows.push("");

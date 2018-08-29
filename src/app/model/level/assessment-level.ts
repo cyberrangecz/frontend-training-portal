@@ -9,7 +9,7 @@ import {AbstractQuestion} from "../questions/abstract-question";
 export class AssessmentLevel extends AbstractLevel {
   questions: AbstractQuestion[];
   instructions: string;
-  required: boolean;
+  maxScore: number;
   assessmentType: AssessmentTypeEnum;
 
 

@@ -5,17 +5,18 @@
       "type": "assessment",
       "training_definition_id": 4,
       "title": "Test assessment Level",
-      "max_score": 100,
+      "max_score": 240,
       "order": 1,
       "pre_hook": "",
       "post_hook": "",
-      "required": "true",
       "questions": [
         {
           "id": 1,
           "title": "How are you?",
           "type": "ffq",
-          "is_test": false
+          "score": 80,
+          "penalty": 20,
+          "required": true
         },
         {
           "id": 2,
@@ -28,8 +29,7 @@
           ],
           "score": 80,
           "penalty": 20,
-          "required": true,
-          "is_test": true
+          "required": true
         },
         {
           "id": 3,
@@ -43,7 +43,6 @@
             "True",
             "False"
           ],
-          "is_test": true,
           "correct_answers": [
             {
               "x": 0,

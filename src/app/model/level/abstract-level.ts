@@ -12,7 +12,7 @@ export abstract class AbstractLevel {
   preHook: string;
   postHook: string;
 
-  // custom attributes
+  // custom attribute for displaying icons customized to level type
   type: LevelTypeEnum;
 
 

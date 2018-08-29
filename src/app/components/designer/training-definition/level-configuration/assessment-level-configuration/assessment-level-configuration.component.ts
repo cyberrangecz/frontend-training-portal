@@ -4,6 +4,7 @@ import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
 import {AlertService} from "../../../../../services/event-services/alert.service";
 import {QuestionsOverviewComponent} from "../questions/questions-overview/questions-overview.component";
 import {AbstractQuestion} from "../../../../../model/questions/abstract-question";
+import {AssessmentTypeEnum} from "../../../../../enums/assessment-type.enum";
 
 @Component({
   selector: 'assessment-level-configuration',
@@ -22,8 +23,7 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
 
   title: string;
   instructions: string;
-  maxScore: number;
-  required: boolean;
+  isTest: boolean;
   questions: AbstractQuestion[];
 
   dirty = false;
@@ -86,10 +86,6 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
       errorMessage += 'Title cannot be empty\n'
     }
 
-    if (Number.isNaN(this.maxScore) || this.maxScore < 0 || this.maxScore > 100) {
-      errorMessage += 'Maximal score must be a number in range from 0 to 100\n'
-    }
-
     if (!this.questions) {
       errorMessage += 'Questions cannot be empty\n'
     }
@@ -107,9 +103,12 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
   private setInputValuesToLevel() {
     this.level.title = this.title;
     this.level.instructions = this.instructions;
-    this.level.maxScore = this.maxScore;
     this.level.questions = this.questions;
-    this.level.required = this.required;
+    if (this.isTest) {
+      this.level.assessmentType = AssessmentTypeEnum.Test
+    } else {
+      this.level.assessmentType = AssessmentTypeEnum.Questionnaire;
+    }
   }
 
   /**
@@ -117,10 +116,9 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
    */
   private setInitialValues() {
     this.title = this.level.title;
-    this.maxScore = this.level.maxScore;
     this.questions = this.level.questions;
     this.instructions = this.level.instructions;
-    this.required = this.level.required;
+    this.isTest = this.level.assessmentType === AssessmentTypeEnum.Test;
   }
 
 

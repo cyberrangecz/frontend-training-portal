@@ -11,7 +11,6 @@ import {AssessmentTypeEnum} from "../../enums/assessment-type.enum";
 import {Hint} from "../../model/level/hint";
 import {AbstractQuestion} from "../../model/questions/abstract-question";
 import {FreeFormQuestion} from "../../model/questions/free-form-question";
-import {QuestionTypeEnum} from "../../enums/question-type.enum";
 import {MultipleChoiceQuestion} from "../../model/questions/multiple-choice-question";
 import {ExtendedMatchingItems} from "../../model/questions/extended-matching-items";
 
@@ -95,10 +94,9 @@ export class LevelGetterService {
       levelJson.pre_hook,
       levelJson.post_hook,
       this.parseQuestions(levelJson.questions),
-      this.parseAssessmentTypeString2Enum(levelJson));
+      this.parseAssessmentTypeString2Enum(levelJson.type));
     level.id = levelJson.id;
     level.instructions = levelJson.instructions;
-    level.required = levelJson.required;
     return level;
   }
 
@@ -197,14 +195,6 @@ export class LevelGetterService {
     }
   }
 
-  /**
-   * Resolves if question is assessment of test (has correct answers)
-   * @param questionJson json from http response
-   * @returns {QuestionTypeEnum} Test if has correct answers, Assessment otherwise
-   */
-  private resolveQuestionType(questionJson): QuestionTypeEnum {
-    return questionJson.is_test ? QuestionTypeEnum.Test : QuestionTypeEnum.Assessment;
-  }
 
   /**
    * Parses free form question json
@@ -214,8 +204,10 @@ export class LevelGetterService {
   private parseFreeFormQuestion(questionJson): FreeFormQuestion {
     const question = new FreeFormQuestion(questionJson.title);
     question.id = questionJson.id;
-    question.type = this.resolveQuestionType(questionJson);
+    question.required = questionJson.required;
     question.correctAnswer = questionJson.correct_answer;
+    question.score = questionJson.score;
+    question.penalty = questionJson.penalty;
     return question;
   }
 
@@ -227,7 +219,6 @@ export class LevelGetterService {
   private parseMultipleChoiceQuestion(questionJson): MultipleChoiceQuestion {
     const question = new MultipleChoiceQuestion(questionJson.title);
     question.id = questionJson.id;
-    question.type = this.resolveQuestionType(questionJson);
     question.correctAnswersIndexes = this.parseMCQAnswers(questionJson);
     questionJson.options.forEach(option => question.options.push(option));
     question.score = questionJson.score;
@@ -246,7 +237,6 @@ export class LevelGetterService {
     question.rows = [];
     question.cols = [];
     question.id = questionJson.id;
-    question.type = this.resolveQuestionType(questionJson);
     questionJson.rows.forEach(row => question.rows.push(row));
     questionJson.cols.forEach(col => question.cols.push(col));
     question.correctAnswers = this.parseEMIAnswers(questionJson);
@@ -301,7 +291,7 @@ export class LevelGetterService {
    * @returns {AssessmentTypeEnum} matched assessment type enum
    */
   private parseAssessmentTypeString2Enum(assessmentType: string): AssessmentTypeEnum {
-    if (assessmentType === 'test') {
+    if (assessmentType === 'assessment') {
       return AssessmentTypeEnum.Test;
     }
     if (assessmentType === 'questionnaire') {
