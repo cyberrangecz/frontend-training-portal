@@ -16,8 +16,6 @@ import {SharedModule} from "./components/shared/shared.module";
 import {SharedMaterialModule} from "./components/shared/shared-material.module";
 import {TrainingDistractionFreeModeService} from "./services/training-distraction-free-mode.service";
 
-import {PipesModule} from "./pipes/pipes.module";
-
 @NgModule({
   declarations: [
     AppComponent
