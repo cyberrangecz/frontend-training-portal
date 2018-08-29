@@ -10,6 +10,9 @@ import {MatCheckboxChange} from "@angular/material";
   templateUrl: './multiple-choice-question.component.html',
   styleUrls: ['./multiple-choice-question.component.css']
 })
+/**
+ * Component of a question of type Multiple Choice Question
+ */
 export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
 
   @Input('question') question: MultipleChoiceQuestion;
@@ -38,22 +41,39 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Helper method to enable tracking a variable accessed by *ngFor index
+   * @param index
+   * @param item
+   */
   trackByFn(index: any, item: any) {
     return index;
   }
 
+  /**
+   * User made a change in the input
+   */
   contentChanged() {
     this.dirty = true;
   }
 
+  /**
+   * Max score of a question changed
+   */
   onScoreChanged() {
 
   }
 
+  /**
+   * Penalty for wrong answer changed
+   */
   onPenaltyChanged() {
 
   }
 
+  /**
+   * Deletes all answers selected by user
+   */
   clearAnswers() {
     this.correctAnswersIndexes = [];
   }
@@ -66,6 +86,9 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
     return !this.dirty;
   }
 
+  /**
+   * Validates input and saved data through REST
+   */
   saveChanges() {
     if (this.validateInput()) {
       this.setInputValues();
@@ -74,30 +97,57 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Called when user changed the answer (clicked on a checkbox
+   * @param event event of checkbox change
+   * @param index index of an answer which has been changed
+   */
   onAnswerChanged(event: MatCheckboxChange, index: number) {
     if (event.checked) {
-      this.correctAnswersIndexes.push(index);
+      this.addCorrectAnswer(index);
     } else {
-      this.removeFromCorrectAnswer(index);
+      this.removeCorrectAnswer(index);
     }
   }
 
+  /**
+   * Deletes an option (one of the answers)
+   * @param index index of the option which should be deleted
+   */
   deleteOption(index: number) {
     this.options.splice(index, 1);
-    this.removeFromCorrectAnswer(index);
+    this.removeCorrectAnswer(index);
   }
 
+  /**
+   * Adds new option
+   */
   addOption() {
     this.options.push('');
   }
 
-  private removeFromCorrectAnswer(index: number) {
+  /**
+   * Adds correct answer
+   * @param index index of the answer which should be marked as correct
+   */
+  private addCorrectAnswer(index: number) {
+    this.correctAnswersIndexes.push(index);
+  }
+
+  /**
+   * Removes given answer from correct answers
+   * @param index index of the answer which should be deleted
+   */
+  private removeCorrectAnswer(index: number) {
     const indexToRemove = this.correctAnswersIndexes.indexOf(index);
     if (indexToRemove != -1) {
       this.correctAnswersIndexes.splice(indexToRemove, 1);
     }
   }
 
+  /**
+   * Sets initial values from passed question object to user inputs
+   */
   private setInitialValues() {
     this.title = this.question.title;
     this.options = this.question.options;
@@ -107,6 +157,9 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
     this.required = this.question.required;
   }
 
+  /**
+   * Sets values from user input to the question object
+   */
   private setInputValues() {
     this.question.title = this.title;
     this.question.options = this.options;
@@ -122,6 +175,9 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Validates user input and calls alert service if there is an error
+   */
   private validateInput(): boolean {
     let errorTitle = 'Question: ' + this.question.title + '\n';
     let errorMessage: string = '';
