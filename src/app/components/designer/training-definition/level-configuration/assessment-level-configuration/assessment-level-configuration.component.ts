@@ -23,6 +23,7 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
   title: string;
   instructions: string;
   maxScore: number;
+  required: boolean;
   questions: AbstractQuestion[];
 
   dirty = false;
@@ -107,6 +108,7 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
     this.level.instructions = this.instructions;
     this.level.maxScore = this.maxScore;
     this.level.questions = this.questions;
+    this.level.required = this.required;
   }
 
   /**
@@ -117,6 +119,7 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
     this.maxScore = this.level.maxScore;
     this.questions = this.level.questions;
     this.instructions = this.level.instructions;
+    this.required = this.level.required;
   }
 
 

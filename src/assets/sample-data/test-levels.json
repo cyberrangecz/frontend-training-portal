@@ -9,6 +9,7 @@
       "order": 1,
       "pre_hook": "",
       "post_hook": "",
+      "required": "true",
       "questions": [
         {
           "id": 1,

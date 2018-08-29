@@ -98,6 +98,7 @@ export class LevelGetterService {
       this.parseAssessmentTypeString2Enum(levelJson));
     level.id = levelJson.id;
     level.instructions = levelJson.instructions;
+    level.required = levelJson.required;
     return level;
   }
 
