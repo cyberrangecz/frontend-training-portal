@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ExtendedMatchingItems} from "../../../../../../../model/questions/extended-matching-items";
 
 @Component({
@@ -32,6 +32,10 @@ export class ExtendedMatchingItemsTraineeComponent implements OnInit {
    * Saves changes from user input to question object
    */
   saveChanges() {
+
+  }
+
+  onAnswerChanged(i: number, j: number) {
 
   }
 

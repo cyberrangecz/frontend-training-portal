@@ -4,6 +4,20 @@
 
   <!--RADIO TABLE-->
   <table>
+    <!-- TABLE HEADER-->
+    <tr>
+      <th></th>
+      <th *ngFor="let col of question.cols">{{ col }}</th>
+    </tr>
 
+    <!-- TABLE BODY-->
+      <tr *ngFor="let row of question.rows; index as i" class="inner">
+        <td>{{ row }}</td>
+        <mat-radio-group>
+          <td *ngFor="let col of question.cols; index as j;">
+            <mat-radio-button [value]="{ x: i, y: j }" (change)="onAnswerChanged(i, j)"></mat-radio-button>
+          </td>
+        </mat-radio-group>
+      </tr>
   </table>
 </div>
