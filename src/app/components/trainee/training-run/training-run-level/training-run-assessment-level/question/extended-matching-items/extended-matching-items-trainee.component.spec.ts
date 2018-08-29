@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ExtendedMatchingItemsComponent } from './extended-matching-items.component';
+import { ExtendedMatchingItemsTraineeComponent } from './extended-matching-items-trainee.component';
 
 describe('ExtendedMatchingItemsTraineeComponent', () => {
-  let component: ExtendedMatchingItemsComponent;
-  let fixture: ComponentFixture<ExtendedMatchingItemsComponent>;
+  let component: ExtendedMatchingItemsTraineeComponent;
+  let fixture: ComponentFixture<ExtendedMatchingItemsTraineeComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ExtendedMatchingItemsComponent ]
+      declarations: [ ExtendedMatchingItemsTraineeComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ExtendedMatchingItemsComponent);
+    fixture = TestBed.createComponent(ExtendedMatchingItemsTraineeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

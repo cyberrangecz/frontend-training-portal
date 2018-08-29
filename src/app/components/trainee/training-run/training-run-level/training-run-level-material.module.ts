@@ -1,10 +1,10 @@
 import {NgModule} from "@angular/core";
 import {
-  MatButtonModule,
-  MatDialogModule,
+  MatButtonModule, MatCheckboxModule,
+  MatDialogModule, MatDividerModule,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule,
+  MatInputModule, MatRadioModule,
   MatTooltipModule
 } from "@angular/material";
 
@@ -15,7 +15,10 @@ import {
     MatInputModule,
     MatIconModule,
     MatDialogModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatRadioModule,
+    MatCheckboxModule,
+    MatDividerModule,
   ],
   exports: [
     MatButtonModule,
@@ -23,7 +26,10 @@ import {
     MatInputModule,
     MatIconModule,
     MatDialogModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatRadioModule,
+    MatCheckboxModule,
+    MatDividerModule
   ]
 })
 export class TrainingRunLevelMaterialModule {

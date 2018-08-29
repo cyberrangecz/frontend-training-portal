@@ -13,6 +13,10 @@ import { RevealSolutionDialogComponent } from './training-run-game-level/user-ac
 import { WrongFlagDialogComponent } from './training-run-game-level/user-action-dialogs/wrong-flag-dialog/wrong-flag-dialog.component';
  import {GraphModule} from "graph-topology";
 import {CustomTopologyConfig} from "./training-run-game-level/graph-topology-config";
+import { TraineeQuestionComponent } from './training-run-assessment-level/question/trainee-question.component';
+import { FreeFormQuestionTraineeComponent } from './training-run-assessment-level/question/free-form-question/free-form-question-trainee.component';
+import { MultipleChoiceQuestionTraineeComponent } from './training-run-assessment-level/question/multiple-choice-question/multiple-choice-question-trainee.component';
+import { ExtendedMatchingItemsTraineeComponent } from './training-run-assessment-level/question/extended-matching-items/extended-matching-items-trainee.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -29,7 +33,11 @@ import {CustomTopologyConfig} from "./training-run-game-level/graph-topology-con
     TrainingRunAssessmentLevelComponent,
     RevealHintDialogComponent,
     RevealSolutionDialogComponent,
-    WrongFlagDialogComponent
+    WrongFlagDialogComponent,
+    TraineeQuestionComponent,
+    FreeFormQuestionTraineeComponent,
+    MultipleChoiceQuestionTraineeComponent,
+    ExtendedMatchingItemsTraineeComponent
   ],
   exports: [
     TrainingRunLevelComponent

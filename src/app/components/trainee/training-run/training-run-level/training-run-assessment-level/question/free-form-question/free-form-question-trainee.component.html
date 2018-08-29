@@ -1,0 +1,14 @@
+<div class="content">
+  <!--TITLE-->
+  <h2>{{ index }}. {{ question.title }}</h2>
+
+  <!-- ANSWER field-->
+
+  <mat-form-field appearance="outline">
+    <mat-label>Answer</mat-label>
+    <input matInput placeholder="Answer" [(ngModel)]="answer" [required]="question.required">
+    <button mat-button *ngIf="answer" matSuffix mat-icon-button aria-label="Clear" (click)="answer =''">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+</div>

@@ -19,7 +19,7 @@ import {
     MatMenuModule,
     MatDividerModule,
     MatCardModule,
-    MatRadioModule
+    MatRadioModule,
   ],
   exports: [
     MatButtonModule,

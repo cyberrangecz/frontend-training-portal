@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FreeFormQuestionComponent } from './free-form-question.component';
+import { FreeFormQuestionTraineeComponent } from './free-form-question-trainee.component';
 
 describe('FreeFormQuestionTraineeComponent', () => {
-  let component: FreeFormQuestionComponent;
-  let fixture: ComponentFixture<FreeFormQuestionComponent>;
+  let component: FreeFormQuestionTraineeComponent;
+  let fixture: ComponentFixture<FreeFormQuestionTraineeComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FreeFormQuestionComponent ]
+      declarations: [ FreeFormQuestionTraineeComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FreeFormQuestionComponent);
+    fixture = TestBed.createComponent(FreeFormQuestionTraineeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

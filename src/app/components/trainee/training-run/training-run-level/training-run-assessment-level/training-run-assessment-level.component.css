@@ -9,13 +9,29 @@
   margin-top: 50px;
   text-align: center;
   width: 60%;
-
 }
 
 .content {
   margin-top: 50px;
   display: flex;
+  flex-direction: column;
   width: 60%;
+}
+
+.questions {
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+}
+
+.question {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+mat-divider {
+  margin-bottom: 20px;
 }
 
 @media screen and (max-width: 800px) {
