@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {TrainingDefinition} from "../../../model/training/training-definition";
 import {map, switchMap} from "rxjs/operators";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
@@ -51,6 +51,16 @@ export class TrainingDefinitionComponent implements OnInit {
 
   trainingSavedChange(event: boolean) {
     this.isTrainingSaved = event;
+  }
+
+  /**
+   * Shows dialog asking the user if he really wants to leave the page after refresh or navigating to another page
+   */
+  @HostListener('window:beforeunload')
+  canRefreshOrLeave(): boolean {
+    return this.trainingConfigurationComponent.canDeactivate()
+      && this.trainingLevelStepperComponent.canDeactivate()
+        .every(level => level.canDeactivate)
   }
 
   /**

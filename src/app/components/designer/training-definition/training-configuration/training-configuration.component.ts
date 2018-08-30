@@ -68,7 +68,6 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
    */
   canDeactivate(): boolean {
     return !this.dirty;
-
   }
 
   /**

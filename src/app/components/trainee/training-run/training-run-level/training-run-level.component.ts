@@ -51,7 +51,6 @@ export class TrainingRunLevelComponent implements OnInit, OnDestroy {
     }
   }
 
-
   /**
    * Shows dialog asking the user if he really wants to leave the page after clicking on back button
    */
