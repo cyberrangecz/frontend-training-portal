@@ -59,8 +59,8 @@ export class TrainingDefinitionComponent implements OnInit {
   @HostListener('window:beforeunload')
   canRefreshOrLeave(): boolean {
     return this.trainingConfigurationComponent.canDeactivate()
-      && this.trainingLevelStepperComponent.canDeactivate()
-        .every(level => level.canDeactivate)
+      && this.trainingLevelStepperComponent.getCanDeactivateLevels()
+        .every(level => level.canBeDeactivated)
   }
 
   /**
@@ -69,8 +69,8 @@ export class TrainingDefinitionComponent implements OnInit {
    */
   canDeactivate(): Observable<boolean> {
     const isTrainingChangesSaved =  this.trainingConfigurationComponent.canDeactivate();
-    const canDeactivateLevels = this.trainingLevelStepperComponent.canDeactivate();
-    const isLevelChangesSaved = canDeactivateLevels.every(level => level.canDeactivate);
+    const canDeactivateLevels = this.trainingLevelStepperComponent.getCanDeactivateLevels();
+    const isLevelChangesSaved = canDeactivateLevels.every(level => level.canBeDeactivated);
     const messages: string[] = [];
 
     if (!isTrainingChangesSaved) {

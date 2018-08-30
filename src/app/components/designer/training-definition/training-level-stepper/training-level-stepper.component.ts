@@ -42,13 +42,13 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    * Determines if all levels in level stepper were saved and user can navigate to different component
    * @returns {{ canDeactivate: boolean, order: number }[]} object with list of levels which can be deactivated and its order (index)
    */
-  canDeactivate(): { canDeactivate: boolean, order: number }[] {
+  getCanDeactivateLevels(): { canBeDeactivated: boolean, order: number }[] {
     const levels = [];
     this.levelConfigurationComponents.forEach(levelComponent => {
       const levelCanDeactivate = levelComponent.level.id !== undefined && levelComponent.canDeactivate(); // if level does not have id it is a new level and has not been saved yet
       levels.push(
         {
-          canDeactivate: levelCanDeactivate,
+          canBeDeactivated: levelCanDeactivate,
           order: levelComponent.level.order
         });
       }
