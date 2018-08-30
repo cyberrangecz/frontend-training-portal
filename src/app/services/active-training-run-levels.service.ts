@@ -58,6 +58,14 @@ export class ActiveTrainingRunLevelsService {
   }
 
   /**
+   * Locks current level
+   */
+  lockCurrentLevel() {
+    this.currentLevelLocked = true;
+    this._onLevelLockChangedSubject.next(true);
+  }
+
+  /**
    * Sets the next level in order as active
    */
   nextLevel() {

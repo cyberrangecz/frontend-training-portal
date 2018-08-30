@@ -1,10 +1,12 @@
-import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
-import {ActivatedRoute, ParamMap} from "@angular/router";
+import {Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {ActivatedRoute} from "@angular/router";
 import {ActiveTrainingRunLevelsService} from "../../../../services/active-training-run-levels.service";
 import {AbstractLevel} from "../../../../model/level/abstract-level";
 import {InfoLevel} from "../../../../model/level/info-level";
 import {AssessmentLevel} from "../../../../model/level/assessment-level";
 import {GameLevel} from "../../../../model/level/game-level";
+import {TrainingRunAssessmentLevelComponent} from "./training-run-assessment-level/training-run-assessment-level.component";
+import {TrainingRunGameLevelComponent} from "./training-run-game-level/training-run-game-level.component";
 
 @Component({
   selector: 'training-run-level',
@@ -16,6 +18,8 @@ import {GameLevel} from "../../../../model/level/game-level";
  * and displays child component accordingly
  */
 export class TrainingRunLevelComponent implements OnInit, OnDestroy {
+
+  @ViewChild(TrainingRunAssessmentLevelComponent) assessmentLevelChild: TrainingRunAssessmentLevelComponent;
 
   @Output('nextLevel') nextLevel: EventEmitter<number> = new EventEmitter<number>();
   @Output('displayNextLevelButton') displayNextLevelButton: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -38,6 +42,15 @@ export class TrainingRunLevelComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.activeLevelsChangeSubscription) {
       this.activeLevelsChangeSubscription.unsubscribe();
+    }
+  }
+
+  /**
+   * Submits all user input data to REST
+   */
+  submit() {
+    if (this.isAssessmentLevel) {
+      this.assessmentLevelChild.submit();
     }
   }
 
@@ -79,7 +92,7 @@ export class TrainingRunLevelComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Subscribes to changes of active level. If active level is changes, it re-initializes level data and displays
+   * Subscribes to changes of active level. If active level is changed, it re-initializes level data and displays
    * different child component if its type is changed
    */
   private subscribeForActiveLevelChanges() {

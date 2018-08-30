@@ -1,5 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {AbstractQuestion} from "../../../../../../../model/questions/abstract-question";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MultipleChoiceQuestion} from "../../../../../../../model/questions/multiple-choice-question";
 import {MatCheckboxChange} from "@angular/material";
 
@@ -16,7 +15,9 @@ export class MultipleChoiceQuestionTraineeComponent implements OnInit {
   @Input('question') question: MultipleChoiceQuestion;
   @Input('index') index: number;
 
-  answersIndexes: number[] = [];
+  @Output('contentChanged') contentChanged: EventEmitter<number> = new EventEmitter();
+
+  userAnswersIndexes: number[] = [];
 
   constructor() { }
 
@@ -27,14 +28,14 @@ export class MultipleChoiceQuestionTraineeComponent implements OnInit {
    * Checks whether mandatory questions were answered
    */
   canBeSubmitted(): boolean {
-    return true;
+    return !this.question.required || this.userAnswersIndexes.length > 0;
   }
 
   /**
    * Saves changes from user input to question object
    */
   saveChanges() {
-
+    this.question.usersAnswersIndexes = this.userAnswersIndexes;
   }
 
   /**
@@ -48,6 +49,8 @@ export class MultipleChoiceQuestionTraineeComponent implements OnInit {
     } else {
       this.removeCorrectAnswer(index);
     }
+    this.contentChanged.emit(index);
+
   }
 
   /**
@@ -55,7 +58,7 @@ export class MultipleChoiceQuestionTraineeComponent implements OnInit {
    * @param index index of the answer which should be marked as correct
    */
   private addCorrectAnswer(index: number) {
-    this.answersIndexes.push(index);
+    this.userAnswersIndexes.push(index);
   }
 
   /**
@@ -63,24 +66,11 @@ export class MultipleChoiceQuestionTraineeComponent implements OnInit {
    * @param index index of the answer which should be deleted
    */
   private removeCorrectAnswer(index: number) {
-    const indexToRemove = this.answersIndexes.indexOf(index);
+    const indexToRemove = this.userAnswersIndexes.indexOf(index);
     if (indexToRemove != -1) {
-      this.answersIndexes.splice(indexToRemove, 1);
+      this.userAnswersIndexes.splice(indexToRemove, 1);
     }
   }
 
-  /**
-   * Sets values from user input to the question objects
-   */
-  private setInputValues() {
-    this.question.usersAnswersIndexes = this.answersIndexes;
-  }
-
-  /**
-   * Validates user input. Call alert service if there are any errors
-   */
-  private validateInput() {
-
-  }
 
 }

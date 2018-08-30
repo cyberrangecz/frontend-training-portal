@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {AbstractQuestion} from "../../../../../../model/questions/abstract-question";
 import {ExtendedMatchingItems} from "../../../../../../model/questions/extended-matching-items";
 import {FreeFormQuestion} from "../../../../../../model/questions/free-form-question";
@@ -16,6 +16,8 @@ export class TraineeQuestionComponent implements OnInit, OnChanges {
 
   @Input('question') question: AbstractQuestion;
   @Input('index') index: number;
+
+  @Output('contentChanged') contentChanged: EventEmitter<number> = new EventEmitter();
 
   @ViewChild(FreeFormQuestionTraineeComponent) ffqChild: FreeFormQuestionTraineeComponent;
   @ViewChild(ExtendedMatchingItemsTraineeComponent) emiChild: ExtendedMatchingItemsTraineeComponent;
@@ -65,6 +67,9 @@ export class TraineeQuestionComponent implements OnInit, OnChanges {
     }
   }
 
+  onContentChanged(event: number) {
+    this.contentChanged.emit(event);
+  }
   /**
    * Resolves type of question to create appropriate child component
    */

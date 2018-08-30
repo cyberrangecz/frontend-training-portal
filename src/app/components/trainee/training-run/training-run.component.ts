@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {TrainingRun} from "../../../model/training/training-run";
 import {TrainingInstance} from "../../../model/training/training-instance";
 import {AbstractLevel} from "../../../model/level/abstract-level";
@@ -8,6 +8,7 @@ import {TrainingRunGetterService} from "../../../services/data-getters/training-
 import {TrainingInstanceGetterService} from "../../../services/data-getters/training-instance-getter.service";
 import {ActiveTrainingRunLevelsService} from "../../../services/active-training-run-levels.service";
 import {TrainingDefinitionGetterService} from "../../../services/data-getters/training-definition-getter.service";
+import {TrainingRunLevelComponent} from "./training-run-level/training-run-level.component";
 
 
 @Component({
@@ -20,6 +21,8 @@ import {TrainingDefinitionGetterService} from "../../../services/data-getters/tr
  * Optionally displays stepper with progress of the training and timer counting time from the start of a training.
  */
 export class TrainingRunComponent implements OnInit, OnDestroy {
+
+  @ViewChild(TrainingRunLevelComponent) trainingRunLevelChild: TrainingRunLevelComponent;
 
   trainingRun: TrainingRun;
   trainingInstance: TrainingInstance;
@@ -63,6 +66,7 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
    */
   nextLevel() {
     if (!this.isActiveLevelLocked) {
+      this.trainingRunLevelChild.submit();
       this.selectedStep += 1;
       this.activeLevelsService.nextLevel();
       this.trainingRun.currentLevel = this.activeLevelsService.getActiveLevel().id;

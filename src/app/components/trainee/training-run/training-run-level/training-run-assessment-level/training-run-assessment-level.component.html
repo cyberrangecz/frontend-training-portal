@@ -8,7 +8,7 @@
     <div class="questions">
       <div *ngFor="let question of level.questions; index as i" class="question">
         <mat-divider></mat-divider>
-        <trainee-question [question]="question" [index]="i + 1"></trainee-question>
+        <trainee-question [question]="question" [index]="i + 1" (contentChanged)="onContentChanged()"></trainee-question>
       </div>
     </div>
   </div>

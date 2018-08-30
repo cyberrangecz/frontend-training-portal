@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ExtendedMatchingItems} from "../../../../../../../model/questions/extended-matching-items";
 
 @Component({
@@ -14,6 +14,8 @@ export class ExtendedMatchingItemsTraineeComponent implements OnInit {
   @Input('question') question: ExtendedMatchingItems;
   @Input('index') index: number;
 
+  @Output('contentChanged') contentChanged: EventEmitter<number> = new EventEmitter();
+
   usersAnswers: {x: number, y: number}[] = [];
 
   constructor() { }
@@ -22,35 +24,48 @@ export class ExtendedMatchingItemsTraineeComponent implements OnInit {
   }
 
   /**
-   * Checks whether mandatory questions were answered
+   * Checks whether all questions were answered
    */
   canBeSubmitted(): boolean {
+    if (this.question.required || this.usersAnswers.length > 0) {
+      this.usersAnswers.sort((fst, snd) => fst.x - snd.x);
+      for (let i = 0; i < this.question.rows.length; i++) {
+        if (!this.usersAnswers[i]) {
+          return false;
+        }
+      }
+    }
     return true;
   }
-
   /**
    * Saves changes from user input to question object
    */
   saveChanges() {
-
-  }
-
-  onAnswerChanged(i: number, j: number) {
-
-  }
-
-  /**
-   * Sets values from user input to the question objects
-   */
-  private setInputValues() {
     this.question.usersAnswers = this.usersAnswers;
   }
 
   /**
-   * Validates user input. Call alert service if there are any errors
+   * Adds answer chosen by a user as a correct answer
+   * @param i row coordinate in the matrix representing the possible answers (EMI table)
+   * @param j col coordinate in the matrix representing the possible answers (EMI table)
    */
-  private validateInput() {
-
+  onAnswerChanged(i: number, j: number) {
+    this.deleteAnswerByRow(i);
+    this.usersAnswers.push({x: i, y: j});
+    this.contentChanged.emit(this.index);
   }
 
+  /**
+   * Deletes users (selected) answer in a given row
+   * @param rowIndex index of a row in a matrix representing the EMI table
+   */
+  private deleteAnswerByRow(rowIndex: number) {
+    const answerToDelete = this.usersAnswers.find(answer => answer.x === rowIndex);
+    if (answerToDelete) {
+      const indexOfAnswerToDelete = this.usersAnswers.indexOf(answerToDelete);
+      if (indexOfAnswerToDelete > -1) {
+        this.usersAnswers.splice(indexOfAnswerToDelete, 1);
+      }
+    }
+  }
 }

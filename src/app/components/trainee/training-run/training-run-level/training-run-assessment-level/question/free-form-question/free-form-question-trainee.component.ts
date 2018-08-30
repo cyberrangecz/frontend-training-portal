@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FreeFormQuestion} from "../../../../../../../model/questions/free-form-question";
 
 @Component({
@@ -14,6 +14,7 @@ export class FreeFormQuestionTraineeComponent implements OnInit {
   @Input('question') question: FreeFormQuestion;
   @Input('index') index: number;
 
+  @Output('contentChanged') contentChanged: EventEmitter<number> = new EventEmitter();
   answer: string;
 
   constructor() { }
@@ -25,28 +26,19 @@ export class FreeFormQuestionTraineeComponent implements OnInit {
    * Checks whether mandatory questions were answered
    */
   canBeSubmitted(): boolean {
-    return true;
+    return !this.question.required || (this.answer && this.answer.replace(/\s/g, '') !== '');
+  }
+
+  onChange() {
+    this.contentChanged.emit(this.index);
   }
 
   /**
    * Saves changes from user input to question object
    */
   saveChanges() {
-  }
-
-
-  /**
-   * Sets values from user input to the question objects
-   */
-  private setInputValues() {
     this.question.usersAnswer = this.answer;
   }
 
-  /**
-   * Validates user input. Call alert service if there are any errors
-   */
-  private validateInput() {
-
-  }
 
 }
