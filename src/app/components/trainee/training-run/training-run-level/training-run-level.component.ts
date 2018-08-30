@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, HostListener, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ActiveTrainingRunLevelsService} from "../../../../services/active-training-run-levels.service";
 import {AbstractLevel} from "../../../../model/level/abstract-level";
@@ -7,6 +7,10 @@ import {AssessmentLevel} from "../../../../model/level/assessment-level";
 import {GameLevel} from "../../../../model/level/game-level";
 import {TrainingRunAssessmentLevelComponent} from "./training-run-assessment-level/training-run-assessment-level.component";
 import {TrainingRunGameLevelComponent} from "./training-run-game-level/training-run-game-level.component";
+import {Observable} from "rxjs";
+import {LeaveConfirmationDialogComponent} from "../leave-confirmation-dialog/leave-confirmation-dialog.component";
+import {map} from "rxjs/operators";
+import {MatDialog} from "@angular/material";
 
 @Component({
   selector: 'training-run-level',
@@ -31,8 +35,10 @@ export class TrainingRunLevelComponent implements OnInit, OnDestroy {
 
   activeLevelsChangeSubscription;
 
-  constructor(private activeRoute: ActivatedRoute,
-              private activeLevelsService: ActiveTrainingRunLevelsService) { }
+  constructor(
+    private dialog: MatDialog,
+    private activeRoute: ActivatedRoute,
+    private activeLevelsService: ActiveTrainingRunLevelsService) { }
 
   ngOnInit() {
     this.initLevel();
@@ -43,6 +49,23 @@ export class TrainingRunLevelComponent implements OnInit, OnDestroy {
     if (this.activeLevelsChangeSubscription) {
       this.activeLevelsChangeSubscription.unsubscribe();
     }
+  }
+
+
+  /**
+   * Shows dialog asking the user if he really wants to leave the page after clicking on back button
+   */
+  @HostListener('window:onpopstate')
+  canGoBack(): boolean {
+    return confirm('WARNING: You may lose progress in the current level. Do you really want to leave?');
+  }
+
+  /**
+   * Shows dialog asking the user if he really wants to leave the page after refresh or navigating to another page
+   */
+  @HostListener('window:beforeunload')
+  canRefreshOrLeave(): boolean {
+    return confirm('WARNING: You may lose progress in the current level. Do you really want to leave?');
   }
 
   /**

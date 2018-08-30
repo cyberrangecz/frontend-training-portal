@@ -11,7 +11,6 @@ import {CountdownTimerModule} from "ngx-countdown-timer";
 import {TrainingDefinitionGetterService} from "../../../services/data-getters/training-definition-getter.service";
 import {TrainingRunLevelsGuard} from "../../../guards/training-run-levels-guard.service";
 
-
 @NgModule({
   imports: [
     CommonModule,
@@ -23,7 +22,7 @@ import {TrainingRunLevelsGuard} from "../../../guards/training-run-levels-guard.
   ],
   declarations: [
     TrainingRunComponent,
-    TrainingTimerComponent,
+    TrainingTimerComponent
   ],
   providers: [
     ActiveTrainingRunLevelsService,

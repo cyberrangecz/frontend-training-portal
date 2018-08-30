@@ -7,13 +7,16 @@ import {TrainingInstanceGetterService} from "../services/data-getters/training-i
 import {LevelGetterService} from "../services/data-getters/level-getter.service";
 import {TrainingRunGetterService} from "../services/data-getters/training-run-getter.service";
 import {concatMap, map} from "rxjs/operators";
+import {TrainingRunLevelComponent} from "../components/trainee/training-run/training-run-level/training-run-level.component";
+import {ActiveTrainingRunLevelsService} from "../services/active-training-run-levels.service";
 @Injectable()
 /**
  * Guard triggered when accessing training run level. Turns on and off the distraction free mode
  */
-export class TrainingRunLevelsGuard implements CanActivate, CanDeactivate<TrainingRunComponent> {
+export class TrainingRunLevelsGuard implements CanActivate, CanDeactivate<TrainingRunLevelComponent> {
 
-  constructor(private distractionFreeModeService: TrainingDistractionFreeModeService,
+  constructor(private activeTrainingRunLevelService: ActiveTrainingRunLevelsService,
+              private distractionFreeModeService: TrainingDistractionFreeModeService,
               private router: Router,
               private levelGetter: LevelGetterService,
               private trainingRunGetter: TrainingRunGetterService,
@@ -47,7 +50,7 @@ export class TrainingRunLevelsGuard implements CanActivate, CanDeactivate<Traini
       }));
   }
 
-  canDeactivate(component: TrainingRunComponent, currentRoute: ActivatedRouteSnapshot, currentState: RouterStateSnapshot, nextState?: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+  canDeactivate(component: TrainingRunLevelComponent, currentRoute: ActivatedRouteSnapshot, currentState: RouterStateSnapshot, nextState?: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     this.distractionFreeModeService.setDistractionFreeMode(false);
     return true;
   }

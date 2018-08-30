@@ -17,6 +17,7 @@ import { TraineeQuestionComponent } from './training-run-assessment-level/questi
 import { FreeFormQuestionTraineeComponent } from './training-run-assessment-level/question/free-form-question/free-form-question-trainee.component';
 import { MultipleChoiceQuestionTraineeComponent } from './training-run-assessment-level/question/multiple-choice-question/multiple-choice-question-trainee.component';
 import { ExtendedMatchingItemsTraineeComponent } from './training-run-assessment-level/question/extended-matching-items/extended-matching-items-trainee.component';
+import {LeaveConfirmationDialogComponent} from "../leave-confirmation-dialog/leave-confirmation-dialog.component";
 @NgModule({
   imports: [
     CommonModule,
@@ -37,7 +38,8 @@ import { ExtendedMatchingItemsTraineeComponent } from './training-run-assessment
     TraineeQuestionComponent,
     FreeFormQuestionTraineeComponent,
     MultipleChoiceQuestionTraineeComponent,
-    ExtendedMatchingItemsTraineeComponent
+    ExtendedMatchingItemsTraineeComponent,
+    LeaveConfirmationDialogComponent
   ],
   exports: [
     TrainingRunLevelComponent
@@ -45,6 +47,7 @@ import { ExtendedMatchingItemsTraineeComponent } from './training-run-assessment
   providers: [
   ],
   entryComponents: [
+    LeaveConfirmationDialogComponent,
     RevealHintDialogComponent,
     RevealSolutionDialogComponent,
     WrongFlagDialogComponent

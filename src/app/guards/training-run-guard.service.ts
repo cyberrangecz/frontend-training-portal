@@ -1,6 +1,5 @@
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
 import {Observable} from "rxjs/internal/Observable";
-import {TrainingInstanceGetterService} from "../services/data-getters/training-instance-getter.service";
 import {ActiveUserService} from "../services/active-user.service";
 import {TrainingRunGetterService} from "../services/data-getters/training-run-getter.service";
 import {map} from "rxjs/operators";
@@ -9,7 +8,7 @@ import {Injectable} from "@angular/core";
 /**
  * Guard which determines whether the user can access the training run (if it still active and associated with him)
  */
-export class TrainingRunGuard implements CanActivate{
+export class TrainingRunGuard implements CanActivate {
 
   constructor(
     private router: Router,
@@ -23,9 +22,9 @@ export class TrainingRunGuard implements CanActivate{
     return this.trainingRunGetter.getTrainingRunById(id)
       .pipe(map(training => {
         if (!training
-            || training.userId !== this.activeUserService.getActiveUser().id
-            || training.startTime.valueOf() > now
-            || training.endTime.valueOf() < now) {
+          || training.userId !== this.activeUserService.getActiveUser().id
+          || training.startTime.valueOf() > now
+          || training.endTime.valueOf() < now) {
           // training does not exist, or is not associated with user or has not yet started, or has already ended
           this.router.navigate(['not-authorized']);
           return false;

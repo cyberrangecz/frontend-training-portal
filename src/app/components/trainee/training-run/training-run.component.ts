@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {TrainingRun} from "../../../model/training/training-run";
 import {TrainingInstance} from "../../../model/training/training-instance";
 import {AbstractLevel} from "../../../model/level/abstract-level";
@@ -9,6 +9,10 @@ import {TrainingInstanceGetterService} from "../../../services/data-getters/trai
 import {ActiveTrainingRunLevelsService} from "../../../services/active-training-run-levels.service";
 import {TrainingDefinitionGetterService} from "../../../services/data-getters/training-definition-getter.service";
 import {TrainingRunLevelComponent} from "./training-run-level/training-run-level.component";
+import {Observable} from "rxjs";
+import {map} from "rxjs/operators";
+import {MatDialog} from "@angular/material";
+import {LeaveConfirmationDialogComponent} from "./leave-confirmation-dialog/leave-confirmation-dialog.component";
 
 
 @Component({
@@ -34,7 +38,6 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
 
   displayNextButton = false;
   isActiveLevelLocked = true;
-
   levelLockSubscription;
 
   constructor(
@@ -60,6 +63,8 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
       this.levelLockSubscription.unsubscribe();
     }
   }
+
+
 
   /**
    * If it is possible (user finished current level), sets next level as active and navigates to it
