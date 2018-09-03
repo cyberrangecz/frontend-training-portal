@@ -1,4 +1,12 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core';
 import {GameLevel} from "../../../../../model/level/game-level";
 import {ActiveTrainingRunLevelsService} from "../../../../../services/active-training-run-levels.service";
 import {MatDialog} from "@angular/material";
@@ -9,7 +17,10 @@ import {WrongFlagDialogComponent} from "./user-action-dialogs/wrong-flag-dialog/
 @Component({
   selector: 'training-run-game-level',
   templateUrl: './training-run-game-level.component.html',
-  styleUrls: ['./training-run-game-level.component.css']
+  styleUrls: ['./training-run-game-level.component.css'],
+  host: {
+    '(window:resize)': 'onResize($event)'
+  }
 })
 /**
  * Component of a game level in a training run. Users needs to find out correct solution (flag) and submit it
@@ -20,6 +31,9 @@ export class TrainingRunGameLevelComponent implements OnInit {
   @Input('level') level: GameLevel;
 
   @Output('nextLevel') nextLevel: EventEmitter<number> = new EventEmitter<number>();
+
+  graphWidth: number;
+  graphHeight: number;
 
   displayedText: string;
   flag: string;
@@ -32,9 +46,12 @@ export class TrainingRunGameLevelComponent implements OnInit {
     private activeLevelService: ActiveTrainingRunLevelsService) { }
 
   ngOnInit() {
+    this.setGraphTopologyElementSize(window.innerWidth, window.innerHeight);
+
     this.displayedText = this.level.content;
-    this.initHintButtons()
+    this.initHintButtons();
   }
+  
 
   /**
    * Displays popup dialog asking for users confirmation of the action. If the action is confirmed by user,
@@ -57,6 +74,14 @@ export class TrainingRunGameLevelComponent implements OnInit {
         // TODO: Call REST to inform about hint taken
       }
     })
+  }
+
+  /**
+   * Recalculates width and height of the topology graph element after browser windows was resized
+   * @param event browser window resize event
+   */
+  onResize(event) {
+    this.setGraphTopologyElementSize(event.target.innerWidth, event.target.innerHeight);
   }
 
   /**
@@ -90,6 +115,30 @@ export class TrainingRunGameLevelComponent implements OnInit {
     }
   }
 
+  /**
+   * Calculates and sets width and height of the graph topology element
+   * @param windowWidth width of the browser window
+   * @param windowHeight height of the browser window
+   */
+  private setGraphTopologyElementSize(windowWidth: number, windowHeight: number) {
+
+    if (windowWidth < 1000) {
+      this.graphWidth = windowWidth / 1.2;
+      this.graphHeight = this.calculateHeightWith43AspectRatio(this.graphWidth);
+    } else {
+      this.graphWidth = windowWidth / 1.7;
+      this.graphHeight = this.calculateHeightWith43AspectRatio(this.graphWidth);
+    }
+  }
+
+  /**
+   * Calculates height by already assigned width to keep 4:3 aspect ratio
+   * @param width
+   */
+  private calculateHeightWith43AspectRatio(width: number): number {
+    return (width / 4) * 3;
+  }
+  
   /**
    * The level is unlocked and the user can continue to the next one
    */

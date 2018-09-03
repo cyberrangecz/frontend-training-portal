@@ -55,18 +55,20 @@ mat-form-field {
   width: 300px;
 }
 
-lib-force-graph {
-  width: 1080px;
-}
-
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1000px) {
   .content {
     width: 90%;
     flex-direction: column;
   }
 
   .container {
+    align-content: center;
+    align-items: center;
     flex-direction: column;
+  }
+
+  .hint-bar {
+    margin-top: 25px;
   }
 }
 
