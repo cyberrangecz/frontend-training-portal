@@ -6,7 +6,6 @@ import {ExtendedMatchingItems} from "../../../../../../model/questions/extended-
 import {FreeFormQuestion} from "../../../../../../model/questions/free-form-question";
 import {MultipleChoiceQuestion} from "../../../../../../model/questions/multiple-choice-question";
 import {AbstractQuestion} from "../../../../../../model/questions/abstract-question";
-import {AssessmentTypeEnum} from "../../../../../../enums/assessment-type.enum";
 
 @Component({
   selector: 'question-configuration',

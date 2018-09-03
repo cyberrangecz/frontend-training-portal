@@ -34,6 +34,7 @@
     "ngx-md": "^6.0.0",
     "npm": "^6.3.0",
     "rxjs": "^6.0.0",
+    "spice-client-lib": "git+ssh://git@gitlab.ics.muni.cz:kypo2/services-and-portlets/kypo2-spice-client.git#package",
     "typescript-collections": "^1.3.2",
     "zone.js": "^0.8.26"
   },
