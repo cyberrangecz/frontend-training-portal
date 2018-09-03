@@ -12,12 +12,14 @@ import { EVENTS } from '../../../shared/mocks/events.mock';
  */
 export class TrainingRunResultsComponent implements OnInit {
 
-  mockFeedbackLearnerId = 9003575;
-  mockGameData = {information: GAME_INFORMATION, events: EVENTS};
+  mockFeedbackLearnerId;
+  mockGameData;
 
   constructor() { }
 
   ngOnInit() {
+    this.mockFeedbackLearnerId = 9003575;
+    this.mockGameData = {information: GAME_INFORMATION, events: EVENTS};
   }
 
 }

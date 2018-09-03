@@ -121,7 +121,6 @@ export class TrainingRunGameLevelComponent implements OnInit {
    * @param windowHeight height of the browser window
    */
   private setGraphTopologyElementSize(windowWidth: number, windowHeight: number) {
-
     if (windowWidth < 1000) {
       this.graphWidth = windowWidth / 1.2;
       this.graphHeight = this.calculateHeightWith43AspectRatio(this.graphWidth);
