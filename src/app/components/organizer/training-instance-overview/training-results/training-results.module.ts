@@ -11,7 +11,6 @@ import {TrainingResultsMaterialModule} from "./training-results-material.module"
     TrainingResultsMaterialModule
   ],
   declarations: [
-
   TrainingResultsComponent],
   providers: [
   ]

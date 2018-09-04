@@ -64,8 +64,6 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
     }
   }
 
-
-
   /**
    * If it is possible (user finished current level), sets next level as active and navigates to it
    */

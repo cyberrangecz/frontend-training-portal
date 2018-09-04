@@ -4,20 +4,20 @@
   </div>
   <div class="content">
     <div class="left-panel">
-      <!--TRAINING OVERVIEW VISUALIZATION HERE -->
-    </div>
-    <div class="middle-panel">
-        <kypo2-viz-overview-timeline
+      <kypo2-viz-overview-timeline *ngIf="display"
         [gameData]="mockGameData"
         [feedbackLearnerId]="mockFeedbackLearnerId"
         [size]="{width: 800, height: 600*0.8}"
       ></kypo2-viz-overview-timeline>
     </div>
-    <div class="right-panel">
-        <kypo2-viz-overview-clustering
+    <div class="middle-panel">
+      <kypo2-viz-overview-clustering *ngIf="display"
         [gameData]="mockGameData"
         [feedbackLearnerId]="mockFeedbackLearnerId"
       ></kypo2-viz-overview-clustering>
+    </div>
+    <div class="right-panel">
+
     </div>
   </div>
 </div>
