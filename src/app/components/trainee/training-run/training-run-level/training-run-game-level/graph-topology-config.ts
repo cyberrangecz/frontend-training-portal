@@ -7,4 +7,7 @@ export class CustomTopologyConfig extends TopologyConfig {
   topologyRestUrl = '/assets/sample-data/graph-test-data.json';
   useRealTime = false;
   useDecorators = false;
+  sandboxName = '';
+  scenarioRestUrl = '';
+
 }

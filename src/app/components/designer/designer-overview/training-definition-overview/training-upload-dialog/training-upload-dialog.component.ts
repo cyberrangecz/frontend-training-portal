@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialogRef} from "@angular/material";
 import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'designer-training-upload-dialog',
@@ -14,7 +15,8 @@ export class TrainingUploadDialogComponent implements OnInit {
 
   uploadedFile;
 
-  constructor(public dialogRef: MatDialogRef<TrainingUploadDialogComponent>){
+  constructor(public dialogRef: MatDialogRef<TrainingUploadDialogComponent>,
+              private http: HttpClient){
 
   }
 
