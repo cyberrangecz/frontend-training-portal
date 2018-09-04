@@ -28,7 +28,7 @@ export class TrainingRunResultsComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     // hack because visualization components won't render properly
     // (probably because changing the setting of distraction free mode when leaving last level)
-    this.display = true;
+    setTimeout(x => this.display = true, 1);
   }
 
 }

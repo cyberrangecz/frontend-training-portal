@@ -1,4 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {TrainingRun} from "../../../model/training/training-run";
 import {TrainingInstance} from "../../../model/training/training-instance";
 import {AbstractLevel} from "../../../model/level/abstract-level";
@@ -41,6 +41,7 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
   levelLockSubscription;
 
   constructor(
+    private cdr: ChangeDetectorRef,
     private router: Router,
     private activeRoute: ActivatedRoute,
     private activeLevelsService: ActiveTrainingRunLevelsService,
@@ -83,6 +84,7 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
    */
   setDisplayNextLevelButton(value: boolean) {
     this.displayNextButton = value;
+    this.cdr.detectChanges();
   }
 
   /**
