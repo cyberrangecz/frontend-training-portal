@@ -5,10 +5,10 @@ import {ActiveUserService} from "../../../../services/active-user.service";
 import {SandboxDefinitionGetterService} from "../../../../services/data-getters/sandbox-definition-getter.service";
 import {TrainingDefinitionGetterService} from "../../../../services/data-getters/training-definition-getter.service";
 import {AlertService} from "../../../../services/event-services/alert.service";
-import {SandboxUploadDialogComponent} from "./sandbox-upload-dialog/sandbox-upload-dialog.component";
 import {SandboxDefinitionSetterService} from "../../../../services/data-setters/sandbox-definition-setter.service";
 import {TrainingDefinitionStateEnum} from "../../../../enums/training-definition-state.enum";
 import {TrainingDefinition} from "../../../../model/training/training-definition";
+import {UploadDialogComponent} from "../../../shared/upload-dialog/upload-dialog.component";
 
 export class SandboxDefinitionTableData {
   sandbox: SandboxDefinition;
@@ -63,7 +63,12 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
    * Displays dialog window to upload a file with sandbox definition and creates alert with a result of the upload
    */
   uploadSandboxDefinition() {
-    const dialogRef = this.dialog.open(SandboxUploadDialogComponent);
+    const dialogRef = this.dialog.open(UploadDialogComponent, {
+      data: {
+        title: 'Upload Sandbox Definition',
+        type: 'sandbox'
+      }
+    });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.alertService.emitAlert(result.type, result.message);

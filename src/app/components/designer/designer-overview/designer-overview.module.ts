@@ -6,16 +6,15 @@ import {DesignerOverviewMaterialModule} from "./designer-overview-material.modul
 import { TrainingDefinitionOverviewComponent } from './training-definition-overview/training-definition-overview.component';
 import { SandboxDefinitionOverviewComponent } from './sandbox-definition-overview/sandbox-definition-overview.component';
 import {TrainingDefinitionGetterService} from "../../../services/data-getters/training-definition-getter.service";
-import { AlertComponent } from '../../shared/alert/alert.component';
 import {AlertService} from "../../../services/event-services/alert.service";
 import {SandboxDefinitionGetterService} from "../../../services/data-getters/sandbox-definition-getter.service";
-import { TrainingUploadDialogComponent } from './training-definition-overview/training-upload-dialog/training-upload-dialog.component';
-import { SandboxUploadDialogComponent } from './sandbox-definition-overview/sandbox-upload-dialog/sandbox-upload-dialog.component';
+import { UploadDialogComponent } from '../../shared/upload-dialog/upload-dialog.component';
 import {TrainingDefinitionSetterService} from "../../../services/data-setters/training-definition-setter.service";
 import {TrainingInstanceGetterService} from "../../../services/data-getters/training-instance-getter.service";
 import {SandboxDefinitionSetterService} from "../../../services/data-setters/sandbox-definition-setter.service";
 import {SharedModule} from "../../shared/shared.module";
 import {TrainingDefinitionGuard} from "../../../guards/training-definition-guard.service";
+import {UploadService} from "../../../services/upload.service";
 
 @NgModule({
   imports: [
@@ -28,10 +27,9 @@ import {TrainingDefinitionGuard} from "../../../guards/training-definition-guard
     DesignerOverviewComponent,
     TrainingDefinitionOverviewComponent,
     SandboxDefinitionOverviewComponent,
-    TrainingUploadDialogComponent,
-    SandboxUploadDialogComponent
   ],
   providers: [
+    UploadService,
     TrainingDefinitionGuard,
     TrainingDefinitionGetterService,
     TrainingDefinitionSetterService,
@@ -41,8 +39,7 @@ import {TrainingDefinitionGuard} from "../../../guards/training-definition-guard
     AlertService
   ],
   entryComponents: [
-    TrainingUploadDialogComponent,
-    SandboxUploadDialogComponent
+    UploadDialogComponent,
   ]
 })
 

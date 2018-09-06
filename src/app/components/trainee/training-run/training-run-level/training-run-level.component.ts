@@ -6,10 +6,6 @@ import {InfoLevel} from "../../../../model/level/info-level";
 import {AssessmentLevel} from "../../../../model/level/assessment-level";
 import {GameLevel} from "../../../../model/level/game-level";
 import {TrainingRunAssessmentLevelComponent} from "./training-run-assessment-level/training-run-assessment-level.component";
-import {TrainingRunGameLevelComponent} from "./training-run-game-level/training-run-game-level.component";
-import {Observable} from "rxjs";
-import {LeaveConfirmationDialogComponent} from "../leave-confirmation-dialog/leave-confirmation-dialog.component";
-import {map} from "rxjs/operators";
 import {MatDialog} from "@angular/material";
 
 @Component({

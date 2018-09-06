@@ -1,0 +1,52 @@
+.spacer {
+  flex: 1 1 0;
+}
+
+.choose-button {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  align-items: flex-end;
+  align-content: flex-end;
+}
+
+.choose-button button {
+  margin: 10px 0;
+  width: 100px;
+}
+
+.file {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  align-content: baseline;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.drop {
+  margin: 5px;
+  display: flex;
+  height: 100px;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  justify-items: center;
+  border: 1px dotted deeppink;
+}
+
+.actions {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: space-between;
+}
+
+.actions button {
+  margin: auto auto;
+}

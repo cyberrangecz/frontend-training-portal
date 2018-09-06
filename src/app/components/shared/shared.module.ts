@@ -10,8 +10,18 @@ import {AlertComponent} from "./alert/alert.component";
 import {NotAuthorizedComponent} from "./not-authorized/not-authorized.component";
 import {AlertService} from "../../services/event-services/alert.service";
 import {FormsModule} from "@angular/forms";
+import {UploadDialogComponent} from "./upload-dialog/upload-dialog.component";
+import {UploadService} from "../../services/upload.service";
+import {ngfModule} from "angular-file";
 
 @NgModule({
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    ngfModule,
+    SharedMaterialModule
+  ],
   declarations: [
     NotFoundComponent,
     ToolbarComponent,
@@ -19,12 +29,7 @@ import {FormsModule} from "@angular/forms";
     SidenavComponent,
     AlertComponent,
     NotAuthorizedComponent,
-  ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    FormsModule,
-    SharedMaterialModule
+    UploadDialogComponent,
   ],
   exports: [
     NotFoundComponent,
@@ -33,9 +38,11 @@ import {FormsModule} from "@angular/forms";
     SidenavComponent,
     AlertComponent,
     NotAuthorizedComponent,
+    UploadDialogComponent
   ],
   providers: [
-    AlertService
+    AlertService,
+    UploadService
   ]
 })
 

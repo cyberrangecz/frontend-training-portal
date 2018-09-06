@@ -78,7 +78,7 @@ export class InfoLevelConfigurationComponent implements OnInit, OnChanges {
       errorMessage += 'Title cannot be empty\n'
     }
 
-    if (!this.content) {
+    if (!this.content || this.title.replace(/\s/g, '') === '') {
       errorMessage += 'Content cannot be empty\n'
     }
 

@@ -5,7 +5,7 @@ import {ActiveUserService} from "../../../../services/active-user.service";
 import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
 import {TrainingDefinitionStateEnum} from "../../../../enums/training-definition-state.enum";
 import {ActivatedRoute, Router} from "@angular/router";
-import {TrainingUploadDialogComponent} from "./training-upload-dialog/training-upload-dialog.component";
+import {UploadDialogComponent} from "../../../shared/upload-dialog/upload-dialog.component";
 import {AlertService} from "../../../../services/event-services/alert.service";
 import {TrainingDefinitionSetterService} from "../../../../services/data-setters/training-definition-setter.service";
 import {TrainingInstanceGetterService} from "../../../../services/data-getters/training-instance-getter.service";
@@ -75,7 +75,12 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    * Displays dialog window to upload a file with training definition and creates alert with a result of the upload
    */
   uploadTrainingDefinition() {
-    const dialogRef = this.dialog.open(TrainingUploadDialogComponent);
+    const dialogRef = this.dialog.open(UploadDialogComponent, {
+      data: {
+        title: 'Upload Training Definition',
+        type: 'training'
+      }
+    });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.designerAlertService.emitAlert(result.type, result.message);
