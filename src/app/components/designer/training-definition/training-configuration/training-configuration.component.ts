@@ -120,7 +120,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
    */
   private sendRequestToSaveChanges() {
     if (this.editMode) {
-      this.trainingDefinitionSetter.editTrainingDefinition(this.trainingDefinition);
+      this.trainingDefinitionSetter.updateTrainingDefinition(this.trainingDefinition);
     } else {
       this.trainingDefinitionSetter.addTrainingDefinition(this.trainingDefinition);
     }

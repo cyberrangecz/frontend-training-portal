@@ -52,8 +52,18 @@ export class ActiveUserService {
     return true;
   }
 
+  /**
+   * Returns active user
+   */
   getActiveUser(): User {
     return this._activeUser;
+  }
+
+  /**
+   * Returns authorization header of the active user
+   */
+  getActiveUserAuthorizationHeader(): string {
+    return 'token';
   }
 
   /**

@@ -21,7 +21,7 @@ export class TrainingRunGetterService {
    * @returns {Observable<TrainingRun[]>} observable of list of training runs
    */
   getTrainingRuns(): Observable<TrainingRun[]> {
-    return this.http.get(environment.getTrainingRunsUri)
+    return this.http.get(environment.trainingRunsEndpointUri)
       .pipe(map(response =>
         this.parseTrainingRuns(response)));
   }

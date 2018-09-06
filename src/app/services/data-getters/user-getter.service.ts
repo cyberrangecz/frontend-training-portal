@@ -24,7 +24,7 @@ export class UserGetterService {
    * @returns {Observable<User[]>} Observable of created users list based on received response
    */
   loadUsers() {
-    return this.http.get(environment.getUsersUri)
+    return this.http.get(environment.usersEndpointUri)
       .pipe(map( (response) => {
           return this.parseUsersJson(response);
         }

@@ -24,7 +24,7 @@ export class SandboxDefinitionGetterService {
    * @returns {Observable<SandboxDefinition[]>} Observable of sandbox definitions list
    */
   getSandboxDefs(): Observable<SandboxDefinition[]> {
-    return this.http.get(environment.getSandboxDefsUri)
+    return this.http.get(environment.sandboxDefsEndpointUri)
       .pipe(map(response =>
       this.parseSandboxDefs(response)));
   }

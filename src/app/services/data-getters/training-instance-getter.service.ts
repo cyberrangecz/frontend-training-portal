@@ -20,7 +20,7 @@ export class TrainingInstanceGetterService {
    * @returns {Observable<TrainingInstance[]>} Observable of training instances list
    */
   getTrainingInstances(): Observable<TrainingInstance[]> {
-    return this.http.get(environment.getTrainingInstancesUri)
+    return this.http.get(environment.trainingInstancesEndpointUri)
       .pipe(map(response =>
         this.parseTrainingInstances(response)));
   }

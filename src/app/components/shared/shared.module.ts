@@ -11,7 +11,7 @@ import {NotAuthorizedComponent} from "./not-authorized/not-authorized.component"
 import {AlertService} from "../../services/event-services/alert.service";
 import {FormsModule} from "@angular/forms";
 import {UploadDialogComponent} from "./upload-dialog/upload-dialog.component";
-import {UploadService} from "../../services/upload.service";
+import {UploadService} from "../../services/data-setters/upload.service";
 import {ngfModule} from "angular-file";
 
 @NgModule({

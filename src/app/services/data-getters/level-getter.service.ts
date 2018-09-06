@@ -41,7 +41,7 @@ export class LevelGetterService {
    * @returns {Observable<AbstractLevel[]>} observable of list of levels
    */
   getLevels(): Observable<AbstractLevel[]> {
-    return this.http.get(environment.getLevelsUri).pipe(map(response => {
+    return this.http.get(environment.levelsEndpointUri).pipe(map(response => {
         return this.parseLevels(response);
       }));
   }

@@ -153,7 +153,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    */
   archiveTrainingDefinition(trainingDef: TrainingDefinition) {
     trainingDef.state = TrainingDefinitionStateEnum.Archived;
-    this.trainingDefinitionSetter.editTrainingDefinition(trainingDef);
+    this.trainingDefinitionSetter.updateTrainingDefinition(trainingDef);
   }
 
   /**

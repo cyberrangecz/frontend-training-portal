@@ -24,7 +24,7 @@ export class TrainingDefinitionGetterService {
    * @returns {Observable<TrainingDefinition[]>} Observable of training definitions list
    */
   getTrainingDefs(): Observable<TrainingDefinition[]> {
-    return this.http.get(environment.getTrainingDefsUri)
+    return this.http.get(environment.trainingDefsEndpointUri)
       .pipe(map(response =>
         this.parseTrainingDefs(response)));
   }

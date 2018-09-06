@@ -14,7 +14,7 @@ import {TrainingInstanceGetterService} from "../../../services/data-getters/trai
 import {SandboxDefinitionSetterService} from "../../../services/data-setters/sandbox-definition-setter.service";
 import {SharedModule} from "../../shared/shared.module";
 import {TrainingDefinitionGuard} from "../../../guards/training-definition-guard.service";
-import {UploadService} from "../../../services/upload.service";
+import {UploadService} from "../../../services/data-setters/upload.service";
 
 @NgModule({
   imports: [

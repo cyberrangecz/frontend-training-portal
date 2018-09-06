@@ -5,12 +5,12 @@
 export const environment = {
   production: false,
 
-  getUsersUri: 'assets/sample-data/test-users.json',
-  getSandboxDefsUri: 'assets/sample-data/test-sandbox-defs.json',
-  getTrainingDefsUri: 'assets/sample-data/test-training-defs.json',
-  getTrainingInstancesUri: 'assets/sample-data/test-training-instances.json',
-  getTrainingRunsUri: 'assets/sample-data/test-training-runs.json',
-  getLevelsUri: 'assets/sample-data/test-levels.json'
+  usersEndpointUri: 'assets/sample-data/test-users.json',
+  sandboxDefsEndpointUri: 'assets/sample-data/test-sandbox-defs.json',
+  trainingDefsEndpointUri: 'assets/sample-data/test-training-defs.json',
+  trainingInstancesEndpointUri: 'assets/sample-data/test-training-instances.json',
+  trainingRunsEndpointUri: 'assets/sample-data/test-training-runs.json',
+  levelsEndpointUri: 'assets/sample-data/test-levels.json'
 };
 
 /*
