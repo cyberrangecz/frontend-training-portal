@@ -1,7 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ActiveUserService} from "../active-user.service";
-import {TrainingDefinition} from "../../model/training/training-definition";
 import {environment} from "../../../environments/environment";
 import {TrainingInstance} from "../../model/training/training-instance";
 
