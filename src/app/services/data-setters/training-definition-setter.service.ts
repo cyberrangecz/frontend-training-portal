@@ -65,7 +65,7 @@ export class TrainingDefinitionSetterService {
       'Accept': 'application/json',
       'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
     });
-    this.http.put(environment.trainingDefsEndpointUri, trainingDef,{ headers: headers });
+    this.http.post(environment.trainingDefsEndpointUri, trainingDef,{ headers: headers });
   }
 
   /**
