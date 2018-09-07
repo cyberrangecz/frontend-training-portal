@@ -7,6 +7,7 @@ import { TrainingInfoComponent } from './training-info/training-info.component';
 import { TrainingSummaryTableComponent } from './training-summary-table/training-summary-table.component';
 import {TrainingRunGetterService} from "../../../../services/data-getters/training-run-getter.service";
 import {SharedModule} from "../../../shared/shared.module";
+import {TrainingRunSetterService} from "../../../../services/data-setters/training-run.setter.service";
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import {SharedModule} from "../../../shared/shared.module";
   TrainingSummaryTableComponent
   ],
   providers: [
-    TrainingRunGetterService
+    TrainingRunGetterService,
+    TrainingRunSetterService
   ]
 })
 

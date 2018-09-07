@@ -144,7 +144,6 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
   private initTableDataSource() {
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
     this.fetchData();
-
   }
 
   /**

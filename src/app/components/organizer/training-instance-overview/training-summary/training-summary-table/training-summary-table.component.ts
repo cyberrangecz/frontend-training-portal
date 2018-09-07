@@ -4,6 +4,9 @@ import {TrainingRun} from "../../../../../model/training/training-run";
 import {TrainingInstance} from "../../../../../model/training/training-instance";
 import {ActiveTrainingInstanceService} from "../../../../../services/active-training-instance.service";
 import {TrainingRunGetterService} from "../../../../../services/data-getters/training-run-getter.service";
+import {merge, of} from "rxjs";
+import {catchError, map, startWith, switchMap} from "rxjs/operators";
+import {TrainingRunSetterService} from "../../../../../services/data-setters/training-run.setter.service";
 
 @Component({
   selector: 'training-summary-table',
@@ -22,17 +25,22 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
 
   dataSource: MatTableDataSource<TrainingRun>;
 
+  resultsLength = 0;
+  isLoadingResults = true;
+  isInErrorState = false;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private activeTrainingInstanceService: ActiveTrainingInstanceService,
+    private trainingRunSetter: TrainingRunSetterService,
     private trainingRunGetter: TrainingRunGetterService) { }
 
   ngOnInit() {
     this.loadActiveTraining();
     this.subscribeActiveTrainingChanges();
-    this.createDataSource();
+    this.initDataSource();
   }
 
   ngOnDestroy() {
@@ -55,16 +63,16 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
     this.activeTrainingSubscription = this.activeTrainingInstanceService.onActiveTrainingChanged
       .subscribe(change => {
         this.loadActiveTraining();
-        this.createDataSource();
+        this.fetchData();
       })
   }
 
   /**
    *
-   * @param {TrainingRun} training
+   * @param {number} id
    */
-  revertTrainingRun(training: TrainingRun) {
-    // TODO: Revert
+  revertTrainingRun(id: number) {
+    this.trainingRunSetter.revert(id);
   }
 
   /**
@@ -81,20 +89,49 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
   /**
    * Creates table data source from training runs retrieved from a server.
    */
-  private createDataSource() {
-    if (this.trainingInstance) {
-      this.trainingRunGetter.getTrainingRunsByTrainingInstanceId(this.trainingInstance.id)
-        .subscribe(trainings => {
-          this.dataSource = new MatTableDataSource(trainings);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
+  private initDataSource() {
+    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    this.fetchData();
+  }
 
-          this.dataSource.filterPredicate =
-            (data: TrainingRun, filter: string) =>
-              data.state.toLowerCase().indexOf(filter) !== -1
-        });
-    }
+  /**
+   * Fetch data from server
+   */
+  private fetchData() {
+    merge(this.sort.sortChange, this.paginator.page)
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          this.isLoadingResults = true;
+          return this.trainingRunGetter.getTrainingRunsByTrainingInstanceId(this.trainingInstance.id)
+        }),
+        map(data => {
+          // Flip flag to show that loading has finished.
+          this.isLoadingResults = false;
+          this.isInErrorState = false;
+          this.resultsLength = data.length;
+          return data;
+        }),
+        catchError(() => {
+          this.isLoadingResults = false;
+          this.isInErrorState = true;
+          return of([]);
+        })
+      ).subscribe(data => this.createDataSource(data));
+  }
 
+  /**
+   * Creates data source from fetched data
+   * @param data fetched training runs
+   */
+  private createDataSource(data: TrainingRun[]) {
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+
+    this.dataSource.filterPredicate =
+      (data: TrainingRun, filter: string) =>
+        data.state.toLowerCase().indexOf(filter) !== -1
   }
 
 }
