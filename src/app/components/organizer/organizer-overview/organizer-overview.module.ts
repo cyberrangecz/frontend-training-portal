@@ -15,6 +15,7 @@ import {TrainingInstanceGetterService} from "../../../services/data-getters/trai
 import {OwlDateTimeModule, OwlNativeDateTimeModule} from "ng-pick-datetime";
 import { TrainingEditPopupComponent } from './training-instance-overview/training-edit-popup/training-edit-popup.component';
 import { TrainingDeleteDialogComponent } from './training-instance-overview/training-delete-dialog/training-delete-dialog.component';
+import {TrainingInstanceSetterService} from "../../../services/data-setters/training-instance-setter.service";
 
 @NgModule({
   imports: [
@@ -39,7 +40,8 @@ import { TrainingDeleteDialogComponent } from './training-instance-overview/trai
   providers: [
     TrainingInstanceGuard,
     TrainingDefinitionGetterService,
-    TrainingInstanceGetterService
+    TrainingInstanceGetterService,
+    TrainingInstanceSetterService
   ],
   entryComponents: [
     OrganizersPickerComponent,

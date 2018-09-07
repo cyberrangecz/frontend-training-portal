@@ -22,7 +22,7 @@ export class TrainingEditPopupComponent implements OnInit {
 
   closeWithSuccess() {
     this.dialogRef.close({
-      type: 'confirm'
+      type: 'confirm',
     });
   }
 

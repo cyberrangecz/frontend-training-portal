@@ -7,8 +7,11 @@ import {TrainingInstanceGetterService} from "../../../../services/data-getters/t
 import {TrainingEditPopupComponent} from "./training-edit-popup/training-edit-popup.component";
 import {TrainingDeleteDialogComponent} from "./training-delete-dialog/training-delete-dialog.component";
 import {TrainingDefinitionGetterService} from "../../../../services/data-getters/training-definition-getter.service";
+import {merge, of} from "rxjs";
+import {catchError, map, startWith, switchMap} from "rxjs/operators";
+import {TrainingInstanceSetterService} from "../../../../services/data-setters/training-instance-setter.service";
 
-export class TrainingInstancesTableDataSource {
+export class TrainingInstanceTableDataObject {
   trainingDefinitionTitle: string;
   trainingInstance: TrainingInstance;
 }
@@ -25,7 +28,11 @@ export class TrainingInstancesListComponent implements OnInit {
 
   displayedColumns: string[] = ['title', 'date', 'trainingDefinition', 'poolSize', 'password', 'actions'];
 
-  dataSource: MatTableDataSource<TrainingInstancesTableDataSource>;
+  dataSource: MatTableDataSource<TrainingInstanceTableDataObject>;
+
+  resultsLength = 0;
+  isLoadingResults = true;
+  isInErrorState = false;
 
   now: number;
 
@@ -38,12 +45,13 @@ export class TrainingInstancesListComponent implements OnInit {
     private alertService: AlertService,
     private activeUserService: ActiveUserService,
     private trainingInstanceGetter: TrainingInstanceGetterService,
-    private trainingDefinitionGetter: TrainingDefinitionGetterService
+    private trainingDefinitionGetter: TrainingDefinitionGetterService,
+    private trainingInstanceSetter: TrainingInstanceSetterService
   ) { }
 
   ngOnInit() {
     this.now = Date.now();
-    this.createTableDataSource();
+    this.initTableDataSource();
   }
 
   /**
@@ -51,7 +59,7 @@ export class TrainingInstancesListComponent implements OnInit {
    */
   refreshData() {
     this.now = Date.now();
-    this.createTableDataSource();
+    this.fetchData();
   }
 
   /**
@@ -67,35 +75,34 @@ export class TrainingInstancesListComponent implements OnInit {
       if (result && result.type === 'confirm') {
         this.refreshData();
       }
-    });  }
+    });
+  }
 
   /**
    * Opens popup dialog to confirm if the user really wants to delete the training instance. If the action is
    * confirmed, training instance is removed and REST API called to remove training from endpoint
-   * @param {TrainingInstancesTableDataSource} training training instance which should be removed
+   * @param {TrainingInstanceTableDataObject} training training instance which should be removed
    */
-  removeTraining(training: TrainingInstancesTableDataSource) {
+  removeTraining(training: TrainingInstanceTableDataObject) {
     const dialogRef = this.dialog.open(TrainingDeleteDialogComponent, {
       data: training
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
-        const index = this.dataSource.data.indexOf(training);
-        if (index > -1) {
-          this.dataSource.data.splice(index, 1);
-        }
-        this.dataSource = new MatTableDataSource<TrainingInstancesTableDataSource>(this.dataSource.data);
-        // TODO: call REST API to remove from db
+        this.trainingInstanceSetter.removeTrainingInstance(training.trainingInstance.id);
+        this.fetchData();
       }
-    });  }
+    });
+  }
 
   /**
    *
-   * @param {TrainingInstance} training
+   * @param {number} id
    */
-  archiveTraining(training: TrainingInstance) {
+  archiveTraining(id: number) {
     // TODO: call rest to download all training instances data
+    this.trainingInstanceGetter.downloadTrainingInstance(id)
   }
 
   /**
@@ -121,29 +128,66 @@ export class TrainingInstancesListComponent implements OnInit {
    * Creates table data source from training instances retrieved from a server. Only training instances where
    * active user is listed as an organizer are shown
    */
-  private createTableDataSource() {
-    this.trainingInstanceGetter.getTrainingInstancesByOrganizersId(this.activeUserService.getActiveUser().id)
-      .subscribe(trainings => {
-        const data: TrainingInstancesTableDataSource[] = [];
-        trainings.forEach(training => {
-          const tableRow = new TrainingInstancesTableDataSource();
-          tableRow.trainingInstance = training;
-
-          this.trainingDefinitionGetter.getTrainingDefById(training.id)
-            .subscribe(trainingDef =>
-              tableRow.trainingDefinitionTitle = trainingDef.title);
-
-          data.push(tableRow);
-        });
-
-        this.dataSource = new MatTableDataSource(data);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-
-        this.dataSource.filterPredicate =
-          (data: TrainingInstancesTableDataSource, filter: string) =>
-            data.trainingInstance.title.toLowerCase().indexOf(filter) !== -1
-      });
+  private initTableDataSource() {
+    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    this.fetchData();
   }
 
+  /**
+   * Fetches data from the server
+   */
+  private fetchData() {
+    merge(this.sort.sortChange, this.paginator.page)
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          this.isLoadingResults = true;
+          return this.trainingInstanceGetter.getTrainingInstances(); // params? this.sort.active, this.sort.direction, this.paginator.pageIndex
+        }),
+        map(data => {
+          // Flip flag to show that loading has finished.
+          this.isLoadingResults = false;
+          this.isInErrorState = false;
+          this.resultsLength = data.length;
+
+          return this.mapTrainingInstancesToTableObjects(data);
+        }),
+        catchError(() => {
+          this.isLoadingResults = false;
+          this.isInErrorState = true;
+          return of([]);
+        })
+      ).subscribe(data => this.createDataSource(data));
+  }
+
+  /**
+   * Maps fetched training instances to training instance table data
+   * @param data fetched training instances which should be mapped to training instances table data
+   */
+  private mapTrainingInstancesToTableObjects(data: TrainingInstance[]): TrainingInstanceTableDataObject[] {
+    const result: TrainingInstanceTableDataObject[] = [];
+    data.forEach(instance => {
+      const instanceDataObject = new TrainingInstanceTableDataObject();
+      instanceDataObject.trainingInstance = instance;
+      this.trainingDefinitionGetter.getTrainingDefById(instance.trainingDefinitionId)
+        .subscribe(result => instanceDataObject.trainingDefinitionTitle = result.title);
+
+      result.push(instanceDataObject);
+    });
+    return result;
+  }
+
+  /**
+   * Creates data source from fetched data
+   * @param data fetched data
+   */
+  private createDataSource(data: TrainingInstanceTableDataObject[]) {
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+
+    this.dataSource.filterPredicate =
+      (data: TrainingInstanceTableDataObject, filter: string) =>
+        data.trainingInstance.title.toLowerCase().indexOf(filter) !== -1
+  }
 }

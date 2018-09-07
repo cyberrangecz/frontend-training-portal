@@ -9,6 +9,7 @@ import {TrainingInstance} from "../../../../model/training/training-instance";
 import {UserGetterService} from "../../../../services/data-getters/user-getter.service";
 import {TrainingDefinitionGetterService} from "../../../../services/data-getters/training-definition-getter.service";
 import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
+import {TrainingInstanceSetterService} from "../../../../services/data-setters/training-instance-setter.service";
 
 @Component({
   selector: 'training-instance-definition',
@@ -21,7 +22,7 @@ import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
 export class TrainingInstanceDefinitionComponent implements OnInit, OnChanges {
 
   @Input('trainingInstance') trainingInstance: TrainingInstance;
-  @Output('trainingChange') trainingChange = new EventEmitter();
+  @Output('trainingChange') trainingChange = new EventEmitter<TrainingInstance>();
 
   editMode: boolean;
 
@@ -38,6 +39,7 @@ export class TrainingInstanceDefinitionComponent implements OnInit, OnChanges {
     private alertService: AlertService,
     private userGetter: UserGetterService,
     private trainingDefinitionGetter: TrainingDefinitionGetterService,
+    private trainingInstanceSetter: TrainingInstanceSetterService,
     private dialog: MatDialog) {
   }
 
@@ -84,9 +86,9 @@ export class TrainingInstanceDefinitionComponent implements OnInit, OnChanges {
     if (this.validateInputValues()) {
       this.setInputValuesToTraining();
       if (this.editMode) {
-        // TODO: update in REST
+        this.trainingInstanceSetter.updateTrainingInstance(this.trainingInstance);
       } else {
-        // TODO: save in REST
+        this.trainingInstanceSetter.addTrainingInstance(this.trainingInstance);
       }
       this.trainingChanged();
     }

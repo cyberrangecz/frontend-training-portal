@@ -39,7 +39,7 @@ export class TrainingInstanceSetterService {
    * Sends request to delete training instance from DB
    * @param trainingInstanceId id of training instance which should be deleted
    */
-  deleteTrainingInstance(trainingInstanceId: number) {
+  removeTrainingInstance(trainingInstanceId: number) {
     const headers = new HttpHeaders({
       'Accept': 'application/json',
       'Authorization': this.activeUser.getActiveUserAuthorizationHeader()

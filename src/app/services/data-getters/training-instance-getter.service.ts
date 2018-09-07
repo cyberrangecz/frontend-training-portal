@@ -1,9 +1,10 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
 import {TrainingInstance} from "../../model/training/training-instance";
 import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
+import {ActiveUserService} from "../active-user.service";
 
 @Injectable()
 /**
@@ -12,7 +13,8 @@ import {map} from "rxjs/operators";
  */
 export class TrainingInstanceGetterService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private activeUser: ActiveUserService) {
   }
 
   /**
@@ -20,7 +22,12 @@ export class TrainingInstanceGetterService {
    * @returns {Observable<TrainingInstance[]>} Observable of training instances list
    */
   getTrainingInstances(): Observable<TrainingInstance[]> {
-    return this.http.get(environment.trainingInstancesEndpointUri)
+    const headers = new HttpHeaders({
+      'Accept': 'application/json',
+      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
+    });
+
+    return this.http.get(environment.trainingInstancesEndpointUri, { headers: headers })
       .pipe(map(response =>
         this.parseTrainingInstances(response)));
   }
@@ -31,6 +38,11 @@ export class TrainingInstanceGetterService {
    * @returns {Observable<TrainingInstance>} Observable of training instance, null if no such training instance is found
    */
   getTrainingInstanceById(id: number): Observable<TrainingInstance> {
+    const headers = new HttpHeaders({
+      'Accept': 'application/json',
+      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
+    });
+
     return this.getTrainingInstances()
       .pipe(map(trainingInstances =>
         trainingInstances.find(trainingInstance => trainingInstance.id === id)
@@ -43,24 +55,17 @@ export class TrainingInstanceGetterService {
    * @returns {Observable<TrainingInstance[]>} Observable of training instances list
    */
   getTrainingInstancesByTrainingDefinitionId(trainingDefId: number): Observable<TrainingInstance[]> {
+    const headers = new HttpHeaders({
+      'Accept': 'application/json',
+      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
+    });
+
     return this.getTrainingInstances()
       .pipe(map(trainingInstances =>
         trainingInstances.filter(trainingInstance =>
           trainingInstance.trainingDefinitionId === trainingDefId)));
   }
 
-  /**
-   * Retrieves training instances by organizer id
-   * @param {number} organizerId Id of one of the organizer of the training
-   * @returns {Observable<TrainingInstance[]>} Observable of training instances list
-   */
-  getTrainingInstancesByOrganizersId(organizerId: number): Observable<TrainingInstance[]> {
-    return this.getTrainingInstances()
-      .pipe(map(trainingInstances =>
-        trainingInstances.filter(trainingInstance =>
-          trainingInstance.organizersIds.includes(organizerId))
-      ));
-  }
 
   /**
    * Retrieves training instance by keyword
@@ -68,10 +73,27 @@ export class TrainingInstanceGetterService {
    * @returns {Observable<TrainingInstance>} Observable of training instance, null if no instance with provided keyword is found
    */
   getTrainingInstanceByKeyword(keyword: string): Observable<TrainingInstance> {
+    const headers = new HttpHeaders({
+      'Accept': 'application/json',
+      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
+    });
+
     return this.getTrainingInstances()
       .pipe(map(trainingInstances =>
       trainingInstances.find(trainingInstance =>
       trainingInstance.keyword === keyword)))
+  }
+
+  /**
+   * Downloads training instance
+   * @param id id of training instance which should be downloaded
+   */
+  downloadTrainingInstance(id: number) {
+    const headers = new HttpHeaders({
+      'Accept': 'application/json',
+      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
+    });
+    // TODO: download Training instance
   }
 
   /**

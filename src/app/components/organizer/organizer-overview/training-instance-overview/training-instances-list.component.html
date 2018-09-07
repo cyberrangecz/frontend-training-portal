@@ -7,6 +7,15 @@
       </mat-form-field>
 
       <div class="mat-elevation-z8">
+
+        <div class="loading"
+             *ngIf="isLoadingResults || isInErrorState">
+          <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+          <div class="loading-error" *ngIf="isInErrorState">
+            We have some trouble loading the data. Please try again later.
+          </div>
+        </div>
+
         <table mat-table [dataSource]="dataSource" matSort>
 
           <!-- TITLE Column -->
@@ -84,7 +93,7 @@
                 <!-- ARCHIVE button-->
                 <button *ngIf="training.trainingInstance?.endTime.valueOf() < now"
                         mat-icon-button color="primary"
-                        (click)="archiveTraining(training.trainingInstance)">
+                        (click)="archiveTraining(training.trainingInstance?.id)">
                   <mat-icon
                     matTooltip="Archive training instance"
                     aria-label="Archive training instance button">
