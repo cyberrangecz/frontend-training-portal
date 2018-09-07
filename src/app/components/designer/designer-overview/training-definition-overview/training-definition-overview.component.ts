@@ -9,10 +9,11 @@ import {UploadDialogComponent} from "../../../shared/upload-dialog/upload-dialog
 import {AlertService} from "../../../../services/event-services/alert.service";
 import {TrainingDefinitionSetterService} from "../../../../services/data-setters/training-definition-setter.service";
 import {TrainingInstanceGetterService} from "../../../../services/data-getters/training-instance-getter.service";
-import {map} from "rxjs/operators";
+import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {Observable} from "rxjs/internal/Observable";
+import {merge, of} from "rxjs";
 
-export class TrainingDefinitionDataObject {
+export class TrainingDefinitionTableDataObject {
   trainingDefinition: TrainingDefinition;
   canBeArchived: boolean;
 }
@@ -33,7 +34,11 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
 
   displayedColumns: string[] = ['title', 'description', 'status', 'authors', 'actions'];
 
-  dataSource: MatTableDataSource<TrainingDefinitionDataObject>;
+  dataSource: MatTableDataSource<TrainingDefinitionTableDataObject>;
+
+  resultsLength = 0;
+  isLoadingResults = true;
+  isInErrorState = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -50,7 +55,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.createTableDataSource();
+    this.initTableDataSource();
   }
 
   /**
@@ -68,7 +73,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    * Navigates to training sub route with parameters indicating creation of a new training definition
    */
   newTrainingDefinition() {
-    this.router.navigate(['training/new'], { relativeTo: this.activatedRoute })
+    this.router.navigate(['training/new'], {relativeTo: this.activatedRoute})
   }
 
   /**
@@ -93,7 +98,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    * @param {number} trainingDefId id of a training definition which should be edited
    */
   editTrainingDefinition(trainingDefId: number) {
-    this.router.navigate(['training', trainingDefId], { relativeTo: this.activatedRoute })
+    this.router.navigate(['training', trainingDefId], {relativeTo: this.activatedRoute})
   }
 
   /**
@@ -101,50 +106,25 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    * @param {number} id id of training definition which should be downloaded
    */
   downloadTrainingDefinition(id: number) {
-    // TODO: Download training definition
+    this.trainingDefinitionGetter.downloadTrainingDef(id);
   }
 
   /**
-   * Removes training definition from data source and sends request to delete the training in database
-   * @param {TrainingDefinition} trainingDef training definition which should be deleted
+   * Calls service to delete the training definition
+   * @param {number} id training definition which should be deleted
    */
-  removeTrainingDefinition(trainingDefDataObject: TrainingDefinitionDataObject) {
-    const index = this.dataSource.data.indexOf(trainingDefDataObject);
-    if (index > -1) {
-      this.dataSource.data.splice(index,1);
-    }
-    this.dataSource = new MatTableDataSource<TrainingDefinitionDataObject>(this.dataSource.data);
-
-    this.trainingDefinitionSetter.removeTrainingDefinition(trainingDefDataObject.trainingDefinition.id);
+  removeTrainingDefinition(id: number) {
+    this.trainingDefinitionSetter.removeTrainingDefinition(id);
+    this.fetchData();
   }
 
   /**
-   * Clones chosen training definition with title of 'Clone of ...' and sets same values of attributes as the original training definition.
-   * Sends request to create new cloned training definition in a database
-   * @param {TrainingDefinition} trainingDef training definition which should be cloned
+   * Calls service to create clone of the training definition and refreshes the table
+   * @param {number} id id of training definition which should be cloned
    */
-  cloneTrainingDefinition(trainingDef: TrainingDefinition) {
-    const clone = new TrainingDefinition(
-      trainingDef.sandboxDefinitionId,
-      trainingDef.authorIds,
-      TrainingDefinitionStateEnum.Unreleased,
-      trainingDef.levels,
-    );
-    clone.title = 'Clone of ' + trainingDef.title;
-    clone.outcomes = trainingDef.outcomes;
-    clone.prerequisites = trainingDef.prerequisites;
-    clone.description = trainingDef.description;
-    clone.state = TrainingDefinitionStateEnum.Unreleased;
-
-    this.trainingDefinitionSetter.addTrainingDefinition(clone);
-
-    const cloneDataObject = new TrainingDefinitionDataObject();
-    cloneDataObject.trainingDefinition = clone;
-    cloneDataObject.canBeArchived = false;
-
-    this.dataSource.data.push(cloneDataObject);
-    this.dataSource = new MatTableDataSource<TrainingDefinitionDataObject>(this.dataSource.data);
-
+  cloneTrainingDefinition(id: number) {
+    this.trainingDefinitionSetter.cloneTrainingDefinition(id);
+    this.fetchData();
   }
 
   /**
@@ -154,34 +134,76 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
   archiveTrainingDefinition(trainingDef: TrainingDefinition) {
     trainingDef.state = TrainingDefinitionStateEnum.Archived;
     this.trainingDefinitionSetter.updateTrainingDefinition(trainingDef);
+    this.fetchData();
   }
 
   /**
    * Creates table data source from training definitions retrieved from a server. Only training definitions where
    * active user is listed as an author are shown
    */
-  private createTableDataSource() {
-    this.trainingDefinitionGetter.getTrainingDefsByAuthorId(this.activeUserService.getActiveUser().id)
-      .subscribe(trainings => {
-        const trainingDefinitionDataObjects: TrainingDefinitionDataObject[] = [];
+  private initTableDataSource() {
+    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    this.fetchData();
 
-        trainings.forEach(training => {
-          const trainingDefinitionDataObject = new TrainingDefinitionDataObject();
-          trainingDefinitionDataObject.trainingDefinition = training;
-          this.canTrainingBeArchived(training).subscribe(result =>
-            trainingDefinitionDataObject.canBeArchived = result);
-          trainingDefinitionDataObjects.push(trainingDefinitionDataObject);
-        });
+  }
 
-        this.dataSource = new MatTableDataSource(trainingDefinitionDataObjects);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+  /**
+   * Fetches data from the server and maps them to table data objects
+   */
+  fetchData() {
+    merge(this.sort.sortChange, this.paginator.page)
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          this.isLoadingResults = true;
+          return this.trainingDefinitionGetter.getTrainingDefs(); // params? this.sort.active, this.sort.direction, this.paginator.pageIndex
+        }),
+        map(data => {
+          // Flip flag to show that loading has finished.
+          this.isLoadingResults = false;
+          this.isInErrorState = false;
+          this.resultsLength = data.length;
 
-        this.dataSource.filterPredicate =
-          (data: TrainingDefinitionDataObject, filter: string) =>
-            data.trainingDefinition.title.toLowerCase().indexOf(filter) !== -1
-            || data.trainingDefinition.state.toLowerCase().indexOf(filter) !== -1;
-      });
+          return this.mapTrainingDefinitionsToTableObjects(data);
+        }),
+        catchError(() => {
+          this.isLoadingResults = false;
+          this.isInErrorState = true;
+          return of([]);
+        })
+      ).subscribe(data => this.createDataSource(data));
+  }
+
+  /**
+   * Creates table data source from fetched data
+   * @param data Training Definitions fetched from server
+   */
+  private createDataSource(data: TrainingDefinitionTableDataObject[]) {
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+
+    this.dataSource.filterPredicate =
+      (data: TrainingDefinitionTableDataObject, filter: string) =>
+        data.trainingDefinition.title.toLowerCase().indexOf(filter) !== -1
+        || data.trainingDefinition.state.toLowerCase().indexOf(filter) !== -1;
+  }
+
+  /**
+   * Maps training definition object to data object displayed in a table
+   * @param trainings array of training definitions
+   * @returns array of mapped training definition table data objects
+   */
+  private mapTrainingDefinitionsToTableObjects(trainings: TrainingDefinition[]): TrainingDefinitionTableDataObject[] {
+    const result: TrainingDefinitionTableDataObject[] = [];
+    trainings.forEach(training => {
+      const trainingDataObject = new TrainingDefinitionTableDataObject();
+      trainingDataObject.trainingDefinition = training;
+      this.canTrainingBeArchived(training).subscribe(result => trainingDataObject.canBeArchived = result);
+
+      result.push(trainingDataObject);
+    });
+    return result;
   }
 
 

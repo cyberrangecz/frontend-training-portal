@@ -4,7 +4,7 @@ import {
   MatCardModule, MatDialogModule,
   MatDividerModule,
   MatFormFieldModule, MatIconModule, MatInputModule,
-  MatPaginatorModule,
+  MatPaginatorModule, MatProgressSpinnerModule,
   MatSortModule,
   MatTableModule, MatTooltipModule
 } from "@angular/material";
@@ -20,7 +20,8 @@ import {
     MatInputModule,
     MatIconModule,
     MatTooltipModule,
-    MatDialogModule
+    MatDialogModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     MatDividerModule,
@@ -32,7 +33,8 @@ import {
     MatInputModule,
     MatIconModule,
     MatTooltipModule,
-    MatDialogModule
+    MatDialogModule,
+    MatProgressSpinnerModule
   ]
 })
 

@@ -19,6 +19,14 @@
       </mat-form-field>
 
       <div class="mat-elevation-z8">
+        <div class="loading"
+             *ngIf="isLoadingResults || isInErrorState">
+          <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+          <div class="loading-error" *ngIf="isInErrorState">
+            We have some trouble loading the data. Please try again later.
+          </div>
+        </div>
+
         <table mat-table [dataSource]="dataSource" matSort>
 
           <!-- TITLE Column -->
@@ -67,7 +75,7 @@
                 <button *ngIf="data.trainingDefinition?.state === trainingStateEnum.Released ||
                              data.trainingDefinition?.state === trainingStateEnum.Archived"
                         mat-icon-button color="primary"
-                        (click)="cloneTrainingDefinition(data.trainingDefinition)">
+                        (click)="cloneTrainingDefinition(data.trainingDefinition?.id)">
                   <mat-icon
                     matTooltip="Clone training definition"
                     aria-label="Clone training definition button">
@@ -78,7 +86,7 @@
                 <button *ngIf="data.trainingDefinition?.state === trainingStateEnum.Unreleased ||
                              data.trainingDefinition?.state === trainingStateEnum.Archived"
                         mat-icon-button color="primary"
-                        (click)="removeTrainingDefinition(data)">
+                        (click)="removeTrainingDefinition(data.trainingDefinition?.id)">
                   <mat-icon
                     matTooltip="Remove training definition"
                     aria-label="Remove training definition button"
@@ -111,7 +119,7 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+        <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
       </div>
     </div>
   </div>
