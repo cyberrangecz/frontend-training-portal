@@ -47,16 +47,6 @@ export class TrainingRunGetterService {
   }
 
   /**
-   * Retrieves training runs with matching players id
-   * @param {number} playerId id of player (trainee) associated with training runs
-   * @returns {Observable<TrainingRun[]>} Observable of list of training runs matching players id
-   */
-  getTrainingRunsByPlayerId(playerId: number): Observable<TrainingRun[]> {
-    return this.getTrainingRuns().pipe(map(trainings =>
-    trainings.filter(training => training.userId === playerId)));
-  }
-
-  /**
    * Retrieves training runs with matching sandbox id
    * @param {number} sandboxId id of sandbox associated with training runs
    * @returns {Observable<TrainingRun[]>} Observable of list of training runs matching sandbox id

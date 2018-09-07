@@ -7,8 +7,10 @@ import {TrainingInstanceGetterService} from "../../../../services/data-getters/t
 import {ActivatedRoute, Router} from "@angular/router";
 import {ActiveUserService} from "../../../../services/active-user.service";
 import {LevelGetterService} from "../../../../services/data-getters/level-getter.service";
+import {merge, of} from "rxjs";
+import {catchError, map, startWith, switchMap} from "rxjs/operators";
 
-export class TraineeAccessedTrainingsTableData {
+export class TraineeAccessedTrainingsTableDataObject {
   totalLevels: number;
   trainingRun: TrainingRun;
   trainingInstance: TrainingInstance;
@@ -27,7 +29,11 @@ export class TraineeTrainingsTableComponent implements OnInit {
   displayedColumns: string[] = ['title', 'date', 'completedLevels', 'actions'];
 
   now: number = Date.now();
-  dataSource: MatTableDataSource<TraineeAccessedTrainingsTableData>;
+  dataSource: MatTableDataSource<TraineeAccessedTrainingsTableDataObject>;
+
+  resultsLength = 0;
+  isLoadingResults = true;
+  isInErrorState = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -41,7 +47,7 @@ export class TraineeTrainingsTableComponent implements OnInit {
     private levelGetter: LevelGetterService) { }
 
   ngOnInit() {
-    this.createDataSource();
+    this.initDataSource();
   }
 
   /**
@@ -50,6 +56,7 @@ export class TraineeTrainingsTableComponent implements OnInit {
    */
   tryAgain(trainingInstance: TrainingInstance) {
     // TODO: allocate new sandbox etc and get ID of training run
+
     const trainingRunId = 1;
     const firstLevel = 1;
     this.router.navigate(['training', trainingRunId, 'level', firstLevel], {relativeTo: this.activeRoute});
@@ -77,33 +84,59 @@ export class TraineeTrainingsTableComponent implements OnInit {
   /**
    * Loads necessary data from endpoint and create data source for the table
    */
-  private createDataSource() {
-    this.trainingRunGetter.getTrainingRunsByPlayerId(this.activeUserService.getActiveUser().id)
-      .subscribe(trainingRuns => {
-        const data: TraineeAccessedTrainingsTableData[] = [];
+  private initDataSource() {
+    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    this.fetchData();
+  }
 
-        trainingRuns.forEach(trainingRun => {
-          const tableRow = new TraineeAccessedTrainingsTableData();
-          tableRow.trainingRun = trainingRun;
+  private fetchData() {
+    merge(this.sort.sortChange, this.paginator.page)
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          this.isLoadingResults = true;
+          return this.trainingRunGetter.getTrainingRuns(); // params? this.sort.active, this.sort.direction, this.paginator.pageIndex
+        }),
+        map(data => {
+          // Flip flag to show that loading has finished.
+          this.isLoadingResults = false;
+          this.isInErrorState = false;
+          this.resultsLength = data.length;
 
-          this.trainingInstanceGetter.getTrainingInstanceById(trainingRun.trainingInstanceId)
-            .subscribe(trainingInstance => {
-              tableRow.trainingInstance = trainingInstance;
-              this.levelGetter.getLevelsByTrainingDefId(trainingInstance.trainingDefinitionId)
-                .subscribe(
-                  levels =>  {
-                    tableRow.totalLevels = levels.length
-                  });
-            });
-          data.push(tableRow);
-        });
-        this.dataSource = new MatTableDataSource(data);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+          return this.mapTrainingRunsToTraineesTrainingTableDataObjects(data);
+        }),
+        catchError(() => {
+          this.isLoadingResults = false;
+          this.isInErrorState = true;
+          return of([]);
+        })
+      ).subscribe(data => this.createDataSource(data));
+  }
 
-        this.dataSource.filterPredicate =
-          (data: TraineeAccessedTrainingsTableData, filter: string) =>
-            data.trainingInstance.title.toLowerCase().indexOf(filter) !== -1
-      });
+  private mapTrainingRunsToTraineesTrainingTableDataObjects(data: TrainingRun[]): TraineeAccessedTrainingsTableDataObject[] {
+    const result: TraineeAccessedTrainingsTableDataObject[] = [];
+    data.forEach(training => {
+      const traineesTraining = new TraineeAccessedTrainingsTableDataObject();
+      traineesTraining.trainingRun = training;
+      this.trainingInstanceGetter.getTrainingInstanceById(training.trainingInstanceId)
+        .pipe(
+          map(instance => traineesTraining.trainingInstance = instance),
+          switchMap(instance => this.levelGetter.getLevelsByTrainingDefId(instance.trainingDefinitionId))
+        )
+        .subscribe(result => traineesTraining.totalLevels = result.length);
+
+      result.push(traineesTraining);
+    });
+    return result;
+  }
+
+  private createDataSource(data: TraineeAccessedTrainingsTableDataObject[]) {
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+
+    this.dataSource.filterPredicate =
+      (data: TraineeAccessedTrainingsTableDataObject, filter: string) =>
+        data.trainingInstance.title.toLowerCase().indexOf(filter) !== -1
   }
 }

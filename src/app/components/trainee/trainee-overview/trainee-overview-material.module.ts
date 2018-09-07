@@ -4,7 +4,7 @@ import {
   MatDividerModule,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule, MatPaginatorModule, MatSortModule,
+  MatInputModule, MatPaginatorModule, MatProgressSpinnerModule, MatSortModule,
   MatTableModule, MatTooltipModule
 } from "@angular/material";
 
@@ -18,7 +18,8 @@ import {
     MatIconModule,
     MatPaginatorModule,
     MatSortModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     MatDividerModule,
@@ -29,7 +30,8 @@ import {
     MatIconModule,
     MatPaginatorModule,
     MatSortModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatProgressSpinnerModule
   ]
 })
 export class TraineeOverviewMaterialModule {
