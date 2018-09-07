@@ -4,8 +4,6 @@ import {Observable} from "rxjs/internal/Observable";
 import {SandboxDefinition} from "../../model/sandbox/sandbox-definition";
 import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
-import {TrainingDefinitionGetterService} from "./training-definition-getter.service";
-import {TrainingDefinitionStateEnum} from "../../enums/training-definition-state.enum";
 
 @Injectable()
 /**
@@ -15,8 +13,7 @@ import {TrainingDefinitionStateEnum} from "../../enums/training-definition-state
 export class SandboxDefinitionGetterService {
 
   constructor(
-    private http: HttpClient,
-    private trainingDefinitionGetter: TrainingDefinitionGetterService) {
+    private http: HttpClient) {
   }
 
   /**
@@ -39,18 +36,6 @@ export class SandboxDefinitionGetterService {
       const filtered = sandboxes.filter(sandbox => sandbox.id === sandboxId);
       return filtered ? filtered[0] : null;
     }));
-  }
-
-  /**
-   * Retrieves sandboxes definitions
-   * @param {number} authorId id of sandbox definition author
-   * @returns {Observable<SandboxDefinition[]>} Observable of list of sandbox definitions matching authors id
-   */
-  getSandboxDefsByAuthorId(authorId: number): Observable<SandboxDefinition[]> {
-    return this.getSandboxDefs()
-      .pipe(map(sandboxDefs =>
-        sandboxDefs.filter(sandboxDef =>
-        sandboxDef.authorIds.includes(authorId))));
   }
 
   /**

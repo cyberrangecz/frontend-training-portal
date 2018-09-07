@@ -9,8 +9,10 @@ import {SandboxDefinitionSetterService} from "../../../../services/data-setters/
 import {TrainingDefinitionStateEnum} from "../../../../enums/training-definition-state.enum";
 import {TrainingDefinition} from "../../../../model/training/training-definition";
 import {UploadDialogComponent} from "../../../shared/upload-dialog/upload-dialog.component";
+import {merge, of} from "rxjs";
+import {catchError, map, startWith, switchMap} from "rxjs/operators";
 
-export class SandboxDefinitionTableData {
+export class SandboxDefinitionTableDataObject {
   sandbox: SandboxDefinition;
   associatedTrainingDefinitions: TrainingDefinition[];
   canBeRemoved: boolean;
@@ -29,10 +31,14 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
 
   displayedColumns: string[] = ['title', 'associatedTrainingDefs', 'authors', 'actions'];
 
-  dataSource: MatTableDataSource<SandboxDefinitionTableData>;
+  dataSource: MatTableDataSource<SandboxDefinitionTableDataObject>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+
+  isLoadingResults = false;
+  isInErrorState = false;
+  resultsLength: number;
 
   constructor(
     private dialog: MatDialog,
@@ -45,7 +51,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.createTableDataSource();
+    this.initDataSource();
   }
 
   /**
@@ -72,21 +78,17 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.alertService.emitAlert(result.type, result.message);
+        this.fetchData();
       }
     });
   }
   /**
    * Removes sandbox definition data object from data source and sends request to delete the sandbox in database
-   * @param {SandboxDefinitionTableData} sandboxDataObject sandbox definition data object which should be deleted
+   * @param {SandboxDefinitionTableDataObject} sandboxDataObject sandbox definition data object which should be deleted
    */
-  removeSandboxDefinition(sandboxDataObject: SandboxDefinitionTableData) {
-    const index = this.dataSource.data.indexOf(sandboxDataObject);
-    if (index > -1) {
-      this.dataSource.data.splice(index,1);
-    }
-    this.dataSource = new MatTableDataSource<SandboxDefinitionTableData>(this.dataSource.data);
-
+  removeSandboxDefinition(sandboxDataObject: SandboxDefinitionTableDataObject) {
     this.sandboxDefinitionSetter.removeSandboxDefinition(sandboxDataObject.sandbox.id);
+    this.fetchData();
   }
 
   /**
@@ -104,38 +106,76 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
    * @param {number} id id of sandbox definition which should be deployed
    */
   deploySandboxDefinition(id: number) {
-    // TODO: deploy
+    this.sandboxDefinitionSetter.deploySandboxDefinition(id);
+    this.fetchData();
   }
 
   /**
    * Creates table data source from sandbox definitions retrieved from a server. Only sandbox definitions where
    * active user is listed as an author are shown
    */
-  private createTableDataSource() {
-    this.sandboxDefinitionGetter.getSandboxDefsByAuthorId(this.activeUserService.getActiveUser().id)
-      .subscribe(sandboxes => {
-        const sandboxDataObjects: SandboxDefinitionTableData[] = [];
-
-        sandboxes.forEach((sandbox) => {
-          const sandboxDataObject = new SandboxDefinitionTableData();
-          sandboxDataObject.sandbox = sandbox;
-          this.trainingDefinitionGetter.getTrainingDefsBySandboxDefId(sandbox.id)
-            .subscribe(assocTrainings => {
-                sandboxDataObject.associatedTrainingDefinitions = assocTrainings;
-                sandboxDataObject.canBeRemoved = this.canSandboxBeRemoved(sandbox, assocTrainings);
-            });
-          sandboxDataObjects.push(sandboxDataObject);
-          });
-        this.dataSource = new MatTableDataSource(sandboxDataObjects);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-
-        this.dataSource.filterPredicate =
-          (data: SandboxDefinitionTableData, filter: string) =>
-            data.sandbox.title.toLowerCase().indexOf(filter) !== -1
-      });
+  private initDataSource() {
+    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    this.fetchData();
   }
 
+  private fetchData() {
+    merge(this.sort.sortChange, this.paginator.page)
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          this.isLoadingResults = true;
+          return this.sandboxDefinitionGetter.getSandboxDefs(); // params? this.sort.active, this.sort.direction, this.paginator.pageIndex
+        }),
+        map(data => {
+          // Flip flag to show that loading has finished.
+          this.isLoadingResults = false;
+          this.isInErrorState = false;
+          this.resultsLength = data.length;
+
+          return this.mapSandboxDefsToTableObjects(data);
+        }),
+        catchError(() => {
+          this.isLoadingResults = false;
+          this.isInErrorState = true;
+          return of([]);
+        })
+      ).subscribe(data => this.createDataSource(data));
+  }
+
+  /**
+   * Maps sandbox definitions to table data objects
+   * @param data sandbox definitions
+   */
+  private mapSandboxDefsToTableObjects(data: SandboxDefinition[]): SandboxDefinitionTableDataObject[] {
+    const result: SandboxDefinitionTableDataObject[] = [];
+    data.forEach(sandbox => {
+      const tableDataObject = new SandboxDefinitionTableDataObject();
+      tableDataObject.sandbox = sandbox;
+      this.trainingDefinitionGetter.getTrainingDefsBySandboxDefId(sandbox.id)
+        .subscribe(result => {
+          tableDataObject.associatedTrainingDefinitions = result;
+          tableDataObject.canBeRemoved = this.canSandboxBeRemoved(tableDataObject.sandbox, tableDataObject.associatedTrainingDefinitions);
+        });
+
+      result.push(tableDataObject);
+    });
+    return result;
+  }
+
+  /**
+   * Creates data source from sandbox definiton table data objects
+   * @param data
+   */
+  private createDataSource(data: SandboxDefinitionTableDataObject[]) {
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+
+    this.dataSource.filterPredicate =
+      (data: SandboxDefinitionTableDataObject, filter: string) =>
+        data.sandbox.title.toLowerCase().indexOf(filter) !== -1
+  }
 
   /**
    * Determines if sandbox definition can be removed (if sandbox is not associated with any training definition or all

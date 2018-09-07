@@ -15,4 +15,8 @@ export class SandboxDefinitionSetterService {
     // TODO: REQUEST to remove sandbox with id
   }
 
+  deploySandboxDefinition(id: number) {
+    // TODO: REQUEST to deploy sandbox deifiniton
+  }
+
 }
