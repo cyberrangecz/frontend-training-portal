@@ -1,10 +1,11 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
 import {TrainingRun} from "../../model/training/training-run";
 import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
 import {TrainingRunStateEnum} from "../../enums/training-run-state.enum";
+import {ActiveUserService} from "../active-user.service";
 
 /**
  * Service abstracting the training run endpoint.
@@ -13,7 +14,8 @@ import {TrainingRunStateEnum} from "../../enums/training-run-state.enum";
 @Injectable()
 export class TrainingRunGetterService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private activeUser: ActiveUserService) {
   }
 
   /**
@@ -21,7 +23,11 @@ export class TrainingRunGetterService {
    * @returns {Observable<TrainingRun[]>} observable of list of training runs
    */
   getTrainingRuns(): Observable<TrainingRun[]> {
-    return this.http.get(environment.trainingRunsEndpointUri)
+    const headers = new HttpHeaders({
+      'Accept': 'application/json',
+      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
+    });
+    return this.http.get(environment.trainingRunsEndpointUri, { headers: headers })
       .pipe(map(response =>
         this.parseTrainingRuns(response)));
   }
@@ -31,6 +37,11 @@ export class TrainingRunGetterService {
    * @returns {Observable<TrainingRun[]>} observable of list of active training runs
    */
   getActiveTrainingRuns(): Observable<TrainingRun[]> {
+    const headers = new HttpHeaders({
+      'Accept': 'application/json',
+      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
+    });
+
     return this.getTrainingRuns().pipe(map(trainings =>
       trainings.filter(training =>
         training.startTime.valueOf() <= Date.now() && training.endTime.valueOf() >= Date.now())))
@@ -42,6 +53,11 @@ export class TrainingRunGetterService {
    * @returns {Observable<TrainingRun>} observable of training run, null if no training run with matching id si found
    */
   getTrainingRunById(id: number): Observable<TrainingRun> {
+    const headers = new HttpHeaders({
+      'Accept': 'application/json',
+      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
+    });
+
     return this.getTrainingRuns().pipe(map(trainings =>
     trainings.find(training => training.id  === id)));
   }
@@ -52,6 +68,11 @@ export class TrainingRunGetterService {
    * @returns {Observable<TrainingRun[]>} Observable of list of training runs matching sandbox id
    */
   getTrainingRunsBySandboxId(sandboxId: number): Observable<TrainingRun[]> {
+    const headers = new HttpHeaders({
+      'Accept': 'application/json',
+      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
+    });
+
     return this.getTrainingRuns().pipe(map(trainings =>
       trainings.filter(training => training.sandboxInstanceId === sandboxId)));
   }
@@ -62,6 +83,11 @@ export class TrainingRunGetterService {
    * @returns {Observable<TrainingRun[]>} Observable of list of training runs matching training instance id
    */
   getTrainingRunsByTrainingInstanceId(trainingId: number): Observable<TrainingRun[]> {
+    const headers = new HttpHeaders({
+      'Accept': 'application/json',
+      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
+    });
+
     return this.getTrainingRuns().pipe(map(trainings =>
       trainings.filter(training => training.trainingInstanceId === trainingId)));
   }
