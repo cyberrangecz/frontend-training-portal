@@ -9,10 +9,6 @@ import {TrainingInstanceGetterService} from "../../../services/data-getters/trai
 import {ActiveTrainingRunLevelsService} from "../../../services/active-training-run-levels.service";
 import {TrainingDefinitionGetterService} from "../../../services/data-getters/training-definition-getter.service";
 import {TrainingRunLevelComponent} from "./training-run-level/training-run-level.component";
-import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
-import {MatDialog} from "@angular/material";
-import {LeaveConfirmationDialogComponent} from "./leave-confirmation-dialog/leave-confirmation-dialog.component";
 
 
 @Component({
@@ -97,6 +93,7 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
   /**
    * Loads all necessary data about levels and trainings from url and sets up the training
    */
+  //TODO: Improve this code - use switchMap
   private initDataFromUrl() {
     const id = +this.activeRoute.snapshot.paramMap.get('id');
     if (id && !Number.isNaN(id)) {
