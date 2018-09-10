@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {TrainingRun} from "../../../model/training/training-run";
 import {TrainingInstance} from "../../../model/training/training-instance";
 import {AbstractLevel} from "../../../model/level/abstract-level";
@@ -9,6 +9,7 @@ import {TrainingInstanceGetterService} from "../../../services/data-getters/trai
 import {ActiveTrainingRunLevelsService} from "../../../services/active-training-run-levels.service";
 import {TrainingDefinitionGetterService} from "../../../services/data-getters/training-definition-getter.service";
 import {TrainingRunLevelComponent} from "./training-run-level/training-run-level.component";
+import {flatMap, map, switchMap} from "rxjs/operators";
 
 
 @Component({
@@ -31,6 +32,7 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
   selectedStep: number;
   withStepper: boolean;
   withTimer: boolean;
+  isLoading = true;
 
   displayNextButton = false;
   isActiveLevelLocked = true;
@@ -93,28 +95,30 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
   /**
    * Loads all necessary data about levels and trainings from url and sets up the training
    */
-  //TODO: Improve this code - use switchMap
   private initDataFromUrl() {
     const id = +this.activeRoute.snapshot.paramMap.get('id');
     if (id && !Number.isNaN(id)) {
       this.trainingRunGetter.getTrainingRunById(id)
-        .subscribe(trainingRun => {
+        .pipe(switchMap(trainingRun => {
           this.trainingRun = trainingRun;
-          this.trainingInstanceGetter.getTrainingInstanceById(trainingRun.trainingInstanceId)
-            .subscribe(trainingInstance => {
-              this.trainingInstance = trainingInstance;
-              this.trainingDefinitionGetter.getTrainingDefById(trainingInstance.trainingDefinitionId)
-                .subscribe(trainingDefinition => {
-                  this.withStepper = trainingDefinition.showProgress;
-                  this.levelGetter.getLevelsByTrainingDefId(trainingInstance.trainingDefinitionId)
-                    .subscribe(levels => {
-                      this.levels = levels;
-                      this.activeLevelsService.setActiveLevels(this.levels);
-                      this.findInitialLevel();
-                    })
-                });
-            })
-        })
+          return this.trainingInstanceGetter.getTrainingInstanceById(trainingRun.trainingInstanceId);
+        }))
+        .pipe(switchMap(trainingInstance => {
+          this.trainingInstance = trainingInstance;
+          return this.trainingDefinitionGetter.getTrainingDefById(trainingInstance.trainingDefinitionId);
+        }))
+        .pipe(switchMap(trainingDef => {
+          this.withStepper = trainingDef.showProgress;
+          return this.levelGetter.getLevelsByTrainingDefId(trainingDef.id);
+        }))
+        .pipe(switchMap(levels => {
+          this.levels = levels;
+          this.activeLevelsService.setActiveLevels(this.levels);
+          this.findInitialLevel();
+          this.isLoading = false;
+          return levels;
+        }))
+        .subscribe();
     }
   }
 
