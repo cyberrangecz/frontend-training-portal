@@ -1,0 +1,6 @@
+<div class="content">
+  <div class="mat-typography">
+    <p *ngFor="let message of messages" class="{{ alert.type }}"> {{ message }}</p>
+    <button mat-button (click)="dismiss()">OK</button>
+  </div>
+</div>
