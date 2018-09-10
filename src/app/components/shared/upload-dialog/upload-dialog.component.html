@@ -24,9 +24,9 @@
   </div>
 
   <!-- FILE DROP ZONE -->
-  <div class="drop"
-       [fileDropDisabled]="uploadInProgress"
+  <div class="drop" *ngIf="!uploadInProgress"
        ngfDrop
+       [fileDropDisabled]="true"
        [(file)]="selectedFile">
     <p>Drop File Here</p>
   </div>
@@ -47,7 +47,7 @@
 <!-- DIALOG ACTIONS -->
 <div mat-dialog-actions class="actions">
   <button (click)="cancel()" mat-raised-button color="primary">Cancel</button>
-  <button [disabled]="!selectedFile" (click)="upload()" mat-raised-button color="primary">Upload</button>
+  <button [disabled]="!selectedFile || uploadInProgress" (click)="upload()" mat-raised-button color="primary">Upload</button>
 </div>
 
 

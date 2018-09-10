@@ -1,7 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 import {AlertTypeEnum} from "../../../enums/alert-type.enum";
-import {HttpClient} from "@angular/common/http";
 import {UploadService} from "../../../services/data-setters/upload.service";
 
 @Component({
