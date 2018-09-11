@@ -114,6 +114,7 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
         this.questions.splice(index, 1);
+        this.dirty = true;
         this.questionChanged();
       }
     });
