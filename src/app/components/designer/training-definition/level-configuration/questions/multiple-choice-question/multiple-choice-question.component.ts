@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {MultipleChoiceQuestion} from "../../../../../../model/questions/multiple-choice-question";
 import {AlertService} from "../../../../../../services/event-services/alert.service";
 import {AlertTypeEnum} from "../../../../../../enums/alert-type.enum";
@@ -17,6 +17,8 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
 
   @Input('question') question: MultipleChoiceQuestion;
   @Input('isTest') isTest: boolean;
+
+  @Output('question') questionChange = new EventEmitter();
 
   title: string;
   options: string[];
@@ -61,12 +63,14 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
    */
   contentChanged() {
     this.dirty = true;
+    this.questionChange.emit();
   }
   /**
    * Deletes all answers selected by user
    */
   clearAnswers() {
     this.correctAnswersIndexes = [];
+    this.contentChanged();
   }
 
   /**
@@ -108,6 +112,7 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
   deleteOption(index: number) {
     this.options.splice(index, 1);
     this.removeCorrectAnswer(index);
+    this.contentChanged();
   }
 
   /**
@@ -115,6 +120,8 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
    */
   addOption() {
     this.options.push('');
+    this.contentChanged();
+
   }
 
   /**
@@ -123,6 +130,8 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
    */
   private addCorrectAnswer(index: number) {
     this.correctAnswersIndexes.push(index);
+    this.contentChanged();
+
   }
 
   /**
@@ -133,6 +142,7 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
     const indexToRemove = this.correctAnswersIndexes.indexOf(index);
     if (indexToRemove != -1) {
       this.correctAnswersIndexes.splice(indexToRemove, 1);
+      this.contentChanged();
     }
   }
 

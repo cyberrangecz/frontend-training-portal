@@ -31,7 +31,6 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
   constructor(private alertService: AlertService) { }
 
   ngOnInit() {
-
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -52,12 +51,12 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
    * Validates input, sets values to the level object and calls REST API to save changes
    */
   saveChanges() {
+    console.log(this.questions);
     if (this.validateChanges()) {
       this.setInputValuesToLevel();
       this.childComponent.saveChanges();
       this.dirty = false;
       // TODO: call service and save level through rest
-      this.level.id = -999 // change to id retrieved from rest later
     }
   }
 

@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FreeFormQuestion} from "../../../../../../model/questions/free-form-question";
 import {AlertService} from "../../../../../../services/event-services/alert.service";
 import {AlertTypeEnum} from "../../../../../../enums/alert-type.enum";
@@ -16,6 +16,7 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
   @Input('question') question: FreeFormQuestion;
   @Input('isTest') isTest: boolean;
 
+  @Output('question') questionChange = new EventEmitter();
 
   title: string;
   answer: string;
@@ -49,6 +50,7 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
    */
   contentChanged() {
     this.dirty = true;
+    this.questionChange.emit();
   }
 
   /**

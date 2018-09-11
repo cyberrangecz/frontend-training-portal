@@ -77,7 +77,7 @@ export class TrainingDefinitionComponent implements OnInit {
       messages.push('Training definition is not saved.')
     }
     if (!isLevelChangesSaved) {
-      messages.push('Following levels are not saved: ' + canDeactivateLevels.filter(level => !level.canDeactivate).map(level => level.order) + '.');
+      messages.push('Following levels are not saved: ' + canDeactivateLevels.filter(level => !level.canBeDeactivated).map(level => level.order) + '.');
     }
 
     if (messages.length > 0) {

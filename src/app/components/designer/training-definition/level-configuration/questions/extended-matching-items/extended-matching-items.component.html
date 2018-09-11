@@ -31,7 +31,7 @@
       <td></td>
       <td *ngFor="let cols of cols; index as i;" class="delete-col-buttons">
         <button mat-button matSuffix mat-icon-button aria-label="Delete column" color="warn" matTooltip="Delete column"
-                (click)="deleteColumn(i); contentChanged()">
+                (click)="deleteColumn(i)">
           <mat-icon>remove_circle</mat-icon>
         </button>
       </td>
@@ -54,7 +54,7 @@
       <!-- ADD COL BUTTON -->
       <td class="last-col">
         <button mat-button matSuffix mat-icon-button aria-label="Add column" color="primary" matTooltip="Add column"
-                (click)="addColumn(); contentChanged()">
+                (click)="addColumn()">
           <mat-icon>add_circle</mat-icon>
         </button>
       </td>
@@ -82,7 +82,7 @@
        <!-- DELETE ROW BUTTON -->
       <td class="last-col">
       <button mat-button matSuffix mat-icon-button aria-label="Delete row" color="warn" matTooltip="Delete row"
-              (click)="deleteRow(i); contentChanged()">
+              (click)="deleteRow(i)">
         <mat-icon>remove_circle</mat-icon>
       </button>
       </td>
@@ -91,7 +91,7 @@
     <tr class="last-row">
       <td>
         <button mat-button matSuffix mat-icon-button aria-label="Add new row" color="primary" matTooltip="Add new row"
-                (click)="addRow(); contentChanged()">
+                (click)="addRow()">
           <mat-icon>add_circle</mat-icon>
         </button>
       </td>

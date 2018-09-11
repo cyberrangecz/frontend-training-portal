@@ -106,8 +106,6 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
       this.sendRequestToSaveChanges();
       this.savedTrainingChange.emit(true);
       this.dirty = false;
-    } else {
-      // error alert
     }
   }
 

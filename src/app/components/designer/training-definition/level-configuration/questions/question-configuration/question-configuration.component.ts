@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {ExtendedMatchingItemsComponent} from "../extended-matching-items/extended-matching-items.component";
 import {MultipleChoiceQuestionComponent} from "../multiple-choice-question/multiple-choice-question.component";
 import {FreeFormQuestionComponent} from "../free-form-question/free-form-question.component";
@@ -20,6 +20,8 @@ export class QuestionConfigurationComponent implements OnInit, OnChanges {
   @Input('question') question: AbstractQuestion;
   @Input('isTest') isTest: boolean;
 
+  @Output('question') questionChange = new EventEmitter();
+
   isFfq: boolean = false;
   isMcq: boolean = false;
   isEmi: boolean = false;
@@ -37,6 +39,10 @@ export class QuestionConfigurationComponent implements OnInit, OnChanges {
     if ('question' in changes) {
       this.resolveQuestionType();
     }
+  }
+
+  questionChanged() {
+    this.questionChange.emit();
   }
 
   /**

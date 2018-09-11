@@ -1,10 +1,10 @@
 import {
   AfterViewInit,
   ChangeDetectorRef,
-  Component,
+  Component, EventEmitter,
   Input,
   OnChanges,
-  OnInit,
+  OnInit, Output,
   QueryList,
   SimpleChanges,
   ViewChildren
@@ -26,6 +26,8 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
 
   @Input('question') question: ExtendedMatchingItems;
   @Input('isTest') isTest: boolean;
+
+  @Output('question') questionChange = new EventEmitter();
 
   title: string;
   rows: string[];
@@ -79,6 +81,7 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
    */
   contentChanged() {
     this.dirty = true;
+    this.questionChange.emit();
   }
 
   /**
@@ -106,6 +109,7 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
   clearAnswers() {
     this.correctAnswers = [];
     this.radioButtons.forEach(button => button.checked = false);
+    this.contentChanged();
   }
 
 
@@ -117,6 +121,7 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
   onAnswerChanged(i: number, j: number) {
     this.deleteAnswerByRow(i);
     this.correctAnswers.push({x: i, y: j});
+    this.contentChanged();
   }
 
   /**
@@ -126,6 +131,7 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
   deleteRow(index: number) {
     this.rows.splice(index, 1);
     this.deleteAnswerByRow(index);
+    this.contentChanged();
   }
 
   /**
@@ -133,6 +139,7 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
    */
   addRow() {
     this.rows.push("");
+    this.contentChanged();
   }
 
   /**
@@ -142,6 +149,7 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
   deleteColumn(index: number) {
     this.cols.splice(index, 1);
     this.deleteAnswersByCol(index);
+    this.contentChanged();
   }
 
   /**
@@ -149,6 +157,7 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
    */
   addColumn() {
     this.cols.push("");
+    this.contentChanged();
   }
 
   /**
@@ -162,6 +171,7 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
         const indexOfAnswerToDelete = this.correctAnswers.indexOf(answerToDelete);
         if (indexOfAnswerToDelete > -1) {
           this.correctAnswers.splice(indexOfAnswerToDelete, 1);
+          this.contentChanged();
         }
       });
     }
@@ -177,6 +187,7 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
       const indexOfAnswerToDelete = this.correctAnswers.indexOf(answerToDelete);
       if (indexOfAnswerToDelete > -1) {
         this.correctAnswers.splice(indexOfAnswerToDelete, 1);
+        this.contentChanged();
       }
     }
   }

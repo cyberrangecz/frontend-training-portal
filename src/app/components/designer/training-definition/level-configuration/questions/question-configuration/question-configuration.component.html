@@ -1,3 +1,3 @@
-<multiple-choice-question *ngIf="isMcq" [question]="question" [isTest]="isTest"></multiple-choice-question>
-<free-form-question *ngIf="isFfq" [question]="question" [isTest]="isTest"></free-form-question>
-<extended-matching-items *ngIf="isEmi" [question]="question" [isTest]="isTest"></extended-matching-items>
+<multiple-choice-question *ngIf="isMcq" [(question)]="question" [isTest]="isTest"></multiple-choice-question>
+<free-form-question *ngIf="isFfq" [(question)]="question" [isTest]="isTest"></free-form-question>
+<extended-matching-items *ngIf="isEmi" [(question)]="question" [isTest]="isTest"></extended-matching-items>

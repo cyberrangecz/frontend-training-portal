@@ -1,4 +1,14 @@
-import {Component, Input, OnChanges, OnInit, QueryList, SimpleChanges, ViewChildren} from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  QueryList,
+  SimpleChanges,
+  ViewChildren
+} from '@angular/core';
 import {QuestionConfigurationComponent} from "../question-configuration/question-configuration.component";
 import {AbstractQuestion} from "../../../../../../model/questions/abstract-question";
 import {FreeFormQuestion} from "../../../../../../model/questions/free-form-question";
@@ -19,6 +29,9 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
 
   @Input('questions') questions: AbstractQuestion[];
   @Input('isTest') isTest: boolean;
+
+  @Output('questions') questionChange = new EventEmitter();
+
   @ViewChildren(QuestionConfigurationComponent) questionConfigurationChildren: QueryList<QuestionConfigurationComponent>;
 
   dirty = false;
@@ -50,6 +63,7 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
     newFfq.required = this.isTest;
     this.questions.push(newFfq);
     this.dirty = true;
+    this.questionChanged();
   }
 
   /**
@@ -62,6 +76,7 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
     newMcq.required = this.isTest;
     this.questions.push(newMcq);
     this.dirty = true;
+    this.questionChanged();
   }
 
   /**
@@ -76,6 +91,11 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
     newEmi.rows.push("");
     this.questions.push(newEmi);
     this.dirty = true;
+    this.questionChanged();
+  }
+
+  questionChanged() {
+    this.questionChange.emit()
   }
 
   /**
@@ -94,6 +114,7 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
         this.questions.splice(index, 1);
+        this.questionChanged();
       }
     });
   }
