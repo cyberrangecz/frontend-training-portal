@@ -9,7 +9,6 @@ import {DeleteDialogComponent} from "../../delete-dialog/delete-dialog.component
 import {MatDialog} from "@angular/material";
 import {TrainingDefinitionSetterService} from "../../../../../services/data-setters/training-definition-setter.service";
 import {AlertService} from "../../../../../services/event-services/alert.service";
-import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
 
 @Component({
   selector: 'training-level-stepper',
@@ -27,6 +26,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
   @Input('trainingDefinitionId') trainingDefinitionId: number;
   @Input('levels') levels: AbstractLevel[];
 
+  isLoading = false;
   selectedStep: number = 0;
 
   constructor(public dialog: MatDialog,
@@ -65,20 +65,33 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    * Creates new info level with default values
    */
   addInfoLevel() {
-    this.levels.push(new InfoLevel(this.trainingDefinitionId,
+    this.isLoading = true;
+    const newInfoLevel = new InfoLevel(this.trainingDefinitionId,
       "New Info Level",
       0,
       this.levels.length + 1,
       '',
       '',
-      ''));
+      '');
+    newInfoLevel.id = null;
+
+    this.trainingDefinitionSetter.createInfoLevel(this.trainingDefinitionId, newInfoLevel)
+      .subscribe(
+        id => {
+          this.isLoading = false;
+          newInfoLevel.id = id;
+          this.levels.push(newInfoLevel);
+        },
+        err => this.isLoading = false
+      );
   }
 
   /**
    * Creates new game level with default values
    */
   addGameLevel() {
-    this.levels.push(new GameLevel(this.trainingDefinitionId,
+    this.isLoading = true;
+    const newGameLevel = new GameLevel(this.trainingDefinitionId,
       "New Game Level",
       100,
       this.levels.length + 1,
@@ -90,76 +103,73 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
       '',
       0,
       5,
-      true)
-      );
+      true);
+    this.trainingDefinitionSetter.createGameLevel(this.trainingDefinitionId, newGameLevel)
+      .subscribe(
+        id => {
+        this.isLoading = false;
+        newGameLevel.id = id;
+        this.levels.push(newGameLevel);
+      },
+        err => this.isLoading = false);
   }
 
   /**
    * Creates new assessment level with default values
    */
   addAssessmentLevel() {
-    this.levels.push(new AssessmentLevel(this.trainingDefinitionId,
+   this.isLoading = true;
+    const newAssessmentLevel = new AssessmentLevel(this.trainingDefinitionId,
       "New Assessment Level",
       0,
       this.levels.length + 1,
       '',
       '',
       null,
-      AssessmentTypeEnum.Questionnaire)
-    );
+      AssessmentTypeEnum.Questionnaire);
+    this.trainingDefinitionSetter.createAssessmentLevel(this.trainingDefinitionId, newAssessmentLevel)
+      .subscribe(
+        id => {
+          this.isLoading = false;
+          newAssessmentLevel.id = id;
+          this.levels.push(newAssessmentLevel);
+        },
+        err => this.isLoading = false
+      );
   }
 
   /**
    * Swaps order of currently selected level with level next to him (to the left)
    */
   swapLeft() {
-    if (this.checkIfCanBeSwapped()) {
-      if (this.selectedStep !== 0) {
-        this.trainingDefinitionSetter.swapLeft(this.trainingDefinitionId, this.levels[this.selectedStep].id);
+    if (this.selectedStep !== 0) {
+      this.trainingDefinitionSetter.swapLeft(this.trainingDefinitionId, this.levels[this.selectedStep].id);
 
-        // TODO: Should be reloaded from REST API instead of calculating?
-        const tempLevel = this.levels[this.selectedStep - 1];
-        tempLevel.order += 1;
+      // TODO: Should be reloaded from REST API instead of calculating?
+      const tempLevel = this.levels[this.selectedStep - 1];
+      tempLevel.order += 1;
 
-        this.levels[this.selectedStep].order -= 1;
-        this.levels[this.selectedStep - 1] = this.levels[this.selectedStep];
-        this.levels[this.selectedStep] = tempLevel;
-        this.selectedStep -= 1;
-
-      }
+      this.levels[this.selectedStep].order -= 1;
+      this.levels[this.selectedStep - 1] = this.levels[this.selectedStep];
+      this.levels[this.selectedStep] = tempLevel;
+      this.selectedStep -= 1;
     }
   }
   /**
    * Swaps order of currently selected level with level next to him (to the right)
    */
   swapRight() {
-    if (this.checkIfCanBeSwapped()) {
-      if (this.selectedStep !== this.levels.length - 1) {
-        this.trainingDefinitionSetter.swapRight(this.trainingDefinitionId, this.levels[this.selectedStep].id);
+    if (this.selectedStep !== this.levels.length - 1) {
+      this.trainingDefinitionSetter.swapRight(this.trainingDefinitionId, this.levels[this.selectedStep].id);
 
-        // TODO: Should be reloaded from REST API instead of calculating?
-        const tempLevel = this.levels[this.selectedStep + 1];
-        tempLevel.order -= 1;
+      // TODO: Should be reloaded from REST API instead of calculating?
+      const tempLevel = this.levels[this.selectedStep + 1];
+      tempLevel.order -= 1;
 
-        this.levels[this.selectedStep].order += 1;
-        this.levels[this.selectedStep + 1] = this.levels[this.selectedStep];
-        this.levels[this.selectedStep] = tempLevel;
-        this.selectedStep += 1;
-        // TODO: save edited order in db
-      }
-    }
-  }
-
-  /**
-   * Checks whether level order can be saved (only if all levels are saved)
-   */
-  checkIfCanBeSwapped(): boolean {
-    const unsavedLevels = this.getCanDeactivateLevels().filter(level => !level.canBeDeactivated);
-    if (unsavedLevels.length === 0) {
-      return true;
-    } else {
-      this.alertService.emitAlert(AlertTypeEnum.Warning, 'Please save following levels before changing the order: ' + unsavedLevels.map(level => level.order));
-      return false;
+      this.levels[this.selectedStep].order += 1;
+      this.levels[this.selectedStep + 1] = this.levels[this.selectedStep];
+      this.levels[this.selectedStep] = tempLevel;
+      this.selectedStep += 1;
     }
   }
 
@@ -178,9 +188,11 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
-        this.levels.splice(index, 1);
+        if (isNaN(this.levels[index].id)) {
+          this.levels.splice(index, 1);
+        }
+        this.trainingDefinitionSetter.removeLevel(this.trainingDefinitionId, this.levels[index].id);
         this.decreaseOrderOfLevelsFromIndex(index);
-        // TODO: save changes in the db
         this.changeSelectedStepAfterRemoving(index);
       }
     });

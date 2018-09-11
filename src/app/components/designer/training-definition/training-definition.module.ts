@@ -14,6 +14,7 @@ import {LevelConfigurationModule} from "./levels/level-configuration/level-confi
 import {PipesModule} from "../../../pipes/pipes.module";
 import { UnsavedChangesDialogComponent } from './unsaved-changes-dialog/unsaved-changes-dialog.component';
 import {DeleteDialogComponent} from "./delete-dialog/delete-dialog.component";
+import {DesignerTrainingDefinitionService} from "../../../services/designer-services/designer-training-definition.service";
 
 @NgModule({
   imports: [

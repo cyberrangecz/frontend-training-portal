@@ -166,8 +166,10 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.outcomes = this.trainingDefinition.outcomes;
     this.selectedState = this.trainingDefinition.state;
     this.showProgress = this.trainingDefinition.showProgress;
+
     this.userGetter.loadUsersByIds(this.trainingDefinition.authorIds)
       .subscribe(authors => this.authors = authors);
+
     this.sandboxDefinitionGetter.getSandboxDefById(this.trainingDefinition.sandboxDefinitionId)
       .subscribe(sandbox => this.sandboxDef = sandbox)
   }
