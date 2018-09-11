@@ -4,7 +4,7 @@ import {
   MatCardModule, MatDividerModule,
   MatIconModule,
   MatMenuModule, MatProgressBarModule,
-  MatSidenavModule,
+  MatSidenavModule, MatSnackBarModule,
   MatToolbarModule,
 } from "@angular/material";
 
@@ -18,7 +18,8 @@ import {
     MatCardModule,
     MatButtonToggleModule,
     MatDividerModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatSnackBarModule
   ],
   exports: [
     MatToolbarModule,
@@ -29,7 +30,8 @@ import {
     MatCardModule,
     MatButtonToggleModule,
     MatDividerModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatSnackBarModule
   ]
 })
 

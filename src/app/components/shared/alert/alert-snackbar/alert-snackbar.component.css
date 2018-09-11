@@ -1,0 +1,16 @@
+.error {
+}
+
+.warning {
+}
+
+.success {
+}
+
+.info {
+}
+
+.alert {
+  display: flex;
+  justify-content: center;
+}

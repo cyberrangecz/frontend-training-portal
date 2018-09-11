@@ -13,6 +13,7 @@ import {FormsModule} from "@angular/forms";
 import {UploadDialogComponent} from "./upload-dialog/upload-dialog.component";
 import {UploadService} from "../../services/data-setters/upload.service";
 import {ngfModule} from "angular-file";
+import { AlertSnackbarComponent } from './alert/alert-snackbar/alert-snackbar.component';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import {ngfModule} from "angular-file";
     AlertComponent,
     NotAuthorizedComponent,
     UploadDialogComponent,
+    AlertSnackbarComponent,
   ],
   exports: [
     NotFoundComponent,
@@ -43,6 +45,9 @@ import {ngfModule} from "angular-file";
   providers: [
     AlertService,
     UploadService
+  ],
+  entryComponents: [
+    AlertSnackbarComponent
   ]
 })
 

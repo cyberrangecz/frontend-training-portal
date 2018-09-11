@@ -1,6 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AlertEvent} from "../../../model/events/alert-event";
 import {AlertService} from "../../../services/event-services/alert.service";
+import {MatSnackBar} from "@angular/material";
+import {AlertSnackbarComponent} from "./alert-snackbar/alert-snackbar.component";
 
 @Component({
   selector: 'shared-alert',
@@ -13,11 +15,10 @@ import {AlertService} from "../../../services/event-services/alert.service";
 export class AlertComponent implements OnInit, OnDestroy {
 
   alert: AlertEvent = null;
-  messages: string[];
-
   alertSubscription;
 
-  constructor(private designerAlertService: AlertService) {
+  constructor(public snackBar: MatSnackBar,
+    private designerAlertService: AlertService) {
     this.subscribeAlert();
   }
 
@@ -44,7 +45,7 @@ export class AlertComponent implements OnInit, OnDestroy {
     this.alertSubscription = this.designerAlertService.onAlertEventEmitted.subscribe(
       alert => {
         this.alert = alert;
-        this.messages = alert.payload.split('\n');
+        let snackBarRef = this.snackBar.openFromComponent(AlertSnackbarComponent, { duration: 2000, data: alert });
       }
     )
   }
