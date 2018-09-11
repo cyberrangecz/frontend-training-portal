@@ -7,6 +7,9 @@ import {AssessmentTypeEnum} from "../../../../../enums/assessment-type.enum";
 import {LevelConfigurationComponent} from "../level-configuration/level-configuration.component";
 import {DeleteDialogComponent} from "../../delete-dialog/delete-dialog.component";
 import {MatDialog} from "@angular/material";
+import {TrainingDefinitionSetterService} from "../../../../../services/data-setters/training-definition-setter.service";
+import {AlertService} from "../../../../../services/event-services/alert.service";
+import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
 
 @Component({
   selector: 'training-level-stepper',
@@ -26,7 +29,9 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
 
   selectedStep: number = 0;
 
-  constructor(public dialog: MatDialog) {
+  constructor(public dialog: MatDialog,
+              private alertService: AlertService,
+              private trainingDefinitionSetter: TrainingDefinitionSetterService) {
   }
 
   ngOnInit() {
@@ -108,30 +113,53 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    * Swaps order of currently selected level with level next to him (to the left)
    */
   swapLeft() {
-    if (this.selectedStep !== 0) {
-      const tempLevel = this.levels[this.selectedStep - 1];
-      tempLevel.order += 1;
+    if (this.checkIfCanBeSwapped()) {
+      if (this.selectedStep !== 0) {
+        this.trainingDefinitionSetter.swapLeft(this.trainingDefinitionId, this.levels[this.selectedStep].id);
 
-      this.levels[this.selectedStep].order -= 1;
-      this.levels[this.selectedStep - 1] = this.levels[this.selectedStep];
-      this.levels[this.selectedStep] = tempLevel;
-      this.selectedStep -= 1;
-      // TODO: save edited order in db
+        // TODO: Should be reloaded from REST API instead of calculating?
+        const tempLevel = this.levels[this.selectedStep - 1];
+        tempLevel.order += 1;
+
+        this.levels[this.selectedStep].order -= 1;
+        this.levels[this.selectedStep - 1] = this.levels[this.selectedStep];
+        this.levels[this.selectedStep] = tempLevel;
+        this.selectedStep -= 1;
+
+      }
     }
   }
   /**
    * Swaps order of currently selected level with level next to him (to the right)
    */
   swapRight() {
-    if (this.selectedStep !== this.levels.length - 1) {
-      const tempLevel = this.levels[this.selectedStep + 1];
-      tempLevel.order -= 1;
+    if (this.checkIfCanBeSwapped()) {
+      if (this.selectedStep !== this.levels.length - 1) {
+        this.trainingDefinitionSetter.swapRight(this.trainingDefinitionId, this.levels[this.selectedStep].id);
 
-      this.levels[this.selectedStep].order += 1;
-      this.levels[this.selectedStep + 1] = this.levels[this.selectedStep];
-      this.levels[this.selectedStep] = tempLevel;
-      this.selectedStep += 1;
-      // TODO: save edited order in db
+        // TODO: Should be reloaded from REST API instead of calculating?
+        const tempLevel = this.levels[this.selectedStep + 1];
+        tempLevel.order -= 1;
+
+        this.levels[this.selectedStep].order += 1;
+        this.levels[this.selectedStep + 1] = this.levels[this.selectedStep];
+        this.levels[this.selectedStep] = tempLevel;
+        this.selectedStep += 1;
+        // TODO: save edited order in db
+      }
+    }
+  }
+
+  /**
+   * Checks whether level order can be saved (only if all levels are saved)
+   */
+  checkIfCanBeSwapped(): boolean {
+    const unsavedLevels = this.getCanDeactivateLevels().filter(level => !level.canBeDeactivated);
+    if (unsavedLevels.length === 0) {
+      return true;
+    } else {
+      this.alertService.emitAlert(AlertTypeEnum.Warning, 'Please save following levels before changing the order: ' + unsavedLevels.map(level => level.order));
+      return false;
     }
   }
 
