@@ -51,7 +51,6 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
    * Validates input, sets values to the level object and calls REST API to save changes
    */
   saveChanges() {
-    console.log(this.questions);
     if (this.validateChanges()) {
       this.setInputValuesToLevel();
       this.childComponent.saveChanges();

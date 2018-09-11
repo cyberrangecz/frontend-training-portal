@@ -188,10 +188,9 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
-        if (isNaN(this.levels[index].id)) {
-          this.levels.splice(index, 1);
-        }
         this.trainingDefinitionSetter.removeLevel(this.trainingDefinitionId, this.levels[index].id);
+        // TODO: should be recalculated by REST?
+        this.levels.splice(index, 1);
         this.decreaseOrderOfLevelsFromIndex(index);
         this.changeSelectedStepAfterRemoving(index);
       }
