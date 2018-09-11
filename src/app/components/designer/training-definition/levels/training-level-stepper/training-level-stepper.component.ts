@@ -1,11 +1,11 @@
 import {Component, Input, OnChanges, OnInit, QueryList, SimpleChanges, ViewChildren} from '@angular/core';
-import {AbstractLevel} from "../../../../model/level/abstract-level";
-import {InfoLevel} from "../../../../model/level/info-level";
-import {GameLevel} from "../../../../model/level/game-level";
-import {AssessmentLevel} from "../../../../model/level/assessment-level";
-import {AssessmentTypeEnum} from "../../../../enums/assessment-type.enum";
+import {AbstractLevel} from "../../../../../model/level/abstract-level";
+import {InfoLevel} from "../../../../../model/level/info-level";
+import {GameLevel} from "../../../../../model/level/game-level";
+import {AssessmentLevel} from "../../../../../model/level/assessment-level";
+import {AssessmentTypeEnum} from "../../../../../enums/assessment-type.enum";
 import {LevelConfigurationComponent} from "../level-configuration/level-configuration.component";
-import {DeleteDialogComponent} from "../delete-dialog/delete-dialog.component";
+import {DeleteDialogComponent} from "../../delete-dialog/delete-dialog.component";
 import {MatDialog} from "@angular/material";
 
 @Component({

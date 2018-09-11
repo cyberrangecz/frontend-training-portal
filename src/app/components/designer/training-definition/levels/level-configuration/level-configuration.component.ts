@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
-import {AbstractLevel} from "../../../../model/level/abstract-level";
-import {GameLevel} from "../../../../model/level/game-level";
-import {AssessmentLevel} from "../../../../model/level/assessment-level";
-import {InfoLevel} from "../../../../model/level/info-level";
+import {AbstractLevel} from "../../../../../model/level/abstract-level";
+import {GameLevel} from "../../../../../model/level/game-level";
+import {AssessmentLevel} from "../../../../../model/level/assessment-level";
+import {InfoLevel} from "../../../../../model/level/info-level";
 import {GameLevelConfigurationComponent} from "./game-level-configuration/game-level-configuration.component";
 import {AssessmentLevelConfigurationComponent} from "./assessment-level-configuration/assessment-level-configuration.component";
 import {InfoLevelConfigurationComponent} from "./info-level-configuration/info-level-configuration.component";

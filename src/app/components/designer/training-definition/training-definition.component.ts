@@ -7,7 +7,7 @@ import {Observable} from "rxjs/internal/Observable";
 import {AbstractLevel} from "../../../model/level/abstract-level";
 import {LevelGetterService} from "../../../services/data-getters/level-getter.service";
 import {TrainingConfigurationComponent} from "./training-configuration/training-configuration.component";
-import {TrainingLevelStepperComponent} from "./training-level-stepper/training-level-stepper.component";
+import {TrainingLevelStepperComponent} from "./levels/training-level-stepper/training-level-stepper.component";
 import {MatDialog} from "@angular/material";
 import {UnsavedChangesDialogComponent} from "./unsaved-changes-dialog/unsaved-changes-dialog.component";
 import {of} from "rxjs/internal/observable/of";

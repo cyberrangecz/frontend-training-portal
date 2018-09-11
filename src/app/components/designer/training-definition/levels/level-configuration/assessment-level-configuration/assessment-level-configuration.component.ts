@@ -1,10 +1,10 @@
 import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
-import {AssessmentLevel} from "../../../../../model/level/assessment-level";
-import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
-import {AlertService} from "../../../../../services/event-services/alert.service";
+import {AssessmentLevel} from "../../../../../../model/level/assessment-level";
+import {AlertTypeEnum} from "../../../../../../enums/alert-type.enum";
+import {AlertService} from "../../../../../../services/event-services/alert.service";
 import {QuestionsOverviewComponent} from "../questions/questions-overview/questions-overview.component";
-import {AbstractQuestion} from "../../../../../model/questions/abstract-question";
-import {AssessmentTypeEnum} from "../../../../../enums/assessment-type.enum";
+import {AbstractQuestion} from "../../../../../../model/questions/abstract-question";
+import {AssessmentTypeEnum} from "../../../../../../enums/assessment-type.enum";
 
 @Component({
   selector: 'assessment-level-configuration',

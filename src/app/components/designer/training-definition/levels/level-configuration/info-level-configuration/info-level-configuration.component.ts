@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {InfoLevel} from "../../../../../model/level/info-level";
-import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
-import {AlertService} from "../../../../../services/event-services/alert.service";
+import {InfoLevel} from "../../../../../../model/level/info-level";
+import {AlertTypeEnum} from "../../../../../../enums/alert-type.enum";
+import {AlertService} from "../../../../../../services/event-services/alert.service";
 
 @Component({
   selector: 'info-level-configuration',

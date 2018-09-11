@@ -2,10 +2,10 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 import {ExtendedMatchingItemsComponent} from "../extended-matching-items/extended-matching-items.component";
 import {MultipleChoiceQuestionComponent} from "../multiple-choice-question/multiple-choice-question.component";
 import {FreeFormQuestionComponent} from "../free-form-question/free-form-question.component";
-import {ExtendedMatchingItems} from "../../../../../../model/questions/extended-matching-items";
-import {FreeFormQuestion} from "../../../../../../model/questions/free-form-question";
-import {MultipleChoiceQuestion} from "../../../../../../model/questions/multiple-choice-question";
-import {AbstractQuestion} from "../../../../../../model/questions/abstract-question";
+import {ExtendedMatchingItems} from "../../../../../../../model/questions/extended-matching-items";
+import {FreeFormQuestion} from "../../../../../../../model/questions/free-form-question";
+import {MultipleChoiceQuestion} from "../../../../../../../model/questions/multiple-choice-question";
+import {AbstractQuestion} from "../../../../../../../model/questions/abstract-question";
 
 @Component({
   selector: 'question-configuration',

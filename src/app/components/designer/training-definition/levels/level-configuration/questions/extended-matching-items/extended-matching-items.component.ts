@@ -9,9 +9,9 @@ import {
   SimpleChanges,
   ViewChildren
 } from '@angular/core';
-import {ExtendedMatchingItems} from "../../../../../../model/questions/extended-matching-items";
-import {AlertService} from "../../../../../../services/event-services/alert.service";
-import {AlertTypeEnum} from "../../../../../../enums/alert-type.enum";
+import {ExtendedMatchingItems} from "../../../../../../../model/questions/extended-matching-items";
+import {AlertService} from "../../../../../../../services/event-services/alert.service";
+import {AlertTypeEnum} from "../../../../../../../enums/alert-type.enum";
 import {MatRadioButton} from "@angular/material";
 
 @Component({

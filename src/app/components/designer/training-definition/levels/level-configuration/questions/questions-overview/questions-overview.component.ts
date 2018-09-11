@@ -10,11 +10,11 @@ import {
   ViewChildren
 } from '@angular/core';
 import {QuestionConfigurationComponent} from "../question-configuration/question-configuration.component";
-import {AbstractQuestion} from "../../../../../../model/questions/abstract-question";
-import {FreeFormQuestion} from "../../../../../../model/questions/free-form-question";
-import {MultipleChoiceQuestion} from "../../../../../../model/questions/multiple-choice-question";
-import {ExtendedMatchingItems} from "../../../../../../model/questions/extended-matching-items";
-import {DeleteDialogComponent} from "../../../delete-dialog/delete-dialog.component";
+import {AbstractQuestion} from "../../../../../../../model/questions/abstract-question";
+import {FreeFormQuestion} from "../../../../../../../model/questions/free-form-question";
+import {MultipleChoiceQuestion} from "../../../../../../../model/questions/multiple-choice-question";
+import {ExtendedMatchingItems} from "../../../../../../../model/questions/extended-matching-items";
+import {DeleteDialogComponent} from "../../../../delete-dialog/delete-dialog.component";
 import {MatDialog} from "@angular/material";
 
 @Component({
