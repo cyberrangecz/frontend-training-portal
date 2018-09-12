@@ -7,7 +7,7 @@ export const environment = {
 
   usersEndpointUri: 'assets/sample-data/test-users.json',
   sandboxDefsEndpointUri: 'assets/sample-data/test-sandbox-defs.json',
-  trainingDefsEndpointUri: 'assets/samxple-data/test-training-defs.json',
+  trainingDefsEndpointUri: 'assets/sample-data/test-training-defs.json',
   trainingInstancesEndpointUri: 'assets/sample-data/test-training-instances.json',
   trainingRunsEndpointUri: 'assets/sample-data/test-training-runs.json',
   levelsEndpointUri: 'assets/sample-data/test-levels.json',
