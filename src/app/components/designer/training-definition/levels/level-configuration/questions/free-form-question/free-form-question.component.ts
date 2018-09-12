@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 import {FreeFormQuestion} from "../../../../../../../model/questions/free-form-question";
 import {AlertService} from "../../../../../../../services/event-services/alert.service";
 import {AlertTypeEnum} from "../../../../../../../enums/alert-type.enum";
+import {environment} from "../../../../../../../../environments/environment";
 
 @Component({
   selector: 'free-form-question',
@@ -120,7 +121,7 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
     }
 
     if (errorMessage !== '') {
-      this.alertService.emitAlert(AlertTypeEnum.Error, errorTitle + errorMessage);
+      this.alertService.emitAlert(AlertTypeEnum.Error, errorTitle + errorMessage, environment.defaultAlertDuration);
       return false;
     }
     return true;

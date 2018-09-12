@@ -4,6 +4,7 @@ import {AlertService} from "../../../../../../../services/event-services/alert.s
 import {AlertTypeEnum} from "../../../../../../../enums/alert-type.enum";
 import {MatCheckboxChange} from "@angular/material";
 import {AssessmentTypeEnum} from "../../../../../../../enums/assessment-type.enum";
+import {environment} from "../../../../../../../../environments/environment";
 
 @Component({
   selector: 'multiple-choice-question',
@@ -206,7 +207,7 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
     }
 
     if (errorMessage !== '') {
-      this.alertService.emitAlert(AlertTypeEnum.Error, errorTitle + errorMessage);
+      this.alertService.emitAlert(AlertTypeEnum.Error, errorTitle + errorMessage, environment.defaultAlertDuration);
       return false;
     }
     return true;

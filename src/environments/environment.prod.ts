@@ -6,5 +6,7 @@ export const environment = {
   trainingDefsEndpointUri: '',
   trainingInstancesEndpointUri: '',
   trainingRunsEndpointUri: '',
-  levelsEndpointUri: ''
+  levelsEndpointUri: '',
+
+  defaultAlertDuration: 2500
 };

@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 import {Hint} from "../../../../../../../model/level/hint";
 import {AlertTypeEnum} from "../../../../../../../enums/alert-type.enum";
 import {AlertService} from "../../../../../../../services/event-services/alert.service";
+import {environment} from "../../../../../../../../environments/environment";
 
 @Component({
   selector: 'hint-configuration',
@@ -138,7 +139,7 @@ export class HintConfigurationComponent implements OnInit, OnChanges {
     }
 
     if (errorMessage !== '') {
-      this.alertService.emitAlert(AlertTypeEnum.Error, errorTitle + errorMessage);
+      this.alertService.emitAlert(AlertTypeEnum.Error, errorTitle + errorMessage, environment.defaultAlertDuration);
       return false;
     }
     return true;

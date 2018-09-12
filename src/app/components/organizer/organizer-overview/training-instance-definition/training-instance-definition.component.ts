@@ -10,6 +10,7 @@ import {UserGetterService} from "../../../../services/data-getters/user-getter.s
 import {TrainingDefinitionGetterService} from "../../../../services/data-getters/training-definition-getter.service";
 import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
 import {TrainingInstanceSetterService} from "../../../../services/data-setters/training-instance-setter.service";
+import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'training-instance-definition',
@@ -158,7 +159,7 @@ export class TrainingInstanceDefinitionComponent implements OnInit, OnChanges {
     }
 
     if (errorMessage !== '') {
-      this.alertService.emitAlert(AlertTypeEnum.Error, errorMessage);
+      this.alertService.emitAlert(AlertTypeEnum.Error, errorMessage, environment.defaultAlertDuration);
       return false;
     }
     return true;

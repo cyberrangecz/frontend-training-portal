@@ -13,9 +13,9 @@ import {TraineeGuard} from "./guards/trainee-guard.service";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {UserGetterService} from "./services/data-getters/user-getter.service";
 import {SharedModule} from "./components/shared/shared.module";
-import {SharedMaterialModule} from "./components/shared/shared-material.module";
 import {TrainingDistractionFreeModeService} from "./services/training-distraction-free-mode.service";
 import {AuthInterceptor} from "./http-interceptors/auth-interceptor";
+import {ErrorInterceptor} from "./http-interceptors/error-interceptor";
 
 @NgModule({
   declarations: [
@@ -26,8 +26,7 @@ import {AuthInterceptor} from "./http-interceptors/auth-interceptor";
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    SharedModule,
-    SharedMaterialModule
+    SharedModule
   ],
   providers: [
     AuthGuard,
@@ -39,7 +38,7 @@ import {AuthInterceptor} from "./http-interceptors/auth-interceptor";
     UserGetterService,
     TrainingDistractionFreeModeService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })

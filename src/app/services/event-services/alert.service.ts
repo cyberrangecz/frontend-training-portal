@@ -19,9 +19,10 @@ export class AlertService {
    * Emits new alert
    * @param {AlertTypeEnum} alertType type of alert
    * @param {string} message alert to display to user
+   * @param {number} duration how long should the alert be displayed. Use 0 if it should be displayed until users clicks on button
    */
-  emitAlert(alertType: AlertTypeEnum, message: string) {
-    this._onAlertEventEmittedSubject.next(new AlertEvent(alertType, message));
+  emitAlert(alertType: AlertTypeEnum, message: string, duration: number) {
+    this._onAlertEventEmittedSubject.next(new AlertEvent(alertType, message, duration));
   }
 
 }

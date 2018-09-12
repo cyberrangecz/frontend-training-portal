@@ -5,6 +5,7 @@ import {AlertService} from "../../../../../../services/event-services/alert.serv
 import {QuestionsOverviewComponent} from "../questions/questions-overview/questions-overview.component";
 import {AbstractQuestion} from "../../../../../../model/questions/abstract-question";
 import {AssessmentTypeEnum} from "../../../../../../enums/assessment-type.enum";
+import {environment} from "../../../../../../../environments/environment";
 
 @Component({
   selector: 'assessment-level-configuration',
@@ -89,7 +90,7 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
     }
 
     if (errorMessage !== '') {
-      this.alertService.emitAlert(AlertTypeEnum.Error, errorMessage);
+      this.alertService.emitAlert(AlertTypeEnum.Error, errorMessage, environment.defaultAlertDuration);
       return false;
     }
     return true;

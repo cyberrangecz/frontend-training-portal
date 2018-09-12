@@ -12,6 +12,7 @@ import {TrainingInstanceGetterService} from "../../../../services/data-getters/t
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {Observable} from "rxjs/internal/Observable";
 import {merge, of} from "rxjs";
+import {environment} from "../../../../../environments/environment";
 
 export class TrainingDefinitionTableDataObject {
   trainingDefinition: TrainingDefinition;
@@ -88,7 +89,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.designerAlertService.emitAlert(result.type, result.message);
+        this.designerAlertService.emitAlert(result.type, result.message, environment.defaultAlertDuration);
       }
     });
   }

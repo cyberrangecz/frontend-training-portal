@@ -11,6 +11,7 @@ import {TrainingDefinition} from "../../../../model/training/training-definition
 import {UploadDialogComponent} from "../../../shared/upload-dialog/upload-dialog.component";
 import {merge, of} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
+import {environment} from "../../../../../environments/environment";
 
 export class SandboxDefinitionTableDataObject {
   sandbox: SandboxDefinition;
@@ -77,7 +78,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.alertService.emitAlert(result.type, result.message);
+        this.alertService.emitAlert(result.type, result.message, environment.defaultAlertDuration);
         this.fetchData();
       }
     });

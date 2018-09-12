@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 import {InfoLevel} from "../../../../../../model/level/info-level";
 import {AlertTypeEnum} from "../../../../../../enums/alert-type.enum";
 import {AlertService} from "../../../../../../services/event-services/alert.service";
+import {environment} from "../../../../../../../environments/environment";
 
 @Component({
   selector: 'info-level-configuration',
@@ -83,7 +84,7 @@ export class InfoLevelConfigurationComponent implements OnInit, OnChanges {
     }
 
     if (errorMessage !== '') {
-      this.alertService.emitAlert(AlertTypeEnum.Error, errorMessage);
+      this.alertService.emitAlert(AlertTypeEnum.Error, errorMessage, environment.defaultAlertDuration);
       return false;
     }
     return true;

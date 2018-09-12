@@ -13,6 +13,7 @@ import {UserGetterService} from "../../../../services/data-getters/user-getter.s
 import {SandboxDefinitionGetterService} from "../../../../services/data-getters/sandbox-definition-getter.service";
 import {Router} from "@angular/router";
 import {ActiveUserService} from "../../../../services/active-user.service";
+import {environment} from "../../../../../environments/environment";
 
 /**
  * Component for creating new or editing already existing training definition
@@ -205,7 +206,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
       errorMessage += 'Sandbox definition cannot be empty\n';
     }
     if (errorMessage !== '') {
-      this.alertService.emitAlert(AlertTypeEnum.Error, errorMessage);
+      this.alertService.emitAlert(AlertTypeEnum.Error, errorMessage, environment.defaultAlertDuration);
       return false;
     }
     return true;

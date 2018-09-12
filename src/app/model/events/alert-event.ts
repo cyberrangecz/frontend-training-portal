@@ -7,10 +7,11 @@ import {AlertTypeEnum} from "../../enums/alert-type.enum";
 export class AlertEvent {
   type: AlertTypeEnum;
   payload: string;
+  duration: number;
 
-
-  constructor(type: AlertTypeEnum, payload: string) {
+  constructor(type: AlertTypeEnum, payload: string, duration: number) {
     this.type = type;
+    this.duration = duration;
     this.payload = payload;
   }
 }

@@ -6,7 +6,6 @@ import {DesignerOverviewMaterialModule} from "./designer-overview-material.modul
 import { TrainingDefinitionOverviewComponent } from './training-definition-overview/training-definition-overview.component';
 import { SandboxDefinitionOverviewComponent } from './sandbox-definition-overview/sandbox-definition-overview.component';
 import {TrainingDefinitionGetterService} from "../../../services/data-getters/training-definition-getter.service";
-import {AlertService} from "../../../services/event-services/alert.service";
 import {SandboxDefinitionGetterService} from "../../../services/data-getters/sandbox-definition-getter.service";
 import { UploadDialogComponent } from '../../shared/upload-dialog/upload-dialog.component';
 import {TrainingDefinitionSetterService} from "../../../services/data-setters/training-definition-setter.service";
@@ -36,7 +35,6 @@ import {UploadService} from "../../../services/data-setters/upload.service";
     TrainingInstanceGetterService,
     SandboxDefinitionGetterService,
     SandboxDefinitionSetterService,
-    AlertService
   ],
   entryComponents: [
     UploadDialogComponent,

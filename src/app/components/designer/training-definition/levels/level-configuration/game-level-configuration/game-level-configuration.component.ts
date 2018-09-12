@@ -4,6 +4,7 @@ import {AlertTypeEnum} from "../../../../../../enums/alert-type.enum";
 import {AlertService} from "../../../../../../services/event-services/alert.service";
 import {Hint} from "../../../../../../model/level/hint";
 import {HintStepperComponent} from "../hints/hint-stepper/hint-stepper.component";
+import {environment} from "../../../../../../../environments/environment";
 
 @Component({
   selector: 'game-level-configuration',
@@ -113,7 +114,7 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
     }
 
     if (errorMessage !== '') {
-      this.alertService.emitAlert(AlertTypeEnum.Error, errorMessage);
+      this.alertService.emitAlert(AlertTypeEnum.Error, errorMessage, environment.defaultAlertDuration);
       return false;
     }
     return true;

@@ -3,6 +3,7 @@ import {AlertService} from "../../../../services/event-services/alert.service";
 import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
 import {TrainingInstanceGetterService} from "../../../../services/data-getters/training-instance-getter.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'trainee-access-training',
@@ -40,11 +41,11 @@ export class TraineeAccessTrainingComponent implements OnInit {
             const firstLevel = 1;
             this.router.navigate(['training', trainingRunId, 'level', firstLevel], {relativeTo: this.activeRoute});
           } else {
-            this.alertService.emitAlert(AlertTypeEnum.Error, 'Wrong password');
+            this.alertService.emitAlert(AlertTypeEnum.Error, 'Wrong password', environment.defaultAlertDuration);
           }
         })
     } else {
-      this.alertService.emitAlert(AlertTypeEnum.Error, 'Password cannot be empty');
+      this.alertService.emitAlert(AlertTypeEnum.Error, 'Password cannot be empty', environment.defaultAlertDuration);
     }
   }
 

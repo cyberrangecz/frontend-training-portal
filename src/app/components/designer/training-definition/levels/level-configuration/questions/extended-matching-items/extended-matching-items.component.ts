@@ -13,6 +13,7 @@ import {ExtendedMatchingItems} from "../../../../../../../model/questions/extend
 import {AlertService} from "../../../../../../../services/event-services/alert.service";
 import {AlertTypeEnum} from "../../../../../../../enums/alert-type.enum";
 import {MatRadioButton} from "@angular/material";
+import {environment} from "../../../../../../../../environments/environment";
 
 @Component({
   selector: 'extended-matching-items',
@@ -291,7 +292,7 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
     }
 
     if (errorMessage !== '') {
-      this.alertService.emitAlert(AlertTypeEnum.Error, errorTitle + errorMessage);
+      this.alertService.emitAlert(AlertTypeEnum.Error, errorTitle + errorMessage, environment.defaultAlertDuration);
       return false;
     }
     return true;

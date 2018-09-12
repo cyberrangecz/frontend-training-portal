@@ -6,5 +6,7 @@ export const environment = {
   trainingDefsEndpointUri: 'http://localhost:8080/training-definitions/',
   trainingInstancesEndpointUri: 'http://localhost:8080/training-instances/',
   trainingRunsEndpointUri: 'http://localhost:8080/training-runs/',
-  levelsEndpointUri: 'http://localhost:8080/levels/'
+  levelsEndpointUri: 'http://localhost:8080/levels/',
+
+  defaultAlertDuration: 2500
 };

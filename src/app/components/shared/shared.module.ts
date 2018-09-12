@@ -40,7 +40,8 @@ import { AlertSnackbarComponent } from './alert/alert-snackbar/alert-snackbar.co
     SidenavComponent,
     AlertComponent,
     NotAuthorizedComponent,
-    UploadDialogComponent
+    UploadDialogComponent,
+    SharedMaterialModule
   ],
   providers: [
     AlertService,
