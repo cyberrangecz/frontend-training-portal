@@ -5,6 +5,7 @@ import {TrainingInstance} from "../../model/training/training-instance";
 import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
 import {ActiveUserService} from "../active-user.service";
+import {PaginationParams} from "../../model/http/params/pagination-params";
 
 @Injectable()
 /**
@@ -34,8 +35,8 @@ export class TrainingInstanceGetterService {
    * @param sortDir sort direction (asc, desc)
    */
   getTrainingInstancesWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<TrainingInstance[]> {
-    // TODO: Add pagination params to the request
-    return this.http.get(environment.trainingInstancesEndpointUri)
+    let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
+    return this.http.get(environment.trainingInstancesEndpointUri, { params: params })
       .pipe(map(response =>
         this.parseTrainingInstances(response)));
   }

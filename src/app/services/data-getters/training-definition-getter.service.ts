@@ -1,10 +1,11 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
 import {TrainingDefinition} from "../../model/training/training-definition";
 import {TrainingDefinitionStateEnum} from "../../enums/training-definition-state.enum";
 import {Observable} from "rxjs/internal/Observable";
+import {PaginationParams} from "../../model/http/params/pagination-params";
 
 @Injectable()
 /**
@@ -34,8 +35,8 @@ export class TrainingDefinitionGetterService {
    * @param sortDir sort direction (asc, desc)
    */
   getTrainingDefsWithPaginations(page: number, size: number, sort: string, sortDir: string): Observable<TrainingDefinition[]> {
-    // TODO: Add pagination params to requests
-    return this.http.get(environment.trainingDefsEndpointUri)
+    let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
+    return this.http.get(environment.trainingDefsEndpointUri, { params: params })
       .pipe(map(response =>
         this.parseTrainingDefs(response)));
   }

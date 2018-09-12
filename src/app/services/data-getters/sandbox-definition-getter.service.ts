@@ -4,6 +4,7 @@ import {Observable} from "rxjs/internal/Observable";
 import {SandboxDefinition} from "../../model/sandbox/sandbox-definition";
 import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
+import {PaginationParams} from "../../model/http/params/pagination-params";
 
 @Injectable()
 /**
@@ -34,8 +35,8 @@ export class SandboxDefinitionGetterService {
    * @param sortDir sortDirection (asc, desc)
    */
   getSandboxDefsWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<SandboxDefinition[]> {
-    // TODO: Set pagination params to the request
-    return this.http.get(environment.sandboxDefsEndpointUri)
+    let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
+    return this.http.get(environment.sandboxDefsEndpointUri, { params: params })
       .pipe(map(response =>
         this.parseSandboxDefs(response)));
   }

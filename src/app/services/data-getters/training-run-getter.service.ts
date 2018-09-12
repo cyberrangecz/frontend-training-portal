@@ -6,6 +6,7 @@ import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
 import {TrainingRunStateEnum} from "../../enums/training-run-state.enum";
 import {ActiveUserService} from "../active-user.service";
+import {PaginationParams} from "../../model/http/params/pagination-params";
 
 /**
  * Service abstracting the training run endpoint.
@@ -35,11 +36,8 @@ export class TrainingRunGetterService {
    * @param sortDir sort direction (asc, desc)
    */
   getTrainingRunsWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<TrainingRun[]> {
-    console.log(page);
-    console.log(size);
-    console.log(sort);
-    console.log(sortDir);
-    return this.http.get(environment.trainingRunsEndpointUri)
+    let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
+    return this.http.get(environment.trainingRunsEndpointUri, { params: params })
       .pipe(map(response =>
         this.parseTrainingRuns(response)));
   }
