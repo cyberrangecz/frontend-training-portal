@@ -47,6 +47,6 @@ export class AlertComponent implements OnInit, OnDestroy {
    * @param alert received alert event
    */
   private getConfig(alert: AlertEvent) {
-    return alert.duration <= 0 ? {data: alert} : {duration: alert.duration, data: alert};
+    return alert.duration < 0 ? {data: alert} : {duration: alert.duration, data: alert};
   }
 }

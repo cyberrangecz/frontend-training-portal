@@ -12,7 +12,7 @@ export const environment = {
   trainingRunsEndpointUri: 'assets/sample-data/test-training-runs.json',
   levelsEndpointUri: 'assets/sample-data/test-levels.json',
 
-  defaultAlertDuration: 2500
+  defaultAlertDuration: 2500 // 0 to display until user dismisses it
 };
 
 /*
