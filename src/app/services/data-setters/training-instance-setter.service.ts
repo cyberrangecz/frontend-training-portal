@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {TrainingInstance} from "../../model/training/training-instance";
+import {TrainingInstanceDto} from "../../model/DTOs/training-instance/training-instance-dto";
 
 @Injectable()
 export class TrainingInstanceSetterService {
@@ -14,7 +15,7 @@ export class TrainingInstanceSetterService {
    * @param {TrainingInstance} trainingInstance training instance which should be created
    */
   addTrainingInstance(trainingInstance: TrainingInstance) {
-    this.http.post(environment.trainingInstancesEndpointUri, trainingInstance);
+    this.http.post(environment.trainingInstancesEndpointUri, new TrainingInstanceDto(trainingInstance));
   }
 
   /**
@@ -22,7 +23,7 @@ export class TrainingInstanceSetterService {
    * @param trainingInstance training instance which should be updated
    */
   updateTrainingInstance(trainingInstance: TrainingInstance) {
-    this.http.put(environment.trainingInstancesEndpointUri, trainingInstance);
+    this.http.put(environment.trainingInstancesEndpointUri, new TrainingInstanceDto(trainingInstance));
   }
 
   /**

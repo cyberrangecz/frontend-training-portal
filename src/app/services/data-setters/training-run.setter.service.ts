@@ -1,6 +1,4 @@
 import {Injectable} from "@angular/core";
-import {ActiveUserService} from "../active-user.service";
-import {HttpHeaders} from "@angular/common/http";
 import {AbstractQuestion} from "../../model/questions/abstract-question";
 
 @Injectable()

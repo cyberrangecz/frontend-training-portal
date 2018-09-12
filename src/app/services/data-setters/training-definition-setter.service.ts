@@ -1,14 +1,15 @@
 import {Injectable} from "@angular/core";
 import {TrainingDefinition} from "../../model/training/training-definition";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
-import {ActiveUserService} from "../active-user.service";
 import {AssessmentLevel} from "../../model/level/assessment-level";
 import {GameLevel} from "../../model/level/game-level";
 import {InfoLevel} from "../../model/level/info-level";
-import {Observable, pipe} from "rxjs";
-import {map} from "rxjs/operators";
-import {LevelDtoCreator} from "../../model/DTOs/level/level-dto-creator";
+import {Observable} from "rxjs";
+import {TrainingDefinitionDto} from "../../model/DTOs/training-definition/training-definition-dto";
+import {AssessmentLevelDto} from "../../model/DTOs/level/assessment-level-dto";
+import {GameLevelDto} from "../../model/DTOs/level/game-level-dto";
+import {InfoLevelDto} from "../../model/DTOs/level/info-level-dto";
 
 /**
  * Service to abstract communication with training definition endpoint.
@@ -42,7 +43,7 @@ export class TrainingDefinitionSetterService {
    * @param trainingDef updated training definition
    */
   updateTrainingDefinition(trainingDef: TrainingDefinition) {
-    return this.http.put(environment.trainingDefsEndpointUri, trainingDef)
+    return this.http.put(environment.trainingDefsEndpointUri, new TrainingDefinitionDto(trainingDef))
   }
 
   /**
@@ -50,7 +51,7 @@ export class TrainingDefinitionSetterService {
    * @param {TrainingDefinition} trainingDef training definition which should be created
    */
   addTrainingDefinition(trainingDef: TrainingDefinition) {
-    return this.http.post(environment.trainingDefsEndpointUri, trainingDef);
+    return this.http.post(environment.trainingDefsEndpointUri, new TrainingDefinitionDto(trainingDef));
   }
 
   /**
@@ -59,7 +60,7 @@ export class TrainingDefinitionSetterService {
    * @param assessmentLevel new assessment level which should be created in DB
    */
   createAssessmentLevel(trainingDefId: number, assessmentLevel: AssessmentLevel): Observable<number> {
-    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId + '/assessment-levels', assessmentLevel);
+    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId + '/assessment-levels', new AssessmentLevelDto(assessmentLevel));
   }
 
   /**
@@ -68,7 +69,7 @@ export class TrainingDefinitionSetterService {
    * @param gameLevel new game level which should be created in DB
    */
   createGameLevel(trainingDefId: number, gameLevel: GameLevel): Observable<number> {
-    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId + '/game-levels', gameLevel);
+    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId + '/game-levels', new GameLevelDto(gameLevel));
   }
 
   /**
@@ -77,7 +78,7 @@ export class TrainingDefinitionSetterService {
    * @param infoLevel new info level which should be created in DB
    */
   createInfoLevel(trainingDefId: number, infoLevel: InfoLevel): Observable<number> {
-    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId + '/info-levels', infoLevel);
+    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId + '/info-levels', new InfoLevelDto(infoLevel));
   }
 
   /**
@@ -123,7 +124,7 @@ export class TrainingDefinitionSetterService {
    * @param gameLevel game level which should be updated
    */
   updateGameLevel(trainingDefId: number, gameLevel: GameLevel) {
-    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/game-levels', gameLevel);
+    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/game-levels', new GameLevelDto(gameLevel));
   }
 
   /**
@@ -132,7 +133,7 @@ export class TrainingDefinitionSetterService {
    * @param infoLevel info level which should be updated
    */
   updateInfoLevel(trainingDefId: number, infoLevel: InfoLevel) {
-    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/info-levels', infoLevel);
+    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/info-levels', new InfoLevelDto(infoLevel));
   }
 
   /**
@@ -141,6 +142,6 @@ export class TrainingDefinitionSetterService {
    * @param assessmentLevel assessment level which should be updated
    */
   updateAssessmentLevel(trainingDefId: number, assessmentLevel: AssessmentLevel) {
-    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/assessment-levels', assessmentLevel);
+    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/assessment-levels', new AssessmentLevelDto(assessmentLevel));
   }
 }

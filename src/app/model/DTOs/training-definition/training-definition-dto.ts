@@ -1,7 +1,7 @@
 import {TrainingDefinition} from "../../training/training-definition";
 
 
-export class TrainingDefininitionDto {
+export class TrainingDefinitionDto {
 
   constructor(trainingDef: TrainingDefinition) {
 
