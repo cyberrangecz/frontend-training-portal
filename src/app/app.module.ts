@@ -15,7 +15,6 @@ import {UserGetterService} from "./services/data-getters/user-getter.service";
 import {SharedModule} from "./components/shared/shared.module";
 import {TrainingDistractionFreeModeService} from "./services/training-distraction-free-mode.service";
 import {AuthInterceptor} from "./http-interceptors/auth-interceptor";
-import {ErrorInterceptor} from "./http-interceptors/error-interceptor";
 
 @NgModule({
   declarations: [
@@ -38,7 +37,6 @@ import {ErrorInterceptor} from "./http-interceptors/error-interceptor";
     UserGetterService,
     TrainingDistractionFreeModeService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })
