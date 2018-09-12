@@ -161,7 +161,6 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
   swapRight() {
     if (this.selectedStep !== this.levels.length - 1) {
       this.trainingDefinitionSetter.swapRight(this.trainingDefinitionId, this.levels[this.selectedStep].id);
-
       // TODO: Should be reloaded from REST API instead of calculating?
       const tempLevel = this.levels[this.selectedStep + 1];
       tempLevel.order -= 1;

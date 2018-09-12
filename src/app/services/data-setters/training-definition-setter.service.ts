@@ -8,6 +8,7 @@ import {GameLevel} from "../../model/level/game-level";
 import {InfoLevel} from "../../model/level/info-level";
 import {Observable, pipe} from "rxjs";
 import {map} from "rxjs/operators";
+import {LevelDtoCreator} from "../../model/DTOs/level/level-dto-creator";
 
 /**
  * Service to abstract communication with training definition endpoint.
@@ -94,7 +95,7 @@ export class TrainingDefinitionSetterService {
    * @param levelId id of a level which should be swapped
    */
   swapRight(trainingDefId: number, levelId: number) {
-    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + levelId + '/swap-right',null,);
+    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + levelId + '/swap-right',null);
   }
 
   /**
