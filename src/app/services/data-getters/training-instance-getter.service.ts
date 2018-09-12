@@ -22,12 +22,7 @@ export class TrainingInstanceGetterService {
    * @returns {Observable<TrainingInstance[]>} Observable of training instances list
    */
   getTrainingInstances(): Observable<TrainingInstance[]> {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
-    });
-
-    return this.http.get(environment.trainingInstancesEndpointUri, { headers: headers })
+    return this.http.get(environment.trainingInstancesEndpointUri)
       .pipe(map(response =>
         this.parseTrainingInstances(response)));
   }
@@ -38,11 +33,6 @@ export class TrainingInstanceGetterService {
    * @returns {Observable<TrainingInstance>} Observable of training instance, null if no such training instance is found
    */
   getTrainingInstanceById(id: number): Observable<TrainingInstance> {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
-    });
-
     return this.getTrainingInstances()
       .pipe(map(trainingInstances =>
         trainingInstances.find(trainingInstance => trainingInstance.id === id)
@@ -55,11 +45,6 @@ export class TrainingInstanceGetterService {
    * @returns {Observable<TrainingInstance[]>} Observable of training instances list
    */
   getTrainingInstancesByTrainingDefinitionId(trainingDefId: number): Observable<TrainingInstance[]> {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
-    });
-
     return this.getTrainingInstances()
       .pipe(map(trainingInstances =>
         trainingInstances.filter(trainingInstance =>
@@ -73,11 +58,6 @@ export class TrainingInstanceGetterService {
    * @returns {Observable<TrainingInstance>} Observable of training instance, null if no instance with provided keyword is found
    */
   getTrainingInstanceByKeyword(keyword: string): Observable<TrainingInstance> {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
-    });
-
     return this.getTrainingInstances()
       .pipe(map(trainingInstances =>
       trainingInstances.find(trainingInstance =>
@@ -89,10 +69,6 @@ export class TrainingInstanceGetterService {
    * @param id id of training instance which should be downloaded
    */
   downloadTrainingInstance(id: number) {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
-    });
     // TODO: download Training instance
   }
 

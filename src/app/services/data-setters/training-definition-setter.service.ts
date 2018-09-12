@@ -16,8 +16,7 @@ import {map} from "rxjs/operators";
 @Injectable()
 export class TrainingDefinitionSetterService {
 
-  constructor(private http: HttpClient,
-              private activeUser: ActiveUserService) {
+  constructor(private http: HttpClient) {
   }
 
   /**
@@ -25,11 +24,7 @@ export class TrainingDefinitionSetterService {
    * @param {number} trainingDefId id of training definition which should be removed
    */
   removeTrainingDefinition(trainingDefId: number) {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
-    });
-    return this.http.delete(environment.trainingDefsEndpointUri + trainingDefId, { headers: headers });
+    return this.http.delete(environment.trainingDefsEndpointUri + trainingDefId);
   }
 
   /**
@@ -37,11 +32,7 @@ export class TrainingDefinitionSetterService {
    * @param trainingDefId id of training definition which should be cloned
    */
   cloneTrainingDefinition(trainingDefId: number) {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
-    });
-    return this.http.post(environment.trainingDefsEndpointUri + trainingDefId, { headers: headers });
+    return this.http.post(environment.trainingDefsEndpointUri + trainingDefId, {});
   }
 
 
@@ -50,11 +41,7 @@ export class TrainingDefinitionSetterService {
    * @param trainingDef updated training definition
    */
   updateTrainingDefinition(trainingDef: TrainingDefinition) {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
-    });
-    return this.http.put(environment.trainingDefsEndpointUri, trainingDef,{ headers: headers })
+    return this.http.put(environment.trainingDefsEndpointUri, trainingDef)
   }
 
   /**
@@ -62,11 +49,7 @@ export class TrainingDefinitionSetterService {
    * @param {TrainingDefinition} trainingDef training definition which should be created
    */
   addTrainingDefinition(trainingDef: TrainingDefinition) {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
-    });
-    return this.http.post(environment.trainingDefsEndpointUri, trainingDef,{ headers: headers });
+    return this.http.post(environment.trainingDefsEndpointUri, trainingDef);
   }
 
   /**
@@ -75,11 +58,7 @@ export class TrainingDefinitionSetterService {
    * @param assessmentLevel new assessment level which should be created in DB
    */
   createAssessmentLevel(trainingDefId: number, assessmentLevel: AssessmentLevel): Observable<number> {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
-    });
-    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId + '/assessment-levels', assessmentLevel, { headers: headers });
+    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId + '/assessment-levels', assessmentLevel);
   }
 
   /**
@@ -88,11 +67,7 @@ export class TrainingDefinitionSetterService {
    * @param gameLevel new game level which should be created in DB
    */
   createGameLevel(trainingDefId: number, gameLevel: GameLevel): Observable<number> {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
-    });
-    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId + '/game-levels', gameLevel, { headers: headers });
+    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId + '/game-levels', gameLevel);
   }
 
   /**
@@ -101,11 +76,7 @@ export class TrainingDefinitionSetterService {
    * @param infoLevel new info level which should be created in DB
    */
   createInfoLevel(trainingDefId: number, infoLevel: InfoLevel): Observable<number> {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
-    });
-    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId + '/info-levels', infoLevel, { headers: headers });
+    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId + '/info-levels', infoLevel);
   }
 
   /**
@@ -114,11 +85,7 @@ export class TrainingDefinitionSetterService {
    * @param levelId id of a level which should be swapped
    */
   swapLeft(trainingDefId: number, levelId: number) {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
-    });
-    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + levelId + '/swap-left',null, { headers: headers });
+    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + levelId + '/swap-left',null);
   }
 
   /**
@@ -127,11 +94,7 @@ export class TrainingDefinitionSetterService {
    * @param levelId id of a level which should be swapped
    */
   swapRight(trainingDefId: number, levelId: number) {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
-    });
-    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + levelId + '/swap-right',null, { headers: headers });
+    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + levelId + '/swap-right',null,);
   }
 
   /**
@@ -141,11 +104,7 @@ export class TrainingDefinitionSetterService {
    * @param secondLevelId id of second level which should be swapped
    */
   swap(trainingDefId: number, firstLevelId: number, secondLevelId: number) {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
-    });
-    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + firstLevelId + '/swap/' + trainingDefId,null, { headers: headers });
+    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + firstLevelId + '/swap/' + trainingDefId,null);
   }
 
   /**
@@ -154,11 +113,7 @@ export class TrainingDefinitionSetterService {
    * @param levelId id of level which should be removed
    */
   removeLevel(trainingDefId: number, levelId: number) {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
-    });
-    return this.http.delete(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + levelId, { headers: headers });
+    return this.http.delete(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + levelId);
   }
 
   /**
@@ -167,11 +122,7 @@ export class TrainingDefinitionSetterService {
    * @param gameLevel game level which should be updated
    */
   updateGameLevel(trainingDefId: number, gameLevel: GameLevel) {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
-    });
-    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/game-levels', gameLevel, { headers: headers });
+    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/game-levels', gameLevel);
   }
 
   /**
@@ -180,11 +131,7 @@ export class TrainingDefinitionSetterService {
    * @param infoLevel info level which should be updated
    */
   updateInfoLevel(trainingDefId: number, infoLevel: InfoLevel) {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
-    });
-    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/info-levels', infoLevel, { headers: headers });
+    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/info-levels', infoLevel);
   }
 
   /**
@@ -193,10 +140,6 @@ export class TrainingDefinitionSetterService {
    * @param assessmentLevel assessment level which should be updated
    */
   updateAssessmentLevel(trainingDefId: number, assessmentLevel: AssessmentLevel) {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
-    });
-    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/assessment-levels', assessmentLevel, { headers: headers });
+    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/assessment-levels', assessmentLevel);
   }
 }

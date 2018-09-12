@@ -24,11 +24,7 @@ export class TrainingDefinitionGetterService {
    * @returns {Observable<TrainingDefinition[]>} Observable of training definitions list
    */
   getTrainingDefs(): Observable<TrainingDefinition[]> {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
-    });
-    return this.http.get(environment.trainingDefsEndpointUri, { headers: headers })
+    return this.http.get(environment.trainingDefsEndpointUri)
       .pipe(map(response =>
         this.parseTrainingDefs(response)));
   }
@@ -39,12 +35,7 @@ export class TrainingDefinitionGetterService {
    * @returns {Observable<TrainingDefinition>} Observable of retrieved training definition, null if no training with such id is found
    */
   getTrainingDefById(id: number): Observable<TrainingDefinition> {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
-    });
-
-/*    return this.http.get(environment.trainingDefsEndpointUri + id, { headers: headers })
+/*    return this.http.get(environment.trainingDefsEndpointUri + id)
       .pipe(map(response =>
         this.parseTrainingDefs(response)));*/
 
@@ -58,10 +49,6 @@ export class TrainingDefinitionGetterService {
    * @param id id of training definition which should be downloaded
    */
   downloadTrainingDef(id: number) {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
-    });
     // TODO: call to download Training Def
   }
 
@@ -70,11 +57,6 @@ export class TrainingDefinitionGetterService {
    * @returns {Observable<TrainingDefinition[]>} Observable of retrieved list of training definitions
    */
   getReleasedTrainingDefs(): Observable<TrainingDefinition[]> {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
-    });
-
     return this.getTrainingDefs()
       .pipe(map(trainings =>
       trainings.filter(training => training.state === TrainingDefinitionStateEnum.Released)));
@@ -87,11 +69,6 @@ export class TrainingDefinitionGetterService {
    */
   getTrainingDefsBySandboxDefId(sandboxId: number): Observable<TrainingDefinition[]> {
     // TODO: Move to sandbox endpoint?
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
-    });
-
     return this.getTrainingDefs()
       .pipe(map(trainings =>
         trainings.filter(training => training.sandboxDefinitionId === sandboxId)));

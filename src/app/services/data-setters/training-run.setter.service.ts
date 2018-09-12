@@ -6,7 +6,7 @@ import {AbstractQuestion} from "../../model/questions/abstract-question";
 @Injectable()
 export class TrainingRunSetterService {
 
-  constructor(private activeUser: ActiveUserService) {
+  constructor() {
 
   }
 
@@ -15,10 +15,6 @@ export class TrainingRunSetterService {
    * @param id id of training run which should be reverted
    */
   revert(id: number) {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
-    });
     // TODO: Call REST API to revert training run
   }
 
@@ -27,10 +23,6 @@ export class TrainingRunSetterService {
    * @param trainingRunId id of a training run
    */
   nextLevel(trainingRunId: number) {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
-    });
     // TODO: Call REST API to move to next level
   }
 
@@ -40,10 +32,6 @@ export class TrainingRunSetterService {
    * @param flag flag submitted by user
    */
   submitFlag(levelId: number, flag: string) {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
-    });
     // TODO: Call REST API to check flag
   }
 
@@ -53,10 +41,6 @@ export class TrainingRunSetterService {
    * @param hintId id of requested hint
    */
   takeHint(levelId: number, hintId: number) {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
-    });
     // TODO: Call REST API to take a hint
   }
 
@@ -65,10 +49,6 @@ export class TrainingRunSetterService {
    * @param levelId id of the active level
    */
   takeSolution(levelId: number) {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
-    });
     // TODO: Call REST API to take a solution
   }
 
@@ -78,10 +58,6 @@ export class TrainingRunSetterService {
    * @param questions questions which answers should be submitted
    */
   submitQuestions(levelId: number, questions: AbstractQuestion[]) {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': this.activeUser.getActiveUserAuthorizationHeader()
-    });
     // TODO: Call REST API to submit questions
   }
 
