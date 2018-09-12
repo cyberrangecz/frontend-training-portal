@@ -35,7 +35,7 @@
 
           <!-- DATE Column -->
           <ng-container matColumnDef="date">
-            <th class="date" mat-header-cell *matHeaderCellDef>Date</th>
+            <th class="date" mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
             <td class="date" mat-cell *matCellDef="let training">
               {{ training.trainingInstance?.startTime.toDateString() }} - {{ training.trainingInstance?.endTime.toDateString() }}
             </td>

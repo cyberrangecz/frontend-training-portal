@@ -10,6 +10,7 @@ import {TrainingDefinitionGetterService} from "../../../../services/data-getters
 import {merge, of} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {TrainingInstanceSetterService} from "../../../../services/data-setters/training-instance-setter.service";
+import {environment} from "../../../../../environments/environment";
 
 export class TrainingInstanceTableDataObject {
   trainingDefinitionTitle: string;
@@ -130,6 +131,9 @@ export class TrainingInstancesListComponent implements OnInit {
    */
   private initTableDataSource() {
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    this.paginator.pageSize = environment.defaultPaginationSize;
+    this.sort.active = 'title';
+    this.sort.direction = 'desc';
     this.fetchData();
   }
 
@@ -142,7 +146,7 @@ export class TrainingInstancesListComponent implements OnInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.trainingInstanceGetter.getTrainingInstances(); // params? this.sort.active, this.sort.direction, this.paginator.pageIndex
+          return this.trainingInstanceGetter.getTrainingInstancesWithPagination(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
         }),
         map(data => {
           // Flip flag to show that loading has finished.

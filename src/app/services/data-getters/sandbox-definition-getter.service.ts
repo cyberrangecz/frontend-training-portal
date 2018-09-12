@@ -27,6 +27,20 @@ export class SandboxDefinitionGetterService {
   }
 
   /**
+   * Retrieves all sandbox definition on specified page of a pagination
+   * @param page page of pagination
+   * @param size size of a page
+   * @param sort attribute by which will result be sorted
+   * @param sortDir sortDirection (asc, desc)
+   */
+  getSandboxDefsWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<SandboxDefinition[]> {
+    // TODO: Set pagination params to the request
+    return this.http.get(environment.sandboxDefsEndpointUri)
+      .pipe(map(response =>
+        this.parseSandboxDefs(response)));
+  }
+
+  /**
    * Retrieves sandbox by its id
    * @param {number} sandboxId id of sandbox which should be retrieved
    * @returns {Observable<SandboxDefinition>} Observable of retrieved sandbox definition, null if no sandbox definition with such id is found

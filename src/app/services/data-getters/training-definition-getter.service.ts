@@ -1,11 +1,10 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
 import {TrainingDefinition} from "../../model/training/training-definition";
 import {TrainingDefinitionStateEnum} from "../../enums/training-definition-state.enum";
 import {Observable} from "rxjs/internal/Observable";
-import {ActiveUserService} from "../active-user.service";
 
 @Injectable()
 /**
@@ -14,9 +13,7 @@ import {ActiveUserService} from "../active-user.service";
  */
 export class TrainingDefinitionGetterService {
 
-  constructor(
-    private activeUser: ActiveUserService,
-    private http: HttpClient) {
+  constructor(private http: HttpClient) {
   }
 
   /**
@@ -24,6 +21,20 @@ export class TrainingDefinitionGetterService {
    * @returns {Observable<TrainingDefinition[]>} Observable of training definitions list
    */
   getTrainingDefs(): Observable<TrainingDefinition[]> {
+    return this.http.get(environment.trainingDefsEndpointUri)
+      .pipe(map(response =>
+        this.parseTrainingDefs(response)));
+  }
+
+  /**
+   * Retrieves all training definition on specified page of a pagination
+   * @param page page of pagination
+   * @param size size of a page
+   * @param sort attribute by which will result be sorted
+   * @param sortDir sort direction (asc, desc)
+   */
+  getTrainingDefsWithPaginations(page: number, size: number, sort: string, sortDir: string): Observable<TrainingDefinition[]> {
+    // TODO: Add pagination params to requests
     return this.http.get(environment.trainingDefsEndpointUri)
       .pipe(map(response =>
         this.parseTrainingDefs(response)));

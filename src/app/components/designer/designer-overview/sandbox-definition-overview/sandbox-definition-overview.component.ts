@@ -117,16 +117,19 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
    */
   private initDataSource() {
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    this.paginator.pageSize = environment.defaultPaginationSize;
+    this.sort.active = 'title';
+    this.sort.direction = 'desc';
     this.fetchData();
   }
 
   private fetchData() {
-    merge(this.sort.sortChange, this.paginator.page)
+    merge(this.sort.sortChange, this.paginator.page, this.paginator.pageSize)
       .pipe(
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.sandboxDefinitionGetter.getSandboxDefs(); // params? this.sort.active, this.sort.direction, this.paginator.pageIndex
+          return this.sandboxDefinitionGetter.getSandboxDefsWithPagination(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
         }),
         map(data => {
           // Flip flag to show that loading has finished.

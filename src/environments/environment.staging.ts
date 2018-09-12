@@ -8,5 +8,5 @@ export const environment = {
   trainingRunsEndpointUri: 'http://localhost:8080/training-runs/',
   levelsEndpointUri: 'http://localhost:8080/levels/',
 
-  defaultAlertDuration: 2500 // 0 to display until user dismisses it
-};
+  defaultAlertDuration: 2500, // 0 to display until user dismisses it
+  defaultPaginationSize: 5};

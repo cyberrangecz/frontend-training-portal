@@ -144,6 +144,9 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    */
   private initTableDataSource() {
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    this.paginator.pageSize = environment.defaultPaginationSize;
+    this.sort.active = 'title';
+    this.sort.direction = 'desc';
     this.fetchData();
   }
 
@@ -156,7 +159,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.trainingDefinitionGetter.getTrainingDefs(); // params? this.sort.active, this.sort.direction, this.paginator.pageIndex
+          return this.trainingDefinitionGetter.getTrainingDefsWithPaginations(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
         }),
         map(data => {
           // Flip flag to show that loading has finished.

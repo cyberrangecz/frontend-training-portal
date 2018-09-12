@@ -13,8 +13,7 @@ import {ActiveUserService} from "../active-user.service";
  */
 export class TrainingInstanceGetterService {
 
-  constructor(private http: HttpClient,
-              private activeUser: ActiveUserService) {
+  constructor(private http: HttpClient) {
   }
 
   /**
@@ -26,6 +25,22 @@ export class TrainingInstanceGetterService {
       .pipe(map(response =>
         this.parseTrainingInstances(response)));
   }
+
+  /**
+   * Retrieves all training instance on specified page of a pagination
+   * @param page page of pagination
+   * @param size size of a page
+   * @param sort attribute by which will result be sorted
+   * @param sortDir sort direction (asc, desc)
+   */
+  getTrainingInstancesWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<TrainingInstance[]> {
+    // TODO: Add pagination params to the request
+    return this.http.get(environment.trainingInstancesEndpointUri)
+      .pipe(map(response =>
+        this.parseTrainingInstances(response)));
+  }
+
+
 
   /**
    * Retrieves training instance by  id

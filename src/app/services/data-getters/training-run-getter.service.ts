@@ -14,8 +14,7 @@ import {ActiveUserService} from "../active-user.service";
 @Injectable()
 export class TrainingRunGetterService {
 
-  constructor(private http: HttpClient,
-              private activeUser: ActiveUserService) {
+  constructor(private http: HttpClient) {
   }
 
   /**
@@ -23,6 +22,23 @@ export class TrainingRunGetterService {
    * @returns {Observable<TrainingRun[]>} observable of list of training runs
    */
   getTrainingRuns(): Observable<TrainingRun[]> {
+    return this.http.get(environment.trainingRunsEndpointUri)
+      .pipe(map(response =>
+        this.parseTrainingRuns(response)));
+  }
+
+  /**
+   * Retrieves all training run on current page of pagination component
+   * @param page current page
+   * @param size current size of the page
+   * @param sort by which parameter should the result be sorted
+   * @param sortDir sort direction (asc, desc)
+   */
+  getTrainingRunsWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<TrainingRun[]> {
+    console.log(page);
+    console.log(size);
+    console.log(sort);
+    console.log(sortDir);
     return this.http.get(environment.trainingRunsEndpointUri)
       .pipe(map(response =>
         this.parseTrainingRuns(response)));

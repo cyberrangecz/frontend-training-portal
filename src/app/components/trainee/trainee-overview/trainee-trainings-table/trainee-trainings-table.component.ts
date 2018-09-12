@@ -9,6 +9,7 @@ import {ActiveUserService} from "../../../../services/active-user.service";
 import {LevelGetterService} from "../../../../services/data-getters/level-getter.service";
 import {merge, of} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
+import {environment} from "../../../../../environments/environment";
 
 export class TraineeAccessedTrainingsTableDataObject {
   totalLevels: number;
@@ -56,7 +57,6 @@ export class TraineeTrainingsTableComponent implements OnInit {
    */
   tryAgain(trainingInstance: TrainingInstance) {
     // TODO: allocate new sandbox etc and get ID of training run
-
     const trainingRunId = 1;
     const firstLevel = 1;
     this.router.navigate(['training', trainingRunId, 'level', firstLevel], {relativeTo: this.activeRoute});
@@ -86,6 +86,9 @@ export class TraineeTrainingsTableComponent implements OnInit {
    */
   private initDataSource() {
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    this.paginator.pageSize = environment.defaultPaginationSize;
+    this.sort.active = 'date';
+    this.sort.direction = 'desc';
     this.fetchData();
   }
 
@@ -95,7 +98,7 @@ export class TraineeTrainingsTableComponent implements OnInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.trainingRunGetter.getTrainingRuns(); // params? this.sort.active, this.sort.direction, this.paginator.pageIndex
+          return this.trainingRunGetter.getTrainingRunsWithPagination(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
         }),
         map(data => {
           // Flip flag to show that loading has finished.

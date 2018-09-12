@@ -8,5 +8,5 @@ export const environment = {
   trainingRunsEndpointUri: '',
   levelsEndpointUri: '',
 
-  defaultAlertDuration: 2500 // 0 to display until user dismisses it
-};
+  defaultAlertDuration: 2500, // 0 to display until user dismisses it
+  defaultPaginationSize: 5};
