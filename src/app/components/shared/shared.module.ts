@@ -14,6 +14,7 @@ import {UploadDialogComponent} from "./upload-dialog/upload-dialog.component";
 import {UploadService} from "../../services/data-setters/upload.service";
 import {ngfModule} from "angular-file";
 import { AlertSnackbarComponent } from './alert/alert-snackbar/alert-snackbar.component';
+import { LoadingComponent } from './loading/loading.component';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { AlertSnackbarComponent } from './alert/alert-snackbar/alert-snackbar.co
     NotAuthorizedComponent,
     UploadDialogComponent,
     AlertSnackbarComponent,
+    LoadingComponent,
   ],
   exports: [
     NotFoundComponent,
@@ -39,6 +41,7 @@ import { AlertSnackbarComponent } from './alert/alert-snackbar/alert-snackbar.co
     UserMenuComponent,
     SidenavComponent,
     AlertComponent,
+    LoadingComponent,
     NotAuthorizedComponent,
     UploadDialogComponent,
     SharedMaterialModule

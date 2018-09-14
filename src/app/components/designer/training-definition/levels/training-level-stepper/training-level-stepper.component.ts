@@ -84,6 +84,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
           this.isLoading = false;
           newInfoLevel.id = id;
           this.levels.push(newInfoLevel);
+          this.isLoading = false;
         },
         (err: HttpErrorResponse) => this.handleHttpError(err)
       );
@@ -110,10 +111,10 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
     this.trainingDefinitionSetter.createGameLevel(this.trainingDefinitionId, newGameLevel)
       .subscribe(
         id => {
-        this.isLoading = false;
         newGameLevel.id = id;
         this.levels.push(newGameLevel);
-      },
+        this.isLoading = false
+        },
         (err: HttpErrorResponse) =>  this.handleHttpError(err));
   }
 
@@ -133,9 +134,9 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
     this.trainingDefinitionSetter.createAssessmentLevel(this.trainingDefinitionId, newAssessmentLevel)
       .subscribe(
         id => {
-          this.isLoading = false;
           newAssessmentLevel.id = id;
           this.levels.push(newAssessmentLevel);
+          this.isLoading = false;
         },
         (err: HttpErrorResponse) => this.handleHttpError(err)
       );
@@ -145,10 +146,11 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    * Swaps order of currently selected level with level next to him (to the left)
    */
   swapLeft() {
+    this.isLoading = true;
     if (this.selectedStep !== 0) {
       this.trainingDefinitionSetter.swapLeft(this.trainingDefinitionId, this.levels[this.selectedStep].id)
         .subscribe(resp => {
-
+          this.isLoading = false;
         },
           (err: HttpErrorResponse) => this.handleHttpError(err));
 
@@ -166,10 +168,11 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    * Swaps order of currently selected level with level next to him (to the right)
    */
   swapRight() {
+    this.isLoading = true;
     if (this.selectedStep !== this.levels.length - 1) {
       this.trainingDefinitionSetter.swapRight(this.trainingDefinitionId, this.levels[this.selectedStep].id)
         .subscribe(resp => {
-
+            this.isLoading = false;
         },
           (err: HttpErrorResponse) => this.handleHttpError(err));
 
@@ -199,12 +202,14 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
+        this.isLoading = true;
         this.trainingDefinitionSetter.removeLevel(this.trainingDefinitionId, this.levels[index].id)
           .subscribe(response => {
             this.levels.splice(index, 1);
             this.decreaseOrderOfLevelsFromIndex(index);
             this.changeSelectedStepAfterRemoving(index);
-          },
+            this.isLoading = false;
+            },
             (err: HttpErrorResponse) => this.handleHttpError(err));
       }
     });
@@ -254,6 +259,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    * @param err http error
    */
   private handleHttpError(err: HttpErrorResponse) {
+    this.isLoading = false;
     if (err.status === 404)
       this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach the server right now. Please check your internet connection.', environment.defaultAlertDuration)
   }
