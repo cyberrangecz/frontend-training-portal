@@ -3,5 +3,4 @@ export enum AlertTypeEnum {
   Success = 'success',
   Info = 'info',
   Warning = 'warning'
-
 }

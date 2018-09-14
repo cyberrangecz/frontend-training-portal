@@ -1,6 +1,20 @@
-<div class="content">
-  <div class="mat-typography">
+<div class=mat-typography>
+  <div class="content">
+    <div [ngSwitch]="alert.type">
+      <mat-icon *ngSwitchCase="'error'">
+        error
+      </mat-icon>
+      <mat-icon *ngSwitchCase="'info'">
+        info
+      </mat-icon>
+      <mat-icon *ngSwitchCase="'warning'">
+        warning
+      </mat-icon>
+      <mat-icon *ngSwitchCase="'success'">
+        done
+      </mat-icon>
+    </div>
     <p *ngFor="let message of messages" class="{{ alert.type }}"> {{ message }}</p>
-    <button mat-button (click)="dismiss()">OK</button>
+     <button mat-button (click)="dismiss()">OK</button>
   </div>
 </div>
