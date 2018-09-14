@@ -5,12 +5,12 @@
 export const environment = {
   production: false,
 
-  usersEndpointUri: 'assets/sample-data/test-users.json',
-  sandboxDefsEndpointUri: 'assets/sample-data/test-sandbox-defs.json',
-  trainingDefsEndpointUri: 'assets/sample-data/test-training-defs.json',
-  trainingInstancesEndpointUri: 'assets/sample-data/test-training-instances.json',
-  trainingRunsEndpointUri: 'assets/sample-data/test-training-runs.json',
-  levelsEndpointUri: 'assets/sample-data/test-levels.json',
+  usersEndpointUri: 'assets/sample-data/test-users.json/',
+  sandboxDefsEndpointUri: 'assets/sample-data/test-sandbox-defs.json/',
+  trainingDefsEndpointUri: 'assets/sample-data/test-training-defs.json/',
+  trainingInstancesEndpointUri: 'assets/sample-data/test-training-instances.json/',
+  trainingRunsEndpointUri: 'assets/sample-data/test-training-runs.json/',
+  levelsEndpointUri: 'assets/sample-data/test-levels.json/',
 
   defaultAlertDuration: 2500, // 0 to display until user dismisses it
   defaultPaginationSize: 5

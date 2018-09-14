@@ -115,8 +115,13 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    * @param {number} id training definition which should be deleted
    */
   removeTrainingDefinition(id: number) {
-    this.trainingDefinitionSetter.removeTrainingDefinition(id);
-    this.fetchData();
+    this.trainingDefinitionSetter.removeTrainingDefinition(id)
+      .subscribe(resp => {
+        this.fetchData();
+      },
+        (err) => {
+
+        });
   }
 
   /**
