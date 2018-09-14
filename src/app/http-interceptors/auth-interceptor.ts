@@ -1,12 +1,24 @@
 import {Injectable} from "@angular/core";
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
+import {
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
+  HttpResponse
+} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {ActiveUserService} from "../services/active-user.service";
+import {tap} from "rxjs/operators";
+import {UserGetterService} from "../services/data-getters/user-getter.service";
+import {Router} from "@angular/router";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private activeUser: ActiveUserService) {
+  constructor(
+    private router: Router,
+    private activeUser: ActiveUserService) {
   }
 
   /**
@@ -19,7 +31,18 @@ export class AuthInterceptor implements HttpInterceptor {
       const clonedReq = req.clone({
         headers: req.headers.append('Authorization', this.activeUser.getActiveUserAuthorizationHeader())
       });
-      return next.handle(clonedReq);
+      return next.handle(clonedReq)
+        .pipe(tap((event: HttpEvent<any>) => {
+          if (event instanceof HttpResponse) {
+          }
+        },
+            err => {
+          if (err instanceof HttpErrorResponse) {
+            if (err.status === 401) {
+              this.router.navigate(['login']);
+            }
+          }
+        }));
     }
     return next.handle(req);
   }
