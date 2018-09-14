@@ -9,6 +9,9 @@ import {DeleteDialogComponent} from "../../delete-dialog/delete-dialog.component
 import {MatDialog} from "@angular/material";
 import {TrainingDefinitionSetterService} from "../../../../../services/data-setters/training-definition-setter.service";
 import {AlertService} from "../../../../../services/event-services/alert.service";
+import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
+import {environment} from "../../../../../../environments/environment";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'training-level-stepper',
@@ -82,7 +85,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
           newInfoLevel.id = id;
           this.levels.push(newInfoLevel);
         },
-        err => this.isLoading = false
+        (err: HttpErrorResponse) => this.handleHttpError(err)
       );
   }
 
@@ -111,7 +114,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
         newGameLevel.id = id;
         this.levels.push(newGameLevel);
       },
-        err => this.isLoading = false);
+        (err: HttpErrorResponse) =>  this.handleHttpError(err));
   }
 
   /**
@@ -134,7 +137,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
           newAssessmentLevel.id = id;
           this.levels.push(newAssessmentLevel);
         },
-        err => this.isLoading = false
+        (err: HttpErrorResponse) => this.handleHttpError(err)
       );
   }
 
@@ -143,7 +146,11 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    */
   swapLeft() {
     if (this.selectedStep !== 0) {
-      this.trainingDefinitionSetter.swapLeft(this.trainingDefinitionId, this.levels[this.selectedStep].id);
+      this.trainingDefinitionSetter.swapLeft(this.trainingDefinitionId, this.levels[this.selectedStep].id)
+        .subscribe(resp => {
+
+        },
+          (err: HttpErrorResponse) => this.handleHttpError(err));
 
       // TODO: Should be reloaded from REST API instead of calculating?
       const tempLevel = this.levels[this.selectedStep - 1];
@@ -160,7 +167,12 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    */
   swapRight() {
     if (this.selectedStep !== this.levels.length - 1) {
-      this.trainingDefinitionSetter.swapRight(this.trainingDefinitionId, this.levels[this.selectedStep].id);
+      this.trainingDefinitionSetter.swapRight(this.trainingDefinitionId, this.levels[this.selectedStep].id)
+        .subscribe(resp => {
+
+        },
+          (err: HttpErrorResponse) => this.handleHttpError(err));
+
       // TODO: Should be reloaded from REST API instead of calculating?
       const tempLevel = this.levels[this.selectedStep + 1];
       tempLevel.order -= 1;
@@ -187,11 +199,13 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
-        this.trainingDefinitionSetter.removeLevel(this.trainingDefinitionId, this.levels[index].id);
-        // TODO: should be recalculated by REST?
-        this.levels.splice(index, 1);
-        this.decreaseOrderOfLevelsFromIndex(index);
-        this.changeSelectedStepAfterRemoving(index);
+        this.trainingDefinitionSetter.removeLevel(this.trainingDefinitionId, this.levels[index].id)
+          .subscribe(response => {
+            this.levels.splice(index, 1);
+            this.decreaseOrderOfLevelsFromIndex(index);
+            this.changeSelectedStepAfterRemoving(index);
+          },
+            (err: HttpErrorResponse) => this.handleHttpError(err));
       }
     });
   }
@@ -233,6 +247,15 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
     if (!this.levels) {
       this.levels = [];
     }
+  }
+
+  /**
+   * Handles http error after request is made
+   * @param err http error
+   */
+  private handleHttpError(err: HttpErrorResponse) {
+    if (err.status === 404)
+      this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach the server right now. Please check your internet connection.', environment.defaultAlertDuration)
   }
 }
 
