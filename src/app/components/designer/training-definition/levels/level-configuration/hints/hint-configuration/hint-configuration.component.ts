@@ -139,7 +139,7 @@ export class HintConfigurationComponent implements OnInit, OnChanges {
     }
 
     if (errorMessage !== '') {
-      this.alertService.emitAlert(AlertTypeEnum.Error, errorTitle + errorMessage, environment.defaultAlertDuration);
+      this.alertService.emitAlert(AlertTypeEnum.Error, errorTitle + errorMessage);
       return false;
     }
     return true;

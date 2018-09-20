@@ -292,7 +292,7 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
     }
 
     if (errorMessage !== '') {
-      this.alertService.emitAlert(AlertTypeEnum.Error, errorTitle + errorMessage, environment.defaultAlertDuration);
+      this.alertService.emitAlert(AlertTypeEnum.Error, errorTitle + errorMessage);
       return false;
     }
     return true;

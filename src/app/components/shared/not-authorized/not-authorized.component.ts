@@ -13,7 +13,7 @@ export class NotAuthorizedComponent implements OnInit {
   constructor(private alertService: AlertService) { }
 
   ngOnInit() {
-    this.alertService.emitAlert(AlertTypeEnum.Warning, 'You are not authorized to access requested resource' , environment.defaultAlertDuration)
+    this.alertService.emitAlert(AlertTypeEnum.Warning, 'You are not authorized to access requested resource')
   }
 
 }

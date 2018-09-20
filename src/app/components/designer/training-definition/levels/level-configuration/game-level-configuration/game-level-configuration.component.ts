@@ -114,7 +114,7 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
     }
 
     if (errorMessage !== '') {
-      this.alertService.emitAlert(AlertTypeEnum.Error, errorMessage, environment.defaultAlertDuration);
+      this.alertService.emitAlert(AlertTypeEnum.Error, errorMessage);
       return false;
     }
     return true;

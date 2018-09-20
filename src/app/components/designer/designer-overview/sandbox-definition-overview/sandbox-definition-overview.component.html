@@ -1,6 +1,6 @@
+<shared-loading *ngIf="isLoading"></shared-loading>
 <h2>Sandbox Definition</h2>
 <div class="sandbox-def">
-
   <div class="sandbox-def-buttons">
     <button mat-stroked-button color="primary"
             (click)="uploadSandboxDefinition()">
@@ -15,15 +15,6 @@
       </mat-form-field>
 
       <div class="mat-elevation-z8">
-
-        <div class="loading"
-             *ngIf="isLoadingResults || isInErrorState">
-          <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
-          <div class="loading-error" *ngIf="isInErrorState">
-            We have some trouble loading the data. Please try again later.
-          </div>
-        </div>
-
         <table mat-table [dataSource]="dataSource" matSort>
 
           <!-- TITLE Column -->

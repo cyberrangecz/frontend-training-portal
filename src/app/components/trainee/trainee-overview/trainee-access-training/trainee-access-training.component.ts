@@ -41,11 +41,11 @@ export class TraineeAccessTrainingComponent implements OnInit {
             const firstLevel = 1;
             this.router.navigate(['training', trainingRunId, 'level', firstLevel], {relativeTo: this.activeRoute});
           } else {
-            this.alertService.emitAlert(AlertTypeEnum.Error, 'Wrong password', environment.defaultAlertDuration);
+            this.alertService.emitAlert(AlertTypeEnum.Error, 'Wrong password');
           }
         })
     } else {
-      this.alertService.emitAlert(AlertTypeEnum.Error, 'Password cannot be empty', environment.defaultAlertDuration);
+      this.alertService.emitAlert(AlertTypeEnum.Error, 'Password cannot be empty');
     }
   }
 

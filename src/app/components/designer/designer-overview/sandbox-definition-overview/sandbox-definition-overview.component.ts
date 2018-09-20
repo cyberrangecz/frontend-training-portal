@@ -12,6 +12,7 @@ import {UploadDialogComponent} from "../../../shared/upload-dialog/upload-dialog
 import {merge, of} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {environment} from "../../../../../environments/environment";
+import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
 
 export class SandboxDefinitionTableDataObject {
   sandbox: SandboxDefinition;
@@ -37,8 +38,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  isLoadingResults = false;
-  isInErrorState = false;
+  isLoading = false;
   resultsLength: number;
 
   constructor(
@@ -78,7 +78,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.alertService.emitAlert(result.type, result.message, environment.defaultAlertDuration);
+        this.alertService.emitAlert(result.type, result.message);
         this.fetchData();
       }
     });
@@ -107,7 +107,9 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
    * @param {number} id id of sandbox definition which should be deployed
    */
   deploySandboxDefinition(id: number) {
-    this.sandboxDefinitionSetter.deploySandboxDefinition(id);
+    // TODO: Handle response
+    this.sandboxDefinitionSetter.deploySandboxDefinition(id)
+      .subscribe();
     this.fetchData();
   }
 
@@ -128,20 +130,19 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
       .pipe(
         startWith({}),
         switchMap(() => {
-          this.isLoadingResults = true;
+          this.isLoading = true;
           return this.sandboxDefinitionGetter.getSandboxDefsWithPagination(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
         }),
         map(data => {
           // Flip flag to show that loading has finished.
-          this.isLoadingResults = false;
-          this.isInErrorState = false;
+          this.isLoading = false;
           this.resultsLength = data.length;
 
           return this.mapSandboxDefsToTableObjects(data);
         }),
         catchError(() => {
-          this.isLoadingResults = false;
-          this.isInErrorState = true;
+          this.isLoading = false;
+          this.alertService.emitAlert(AlertTypeEnum.Error, 'Remote server could not be reached. Try again later.');
           return of([]);
         })
       ).subscribe(data => this.createDataSource(data));

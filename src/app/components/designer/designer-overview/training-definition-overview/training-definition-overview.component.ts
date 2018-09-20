@@ -13,6 +13,7 @@ import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {Observable} from "rxjs/internal/Observable";
 import {merge, of} from "rxjs";
 import {environment} from "../../../../../environments/environment";
+import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
 
 export class TrainingDefinitionTableDataObject {
   trainingDefinition: TrainingDefinition;
@@ -38,8 +39,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
   dataSource: MatTableDataSource<TrainingDefinitionTableDataObject>;
 
   resultsLength = 0;
-  isLoadingResults = true;
-  isInErrorState = false;
+  isLoading = true;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -49,7 +49,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private dialog: MatDialog,
     private activeUserService: ActiveUserService,
-    private designerAlertService: AlertService,
+    private alertService: AlertService,
     private trainingInstanceGetter: TrainingInstanceGetterService,
     private trainingDefinitionGetter: TrainingDefinitionGetterService,
     private trainingDefinitionSetter: TrainingDefinitionSetterService) {
@@ -89,7 +89,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.designerAlertService.emitAlert(result.type, result.message, environment.defaultAlertDuration);
+        this.alertService.emitAlert(result.type, result.message);
       }
     });
   }
@@ -120,7 +120,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
         this.fetchData();
       },
         (err) => {
-
+          this.alertService.emitAlert(AlertTypeEnum.Error, 'Remote server could not be reached. Try again later.');
         });
   }
 
@@ -163,20 +163,19 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
       .pipe(
         startWith({}),
         switchMap(() => {
-          this.isLoadingResults = true;
+          this.isLoading = true;
           return this.trainingDefinitionGetter.getTrainingDefsWithPaginations(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
         }),
         map(data => {
           // Flip flag to show that loading has finished.
-          this.isLoadingResults = false;
-          this.isInErrorState = false;
+          this.isLoading = false;
           this.resultsLength = data.length;
 
           return this.mapTrainingDefinitionsToTableObjects(data);
         }),
         catchError(() => {
-          this.isLoadingResults = false;
-          this.isInErrorState = true;
+          this.isLoading = false;
+          this.alertService.emitAlert(AlertTypeEnum.Error, 'Remote server could not be reached. Try again later.');
           return of([]);
         })
       ).subscribe(data => this.createDataSource(data));

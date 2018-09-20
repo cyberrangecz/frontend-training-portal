@@ -2,6 +2,7 @@ import {AlertEvent} from "../../model/events/alert-event";
 import {Subject} from "rxjs/internal/Subject";
 import {Observable} from "rxjs/internal/Observable";
 import {AlertTypeEnum} from "../../enums/alert-type.enum";
+import {environment} from "../../../environments/environment";
 
 /**
  * Service for emitting and subscribing to alert events. Usually used to display result of some user action.
@@ -21,7 +22,7 @@ export class AlertService {
    * @param {string} message alert to display to user
    * @param {number} duration how long should the alert be displayed. In millis, use 0 if it should be displayed until users clicks on button
    */
-  emitAlert(alertType: AlertTypeEnum, message: string, duration: number) {
+  emitAlert(alertType: AlertTypeEnum, message: string, duration = environment.defaultAlertDuration) {
     this._onAlertEventEmittedSubject.next(new AlertEvent(alertType, message, duration));
   }
 

@@ -261,7 +261,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
   private handleHttpError(err: HttpErrorResponse) {
     this.isLoading = false;
     if (err.status === 404)
-      this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach the server right now. Please check your internet connection.', environment.defaultAlertDuration)
+      this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach the server right now. Please check your internet connection.')
   }
 }
 
