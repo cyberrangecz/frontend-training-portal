@@ -43,12 +43,12 @@ export class SandboxDefinitionGetterService {
 
   /**
    * Retrieves sandbox by its id
-   * @param {number} sandboxId id of sandbox which should be retrieved
+   * @param {number} id id of sandbox which should be retrieved
    * @returns {Observable<SandboxDefinition>} Observable of retrieved sandbox definition, null if no sandbox definition with such id is found
    */
-  getSandboxDefById(sandboxId: number): Observable<SandboxDefinition> {
+  getSandboxDefById(id: number): Observable<SandboxDefinition> {
     return this.getSandboxDefs().pipe(map(sandboxes => {
-      const filtered = sandboxes.filter(sandbox => sandbox.id === sandboxId);
+      const filtered = sandboxes.filter(sandbox => sandbox.id === id);
       return filtered ? filtered[0] : null;
     }));
   }

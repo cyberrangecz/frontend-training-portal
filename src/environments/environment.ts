@@ -13,7 +13,9 @@ export const environment = {
   levelsEndpointUri: 'assets/sample-data/test-levels.json/',
 
   defaultAlertDuration: 2500, // 0 to display until user dismisses it
-  defaultPaginationSize: 5
+  defaultPaginationSize: 5,
+
+  useMockData: true
 };
 
 /*
