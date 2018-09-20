@@ -6,7 +6,7 @@ import {AssessmentLevel} from "../../model/level/assessment-level";
 import {GameLevel} from "../../model/level/game-level";
 import {InfoLevel} from "../../model/level/info-level";
 import {Observable} from "rxjs";
-import {TrainingDefinitionDto} from "../../model/DTOs/training-definition/training-definition-dto";
+import {TrainingDefinitionGetDto} from "../../model/DTOs/training-definition/training-definition-get-dto";
 import {AssessmentLevelDto} from "../../model/DTOs/level/assessment-level-dto";
 import {GameLevelDto} from "../../model/DTOs/level/game-level-dto";
 import {InfoLevelDto} from "../../model/DTOs/level/info-level-dto";
@@ -43,7 +43,7 @@ export class TrainingDefinitionSetterService {
    * @param trainingDef updated training definition
    */
   updateTrainingDefinition(trainingDef: TrainingDefinition) {
-    return this.http.put(environment.trainingDefsEndpointUri, new TrainingDefinitionDto(trainingDef))
+    return this.http.put(environment.trainingDefsEndpointUri, new TrainingDefinitionGetDto())
   }
 
   /**
@@ -51,7 +51,7 @@ export class TrainingDefinitionSetterService {
    * @param {TrainingDefinition} trainingDef training definition which should be created
    */
   addTrainingDefinition(trainingDef: TrainingDefinition) {
-    return this.http.post(environment.trainingDefsEndpointUri, new TrainingDefinitionDto(trainingDef));
+    return this.http.post(environment.trainingDefsEndpointUri, new TrainingDefinitionGetDto());
   }
 
   /**
