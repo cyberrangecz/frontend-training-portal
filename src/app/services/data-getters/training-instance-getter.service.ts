@@ -95,7 +95,7 @@ export class TrainingInstanceGetterService {
    */
   private parseTrainingInstances(instancesJson): TrainingInstance[] {
     const trainingInstances: TrainingInstance[] = [];
-    instancesJson.training_instances.forEach(instanceJson => {
+    instancesJson.forEach(instanceJson => {
       const trainingInstance = new TrainingInstance(
         instanceJson.training_definition_id,
         new Date(instanceJson.start_time),

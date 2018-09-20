@@ -89,7 +89,7 @@ export class TrainingRunGetterService {
    */
   private parseTrainingRuns(trainingJson): TrainingRun[] {
     const trainings: TrainingRun[] = [];
-    trainingJson.training_runs.forEach(trainingJson => {
+    trainingJson.forEach(trainingJson => {
       const training = new TrainingRun(
         trainingJson.training_instance_id,
         trainingJson.sandbox_instance_id,

@@ -84,7 +84,7 @@ export class UserGetterService {
    */
   private parseUsersJson(usersJson): User[] {
     const users: User[] = [];
-    usersJson.users.forEach(user => {
+    usersJson.forEach(user => {
       users.push(
         new User(user.id, user.name, this.getUserRoles(user.roles)))
     });

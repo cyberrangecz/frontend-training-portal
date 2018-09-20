@@ -61,7 +61,7 @@ export class SandboxDefinitionGetterService {
   private parseSandboxDefs(sandboxDefsJson): SandboxDefinition[] {
     const sandboxDefs: SandboxDefinition[] =[];
 
-    sandboxDefsJson.sandbox_defs.forEach(sandboxJson => {
+    sandboxDefsJson.forEach(sandboxJson => {
       const sandbox = new SandboxDefinition(
         sandboxJson.title,
         this.parseAuthorIds(sandboxJson.authors));

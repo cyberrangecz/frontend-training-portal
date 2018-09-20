@@ -94,7 +94,7 @@ export class TrainingDefinitionGetterService {
   private parseTrainingDefs(trainingDefsJson) {
     const trainingDefs: TrainingDefinition[] = [];
 
-    trainingDefsJson.training_defs.forEach(trainingJson => {
+    trainingDefsJson.forEach(trainingJson => {
       const training = new TrainingDefinition(
         trainingJson.sandbox_definition,
         this.parseAuthorIds(trainingJson.authors),

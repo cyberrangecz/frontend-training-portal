@@ -66,7 +66,7 @@ export class LevelGetterService {
    */
   private parseLevels(levelsJson): AbstractLevel[] {
     const levels: AbstractLevel[] = [];
-    levelsJson.levels.forEach((levelJson) => {
+    levelsJson.forEach((levelJson) => {
       let level: AbstractLevel;
 
       if (levelJson.type === 'assessment') {
