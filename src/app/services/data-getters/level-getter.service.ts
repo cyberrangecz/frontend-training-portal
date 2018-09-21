@@ -30,10 +30,8 @@ export class LevelGetterService {
    * @returns {Observable<AbstractLevel>} observable of retrieved level, null if no such level is found
    */
   getLevelById(levelId: number): Observable<AbstractLevel> {
-    return this.getLevels().pipe(map(levels => {
-      return levels.find(level =>
-        level.trainingDefinitionId === levelId)
-    }))
+    return this.http.get(environment.levelsEndpointUri + levelId)
+      .pipe(map(response => this.parseLevel(response)));
   }
 
   /**
@@ -41,9 +39,9 @@ export class LevelGetterService {
    * @returns {Observable<AbstractLevel[]>} observable of list of levels
    */
   getLevels(): Observable<AbstractLevel[]> {
-    return this.http.get(environment.levelsEndpointUri).pipe(map(response => {
-        return this.parseLevels(response);
-      }));
+    return this.http.get(environment.levelsEndpointUri)
+      .pipe(map(response => this.parseLevels(response)
+      ));
   }
 
 
@@ -67,22 +65,22 @@ export class LevelGetterService {
   private parseLevels(levelsJson): AbstractLevel[] {
     const levels: AbstractLevel[] = [];
     levelsJson.forEach((levelJson) => {
-      let level: AbstractLevel;
-
-      if (levelJson.type === 'assessment') {
-        level = this.parseAssessmentLevel(levelJson);
-      }
-
-      if (levelJson.type === 'game') {
-        level = this.parseGameLevel(levelJson);
-      }
-
-      if (levelJson.type === 'info') {
-        level = this.parseInfoLevel(levelJson);
-      }
-      levels.push(level);
+      levels.push(this.parseLevel(levelJson));
     });
     return levels;
+  }
+
+  private parseLevel(levelJson): AbstractLevel {
+    if (levelJson.type === 'assessment') {
+      return this.parseAssessmentLevel(levelJson);
+    }
+    if (levelJson.type === 'game') {
+      return this.parseGameLevel(levelJson);
+    }
+
+    if (levelJson.type === 'info') {
+      return this.parseInfoLevel(levelJson);
+    }
   }
 
   private parseAssessmentLevel(levelJson): AssessmentLevel {

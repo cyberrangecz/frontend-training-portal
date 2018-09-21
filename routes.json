@@ -1,0 +1,3 @@
+{
+  "/training-definitions/sandbox-definitions/:id": "/training-definitions?sandbox_definition=:id"
+}

@@ -47,13 +47,9 @@ export class TrainingDefinitionGetterService {
    * @returns {Observable<TrainingDefinition>} Observable of retrieved training definition, null if no training with such id is found
    */
   getTrainingDefById(id: number): Observable<TrainingDefinition> {
-/*    return this.http.get(environment.trainingDefsEndpointUri + id)
+    return this.http.get<TrainingDefinition>(environment.trainingDefsEndpointUri + id)
       .pipe(map(response =>
-        this.parseTrainingDefs(response)));*/
-
-    return this.getTrainingDefs()
-      .pipe(map(trainings =>
-        trainings.find(training => training.id === id)));
+        this.parseTrainingDef(response)));
   }
 
   /**
@@ -80,10 +76,8 @@ export class TrainingDefinitionGetterService {
    * @returns {Observable<TrainingDefinition[]>} Observable of list of training definitions matching sandbox definition id
    */
   getTrainingDefsBySandboxDefId(sandboxId: number): Observable<TrainingDefinition[]> {
-    // TODO: Move to sandbox endpoint?
-    return this.getTrainingDefs()
-      .pipe(map(trainings =>
-        trainings.filter(training => training.sandboxDefinitionId === sandboxId)));
+    return this.http.get(environment.trainingDefsEndpointUri + 'sandbox-definitions/' + sandboxId)
+      .pipe(map(response => this.parseTrainingDefs(response)));
   }
 
   /**
@@ -91,25 +85,28 @@ export class TrainingDefinitionGetterService {
    * @param trainingDefsJson JSON of training definitions
    * @returns {TrainingDefinition[]} list of training definitions created from JSON
    */
-  private parseTrainingDefs(trainingDefsJson) {
+  private parseTrainingDefs(trainingDefsJson): TrainingDefinition[] {
     const trainingDefs: TrainingDefinition[] = [];
-
     trainingDefsJson.forEach(trainingJson => {
-      const training = new TrainingDefinition(
-        trainingJson.sandbox_definition,
-        this.parseAuthorIds(trainingJson.authors),
-        this.trainingDefStateString2Enum(trainingJson.state),
-        trainingJson.levels);
-
-      training.id =trainingJson.id;
-      training.title = trainingJson.title;
-      training.description = trainingJson.description;
-      training.prerequisites = trainingJson.prerequisites;
-      training.outcomes = trainingJson.outcomes;
-      training.showProgress = trainingJson.show_progress;
-      trainingDefs.push(training);
+      trainingDefs.push(this.parseTrainingDef(trainingJson));
     });
     return trainingDefs;
+  }
+
+  private parseTrainingDef(trainingDefJson): TrainingDefinition {
+    const training = new TrainingDefinition(
+      trainingDefJson.sandbox_definition,
+      this.parseAuthorIds(trainingDefJson.authors),
+      this.trainingDefStateString2Enum(trainingDefJson.state),
+      trainingDefJson.levels);
+
+    training.id =trainingDefJson.id;
+    training.title = trainingDefJson.title;
+    training.description = trainingDefJson.description;
+    training.prerequisites = trainingDefJson.prerequisites;
+    training.outcomes = trainingDefJson.outcomes;
+    training.showProgress = trainingDefJson.show_progress;
+    return training
   }
 
   /**

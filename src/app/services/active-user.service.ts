@@ -49,7 +49,7 @@ export class ActiveUserService {
    */
   isAuthenticated(): boolean {
     // TODO: connect to OIDC later
-    return true;
+    return this._activeUser !== undefined;
   }
 
   /**

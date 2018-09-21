@@ -1,10 +1,9 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
 import {TrainingInstance} from "../../model/training/training-instance";
 import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
-import {ActiveUserService} from "../active-user.service";
 import {PaginationParams} from "../../model/http/params/pagination-params";
 
 @Injectable()
@@ -49,10 +48,8 @@ export class TrainingInstanceGetterService {
    * @returns {Observable<TrainingInstance>} Observable of training instance, null if no such training instance is found
    */
   getTrainingInstanceById(id: number): Observable<TrainingInstance> {
-    return this.getTrainingInstances()
-      .pipe(map(trainingInstances =>
-        trainingInstances.find(trainingInstance => trainingInstance.id === id)
-      ));
+    return this.http.get(environment.trainingInstancesEndpointUri + id)
+      .pipe(map(response => this.parseTrainingInstance(response)));
   }
 
   /**
@@ -96,19 +93,22 @@ export class TrainingInstanceGetterService {
   private parseTrainingInstances(instancesJson): TrainingInstance[] {
     const trainingInstances: TrainingInstance[] = [];
     instancesJson.forEach(instanceJson => {
-      const trainingInstance = new TrainingInstance(
-        instanceJson.training_definition_id,
-        new Date(instanceJson.start_time),
-        new Date(instanceJson.end_time),
-        instanceJson.pool_size,
-        this.parseOrganizersIds(instanceJson.organizers),
-        instanceJson.keyword);
-      trainingInstance.id = instanceJson.id;
-      trainingInstance.title = instanceJson.title;
-
-      trainingInstances.push(trainingInstance);
+      trainingInstances.push(this.parseTrainingInstance(instanceJson));
     });
     return trainingInstances;
+  }
+
+  private parseTrainingInstance(instanceJson): TrainingInstance {
+    const trainingInstance = new TrainingInstance(
+      instanceJson.training_definition_id,
+      new Date(instanceJson.start_time),
+      new Date(instanceJson.end_time),
+      instanceJson.pool_size,
+      this.parseOrganizersIds(instanceJson.organizers),
+      instanceJson.keyword);
+    trainingInstance.id = instanceJson.id;
+    trainingInstance.title = instanceJson.title;
+    return trainingInstance;
   }
 
   /**

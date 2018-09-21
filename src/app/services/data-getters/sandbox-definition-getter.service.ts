@@ -47,10 +47,8 @@ export class SandboxDefinitionGetterService {
    * @returns {Observable<SandboxDefinition>} Observable of retrieved sandbox definition, null if no sandbox definition with such id is found
    */
   getSandboxDefById(id: number): Observable<SandboxDefinition> {
-    return this.getSandboxDefs().pipe(map(sandboxes => {
-      const filtered = sandboxes.filter(sandbox => sandbox.id === id);
-      return filtered ? filtered[0] : null;
-    }));
+    return this.http.get(environment.sandboxDefsEndpointUri + id)
+      .pipe(map(response => this.parseSandboxDef(response)));
   }
 
   /**
@@ -60,15 +58,18 @@ export class SandboxDefinitionGetterService {
    */
   private parseSandboxDefs(sandboxDefsJson): SandboxDefinition[] {
     const sandboxDefs: SandboxDefinition[] =[];
-
     sandboxDefsJson.forEach(sandboxJson => {
-      const sandbox = new SandboxDefinition(
-        sandboxJson.title,
-        this.parseAuthorIds(sandboxJson.authors));
-      sandbox.id = sandboxJson.id;
-      sandboxDefs.push(sandbox);
+      sandboxDefs.push(this.parseSandboxDef(sandboxJson));
     });
     return sandboxDefs;
+  }
+
+  private parseSandboxDef(sandboxDefJson): SandboxDefinition {
+    const sandbox = new SandboxDefinition(
+      sandboxDefJson.title,
+      this.parseAuthorIds(sandboxDefJson.authors));
+    sandbox.id = sandboxDefJson.id;
+    return sandbox;
   }
 
   /**

@@ -58,8 +58,8 @@ export class TrainingRunGetterService {
    * @returns {Observable<TrainingRun>} observable of training run, null if no training run with matching id si found
    */
   getTrainingRunById(id: number): Observable<TrainingRun> {
-    return this.getTrainingRuns().pipe(map(trainings =>
-    trainings.find(training => training.id  === id)));
+    return this.http.get(environment.trainingRunsEndpointUri + id)
+      .pipe(map(response => this.parseTrainingRun(response)));
   }
 
   /**
@@ -87,24 +87,28 @@ export class TrainingRunGetterService {
    * @param trainingJson json from http response
    * @returns {TrainingRun[]} List of objects created from json
    */
-  private parseTrainingRuns(trainingJson): TrainingRun[] {
+  private parseTrainingRuns(trainingsJson): TrainingRun[] {
     const trainings: TrainingRun[] = [];
-    trainingJson.forEach(trainingJson => {
-      const training = new TrainingRun(
-        trainingJson.training_instance_id,
-        trainingJson.sandbox_instance_id,
-        trainingJson.user_id,
-        new Date(trainingJson.start_time),
-        new Date(trainingJson.end_time),
-        trainingJson.current_level,
-        trainingJson.event_log_reference,
-        this.parseTrainingRunStateString2Enum(trainingJson.state)
-      );
-      training.id = trainingJson.id;
-      training.currentLevel = trainingJson.current_level;
-      trainings.push(training);
+    trainingsJson.forEach(trainingJson => {
+      trainings.push(this.parseTrainingRun(trainingJson));
     });
     return trainings;
+  }
+
+  private parseTrainingRun(trainingJson): TrainingRun {
+    const training = new TrainingRun(
+      trainingJson.training_instance_id,
+      trainingJson.sandbox_instance_id,
+      trainingJson.user_id,
+      new Date(trainingJson.start_time),
+      new Date(trainingJson.end_time),
+      trainingJson.current_level,
+      trainingJson.event_log_reference,
+      this.parseTrainingRunStateString2Enum(trainingJson.state)
+    );
+    training.id = trainingJson.id;
+    training.currentLevel = trainingJson.current_level;
+    return training;
   }
 
   /**

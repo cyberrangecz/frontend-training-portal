@@ -25,9 +25,7 @@ export class UserGetterService {
    */
   loadUsers() {
     return this.http.get(environment.usersEndpointUri)
-      .pipe(map( (response) => {
-          return this.parseUsersJson(response);
-        }
+      .pipe(map( (response) => this.parseUsers(response)
       ));
   }
 
@@ -37,10 +35,8 @@ export class UserGetterService {
    * @returns {Observable<User>} Observable of retrieved user, null if user with such id does not exist
    */
   loadUserById(userId: number): Observable<User> {
-    return this.loadUsers().pipe(map(users => {
-      const filtered = users.filter(user => user.id === userId);
-      return filtered ? filtered[0] : null;
-    }));
+    return this.http.get(environment.usersEndpointUri + userId)
+      .pipe(map(response => this.parseUser(response)));
   }
 
   /**
@@ -82,13 +78,18 @@ export class UserGetterService {
    * @param usersJson JSON from HTTP response
    * @returns {User[]} List of users created based on received JSON
    */
-  private parseUsersJson(usersJson): User[] {
+  private parseUsers(usersJson): User[] {
     const users: User[] = [];
-    usersJson.forEach(user => {
-      users.push(
-        new User(user.id, user.name, this.getUserRoles(user.roles)))
+    usersJson.forEach(userJson => {
+      users.push(this.parseUser(userJson))
     });
     return users;
+  }
+
+  private parseUser(userJson): User {
+    return new User(userJson.id,
+      userJson.name,
+      this.getUserRoles(userJson.roles))
   }
 
   /**
