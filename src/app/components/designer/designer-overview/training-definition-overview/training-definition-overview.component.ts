@@ -117,6 +117,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
   removeTrainingDefinition(id: number) {
     this.trainingDefinitionSetter.removeTrainingDefinition(id)
       .subscribe(resp => {
+        this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully deleted');
         this.fetchData();
       },
         err => {
@@ -130,9 +131,11 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    */
   cloneTrainingDefinition(id: number) {
     this.trainingDefinitionSetter.cloneTrainingDefinition(id)
-      .subscribe(response => this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully cloned.'),
+      .subscribe(response => {
+          this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully cloned.');
+          this.fetchData();
+        },
         err => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Training was not cloned.'));
-    this.fetchData();
   }
 
   /**
@@ -142,9 +145,12 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
   archiveTrainingDefinition(trainingDef: TrainingDefinition) {
     trainingDef.state = TrainingDefinitionStateEnum.Archived;
     this.trainingDefinitionSetter.updateTrainingDefinition(trainingDef)
-      .subscribe(response => this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully archived.'),
-        err => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Training was not archived'));
-    this.fetchData();
+      .subscribe(response => {
+        this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully archived.');
+        this.fetchData();
+        },
+          err => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Training was not archived')
+      );
   }
 
   /**
