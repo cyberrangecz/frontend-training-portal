@@ -119,7 +119,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
       .subscribe(resp => {
         this.fetchData();
       },
-        (err) => {
+        err => {
           this.alertService.emitAlert(AlertTypeEnum.Error, 'Remote server could not be reached. Try again later.');
         });
   }
@@ -129,7 +129,9 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    * @param {number} id id of training definition which should be cloned
    */
   cloneTrainingDefinition(id: number) {
-    this.trainingDefinitionSetter.cloneTrainingDefinition(id);
+    this.trainingDefinitionSetter.cloneTrainingDefinition(id)
+      .subscribe(response => this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully cloned.'),
+        err => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Training was not cloned.'));
     this.fetchData();
   }
 
@@ -139,7 +141,9 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    */
   archiveTrainingDefinition(trainingDef: TrainingDefinition) {
     trainingDef.state = TrainingDefinitionStateEnum.Archived;
-    this.trainingDefinitionSetter.updateTrainingDefinition(trainingDef);
+    this.trainingDefinitionSetter.updateTrainingDefinition(trainingDef)
+      .subscribe(response => this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully archived.'),
+        err => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Training was not archived'));
     this.fetchData();
   }
 

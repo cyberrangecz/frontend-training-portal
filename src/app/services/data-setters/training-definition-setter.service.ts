@@ -29,8 +29,8 @@ export class TrainingDefinitionSetterService {
    * Sends request to clone training definition
    * @param trainingDefId id of training definition which should be cloned
    */
-  cloneTrainingDefinition(trainingDefId: number) {
-    return this.http.post(environment.trainingDefsEndpointUri + trainingDefId, {});
+  cloneTrainingDefinition(trainingDefId: number): Observable<number> {
+    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId, {});
   }
 
 
@@ -46,8 +46,8 @@ export class TrainingDefinitionSetterService {
    * Sends request to create new training definition and returns id of the created training definition
    * @param {TrainingDefinition} trainingDef training definition which should be created
    */
-  addTrainingDefinition(trainingDef: TrainingDefinition) {
-    return this.http.post(environment.trainingDefsEndpointUri, trainingDef);
+  addTrainingDefinition(trainingDef: TrainingDefinition): Observable<number> {
+    return this.http.post<number>(environment.trainingDefsEndpointUri, trainingDef);
   }
 
   /**

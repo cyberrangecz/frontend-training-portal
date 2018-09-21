@@ -121,10 +121,13 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
       this.trainingDefinitionSetter.updateTrainingDefinition(this.trainingDefinition)
         .subscribe(response => this.alertService.emitAlert(AlertTypeEnum.Success, 'Changes were successfully saved.'),
           (err) => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Changes were not saved.')
-        )
+        );
     } else {
       this.trainingDefinitionSetter.addTrainingDefinition(this.trainingDefinition)
-        .subscribe(response => this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully saved.'),
+        .subscribe(response => {
+          this.trainingDefinition.id = response;
+          this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully saved.')
+          },
           (err) => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Training was not saved.')
         )
     }
