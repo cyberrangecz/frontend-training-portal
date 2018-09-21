@@ -143,13 +143,17 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    * @param {TrainingDefinition} trainingDef training definition which should be edited
    */
   archiveTrainingDefinition(trainingDef: TrainingDefinition) {
+    const tempState = trainingDef.state;
     trainingDef.state = TrainingDefinitionStateEnum.Archived;
     this.trainingDefinitionSetter.updateTrainingDefinition(trainingDef)
       .subscribe(response => {
         this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully archived.');
         this.fetchData();
         },
-          err => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Training was not archived')
+          err => {
+            trainingDef.state = tempState;
+            this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Training was not archived');
+      }
       );
   }
 

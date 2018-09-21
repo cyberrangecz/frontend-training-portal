@@ -88,8 +88,12 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
    * @param {SandboxDefinitionTableDataObject} sandboxDataObject sandbox definition data object which should be deleted
    */
   removeSandboxDefinition(sandboxDataObject: SandboxDefinitionTableDataObject) {
-    this.sandboxDefinitionSetter.removeSandboxDefinition(sandboxDataObject.sandbox.id);
-    this.fetchData();
+    this.sandboxDefinitionSetter.removeSandboxDefinition(sandboxDataObject.sandbox.id)
+      .subscribe(resp => {
+        this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox was successfully removed.');
+        this.fetchData();
+      },
+        err => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Sandbox was not removed.'));
   }
 
   /**
@@ -109,8 +113,12 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
   deploySandboxDefinition(id: number) {
     // TODO: Handle response
     this.sandboxDefinitionSetter.deploySandboxDefinition(id)
-      .subscribe();
-    this.fetchData();
+      .subscribe(resp => {
+          this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox was successfully download.');
+          this.fetchData();
+        },
+        err => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server.')
+      );
   }
 
   /**
