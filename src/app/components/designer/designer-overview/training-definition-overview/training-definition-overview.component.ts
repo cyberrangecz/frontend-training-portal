@@ -173,7 +173,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
 
           return this.mapTrainingDefinitionsToTableObjects(data);
         }),
-        catchError(() => {
+        catchError((err) => {
           this.isLoading = false;
           this.alertService.emitAlert(AlertTypeEnum.Error, 'Remote server could not be reached. Try again later.');
           return of([]);

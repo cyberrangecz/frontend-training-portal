@@ -5,7 +5,6 @@ import {TrainingRun} from "../../model/training/training-run";
 import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
 import {TrainingRunStateEnum} from "../../enums/training-run-state.enum";
-import {ActiveUserService} from "../active-user.service";
 import {PaginationParams} from "../../model/http/params/pagination-params";
 
 /**

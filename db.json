@@ -27,29 +27,6 @@
       ]
     },
     {
-      "id": 2,
-      "sandbox_definition": 2,
-      "title": "Training Definition 2",
-      "description": "This is second test training definition",
-      "show_progress": true,
-      "authors": [
-        {
-          "id": 1
-        }
-      ],
-      "prerequisites": "",
-      "outcomes": "",
-      "state": "archived",
-      "levels": [
-        {
-          "id": 1
-        },
-        {
-          "id": 2
-        }
-      ]
-    },
-    {
       "id": 3,
       "sandbox_definition": 4,
       "title": "Training Definition 3",
@@ -238,6 +215,25 @@
           "id": 2
         }
       ]
+    },
+    {
+      "sandboxDefinitionId": 6,
+      "authorIds": [
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "state": "released",
+      "levels": [],
+      "canBeArchived": false,
+      "title": "Test",
+      "description": "asdab",
+      "prerequisites": "asdasd",
+      "outcomes": "asda",
+      "showProgress": true,
+      "id": 11
     }
   ],
   "levels": [

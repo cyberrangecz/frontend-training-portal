@@ -13,7 +13,6 @@ import {UserGetterService} from "../../../../services/data-getters/user-getter.s
 import {SandboxDefinitionGetterService} from "../../../../services/data-getters/sandbox-definition-getter.service";
 import {Router} from "@angular/router";
 import {ActiveUserService} from "../../../../services/active-user.service";
-import {environment} from "../../../../../environments/environment";
 
 /**
  * Component for creating new or editing already existing training definition
@@ -119,9 +118,15 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
    */
   private sendRequestToSaveChanges() {
     if (this.editMode) {
-      this.trainingDefinitionSetter.updateTrainingDefinition(this.trainingDefinition);
+      this.trainingDefinitionSetter.updateTrainingDefinition(this.trainingDefinition)
+        .subscribe(response => this.alertService.emitAlert(AlertTypeEnum.Success, 'Changes were successfully saved.'),
+          (err) => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Changes were not saved.')
+        )
     } else {
-      this.trainingDefinitionSetter.addTrainingDefinition(this.trainingDefinition);
+      this.trainingDefinitionSetter.addTrainingDefinition(this.trainingDefinition)
+        .subscribe(response => this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully saved.'),
+          (err) => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Training was not saved.')
+        )
     }
   }
 

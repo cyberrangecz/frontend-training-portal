@@ -134,7 +134,9 @@ export class TrainingDefinitionGetterService {
    */
   private parseAuthorIds(authors): number[] {
     const ids: number[] =[];
-    authors.forEach(author => ids.push(author.id));
+    if (authors) {
+      authors.forEach(author => ids.push(author.id));
+    }
     return ids;
   }
 }
