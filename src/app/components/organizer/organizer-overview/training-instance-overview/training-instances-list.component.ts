@@ -11,6 +11,7 @@ import {merge, of} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {TrainingInstanceSetterService} from "../../../../services/data-setters/training-instance-setter.service";
 import {environment} from "../../../../../environments/environment";
+import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
 
 export class TrainingInstanceTableDataObject {
   trainingDefinitionTitle: string;
@@ -91,8 +92,13 @@ export class TrainingInstancesListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
-        this.trainingInstanceSetter.removeTrainingInstance(training.trainingInstance.id);
-        this.fetchData();
+        this.trainingInstanceSetter.removeTrainingInstance(training.trainingInstance.id)
+          .subscribe(response => {
+            this.alertService.emitAlert(AlertTypeEnum.Success, 'Training instance was successfully removed.');
+            this.fetchData();
+          },
+            (err) => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Training instance was not removed')
+          );
       }
     });
   }
@@ -108,10 +114,16 @@ export class TrainingInstancesListComponent implements OnInit {
 
   /**
    *
-   * @param {TrainingInstance} training
+   * @param trainingInstanceId Id of training instance for which should sanboxes be allocated
    */
-  allocateTraining(training: TrainingInstance) {
-    // TODO: call REST to allocate number of sandboxes (pool size)
+  allocateTrainingInstanceSandboxes(trainingInstanceId: number) {
+    this.trainingInstanceSetter.allocateSandboxesForTrainingInstance(trainingInstanceId)
+      .subscribe(response => {
+        this.alertService.emitAlert(AlertTypeEnum.Info, 'Allocation of sandboxes for selected training instance have begun.');
+        // TODO: change state or bool so the allocation could not be requested again
+      },
+        (err) => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Allocation have not begun.')
+      );
   }
 
   /**

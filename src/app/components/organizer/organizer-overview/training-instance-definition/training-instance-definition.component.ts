@@ -87,9 +87,15 @@ export class TrainingInstanceDefinitionComponent implements OnInit, OnChanges {
     if (this.validateInputValues()) {
       this.setInputValuesToTraining();
       if (this.editMode) {
-        this.trainingInstanceSetter.updateTrainingInstance(this.trainingInstance);
+        this.trainingInstanceSetter.updateTrainingInstance(this.trainingInstance)
+          .subscribe(response => this.alertService.emitAlert(AlertTypeEnum.Success, 'Changes were successfully saved.'),
+            (err) => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Changes were not saved.')
+          );
       } else {
-        this.trainingInstanceSetter.addTrainingInstance(this.trainingInstance);
+        this.trainingInstanceSetter.addTrainingInstance(this.trainingInstance)
+          .subscribe(response => this.alertService.emitAlert(AlertTypeEnum.Success, 'Changes were successfully saved.'),
+            (err) => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Changes were not saved.')
+          );
       }
       this.trainingChanged();
     }
