@@ -73,9 +73,9 @@
                 <!-- EDIT button-->
                 <button *ngIf="training.trainingInstance?.startTime.valueOf() > now"
                         mat-icon-button color="primary"
+                        matTooltip="Edit training instance"
                         (click)="editTraining(training.trainingInstance)">
                   <mat-icon
-                    matTooltip="Edit training instance"
                     aria-label="Edit training instance">
                     edit</mat-icon>
                 </button>
@@ -83,9 +83,9 @@
                 <!-- REMOVE button-->
                 <button *ngIf="training.trainingInstance?.endTime.valueOf() < now"
                         mat-icon-button color="primary"
+                        matTooltip="Remove training instance"
                         (click)="removeTraining(training)">
                   <mat-icon
-                    matTooltip="Remove training instance"
                     aria-label="Remove training instance button">
                     delete</mat-icon>
                 </button>
@@ -93,9 +93,9 @@
                 <!-- ARCHIVE button-->
                 <button *ngIf="training.trainingInstance?.endTime.valueOf() < now"
                         mat-icon-button color="primary"
+                        matTooltip="Archive training instance"
                         (click)="archiveTraining(training.trainingInstance?.id)">
                   <mat-icon
-                    matTooltip="Archive training instance"
                     aria-label="Archive training instance button">
                     archive</mat-icon>
                 </button>
@@ -103,9 +103,9 @@
                 <!-- ALLOCATE button-->
                 <button
                         mat-icon-button color="primary"
+                        matTooltip="Allocate resources for training instance"
                         (click)="allocateTraining(training.trainingInstance)">
                   <mat-icon
-                    matTooltip="Allocate resources for training instance"
                     aria-label="Allocate resources for training instance button">
                     launch</mat-icon>
                 </button>

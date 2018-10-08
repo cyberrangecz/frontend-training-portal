@@ -44,9 +44,9 @@
                 <!-- REMOVE button-->
                 <button *ngIf="data.canBeRemoved"
                         mat-icon-button color="primary"
+                        matTooltip="Remove sandbox definition"
                         (click)="removeSandboxDefinition(data)">
                   <mat-icon
-                    matTooltip="Remove sandbox definition"
                     aria-label="Remove sandbox definition button">
                     delete</mat-icon>
                 </button>
@@ -54,9 +54,9 @@
                 <!-- UPDATE button-->
                 <button *ngIf="data.canBeRemoved"
                         mat-icon-button color="primary"
+                        matTooltip="Update sandbox definition"
                         (click)="updateSandboxDefinition(data.sandbox?.id)">
                   <mat-icon
-                    matTooltip="Update sandbox definition"
                     aria-label="Update sandbox definition button">
                     cached</mat-icon>
                 </button>
@@ -64,9 +64,9 @@
                 <!-- DEPLOY button-->
                 <button *ngIf="true"
                         mat-icon-button color="primary"
+                        matTooltip="Deploy sandbox definition"
                         (click)="deploySandboxDefinition(data.sandbox?.id)">
                   <mat-icon
-                    matTooltip="Deploy sandbox definition"
                     aria-label="Deploy sandbox definition button">
                     launch</mat-icon>
                 </button>
