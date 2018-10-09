@@ -7,6 +7,13 @@ import {TrainingRunGetterService} from "../../../../../services/data-getters/tra
 import {merge, of} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {TrainingRunSetterService} from "../../../../../services/data-setters/training-run.setter.service";
+import {AlertService} from "../../../../../services/event-services/alert.service";
+import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
+
+export class TrainingRunTableDataObject {
+  trainingRun: TrainingRun;
+  isWaitingForRevertResponse: boolean;
+}
 
 @Component({
   selector: 'training-summary-table',
@@ -23,7 +30,7 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
 
   activeTrainingSubscription;
 
-  dataSource: MatTableDataSource<TrainingRun>;
+  dataSource: MatTableDataSource<TrainingRunTableDataObject>;
 
   resultsLength = 0;
   isLoadingResults = true;
@@ -33,6 +40,7 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
+    private alertService: AlertService,
     private activeTrainingInstanceService: ActiveTrainingInstanceService,
     private trainingRunSetter: TrainingRunSetterService,
     private trainingRunGetter: TrainingRunGetterService) { }
@@ -68,11 +76,21 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
   }
 
   /**
-   *
-   * @param {number} id
+   * Reverts selected training run
+   * @param trainingRunTableObject table object of training run
    */
-  revertTrainingRun(id: number) {
-    this.trainingRunSetter.revert(id);
+  revertTrainingRun(trainingRunTableObject: TrainingRunTableDataObject) {
+    trainingRunTableObject.isWaitingForRevertResponse = true;
+    this.trainingRunSetter.revert(trainingRunTableObject.trainingRun.id).subscribe(
+      response => {
+        trainingRunTableObject.isWaitingForRevertResponse = false;
+        this.alertService.emitAlert(AlertTypeEnum.Success, 'Training run was successfully reverted');
+      },
+      err => {
+        trainingRunTableObject.isWaitingForRevertResponse = false;
+        this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Training run was not reverted.')
+      }
+    )
   }
 
   /**
@@ -110,7 +128,7 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
           this.isLoadingResults = false;
           this.isInErrorState = false;
           this.resultsLength = data.length;
-          return data;
+          return this.mapTrainingRunsToTableDataObjects(data);
         }),
         catchError(() => {
           this.isLoadingResults = false;
@@ -124,14 +142,25 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
    * Creates data source from fetched data
    * @param data fetched training runs
    */
-  private createDataSource(data: TrainingRun[]) {
+  private createDataSource(data: TrainingRunTableDataObject[]) {
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
 
     this.dataSource.filterPredicate =
-      (data: TrainingRun, filter: string) =>
-        data.state.toLowerCase().indexOf(filter) !== -1
+      (data: TrainingRunTableDataObject, filter: string) =>
+        data.trainingRun.state.toLowerCase().indexOf(filter) !== -1
+  }
+
+  private mapTrainingRunsToTableDataObjects(data: TrainingRun[]): TrainingRunTableDataObject[] {
+    const result: TrainingRunTableDataObject[] = [];
+    data.forEach(trainingRun => {
+      const trainingRunTableDataObject = new TrainingRunTableDataObject();
+      trainingRunTableDataObject.trainingRun = trainingRun;
+      trainingRunTableDataObject.isWaitingForRevertResponse = false;
+      result.push(trainingRunTableDataObject);
+    });
+    return result;
   }
 
 }

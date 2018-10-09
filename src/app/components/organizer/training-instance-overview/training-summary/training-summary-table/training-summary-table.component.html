@@ -20,38 +20,39 @@
           <!-- SANDBOX ID Column -->
           <ng-container matColumnDef="sandboxId">
             <th class="sandboxId" mat-header-cell *matHeaderCellDef mat-sort-header>Sandbox ID</th>
-            <td class="sandboxId" mat-cell *matCellDef="let training">
-              {{ training.sandboxInstanceId }}
+            <td class="sandboxId" mat-cell *matCellDef="let data">
+              {{ data.trainingRun?.sandboxInstanceId }}
             </td>
           </ng-container>
 
           <!-- PLAYER ID Column -->
           <ng-container matColumnDef="playerId">
             <th class="playerId" mat-header-cell *matHeaderCellDef>Player ID</th>
-            <td class="playerId" mat-cell *matCellDef="let training">
-              {{ training.userId }}
+            <td class="playerId" mat-cell *matCellDef="let data">
+              {{ data.trainingRun?.userId }}
             </td>
           </ng-container>
 
           <!-- STATE Column -->
           <ng-container matColumnDef="state">
             <th class="state" mat-header-cell *matHeaderCellDef>State</th>
-            <td class="state" mat-cell *matCellDef="let training">
-              {{ training.state }}
+            <td class="state" mat-cell *matCellDef="let data">
+              {{ data.trainingRun?.state }}
             </td>
           </ng-container>
 
           <!-- ACTIONS Column -->
           <ng-container matColumnDef="actions">
             <th class="actions" mat-header-cell *matHeaderCellDef>Actions</th>
-            <td class="actions" mat-cell *matCellDef="let training">
+            <td class="actions" mat-cell *matCellDef="let data">
 
               <div class="action-buttons">
                 <!-- REVERT button-->
                 <button
                         mat-icon-button color="primary"
                         matTooltip="Revert training run"
-                        (click)="revertTrainingRun(training?.id)">
+                        *ngIf="!data.isWaitingForRevertResponse"
+                        (click)="revertTrainingRun(data)">
                   <mat-icon
                     aria-label="Revert training run button">
                     rotate_left</mat-icon>

@@ -15,8 +15,9 @@ export class TrainingRunSetterService {
    * Sends request to revert training run
    * @param id id of training run which should be reverted
    */
-  revert(id: number) {
-    // TODO: Call REST API to revert training run
+  revert(id: number): Observable<Object> {
+    // TODO: Change observable type later
+    return this.http.get(environment.trainingRunsEndpointUri + id + '/revert');
   }
 
   /**
