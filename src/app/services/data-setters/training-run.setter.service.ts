@@ -1,15 +1,18 @@
 import {Injectable} from "@angular/core";
 import {AbstractQuestion} from "../../model/questions/abstract-question";
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../../../environments/environment";
+import {Observable} from "rxjs";
 
 @Injectable()
 export class TrainingRunSetterService {
 
-  constructor() {
+  constructor(private http: HttpClient) {
 
   }
 
   /**
-   * Reverts training run
+   * Sends request to revert training run
    * @param id id of training run which should be reverted
    */
   revert(id: number) {
@@ -20,42 +23,47 @@ export class TrainingRunSetterService {
    * Sends request to move to next level
    * @param trainingRunId id of a training run
    */
-  nextLevel(trainingRunId: number) {
-    // TODO: Call REST API to move to next level
+  nextLevel(trainingRunId: number): Observable<Object> {
+    // TODO: Change observable type later
+    return this.http.get(environment.trainingRunsEndpointUri + trainingRunId + '/get-next-level');
   }
 
   /**
    * Sends request to submit the flag from game level and check whether it is valid
-   * @param levelId id of the active game level
+   * @param trainingRunId id of training run in which, flag should be submitted (level is decided based on the current level property)
    * @param flag flag submitted by user
    */
-  submitFlag(levelId: number, flag: string) {
-    // TODO: Call REST API to check flag
+  submitFlag(trainingRunId: number, flag: string): Observable<boolean> {
+    // TODO: Add query params accordingly to REST API docs
+    const params = { flag: flag };
+    return this.http.get<boolean>(environment.trainingRunsEndpointUri + trainingRunId + '/is-correct-flag', { params: params });
   }
 
   /**
    * Sends request to display hint and deduce points for it
-   * @param levelId id of active level
+   * @param trainingRunId id of training run in which, hint should be revealed (level is decided based on the current level property)
    * @param hintId id of requested hint
    */
-  takeHint(levelId: number, hintId: number) {
-    // TODO: Call REST API to take a hint
+  takeHint(trainingRunId: number, hintId: number): Observable<Object> {
+    // TODO: Specify type of observable returned from the method
+    return this.http.get(environment.trainingRunsEndpointUri + trainingRunId + '/get-hint/' + hintId)
   }
 
   /**
    * Sends request to display solution to a level
-   * @param levelId id of the active level
+   * @param trainingRun id of the training run in which, solution should be revealed (level is decided based on the current level property)
    */
-  takeSolution(levelId: number) {
-    // TODO: Call REST API to take a solution
+  takeSolution(trainingRun: number): Observable<Object> {
+    // TODO: Specify type of observable returned from the method
+    return this.http.get(environment.trainingRunsEndpointUri + trainingRun + '/get-solution');
   }
 
   /**
    * Submits users answers for questions in assessment level
-   * @param levelId id of the active level
+   * @param trainingRun id of the training run in which, questions should be submitted (level is decided based on the current level property)
    * @param questions questions which answers should be submitted
    */
-  submitQuestions(levelId: number, questions: AbstractQuestion[]) {
+  submitQuestions(trainingRun: number, questions: AbstractQuestion[]) {
     // TODO: Call REST API to submit questions
   }
 
