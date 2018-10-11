@@ -27,9 +27,11 @@ export class TrainingInstanceEditComponent implements OnInit {
 
   editMode: boolean;
 
+  startAt: Date = new Date();
+
   title: string;
-  startTime: Date = new Date();
-  endTime: Date = new Date();
+  startTime: Date;
+  endTime: Date;
   poolSize: number;
   organizers: User[];
   trainingDefinition: TrainingDefinition;

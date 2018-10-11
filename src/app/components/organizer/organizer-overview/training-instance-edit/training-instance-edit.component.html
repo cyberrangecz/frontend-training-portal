@@ -24,7 +24,7 @@
                    [(ngModel)]="startTime"
                    [owlDateTimeTrigger]="startTimePicker"
                    [owlDateTime]="startTimePicker">
-            <owl-date-time #startTimePicker></owl-date-time>
+            <owl-date-time #startTimePicker [startAt]="startAt"></owl-date-time>
           </div>
         </mat-form-field>
 

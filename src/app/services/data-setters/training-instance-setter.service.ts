@@ -15,7 +15,17 @@ export class TrainingInstanceSetterService {
    * @param {TrainingInstance} trainingInstance training instance which should be created
    */
   addTrainingInstance(trainingInstance: TrainingInstance): Observable<number> {
-    return this.http.post<number>(environment.trainingInstancesEndpointUri, trainingInstance);
+
+    return this.http.post<number>(environment.trainingInstancesEndpointUri, {
+      id: trainingInstance.id,
+      training_definition_id: trainingInstance.trainingDefinitionId,
+      start_time: trainingInstance.startTime,
+      end_time: trainingInstance.endTime,
+      title: trainingInstance.title,
+      pool_size: trainingInstance.poolSize,
+      organizers: trainingInstance.organizersIds,
+      keyword: trainingInstance.keyword
+    });
   }
 
   /**
@@ -23,7 +33,16 @@ export class TrainingInstanceSetterService {
    * @param trainingInstance training instance which should be updated
    */
   updateTrainingInstance(trainingInstance: TrainingInstance): Observable<number> {
-    return this.http.put<number>(environment.trainingInstancesEndpointUri, trainingInstance);
+    return this.http.put<number>(environment.trainingInstancesEndpointUri, {
+      id: trainingInstance.id,
+      training_definition_id: trainingInstance.trainingDefinitionId,
+      start_time: trainingInstance.startTime,
+      end_time: trainingInstance.endTime,
+      title: trainingInstance.title,
+      pool_size: trainingInstance.poolSize,
+      organizers: trainingInstance.organizersIds,
+      keyword: trainingInstance.keyword
+    });
   }
 
   /**

@@ -543,6 +543,18 @@
         }
       ],
       "keyword": "abcdefgh"
+    },
+    {
+      "training_definition_id": 1,
+      "start_time": "2018-10-13T09:37:58.000Z",
+      "end_time": "2018-10-16T09:38:11.000Z",
+      "title": "abcdefgfgh",
+      "pool_size": 2,
+      "organizers": [
+        1
+      ],
+      "keyword": "12345",
+      "id": 5
     }
   ],
   "training-runs": [
