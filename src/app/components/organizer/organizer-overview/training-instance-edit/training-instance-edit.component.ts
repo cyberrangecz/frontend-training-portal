@@ -14,13 +14,13 @@ import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'training-instance-definition',
-  templateUrl: './training-instance-definition.component.html',
-  styleUrls: ['./training-instance-definition.component.css']
+  templateUrl: './training-instance-edit.component.html',
+  styleUrls: ['./training-instance-edit.component.css']
 })
 /**
  * Component for creating new or editing existing training instance
  */
-export class TrainingInstanceDefinitionComponent implements OnInit, OnChanges {
+export class TrainingInstanceEditComponent implements OnInit {
 
   @Input('trainingInstance') trainingInstance: TrainingInstance;
   @Output('trainingChange') trainingChange = new EventEmitter<TrainingInstance>();
@@ -47,13 +47,6 @@ export class TrainingInstanceDefinitionComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.resolveInitialInputValues();
   }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if ('trainingInstance' in changes) {
-      this.resolveInitialInputValues();
-    }
-  }
-
   /**
    * Opens popup dialog to choose organizers from a list
    */

@@ -238,6 +238,21 @@
           "id": 2
         }
       ]
+    },
+    {
+      "sandboxDefinitionId": 1,
+      "authorIds": [
+        1
+      ],
+      "state": "released",
+      "levels": [],
+      "canBeArchived": false,
+      "title": "Test Training Definition",
+      "description": "This is test training definition",
+      "prerequisites": "",
+      "outcomes": "",
+      "showProgress": true,
+      "id": 11
     }
   ],
   "levels": [
