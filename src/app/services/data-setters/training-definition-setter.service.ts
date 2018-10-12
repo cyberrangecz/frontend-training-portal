@@ -59,8 +59,8 @@ export class TrainingDefinitionSetterService {
    * @param trainingDefId id of training definition which should be associated with the new level
    * @param assessmentLevel new assessment level which should be created in DB
    */
-  createAssessmentLevel(trainingDefId: number, assessmentLevel: AssessmentLevel): Observable<number> {
-    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId + '/assessment-levels', assessmentLevel);
+  createAssessmentLevel(trainingDefId: number): Observable<number> {
+    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId + '/levels/ASSESSMENT', {});
   }
 
   /**
@@ -68,8 +68,8 @@ export class TrainingDefinitionSetterService {
    * @param trainingDefId id of training definition which should be associated with the new level
    * @param gameLevel new game level which should be created in DB
    */
-  createGameLevel(trainingDefId: number, gameLevel: GameLevel): Observable<number> {
-    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId + '/game-levels', gameLevel);
+  createGameLevel(trainingDefId: number): Observable<number> {
+    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId + '/levels/GAME', {});
   }
 
   /**
@@ -77,8 +77,8 @@ export class TrainingDefinitionSetterService {
    * @param trainingDefId id of training definition which should be associated with the new level
    * @param infoLevel new info level which should be created in DB
    */
-  createInfoLevel(trainingDefId: number, infoLevel: InfoLevel): Observable<number> {
-    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId + '/info-levels', infoLevel);
+  createInfoLevel(trainingDefId: number): Observable<number> {
+    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId + '/levels/INFO', {});
   }
 
   /**
