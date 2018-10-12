@@ -8,6 +8,7 @@ import {Observable} from "rxjs/internal/Observable";
 import {PaginationParams} from "../../model/http/params/pagination-params";
 import {TrainingDefinitionDTO} from "../../model/DTOs/trainingDefinitionDTO";
 import {TrainingDefinitionMapperService} from "../data-mappers/training-definition-mapper.service";
+import {AbstractLevel} from "../../model/level/abstract-level";
 
 @Injectable()
 /**
