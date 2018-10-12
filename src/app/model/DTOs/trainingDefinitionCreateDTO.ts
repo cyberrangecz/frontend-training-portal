@@ -22,6 +22,17 @@ export interface TrainingDefinitionCreateDTO {
     state?: TrainingDefinitionCreateDTO.StateEnum;
     title?: string;
 }
+
+export class TrainingDefinitionCreateDTO implements TrainingDefinitionCreateDTO {
+  description?: string;
+  outcomes?: Array<string>;
+  prerequisities?: Array<string>;
+  startingLevel?: number;
+  state?: TrainingDefinitionCreateDTO.StateEnum;
+  title?: string;
+
+}
+
 export namespace TrainingDefinitionCreateDTO {
     export type StateEnum = 'PRIVATED' | 'RELEASED' | 'ARCHIVED' | 'UNRELEASED';
     export const StateEnum = {

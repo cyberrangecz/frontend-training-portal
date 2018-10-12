@@ -7,7 +7,7 @@ import {TrainingDefinitionStateEnum} from "../../enums/training-definition-state
 import {Observable} from "rxjs/internal/Observable";
 import {PaginationParams} from "../../model/http/params/pagination-params";
 import {TrainingDefinitionDTO} from "../../model/DTOs/trainingDefinitionDTO";
-import {TrainingDefinitionFactoryService} from "../data-factories/training-definition-factory.service";
+import {TrainingDefinitionMapperService} from "../data-mappers/training-definition-mapper.service";
 
 @Injectable()
 /**
@@ -17,17 +17,17 @@ import {TrainingDefinitionFactoryService} from "../data-factories/training-defin
 export class TrainingDefinitionGetterService {
 
   constructor(private http: HttpClient,
-              private trainingDefinitionFactory: TrainingDefinitionFactoryService) {
+              private trainingDefinitionMapper: TrainingDefinitionMapperService) {
   }
 
   /**
    * Retrieves all training definitions
    * @returns {Observable<TrainingDefinition[]>} Observable of training definitions list
    */
-  getTrainingDefs(): Observable<TrainingDefinition[]> {
+  getTrainingDefinitions(): Observable<TrainingDefinition[]> {
     return this.http.get<TrainingDefinitionDTO[]>(environment.trainingDefsEndpointUri)
       .pipe(map(response =>
-        this.trainingDefinitionFactory.createTrainingDefinitionFromDTOs(response)));
+        this.trainingDefinitionMapper.createTrainingDefinitionFromDTOs(response)));
   }
 
   /**
@@ -37,11 +37,11 @@ export class TrainingDefinitionGetterService {
    * @param sort attribute by which will result be sorted
    * @param sortDir sort direction (asc, desc)
    */
-  getTrainingDefsWithPaginations(page: number, size: number, sort: string, sortDir: string): Observable<TrainingDefinition[]> {
+  getTrainingDefinitionssWithPaginations(page: number, size: number, sort: string, sortDir: string): Observable<TrainingDefinition[]> {
     let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
     return this.http.get<TrainingDefinitionDTO[]>(environment.trainingDefsEndpointUri, { params: params })
       .pipe(map(response =>
-        this.trainingDefinitionFactory.createTrainingDefinitionFromDTOs(response)));
+        this.trainingDefinitionMapper.createTrainingDefinitionFromDTOs(response)));
   }
 
   /**
@@ -49,16 +49,16 @@ export class TrainingDefinitionGetterService {
    * @param {number} id id of training definition
    * @returns {Observable<TrainingDefinition>} Observable of retrieved training definition, null if no training with such id is found
    */
-  getTrainingDefById(id: number): Observable<TrainingDefinition> {
+  getTrainingDefinitionById(id: number): Observable<TrainingDefinition> {
     return this.http.get<TrainingDefinitionDTO>(environment.trainingDefsEndpointUri + id)
       .pipe(map(response =>
-        this.trainingDefinitionFactory.createTrainingDefinitionFromDTO(response)));  }
+        this.trainingDefinitionMapper.createTrainingDefinitionFromDTO(response)));  }
 
   /**
    * Downloads Training Definition file
    * @param id id of training definition which should be downloaded
    */
-  downloadTrainingDef(id: number) {
+  downloadTrainingDefinition(id: number) {
     // TODO: call to download Training Def
   }
 
@@ -67,9 +67,9 @@ export class TrainingDefinitionGetterService {
    * @param {number} sandboxId id of sandbox definition associated with training definition
    * @returns {Observable<TrainingDefinition[]>} Observable of list of training definitions matching sandbox definition id
    */
-  getTrainingDefsBySandboxDefId(sandboxId: number): Observable<TrainingDefinition[]> {
+  getTrainingDefinitionsBySandboxDefinitionId(sandboxId: number): Observable<TrainingDefinition[]> {
     return this.http.get<TrainingDefinitionDTO[]>(environment.trainingDefsEndpointUri + 'sandbox-definitions/' + sandboxId)
       .pipe(map(response =>
-        this.trainingDefinitionFactory.createTrainingDefinitionFromDTOs(response)));
+        this.trainingDefinitionMapper.createTrainingDefinitionFromDTOs(response)));
   }
 }

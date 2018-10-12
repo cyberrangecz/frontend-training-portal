@@ -29,7 +29,7 @@ export class TrainingDefinitionPickerComponent implements OnInit {
 
   ngOnInit() {
     this.trainingDefsList.selectedOptions = new SelectionModel<MatListOption>(false);
-    this.trainingDefs$ = this.trainingDefinitionGetter.getTrainingDefs();
+    this.trainingDefs$ = this.trainingDefinitionGetter.getTrainingDefinitions();
   }
 
   /**

@@ -105,7 +105,7 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
         }))
         .pipe(switchMap(trainingInstance => {
           this.trainingInstance = trainingInstance;
-          return this.trainingDefinitionGetter.getTrainingDefById(trainingInstance.trainingDefinitionId);
+          return this.trainingDefinitionGetter.getTrainingDefinitionById(trainingInstance.trainingDefinitionId);
         }))
         .pipe(switchMap(trainingDef => {
           this.withStepper = trainingDef.showProgress;

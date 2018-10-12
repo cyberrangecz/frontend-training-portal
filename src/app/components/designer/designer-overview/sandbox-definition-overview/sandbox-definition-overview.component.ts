@@ -165,7 +165,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
     data.forEach(sandbox => {
       const tableDataObject = new SandboxDefinitionTableDataObject();
       tableDataObject.sandbox = sandbox;
-      this.trainingDefinitionGetter.getTrainingDefsBySandboxDefId(sandbox.id)
+      this.trainingDefinitionGetter.getTrainingDefinitionsBySandboxDefinitionId(sandbox.id)
         .subscribe(result => {
           tableDataObject.associatedTrainingDefinitions = result;
           tableDataObject.canBeRemoved = this.canSandboxBeRemoved(tableDataObject.sandbox, tableDataObject.associatedTrainingDefinitions);

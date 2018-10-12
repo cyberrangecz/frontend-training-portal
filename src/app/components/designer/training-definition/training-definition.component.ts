@@ -103,7 +103,7 @@ export class TrainingDefinitionComponent implements OnInit {
           if (params.has('id')) {
             this.trainingDefId = +params.get('id');
             this.isTrainingSaved = true;
-            return this.trainingDefId === null ? null : this.trainingDefinitionGetter.getTrainingDefById(this.trainingDefId);
+            return this.trainingDefId === null ? null : this.trainingDefinitionGetter.getTrainingDefinitionById(this.trainingDefId);
           }
           this.isTrainingSaved = false;
         }));
