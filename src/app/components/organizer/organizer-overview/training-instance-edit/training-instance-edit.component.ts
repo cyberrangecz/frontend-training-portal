@@ -189,7 +189,7 @@ export class TrainingInstanceEditComponent implements OnInit {
     this.poolSize = this.trainingInstance.poolSize;
     this.userGetter.loadUsersByIds(this.trainingInstance.organizersIds)
       .subscribe(organizers => this.organizers = organizers);
-    this.trainingDefinitionGetter.getTrainingDefById(this.trainingInstance.trainingDefinitionId)
+    this.trainingDefinitionGetter.getTrainingDefinitionById(this.trainingInstance.trainingDefinitionId)
       .subscribe(trainingDef => this.trainingDefinition = trainingDef);
     this.password = this.trainingInstance.keyword;
 

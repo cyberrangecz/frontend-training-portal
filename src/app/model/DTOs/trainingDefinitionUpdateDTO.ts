@@ -23,6 +23,17 @@ export interface TrainingDefinitionUpdateDTO {
     state?: TrainingDefinitionUpdateDTO.StateEnum;
     title?: string;
 }
+
+export class TrainingDefinitionUpdateDTO implements TrainingDefinitionUpdateDTO{
+  description?: string;
+  id?: number;
+  outcomes?: Array<string>;
+  prerequisities?: Array<string>;
+  startingLevel?: number;
+  state?: TrainingDefinitionUpdateDTO.StateEnum;
+  title?: string;
+
+}
 export namespace TrainingDefinitionUpdateDTO {
     export type StateEnum = 'PRIVATED' | 'RELEASED' | 'ARCHIVED' | 'UNRELEASED';
     export const StateEnum = {

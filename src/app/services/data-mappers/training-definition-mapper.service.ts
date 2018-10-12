@@ -9,9 +9,12 @@ import {AbstractLevelTypeEnum} from "../../enums/abstract-level-type.enum";
 import {AssessmentLevel} from "../../model/level/assessment-level";
 import {GameLevel} from "../../model/level/game-level";
 import LevelTypeEnum = BasicLevelInfoDTO.LevelTypeEnum;
+import {TrainingDefinitionCreateDTO} from "../../model/DTOs/trainingDefinitionCreateDTO";
+import StateEnum = TrainingDefinitionCreateDTO.StateEnum;
+import {TrainingDefinitionUpdateDTO} from "../../model/DTOs/trainingDefinitionUpdateDTO";
 
 @Injectable()
-export class TrainingDefinitionFactoryService {
+export class TrainingDefinitionMapperService {
 
   createTrainingDefinitionFromDTOs(trainingDefinitionDTOs: TrainingDefinitionDTO[]): TrainingDefinition[] {
     const result: TrainingDefinition[] = [];
@@ -37,6 +40,28 @@ export class TrainingDefinitionFactoryService {
     return result;
   }
 
+  createTrainingDefinitionCreateDTOFromTrainingDefinition(trainingDefinition: TrainingDefinition): TrainingDefinitionCreateDTO {
+    const result: TrainingDefinitionCreateDTO = new TrainingDefinitionCreateDTO();
+    result.description = trainingDefinition.description;
+    result.outcomes = trainingDefinition.outcomes;
+    result.prerequisities = trainingDefinition.prerequisites;
+    result.startingLevel = trainingDefinition.startingLevel;
+    result.state = TrainingDefinitionCreateDTO.StateEnum[trainingDefinition.state];
+    result.title = trainingDefinition.title;
+    return result;
+  }
+
+  createTrainingDefinitionUpdateDTOFromTrainingDefinition(trainingDefinition: TrainingDefinition): TrainingDefinitionUpdateDTO {
+    const result: TrainingDefinitionUpdateDTO = new TrainingDefinitionUpdateDTO();
+    result.id = trainingDefinition.id;
+    result.description = trainingDefinition.description;
+    result.outcomes = trainingDefinition.outcomes;
+    result.prerequisities = trainingDefinition.prerequisites;
+    result.startingLevel = trainingDefinition.startingLevel;
+    result.state = TrainingDefinitionUpdateDTO.StateEnum[trainingDefinition.state];
+    result.title = trainingDefinition.title;
+    return result;
+  }
 
   private createLevelFromBasicInfo(levelBasicInfoDTO: BasicLevelInfoDTO ): AbstractLevel {
     const result = this.createLevelByType(levelBasicInfoDTO.levelType);

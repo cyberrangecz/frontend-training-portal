@@ -107,7 +107,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    * @param {number} id id of training definition which should be downloaded
    */
   downloadTrainingDefinition(id: number) {
-    this.trainingDefinitionGetter.downloadTrainingDef(id);
+    this.trainingDefinitionGetter.downloadTrainingDefinition(id);
   }
 
   /**
@@ -178,7 +178,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
         startWith({}),
         switchMap(() => {
           this.isLoading = true;
-          return this.trainingDefinitionGetter.getTrainingDefsWithPaginations(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
+          return this.trainingDefinitionGetter.getTrainingDefinitionssWithPaginations(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
         }),
         map(data => {
           // Flip flag to show that loading has finished.

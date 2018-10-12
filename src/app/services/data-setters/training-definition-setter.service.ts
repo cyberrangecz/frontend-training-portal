@@ -6,6 +6,7 @@ import {AssessmentLevel} from "../../model/level/assessment-level";
 import {GameLevel} from "../../model/level/game-level";
 import {InfoLevel} from "../../model/level/info-level";
 import {Observable} from "rxjs";
+import {TrainingDefinitionMapperService} from "../data-mappers/training-definition-mapper.service";
 
 /**
  * Service to abstract communication with training definition endpoint.
@@ -14,7 +15,8 @@ import {Observable} from "rxjs";
 @Injectable()
 export class TrainingDefinitionSetterService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private trainingDefinitionMapper: TrainingDefinitionMapperService) {
   }
 
   /**
@@ -39,15 +41,17 @@ export class TrainingDefinitionSetterService {
    * @param trainingDef updated training definition
    */
   updateTrainingDefinition(trainingDef: TrainingDefinition) {
-    return this.http.put(environment.trainingDefsEndpointUri, trainingDef)
+    return this.http.put(environment.trainingDefsEndpointUri,
+      this.trainingDefinitionMapper.createTrainingDefinitionUpdateDTOFromTrainingDefinition(trainingDef))
   }
 
   /**
    * Sends request to create new training definition and returns id of the created training definition
    * @param {TrainingDefinition} trainingDef training definition which should be created
    */
-  addTrainingDefinition(trainingDef: TrainingDefinition): Observable<number> {
-    return this.http.post<number>(environment.trainingDefsEndpointUri, trainingDef);
+  createTrainingDefinition(trainingDef: TrainingDefinition): Observable<number> {
+    return this.http.post<number>(environment.trainingDefsEndpointUri,
+      this.trainingDefinitionMapper.createTrainingDefinitionCreateDTOFromTrainingDefinition(trainingDef));
   }
 
   /**
