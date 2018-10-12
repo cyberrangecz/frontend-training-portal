@@ -238,21 +238,6 @@
           "id": 2
         }
       ]
-    },
-    {
-      "sandboxDefinitionId": 1,
-      "authorIds": [
-        1
-      ],
-      "state": "released",
-      "levels": [],
-      "canBeArchived": false,
-      "title": "Test Training Definition",
-      "description": "This is test training definition",
-      "prerequisites": "",
-      "outcomes": "",
-      "showProgress": true,
-      "id": 11
     }
   ],
   "levels": [
@@ -370,52 +355,6 @@
       "pre_hook": "",
       "post_hook": "",
       "content": "# Crinibus frontemque satus \n## Colla alimentaque aurum per germanam petit \nLorem markdownum convicia dira; toto utque inpietate fide nostrae sanguine solem \nsociam nunc nulla, scelerique procubuit truces. Si iam venenis postquam nunc \nferarum! Morsa ratibusque redde alumnus magnae terram, caesus animoque iniqui \nmiserrima timori et non emissumque canes percusserat veras. \n1. Cur sum habet annis alii \n2. Quam intrare fama ubi illic instant est \n3. Custodit sociis primumque Ascaniumque credas \n4. Fine erat opibusque crimen \n## Mali aurum silvae extemplo et vestes \nNec Aeacus contigit carpit? Dat sanus profundum vigor contingere sol nescit in \naudacem harenae; est mea dixerat. Dicentum geminos gurgite morus corpora: \ntristique cumque linquit nec. Verrit fortunae reverti hausit. Petunt caelumque \ninscripsere ferebat glandibus Sardibus nam nimium pinum pete iactata? \nGenu aut quem putator auro omnes bibuntur. Non portas, est sedit sacerdos \nquercus, capientur convertit, et quatiatur aestu ne. Tulit plenumque adiuro \naethera, mali Nocte quem fidem pulsa, summas ora tollens misit o tamen fiducia. \nArma de erat Sipylumque illic et noctis contigit meumque amori motu? \n> Viribus per humani nec amoris, si digiti, me fugit postquam rebelles, cum. \n> Colles crista, se nunc Eumelique aliis respondere tamen aliter aer germana \n> sacra timuitque amnicolaeque alternae densa! Pulsa illi suo, forma tenebat \n> intus Typhoea spectant mitisque stimuloque nuper scelerisque nati frugum \n> vinci, ira. \n## Mea nec eodem et adeunt ululatibus iunctior \nEt has facit quae datur; quoscumque tenebat se unda videntur corpus. Est nescio \nlibens Cecropis scelus hoc hos isque, iam satis creditus Rutulos parentis. \nDedisse nec adicit spissatus nocebit cornua quod Hesperio: obstitit conscia neve \nadimuntque quidem heros. \nAchille et sublimis verbaque regionibus divino cetera ferox decidere pecudes. \nOmnes ora pollice negabit flumina fugerat! Quae cum, Aeson, numeratur bis \npariter qualem; deme omnia incubuitque et clausam, in numen. \nAngulus in desit. Poteris iuvenca columnae, solidis ut nexus. Ex non dicunt \nsuasque templo penetravit obnoxia felix, umeri mentitur ne aliquid caluere \nPylonque utilitas invecta sagittas totidemque. \n # Crinibus frontemque satus \n## Colla alimentaque aurum per germanam petit \nLorem markdownum convicia dira; toto utque inpietate fide nostrae sanguine solem \nsociam nunc nulla, scelerique procubuit truces. Si iam venenis postquam nunc \nferarum! Morsa ratibusque redde alumnus magnae terram, caesus animoque iniqui \nmiserrima timori et non emissumque canes percusserat veras."
-    },
-    {
-      "trainingDefinitionId": 4,
-      "title": "New Assessment Level",
-      "maxScore": 0,
-      "order": 5,
-      "preHook": "",
-      "postHook": "",
-      "type": "assessment",
-      "questions": null,
-      "assessmentType": "questionnaire",
-      "id": 5
-    },
-    {
-      "trainingDefinitionId": 4,
-      "title": "New Game Level",
-      "maxScore": 100,
-      "order": 6,
-      "preHook": "",
-      "postHook": "",
-      "type": "game",
-      "incorrectFlagCount": 0,
-      "incorrectFlagLimit": 5,
-      "solutionPenalized": true,
-      "flag": "",
-      "hints": [],
-      "content": "",
-      "solution": "",
-      "id": 6
-    },
-    {
-      "trainingDefinitionId": 4,
-      "title": "New Game Level",
-      "maxScore": 100,
-      "order": 1,
-      "preHook": "",
-      "postHook": "",
-      "type": "game",
-      "incorrectFlagCount": 0,
-      "incorrectFlagLimit": 5,
-      "solutionPenalized": true,
-      "flag": "",
-      "hints": [],
-      "content": "",
-      "solution": "",
-      "id": 7
     }
   ],
   "sandbox-definitions": [
@@ -517,6 +456,20 @@
       "keyword": "123"
     },
     {
+      "id": 2,
+      "training_definition_id": 4,
+      "start_time": "12/12/2017",
+      "end_time": "12/13/2017",
+      "title": "Training Instance 2",
+      "pool_size": 100,
+      "organizers": [
+        {
+          "id": 1
+        }
+      ],
+      "keyword": "password"
+    },
+    {
       "id": 3,
       "training_definition_id": 2,
       "start_time": "12/12/2017",
@@ -543,18 +496,6 @@
         }
       ],
       "keyword": "abcdefgh"
-    },
-    {
-      "training_definition_id": 1,
-      "start_time": "2018-10-13T09:37:58.000Z",
-      "end_time": "2018-10-16T09:38:11.000Z",
-      "title": "abcdefgfgh",
-      "pool_size": 2,
-      "organizers": [
-        1
-      ],
-      "keyword": "12345",
-      "id": 5
     }
   ],
   "training-runs": [
@@ -593,116 +534,6 @@
     },
     {
       "id": 4,
-      "training_instance_id": 4,
-      "sandbox_instance_id": 1,
-      "user_id": 1,
-      "start_time": "10/10/2018",
-      "end_time": "11/10/2018",
-      "current_level": 4,
-      "event_log_reference": "",
-      "state": "allocated"
-    },
-    {
-      "id": 5,
-      "training_instance_id": 4,
-      "sandbox_instance_id": 1,
-      "user_id": 1,
-      "start_time": "10/10/2018",
-      "end_time": "11/10/2018",
-      "current_level": 4,
-      "event_log_reference": "",
-      "state": "allocated"
-    },
-    {
-      "id": 6,
-      "training_instance_id": 4,
-      "sandbox_instance_id": 1,
-      "user_id": 1,
-      "start_time": "10/10/2018",
-      "end_time": "11/10/2018",
-      "current_level": 4,
-      "event_log_reference": "",
-      "state": "allocated"
-    },
-    {
-      "id": 7,
-      "training_instance_id": 4,
-      "sandbox_instance_id": 1,
-      "user_id": 1,
-      "start_time": "10/10/2018",
-      "end_time": "11/10/2018",
-      "current_level": 4,
-      "event_log_reference": "",
-      "state": "allocated"
-    },
-    {
-      "id": 8,
-      "training_instance_id": 4,
-      "sandbox_instance_id": 1,
-      "user_id": 1,
-      "start_time": "10/10/2018",
-      "end_time": "11/10/2018",
-      "current_level": 4,
-      "event_log_reference": "",
-      "state": "allocated"
-    },
-    {
-      "id": 9,
-      "training_instance_id": 4,
-      "sandbox_instance_id": 1,
-      "user_id": 1,
-      "start_time": "10/10/2018",
-      "end_time": "11/10/2018",
-      "current_level": 4,
-      "event_log_reference": "",
-      "state": "allocated"
-    },
-    {
-      "id": 10,
-      "training_instance_id": 4,
-      "sandbox_instance_id": 1,
-      "user_id": 1,
-      "start_time": "10/10/2018",
-      "end_time": "11/10/2018",
-      "current_level": 4,
-      "event_log_reference": "",
-      "state": "allocated"
-    },
-    {
-      "id": 11,
-      "training_instance_id": 4,
-      "sandbox_instance_id": 1,
-      "user_id": 1,
-      "start_time": "10/10/2018",
-      "end_time": "11/10/2018",
-      "current_level": 4,
-      "event_log_reference": "",
-      "state": "allocated"
-    },
-    {
-      "id": 12,
-      "training_instance_id": 4,
-      "sandbox_instance_id": 1,
-      "user_id": 1,
-      "start_time": "10/10/2018",
-      "end_time": "11/10/2018",
-      "current_level": 4,
-      "event_log_reference": "",
-      "state": "allocated"
-    },
-    {
-      "id": 13,
-      "training_instance_id": 4,
-      "sandbox_instance_id": 1,
-      "user_id": 1,
-      "start_time": "10/10/2018",
-      "end_time": "11/10/2018",
-      "current_level": 4,
-      "event_log_reference": "",
-      "state": "allocated"
-    },
-    {
-      "id": 14,
       "training_instance_id": 4,
       "sandbox_instance_id": 1,
       "user_id": 1,

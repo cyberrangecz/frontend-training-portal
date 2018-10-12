@@ -97,15 +97,17 @@ export class TrainingDefinitionComponent implements OnInit {
    * Gets training definition from url parameter and passes it to child component
    */
   private getTrainingDefFromUrl() {
-    this.trainingDefinition$ = this.route.paramMap
-      .pipe(switchMap((params: ParamMap) => {
-        if (params.get('id')) {
-          this.trainingDefId = +params.get('id');
-          this.isTrainingSaved = true;
-          return this.trainingDefId === null ? null : this.trainingDefinitionGetter.getTrainingDefById(this.trainingDefId);
-        }
-        this.isTrainingSaved = false;
-      }));
+    if (this.route.paramMap) {
+      this.trainingDefinition$ = this.route.paramMap
+        .pipe(switchMap((params: ParamMap) => {
+          if (params.has('id')) {
+            this.trainingDefId = +params.get('id');
+            this.isTrainingSaved = true;
+            return this.trainingDefId === null ? null : this.trainingDefinitionGetter.getTrainingDefById(this.trainingDefId);
+          }
+          this.isTrainingSaved = false;
+        }));
+    }
   }
 
   /**

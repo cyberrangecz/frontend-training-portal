@@ -3,7 +3,6 @@ import {AlertService} from "../../../../services/event-services/alert.service";
 import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
 import {TrainingInstanceGetterService} from "../../../../services/data-getters/training-instance-getter.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'trainee-access-training',
