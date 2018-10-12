@@ -82,34 +82,6 @@ export class TrainingDefinitionSetterService {
   }
 
   /**
-   * Swaps order with level on the left
-   * @param trainingDefId id of training definition id associated with the level
-   * @param levelId id of a level which should be swapped
-   */
-  swapLeft(trainingDefId: number, levelId: number) {
-    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + levelId + '/swap-left',null);
-  }
-
-  /**
-   * Swaps order with level on the right
-   * @param trainingDefId id of training definition associated with the level
-   * @param levelId id of a level which should be swapped
-   */
-  swapRight(trainingDefId: number, levelId: number) {
-    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + levelId + '/swap-right',null);
-  }
-
-  /**
-   * Swaps order of two levels
-   * @param trainingDefId id of training definition associated with the level
-   * @param firstLevelId id of first level which should be swapped
-   * @param secondLevelId id of second level which should be swapped
-   */
-  swap(trainingDefId: number, firstLevelId: number, secondLevelId: number) {
-    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + firstLevelId + '/swap/' + trainingDefId,null);
-  }
-
-  /**
    * Removes level from DB
    * @param trainingDefId id of training definition associated with the level which should be deleted
    * @param levelId id of level which should be removed
@@ -143,5 +115,33 @@ export class TrainingDefinitionSetterService {
    */
   updateAssessmentLevel(trainingDefId: number, assessmentLevel: AssessmentLevel) {
     return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/assessment-levels', assessmentLevel);
+  }
+
+  /**
+   * Swaps order with level on the left
+   * @param trainingDefId id of training definition id associated with the level
+   * @param levelId id of a level which should be swapped
+   */
+  swapLeft(trainingDefId: number, levelId: number) {
+    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + levelId + '/swap-left',null);
+  }
+
+  /**
+   * Swaps order with level on the right
+   * @param trainingDefId id of training definition associated with the level
+   * @param levelId id of a level which should be swapped
+   */
+  swapRight(trainingDefId: number, levelId: number) {
+    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + levelId + '/swap-right',null);
+  }
+
+  /**
+   * Swaps order of two levels
+   * @param trainingDefId id of training definition associated with the level
+   * @param firstLevelId id of first level which should be swapped
+   * @param secondLevelId id of second level which should be swapped
+   */
+  swap(trainingDefId: number, firstLevelId: number, secondLevelId: number) {
+    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + firstLevelId + '/swap/' + trainingDefId,null);
   }
 }
