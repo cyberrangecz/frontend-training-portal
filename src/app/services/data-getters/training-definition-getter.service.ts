@@ -9,6 +9,11 @@ import {PaginationParams} from "../../model/http/params/pagination-params";
 import {TrainingDefinitionDTO} from "../../model/DTOs/trainingDefinitionDTO";
 import {TrainingDefinitionMapperService} from "../data-mappers/training-definition-mapper.service";
 import {AbstractLevel} from "../../model/level/abstract-level";
+import {AbstractLevelDTO} from "../../model/DTOs/abstractLevelDTO";
+import {GameLevelDTO} from "../../model/DTOs/gameLevelDTO";
+import {InfoLevelDTO} from "../../model/DTOs/infoLevelDTO";
+import {AssessmentLevelDTO} from "../../model/DTOs/assessmentLevelDTO";
+import {LevelMapperService} from "../data-mappers/level-mapper.service";
 
 @Injectable()
 /**
@@ -18,6 +23,7 @@ import {AbstractLevel} from "../../model/level/abstract-level";
 export class TrainingDefinitionGetterService {
 
   constructor(private http: HttpClient,
+              private levelMapper: LevelMapperService,
               private trainingDefinitionMapper: TrainingDefinitionMapperService) {
   }
 
@@ -72,5 +78,15 @@ export class TrainingDefinitionGetterService {
     return this.http.get<TrainingDefinitionDTO[]>(environment.trainingDefsEndpointUri + 'sandbox-definitions/' + sandboxId)
       .pipe(map(response =>
         this.trainingDefinitionMapper.mapTrainingDefinitionDTOsToTrainingDefinitions(response)));
+  }
+
+  /**
+   * Returns level with matching id
+   * @param levelId id of level which should be retrieved
+   */
+  getLevelById(levelId: number): Observable<AbstractLevel> {
+    return this.http.get<GameLevelDTO | InfoLevelDTO | AssessmentLevelDTO>(environment.trainingDefsEndpointUri + 'levels/' + levelId)
+      .pipe(map(response =>
+      this.levelMapper.mapLevelDTOToLevel(response)));
   }
 }
