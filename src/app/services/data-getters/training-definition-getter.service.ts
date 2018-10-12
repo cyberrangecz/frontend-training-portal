@@ -27,7 +27,7 @@ export class TrainingDefinitionGetterService {
   getTrainingDefinitions(): Observable<TrainingDefinition[]> {
     return this.http.get<TrainingDefinitionDTO[]>(environment.trainingDefsEndpointUri)
       .pipe(map(response =>
-        this.trainingDefinitionMapper.createTrainingDefinitionFromDTOs(response)));
+        this.trainingDefinitionMapper.mapTrainingDefinitionDTOsToTrainingDefinitions(response)));
   }
 
   /**
@@ -41,7 +41,7 @@ export class TrainingDefinitionGetterService {
     let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
     return this.http.get<TrainingDefinitionDTO[]>(environment.trainingDefsEndpointUri, { params: params })
       .pipe(map(response =>
-        this.trainingDefinitionMapper.createTrainingDefinitionFromDTOs(response)));
+        this.trainingDefinitionMapper.mapTrainingDefinitionDTOsToTrainingDefinitions(response)));
   }
 
   /**
@@ -52,7 +52,7 @@ export class TrainingDefinitionGetterService {
   getTrainingDefinitionById(id: number): Observable<TrainingDefinition> {
     return this.http.get<TrainingDefinitionDTO>(environment.trainingDefsEndpointUri + id)
       .pipe(map(response =>
-        this.trainingDefinitionMapper.createTrainingDefinitionFromDTO(response)));  }
+        this.trainingDefinitionMapper.mapTrainingDefinitionDTOToTrainingDefinition(response)));  }
 
   /**
    * Downloads Training Definition file
@@ -70,6 +70,6 @@ export class TrainingDefinitionGetterService {
   getTrainingDefinitionsBySandboxDefinitionId(sandboxId: number): Observable<TrainingDefinition[]> {
     return this.http.get<TrainingDefinitionDTO[]>(environment.trainingDefsEndpointUri + 'sandbox-definitions/' + sandboxId)
       .pipe(map(response =>
-        this.trainingDefinitionMapper.createTrainingDefinitionFromDTOs(response)));
+        this.trainingDefinitionMapper.mapTrainingDefinitionDTOsToTrainingDefinitions(response)));
   }
 }

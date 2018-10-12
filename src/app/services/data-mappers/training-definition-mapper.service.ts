@@ -10,21 +10,27 @@ import {AssessmentLevel} from "../../model/level/assessment-level";
 import {GameLevel} from "../../model/level/game-level";
 import LevelTypeEnum = BasicLevelInfoDTO.LevelTypeEnum;
 import {TrainingDefinitionCreateDTO} from "../../model/DTOs/trainingDefinitionCreateDTO";
-import StateEnum = TrainingDefinitionCreateDTO.StateEnum;
 import {TrainingDefinitionUpdateDTO} from "../../model/DTOs/trainingDefinitionUpdateDTO";
 
 @Injectable()
 export class TrainingDefinitionMapperService {
-
-  createTrainingDefinitionFromDTOs(trainingDefinitionDTOs: TrainingDefinitionDTO[]): TrainingDefinition[] {
+  /**
+   * Maps training definition DTOs retrieved from the server to internal training definition objects
+   * @param trainingDefinitionDTOs training definition DTOs retrieved from server
+   */
+  mapTrainingDefinitionDTOsToTrainingDefinitions(trainingDefinitionDTOs: TrainingDefinitionDTO[]): TrainingDefinition[] {
     const result: TrainingDefinition[] = [];
     trainingDefinitionDTOs.forEach(trainingDTO => {
-      result.push(this.createTrainingDefinitionFromDTO(trainingDTO));
+      result.push(this.mapTrainingDefinitionDTOToTrainingDefinition(trainingDTO));
     });
     return result;
   }
 
-  createTrainingDefinitionFromDTO(trainingDefinitionDTO: TrainingDefinitionDTO): TrainingDefinition {
+  /**
+   * Maps training definition DTO retrieved from the server to internal training definition object
+   * @param trainingDefinitionDTO training definition DTO retrieved from server
+   */
+  mapTrainingDefinitionDTOToTrainingDefinition(trainingDefinitionDTO: TrainingDefinitionDTO): TrainingDefinition {
     const result = new TrainingDefinition();
     result.id = trainingDefinitionDTO.id;
     result.sandboxDefinitionId = trainingDefinitionDTO.sandBoxDefinitionRefDto.id;
@@ -40,7 +46,11 @@ export class TrainingDefinitionMapperService {
     return result;
   }
 
-  createTrainingDefinitionCreateDTOFromTrainingDefinition(trainingDefinition: TrainingDefinition): TrainingDefinitionCreateDTO {
+  /**
+   * Maps internal training definition object to TrainingDefinitionCreate DTO object used in communication with REST API
+   * @param trainingDefinition training definition object from which will the DTO be created
+   */
+  mapTrainingDefinitionToTrainingDefinitionCreateDTO(trainingDefinition: TrainingDefinition): TrainingDefinitionCreateDTO {
     const result: TrainingDefinitionCreateDTO = new TrainingDefinitionCreateDTO();
     result.description = trainingDefinition.description;
     result.outcomes = trainingDefinition.outcomes;
@@ -48,10 +58,15 @@ export class TrainingDefinitionMapperService {
     result.startingLevel = trainingDefinition.startingLevel;
     result.state = TrainingDefinitionCreateDTO.StateEnum[trainingDefinition.state];
     result.title = trainingDefinition.title;
+    console.log('CREATED TRAINING DEFINITION CREATE DTO: ' + result);
     return result;
   }
 
-  createTrainingDefinitionUpdateDTOFromTrainingDefinition(trainingDefinition: TrainingDefinition): TrainingDefinitionUpdateDTO {
+  /**
+   * Maps internal training definition object to TrainingDefinitionUpdate DTO object used in communication with REST API
+   * @param trainingDefinition training definition object from which will the DTO be created
+   */
+  mapTrainingDefinitionToTrainingDefinitionUpdateDTO(trainingDefinition: TrainingDefinition): TrainingDefinitionUpdateDTO {
     const result: TrainingDefinitionUpdateDTO = new TrainingDefinitionUpdateDTO();
     result.id = trainingDefinition.id;
     result.description = trainingDefinition.description;
@@ -60,6 +75,7 @@ export class TrainingDefinitionMapperService {
     result.startingLevel = trainingDefinition.startingLevel;
     result.state = TrainingDefinitionUpdateDTO.StateEnum[trainingDefinition.state];
     result.title = trainingDefinition.title;
+    console.log('CREATED TRAINING DEFINITION UPDATE DTO: ' + result);
     return result;
   }
 
