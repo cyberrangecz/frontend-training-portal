@@ -69,16 +69,10 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    */
   addInfoLevel() {
     this.isLoading = true;
-    const newInfoLevel = new InfoLevel(this.trainingDefinitionId,
-      "New Info Level",
-      0,
-      this.levels.length + 1,
-      '',
-      '',
-      '');
+    const newInfoLevel = new InfoLevel();
     newInfoLevel.id = null;
 
-    this.trainingDefinitionSetter.createInfoLevel(this.trainingDefinitionId, newInfoLevel)
+    this.trainingDefinitionSetter.createInfoLevel(this.trainingDefinitionId)
       .subscribe(
         id => {
           this.isLoading = false;
@@ -95,20 +89,8 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    */
   addGameLevel() {
     this.isLoading = true;
-    const newGameLevel = new GameLevel(this.trainingDefinitionId,
-      "New Game Level",
-      100,
-      this.levels.length + 1,
-      '',
-      '',
-      '',
-      [],
-      '',
-      '',
-      0,
-      5,
-      true);
-    this.trainingDefinitionSetter.createGameLevel(this.trainingDefinitionId, newGameLevel)
+    const newGameLevel = new GameLevel();
+    this.trainingDefinitionSetter.createGameLevel(this.trainingDefinitionId)
       .subscribe(
         id => {
         newGameLevel.id = id;
@@ -123,15 +105,8 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    */
   addAssessmentLevel() {
    this.isLoading = true;
-    const newAssessmentLevel = new AssessmentLevel(this.trainingDefinitionId,
-      "New Assessment Level",
-      0,
-      this.levels.length + 1,
-      '',
-      '',
-      null,
-      AssessmentTypeEnum.Questionnaire);
-    this.trainingDefinitionSetter.createAssessmentLevel(this.trainingDefinitionId, newAssessmentLevel)
+    const newAssessmentLevel = new AssessmentLevel();
+    this.trainingDefinitionSetter.createAssessmentLevel(this.trainingDefinitionId)
       .subscribe(
         id => {
           newAssessmentLevel.id = id;
