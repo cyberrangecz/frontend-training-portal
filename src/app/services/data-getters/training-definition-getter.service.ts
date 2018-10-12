@@ -6,6 +6,8 @@ import {TrainingDefinition} from "../../model/training/training-definition";
 import {TrainingDefinitionStateEnum} from "../../enums/training-definition-state.enum";
 import {Observable} from "rxjs/internal/Observable";
 import {PaginationParams} from "../../model/http/params/pagination-params";
+import {TrainingDefinitionDTO} from "../../model/DTOs/trainingDefinitionDTO";
+import {TrainingDefinitionFactoryService} from "../data-factories/training-definition-factory.service";
 
 @Injectable()
 /**
@@ -14,7 +16,8 @@ import {PaginationParams} from "../../model/http/params/pagination-params";
  */
 export class TrainingDefinitionGetterService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private trainingDefinitionFactory: TrainingDefinitionFactoryService) {
   }
 
   /**
@@ -22,9 +25,9 @@ export class TrainingDefinitionGetterService {
    * @returns {Observable<TrainingDefinition[]>} Observable of training definitions list
    */
   getTrainingDefs(): Observable<TrainingDefinition[]> {
-    return this.http.get(environment.trainingDefsEndpointUri)
+    return this.http.get<TrainingDefinitionDTO[]>(environment.trainingDefsEndpointUri)
       .pipe(map(response =>
-        this.parseTrainingDefs(response)));
+        this.trainingDefinitionFactory.createTrainingDefinitionFromDTOs(response)));
   }
 
   /**
@@ -36,9 +39,9 @@ export class TrainingDefinitionGetterService {
    */
   getTrainingDefsWithPaginations(page: number, size: number, sort: string, sortDir: string): Observable<TrainingDefinition[]> {
     let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
-    return this.http.get(environment.trainingDefsEndpointUri, { params: params })
+    return this.http.get<TrainingDefinitionDTO[]>(environment.trainingDefsEndpointUri, { params: params })
       .pipe(map(response =>
-        this.parseTrainingDefs(response)));
+        this.trainingDefinitionFactory.createTrainingDefinitionFromDTOs(response)));
   }
 
   /**
@@ -47,10 +50,9 @@ export class TrainingDefinitionGetterService {
    * @returns {Observable<TrainingDefinition>} Observable of retrieved training definition, null if no training with such id is found
    */
   getTrainingDefById(id: number): Observable<TrainingDefinition> {
-    return this.http.get<TrainingDefinition>(environment.trainingDefsEndpointUri + id)
+    return this.http.get<TrainingDefinitionDTO>(environment.trainingDefsEndpointUri + id)
       .pipe(map(response =>
-        this.parseTrainingDef(response)));
-  }
+        this.trainingDefinitionFactory.createTrainingDefinitionFromDTO(response)));  }
 
   /**
    * Downloads Training Definition file
@@ -61,82 +63,13 @@ export class TrainingDefinitionGetterService {
   }
 
   /**
-   * Retrieves training definitions in released state
-   * @returns {Observable<TrainingDefinition[]>} Observable of retrieved list of training definitions
-   */
-  getReleasedTrainingDefs(): Observable<TrainingDefinition[]> {
-    return this.getTrainingDefs()
-      .pipe(map(trainings =>
-      trainings.filter(training => training.state === TrainingDefinitionStateEnum.Released)));
-  }
-
-  /**
    * Retrieves training definition by id of associated sandbox definition
    * @param {number} sandboxId id of sandbox definition associated with training definition
    * @returns {Observable<TrainingDefinition[]>} Observable of list of training definitions matching sandbox definition id
    */
   getTrainingDefsBySandboxDefId(sandboxId: number): Observable<TrainingDefinition[]> {
-    return this.http.get(environment.trainingDefsEndpointUri + 'sandbox-definitions/' + sandboxId)
-      .pipe(map(response => this.parseTrainingDefs(response)));
-  }
-
-  /**
-   * Parses JSON received in HTTP response
-   * @param trainingDefsJson JSON of training definitions
-   * @returns {TrainingDefinition[]} list of training definitions created from JSON
-   */
-  private parseTrainingDefs(trainingDefsJson): TrainingDefinition[] {
-    const trainingDefs: TrainingDefinition[] = [];
-    trainingDefsJson.forEach(trainingJson => {
-      trainingDefs.push(this.parseTrainingDef(trainingJson));
-    });
-    return trainingDefs;
-  }
-
-  private parseTrainingDef(trainingDefJson): TrainingDefinition {
-    const training = new TrainingDefinition(
-      trainingDefJson.sandbox_definition,
-      this.parseAuthorIds(trainingDefJson.authors),
-      this.trainingDefStateString2Enum(trainingDefJson.state),
-      trainingDefJson.levels);
-
-    training.id =trainingDefJson.id;
-    training.title = trainingDefJson.title;
-    training.description = trainingDefJson.description;
-    training.prerequisites = trainingDefJson.prerequisites;
-    training.outcomes = trainingDefJson.outcomes;
-    training.showProgress = trainingDefJson.show_progress;
-    return training
-  }
-
-  /**
-   * Converts string to state enum
-   * @param {string} state string of state
-   * @returns {TrainingDefinitionStateEnum} matched state enum
-   */
-  private trainingDefStateString2Enum(state: string): TrainingDefinitionStateEnum {
-    if (state === 'unreleased') {
-      return TrainingDefinitionStateEnum.Unreleased;
-    }
-    if (state === 'released') {
-      return TrainingDefinitionStateEnum.Released
-    }
-    if (state === 'archived') {
-      return TrainingDefinitionStateEnum.Archived;
-    }
-     // throw error
-  }
-
-  /**
-   * Parse ids from authors JSON
-   * @param authors JSON defining authors of training definition
-   * @returns {number[]} ids of authors retrieved from JSON
-   */
-  private parseAuthorIds(authors): number[] {
-    const ids: number[] =[];
-    if (authors) {
-      authors.forEach(author => ids.push(author.id));
-    }
-    return ids;
+    return this.http.get<TrainingDefinitionDTO[]>(environment.trainingDefsEndpointUri + 'sandbox-definitions/' + sandboxId)
+      .pipe(map(response =>
+        this.trainingDefinitionFactory.createTrainingDefinitionFromDTOs(response)));
   }
 }
