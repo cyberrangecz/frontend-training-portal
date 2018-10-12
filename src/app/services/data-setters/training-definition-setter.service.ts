@@ -42,7 +42,7 @@ export class TrainingDefinitionSetterService {
    */
   updateTrainingDefinition(trainingDef: TrainingDefinition) {
     return this.http.put(environment.trainingDefsEndpointUri,
-      this.trainingDefinitionMapper.createTrainingDefinitionUpdateDTOFromTrainingDefinition(trainingDef))
+      this.trainingDefinitionMapper.mapTrainingDefinitionToTrainingDefinitionUpdateDTO(trainingDef))
   }
 
   /**
@@ -51,7 +51,7 @@ export class TrainingDefinitionSetterService {
    */
   createTrainingDefinition(trainingDef: TrainingDefinition): Observable<number> {
     return this.http.post<number>(environment.trainingDefsEndpointUri,
-      this.trainingDefinitionMapper.createTrainingDefinitionCreateDTOFromTrainingDefinition(trainingDef));
+      this.trainingDefinitionMapper.mapTrainingDefinitionToTrainingDefinitionCreateDTO(trainingDef));
   }
 
   /**
