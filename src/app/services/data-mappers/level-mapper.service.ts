@@ -16,12 +16,20 @@ import {AssessmentTypeEnum} from "../../enums/assessment-type.enum";
 @Injectable()
 export class LevelMapperService {
 
+  /**
+   * Maps an array of level DTOs to an array of levels
+   * @param levelDTOs array of level DTOs
+   */
   mapLevelDTOsToLevels(levelDTOs: AbstractLevelDTO[]): AbstractLevel[] {
     const result: AbstractLevel[] = [];
     levelDTOs.forEach(levelDTO => result.push(this.mapLevelDTOToLevel(levelDTO)));
     return result;
   }
 
+  /**
+   * Maps levelDTO to level object
+   * @param levelDTO levelDTO received from remote server
+   */
   mapLevelDTOToLevel(levelDTO: AbstractLevelDTO): AbstractLevel {
     switch(levelDTO.levelType) {
       case AbstractLevelDTO.LevelTypeEnum.GAME: {
@@ -36,6 +44,10 @@ export class LevelMapperService {
     }
   }
 
+  /**
+   * Maps game level object to GameLevelUpdate DTO used in communication with remote server
+   * @param level level object which should be mapped to update DTO
+   */
   mapGameLevelToGameLevelUpdateDTO(level: GameLevel): GameLevelUpdateDTO {
     const result = new GameLevelUpdateDTO();
     result.id = level.id;
@@ -52,6 +64,10 @@ export class LevelMapperService {
     return result;
   }
 
+  /**
+   * Maps info level object to InfoLevelUpdate DTO used in communication with remote server
+   * @param level level object which should be mapped to update DTO
+   */
   mapInfoLevelToInfoLevelUpdateDTO(level: InfoLevel): InfoLevelUpdateDTO {
     const result = new InfoLevelUpdateDTO();
     result.id = level.id;
@@ -62,6 +78,10 @@ export class LevelMapperService {
     return result;
   }
 
+  /**
+   * Maps assessment level object to AssessmentLevelUpdate DTO used in communication with remote server
+   * @param level level object which should be mapped to update DTO
+   */
   mapAssessmentLevelToAssessmentLevelUpdateDTO(level: AssessmentLevel): AssessmentLevelUpdateDTO {
     const result = new AssessmentLevelUpdateDTO();
     result.id = level.id;
@@ -74,6 +94,10 @@ export class LevelMapperService {
     return result;
   }
 
+  /**
+   * Creates game level object from game level dto
+   * @param gameLevelDTO game level dto received from remote server
+   */
   private createGameLevelFromDTO(gameLevelDTO: GameLevelDTO): GameLevel {
     const result = new GameLevel();
     this.setAbstractLevelAttributesFromDTO(result, gameLevelDTO);
@@ -88,6 +112,10 @@ export class LevelMapperService {
     return result;
   }
 
+  /**
+   * Creates info level object from info level dto
+   * @param infoLevelDTO info level dto received from remote server
+   */
   private createInfoLevelFromDTO(infoLevelDTO: InfoLevelDTO): InfoLevel {
     const result = new InfoLevel();
     this.setAbstractLevelAttributesFromDTO(result, infoLevelDTO);
@@ -95,6 +123,10 @@ export class LevelMapperService {
     return result;
   }
 
+  /**
+   * Create assessment level object from assessment level dto
+   * @param assessmentLevelDTO assessment level dto received from remote server
+   */
   private createAssessmentLevelFromDTO(assessmentLevelDTO: AssessmentLevelDTO): AssessmentLevel  {
     const result = new AssessmentLevel();
     this.setAbstractLevelAttributesFromDTO(result, assessmentLevelDTO);
@@ -104,6 +136,11 @@ export class LevelMapperService {
     return result;
   }
 
+  /**
+   * Helper method which sets abstract level attributes (common for all type of levels) from level DTO
+   * @param level level object which attributes should be set accordingly to received dto
+   * @param levelDTO level dto received from remote server
+   */
   private setAbstractLevelAttributesFromDTO(level: AbstractLevel, levelDTO: AbstractLevelDTO) {
     level.id = levelDTO.id;
     level.title = levelDTO.title;
