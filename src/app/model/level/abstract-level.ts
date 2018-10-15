@@ -5,11 +5,9 @@ import {AbstractLevelTypeEnum} from "../../enums/abstract-level-type.enum";
 
 export abstract class AbstractLevel {
   id: number;
-  trainingDefinitionId: number;
   title: string;
   nextLevel: number;
   maxScore: number;
-  order: number;
   preHook: string;
   postHook: string;
 

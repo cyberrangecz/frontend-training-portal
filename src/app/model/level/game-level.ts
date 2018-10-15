@@ -10,7 +10,6 @@ export class GameLevel extends AbstractLevel {
   hints: Hint[];
   content: string; // HTML
   solution: string; // HTML
-  incorrectFlagCount: number = 0;
   incorrectFlagLimit: number = 5;
   solutionPenalized: boolean = true;
   estimatedDuration: number;

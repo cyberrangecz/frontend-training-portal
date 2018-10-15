@@ -7,6 +7,11 @@ import {InfoLevelUpdateDTO} from "../../model/DTOs/infoLevelUpdateDTO";
 import {InfoLevel} from "../../model/level/info-level";
 import {AssessmentLevel} from "../../model/level/assessment-level";
 import {AssessmentLevelUpdateDTO} from "../../model/DTOs/assessmentLevelUpdateDTO";
+import {GameLevelDTO} from "../../model/DTOs/gameLevelDTO";
+import {InfoLevelDTO} from "../../model/DTOs/infoLevelDTO";
+import {AssessmentLevelDTO} from "../../model/DTOs/assessmentLevelDTO";
+import {AbstractLevelTypeEnum} from "../../enums/abstract-level-type.enum";
+import {AssessmentTypeEnum} from "../../enums/assessment-type.enum";
 
 @Injectable()
 export class LevelMapperService {
@@ -18,10 +23,17 @@ export class LevelMapperService {
   }
 
   mapLevelDTOToLevel(levelDTO: AbstractLevelDTO): AbstractLevel {
-    let result: AbstractLevel;
-    if (levelDTO) {
+    switch(levelDTO.levelType) {
+      case AbstractLevelDTO.LevelTypeEnum.GAME: {
+        return this.createGameLevelFromDTO(levelDTO);
+      }
+      case AbstractLevelDTO.LevelTypeEnum.INFO: {
+        return this.createInfoLevelFromDTO(levelDTO);
+      }
+      case AbstractLevelDTO.LevelTypeEnum.ASSESSMENT: {
+        return this.createAssessmentLevelFromDTO(levelDTO);
+      }
     }
-    return result;
   }
 
   mapGameLevelToGameLevelUpdateDTO(level: GameLevel): GameLevelUpdateDTO {
@@ -62,16 +74,42 @@ export class LevelMapperService {
     return result;
   }
 
-  private createGameLevel() {
-
+  private createGameLevelFromDTO(gameLevelDTO: GameLevelDTO): GameLevel {
+    const result = new GameLevel();
+    this.setAbstractLevelAttributesFromDTO(result, gameLevelDTO);
+    result.type = AbstractLevelTypeEnum.Game;
+    result.flag = gameLevelDTO.flag;
+    result.content = gameLevelDTO.content;
+    result.solution = gameLevelDTO.solution;
+    result.incorrectFlagLimit = gameLevelDTO.incorrectFlagLimit;
+    result.solutionPenalized = gameLevelDTO.solutionPenalized;
+    result.estimatedDuration = gameLevelDTO.estimatedDuration;
+    result.attachments = gameLevelDTO.attachments;
+    return result;
   }
 
-  private createInfoLevel() {
-
+  private createInfoLevelFromDTO(infoLevelDTO: InfoLevelDTO): InfoLevel {
+    const result = new InfoLevel();
+    this.setAbstractLevelAttributesFromDTO(result, infoLevelDTO);
+    result.content = infoLevelDTO.content;
+    return result;
   }
 
-  private createAssessmentLevel() {
-
+  private createAssessmentLevelFromDTO(assessmentLevelDTO: AssessmentLevelDTO): AssessmentLevel  {
+    const result = new AssessmentLevel();
+    this.setAbstractLevelAttributesFromDTO(result, assessmentLevelDTO);
+    // result.questions = assessmentLevelDTO.questions;
+    result.instructions = assessmentLevelDTO.instructions;
+    result.assessmentType = AssessmentTypeEnum[assessmentLevelDTO.type];
+    return result;
   }
 
+  private setAbstractLevelAttributesFromDTO(level: AbstractLevel, levelDTO: AbstractLevelDTO) {
+    level.id = levelDTO.id;
+    level.title = levelDTO.title;
+    level.nextLevel = levelDTO.nextLevel;
+    level.maxScore = levelDTO.maxScore;
+    // level.preHook = levelDTO.preHook;
+    // level.postHook = levelDTO.postHook;
+  }
 }
