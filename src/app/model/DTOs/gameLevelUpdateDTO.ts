@@ -27,3 +27,7 @@ export interface GameLevelUpdateDTO {
     solutionPenalized?: boolean;
     title?: string;
 }
+
+export class GameLevelUpdateDTO implements GameLevelUpdateDTO {
+
+}
