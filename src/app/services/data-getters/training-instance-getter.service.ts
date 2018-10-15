@@ -5,6 +5,8 @@ import {TrainingInstance} from "../../model/training/training-instance";
 import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
 import {PaginationParams} from "../../model/http/params/pagination-params";
+import {TrainingInstanceMapperService} from "../data-mappers/training-instance-mapper.service";
+import {TrainingInstanceDTO} from "../../model/DTOs/trainingInstanceDTO";
 
 @Injectable()
 /**
@@ -13,7 +15,8 @@ import {PaginationParams} from "../../model/http/params/pagination-params";
  */
 export class TrainingInstanceGetterService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private trainingInstanceMapper: TrainingInstanceMapperService) {
   }
 
   /**
@@ -21,9 +24,9 @@ export class TrainingInstanceGetterService {
    * @returns {Observable<TrainingInstance[]>} Observable of training instances list
    */
   getTrainingInstances(): Observable<TrainingInstance[]> {
-    return this.http.get(environment.trainingInstancesEndpointUri)
+    return this.http.get<TrainingInstanceDTO[]>(environment.trainingInstancesEndpointUri)
       .pipe(map(response =>
-        this.parseTrainingInstances(response)));
+        this.trainingInstanceMapper.mapTrainingInstanceDTOsToTrainingInstances(response)));
   }
 
   /**
@@ -35,9 +38,9 @@ export class TrainingInstanceGetterService {
    */
   getTrainingInstancesWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<TrainingInstance[]> {
     let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
-    return this.http.get(environment.trainingInstancesEndpointUri, { params: params })
+    return this.http.get<TrainingInstanceDTO[]>(environment.trainingInstancesEndpointUri, { params: params })
       .pipe(map(response =>
-        this.parseTrainingInstances(response)));
+        this.trainingInstanceMapper.mapTrainingInstanceDTOsToTrainingInstances(response)));
   }
 
 
@@ -48,8 +51,9 @@ export class TrainingInstanceGetterService {
    * @returns {Observable<TrainingInstance>} Observable of training instance, null if no such training instance is found
    */
   getTrainingInstanceById(id: number): Observable<TrainingInstance> {
-    return this.http.get(environment.trainingInstancesEndpointUri + id)
-      .pipe(map(response => this.parseTrainingInstance(response)));
+    return this.http.get<TrainingInstanceDTO>(environment.trainingInstancesEndpointUri + id)
+      .pipe(map(response =>
+        this.trainingInstanceMapper.mapTrainingInstanceDTOToTrainingInstance(response)));
   }
 
   /**
@@ -83,53 +87,5 @@ export class TrainingInstanceGetterService {
    */
   downloadTrainingInstance(id: number) {
     // TODO: download Training instance
-  }
-
-  /**
-   * Parses JSON from HTTP request
-   * @param instancesJson received JSON
-   * @returns {TrainingInstance[]} List of training instances created based on provided JSON
-   */
-  private parseTrainingInstances(instancesJson): TrainingInstance[] {
-    const trainingInstances: TrainingInstance[] = [];
-    instancesJson.forEach(instanceJson => {
-      trainingInstances.push(this.parseTrainingInstance(instanceJson));
-    });
-    return trainingInstances;
-  }
-
-  private parseTrainingInstance(instanceJson): TrainingInstance {
-    const trainingInstance = new TrainingInstance(
-      instanceJson.training_definition_id,
-      new Date(instanceJson.start_time),
-      new Date(instanceJson.end_time),
-      instanceJson.pool_size,
-      this.parseOrganizersIds(instanceJson.organizers),
-      instanceJson.keyword);
-    trainingInstance.id = instanceJson.id;
-    trainingInstance.title = instanceJson.title;
-    return trainingInstance;
-  }
-
-  /**
-   * Parses JSON of sandbox instances associated with training instance
-   * @param sandboxesJson JSON of sandbox instances
-   * @returns {number[]} List of ids of sandbox instances retrieved from provided JSON
-   */
-  private parseSandboxInstancesIds(sandboxesJson): number[] {
-    const ids: number[] = [];
-    sandboxesJson.forEach(sandbox => ids.push(sandbox.id));
-    return ids;
-  }
-
-  /**
-   * Parses JSON of organizers associated with training instance
-   * @param organizersJson JSON of organizers
-   * @returns {number[]} List of ids of organizers retrieved from provided JSON
-   */
-  private parseOrganizersIds(organizersJson): number[] {
-    const ids: number[] = [];
-    organizersJson.forEach(organizer => ids.push(organizer.id));
-    return ids;
   }
 }
