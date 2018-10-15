@@ -5,7 +5,6 @@ import {AlertService} from "../../../../../../services/event-services/alert.serv
 import {QuestionsOverviewComponent} from "../questions/questions-overview/questions-overview.component";
 import {AbstractQuestion} from "../../../../../../model/questions/abstract-question";
 import {AssessmentTypeEnum} from "../../../../../../enums/assessment-type.enum";
-import {environment} from "../../../../../../../environments/environment";
 
 @Component({
   selector: 'assessment-level-configuration',
@@ -71,7 +70,7 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
    * Emits event saying that this level should be deleted
    */
   onDeleteLevel() {
-    this.deleteLevel.emit(this.level.order - 1); // -1 because levels are ordered 1,2,3,4...
+    this.deleteLevel.emit(this.level.id);
   }
 
   /**

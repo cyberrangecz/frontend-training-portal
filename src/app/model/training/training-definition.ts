@@ -11,11 +11,11 @@ export class TrainingDefinition {
   sandboxDefinitionId: number;
   title: string;
   description: string;
-  authorIds: User[] | number[];
+  authorIds: Array<User | number>;
   prerequisites: string[];
   outcomes: string[];
   state: TrainingDefinitionStateEnum;
-  levels: AbstractLevel[] | number[];
+  levels: AbstractLevel[];
   showProgress: boolean;
   startingLevel: AbstractLevel | number;
 

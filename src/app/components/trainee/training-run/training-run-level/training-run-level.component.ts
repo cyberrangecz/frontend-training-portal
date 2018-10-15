@@ -106,7 +106,7 @@ export class TrainingRunLevelComponent implements OnInit, OnDestroy {
    * Catches next level event from sub component and passes it to to parent
    */
   private moveToNextLevel() {
-    this.nextLevel.emit(this.level.order + 1);
+   //  this.nextLevel.emit(this.level.order + 1);
   }
 
   /**

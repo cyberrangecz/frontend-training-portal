@@ -69,8 +69,6 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
       this.setInputValuesToLevel();
       this.childComponent.saveChanges();
       this.dirty = false;
-      // TODO: call service and save level through rest
-      this.level.id = -999 // change to id retrieved from rest later
     }
   }
 
@@ -78,7 +76,7 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
    * Emits event saying that this level should be deleted
    */
   onDeleteLevel() {
-    this.deleteLevel.emit(this.level.order - 1); // -1 because levels are ordered 1,2,3,4...
+    this.deleteLevel.emit(this.level.id);
   }
 
   /**

@@ -31,8 +31,8 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
 
   title: string;
   description: string;
-  prerequisites: string;
-  outcomes: string;
+  prerequisites: string[];
+  outcomes: string[];
   authors: User[];
   sandboxDef: SandboxDefinition;
   selectedState: string;
@@ -140,12 +140,8 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     if (!this.trainingDefinition) {
       this.editMode = false;
       this.initValuesForNewTraining();
-      this.trainingDefinition = new TrainingDefinition(
-        null,
-        [],
-        TrainingDefinitionStateEnum.Unreleased,
-        []
-      );
+      this.trainingDefinition = new TrainingDefinition();
+      this.trainingDefinition.state = TrainingDefinitionStateEnum.Unreleased;
       this.trainingDefinition.title = 'New Training Definition';
       this.showProgress = true;
     } else {
@@ -160,8 +156,8 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
   private initValuesForNewTraining() {
     this.title = '';
     this.description = '';
-    this.prerequisites = '';
-    this.outcomes = '';
+    this.prerequisites = [];
+    this.outcomes = [];
     this.selectedState = 'unreleased';
   }
 
@@ -176,7 +172,13 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.selectedState = this.trainingDefinition.state;
     this.showProgress = this.trainingDefinition.showProgress;
 
-    this.userGetter.loadUsersByIds(this.trainingDefinition.authorIds)
+    let userIds = [];
+    if (this.trainingDefinition.authorIds.length > 0 && this.trainingDefinition.authorIds[0] instanceof User) {
+      userIds = this.trainingDefinition.authorIds.map((user: User) => user.id);
+    } else {
+      userIds = this.trainingDefinition.authorIds;
+    }
+    this.userGetter.loadUsersByIds(userIds)
       .subscribe(authors => this.authors = authors);
 
     this.sandboxDefinitionGetter.getSandboxDefById(this.trainingDefinition.sandboxDefinitionId)

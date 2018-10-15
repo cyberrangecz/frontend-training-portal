@@ -3,13 +3,12 @@ import {TrainingRun} from "../../../model/training/training-run";
 import {TrainingInstance} from "../../../model/training/training-instance";
 import {AbstractLevel} from "../../../model/level/abstract-level";
 import {ActivatedRoute, Router} from "@angular/router";
-import {LevelGetterService} from "../../../services/data-getters/level-getter.service";
 import {TrainingRunGetterService} from "../../../services/data-getters/training-run-getter.service";
 import {TrainingInstanceGetterService} from "../../../services/data-getters/training-instance-getter.service";
 import {ActiveTrainingRunLevelsService} from "../../../services/active-training-run-levels.service";
 import {TrainingDefinitionGetterService} from "../../../services/data-getters/training-definition-getter.service";
 import {TrainingRunLevelComponent} from "./training-run-level/training-run-level.component";
-import {flatMap, map, switchMap} from "rxjs/operators";
+import {map, switchMap} from "rxjs/operators";
 
 
 @Component({
@@ -43,7 +42,6 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
     private router: Router,
     private activeRoute: ActivatedRoute,
     private activeLevelsService: ActiveTrainingRunLevelsService,
-    private levelGetter: LevelGetterService,
     private trainingRunGetter: TrainingRunGetterService,
     private trainingInstanceGetter: TrainingInstanceGetterService,
     private trainingDefinitionGetter: TrainingDefinitionGetterService) {
@@ -107,16 +105,12 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
           this.trainingInstance = trainingInstance;
           return this.trainingDefinitionGetter.getTrainingDefinitionById(trainingInstance.trainingDefinitionId);
         }))
-        .pipe(switchMap(trainingDef => {
+        .pipe(map(trainingDef => {
           this.withStepper = trainingDef.showProgress;
-          return this.levelGetter.getLevelsByTrainingDefId(trainingDef.id);
-        }))
-        .pipe(switchMap(levels => {
-          this.levels = levels;
+          this.levels = trainingDef.levels;
           this.activeLevelsService.setActiveLevels(this.levels);
           this.findInitialLevel();
           this.isLoading = false;
-          return levels;
         }))
         .subscribe();
     }
