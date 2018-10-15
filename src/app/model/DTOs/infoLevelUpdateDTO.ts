@@ -21,3 +21,7 @@ export interface InfoLevelUpdateDTO {
     nextLevel?: number;
     title?: string;
 }
+
+export class InfoLevelUpdateDTO implements InfoLevelUpdateDTO {
+
+}

@@ -23,6 +23,11 @@ export interface AssessmentLevelUpdateDTO {
     title?: string;
     type?: AssessmentLevelUpdateDTO.TypeEnum;
 }
+
+export class AssessmentLevelUpdateDTO implements AssessmentLevelUpdateDTO {
+
+}
+
 export namespace AssessmentLevelUpdateDTO {
     export type TypeEnum = 'TEST' | 'QUESTIONNAIRE';
     export const TypeEnum = {

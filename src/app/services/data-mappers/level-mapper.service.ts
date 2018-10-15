@@ -25,15 +25,41 @@ export class LevelMapperService {
   }
 
   mapGameLevelToGameLevelUpdateDTO(level: GameLevel): GameLevelUpdateDTO {
-    return null;
+    const result = new GameLevelUpdateDTO();
+    result.id = level.id;
+    result.content = level.content;
+    result.estimatedDuration = level.estimatedDuration;
+    result.flag = level.flag;
+    result.attachments = level.attachments;
+    result.incorrectFlagLimit = level.incorrectFlagLimit;
+    result.maxScore = level.maxScore;
+    result.nextLevel = level.nextLevel;
+    result.solution = level.solution;
+    result.solutionPenalized = level.solutionPenalized;
+    result.title = level.title;
+    return result;
   }
 
   mapInfoLevelToInfoLevelUpdateDTO(level: InfoLevel): InfoLevelUpdateDTO {
-    return null;
+    const result = new InfoLevelUpdateDTO();
+    result.id = level.id;
+    result.content = level.content;
+    result.maxScore = level.maxScore;
+    result.nextLevel = level.nextLevel;
+    result.title = level.title;
+    return result;
   }
 
   mapAssessmentLevelToAssessmentLevelUpdateDTO(level: AssessmentLevel): AssessmentLevelUpdateDTO {
-    return null;
+    const result = new AssessmentLevelUpdateDTO();
+    result.id = level.id;
+    result.instructions = level.instructions;
+    result.maxScore = level.maxScore;
+    result.nextLevel = level.nextLevel;
+    // result.questions = level.questions;
+    result.title = level.title;
+    result.type = AssessmentLevelUpdateDTO.TypeEnum[level.type];
+    return result;
   }
 
   private createGameLevel() {

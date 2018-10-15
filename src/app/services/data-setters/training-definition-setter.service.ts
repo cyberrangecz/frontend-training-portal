@@ -7,6 +7,7 @@ import {GameLevel} from "../../model/level/game-level";
 import {InfoLevel} from "../../model/level/info-level";
 import {Observable} from "rxjs";
 import {TrainingDefinitionMapperService} from "../data-mappers/training-definition-mapper.service";
+import {LevelMapperService} from "../data-mappers/level-mapper.service";
 
 /**
  * Service to abstract communication with training definition endpoint.
@@ -16,7 +17,8 @@ import {TrainingDefinitionMapperService} from "../data-mappers/training-definiti
 export class TrainingDefinitionSetterService {
 
   constructor(private http: HttpClient,
-              private trainingDefinitionMapper: TrainingDefinitionMapperService) {
+              private trainingDefinitionMapper: TrainingDefinitionMapperService,
+              private levelMapper: LevelMapperService) {
   }
 
   /**
@@ -96,7 +98,8 @@ export class TrainingDefinitionSetterService {
    * @param gameLevel game level which should be updated
    */
   updateGameLevel(trainingDefId: number, gameLevel: GameLevel) {
-    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/game-levels', gameLevel);
+    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/game-levels',
+      this.levelMapper.mapGameLevelToGameLevelUpdateDTO(gameLevel));
   }
 
   /**
@@ -105,7 +108,8 @@ export class TrainingDefinitionSetterService {
    * @param infoLevel info level which should be updated
    */
   updateInfoLevel(trainingDefId: number, infoLevel: InfoLevel) {
-    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/info-levels', infoLevel);
+    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/info-levels',
+      this.levelMapper.mapInfoLevelToInfoLevelUpdateDTO(infoLevel));
   }
 
   /**
@@ -114,7 +118,8 @@ export class TrainingDefinitionSetterService {
    * @param assessmentLevel assessment level which should be updated
    */
   updateAssessmentLevel(trainingDefId: number, assessmentLevel: AssessmentLevel) {
-    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/assessment-levels', assessmentLevel);
+    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/assessment-levels',
+      this.levelMapper.mapAssessmentLevelToAssessmentLevelUpdateDTO(assessmentLevel));
   }
 
   /**
