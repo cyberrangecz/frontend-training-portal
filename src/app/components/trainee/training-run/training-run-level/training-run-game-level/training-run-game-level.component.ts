@@ -1,7 +1,5 @@
 import {
-  AfterViewInit,
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnInit,
@@ -29,7 +27,6 @@ import {WrongFlagDialogComponent} from "./user-action-dialogs/wrong-flag-dialog/
 export class TrainingRunGameLevelComponent implements OnInit {
 
   @Input('level') level: GameLevel;
-
   @Output('nextLevel') nextLevel: EventEmitter<number> = new EventEmitter<number>();
 
   graphWidth: number;
@@ -143,10 +140,10 @@ export class TrainingRunGameLevelComponent implements OnInit {
    */
   private runActionsAfterCorrectFlagSubmitted() {
     // TODO: Call REST to update incorrect flag count
-    this.level.incorrectFlagCount = 0;
+    //this.level.incorrectFlagCount = 0;
     this.activeLevelService.unlockCurrentLevel();
     this.correctFlag = true;
-    this.nextLevel.emit(this.level.order + 1);
+   // this.nextLevel.emit(this.level.order + 1);
   }
 
   /**
@@ -154,21 +151,20 @@ export class TrainingRunGameLevelComponent implements OnInit {
    * is send to the endpoint
    */
   private runActionsAfterWrongFlagSubmitted() {
-    if (!this.solutionShown) {
-      // TODO: Call REST to increase incorrect flag count
+    // TODO: redesign the solution to match current REST API functionality
+/*    if (!this.solutionShown) {
       this.level.incorrectFlagCount++;
       if (this.level.incorrectFlagCount === this.level.incorrectFlagLimit) {
         this.revealSolution();
       }
-    }
+    }*/
 
     const dialogRef = this.dialog.open(WrongFlagDialogComponent, {
       data: {
-        incorrectFlagCount: this.level.incorrectFlagCount,
+        // incorrectFlagCount: this.level.incorrectFlagCount,
         incorrectFlagLimit: this.level.incorrectFlagLimit
       }
     });
-    // TODO: Call REST to inform about incorrect flag
   }
 
   /**

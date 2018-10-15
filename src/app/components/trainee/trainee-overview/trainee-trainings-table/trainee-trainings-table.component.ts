@@ -6,10 +6,10 @@ import {TrainingRunGetterService} from "../../../../services/data-getters/traini
 import {TrainingInstanceGetterService} from "../../../../services/data-getters/training-instance-getter.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ActiveUserService} from "../../../../services/active-user.service";
-import {LevelGetterService} from "../../../../services/data-getters/level-getter.service";
 import {merge, of} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {environment} from "../../../../../environments/environment";
+import {TrainingDefinitionGetterService} from "../../../../services/data-getters/training-definition-getter.service";
 
 export class TraineeAccessedTrainingsTableDataObject {
   totalLevels: number;
@@ -45,7 +45,7 @@ export class TraineeTrainingsTableComponent implements OnInit {
     private activeUserService: ActiveUserService,
     private trainingRunGetter: TrainingRunGetterService,
     private trainingInstanceGetter: TrainingInstanceGetterService,
-    private levelGetter: LevelGetterService) { }
+    private trainingDefinitionGetter: TrainingDefinitionGetterService) { }
 
   ngOnInit() {
     this.initDataSource();
@@ -124,9 +124,9 @@ export class TraineeTrainingsTableComponent implements OnInit {
       this.trainingInstanceGetter.getTrainingInstanceById(training.trainingInstanceId)
         .pipe(
           map(instance => traineesTraining.trainingInstance = instance),
-          switchMap(instance => this.levelGetter.getLevelsByTrainingDefId(instance.trainingDefinitionId))
+          switchMap(instance => this.trainingDefinitionGetter.getTrainingDefinitionById(instance.trainingDefinitionId))
         )
-        .subscribe(result => traineesTraining.totalLevels = result.length);
+        .subscribe(result => traineesTraining.totalLevels = result.levels.length);
 
       result.push(traineesTraining);
     });

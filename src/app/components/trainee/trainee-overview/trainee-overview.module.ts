@@ -9,7 +9,6 @@ import {FormsModule} from "@angular/forms";
 import {SharedModule} from "../../shared/shared.module";
 import {TrainingInstanceGetterService} from "../../../services/data-getters/training-instance-getter.service";
 import {TrainingRunGetterService} from "../../../services/data-getters/training-run-getter.service";
-import {LevelGetterService} from "../../../services/data-getters/level-getter.service";
 import {TrainingRunGuard} from "../../../guards/training-run-guard.service";
 
 @NgModule({
@@ -28,7 +27,6 @@ import {TrainingRunGuard} from "../../../guards/training-run-guard.service";
   providers: [
     TrainingInstanceGetterService,
     TrainingRunGetterService,
-    LevelGetterService,
     TrainingRunGuard
   ]
 })

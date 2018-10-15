@@ -57,7 +57,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
       levels.push(
         {
           canBeDeactivated: levelCanDeactivate,
-          order: levelComponent.level.order
+          title: levelComponent.level.title
         });
       }
     );
@@ -121,45 +121,13 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    * Swaps order of currently selected level with level next to him (to the left)
    */
   swapLeft() {
-    this.isLoading = true;
-    if (this.selectedStep !== 0) {
-      this.trainingDefinitionSetter.swapLeft(this.trainingDefinitionId, this.levels[this.selectedStep].id)
-        .subscribe(resp => {
-          this.isLoading = false;
-        },
-          (err: HttpErrorResponse) => this.handleHttpError(err));
-
-      // TODO: Should be reloaded from REST API instead of calculating?
-      const tempLevel = this.levels[this.selectedStep - 1];
-      tempLevel.order += 1;
-
-      this.levels[this.selectedStep].order -= 1;
-      this.levels[this.selectedStep - 1] = this.levels[this.selectedStep];
-      this.levels[this.selectedStep] = tempLevel;
-      this.selectedStep -= 1;
-    }
+    // TODO: call rest and reload levels
   }
   /**
    * Swaps order of currently selected level with level next to him (to the right)
    */
   swapRight() {
-    this.isLoading = true;
-    if (this.selectedStep !== this.levels.length - 1) {
-      this.trainingDefinitionSetter.swapRight(this.trainingDefinitionId, this.levels[this.selectedStep].id)
-        .subscribe(resp => {
-            this.isLoading = false;
-        },
-          (err: HttpErrorResponse) => this.handleHttpError(err));
-
-      // TODO: Should be reloaded from REST API instead of calculating?
-      const tempLevel = this.levels[this.selectedStep + 1];
-      tempLevel.order -= 1;
-
-      this.levels[this.selectedStep].order += 1;
-      this.levels[this.selectedStep + 1] = this.levels[this.selectedStep];
-      this.levels[this.selectedStep] = tempLevel;
-      this.selectedStep += 1;
-    }
+    // TODO: call rest and reload levels
   }
 
   /**
@@ -180,36 +148,12 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
         this.isLoading = true;
         this.trainingDefinitionSetter.removeLevel(this.trainingDefinitionId, this.levels[index].id)
           .subscribe(response => {
-            this.levels.splice(index, 1);
-            this.decreaseOrderOfLevelsFromIndex(index);
-            this.changeSelectedStepAfterRemoving(index);
+            //TODO: reload levels here
             this.isLoading = false;
             },
             (err: HttpErrorResponse) => this.handleHttpError(err));
       }
     });
-  }
-
-  /**
-   * Decreases order of levels by one (typically after removing a level) from given index
-   * @param {number} index of a level from which onwards should the order be decreased
-   */
-  private decreaseOrderOfLevelsFromIndex(index: number) {
-    for (let i = index; i < this.levels.length; i++) {
-      this.levels[i].order--;
-    }
-  }
-
-  /**
-   * Changes selected step to the one before removed or to first one if the first step is removed
-   * @param {number} index index of the removed step
-   */
-  private changeSelectedStepAfterRemoving(index: number) {
-    if (index === 0) {
-      this.selectedStep = 0;
-    } else {
-      this.selectedStep--;
-    }
   }
 
   /**

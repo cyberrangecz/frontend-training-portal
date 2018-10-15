@@ -2,13 +2,12 @@ import {ActivatedRouteSnapshot, CanActivate, CanDeactivate, Router, RouterStateS
 import {TrainingDistractionFreeModeService} from "../services/training-distraction-free-mode.service";
 import {Observable} from "rxjs/internal/Observable";
 import {Injectable} from "@angular/core";
-import {TrainingRunComponent} from "../components/trainee/training-run/training-run.component";
 import {TrainingInstanceGetterService} from "../services/data-getters/training-instance-getter.service";
-import {LevelGetterService} from "../services/data-getters/level-getter.service";
 import {TrainingRunGetterService} from "../services/data-getters/training-run-getter.service";
 import {concatMap, map} from "rxjs/operators";
 import {TrainingRunLevelComponent} from "../components/trainee/training-run/training-run-level/training-run-level.component";
 import {ActiveTrainingRunLevelsService} from "../services/active-training-run-levels.service";
+import {TrainingDefinitionGetterService} from "../services/data-getters/training-definition-getter.service";
 @Injectable()
 /**
  * Guard triggered when accessing training run level. Turns on and off the distraction free mode
@@ -18,7 +17,7 @@ export class TrainingRunLevelsGuard implements CanActivate, CanDeactivate<Traini
   constructor(private activeTrainingRunLevelService: ActiveTrainingRunLevelsService,
               private distractionFreeModeService: TrainingDistractionFreeModeService,
               private router: Router,
-              private levelGetter: LevelGetterService,
+              private trainingDefinitionGetter: TrainingDefinitionGetterService,
               private trainingRunGetter: TrainingRunGetterService,
               private trainingInstanceGetter: TrainingInstanceGetterService) {
   }
@@ -31,7 +30,7 @@ export class TrainingRunLevelsGuard implements CanActivate, CanDeactivate<Traini
       .pipe(concatMap(trainingRun => {
         return this.trainingInstanceGetter.getTrainingInstanceById(trainingRun.trainingInstanceId)
           .pipe(concatMap(trainingInstance => {
-            return this.levelGetter.getLevelById(trainingRun.currentLevel)
+            return this.trainingDefinitionGetter.getLevelById(trainingRun.currentLevel)
               .pipe(map((currentLevel) => {
                 // Checks if level with currentLevel id exists, if it matches the order, and if it is associated with the same training definition
 /*                if (currentLevel
@@ -45,8 +44,8 @@ export class TrainingRunLevelsGuard implements CanActivate, CanDeactivate<Traini
                   //this.router.navigate(['not-authorized']);
                  // return false;
                 }
-              }))
-          }))
+              }));
+          }));
       }));
   }
 

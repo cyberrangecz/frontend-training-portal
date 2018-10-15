@@ -5,7 +5,6 @@ import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {TrainingDefinitionGetterService} from "../../../services/data-getters/training-definition-getter.service";
 import {Observable} from "rxjs/internal/Observable";
 import {AbstractLevel} from "../../../model/level/abstract-level";
-import {LevelGetterService} from "../../../services/data-getters/level-getter.service";
 import {TrainingConfigurationComponent} from "./training-configuration/training-configuration.component";
 import {TrainingLevelStepperComponent} from "./levels/training-level-stepper/training-level-stepper.component";
 import {MatDialog} from "@angular/material";
@@ -29,7 +28,7 @@ export class TrainingDefinitionComponent implements OnInit {
 
   trainingDefinition$: Observable<TrainingDefinition>;
 
-  levels$: Observable<AbstractLevel[]>;
+  levels$: Observable<AbstractLevel[] | number[]>;
   trainingDefId: number;
 
   isTrainingSaved: boolean;
@@ -39,8 +38,7 @@ export class TrainingDefinitionComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private dialog: MatDialog,
-    private trainingDefinitionGetter: TrainingDefinitionGetterService,
-    private levelGetter: LevelGetterService) {
+    private trainingDefinitionGetter: TrainingDefinitionGetterService) {
 
   }
 
@@ -77,7 +75,9 @@ export class TrainingDefinitionComponent implements OnInit {
       messages.push('Training definition is not saved.')
     }
     if (!isLevelChangesSaved) {
-      messages.push('Following levels are not saved: ' + canDeactivateLevels.filter(level => !level.canBeDeactivated).map(level => level.order) + '.');
+      messages.push('Following levels are not saved: ' + canDeactivateLevels
+        .filter(level => !level.canBeDeactivated)
+        .map(level => level.title) + '.');
     }
 
     if (messages.length > 0) {
@@ -117,7 +117,8 @@ export class TrainingDefinitionComponent implements OnInit {
     this.levels$ = this.route.paramMap
       .pipe(switchMap((params: ParamMap) => {
         const id = +params.get('id');
-        return id === null ? null : this.levelGetter.getLevelsByTrainingDefId(id);
+        return id === null ? null : this.trainingDefinitionGetter.getTrainingDefinitionById(id)
+          .pipe(map(resp => resp.levels));
       }));
   }
 

@@ -9,7 +9,6 @@ import {SharedModule} from "../../shared/shared.module";
 import {FormsModule} from "@angular/forms";
 import { AuthorsPickerComponent } from './training-configuration/authors-picker/authors-picker.component';
 import { SandboxDefinitionPickerComponent } from './training-configuration/sandbox-definition-picker/sandbox-definition-picker.component';
-import {LevelGetterService} from "../../../services/data-getters/level-getter.service";
 import {LevelConfigurationModule} from "./levels/level-configuration/level-configuration.module";
 import {PipesModule} from "../../../pipes/pipes.module";
 import { UnsavedChangesDialogComponent } from './unsaved-changes-dialog/unsaved-changes-dialog.component';
@@ -36,7 +35,6 @@ import {DeleteDialogComponent} from "./delete-dialog/delete-dialog.component";
     DeleteDialogComponent
   ],
   providers: [
-    LevelGetterService
   ],
   entryComponents: [
     SandboxDefinitionPickerComponent,

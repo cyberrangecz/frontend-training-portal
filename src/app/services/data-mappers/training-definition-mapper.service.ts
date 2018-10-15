@@ -40,7 +40,7 @@ export class TrainingDefinitionMapperService {
     result.prerequisites =  trainingDefinitionDTO.prerequisities;
     result.outcomes = trainingDefinitionDTO.outcomes;
     result.state = TrainingDefinitionStateEnum[trainingDefinitionDTO.state];
-    result.levels = trainingDefinitionDTO.basicLevelInfoDtos.map(level => this.createLevelFromBasicInfo(level))
+    result.levels = trainingDefinitionDTO.basicLevelInfoDtos.map(level => this.createLevelFromBasicInfo(level));
     result.startingLevel = trainingDefinitionDTO.startingLevel;
     console.log('CREATED TRAINING DEFINITION: ' + result);
     return result;
@@ -55,7 +55,9 @@ export class TrainingDefinitionMapperService {
     result.description = trainingDefinition.description;
     result.outcomes = trainingDefinition.outcomes;
     result.prerequisities = trainingDefinition.prerequisites;
-    result.startingLevel = trainingDefinition.startingLevel;
+    result.startingLevel = trainingDefinition.startingLevel instanceof AbstractLevel ?
+      trainingDefinition.startingLevel.id
+      : trainingDefinition.startingLevel;
     result.state = TrainingDefinitionCreateDTO.StateEnum[trainingDefinition.state];
     result.title = trainingDefinition.title;
     console.log('CREATED TRAINING DEFINITION CREATE DTO: ' + result);
@@ -72,7 +74,9 @@ export class TrainingDefinitionMapperService {
     result.description = trainingDefinition.description;
     result.outcomes = trainingDefinition.outcomes;
     result.prerequisities = trainingDefinition.prerequisites;
-    result.startingLevel = trainingDefinition.startingLevel;
+    result.startingLevel = trainingDefinition.startingLevel instanceof AbstractLevel ?
+      trainingDefinition.startingLevel.id
+      : trainingDefinition.startingLevel;
     result.state = TrainingDefinitionUpdateDTO.StateEnum[trainingDefinition.state];
     result.title = trainingDefinition.title;
     console.log('CREATED TRAINING DEFINITION UPDATE DTO: ' + result);
@@ -82,7 +86,6 @@ export class TrainingDefinitionMapperService {
   private createLevelFromBasicInfo(levelBasicInfoDTO: BasicLevelInfoDTO ): AbstractLevel {
     const result = this.createLevelByType(levelBasicInfoDTO.levelType);
     result.id = levelBasicInfoDTO.id;
-    result.order = levelBasicInfoDTO.order;
     result.title = levelBasicInfoDTO.title;
     return result;
   }
