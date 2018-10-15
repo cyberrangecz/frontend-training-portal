@@ -21,3 +21,7 @@ export interface TrainingInstanceCreateDTO {
     startTime?: Date;
     title?: string;
 }
+
+export class TrainingInstanceCreateDTO implements TrainingInstanceCreateDTO{
+
+}
