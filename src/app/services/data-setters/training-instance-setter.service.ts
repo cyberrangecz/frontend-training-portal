@@ -18,7 +18,7 @@ export class TrainingInstanceSetterService {
    * Sends request to create new training instance in DB and returns id of the created training instance
    * @param {TrainingInstance} trainingInstance training instance which should be created
    */
-  addTrainingInstance(trainingInstance: TrainingInstance): Observable<TrainingInstance> {
+  createTrainingInstance(trainingInstance: TrainingInstance): Observable<TrainingInstance> {
     return this.http.post<TrainingInstanceDTO>(environment.trainingInstancesEndpointUri,
       this.trainingInstanceMapper.mapTrainingInstanceToTrainingInstanceCreateDTO(trainingInstance))
       .pipe(map(trainingInstanceDTO => this.trainingInstanceMapper.mapTrainingInstanceDTOToTrainingInstance(trainingInstanceDTO)));
@@ -38,15 +38,15 @@ export class TrainingInstanceSetterService {
    * Sends request to delete training instance from DB
    * @param trainingInstanceId id of training instance which should be deleted
    */
-  removeTrainingInstance(trainingInstanceId: number): Observable<Object> {
-    return this.http.delete(environment.trainingInstancesEndpointUri + trainingInstanceId);
+  removeTrainingInstance(trainingInstanceId: number): Observable<any> {
+    return this.http.delete<any>(environment.trainingInstancesEndpointUri + trainingInstanceId);
   }
 
   /**
    * Sends request to allocate all sandboxes for selected training instance
    * @param trainingInstanceId
    */
-  allocateSandboxesForTrainingInstance(trainingInstanceId: number ): Observable<Object> {
-    return this.http.post(environment.trainingInstancesEndpointUri + trainingInstanceId + '/sandbox-instances', {});
+  allocateSandboxesForTrainingInstance(trainingInstanceId: number ): Observable<any> {
+    return this.http.post<any>(environment.trainingInstancesEndpointUri + trainingInstanceId + '/sandbox-instances', null);
   }
 }
