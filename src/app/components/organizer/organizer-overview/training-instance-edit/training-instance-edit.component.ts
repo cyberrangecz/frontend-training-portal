@@ -87,7 +87,7 @@ export class TrainingInstanceEditComponent implements OnInit {
             (err) => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Changes were not saved.')
           );
       } else {
-        this.trainingInstanceSetter.addTrainingInstance(this.trainingInstance)
+        this.trainingInstanceSetter.createTrainingInstance(this.trainingInstance)
           .subscribe(response => this.alertService.emitAlert(AlertTypeEnum.Success, 'Changes were successfully saved.'),
             (err) => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Changes were not saved.')
           );

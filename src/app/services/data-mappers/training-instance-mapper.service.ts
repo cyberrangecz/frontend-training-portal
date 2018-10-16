@@ -7,12 +7,20 @@ import {TrainingInstanceUpdateDTO} from "../../model/DTOs/trainingInstanceUpdate
 @Injectable()
 export class TrainingInstanceMapperService {
 
+  /**
+   * Maps training instance dtos received from remote server to training instance objects
+   * @param trainingInstanceDTOs array of training instance dtos received from remote server
+   */
   mapTrainingInstanceDTOsToTrainingInstances(trainingInstanceDTOs: TrainingInstanceDTO[]): TrainingInstance[] {
     const result: TrainingInstance[] = [];
     trainingInstanceDTOs.forEach(dto => result.push(this.mapTrainingInstanceDTOToTrainingInstance(dto)));
     return result;
   }
 
+  /**
+   * Maps training instance dto received from remote server to training instance object
+   * @param trainingInstanceDTO training instance dto received from remote server
+   */
   mapTrainingInstanceDTOToTrainingInstance(trainingInstanceDTO: TrainingInstanceDTO): TrainingInstance {
     const result = new TrainingInstance();
     result.id = trainingInstanceDTO.id;
@@ -25,6 +33,10 @@ export class TrainingInstanceMapperService {
     return result;
   }
 
+  /**
+   * Maps training instance object to training instance create dto used to create new resource on the remote server
+   * @param trainingInstance training instance object which should be created
+   */
   mapTrainingInstanceToTrainingInstanceCreateDTO(trainingInstance: TrainingInstance): TrainingInstanceCreateDTO {
     const result = new TrainingInstanceCreateDTO();
     result.title = trainingInstance.title;
@@ -36,6 +48,10 @@ export class TrainingInstanceMapperService {
     return result;
   }
 
+  /**
+   * Maps trainign instance object to training instance update dto used to update existing resource on the remote server
+   * @param trainingInstance training instance object which should be updated
+   */
   mapTrainingInstanceToTrainingInstanceUpdateDTO(trainingInstance: TrainingInstance): TrainingInstanceUpdateDTO {
     const result = new TrainingInstanceUpdateDTO();
     result.id = trainingInstance.id;
