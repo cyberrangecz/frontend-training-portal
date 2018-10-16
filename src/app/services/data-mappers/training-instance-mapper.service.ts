@@ -24,7 +24,7 @@ export class TrainingInstanceMapperService {
   mapTrainingInstanceDTOToTrainingInstance(trainingInstanceDTO: TrainingInstanceDTO): TrainingInstance {
     const result = new TrainingInstance();
     result.id = trainingInstanceDTO.id;
-    //result.trainingDefinitionId TODO: not in the DTO -> consult
+    // result.trainingDefinitionId TODO: not in the DTO -> consult
     result.startTime = trainingInstanceDTO.startTime;
     result.endTime = trainingInstanceDTO.endTime;
     result.title = trainingInstanceDTO.title;

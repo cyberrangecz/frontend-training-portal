@@ -16,6 +16,8 @@ import {OwlDateTimeModule, OwlNativeDateTimeModule} from "ng-pick-datetime";
 import { TrainingEditPopupComponent } from './training-instance-overview/training-edit-popup/training-edit-popup.component';
 import { TrainingDeleteDialogComponent } from './training-instance-overview/training-delete-dialog/training-delete-dialog.component';
 import {TrainingInstanceSetterService} from "../../../services/data-setters/training-instance-setter.service";
+import {TrainingInstanceMapperService} from "../../../services/data-mappers/training-instance-mapper.service";
+import {TrainingDefinitionMapperService} from "../../../services/data-mappers/training-definition-mapper.service";
 
 @NgModule({
   imports: [
@@ -40,8 +42,10 @@ import {TrainingInstanceSetterService} from "../../../services/data-setters/trai
   providers: [
     TrainingInstanceGuard,
     TrainingDefinitionGetterService,
+    TrainingDefinitionMapperService,
     TrainingInstanceGetterService,
-    TrainingInstanceSetterService
+    TrainingInstanceSetterService,
+    TrainingInstanceMapperService
   ],
   entryComponents: [
     OrganizersPickerComponent,
