@@ -1,11 +1,12 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
 import {TrainingRun} from "../../model/training/training-run";
 import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
-import {TrainingRunStateEnum} from "../../enums/training-run-state.enum";
 import {PaginationParams} from "../../model/http/params/pagination-params";
+import {TrainingRunDTO} from "../../model/DTOs/trainingRunDTO";
+import {TrainingRunMapperService} from "../data-mappers/training-run-mapper.service";
 
 /**
  * Service abstracting the training run endpoint.
@@ -14,7 +15,8 @@ import {PaginationParams} from "../../model/http/params/pagination-params";
 @Injectable()
 export class TrainingRunGetterService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private trainingRunMapper: TrainingRunMapperService) {
   }
 
   /**
@@ -22,9 +24,8 @@ export class TrainingRunGetterService {
    * @returns {Observable<TrainingRun[]>} observable of list of training runs
    */
   getTrainingRuns(): Observable<TrainingRun[]> {
-    return this.http.get(environment.trainingRunsEndpointUri)
-      .pipe(map(response =>
-        this.parseTrainingRuns(response)));
+    return this.http.get<TrainingRunDTO[]>(environment.trainingRunsEndpointUri)
+      .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
   }
 
   /**
@@ -36,19 +37,18 @@ export class TrainingRunGetterService {
    */
   getTrainingRunsWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<TrainingRun[]> {
     let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
-    return this.http.get(environment.trainingRunsEndpointUri, { params: params })
-      .pipe(map(response =>
-        this.parseTrainingRuns(response)));
+    return this.http.get<TrainingRunDTO[]>(environment.trainingRunsEndpointUri, { params: params })
+      .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
+
   }
 
   /**
    * Retrieves all training runs which are still active (can be accessed and "played")
    * @returns {Observable<TrainingRun[]>} observable of list of active training runs
    */
-  getActiveTrainingRuns(): Observable<TrainingRun[]> {
-    return this.getTrainingRuns().pipe(map(trainings =>
-      trainings.filter(training =>
-        training.startTime.valueOf() <= Date.now() && training.endTime.valueOf() >= Date.now())))
+  getAccessedTrainingRuns(): Observable<TrainingRun[]> {
+    return this.http.get<TrainingRunDTO[]>(environment.trainingRunsEndpointUri + 'accessed')
+      .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
   }
 
   /**
@@ -57,77 +57,8 @@ export class TrainingRunGetterService {
    * @returns {Observable<TrainingRun>} observable of training run, null if no training run with matching id si found
    */
   getTrainingRunById(id: number): Observable<TrainingRun> {
-    return this.http.get(environment.trainingRunsEndpointUri + id)
-      .pipe(map(response => this.parseTrainingRun(response)));
-  }
-
-  /**
-   * Retrieves training runs with matching sandbox id
-   * @param {number} sandboxId id of sandbox associated with training runs
-   * @returns {Observable<TrainingRun[]>} Observable of list of training runs matching sandbox id
-   */
-  getTrainingRunsBySandboxId(sandboxId: number): Observable<TrainingRun[]> {
-    return this.getTrainingRuns().pipe(map(trainings =>
-      trainings.filter(training => training.sandboxInstanceId === sandboxId)));
-  }
-
-  /**
-   * Retrieves training runs wit matching training instance id
-   * @param {number} trainingId id of training instance associated with training runs
-   * @returns {Observable<TrainingRun[]>} Observable of list of training runs matching training instance id
-   */
-  getTrainingRunsByTrainingInstanceId(trainingId: number): Observable<TrainingRun[]> {
-    return this.getTrainingRuns().pipe(map(trainings =>
-      trainings.filter(training => training.trainingInstanceId === trainingId)));
-  }
-
-  /**
-   * Parses response from server and creates training run objects
-   * @param trainingJson json from http response
-   * @returns {TrainingRun[]} List of objects created from json
-   */
-  private parseTrainingRuns(trainingsJson): TrainingRun[] {
-    const trainings: TrainingRun[] = [];
-    trainingsJson.forEach(trainingJson => {
-      trainings.push(this.parseTrainingRun(trainingJson));
-    });
-    return trainings;
-  }
-
-  private parseTrainingRun(trainingJson): TrainingRun {
-    const training = new TrainingRun(
-      trainingJson.training_instance_id,
-      trainingJson.sandbox_instance_id,
-      trainingJson.user_id,
-      new Date(trainingJson.start_time),
-      new Date(trainingJson.end_time),
-      trainingJson.current_level,
-      trainingJson.event_log_reference,
-      this.parseTrainingRunStateString2Enum(trainingJson.state)
-    );
-    training.id = trainingJson.id;
-    training.currentLevel = trainingJson.current_level;
-    return training;
-  }
-
-  /**
-   * Parses training run state from string to enum
-   * @param {string} state string of training run state
-   * @returns {TrainingRunStateEnum} enum of matched training run state
-   */
-  private parseTrainingRunStateString2Enum(state: string): TrainingRunStateEnum {
-    if (state === 'new') {
-      return TrainingRunStateEnum.New
-    }
-    if (state === 'allocated') {
-      return TrainingRunStateEnum.Allocated
-    }
-    if (state === 'ready') {
-      return TrainingRunStateEnum.Ready
-    }
-    if (state === 'archived') {
-      return TrainingRunStateEnum.Archived
-    }
+    return this.http.get<TrainingRunDTO>(environment.trainingRunsEndpointUri + id)
+      .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOToTrainingRun(response)));
   }
 }
 
