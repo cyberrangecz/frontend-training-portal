@@ -29,6 +29,17 @@ export class TrainingRunGetterService {
   }
 
   /**
+   * Retrieves training run with matching id
+   * @param {number} id id of training run which should be retrieved
+   * @returns {Observable<TrainingRun>} observable of training run, null if no training run with matching id si found
+   */
+  getTrainingRunById(id: number): Observable<TrainingRun> {
+    return this.http.get<TrainingRunDTO>(environment.trainingRunsEndpointUri + id)
+      .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOToTrainingRun(response)));
+  }
+
+
+  /**
    * Retrieves all training run on current page of pagination component
    * @param page current page
    * @param size current size of the page
@@ -51,14 +62,6 @@ export class TrainingRunGetterService {
       .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
   }
 
-  /**
-   * Retrieves training run with matching id
-   * @param {number} id id of training run which should be retrieved
-   * @returns {Observable<TrainingRun>} observable of training run, null if no training run with matching id si found
-   */
-  getTrainingRunById(id: number): Observable<TrainingRun> {
-    return this.http.get<TrainingRunDTO>(environment.trainingRunsEndpointUri + id)
-      .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOToTrainingRun(response)));
-  }
+
 }
 

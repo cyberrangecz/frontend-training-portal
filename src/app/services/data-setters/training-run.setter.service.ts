@@ -3,12 +3,30 @@ import {AbstractQuestion} from "../../model/questions/abstract-question";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {Observable} from "rxjs";
+import {AbstractLevel} from "../../model/level/abstract-level";
+import {AbstractLevelDTO} from "../../model/DTOs/abstractLevelDTO";
+import {map} from "rxjs/operators";
+import {TrainingRunMapperService} from "../data-mappers/training-run-mapper.service";
+import {LevelMapperService} from "../data-mappers/level-mapper.service";
+import {TrainingRun} from "../../model/training/training-run";
+import {TrainingRunDTO} from "../../model/DTOs/trainingRunDTO";
 
 @Injectable()
 export class TrainingRunSetterService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private trainingRunMapper: TrainingRunMapperService,
+              private levelMapper: LevelMapperService) {
 
+  }
+
+  /**
+   * Tries to access training run with password. Returns training run if the password is correct
+   * @param password password to access the training run
+   */
+  accessTrainingRun(password: string): Observable<TrainingRun> {
+    return this.http.post<TrainingRunDTO>(environment.trainingRunsEndpointUri + 'access', { password: password })
+      .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOToTrainingRun(response)));
   }
 
   /**
@@ -24,9 +42,9 @@ export class TrainingRunSetterService {
    * Sends request to move to next level
    * @param trainingRunId id of a training run
    */
-  nextLevel(trainingRunId: number): Observable<Object> {
-    // TODO: Change observable type later
-    return this.http.get(environment.trainingRunsEndpointUri + trainingRunId + '/get-next-level');
+  nextLevel(trainingRunId: number): Observable<AbstractLevel> {
+    return this.http.get<AbstractLevelDTO>(environment.trainingRunsEndpointUri + trainingRunId + '/next-levels')
+      .pipe(map(response => this.levelMapper.mapLevelDTOToLevel(response)));
   }
 
   /**
@@ -34,10 +52,8 @@ export class TrainingRunSetterService {
    * @param trainingRunId id of training run in which, flag should be submitted (level is decided based on the current level property)
    * @param flag flag submitted by user
    */
-  submitFlag(trainingRunId: number, flag: string): Observable<boolean> {
-    // TODO: Add query params accordingly to REST API docs
-    const params = { flag: flag };
-    return this.http.get<boolean>(environment.trainingRunsEndpointUri + trainingRunId + '/is-correct-flag', { params: params });
+  isCorrectFlag(trainingRunId: number, flag: string): Observable<boolean> {
+    return this.http.get<boolean>(environment.trainingRunsEndpointUri + trainingRunId + '/is-correct-flag?flag=' + flag);
   }
 
   /**
@@ -45,18 +61,16 @@ export class TrainingRunSetterService {
    * @param trainingRunId id of training run in which, hint should be revealed (level is decided based on the current level property)
    * @param hintId id of requested hint
    */
-  takeHint(trainingRunId: number, hintId: number): Observable<Object> {
-    // TODO: Specify type of observable returned from the method
-    return this.http.get(environment.trainingRunsEndpointUri + trainingRunId + '/get-hint/' + hintId)
+  takeHint(trainingRunId: number, hintId: number): Observable<string> {
+    return this.http.get<string>(environment.trainingRunsEndpointUri + trainingRunId + '/hints/' + hintId)
   }
 
   /**
    * Sends request to display solution to a level
    * @param trainingRun id of the training run in which, solution should be revealed (level is decided based on the current level property)
    */
-  takeSolution(trainingRun: number): Observable<Object> {
-    // TODO: Specify type of observable returned from the method
-    return this.http.get(environment.trainingRunsEndpointUri + trainingRun + '/get-solution');
+  takeSolution(trainingRun: number): Observable<string> {
+    return this.http.get<string>(environment.trainingRunsEndpointUri + trainingRun + '/solutions');
   }
 
   /**
