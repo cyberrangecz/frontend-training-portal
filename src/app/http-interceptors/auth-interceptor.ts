@@ -10,7 +10,6 @@ import {
 import {Observable} from "rxjs";
 import {ActiveUserService} from "../services/active-user.service";
 import {tap} from "rxjs/operators";
-import {UserGetterService} from "../services/data-getters/user-getter.service";
 import {Router} from "@angular/router";
 
 @Injectable()

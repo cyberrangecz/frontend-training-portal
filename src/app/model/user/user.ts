@@ -10,10 +10,8 @@ export class User {
   roles: Set<UserRoleEnum>;
 
 
-  constructor(id: number, name: string, roles: Set<UserRoleEnum>) {
-    this.id = id;
-    this.name = name;
-    this.roles = roles;
+  constructor() {
+
   }
 
   toString(): string {

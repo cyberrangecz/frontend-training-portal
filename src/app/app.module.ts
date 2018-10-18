@@ -15,6 +15,7 @@ import {UserGetterService} from "./services/data-getters/user-getter.service";
 import {SharedModule} from "./components/shared/shared.module";
 import {TrainingDistractionFreeModeService} from "./services/training-distraction-free-mode.service";
 import {AuthInterceptor} from "./http-interceptors/auth-interceptor";
+import {OAuthModule, OAuthStorage} from "angular-oauth2-oidc";
 
 @NgModule({
   declarations: [
@@ -25,9 +26,17 @@ import {AuthInterceptor} from "./http-interceptors/auth-interceptor";
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    SharedModule
+    SharedModule,
+    OAuthModule.forRoot(
+      {
+        resourceServer: {
+          allowedUrls: [],
+          sendAccessToken: true
+        }
+      })
   ],
   providers: [
+    { provide: OAuthStorage, useValue: localStorage },
     AuthGuard,
     LoginGuard,
     DesignerGuard,

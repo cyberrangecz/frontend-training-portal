@@ -3,6 +3,7 @@ import {User} from "../model/user/user";
 import {UserRoleEnum} from "../enums/user-role.enum";
 import {Subject} from "rxjs/internal/Subject";
 import {Observable} from "rxjs/internal/Observable";
+import {OAuthService} from "angular-oauth2-oidc";
 
 /**
  * Service maintaining active (logged in user)
@@ -18,6 +19,9 @@ export class ActiveUserService {
    * @type {Observable<number>}
    */
   onActiveUserChanged: Observable<number> = this._onActiveUserChangedSubject.asObservable();
+
+  constructor(private oAuthService: OAuthService) {}
+
 
   /**
    * Decides whether active user has designer role
@@ -43,13 +47,26 @@ export class ActiveUserService {
     return this._activeUser === undefined ? false : this._activeUser.roles.contains(UserRoleEnum.Trainee);
   }
 
+  login() {
+    this.oAuthService.initImplicitFlow();
+    // TODO: replace with user get from REST API
+    const loggedInUser = new User();
+    loggedInUser.id = 1;
+    loggedInUser.name = "Test user";
+    this.setActiveUser(loggedInUser);
+  }
+
+  logout() {
+    this.oAuthService.logOut(true);
+    this.setActiveUser(null);
+  }
+
   /**
    * Decides whether active user is authenticated
    * @returns {boolean} true if active user is authenticated, false otherwise
    */
   isAuthenticated(): boolean {
-    // TODO: connect to OIDC later
-    return this._activeUser !== undefined;
+    return this._activeUser && this.oAuthService.hasValidAccessToken();
   }
 
   /**
@@ -63,7 +80,7 @@ export class ActiveUserService {
    * Returns authorization header of the active user
    */
   getActiveUserAuthorizationHeader(): string {
-    return 'token';
+    return this.oAuthService.authorizationHeader();
   }
 
   /**

@@ -87,9 +87,11 @@ export class UserGetterService {
   }
 
   private parseUser(userJson): User {
-    return new User(userJson.id,
-      userJson.name,
-      this.getUserRoles(userJson.roles))
+    const user = new User();
+    user.id = userJson.id;
+    user.name = userJson.name;
+    user.roles = this.getUserRoles(userJson.roles);
+    return user;
   }
 
   /**
