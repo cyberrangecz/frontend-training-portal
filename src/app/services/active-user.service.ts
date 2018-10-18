@@ -4,6 +4,7 @@ import {UserRoleEnum} from "../enums/user-role.enum";
 import {Subject} from "rxjs/internal/Subject";
 import {Observable} from "rxjs/internal/Observable";
 import {OAuthService} from "angular-oauth2-oidc";
+import {Set} from "typescript-collections"
 
 /**
  * Service maintaining active (logged in user)
@@ -53,6 +54,11 @@ export class ActiveUserService {
     const loggedInUser = new User();
     loggedInUser.id = 1;
     loggedInUser.name = "Test user";
+    const roles = new Set<UserRoleEnum>();
+    roles.add(UserRoleEnum.Designer);
+    roles.add(UserRoleEnum.Organizer);
+    roles.add(UserRoleEnum.Trainee);
+    loggedInUser.roles = roles;
     this.setActiveUser(loggedInUser);
   }
 
