@@ -58,7 +58,7 @@ export class ActiveUserService {
 
   logout() {
     this.oAuthService.logOut(true);
-    this.setActiveUser(null);
+    this.setActiveUser(undefined);
   }
 
   /**
@@ -66,7 +66,7 @@ export class ActiveUserService {
    * @returns {boolean} true if active user is authenticated, false otherwise
    */
   isAuthenticated(): boolean {
-    return this._activeUser && this.oAuthService.hasValidAccessToken();
+    return this._activeUser !== null && this._activeUser !== undefined //&& this.oAuthService.hasValidAccessToken();
   }
 
   /**
@@ -89,6 +89,7 @@ export class ActiveUserService {
    */
   setActiveUser(user: User) {
     this._activeUser = user;
-    this._onActiveUserChangedSubject.next(user.id);
+    const id = this._activeUser === null || this._activeUser === undefined ? null : this._activeUser.id;
+    this._onActiveUserChangedSubject.next(id);
   }
 }

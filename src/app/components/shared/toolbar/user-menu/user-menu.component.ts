@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {ActiveUserService} from "../../../../services/active-user.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'toolbar-user-menu',
@@ -10,9 +12,14 @@ import { Component, OnInit } from '@angular/core';
  */
 export class UserMenuComponent implements OnInit {
 
-  constructor() { }
+  constructor(private activeUserService: ActiveUserService,
+              private router: Router) { }
 
   ngOnInit() {
   }
 
+  logout() {
+    this.activeUserService.logout();
+    this.router.navigate(['/login']);
+  }
 }
