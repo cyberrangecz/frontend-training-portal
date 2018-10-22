@@ -1,9 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UserGetterService} from "./services/data-getters/user-getter.service";
 import {TrainingDistractionFreeModeService} from "./services/training-distraction-free-mode.service";
+import {authConfig} from "./auth/auth-config";
 import {JwksValidationHandler, OAuthService} from "angular-oauth2-oidc";
 import {Router} from "@angular/router";
-import {authConfig} from "./auth/auth-config";
 
 /**
  * Main component serving as wrapper for sidenav, toolbar and inner routed views

@@ -16,6 +16,7 @@ import {TrainingDefinitionGuard} from "../../../guards/training-definition-guard
 import {UploadService} from "../../../services/data-setters/upload.service";
 import {TrainingDefinitionMapperService} from "../../../services/data-mappers/training-definition-mapper.service";
 import {TrainingInstanceMapperService} from "../../../services/data-mappers/training-instance-mapper.service";
+import {LevelMapperService} from "../../../services/data-mappers/level-mapper.service";
 
 @NgModule({
   imports: [
@@ -39,6 +40,7 @@ import {TrainingInstanceMapperService} from "../../../services/data-mappers/trai
     TrainingInstanceMapperService,
     SandboxDefinitionGetterService,
     SandboxDefinitionSetterService,
+    LevelMapperService
   ],
   entryComponents: [
     UploadDialogComponent,
