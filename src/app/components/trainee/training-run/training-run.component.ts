@@ -99,7 +99,7 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
       this.trainingRunGetter.getTrainingRunById(id)
         .pipe(switchMap(trainingRun => {
           this.trainingRun = trainingRun;
-          return this.trainingInstanceGetter.getTrainingInstanceById(trainingRun.trainingInstanceId);
+          return this.trainingInstanceGetter.getTrainingInstanceById(trainingRun.trainingInstance.id);
         }))
         .pipe(switchMap(trainingInstance => {
           this.trainingInstance = trainingInstance;

@@ -8,6 +8,7 @@ import {concatMap, map} from "rxjs/operators";
 import {TrainingRunLevelComponent} from "../components/trainee/training-run/training-run-level/training-run-level.component";
 import {ActiveTrainingRunLevelsService} from "../services/active-training-run-levels.service";
 import {TrainingDefinitionGetterService} from "../services/data-getters/training-definition-getter.service";
+import {AbstractLevel} from "../model/level/abstract-level";
 @Injectable()
 /**
  * Guard triggered when accessing training run level. Turns on and off the distraction free mode
@@ -28,9 +29,10 @@ export class TrainingRunLevelsGuard implements CanActivate, CanDeactivate<Traini
 
     return this.trainingRunGetter.getTrainingRunById(id)
       .pipe(concatMap(trainingRun => {
-        return this.trainingInstanceGetter.getTrainingInstanceById(trainingRun.trainingInstanceId)
+        return this.trainingInstanceGetter.getTrainingInstanceById(trainingRun.trainingInstance.id)
           .pipe(concatMap(trainingInstance => {
-            return this.trainingDefinitionGetter.getLevelById(trainingRun.currentLevel)
+            const currentLevelId = trainingRun.currentLevel instanceof AbstractLevel ? trainingRun.currentLevel.id : trainingRun.currentLevel as number;
+            return this.trainingDefinitionGetter.getLevelById(currentLevelId)
               .pipe(map((currentLevel) => {
                 // Checks if level with currentLevel id exists, if it matches the order, and if it is associated with the same training definition
 /*                if (currentLevel

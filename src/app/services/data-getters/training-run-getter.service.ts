@@ -31,13 +31,22 @@ export class TrainingRunGetterService {
   /**
    * Retrieves training run with matching id
    * @param {number} id id of training run which should be retrieved
-   * @returns {Observable<TrainingRun>} observable of training run, null if no training run with matching id si found
+   * @returns {Observable<TrainingRun>} observable of training run
    */
   getTrainingRunById(id: number): Observable<TrainingRun> {
     return this.http.get<TrainingRunDTO>(environment.trainingRunsEndpointUri + id)
       .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOToTrainingRun(response)));
   }
 
+  /**
+   * Retrieves training runs by matching id of associated training instance
+   * @param {number} id id of training instance associated with training runs which should be retrieved
+   * @returns {Observable<TrainingRun[]>} observable of training runs
+   */
+  getTrainingRunsByTrainingInstanceId(id: number): Observable<TrainingRun[]> {
+    return this.http.get<TrainingRunDTO[]>(environment.trainingRunsEndpointUri + id)
+      .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
+  }
 
   /**
    * Retrieves all training run on current page of pagination component

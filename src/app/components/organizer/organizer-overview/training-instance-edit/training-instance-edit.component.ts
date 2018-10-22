@@ -199,6 +199,6 @@ export class TrainingInstanceEditComponent implements OnInit {
    * Creates new object of training instance with default values
    */
   private createNewTrainingInstance() {
-    this.trainingInstance = new TrainingInstance(null, new Date(), new Date(), null, [], '');
+    this.trainingInstance = new TrainingInstance();
   }
 }
