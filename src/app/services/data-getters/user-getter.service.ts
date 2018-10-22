@@ -63,16 +63,6 @@ export class UserGetterService {
     }));
   }
 
-  loadActiveUser() {
-    // TESTING ONLY
-    this.loadUsers()
-      .subscribe(
-        (users) => {
-          this.activeUserService.setActiveUser(users[0]);
-        }
-      );
-  }
-
   /**
    * Parses JSON from HTTP response
    * @param usersJson JSON from HTTP response

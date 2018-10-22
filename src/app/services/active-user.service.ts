@@ -21,7 +21,9 @@ export class ActiveUserService {
    */
   onActiveUserChanged: Observable<number> = this._onActiveUserChangedSubject.asObservable();
 
-  constructor(private oAuthService: OAuthService) {}
+  constructor(private oAuthService: OAuthService) {
+    this.setActiveMockedUser();
+  }
 
 
   /**
@@ -51,6 +53,11 @@ export class ActiveUserService {
   login() {
     this.oAuthService.initImplicitFlow();
     // TODO: replace with user get from REST API
+    this.setActiveMockedUser();
+
+  }
+
+  private setActiveMockedUser() {
     const loggedInUser = new User();
     loggedInUser.id = 1;
     loggedInUser.name = "Test user";
