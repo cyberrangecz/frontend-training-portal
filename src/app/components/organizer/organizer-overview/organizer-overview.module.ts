@@ -18,6 +18,7 @@ import { TrainingDeleteDialogComponent } from './training-instance-overview/trai
 import {TrainingInstanceSetterService} from "../../../services/data-setters/training-instance-setter.service";
 import {TrainingInstanceMapperService} from "../../../services/data-mappers/training-instance-mapper.service";
 import {TrainingDefinitionMapperService} from "../../../services/data-mappers/training-definition-mapper.service";
+import {LevelMapperService} from "../../../services/data-mappers/level-mapper.service";
 
 @NgModule({
   imports: [
@@ -45,7 +46,8 @@ import {TrainingDefinitionMapperService} from "../../../services/data-mappers/tr
     TrainingDefinitionMapperService,
     TrainingInstanceGetterService,
     TrainingInstanceSetterService,
-    TrainingInstanceMapperService
+    TrainingInstanceMapperService,
+    LevelMapperService
   ],
   entryComponents: [
     OrganizersPickerComponent,
