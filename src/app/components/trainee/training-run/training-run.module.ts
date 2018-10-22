@@ -10,6 +10,9 @@ import { TrainingTimerComponent } from './training-timer/training-timer.componen
 import {CountdownTimerModule} from "ngx-countdown-timer";
 import {TrainingDefinitionGetterService} from "../../../services/data-getters/training-definition-getter.service";
 import {TrainingRunLevelsGuard} from "../../../guards/training-run-levels-guard.service";
+import {TrainingDefinitionMapperService} from "../../../services/data-mappers/training-definition-mapper.service";
+import {LevelMapperService} from "../../../services/data-mappers/level-mapper.service";
+import {TrainingRunMapperService} from "../../../services/data-mappers/training-run-mapper.service";
 
 @NgModule({
   imports: [
@@ -27,7 +30,10 @@ import {TrainingRunLevelsGuard} from "../../../guards/training-run-levels-guard.
   providers: [
     ActiveTrainingRunLevelsService,
     TrainingDefinitionGetterService,
-    TrainingRunLevelsGuard
+    TrainingDefinitionMapperService,
+    TrainingRunMapperService,
+    LevelMapperService,
+    TrainingRunLevelsGuard,
   ]
 })
 export class TrainingRunModule { }
