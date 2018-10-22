@@ -12,6 +12,9 @@ import {TrainingRunGetterService} from "../../../services/data-getters/training-
 import {TrainingRunGuard} from "../../../guards/training-run-guard.service";
 import {TrainingInstanceMapperService} from "../../../services/data-mappers/training-instance-mapper.service";
 import {TrainingRunMapperService} from "../../../services/data-mappers/training-run-mapper.service";
+import {LevelMapperService} from "../../../services/data-mappers/level-mapper.service";
+import {TrainingDefinitionMapperService} from "../../../services/data-mappers/training-definition-mapper.service";
+import {TrainingDefinitionGetterService} from "../../../services/data-getters/training-definition-getter.service";
 
 @NgModule({
   imports: [
@@ -27,11 +30,14 @@ import {TrainingRunMapperService} from "../../../services/data-mappers/training-
     TraineeTrainingsTableComponent
   ],
   providers: [
+    TrainingDefinitionGetterService,
+    TrainingDefinitionMapperService,
     TrainingInstanceGetterService,
     TrainingInstanceMapperService,
     TrainingRunGetterService,
     TrainingRunMapperService,
-    TrainingRunGuard
+    TrainingRunGuard,
+    LevelMapperService
   ]
 })
 
