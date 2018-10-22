@@ -25,18 +25,12 @@ export const environment = {
   redirectUri: window.location.origin,
 
   // The SPA's id. The SPA is registered with this id at the auth-server
-  clientId: '948f6e8f-929f-479f-a24e-f42b2fcd22ec',
+  clientId: '18cd6765-be1a-4de4-a6c0-6adf9b9882d1',
 
   // set the scope for the permissions the client should request
   scope: 'openid profile email',
 
   sessionChecksEnabled: false,
-
-  // URL of the public source to to test GET request
-  requestWithoutAuthUri: 'http://localhost:8080/',
-
-  // URL of the secured source to test GET request
-  requestWithAuthUri: 'http://localhost:8080/private',
 };
 
 /*

@@ -28,10 +28,4 @@ export const environment = {
 
   sessionChecksEnabled: false,
 
-  // URL of the public source to to test GET request
-  requestWithoutAuthUri: 'http://localhost:8080/',
-
-  // URL of the secured source to test GET request
-  requestWithAuthUri: 'http://localhost:8080/private'
-
 };
