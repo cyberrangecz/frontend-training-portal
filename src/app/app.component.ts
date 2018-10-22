@@ -1,5 +1,4 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {UserGetterService} from "./services/data-getters/user-getter.service";
 import {TrainingDistractionFreeModeService} from "./services/training-distraction-free-mode.service";
 import {authConfig} from "./auth/auth-config";
 import {JwksValidationHandler, OAuthService} from "angular-oauth2-oidc";
@@ -23,6 +22,7 @@ export class AppComponent implements OnInit, OnDestroy {
               private oAuthService: OAuthService,
               private distractionFreeModeService: TrainingDistractionFreeModeService) {
   }
+
 
   ngOnInit() {
     this.configureOidc();
@@ -51,7 +51,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.oAuthService.setupAutomaticSilentRefresh();
 
   }
-
 
   /**
    * Subscribes to changes of distraction free mode (mode without sidebar and toolbar)
