@@ -36,6 +36,10 @@ div .right-panel {
   margin-left: 20px;
 }
 
+button {
+  width: 130px;
+}
+
 .save-button {
   display: flex;
 }
