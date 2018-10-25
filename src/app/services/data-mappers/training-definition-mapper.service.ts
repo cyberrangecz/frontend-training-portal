@@ -42,6 +42,10 @@ export class TrainingDefinitionMapperService {
     result.state = TrainingDefinitionStateEnum[trainingDefinitionDTO.state];
     result.levels = trainingDefinitionDTO.basicLevelInfoDtos.map(level => this.createLevelFromBasicInfo(level));
     result.startingLevel = trainingDefinitionDTO.startingLevel;
+<<<<<<< HEAD
+=======
+    console.log('CREATED TRAINING DEFINITION: ' + result);
+>>>>>>> e34ba3fbb8fd1a8866d24de340d0591216758127
     return result;
   }
 
@@ -59,6 +63,10 @@ export class TrainingDefinitionMapperService {
       : trainingDefinition.startingLevel;
     result.state = TrainingDefinitionCreateDTO.StateEnum[trainingDefinition.state];
     result.title = trainingDefinition.title;
+<<<<<<< HEAD
+=======
+    console.log('CREATED TRAINING DEFINITION CREATE DTO: ' + result);
+>>>>>>> e34ba3fbb8fd1a8866d24de340d0591216758127
     return result;
   }
 
@@ -77,6 +85,10 @@ export class TrainingDefinitionMapperService {
       : trainingDefinition.startingLevel;
     result.state = TrainingDefinitionUpdateDTO.StateEnum[trainingDefinition.state];
     result.title = trainingDefinition.title;
+<<<<<<< HEAD
+=======
+    console.log('CREATED TRAINING DEFINITION UPDATE DTO: ' + result);
+>>>>>>> e34ba3fbb8fd1a8866d24de340d0591216758127
     return result;
   }
 

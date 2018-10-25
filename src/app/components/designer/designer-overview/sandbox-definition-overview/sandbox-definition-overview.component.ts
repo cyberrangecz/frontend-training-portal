@@ -39,7 +39,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  isLoading = true;
+  isLoadingResults = true;
   isInErrorState = false;
   resultsLength: number;
 
@@ -140,19 +140,19 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
       .pipe(
         startWith({}),
         switchMap(() => {
-          this.isLoading = true;
+          this.isLoadingResults = true;
           return this.sandboxDefinitionGetter.getSandboxDefsWithPagination(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
         }),
         map(data => {
           // Flip flag to show that loading has finished.
-          this.isLoading = false;
+          this.isLoadingResults = false;
 
           this.resultsLength = data.length;
 
           return this.mapSandboxDefsToTableObjects(data);
         }),
         catchError((err) => {
-          this.isLoading = false;
+          this.isLoadingResults = false;
           this.isInErrorState = true;
           this.errorHandler.displayHttpError(err, 'Loading sandbox definitions');
           return of([]);
