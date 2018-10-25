@@ -14,6 +14,7 @@ import {Observable} from "rxjs/internal/Observable";
 import {merge, of} from "rxjs";
 import {environment} from "../../../../../environments/environment";
 import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
+import {ComponentErrorHandlerService} from "../../../../services/component-error-handler.service";
 
 export class TrainingDefinitionTableDataObject {
   trainingDefinition: TrainingDefinition;
@@ -39,7 +40,8 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
   dataSource: MatTableDataSource<TrainingDefinitionTableDataObject>;
 
   resultsLength = 0;
-  isLoading = true;
+  isLoadingResults = true;
+  isInErrorState = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -50,6 +52,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
     private dialog: MatDialog,
     private activeUserService: ActiveUserService,
     private alertService: AlertService,
+    private errorHandler: ComponentErrorHandlerService,
     private trainingInstanceGetter: TrainingInstanceGetterService,
     private trainingDefinitionGetter: TrainingDefinitionGetterService,
     private trainingDefinitionSetter: TrainingDefinitionSetterService) {
@@ -117,11 +120,11 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
   removeTrainingDefinition(id: number) {
     this.trainingDefinitionSetter.removeTrainingDefinition(id)
       .subscribe(resp => {
-        this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully deleted');
+        this.alertService.emitAlert(AlertTypeEnum.Success, 'Training definition was successfully deleted');
         this.fetchData();
       },
         err => {
-          this.alertService.emitAlert(AlertTypeEnum.Error, 'Remote server could not be reached. Try again later.');
+          this.errorHandler.displayHttpError(err, 'Removing training definition');
         });
   }
 
@@ -135,7 +138,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully cloned.');
           this.fetchData();
         },
-        err => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Training was not cloned.'));
+        err => this.errorHandler.displayHttpError(err, 'Cloning training definition'));
   }
 
   /**
@@ -152,7 +155,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
         },
           err => {
             trainingDef.state = tempState;
-            this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Training was not archived');
+            this.errorHandler.displayHttpError(err, 'Archiving training definition');
       }
       );
   }
@@ -173,23 +176,25 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    * Fetches data from the server and maps them to table data objects
    */
   fetchData() {
+    this.isInErrorState = false;
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(
         startWith({}),
         switchMap(() => {
-          this.isLoading = true;
+          this.isLoadingResults = true;
           return this.trainingDefinitionGetter.getTrainingDefinitionssWithPaginations(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
         }),
         map(data => {
           // Flip flag to show that loading has finished.
-          this.isLoading = false;
+          this.isLoadingResults = false;
           this.resultsLength = data.length;
 
           return this.mapTrainingDefinitionsToTableObjects(data);
         }),
         catchError((err) => {
-          this.isLoading = false;
-          this.alertService.emitAlert(AlertTypeEnum.Error, 'Remote server could not be reached. Try again later.');
+          this.isLoadingResults = false;
+          this.isInErrorState = true;
+          this.errorHandler.displayHttpError(err, 'Loading training definitions');
           return of([]);
         })
       ).subscribe(data => this.createDataSource(data));

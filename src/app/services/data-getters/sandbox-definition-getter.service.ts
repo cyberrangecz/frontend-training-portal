@@ -13,8 +13,7 @@ import {PaginationParams} from "../../model/http/params/pagination-params";
  */
 export class SandboxDefinitionGetterService {
 
-  constructor(
-    private http: HttpClient) {
+  constructor(private http: HttpClient) {
   }
 
   /**

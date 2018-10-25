@@ -34,8 +34,7 @@ export class TrainingDefinitionGetterService {
   getTrainingDefinitions(): Observable<TrainingDefinition[]> {
     return this.http.get<TrainingDefinitionDTO[]>(environment.trainingDefsEndpointUri)
       .pipe(
-        map(response =>
-        this.trainingDefinitionMapper.mapTrainingDefinitionDTOsToTrainingDefinitions(response)));
+        map(response => this.trainingDefinitionMapper.mapTrainingDefinitionDTOsToTrainingDefinitions(response)));
   }
 
   /**

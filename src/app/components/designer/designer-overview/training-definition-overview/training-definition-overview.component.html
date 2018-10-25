@@ -1,4 +1,4 @@
-<shared-loading *ngIf="isLoading"></shared-loading>
+<shared-loading *ngIf="isLoadingResults"></shared-loading>
 <h2>Training Definition</h2>
 <div class="train-def">
 
@@ -16,15 +16,24 @@
   <div class="train-def-table-wrapper">
     <div class="train-def-table">
       <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter by title or status">
+        <input matInput (keyup)="applyFilter($event.target.value)"
+               [disabled]="isInErrorState"
+               placeholder="Filter by title or status">
       </mat-form-field>
-
       <div class="mat-elevation-z8">
-        <table mat-table [dataSource]="dataSource" matSort>
+        <div class="loading"
+             *ngIf="isLoadingResults || isInErrorState">
+          <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+          <div class="loading-error" *ngIf="isInErrorState">
+            We had some trouble loading the data.
+            <button mat-icon-button (click)="fetchData()" color="primary"><mat-icon>refresh</mat-icon></button>
+          </div>
+        </div>
 
+        <table mat-table [dataSource]="dataSource" matSort>
           <!-- TITLE Column -->
           <ng-container matColumnDef="title">
-            <th class="title" mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+            <th class="title" mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="isInErrorState">Title</th>
             <td class="title" mat-cell *matCellDef="let data">
               {{ data.trainingDefinition?.title }}
             </td>

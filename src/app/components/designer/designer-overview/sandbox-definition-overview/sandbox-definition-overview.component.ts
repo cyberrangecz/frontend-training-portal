@@ -13,6 +13,7 @@ import {merge, of} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {environment} from "../../../../../environments/environment";
 import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
+import {ComponentErrorHandlerService} from "../../../../services/component-error-handler.service";
 
 export class SandboxDefinitionTableDataObject {
   sandbox: SandboxDefinition;
@@ -38,12 +39,14 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  isLoading = false;
+  isLoading = true;
+  isInErrorState = false;
   resultsLength: number;
 
   constructor(
     private dialog: MatDialog,
     private alertService: AlertService,
+    private errorHandler: ComponentErrorHandlerService,
     private activeUserService: ActiveUserService,
     private trainingDefinitionGetter: TrainingDefinitionGetterService,
     private sandboxDefinitionGetter: SandboxDefinitionGetterService,
@@ -93,7 +96,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
         this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox was successfully removed.');
         this.fetchData();
       },
-        err => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Sandbox was not removed.'));
+        err => this.errorHandler.displayHttpError(err, 'Removing sandbox definition'));
   }
 
   /**
@@ -117,8 +120,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox was successfully download.');
           this.fetchData();
         },
-        err => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server.')
-      );
+        err => this.errorHandler.displayHttpError(err, 'Deploying sandbox definition'));
   }
 
   /**
@@ -144,13 +146,15 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
         map(data => {
           // Flip flag to show that loading has finished.
           this.isLoading = false;
+
           this.resultsLength = data.length;
 
           return this.mapSandboxDefsToTableObjects(data);
         }),
-        catchError(() => {
+        catchError((err) => {
           this.isLoading = false;
-          this.alertService.emitAlert(AlertTypeEnum.Error, 'Remote server could not be reached. Try again later.');
+          this.isInErrorState = true;
+          this.errorHandler.displayHttpError(err, 'Loading sandbox definitions');
           return of([]);
         })
       ).subscribe(data => this.createDataSource(data));
