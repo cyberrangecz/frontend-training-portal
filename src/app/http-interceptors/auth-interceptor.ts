@@ -32,12 +32,11 @@ export class AuthInterceptor implements HttpInterceptor {
       });
       return next.handle(clonedReq)
         .pipe(tap((event: HttpEvent<any>) => {
-          if (event instanceof HttpResponse) {
-          }
         },
             err => {
           if (err instanceof HttpErrorResponse) {
             if (err.status === 401) {
+              window.confirm('You cannot access this resource. You will be navigated to the login page.');
               this.router.navigate(['login']);
             }
           }
