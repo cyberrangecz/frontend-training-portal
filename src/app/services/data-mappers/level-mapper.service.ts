@@ -30,7 +30,7 @@ export class LevelMapperService {
    * Maps levelDTO to level object
    * @param levelDTO levelDTO received from remote server
    */
-  mapLevelDTOToLevel(levelDTO: AbstractLevelDTO): AbstractLevel {
+  mapLevelDTOToLevel(levelDTO: AbstractLevelDTO): InfoLevel | GameLevel | AssessmentLevel {
     switch(levelDTO.levelType) {
       case AbstractLevelDTO.LevelTypeEnum.GAME: {
         return this.createGameLevelFromDTO(levelDTO);

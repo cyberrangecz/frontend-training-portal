@@ -44,7 +44,7 @@ export class TrainingRunLevelsGuard implements CanActivate, CanDeactivate<Traini
                   return true
                 } else {
                   //this.router.navigate(['not-authorized']);
-                 // return false;
+                  return false;
                 }
               }));
           }));

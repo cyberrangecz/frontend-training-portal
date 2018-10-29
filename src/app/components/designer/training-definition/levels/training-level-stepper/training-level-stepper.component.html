@@ -1,7 +1,7 @@
 <mat-progress-spinner *ngIf="isLoading"></mat-progress-spinner>
 <div class="header">
   <h2>Levels</h2>
-  <button class="add-level" mat-icon-button color="primary" [disabled]="!isTrainingSaved" [matMenuTriggerFor]="levelMenu"
+  <button class="add-level" mat-icon-button color="primary" [disabled]="!isTrainingSaved || isLoading" [matMenuTriggerFor]="levelMenu"
           matTooltip="Add new level">
     <mat-icon>add_circle</mat-icon>
   </button>

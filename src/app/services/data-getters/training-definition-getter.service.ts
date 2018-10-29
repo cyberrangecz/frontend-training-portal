@@ -14,6 +14,9 @@ import {GameLevelDTO} from "../../model/DTOs/gameLevelDTO";
 import {InfoLevelDTO} from "../../model/DTOs/infoLevelDTO";
 import {AssessmentLevelDTO} from "../../model/DTOs/assessmentLevelDTO";
 import {LevelMapperService} from "../data-mappers/level-mapper.service";
+import {GameLevel} from "../../model/level/game-level";
+import {InfoLevel} from "../../model/level/info-level";
+import {AssessmentLevel} from "../../model/level/assessment-level";
 
 @Injectable()
 /**
@@ -84,7 +87,7 @@ export class TrainingDefinitionGetterService {
    * Returns level with matching id
    * @param levelId id of level which should be retrieved
    */
-  getLevelById(levelId: number): Observable<AbstractLevel> {
+  getLevelById(levelId: number): Observable<GameLevel | InfoLevel | AssessmentLevel> {
     return this.http.get<GameLevelDTO | InfoLevelDTO | AssessmentLevelDTO>(environment.trainingDefsEndpointUri + 'levels/' + levelId)
       .pipe(map(response =>
       this.levelMapper.mapLevelDTOToLevel(response)));

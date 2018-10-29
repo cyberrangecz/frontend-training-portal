@@ -12,6 +12,8 @@ import {AlertService} from "../../../../../services/event-services/alert.service
 import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
 import {environment} from "../../../../../../environments/environment";
 import {HttpErrorResponse} from "@angular/common/http";
+import {ComponentErrorHandlerService} from "../../../../../services/component-error-handler.service";
+import {TrainingDefinitionGetterService} from "../../../../../services/data-getters/training-definition-getter.service";
 
 @Component({
   selector: 'training-level-stepper',
@@ -34,6 +36,8 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
 
   constructor(public dialog: MatDialog,
               private alertService: AlertService,
+              private errorHandler: ComponentErrorHandlerService,
+              private trainingDefinitionGetter: TrainingDefinitionGetterService,
               private trainingDefinitionSetter: TrainingDefinitionSetterService) { }
 
   ngOnInit() {
@@ -79,7 +83,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
           this.levels.push(newInfoLevel);
           this.isLoading = false;
         },
-        (err: HttpErrorResponse) => this.handleHttpError(err)
+        (err: HttpErrorResponse) => this.errorHandler.displayHttpError(err, 'Creating info level')
       );
   }
 
@@ -96,7 +100,8 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
         this.levels.push(newGameLevel);
         this.isLoading = false
         },
-        (err: HttpErrorResponse) =>  this.handleHttpError(err));
+        (err: HttpErrorResponse) =>  this.errorHandler.displayHttpError(err, 'Creating game level')
+      );
   }
 
   /**
@@ -112,7 +117,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
           this.levels.push(newAssessmentLevel);
           this.isLoading = false;
         },
-        (err: HttpErrorResponse) => this.handleHttpError(err)
+        (err: HttpErrorResponse) => this.errorHandler.displayHttpError(err, 'Creating assessment level')
       );
   }
 
@@ -120,13 +125,34 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    * Swaps order of currently selected level with level next to him (to the left)
    */
   swapLeft() {
-    // TODO: call rest and reload levels
+    this.isLoading = true;
+    this.trainingDefinitionSetter.swapLeft(this.trainingDefinitionId, this.levels[this.selectedStep].id)
+      .subscribe(resp => this.refreshLevels(),
+          err => this.errorHandler.displayHttpError(err, 'Swapping level to the left')
+      );
   }
   /**
    * Swaps order of currently selected level with level next to him (to the right)
    */
   swapRight() {
-    // TODO: call rest and reload levels
+    this.isLoading = true;
+    this.trainingDefinitionSetter.swapRight(this.trainingDefinitionId, this.levels[this.selectedStep].id)
+      .subscribe(resp => this.refreshLevels(),
+        err => this.errorHandler.displayHttpError(err, 'Swapping level to the right')
+        );
+  }
+
+  private refreshLevels() {
+    this.isLoading = true;
+    this.trainingDefinitionGetter.getTrainingDefinitionById(this.trainingDefinitionId)
+      .subscribe(resp => {
+        this.isLoading = false;
+        this.levels = resp.levels;
+      },
+          err => {
+        this.isLoading = false;
+        this.errorHandler.displayHttpError(err, 'Reloading levels')
+      });
   }
 
   /**
@@ -146,11 +172,9 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
       if (result && result.type === 'confirm') {
         this.isLoading = true;
         this.trainingDefinitionSetter.removeLevel(this.trainingDefinitionId, this.levels[index].id)
-          .subscribe(response => {
-            //TODO: reload levels here
-            this.isLoading = false;
-            },
-            (err: HttpErrorResponse) => this.handleHttpError(err));
+          .subscribe(response => this.refreshLevels(),
+            err => this.errorHandler.displayHttpError(err, 'Deleting level')
+          );
       }
     });
   }
@@ -170,16 +194,6 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
     if (!this.levels) {
       this.levels = [];
     }
-  }
-
-  /**
-   * Handles http error after request is made
-   * @param err http error
-   */
-  private handleHttpError(err: HttpErrorResponse) {
-    this.isLoading = false;
-    if (err.status === 404)
-      this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach the server right now. Please check your internet connection.')
   }
 }
 
