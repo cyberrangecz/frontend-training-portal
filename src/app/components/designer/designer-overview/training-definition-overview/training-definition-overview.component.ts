@@ -10,7 +10,6 @@ import {AlertService} from "../../../../services/event-services/alert.service";
 import {TrainingDefinitionSetterService} from "../../../../services/data-setters/training-definition-setter.service";
 import {TrainingInstanceGetterService} from "../../../../services/data-getters/training-instance-getter.service";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
-import {Observable} from "rxjs/internal/Observable";
 import {merge, of} from "rxjs";
 import {environment} from "../../../../../environments/environment";
 import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
@@ -18,7 +17,6 @@ import {ComponentErrorHandlerService} from "../../../../services/component-error
 
 export class TrainingDefinitionTableDataObject {
   trainingDefinition: TrainingDefinition;
-  canBeArchived: boolean;
 }
 
 @Component({
@@ -225,25 +223,8 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
     trainings.forEach(training => {
       const trainingDataObject = new TrainingDefinitionTableDataObject();
       trainingDataObject.trainingDefinition = training;
-      this.canTrainingBeArchived(training).subscribe(result => trainingDataObject.canBeArchived = result);
-
       result.push(trainingDataObject);
     });
     return result;
-  }
-
-
-  /**
-   * Determines if training can be archived (no training instance associated with the definition is running or scheduled to run in a future)
-   * @param {TrainingDefinition} trainingDef training definition which ability to be archives should be determined
-   * @returns {Observable<boolean>} true if can be archived, false otherwise
-   */
- private canTrainingBeArchived(trainingDef: TrainingDefinition): Observable<boolean> {
-  return this.trainingInstanceGetter.getTrainingInstancesByTrainingDefinitionId(trainingDef.id)
-    .pipe(map((trainingInstances) => {
-      return trainingInstances.every(trainingInstance =>
-        (trainingInstance.startTime.valueOf() <= Date.now()
-          && trainingInstance.endTime.valueOf() <= Date.now()))
-    }));
   }
 }

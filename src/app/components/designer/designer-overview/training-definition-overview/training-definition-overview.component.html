@@ -105,7 +105,7 @@
 
                 <!-- ARCHIVE button -->
                 <button *ngIf="data.trainingDefinition?.state !== trainingStateEnum.Archived
-                              && data.canBeArchived"
+                              && data.trainingDefinition?.canBeArchived"
                         mat-icon-button color="primary"
                         matTooltip="Archive training definition"
                         (click)="archiveTrainingDefinition(data.trainingDefinition)">
