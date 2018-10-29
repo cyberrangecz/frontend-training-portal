@@ -13,6 +13,8 @@ import {UserGetterService} from "../../../../services/data-getters/user-getter.s
 import {SandboxDefinitionGetterService} from "../../../../services/data-getters/sandbox-definition-getter.service";
 import {Router} from "@angular/router";
 import {ActiveUserService} from "../../../../services/active-user.service";
+import {ComponentErrorHandlerService} from "../../../../services/component-error-handler.service";
+import {environment} from "../../../../../environments/environment";
 
 /**
  * Component for creating new or editing already existing training definition
@@ -45,6 +47,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     private router: Router,
     private dialog: MatDialog,
     private activeUserService: ActiveUserService,
+    private errorHandler: ComponentErrorHandlerService,
     private alertService: AlertService,
     private userGetter: UserGetterService,
     private sandboxDefinitionGetter: SandboxDefinitionGetterService,
@@ -120,15 +123,15 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     if (this.editMode) {
       this.trainingDefinitionSetter.updateTrainingDefinition(this.trainingDefinition)
         .subscribe(response => this.alertService.emitAlert(AlertTypeEnum.Success, 'Changes were successfully saved.'),
-          (err) => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Changes were not saved.')
+          err => this.errorHandler.displayHttpError(err, 'Editing training definition')
         );
     } else {
       this.trainingDefinitionSetter.createTrainingDefinition(this.trainingDefinition)
         .subscribe(response => {
-          this.trainingDefinition.id = response;
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully saved.')
+          this.router.navigate(['designer/training/' + response]);
           },
-          (err) => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Training was not saved.')
+          err => this.errorHandler.displayHttpError(err, 'Creating new training definition')
         )
     }
   }

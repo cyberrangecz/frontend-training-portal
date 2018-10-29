@@ -34,8 +34,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
 
   constructor(public dialog: MatDialog,
               private alertService: AlertService,
-              private trainingDefinitionSetter: TrainingDefinitionSetterService) {
-  }
+              private trainingDefinitionSetter: TrainingDefinitionSetterService) { }
 
   ngOnInit() {
   }
