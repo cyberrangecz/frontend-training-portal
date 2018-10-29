@@ -1,4 +1,4 @@
-<shared-loading *ngIf="isLoading"></shared-loading>
+<mat-progress-spinner *ngIf="isLoading"></mat-progress-spinner>
 <div class="header">
   <h2>Levels</h2>
   <button class="add-level" mat-icon-button color="primary" [disabled]="!isTrainingSaved" [matMenuTriggerFor]="levelMenu"
