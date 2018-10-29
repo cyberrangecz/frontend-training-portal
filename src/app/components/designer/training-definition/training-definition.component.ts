@@ -44,7 +44,6 @@ export class TrainingDefinitionComponent implements OnInit {
 
   ngOnInit() {
     this.fetchData();
-    this.fetchLevelsFromTrainingDefinition();
   }
 
   trainingSavedChange(event: boolean) {
@@ -114,7 +113,7 @@ export class TrainingDefinitionComponent implements OnInit {
   private fetchData() {
     if (this.route.paramMap) {
       this.trainingDefinition$ = this.fetchTrainingDefinition();
-      this.levels$ = this.fetchLevelsFromTrainingDefinition(this.trainingDefinition$);
+      this.levels$ = this.fetchLevelsFromTrainingDefinition();
     }
   }
 
@@ -134,8 +133,8 @@ export class TrainingDefinitionComponent implements OnInit {
       }));
   }
 
-  private fetchLevelsFromTrainingDefinition(trainingDefinition$: Observable<TrainingDefinition>): Observable<AbstractLevel[]> {
+  private fetchLevelsFromTrainingDefinition(): Observable<AbstractLevel[]> {
       // TODO: needs to be tested if this works
-      return trainingDefinition$.pipe(map(trainingDef => trainingDef.levels));
+      return this.trainingDefinition$.pipe(map(trainingDef => trainingDef.levels));
   }
 }
