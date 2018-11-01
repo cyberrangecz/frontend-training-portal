@@ -14,6 +14,8 @@ import {environment} from "../../../../../../environments/environment";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ComponentErrorHandlerService} from "../../../../../services/component-error-handler.service";
 import {TrainingDefinitionGetterService} from "../../../../../services/data-getters/training-definition-getter.service";
+import {UnsavedChangesDialogComponent} from "../../unsaved-changes-dialog/unsaved-changes-dialog.component";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'training-level-stepper',
@@ -180,11 +182,33 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
   }
 
   /**
-   * Triggered after selection of active level is changes in the stepper
+   * Triggered after selection of active level is changed in the stepper
    * @param event event of active level change
    */
   selectionChanged(event) {
-    this.selectedStep = event.selectedIndex;
+    if (this.getCanDeactivateLevels().find(level => level.order === this.selectedStep).canBeDeactivated) {
+      this.changeSelectedStep(event.selectedStep);
+    } else {
+      this.resolveBySaveChangesDialog(event.selectedStep);
+    }
+  }
+
+  private resolveBySaveChangesDialog(selectedLevelIndex: number) {
+    const dialogRef = this.dialog.open(UnsavedChangesDialogComponent, {
+      data: {
+        payload: ['Current level is not saved. Do you want to discard changes?'],
+        saveOption: true
+      }
+    });
+    dialogRef.afterClosed().pipe(map(result => {
+      if (result && result.type === 'confirm') {
+        this.changeSelectedStep(selectedLevelIndex);
+      }
+    }))
+  }
+
+  private changeSelectedStep(index: number) {
+    this.selectedStep = index;
   }
 
   /**

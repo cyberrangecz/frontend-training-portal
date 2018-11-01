@@ -3,6 +3,10 @@ import {TrainingDistractionFreeModeService} from "./services/training-distractio
 import {authConfig} from "./auth/auth-config";
 import {JwksValidationHandler, OAuthService} from "angular-oauth2-oidc";
 import {Router} from "@angular/router";
+import {ActiveUserService} from "./services/active-user.service";
+import {User} from "./model/user/user";
+import {Set} from "typescript-collections";
+import {UserRoleEnum} from "./enums/user-role.enum";
 
 /**
  * Main component serving as wrapper for sidenav, toolbar and inner routed views
@@ -20,6 +24,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
               private oAuthService: OAuthService,
+              private activeUserService: ActiveUserService,
               private distractionFreeModeService: TrainingDistractionFreeModeService) {
   }
 
@@ -44,12 +49,26 @@ export class AppComponent implements OnInit, OnDestroy {
     this.oAuthService.configure(authConfig);
     this.oAuthService.tokenValidationHandler = new JwksValidationHandler();
     this.oAuthService.loadDiscoveryDocumentAndTryLogin ({
-      onTokenReceived: context => {
-        this.router.navigate(['/home']);
-      }
-    });
+      onTokenReceived: context => {}
+    }).then(() =>
+      setTimeout(() => this.loadProfileAndNavigateHome(), 1));
     this.oAuthService.setupAutomaticSilentRefresh();
+  }
 
+  private loadProfileAndNavigateHome() {
+    this.oAuthService.loadUserProfile().then((profile) => {
+      const user: User = new User();
+      user.id = 1;
+      user.name = profile['name'];
+      const roles = new Set<UserRoleEnum>();
+      roles.add(UserRoleEnum.Designer);
+      roles.add(UserRoleEnum.Organizer);
+      roles.add(UserRoleEnum.Trainee);
+      user.roles = roles;
+      console.log(user);
+      this.activeUserService.setActiveUser(user);
+      this.router.navigate(['/home']);
+    });
   }
 
   /**

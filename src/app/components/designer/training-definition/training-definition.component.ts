@@ -69,7 +69,10 @@ export class TrainingDefinitionComponent implements OnInit {
 
     if (messages.length > 0) {
       const dialogRef = this.dialog.open(UnsavedChangesDialogComponent, {
-        data: messages
+        data: {
+          payload: messages,
+          saveOption: false
+        },
       });
       return dialogRef.afterClosed().pipe(map(result => {
         return result && result.type === 'confirm'

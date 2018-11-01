@@ -68,6 +68,7 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
     if (this.validateChanges()) {
       this.setInputValuesToLevel();
       this.childComponent.saveChanges();
+      // TODO: CALL REST API
       this.dirty = false;
     }
   }

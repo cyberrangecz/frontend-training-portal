@@ -5,6 +5,7 @@ import {Subject} from "rxjs/internal/Subject";
 import {Observable} from "rxjs/internal/Observable";
 import {OAuthService} from "angular-oauth2-oidc";
 import {Set} from "typescript-collections"
+import {Router} from "@angular/router";
 
 /**
  * Service maintaining active (logged in user)
@@ -21,8 +22,8 @@ export class ActiveUserService {
    */
   onActiveUserChanged: Observable<number> = this._onActiveUserChangedSubject.asObservable();
 
-  constructor(private oAuthService: OAuthService) {
-    this.setActiveMockedUser();
+  constructor(private router: Router,
+    private oAuthService: OAuthService) {
   }
 
 
@@ -52,21 +53,6 @@ export class ActiveUserService {
 
   login() {
     this.oAuthService.initImplicitFlow();
-    // TODO: replace with user get from REST API
-    this.setActiveMockedUser();
-
-  }
-
-  private setActiveMockedUser() {
-    const loggedInUser = new User();
-    loggedInUser.id = 1;
-    loggedInUser.name = "Test user";
-    const roles = new Set<UserRoleEnum>();
-    roles.add(UserRoleEnum.Designer);
-    roles.add(UserRoleEnum.Organizer);
-    roles.add(UserRoleEnum.Trainee);
-    loggedInUser.roles = roles;
-    this.setActiveUser(loggedInUser);
   }
 
   logout() {
@@ -79,7 +65,7 @@ export class ActiveUserService {
    * @returns {boolean} true if active user is authenticated, false otherwise
    */
   isAuthenticated(): boolean {
-    return this._activeUser !== null && this._activeUser !== undefined //&& this.oAuthService.hasValidAccessToken();
+    return this._activeUser !== null && this._activeUser !== undefined && this.oAuthService.hasValidAccessToken();
   }
 
   /**
