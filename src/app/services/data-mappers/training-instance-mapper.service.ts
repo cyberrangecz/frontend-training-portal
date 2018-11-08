@@ -3,6 +3,7 @@ import {TrainingInstanceDTO} from "../../model/DTOs/trainingInstanceDTO";
 import {TrainingInstance} from "../../model/training/training-instance";
 import {TrainingInstanceCreateDTO, TrainingInstanceCreateDTOClass} from "../../model/DTOs/trainingInstanceCreateDTO";
 import {TrainingInstanceUpdateDTO, TrainingInstanceUpdateDTOClass} from "../../model/DTOs/trainingInstanceUpdateDTO";
+import {TrainingInstanceRestResource} from "../../model/DTOs/trainingInstanceRestResource";
 
 @Injectable()
 export class TrainingInstanceMapperService {
@@ -11,9 +12,9 @@ export class TrainingInstanceMapperService {
    * Maps training instance dtos received from remote server to training instance objects
    * @param trainingInstanceDTOs array of training instance dtos received from remote server
    */
-  mapTrainingInstanceDTOsToTrainingInstances(trainingInstanceDTOs: TrainingInstanceDTO[]): TrainingInstance[] {
+  mapTrainingInstanceDTOsToTrainingInstances(trainingInstanceDTOs: TrainingInstanceRestResource): TrainingInstance[] {
     const result: TrainingInstance[] = [];
-    trainingInstanceDTOs.forEach(dto => result.push(this.mapTrainingInstanceDTOToTrainingInstance(dto)));
+    trainingInstanceDTOs.content.forEach(dto => result.push(this.mapTrainingInstanceDTOToTrainingInstance(dto)));
     return result;
   }
 

@@ -38,7 +38,7 @@ export class TrainingInstanceGetterService {
    */
   getTrainingInstancesWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<TrainingInstance[]> {
     let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
-    return this.http.get<TrainingInstanceDTO[]>(environment.trainingInstancesEndpointUri, { params: params })
+    return this.http.get(environment.trainingInstancesEndpointUri, { params: params })
       .pipe(map(response =>
         this.trainingInstanceMapper.mapTrainingInstanceDTOsToTrainingInstances(response)));
   }
