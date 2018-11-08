@@ -19,7 +19,7 @@ export interface Pagination {
     /**
      * Number of elements in page.
      */
-    numberOfElements?: number;
+    number_of_elements?: number;
     /**
      * Page size.
      */
@@ -27,9 +27,9 @@ export interface Pagination {
     /**
      * Total number of elements in this resource (in all Pages).
      */
-    totalElements?: number;
+    total_elements?: number;
     /**
      * Total number of pages.
      */
-    totalPages?: number;
+    total_pages?: number;
 }

@@ -12,5 +12,5 @@
 
 
 export interface View {
-    contentType?: string;
+    content_type?: string;
 }

@@ -13,5 +13,5 @@
 
 export interface SandboxDefinitionRefDTO {
     id?: number;
-    sandboxDefinitionRef?: number;
+    sandbox_definition_ref?: number;
 }

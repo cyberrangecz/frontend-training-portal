@@ -18,14 +18,15 @@ import { SandboxDefinitionRefDTO } from './sandboxDefinitionRefDTO';
  * .
  */
 export interface TrainingDefinitionDTO {
-    authorRefDto?: Array<AuthorRefDTO>;
-    basicLevelInfoDtos?: Array<BasicLevelInfoDTO>;
+    author_ref?: Array<AuthorRefDTO>;
+    basic_level_info_dtos?: Array<BasicLevelInfoDTO>;
     description?: string;
     id?: number;
     outcomes?: Array<string>;
     prerequisities?: Array<string>;
-    sandBoxDefinitionRefDto?: SandboxDefinitionRefDTO;
-    startingLevel?: number;
+    sand_box_definition_ref?: SandboxDefinitionRefDTO;
+    show_stepper_bar?: boolean;
+    starting_level?: number;
     state?: TrainingDefinitionDTO.StateEnum;
     title?: string;
 }

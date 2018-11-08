@@ -11,7 +11,7 @@
  */
 
 
-export interface SandboxInstanceRefDTO {
+export interface UserRefDTO {
     id?: number;
-    sandbox_instance_ref?: number;
+    user_ref_id?: number;
 }

@@ -12,6 +12,6 @@
 
 
 export interface AuthorRefDTO {
-    authorRefLogin?: string;
+    author_ref_login?: string;
     id?: number;
 }

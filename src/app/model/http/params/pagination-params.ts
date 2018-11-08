@@ -6,8 +6,7 @@ export class PaginationParams {
     return new HttpParams()
       .set("page", page.toString())
       .set("size", size.toString())
-      .set("sort", sort)
-      .set("sort-direction", sortDir)
+      .set("sort", sort + ',' + sortDir);
   }
 
 }

@@ -9,15 +9,19 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { TrainingDefinitionDTO } from './trainingDefinitionDTO';
+import { UserRefDTO } from './userRefDTO';
 
 
 /**
  * Training Instance.
  */
 export interface TrainingInstanceDTO {
-    endTime?: Date;
+    end_time?: Date;
     id?: number;
-    poolSize?: number;
-    startTime?: Date;
+    organizers?: Array<UserRefDTO>;
+    pool_size?: number;
+    start_time?: Date;
     title?: string;
+    training_definition?: TrainingDefinitionDTO;
 }

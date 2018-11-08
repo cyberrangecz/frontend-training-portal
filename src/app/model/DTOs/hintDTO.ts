@@ -11,7 +11,9 @@
  */
 
 
-export interface SandboxInstanceRefDTO {
+export interface HintDTO {
+    content?: string;
+    hint_penalty?: number;
     id?: number;
-    sandbox_instance_ref?: number;
+    title?: string;
 }

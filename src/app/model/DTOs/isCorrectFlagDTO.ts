@@ -13,5 +13,5 @@
 
 export interface IsCorrectFlagDTO {
     correct?: boolean;
-    remainingAttempts?: number;
+    remaining_attempts?: number;
 }

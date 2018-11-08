@@ -9,6 +9,7 @@ export class ComponentErrorHandlerService {
   }
 
   displayHttpError(err: HttpErrorResponse, operation: string) {
+    console.log(err);
     this.alertService.emitAlert(AlertTypeEnum.Error, operation + ' failed with following message: ' + err.message);
   }
 }

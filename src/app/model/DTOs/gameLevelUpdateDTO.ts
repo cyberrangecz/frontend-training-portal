@@ -9,6 +9,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { HintDTO } from './hintDTO';
 
 
 /**
@@ -17,17 +18,13 @@
 export interface GameLevelUpdateDTO {
     attachments?: Array<string>;
     content?: string;
-    estimatedDuration?: number;
+    estimated_duration?: number;
     flag?: string;
+    hints?: Array<HintDTO>;
     id?: number;
-    incorrectFlagLimit?: number;
-    maxScore?: number;
-    nextLevel?: number;
+    incorrect_flag_limit?: number;
+    max_score?: number;
     solution?: string;
-    solutionPenalized?: boolean;
+    solution_penalized?: boolean;
     title?: string;
-}
-
-export class GameLevelUpdateDTO implements GameLevelUpdateDTO {
-
 }

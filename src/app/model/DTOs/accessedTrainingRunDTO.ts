@@ -15,13 +15,13 @@
  * .
  */
 export interface AccessedTrainingRunDTO {
-    currentLevelOrder?: number;
+    current_level_order?: number;
     id?: number;
-    numberOfLevels?: number;
-    possibleAction?: AccessedTrainingRunDTO.PossibleActionEnum;
+    number_of_levels?: number;
+    possible_action?: AccessedTrainingRunDTO.PossibleActionEnum;
     title?: string;
-    trainingInstanceEndDate?: Date;
-    trainingInstanceStartDate?: Date;
+    training_instance_end_date?: Date;
+    training_instance_start_date?: Date;
 }
 export namespace AccessedTrainingRunDTO {
     export type PossibleActionEnum = 'TRY_AGAIN' | 'RESULTS';

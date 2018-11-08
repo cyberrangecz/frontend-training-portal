@@ -12,24 +12,15 @@
 import { PostHookDTO } from './postHookDTO';
 import { PreHookDTO } from './preHookDTO';
 
+
 /**
  * .
  */
 export interface AbstractLevelDTO {
     id?: number;
-    maxScore?: number;
-    nextLevel?: number;
-    postHook?: PostHookDTO;
-    preHook?: PreHookDTO;
+    max_score?: number;
+    next_level?: number;
+    post_hook?: PostHookDTO;
+    pre_hook?: PreHookDTO;
     title?: string;
-    levelType: string;
-}
-
-export namespace AbstractLevelDTO {
-  export type LevelTypeEnum = 'GAME' | 'INFO' | 'ASSESSMENT';
-  export const LevelTypeEnum = {
-    GAME: 'GAME' as LevelTypeEnum,
-    INFO: 'INFO' as LevelTypeEnum,
-    ASSESSMENT: 'ASSESSMENT' as LevelTypeEnum,
-  }
 }

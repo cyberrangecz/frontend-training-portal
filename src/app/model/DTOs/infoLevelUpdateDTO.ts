@@ -17,11 +17,5 @@
 export interface InfoLevelUpdateDTO {
     content?: string;
     id?: number;
-    maxScore?: number;
-    nextLevel?: number;
     title?: string;
-}
-
-export class InfoLevelUpdateDTO implements InfoLevelUpdateDTO {
-
 }

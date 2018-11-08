@@ -180,13 +180,13 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.trainingDefinitionGetter.getTrainingDefinitionssWithPaginations(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
+          //return this.trainingDefinitionGetter.getTrainingDefinitionsWithPagination(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
+          return this.trainingDefinitionGetter.getTrainingDefinitions();
         }),
         map(data => {
           // Flip flag to show that loading has finished.
           this.isLoadingResults = false;
           this.resultsLength = data.length;
-
           return this.mapTrainingDefinitionsToTableObjects(data);
         }),
         catchError((err) => {

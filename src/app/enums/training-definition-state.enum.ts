@@ -1,6 +1,6 @@
 export enum TrainingDefinitionStateEnum {
-  Privated = 'privated',
-  Unreleased = 'unreleased',
-  Released = 'released',
-  Archived = 'archived'
+  Privated = 'PRIVATED',
+  Unreleased = 'UNRELEASED',
+  Released = 'RELEASED',
+  Archived = 'ARCHIVED'
 }

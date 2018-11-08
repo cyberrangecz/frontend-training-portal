@@ -48,27 +48,36 @@ export class AppComponent implements OnInit, OnDestroy {
   private configureOidc() {
     this.oAuthService.configure(authConfig);
     this.oAuthService.tokenValidationHandler = new JwksValidationHandler();
+    this.oAuthService.setupAutomaticSilentRefresh();
     this.oAuthService.loadDiscoveryDocumentAndTryLogin ({
       onTokenReceived: context => {}
-    }).then(() =>
-      setTimeout(() => this.loadProfileAndNavigateHome(), 1));
-    this.oAuthService.setupAutomaticSilentRefresh();
+    }).then(() => {
+      if (!this.oAuthService.hasValidAccessToken()) {
+        this.oAuthService.initImplicitFlow();
+      }
+      setTimeout(() => this.loadProfileAndNavigateHome(), 1);
+    });
   }
 
   private loadProfileAndNavigateHome() {
-    this.oAuthService.loadUserProfile().then((profile) => {
+    const claims = this.oAuthService.getIdentityClaims();
       const user: User = new User();
       user.id = 1;
-      user.name = profile['name'];
       const roles = new Set<UserRoleEnum>();
       roles.add(UserRoleEnum.Designer);
       roles.add(UserRoleEnum.Organizer);
       roles.add(UserRoleEnum.Trainee);
       user.roles = roles;
-      console.log(user);
       this.activeUserService.setActiveUser(user);
       this.router.navigate(['/home']);
-    });
+  }
+
+  private subscribeOidcEvents() {
+    this.oAuthService.events.subscribe(event => {
+      if (event.type === 'token_received') {
+        setTimeout(() => this.loadProfileAndNavigateHome(), 1);
+      }
+    })
   }
 
   /**

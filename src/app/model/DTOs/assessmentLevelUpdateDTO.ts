@@ -15,19 +15,31 @@
  * Assessment Level to update.
  */
 export interface AssessmentLevelUpdateDTO {
+    /**
+     * ID of assessment level to update. Have not be null.
+     */
     id?: number;
+    /**
+     * Instructions of assessment level to update.
+     */
     instructions?: string;
-    maxScore?: number;
-    nextLevel?: number;
+    /**
+     * Maximum score of assessment level to update. Have to be filled in range from 0 to 100.
+     */
+    max_score?: number;
+    /**
+     * Questions of assessment level to update.
+     */
     questions?: string;
+    /**
+     * Title of assessment level to update. Have to be filled.
+     */
     title?: string;
+    /**
+     * Type of assessment level to update.
+     */
     type?: AssessmentLevelUpdateDTO.TypeEnum;
 }
-
-export class AssessmentLevelUpdateDTO implements AssessmentLevelUpdateDTO {
-
-}
-
 export namespace AssessmentLevelUpdateDTO {
     export type TypeEnum = 'TEST' | 'QUESTIONNAIRE';
     export const TypeEnum = {

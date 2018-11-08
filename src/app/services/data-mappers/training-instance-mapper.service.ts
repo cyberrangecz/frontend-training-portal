@@ -1,8 +1,8 @@
 import {Injectable} from "@angular/core";
 import {TrainingInstanceDTO} from "../../model/DTOs/trainingInstanceDTO";
 import {TrainingInstance} from "../../model/training/training-instance";
-import {TrainingInstanceCreateDTO} from "../../model/DTOs/trainingInstanceCreateDTO";
-import {TrainingInstanceUpdateDTO} from "../../model/DTOs/trainingInstanceUpdateDTO";
+import {TrainingInstanceCreateDTO, TrainingInstanceCreateDTOClass} from "../../model/DTOs/trainingInstanceCreateDTO";
+import {TrainingInstanceUpdateDTO, TrainingInstanceUpdateDTOClass} from "../../model/DTOs/trainingInstanceUpdateDTO";
 
 @Injectable()
 export class TrainingInstanceMapperService {
@@ -25,10 +25,10 @@ export class TrainingInstanceMapperService {
     const result = new TrainingInstance();
     result.id = trainingInstanceDTO.id;
     // result.trainingDefinitionId TODO: not in the DTO -> consult
-    result.startTime = trainingInstanceDTO.startTime;
-    result.endTime = trainingInstanceDTO.endTime;
+    result.startTime = trainingInstanceDTO.start_time;
+    result.endTime = trainingInstanceDTO.end_time;
     result.title = trainingInstanceDTO.title;
-    result.poolSize = trainingInstanceDTO.poolSize;
+    result.poolSize = trainingInstanceDTO.pool_size;
     // result.organizersIds TODO: not in the DTO
     return result;
   }
@@ -38,12 +38,12 @@ export class TrainingInstanceMapperService {
    * @param trainingInstance training instance object which should be created
    */
   mapTrainingInstanceToTrainingInstanceCreateDTO(trainingInstance: TrainingInstance): TrainingInstanceCreateDTO {
-    const result = new TrainingInstanceCreateDTO();
+    const result = new TrainingInstanceCreateDTOClass();
     result.title = trainingInstance.title;
-    result.poolSize = trainingInstance.poolSize;
-    result.startTime = trainingInstance.startTime;
-    result.endTime = trainingInstance.endTime;
-    result.keyword = trainingInstance.keyword;
+    result.pool_size = trainingInstance.poolSize;
+    result.start_time = trainingInstance.startTime;
+    result.end_time = trainingInstance.endTime;
+    // result.keyword = trainingInstance.keyword;
     // TODO: organizer IDs and associated training def
     return result;
   }
@@ -53,12 +53,12 @@ export class TrainingInstanceMapperService {
    * @param trainingInstance training instance object which should be updated
    */
   mapTrainingInstanceToTrainingInstanceUpdateDTO(trainingInstance: TrainingInstance): TrainingInstanceUpdateDTO {
-    const result = new TrainingInstanceUpdateDTO();
+    const result = new TrainingInstanceUpdateDTOClass();
     result.id = trainingInstance.id;
     result.title = trainingInstance.title;
-    result.poolSize = trainingInstance.poolSize;
-    result.startTime = trainingInstance.startTime;
-    result.endTime = trainingInstance.endTime;
+    result.pool_size = trainingInstance.poolSize;
+    result.start_time = trainingInstance.startTime;
+    result.end_time = trainingInstance.endTime;
     result.keyword = trainingInstance.keyword;
     // TODO: organizer IDs and asscoiated training def
     return result;

@@ -29,13 +29,13 @@ export class TrainingRunMapperService {
   mapTrainingRunDTOToTrainingRun(trainingRunDTO: TrainingRunDTO): TrainingRun {
     const result = new TrainingRun();
     result.id = trainingRunDTO.id;
-    result.currentLevel = this.levelMapper.mapLevelDTOToLevel(trainingRunDTO.currentLevel);
-    result.startTime = trainingRunDTO.startTime;
-    result.endTime = trainingRunDTO.endTime;
-    result.eventLogReference = trainingRunDTO.eventLogReference;
-    result.sandboxInstanceId = trainingRunDTO.sandboxInstanceRef.id;
+    result.currentLevel = this.levelMapper.mapLevelDTOToLevel(trainingRunDTO.current_level);
+    result.startTime = trainingRunDTO.start_time;
+    result.endTime = trainingRunDTO.end_time;
+    result.eventLogReference = trainingRunDTO.event_log_reference;
+    result.sandboxInstanceId = trainingRunDTO.sandbox_instance_ref.id;
     result.state = TrainingRunStateEnum[trainingRunDTO.state];
-    result.trainingInstance = this.trainingInstanceMapper.mapTrainingInstanceDTOToTrainingInstance(trainingRunDTO.trainingInstance);
+    result.trainingInstance = this.trainingInstanceMapper.mapTrainingInstanceDTOToTrainingInstance(trainingRunDTO.training_instance);
     return result;
   }
 

@@ -31,7 +31,8 @@ export class LevelMapperService {
    * @param levelDTO levelDTO received from remote server
    */
   mapLevelDTOToLevel(levelDTO: AbstractLevelDTO): InfoLevel | GameLevel | AssessmentLevel {
-    switch(levelDTO.levelType) {
+    return null;
+/*    switch(levelDTO.levelType) {
       case AbstractLevelDTO.LevelTypeEnum.GAME: {
         return this.createGameLevelFromDTO(levelDTO);
       }
@@ -41,7 +42,7 @@ export class LevelMapperService {
       case AbstractLevelDTO.LevelTypeEnum.ASSESSMENT: {
         return this.createAssessmentLevelFromDTO(levelDTO);
       }
-    }
+    }*/
   }
 
   /**
@@ -49,7 +50,8 @@ export class LevelMapperService {
    * @param level level object which should be mapped to update DTO
    */
   mapGameLevelToGameLevelUpdateDTO(level: GameLevel): GameLevelUpdateDTO {
-    const result = new GameLevelUpdateDTO();
+    return null;
+    /*    const result = new GameLevelUpdateDTOClass();
     result.id = level.id;
     result.content = level.content;
     result.estimatedDuration = level.estimatedDuration;
@@ -61,7 +63,7 @@ export class LevelMapperService {
     result.solution = level.solution;
     result.solutionPenalized = level.solutionPenalized;
     result.title = level.title;
-    return result;
+    return result;*/
   }
 
   /**
@@ -69,13 +71,14 @@ export class LevelMapperService {
    * @param level level object which should be mapped to update DTO
    */
   mapInfoLevelToInfoLevelUpdateDTO(level: InfoLevel): InfoLevelUpdateDTO {
-    const result = new InfoLevelUpdateDTO();
+    return null;
+    /*    const result = new InfoLevelUpdateDTOClass();
     result.id = level.id;
     result.content = level.content;
     result.maxScore = level.maxScore;
     result.nextLevel = level.nextLevel;
     result.title = level.title;
-    return result;
+    return result;*/
   }
 
   /**
@@ -83,7 +86,8 @@ export class LevelMapperService {
    * @param level level object which should be mapped to update DTO
    */
   mapAssessmentLevelToAssessmentLevelUpdateDTO(level: AssessmentLevel): AssessmentLevelUpdateDTO {
-    const result = new AssessmentLevelUpdateDTO();
+    return null;
+    /*    const result = new AssessmentLevelUpdateDTOClass();
     result.id = level.id;
     result.instructions = level.instructions;
     result.maxScore = level.maxScore;
@@ -91,7 +95,7 @@ export class LevelMapperService {
     // result.questions = level.questions;
     result.title = level.title;
     result.type = AssessmentLevelUpdateDTO.TypeEnum[level.type];
-    return result;
+    return result;*/
   }
 
   /**
@@ -144,8 +148,8 @@ export class LevelMapperService {
   private setAbstractLevelAttributesFromDTO(level: AbstractLevel, levelDTO: AbstractLevelDTO) {
     level.id = levelDTO.id;
     level.title = levelDTO.title;
-    level.nextLevel = levelDTO.nextLevel;
-    level.maxScore = levelDTO.maxScore;
+    level.nextLevel = levelDTO.next_level;
+    level.maxScore = levelDTO.max_score;
     // level.preHook = levelDTO.preHook;
     // level.postHook = levelDTO.postHook;
   }

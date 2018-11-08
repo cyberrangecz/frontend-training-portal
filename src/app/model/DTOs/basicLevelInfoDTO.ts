@@ -13,7 +13,7 @@
 
 export interface BasicLevelInfoDTO {
     id?: number;
-    levelType?: BasicLevelInfoDTO.LevelTypeEnum;
+    level_type?: BasicLevelInfoDTO.LevelTypeEnum;
     order?: number;
     title?: string;
 }
