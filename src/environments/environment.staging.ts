@@ -1,12 +1,12 @@
 export const environment = {
   production: false,
 
-  usersEndpointUri: 'assets/sample-data/test-users.json/', // http://localhost:8080/api/v1/roles ?
-  sandboxDefsEndpointUri: 'assets/sample-data/test-sandbox-defs.json/',
-  trainingDefsEndpointUri: 'http://localhost:8080/training-definitions/',
-  trainingInstancesEndpointUri: 'http://localhost:8080/training-instances/',
-  trainingRunsEndpointUri: 'http://localhost:8080/training-runs/',
-  levelsEndpointUri: 'http://localhost:8080/levels/',
+  usersEndpointUri: 'http://localhost:3000/users/',
+  sandboxDefsEndpointUri: 'http://localhost:3000/sandbox-definitions/',
+  trainingDefsEndpointUri: 'http://localhost:8080/kypo2-rest-training/api/v1/training-definitions/',
+  trainingInstancesEndpointUri: 'http://localhost:8080/kypo2-rest-training/api/v1/training-instances/',
+  trainingRunsEndpointUri: 'http://localhost:8080/kypo2-rest-training/api/v1/training-runs/',
+  levelsEndpointUri: 'http://localhost:8080/kypo2-rest-training/api/v1/levels/',
 
   defaultAlertDuration: 2500, // 0 to display until user dismisses it
   defaultPaginationSize: 5,

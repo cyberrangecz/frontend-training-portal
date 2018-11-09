@@ -79,15 +79,14 @@ export class TrainingDefinitionMapperService {
    * @param trainingDefinition training definition object from which will the DTO be created
    */
   mapTrainingDefinitionToTrainingDefinitionCreateDTO(trainingDefinition: TrainingDefinition): TrainingDefinitionCreateDTO {
+    console.log(trainingDefinition);
     const result: TrainingDefinitionCreateDTO = new TrainingDefinitionCreateDTOClass();
     result.description = trainingDefinition.description;
     result.outcomes = trainingDefinition.outcomes;
     result.prerequisities = trainingDefinition.prerequisites;
-/*    result.startingLevel = trainingDefinition.startingLevel instanceof AbstractLevel ?
-      trainingDefinition.startingLevel.id
-      : trainingDefinition.startingLevel;*/
     result.state = TrainingDefinitionCreateDTO.StateEnum[trainingDefinition.state];
     result.title = trainingDefinition.title;
+    console.log(result);
     return result;
   }
 

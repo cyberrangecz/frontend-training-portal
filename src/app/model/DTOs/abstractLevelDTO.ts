@@ -24,3 +24,13 @@ export interface AbstractLevelDTO {
     pre_hook?: PreHookDTO;
     title?: string;
 }
+
+export namespace AbstractLevelDTO {
+  export type LevelTypeEnum = 'INFO' | 'ASSESSMENT' | 'GAME';
+  export const LevelTypeEnum = {
+    INFO: 'INFO' as LevelTypeEnum,
+    ASSESSMENT: 'ASSESSMENT' as LevelTypeEnum,
+    GAME: 'GAME' as LevelTypeEnum
+
+  }
+}
