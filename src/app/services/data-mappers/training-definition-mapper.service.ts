@@ -17,6 +17,7 @@ import {
 } from "../../model/DTOs/trainingDefinitionUpdateDTO";
 import {TrainingDefinitionRestResource} from "../../model/DTOs/trainingDefinitionRestResource";
 import {TrainingDefinitionDTO} from "../../model/DTOs/trainingDefinitionDTO";
+import {AuthorRefDTO} from "../../model/DTOs/authorRefDTO";
 import LevelTypeEnum = BasicLevelInfoDTO.LevelTypeEnum;
 
 @Injectable()
@@ -46,7 +47,7 @@ export class TrainingDefinitionMapperService {
     result.authorIds = this.getAuthorRefDtoFromDTO(trainingDefinitionDTO);
     result.prerequisites =  trainingDefinitionDTO.prerequisities;
     result.outcomes = trainingDefinitionDTO.outcomes;
-    result.state = this.mapTrainingDefStateToEnum(trainingDefinitionDTO.state);
+    result.state = this.mapTrainingDefDTOStateToEnum(trainingDefinitionDTO.state);
     result.levels = this.getLevelsFromDTO(trainingDefinitionDTO);
     result.startingLevel = trainingDefinitionDTO.starting_level;
     return result;
@@ -79,14 +80,21 @@ export class TrainingDefinitionMapperService {
    * @param trainingDefinition training definition object from which will the DTO be created
    */
   mapTrainingDefinitionToTrainingDefinitionCreateDTO(trainingDefinition: TrainingDefinition): TrainingDefinitionCreateDTO {
-    console.log(trainingDefinition);
     const result: TrainingDefinitionCreateDTO = new TrainingDefinitionCreateDTOClass();
     result.description = trainingDefinition.description;
     result.outcomes = trainingDefinition.outcomes;
     result.prerequisities = trainingDefinition.prerequisites;
-    result.state = TrainingDefinitionCreateDTO.StateEnum[trainingDefinition.state];
+    result.state = this.mapTrainingDefStateToDTOEnum(trainingDefinition.state);
     result.title = trainingDefinition.title;
-    console.log(result);
+    result.sandbox_definition_ref = { id: trainingDefinition.sandboxDefinitionId, sandbox_definition_ref: trainingDefinition.sandboxDefinitionId };
+    result.show_stepper_bar = trainingDefinition.showProgress;
+    result.author_ref = this.mapAuthorsToCreateUpdateTrainingDefDTO(trainingDefinition.authorIds as number[]);
+    return result;
+  }
+
+  private mapAuthorsToCreateUpdateTrainingDefDTO(authorIds: number[]): AuthorRefDTO[] {
+    const result: AuthorRefDTO[] = [];
+    authorIds.forEach(authorId => result.push({id: authorId, author_ref_login: "No name"}));
     return result;
   }
 
@@ -140,15 +148,27 @@ export class TrainingDefinitionMapperService {
     }
   }
 
-  private mapTrainingDefStateToEnum(stateDTO: TrainingDefinitionDTO.StateEnum): TrainingDefinitionStateEnum {
+  private mapTrainingDefDTOStateToEnum(stateDTO: TrainingDefinitionDTO.StateEnum): TrainingDefinitionStateEnum {
     switch (stateDTO) {
       case TrainingDefinitionDTO.StateEnum.ARCHIVED: return TrainingDefinitionStateEnum.Archived;
       case TrainingDefinitionDTO.StateEnum.PRIVATED: return TrainingDefinitionStateEnum.Privated;
       case TrainingDefinitionDTO.StateEnum.RELEASED: return TrainingDefinitionStateEnum.Released;
       case TrainingDefinitionDTO.StateEnum.UNRELEASED: return TrainingDefinitionStateEnum.Unreleased;
       default: {
-        console.error('Attribute "state" of TrainingDefinitionDTO was not recognized and could not be mapped to any known state');
+        console.error('Attribute "state" of TrainingDefinitionDTO does not match any of the TrainingDefinition states');
         return undefined;
+      }
+    }
+  }
+
+  private mapTrainingDefStateToDTOEnum(state: TrainingDefinitionStateEnum): TrainingDefinitionDTO.StateEnum {
+    switch(state) {
+      case TrainingDefinitionStateEnum.Unreleased: return TrainingDefinitionDTO.StateEnum.UNRELEASED;
+      case TrainingDefinitionStateEnum.Released: return TrainingDefinitionDTO.StateEnum.RELEASED;
+      case TrainingDefinitionStateEnum.Privated: return TrainingDefinitionDTO.StateEnum.PRIVATED;
+      case TrainingDefinitionStateEnum.Archived: return TrainingDefinitionDTO.StateEnum.ARCHIVED;
+      default: {
+        console.error('Attribute "state" of TrainingDefinition does not match any of the TrainingDefinitionDTO states');
       }
     }
   }

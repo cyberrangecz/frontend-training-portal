@@ -52,6 +52,7 @@ export class TrainingDefinitionSetterService {
    * @param {TrainingDefinition} trainingDef training definition which should be created
    */
   createTrainingDefinition(trainingDef: TrainingDefinition): Observable<number> {
+    
     return this.http.post<number>(environment.trainingDefsEndpointUri,
       this.trainingDefinitionMapper.mapTrainingDefinitionToTrainingDefinitionCreateDTO(trainingDef));
   }
