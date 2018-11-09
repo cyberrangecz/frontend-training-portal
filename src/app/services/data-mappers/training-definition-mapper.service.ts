@@ -7,7 +7,6 @@ import {InfoLevel} from "../../model/level/info-level";
 import {AbstractLevelTypeEnum} from "../../enums/abstract-level-type.enum";
 import {AssessmentLevel} from "../../model/level/assessment-level";
 import {GameLevel} from "../../model/level/game-level";
-import LevelTypeEnum = BasicLevelInfoDTO.LevelTypeEnum;
 import {
   TrainingDefinitionCreateDTO,
   TrainingDefinitionCreateDTOClass
@@ -18,6 +17,7 @@ import {
 } from "../../model/DTOs/trainingDefinitionUpdateDTO";
 import {TrainingDefinitionRestResource} from "../../model/DTOs/trainingDefinitionRestResource";
 import {TrainingDefinitionDTO} from "../../model/DTOs/trainingDefinitionDTO";
+import LevelTypeEnum = BasicLevelInfoDTO.LevelTypeEnum;
 
 @Injectable()
 export class TrainingDefinitionMapperService {
@@ -46,13 +46,9 @@ export class TrainingDefinitionMapperService {
     result.authorIds = this.getAuthorRefDtoFromDTO(trainingDefinitionDTO);
     result.prerequisites =  trainingDefinitionDTO.prerequisities;
     result.outcomes = trainingDefinitionDTO.outcomes;
-    result.state = TrainingDefinitionStateEnum[trainingDefinitionDTO.state];
+    result.state = this.mapTrainingDefStateToEnum(trainingDefinitionDTO.state);
     result.levels = this.getLevelsFromDTO(trainingDefinitionDTO);
     result.startingLevel = trainingDefinitionDTO.starting_level;
-    console.log("TRAINING DEF DTO");
-    console.log(trainingDefinitionDTO);
-    console.log("MAPPED TRAINING DEF");
-    console.log(result);
     return result;
   }
 
@@ -62,7 +58,6 @@ export class TrainingDefinitionMapperService {
 
   private getAuthorRefDtoFromDTO(trainingDefinitionDTO: TrainingDefinitionDTO): number[] {
     let result = [];
-    console.log(trainingDefinitionDTO);
     if (trainingDefinitionDTO.author_ref) {
       result = trainingDefinitionDTO.author_ref.map(author => author.id);
     }
@@ -142,6 +137,19 @@ export class TrainingDefinitionMapperService {
       default: {
         console.error('Level data in wrong format. Level was not created.');
         return null;
+      }
+    }
+  }
+
+  private mapTrainingDefStateToEnum(stateDTO: TrainingDefinitionDTO.StateEnum): TrainingDefinitionStateEnum {
+    switch (stateDTO) {
+      case TrainingDefinitionDTO.StateEnum.ARCHIVED: return TrainingDefinitionStateEnum.Archived;
+      case TrainingDefinitionDTO.StateEnum.PRIVATED: return TrainingDefinitionStateEnum.Privated;
+      case TrainingDefinitionDTO.StateEnum.RELEASED: return TrainingDefinitionStateEnum.Released;
+      case TrainingDefinitionDTO.StateEnum.UNRELEASED: return TrainingDefinitionStateEnum.Unreleased;
+      default: {
+        console.error('Attribute "state" of TrainingDefinitionDTO was not recognized and could not be mapped to any known state');
+        return undefined;
       }
     }
   }

@@ -106,13 +106,13 @@ export class LevelMapperService {
     const result = new GameLevel();
     this.setAbstractLevelAttributesFromDTO(result, gameLevelDTO);
     result.type = AbstractLevelTypeEnum.Game;
-    result.flag = gameLevelDTO.flag;
+/*    result.flag = gameLevelDTO.flag;
     result.content = gameLevelDTO.content;
     result.solution = gameLevelDTO.solution;
     result.incorrectFlagLimit = gameLevelDTO.incorrectFlagLimit;
     result.solutionPenalized = gameLevelDTO.solutionPenalized;
     result.estimatedDuration = gameLevelDTO.estimatedDuration;
-    result.attachments = gameLevelDTO.attachments;
+    result.attachments = gameLevelDTO.attachments;*/
     return result;
   }
 
@@ -123,7 +123,9 @@ export class LevelMapperService {
   private createInfoLevelFromDTO(infoLevelDTO: InfoLevelDTO): InfoLevel {
     const result = new InfoLevel();
     this.setAbstractLevelAttributesFromDTO(result, infoLevelDTO);
+/*
     result.content = infoLevelDTO.content;
+*/
     return result;
   }
 
@@ -135,8 +137,8 @@ export class LevelMapperService {
     const result = new AssessmentLevel();
     this.setAbstractLevelAttributesFromDTO(result, assessmentLevelDTO);
     // result.questions = assessmentLevelDTO.questions;
-    result.instructions = assessmentLevelDTO.instructions;
-    result.assessmentType = AssessmentTypeEnum[assessmentLevelDTO.type];
+/*    result.instructions = assessmentLevelDTO.instructions;
+    result.assessmentType = AssessmentTypeEnum[assessmentLevelDTO.type];*/
     return result;
   }
 
