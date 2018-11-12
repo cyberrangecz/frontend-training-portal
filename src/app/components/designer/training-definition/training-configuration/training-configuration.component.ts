@@ -107,13 +107,19 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     if (this.validateInput()) {
       this.setInputValuesToTrainingDef();
       this.sendRequestToSaveChanges();
-      this.savedTrainingChange.emit(true);
-      this.dirty = false;
+
     }
   }
 
+
+
   contentChanged() {
     this.dirty = true;
+  }
+
+  private performActionsAfterSuccessfulSave() {
+    this.savedTrainingChange.emit(true);
+    this.dirty = false;
   }
 
   /**
@@ -121,14 +127,18 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
    */
   private sendRequestToSaveChanges() {
     if (this.editMode) {
-      this.trainingDefinitionSetter.updateTrainingDefinition(this.trainingDefinition)
-        .subscribe(response => this.alertService.emitAlert(AlertTypeEnum.Success, 'Changes were successfully saved.'),
-          err => this.errorHandler.displayHttpError(err, 'Editing training definition')
+     this.trainingDefinitionSetter.updateTrainingDefinition(this.trainingDefinition)
+        .subscribe(response => {
+          this.alertService.emitAlert(AlertTypeEnum.Success, 'Changes were successfully saved.');
+          this.performActionsAfterSuccessfulSave();
+        },
+        err => this.errorHandler.displayHttpError(err, 'Editing training definition')
         );
     } else {
       this.trainingDefinitionSetter.createTrainingDefinition(this.trainingDefinition)
         .subscribe(response => {
-          this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully saved.')
+          this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully saved.');
+          this.performActionsAfterSuccessfulSave();
           this.router.navigate(['designer/training/' + response]);
           },
           err => this.errorHandler.displayHttpError(err, 'Creating new training definition')
