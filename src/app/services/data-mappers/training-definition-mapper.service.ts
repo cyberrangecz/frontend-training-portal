@@ -81,14 +81,17 @@ export class TrainingDefinitionMapperService {
    */
   mapTrainingDefinitionToTrainingDefinitionCreateDTO(trainingDefinition: TrainingDefinition): TrainingDefinitionCreateDTO {
     const result: TrainingDefinitionCreateDTO = new TrainingDefinitionCreateDTOClass();
+    result.outcomes = [];
+    result.prerequisities = [];
     result.description = trainingDefinition.description;
-    result.outcomes = trainingDefinition.outcomes;
-    result.prerequisities = trainingDefinition.prerequisites;
+    trainingDefinition.outcomes.forEach(outcome => result.outcomes.push(outcome));
+    trainingDefinition.prerequisites.forEach(prerequisite => result.prerequisities.push(prerequisite));
     result.state = this.mapTrainingDefStateToDTOEnum(trainingDefinition.state);
     result.title = trainingDefinition.title;
     result.sandbox_definition_ref = { id: trainingDefinition.sandboxDefinitionId, sandbox_definition_ref: trainingDefinition.sandboxDefinitionId };
     result.show_stepper_bar = trainingDefinition.showProgress;
     result.author_ref = this.mapAuthorsToCreateUpdateTrainingDefDTO(trainingDefinition.authorIds as number[]);
+    console.log(result);
     return result;
   }
 

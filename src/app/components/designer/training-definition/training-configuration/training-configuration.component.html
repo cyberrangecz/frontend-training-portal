@@ -34,8 +34,8 @@
     <!-- PREREQUISITES field-->
     <mat-form-field appearance="outline">
       <mat-label>Prerequisites</mat-label>
-      <textarea (change)="contentChanged()"  matInput placeholder="Prerequisites" [(ngModel)]="prerequisites"></textarea>
-      <button mat-button *ngIf="prerequisites" matSuffix mat-icon-button aria-label="Clear" (click)="prerequisites=''; contentChanged()">
+      <textarea (change)="contentChanged()"  matInput placeholder="Prerequisites" [(ngModel)]="prerequisites[0]"></textarea>
+      <button mat-button *ngIf="prerequisites" matSuffix mat-icon-button aria-label="Clear" (click)="prerequisites=['']; contentChanged()">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
@@ -43,8 +43,8 @@
     <!-- OUTCOMES field-->
     <mat-form-field appearance="outline">
       <mat-label>Outcomes</mat-label>
-      <textarea (change)="contentChanged()"  matInput placeholder="Outcomes" [(ngModel)]="outcomes"></textarea>
-      <button mat-button *ngIf="outcomes" matSuffix mat-icon-button aria-label="Clear" (click)="outcomes=''; contentChanged()">
+      <textarea (change)="contentChanged()"  matInput placeholder="Outcomes" [(ngModel)]="outcomes[0]"></textarea>
+      <button mat-button *ngIf="outcomes" matSuffix mat-icon-button aria-label="Clear" (click)="outcomes=['']; contentChanged()">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>

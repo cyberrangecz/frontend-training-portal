@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {TrainingDefinition} from "../../model/training/training-definition";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {AssessmentLevel} from "../../model/level/assessment-level";
 import {GameLevel} from "../../model/level/game-level";
@@ -20,13 +20,13 @@ export class TrainingDefinitionSetterService {
               private trainingDefinitionMapper: TrainingDefinitionMapperService,
               private levelMapper: LevelMapperService) {
   }
-
   /**
    * Sends request to remove training definition with provided id
    * @param {number} trainingDefId id of training definition which should be removed
    */
   removeTrainingDefinition(trainingDefId: number) {
-    return this.http.delete(environment.trainingDefsEndpointUri + trainingDefId);
+    return this.http.delete(environment.trainingDefsEndpointUri + trainingDefId,
+      { headers: this.createDefaultHeaders()});
   }
 
   /**
@@ -34,7 +34,9 @@ export class TrainingDefinitionSetterService {
    * @param trainingDefId id of training definition which should be cloned
    */
   cloneTrainingDefinition(trainingDefId: number): Observable<number> {
-    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId, {});
+    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId,
+      {},
+      { headers: this.createDefaultHeaders()});
   }
 
 
@@ -44,7 +46,8 @@ export class TrainingDefinitionSetterService {
    */
   updateTrainingDefinition(trainingDef: TrainingDefinition) {
     return this.http.put(environment.trainingDefsEndpointUri,
-      this.trainingDefinitionMapper.mapTrainingDefinitionToTrainingDefinitionUpdateDTO(trainingDef))
+      this.trainingDefinitionMapper.mapTrainingDefinitionToTrainingDefinitionUpdateDTO(trainingDef),
+      { headers: this.createDefaultHeaders()})
   }
 
   /**
@@ -52,9 +55,9 @@ export class TrainingDefinitionSetterService {
    * @param {TrainingDefinition} trainingDef training definition which should be created
    */
   createTrainingDefinition(trainingDef: TrainingDefinition): Observable<number> {
-    
     return this.http.post<number>(environment.trainingDefsEndpointUri,
-      this.trainingDefinitionMapper.mapTrainingDefinitionToTrainingDefinitionCreateDTO(trainingDef));
+      this.trainingDefinitionMapper.mapTrainingDefinitionToTrainingDefinitionCreateDTO(trainingDef),
+      { headers: this.createDefaultHeaders()});
   }
 
   /**
@@ -63,7 +66,9 @@ export class TrainingDefinitionSetterService {
    * @param assessmentLevel new assessment level which should be created in DB
    */
   createAssessmentLevel(trainingDefId: number): Observable<number> {
-    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId + '/levels/ASSESSMENT', {});
+    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId + '/levels/ASSESSMENT',
+      {},
+      { headers: this.createDefaultHeaders()});
   }
 
   /**
@@ -72,7 +77,9 @@ export class TrainingDefinitionSetterService {
    * @param gameLevel new game level which should be created in DB
    */
   createGameLevel(trainingDefId: number): Observable<number> {
-    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId + '/levels/GAME', {});
+    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId + '/levels/GAME',
+      {},
+      { headers: this.createDefaultHeaders()});
   }
 
   /**
@@ -81,7 +88,9 @@ export class TrainingDefinitionSetterService {
    * @param infoLevel new info level which should be created in DB
    */
   createInfoLevel(trainingDefId: number): Observable<number> {
-    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId + '/levels/INFO', {});
+    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId + '/levels/INFO',
+      {},
+      { headers: this.createDefaultHeaders()});
   }
 
   /**
@@ -90,7 +99,9 @@ export class TrainingDefinitionSetterService {
    * @param levelId id of level which should be removed
    */
   removeLevel(trainingDefId: number, levelId: number) {
-    return this.http.delete(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + levelId);
+    return this.http.delete(environment.trainingDefsEndpointUri + trainingDefId +
+      '/levels/' + levelId,
+      { headers: this.createDefaultHeaders()});
   }
 
   /**
@@ -100,7 +111,8 @@ export class TrainingDefinitionSetterService {
    */
   updateGameLevel(trainingDefId: number, gameLevel: GameLevel) {
     return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/game-levels',
-      this.levelMapper.mapGameLevelToGameLevelUpdateDTO(gameLevel));
+      this.levelMapper.mapGameLevelToGameLevelUpdateDTO(gameLevel),
+      { headers: this.createDefaultHeaders()});
   }
 
   /**
@@ -110,7 +122,8 @@ export class TrainingDefinitionSetterService {
    */
   updateInfoLevel(trainingDefId: number, infoLevel: InfoLevel) {
     return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/info-levels',
-      this.levelMapper.mapInfoLevelToInfoLevelUpdateDTO(infoLevel));
+      this.levelMapper.mapInfoLevelToInfoLevelUpdateDTO(infoLevel),
+      { headers: this.createDefaultHeaders()});
   }
 
   /**
@@ -120,7 +133,8 @@ export class TrainingDefinitionSetterService {
    */
   updateAssessmentLevel(trainingDefId: number, assessmentLevel: AssessmentLevel) {
     return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/assessment-levels',
-      this.levelMapper.mapAssessmentLevelToAssessmentLevelUpdateDTO(assessmentLevel));
+      this.levelMapper.mapAssessmentLevelToAssessmentLevelUpdateDTO(assessmentLevel),
+      { headers: this.createDefaultHeaders()});
   }
 
   /**
@@ -129,7 +143,9 @@ export class TrainingDefinitionSetterService {
    * @param levelId id of a level which should be swapped
    */
   swapLeft(trainingDefId: number, levelId: number) {
-    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + levelId + '/swap-left',null);
+    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + levelId + '/swap-left',
+      {},
+      { headers: this.createDefaultHeaders()});
   }
 
   /**
@@ -138,7 +154,9 @@ export class TrainingDefinitionSetterService {
    * @param levelId id of a level which should be swapped
    */
   swapRight(trainingDefId: number, levelId: number) {
-    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + levelId + '/swap-right',null);
+    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + levelId + '/swap-right',
+      {},
+      { headers: this.createDefaultHeaders()});
   }
 
   /**
@@ -148,6 +166,18 @@ export class TrainingDefinitionSetterService {
    * @param secondLevelId id of second level which should be swapped
    */
   swap(trainingDefId: number, firstLevelId: number, secondLevelId: number) {
-    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + firstLevelId + '/swap/' + trainingDefId,null);
+    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + firstLevelId + '/swap/' + trainingDefId,
+      {},
+    { headers: this.createDefaultHeaders()});
+  }
+
+  private createDefaultHeaders() {
+    let httpHeaderAccepts: string[] = [
+      '*/*',
+      'application/json'
+    ];
+    const headers = new HttpHeaders();
+    headers.set('Accept', httpHeaderAccepts);
+    return headers;
   }
 }

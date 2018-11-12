@@ -159,8 +159,8 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
   private initValuesForNewTraining() {
     this.title = '';
     this.description = '';
-    this.prerequisites = [];
-    this.outcomes = [];
+    this.prerequisites = [''];
+    this.outcomes = [''];
     this.selectedState = 'unreleased';
   }
 
