@@ -185,6 +185,9 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.selectedState = this.trainingDefinition.state;
     this.showProgress = this.trainingDefinition.showProgress;
 
+    if (!this.prerequisites) this.prerequisites = [''];
+    if (!this.outcomes) this.outcomes = [''];
+
     let userIds = [];
     if (this.trainingDefinition.authorIds.length > 0 && this.trainingDefinition.authorIds[0] instanceof User) {
       userIds = this.trainingDefinition.authorIds.map((user: User) => user.id);
