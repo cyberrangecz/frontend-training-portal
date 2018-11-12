@@ -1,6 +1,7 @@
 export const environment = {
   production: false,
 
+  trainingRestBasePath: 'http://localhost:8080/kypo2-rest-training/api/v1/',
   usersEndpointUri: 'http://localhost:3000/users/',
   sandboxDefsEndpointUri: 'http://localhost:3000/sandbox-definitions/',
   trainingDefsEndpointUri: 'http://localhost:8080/kypo2-rest-training/api/v1/training-definitions/',

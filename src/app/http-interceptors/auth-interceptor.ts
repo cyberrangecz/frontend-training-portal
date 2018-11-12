@@ -11,13 +11,14 @@ import {Observable} from "rxjs";
 import {ActiveUserService} from "../services/active-user.service";
 import {tap} from "rxjs/operators";
 import {Router} from "@angular/router";
+import {environment} from "../../environments/environment";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
   constructor(
     private router: Router,
-    private activeUser: ActiveUserService) {
+    private activeUserService: ActiveUserService) {
   }
 
   /**
@@ -26,9 +27,9 @@ export class AuthInterceptor implements HttpInterceptor {
    * @param next next http handler
    */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this.activeUser) {
+    if (this.activeUserService.isAuthenticated() && req.url.startsWith(environment.trainingRestBasePath)) {
       const clonedReq = req.clone({
-        headers: req.headers.append('Authorization', this.activeUser.getActiveUserAuthorizationHeader())
+        headers: req.headers.append('Authorization', this.activeUserService.getActiveUserAuthorizationHeader())
       });
       return next.handle(clonedReq)
         .pipe(tap((event: HttpEvent<any>) => {

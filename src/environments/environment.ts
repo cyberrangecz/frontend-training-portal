@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
 
+  trainingRestBasePath: 'http://localhost:3030/',
   usersEndpointUri: 'http://localhost:3000/users/',
   sandboxDefsEndpointUri: 'http://localhost:3000/sandbox-definitions/',
   trainingDefsEndpointUri: 'http://localhost:3000/training-definitions/',

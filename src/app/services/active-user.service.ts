@@ -25,14 +25,12 @@ export class ActiveUserService {
   constructor(private router: Router,
     private oAuthService: OAuthService) {
   }
-
-
   /**
    * Decides whether active user has designer role
    * @returns {boolean} true if active user has organizer role, false otherwise
    */
   isDesigner(): boolean {
-    return this._activeUser === undefined ? false : this._activeUser.roles.contains(UserRoleEnum.Designer);
+    return !this._activeUser ? false : this._activeUser.roles.contains(UserRoleEnum.Designer);
   }
 
   /**
@@ -40,7 +38,7 @@ export class ActiveUserService {
    * @returns {boolean} true if active user has organizer role, false otherwise
    */
   isOrganizer(): boolean {
-    return this._activeUser === undefined ? false : this._activeUser.roles.contains(UserRoleEnum.Organizer);
+    return !this._activeUser ? false : this._activeUser.roles.contains(UserRoleEnum.Organizer);
   }
 
   /**
@@ -48,11 +46,13 @@ export class ActiveUserService {
    * @returns {boolean} true if active user has trainee role, false otherwise
    */
   isTrainee(): boolean {
-    return this._activeUser === undefined ? false : this._activeUser.roles.contains(UserRoleEnum.Trainee);
+    return !this._activeUser ? false : this._activeUser.roles.contains(UserRoleEnum.Trainee);
   }
 
   login() {
     this.oAuthService.initImplicitFlow();
+    this.loadProfile();
+    this.router.navigate(['/home']);
   }
 
   logout() {
@@ -65,7 +65,7 @@ export class ActiveUserService {
    * @returns {boolean} true if active user is authenticated, false otherwise
    */
   isAuthenticated(): boolean {
-    return this._activeUser !== null && this._activeUser !== undefined && this.oAuthService.hasValidAccessToken();
+    return this._activeUser && this.oAuthService.hasValidAccessToken();
   }
 
   /**
@@ -80,6 +80,17 @@ export class ActiveUserService {
    */
   getActiveUserAuthorizationHeader(): string {
     return this.oAuthService.authorizationHeader();
+  }
+
+  loadProfile() {
+    const user: User = new User();
+    user.id = 3;
+    const roles = new Set<UserRoleEnum>();
+    roles.add(UserRoleEnum.Designer);
+    roles.add(UserRoleEnum.Organizer);
+    roles.add(UserRoleEnum.Trainee);
+    user.roles = roles;
+    this.setActiveUser(user);
   }
 
   /**

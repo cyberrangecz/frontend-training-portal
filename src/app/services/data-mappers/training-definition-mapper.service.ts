@@ -91,7 +91,6 @@ export class TrainingDefinitionMapperService {
     result.sandbox_definition_ref = { id: trainingDefinition.sandboxDefinitionId, sandbox_definition_ref: trainingDefinition.sandboxDefinitionId };
     result.show_stepper_bar = trainingDefinition.showProgress;
     result.author_ref = this.mapAuthorsToCreateUpdateTrainingDefDTO(trainingDefinition.authorIds as number[]);
-    console.log(result);
     return result;
   }
 

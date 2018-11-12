@@ -1,6 +1,7 @@
 export const environment = {
   production: true,
 
+  trainingRestBasePath: '',
   usersEndpointUri: '',
   sandboxDefsEndpointUri: '',
   trainingDefsEndpointUri: '',

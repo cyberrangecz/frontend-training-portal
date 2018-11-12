@@ -14,7 +14,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
   private trainings;
   activeTrainings;
 
-  userChangeSubscription;
+  private userChangeSubscription;
 
   constructor(private activeUserService: ActiveUserService) {
 
@@ -27,7 +27,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if(this.userChangeSubscription) {
+    if (this.userChangeSubscription) {
       this.userChangeSubscription.unsubscribe();
     }
   }

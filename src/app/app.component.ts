@@ -30,6 +30,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
+    this.loadProfile();
+    this.subscribeOidcEvents();
     this.configureOidc();
     this.distractionFreeMode = this.distractionFreeModeService.getDistractionFreeMode();
     this.subscribeForDistractionFreeModeChanges();
@@ -48,34 +50,30 @@ export class AppComponent implements OnInit, OnDestroy {
   private configureOidc() {
     this.oAuthService.configure(authConfig);
     this.oAuthService.tokenValidationHandler = new JwksValidationHandler();
-    this.oAuthService.setupAutomaticSilentRefresh();
-    this.oAuthService.loadDiscoveryDocumentAndTryLogin ({
-      onTokenReceived: context => {}
-    }).then(() => {
-      if (!this.oAuthService.hasValidAccessToken()) {
-        this.oAuthService.initImplicitFlow();
+    this.oAuthService.loadDiscoveryDocumentAndTryLogin({
+      onTokenReceived: context => {
+        console.log(this.oAuthService.hasValidAccessToken());
+        console.log(this.oAuthService.hasValidIdToken());
+        console.log(this.oAuthService.authorizationHeader());
       }
-      setTimeout(() => this.loadProfileAndNavigateHome(), 1);
     });
+    this.oAuthService.setupAutomaticSilentRefresh();
   }
 
-  private loadProfileAndNavigateHome() {
-    const claims = this.oAuthService.getIdentityClaims();
-      const user: User = new User();
-      user.id = 3;
-      const roles = new Set<UserRoleEnum>();
-      roles.add(UserRoleEnum.Designer);
-      roles.add(UserRoleEnum.Organizer);
-      roles.add(UserRoleEnum.Trainee);
-      user.roles = roles;
-      this.activeUserService.setActiveUser(user);
-      this.router.navigate(['/home']);
+  private loadProfile() {
+    //const claims = this.oAuthService.getIdentityClaims();
+    this.activeUserService.loadProfile();
+
   }
 
   private subscribeOidcEvents() {
     this.oAuthService.events.subscribe(event => {
       if (event.type === 'token_received') {
-        setTimeout(() => this.loadProfileAndNavigateHome(), 1);
+          this.loadProfile()
+      }
+      if (event.type === 'token_refresh_error') {
+        // this.activeUserService.logout();
+        //this.router.navigate(['/login']);
       }
     })
   }
