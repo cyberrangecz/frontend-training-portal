@@ -137,7 +137,6 @@ export class TrainingDefinitionComponent implements OnInit {
   }
 
   private fetchLevelsFromTrainingDefinition(): Observable<AbstractLevel[]> {
-      // TODO: needs to be tested if this works
       return this.trainingDefinition$.pipe(map(trainingDef => trainingDef.levels));
   }
 }

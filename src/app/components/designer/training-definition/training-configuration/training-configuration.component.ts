@@ -107,7 +107,6 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     if (this.validateInput()) {
       this.setInputValuesToTrainingDef();
       this.sendRequestToSaveChanges();
-
     }
   }
 

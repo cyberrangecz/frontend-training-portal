@@ -8,6 +8,8 @@ import {InfoLevel} from "../../model/level/info-level";
 import {Observable} from "rxjs";
 import {TrainingDefinitionMapperService} from "../data-mappers/training-definition-mapper.service";
 import {LevelMapperService} from "../data-mappers/level-mapper.service";
+import {map} from "rxjs/operators";
+import {TrainingDefinitionDTO} from "../../model/DTOs/trainingDefinitionDTO";
 
 /**
  * Service to abstract communication with training definition endpoint.
@@ -57,7 +59,8 @@ export class TrainingDefinitionSetterService {
   createTrainingDefinition(trainingDef: TrainingDefinition): Observable<number> {
     return this.http.post<number>(environment.trainingDefsEndpointUri,
       this.trainingDefinitionMapper.mapTrainingDefinitionToTrainingDefinitionCreateDTO(trainingDef),
-      { headers: this.createDefaultHeaders()});
+      { headers: this.createDefaultHeaders()})
+      .pipe(map(trainingDef => (trainingDef as TrainingDefinitionDTO).id));
   }
 
   /**

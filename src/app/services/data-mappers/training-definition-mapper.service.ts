@@ -50,7 +50,6 @@ export class TrainingDefinitionMapperService {
     result.state = this.mapTrainingDefDTOStateToEnum(trainingDefinitionDTO.state);
     result.levels = this.getLevelsFromDTO(trainingDefinitionDTO);
     result.startingLevel = trainingDefinitionDTO.starting_level;
-    console.log(result);
     return result;
   }
 
