@@ -47,6 +47,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if ('levels' in changes) {
+      console.log(this.levels);
       this.resolveInitialLevels();
     }
   }

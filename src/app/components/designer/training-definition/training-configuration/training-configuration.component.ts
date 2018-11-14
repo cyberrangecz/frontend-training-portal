@@ -14,7 +14,6 @@ import {SandboxDefinitionGetterService} from "../../../../services/data-getters/
 import {Router} from "@angular/router";
 import {ActiveUserService} from "../../../../services/active-user.service";
 import {ComponentErrorHandlerService} from "../../../../services/component-error-handler.service";
-import {environment} from "../../../../../environments/environment";
 
 /**
  * Component for creating new or editing already existing training definition
@@ -116,10 +115,23 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.dirty = true;
   }
 
-  private performActionsAfterSuccessfulSave() {
+  private performActionsAfterSuccessfulSave(id: number) {
+    this.trainingDefinition.id = id;
     this.savedTrainingChange.emit(true);
     this.dirty = false;
+    this.resolveModeAfterSuccessfulSave();
   }
+
+  private resolveModeAfterSuccessfulSave() {
+    if (!this.editMode && this.trainingDefinition.state == TrainingDefinitionStateEnum.Unreleased) {
+      this.router.navigate(['designer/training/' + this.trainingDefinition.id]);
+    }
+    if (!this.editMode) {
+      this.editMode = true;
+    }
+  }
+
+
 
   /**
    * Sends request to endpoint to save changes in edited training definition or to create a new one based on currently active mode
@@ -129,7 +141,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
      this.trainingDefinitionSetter.updateTrainingDefinition(this.trainingDefinition)
         .subscribe(response => {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Changes were successfully saved.');
-          this.performActionsAfterSuccessfulSave();
+          this.performActionsAfterSuccessfulSave(response);
         },
         err => this.errorHandler.displayHttpError(err, 'Editing training definition')
         );
@@ -137,8 +149,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
       this.trainingDefinitionSetter.createTrainingDefinition(this.trainingDefinition)
         .subscribe(response => {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully saved.');
-          this.performActionsAfterSuccessfulSave();
-          this.router.navigate(['designer/training/' + response]);
+          this.performActionsAfterSuccessfulSave(response);
           },
           err => this.errorHandler.displayHttpError(err, 'Creating new training definition')
         )
