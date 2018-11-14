@@ -46,8 +46,8 @@ export class TrainingDefinitionSetterService {
    * Sends request to update training definition
    * @param trainingDef updated training definition
    */
-  updateTrainingDefinition(trainingDef: TrainingDefinition) {
-    return this.http.put(environment.trainingDefsEndpointUri,
+  updateTrainingDefinition(trainingDef: TrainingDefinition): Observable<number> {
+    return this.http.put<number>(environment.trainingDefsEndpointUri,
       this.trainingDefinitionMapper.mapTrainingDefinitionToTrainingDefinitionUpdateDTO(trainingDef),
       { headers: this.createDefaultHeaders()})
   }

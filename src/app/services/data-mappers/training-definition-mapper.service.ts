@@ -83,6 +83,7 @@ export class TrainingDefinitionMapperService {
     const result: TrainingDefinitionCreateDTO = new TrainingDefinitionCreateDTOClass();
     result.outcomes = [];
     result.prerequisities = [];
+
     result.description = trainingDefinition.description;
     trainingDefinition.outcomes.forEach(outcome => result.outcomes.push(outcome));
     trainingDefinition.prerequisites.forEach(prerequisite => result.prerequisities.push(prerequisite));
@@ -106,14 +107,21 @@ export class TrainingDefinitionMapperService {
    */
   mapTrainingDefinitionToTrainingDefinitionUpdateDTO(trainingDefinition: TrainingDefinition): TrainingDefinitionUpdateDTO {
     const result: TrainingDefinitionUpdateDTO = new TrainingDefinitionUpdateDTOClass();
+    result.outcomes = [];
+    result.prerequisities = [];
+
     result.id = trainingDefinition.id;
     result.description = trainingDefinition.description;
+    result.sand_box_definition_ref = { id: trainingDefinition.sandboxDefinitionId, sandbox_definition_ref: trainingDefinition.sandboxDefinitionId };
+    trainingDefinition.outcomes.forEach(outcome => result.outcomes.push(outcome));
+    trainingDefinition.prerequisites.forEach(prerequisite => result.prerequisities.push(prerequisite));
+    result.author_ref = this.mapAuthorsToCreateUpdateTrainingDefDTO(trainingDefinition.authorIds as number[]);
     result.outcomes = trainingDefinition.outcomes;
     result.prerequisities = trainingDefinition.prerequisites;
 /*    result.startingLevel = trainingDefinition.startingLevel instanceof AbstractLevel ?
       trainingDefinition.startingLevel.id
       : trainingDefinition.startingLevel;*/
-    result.state = TrainingDefinitionUpdateDTO.StateEnum[trainingDefinition.state];
+    result.state = this.mapTrainingDefStateToDTOEnum(trainingDefinition.state);
     result.title = trainingDefinition.title;
     return result;
   }

@@ -138,22 +138,30 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
    */
   private sendRequestToSaveChanges() {
     if (this.editMode) {
-     this.trainingDefinitionSetter.updateTrainingDefinition(this.trainingDefinition)
-        .subscribe(response => {
+      this.sendUpdateTrainingDefinitionRequest();
+    } else {
+      this.sendCreateTrainingDefinitionRequest()
+    }
+  }
+
+  private sendUpdateTrainingDefinitionRequest() {
+    this.trainingDefinitionSetter.updateTrainingDefinition(this.trainingDefinition)
+      .subscribe(response => {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Changes were successfully saved.');
           this.performActionsAfterSuccessfulSave(response);
         },
         err => this.errorHandler.displayHttpError(err, 'Editing training definition')
-        );
-    } else {
-      this.trainingDefinitionSetter.createTrainingDefinition(this.trainingDefinition)
-        .subscribe(response => {
+      );
+  }
+
+  private sendCreateTrainingDefinitionRequest() {
+    this.trainingDefinitionSetter.createTrainingDefinition(this.trainingDefinition)
+      .subscribe(response => {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully saved.');
           this.performActionsAfterSuccessfulSave(response);
-          },
-          err => this.errorHandler.displayHttpError(err, 'Creating new training definition')
-        )
-    }
+        },
+        err => this.errorHandler.displayHttpError(err, 'Creating new training definition')
+      )
   }
 
   /**
