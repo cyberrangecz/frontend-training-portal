@@ -4,6 +4,7 @@
       <div class="training-config">
         <training-configuration
           (isTrainingSaved)="trainingSavedChange($event)"
+          (trainingDefId)="trainingDefIdChange($event)"
           [trainingDefinition]="trainingDefinition$ | async">
         </training-configuration>
       </div>

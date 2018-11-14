@@ -50,6 +50,10 @@ export class TrainingDefinitionComponent implements OnInit {
     this.isTrainingSaved = event;
   }
 
+  trainingDefIdChange(event: number) {
+    this.trainingDefId = event;
+  }
+
   /**
    * Shows dialog asking the user if he really wants to leave the page after refresh or navigating to another page
    */

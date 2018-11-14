@@ -27,6 +27,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
 
   @Input('trainingDefinition') trainingDefinition: TrainingDefinition;
   @Output('isTrainingSaved') savedTrainingChange = new EventEmitter<boolean>();
+  @Output('trainingDefId') idChange = new EventEmitter<number>();
 
   editMode: boolean;
 
@@ -109,14 +110,13 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     }
   }
 
-
-
   contentChanged() {
     this.dirty = true;
   }
 
   private performActionsAfterSuccessfulSave(id: number) {
     this.trainingDefinition.id = id;
+    this.idChange.emit(id);
     this.savedTrainingChange.emit(true);
     this.dirty = false;
     this.resolveModeAfterSuccessfulSave();
@@ -130,8 +130,6 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
       this.editMode = true;
     }
   }
-
-
 
   /**
    * Sends request to endpoint to save changes in edited training definition or to create a new one based on currently active mode
