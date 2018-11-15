@@ -7,6 +7,7 @@ import {map} from "rxjs/operators";
 import {PaginationParams} from "../../model/http/params/pagination-params";
 import {TrainingInstanceMapperService} from "../data-mappers/training-instance-mapper.service";
 import {TrainingInstanceDTO} from "../../model/DTOs/trainingInstanceDTO";
+import {TrainingInstanceRestResource} from '../../model/DTOs/trainingInstanceRestResource';
 
 @Injectable()
 /**
@@ -24,7 +25,7 @@ export class TrainingInstanceGetterService {
    * @returns {Observable<TrainingInstance[]>} Observable of training instances list
    */
   getTrainingInstances(): Observable<TrainingInstance[]> {
-    return this.http.get(environment.trainingInstancesEndpointUri)
+    return this.http.get<TrainingInstanceRestResource>(environment.trainingInstancesEndpointUri)
       .pipe(map(response =>
         this.trainingInstanceMapper.mapTrainingInstanceDTOsToTrainingInstances(response)));
   }
@@ -38,7 +39,7 @@ export class TrainingInstanceGetterService {
    */
   getTrainingInstancesWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<TrainingInstance[]> {
     let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
-    return this.http.get(environment.trainingInstancesEndpointUri, { params: params })
+    return this.http.get<TrainingInstanceRestResource>(environment.trainingInstancesEndpointUri, { params: params })
       .pipe(map(response =>
         this.trainingInstanceMapper.mapTrainingInstanceDTOsToTrainingInstances(response)));
   }
@@ -55,20 +56,6 @@ export class TrainingInstanceGetterService {
       .pipe(map(response =>
         this.trainingInstanceMapper.mapTrainingInstanceDTOToTrainingInstance(response)));
   }
-
-  /**
-   * Retrieves training instances by its definition id
-   * @param {number} trainingDefId Id of training definition associated with training instance
-   * @returns {Observable<TrainingInstance[]>} Observable of training instances list
-   */
-  getTrainingInstancesByTrainingDefinitionId(trainingDefId: number): Observable<TrainingInstance[]> {
-    return this.getTrainingInstances()
-      .pipe(map(trainingInstances =>
-        trainingInstances.filter(trainingInstance =>
-          trainingInstance.trainingDefinitionId === trainingDefId)));
-  }
-
-
   /**
    * Retrieves training instance by keyword
    * @param {string} keyword keyword associated with training instance

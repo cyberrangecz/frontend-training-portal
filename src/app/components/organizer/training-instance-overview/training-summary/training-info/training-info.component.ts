@@ -16,7 +16,7 @@ import {UserGetterService} from "../../../../../services/data-getters/user-gette
  */
 export class TrainingInfoComponent implements OnInit, OnDestroy {
 
-  training: TrainingInstance;
+  trainingInstance: TrainingInstance;
   trainingDefinition: TrainingDefinition;
   organizers: User[];
 
@@ -35,11 +35,10 @@ export class TrainingInfoComponent implements OnInit, OnDestroy {
    * Loads all required data from endpoints
    */
   private loadData() {
-    this.training = this.activeTrainingInstanceService.getActiveTrainingInstance();
-    if (this.training) {
-      this.trainingDefinitionGetter.getTrainingDefinitionById(this.training.trainingDefinitionId)
-        .subscribe(trainingDef => this.trainingDefinition = trainingDef);
-      this.userGetter.loadUsersByIds(this.training.organizersIds)
+    this.trainingInstance = this.activeTrainingInstanceService.getActiveTrainingInstance();
+    if (this.trainingInstance) {
+      this.trainingDefinition = this.trainingInstance.trainingDefinition;
+      this.userGetter.loadUsersByIds(this.trainingInstance.organizersIds)
         .subscribe(organizers => this.organizers = organizers);
     }
   }

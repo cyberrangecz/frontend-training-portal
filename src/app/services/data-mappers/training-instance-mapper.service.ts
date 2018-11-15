@@ -4,9 +4,14 @@ import {TrainingInstance} from "../../model/training/training-instance";
 import {TrainingInstanceCreateDTO, TrainingInstanceCreateDTOClass} from "../../model/DTOs/trainingInstanceCreateDTO";
 import {TrainingInstanceUpdateDTO, TrainingInstanceUpdateDTOClass} from "../../model/DTOs/trainingInstanceUpdateDTO";
 import {TrainingInstanceRestResource} from "../../model/DTOs/trainingInstanceRestResource";
+import {TrainingDefinitionMapperService} from './training-definition-mapper.service';
 
 @Injectable()
 export class TrainingInstanceMapperService {
+
+  constructor(private trainingDefinitionMapper: TrainingDefinitionMapperService) {
+
+  }
 
   /**
    * Maps training instance dtos received from remote server to training instance objects
@@ -25,12 +30,14 @@ export class TrainingInstanceMapperService {
   mapTrainingInstanceDTOToTrainingInstance(trainingInstanceDTO: TrainingInstanceDTO): TrainingInstance {
     const result = new TrainingInstance();
     result.id = trainingInstanceDTO.id;
-    // result.trainingDefinitionId TODO: not in the DTO -> consult
+    result.trainingDefinition = this.trainingDefinitionMapper
+      .mapTrainingDefinitionDTOToTrainingDefinition(trainingInstanceDTO.training_definition);
     result.startTime = trainingInstanceDTO.start_time;
     result.endTime = trainingInstanceDTO.end_time;
     result.title = trainingInstanceDTO.title;
     result.poolSize = trainingInstanceDTO.pool_size;
-    // result.organizersIds TODO: not in the DTO
+    result.organizersIds = trainingInstanceDTO.organizers.map(organizer => organizer.id);
+    result.keyword = trainingInstanceDTO.password;
     return result;
   }
 

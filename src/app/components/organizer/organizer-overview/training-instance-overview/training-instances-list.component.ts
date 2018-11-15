@@ -185,9 +185,7 @@ export class TrainingInstancesListComponent implements OnInit {
     data.forEach(instance => {
       const instanceDataObject = new TrainingInstanceTableDataObject();
       instanceDataObject.trainingInstance = instance;
-      this.trainingDefinitionGetter.getTrainingDefinitionById(instance.trainingDefinitionId)
-        .subscribe(result => instanceDataObject.trainingDefinitionTitle = result.title);
-
+      instanceDataObject.trainingDefinitionTitle = instance.trainingDefinition.title;
       result.push(instanceDataObject);
     });
     return result;

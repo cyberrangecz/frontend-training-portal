@@ -175,7 +175,7 @@ export class TrainingInstanceEditComponent implements OnInit {
     this.trainingInstance.title = this.title;
     this.trainingInstance.poolSize = this.poolSize;
     this.trainingInstance.organizersIds = this.organizers.map(user => user.id);
-    this.trainingInstance.trainingDefinitionId = this.trainingDefinition.id;
+    this.trainingInstance.trainingDefinition = this.trainingDefinition;
     this.trainingInstance.keyword = this.password;
   }
 
@@ -189,8 +189,7 @@ export class TrainingInstanceEditComponent implements OnInit {
     this.poolSize = this.trainingInstance.poolSize;
     this.userGetter.loadUsersByIds(this.trainingInstance.organizersIds)
       .subscribe(organizers => this.organizers = organizers);
-    this.trainingDefinitionGetter.getTrainingDefinitionById(this.trainingInstance.trainingDefinitionId)
-      .subscribe(trainingDef => this.trainingDefinition = trainingDef);
+    this.trainingDefinition = this.trainingInstance.trainingDefinition;
     this.password = this.trainingInstance.keyword;
 
   }

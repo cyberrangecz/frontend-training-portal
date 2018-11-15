@@ -122,11 +122,11 @@ export class TraineeTrainingsTableComponent implements OnInit {
       const traineesTraining = new TraineeAccessedTrainingsTableDataObject();
       traineesTraining.trainingRun = training;
       this.trainingInstanceGetter.getTrainingInstanceById(training.trainingInstance.id)
-        .pipe(
-          map(instance => traineesTraining.trainingInstance = instance),
-          switchMap(instance => this.trainingDefinitionGetter.getTrainingDefinitionById(instance.trainingDefinitionId))
-        )
-        .subscribe(result => traineesTraining.totalLevels = result.levels.length);
+        .pipe(map(instance => {
+          traineesTraining.trainingInstance = instance;
+          traineesTraining.totalLevels = traineesTraining.trainingInstance.trainingDefinition.levels.length
+        }))
+        .subscribe();
 
       result.push(traineesTraining);
     });

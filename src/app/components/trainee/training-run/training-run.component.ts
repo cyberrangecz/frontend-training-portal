@@ -101,18 +101,14 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
           this.trainingRun = trainingRun;
           return this.trainingInstanceGetter.getTrainingInstanceById(trainingRun.trainingInstance.id);
         }))
-        .pipe(switchMap(trainingInstance => {
+        .pipe(map(trainingInstance => {
           this.trainingInstance = trainingInstance;
-          return this.trainingDefinitionGetter.getTrainingDefinitionById(trainingInstance.trainingDefinitionId);
-        }))
-        .pipe(map(trainingDef => {
-          this.withStepper = trainingDef.showProgress;
-          this.levels = trainingDef.levels;
+          this.withStepper = trainingInstance.trainingDefinition.showProgress;
+          this.levels = trainingInstance.trainingDefinition.levels;
           this.activeLevelsService.setActiveLevels(this.levels);
           this.findInitialLevel();
           this.isLoading = false;
-        }))
-        .subscribe();
+        })).subscribe();
     }
   }
 
