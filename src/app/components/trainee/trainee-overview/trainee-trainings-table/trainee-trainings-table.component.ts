@@ -9,7 +9,6 @@ import {ActiveUserService} from "../../../../services/active-user.service";
 import {merge, of} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {environment} from "../../../../../environments/environment";
-import {TrainingDefinitionGetterService} from "../../../../services/data-getters/training-definition-getter.service";
 
 export class TraineeAccessedTrainingsTableDataObject {
   totalLevels: number;
@@ -44,8 +43,7 @@ export class TraineeTrainingsTableComponent implements OnInit {
     private activeRoute: ActivatedRoute,
     private activeUserService: ActiveUserService,
     private trainingRunGetter: TrainingRunGetterService,
-    private trainingInstanceGetter: TrainingInstanceGetterService,
-    private trainingDefinitionGetter: TrainingDefinitionGetterService) { }
+    private trainingInstanceGetter: TrainingInstanceGetterService) { }
 
   ngOnInit() {
     this.initDataSource();

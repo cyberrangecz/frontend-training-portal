@@ -43,8 +43,7 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
     private activeRoute: ActivatedRoute,
     private activeLevelsService: ActiveTrainingRunLevelsService,
     private trainingRunGetter: TrainingRunGetterService,
-    private trainingInstanceGetter: TrainingInstanceGetterService,
-    private trainingDefinitionGetter: TrainingDefinitionGetterService) {
+    private trainingInstanceGetter: TrainingInstanceGetterService) {
   }
 
   ngOnInit() {

@@ -23,8 +23,7 @@ export class TrainingInfoComponent implements OnInit, OnDestroy {
   trainingChangesSubscription;
 
   constructor(private activeTrainingInstanceService: ActiveTrainingInstanceService,
-              private userGetter: UserGetterService,
-              private trainingDefinitionGetter: TrainingDefinitionGetterService) { }
+              private userGetter: UserGetterService) { }
 
   ngOnInit() {
     this.loadData();
