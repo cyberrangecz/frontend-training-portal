@@ -202,6 +202,6 @@ export class TrainingInstancesListComponent implements OnInit {
 
     this.dataSource.filterPredicate =
       (data: TrainingInstanceTableDataObject, filter: string) =>
-        data.trainingInstance.title.toLowerCase().indexOf(filter) !== -1
+        data.trainingInstance.title.toLowerCase().indexOf(filter) !== -1;
   }
 }

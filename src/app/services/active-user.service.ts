@@ -52,7 +52,6 @@ export class ActiveUserService {
   login() {
     this.oAuthService.initImplicitFlow();
     this.loadProfile();
-    this.router.navigate(['/home']);
   }
 
   logout() {

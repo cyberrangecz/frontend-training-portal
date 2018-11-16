@@ -19,12 +19,14 @@ import {TrainingInstanceSetterService} from "../../../services/data-setters/trai
 import {TrainingInstanceMapperService} from "../../../services/data-mappers/training-instance-mapper.service";
 import {TrainingDefinitionMapperService} from "../../../services/data-mappers/training-definition-mapper.service";
 import {LevelMapperService} from "../../../services/data-mappers/level-mapper.service";
+import {PipesModule} from '../../../pipes/pipes.module';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
     FormsModule,
+    PipesModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     OrganizerOverviewMaterialModule,
