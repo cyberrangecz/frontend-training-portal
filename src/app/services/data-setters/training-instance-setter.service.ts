@@ -6,6 +6,8 @@ import {Observable} from "rxjs";
 import {TrainingInstanceMapperService} from "../data-mappers/training-instance-mapper.service";
 import {TrainingInstanceDTO} from "../../model/DTOs/trainingInstanceDTO";
 import {map} from "rxjs/operators";
+import {TrainingInstanceUpdateDTO} from '../../model/DTOs/trainingInstanceUpdateDTO';
+import {TrainingInstanceCreateDTO} from '../../model/DTOs/trainingInstanceCreateDTO';
 
 @Injectable()
 export class TrainingInstanceSetterService {
@@ -18,20 +20,20 @@ export class TrainingInstanceSetterService {
    * Sends request to create new training instance in DB and returns id of the created training instance
    * @param {TrainingInstance} trainingInstance training instance which should be created
    */
-  createTrainingInstance(trainingInstance: TrainingInstance): Observable<TrainingInstance> {
+  createTrainingInstance(trainingInstance: TrainingInstance): Observable<number> {
     return this.http.post<TrainingInstanceDTO>(environment.trainingInstancesEndpointUri,
       this.trainingInstanceMapper.mapTrainingInstanceToTrainingInstanceCreateDTO(trainingInstance))
-      .pipe(map(trainingInstanceDTO => this.trainingInstanceMapper.mapTrainingInstanceDTOToTrainingInstance(trainingInstanceDTO)));
+      .pipe(map(trainingInstanceDTO => trainingInstanceDTO.id ));
   }
 
   /**
    * Sends request to update training instance in DB
    * @param trainingInstance training instance which should be updated
    */
-  updateTrainingInstance(trainingInstance: TrainingInstance): Observable<TrainingInstance> {
+  updateTrainingInstance(trainingInstance: TrainingInstance): Observable<number> {
     return this.http.put<TrainingInstanceDTO>(environment.trainingInstancesEndpointUri,
-      this.trainingInstanceMapper.mapTrainingInstanceToTrainingInstanceCreateDTO(trainingInstance))
-      .pipe(map(trainingInstanceDTO => this.trainingInstanceMapper.mapTrainingInstanceDTOToTrainingInstance(trainingInstanceDTO)));
+      this.trainingInstanceMapper.mapTrainingInstanceToTrainingInstanceUpdateDTO(trainingInstance))
+      .pipe(map(trainingInstanceDTO => trainingInstanceDTO.id));
   }
 
   /**

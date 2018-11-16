@@ -5,6 +5,8 @@ import {TrainingInstanceCreateDTO, TrainingInstanceCreateDTOClass} from "../../m
 import {TrainingInstanceUpdateDTO, TrainingInstanceUpdateDTOClass} from "../../model/DTOs/trainingInstanceUpdateDTO";
 import {TrainingInstanceRestResource} from "../../model/DTOs/trainingInstanceRestResource";
 import {TrainingDefinitionMapperService} from './training-definition-mapper.service';
+import {TrainingDefinitionDTO} from '../../model/DTOs/trainingDefinitionDTO';
+import {UserRefDTO} from '../../model/DTOs/userRefDTO';
 
 @Injectable()
 export class TrainingInstanceMapperService {
@@ -32,8 +34,8 @@ export class TrainingInstanceMapperService {
     result.id = trainingInstanceDTO.id;
     result.trainingDefinition = this.trainingDefinitionMapper
       .mapTrainingDefinitionDTOToTrainingDefinition(trainingInstanceDTO.training_definition);
-    result.startTime = trainingInstanceDTO.start_time;
-    result.endTime = trainingInstanceDTO.end_time;
+    result.startTime = new Date(trainingInstanceDTO.start_time);
+    result.endTime = new Date(trainingInstanceDTO.end_time);
     result.title = trainingInstanceDTO.title;
     result.poolSize = trainingInstanceDTO.pool_size;
     result.organizersIds = trainingInstanceDTO.organizers.map(organizer => organizer.id);
@@ -49,10 +51,11 @@ export class TrainingInstanceMapperService {
     const result = new TrainingInstanceCreateDTOClass();
     result.title = trainingInstance.title;
     result.pool_size = trainingInstance.poolSize;
-    result.start_time = trainingInstance.startTime;
-    result.end_time = trainingInstance.endTime;
-    // result.keyword = trainingInstance.keyword;
-    // TODO: organizer IDs and associated training def
+    result.start_time = new Date(trainingInstance.startTime);
+    result.end_time = new Date(trainingInstance.endTime);
+    result.keyword = trainingInstance.keyword;
+    result.organizers = this.mapOrganizersToInstanceDTO(trainingInstance.organizersIds);
+    result.training_definition = trainingInstance.trainingDefinition.id;
     return result;
   }
 
@@ -62,13 +65,19 @@ export class TrainingInstanceMapperService {
    */
   mapTrainingInstanceToTrainingInstanceUpdateDTO(trainingInstance: TrainingInstance): TrainingInstanceUpdateDTO {
     const result = new TrainingInstanceUpdateDTOClass();
-    result.id = trainingInstance.id;
     result.title = trainingInstance.title;
     result.pool_size = trainingInstance.poolSize;
-    result.start_time = trainingInstance.startTime;
-    result.end_time = trainingInstance.endTime;
+    result.start_time = new Date(trainingInstance.startTime);
+    result.end_time = new Date(trainingInstance.endTime);
     result.keyword = trainingInstance.keyword;
-    // TODO: organizer IDs and asscoiated training def
+    result.organizers = this.mapOrganizersToInstanceDTO(trainingInstance.organizersIds);
+    result.training_definition = trainingInstance.trainingDefinition.id;
+    return result;
+  }
+
+  private mapOrganizersToInstanceDTO(organizerIds: number[]): UserRefDTO[] {
+    const result: UserRefDTO[] = [];
+    organizerIds.forEach(organizerId => result.push({ id: organizerId ,user_ref_id: organizerId }));
     return result;
   }
 }

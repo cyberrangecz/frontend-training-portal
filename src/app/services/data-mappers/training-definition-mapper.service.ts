@@ -16,7 +16,7 @@ import {
   TrainingDefinitionUpdateDTOClass
 } from "../../model/DTOs/trainingDefinitionUpdateDTO";
 import {TrainingDefinitionRestResource} from "../../model/DTOs/trainingDefinitionRestResource";
-import {TrainingDefinitionDTO} from "../../model/DTOs/trainingDefinitionDTO";
+import {TrainingDefinitionDTO, TrainingDefinitionDTOClass} from '../../model/DTOs/trainingDefinitionDTO';
 import {AuthorRefDTO} from "../../model/DTOs/authorRefDTO";
 import LevelTypeEnum = BasicLevelInfoDTO.LevelTypeEnum;
 
@@ -94,7 +94,6 @@ export class TrainingDefinitionMapperService {
     result.author_ref = this.mapAuthorsToCreateUpdateTrainingDefDTO(trainingDefinition.authorIds as number[]);
     return result;
   }
-
   private mapAuthorsToCreateUpdateTrainingDefDTO(authorIds: number[]): AuthorRefDTO[] {
     const result: AuthorRefDTO[] = [];
     authorIds.forEach(authorId => result.push({id: authorId, author_ref_login: "No name"}));
