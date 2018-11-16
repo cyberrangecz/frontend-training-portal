@@ -71,9 +71,13 @@ export class AppComponent implements OnInit, OnDestroy {
       if (event.type === 'token_received') {
           this.loadProfile()
       }
-      if (event.type === 'token_refresh_error') {
-         //this.activeUserService.logout();
-          //this.router.navigate(['/login']);
+      if (event.type === 'token_refresh_error'
+        || event.type === 'token_error'
+        || event.type === 'silent_refresh_error'
+        || event.type === 'token_validation_error') {
+          console.log(event.type);
+          this.activeUserService.logout();
+          this.router.navigate(['/login']);
       }
     })
   }

@@ -6,8 +6,8 @@
   <div class="ver-spacer"></div>
   <h2>Password: {{ trainingInstance.keyword }}</h2>
   <div class="ver-spacer"></div>
-  <h4>Start Time: {{ trainingInstance.startTime.toDateString() }}</h4>
-  <h4>End Time: {{ trainingInstance.endTime.toDateString() }}</h4>
+  <h4>Start Time: {{ trainingInstance.startTime | dateTimeFormat }}</h4>
+  <h4>End Time: {{ trainingInstance.endTime | dateTimeFormat }}</h4>
   <h4>Pool Size: {{ trainingInstance.poolSize }}</h4>
   <h4> Organizers: {{ organizers }} </h4>
 </div>

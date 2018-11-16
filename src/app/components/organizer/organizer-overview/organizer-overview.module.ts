@@ -26,7 +26,7 @@ import {PipesModule} from '../../../pipes/pipes.module';
     CommonModule,
     SharedModule,
     FormsModule,
-    PipesModule,
+    PipesModule.forRoot(),
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     OrganizerOverviewMaterialModule,

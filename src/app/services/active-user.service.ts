@@ -83,7 +83,7 @@ export class ActiveUserService {
 
   loadProfile() {
     const user: User = new User();
-    user.id = 3;
+    user.id = 1;
     const roles = new Set<UserRoleEnum>();
     roles.add(UserRoleEnum.Designer);
     roles.add(UserRoleEnum.Organizer);

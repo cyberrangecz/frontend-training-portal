@@ -8,11 +8,14 @@ import { TrainingSummaryTableComponent } from './training-summary-table/training
 import {TrainingRunGetterService} from "../../../../services/data-getters/training-run-getter.service";
 import {SharedModule} from "../../../shared/shared.module";
 import {TrainingRunSetterService} from "../../../../services/data-setters/training-run.setter.service";
+import {TrainingRunMapperService} from '../../../../services/data-mappers/training-run-mapper.service';
+import {PipesModule} from '../../../../pipes/pipes.module';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
+    PipesModule.forRoot(),
     TrainingSummaryMaterialModule,
     TrainingSummaryRoutingModule
   ],
@@ -23,7 +26,8 @@ import {TrainingRunSetterService} from "../../../../services/data-setters/traini
   ],
   providers: [
     TrainingRunGetterService,
-    TrainingRunSetterService
+    TrainingRunSetterService,
+    TrainingRunMapperService
   ]
 })
 

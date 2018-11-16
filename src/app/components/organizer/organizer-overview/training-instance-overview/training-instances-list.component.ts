@@ -47,7 +47,6 @@ export class TrainingInstancesListComponent implements OnInit {
     private alertService: AlertService,
     private activeUserService: ActiveUserService,
     private trainingInstanceGetter: TrainingInstanceGetterService,
-    private trainingDefinitionGetter: TrainingDefinitionGetterService,
     private trainingInstanceSetter: TrainingInstanceSetterService
   ) { }
 

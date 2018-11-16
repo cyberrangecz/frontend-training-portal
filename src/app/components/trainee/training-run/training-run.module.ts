@@ -20,7 +20,7 @@ import {TrainingRunMapperService} from "../../../services/data-mappers/training-
     TrainingRunMaterialModule,
     TrainingRunRoutingModule,
     TrainingRunLevelModule,
-    PipesModule,
+    PipesModule.forRoot(),
     CountdownTimerModule.forRoot()
   ],
   declarations: [
