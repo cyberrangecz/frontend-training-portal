@@ -7,6 +7,7 @@ import {map} from "rxjs/operators";
 import {PaginationParams} from "../../model/http/params/pagination-params";
 import {TrainingRunDTO} from "../../model/DTOs/trainingRunDTO";
 import {TrainingRunMapperService} from "../data-mappers/training-run-mapper.service";
+import {TrainingRunRestResource} from '../../model/DTOs/trainingRunRestResource';
 
 /**
  * Service abstracting the training run endpoint.
@@ -24,7 +25,7 @@ export class TrainingRunGetterService {
    * @returns {Observable<TrainingRun[]>} observable of list of training runs
    */
   getTrainingRuns(): Observable<TrainingRun[]> {
-    return this.http.get<TrainingRunDTO[]>(environment.trainingRunsEndpointUri)
+    return this.http.get<TrainingRunRestResource>(environment.trainingRunsEndpointUri)
       .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
   }
 
@@ -44,7 +45,7 @@ export class TrainingRunGetterService {
    * @returns {Observable<TrainingRun[]>} observable of training runs
    */
   getTrainingRunsByTrainingInstanceId(id: number): Observable<TrainingRun[]> {
-    return this.http.get<TrainingRunDTO[]>(environment.trainingRunsEndpointUri + id)
+    return this.http.get<TrainingRunRestResource>(environment.trainingRunsEndpointUri + id)
       .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
   }
 
@@ -57,7 +58,7 @@ export class TrainingRunGetterService {
    */
   getTrainingRunsWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<TrainingRun[]> {
     let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
-    return this.http.get<TrainingRunDTO[]>(environment.trainingRunsEndpointUri, { params: params })
+    return this.http.get<TrainingRunRestResource>(environment.trainingRunsEndpointUri, { params: params })
       .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
 
   }
@@ -67,7 +68,7 @@ export class TrainingRunGetterService {
    * @returns {Observable<TrainingRun[]>} observable of list of active training runs
    */
   getAccessedTrainingRuns(): Observable<TrainingRun[]> {
-    return this.http.get<TrainingRunDTO[]>(environment.trainingRunsEndpointUri + 'accessed')
+    return this.http.get<TrainingRunRestResource>(environment.trainingRunsEndpointUri + 'accessed')
       .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
   }
 

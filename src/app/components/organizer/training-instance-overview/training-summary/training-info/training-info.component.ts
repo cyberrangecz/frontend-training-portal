@@ -2,7 +2,6 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActiveTrainingInstanceService} from "../../../../../services/active-training-instance.service";
 import {TrainingInstance} from "../../../../../model/training/training-instance";
 import {TrainingDefinition} from "../../../../../model/training/training-definition";
-import {TrainingDefinitionGetterService} from "../../../../../services/data-getters/training-definition-getter.service";
 import {User} from "../../../../../model/user/user";
 import {UserGetterService} from "../../../../../services/data-getters/user-getter.service";
 

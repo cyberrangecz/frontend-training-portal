@@ -23,6 +23,7 @@ export interface AbstractLevelDTO {
     post_hook?: PostHookDTO;
     pre_hook?: PreHookDTO;
     title?: string;
+    level_type: AbstractLevelDTO.LevelTypeEnum;
 }
 
 export namespace AbstractLevelDTO {

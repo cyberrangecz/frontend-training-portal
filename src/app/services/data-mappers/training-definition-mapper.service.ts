@@ -19,6 +19,7 @@ import {TrainingDefinitionRestResource} from "../../model/DTOs/trainingDefinitio
 import {TrainingDefinitionDTO, TrainingDefinitionDTOClass} from '../../model/DTOs/trainingDefinitionDTO';
 import {AuthorRefDTO} from "../../model/DTOs/authorRefDTO";
 import LevelTypeEnum = BasicLevelInfoDTO.LevelTypeEnum;
+import {AbstractLevelDTO} from '../../model/DTOs/abstractLevelDTO';
 
 @Injectable()
 export class TrainingDefinitionMapperService {
@@ -125,10 +126,10 @@ export class TrainingDefinitionMapperService {
     return result;
   }
 
-  private createLevelFromBasicInfo(levelBasicInfoDTO: BasicLevelInfoDTO ): AbstractLevel {
-    const result = this.createLevelByType(levelBasicInfoDTO.level_type);
-    result.id = levelBasicInfoDTO.id;
-    result.title = levelBasicInfoDTO.title;
+  createLevelFromBasicInfo(level: BasicLevelInfoDTO | AbstractLevelDTO ): AbstractLevel {
+    const result = this.createLevelByType(level.level_type);
+    result.id = level.id;
+    result.title = level.title;
     return result;
   }
 

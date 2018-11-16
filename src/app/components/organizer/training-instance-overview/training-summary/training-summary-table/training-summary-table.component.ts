@@ -143,6 +143,7 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
    * @param data fetched training runs
    */
   private createDataSource(data: TrainingRunTableDataObject[]) {
+    console.log(data);
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
