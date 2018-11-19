@@ -8,6 +8,9 @@ import {PaginationParams} from "../../model/http/params/pagination-params";
 import {TrainingInstanceMapperService} from "../data-mappers/training-instance-mapper.service";
 import {TrainingInstanceDTO} from "../../model/DTOs/trainingInstanceDTO";
 import {TrainingInstanceRestResource} from '../../model/DTOs/trainingInstanceRestResource';
+import {TrainingRun} from "../../model/training/training-run";
+import {TrainingRunMapperService} from "../data-mappers/training-run-mapper.service";
+import {TrainingRunRestResource} from "../../model/DTOs/trainingRunRestResource";
 
 @Injectable()
 /**
@@ -17,6 +20,7 @@ import {TrainingInstanceRestResource} from '../../model/DTOs/trainingInstanceRes
 export class TrainingInstanceGetterService {
 
   constructor(private http: HttpClient,
+              private trainingRunMapper: TrainingRunMapperService,
               private trainingInstanceMapper: TrainingInstanceMapperService) {
   }
 
@@ -56,6 +60,12 @@ export class TrainingInstanceGetterService {
       .pipe(map(response =>
         this.trainingInstanceMapper.mapTrainingInstanceDTOToTrainingInstance(response)));
   }
+
+  getTrainingRunsByTrainingInstanceId(trainingInstanceId: number): Observable<TrainingRun[]> {
+    return this.http.get<TrainingRunRestResource>(environment.trainingInstancesEndpointUri + trainingInstanceId + '/training-runs')
+      .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
+  }
+
   /**
    * Retrieves training instance by keyword
    * @param {string} keyword keyword associated with training instance

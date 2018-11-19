@@ -2,16 +2,18 @@
   <div class="training-table-wrapper">
     <div class="training-table">
       <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter by state">
+        <input matInput (keyup)="applyFilter($event.target.value)"
+               [disabled]="isInErrorState"
+               placeholder="Filter by state">
       </mat-form-field>
 
       <div class="mat-elevation-z8">
-
         <div class="loading"
              *ngIf="isLoadingResults || isInErrorState">
           <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
           <div class="loading-error" *ngIf="isInErrorState">
             We have some trouble loading the data. Please try again later.
+            <button mat-icon-button (click)="fetchData()" color="primary"><mat-icon>refresh</mat-icon></button>
           </div>
         </div>
 
@@ -19,7 +21,7 @@
 
           <!-- SANDBOX ID Column -->
           <ng-container matColumnDef="sandboxId">
-            <th class="sandboxId" mat-header-cell *matHeaderCellDef mat-sort-header>Sandbox ID</th>
+            <th class="sandboxId" mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="isInErrorState">Sandbox ID</th>
             <td class="sandboxId" mat-cell *matCellDef="let data">
               {{ data.trainingRun?.sandboxInstanceId }}
             </td>
@@ -63,7 +65,7 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+        <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
       </div>
     </div>
   </div>

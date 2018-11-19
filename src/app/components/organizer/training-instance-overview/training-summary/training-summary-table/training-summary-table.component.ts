@@ -3,12 +3,13 @@ import {MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
 import {TrainingRun} from "../../../../../model/training/training-run";
 import {TrainingInstance} from "../../../../../model/training/training-instance";
 import {ActiveTrainingInstanceService} from "../../../../../services/active-training-instance.service";
-import {TrainingRunGetterService} from "../../../../../services/data-getters/training-run-getter.service";
 import {merge, of} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {TrainingRunSetterService} from "../../../../../services/data-setters/training-run.setter.service";
 import {AlertService} from "../../../../../services/event-services/alert.service";
 import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
+import {TrainingInstanceGetterService} from "../../../../../services/data-getters/training-instance-getter.service";
+import {ComponentErrorHandlerService} from "../../../../../services/component-error-handler.service";
 
 export class TrainingRunTableDataObject {
   trainingRun: TrainingRun;
@@ -41,9 +42,10 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
 
   constructor(
     private alertService: AlertService,
+    private errorHandler: ComponentErrorHandlerService,
     private activeTrainingInstanceService: ActiveTrainingInstanceService,
     private trainingRunSetter: TrainingRunSetterService,
-    private trainingRunGetter: TrainingRunGetterService) { }
+    private trainingInstanceGetter: TrainingInstanceGetterService) { }
 
   ngOnInit() {
     this.loadActiveTraining();
@@ -88,7 +90,7 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
       },
       err => {
         trainingRunTableObject.isWaitingForRevertResponse = false;
-        this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Training run was not reverted.')
+        this.errorHandler.displayHttpError(err, 'Reverting training run');
       }
     )
   }
@@ -121,7 +123,7 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.trainingRunGetter.getTrainingRunsByTrainingInstanceId(this.trainingInstance.id)
+          return this.trainingInstanceGetter.getTrainingRunsByTrainingInstanceId(this.trainingInstance.id)
         }),
         map(data => {
           // Flip flag to show that loading has finished.
@@ -143,7 +145,6 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
    * @param data fetched training runs
    */
   private createDataSource(data: TrainingRunTableDataObject[]) {
-    console.log(data);
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;

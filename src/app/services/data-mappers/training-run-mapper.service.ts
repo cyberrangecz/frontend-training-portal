@@ -41,6 +41,7 @@ export class TrainingRunMapperService {
     result.state = this.mapTrainigRunDTOStateToEnum(trainingRunDTO.state);
     result.currentLevel = this.trainingDefinitionMapper.createLevelFromBasicInfo(trainingRunDTO.current_level);
     result.trainingInstance = this.trainingInstanceMapper.mapTrainingInstanceDTOToTrainingInstance(trainingRunDTO.training_instance);
+    console.log(result);
     return result;
   }
 

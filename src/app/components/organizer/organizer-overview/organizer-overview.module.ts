@@ -20,6 +20,7 @@ import {TrainingInstanceMapperService} from "../../../services/data-mappers/trai
 import {TrainingDefinitionMapperService} from "../../../services/data-mappers/training-definition-mapper.service";
 import {LevelMapperService} from "../../../services/data-mappers/level-mapper.service";
 import {PipesModule} from '../../../pipes/pipes.module';
+import {TrainingRunMapperService} from "../../../services/data-mappers/training-run-mapper.service";
 
 @NgModule({
   imports: [
@@ -49,6 +50,7 @@ import {PipesModule} from '../../../pipes/pipes.module';
     TrainingInstanceGetterService,
     TrainingInstanceSetterService,
     TrainingInstanceMapperService,
+    TrainingRunMapperService,
     LevelMapperService
   ],
   entryComponents: [

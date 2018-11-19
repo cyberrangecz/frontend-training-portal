@@ -10,6 +10,7 @@ import {SharedModule} from "../../../shared/shared.module";
 import {TrainingRunSetterService} from "../../../../services/data-setters/training-run.setter.service";
 import {TrainingRunMapperService} from '../../../../services/data-mappers/training-run-mapper.service';
 import {PipesModule} from '../../../../pipes/pipes.module';
+import {ComponentErrorHandlerService} from "../../../../services/component-error-handler.service";
 
 @NgModule({
   imports: [
@@ -27,7 +28,8 @@ import {PipesModule} from '../../../../pipes/pipes.module';
   providers: [
     TrainingRunGetterService,
     TrainingRunSetterService,
-    TrainingRunMapperService
+    TrainingRunMapperService,
+    ComponentErrorHandlerService
   ]
 })
 
