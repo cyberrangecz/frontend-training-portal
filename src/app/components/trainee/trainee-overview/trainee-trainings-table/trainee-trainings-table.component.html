@@ -2,7 +2,9 @@
   <div class="training-table-wrapper">
     <div class="training-table">
       <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter by training instance title">
+        <input matInput (keyup)="applyFilter($event.target.value)"
+               [disabled]="isInErrorState"
+               placeholder="Filter by training instance title">
       </mat-form-field>
 
       <div class="mat-elevation-z8">
@@ -11,6 +13,7 @@
           <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
           <div class="loading-error" *ngIf="isInErrorState">
             We have some trouble loading the data. Please try again later.
+            <button mat-icon-button (click)="fetchData()" color="primary"><mat-icon>refresh</mat-icon></button>
           </div>
         </div>
 
@@ -18,7 +21,7 @@
 
           <!-- TRAINING INSTANCE TITLE Column -->
           <ng-container matColumnDef="title">
-            <th class="title" mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+            <th class="title" mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="isInErrorState">Title</th>
             <td class="title" mat-cell *matCellDef="let training">
               <div *ngIf="training.trainingRun?.startTime.valueOf() < now && training.trainingRun?.endTime.valueOf() > now;
               then clickableTitle else nonClickableTitle"></div>
@@ -35,7 +38,7 @@
 
           <!-- DATE Column -->
           <ng-container matColumnDef="date">
-            <th class="date" mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+            <th class="date" mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="isInErrorState">Date</th>
             <td class="date" mat-cell *matCellDef="let training">
               {{ training.trainingInstance?.startTime.toDateString() }} - {{ training.trainingInstance?.endTime.toDateString() }}
             </td>
