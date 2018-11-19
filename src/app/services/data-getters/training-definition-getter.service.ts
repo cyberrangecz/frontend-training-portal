@@ -36,7 +36,7 @@ export class TrainingDefinitionGetterService {
    * @returns {Observable<TrainingDefinition[]>} Observable of training definitions list
    */
   getTrainingDefinitions(): Observable<TrainingDefinition[]> {
-    return this.http.get<TrainingDefinitionDTO[]>(environment.trainingDefsEndpointUri)
+    return this.http.get<TrainingDefinitionRestResource>(environment.trainingDefsEndpointUri)
       .pipe(map(response =>
         this.trainingDefinitionMapper.mapTrainingDefinitionDTOsToTrainingDefinitions(response)));
   }
@@ -52,7 +52,7 @@ export class TrainingDefinitionGetterService {
     let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
     return this.http.get<TrainingDefinitionRestResource>(environment.trainingDefsEndpointUri, { params: params })
       .pipe(map(response =>
-        this.trainingDefinitionMapper.mapTrainingDefinitionDTOsWithPaginationToTrainingDefinitions(response)));
+        this.trainingDefinitionMapper.mapTrainingDefinitionDTOsToTrainingDefinitions(response)));
   }
 
   /**
@@ -79,7 +79,7 @@ export class TrainingDefinitionGetterService {
    * @returns {Observable<TrainingDefinition[]>} Observable of list of training definitions matching sandbox definition id
    */
   getTrainingDefinitionsBySandboxDefinitionId(sandboxId: number): Observable<TrainingDefinition[]> {
-    return this.http.get<TrainingDefinitionDTO[]>(environment.trainingDefsEndpointUri + 'sandbox-definitions/' + sandboxId)
+    return this.http.get<TrainingDefinitionRestResource>(environment.trainingDefsEndpointUri + 'sandbox-definitions/' + sandboxId)
       .pipe(map(response =>
         this.trainingDefinitionMapper.mapTrainingDefinitionDTOsToTrainingDefinitions(response)));
   }
