@@ -129,7 +129,6 @@ export class TraineeTrainingsTableComponent implements OnInit {
           traineesTraining.totalLevels = traineesTraining.trainingInstance.trainingDefinition.levels.length
         }))
         .subscribe();
-
       result.push(traineesTraining);
     });
     return result;
