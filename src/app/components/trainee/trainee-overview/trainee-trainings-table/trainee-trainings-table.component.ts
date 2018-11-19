@@ -96,7 +96,7 @@ export class TraineeTrainingsTableComponent implements OnInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.trainingRunGetter.getTrainingRunsWithPagination(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
+          return this.trainingRunGetter.getTrainingRunsWithPagination(this.paginator.pageIndex, this.paginator.pageSize, this.resolveSortParam(this.sort.active), this.sort.direction);
         }),
         map(data => {
           // Flip flag to show that loading has finished.
@@ -112,6 +112,10 @@ export class TraineeTrainingsTableComponent implements OnInit {
           return of([]);
         })
       ).subscribe(data => this.createDataSource(data));
+  }
+
+  private resolveSortParam(tableHeader: string): string {
+    return tableHeader === 'date' ? 'startTime' : tableHeader;
   }
 
   private mapTrainingRunsToTraineesTrainingTableDataObjects(data: TrainingRun[]): TraineeAccessedTrainingsTableDataObject[] {

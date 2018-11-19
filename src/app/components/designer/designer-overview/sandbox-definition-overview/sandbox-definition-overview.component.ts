@@ -146,9 +146,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
         map(data => {
           // Flip flag to show that loading has finished.
           this.isLoadingResults = false;
-
           this.resultsLength = data.length;
-
           return this.mapSandboxDefsToTableObjects(data);
         }),
         catchError((err) => {
