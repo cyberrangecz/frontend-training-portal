@@ -29,7 +29,7 @@ export class TrainingInstanceGetterService {
    * @returns {Observable<TrainingInstance[]>} Observable of training instances list
    */
   getTrainingInstances(): Observable<TrainingInstance[]> {
-    return this.http.get<TrainingInstanceRestResource>(environment.trainingInstancesEndpointUri)
+    return this.http.get<TrainingInstanceDTO[]>(environment.trainingInstancesEndpointUri)
       .pipe(map(response =>
         this.trainingInstanceMapper.mapTrainingInstanceDTOsToTrainingInstances(response)));
   }
@@ -45,7 +45,7 @@ export class TrainingInstanceGetterService {
     let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
     return this.http.get<TrainingInstanceRestResource>(environment.trainingInstancesEndpointUri, { params: params })
       .pipe(map(response =>
-        this.trainingInstanceMapper.mapTrainingInstanceDTOsToTrainingInstances(response)));
+        this.trainingInstanceMapper.mapTrainingInstanceDTOsWithPaginationToTrainingInstances(response)));
   }
 
 
@@ -62,7 +62,7 @@ export class TrainingInstanceGetterService {
   }
 
   getTrainingRunsByTrainingInstanceId(trainingInstanceId: number): Observable<TrainingRun[]> {
-    return this.http.get<TrainingRunRestResource>(environment.trainingInstancesEndpointUri + trainingInstanceId + '/training-runs')
+    return this.http.get<TrainingInstanceDTO[]>(environment.trainingInstancesEndpointUri + trainingInstanceId + '/training-runs')
       .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
   }
 

@@ -17,13 +17,21 @@ export class TrainingRunMapperService {
 
   /**
    * Maps training run DTOs retrieved from remote server to training run objects
-   * @param resources training run DTOs retrieved from remote server
+   * @param trainingRunDTOs training run DTOs retrieved from remote server
    */
-  mapTrainingRunDTOsToTrainingRuns(resources: TrainingRunRestResource): TrainingRun[] {
+  mapTrainingRunDTOsToTrainingRuns(trainingRunDTOs: TrainingRunDTO[]): TrainingRun[] {
     const result: TrainingRun[] = [];
-    resources.content.forEach(trainingRunDTO =>
+    trainingRunDTOs.forEach(trainingRunDTO =>
       result.push(this.mapTrainingRunDTOToTrainingRun(trainingRunDTO)));
     return result;
+  }
+
+  /**
+   *
+   * @param resource
+   */
+  mapTrainingRunDTOsWithPaginationToTrainingRuns(resource: TrainingRunRestResource): TrainingRun[] {
+    return this.mapTrainingRunDTOsToTrainingRuns(resource.content);
   }
 
   /**

@@ -25,14 +25,18 @@ import {AbstractLevelDTO} from '../../model/DTOs/abstractLevelDTO';
 export class TrainingDefinitionMapperService {
   /**
    * Maps training definition DTOs retrieved from the server to internal training definition objects
-   * @param resource training definition DTOs retrieved from server
+   * @param trainingDefinitionDTOs training definition DTOs retrieved from server
    */
-  mapTrainingDefinitionDTOsToTrainingDefinitions(resource: TrainingDefinitionRestResource): TrainingDefinition[] {
+  mapTrainingDefinitionDTOsToTrainingDefinitions(trainingDefinitionDTOs: TrainingDefinitionDTO[]): TrainingDefinition[] {
     const result: TrainingDefinition[] = [];
-    resource.content.forEach((trainingDTO: TrainingDefinitionDTO) => {
+    trainingDefinitionDTOs.forEach((trainingDTO: TrainingDefinitionDTO) => {
       result.push(this.mapTrainingDefinitionDTOToTrainingDefinition(trainingDTO));
     });
     return result;
+  }
+
+  mapTrainingDefinitionDTOsWithPaginationToTrainingDefinitions(resource: TrainingDefinitionRestResource): TrainingDefinition[] {
+    return this.mapTrainingDefinitionDTOsToTrainingDefinitions(resource.content);
   }
 
   /**

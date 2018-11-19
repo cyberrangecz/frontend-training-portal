@@ -19,10 +19,18 @@ export class TrainingInstanceMapperService {
    * Maps training instance dtos received from remote server to training instance objects
    * @param trainingInstanceDTOs array of training instance dtos received from remote server
    */
-  mapTrainingInstanceDTOsToTrainingInstances(trainingInstanceDTOs: TrainingInstanceRestResource): TrainingInstance[] {
+  mapTrainingInstanceDTOsToTrainingInstances(trainingInstanceDTOs: TrainingInstanceDTO[]): TrainingInstance[] {
     const result: TrainingInstance[] = [];
-    trainingInstanceDTOs.content.forEach(dto => result.push(this.mapTrainingInstanceDTOToTrainingInstance(dto)));
+    trainingInstanceDTOs.forEach(dto => result.push(this.mapTrainingInstanceDTOToTrainingInstance(dto)));
     return result;
+  }
+
+  /**
+   *
+   * @param resource
+   */
+  mapTrainingInstanceDTOsWithPaginationToTrainingInstances(resource: TrainingInstanceRestResource): TrainingInstance[] {
+    return this.mapTrainingInstanceDTOsToTrainingInstances(resource.content);
   }
 
   /**
