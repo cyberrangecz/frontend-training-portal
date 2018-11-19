@@ -90,14 +90,9 @@ export class TrainingDefinitionMapperService {
     trainingDefinition.prerequisites.forEach(prerequisite => result.prerequisities.push(prerequisite));
     result.state = this.mapTrainingDefStateToDTOEnum(trainingDefinition.state);
     result.title = trainingDefinition.title;
-    result.sandbox_definition_ref = { id: trainingDefinition.sandboxDefinitionId, sandbox_definition_ref: trainingDefinition.sandboxDefinitionId };
+    result.sandbox_definition_ref = trainingDefinition.sandboxDefinitionId;
     result.show_stepper_bar = trainingDefinition.showProgress;
-    result.author_ref = this.mapAuthorsToCreateUpdateTrainingDefDTO(trainingDefinition.authorIds as number[]);
-    return result;
-  }
-  private mapAuthorsToCreateUpdateTrainingDefDTO(authorIds: number[]): AuthorRefDTO[] {
-    const result: AuthorRefDTO[] = [];
-    authorIds.forEach(authorId => result.push({id: authorId, author_ref_login: "No name"}));
+    result.aut_ids = trainingDefinition.authorIds as number[];
     return result;
   }
 
@@ -112,10 +107,10 @@ export class TrainingDefinitionMapperService {
 
     result.id = trainingDefinition.id;
     result.description = trainingDefinition.description;
-    result.sand_box_definition_ref = { id: trainingDefinition.sandboxDefinitionId, sandbox_definition_ref: trainingDefinition.sandboxDefinitionId };
+    result.sand_box_definition_ref = trainingDefinition.sandboxDefinitionId;
     trainingDefinition.outcomes.forEach(outcome => result.outcomes.push(outcome));
     trainingDefinition.prerequisites.forEach(prerequisite => result.prerequisities.push(prerequisite));
-    result.author_ref = this.mapAuthorsToCreateUpdateTrainingDefDTO(trainingDefinition.authorIds as number[]);
+    result.aut_ids = trainingDefinition.authorIds as number[];
     result.outcomes = trainingDefinition.outcomes;
     result.prerequisities = trainingDefinition.prerequisites;
 /*    result.startingLevel = trainingDefinition.startingLevel instanceof AbstractLevel ?

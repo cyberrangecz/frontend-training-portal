@@ -17,22 +17,22 @@ import { SandboxDefinitionRefDTO } from './sandboxDefinitionRefDTO';
  * Training Definition to create.
  */
 export interface TrainingDefinitionCreateDTO {
-    author_ref?: Array<AuthorRefDTO>;
+    aut_ids?: Array<number>;
     description?: string;
     outcomes?: Array<string>;
     prerequisities?: Array<string>;
-    sandbox_definition_ref?: SandboxDefinitionRefDTO;
+    sandbox_definition_ref: number;
     show_stepper_bar?: boolean;
     state?: TrainingDefinitionCreateDTO.StateEnum;
     title?: string;
 }
 
 export class TrainingDefinitionCreateDTOClass implements  TrainingDefinitionCreateDTO {
-  author_ref: Array<AuthorRefDTO>;
+  aut_ids: Array<number>;
   description: string;
   outcomes: Array<string>;
   prerequisities: Array<string>;
-  sandbox_definition_ref: SandboxDefinitionRefDTO;
+  sandbox_definition_ref: number;
   show_stepper_bar: boolean;
   state: TrainingDefinitionCreateDTO.StateEnum;
   title: string;

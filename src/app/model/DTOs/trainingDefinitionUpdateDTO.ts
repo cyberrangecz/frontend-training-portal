@@ -17,24 +17,24 @@ import { SandboxDefinitionRefDTO } from './sandboxDefinitionRefDTO';
  * Training Definition to update.
  */
 export interface TrainingDefinitionUpdateDTO {
-    author_ref?: Array<AuthorRefDTO>;
+    aut_ids?: Array<number>;
     description?: string;
     id?: number;
     outcomes?: Array<string>;
     prerequisities?: Array<string>;
-    sand_box_definition_ref?: SandboxDefinitionRefDTO;
+    sand_box_definition_ref?: number;
     show_stepper_bar?: boolean;
     state?: TrainingDefinitionUpdateDTO.StateEnum;
     title?: string;
 }
 
 export class TrainingDefinitionUpdateDTOClass implements TrainingDefinitionUpdateDTO {
-  author_ref: Array<AuthorRefDTO>;
+  aut_ids?: Array<number>;
   description: string;
   id: number;
   outcomes: Array<string>;
   prerequisities: Array<string>;
-  sand_box_definition_ref: SandboxDefinitionRefDTO;
+  sand_box_definition_ref?: number;
   show_stepper_bar: boolean;
   state: TrainingDefinitionUpdateDTO.StateEnum;
   title: string;

@@ -22,7 +22,7 @@ export const environment = {
   redirectUri: window.location.origin + '/index.html',
 
   // The SPA's id. The SPA is registered with this id at the auth-server
-  clientId: '38537333-6c63-4f06-b19a-3c55d708e512', //'18cd6765-be1a-4de4-a6c0-6adf9b9882d1',
+  clientId: '18cd6765-be1a-4de4-a6c0-6adf9b9882d1', //'38537333-6c63-4f06-b19a-3c55d708e512',
 
   // set the scope for the permissions the client should request
   scope: 'eduPersonEntitlement groupNames address phone openid profile email', //'openid profile email',
