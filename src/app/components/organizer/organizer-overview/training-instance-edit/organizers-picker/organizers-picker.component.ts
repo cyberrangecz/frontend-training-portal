@@ -4,6 +4,8 @@ import {Observable} from "rxjs/internal/Observable";
 import {User} from "../../../../../model/user/user";
 import {MatDialogRef} from "@angular/material";
 import {UserRoleEnum} from "../../../../../enums/user-role.enum";
+import {ActiveUserService} from "../../../../../services/active-user.service";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'organizers-picker',
@@ -16,15 +18,26 @@ import {UserRoleEnum} from "../../../../../enums/user-role.enum";
 export class OrganizersPickerComponent implements OnInit {
 
   organizers$: Observable<User[]>;
-  selectedOrganizers: User[];
+  selectedOrganizers: User[] = [];
+  activeUser: User;
 
   constructor(
     public dialogRef: MatDialogRef<OrganizersPickerComponent>,
-    private userGetter: UserGetterService) {
+    private userGetter: UserGetterService,
+    private activeUserService: ActiveUserService) {
+    this.activeUser = this.activeUserService.getActiveUser();
+    this.selectedOrganizers.push(this.activeUser);
   }
 
   ngOnInit() {
-    this.organizers$ = this.userGetter.loadUsersByRoles([UserRoleEnum.Organizer]);
+    this.organizers$ = this.userGetter.loadUsersByRoles([UserRoleEnum.Organizer])
+      .pipe(map(users => {
+          const activeUserIndex = users.indexOf(this.activeUserService.getActiveUser());
+          if (activeUserIndex !== -1) {
+            users.splice(activeUserIndex, 1);
+          }
+        return users;
+      }));
   }
 
   /**
