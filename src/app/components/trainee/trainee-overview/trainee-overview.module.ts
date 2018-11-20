@@ -15,7 +15,6 @@ import {TrainingRunMapperService} from "../../../services/data-mappers/training-
 import {LevelMapperService} from "../../../services/data-mappers/level-mapper.service";
 import {TrainingDefinitionMapperService} from "../../../services/data-mappers/training-definition-mapper.service";
 import {TrainingDefinitionGetterService} from "../../../services/data-getters/training-definition-getter.service";
-import {PipesModule} from "../../../pipes/pipes.module";
 
 @NgModule({
   imports: [
@@ -23,8 +22,7 @@ import {PipesModule} from "../../../pipes/pipes.module";
     FormsModule,
     SharedModule,
     TraineeOverviewRoutingModule,
-    TraineeOverviewMaterialModule,
-    PipesModule
+    TraineeOverviewMaterialModule
   ],
   declarations: [
     TraineeOverviewComponent,

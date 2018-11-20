@@ -5,16 +5,14 @@ import {LevelMapperService} from './level-mapper.service';
 import {TrainingRunStateEnum} from '../../enums/training-run-state.enum';
 import {TrainingInstanceMapperService} from './training-instance-mapper.service';
 import {TrainingRunRestResource} from '../../model/DTOs/trainingRunRestResource';
-import {AccessedTrainingRunDTO} from "../../model/DTOs/accessedTrainingRunDTO";
-import {TraineeAccessedTrainingsTableDataModel} from "../../model/table-models/trainee-accessed-trainings-table-data-model";
-import {TraineeAccessTrainingRunActionEnum} from "../../enums/trainee-access-training-run-actions.enum";
-import PossibleActionEnum = AccessedTrainingRunDTO.PossibleActionEnum;
+import {TrainingDefinitionMapperService} from './training-definition-mapper.service';
 
 @Injectable()
 export class TrainingRunMapperService {
 
   constructor(private levelMapper: LevelMapperService,
-              private trainingInstanceMapper: TrainingInstanceMapperService) {
+              private trainingInstanceMapper: TrainingInstanceMapperService,
+              private trainingDefinitionMapper: TrainingDefinitionMapperService) {
   }
 
   /**
@@ -48,33 +46,6 @@ export class TrainingRunMapperService {
       result.trainingInstance = this.trainingInstanceMapper.mapTrainingInstanceDTOToTrainingInstance(trainingRunDTO.training_instance);
     }
     return result;
-  }
-
-  mapAccessedTrainingRunDTOsToTrainingRunTableObjects(resource: TrainingRunRestResource): TraineeAccessedTrainingsTableDataModel[] {
-    const result: TraineeAccessedTrainingsTableDataModel[] = [];
-    resource.content.forEach(accessedTrainingRunDTO =>
-      result.push(this.mapAccessedTrainingRunDTOToTrainingRunTableObject(accessedTrainingRunDTO)));
-    return result;
-  }
-
-
-  mapAccessedTrainingRunDTOToTrainingRunTableObject(accessedTrainingRunDTO: AccessedTrainingRunDTO): TraineeAccessedTrainingsTableDataModel {
-    const result = new TraineeAccessedTrainingsTableDataModel();
-    result.currentLevel = accessedTrainingRunDTO.current_level_order;
-    result.totalLevels = accessedTrainingRunDTO.number_of_levels;
-    result.trainingInstanceTitle = accessedTrainingRunDTO.title;
-    result.trainingInstanceStartTime = new Date(accessedTrainingRunDTO.training_instance_start_date);
-    result.trainingInstanceEndTime = new Date(accessedTrainingRunDTO.training_instance_end_date);
-    result.action = this.mapActionEnumFromDTOToTableDataModel(accessedTrainingRunDTO.possible_action);
-    return result;
-  }
-
-  private mapActionEnumFromDTOToTableDataModel(action: PossibleActionEnum): TraineeAccessTrainingRunActionEnum {
-    switch (action) {
-      case PossibleActionEnum.TRYAGAIN: return TraineeAccessTrainingRunActionEnum.TryAgain;
-      case PossibleActionEnum.RESULTS: return TraineeAccessTrainingRunActionEnum.Results;
-      default: console.error('Could not map attribute "action" of "AccessedTrainingRunDTO to any known action');
-    }
   }
 
   private mapTrainigRunDTOStateToEnum(state: TrainingRunDTO.StateEnum): TrainingRunStateEnum {

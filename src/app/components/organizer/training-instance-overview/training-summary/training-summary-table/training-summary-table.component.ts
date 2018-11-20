@@ -126,6 +126,7 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
           return this.trainingInstanceGetter.getTrainingRunsByTrainingInstanceId(this.trainingInstance.id)
         }),
         map(data => {
+          // Flip flag to show that loading has finished.
           this.isLoadingResults = false;
           this.isInErrorState = false;
           this.resultsLength = data.length;

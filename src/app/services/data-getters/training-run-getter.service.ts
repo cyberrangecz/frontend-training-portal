@@ -8,7 +8,6 @@ import {PaginationParams} from "../../model/http/params/pagination-params";
 import {TrainingRunDTO} from "../../model/DTOs/trainingRunDTO";
 import {TrainingRunMapperService} from "../data-mappers/training-run-mapper.service";
 import {TrainingRunRestResource} from '../../model/DTOs/trainingRunRestResource';
-import {TraineeAccessedTrainingsTableDataModel} from "../../model/table-models/trainee-accessed-trainings-table-data-model";
 
 /**
  * Service abstracting the training run endpoint.
@@ -66,18 +65,11 @@ export class TrainingRunGetterService {
 
   /**
    * Retrieves all training runs which are still active (can be accessed and "played")
-   * @returns {Observable<TraineeAccessedTrainingsTableDataModel[]>} observable of list of active training runs to be displayed in table
+   * @returns {Observable<TrainingRun[]>} observable of list of active training runs
    */
-  getAccessedTrainingRuns(): Observable<TraineeAccessedTrainingsTableDataModel[]> {
+  getAccessedTrainingRuns(): Observable<TrainingRun[]> {
     return this.http.get<TrainingRunRestResource>(environment.trainingRunsEndpointUri + 'accessed')
-      .pipe(map(response => this.trainingRunMapper.mapAccessedTrainingRunDTOsToTrainingRunTableObjects(response)));
-  }
-
-  getAccessedTrainingRunsWithPaginatios(page: number, size: number, sort: string, sortDir: string):
-    Observable<TraineeAccessedTrainingsTableDataModel[]> {
-    let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
-    return this.http.get<TrainingRunRestResource>(environment.trainingRunsEndpointUri + 'accessed', {params: params})
-      .pipe(map(response => this.trainingRunMapper.mapAccessedTrainingRunDTOsToTrainingRunTableObjects(response)));
+      .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
   }
 
 
