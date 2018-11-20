@@ -29,8 +29,6 @@ export class TrainingRunLevelsGuard implements CanActivate, CanDeactivate<Traini
 
     return this.trainingRunGetter.getTrainingRunById(id)
       .pipe(concatMap(trainingRun => {
-        return this.trainingInstanceGetter.getTrainingInstanceById(trainingRun.trainingInstance.id)
-          .pipe(concatMap(trainingInstance => {
             const currentLevelId = trainingRun.currentLevel instanceof AbstractLevel ? trainingRun.currentLevel.id : trainingRun.currentLevel as number;
             return this.trainingDefinitionGetter.getLevelById(currentLevelId)
               .pipe(map((currentLevel) => {
@@ -47,7 +45,6 @@ export class TrainingRunLevelsGuard implements CanActivate, CanDeactivate<Traini
                   return false;
                 }
               }));
-          }));
       }));
   }
 

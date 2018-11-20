@@ -23,16 +23,16 @@
           <ng-container matColumnDef="title">
             <th class="title" mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="isInErrorState">Title</th>
             <td class="title" mat-cell *matCellDef="let training">
-              <div *ngIf="training.trainingRun?.startTime.valueOf() < now && training.trainingRun?.endTime.valueOf() > now;
+              <div *ngIf="training.trainingInstanceStartTime.valueOf() < now && training.trainingInstanceEndTime.valueOf() > now;
               then clickableTitle else nonClickableTitle"></div>
 
               <ng-template #clickableTitle>
                 <a class="training-link" mat-button color="primary"
-                   [routerLink]="['training', training.trainingRun?.id, 'level', training.trainingRun?.currentLevel]">
-                  {{ training.trainingInstance?.title }}</a>
+                   [routerLink]="['training', training.trainingRunId, 'level', training.currentLevel]">
+                  {{ training.trainingInstanceTitle }}</a>
               </ng-template>
 
-              <ng-template #nonClickableTitle>{{ training.trainingInstance?.title }}</ng-template>
+              <ng-template #nonClickableTitle>{{ training.trainingInstanceTitle }}</ng-template>
             </td>
           </ng-container>
 
@@ -40,7 +40,7 @@
           <ng-container matColumnDef="date">
             <th class="date" mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="isInErrorState">Date</th>
             <td class="date" mat-cell *matCellDef="let training">
-              {{ training.trainingInstance?.startTime.toDateString() }} - {{ training.trainingInstance?.endTime.toDateString() }}
+              {{ training.trainingInstanceStartTime | dateTimeFormat }} - {{ training.trainingInstanceEndTime | dateTimeFormat }}
             </td>
           </ng-container>
 
@@ -48,7 +48,7 @@
           <ng-container matColumnDef="completedLevels">
             <th class="completedLevels" mat-header-cell *matHeaderCellDef>Completed Levels</th>
             <td class="completedLevels" mat-cell *matCellDef="let training">
-              {{ training.trainingRun.currentLevel }}/{{ training?.totalLevels }}
+              {{ training.currentLevel }}/{{ training.totalLevels }}
             </td>
           </ng-container>
 
@@ -59,18 +59,18 @@
 
               <div class="action-buttons">
                 <!-- TRY AGAIN button-->
-                <button *ngIf="training.trainingInstance?.startTime <= now && training.trainingInstance?.endTime >= now"
+                <button *ngIf="training.action === actionType.TryAgain"
                   mat-icon-button color="primary"
-                  (click)="tryAgain(training.trainingInstance)">
+                  (click)="tryAgain(1)">
                   <mat-icon
                     matTooltip="Try again"
                     aria-label="Try again button">
                     refresh</mat-icon>
                 </button>
                 <!-- RESULTS button-->
-                <button *ngIf="training.trainingRun?.state === 'archived'"
+                <button *ngIf="training.action === actionType.Results"
                         mat-icon-button color="primary"
-                        (click)="accessResults(training.trainingRun)">
+                        (click)="accessResults(training.trainingRunId)">
                   <mat-icon
                     matTooltip="Access results"
                     aria-label="Access results button">

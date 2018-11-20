@@ -3,18 +3,13 @@ import {TrainingInstance} from "../../../../model/training/training-instance";
 import {TrainingRun} from "../../../../model/training/training-run";
 import {MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
 import {TrainingRunGetterService} from "../../../../services/data-getters/training-run-getter.service";
-import {TrainingInstanceGetterService} from "../../../../services/data-getters/training-instance-getter.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ActiveUserService} from "../../../../services/active-user.service";
 import {merge, of} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {environment} from "../../../../../environments/environment";
-
-export class TraineeAccessedTrainingsTableDataObject {
-  totalLevels: number;
-  trainingRun: TrainingRun;
-  trainingInstance: TrainingInstance;
-}
+import {TraineeAccessedTrainingsTableDataModel} from "../../../../model/table-models/trainee-accessed-trainings-table-data-model";
+import {TraineeAccessTrainingRunActionEnum} from "../../../../enums/trainee-access-training-run-actions.enum";
 
 @Component({
   selector: 'trainee-trainings-table',
@@ -27,13 +22,13 @@ export class TraineeAccessedTrainingsTableDataObject {
 export class TraineeTrainingsTableComponent implements OnInit {
 
   displayedColumns: string[] = ['title', 'date', 'completedLevels', 'actions'];
+  dataSource: MatTableDataSource<TraineeAccessedTrainingsTableDataModel>;
 
-  now: number = Date.now();
-  dataSource: MatTableDataSource<TraineeAccessedTrainingsTableDataObject>;
-
+  actionType = TraineeAccessTrainingRunActionEnum;
   resultsLength = 0;
   isLoadingResults = true;
   isInErrorState = false;
+  now = Date.now();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -42,8 +37,7 @@ export class TraineeTrainingsTableComponent implements OnInit {
     private router: Router,
     private activeRoute: ActivatedRoute,
     private activeUserService: ActiveUserService,
-    private trainingRunGetter: TrainingRunGetterService,
-    private trainingInstanceGetter: TrainingInstanceGetterService) { }
+    private trainingRunGetter: TrainingRunGetterService) { }
 
   ngOnInit() {
     this.initDataSource();
@@ -51,10 +45,10 @@ export class TraineeTrainingsTableComponent implements OnInit {
 
   /**
    * Allocates resources for new sandbox and starts new training run on a first level
-   * @param {TrainingInstance} trainingInstance training instance which should be started
+   * @param {number} trainingInstanceId id of training instance which should be started
    */
-  tryAgain(trainingInstance: TrainingInstance) {
-    // TODO: allocate new sandbox etc and get ID of training run
+  tryAgain(trainingInstanceId: number) {
+    // TODO: Integrate with appropriate REST API call once its resolved
     const trainingRunId = 1;
     const firstLevel = 1;
     this.router.navigate(['training', trainingRunId, 'level', firstLevel], {relativeTo: this.activeRoute});
@@ -62,10 +56,10 @@ export class TraineeTrainingsTableComponent implements OnInit {
 
   /**
    * Navigates to page with results of selected training run
-   * @param {TrainingRun} trainingRun training run which results should be displayed
+   * @param {number} trainingRunId if of training run which results should be displayed
    */
-  accessResults(trainingRun: TrainingRun) {
-    this.router.navigate(['training', trainingRun.id, 'results'],{relativeTo: this.activeRoute})
+  accessResults(trainingRunId: number) {
+    this.router.navigate(['training', trainingRunId, 'results'],{relativeTo: this.activeRoute})
   }
 
   /**
@@ -96,15 +90,14 @@ export class TraineeTrainingsTableComponent implements OnInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.trainingRunGetter.getTrainingRunsWithPagination(this.paginator.pageIndex, this.paginator.pageSize, this.resolveSortParam(this.sort.active), this.sort.direction);
+          return this.trainingRunGetter.getAccessedTrainingRunsWithPaginatios(this.paginator.pageIndex, this.paginator.pageSize,
+            this.resolveSortParam(this.sort.active), this.sort.direction);
         }),
         map(data => {
-          // Flip flag to show that loading has finished.
           this.isLoadingResults = false;
           this.isInErrorState = false;
           this.resultsLength = data.length;
-
-          return this.mapTrainingRunsToTraineesTrainingTableDataObjects(data);
+          return data;
         }),
         catchError(() => {
           this.isLoadingResults = false;
@@ -118,29 +111,13 @@ export class TraineeTrainingsTableComponent implements OnInit {
     return tableHeader === 'date' ? 'startTime' : tableHeader;
   }
 
-  private mapTrainingRunsToTraineesTrainingTableDataObjects(data: TrainingRun[]): TraineeAccessedTrainingsTableDataObject[] {
-    const result: TraineeAccessedTrainingsTableDataObject[] = [];
-    data.forEach(training => {
-      const traineesTraining = new TraineeAccessedTrainingsTableDataObject();
-      traineesTraining.trainingRun = training;
-      this.trainingInstanceGetter.getTrainingInstanceById(training.trainingInstance.id)
-        .pipe(map(instance => {
-          traineesTraining.trainingInstance = instance;
-          traineesTraining.totalLevels = traineesTraining.trainingInstance.trainingDefinition.levels.length
-        }))
-        .subscribe();
-      result.push(traineesTraining);
-    });
-    return result;
-  }
-
-  private createDataSource(data: TraineeAccessedTrainingsTableDataObject[]) {
+  private createDataSource(data: TraineeAccessedTrainingsTableDataModel[]) {
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
 
     this.dataSource.filterPredicate =
-      (data: TraineeAccessedTrainingsTableDataObject, filter: string) =>
-        data.trainingInstance.title.toLowerCase().indexOf(filter) !== -1
+      (data: TraineeAccessedTrainingsTableDataModel, filter: string) =>
+        data.trainingInstanceTitle.toLowerCase().indexOf(filter) !== -1
   }
 }
