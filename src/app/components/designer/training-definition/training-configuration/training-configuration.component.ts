@@ -46,10 +46,10 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
   constructor(
     private router: Router,
     private dialog: MatDialog,
-    private activeUserService: ActiveUserService,
     private errorHandler: ComponentErrorHandlerService,
     private alertService: AlertService,
     private userGetter: UserGetterService,
+    private activeUserService: ActiveUserService,
     private sandboxDefinitionGetter: SandboxDefinitionGetterService,
     private trainingDefinitionSetter: TrainingDefinitionSetterService) {
 
@@ -188,6 +188,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.prerequisites = [''];
     this.outcomes = [''];
     this.selectedState = 'unreleased';
+    this.authors = [this.activeUserService.getActiveUser()];
   }
 
   /**

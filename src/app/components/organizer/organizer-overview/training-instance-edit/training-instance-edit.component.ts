@@ -10,7 +10,7 @@ import {UserGetterService} from "../../../../services/data-getters/user-getter.s
 import {TrainingDefinitionGetterService} from "../../../../services/data-getters/training-definition-getter.service";
 import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
 import {TrainingInstanceSetterService} from "../../../../services/data-setters/training-instance-setter.service";
-import {environment} from "../../../../../environments/environment";
+import {ActiveUserService} from "../../../../services/active-user.service";
 
 @Component({
   selector: 'training-instance-definition',
@@ -41,6 +41,7 @@ export class TrainingInstanceEditComponent implements OnInit {
   constructor(
     private alertService: AlertService,
     private userGetter: UserGetterService,
+    private activeUserService: ActiveUserService,
     private trainingDefinitionGetter: TrainingDefinitionGetterService,
     private trainingInstanceSetter: TrainingInstanceSetterService,
     private dialog: MatDialog) {
@@ -199,5 +200,6 @@ export class TrainingInstanceEditComponent implements OnInit {
    */
   private createNewTrainingInstance() {
     this.trainingInstance = new TrainingInstance();
+    this.organizers = [this.activeUserService.getActiveUser()];
   }
 }
