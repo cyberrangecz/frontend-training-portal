@@ -13,7 +13,7 @@ import {LevelConfigurationModule} from "./levels/level-configuration/level-confi
 import {PipesModule} from "../../../pipes/pipes.module";
 import { UnsavedChangesDialogComponent } from './unsaved-changes-dialog/unsaved-changes-dialog.component';
 import {DeleteDialogComponent} from "./delete-dialog/delete-dialog.component";
-
+import { StateChangeDialogComponent } from './state-change-dialog/state-change-dialog.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -32,7 +32,8 @@ import {DeleteDialogComponent} from "./delete-dialog/delete-dialog.component";
     AuthorsPickerComponent,
     SandboxDefinitionPickerComponent,
     UnsavedChangesDialogComponent,
-    DeleteDialogComponent
+    DeleteDialogComponent,
+    StateChangeDialogComponent
   ],
   providers: [
   ],
@@ -40,7 +41,8 @@ import {DeleteDialogComponent} from "./delete-dialog/delete-dialog.component";
     SandboxDefinitionPickerComponent,
     AuthorsPickerComponent,
     UnsavedChangesDialogComponent,
-    DeleteDialogComponent
+    DeleteDialogComponent,
+    StateChangeDialogComponent
   ]
 })
 

@@ -53,7 +53,7 @@
     <mat-checkbox (change)="contentChanged()"  [(ngModel)]="showProgress">Show Stepper Bar</mat-checkbox>
 
     <!-- STATE field-->
-    <mat-form-field appearance="outline">
+    <mat-form-field *ngIf="editMode" appearance="outline">
       <mat-label>State</mat-label>
       <mat-select placeholder="State"
                   (change)="contentChanged()"
