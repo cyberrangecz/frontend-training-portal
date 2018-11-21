@@ -31,13 +31,9 @@ export class OrganizersPickerComponent implements OnInit {
 
   ngOnInit() {
     this.organizers$ = this.userGetter.loadUsersByRoles([UserRoleEnum.Organizer])
-      .pipe(map(users => {
-          const activeUserIndex = users.indexOf(this.activeUserService.getActiveUser());
-          if (activeUserIndex !== -1) {
-            users.splice(activeUserIndex, 1);
-          }
-        return users;
-      }));
+      .pipe(map(organizers =>
+        organizers
+          .filter(organizer => organizer.id !== this.activeUser.id)));
   }
 
   /**

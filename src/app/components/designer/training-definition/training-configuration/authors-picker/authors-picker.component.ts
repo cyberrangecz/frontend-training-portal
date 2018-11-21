@@ -4,6 +4,8 @@ import {Observable} from "rxjs/internal/Observable";
 import {MatDialogRef} from "@angular/material";
 import {UserGetterService} from "../../../../../services/data-getters/user-getter.service";
 import {UserRoleEnum} from "../../../../../enums/user-role.enum";
+import {ActiveUserService} from "../../../../../services/active-user.service";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'training-authors-chooser',
@@ -16,15 +18,20 @@ import {UserRoleEnum} from "../../../../../enums/user-role.enum";
 export class AuthorsPickerComponent implements OnInit {
 
   authors$: Observable<User[]>;
-  selectedAuthors: User[];
-
+  selectedAuthors: User[] = [];
+  activeUser: User;
   constructor(
     public dialogRef: MatDialogRef<AuthorsPickerComponent>,
-    private userGetter: UserGetterService) {
+    private userGetter: UserGetterService,
+    private activeUserService: ActiveUserService) {
+      this.activeUser = this.activeUserService.getActiveUser();
+      this.selectedAuthors.push(this.activeUser);
   }
 
   ngOnInit() {
-    this.authors$ = this.userGetter.loadUsersByRoles([UserRoleEnum.Designer]);
+    this.authors$ = this.userGetter.loadUsersByRoles([UserRoleEnum.Designer])
+      .pipe(map(authors => authors
+        .filter(author => author.id !== this.activeUser.id)));
   }
 
   /**

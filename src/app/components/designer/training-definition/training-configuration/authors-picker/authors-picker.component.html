@@ -2,6 +2,9 @@
 <mat-divider></mat-divider>
 <div mat-dialog-content>
   <mat-selection-list #authorsList [(ngModel)]="selectedAuthors">
+    <mat-list-option *ngIf="activeUser" [value]="activeUser" [selected]="true" disabled="true">
+      {{ activeUser.name }} (You)
+    </mat-list-option>
     <mat-list-option *ngFor="let author of authors$ | async"
                      [value]="author">
       {{ author.name }}
