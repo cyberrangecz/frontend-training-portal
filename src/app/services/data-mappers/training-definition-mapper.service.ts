@@ -20,6 +20,10 @@ import {TrainingDefinitionDTO, TrainingDefinitionDTOClass} from '../../model/DTO
 import {AuthorRefDTO} from "../../model/DTOs/authorRefDTO";
 import LevelTypeEnum = BasicLevelInfoDTO.LevelTypeEnum;
 import {AbstractLevelDTO} from '../../model/DTOs/abstractLevelDTO';
+import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
+import {TrainingDefinitionTableDataModel} from "../../model/table-models/training-definition-table-data-model";
+import {TablePagination} from "../../model/table-models/table-pagination";
+import {Pagination} from "../../model/DTOs/pagination";
 
 @Injectable()
 export class TrainingDefinitionMapperService {
@@ -29,10 +33,31 @@ export class TrainingDefinitionMapperService {
    */
   mapTrainingDefinitionDTOsToTrainingDefinitions(resource: TrainingDefinitionRestResource): TrainingDefinition[] {
     const result: TrainingDefinition[] = [];
-    console.log(resource);
     resource.content.forEach((trainingDTO: TrainingDefinitionDTO) => {
       result.push(this.mapTrainingDefinitionDTOToTrainingDefinition(trainingDTO));
     });
+    return result;
+  }
+
+  mapTrainingDefinitionDTOsToTrainingDefinitionsWithPagination(resource: TrainingDefinitionRestResource): TableDataWithPaginationWrapper<TrainingDefinitionTableDataModel[]> {
+    const tableData: TrainingDefinitionTableDataModel[] = [];
+    const trainingDefs: TrainingDefinition[] = [];
+    resource.content.forEach((trainingDTO: TrainingDefinitionDTO) => {
+      const rowData = new TrainingDefinitionTableDataModel();
+      rowData.trainingDefinition = this.mapTrainingDefinitionDTOToTrainingDefinition(trainingDTO);
+      tableData.push(rowData);
+    });
+    const tablePagination = this.mapPaginationDtoToPaginationObject(resource.pagination);
+    return new TableDataWithPaginationWrapper(tableData, tablePagination);
+  }
+
+  mapPaginationDtoToPaginationObject(paginationDto: Pagination): TablePagination {
+    const result = new TablePagination();
+    result.numberOfElements = paginationDto.number_of_elements;
+    result.page = paginationDto.number;
+    result.size = paginationDto.size;
+    result.totalElements = paginationDto.total_elements;
+    result.totalPages = paginationDto.total_pages;
     return result;
   }
 

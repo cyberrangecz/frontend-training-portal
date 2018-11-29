@@ -15,6 +15,7 @@ import {environment} from "../../../../../environments/environment";
 import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
 import {ComponentErrorHandlerService} from "../../../../services/component-error-handler.service";
 import {TrainingDefinitionTableDataModel} from "../../../../model/table-models/training-definition-table-data-model";
+import {TableDataWithPaginationWrapper} from "../../../../model/table-models/table-data-with-pagination-wrapper";
 
 @Component({
   selector: 'designer-overview-training-definition',
@@ -181,8 +182,8 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
         }),
         map(data => {
           this.isLoadingResults = false;
-          this.resultsLength = data.length;
-          return this.mapTrainingDefinitionsToTableObjects(data);
+          this.resultsLength = data.tablePagination.totalElements;
+          return data;
         }),
         catchError((err) => {
           this.isLoadingResults = false;
@@ -190,36 +191,18 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
           this.errorHandler.displayHttpError(err, 'Loading training definitions');
           return of([]);
         })
-      ).subscribe(data => this.createDataSource(data));
+      ).subscribe((data: TableDataWithPaginationWrapper<TrainingDefinitionTableDataModel[]>) => this.createDataSource(data));
   }
 
   /**
    * Creates table data source from fetched data
    * @param data Training Definitions fetched from server
    */
-  private createDataSource(data: TrainingDefinitionTableDataModel[]) {
-    this.dataSource = new MatTableDataSource(data);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-
+  private createDataSource(data: TableDataWithPaginationWrapper<TrainingDefinitionTableDataModel[]>) {
+    this.dataSource = new MatTableDataSource(data.tableData);
     this.dataSource.filterPredicate =
       (data: TrainingDefinitionTableDataModel, filter: string) =>
         data.trainingDefinition.title.toLowerCase().indexOf(filter) !== -1
         || data.trainingDefinition.state.toLowerCase().indexOf(filter) !== -1;
-  }
-
-  /**
-   * Maps training definition object to data object displayed in a table
-   * @param trainings array of training definitions
-   * @returns array of mapped training definition table data objects
-   */
-  private mapTrainingDefinitionsToTableObjects(trainings: TrainingDefinition[]): TrainingDefinitionTableDataModel[] {
-    const result: TrainingDefinitionTableDataModel[] = [];
-    trainings.forEach(training => {
-      const trainingDataObject = new TrainingDefinitionTableDataModel();
-      trainingDataObject.trainingDefinition = training;
-      result.push(trainingDataObject);
-    });
-    return result;
   }
 }

@@ -18,6 +18,8 @@ import {InfoLevel} from "../../model/level/info-level";
 import {AssessmentLevel} from "../../model/level/assessment-level";
 import {TrainingDefinitionRestResource} from "../../model/DTOs/trainingDefinitionRestResource";
 import {TrainingDefinitionDTO} from "../../model/DTOs/trainingDefinitionDTO";
+import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
+import {TrainingDefinitionTableDataModel} from "../../model/table-models/training-definition-table-data-model";
 
 @Injectable()
 /**
@@ -48,11 +50,11 @@ export class TrainingDefinitionGetterService {
    * @param sort attribute by which will result be sorted
    * @param sortDir sort direction (asc, desc)
    */
-  getTrainingDefinitionsWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<TrainingDefinition[]> {
+  getTrainingDefinitionsWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<TableDataWithPaginationWrapper<TrainingDefinitionTableDataModel[]>> {
     let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
     return this.http.get<TrainingDefinitionRestResource>(environment.trainingDefsEndpointUri, { params: params })
       .pipe(map(response =>
-        this.trainingDefinitionMapper.mapTrainingDefinitionDTOsToTrainingDefinitions(response)));
+        this.trainingDefinitionMapper.mapTrainingDefinitionDTOsToTrainingDefinitionsWithPagination(response)));
   }
 
   /**

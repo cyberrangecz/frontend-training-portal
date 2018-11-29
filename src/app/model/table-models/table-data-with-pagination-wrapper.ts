@@ -1,7 +1,6 @@
 import {TablePagination} from "./table-pagination";
-import {ITableDataModel} from "./itable-data-model";
 
-export class TableDataWithPaginationWrapper<T extends ITableDataModel> {
+export class TableDataWithPaginationWrapper<T> {
   tableData: T;
   tablePagination: TablePagination;
 
