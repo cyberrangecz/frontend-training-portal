@@ -14,10 +14,7 @@ import {merge, of} from "rxjs";
 import {environment} from "../../../../../environments/environment";
 import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
 import {ComponentErrorHandlerService} from "../../../../services/component-error-handler.service";
-
-export class TrainingDefinitionTableDataObject {
-  trainingDefinition: TrainingDefinition;
-}
+import {TrainingDefinitionTableDataModel} from "../../../../model/table-models/training-definition-table-data-model";
 
 @Component({
   selector: 'designer-overview-training-definition',
@@ -35,7 +32,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
 
   displayedColumns: string[] = ['title', 'description', 'status', 'authors', 'actions'];
 
-  dataSource: MatTableDataSource<TrainingDefinitionTableDataObject>;
+  dataSource: MatTableDataSource<TrainingDefinitionTableDataModel>;
 
   resultsLength = 0;
   isLoadingResults = true;
@@ -200,13 +197,13 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    * Creates table data source from fetched data
    * @param data Training Definitions fetched from server
    */
-  private createDataSource(data: TrainingDefinitionTableDataObject[]) {
+  private createDataSource(data: TrainingDefinitionTableDataModel[]) {
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
 
     this.dataSource.filterPredicate =
-      (data: TrainingDefinitionTableDataObject, filter: string) =>
+      (data: TrainingDefinitionTableDataModel, filter: string) =>
         data.trainingDefinition.title.toLowerCase().indexOf(filter) !== -1
         || data.trainingDefinition.state.toLowerCase().indexOf(filter) !== -1;
   }
@@ -216,10 +213,10 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    * @param trainings array of training definitions
    * @returns array of mapped training definition table data objects
    */
-  private mapTrainingDefinitionsToTableObjects(trainings: TrainingDefinition[]): TrainingDefinitionTableDataObject[] {
-    const result: TrainingDefinitionTableDataObject[] = [];
+  private mapTrainingDefinitionsToTableObjects(trainings: TrainingDefinition[]): TrainingDefinitionTableDataModel[] {
+    const result: TrainingDefinitionTableDataModel[] = [];
     trainings.forEach(training => {
-      const trainingDataObject = new TrainingDefinitionTableDataObject();
+      const trainingDataObject = new TrainingDefinitionTableDataModel();
       trainingDataObject.trainingDefinition = training;
       result.push(trainingDataObject);
     });

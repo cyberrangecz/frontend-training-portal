@@ -29,6 +29,7 @@ export class TrainingDefinitionMapperService {
    */
   mapTrainingDefinitionDTOsToTrainingDefinitions(resource: TrainingDefinitionRestResource): TrainingDefinition[] {
     const result: TrainingDefinition[] = [];
+    console.log(resource);
     resource.content.forEach((trainingDTO: TrainingDefinitionDTO) => {
       result.push(this.mapTrainingDefinitionDTOToTrainingDefinition(trainingDTO));
     });
