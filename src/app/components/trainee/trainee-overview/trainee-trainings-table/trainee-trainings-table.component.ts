@@ -10,6 +10,7 @@ import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {environment} from "../../../../../environments/environment";
 import {TraineeAccessedTrainingsTableDataModel} from "../../../../model/table-models/trainee-accessed-trainings-table-data-model";
 import {TraineeAccessTrainingRunActionEnum} from "../../../../enums/trainee-access-training-run-actions.enum";
+import {TableDataWithPaginationWrapper} from "../../../../model/table-models/table-data-with-pagination-wrapper";
 
 @Component({
   selector: 'trainee-trainings-table',
@@ -90,13 +91,13 @@ export class TraineeTrainingsTableComponent implements OnInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.trainingRunGetter.getAccessedTrainingRunsWithPaginatios(this.paginator.pageIndex, this.paginator.pageSize,
+          return this.trainingRunGetter.getAccessedTrainingRunsWithPagination(this.paginator.pageIndex, this.paginator.pageSize,
             this.resolveSortParam(this.sort.active), this.sort.direction);
         }),
         map(data => {
           this.isLoadingResults = false;
           this.isInErrorState = false;
-          this.resultsLength = data.length;
+          this.resultsLength = data.tablePagination.totalElements;
           return data;
         }),
         catchError(() => {
@@ -104,7 +105,8 @@ export class TraineeTrainingsTableComponent implements OnInit {
           this.isInErrorState = true;
           return of([]);
         })
-      ).subscribe(data => this.createDataSource(data));
+      ).subscribe((data: TableDataWithPaginationWrapper<TraineeAccessedTrainingsTableDataModel[]>) =>
+      this.createDataSource(data.tableData));
   }
 
   private resolveSortParam(tableHeader: string): string {
@@ -113,7 +115,6 @@ export class TraineeTrainingsTableComponent implements OnInit {
 
   private createDataSource(data: TraineeAccessedTrainingsTableDataModel[]) {
     this.dataSource = new MatTableDataSource(data);
-    this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
 
     this.dataSource.filterPredicate =

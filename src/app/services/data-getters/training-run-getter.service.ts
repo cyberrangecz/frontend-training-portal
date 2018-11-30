@@ -9,6 +9,7 @@ import {TrainingRunDTO} from "../../model/DTOs/trainingRunDTO";
 import {TrainingRunMapperService} from "../data-mappers/training-run-mapper.service";
 import {TrainingRunRestResource} from '../../model/DTOs/trainingRunRestResource';
 import {TraineeAccessedTrainingsTableDataModel} from "../../model/table-models/trainee-accessed-trainings-table-data-model";
+import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
 
 /**
  * Service abstracting the training run endpoint.
@@ -68,15 +69,15 @@ export class TrainingRunGetterService {
    * Retrieves all training runs which are still active (can be accessed and "played")
    * @returns {Observable<TraineeAccessedTrainingsTableDataModel[]>} observable of list of active training runs to be displayed in table
    */
-  getAccessedTrainingRuns(): Observable<TraineeAccessedTrainingsTableDataModel[]> {
-    return this.http.get<TrainingRunRestResource>(environment.trainingRunsEndpointUri + 'accessed')
+  getAccessedTrainingRuns(): Observable<TableDataWithPaginationWrapper<TraineeAccessedTrainingsTableDataModel[]>> {
+    return this.http.get<TrainingRunRestResource>(environment.trainingRunsEndpointUri + 'accessible/')
       .pipe(map(response => this.trainingRunMapper.mapAccessedTrainingRunDTOsToTrainingRunTableObjects(response)));
   }
 
-  getAccessedTrainingRunsWithPaginatios(page: number, size: number, sort: string, sortDir: string):
-    Observable<TraineeAccessedTrainingsTableDataModel[]> {
+  getAccessedTrainingRunsWithPagination(page: number, size: number, sort: string, sortDir: string):
+    Observable<TableDataWithPaginationWrapper<TraineeAccessedTrainingsTableDataModel[]>> {
     let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
-    return this.http.get<TrainingRunRestResource>(environment.trainingRunsEndpointUri + 'accessed', {params: params})
+    return this.http.get<TrainingRunRestResource>(environment.trainingRunsEndpointUri + 'accessible/', {params: params})
       .pipe(map(response => this.trainingRunMapper.mapAccessedTrainingRunDTOsToTrainingRunTableObjects(response)));
   }
 

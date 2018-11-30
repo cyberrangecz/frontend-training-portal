@@ -74,11 +74,17 @@ export class TrainingRunMapperService {
     return result;
   }
 
-  mapAccessedTrainingRunDTOsToTrainingRunTableObjects(resource: TrainingRunRestResource): TraineeAccessedTrainingsTableDataModel[] {
-    const result: TraineeAccessedTrainingsTableDataModel[] = [];
+  mapAccessedTrainingRunDTOsToTrainingRunTableObjects(resource: TrainingRunRestResource)
+    : TableDataWithPaginationWrapper<TraineeAccessedTrainingsTableDataModel[]> {
+    const tableData: TraineeAccessedTrainingsTableDataModel[] = [];
     resource.content.forEach(accessedTrainingRunDTO =>
-      result.push(this.mapAccessedTrainingRunDTOToTrainingRunTableObject(accessedTrainingRunDTO)));
-    return result;
+      tableData.push(this.mapAccessedTrainingRunDTOToTrainingRunTableObject(accessedTrainingRunDTO)));
+    const tablePagination = new TablePagination(resource.pagination.number,
+      resource.pagination.number_of_elements,
+      resource.pagination.size,
+      resource.pagination.total_elements,
+      resource.pagination.total_pages);
+    return new TableDataWithPaginationWrapper(tableData, tablePagination);
   }
 
 
