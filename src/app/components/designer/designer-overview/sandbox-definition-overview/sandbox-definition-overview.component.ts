@@ -14,18 +14,15 @@ import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {environment} from "../../../../../environments/environment";
 import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
 import {ComponentErrorHandlerService} from "../../../../services/component-error-handler.service";
-
-export class SandboxDefinitionTableDataObject {
-  sandbox: SandboxDefinition;
-  associatedTrainingDefinitions: TrainingDefinition[];
-  canBeRemoved: boolean;
-}
+import {SandboxDefinitionTableDataModel} from "../../../../model/table-models/sandbox-definition-table-data-model";
 
 @Component({
   selector: 'designer-overview-sandbox-definition',
   templateUrl: './sandbox-definition-overview.component.html',
   styleUrls: ['./sandbox-definition-overview.component.css']
 })
+
+//TODO: implement pagination when rest api is finished
 /**
  * Component displaying overview of sandbox definitions. Contains button for upload sandbox definitions,
  * table with all sandbox definitions associated with currently logged in user and possible actions for sandbox definition.
@@ -34,7 +31,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
 
   displayedColumns: string[] = ['title', 'associatedTrainingDefs', 'authors', 'actions'];
 
-  dataSource: MatTableDataSource<SandboxDefinitionTableDataObject>;
+  dataSource: MatTableDataSource<SandboxDefinitionTableDataModel>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -90,7 +87,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
    * Removes sandbox definition data object from data source and sends request to delete the sandbox in database
    * @param {SandboxDefinitionTableDataObject} sandboxDataObject sandbox definition data object which should be deleted
    */
-  removeSandboxDefinition(sandboxDataObject: SandboxDefinitionTableDataObject) {
+  removeSandboxDefinition(sandboxDataObject: SandboxDefinitionTableDataModel) {
     this.sandboxDefinitionSetter.removeSandboxDefinition(sandboxDataObject.sandbox.id)
       .subscribe(resp => {
         this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox was successfully removed.');
@@ -162,10 +159,10 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
    * Maps sandbox definitions to table data objects
    * @param data sandbox definitions
    */
-  private mapSandboxDefsToTableObjects(data: SandboxDefinition[]): SandboxDefinitionTableDataObject[] {
-    const result: SandboxDefinitionTableDataObject[] = [];
+  private mapSandboxDefsToTableObjects(data: SandboxDefinition[]): SandboxDefinitionTableDataModel[] {
+    const result: SandboxDefinitionTableDataModel[] = [];
     data.forEach(sandbox => {
-      const tableDataObject = new SandboxDefinitionTableDataObject();
+      const tableDataObject = new SandboxDefinitionTableDataModel();
       tableDataObject.sandbox = sandbox;
       this.trainingDefinitionGetter.getTrainingDefinitionsBySandboxDefinitionId(sandbox.id)
         .subscribe(result => {
@@ -182,13 +179,12 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
    * Creates data source from sandbox definiton table data objects
    * @param data
    */
-  private createDataSource(data: SandboxDefinitionTableDataObject[]) {
+  private createDataSource(data: SandboxDefinitionTableDataModel[]) {
     this.dataSource = new MatTableDataSource(data);
-    this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
 
     this.dataSource.filterPredicate =
-      (data: SandboxDefinitionTableDataObject, filter: string) =>
+      (data: SandboxDefinitionTableDataModel, filter: string) =>
         data.sandbox.title.toLowerCase().indexOf(filter) !== -1
   }
 

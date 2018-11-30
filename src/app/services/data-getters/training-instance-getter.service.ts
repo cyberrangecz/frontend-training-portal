@@ -11,6 +11,8 @@ import {TrainingInstanceRestResource} from '../../model/DTOs/trainingInstanceRes
 import {TrainingRun} from "../../model/training/training-run";
 import {TrainingRunMapperService} from "../data-mappers/training-run-mapper.service";
 import {TrainingRunRestResource} from "../../model/DTOs/trainingRunRestResource";
+import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
+import {TrainingInstanceTableDataModel} from "../../model/table-models/training-instance-table-data-model";
 
 @Injectable()
 /**
@@ -41,11 +43,11 @@ export class TrainingInstanceGetterService {
    * @param sort attribute by which will result be sorted
    * @param sortDir sort direction (asc, desc)
    */
-  getTrainingInstancesWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<TrainingInstance[]> {
+  getTrainingInstancesWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<TableDataWithPaginationWrapper<TrainingInstanceTableDataModel[]>> {
     let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
     return this.http.get<TrainingInstanceRestResource>(environment.trainingInstancesEndpointUri, { params: params })
       .pipe(map(response =>
-        this.trainingInstanceMapper.mapTrainingInstanceDTOsToTrainingInstances(response)));
+        this.trainingInstanceMapper.mapTrainingInstanceDTOsToTrainingInstancesWithPagination(response)));
   }
 
 

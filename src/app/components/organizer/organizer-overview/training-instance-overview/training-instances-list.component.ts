@@ -6,23 +6,21 @@ import {ActiveUserService} from "../../../../services/active-user.service";
 import {TrainingInstanceGetterService} from "../../../../services/data-getters/training-instance-getter.service";
 import {TrainingEditPopupComponent} from "./training-edit-popup/training-edit-popup.component";
 import {TrainingDeleteDialogComponent} from "./training-delete-dialog/training-delete-dialog.component";
-import {TrainingDefinitionGetterService} from "../../../../services/data-getters/training-definition-getter.service";
 import {merge, of} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {TrainingInstanceSetterService} from "../../../../services/data-setters/training-instance-setter.service";
 import {environment} from "../../../../../environments/environment";
 import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
-
-export class TrainingInstanceTableDataObject {
-  trainingDefinitionTitle: string;
-  trainingInstance: TrainingInstance;
-}
+import {TrainingInstanceTableDataModel} from "../../../../model/table-models/training-instance-table-data-model";
+import {TableDataWithPaginationWrapper} from "../../../../model/table-models/table-data-with-pagination-wrapper";
+import {ComponentErrorHandlerService} from "../../../../services/component-error-handler.service";
 
 @Component({
   selector: 'training-instances-list',
   templateUrl: './training-instances-list.component.html',
   styleUrls: ['./training-instances-list.component.css']
 })
+
 /**
  * Component for list of training instance displayed in form of a table. Only training instances where the active user is listed as an organizer is shown
  */
@@ -30,7 +28,7 @@ export class TrainingInstancesListComponent implements OnInit {
 
   displayedColumns: string[] = ['title', 'date', 'trainingDefinition', 'poolSize', 'password', 'actions'];
 
-  dataSource: MatTableDataSource<TrainingInstanceTableDataObject>;
+  dataSource: MatTableDataSource<TrainingInstanceTableDataModel>;
 
   resultsLength = 0;
   isLoadingResults = true;
@@ -45,6 +43,7 @@ export class TrainingInstancesListComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private alertService: AlertService,
+    private errorHandler: ComponentErrorHandlerService,
     private activeUserService: ActiveUserService,
     private trainingInstanceGetter: TrainingInstanceGetterService,
     private trainingInstanceSetter: TrainingInstanceSetterService
@@ -82,9 +81,9 @@ export class TrainingInstancesListComponent implements OnInit {
   /**
    * Opens popup dialog to confirm if the user really wants to delete the training instance. If the action is
    * confirmed, training instance is removed and REST API called to remove training from endpoint
-   * @param {TrainingInstanceTableDataObject} training training instance which should be removed
+   * @param {TrainingInstanceTableDataModel} training training instance which should be removed
    */
-  removeTraining(training: TrainingInstanceTableDataObject) {
+  removeTraining(training: TrainingInstanceTableDataModel) {
     const dialogRef = this.dialog.open(TrainingDeleteDialogComponent, {
       data: training
     });
@@ -163,43 +162,26 @@ export class TrainingInstancesListComponent implements OnInit {
           // Flip flag to show that loading has finished.
           this.isLoadingResults = false;
           this.isInErrorState = false;
-          this.resultsLength = data.length;
-
-          return this.mapTrainingInstancesToTableObjects(data);
+          this.resultsLength = data.tablePagination.totalElements;
+          return data;
         }),
-        catchError(() => {
+        catchError((err) => {
           this.isLoadingResults = false;
           this.isInErrorState = true;
+          this.errorHandler.displayHttpError(err, 'Loading training definitions');
           return of([]);
         })
-      ).subscribe(data => this.createDataSource(data));
+      ).subscribe((data: TableDataWithPaginationWrapper<TrainingInstanceTableDataModel[]>) => this.createDataSource(data));
   }
-
-  /**
-   * Maps fetched training instances to training instance table data
-   * @param data fetched training instances which should be mapped to training instances table data
-   */
-  private mapTrainingInstancesToTableObjects(data: TrainingInstance[]): TrainingInstanceTableDataObject[] {
-    const result: TrainingInstanceTableDataObject[] = [];
-    data.forEach(instance => {
-      const instanceDataObject = new TrainingInstanceTableDataObject();
-      instanceDataObject.trainingInstance = instance;
-      instanceDataObject.trainingDefinitionTitle = instance.trainingDefinition.title;
-      result.push(instanceDataObject);
-    });
-    return result;
-  }
-
   /**
    * Creates data source from fetched data
    * @param data fetched data
    */
-  private createDataSource(data: TrainingInstanceTableDataObject[]) {
-    this.dataSource = new MatTableDataSource(data);
-    this.dataSource.paginator = this.paginator;
+  private createDataSource(data: TableDataWithPaginationWrapper<TrainingInstanceTableDataModel[]>) {
+    this.dataSource = new MatTableDataSource(data.tableData);
     this.dataSource.sort = this.sort;
     this.dataSource.filterPredicate =
-      (data: TrainingInstanceTableDataObject, filter: string) =>
+      (data: TrainingInstanceTableDataModel, filter: string) =>
         data.trainingInstance.title.toLowerCase().indexOf(filter) !== -1;
   }
 }

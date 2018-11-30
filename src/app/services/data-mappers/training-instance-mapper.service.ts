@@ -7,6 +7,10 @@ import {TrainingInstanceRestResource} from "../../model/DTOs/trainingInstanceRes
 import {TrainingDefinitionMapperService} from './training-definition-mapper.service';
 import {TrainingDefinitionDTO} from '../../model/DTOs/trainingDefinitionDTO';
 import {UserRefDTO} from '../../model/DTOs/userRefDTO';
+import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
+import {TrainingInstanceTableDataModel} from "../../model/table-models/training-instance-table-data-model";
+import {Pagination} from "../../model/DTOs/pagination";
+import {TablePagination} from "../../model/table-models/table-pagination";
 
 @Injectable()
 export class TrainingInstanceMapperService {
@@ -17,12 +21,28 @@ export class TrainingInstanceMapperService {
 
   /**
    * Maps training instance dtos received from remote server to training instance objects
-   * @param trainingInstanceDTOs array of training instance dtos received from remote server
+   * @param resource array of training instance dtos received from remote server
    */
-  mapTrainingInstanceDTOsToTrainingInstances(trainingInstanceDTOs: TrainingInstanceRestResource): TrainingInstance[] {
+  mapTrainingInstanceDTOsToTrainingInstances(resource: TrainingInstanceRestResource): TrainingInstance[] {
     const result: TrainingInstance[] = [];
-    trainingInstanceDTOs.content.forEach(dto => result.push(this.mapTrainingInstanceDTOToTrainingInstance(dto)));
+    resource.content.forEach(dto => result.push(this.mapTrainingInstanceDTOToTrainingInstance(dto)));
     return result;
+  }
+
+  /**
+   * Maps training instance dtos received from remote server to training instance objects
+   * @param resource array of training instance dtos received from remote server with pagination
+   */
+  mapTrainingInstanceDTOsToTrainingInstancesWithPagination(resource: TrainingInstanceRestResource): TableDataWithPaginationWrapper<TrainingInstanceTableDataModel[]> {
+    const tableDataList: TrainingInstanceTableDataModel[] = [];
+    resource.content.forEach(dto => {
+      const tableRow = new TrainingInstanceTableDataModel();
+      tableRow.trainingInstance = this.mapTrainingInstanceDTOToTrainingInstance(dto);
+      tableRow.trainingDefinitionTitle = tableRow.trainingInstance.trainingDefinition.title;
+      tableDataList.push(tableRow);
+    });
+    const pagination: TablePagination = this.mapPaginationDTOToPaginationObject(resource.pagination);
+    return new TableDataWithPaginationWrapper(tableDataList, pagination);
   }
 
   /**
@@ -78,6 +98,15 @@ export class TrainingInstanceMapperService {
   private mapOrganizersToInstanceDTO(organizerIds: number[]): UserRefDTO[] {
     const result: UserRefDTO[] = [];
     organizerIds.forEach(organizerId => result.push({ id: organizerId ,user_ref_id: organizerId }));
+    return result;
+  }
+
+  private mapPaginationDTOToPaginationObject(pagination: Pagination): TablePagination {
+    const result: TablePagination = new TablePagination();
+    result.size = pagination.size;
+    result.totalElements = pagination.total_elements;
+    result.numberOfElements = pagination.number_of_elements;
+    result.totalPages = pagination.total_pages;
     return result;
   }
 }
