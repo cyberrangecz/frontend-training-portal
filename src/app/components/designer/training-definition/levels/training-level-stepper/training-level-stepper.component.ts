@@ -1,4 +1,14 @@
-import {Component, Input, OnChanges, OnInit, QueryList, SimpleChanges, ViewChildren} from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  QueryList,
+  SimpleChanges,
+  ViewChildren
+} from '@angular/core';
 import {AbstractLevel} from "../../../../../model/level/abstract-level";
 import {InfoLevel} from "../../../../../model/level/info-level";
 import {GameLevel} from "../../../../../model/level/game-level";
@@ -33,6 +43,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
   @Input('trainingDefinitionId') trainingDefinitionId: number;
   @Input('levels') levels: AbstractLevel[];
 
+
   isLoading = false;
   selectedStep: number = 0;
 
@@ -47,7 +58,6 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if ('levels' in changes) {
-      console.log(this.levels);
       this.resolveInitialLevels();
     }
   }
@@ -75,16 +85,11 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    */
   addInfoLevel() {
     this.isLoading = true;
-    const newInfoLevel = new InfoLevel();
-    newInfoLevel.id = null;
-
     this.trainingDefinitionSetter.createInfoLevel(this.trainingDefinitionId)
       .subscribe(
-        id => {
+        level => {
           this.isLoading = false;
-          newInfoLevel.id = id;
-          this.levels.push(newInfoLevel);
-          this.isLoading = false;
+          this.levels.push(level);
         },
         (err: HttpErrorResponse) => this.errorHandler.displayHttpError(err, 'Creating info level')
       );
@@ -95,13 +100,11 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    */
   addGameLevel() {
     this.isLoading = true;
-    const newGameLevel = new GameLevel();
     this.trainingDefinitionSetter.createGameLevel(this.trainingDefinitionId)
       .subscribe(
-        id => {
-        newGameLevel.id = id;
-        this.levels.push(newGameLevel);
-        this.isLoading = false
+        level => {
+        this.isLoading = false;
+          this.levels.push(level);
         },
         (err: HttpErrorResponse) =>  this.errorHandler.displayHttpError(err, 'Creating game level')
       );
@@ -112,13 +115,11 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    */
   addAssessmentLevel() {
    this.isLoading = true;
-    const newAssessmentLevel = new AssessmentLevel();
     this.trainingDefinitionSetter.createAssessmentLevel(this.trainingDefinitionId)
       .subscribe(
-        id => {
-          newAssessmentLevel.id = id;
-          this.levels.push(newAssessmentLevel);
+        level => {
           this.isLoading = false;
+          this.levels.push(level);
         },
         (err: HttpErrorResponse) => this.errorHandler.displayHttpError(err, 'Creating assessment level')
       );
@@ -218,6 +219,8 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
   private resolveInitialLevels() {
     if (!this.levels) {
       this.levels = [];
+    } else {
+      this.levels.sort((levelA, levelB ) => levelA.order - levelB.order);
     }
   }
 }

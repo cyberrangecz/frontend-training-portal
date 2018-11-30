@@ -6,6 +6,7 @@ import {AbstractLevelTypeEnum} from "../../enums/abstract-level-type.enum";
 export abstract class AbstractLevel {
   id: number;
   title: string;
+  order: number;
   nextLevel: number;
   maxScore: number;
   preHook: string;

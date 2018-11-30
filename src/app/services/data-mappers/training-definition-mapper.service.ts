@@ -89,7 +89,7 @@ export class TrainingDefinitionMapperService {
     let levels: AbstractLevel[] = [];
     if (trainingDefinitionDTO.basic_level_info_dtos) {
       levels = trainingDefinitionDTO.basic_level_info_dtos
-        .map((level: BasicLevelInfoDTO) => this.createLevelFromBasicInfo(level));
+        .map((level: BasicLevelInfoDTO) => this.mapBasicInfoDTOToAbstractLevel(level));
     }
     return levels;
   }
@@ -140,10 +140,11 @@ export class TrainingDefinitionMapperService {
     return result;
   }
 
-  createLevelFromBasicInfo(level: BasicLevelInfoDTO | AbstractLevelDTO ): AbstractLevel {
+  mapBasicInfoDTOToAbstractLevel(level: BasicLevelInfoDTO | AbstractLevelDTO ): AbstractLevel {
     const result = this.createLevelByType(level.level_type);
     result.id = level.id;
     result.title = level.title;
+    result.order = level.order;
     return result;
   }
 

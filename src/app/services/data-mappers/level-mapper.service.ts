@@ -11,7 +11,6 @@ import {GameLevelDTO} from "../../model/DTOs/gameLevelDTO";
 import {InfoLevelDTO} from "../../model/DTOs/infoLevelDTO";
 import {AssessmentLevelDTO} from "../../model/DTOs/assessmentLevelDTO";
 import {AbstractLevelTypeEnum} from "../../enums/abstract-level-type.enum";
-import {AssessmentTypeEnum} from "../../enums/assessment-type.enum";
 
 @Injectable()
 export class LevelMapperService {

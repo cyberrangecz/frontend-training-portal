@@ -10,6 +10,8 @@ import {TrainingDefinitionMapperService} from "../data-mappers/training-definiti
 import {LevelMapperService} from "../data-mappers/level-mapper.service";
 import {map} from "rxjs/operators";
 import {TrainingDefinitionDTO} from "../../model/DTOs/trainingDefinitionDTO";
+import {AbstractLevel} from "../../model/level/abstract-level";
+import {AbstractLevelDTO} from "../../model/DTOs/abstractLevelDTO";
 
 /**
  * Service to abstract communication with training definition endpoint.
@@ -68,10 +70,11 @@ export class TrainingDefinitionSetterService {
    * @param trainingDefId id of training definition which should be associated with the new level
    * @param assessmentLevel new assessment level which should be created in DB
    */
-  createAssessmentLevel(trainingDefId: number): Observable<number> {
-    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId + '/levels/ASSESSMENT',
+  createAssessmentLevel(trainingDefId: number): Observable<AssessmentLevel> {
+    return this.http.post<AbstractLevelDTO>(environment.trainingDefsEndpointUri + trainingDefId + '/levels/ASSESSMENT',
       {},
-      { headers: this.createDefaultHeaders()});
+      { headers: this.createDefaultHeaders()})
+      .pipe(map(resp => this.trainingDefinitionMapper.mapBasicInfoDTOToAbstractLevel(resp) as AssessmentLevel));
   }
 
   /**
@@ -79,10 +82,11 @@ export class TrainingDefinitionSetterService {
    * @param trainingDefId id of training definition which should be associated with the new level
    * @param gameLevel new game level which should be created in DB
    */
-  createGameLevel(trainingDefId: number): Observable<number> {
-    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId + '/levels/GAME',
+  createGameLevel(trainingDefId: number): Observable<GameLevel> {
+    return this.http.post<AbstractLevelDTO>(environment.trainingDefsEndpointUri + trainingDefId + '/levels/GAME',
       {},
-      { headers: this.createDefaultHeaders()});
+      { headers: this.createDefaultHeaders()})
+      .pipe(map(resp => this.trainingDefinitionMapper.mapBasicInfoDTOToAbstractLevel(resp) as GameLevel));
   }
 
   /**
@@ -90,10 +94,11 @@ export class TrainingDefinitionSetterService {
    * @param trainingDefId id of training definition which should be associated with the new level
    * @param infoLevel new info level which should be created in DB
    */
-  createInfoLevel(trainingDefId: number): Observable<number> {
-    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId + '/levels/INFO',
+  createInfoLevel(trainingDefId: number): Observable<InfoLevel> {
+    return this.http.post<AbstractLevelDTO>(environment.trainingDefsEndpointUri + trainingDefId + '/levels/INFO',
       {},
-      { headers: this.createDefaultHeaders()});
+      { headers: this.createDefaultHeaders()})
+      .pipe(map(resp => this.trainingDefinitionMapper.mapBasicInfoDTOToAbstractLevel(resp) as InfoLevel));
   }
 
   /**
