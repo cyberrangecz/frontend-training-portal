@@ -179,7 +179,6 @@ export class TrainingInstancesListComponent implements OnInit {
    */
   private createDataSource(data: TableDataWithPaginationWrapper<TrainingInstanceTableDataModel[]>) {
     this.dataSource = new MatTableDataSource(data.tableData);
-    this.dataSource.sort = this.sort;
     this.dataSource.filterPredicate =
       (data: TrainingInstanceTableDataModel, filter: string) =>
         data.trainingInstance.title.toLowerCase().indexOf(filter) !== -1;

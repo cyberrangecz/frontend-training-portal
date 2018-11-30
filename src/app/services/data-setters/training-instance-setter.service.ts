@@ -30,10 +30,9 @@ export class TrainingInstanceSetterService {
    * Sends request to update training instance in DB
    * @param trainingInstance training instance which should be updated
    */
-  updateTrainingInstance(trainingInstance: TrainingInstance): Observable<number> {
+  updateTrainingInstance(trainingInstance: TrainingInstance): Observable<any> {
     return this.http.put<TrainingInstanceDTO>(environment.trainingInstancesEndpointUri,
-      this.trainingInstanceMapper.mapTrainingInstanceToTrainingInstanceUpdateDTO(trainingInstance))
-      .pipe(map(trainingInstanceDTO => trainingInstanceDTO.id));
+      this.trainingInstanceMapper.mapTrainingInstanceToTrainingInstanceUpdateDTO(trainingInstance));
   }
 
   /**
