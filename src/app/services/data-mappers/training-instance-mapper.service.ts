@@ -41,8 +41,12 @@ export class TrainingInstanceMapperService {
       tableRow.trainingDefinitionTitle = tableRow.trainingInstance.trainingDefinition.title;
       tableDataList.push(tableRow);
     });
-    const pagination: TablePagination = this.mapPaginationDTOToPaginationObject(resource.pagination);
-    return new TableDataWithPaginationWrapper(tableDataList, pagination);
+    const tablePagination = new TablePagination(resource.pagination.number,
+      resource.pagination.number_of_elements,
+      resource.pagination.size,
+      resource.pagination.total_elements,
+      resource.pagination.total_pages);
+    return new TableDataWithPaginationWrapper(tableDataList, tablePagination);
   }
 
   /**
@@ -93,16 +97,6 @@ export class TrainingInstanceMapperService {
     result.password = trainingInstance.keyword;
     result.org_ids =  trainingInstance.organizersIds;
     result.training_definition_id = trainingInstance.trainingDefinition.id;
-    return result;
-  }
-
-
-  private mapPaginationDTOToPaginationObject(pagination: Pagination): TablePagination {
-    const result: TablePagination = new TablePagination();
-    result.size = pagination.size;
-    result.totalElements = pagination.total_elements;
-    result.numberOfElements = pagination.number_of_elements;
-    result.totalPages = pagination.total_pages;
     return result;
   }
 }

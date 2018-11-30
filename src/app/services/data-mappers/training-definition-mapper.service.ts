@@ -41,24 +41,17 @@ export class TrainingDefinitionMapperService {
 
   mapTrainingDefinitionDTOsToTrainingDefinitionsWithPagination(resource: TrainingDefinitionRestResource): TableDataWithPaginationWrapper<TrainingDefinitionTableDataModel[]> {
     const tableData: TrainingDefinitionTableDataModel[] = [];
-    const trainingDefs: TrainingDefinition[] = [];
     resource.content.forEach((trainingDTO: TrainingDefinitionDTO) => {
       const rowData = new TrainingDefinitionTableDataModel();
       rowData.trainingDefinition = this.mapTrainingDefinitionDTOToTrainingDefinition(trainingDTO);
       tableData.push(rowData);
     });
-    const tablePagination = this.mapPaginationDtoToPaginationObject(resource.pagination);
+    const tablePagination = new TablePagination(resource.pagination.number,
+      resource.pagination.number_of_elements,
+      resource.pagination.size,
+      resource.pagination.total_elements,
+      resource.pagination.total_pages);
     return new TableDataWithPaginationWrapper(tableData, tablePagination);
-  }
-
-  mapPaginationDtoToPaginationObject(paginationDto: Pagination): TablePagination {
-    const result = new TablePagination();
-    result.numberOfElements = paginationDto.number_of_elements;
-    result.page = paginationDto.number;
-    result.size = paginationDto.size;
-    result.totalElements = paginationDto.total_elements;
-    result.totalPages = paginationDto.total_pages;
-    return result;
   }
 
   /**

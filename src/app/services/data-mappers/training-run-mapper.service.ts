@@ -9,6 +9,9 @@ import {AccessedTrainingRunDTO} from "../../model/DTOs/accessedTrainingRunDTO";
 import {TraineeAccessedTrainingsTableDataModel} from "../../model/table-models/trainee-accessed-trainings-table-data-model";
 import {TraineeAccessTrainingRunActionEnum} from "../../enums/trainee-access-training-run-actions.enum";
 import PossibleActionEnum = AccessedTrainingRunDTO.PossibleActionEnum;
+import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
+import {TrainingRunTableDataModel} from "../../model/table-models/training-run-table-data-model";
+import {TablePagination} from "../../model/table-models/table-pagination";
 
 @Injectable()
 export class TrainingRunMapperService {
@@ -19,13 +22,34 @@ export class TrainingRunMapperService {
 
   /**
    * Maps training run DTOs retrieved from remote server to training run objects
-   * @param resources training run DTOs retrieved from remote server
+   * @param resource training run DTOs retrieved from remote server
    */
-  mapTrainingRunDTOsToTrainingRuns(resources: TrainingRunRestResource): TrainingRun[] {
+  mapTrainingRunDTOsToTrainingRuns(resource: TrainingRunRestResource): TrainingRun[] {
     const result: TrainingRun[] = [];
-    resources.content.forEach(trainingRunDTO =>
+    resource.content.forEach(trainingRunDTO =>
       result.push(this.mapTrainingRunDTOToTrainingRun(trainingRunDTO)));
     return result;
+  }
+
+  /**
+   * Maps training run DTOs retrieved from remote server to training run objects with pagination
+   * @param resource training run DTOs retrieved from remote server
+   */
+  mapTrainingRunDTOsToTrainingRunsWithPagination(resource: TrainingRunRestResource): TableDataWithPaginationWrapper<TrainingRunTableDataModel[]> {
+    const tableData: TrainingRunTableDataModel[] = [];
+    resource.content.forEach(trainingRunDTO => {
+      const tableRow = new TrainingRunTableDataModel();
+      tableRow.trainingRun = this.mapTrainingRunDTOToTrainingRun(trainingRunDTO);
+      tableRow.isWaitingForRevertResponse = false;
+      tableData.push(tableRow);
+    });
+
+    const tablePagination = new TablePagination(resource.pagination.number,
+      resource.pagination.number_of_elements,
+      resource.pagination.size,
+      resource.pagination.total_elements,
+      resource.pagination.total_pages);
+    return new TableDataWithPaginationWrapper(tableData, tablePagination);
   }
 
   /**

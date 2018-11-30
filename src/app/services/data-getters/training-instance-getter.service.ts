@@ -13,6 +13,7 @@ import {TrainingRunMapperService} from "../data-mappers/training-run-mapper.serv
 import {TrainingRunRestResource} from "../../model/DTOs/trainingRunRestResource";
 import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
 import {TrainingInstanceTableDataModel} from "../../model/table-models/training-instance-table-data-model";
+import {TrainingRunTableDataModel} from "../../model/table-models/training-run-table-data-model";
 
 @Injectable()
 /**
@@ -50,8 +51,6 @@ export class TrainingInstanceGetterService {
         this.trainingInstanceMapper.mapTrainingInstanceDTOsToTrainingInstancesWithPagination(response)));
   }
 
-
-
   /**
    * Retrieves training instance by  id
    * @param {number} id of the training distance
@@ -64,8 +63,17 @@ export class TrainingInstanceGetterService {
   }
 
   getTrainingRunsByTrainingInstanceId(trainingInstanceId: number): Observable<TrainingRun[]> {
-    return this.http.get<TrainingRunRestResource>(environment.trainingInstancesEndpointUri + trainingInstanceId + '/training-runs')
+    return this.http.get<TrainingRunRestResource>(environment.trainingInstancesEndpointUri + trainingInstanceId + '/training-runs/')
       .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
+  }
+
+  getTrainingRunsByTrainingInstanceIdWithPagination(trainingInstanceId: number, page: number, size: number, sort: string, sortDir: string)
+      : Observable<TableDataWithPaginationWrapper<TrainingRunTableDataModel[]>> {
+      let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
+        return this.http.get<TrainingRunRestResource>(
+          environment.trainingInstancesEndpointUri + trainingInstanceId + '/training-runs/',
+          { params: params })
+          .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRunsWithPagination(response)));
   }
 
   /**
