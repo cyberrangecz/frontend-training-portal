@@ -71,35 +71,31 @@ export class TrainingInstanceMapperService {
     const result = new TrainingInstanceCreateDTOClass();
     result.title = trainingInstance.title;
     result.pool_size = trainingInstance.poolSize;
-    result.start_time = new Date(trainingInstance.startTime);
-    result.end_time = new Date(trainingInstance.endTime);
-    result.keyword = trainingInstance.keyword;
-    result.organizers = this.mapOrganizersToInstanceDTO(trainingInstance.organizersIds);
-    result.training_definition = trainingInstance.trainingDefinition.id;
+    result.start_time = trainingInstance.startTime.toISOString();
+    result.end_time = trainingInstance.endTime.toISOString();
+    result.password = trainingInstance.keyword;
+    result.org_ids =  trainingInstance.organizersIds;
+    result.training_definition_id = trainingInstance.trainingDefinition.id;
     return result;
   }
 
   /**
-   * Maps trainign instance object to training instance update dto used to update existing resource on the remote server
+   * Maps training instance object to training instance update dto used to update existing resource on the remote server
    * @param trainingInstance training instance object which should be updated
    */
   mapTrainingInstanceToTrainingInstanceUpdateDTO(trainingInstance: TrainingInstance): TrainingInstanceUpdateDTO {
     const result = new TrainingInstanceUpdateDTOClass();
+    result.id = trainingInstance.id;
     result.title = trainingInstance.title;
     result.pool_size = trainingInstance.poolSize;
-    result.start_time = new Date(trainingInstance.startTime);
-    result.end_time = new Date(trainingInstance.endTime);
-    result.keyword = trainingInstance.keyword;
-    result.organizers = this.mapOrganizersToInstanceDTO(trainingInstance.organizersIds);
-    result.training_definition = trainingInstance.trainingDefinition.id;
+    result.start_time = trainingInstance.startTime.toISOString().split('.')[0];
+    result.end_time = trainingInstance.endTime.toISOString().split('.')[0];
+    result.password = trainingInstance.keyword;
+    result.org_ids =  trainingInstance.organizersIds;
+    result.training_definition_id = trainingInstance.trainingDefinition.id;
     return result;
   }
 
-  private mapOrganizersToInstanceDTO(organizerIds: number[]): UserRefDTO[] {
-    const result: UserRefDTO[] = [];
-    organizerIds.forEach(organizerId => result.push({ id: organizerId ,user_ref_id: organizerId }));
-    return result;
-  }
 
   private mapPaginationDTOToPaginationObject(pagination: Pagination): TablePagination {
     const result: TablePagination = new TablePagination();
