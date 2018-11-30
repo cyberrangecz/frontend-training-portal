@@ -74,7 +74,7 @@ export class TrainingDefinitionMapperService {
   }
 
   private getSandboxDefinitionIdFromDTO(trainingDefinitionDTO: TrainingDefinitionDTO): number {
-    return trainingDefinitionDTO.sand_box_definition_ref ? trainingDefinitionDTO.sand_box_definition_ref.id : undefined;
+    return trainingDefinitionDTO.sandbox_definition_ref ? trainingDefinitionDTO.sandbox_definition_ref.id : undefined;
   }
 
   private getAuthorRefDtoFromDTO(trainingDefinitionDTO: TrainingDefinitionDTO): number[] {
