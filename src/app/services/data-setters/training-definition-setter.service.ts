@@ -12,6 +12,7 @@ import {map} from "rxjs/operators";
 import {TrainingDefinitionDTO} from "../../model/DTOs/trainingDefinitionDTO";
 import {AbstractLevel} from "../../model/level/abstract-level";
 import {AbstractLevelDTO} from "../../model/DTOs/abstractLevelDTO";
+import {BasicLevelInfoDTO} from "../../model/DTOs/basicLevelInfoDTO";
 
 /**
  * Service to abstract communication with training definition endpoint.
@@ -150,10 +151,11 @@ export class TrainingDefinitionSetterService {
    * @param trainingDefId id of training definition id associated with the level
    * @param levelId id of a level which should be swapped
    */
-  swapLeft(trainingDefId: number, levelId: number) {
-    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + levelId + '/swap-left',
+  swapLeft(trainingDefId: number, levelId: number): Observable<AbstractLevel[]> {
+    return this.http.put<BasicLevelInfoDTO[]>(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + levelId + '/swap-left',
       {},
-      { headers: this.createDefaultHeaders()});
+      { headers: this.createDefaultHeaders()})
+      .pipe(map(resp => this.trainingDefinitionMapper.mapBasicInfoDTOsToAbstractLevels(resp)));
   }
 
   /**
@@ -161,10 +163,11 @@ export class TrainingDefinitionSetterService {
    * @param trainingDefId id of training definition associated with the level
    * @param levelId id of a level which should be swapped
    */
-  swapRight(trainingDefId: number, levelId: number) {
-    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + levelId + '/swap-right',
+  swapRight(trainingDefId: number, levelId: number): Observable<AbstractLevel[]>{
+    return this.http.put<BasicLevelInfoDTO[]>(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + levelId + '/swap-right',
       {},
-      { headers: this.createDefaultHeaders()});
+      { headers: this.createDefaultHeaders()})
+      .pipe(map(resp => this.trainingDefinitionMapper.mapBasicInfoDTOsToAbstractLevels(resp)));
   }
 
   /**

@@ -140,6 +140,12 @@ export class TrainingDefinitionMapperService {
     return result;
   }
 
+  mapBasicInfoDTOsToAbstractLevels(resource: BasicLevelInfoDTO[]): AbstractLevel[] {
+    const result: AbstractLevel[] = [];
+    resource.forEach(levelDTO => result.push(this.mapBasicInfoDTOToAbstractLevel(levelDTO)));
+    return result;
+  }
+
   mapBasicInfoDTOToAbstractLevel(level: BasicLevelInfoDTO | AbstractLevelDTO ): AbstractLevel {
     const result = this.createLevelByType(level.level_type);
     result.id = level.id;

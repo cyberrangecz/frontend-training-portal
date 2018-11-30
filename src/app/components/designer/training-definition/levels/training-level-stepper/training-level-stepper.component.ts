@@ -131,7 +131,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
   swapLeft() {
     this.isLoading = true;
     this.trainingDefinitionSetter.swapLeft(this.trainingDefinitionId, this.levels[this.selectedStep].id)
-      .subscribe(resp => this.refreshLevels(),
+      .subscribe(resp => this.levels = resp.sort((levelA, levelB ) => levelA.order - levelB.order),
           err => this.errorHandler.displayHttpError(err, 'Swapping level to the left')
       );
   }
@@ -141,22 +141,9 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
   swapRight() {
     this.isLoading = true;
     this.trainingDefinitionSetter.swapRight(this.trainingDefinitionId, this.levels[this.selectedStep].id)
-      .subscribe(resp => this.refreshLevels(),
+      .subscribe(resp => this.levels = resp.sort((levelA, levelB ) => levelA.order - levelB.order),
         err => this.errorHandler.displayHttpError(err, 'Swapping level to the right')
         );
-  }
-
-  private refreshLevels() {
-    this.isLoading = true;
-    this.trainingDefinitionGetter.getTrainingDefinitionById(this.trainingDefinitionId)
-      .subscribe(resp => {
-        this.isLoading = false;
-        this.levels = resp.levels;
-      },
-          err => {
-        this.isLoading = false;
-        this.errorHandler.displayHttpError(err, 'Reloading levels')
-      });
   }
 
   /**
@@ -176,7 +163,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
       if (result && result.type === 'confirm') {
         this.isLoading = true;
         this.trainingDefinitionSetter.removeLevel(this.trainingDefinitionId, this.levels[index].id)
-          .subscribe(response => this.refreshLevels(),
+          .subscribe(response => //this.refreshLevels(),
             err => this.errorHandler.displayHttpError(err, 'Deleting level')
           );
       }
