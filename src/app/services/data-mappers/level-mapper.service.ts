@@ -30,18 +30,17 @@ export class LevelMapperService {
    * @param levelDTO levelDTO received from remote server
    */
   mapLevelDTOToLevel(levelDTO: AbstractLevelDTO): InfoLevel | GameLevel | AssessmentLevel {
-    return null;
-/*    switch(levelDTO.levelType) {
+    switch(levelDTO.level_type) {
       case AbstractLevelDTO.LevelTypeEnum.GAME: {
-        return this.createGameLevelFromDTO(levelDTO);
+        return this.createGameLevelFromDTO(levelDTO as GameLevelDTO);
       }
       case AbstractLevelDTO.LevelTypeEnum.INFO: {
-        return this.createInfoLevelFromDTO(levelDTO);
+        return this.createInfoLevelFromDTO(levelDTO as InfoLevelDTO);
       }
       case AbstractLevelDTO.LevelTypeEnum.ASSESSMENT: {
-        return this.createAssessmentLevelFromDTO(levelDTO);
+        return this.createAssessmentLevelFromDTO(levelDTO as AssessmentLevelDTO);
       }
-    }*/
+    }
   }
 
   /**
@@ -50,7 +49,7 @@ export class LevelMapperService {
    */
   mapGameLevelToGameLevelUpdateDTO(level: GameLevel): GameLevelUpdateDTO {
     return null;
-    /*    const result = new GameLevelUpdateDTOClass();
+/*        const result = new GameLevelUpdateDTOClass();
     result.id = level.id;
     result.content = level.content;
     result.estimatedDuration = level.estimatedDuration;
