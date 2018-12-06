@@ -157,7 +157,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
   }
 
   private checkStateChange(): Observable<boolean> {
-    if (!this.editMode || this.selectedState === 'unreleased') {
+    if (!this.editMode || this.selectedState === TrainingDefinitionStateEnum.Unreleased ) {
       return of(true);
     } else {
       return this.displayUserDialogToConfirmStateChange()

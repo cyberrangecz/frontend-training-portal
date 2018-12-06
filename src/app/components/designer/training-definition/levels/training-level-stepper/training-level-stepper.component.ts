@@ -89,6 +89,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
       .subscribe(
         level => {
           this.isLoading = false;
+          console.log(level);
           this.levels.push(level);
         },
         (err: HttpErrorResponse) => this.errorHandler.displayHttpError(err, 'Creating info level')
@@ -104,6 +105,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
       .subscribe(
         level => {
         this.isLoading = false;
+          console.log(level);
           this.levels.push(level);
         },
         (err: HttpErrorResponse) =>  this.errorHandler.displayHttpError(err, 'Creating game level')
@@ -119,6 +121,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
       .subscribe(
         level => {
           this.isLoading = false;
+          console.log(level);
           this.levels.push(level);
         },
         (err: HttpErrorResponse) => this.errorHandler.displayHttpError(err, 'Creating assessment level')

@@ -126,7 +126,7 @@ export class TrainingDefinitionMapperService {
 
     result.id = trainingDefinition.id;
     result.description = trainingDefinition.description;
-    result.sand_box_definition_ref = trainingDefinition.sandboxDefinitionId;
+    result.sandbox_definition_ref = trainingDefinition.sandboxDefinitionId;
     trainingDefinition.outcomes.forEach(outcome => result.outcomes.push(outcome));
     trainingDefinition.prerequisites.forEach(prerequisite => result.prerequisities.push(prerequisite));
     result.aut_ids = trainingDefinition.authorIds as number[];
@@ -144,6 +144,7 @@ export class TrainingDefinitionMapperService {
   }
 
   mapBasicInfoDTOToAbstractLevel(level: BasicLevelInfoDTO ): AbstractLevel {
+    console.log(level);
     const result = this.createLevelByType(level.level_type);
     result.id = level.id;
     result.title = level.title;

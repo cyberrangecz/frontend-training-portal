@@ -22,7 +22,7 @@ export interface TrainingDefinitionUpdateDTO {
     id?: number;
     outcomes?: Array<string>;
     prerequisities?: Array<string>;
-    sand_box_definition_ref?: number;
+    sandbox_definition_ref?: number;
     show_stepper_bar?: boolean;
     state?: TrainingDefinitionUpdateDTO.StateEnum;
     title?: string;
@@ -34,7 +34,7 @@ export class TrainingDefinitionUpdateDTOClass implements TrainingDefinitionUpdat
   id: number;
   outcomes: Array<string>;
   prerequisities: Array<string>;
-  sand_box_definition_ref?: number;
+  sandbox_definition_ref?: number;
   show_stepper_bar: boolean;
   state: TrainingDefinitionUpdateDTO.StateEnum;
   title: string;
