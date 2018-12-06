@@ -7,13 +7,13 @@ import {Hint} from "./hint";
 export class GameLevel extends AbstractLevel {
 
   flag: string;
-  hints: Hint[];
-  content: string; // HTML
-  solution: string; // HTML
+  hints: Hint[] = [];
+  content: string;
+  solution: string;
   incorrectFlagLimit: number = 5;
   solutionPenalized: boolean = true;
   estimatedDuration: number;
-  attachments: string[];
+  attachments: string[] = [];
 
   constructor() {
     super();

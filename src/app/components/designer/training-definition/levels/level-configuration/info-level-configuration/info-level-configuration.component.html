@@ -2,7 +2,7 @@
   <div class="header">
     <h2>Info Level Detail</h2>
     <span class="spacer"></span>
-    <button mat-raised-button color="primary" (click)="saveChanges()">
+    <button mat-raised-button color="primary" [disabled]="isLoading" (click)="saveChanges()">
       Save Changes
     </button>
   </div>
@@ -11,8 +11,8 @@
     <!-- TITLE filed -->
     <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>
-      <input (change)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
-      <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title=''; contentChanged()">
+      <input [disabled]="isLoading" (change)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
+      <button mat-button *ngIf="title && !isLoading" matSuffix mat-icon-button aria-label="Clear" (click)="title=''; contentChanged()">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
@@ -24,11 +24,11 @@
 
   <div class="footer">
     <span class="spacer"></span>
-    <button mat-raised-button color="warn" (click)="onDeleteLevel()">
+    <button mat-raised-button color="warn" [disabled]="isLoading" (click)="onDeleteLevel()">
       Delete level
     </button>
 
-    <button mat-raised-button color="primary" (click)="saveChanges()">
+    <button mat-raised-button color="primary" [disabled]="isLoading" (click)="saveChanges()">
       Save Changes
     </button>
   </div>

@@ -29,6 +29,7 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
 
   @Input('questions') questions: AbstractQuestion[];
   @Input('isTest') isTest: boolean;
+  @Input('disabled') disabled: boolean;
 
   @Output('questions') questionChange = new EventEmitter();
 

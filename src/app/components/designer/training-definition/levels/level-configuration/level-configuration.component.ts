@@ -24,6 +24,7 @@ export class LevelConfigurationComponent implements OnInit, OnChanges {
   @ViewChild(InfoLevelConfigurationComponent) infoLevelComponent;
 
   @Input('level') level: AbstractLevel;
+  @Input('trainingDefinitionId') trainingDefinitionId: number;
   @Output('deleteLevel') deleteLevel: EventEmitter<number> = new EventEmitter();
 
   detailedLevel$: Observable<GameLevel> | Observable<InfoLevel> | Observable<AssessmentLevel>;

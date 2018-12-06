@@ -58,7 +58,7 @@
     <mat-step *ngFor="let level of levels; index as i">
       <ng-template matStepLabel>{{ level.title | levelStepperLabel: i + 1: levels.length }}</ng-template>
       <div class="step-content">
-        <level-configuration (deleteLevel)="deleteLevel($event)" [level]="level"></level-configuration>
+        <level-configuration (deleteLevel)="deleteLevel($event)" [level]="level" [trainingDefinitionId]="trainingDefinitionId"></level-configuration>
       </div>
     </mat-step>
   </mat-horizontal-stepper>

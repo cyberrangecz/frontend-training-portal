@@ -25,6 +25,8 @@ export class HintStepperComponent implements OnInit, OnChanges {
 
   @Input('hints') hints: Hint[];
   @Input('levelMaxScore') levelMaxScore: number;
+  @Input('disabled') disabled: boolean;
+
   @Output('hints') hintsChange = new EventEmitter();
 
   @ViewChildren(HintConfigurationComponent) hintConfigurationChildren: QueryList<HintConfigurationComponent>;
