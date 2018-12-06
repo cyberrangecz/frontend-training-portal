@@ -23,7 +23,6 @@ export class LevelConfigurationComponent implements OnInit, OnChanges {
   @ViewChild(AssessmentLevelConfigurationComponent) assessmentLevelComponent;
   @ViewChild(InfoLevelConfigurationComponent) infoLevelComponent;
 
-
   @Input('level') level: AbstractLevel;
   @Output('deleteLevel') deleteLevel: EventEmitter<number> = new EventEmitter();
 

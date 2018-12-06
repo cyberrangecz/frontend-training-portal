@@ -11,33 +11,16 @@
  */
 
 
+import {AbstractLevelDTO} from "./abstractLevelDTO";
+import {PreHookDTO} from "./preHookDTO";
+import {PostHookDTO} from "./postHookDTO";
+
 /**
  * Assessment Level to update.
  */
-export interface AssessmentLevelUpdateDTO {
-    /**
-     * ID of assessment level to update. Have not be null.
-     */
-    id?: number;
-    /**
-     * Instructions of assessment level to update.
-     */
+export interface AssessmentLevelUpdateDTO extends AbstractLevelDTO {
     instructions?: string;
-    /**
-     * Maximum score of assessment level to update. Have to be filled in range from 0 to 100.
-     */
-    max_score?: number;
-    /**
-     * Questions of assessment level to update.
-     */
     questions?: string;
-    /**
-     * Title of assessment level to update. Have to be filled.
-     */
-    title?: string;
-    /**
-     * Type of assessment level to update.
-     */
     type?: AssessmentLevelUpdateDTO.TypeEnum;
 }
 export namespace AssessmentLevelUpdateDTO {
@@ -46,4 +29,18 @@ export namespace AssessmentLevelUpdateDTO {
         TEST: 'TEST' as TypeEnum,
         QUESTIONNAIRE: 'QUESTIONNAIRE' as TypeEnum
     }
+}
+
+export class AssessmentLevelUpdateDTOClass implements AssessmentLevelUpdateDTO {
+  id: number;
+  instructions: string;
+  level_type: AbstractLevelDTO.LevelTypeEnum;
+  max_score: number;
+  next_level: number;
+  post_hook: PostHookDTO;
+  pre_hook: PreHookDTO;
+  questions: string;
+  title: string;
+  type: AssessmentLevelUpdateDTO.TypeEnum;
+
 }

@@ -23,7 +23,7 @@ export interface AbstractLevelDTO {
     post_hook?: PostHookDTO;
     pre_hook?: PreHookDTO;
     title?: string;
-    order?: number;
+    next_level?: number;
     level_type: AbstractLevelDTO.LevelTypeEnum;
 }
 
