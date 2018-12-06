@@ -75,8 +75,8 @@ export class TrainingInstanceMapperService {
     const result = new TrainingInstanceCreateDTOClass();
     result.title = trainingInstance.title;
     result.pool_size = trainingInstance.poolSize;
-    result.start_time = trainingInstance.startTime.toISOString().split('.')[0];
-    result.end_time = trainingInstance.endTime.toISOString().split('.')[0];
+    result.start_time = trainingInstance.startTime.toISOString();
+    result.end_time = trainingInstance.endTime.toISOString();
     result.password = trainingInstance.keyword;
     result.org_ids =  trainingInstance.organizersIds;
     result.training_definition_id = trainingInstance.trainingDefinition.id;
@@ -92,8 +92,8 @@ export class TrainingInstanceMapperService {
     result.id = trainingInstance.id;
     result.title = trainingInstance.title;
     result.pool_size = trainingInstance.poolSize;
-    result.start_time = trainingInstance.startTime.toISOString().split('.')[0];
-    result.end_time = trainingInstance.endTime.toISOString().split('.')[0];
+    result.start_time = trainingInstance.startTime.toISOString();
+    result.end_time = trainingInstance.endTime.toISOString();
     result.password = trainingInstance.keyword;
     result.org_ids =  trainingInstance.organizersIds;
     result.training_definition_id = trainingInstance.trainingDefinition.id;
