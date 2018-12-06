@@ -12,6 +12,7 @@
 import { AuthorRefDTO } from './authorRefDTO';
 import { BasicLevelInfoDTO } from './basicLevelInfoDTO';
 import { SandboxDefinitionRefDTO } from './sandboxDefinitionRefDTO';
+import {AbstractLevelDTO} from "./abstractLevelDTO";
 
 
 /**
@@ -19,7 +20,7 @@ import { SandboxDefinitionRefDTO } from './sandboxDefinitionRefDTO';
  */
 export interface TrainingDefinitionDTO {
     author_ref?: Array<AuthorRefDTO>;
-    basic_level_info_dtos?: Array<BasicLevelInfoDTO>;
+    levels?: Array<AbstractLevelDTO>;
     description?: string;
     id?: number;
     outcomes?: Array<string>;
@@ -33,7 +34,7 @@ export interface TrainingDefinitionDTO {
 
 export class TrainingDefinitionDTOClass {
   author_ref?: Array<AuthorRefDTO>;
-  basic_level_info_dtos?: Array<BasicLevelInfoDTO>;
+  levels?: Array<AbstractLevelDTO>;
   description?: string;
   id?: number;
   outcomes?: Array<string>;

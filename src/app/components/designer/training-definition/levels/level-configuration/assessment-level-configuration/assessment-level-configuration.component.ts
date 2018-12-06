@@ -113,10 +113,12 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
    * Sets values to the inputs from passed level object (edit mode)
    */
   private setInitialValues() {
-    this.title = this.level.title;
-    this.questions = this.level.questions;
-    this.instructions = this.level.instructions;
-    this.isTest = this.level.assessmentType === AssessmentTypeEnum.Test;
+    if (this.level) {
+      this.title = this.level.title;
+      this.questions = this.level.questions;
+      this.instructions = this.level.instructions;
+      this.isTest = this.level.assessmentType === AssessmentTypeEnum.Test;
+    }
   }
 
 

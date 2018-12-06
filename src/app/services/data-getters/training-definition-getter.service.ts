@@ -60,12 +60,13 @@ export class TrainingDefinitionGetterService {
   /**
    * Retrieves training definition by its id
    * @param {number} id id of training definition
+   * @param withLevels
    * @returns {Observable<TrainingDefinition>} Observable of retrieved training definition, null if no training with such id is found
    */
-  getTrainingDefinitionById(id: number): Observable<TrainingDefinition> {
+  getTrainingDefinitionById(id: number, withLevels = false): Observable<TrainingDefinition> {
     return this.http.get<TrainingDefinitionDTO>(environment.trainingDefsEndpointUri + id)
       .pipe(map(response =>
-        this.trainingDefinitionMapper.mapTrainingDefinitionDTOToTrainingDefinition(response)));  }
+        this.trainingDefinitionMapper.mapTrainingDefinitionDTOToTrainingDefinition(response, withLevels)));  }
 
   /**
    * Downloads Training Definition file

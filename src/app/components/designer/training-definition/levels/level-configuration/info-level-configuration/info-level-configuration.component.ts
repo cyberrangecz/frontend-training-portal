@@ -102,7 +102,9 @@ export class InfoLevelConfigurationComponent implements OnInit, OnChanges {
    * Sets initial values to inputs from info level object (edit mode)
    */
   private setInitialValues() {
-    this.title = this.level.title;
-    this.content = this.level.content;
+    if (this.level) {
+      this.title = this.level.title;
+      this.content = this.level.content;
+    }
   }
 }

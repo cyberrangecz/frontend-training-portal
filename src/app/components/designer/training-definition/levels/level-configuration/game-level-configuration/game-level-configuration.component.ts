@@ -4,7 +4,6 @@ import {AlertTypeEnum} from "../../../../../../enums/alert-type.enum";
 import {AlertService} from "../../../../../../services/event-services/alert.service";
 import {Hint} from "../../../../../../model/level/hint";
 import {HintStepperComponent} from "../hints/hint-stepper/hint-stepper.component";
-import {environment} from "../../../../../../../environments/environment";
 
 @Component({
   selector: 'game-level-configuration',
@@ -138,15 +137,17 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
    * Sets initial values from passed game level object to inputs (edit mode)
    */
   private setInitialValues() {
-    this.title = this.level.title;
-    this.content = this.level.content;
-    this.solution = this.level.solution;
-    this.maxScore = this.level.maxScore;
-    this.flag = this.level.flag;
-    this.solutionPenalized = this.level.solutionPenalized;
-    this.incorrectFlagLimit = this.level.incorrectFlagLimit;
-    this.estimatedDuration = this.level.estimatedDuration;
-    this.hints = this.level.hints;
+    if (this.level) {
+      this.title = this.level.title;
+      this.content = this.level.content;
+      this.solution = this.level.solution;
+      this.maxScore = this.level.maxScore;
+      this.flag = this.level.flag;
+      this.solutionPenalized = this.level.solutionPenalized;
+      this.incorrectFlagLimit = this.level.incorrectFlagLimit;
+      this.estimatedDuration = this.level.estimatedDuration;
+      this.hints = this.level.hints;
+    }
   }
 
 }

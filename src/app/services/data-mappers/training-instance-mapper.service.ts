@@ -57,7 +57,7 @@ export class TrainingInstanceMapperService {
     const result = new TrainingInstance();
     result.id = trainingInstanceDTO.id;
     result.trainingDefinition = this.trainingDefinitionMapper
-      .mapTrainingDefinitionDTOToTrainingDefinition(trainingInstanceDTO.training_definition);
+      .mapTrainingDefinitionDTOToTrainingDefinition(trainingInstanceDTO.training_definition, false);
     result.startTime = new Date(trainingInstanceDTO.start_time);
     result.endTime = new Date(trainingInstanceDTO.end_time);
     result.title = trainingInstanceDTO.title;

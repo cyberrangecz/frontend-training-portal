@@ -34,7 +34,7 @@ export class TrainingDefinitionMapperService {
   mapTrainingDefinitionDTOsToTrainingDefinitions(resource: TrainingDefinitionRestResource): TrainingDefinition[] {
     const result: TrainingDefinition[] = [];
     resource.content.forEach((trainingDTO: TrainingDefinitionDTO) => {
-      result.push(this.mapTrainingDefinitionDTOToTrainingDefinition(trainingDTO));
+      result.push(this.mapTrainingDefinitionDTOToTrainingDefinition(trainingDTO, false));
     });
     return result;
   }
@@ -43,7 +43,7 @@ export class TrainingDefinitionMapperService {
     const tableData: TrainingDefinitionTableDataModel[] = [];
     resource.content.forEach((trainingDTO: TrainingDefinitionDTO) => {
       const rowData = new TrainingDefinitionTableDataModel();
-      rowData.trainingDefinition = this.mapTrainingDefinitionDTOToTrainingDefinition(trainingDTO);
+      rowData.trainingDefinition = this.mapTrainingDefinitionDTOToTrainingDefinition(trainingDTO, false);
       tableData.push(rowData);
     });
     const tablePagination = new TablePagination(resource.pagination.number,
@@ -57,8 +57,9 @@ export class TrainingDefinitionMapperService {
   /**
    * Maps training definition DTO retrieved from the server to internal training definition object
    * @param trainingDefinitionDTO training definition DTO retrieved from server
+   * @param withLevels
    */
-  mapTrainingDefinitionDTOToTrainingDefinition(trainingDefinitionDTO: TrainingDefinitionDTO): TrainingDefinition {
+  mapTrainingDefinitionDTOToTrainingDefinition(trainingDefinitionDTO: TrainingDefinitionDTO, withLevels: boolean): TrainingDefinition {
     const result = new TrainingDefinition();
     result.id = trainingDefinitionDTO.id;
     result.sandboxDefinitionId = this.getSandboxDefinitionIdFromDTO(trainingDefinitionDTO);
@@ -68,8 +69,10 @@ export class TrainingDefinitionMapperService {
     result.prerequisites =  trainingDefinitionDTO.prerequisities;
     result.outcomes = trainingDefinitionDTO.outcomes;
     result.state = this.mapTrainingDefDTOStateToEnum(trainingDefinitionDTO.state);
-    result.levels = this.getLevelsFromDTO(trainingDefinitionDTO);
     result.startingLevel = trainingDefinitionDTO.starting_level;
+    if (withLevels) {
+      result.levels = this.getLevelsFromDTO(trainingDefinitionDTO);
+    }
     return result;
   }
 
@@ -87,9 +90,9 @@ export class TrainingDefinitionMapperService {
 
   private getLevelsFromDTO(trainingDefinitionDTO: TrainingDefinitionDTO): AbstractLevel[] {
     let levels: AbstractLevel[] = [];
-    if (trainingDefinitionDTO.basic_level_info_dtos) {
-      levels = trainingDefinitionDTO.basic_level_info_dtos
-        .map((level: BasicLevelInfoDTO) => this.mapBasicInfoDTOToAbstractLevel(level));
+    if (trainingDefinitionDTO.levels) {
+      levels = trainingDefinitionDTO.levels
+        .map((level: AbstractLevelDTO) => this.mapBasicInfoDTOToAbstractLevel(level));
     }
     return levels;
   }
@@ -143,8 +146,7 @@ export class TrainingDefinitionMapperService {
     return result;
   }
 
-  mapBasicInfoDTOToAbstractLevel(level: BasicLevelInfoDTO ): AbstractLevel {
-    console.log(level);
+  mapBasicInfoDTOToAbstractLevel(level: BasicLevelInfoDTO): AbstractLevel {
     const result = this.createLevelByType(level.level_type);
     result.id = level.id;
     result.title = level.title;
