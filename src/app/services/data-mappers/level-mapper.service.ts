@@ -11,6 +11,9 @@ import {GameLevelDTO} from "../../model/DTOs/gameLevelDTO";
 import {InfoLevelDTO} from "../../model/DTOs/infoLevelDTO";
 import {AssessmentLevelDTO} from "../../model/DTOs/assessmentLevelDTO";
 import {AbstractLevelTypeEnum} from "../../enums/abstract-level-type.enum";
+import {AssessmentTypeEnum} from "../../enums/assessment-type.enum";
+import {HintDTO, HintDTOClass} from "../../model/DTOs/hintDTO";
+import {Hint} from "../../model/level/hint";
 
 @Injectable()
 export class LevelMapperService {
@@ -58,7 +61,7 @@ export class LevelMapperService {
     result.incorrect_flag_limit = level.incorrectFlagLimit;
     result.solution = level.solution;
     result.solution_penalized = level.solutionPenalized;
-    //TODO: map HINTS
+    result.hints = this.mapHintsToHintsDTO(level.hints);
     return result;
   }
 
@@ -83,7 +86,7 @@ export class LevelMapperService {
     this.setAbstractLevelDTOAttributesFromObject(level, result);
     result.instructions = level.instructions;
     result.level_type = AbstractLevelDTO.LevelTypeEnum.ASSESSMENT;
-    //TODO: mapping result.type = level.assessmentType;
+    result.type = this.mapAssessmentTypeToDTO(level.assessmentType);
     //TODO: mappping for result.questions = level.questions;
     return result;
   }
@@ -103,6 +106,7 @@ export class LevelMapperService {
     result.solutionPenalized = gameLevelDTO.solution_penalized;
     result.estimatedDuration = gameLevelDTO.estimated_duration;
     result.attachments = gameLevelDTO.attachments;
+    result.hints = this.mapHintsDTOToHints(gameLevelDTO.hints);
     return result;
   }
 
@@ -128,7 +132,7 @@ export class LevelMapperService {
     result.type = AbstractLevelTypeEnum.Assessment;
     //TODO: mapping result.questions = assessmentLevelDTO.questions;
     result.instructions = assessmentLevelDTO.instructions;
-    // TODO: mapping result.assessmentType = AssessmentTypeEnum[assessmentLevelDTO.]type;
+    result.assessmentType = this.mapAssessmentTypeFromDTO(assessmentLevelDTO.assessment_type);
     return result;
   }
 
@@ -158,5 +162,51 @@ export class LevelMapperService {
     levelDTO.max_score = level.maxScore;
     //TODO: mapping levelDTO.post_hook;
     //TODO: mapping levelDTO.pre_hook;
+  }
+
+  private mapAssessmentTypeFromDTO(type: AssessmentLevelDTO.AssessmentTypeEnum): AssessmentTypeEnum {
+    switch (type) {
+      case AssessmentLevelDTO.AssessmentTypeEnum.TEST: return AssessmentTypeEnum.Test;
+      case AssessmentLevelDTO.AssessmentTypeEnum.QUESTIONNAIRE: return AssessmentTypeEnum.Questionnaire;
+      default: console.error('Could not map AssessmentType to any known type');
+    }
+  }
+
+  private mapAssessmentTypeToDTO(type: AssessmentTypeEnum): AssessmentLevelDTO.AssessmentTypeEnum {
+    switch (type) {
+      case AssessmentTypeEnum.Test: return AssessmentLevelDTO.AssessmentTypeEnum.TEST;
+      case AssessmentTypeEnum.Questionnaire: return  AssessmentLevelDTO.AssessmentTypeEnum.QUESTIONNAIRE ;
+      default: console.error('Could not map AssessmentType to any known DTO');
+    }
+  }
+
+  private mapHintsDTOToHints(hints: HintDTO[]): Hint[] {
+    const result: Hint[] = [];
+    hints.forEach(hintDto => result.push(this.mapHintDTOToHint(hintDto)));
+    return result;
+  }
+
+  private mapHintDTOToHint(hint: HintDTO): Hint {
+    const result = new Hint();
+    result.id = hint.id;
+    result.content = hint.content;
+    result.title = hint.title;
+    result.hintPenalty = hint.hint_penalty;
+    return result;
+  }
+
+  private mapHintsToHintsDTO(hints: Hint[]): HintDTO[]  {
+    const result: HintDTO[] = [];
+    hints.forEach(hint => result.push(this.mapHintToHintDTO(hint)));
+    return result;
+  }
+
+  private mapHintToHintDTO(hint: Hint): HintDTO {
+    const result = new HintDTOClass();
+    result.id = hint.id;
+    result.content = hint.content;
+    result.title = hint.title;
+    result.hint_penalty = hint.hintPenalty;
+    return result;
   }
 }

@@ -17,3 +17,10 @@ export interface HintDTO {
     id?: number;
     title?: string;
 }
+
+export class HintDTOClass implements HintDTO {
+  content: string;
+  hint_penalty: number;
+  id: number;
+  title: string;
+}
