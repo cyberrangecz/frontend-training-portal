@@ -11,6 +11,8 @@ import {MatDialog} from "@angular/material";
 import {RevealHintDialogComponent} from "./user-action-dialogs/reveal-hint-dialog/reveal-hint-dialog.component";
 import {RevealSolutionDialogComponent} from "./user-action-dialogs/reveal-solution-dialog/reveal-solution-dialog.component";
 import {WrongFlagDialogComponent} from "./user-action-dialogs/wrong-flag-dialog/wrong-flag-dialog.component";
+import {TrainingRunSetterService} from "../../../../../services/data-setters/training-run.setter.service";
+import {ComponentErrorHandlerService} from "../../../../../services/component-error-handler.service";
 
 @Component({
   selector: 'training-run-game-level',
@@ -32,6 +34,8 @@ export class TrainingRunGameLevelComponent implements OnInit {
   graphWidth: number;
   graphHeight: number;
 
+  isLoading = false;
+
   displayedText: string;
   flag: string;
   correctFlag = false;
@@ -40,6 +44,8 @@ export class TrainingRunGameLevelComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
+    private trainingRunSetter: TrainingRunSetterService,
+    private errorHandler: ComponentErrorHandlerService,
     private activeLevelService: ActiveTrainingRunLevelsService) { }
 
   ngOnInit() {
@@ -171,14 +177,24 @@ export class TrainingRunGameLevelComponent implements OnInit {
    * Reveals solution text and deducts points if solution is penalized
    */
   private revealSolution() {
+    this.isLoading = true;
     if (this.level.solutionPenalized) {
-      // TODO: deduct remaining points (via REST?)
       let pointsToDeduct = this.level.maxScore - this.hintButtons
         .map(hintButton => hintButton.displayed ? hintButton.hint.hintPenalty : 0)
         .reduce((sum, currentHintPoints) => sum + currentHintPoints);
     }
-    this.solutionShown = true;
-    this.displayedText = this.level.solution;
+    this.trainingRunSetter.takeSolution(this.activeLevelService.trainingRunId)
+      .subscribe(resp => {
+        this.solutionShown = true;
+        this.displayedText = this.level.solution;
+        // TODO: deduct remaining points (via REST?)
+        this.isLoading = false;
+      },
+      err => {
+        this.isLoading = false;
+        this.errorHandler.displayHttpError(err, "Loading solution");
+      })
+
   }
 
 
