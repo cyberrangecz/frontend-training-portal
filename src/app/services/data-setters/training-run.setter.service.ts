@@ -10,6 +10,9 @@ import {TrainingRunMapperService} from "../data-mappers/training-run-mapper.serv
 import {LevelMapperService} from "../data-mappers/level-mapper.service";
 import {AccessTrainingRunDTO} from "../../model/DTOs/accessTrainingRunDTO";
 import {AccessTrainingRun} from "../../model/training/access-training-run";
+import {AssessmentLevel} from "../../model/level/assessment-level";
+import {InfoLevel} from "../../model/level/info-level";
+import {GameLevel} from "../../model/level/game-level";
 
 @Injectable()
 export class TrainingRunSetterService {
@@ -25,7 +28,12 @@ export class TrainingRunSetterService {
    * @param password password to access the training run
    */
   accessTrainingRun(password: string): Observable<AccessTrainingRun> {
-    return this.http.post<AccessTrainingRunDTO>(environment.trainingRunsEndpointUri + 'access', { password: password })
+    return this.http.post<AccessTrainingRunDTO>(environment.trainingRunsEndpointUri, { password: password })
+      .pipe(map(response => this.trainingRunMapper.mapAccessTrainingRunDTOToAccessTrainingRun(response)));
+  }
+
+  resume(trainingRunId: number): Observable<AccessTrainingRun> {
+    return this.http.get<AccessTrainingRunDTO>(environment.trainingDefsEndpointUri + trainingRunId + '/resumption')
       .pipe(map(response => this.trainingRunMapper.mapAccessTrainingRunDTOToAccessTrainingRun(response)));
   }
 
@@ -42,7 +50,7 @@ export class TrainingRunSetterService {
    * Sends request to move to next level
    * @param trainingRunId id of a training run
    */
-  nextLevel(trainingRunId: number): Observable<AbstractLevel> {
+  nextLevel(trainingRunId: number): Observable<GameLevel | AssessmentLevel | InfoLevel> {
     return this.http.get<AbstractLevelDTO>(environment.trainingRunsEndpointUri + trainingRunId + '/next-levels')
       .pipe(map(response => this.levelMapper.mapLevelDTOToLevel(response)));
   }

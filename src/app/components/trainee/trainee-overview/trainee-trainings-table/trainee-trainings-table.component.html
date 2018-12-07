@@ -27,9 +27,9 @@
               then clickableTitle else nonClickableTitle"></div>
 
               <ng-template #clickableTitle>
-                <a class="training-link" mat-button color="primary"
-                   [routerLink]="['training', training.trainingRunId, 'level', training.currentLevel]">
-                  {{ training.trainingInstanceTitle }}</a>
+                <button class="training-link" mat-button color="primary"
+                        (click)="resume(training.trainingRunId)">
+                  {{ training.trainingInstanceTitle }}</button>
               </ng-template>
 
               <ng-template #nonClickableTitle>{{ training.trainingInstanceTitle }}</ng-template>

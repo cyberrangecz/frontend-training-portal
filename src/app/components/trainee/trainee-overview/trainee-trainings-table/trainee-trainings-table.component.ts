@@ -11,6 +11,9 @@ import {environment} from "../../../../../environments/environment";
 import {TraineeAccessedTrainingsTableDataModel} from "../../../../model/table-models/trainee-accessed-trainings-table-data-model";
 import {TraineeAccessTrainingRunActionEnum} from "../../../../enums/trainee-access-training-run-actions.enum";
 import {TableDataWithPaginationWrapper} from "../../../../model/table-models/table-data-with-pagination-wrapper";
+import {TrainingRunSetterService} from "../../../../services/data-setters/training-run.setter.service";
+import {ComponentErrorHandlerService} from "../../../../services/component-error-handler.service";
+import {ActiveTrainingRunLevelsService} from "../../../../services/active-training-run-levels.service";
 
 @Component({
   selector: 'trainee-trainings-table',
@@ -37,8 +40,10 @@ export class TraineeTrainingsTableComponent implements OnInit {
   constructor(
     private router: Router,
     private activeRoute: ActivatedRoute,
-    private activeUserService: ActiveUserService,
-    private trainingRunGetter: TrainingRunGetterService) { }
+    private activeLevelsService: ActiveTrainingRunLevelsService,
+    private errorHandler: ComponentErrorHandlerService,
+    private trainingRunGetter: TrainingRunGetterService,
+    private trainingRunSetter: TrainingRunSetterService) { }
 
   ngOnInit() {
     this.initDataSource();
@@ -50,9 +55,7 @@ export class TraineeTrainingsTableComponent implements OnInit {
    */
   tryAgain(trainingInstanceId: number) {
     // TODO: Integrate with appropriate REST API call once its resolved
-    const trainingRunId = 1;
-    const firstLevel = 1;
-    this.router.navigate(['training', trainingRunId, 'level', firstLevel], {relativeTo: this.activeRoute});
+    this.router.navigate(['training/game'], {relativeTo: this.activeRoute});
   }
 
   /**
@@ -60,9 +63,21 @@ export class TraineeTrainingsTableComponent implements OnInit {
    * @param {number} trainingRunId if of training run which results should be displayed
    */
   accessResults(trainingRunId: number) {
-    this.router.navigate(['training', trainingRunId, 'results'],{relativeTo: this.activeRoute})
+    // TODO: pass id of training run? or use service?
+    this.router.navigate(['training/results'],{relativeTo: this.activeRoute})
   }
 
+  resume(trainingRunId: number) {
+    this.trainingRunSetter.resume(trainingRunId)
+      .subscribe(resp => {
+        this.activeLevelsService.setActiveLevels(resp.levels.sort((a, b) => a.order - b.order));
+        this.activeLevelsService.setActiveLevel(resp.currentLevel);
+        this.router.navigate(['training/game'], {relativeTo: this.activeRoute});
+      },
+        err => {
+        this.errorHandler.displayHttpError(err, "Resuming training run")
+        })
+  }
   /**
    * Applies filter data source
    * @param {string} filterValue value by which the data should be filtered. Inserted by user

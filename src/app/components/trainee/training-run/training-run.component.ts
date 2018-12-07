@@ -1,10 +1,9 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {TrainingRun} from "../../../model/training/training-run";
-import {TrainingInstance} from "../../../model/training/training-instance";
 import {AbstractLevel} from "../../../model/level/abstract-level";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ActiveTrainingRunLevelsService} from "../../../services/active-training-run-levels.service";
 import {TrainingRunLevelComponent} from "./training-run-level/training-run-level.component";
+import {ComponentErrorHandlerService} from "../../../services/component-error-handler.service";
 
 
 @Component({
@@ -20,8 +19,6 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
 
   @ViewChild(TrainingRunLevelComponent) trainingRunLevelChild: TrainingRunLevelComponent;
 
-  trainingRun: TrainingRun;
-  trainingInstance: TrainingInstance;
   levels: AbstractLevel[];
 
   selectedStep: number;
@@ -37,6 +34,7 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private router: Router,
     private activeRoute: ActivatedRoute,
+    private errorHandler: ComponentErrorHandlerService,
     private activeLevelsService: ActiveTrainingRunLevelsService) {
   }
 
@@ -59,11 +57,14 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
    */
   nextLevel() {
     if (!this.isActiveLevelLocked) {
-      this.trainingRunLevelChild.submit();
-      this.selectedStep += 1;
-      this.activeLevelsService.nextLevel();
-      this.trainingRun.currentLevel = this.activeLevelsService.getActiveLevel().id;
-      this.router.navigate(['level', this.selectedStep + 1], {relativeTo: this.activeRoute.parent});
+      this.trainingRunLevelChild.submit(); // TODO: check if submitted?
+      this.activeLevelsService.nextLevel()
+        .subscribe(resp => {
+          this.selectedStep += 1;
+        },
+          err => {
+            this.errorHandler.displayHttpError(err, "Loading next level");
+          });
     }
   }
 
