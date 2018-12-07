@@ -24,6 +24,7 @@
       <div class="content">
         <div class="level">
           <training-level-stepper
+            (onLevelDeleted)="levelDeleted($event)"
             [isTrainingSaved]="isTrainingSaved"
             [trainingDefinitionId]="trainingDefId"
             [levels]="levels$ | async">

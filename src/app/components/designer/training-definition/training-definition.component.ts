@@ -64,6 +64,10 @@ export class TrainingDefinitionComponent implements OnInit {
         .every(level => level.canBeDeactivated)
   }
 
+  levelDeleted(index: number) {
+    this.fetchLevelsFromTrainingDefinition();
+  }
+
   /**
    * Determines if all changes in sub components are saved and user can navigate to different component
    * @returns {Observable<boolean>} true if saved all his changes or agreed with leaving without saving them, false otherwise

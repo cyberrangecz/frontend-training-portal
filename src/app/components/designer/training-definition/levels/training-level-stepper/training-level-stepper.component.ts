@@ -10,17 +10,12 @@ import {
   ViewChildren
 } from '@angular/core';
 import {AbstractLevel} from "../../../../../model/level/abstract-level";
-import {InfoLevel} from "../../../../../model/level/info-level";
-import {GameLevel} from "../../../../../model/level/game-level";
-import {AssessmentLevel} from "../../../../../model/level/assessment-level";
-import {AssessmentTypeEnum} from "../../../../../enums/assessment-type.enum";
 import {LevelConfigurationComponent} from "../level-configuration/level-configuration.component";
 import {DeleteDialogComponent} from "../../delete-dialog/delete-dialog.component";
 import {MatDialog} from "@angular/material";
 import {TrainingDefinitionSetterService} from "../../../../../services/data-setters/training-definition-setter.service";
 import {AlertService} from "../../../../../services/event-services/alert.service";
 import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
-import {environment} from "../../../../../../environments/environment";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ComponentErrorHandlerService} from "../../../../../services/component-error-handler.service";
 import {TrainingDefinitionGetterService} from "../../../../../services/data-getters/training-definition-getter.service";
@@ -43,7 +38,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
   @Input('trainingDefinitionId') trainingDefinitionId: number;
   @Input('levels') levels: AbstractLevel[];
 
-
+  @Output('onLevelDeleted') onLevelDeleted: EventEmitter<number> = new EventEmitter();
   isLoading = false;
   selectedStep: number = 0;
 
@@ -130,9 +125,17 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    */
   swapLeft() {
     this.isLoading = true;
-    this.trainingDefinitionSetter.swapLeft(this.trainingDefinitionId, this.levels[this.selectedStep].id)
-      .subscribe(resp => this.levels = resp.sort((levelA, levelB ) => levelA.order - levelB.order),
-          err => this.errorHandler.displayHttpError(err, 'Swapping level to the left')
+    const swappedLevel = this.levels[this.selectedStep];
+    this.trainingDefinitionSetter.swapLeft(this.trainingDefinitionId, swappedLevel.id)
+      .subscribe(resp => {
+          this.levels = resp.sort((levelA, levelB ) => levelA.order - levelB.order);
+          this.alertService.emitAlert(AlertTypeEnum.Success, 'Level "' + swappedLevel.title + '" was successfully swapped to the left');
+          this.isLoading = false;
+        },
+        err => {
+          this.errorHandler.displayHttpError(err, 'Swapping level "' + swappedLevel.title + '" to the left');
+          this.isLoading = false;
+        }
       );
   }
   /**
@@ -140,9 +143,17 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    */
   swapRight() {
     this.isLoading = true;
-    this.trainingDefinitionSetter.swapRight(this.trainingDefinitionId, this.levels[this.selectedStep].id)
-      .subscribe(resp => this.levels = resp.sort((levelA, levelB ) => levelA.order - levelB.order),
-        err => this.errorHandler.displayHttpError(err, 'Swapping level to the right')
+    const swappedLevel = this.levels[this.selectedStep];
+    this.trainingDefinitionSetter.swapRight(this.trainingDefinitionId, swappedLevel.id)
+      .subscribe(resp => {
+          this.levels = resp.sort((levelA, levelB ) => levelA.order - levelB.order);
+          this.alertService.emitAlert(AlertTypeEnum.Success, 'Level "' + swappedLevel.title + '" was successfully swapped to the right');
+          this.isLoading = false;
+        },
+        err => {
+          this.errorHandler.displayHttpError(err, 'Swapping level "' + swappedLevel.title + '" to the right');
+          this.isLoading = false;
+        }
         );
   }
 
@@ -162,9 +173,13 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
         this.isLoading = true;
-        this.trainingDefinitionSetter.removeLevel(this.trainingDefinitionId, this.levels[index].id)
-          .subscribe(response => //this.refreshLevels(),
-            err => this.errorHandler.displayHttpError(err, 'Deleting level')
+        const toDelete = this.levels[index];
+        this.trainingDefinitionSetter.removeLevel(this.trainingDefinitionId, toDelete.id)
+          .subscribe(resp => {
+              this.alertService.emitAlert(AlertTypeEnum.Success ,'Level "' + toDelete.title + '" was successfully deleted');
+              this.onLevelDeleted.emit(toDelete.id);
+            },
+              err => this.errorHandler.displayHttpError(err, 'Deleting level "' + toDelete.title + '"')
           );
       }
     });
