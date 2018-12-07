@@ -114,7 +114,7 @@ export class TrainingRunMapperService {
    *
    * @param flagResponse
    */
-  mapIsCorrectFlagDTOToObjecT(flagResponse: IsCorrectFlagDTO): FlagCheck {
+  mapIsCorrectFlagDTOToObject(flagResponse: IsCorrectFlagDTO): FlagCheck {
     const result = new FlagCheck();
     result.isCorrect = flagResponse.correct;
     result.remainingAttempts = flagResponse.remaining_attempts;

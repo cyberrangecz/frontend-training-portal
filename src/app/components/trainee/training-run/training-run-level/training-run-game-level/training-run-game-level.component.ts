@@ -73,8 +73,14 @@ export class TrainingRunGameLevelComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
         this.displayedText += '\n\n## <span style="color:slateblue">Hint ' + index + ": " + hintButton.hint.title + "</span>\n" + hintButton.hint.content;
-        hintButton.displayed = true;
-        // TODO: Call REST to inform about hint taken
+        this.trainingRunSetter.takeHint(this.activeLevelService.trainingRunId, hintButton.hint.id)
+          .subscribe(resp => {
+            hintButton.displayed = true;
+            // TODO: display content
+          },
+          err => {
+            this.errorHandler.displayHttpError(err, 'Taking hint "' + hintButton.hint.title + '"');
+            });
       }
     })
   }

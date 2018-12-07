@@ -107,6 +107,21 @@ export class LevelMapperService {
     return result;
   }
 
+  mapHintsDTOToHints(hints: HintDTO[]): Hint[] {
+    const result: Hint[] = [];
+    hints.forEach(hintDto => result.push(this.mapHintDTOToHint(hintDto)));
+    return result;
+  }
+
+  mapHintDTOToHint(hint: HintDTO): Hint {
+    const result = new Hint();
+    result.id = hint.id;
+    result.content = hint.content;
+    result.title = hint.title;
+    result.hintPenalty = hint.hint_penalty;
+    return result;
+  }
+
   private createLevelByType(levelType: LevelTypeEnum ): AbstractLevel {
     let result: AbstractLevel;
     switch (levelType) {
@@ -219,21 +234,6 @@ export class LevelMapperService {
       case AssessmentTypeEnum.Questionnaire: return  AssessmentLevelDTO.AssessmentTypeEnum.QUESTIONNAIRE ;
       default: console.error('Could not map AssessmentType to any known DTO');
     }
-  }
-
-  private mapHintsDTOToHints(hints: HintDTO[]): Hint[] {
-    const result: Hint[] = [];
-    hints.forEach(hintDto => result.push(this.mapHintDTOToHint(hintDto)));
-    return result;
-  }
-
-  private mapHintDTOToHint(hint: HintDTO): Hint {
-    const result = new Hint();
-    result.id = hint.id;
-    result.content = hint.content;
-    result.title = hint.title;
-    result.hintPenalty = hint.hint_penalty;
-    return result;
   }
 
   private mapHintsToHintsDTO(hints: Hint[]): HintDTO[]  {

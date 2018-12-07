@@ -15,6 +15,8 @@ import {InfoLevel} from "../../model/level/info-level";
 import {GameLevel} from "../../model/level/game-level";
 import {FlagCheck} from "../../model/level/flag-check";
 import {IsCorrectFlagDTO} from "../../model/DTOs/isCorrectFlagDTO";
+import {Hint} from "../../model/level/hint";
+import {HintDTO} from "../../model/DTOs/hintDTO";
 
 @Injectable()
 export class TrainingRunSetterService {
@@ -64,7 +66,7 @@ export class TrainingRunSetterService {
    */
   isCorrectFlag(trainingRunId: number, flag: string): Observable<FlagCheck> {
     return this.http.get<IsCorrectFlagDTO>(environment.trainingRunsEndpointUri + trainingRunId + '/is-correct-flag?flag=' + flag)
-      .pipe(map(response => this.trainingRunMapper.mapIsCorrectFlagDTOToObject()));
+      .pipe(map(response => this.trainingRunMapper.mapIsCorrectFlagDTOToObject(response)));
   }
 
   /**
@@ -72,8 +74,9 @@ export class TrainingRunSetterService {
    * @param trainingRunId id of training run in which, hint should be revealed (level is decided based on the current level property)
    * @param hintId id of requested hint
    */
-  takeHint(trainingRunId: number, hintId: number): Observable<string> {
-    return this.http.get<string>(environment.trainingRunsEndpointUri + trainingRunId + '/hints/' + hintId)
+  takeHint(trainingRunId: number, hintId: number): Observable<Hint> {
+    return this.http.get<HintDTO>(environment.trainingRunsEndpointUri + trainingRunId + '/hints/' + hintId)
+      .pipe(map(response => this.levelMapper.mapHintDTOToHint(response)));
   }
 
   /**
