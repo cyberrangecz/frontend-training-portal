@@ -73,7 +73,7 @@
                 <!-- RESULTS button-->
                 <button *ngIf="training.action === actionType.Results"
                         mat-icon-button color="primary"
-                        [disable]="isLoading"
+                        [disabled]="isLoading"
                         (click)="accessResults(training.trainingRunId)">
                   <mat-icon
                     matTooltip="Access results"
