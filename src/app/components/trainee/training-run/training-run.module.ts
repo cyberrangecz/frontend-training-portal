@@ -28,7 +28,6 @@ import {TrainingRunMapperService} from "../../../services/data-mappers/training-
     TrainingTimerComponent
   ],
   providers: [
-    ActiveTrainingRunLevelsService,
     TrainingDefinitionGetterService,
     TrainingDefinitionMapperService,
     TrainingRunMapperService,

@@ -24,9 +24,15 @@ import {TableDataWithPaginationWrapper} from "../../model/table-models/table-dat
 import {TrainingDefinitionTableDataModel} from "../../model/table-models/training-definition-table-data-model";
 import {TablePagination} from "../../model/table-models/table-pagination";
 import {Pagination} from "../../model/DTOs/pagination";
+import {LevelMapperService} from "./level-mapper.service";
 
 @Injectable()
 export class TrainingDefinitionMapperService {
+
+  constructor(private levelMapper: LevelMapperService) {
+
+  }
+
   /**
    * Maps training definition DTOs retrieved from the server to internal training definition objects
    * @param resource training definition DTOs retrieved from server
@@ -92,7 +98,7 @@ export class TrainingDefinitionMapperService {
     let levels: AbstractLevel[] = [];
     if (trainingDefinitionDTO.levels) {
       levels = trainingDefinitionDTO.levels
-        .map((level: AbstractLevelDTO) => this.mapBasicInfoDTOToAbstractLevel(level));
+        .map((level: AbstractLevelDTO) => this.levelMapper.mapBasicInfoDTOToAbstractLevel(level));
     }
     return levels;
   }
@@ -138,45 +144,6 @@ export class TrainingDefinitionMapperService {
     result.state = this.mapTrainingDefStateToDTOEnum(trainingDefinition.state);
     result.title = trainingDefinition.title;
     return result;
-  }
-
-  mapBasicInfoDTOsToAbstractLevels(resource: BasicLevelInfoDTO[]): AbstractLevel[] {
-    const result: AbstractLevel[] = [];
-    resource.forEach(levelDTO => result.push(this.mapBasicInfoDTOToAbstractLevel(levelDTO)));
-    return result;
-  }
-
-  mapBasicInfoDTOToAbstractLevel(level: BasicLevelInfoDTO): AbstractLevel {
-    const result = this.createLevelByType(level.level_type);
-    result.id = level.id;
-    result.title = level.title;
-    result.order = level.order;
-    return result;
-  }
-
-  private createLevelByType(levelType: LevelTypeEnum ): AbstractLevel {
-    let result: AbstractLevel;
-    switch (levelType) {
-      case LevelTypeEnum.INFO: {
-        result = new InfoLevel();
-        result.type = AbstractLevelTypeEnum.Info;
-        return result;
-      }
-      case LevelTypeEnum.ASSESSMENT: {
-        result = new AssessmentLevel();
-        result.type = AbstractLevelTypeEnum.Assessment;
-        return result;
-      }
-      case LevelTypeEnum.GAME: {
-        result = new GameLevel();
-        result.type = AbstractLevelTypeEnum.Game;
-        return result;
-      }
-      default: {
-        console.error('Level data in wrong format. Level was not created.');
-        return null;
-      }
-    }
   }
 
   private mapTrainingDefDTOStateToEnum(stateDTO: TrainingDefinitionDTO.StateEnum): TrainingDefinitionStateEnum {

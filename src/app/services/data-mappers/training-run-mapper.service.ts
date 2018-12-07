@@ -12,6 +12,8 @@ import PossibleActionEnum = AccessedTrainingRunDTO.PossibleActionEnum;
 import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
 import {TrainingRunTableDataModel} from "../../model/table-models/training-run-table-data-model";
 import {TablePagination} from "../../model/table-models/table-pagination";
+import {AccessTrainingRunDTO} from "../../model/DTOs/accessTrainingRunDTO";
+import {AccessTrainingRun} from "../../model/training/access-training-run";
 
 @Injectable()
 export class TrainingRunMapperService {
@@ -71,6 +73,13 @@ export class TrainingRunMapperService {
     if (result.trainingInstance) {
       result.trainingInstance = this.trainingInstanceMapper.mapTrainingInstanceDTOToTrainingInstance(trainingRunDTO.training_instance);
     }
+    return result;
+  }
+
+  mapAccessTrainingRunDTOToAccessTrainingRun(accessDTO: AccessTrainingRunDTO): AccessTrainingRun {
+    const result = new AccessTrainingRun();
+    result.currentLevel = this.levelMapper.mapLevelDTOToLevel(accessDTO.abstract_level_dto);
+    result.levels = this.levelMapper.mapBasicInfoDTOsToAbstractLevels(accessDTO.info_about_levels);
     return result;
   }
 

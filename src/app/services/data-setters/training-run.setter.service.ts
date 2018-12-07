@@ -8,8 +8,8 @@ import {AbstractLevelDTO} from "../../model/DTOs/abstractLevelDTO";
 import {map} from "rxjs/operators";
 import {TrainingRunMapperService} from "../data-mappers/training-run-mapper.service";
 import {LevelMapperService} from "../data-mappers/level-mapper.service";
-import {TrainingRun} from "../../model/training/training-run";
-import {TrainingRunDTO} from "../../model/DTOs/trainingRunDTO";
+import {AccessTrainingRunDTO} from "../../model/DTOs/accessTrainingRunDTO";
+import {AccessTrainingRun} from "../../model/training/access-training-run";
 
 @Injectable()
 export class TrainingRunSetterService {
@@ -24,9 +24,9 @@ export class TrainingRunSetterService {
    * Tries to access training run with password. Returns training run if the password is correct
    * @param password password to access the training run
    */
-  accessTrainingRun(password: string): Observable<TrainingRun> {
-    return this.http.post<TrainingRunDTO>(environment.trainingRunsEndpointUri + 'access', { password: password })
-      .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOToTrainingRun(response)));
+  accessTrainingRun(password: string): Observable<AccessTrainingRun> {
+    return this.http.post<AccessTrainingRunDTO>(environment.trainingRunsEndpointUri + 'access', { password: password })
+      .pipe(map(response => this.trainingRunMapper.mapAccessTrainingRunDTOToAccessTrainingRun(response)));
   }
 
   /**

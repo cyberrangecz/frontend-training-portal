@@ -16,6 +16,7 @@ import {LevelMapperService} from "../../../services/data-mappers/level-mapper.se
 import {TrainingDefinitionMapperService} from "../../../services/data-mappers/training-definition-mapper.service";
 import {TrainingDefinitionGetterService} from "../../../services/data-getters/training-definition-getter.service";
 import {PipesModule} from "../../../pipes/pipes.module";
+import {ActiveTrainingRunLevelsService} from "../../../services/active-training-run-levels.service";
 
 @NgModule({
   imports: [
@@ -39,7 +40,8 @@ import {PipesModule} from "../../../pipes/pipes.module";
     TrainingRunGetterService,
     TrainingRunMapperService,
     TrainingRunGuard,
-    LevelMapperService
+    LevelMapperService,
+    ActiveTrainingRunLevelsService,
   ]
 })
 

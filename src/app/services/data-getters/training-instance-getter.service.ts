@@ -76,17 +76,6 @@ export class TrainingInstanceGetterService {
           .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRunsWithPagination(response)));
   }
 
-  /**
-   * Retrieves training instance by keyword
-   * @param {string} keyword keyword associated with training instance
-   * @returns {Observable<TrainingInstance>} Observable of training instance, null if no instance with provided keyword is found
-   */
-  getTrainingInstanceByKeyword(keyword: string): Observable<TrainingInstance> {
-    return this.getTrainingInstances()
-      .pipe(map(trainingInstances =>
-      trainingInstances.find(trainingInstance =>
-      trainingInstance.keyword === keyword)))
-  }
 
   /**
    * Downloads training instance

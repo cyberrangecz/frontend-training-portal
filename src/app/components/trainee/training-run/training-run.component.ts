@@ -3,12 +3,8 @@ import {TrainingRun} from "../../../model/training/training-run";
 import {TrainingInstance} from "../../../model/training/training-instance";
 import {AbstractLevel} from "../../../model/level/abstract-level";
 import {ActivatedRoute, Router} from "@angular/router";
-import {TrainingRunGetterService} from "../../../services/data-getters/training-run-getter.service";
-import {TrainingInstanceGetterService} from "../../../services/data-getters/training-instance-getter.service";
 import {ActiveTrainingRunLevelsService} from "../../../services/active-training-run-levels.service";
-import {TrainingDefinitionGetterService} from "../../../services/data-getters/training-definition-getter.service";
 import {TrainingRunLevelComponent} from "./training-run-level/training-run-level.component";
-import {map, switchMap} from "rxjs/operators";
 
 
 @Component({
@@ -41,13 +37,11 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private router: Router,
     private activeRoute: ActivatedRoute,
-    private activeLevelsService: ActiveTrainingRunLevelsService,
-    private trainingRunGetter: TrainingRunGetterService,
-    private trainingInstanceGetter: TrainingInstanceGetterService) {
+    private activeLevelsService: ActiveTrainingRunLevelsService) {
   }
 
   ngOnInit() {
-    this.initDataFromUrl();
+    this.initData();
     this.subscribeLevelLockChange();
     this.selectedStep = 0;
     this.withStepper = true;
@@ -90,39 +84,16 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Loads all necessary data about levels and trainings from url and sets up the training
+   * Loads all necessary data about levels and sets up the training
    */
-  private initDataFromUrl() {
-    const id = +this.activeRoute.snapshot.paramMap.get('id');
-    if (id && !Number.isNaN(id)) {
-      this.trainingRunGetter.getTrainingRunById(id)
-        .pipe(switchMap(trainingRun => {
-          this.trainingRun = trainingRun;
-          return this.trainingInstanceGetter.getTrainingInstanceById(trainingRun.trainingInstance.id);
-        }))
-        .pipe(map(trainingInstance => {
-          this.trainingInstance = trainingInstance;
-          this.withStepper = trainingInstance.trainingDefinition.showProgress;
-          this.levels = trainingInstance.trainingDefinition.levels;
-          this.activeLevelsService.setActiveLevels(this.levels);
-          this.findInitialLevel();
-          this.isLoading = false;
-        })).subscribe();
-    }
+  private initData() {
+    // TODO: with stepper, with timer
+    this.levels = this.activeLevelsService.getActiveLevels();
+    this.selectedStep = 0;
+
   }
 
   /**
-   * Finds initial level based on parameter passed in url and sets it as an active level
-   */
-  private findInitialLevel() {
-    const initialLevel = +this.activeRoute.snapshot.paramMap.get('order');
-    if (initialLevel && !Number.isNaN(initialLevel)) {
-      this.selectedStep = initialLevel - 1;
-      this.activeLevelsService.setActiveLevel(initialLevel - 1);
-      this.trainingRun.currentLevel = this.activeLevelsService.getActiveLevel().id;
-    }
-  }
-
   /**
    * Subscribes to changes in level lock. Component is informed when user finished all necessary actions in the current level and is ready to continue
    */

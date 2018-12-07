@@ -2,6 +2,9 @@ import {Injectable} from "@angular/core";
 import {Subject} from "rxjs/internal/Subject";
 import {Observable} from "rxjs/internal/Observable";
 import {AbstractLevel} from "../model/level/abstract-level";
+import {GameLevel} from "../model/level/game-level";
+import {AssessmentLevel} from "../model/level/assessment-level";
+import {InfoLevel} from "../model/level/info-level";
 
 /**
  * Service maintaining levels of training and active level instance for sub component of trainee training run
@@ -10,7 +13,7 @@ import {AbstractLevel} from "../model/level/abstract-level";
 export class ActiveTrainingRunLevelsService {
 
   private _activeLevels: AbstractLevel[];
-  private _activeLevel: AbstractLevel;
+  private _activeLevel: GameLevel | AssessmentLevel | InfoLevel;
 
   private _onActiveLevelChangedSubject: Subject<AbstractLevel> = new Subject<AbstractLevel>();
   /**
@@ -28,7 +31,7 @@ export class ActiveTrainingRunLevelsService {
     return this._activeLevels;
   }
 
-  getActiveLevel() {
+  getActiveLevel(): AbstractLevel {
     return this._activeLevel;
   }
 
@@ -42,10 +45,10 @@ export class ActiveTrainingRunLevelsService {
 
   /**
    * Sets currently active level
-   * @param {number} index order of the level
+   * @param level
    */
-  setActiveLevel(index: number) {
-    this._activeLevel = this._activeLevels[index];
+  setActiveLevel(level: GameLevel | InfoLevel | AssessmentLevel) {
+    this._activeLevel = level;
     this._onActiveLevelChangedSubject.next(this._activeLevel);
   }
 
@@ -71,10 +74,16 @@ export class ActiveTrainingRunLevelsService {
   nextLevel() {
     const index = this._activeLevels.indexOf(this._activeLevel);
     if (index + 1 < this._activeLevels.length) {
-      this.setActiveLevel(index + 1);
+      // TODO: Call REST API
+      //this.setActiveLevel(index + 1);
       this.currentLevelLocked = true;
       this._onLevelLockChangedSubject.next(true);
     }
+  }
+
+  clear() {
+    this._activeLevel = null;
+    this._activeLevels = [];
   }
 
 }

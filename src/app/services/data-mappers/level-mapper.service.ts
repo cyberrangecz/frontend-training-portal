@@ -14,6 +14,8 @@ import {AbstractLevelTypeEnum} from "../../enums/abstract-level-type.enum";
 import {AssessmentTypeEnum} from "../../enums/assessment-type.enum";
 import {HintDTO, HintDTOClass} from "../../model/DTOs/hintDTO";
 import {Hint} from "../../model/level/hint";
+import {BasicLevelInfoDTO} from "../../model/DTOs/basicLevelInfoDTO";
+import LevelTypeEnum = AbstractLevelDTO.LevelTypeEnum;
 
 @Injectable()
 export class LevelMapperService {
@@ -89,6 +91,45 @@ export class LevelMapperService {
     result.type = this.mapAssessmentTypeToDTO(level.assessmentType);
     //TODO: mappping for result.questions = level.questions;
     return result;
+  }
+
+  mapBasicInfoDTOsToAbstractLevels(resource: BasicLevelInfoDTO[]): AbstractLevel[] {
+    const result: AbstractLevel[] = [];
+    resource.forEach(levelDTO => result.push(this.mapBasicInfoDTOToAbstractLevel(levelDTO)));
+    return result;
+  }
+
+  mapBasicInfoDTOToAbstractLevel(level: BasicLevelInfoDTO): AbstractLevel {
+    const result = this.createLevelByType(level.level_type);
+    result.id = level.id;
+    result.title = level.title;
+    result.order = level.order;
+    return result;
+  }
+
+  private createLevelByType(levelType: LevelTypeEnum ): AbstractLevel {
+    let result: AbstractLevel;
+    switch (levelType) {
+      case LevelTypeEnum.INFO: {
+        result = new InfoLevel();
+        result.type = AbstractLevelTypeEnum.Info;
+        return result;
+      }
+      case LevelTypeEnum.ASSESSMENT: {
+        result = new AssessmentLevel();
+        result.type = AbstractLevelTypeEnum.Assessment;
+        return result;
+      }
+      case LevelTypeEnum.GAME: {
+        result = new GameLevel();
+        result.type = AbstractLevelTypeEnum.Game;
+        return result;
+      }
+      default: {
+        console.error('Level data in wrong format. Level was not created.');
+        return null;
+      }
+    }
   }
 
   /**

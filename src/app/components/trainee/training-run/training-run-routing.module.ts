@@ -4,7 +4,7 @@ import {TrainingRunComponent} from "./training-run.component";
 import {TrainingRunLevelsGuard} from "../../../guards/training-run-levels-guard.service";
 const routes: Routes = [
   {
-    path: 'level/:order',
+    path: 'game',
     component: TrainingRunComponent,
     canActivate: [TrainingRunLevelsGuard],
     canDeactivate: [TrainingRunLevelsGuard]
@@ -15,7 +15,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'level/1',
+    redirectTo: 'game',
     pathMatch: 'full'
   },
 ];
