@@ -14,6 +14,8 @@ import {TrainingRunTableDataModel} from "../../model/table-models/training-run-t
 import {TablePagination} from "../../model/table-models/table-pagination";
 import {AccessTrainingRunDTO} from "../../model/DTOs/accessTrainingRunDTO";
 import {AccessTrainingRun} from "../../model/training/access-training-run";
+import {IsCorrectFlagDTO} from "../../model/DTOs/isCorrectFlagDTO";
+import {FlagCheck} from "../../model/level/flag-check";
 
 @Injectable()
 export class TrainingRunMapperService {
@@ -106,6 +108,17 @@ export class TrainingRunMapperService {
     result.trainingInstanceEndTime = new Date(accessedTrainingRunDTO.training_instance_end_date);
     result.action = this.mapActionEnumFromDTOToTableDataModel(accessedTrainingRunDTO.possible_action);
     return result;
+  }
+
+  /**
+   *
+   * @param flagResponse
+   */
+  mapIsCorrectFlagDTOToObjecT(flagResponse: IsCorrectFlagDTO): FlagCheck {
+    const result = new FlagCheck();
+    result.isCorrect = flagResponse.correct;
+    result.remainingAttempts = flagResponse.remaining_attempts;
+    return result
   }
 
   private mapActionEnumFromDTOToTableDataModel(action: PossibleActionEnum): TraineeAccessTrainingRunActionEnum {

@@ -13,6 +13,8 @@ import {AccessTrainingRun} from "../../model/training/access-training-run";
 import {AssessmentLevel} from "../../model/level/assessment-level";
 import {InfoLevel} from "../../model/level/info-level";
 import {GameLevel} from "../../model/level/game-level";
+import {FlagCheck} from "../../model/level/flag-check";
+import {IsCorrectFlagDTO} from "../../model/DTOs/isCorrectFlagDTO";
 
 @Injectable()
 export class TrainingRunSetterService {
@@ -60,8 +62,9 @@ export class TrainingRunSetterService {
    * @param trainingRunId id of training run in which, flag should be submitted (level is decided based on the current level property)
    * @param flag flag submitted by user
    */
-  isCorrectFlag(trainingRunId: number, flag: string): Observable<boolean> {
-    return this.http.get<boolean>(environment.trainingRunsEndpointUri + trainingRunId + '/is-correct-flag?flag=' + flag);
+  isCorrectFlag(trainingRunId: number, flag: string): Observable<FlagCheck> {
+    return this.http.get<IsCorrectFlagDTO>(environment.trainingRunsEndpointUri + trainingRunId + '/is-correct-flag?flag=' + flag)
+      .pipe(map(response => this.trainingRunMapper.mapIsCorrectFlagDTOToObject()));
   }
 
   /**

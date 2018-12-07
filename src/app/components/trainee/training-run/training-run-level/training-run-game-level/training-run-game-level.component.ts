@@ -111,11 +111,15 @@ export class TrainingRunGameLevelComponent implements OnInit {
    * Checks whether the flag is correct and perform appropriate actions
    */
   submitFlag() {
-    if (this.flag === this.level.flag) {
-      this.runActionsAfterCorrectFlagSubmitted();
-    } else {
-      this.runActionsAfterWrongFlagSubmitted()
-    }
+    this.trainingRunSetter.isCorrectFlag(this.activeLevelService.trainingRunId, this.flag)
+      .subscribe(resp => {
+        if (resp.isCorrect) {
+          this.runActionsAfterCorrectFlagSubmitted();
+        } else {
+          this.runActionsAfterWrongFlagSubmitted(resp.remainingAttempts)
+        }
+      });
+
   }
 
   /**
@@ -145,30 +149,24 @@ export class TrainingRunGameLevelComponent implements OnInit {
    * The level is unlocked and the user can continue to the next one
    */
   private runActionsAfterCorrectFlagSubmitted() {
-    // TODO: Call REST to update incorrect flag count
-    //this.level.incorrectFlagCount = 0;
     this.activeLevelService.unlockCurrentLevel();
     this.correctFlag = true;
-   // this.nextLevel.emit(this.level.order + 1);
+    this.nextLevel.emit(this.level.order + 1);
   }
 
   /**
    * otherwise popup dialog informing the user about penalty for submitting incorrect flag is displayed and the information
    * is send to the endpoint
    */
-  private runActionsAfterWrongFlagSubmitted() {
-    // TODO: redesign the solution to match current REST API functionality
-/*    if (!this.solutionShown) {
-      this.level.incorrectFlagCount++;
-      if (this.level.incorrectFlagCount === this.level.incorrectFlagLimit) {
+  private runActionsAfterWrongFlagSubmitted(remainingAttempts: number) {
+    if (!this.solutionShown) {
+      if (remainingAttempts === 0) {
         this.revealSolution();
       }
-    }*/
-
+    }
     const dialogRef = this.dialog.open(WrongFlagDialogComponent, {
       data: {
-        // incorrectFlagCount: this.level.incorrectFlagCount,
-        incorrectFlagLimit: this.level.incorrectFlagLimit
+         remainingAttempts: remainingAttempts,
       }
     });
   }
