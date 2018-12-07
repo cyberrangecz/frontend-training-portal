@@ -9,8 +9,8 @@
 
       <div class="mat-elevation-z8">
         <div class="loading"
-             *ngIf="isLoadingResults || isInErrorState">
-          <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+             *ngIf="isLoading || isInErrorState">
+          <mat-spinner *ngIf="isLoading"></mat-spinner>
           <div class="loading-error" *ngIf="isInErrorState">
             We have some trouble loading the data. Please try again later.
             <button mat-icon-button (click)="fetchData()" color="primary"><mat-icon>refresh</mat-icon></button>
@@ -23,11 +23,13 @@
           <ng-container matColumnDef="title">
             <th class="title" mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="isInErrorState">Title</th>
             <td class="title" mat-cell *matCellDef="let training">
-              <div *ngIf="training.trainingInstanceStartTime.valueOf() < now && training.trainingInstanceEndTime.valueOf() > now;
+              <div *ngIf="training.trainingInstanceStartTime.valueOf() < now
+               && training.trainingInstanceEndTime.valueOf() > now
+               && !isLoading
               then clickableTitle else nonClickableTitle"></div>
 
               <ng-template #clickableTitle>
-                <button class="training-link" mat-button color="primary"
+                <button [disabled]="isLoading" class="training-link" mat-button color="primary"
                         (click)="resume(training.trainingRunId)">
                   {{ training.trainingInstanceTitle }}</button>
               </ng-template>
@@ -60,8 +62,9 @@
               <div class="action-buttons">
                 <!-- TRY AGAIN button-->
                 <button *ngIf="training.action === actionType.TryAgain"
-                  mat-icon-button color="primary"
-                  (click)="tryAgain(1)">
+                        mat-icon-button color="primary"
+                        [disabled]="isLoading"
+                        (click)="tryAgain(1)">
                   <mat-icon
                     matTooltip="Try again"
                     aria-label="Try again button">
@@ -70,6 +73,7 @@
                 <!-- RESULTS button-->
                 <button *ngIf="training.action === actionType.Results"
                         mat-icon-button color="primary"
+                        [disable]="isLoading"
                         (click)="accessResults(training.trainingRunId)">
                   <mat-icon
                     matTooltip="Access results"

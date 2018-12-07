@@ -1,10 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {TrainingInstance} from "../../../../model/training/training-instance";
-import {TrainingRun} from "../../../../model/training/training-run";
 import {MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
 import {TrainingRunGetterService} from "../../../../services/data-getters/training-run-getter.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ActiveUserService} from "../../../../services/active-user.service";
 import {merge, of} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {environment} from "../../../../../environments/environment";
@@ -30,7 +27,7 @@ export class TraineeTrainingsTableComponent implements OnInit {
 
   actionType = TraineeAccessTrainingRunActionEnum;
   resultsLength = 0;
-  isLoadingResults = true;
+  isLoading = false;
   isInErrorState = false;
   now = Date.now();
 
@@ -68,15 +65,18 @@ export class TraineeTrainingsTableComponent implements OnInit {
   }
 
   resume(trainingRunId: number) {
+    this.isLoading = true;
     this.trainingRunSetter.resume(trainingRunId)
       .subscribe(resp => {
         this.activeLevelsService.setActiveLevels(resp.levels.sort((a, b) => a.order - b.order));
         this.activeLevelsService.setActiveLevel(resp.currentLevel);
+        this.isLoading = false;
         this.router.navigate(['training/game'], {relativeTo: this.activeRoute});
       },
         err => {
-        this.errorHandler.displayHttpError(err, "Resuming training run")
-        })
+        this.errorHandler.displayHttpError(err, "Resuming training run");
+        this.isLoading = false;
+      })
   }
   /**
    * Applies filter data source
@@ -93,6 +93,7 @@ export class TraineeTrainingsTableComponent implements OnInit {
    * Loads necessary data from endpoint and create data source for the table
    */
   private initDataSource() {
+    this.isLoading = true;
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
     this.paginator.pageSize = environment.defaultPaginationSize;
     this.sort.active = 'date';
@@ -101,22 +102,22 @@ export class TraineeTrainingsTableComponent implements OnInit {
   }
 
   private fetchData() {
+    this.isLoading = true;
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(
         startWith({}),
         switchMap(() => {
-          this.isLoadingResults = true;
           return this.trainingRunGetter.getAccessedTrainingRunsWithPagination(this.paginator.pageIndex, this.paginator.pageSize,
             this.resolveSortParam(this.sort.active), this.sort.direction);
         }),
         map(data => {
-          this.isLoadingResults = false;
+          this.isLoading = false;
           this.isInErrorState = false;
           this.resultsLength = data.tablePagination.totalElements;
           return data;
         }),
         catchError(() => {
-          this.isLoadingResults = false;
+          this.isLoading = false;
           this.isInErrorState = true;
           return of([]);
         })

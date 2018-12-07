@@ -16,7 +16,7 @@ import {GameLevel} from "../../model/level/game-level";
 
 @Injectable()
 export class TrainingRunSetterService {
-
+  
   constructor(private http: HttpClient,
               private trainingRunMapper: TrainingRunMapperService,
               private levelMapper: LevelMapperService) {
