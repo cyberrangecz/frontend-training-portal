@@ -18,6 +18,7 @@ export class HintConfigurationComponent implements OnInit, OnChanges {
   @Input('levelMaxScore') levelMaxScore: number;
   @Input('initHintPenaltySum') initHintPenaltySum: number;
   @Input('order') order: number;
+  @Input('disabled') disabled: boolean;
 
   @Output('hint') hintChange = new EventEmitter();
   @Output('penaltyChange') penaltyChange = new EventEmitter<number>();
