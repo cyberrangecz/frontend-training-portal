@@ -75,7 +75,7 @@ export class TrainingDefinitionSetterService {
     return this.http.post<AbstractLevelDTO>(environment.trainingDefsEndpointUri + trainingDefId + '/levels/ASSESSMENT',
       {},
       { headers: this.createDefaultHeaders()})
-      .pipe(map(resp => this.trainingDefinitionMapper.mapBasicInfoDTOToAbstractLevel(resp) as AssessmentLevel));
+      .pipe(map(resp => this.levelMapper.mapBasicInfoDTOToAbstractLevel(resp) as AssessmentLevel));
   }
 
   /**
@@ -87,7 +87,7 @@ export class TrainingDefinitionSetterService {
     return this.http.post<AbstractLevelDTO>(environment.trainingDefsEndpointUri + trainingDefId + '/levels/GAME',
       {},
       { headers: this.createDefaultHeaders()})
-      .pipe(map(resp => this.trainingDefinitionMapper.mapBasicInfoDTOToAbstractLevel(resp) as GameLevel));
+      .pipe(map(resp => this.levelMapper.mapBasicInfoDTOToAbstractLevel(resp) as GameLevel));
   }
 
   /**
@@ -99,7 +99,7 @@ export class TrainingDefinitionSetterService {
     return this.http.post<AbstractLevelDTO>(environment.trainingDefsEndpointUri + trainingDefId + '/levels/INFO',
       {},
       { headers: this.createDefaultHeaders()})
-      .pipe(map(resp => this.trainingDefinitionMapper.mapBasicInfoDTOToAbstractLevel(resp) as InfoLevel));
+      .pipe(map(resp => this.levelMapper.mapBasicInfoDTOToAbstractLevel(resp) as InfoLevel));
   }
 
   /**
@@ -155,7 +155,7 @@ export class TrainingDefinitionSetterService {
     return this.http.put<BasicLevelInfoDTO[]>(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + levelId + '/swap-left',
       {},
       { headers: this.createDefaultHeaders()})
-      .pipe(map(resp => this.trainingDefinitionMapper.mapBasicInfoDTOsToAbstractLevels(resp)));
+      .pipe(map(resp => this.levelMapper.mapBasicInfoDTOsToAbstractLevels(resp)));
   }
 
   /**
@@ -167,7 +167,7 @@ export class TrainingDefinitionSetterService {
     return this.http.put<BasicLevelInfoDTO[]>(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + levelId + '/swap-right',
       {},
       { headers: this.createDefaultHeaders()})
-      .pipe(map(resp => this.trainingDefinitionMapper.mapBasicInfoDTOsToAbstractLevels(resp)));
+      .pipe(map(resp => this.levelMapper.mapBasicInfoDTOsToAbstractLevels(resp)));
   }
 
   /**
