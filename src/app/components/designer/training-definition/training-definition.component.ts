@@ -62,8 +62,8 @@ export class TrainingDefinitionComponent implements OnInit {
         .every(level => level.canBeDeactivated)
   }
 
-  levelDeleted(index: number) {
-    this.fetchLevelsFromTrainingDefinition();
+  levelDeleted(id: number) {
+    this.fetchData();
   }
 
   /**

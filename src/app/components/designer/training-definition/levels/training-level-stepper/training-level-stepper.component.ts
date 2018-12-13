@@ -162,21 +162,21 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
 
   /**
    * Deletes level on given index
-   * @param {number} index index of level which should be deleted
+   * @param {number} id index of level which should be deleted
    */
-  deleteLevel(index: number) {
+  deleteLevel(id: number) {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data:
         {
           type: 'level',
-          title: this.levels[index].title
+          title: this.levels.find(level => level.id === id).title
         }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
         this.isLoading = true;
-        const toDelete = this.levels[index];
+        const toDelete = this.levels.find(level => level.id === id);
         this.trainingDefinitionSetter.removeLevel(this.trainingDefinition.id, toDelete.id)
           .subscribe(resp => {
               this.alertService.emitAlert(AlertTypeEnum.Success ,'Level "' + toDelete.title + '" was successfully deleted');
