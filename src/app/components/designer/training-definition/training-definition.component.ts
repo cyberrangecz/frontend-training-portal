@@ -27,9 +27,7 @@ export class TrainingDefinitionComponent implements OnInit {
   @ViewChild(TrainingLevelStepperComponent) trainingLevelStepperComponent;
 
   trainingDefinition$: Observable<TrainingDefinition>;
-
   levels$: Observable<AbstractLevel[]>;
-  trainingDefId: number;
 
   isTrainingSaved: boolean;
   isSidenavOpen: boolean = true;
@@ -51,7 +49,7 @@ export class TrainingDefinitionComponent implements OnInit {
   }
 
   trainingDefIdChange(event: number) {
-    this.trainingDefId = event;
+    this.trainingDefinition$ = this.fetchTrainingDefinition();
   }
 
   /**
@@ -136,9 +134,9 @@ export class TrainingDefinitionComponent implements OnInit {
     return this.route.paramMap
       .pipe(switchMap((params: ParamMap) => {
         if (params.has('id')) {
-          this.trainingDefId = +params.get('id');
+          const trainingDefId = +params.get('id');
           this.isTrainingSaved = true;
-          return this.trainingDefId === null ? null : this.trainingDefinitionGetter.getTrainingDefinitionById(this.trainingDefId, true);
+          return trainingDefId === null ? null : this.trainingDefinitionGetter.getTrainingDefinitionById(trainingDefId, true);
         }
         this.isTrainingSaved = false;
       }));

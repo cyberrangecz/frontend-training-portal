@@ -1,3 +1,5 @@
+import {locale} from "moment";
+
 export const environment = {
   production: false,
 

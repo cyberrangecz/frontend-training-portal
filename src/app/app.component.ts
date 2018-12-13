@@ -61,7 +61,8 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private loadProfile() {
-    //const claims = this.oAuthService.getIdentityClaims();
+    const claims = this.oAuthService.getIdentityClaims();
+    console.log(claims);
     this.activeUserService.loadProfile();
 
   }

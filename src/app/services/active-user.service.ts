@@ -82,9 +82,10 @@ export class ActiveUserService {
   }
 
   loadProfile() {
+    const claims = this.oAuthService.getIdentityClaims();
     const user: User = new User();
     user.id = 1;
-    user.name = "User logged through OIDC";
+    user.name = claims['sub'];
     const roles = new Set<UserRoleEnum>();
     roles.add(UserRoleEnum.Designer);
     roles.add(UserRoleEnum.Organizer);

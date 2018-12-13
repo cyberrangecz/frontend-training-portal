@@ -11,6 +11,7 @@ import {TableDataWithPaginationWrapper} from "../../model/table-models/table-dat
 import {TrainingInstanceTableDataModel} from "../../model/table-models/training-instance-table-data-model";
 import {Pagination} from "../../model/DTOs/pagination";
 import {TablePagination} from "../../model/table-models/table-pagination";
+import {locale} from "moment";
 
 @Injectable()
 export class TrainingInstanceMapperService {

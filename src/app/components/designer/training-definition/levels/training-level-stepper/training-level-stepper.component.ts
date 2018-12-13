@@ -21,6 +21,7 @@ import {ComponentErrorHandlerService} from "../../../../../services/component-er
 import {TrainingDefinitionGetterService} from "../../../../../services/data-getters/training-definition-getter.service";
 import {UnsavedChangesDialogComponent} from "../../unsaved-changes-dialog/unsaved-changes-dialog.component";
 import {map} from "rxjs/operators";
+import {TrainingDefinition} from "../../../../../model/training/training-definition";
 
 @Component({
   selector: 'training-level-stepper',
@@ -35,7 +36,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
   @ViewChildren(LevelConfigurationComponent) levelConfigurationComponents: QueryList<LevelConfigurationComponent>;
 
   @Input('isTrainingSaved') isTrainingSaved: boolean;
-  @Input('trainingDefinitionId') trainingDefinitionId: number;
+  @Input('trainingDefinition') trainingDefinition: TrainingDefinition;
   @Input('levels') levels: AbstractLevel[];
 
   @Output('onLevelDeleted') onLevelDeleted: EventEmitter<number> = new EventEmitter();
@@ -80,7 +81,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    */
   addInfoLevel() {
     this.isLoading = true;
-    this.trainingDefinitionSetter.createInfoLevel(this.trainingDefinitionId)
+    this.trainingDefinitionSetter.createInfoLevel(this.trainingDefinition.id)
       .subscribe(
         level => {
           this.isLoading = false;
@@ -95,7 +96,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    */
   addGameLevel() {
     this.isLoading = true;
-    this.trainingDefinitionSetter.createGameLevel(this.trainingDefinitionId)
+    this.trainingDefinitionSetter.createGameLevel(this.trainingDefinition.id)
       .subscribe(
         level => {
         this.isLoading = false;
@@ -110,7 +111,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    */
   addAssessmentLevel() {
    this.isLoading = true;
-    this.trainingDefinitionSetter.createAssessmentLevel(this.trainingDefinitionId)
+    this.trainingDefinitionSetter.createAssessmentLevel(this.trainingDefinition.id)
       .subscribe(
         level => {
           this.isLoading = false;
@@ -126,7 +127,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
   swapLeft() {
     this.isLoading = true;
     const swappedLevel = this.levels[this.selectedStep];
-    this.trainingDefinitionSetter.swapLeft(this.trainingDefinitionId, swappedLevel.id)
+    this.trainingDefinitionSetter.swapLeft(this.trainingDefinition.id, swappedLevel.id)
       .subscribe(resp => {
           this.levels = resp.sort((levelA, levelB ) => levelA.order - levelB.order);
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Level "' + swappedLevel.title + '" was successfully swapped to the left');
@@ -144,7 +145,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
   swapRight() {
     this.isLoading = true;
     const swappedLevel = this.levels[this.selectedStep];
-    this.trainingDefinitionSetter.swapRight(this.trainingDefinitionId, swappedLevel.id)
+    this.trainingDefinitionSetter.swapRight(this.trainingDefinition.id, swappedLevel.id)
       .subscribe(resp => {
           this.levels = resp.sort((levelA, levelB ) => levelA.order - levelB.order);
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Level "' + swappedLevel.title + '" was successfully swapped to the right');
@@ -174,7 +175,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
       if (result && result.type === 'confirm') {
         this.isLoading = true;
         const toDelete = this.levels[index];
-        this.trainingDefinitionSetter.removeLevel(this.trainingDefinitionId, toDelete.id)
+        this.trainingDefinitionSetter.removeLevel(this.trainingDefinition.id, toDelete.id)
           .subscribe(resp => {
               this.alertService.emitAlert(AlertTypeEnum.Success ,'Level "' + toDelete.title + '" was successfully deleted');
               this.onLevelDeleted.emit(toDelete.id);
@@ -222,8 +223,14 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
     if (!this.levels) {
       this.levels = [];
     } else {
-      this.levels.sort((levelA, levelB ) => levelA.order - levelB.order);
+      this.levels = this.sortLevels(this.levels);
     }
+  }
+
+  private sortLevels(levels: AbstractLevel[]): AbstractLevel[] {
+    const result: AbstractLevel[] = [];
+    //this.trainingDefinition.startingLevel =
+    return levels;
   }
 }
 
