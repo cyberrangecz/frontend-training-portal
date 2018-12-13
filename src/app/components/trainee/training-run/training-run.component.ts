@@ -24,7 +24,7 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
   selectedStep: number;
   withStepper: boolean;
   withTimer: boolean;
-  isLoading = true;
+  isLoading = false;
 
   displayNextButton = false;
   isActiveLevelLocked = true;

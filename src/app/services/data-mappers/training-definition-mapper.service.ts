@@ -97,8 +97,7 @@ export class TrainingDefinitionMapperService {
   private getLevelsFromDTO(trainingDefinitionDTO: TrainingDefinitionDTO): AbstractLevel[] {
     let levels: AbstractLevel[] = [];
     if (trainingDefinitionDTO.levels) {
-      levels = trainingDefinitionDTO.levels
-        .map((level: AbstractLevelDTO) => this.levelMapper.mapBasicInfoDTOToAbstractLevel(level));
+      levels = this.levelMapper.mapLevelDTOsToLevels(trainingDefinitionDTO.levels);
     }
     return levels;
   }

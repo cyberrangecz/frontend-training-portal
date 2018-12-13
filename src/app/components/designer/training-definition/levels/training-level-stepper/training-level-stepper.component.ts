@@ -129,6 +129,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
     const swappedLevel = this.levels[this.selectedStep];
     this.trainingDefinitionSetter.swapLeft(this.trainingDefinition.id, swappedLevel.id)
       .subscribe(resp => {
+          this.selectedStep--;
           this.levels = resp.sort((levelA, levelB ) => levelA.order - levelB.order);
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Level "' + swappedLevel.title + '" was successfully swapped to the left');
           this.isLoading = false;
@@ -147,6 +148,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
     const swappedLevel = this.levels[this.selectedStep];
     this.trainingDefinitionSetter.swapRight(this.trainingDefinition.id, swappedLevel.id)
       .subscribe(resp => {
+          this.selectedStep++;
           this.levels = resp.sort((levelA, levelB ) => levelA.order - levelB.order);
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Level "' + swappedLevel.title + '" was successfully swapped to the right');
           this.isLoading = false;
@@ -223,16 +225,26 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
     if (!this.levels) {
       this.levels = [];
     } else {
-      this.levels = this.sortLevels(this.levels);
+      this.levels = this.sortInitialLevels(this.levels);
     }
   }
 
-  private sortLevels(levels: AbstractLevel[]): AbstractLevel[] {
+  private sortInitialLevels(levels: AbstractLevel[]): AbstractLevel[] {
     const result: AbstractLevel[] = [];
-     const first = this.trainingDefinition.startingLevel;
-     console.log(first);
-    return levels;
+    let currentLevel = this.findFirstLevel(levels);
+    result.push(currentLevel);
+    while (currentLevel && currentLevel.nextLevel) {
+      currentLevel = this.levels.find(level => level.id === currentLevel.nextLevel);
+      result.push(currentLevel);
+    }
+    return result;
   }
+
+  private findFirstLevel(levels: AbstractLevel[]): AbstractLevel {
+    const first = this.trainingDefinition.startingLevel;
+    return levels.find(level => level.id === first)
+  }
+
 }
 
 
