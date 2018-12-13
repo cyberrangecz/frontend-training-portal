@@ -229,7 +229,9 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
 
   private sortLevels(levels: AbstractLevel[]): AbstractLevel[] {
     const result: AbstractLevel[] = [];
-    //this.trainingDefinition.startingLevel =
+     const first = this.trainingDefinition.startingLevel;
+     console.log(first);
+
     return levels;
   }
 }

@@ -32,7 +32,7 @@ export class TrainingRunSetterService {
    * @param password password to access the training run
    */
   accessTrainingRun(password: string): Observable<AccessTrainingRun> {
-    return this.http.post<AccessTrainingRunDTO>(environment.trainingRunsEndpointUri, { password: password })
+    return this.http.post<AccessTrainingRunDTO>(environment.trainingRunsEndpointUri + "?password=" + password, {})
       .pipe(map(response => this.trainingRunMapper.mapAccessTrainingRunDTOToAccessTrainingRun(response)));
   }
 
