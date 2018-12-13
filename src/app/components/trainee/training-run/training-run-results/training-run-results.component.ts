@@ -1,7 +1,6 @@
 import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { GAME_INFORMATION } from '../../../shared/mocks/information.mock';
 import { EVENTS } from '../../../shared/mocks/events.mock';
-import {Kypo2TrainingsVisualizationOverviewLibComponent} from "kypo2-trainings-visualization-overview-lib";
 
 @Component({
   selector: 'training-run-results',

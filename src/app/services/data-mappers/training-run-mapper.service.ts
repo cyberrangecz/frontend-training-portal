@@ -104,6 +104,7 @@ export class TrainingRunMapperService {
     result.currentLevel = accessedTrainingRunDTO.current_level_order;
     result.totalLevels = accessedTrainingRunDTO.number_of_levels;
     result.trainingInstanceTitle = accessedTrainingRunDTO.title;
+    result.trainingRunId = accessedTrainingRunDTO.id;
     result.trainingInstanceStartTime = new Date(accessedTrainingRunDTO.training_instance_start_date);
     result.trainingInstanceEndTime = new Date(accessedTrainingRunDTO.training_instance_end_date);
     result.action = this.mapActionEnumFromDTOToTableDataModel(accessedTrainingRunDTO.possible_action);

@@ -37,7 +37,7 @@ export class TrainingRunSetterService {
   }
 
   resume(trainingRunId: number): Observable<AccessTrainingRun> {
-    return this.http.get<AccessTrainingRunDTO>(environment.trainingDefsEndpointUri + trainingRunId + '/resumption')
+    return this.http.get<AccessTrainingRunDTO>(environment.trainingRunsEndpointUri + trainingRunId + '/resumption')
       .pipe(map(response => this.trainingRunMapper.mapAccessTrainingRunDTOToAccessTrainingRun(response)));
   }
 
