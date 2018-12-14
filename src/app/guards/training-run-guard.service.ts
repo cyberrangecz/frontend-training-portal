@@ -1,8 +1,6 @@
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
 import {Observable} from "rxjs/internal/Observable";
-import {ActiveUserService} from "../services/active-user.service";
-import {TrainingRunGetterService} from "../services/data-getters/training-run-getter.service";
-import {map} from "rxjs/operators";
+
 import {Injectable} from "@angular/core";
 import {ActiveTrainingRunLevelsService} from "../services/active-training-run-levels.service";
 @Injectable()

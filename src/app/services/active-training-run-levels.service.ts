@@ -15,7 +15,6 @@ import {map} from "rxjs/operators";
 export class ActiveTrainingRunLevelsService {
 
   constructor(private trainingRunSetter: TrainingRunSetterService) {
-
   }
 
   private _activeLevels: AbstractLevel[];

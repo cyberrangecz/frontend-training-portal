@@ -4,9 +4,6 @@ import {authConfig} from "./auth/auth-config";
 import {JwksValidationHandler, OAuthService} from "angular-oauth2-oidc";
 import {Router} from "@angular/router";
 import {ActiveUserService} from "./services/active-user.service";
-import {User} from "./model/user/user";
-import {Set} from "typescript-collections";
-import {UserRoleEnum} from "./enums/user-role.enum";
 
 /**
  * Main component serving as wrapper for sidenav, toolbar and inner routed views

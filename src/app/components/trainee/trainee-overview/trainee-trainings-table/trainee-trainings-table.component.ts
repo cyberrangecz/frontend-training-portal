@@ -37,7 +37,7 @@ export class TraineeTrainingsTableComponent implements OnInit {
   constructor(
     private router: Router,
     private activeRoute: ActivatedRoute,
-    private activeLevelsService: ActiveTrainingRunLevelsService,
+    private activeTrainingRunLevelsService: ActiveTrainingRunLevelsService,
     private errorHandler: ComponentErrorHandlerService,
     private trainingRunGetter: TrainingRunGetterService,
     private trainingRunSetter: TrainingRunSetterService) { }
@@ -68,10 +68,11 @@ export class TraineeTrainingsTableComponent implements OnInit {
     this.isLoading = true;
     this.trainingRunSetter.resume(trainingRunId)
       .subscribe(resp => {
-        this.activeLevelsService.setActiveLevels(resp.levels.sort((a, b) => a.order - b.order));
-        this.activeLevelsService.setActiveLevel(resp.currentLevel);
-        this.isLoading = false;
-        this.router.navigate(['training/game'], {relativeTo: this.activeRoute});
+          this.activeTrainingRunLevelsService.trainingRunId = resp.trainingRunId;
+          this.activeTrainingRunLevelsService.setActiveLevels(resp.levels.sort((a, b) => a.order - b.order));
+          this.activeTrainingRunLevelsService.setActiveLevel(resp.currentLevel);
+          this.isLoading = false;
+          this.router.navigate(['training/game'], {relativeTo: this.activeRoute});
       },
         err => {
         this.errorHandler.displayHttpError(err, "Resuming training run");

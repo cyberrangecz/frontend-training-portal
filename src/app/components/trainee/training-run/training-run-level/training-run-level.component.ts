@@ -77,6 +77,7 @@ export class TrainingRunLevelComponent implements OnInit, OnDestroy {
    */
   private initLevel() {
     this.level = this.activeLevelsService.getActiveLevel();
+    this.resolveLevelType();
     this.setDisplayNextButtonValue();
   }
 
@@ -108,7 +109,7 @@ export class TrainingRunLevelComponent implements OnInit, OnDestroy {
   private moveToNextLevel() {
      this.nextLevel.emit(this.level.order + 1);
   }
-
+;
   /**
    * Subscribes to changes of active level. If active level is changed, it re-initializes level data and displays
    * different child component if its type is changed

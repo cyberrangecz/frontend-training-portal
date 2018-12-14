@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AlertService} from "../../../../services/event-services/alert.service";
 import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
-import {TrainingInstanceGetterService} from "../../../../services/data-getters/training-instance-getter.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {TrainingRunSetterService} from "../../../../services/data-setters/training-run.setter.service";
 import {ComponentErrorHandlerService} from "../../../../services/component-error-handler.service";
@@ -41,7 +40,8 @@ export class TraineeAccessTrainingComponent implements OnInit {
         .subscribe(resp => {
           if (resp.currentLevel && resp.levels && resp.levels.length > 0) {
             this.sortReceivedLevels(resp.levels);
-            this.activeTrainingRunLevelsService.setActiveLevels(resp.levels);
+            this.activeTrainingRunLevelsService.trainingRunId = resp.trainingRunId;
+            this.activeTrainingRunLevelsService.setActiveLevels(resp.levels.sort((a, b) => a.order - b.order));
             this.activeTrainingRunLevelsService.setActiveLevel(resp.currentLevel);
             this.router.navigate(['training/game'], {relativeTo: this.activeRoute});
           }

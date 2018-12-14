@@ -28,10 +28,12 @@
     </mat-step>
   </mat-horizontal-stepper>
 
-  <!-- TIMER -->
+<!--
+  &lt;!&ndash; TIMER &ndash;&gt;
   <div class="timer">
     <training-timer *ngIf="withTimer" [startTime]="startTime"></training-timer>
   </div>
+-->
 
   <!-- CONTENT OF ACTIVE LEVEL -->
   <training-run-level (nextLevel)="nextLevel()"

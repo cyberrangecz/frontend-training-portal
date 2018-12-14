@@ -24,6 +24,7 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
   selectedStep: number;
   withStepper: boolean;
   withTimer: boolean;
+  startTime: Date;
   isLoading = false;
 
   displayNextButton = false;
@@ -91,7 +92,6 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
     // TODO: with stepper, with timer
     this.levels = this.activeLevelsService.getActiveLevels();
     this.selectedStep = 0;
-
   }
 
   /**

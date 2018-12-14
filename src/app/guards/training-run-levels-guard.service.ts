@@ -24,6 +24,7 @@ export class TrainingRunLevelsGuard implements CanActivate, CanDeactivate<Traini
     if (this.activeTrainingRunLevelService.getActiveLevels()
       && this.activeTrainingRunLevelService.getActiveLevels().length > 0
       && this.activeTrainingRunLevelService.getActiveLevel()) {
+      this.distractionFreeModeService.setDistractionFreeMode(true);
       return true;
     } else {
       this.router.navigate(['not-authorized']);
