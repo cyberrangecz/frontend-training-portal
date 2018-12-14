@@ -84,7 +84,8 @@ export class TrainingRunSetterService {
    * @param trainingRun id of the training run in which, solution should be revealed (level is decided based on the current level property)
    */
   takeSolution(trainingRun: number): Observable<string> {
-    return this.http.get<string>(environment.trainingRunsEndpointUri + trainingRun + '/solutions');
+    return this.http.get(environment.trainingRunsEndpointUri + trainingRun + '/solutions',
+      { responseType: "text" });
   }
 
   /**

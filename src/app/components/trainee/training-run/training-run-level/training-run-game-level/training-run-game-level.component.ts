@@ -50,7 +50,6 @@ export class TrainingRunGameLevelComponent implements OnInit {
 
   ngOnInit() {
     this.setGraphTopologyElementSize(window.innerWidth, window.innerHeight);
-
     this.displayedText = this.level.content;
     this.initHintButtons();
   }
@@ -108,7 +107,6 @@ export class TrainingRunGameLevelComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
         this.revealSolution();
-        // TODO: Call REST to inform about solution taken
       }
     })
   }
@@ -182,16 +180,16 @@ export class TrainingRunGameLevelComponent implements OnInit {
    */
   private revealSolution() {
     this.isLoading = true;
-    if (this.level.solutionPenalized) {
+/*    if (this.level.solutionPenalized) {
       let pointsToDeduct = this.level.maxScore - this.hintButtons
         .map(hintButton => hintButton.displayed ? hintButton.hint.hintPenalty : 0)
         .reduce((sum, currentHintPoints) => sum + currentHintPoints);
-    }
+    }*/
     this.trainingRunSetter.takeSolution(this.activeLevelService.trainingRunId)
       .subscribe(resp => {
         this.solutionShown = true;
-        this.displayedText = this.level.solution;
-        // TODO: deduct remaining points (via REST?)
+        this.displayedText = resp;
+1        // TODO: deduct remaining points (via REST?)
         this.isLoading = false;
       },
       err => {
