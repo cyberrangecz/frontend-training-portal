@@ -16,6 +16,10 @@ import {HintDTO, HintDTOClass} from "../../model/DTOs/hintDTO";
 import {Hint} from "../../model/level/hint";
 import {BasicLevelInfoDTO} from "../../model/DTOs/basicLevelInfoDTO";
 import LevelTypeEnum = AbstractLevelDTO.LevelTypeEnum;
+import {AbstractQuestion} from '../../model/questions/abstract-question';
+import {FreeFormQuestion} from '../../model/questions/free-form-question';
+import {MultipleChoiceQuestion} from '../../model/questions/multiple-choice-question';
+import {ExtendedMatchingItems} from '../../model/questions/extended-matching-items';
 
 @Injectable()
 export class LevelMapperService {
@@ -186,9 +190,11 @@ export class LevelMapperService {
     const result = new AssessmentLevel();
     this.setAbstractLevelAttributesFromDTO(result, assessmentLevelDTO);
     result.type = AbstractLevelTypeEnum.Assessment;
-    //TODO: mapping result.questions = assessmentLevelDTO.questions;
     result.instructions = assessmentLevelDTO.instructions;
     result.assessmentType = this.mapAssessmentTypeFromDTO(assessmentLevelDTO.assessment_type);
+    if (assessmentLevelDTO.questions && assessmentLevelDTO.questions != '[]') {
+      result.questions = this.mapQuestionsFromDTO(JSON.parse(assessmentLevelDTO.questions));
+    }
     return result;
   }
 
@@ -249,5 +255,83 @@ export class LevelMapperService {
     result.title = hint.title;
     result.hint_penalty = hint.hintPenalty;
     return result;
+  }
+
+  private mapQuestionsToDTO(questions: AbstractQuestion[]) {
+
+  }
+
+  private mapQuestionsFromDTO(questions): AbstractQuestion[] {
+    const result: AbstractQuestion[] = [];
+    questions.forEach(question => result.push(this.mapQuestionFromDTO(question)));
+    return result;
+  }
+
+  private mapQuestionToDto(question: AbstractQuestion) {
+
+  }
+
+  private mapQuestionFromDTO(question): AbstractQuestion {
+    switch (question.question_type) {
+      case 'FFQ': return this.mapFFQQuestionFromDTO(question);
+      case 'EMI': return this.mapEMIQuestionFromDTO(question);
+      case 'MCQ': return this.mapMCQQuestionFromDTO(question);
+      default: console.error('Could not map question from JSON to any of known types');
+    }
+  }
+
+  private mapFFQQuestionFromDTO(questionDTO): FreeFormQuestion {
+    const result = new FreeFormQuestion(questionDTO.text);
+    const answers: string[] = [];
+    this.mapAbtractQuestionAttributesFromDTO(questionDTO, result);
+    questionDTO.correct_choices.forEach(choice => answers.push(choice));
+    result.correctAnswers = answers;
+    return result;
+  }
+
+  private mapEMIQuestionFromDTO(questionDTO): ExtendedMatchingItems {
+    const result = new ExtendedMatchingItems(questionDTO.text);
+    this.mapAbtractQuestionAttributesFromDTO(questionDTO, result);
+    const answers: {x: number, y: number}[] = [];
+    const rows: string[] = [];
+    const cols: string[] = [];
+
+    questionDTO.choices.forEach(choice => {
+      if (choice.order <= (questionDTO.choices.length - 1) / 2) {
+        rows.push(choice.text);
+        answers.push({x: choice.order, y: choice.pair});
+      } else {
+        cols.push(choice.text);
+      }
+    });
+    result.rows = rows;
+    result.cols = cols;
+    result.correctAnswers = answers;
+
+    return result;
+  }
+
+  private mapMCQQuestionFromDTO(questionDTO): MultipleChoiceQuestion {
+    const result = new MultipleChoiceQuestion(questionDTO.text);
+    this.mapAbtractQuestionAttributesFromDTO(questionDTO, result);
+    const answers: number[] = [];
+    const options: string[] = [];
+    questionDTO.choices
+      .filter(choice => choice.is_correct)
+      .forEach(correctChoice => answers.push(correctChoice.order));
+    result.correctAnswersIndexes = answers;
+
+    questionDTO.choices
+      .sort((a, b) => a.order - b.order)
+      .forEach(choice => options.push(choice.text));
+    result.options = options;
+    return result;
+  }
+
+  mapAbtractQuestionAttributesFromDTO(questionDTO, question: AbstractQuestion) {
+    question.required = questionDTO.answer_required;
+    question.penalty = questionDTO.penalty;
+    question.score = questionDTO.points;
+    question.order = questionDTO.order;
   }
 }

@@ -2,7 +2,6 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 import {FreeFormQuestion} from "../../../../../../../model/questions/free-form-question";
 import {AlertService} from "../../../../../../../services/event-services/alert.service";
 import {AlertTypeEnum} from "../../../../../../../enums/alert-type.enum";
-import {environment} from "../../../../../../../../environments/environment";
 
 @Component({
   selector: 'free-form-question',
@@ -20,7 +19,7 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
   @Output('question') questionChange = new EventEmitter();
 
   title: string;
-  answer: string;
+  answer: string[];
   score: number;
   penalty: number;
   required: boolean;
@@ -78,7 +77,7 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
    */
   private setInitialValues() {
     this.title = this.question.title;
-    this.answer = this.question.correctAnswer;
+    this.answer = this.question.correctAnswers;
     this.score = this.question.score;
     this.penalty = this.question.penalty;
     this.required = this.question.required;
@@ -89,7 +88,7 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
    */
   private setInputValues() {
     this.question.title = this.title;
-    this.question.correctAnswer = this.answer;
+    this.question.correctAnswers = this.answer;
     this.question.required = this.required;
 
     if (this.question.required) {
