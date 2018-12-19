@@ -60,7 +60,6 @@ export class TraineeTrainingsTableComponent implements OnInit {
    * @param {number} trainingRunId if of training run which results should be displayed
    */
   accessResults(trainingRunId: number) {
-    // TODO: pass id of training run? or use service?
     this.router.navigate(['training/results'],{relativeTo: this.activeRoute})
   }
 

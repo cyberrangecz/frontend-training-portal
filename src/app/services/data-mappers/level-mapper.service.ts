@@ -166,7 +166,9 @@ export class LevelMapperService {
     result.solutionPenalized = gameLevelDTO.solution_penalized;
     result.estimatedDuration = gameLevelDTO.estimated_duration;
     result.attachments = gameLevelDTO.attachments;
-    result.hints = this.mapHintsDTOToHints(gameLevelDTO.hints);
+    if (gameLevelDTO.hints) {
+      result.hints = this.mapHintsDTOToHints(gameLevelDTO.hints);
+    }
     return result;
   }
 
