@@ -299,9 +299,10 @@ export class LevelMapperService {
     const cols: string[] = [];
 
     questionDTO.choices.forEach(choice => {
-      if (choice.order <= (questionDTO.choices.length - 1) / 2) {
+      const half = Math.floor((questionDTO.choices.length) / 2);
+      if (choice.order < half) {
         rows.push(choice.text);
-        answers.push({x: choice.order, y: choice.pair});
+        answers.push({x: choice.order, y: choice.pair - half});
       } else {
         cols.push(choice.text);
       }
@@ -309,7 +310,6 @@ export class LevelMapperService {
     result.rows = rows;
     result.cols = cols;
     result.correctAnswers = answers;
-
     return result;
   }
 
@@ -330,7 +330,7 @@ export class LevelMapperService {
     return result;
   }
 
-  mapAbtractQuestionAttributesFromDTO(questionDTO, question: AbstractQuestion) {
+  private mapAbtractQuestionAttributesFromDTO(questionDTO, question: AbstractQuestion) {
     question.required = questionDTO.answer_required;
     question.penalty = questionDTO.penalty;
     question.score = questionDTO.points;

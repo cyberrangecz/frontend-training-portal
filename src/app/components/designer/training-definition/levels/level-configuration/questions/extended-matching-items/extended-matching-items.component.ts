@@ -13,7 +13,6 @@ import {ExtendedMatchingItems} from "../../../../../../../model/questions/extend
 import {AlertService} from "../../../../../../../services/event-services/alert.service";
 import {AlertTypeEnum} from "../../../../../../../enums/alert-type.enum";
 import {MatRadioButton} from "@angular/material";
-import {environment} from "../../../../../../../../environments/environment";
 
 @Component({
   selector: 'extended-matching-items',
