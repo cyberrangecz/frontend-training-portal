@@ -286,7 +286,9 @@ export class LevelMapperService {
     const result = new FreeFormQuestion(questionDTO.text);
     const answers: string[] = [];
     this.mapAbtractQuestionAttributesFromDTO(questionDTO, result);
-    questionDTO.correct_choices.forEach(choice => answers.push(choice));
+    if (questionDTO.correct_choices) {
+      questionDTO.correct_choices.forEach(choice => answers.push(choice));
+    }
     result.correctAnswers = answers;
     return result;
   }
@@ -302,7 +304,9 @@ export class LevelMapperService {
       const half = Math.floor((questionDTO.choices.length) / 2);
       if (choice.order < half) {
         rows.push(choice.text);
-        answers.push({x: choice.order, y: choice.pair - half});
+        if (choice.pair) {
+          answers.push({x: choice.order, y: choice.pair - half});
+        }
       } else {
         cols.push(choice.text);
       }
