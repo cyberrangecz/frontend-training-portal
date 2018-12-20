@@ -87,7 +87,6 @@ export class TrainingDefinitionComponent implements OnInit {
       return of(true);
     }
   }
-
   private getErrorMessages(): string[] {
     const result: string[] = [];
     const canDeactivateLevels = this.trainingLevelStepperComponent.getCanDeactivateLevels();

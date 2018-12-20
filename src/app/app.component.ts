@@ -27,11 +27,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    this.loadProfile();
     this.subscribeOidcEvents();
     this.configureOidc();
     this.distractionFreeMode = this.distractionFreeModeService.getDistractionFreeMode();
     this.subscribeForDistractionFreeModeChanges();
+    this.loadProfile();
   }
 
   ngOnDestroy() {
