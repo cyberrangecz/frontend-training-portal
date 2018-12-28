@@ -135,13 +135,16 @@ export class TrainingDefinitionComponent implements OnInit {
         if (params.has('id')) {
           const trainingDefId = +params.get('id');
           this.isTrainingSaved = true;
-          return trainingDefId === null ? null : this.trainingDefinitionGetter.getTrainingDefinitionById(trainingDefId, true);
+          return trainingDefId === null ? of(null) : this.trainingDefinitionGetter.getTrainingDefinitionById(trainingDefId, true);
         }
         this.isTrainingSaved = false;
+        return of(null);
       }));
   }
 
   private fetchLevelsFromTrainingDefinition(): Observable<AbstractLevel[]> {
-      return this.trainingDefinition$.pipe(map(trainingDef => trainingDef.levels));
+      return this.trainingDefinition$.pipe(map(trainingDef =>
+        trainingDef ? trainingDef.levels : null
+      ));
   }
 }

@@ -40,7 +40,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
   @Input('levels') levels: AbstractLevel[];
 
   @Output('onLevelDeleted') onLevelDeleted: EventEmitter<number> = new EventEmitter();
-  isLoading = false;
+  isLoading = true;
   selectedStep: number = 0;
 
   constructor(public dialog: MatDialog,
@@ -53,8 +53,10 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if ('levels' in changes) {
-      this.resolveInitialLevels();
+    if ('levels' in changes || 'trainingDefinition' in changes) {
+      if (this.trainingDefinition != null) {
+        this.resolveInitialLevels();
+      }
     }
   }
 
@@ -222,11 +224,12 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    * Initializes levels with default values
    */
   private resolveInitialLevels() {
-    if (!this.levels) {
+    if (!this.levels || this.levels.length == 0) {
       this.levels = [];
     } else {
       this.levels = this.sortInitialLevels(this.levels);
     }
+    this.isLoading = false;
   }
 
   private sortInitialLevels(levels: AbstractLevel[]): AbstractLevel[] {
