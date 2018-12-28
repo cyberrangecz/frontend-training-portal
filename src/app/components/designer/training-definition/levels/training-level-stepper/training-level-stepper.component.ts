@@ -195,11 +195,14 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    * @param event event of active level change
    */
   selectionChanged(event) {
-    if (this.getCanDeactivateLevels().find(level => level.order === this.selectedStep).canBeDeactivated) {
+    this.changeSelectedStep(event.selectedIndex);
+    //TODO : this should only be used if lazy loading is implemented
+
+    /*    if (this.getCanDeactivateLevels().find(level => level.order === this.selectedStep).canBeDeactivated) {
       this.changeSelectedStep(event.selectedStep);
     } else {
       this.resolveBySaveChangesDialog(event.selectedStep);
-    }
+    }*/
   }
 
   private resolveBySaveChangesDialog(selectedLevelIndex: number) {

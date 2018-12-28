@@ -24,7 +24,7 @@
   </mat-menu>
 </div>
 
-<div class="stepper-control" *ngIf="levels && levels.length > 0">
+<div class="stepper-control" *ngIf="!isLoading && levels && levels.length > 0">
   <button mat-icon-button color="primary" (click)="swapLeft()" [disabled]="selectedStep === 0"
           matTooltip="Swap selected level to left">
     <mat-icon>arrow_back</mat-icon>
@@ -39,7 +39,7 @@
 
 <div class="content">
   <mat-horizontal-stepper
-    *ngIf="levels && levels.length > 0"
+    *ngIf="!isLoading && levels && levels.length > 0"
     [(selectedIndex)]="selectedStep"
     (selectionChange)="selectionChanged($event)"
     #stepper>
