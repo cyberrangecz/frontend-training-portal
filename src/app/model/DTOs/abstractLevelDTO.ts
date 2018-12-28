@@ -32,6 +32,5 @@ export namespace AbstractLevelDTO {
     INFO: 'INFO' as LevelTypeEnum,
     ASSESSMENT: 'ASSESSMENT' as LevelTypeEnum,
     GAME: 'GAME' as LevelTypeEnum
-
   }
 }

@@ -20,6 +20,12 @@ import {AbstractQuestion} from '../../model/questions/abstract-question';
 import {FreeFormQuestion} from '../../model/questions/free-form-question';
 import {MultipleChoiceQuestion} from '../../model/questions/multiple-choice-question';
 import {ExtendedMatchingItems} from '../../model/questions/extended-matching-items';
+import {AbstractQuestionCreateDTO, AbstractQuestionDTO} from '../../model/DTOs/abstactQuestionDTO';
+import {MultipleChoiceQuestionCreateDTO, MultipleChoiceQuestionCreateDTOClass} from '../../model/DTOs/multipleChoiceQuestionCreateDTO';
+import {ExtendedMatchingItemsCreateDTO, ExtendedMatchingItemsDTOClass} from '../../model/DTOs/extendedMatchingItemsDTO';
+import {FreeFormQuestionCreateDTO, FreeFormQuestionDTOClass} from '../../model/DTOs/freeFormQuestionDTO';
+import {MCQChoiceDTO} from '../../model/DTOs/mcqChoiceDTO';
+import {EMIChoiceDTO} from '../../model/DTOs/emiChoiceDTO';
 
 @Injectable()
 export class LevelMapperService {
@@ -93,7 +99,9 @@ export class LevelMapperService {
     result.instructions = level.instructions;
     result.level_type = AbstractLevelDTO.LevelTypeEnum.ASSESSMENT;
     result.type = this.mapAssessmentTypeToDTO(level.assessmentType);
-    //TODO: mappping for result.questions = level.questions;
+    result.questions = '[]';
+    console.log(level.questions);
+    console.log(JSON.stringify(this.mapQuestionsToDTO(level.questions)));
     return result;
   }
 
@@ -259,8 +267,13 @@ export class LevelMapperService {
     return result;
   }
 
-  private mapQuestionsToDTO(questions: AbstractQuestion[]) {
-
+  private mapQuestionsToDTO(questions: AbstractQuestion[]): AbstractQuestionCreateDTO[] {
+    const result: AbstractQuestionCreateDTO[] = [];
+    if (!questions || questions.length < 1) {
+      return [];
+    }
+    questions.forEach(question => result.push(this.mapQuestionToDTO(question)));
+    return result;
   }
 
   private mapQuestionsFromDTO(questions): AbstractQuestion[] {
@@ -269,20 +282,28 @@ export class LevelMapperService {
     return result;
   }
 
-  private mapQuestionToDto(question: AbstractQuestion) {
-
+  private mapQuestionToDTO(question: AbstractQuestion): AbstractQuestionCreateDTO {
+    if (question instanceof FreeFormQuestion) {
+      return this.mapFFQToDTO(question);
+    }
+    if (question instanceof MultipleChoiceQuestion) {
+      return this.mapMCQToDTO(question);
+    }
+    if (question instanceof ExtendedMatchingItems) {
+      return this.mapEMIToDTO(question);
+    }
   }
 
   private mapQuestionFromDTO(question): AbstractQuestion {
     switch (question.question_type) {
-      case 'FFQ': return this.mapFFQQuestionFromDTO(question);
-      case 'EMI': return this.mapEMIQuestionFromDTO(question);
-      case 'MCQ': return this.mapMCQQuestionFromDTO(question);
+      case 'FFQ': return this.mapFFQFromDTO(question);
+      case 'EMI': return this.mapEMIFromDTO(question);
+      case 'MCQ': return this.mapMCQFromDTO(question);
       default: console.error('Could not map question from JSON to any of known types');
     }
   }
 
-  private mapFFQQuestionFromDTO(questionDTO): FreeFormQuestion {
+  private mapFFQFromDTO(questionDTO): FreeFormQuestion {
     const result = new FreeFormQuestion(questionDTO.text);
     const answers: string[] = [];
     this.mapAbtractQuestionAttributesFromDTO(questionDTO, result);
@@ -293,7 +314,7 @@ export class LevelMapperService {
     return result;
   }
 
-  private mapEMIQuestionFromDTO(questionDTO): ExtendedMatchingItems {
+  private mapEMIFromDTO(questionDTO): ExtendedMatchingItems {
     const result = new ExtendedMatchingItems(questionDTO.text);
     this.mapAbtractQuestionAttributesFromDTO(questionDTO, result);
     const answers: {x: number, y: number}[] = [];
@@ -317,7 +338,7 @@ export class LevelMapperService {
     return result;
   }
 
-  private mapMCQQuestionFromDTO(questionDTO): MultipleChoiceQuestion {
+  private mapMCQFromDTO(questionDTO): MultipleChoiceQuestion {
     const result = new MultipleChoiceQuestion(questionDTO.text);
     this.mapAbtractQuestionAttributesFromDTO(questionDTO, result);
     const answers: number[] = [];
@@ -339,5 +360,76 @@ export class LevelMapperService {
     question.penalty = questionDTO.penalty;
     question.score = questionDTO.points;
     question.order = questionDTO.order;
+  }
+
+  private mapMCQToDTO(question: MultipleChoiceQuestion): MultipleChoiceQuestionCreateDTO {
+    const result = new MultipleChoiceQuestionCreateDTOClass();
+    this.mapAbstractQuestionAttributesToDTO(question, result);
+    result.question_type = AbstractQuestionDTO.QuestionTypeEnum.MCQ;
+    this.mapMCQChoicesToDTO(question, result);
+    return result;
+  }
+
+  private mapEMIToDTO(question: ExtendedMatchingItems): ExtendedMatchingItemsCreateDTO {
+    const result = new ExtendedMatchingItemsDTOClass();
+    this.mapAbstractQuestionAttributesToDTO(question, result);
+    result.question_type = AbstractQuestionDTO.QuestionTypeEnum.EMI;
+    this.mapEMIChoicesToDTO(question, result);
+    return result;
+  }
+
+  private mapFFQToDTO(question: FreeFormQuestion): FreeFormQuestionCreateDTO {
+    const result = new FreeFormQuestionDTOClass();
+    this.mapAbstractQuestionAttributesToDTO(question, result);
+    result.question_type = AbstractQuestionDTO.QuestionTypeEnum.FFQ;
+    result.correct_choices = question.correctAnswers;
+    return result;
+  }
+
+  private mapAbstractQuestionAttributesToDTO(question: AbstractQuestion, questionDTO: AbstractQuestionCreateDTO) {
+    questionDTO.answer_required = question.required;
+    questionDTO.order = question.order;
+    questionDTO.penalty = question.penalty;
+    questionDTO.points = question.score;
+    questionDTO.text = question.title;
+  }
+
+  private mapEMIChoicesToDTO(question: ExtendedMatchingItems, questionDTO: ExtendedMatchingItemsCreateDTO) {
+    let index = 0;
+    const half = Math.floor((question.rows.length + question.cols.length) / 2);
+    const choices: EMIChoiceDTO[] = [];
+
+    question.rows.forEach(row => {
+      const choice = new EMIChoiceDTO();
+      choice.order = index;
+      choice.text = row;
+      choice.pair = question.correctAnswers.find(answer => answer.x === index).y + half;
+      choices.push(choice);
+      index++;
+    });
+
+    question.cols.forEach(col => {
+      const choice = new EMIChoiceDTO();
+      choice.order = index;
+      choice.text = col;
+      choice.pair = question.correctAnswers.find(answer => answer.y === index - half).x;
+      choices.push(choice);
+      index++;
+    });
+    questionDTO.choices = choices;
+  }
+
+  private mapMCQChoicesToDTO(question: MultipleChoiceQuestion, questionDTO: MultipleChoiceQuestionCreateDTO) {
+    let index = 0;
+    const result: MCQChoiceDTO[] = [];
+    question.options.forEach(option => {
+      const choice =  new MCQChoiceDTO();
+      choice.text = option;
+      choice.order = index;
+      choice.is_correct = question.correctAnswersIndexes.includes(index);
+      result.push(choice);
+      index++;
+    });
+    questionDTO.choices = result;
   }
 }

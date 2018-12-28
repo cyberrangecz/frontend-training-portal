@@ -98,7 +98,6 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
   saveChanges() {
     if (this.validateInput()) {
       this.setInputValues();
-      // TODO: Save to REST
       this.dirty = false;
     }
   }

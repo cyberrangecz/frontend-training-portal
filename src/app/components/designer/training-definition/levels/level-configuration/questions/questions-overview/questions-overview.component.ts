@@ -126,8 +126,10 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
    */
   saveChanges() {
     this.questionConfigurationChildren.forEach(child => child.saveChanges());
-    this.dirty = false;
-    // TODO: Save to REST (here or in child?)
+    const savedQuestion: AbstractQuestion[] = [];
+    this.questionConfigurationChildren.forEach(child => savedQuestion.push(child.question));
+    this.questions = savedQuestion;
+    this.dirty = false
   }
 
   private resolveInitialQuestions() {

@@ -67,7 +67,6 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
   saveChanges() {
     if (this.validateInput()) {
       this.setInputValues();
-      // TODO: Save to REST
       this.dirty = false;
     }
   }

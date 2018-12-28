@@ -62,6 +62,7 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
       this.isLoading = true;
       this.setInputValuesToLevel();
       this.childComponent.saveChanges();
+      this.level.questions = this.childComponent.questions;
       this.trainingDefinitionSetter.updateAssessmentLevel(this.trainingDefinitionId, this.level)
         .subscribe(resp => {
             this.dirty = false;
@@ -98,10 +99,6 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
 
     if (!this.title || this.title.replace(/\s/g, '') === '') {
       errorMessage += 'Title cannot be empty\n'
-    }
-
-    if (!this.questions) {
-      errorMessage += 'Questions cannot be empty\n'
     }
 
     if (errorMessage !== '') {
