@@ -21,7 +21,7 @@ export interface TrainingDefinitionCreateDTO {
     description?: string;
     outcomes?: Array<string>;
     prerequisities?: Array<string>;
-    sandbox_definition_ref: number;
+    sandbox_definition_ref_id: number;
     show_stepper_bar?: boolean;
     state?: TrainingDefinitionCreateDTO.StateEnum;
     title?: string;
@@ -32,7 +32,7 @@ export class TrainingDefinitionCreateDTOClass implements  TrainingDefinitionCrea
   description: string;
   outcomes: Array<string>;
   prerequisities: Array<string>;
-  sandbox_definition_ref: number;
+  sandbox_definition_ref_id: number;
   show_stepper_bar: boolean;
   state: TrainingDefinitionCreateDTO.StateEnum;
   title: string;

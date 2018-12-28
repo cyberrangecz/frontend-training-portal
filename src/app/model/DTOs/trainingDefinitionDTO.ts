@@ -25,7 +25,7 @@ export interface TrainingDefinitionDTO {
     id?: number;
     outcomes?: Array<string>;
     prerequisities?: Array<string>;
-    sandbox_definition_ref?: SandboxDefinitionRefDTO;
+    sandbox_definition_ref_id?: number;
     show_stepper_bar?: boolean;
     starting_level?: number;
     state?: TrainingDefinitionDTO.StateEnum;
@@ -39,7 +39,7 @@ export class TrainingDefinitionDTOClass {
   id?: number;
   outcomes?: Array<string>;
   prerequisities?: Array<string>;
-  sandbox_definition_ref?: SandboxDefinitionRefDTO;
+  sandbox_definition_ref_id?: number;
   show_stepper_bar?: boolean;
   starting_level?: number;
   state?: TrainingDefinitionDTO.StateEnum;

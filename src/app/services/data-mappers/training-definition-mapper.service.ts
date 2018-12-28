@@ -1,12 +1,7 @@
 import {Injectable} from "@angular/core";
 import {TrainingDefinition} from "../../model/training/training-definition";
 import {TrainingDefinitionStateEnum} from "../../enums/training-definition-state.enum";
-import {BasicLevelInfoDTO} from "../../model/DTOs/basicLevelInfoDTO";
 import {AbstractLevel} from "../../model/level/abstract-level";
-import {InfoLevel} from "../../model/level/info-level";
-import {AbstractLevelTypeEnum} from "../../enums/abstract-level-type.enum";
-import {AssessmentLevel} from "../../model/level/assessment-level";
-import {GameLevel} from "../../model/level/game-level";
 import {
   TrainingDefinitionCreateDTO,
   TrainingDefinitionCreateDTOClass
@@ -16,14 +11,10 @@ import {
   TrainingDefinitionUpdateDTOClass
 } from "../../model/DTOs/trainingDefinitionUpdateDTO";
 import {TrainingDefinitionRestResource} from "../../model/DTOs/trainingDefinitionRestResource";
-import {TrainingDefinitionDTO, TrainingDefinitionDTOClass} from '../../model/DTOs/trainingDefinitionDTO';
-import {AuthorRefDTO} from "../../model/DTOs/authorRefDTO";
-import LevelTypeEnum = BasicLevelInfoDTO.LevelTypeEnum;
-import {AbstractLevelDTO} from '../../model/DTOs/abstractLevelDTO';
+import {TrainingDefinitionDTO} from '../../model/DTOs/trainingDefinitionDTO';
 import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
 import {TrainingDefinitionTableDataModel} from "../../model/table-models/training-definition-table-data-model";
 import {TablePagination} from "../../model/table-models/table-pagination";
-import {Pagination} from "../../model/DTOs/pagination";
 import {LevelMapperService} from "./level-mapper.service";
 
 @Injectable()
@@ -68,7 +59,7 @@ export class TrainingDefinitionMapperService {
   mapTrainingDefinitionDTOToTrainingDefinition(trainingDefinitionDTO: TrainingDefinitionDTO, withLevels: boolean): TrainingDefinition {
     const result = new TrainingDefinition();
     result.id = trainingDefinitionDTO.id;
-    result.sandboxDefinitionId = this.getSandboxDefinitionIdFromDTO(trainingDefinitionDTO);
+    result.sandboxDefinitionId = trainingDefinitionDTO.sandbox_definition_ref_id;
     result.title = trainingDefinitionDTO.title;
     result.description = trainingDefinitionDTO.description;
     result.authorIds = this.getAuthorRefDtoFromDTO(trainingDefinitionDTO);
@@ -80,10 +71,6 @@ export class TrainingDefinitionMapperService {
       result.levels = this.getLevelsFromDTO(trainingDefinitionDTO);
     }
     return result;
-  }
-
-  private getSandboxDefinitionIdFromDTO(trainingDefinitionDTO: TrainingDefinitionDTO): number {
-    return trainingDefinitionDTO.sandbox_definition_ref ? trainingDefinitionDTO.sandbox_definition_ref.id : undefined;
   }
 
   private getAuthorRefDtoFromDTO(trainingDefinitionDTO: TrainingDefinitionDTO): number[] {
@@ -117,7 +104,7 @@ export class TrainingDefinitionMapperService {
     trainingDefinition.prerequisites.forEach(prerequisite => result.prerequisities.push(prerequisite));
     result.state = this.mapTrainingDefStateToDTOEnum(trainingDefinition.state);
     result.title = trainingDefinition.title;
-    result.sandbox_definition_ref = trainingDefinition.sandboxDefinitionId;
+    result.sandbox_definition_ref_id = trainingDefinition.sandboxDefinitionId;
     result.show_stepper_bar = trainingDefinition.showProgress;
     result.aut_ids = trainingDefinition.authorIds as number[];
     return result;
@@ -134,7 +121,7 @@ export class TrainingDefinitionMapperService {
 
     result.id = trainingDefinition.id;
     result.description = trainingDefinition.description;
-    result.sandbox_definition_ref = trainingDefinition.sandboxDefinitionId;
+    result.sandbox_definition_ref_id = trainingDefinition.sandboxDefinitionId;
     trainingDefinition.outcomes.forEach(outcome => result.outcomes.push(outcome));
     trainingDefinition.prerequisites.forEach(prerequisite => result.prerequisities.push(prerequisite));
     result.aut_ids = trainingDefinition.authorIds as number[];
