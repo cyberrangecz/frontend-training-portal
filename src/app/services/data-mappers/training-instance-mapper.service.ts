@@ -95,7 +95,7 @@ export class TrainingInstanceMapperService {
     result.pool_size = trainingInstance.poolSize;
     result.start_time = trainingInstance.startTime.toISOString();
     result.end_time = trainingInstance.endTime.toISOString();
-    result.password = trainingInstance.keyword;
+    result.access_token = trainingInstance.keyword;
     result.org_ids =  trainingInstance.organizersIds;
     result.training_definition_id = trainingInstance.trainingDefinition.id;
     return result;
