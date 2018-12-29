@@ -16,6 +16,14 @@ import {AccessTrainingRunDTO} from "../../model/DTOs/accessTrainingRunDTO";
 import {AccessTrainingRun} from "../../model/training/access-training-run";
 import {IsCorrectFlagDTO} from "../../model/DTOs/isCorrectFlagDTO";
 import {FlagCheck} from "../../model/level/flag-check";
+import {AbstractQuestion} from '../../model/questions/abstract-question';
+import {AbstractAssessmentAnswerDTO} from '../../model/DTOs/abstractAssessmentAnswerDTO';
+import {FreeFormAnswerDTO} from '../../model/DTOs/freeFormAnswerDTO';
+import {FreeFormQuestion} from '../../model/questions/free-form-question';
+import {MultipleChoiceQuestion} from '../../model/questions/multiple-choice-question';
+import {ExtendedMatchingItems} from '../../model/questions/extended-matching-items';
+import {MultipleChoiceQuestionAnswerDTO} from '../../model/DTOs/multipleChoiceQuestionAnswerDTO';
+import {ExtendedMatchingItemsAnswerDTO} from '../../model/DTOs/extendedMatchingItemsAnswerDTO';
 
 @Injectable()
 export class TrainingRunMapperService {
@@ -109,6 +117,49 @@ export class TrainingRunMapperService {
     result.trainingInstanceStartTime = new Date(accessedTrainingRunDTO.training_instance_start_date);
     result.trainingInstanceEndTime = new Date(accessedTrainingRunDTO.training_instance_end_date);
     result.action = this.mapActionEnumFromDTOToTableDataModel(accessedTrainingRunDTO.possible_action);
+    return result;
+  }
+
+  mapQuestionsToUserAnswerJSON(questions: AbstractQuestion[]): string {
+    const result: AbstractAssessmentAnswerDTO[] = [];
+    questions.forEach(question => this.mapQuestionToUserAnswerDTO(question));
+    return JSON.stringify(result);
+  }
+
+  mapQuestionToUserAnswerDTO(question: AbstractQuestion): AbstractAssessmentAnswerDTO {
+    if (question instanceof FreeFormQuestion) {
+      return this.mapFFQToUserAnswerDTO(question);
+    }
+    if (question instanceof MultipleChoiceQuestion) {
+      return this.mapMCQToUserAnswerDTO(question);
+    }
+    if (question instanceof ExtendedMatchingItems) {
+      return this.mapEMIToUserAnswerDTO(question);
+    }
+  }
+
+  private mapFFQToUserAnswerDTO(question: FreeFormQuestion): FreeFormAnswerDTO {
+    const result = new FreeFormAnswerDTO();
+    result.question_order = question.order;
+    result.text = question.usersAnswer;
+    return result;
+  }
+
+  private mapMCQToUserAnswerDTO(question: MultipleChoiceQuestion): MultipleChoiceQuestionAnswerDTO {
+    const result = new MultipleChoiceQuestionAnswerDTO();
+    result.question_order = question.order;
+    result.choices = question.usersAnswersIndexes;
+    return result;
+  }
+
+  private mapEMIToUserAnswerDTO(question: ExtendedMatchingItems): ExtendedMatchingItemsAnswerDTO {
+    const result = new ExtendedMatchingItemsAnswerDTO();
+    result.question_order = question.order;
+    result.pairs = [[]];
+    question.usersAnswers
+      .forEach(answer => {
+        result.pairs.push([answer.x, answer.y]);
+      });
     return result;
   }
 

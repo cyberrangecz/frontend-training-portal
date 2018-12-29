@@ -94,7 +94,8 @@ export class TrainingRunSetterService {
    * @param questions questions which answers should be submitted
    */
   submitQuestions(trainingRun: number, questions: AbstractQuestion[]) {
-    // TODO: Call REST API to submit questions
+    return this.http.put(environment.trainingRunsEndpointUri + trainingRun + '/assessment-evaluations',
+      { responses: this.trainingRunMapper.mapQuestionsToUserAnswerJSON(questions)});
   }
 
 
