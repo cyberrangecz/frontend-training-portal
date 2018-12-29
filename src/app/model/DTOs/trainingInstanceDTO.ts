@@ -24,5 +24,5 @@ export interface TrainingInstanceDTO {
     start_time?: Date;
     title?: string;
     training_definition?: TrainingDefinitionDTO;
-    password: string
+    access_token: string
 }

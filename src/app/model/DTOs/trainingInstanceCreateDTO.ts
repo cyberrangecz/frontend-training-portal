@@ -21,7 +21,7 @@ import {SandboxDefinitionRefDTO} from "./sandboxDefinitionRefDTO";
  */
 export interface TrainingInstanceCreateDTO {
     end_time?: string;
-    password?: string;
+  access_token?: string;
     org_ids?: Array<number>;
     pool_size?: number;
     start_time?: string;
@@ -31,7 +31,7 @@ export interface TrainingInstanceCreateDTO {
 
 export class TrainingInstanceCreateDTOClass implements TrainingInstanceCreateDTO {
   end_time: string;
-  password: string;
+  access_token: string;
   org_ids?: Array<number>;
   pool_size: number;
   start_time: string;

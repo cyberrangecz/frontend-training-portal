@@ -19,7 +19,7 @@ import { UserRefDTO } from './userRefDTO';
 export interface TrainingInstanceUpdateDTO {
     end_time?: string;
     id?: number;
-    password?: string;
+  access_token?: string;
     org_ids?: Array<number>;
     pool_size?: number;
     start_time?: string;
@@ -30,7 +30,7 @@ export interface TrainingInstanceUpdateDTO {
 export class TrainingInstanceUpdateDTOClass implements TrainingInstanceUpdateDTO {
   end_time: string;
   id: number;
-  password: string;
+  access_token: string;
   org_ids?: Array<number>;
   pool_size: number;
   start_time: string;
