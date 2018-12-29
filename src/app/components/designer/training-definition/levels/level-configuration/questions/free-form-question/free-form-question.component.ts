@@ -19,7 +19,7 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
   @Output('question') questionChange = new EventEmitter();
 
   title: string;
-  answer: string[];
+  answers: string[];
   score: number;
   penalty: number;
   required: boolean;
@@ -71,12 +71,19 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
     }
   }
 
+  removeAnswer(index: number) {
+    this.answers.splice(index, 1);
+  }
+
+  addAnswer() {
+    this.answers.push("");
+  }
   /**
    * Sets initial values from passed question to the user input components
    */
   private setInitialValues() {
     this.title = this.question.title;
-    this.answer = this.question.correctAnswers;
+    this.answers = this.question.correctAnswers ? this.question.correctAnswers : [];
     this.score = this.question.score;
     this.penalty = this.question.penalty;
     this.required = this.question.required;
@@ -87,7 +94,7 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
    */
   private setInputValues() {
     this.question.title = this.title;
-    this.question.correctAnswers = this.answer;
+    this.question.correctAnswers = this.answers;
     this.question.required = this.required;
 
     if (this.question.required) {
