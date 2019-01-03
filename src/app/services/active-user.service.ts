@@ -84,7 +84,7 @@ export class ActiveUserService {
   loadProfile() {
     const claims = this.oAuthService.getIdentityClaims();
     const user: User = new User();
-    user.id = 1;
+    user.id = 3;
     user.name = claims['sub'];
     const roles = new Set<UserRoleEnum>();
     roles.add(UserRoleEnum.Designer);

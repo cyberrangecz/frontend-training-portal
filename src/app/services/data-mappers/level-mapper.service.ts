@@ -100,8 +100,7 @@ export class LevelMapperService {
     result.level_type = AbstractLevelDTO.LevelTypeEnum.ASSESSMENT;
     result.type = this.mapAssessmentTypeToDTO(level.assessmentType);
     result.questions = '[]';
-    console.log(level.questions);
-    console.log(JSON.stringify(this.mapQuestionsToDTO(level.questions)));
+    result.questions = JSON.stringify(this.mapQuestionsToDTO(level.questions));
     return result;
   }
 
@@ -272,7 +271,13 @@ export class LevelMapperService {
     if (!questions || questions.length < 1) {
       return [];
     }
-    questions.forEach(question => result.push(this.mapQuestionToDTO(question)));
+    let index = 0;
+    questions.forEach(question => {
+      const questionDTO = this.mapQuestionToDTO(question);
+      questionDTO.order = index;
+      index++;
+      result.push(questionDTO)
+    });
     return result;
   }
 

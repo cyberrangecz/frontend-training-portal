@@ -10,7 +10,7 @@
     </mat-form-field>
 
     <!-- CORRECT ANSWERS filed -->
-    <div class="answer" *ngFor="let answer of answers; index as i; trackBy: index;">
+    <div class="answer" *ngFor="let answer of answers; index as i; trackBy: trackByFn;">
       <mat-form-field appearance="outline">
         <mat-label>Answer {{ i + 1}}</mat-label>
         <input (change)="contentChanged()" matInput placeholder="Answer" [(ngModel)]="answers[i]">

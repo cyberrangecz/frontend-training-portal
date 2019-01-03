@@ -78,6 +78,11 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
   addAnswer() {
     this.answers.push("");
   }
+
+  trackByFn(index: any, item: any) {
+    return index;
+  }
+
   /**
    * Sets initial values from passed question to the user input components
    */
