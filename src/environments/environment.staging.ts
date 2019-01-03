@@ -5,10 +5,10 @@ export const environment = {
   trainingRestBasePath: 'http://localhost:8080/kypo2-rest-training/api/v1/',
   usersEndpointUri: 'http://localhost:3000/users/',
   sandboxDefsEndpointUri: 'http://localhost:3000/sandbox-definitions/',
-  trainingDefsEndpointUri:  this.trainingRestBasePath + 'training-definitions/',
-  trainingInstancesEndpointUri: this.trainingRestBasePath +  + 'training-instances/',
-  trainingRunsEndpointUri:  this.trainingRestBasePath + 'training-runs/',
-  levelsEndpointUri:  this.trainingRestBasePath + 'levels/',
+  trainingDefsEndpointUri:  'http://localhost:8080/kypo2-rest-training/api/v1/training-definitions/',
+  trainingInstancesEndpointUri: 'http://localhost:8080/kypo2-rest-training/api/v1/training-instances/',
+  trainingRunsEndpointUri:  'http://localhost:8080/kypo2-rest-training/api/v1/training-runs/',
+  levelsEndpointUri:  'http://localhost:8080/kypo2-rest-training/api/v1/levels/',
 
   // BEHAVIOUR SETTINGS
   defaultAlertDuration: 2500, // 0 to display until user dismisses it
