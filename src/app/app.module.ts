@@ -16,6 +16,7 @@ import {SharedModule} from "./components/shared/shared.module";
 import {TrainingDistractionFreeModeService} from "./services/training-distraction-free-mode.service";
 import {AuthInterceptor} from "./http-interceptors/auth-interceptor";
 import {OAuthModule, OAuthStorage} from "angular-oauth2-oidc";
+import {ErrorLogInterceptor} from "./http-interceptors/error-log-interceptor";
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import {OAuthModule, OAuthStorage} from "angular-oauth2-oidc";
     ActiveUserService,
     UserGetterService,
     TrainingDistractionFreeModeService,
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorLogInterceptor, multi: true},
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]

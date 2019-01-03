@@ -1,10 +1,12 @@
 /**
  * Class representing training instance of a definition.
  */
+import {TrainingDefinition} from './training-definition';
+
 export class TrainingInstance {
 
   id: number;
-  trainingDefinitionId: number;
+  trainingDefinition: TrainingDefinition;
   startTime: Date;
   endTime: Date;
   title: string;
@@ -13,12 +15,6 @@ export class TrainingInstance {
   keyword: string;
 
 
-  constructor(trainingDefinitionId: number, startTime: Date, endTime: Date, poolSize: number, organizersIds: number[], keyword: string) {
-    this.trainingDefinitionId = trainingDefinitionId;
-    this.startTime = startTime;
-    this.endTime = endTime;
-    this.poolSize = poolSize;
-    this.organizersIds = organizersIds;
-    this.keyword = keyword;
+  constructor() {
   }
 }

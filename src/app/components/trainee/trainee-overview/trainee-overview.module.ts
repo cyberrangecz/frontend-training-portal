@@ -9,8 +9,15 @@ import {FormsModule} from "@angular/forms";
 import {SharedModule} from "../../shared/shared.module";
 import {TrainingInstanceGetterService} from "../../../services/data-getters/training-instance-getter.service";
 import {TrainingRunGetterService} from "../../../services/data-getters/training-run-getter.service";
-import {LevelGetterService} from "../../../services/data-getters/level-getter.service";
 import {TrainingRunGuard} from "../../../guards/training-run-guard.service";
+import {TrainingInstanceMapperService} from "../../../services/data-mappers/training-instance-mapper.service";
+import {TrainingRunMapperService} from "../../../services/data-mappers/training-run-mapper.service";
+import {LevelMapperService} from "../../../services/data-mappers/level-mapper.service";
+import {TrainingDefinitionMapperService} from "../../../services/data-mappers/training-definition-mapper.service";
+import {TrainingDefinitionGetterService} from "../../../services/data-getters/training-definition-getter.service";
+import {PipesModule} from "../../../pipes/pipes.module";
+import {ActiveTrainingRunLevelsService} from "../../../services/active-training-run-levels.service";
+import {TrainingRunSetterService} from "../../../services/data-setters/training-run.setter.service";
 
 @NgModule({
   imports: [
@@ -18,7 +25,8 @@ import {TrainingRunGuard} from "../../../guards/training-run-guard.service";
     FormsModule,
     SharedModule,
     TraineeOverviewRoutingModule,
-    TraineeOverviewMaterialModule
+    TraineeOverviewMaterialModule,
+    PipesModule
   ],
   declarations: [
     TraineeOverviewComponent,
@@ -26,10 +34,16 @@ import {TrainingRunGuard} from "../../../guards/training-run-guard.service";
     TraineeTrainingsTableComponent
   ],
   providers: [
+    TrainingDefinitionGetterService,
+    TrainingDefinitionMapperService,
     TrainingInstanceGetterService,
+    TrainingInstanceMapperService,
     TrainingRunGetterService,
-    LevelGetterService,
-    TrainingRunGuard
+    TrainingRunMapperService,
+    TrainingRunGuard,
+    LevelMapperService,
+    ActiveTrainingRunLevelsService,
+    TrainingRunSetterService
   ]
 })
 

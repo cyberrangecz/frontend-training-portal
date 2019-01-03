@@ -1,11 +1,25 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
-import {map} from "rxjs/operators";
+import {catchError, map, tap} from "rxjs/operators";
 import {TrainingDefinition} from "../../model/training/training-definition";
 import {TrainingDefinitionStateEnum} from "../../enums/training-definition-state.enum";
 import {Observable} from "rxjs/internal/Observable";
 import {PaginationParams} from "../../model/http/params/pagination-params";
+import {TrainingDefinitionMapperService} from "../data-mappers/training-definition-mapper.service";
+import {AbstractLevel} from "../../model/level/abstract-level";
+import {AbstractLevelDTO} from "../../model/DTOs/abstractLevelDTO";
+import {GameLevelDTO} from "../../model/DTOs/gameLevelDTO";
+import {InfoLevelDTO} from "../../model/DTOs/infoLevelDTO";
+import {AssessmentLevelDTO} from "../../model/DTOs/assessmentLevelDTO";
+import {LevelMapperService} from "../data-mappers/level-mapper.service";
+import {GameLevel} from "../../model/level/game-level";
+import {InfoLevel} from "../../model/level/info-level";
+import {AssessmentLevel} from "../../model/level/assessment-level";
+import {TrainingDefinitionRestResource} from "../../model/DTOs/trainingDefinitionRestResource";
+import {TrainingDefinitionDTO} from "../../model/DTOs/trainingDefinitionDTO";
+import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
+import {TrainingDefinitionTableDataModel} from "../../model/table-models/training-definition-table-data-model";
 
 @Injectable()
 /**
@@ -14,17 +28,19 @@ import {PaginationParams} from "../../model/http/params/pagination-params";
  */
 export class TrainingDefinitionGetterService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private levelMapper: LevelMapperService,
+              private trainingDefinitionMapper: TrainingDefinitionMapperService) {
   }
 
   /**
    * Retrieves all training definitions
    * @returns {Observable<TrainingDefinition[]>} Observable of training definitions list
    */
-  getTrainingDefs(): Observable<TrainingDefinition[]> {
-    return this.http.get(environment.trainingDefsEndpointUri)
+  getTrainingDefinitions(): Observable<TrainingDefinition[]> {
+    return this.http.get<TrainingDefinitionRestResource>(environment.trainingDefsEndpointUri)
       .pipe(map(response =>
-        this.parseTrainingDefs(response)));
+        this.trainingDefinitionMapper.mapTrainingDefinitionDTOsToTrainingDefinitions(response)));
   }
 
   /**
@@ -34,40 +50,30 @@ export class TrainingDefinitionGetterService {
    * @param sort attribute by which will result be sorted
    * @param sortDir sort direction (asc, desc)
    */
-  getTrainingDefsWithPaginations(page: number, size: number, sort: string, sortDir: string): Observable<TrainingDefinition[]> {
+  getTrainingDefinitionsWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<TableDataWithPaginationWrapper<TrainingDefinitionTableDataModel[]>> {
     let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
-    return this.http.get(environment.trainingDefsEndpointUri, { params: params })
+    return this.http.get<TrainingDefinitionRestResource>(environment.trainingDefsEndpointUri, { params: params })
       .pipe(map(response =>
-        this.parseTrainingDefs(response)));
+        this.trainingDefinitionMapper.mapTrainingDefinitionDTOsToTrainingDefinitionsWithPagination(response)));
   }
 
   /**
    * Retrieves training definition by its id
    * @param {number} id id of training definition
+   * @param withLevels
    * @returns {Observable<TrainingDefinition>} Observable of retrieved training definition, null if no training with such id is found
    */
-  getTrainingDefById(id: number): Observable<TrainingDefinition> {
-    return this.http.get<TrainingDefinition>(environment.trainingDefsEndpointUri + id)
+  getTrainingDefinitionById(id: number, withLevels = false): Observable<TrainingDefinition> {
+    return this.http.get<TrainingDefinitionDTO>(environment.trainingDefsEndpointUri + id)
       .pipe(map(response =>
-        this.parseTrainingDef(response)));
-  }
+        this.trainingDefinitionMapper.mapTrainingDefinitionDTOToTrainingDefinition(response, withLevels)));  }
 
   /**
    * Downloads Training Definition file
    * @param id id of training definition which should be downloaded
    */
-  downloadTrainingDef(id: number) {
+  downloadTrainingDefinition(id: number) {
     // TODO: call to download Training Def
-  }
-
-  /**
-   * Retrieves training definitions in released state
-   * @returns {Observable<TrainingDefinition[]>} Observable of retrieved list of training definitions
-   */
-  getReleasedTrainingDefs(): Observable<TrainingDefinition[]> {
-    return this.getTrainingDefs()
-      .pipe(map(trainings =>
-      trainings.filter(training => training.state === TrainingDefinitionStateEnum.Released)));
   }
 
   /**
@@ -75,68 +81,19 @@ export class TrainingDefinitionGetterService {
    * @param {number} sandboxId id of sandbox definition associated with training definition
    * @returns {Observable<TrainingDefinition[]>} Observable of list of training definitions matching sandbox definition id
    */
-  getTrainingDefsBySandboxDefId(sandboxId: number): Observable<TrainingDefinition[]> {
-    return this.http.get(environment.trainingDefsEndpointUri + 'sandbox-definitions/' + sandboxId)
-      .pipe(map(response => this.parseTrainingDefs(response)));
+  getTrainingDefinitionsBySandboxDefinitionId(sandboxId: number): Observable<TrainingDefinition[]> {
+    return this.http.get<TrainingDefinitionRestResource>(environment.trainingDefsEndpointUri + 'sandbox-definitions/' + sandboxId)
+      .pipe(map(response =>
+        this.trainingDefinitionMapper.mapTrainingDefinitionDTOsToTrainingDefinitions(response)));
   }
 
   /**
-   * Parses JSON received in HTTP response
-   * @param trainingDefsJson JSON of training definitions
-   * @returns {TrainingDefinition[]} list of training definitions created from JSON
+   * Returns level with matching id
+   * @param levelId id of level which should be retrieved
    */
-  private parseTrainingDefs(trainingDefsJson): TrainingDefinition[] {
-    const trainingDefs: TrainingDefinition[] = [];
-    trainingDefsJson.forEach(trainingJson => {
-      trainingDefs.push(this.parseTrainingDef(trainingJson));
-    });
-    return trainingDefs;
-  }
-
-  private parseTrainingDef(trainingDefJson): TrainingDefinition {
-    const training = new TrainingDefinition(
-      trainingDefJson.sandbox_definition,
-      this.parseAuthorIds(trainingDefJson.authors),
-      this.trainingDefStateString2Enum(trainingDefJson.state),
-      trainingDefJson.levels);
-
-    training.id =trainingDefJson.id;
-    training.title = trainingDefJson.title;
-    training.description = trainingDefJson.description;
-    training.prerequisites = trainingDefJson.prerequisites;
-    training.outcomes = trainingDefJson.outcomes;
-    training.showProgress = trainingDefJson.show_progress;
-    return training
-  }
-
-  /**
-   * Converts string to state enum
-   * @param {string} state string of state
-   * @returns {TrainingDefinitionStateEnum} matched state enum
-   */
-  private trainingDefStateString2Enum(state: string): TrainingDefinitionStateEnum {
-    if (state === 'unreleased') {
-      return TrainingDefinitionStateEnum.Unreleased;
-    }
-    if (state === 'released') {
-      return TrainingDefinitionStateEnum.Released
-    }
-    if (state === 'archived') {
-      return TrainingDefinitionStateEnum.Archived;
-    }
-     // throw error
-  }
-
-  /**
-   * Parse ids from authors JSON
-   * @param authors JSON defining authors of training definition
-   * @returns {number[]} ids of authors retrieved from JSON
-   */
-  private parseAuthorIds(authors): number[] {
-    const ids: number[] =[];
-    if (authors) {
-      authors.forEach(author => ids.push(author.id));
-    }
-    return ids;
+  getLevelById(levelId: number): Observable<GameLevel | InfoLevel | AssessmentLevel> {
+    return this.http.get<GameLevelDTO | InfoLevelDTO | AssessmentLevelDTO>(environment.trainingDefsEndpointUri + 'levels/' + levelId)
+      .pipe(map(response =>
+      this.levelMapper.mapLevelDTOToLevel(response)));
   }
 }

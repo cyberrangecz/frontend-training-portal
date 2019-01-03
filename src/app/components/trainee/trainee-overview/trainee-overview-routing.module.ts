@@ -9,7 +9,7 @@ const routes: Routes = [
     component: TraineeOverviewComponent
   },
   {
-    path: 'training/:id',
+    path: 'training',
     loadChildren: 'app/components/trainee/training-run/training-run.module#TrainingRunModule',
     canActivate: [TrainingRunGuard]
   }

@@ -1,9 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {UserGetterService} from "./services/data-getters/user-getter.service";
 import {TrainingDistractionFreeModeService} from "./services/training-distraction-free-mode.service";
+import {authConfig} from "./auth/auth-config";
 import {JwksValidationHandler, OAuthService} from "angular-oauth2-oidc";
 import {Router} from "@angular/router";
-import {authConfig} from "./auth/auth-config";
+import {ActiveUserService} from "./services/active-user.service";
 
 /**
  * Main component serving as wrapper for sidenav, toolbar and inner routed views
@@ -21,13 +21,17 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
               private oAuthService: OAuthService,
+              private activeUserService: ActiveUserService,
               private distractionFreeModeService: TrainingDistractionFreeModeService) {
   }
 
+
   ngOnInit() {
+    this.subscribeOidcEvents();
     this.configureOidc();
     this.distractionFreeMode = this.distractionFreeModeService.getDistractionFreeMode();
     this.subscribeForDistractionFreeModeChanges();
+    this.loadProfile();
   }
 
   ngOnDestroy() {
@@ -41,17 +45,39 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private configureOidc() {
+    this.oAuthService.setStorage(localStorage);
     this.oAuthService.configure(authConfig);
-    this.oAuthService.tokenValidationHandler = new JwksValidationHandler();
-    this.oAuthService.loadDiscoveryDocumentAndTryLogin ({
-      onTokenReceived: context => {
-        this.router.navigate(['/home']);
-      }
-    });
-    this.oAuthService.setupAutomaticSilentRefresh();
+    this.oAuthService.loadDiscoveryDocument()
+      .then(() => {
+        this.oAuthService.tryLogin()
+          .then(() => {
+            this.oAuthService.tokenValidationHandler = new JwksValidationHandler();
+            this.oAuthService.setupAutomaticSilentRefresh();
+          })
+      });
+  }
+
+  private loadProfile() {
+    const claims = this.oAuthService.getIdentityClaims();
+    this.activeUserService.loadProfile();
 
   }
 
+  private subscribeOidcEvents() {
+    this.oAuthService.events.subscribe(event => {
+      if (event.type === 'token_received') {
+          this.loadProfile()
+      }
+      if (event.type === 'token_refresh_error'
+        || event.type === 'token_error'
+        || event.type === 'silent_refresh_error'
+        || event.type === 'token_validation_error') {
+          console.log(event.type);
+          this.activeUserService.logout();
+          this.router.navigate(['/login']);
+      }
+    })
+  }
 
   /**
    * Subscribes to changes of distraction free mode (mode without sidebar and toolbar)

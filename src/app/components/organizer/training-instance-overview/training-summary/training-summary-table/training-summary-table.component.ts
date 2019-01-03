@@ -3,17 +3,16 @@ import {MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
 import {TrainingRun} from "../../../../../model/training/training-run";
 import {TrainingInstance} from "../../../../../model/training/training-instance";
 import {ActiveTrainingInstanceService} from "../../../../../services/active-training-instance.service";
-import {TrainingRunGetterService} from "../../../../../services/data-getters/training-run-getter.service";
 import {merge, of} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {TrainingRunSetterService} from "../../../../../services/data-setters/training-run.setter.service";
 import {AlertService} from "../../../../../services/event-services/alert.service";
 import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
-
-export class TrainingRunTableDataObject {
-  trainingRun: TrainingRun;
-  isWaitingForRevertResponse: boolean;
-}
+import {TrainingInstanceGetterService} from "../../../../../services/data-getters/training-instance-getter.service";
+import {ComponentErrorHandlerService} from "../../../../../services/component-error-handler.service";
+import {TrainingRunTableDataModel} from "../../../../../model/table-models/training-run-table-data-model";
+import {TableDataWithPaginationWrapper} from "../../../../../model/table-models/table-data-with-pagination-wrapper";
+import {environment} from "../../../../../../environments/environment";
 
 @Component({
   selector: 'training-summary-table',
@@ -30,7 +29,7 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
 
   activeTrainingSubscription;
 
-  dataSource: MatTableDataSource<TrainingRunTableDataObject>;
+  dataSource: MatTableDataSource<TrainingRunTableDataModel>;
 
   resultsLength = 0;
   isLoadingResults = true;
@@ -41,9 +40,10 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
 
   constructor(
     private alertService: AlertService,
+    private errorHandler: ComponentErrorHandlerService,
     private activeTrainingInstanceService: ActiveTrainingInstanceService,
     private trainingRunSetter: TrainingRunSetterService,
-    private trainingRunGetter: TrainingRunGetterService) { }
+    private trainingInstanceGetter: TrainingInstanceGetterService) { }
 
   ngOnInit() {
     this.loadActiveTraining();
@@ -79,7 +79,7 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
    * Reverts selected training run
    * @param trainingRunTableObject table object of training run
    */
-  revertTrainingRun(trainingRunTableObject: TrainingRunTableDataObject) {
+  revertTrainingRun(trainingRunTableObject: TrainingRunTableDataModel) {
     trainingRunTableObject.isWaitingForRevertResponse = true;
     this.trainingRunSetter.revert(trainingRunTableObject.trainingRun.id).subscribe(
       response => {
@@ -88,7 +88,7 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
       },
       err => {
         trainingRunTableObject.isWaitingForRevertResponse = false;
-        this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Training run was not reverted.')
+        this.errorHandler.displayHttpError(err, 'Reverting training run');
       }
     )
   }
@@ -109,6 +109,9 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
    */
   private initDataSource() {
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    this.paginator.pageSize = environment.defaultPaginationSize;
+    this.sort.active = 'id';
+    this.sort.direction = 'desc';
     this.fetchData();
   }
 
@@ -121,46 +124,32 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.trainingRunGetter.getTrainingRunsByTrainingInstanceId(this.trainingInstance.id)
+          return this.trainingInstanceGetter.getTrainingRunsByTrainingInstanceIdWithPagination(this.trainingInstance.id,
+            this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction)
         }),
         map(data => {
-          // Flip flag to show that loading has finished.
           this.isLoadingResults = false;
           this.isInErrorState = false;
-          this.resultsLength = data.length;
-          return this.mapTrainingRunsToTableDataObjects(data);
+          this.resultsLength = data.tablePagination.totalElements;
+          return data;
         }),
         catchError(() => {
           this.isLoadingResults = false;
           this.isInErrorState = true;
           return of([]);
         })
-      ).subscribe(data => this.createDataSource(data));
+      ).subscribe((data: TableDataWithPaginationWrapper<TrainingRunTableDataModel[]>) => this.createDataSource(data.tableData));
   }
 
   /**
    * Creates data source from fetched data
    * @param data fetched training runs
    */
-  private createDataSource(data: TrainingRunTableDataObject[]) {
+  private createDataSource(data: TrainingRunTableDataModel[]) {
     this.dataSource = new MatTableDataSource(data);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-
     this.dataSource.filterPredicate =
-      (data: TrainingRunTableDataObject, filter: string) =>
+      (data: TrainingRunTableDataModel, filter: string) =>
         data.trainingRun.state.toLowerCase().indexOf(filter) !== -1
-  }
-
-  private mapTrainingRunsToTableDataObjects(data: TrainingRun[]): TrainingRunTableDataObject[] {
-    const result: TrainingRunTableDataObject[] = [];
-    data.forEach(trainingRun => {
-      const trainingRunTableDataObject = new TrainingRunTableDataObject();
-      trainingRunTableDataObject.trainingRun = trainingRun;
-      trainingRunTableDataObject.isWaitingForRevertResponse = false;
-      result.push(trainingRunTableDataObject);
-    });
-    return result;
   }
 
 }

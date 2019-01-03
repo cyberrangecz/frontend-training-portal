@@ -12,22 +12,38 @@
 import { AuthorRefDTO } from './authorRefDTO';
 import { BasicLevelInfoDTO } from './basicLevelInfoDTO';
 import { SandboxDefinitionRefDTO } from './sandboxDefinitionRefDTO';
+import {AbstractLevelDTO} from "./abstractLevelDTO";
 
 
 /**
  * .
  */
 export interface TrainingDefinitionDTO {
-    authorRefDto?: Array<AuthorRefDTO>;
-    basicLevelInfoDtos?: Array<BasicLevelInfoDTO>;
+    author_ref?: Array<AuthorRefDTO>;
+    levels?: Array<AbstractLevelDTO>;
     description?: string;
     id?: number;
     outcomes?: Array<string>;
     prerequisities?: Array<string>;
-    sandBoxDefinitionRefDto?: SandboxDefinitionRefDTO;
-    startingLevel?: number;
+    sandbox_definition_ref_id?: number;
+    show_stepper_bar?: boolean;
+    starting_level?: number;
     state?: TrainingDefinitionDTO.StateEnum;
     title?: string;
+}
+
+export class TrainingDefinitionDTOClass {
+  author_ref?: Array<AuthorRefDTO>;
+  levels?: Array<AbstractLevelDTO>;
+  description?: string;
+  id?: number;
+  outcomes?: Array<string>;
+  prerequisities?: Array<string>;
+  sandbox_definition_ref_id?: number;
+  show_stepper_bar?: boolean;
+  starting_level?: number;
+  state?: TrainingDefinitionDTO.StateEnum;
+  title?: string;
 }
 export namespace TrainingDefinitionDTO {
     export type StateEnum = 'PRIVATED' | 'RELEASED' | 'ARCHIVED' | 'UNRELEASED';

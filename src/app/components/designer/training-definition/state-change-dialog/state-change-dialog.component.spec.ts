@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LoadingComponent } from './loading.component';
+import { StateChangeDialogComponent } from './state-change-dialog.component';
 
-describe('LoadingComponent', () => {
-  let component: LoadingComponent;
-  let fixture: ComponentFixture<LoadingComponent>;
+describe('StateChangeDialogComponent', () => {
+  let component: StateChangeDialogComponent;
+  let fixture: ComponentFixture<StateChangeDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LoadingComponent ]
+      declarations: [ StateChangeDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LoadingComponent);
+    fixture = TestBed.createComponent(StateChangeDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

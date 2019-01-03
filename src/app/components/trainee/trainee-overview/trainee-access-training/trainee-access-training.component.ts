@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {AlertService} from "../../../../services/event-services/alert.service";
 import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
-import {TrainingInstanceGetterService} from "../../../../services/data-getters/training-instance-getter.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {TrainingRunSetterService} from "../../../../services/data-setters/training-run.setter.service";
+import {ComponentErrorHandlerService} from "../../../../services/component-error-handler.service";
+import {ActiveTrainingRunLevelsService} from "../../../../services/active-training-run-levels.service";
+import {AbstractLevel} from "../../../../model/level/abstract-level";
 
 @Component({
   selector: 'trainee-access-training',
@@ -20,7 +23,9 @@ export class TraineeAccessTrainingComponent implements OnInit {
     private router: Router,
     private activeRoute: ActivatedRoute,
     private alertService: AlertService,
-    private trainingInstanceGetter: TrainingInstanceGetterService) { }
+    private errorHandler: ComponentErrorHandlerService,
+    private activeTrainingRunLevelsService: ActiveTrainingRunLevelsService,
+    private trainingRunSetterService: TrainingRunSetterService) { }
 
   ngOnInit() {
   }
@@ -30,22 +35,26 @@ export class TraineeAccessTrainingComponent implements OnInit {
    * If resources are allocated, navigates user to the first level of the training
    */
   access() {
-    // TODO: Find active run with matching password, find available sandbox and redirect to level 1
     if (this.password && this.password.replace(/\s/g, '') !== '') {
-      this.trainingInstanceGetter.getTrainingInstanceByKeyword(this.password)
-        .subscribe(trainingInstance => {
-          if (trainingInstance) {
-            // TODO: pass training instance to REST, get training run and navigate to it
-            const trainingRunId = 1;
-            const firstLevel = 1;
-            this.router.navigate(['training', trainingRunId, 'level', firstLevel], {relativeTo: this.activeRoute});
-          } else {
-            this.alertService.emitAlert(AlertTypeEnum.Error, 'Wrong password');
+      this.trainingRunSetterService.accessTrainingRun(this.password)
+        .subscribe(resp => {
+          if (resp.currentLevel && resp.levels && resp.levels.length > 0) {
+            this.sortReceivedLevels(resp.levels);
+            this.activeTrainingRunLevelsService.trainingRunId = resp.trainingRunId;
+            this.activeTrainingRunLevelsService.setActiveLevels(resp.levels.sort((a, b) => a.order - b.order));
+            this.activeTrainingRunLevelsService.setActiveLevel(resp.currentLevel);
+            this.router.navigate(['training/game'], {relativeTo: this.activeRoute});
           }
+        },
+          err=> {
+          this.errorHandler.displayHttpError(err, 'Connecting to training run');
         })
     } else {
       this.alertService.emitAlert(AlertTypeEnum.Error, 'Password cannot be empty');
     }
   }
 
+  private sortReceivedLevels(levels: AbstractLevel[]) {
+    levels.sort((a, b) => a.order - b.order);
+  }
 }

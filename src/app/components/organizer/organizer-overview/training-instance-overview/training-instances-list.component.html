@@ -40,7 +40,7 @@
           <ng-container matColumnDef="date">
             <th class="date" mat-header-cell *matHeaderCellDef>Date</th>
             <td class="date" mat-cell *matCellDef="let training">
-              {{ training.trainingInstance?.startTime.toDateString() }} - {{ training.trainingInstance?.endTime.toDateString() }}</td>
+              {{ training.trainingInstance?.startTime | dateTimeFormat}} - {{ training.trainingInstance?.endTime | dateTimeFormat }}</td>
           </ng-container>
 
           <!-- TRAINING DEFINITION TITLE Column -->
@@ -115,7 +115,7 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+        <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
       </div>
     </div>
   </div>

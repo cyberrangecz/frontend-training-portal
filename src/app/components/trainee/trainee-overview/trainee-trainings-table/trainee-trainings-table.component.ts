@@ -1,21 +1,16 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {TrainingInstance} from "../../../../model/training/training-instance";
-import {TrainingRun} from "../../../../model/training/training-run";
 import {MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
 import {TrainingRunGetterService} from "../../../../services/data-getters/training-run-getter.service";
-import {TrainingInstanceGetterService} from "../../../../services/data-getters/training-instance-getter.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ActiveUserService} from "../../../../services/active-user.service";
-import {LevelGetterService} from "../../../../services/data-getters/level-getter.service";
 import {merge, of} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {environment} from "../../../../../environments/environment";
-
-export class TraineeAccessedTrainingsTableDataObject {
-  totalLevels: number;
-  trainingRun: TrainingRun;
-  trainingInstance: TrainingInstance;
-}
+import {TraineeAccessedTrainingsTableDataModel} from "../../../../model/table-models/trainee-accessed-trainings-table-data-model";
+import {TraineeAccessTrainingRunActionEnum} from "../../../../enums/trainee-access-training-run-actions.enum";
+import {TableDataWithPaginationWrapper} from "../../../../model/table-models/table-data-with-pagination-wrapper";
+import {TrainingRunSetterService} from "../../../../services/data-setters/training-run.setter.service";
+import {ComponentErrorHandlerService} from "../../../../services/component-error-handler.service";
+import {ActiveTrainingRunLevelsService} from "../../../../services/active-training-run-levels.service";
 
 @Component({
   selector: 'trainee-trainings-table',
@@ -28,13 +23,13 @@ export class TraineeAccessedTrainingsTableDataObject {
 export class TraineeTrainingsTableComponent implements OnInit {
 
   displayedColumns: string[] = ['title', 'date', 'completedLevels', 'actions'];
+  dataSource: MatTableDataSource<TraineeAccessedTrainingsTableDataModel>;
 
-  now: number = Date.now();
-  dataSource: MatTableDataSource<TraineeAccessedTrainingsTableDataObject>;
-
+  actionType = TraineeAccessTrainingRunActionEnum;
   resultsLength = 0;
-  isLoadingResults = true;
+  isLoading = false;
   isInErrorState = false;
+  now = Date.now();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -42,10 +37,10 @@ export class TraineeTrainingsTableComponent implements OnInit {
   constructor(
     private router: Router,
     private activeRoute: ActivatedRoute,
-    private activeUserService: ActiveUserService,
+    private activeTrainingRunLevelsService: ActiveTrainingRunLevelsService,
+    private errorHandler: ComponentErrorHandlerService,
     private trainingRunGetter: TrainingRunGetterService,
-    private trainingInstanceGetter: TrainingInstanceGetterService,
-    private levelGetter: LevelGetterService) { }
+    private trainingRunSetter: TrainingRunSetterService) { }
 
   ngOnInit() {
     this.initDataSource();
@@ -53,23 +48,36 @@ export class TraineeTrainingsTableComponent implements OnInit {
 
   /**
    * Allocates resources for new sandbox and starts new training run on a first level
-   * @param {TrainingInstance} trainingInstance training instance which should be started
+   * @param {number} trainingInstanceId id of training instance which should be started
    */
-  tryAgain(trainingInstance: TrainingInstance) {
-    // TODO: allocate new sandbox etc and get ID of training run
-    const trainingRunId = 1;
-    const firstLevel = 1;
-    this.router.navigate(['training', trainingRunId, 'level', firstLevel], {relativeTo: this.activeRoute});
+  tryAgain(trainingInstanceId: number) {
+    // TODO: Integrate with appropriate REST API call once its resolved
+    this.router.navigate(['training/game'], {relativeTo: this.activeRoute});
   }
 
   /**
    * Navigates to page with results of selected training run
-   * @param {TrainingRun} trainingRun training run which results should be displayed
+   * @param {number} trainingRunId if of training run which results should be displayed
    */
-  accessResults(trainingRun: TrainingRun) {
-    this.router.navigate(['training', trainingRun.id, 'results'],{relativeTo: this.activeRoute})
+  accessResults(trainingRunId: number) {
+    this.router.navigate(['training/results'],{relativeTo: this.activeRoute})
   }
 
+  resume(trainingRunId: number) {
+    this.isLoading = true;
+    this.trainingRunSetter.resume(trainingRunId)
+      .subscribe(resp => {
+          this.activeTrainingRunLevelsService.trainingRunId = resp.trainingRunId;
+          this.activeTrainingRunLevelsService.setActiveLevels(resp.levels.sort((a, b) => a.order - b.order));
+          this.activeTrainingRunLevelsService.setActiveLevel(resp.currentLevel);
+          this.isLoading = false;
+          this.router.navigate(['training/game'], {relativeTo: this.activeRoute});
+      },
+        err => {
+        this.errorHandler.displayHttpError(err, "Resuming training run");
+        this.isLoading = false;
+      })
+  }
   /**
    * Applies filter data source
    * @param {string} filterValue value by which the data should be filtered. Inserted by user
@@ -85,6 +93,7 @@ export class TraineeTrainingsTableComponent implements OnInit {
    * Loads necessary data from endpoint and create data source for the table
    */
   private initDataSource() {
+    this.isLoading = true;
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
     this.paginator.pageSize = environment.defaultPaginationSize;
     this.sort.active = 'date';
@@ -93,53 +102,39 @@ export class TraineeTrainingsTableComponent implements OnInit {
   }
 
   private fetchData() {
+    this.isLoading = true;
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(
         startWith({}),
         switchMap(() => {
-          this.isLoadingResults = true;
-          return this.trainingRunGetter.getTrainingRunsWithPagination(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
+          return this.trainingRunGetter.getAccessedTrainingRunsWithPagination(this.paginator.pageIndex, this.paginator.pageSize,
+            this.resolveSortParam(this.sort.active), this.sort.direction);
         }),
         map(data => {
-          // Flip flag to show that loading has finished.
-          this.isLoadingResults = false;
+          this.isLoading = false;
           this.isInErrorState = false;
-          this.resultsLength = data.length;
-
-          return this.mapTrainingRunsToTraineesTrainingTableDataObjects(data);
+          this.resultsLength = data.tablePagination.totalElements;
+          return data;
         }),
         catchError(() => {
-          this.isLoadingResults = false;
+          this.isLoading = false;
           this.isInErrorState = true;
           return of([]);
         })
-      ).subscribe(data => this.createDataSource(data));
+      ).subscribe((data: TableDataWithPaginationWrapper<TraineeAccessedTrainingsTableDataModel[]>) =>
+      this.createDataSource(data.tableData));
   }
 
-  private mapTrainingRunsToTraineesTrainingTableDataObjects(data: TrainingRun[]): TraineeAccessedTrainingsTableDataObject[] {
-    const result: TraineeAccessedTrainingsTableDataObject[] = [];
-    data.forEach(training => {
-      const traineesTraining = new TraineeAccessedTrainingsTableDataObject();
-      traineesTraining.trainingRun = training;
-      this.trainingInstanceGetter.getTrainingInstanceById(training.trainingInstanceId)
-        .pipe(
-          map(instance => traineesTraining.trainingInstance = instance),
-          switchMap(instance => this.levelGetter.getLevelsByTrainingDefId(instance.trainingDefinitionId))
-        )
-        .subscribe(result => traineesTraining.totalLevels = result.length);
-
-      result.push(traineesTraining);
-    });
-    return result;
+  private resolveSortParam(tableHeader: string): string {
+    return tableHeader === 'date' ? 'startTime' : tableHeader;
   }
 
-  private createDataSource(data: TraineeAccessedTrainingsTableDataObject[]) {
+  private createDataSource(data: TraineeAccessedTrainingsTableDataModel[]) {
     this.dataSource = new MatTableDataSource(data);
-    this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
 
     this.dataSource.filterPredicate =
-      (data: TraineeAccessedTrainingsTableDataObject, filter: string) =>
-        data.trainingInstance.title.toLowerCase().indexOf(filter) !== -1
+      (data: TraineeAccessedTrainingsTableDataModel, filter: string) =>
+        data.trainingInstanceTitle.toLowerCase().indexOf(filter) !== -1
   }
 }

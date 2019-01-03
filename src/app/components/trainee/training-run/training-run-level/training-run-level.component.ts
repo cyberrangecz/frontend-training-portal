@@ -1,4 +1,4 @@
-import {Component, EventEmitter, HostListener, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ActiveTrainingRunLevelsService} from "../../../../services/active-training-run-levels.service";
 import {AbstractLevel} from "../../../../model/level/abstract-level";
@@ -77,6 +77,7 @@ export class TrainingRunLevelComponent implements OnInit, OnDestroy {
    */
   private initLevel() {
     this.level = this.activeLevelsService.getActiveLevel();
+    this.resolveLevelType();
     this.setDisplayNextButtonValue();
   }
 
@@ -106,9 +107,9 @@ export class TrainingRunLevelComponent implements OnInit, OnDestroy {
    * Catches next level event from sub component and passes it to to parent
    */
   private moveToNextLevel() {
-    this.nextLevel.emit(this.level.order + 1);
+     this.nextLevel.emit(this.level.order + 1);
   }
-
+;
   /**
    * Subscribes to changes of active level. If active level is changed, it re-initializes level data and displays
    * different child component if its type is changed

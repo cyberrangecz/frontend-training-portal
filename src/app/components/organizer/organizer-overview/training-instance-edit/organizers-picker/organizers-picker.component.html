@@ -2,6 +2,9 @@
 <mat-divider></mat-divider>
 <div mat-dialog-content>
   <mat-selection-list #authorsList [(ngModel)]="selectedOrganizers">
+    <mat-list-option *ngIf="activeUser" [value]="activeUser" [selected]="true" [disabled]="true">
+      {{ activeUser.name }} (You)
+    </mat-list-option>
     <mat-list-option *ngFor="let organizer of organizers$ | async"
                      [value]="organizer">
       {{ organizer.name }}
@@ -14,6 +17,6 @@
           mat-button color="primary">Cancel</button>
   <span class="spacer"></span>
   <button (click)="confirm()"
-          [disabled]="!selectedOrganizers || selectedOrganizers.length === 0"
+          [disabled]="!selectedOrganizers || selectedOrganizers.length === 1"
           mat-button color="primary">Confirm</button>
 </div>

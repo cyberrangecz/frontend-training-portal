@@ -4,6 +4,7 @@
       <div class="training-config">
         <training-configuration
           (isTrainingSaved)="trainingSavedChange($event)"
+          (trainingDefId)="trainingDefIdChange($event)"
           [trainingDefinition]="trainingDefinition$ | async">
         </training-configuration>
       </div>
@@ -23,9 +24,11 @@
       <div class="content">
         <div class="level">
           <training-level-stepper
+            (onLevelDeleted)="levelDeleted($event)"
             [isTrainingSaved]="isTrainingSaved"
-            [trainingDefinitionId]="trainingDefId"
-            [levels]="levels$ | async"></training-level-stepper>
+            [trainingDefinition]="trainingDefinition$ | async"
+            [levels]="levels$ | async">
+          </training-level-stepper>
         </div>
       </div>
 

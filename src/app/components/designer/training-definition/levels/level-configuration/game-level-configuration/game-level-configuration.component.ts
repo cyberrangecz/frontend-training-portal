@@ -4,7 +4,8 @@ import {AlertTypeEnum} from "../../../../../../enums/alert-type.enum";
 import {AlertService} from "../../../../../../services/event-services/alert.service";
 import {Hint} from "../../../../../../model/level/hint";
 import {HintStepperComponent} from "../hints/hint-stepper/hint-stepper.component";
-import {environment} from "../../../../../../../environments/environment";
+import {TrainingDefinitionSetterService} from "../../../../../../services/data-setters/training-definition-setter.service";
+import {ComponentErrorHandlerService} from "../../../../../../services/component-error-handler.service";
 
 @Component({
   selector: 'game-level-configuration',
@@ -17,7 +18,7 @@ import {environment} from "../../../../../../../environments/environment";
 export class GameLevelConfigurationComponent implements OnInit, OnChanges {
 
   @Input('level') level: GameLevel;
-
+  @Input('trainingDefinitionId') trainingDefinitionId: number;
   @Output('deleteLevel') deleteLevel: EventEmitter<number> = new EventEmitter();
 
   @ViewChild(HintStepperComponent) childComponent: HintStepperComponent;
@@ -34,8 +35,11 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
   hints: Hint[];
 
   dirty = false;
+  isLoading = false;
 
-  constructor(private alertService: AlertService) { }
+  constructor(private alertService: AlertService,
+              private errorHandler: ComponentErrorHandlerService,
+              private trainingDefinitionSetter: TrainingDefinitionSetterService) { }
 
   ngOnInit() {
   }
@@ -66,11 +70,19 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
    */
   saveChanges() {
     if (this.validateChanges()) {
+      this.isLoading = true;
       this.setInputValuesToLevel();
       this.childComponent.saveChanges();
-      this.dirty = false;
-      // TODO: call service and save level through rest
-      this.level.id = -999 // change to id retrieved from rest later
+      this.trainingDefinitionSetter.updateGameLevel(this.trainingDefinitionId, this.level)
+        .subscribe(resp => {
+          this.dirty = false;
+          this.isLoading = false;
+          this.alertService.emitAlert(AlertTypeEnum.Success, 'Game level was successfully saved');
+        },
+          err => {
+            this.isLoading = false;
+            this.errorHandler.displayHttpError(err, 'Saving game level "' + this.level.title + '"');
+          });
     }
   }
 
@@ -78,7 +90,7 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
    * Emits event saying that this level should be deleted
    */
   onDeleteLevel() {
-    this.deleteLevel.emit(this.level.order - 1); // -1 because levels are ordered 1,2,3,4...
+    this.deleteLevel.emit(this.level.id);
   }
 
   /**
@@ -139,15 +151,17 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
    * Sets initial values from passed game level object to inputs (edit mode)
    */
   private setInitialValues() {
-    this.title = this.level.title;
-    this.content = this.level.content;
-    this.solution = this.level.solution;
-    this.maxScore = this.level.maxScore;
-    this.flag = this.level.flag;
-    this.solutionPenalized = this.level.solutionPenalized;
-    this.incorrectFlagLimit = this.level.incorrectFlagLimit;
-    this.estimatedDuration = this.level.estimatedDuration;
-    this.hints = this.level.hints;
+    if (this.level) {
+      this.title = this.level.title;
+      this.content = this.level.content;
+      this.solution = this.level.solution;
+      this.maxScore = this.level.maxScore;
+      this.flag = this.level.flag;
+      this.solutionPenalized = this.level.solutionPenalized;
+      this.incorrectFlagLimit = this.level.incorrectFlagLimit;
+      this.estimatedDuration = this.level.estimatedDuration;
+      this.hints = this.level.hints;
+    }
   }
 
 }

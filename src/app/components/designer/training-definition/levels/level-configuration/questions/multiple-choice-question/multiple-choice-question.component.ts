@@ -3,8 +3,6 @@ import {MultipleChoiceQuestion} from "../../../../../../../model/questions/multi
 import {AlertService} from "../../../../../../../services/event-services/alert.service";
 import {AlertTypeEnum} from "../../../../../../../enums/alert-type.enum";
 import {MatCheckboxChange} from "@angular/material";
-import {AssessmentTypeEnum} from "../../../../../../../enums/assessment-type.enum";
-import {environment} from "../../../../../../../../environments/environment";
 
 @Component({
   selector: 'multiple-choice-question',
@@ -88,7 +86,6 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
   saveChanges() {
     if (this.validateInput()) {
       this.setInputValues();
-      // TODO: Save to REST
       this.dirty = false;
     }
   }

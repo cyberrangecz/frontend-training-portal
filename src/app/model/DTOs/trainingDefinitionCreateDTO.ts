@@ -9,19 +9,35 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { AuthorRefDTO } from './authorRefDTO';
+import { SandboxDefinitionRefDTO } from './sandboxDefinitionRefDTO';
 
 
 /**
  * Training Definition to create.
  */
 export interface TrainingDefinitionCreateDTO {
+    aut_ids?: Array<number>;
     description?: string;
     outcomes?: Array<string>;
     prerequisities?: Array<string>;
-    startingLevel?: number;
+    sandbox_definition_ref_id: number;
+    show_stepper_bar?: boolean;
     state?: TrainingDefinitionCreateDTO.StateEnum;
     title?: string;
 }
+
+export class TrainingDefinitionCreateDTOClass implements  TrainingDefinitionCreateDTO {
+  aut_ids: Array<number>;
+  description: string;
+  outcomes: Array<string>;
+  prerequisities: Array<string>;
+  sandbox_definition_ref_id: number;
+  show_stepper_bar: boolean;
+  state: TrainingDefinitionCreateDTO.StateEnum;
+  title: string;
+}
+
 export namespace TrainingDefinitionCreateDTO {
     export type StateEnum = 'PRIVATED' | 'RELEASED' | 'ARCHIVED' | 'UNRELEASED';
     export const StateEnum = {

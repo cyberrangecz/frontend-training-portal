@@ -3,61 +3,51 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {TrainingInstance} from "../../model/training/training-instance";
 import {Observable} from "rxjs";
+import {TrainingInstanceMapperService} from "../data-mappers/training-instance-mapper.service";
+import {TrainingInstanceDTO} from "../../model/DTOs/trainingInstanceDTO";
+import {map} from "rxjs/operators";
+import {TrainingInstanceUpdateDTO} from '../../model/DTOs/trainingInstanceUpdateDTO';
+import {TrainingInstanceCreateDTO} from '../../model/DTOs/trainingInstanceCreateDTO';
 
 @Injectable()
 export class TrainingInstanceSetterService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private trainingInstanceMapper: TrainingInstanceMapperService) {
   }
 
   /**
    * Sends request to create new training instance in DB and returns id of the created training instance
    * @param {TrainingInstance} trainingInstance training instance which should be created
    */
-  addTrainingInstance(trainingInstance: TrainingInstance): Observable<number> {
-
-    return this.http.post<number>(environment.trainingInstancesEndpointUri, {
-      id: trainingInstance.id,
-      training_definition_id: trainingInstance.trainingDefinitionId,
-      start_time: trainingInstance.startTime,
-      end_time: trainingInstance.endTime,
-      title: trainingInstance.title,
-      pool_size: trainingInstance.poolSize,
-      organizers: trainingInstance.organizersIds,
-      keyword: trainingInstance.keyword
-    });
+  createTrainingInstance(trainingInstance: TrainingInstance): Observable<number> {
+    return this.http.post<TrainingInstanceDTO>(environment.trainingInstancesEndpointUri,
+      this.trainingInstanceMapper.mapTrainingInstanceToTrainingInstanceCreateDTO(trainingInstance))
+      .pipe(map(trainingInstanceDTO => trainingInstanceDTO.id ));
   }
 
   /**
    * Sends request to update training instance in DB
    * @param trainingInstance training instance which should be updated
    */
-  updateTrainingInstance(trainingInstance: TrainingInstance): Observable<number> {
-    return this.http.put<number>(environment.trainingInstancesEndpointUri, {
-      id: trainingInstance.id,
-      training_definition_id: trainingInstance.trainingDefinitionId,
-      start_time: trainingInstance.startTime,
-      end_time: trainingInstance.endTime,
-      title: trainingInstance.title,
-      pool_size: trainingInstance.poolSize,
-      organizers: trainingInstance.organizersIds,
-      keyword: trainingInstance.keyword
-    });
+  updateTrainingInstance(trainingInstance: TrainingInstance): Observable<any> {
+    return this.http.put<TrainingInstanceDTO>(environment.trainingInstancesEndpointUri,
+      this.trainingInstanceMapper.mapTrainingInstanceToTrainingInstanceUpdateDTO(trainingInstance));
   }
 
   /**
    * Sends request to delete training instance from DB
    * @param trainingInstanceId id of training instance which should be deleted
    */
-  removeTrainingInstance(trainingInstanceId: number): Observable<Object> {
-    return this.http.delete(environment.trainingInstancesEndpointUri + trainingInstanceId);
+  removeTrainingInstance(trainingInstanceId: number): Observable<any> {
+    return this.http.delete<any>(environment.trainingInstancesEndpointUri + trainingInstanceId);
   }
 
   /**
    * Sends request to allocate all sandboxes for selected training instance
    * @param trainingInstanceId
    */
-  allocateSandboxesForTrainingInstance(trainingInstanceId: number ): Observable<Object> {
-    return this.http.post(environment.trainingInstancesEndpointUri + trainingInstanceId + '/sandbox-instances', {});
+  allocateSandboxesForTrainingInstance(trainingInstanceId: number ): Observable<any> {
+    return this.http.post<any>(environment.trainingInstancesEndpointUri + trainingInstanceId + '/sandbox-instances', null);
   }
 }

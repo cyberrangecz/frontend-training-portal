@@ -1,13 +1,13 @@
 <div class="content"
-    *ngIf="training && trainingDefinition && organizers">
-  <h2> {{ training.title }}</h2>
+    *ngIf="trainingInstance && trainingDefinition && organizers">
+  <h2> {{ trainingInstance.title }}</h2>
   <h3>{{ trainingDefinition.title }}</h3>
   <p>{{ trainingDefinition.description }}</p>
   <div class="ver-spacer"></div>
-  <h2>Password: {{ training.keyword }}</h2>
+  <h2>Password: {{ trainingInstance.keyword }}</h2>
   <div class="ver-spacer"></div>
-  <h4>Start Time: {{ training.startTime.toDateString() }}</h4>
-  <h4>End Time: {{ training.endTime.toDateString() }}</h4>
-  <h4>Pool Size: {{ training.poolSize }}</h4>
+  <h4>Start Time: {{ trainingInstance.startTime | dateTimeFormat }}</h4>
+  <h4>End Time: {{ trainingInstance.endTime | dateTimeFormat }}</h4>
+  <h4>Pool Size: {{ trainingInstance.poolSize }}</h4>
   <h4> Organizers: {{ organizers }} </h4>
 </div>

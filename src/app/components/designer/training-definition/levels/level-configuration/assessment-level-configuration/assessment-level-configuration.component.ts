@@ -5,7 +5,8 @@ import {AlertService} from "../../../../../../services/event-services/alert.serv
 import {QuestionsOverviewComponent} from "../questions/questions-overview/questions-overview.component";
 import {AbstractQuestion} from "../../../../../../model/questions/abstract-question";
 import {AssessmentTypeEnum} from "../../../../../../enums/assessment-type.enum";
-import {environment} from "../../../../../../../environments/environment";
+import {ComponentErrorHandlerService} from "../../../../../../services/component-error-handler.service";
+import {TrainingDefinitionSetterService} from "../../../../../../services/data-setters/training-definition-setter.service";
 
 @Component({
   selector: 'assessment-level-configuration',
@@ -18,7 +19,9 @@ import {environment} from "../../../../../../../environments/environment";
 export class AssessmentLevelConfigurationComponent implements OnInit {
 
   @ViewChild(QuestionsOverviewComponent) childComponent: QuestionsOverviewComponent;
+
   @Input('level') level: AssessmentLevel;
+  @Input('trainingDefinitionId') trainingDefinitionId: number;
 
   @Output('deleteLevel') deleteLevel: EventEmitter<number> = new EventEmitter();
 
@@ -28,8 +31,11 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
   questions: AbstractQuestion[];
 
   dirty = false;
+  isLoading = false;
 
-  constructor(private alertService: AlertService) { }
+  constructor(private trainingDefinitionSetter: TrainingDefinitionSetterService,
+              private alertService: AlertService,
+              private errorHandler: ComponentErrorHandlerService) { }
 
   ngOnInit() {
   }
@@ -53,10 +59,20 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
    */
   saveChanges() {
     if (this.validateChanges()) {
+      this.isLoading = true;
       this.setInputValuesToLevel();
       this.childComponent.saveChanges();
-      this.dirty = false;
-      // TODO: call service and save level through rest
+      this.level.questions = this.childComponent.questions;
+      this.trainingDefinitionSetter.updateAssessmentLevel(this.trainingDefinitionId, this.level)
+        .subscribe(resp => {
+            this.dirty = false;
+            this.isLoading = false;
+            this.alertService.emitAlert(AlertTypeEnum.Success, 'Assessment level was successfully saved');
+          },
+          err => {
+            this.isLoading = false;
+            this.errorHandler.displayHttpError(err, 'Saving assessment level "' + this.level.title + '"');
+          });
     }
   }
 
@@ -71,7 +87,7 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
    * Emits event saying that this level should be deleted
    */
   onDeleteLevel() {
-    this.deleteLevel.emit(this.level.order - 1); // -1 because levels are ordered 1,2,3,4...
+    this.deleteLevel.emit(this.level.id);
   }
 
   /**
@@ -83,10 +99,6 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
 
     if (!this.title || this.title.replace(/\s/g, '') === '') {
       errorMessage += 'Title cannot be empty\n'
-    }
-
-    if (!this.questions) {
-      errorMessage += 'Questions cannot be empty\n'
     }
 
     if (errorMessage !== '') {
@@ -114,10 +126,12 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
    * Sets values to the inputs from passed level object (edit mode)
    */
   private setInitialValues() {
-    this.title = this.level.title;
-    this.questions = this.level.questions;
-    this.instructions = this.level.instructions;
-    this.isTest = this.level.assessmentType === AssessmentTypeEnum.Test;
+    if (this.level) {
+      this.title = this.level.title;
+      this.questions = this.level.questions;
+      this.instructions = this.level.instructions;
+      this.isTest = this.level.assessmentType === AssessmentTypeEnum.Test;
+    }
   }
 
 

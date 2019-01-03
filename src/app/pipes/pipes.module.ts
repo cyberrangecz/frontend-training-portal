@@ -1,15 +1,19 @@
 import {NgModule} from "@angular/core";
 import {LevelStepperLabelPipe} from "./level-stepper-label.pipe";
+import {DateTimeFormatPipe} from './date-time-format.pipe';
 
 @NgModule({
   declarations: [
-    LevelStepperLabelPipe
+    LevelStepperLabelPipe,
+    DateTimeFormatPipe
   ],
   exports: [
-    LevelStepperLabelPipe
+    LevelStepperLabelPipe,
+    DateTimeFormatPipe
   ],
   providers: [
-    LevelStepperLabelPipe
+    LevelStepperLabelPipe,
+    DateTimeFormatPipe
   ]
 })
 

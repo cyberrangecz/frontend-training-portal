@@ -13,5 +13,5 @@
 
 export interface SandboxInstanceRefDTO {
     id?: number;
-    sandboxInstanceRef?: number;
+    sandbox_instance_ref?: number;
 }

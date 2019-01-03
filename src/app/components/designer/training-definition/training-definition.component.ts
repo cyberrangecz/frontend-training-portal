@@ -5,7 +5,6 @@ import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {TrainingDefinitionGetterService} from "../../../services/data-getters/training-definition-getter.service";
 import {Observable} from "rxjs/internal/Observable";
 import {AbstractLevel} from "../../../model/level/abstract-level";
-import {LevelGetterService} from "../../../services/data-getters/level-getter.service";
 import {TrainingConfigurationComponent} from "./training-configuration/training-configuration.component";
 import {TrainingLevelStepperComponent} from "./levels/training-level-stepper/training-level-stepper.component";
 import {MatDialog} from "@angular/material";
@@ -28,9 +27,7 @@ export class TrainingDefinitionComponent implements OnInit {
   @ViewChild(TrainingLevelStepperComponent) trainingLevelStepperComponent;
 
   trainingDefinition$: Observable<TrainingDefinition>;
-
   levels$: Observable<AbstractLevel[]>;
-  trainingDefId: number;
 
   isTrainingSaved: boolean;
   isSidenavOpen: boolean = true;
@@ -39,18 +36,20 @@ export class TrainingDefinitionComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private dialog: MatDialog,
-    private trainingDefinitionGetter: TrainingDefinitionGetterService,
-    private levelGetter: LevelGetterService) {
+    private trainingDefinitionGetter: TrainingDefinitionGetterService) {
 
   }
 
   ngOnInit() {
-    this.getTrainingDefFromUrl();
-    this.getLevelsByTrainingDefFromUrl();
+    this.fetchData();
   }
 
   trainingSavedChange(event: boolean) {
     this.isTrainingSaved = event;
+  }
+
+  trainingDefIdChange(event: number) {
+    this.trainingDefinition$ = this.fetchTrainingDefinition();
   }
 
   /**
@@ -63,28 +62,24 @@ export class TrainingDefinitionComponent implements OnInit {
         .every(level => level.canBeDeactivated)
   }
 
+  levelDeleted(id: number) {
+    this.fetchData();
+  }
+
   /**
    * Determines if all changes in sub components are saved and user can navigate to different component
    * @returns {Observable<boolean>} true if saved all his changes or agreed with leaving without saving them, false otherwise
    */
   canDeactivate(): Observable<boolean> {
-    const isTrainingChangesSaved =  this.trainingConfigurationComponent.canDeactivate();
-    const canDeactivateLevels = this.trainingLevelStepperComponent.getCanDeactivateLevels();
-    const isLevelChangesSaved = canDeactivateLevels.every(level => level.canBeDeactivated);
-    const messages: string[] = [];
-
-    if (!isTrainingChangesSaved) {
-      messages.push('Training definition is not saved.')
-    }
-    if (!isLevelChangesSaved) {
-      messages.push('Following levels are not saved: ' + canDeactivateLevels.filter(level => !level.canBeDeactivated).map(level => level.order) + '.');
-    }
+    const messages: string[] = this.getErrorMessages();
 
     if (messages.length > 0) {
       const dialogRef = this.dialog.open(UnsavedChangesDialogComponent, {
-        data: messages
+        data: {
+          payload: messages,
+          saveOption: false
+        },
       });
-
       return dialogRef.afterClosed().pipe(map(result => {
         return result && result.type === 'confirm'
       }));
@@ -92,36 +87,64 @@ export class TrainingDefinitionComponent implements OnInit {
       return of(true);
     }
   }
+  private getErrorMessages(): string[] {
+    const result: string[] = [];
+    const canDeactivateLevels = this.trainingLevelStepperComponent.getCanDeactivateLevels();
+    const isLevelChangesSaved = canDeactivateLevels.every(level => level.canBeDeactivated);
 
-  /**
-   * Gets training definition from url parameter and passes it to child component
-   */
-  private getTrainingDefFromUrl() {
-    if (this.route.paramMap) {
-      this.trainingDefinition$ = this.route.paramMap
-        .pipe(switchMap((params: ParamMap) => {
-          if (params.has('id')) {
-            this.trainingDefId = +params.get('id');
-            this.isTrainingSaved = true;
-            return this.trainingDefId === null ? null : this.trainingDefinitionGetter.getTrainingDefById(this.trainingDefId);
-          }
-          this.isTrainingSaved = false;
-        }));
+    this.addMessageIfNotEmpty(result, this.getTrainingChangesMessage(this.trainingConfigurationComponent.canDeactivate()));
+    this.addMessageIfNotEmpty(result, this.getLevelsChangesMessage(isLevelChangesSaved, canDeactivateLevels));
+    return result;
+  }
+
+  private addMessageIfNotEmpty(messages: string[], message: string) {
+    if (message) {
+      messages.push(message);
     }
   }
 
+  private getTrainingChangesMessage(isTrainingChangesSaved: boolean): string {
+    return isTrainingChangesSaved ? null : 'Training definition is not saved.';
+  }
+
+  private getLevelsChangesMessage(isLevelChangesSaved: boolean, canDeactivateLevels): string {
+    return isLevelChangesSaved
+      ? null
+      : 'Following levels are not saved: ' + canDeactivateLevels
+      .filter(level => !level.canBeDeactivated)
+      .map(level => level.title) + '.';
+  }
+
   /**
-   * Gets levels assigned to the training definition specified in url parameter and passes it to child component
+   * Gets training definition and levels from url parameter and passes it to child component
    */
-  private getLevelsByTrainingDefFromUrl() {
-    this.levels$ = this.route.paramMap
-      .pipe(switchMap((params: ParamMap) => {
-        const id = +params.get('id');
-        return id === null ? null : this.levelGetter.getLevelsByTrainingDefId(id);
-      }));
+  private fetchData() {
+    if (this.route.paramMap) {
+      this.trainingDefinition$ = this.fetchTrainingDefinition();
+      this.levels$ = this.fetchLevelsFromTrainingDefinition();
+    }
   }
 
   toggleSidenav() {
     this.isSidenavOpen = !this.isSidenavOpen;
+  }
+
+  private fetchTrainingDefinition(): Observable<TrainingDefinition> {
+    return this.route.paramMap
+      .pipe(switchMap((params: ParamMap) => {
+        if (params.has('id')) {
+          const trainingDefId = +params.get('id');
+          this.isTrainingSaved = true;
+          return trainingDefId === null ? of(null) : this.trainingDefinitionGetter.getTrainingDefinitionById(trainingDefId, true);
+        }
+        this.isTrainingSaved = false;
+        return of(null);
+      }));
+  }
+
+  private fetchLevelsFromTrainingDefinition(): Observable<AbstractLevel[]> {
+      return this.trainingDefinition$.pipe(map(trainingDef =>
+        trainingDef ? trainingDef.levels : null
+      ));
   }
 }

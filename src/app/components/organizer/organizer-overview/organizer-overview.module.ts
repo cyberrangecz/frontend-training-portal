@@ -16,12 +16,18 @@ import {OwlDateTimeModule, OwlNativeDateTimeModule} from "ng-pick-datetime";
 import { TrainingEditPopupComponent } from './training-instance-overview/training-edit-popup/training-edit-popup.component';
 import { TrainingDeleteDialogComponent } from './training-instance-overview/training-delete-dialog/training-delete-dialog.component';
 import {TrainingInstanceSetterService} from "../../../services/data-setters/training-instance-setter.service";
+import {TrainingInstanceMapperService} from "../../../services/data-mappers/training-instance-mapper.service";
+import {TrainingDefinitionMapperService} from "../../../services/data-mappers/training-definition-mapper.service";
+import {LevelMapperService} from "../../../services/data-mappers/level-mapper.service";
+import {PipesModule} from '../../../pipes/pipes.module';
+import {TrainingRunMapperService} from "../../../services/data-mappers/training-run-mapper.service";
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
     FormsModule,
+    PipesModule.forRoot(),
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     OrganizerOverviewMaterialModule,
@@ -40,8 +46,12 @@ import {TrainingInstanceSetterService} from "../../../services/data-setters/trai
   providers: [
     TrainingInstanceGuard,
     TrainingDefinitionGetterService,
+    TrainingDefinitionMapperService,
     TrainingInstanceGetterService,
-    TrainingInstanceSetterService
+    TrainingInstanceSetterService,
+    TrainingInstanceMapperService,
+    TrainingRunMapperService,
+    LevelMapperService
   ],
   entryComponents: [
     OrganizersPickerComponent,

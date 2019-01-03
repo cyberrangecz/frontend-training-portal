@@ -24,7 +24,7 @@
     "@angular/platform-browser-dynamic": "^7.0.0",
     "@angular/router": "^7.0.0",
     "angular-file": "^0.5.4",
-    "angular-oauth2-oidc": "^5.0.0",
+    "angular-oauth2-oidc": "^5.0.2",
     "core-js": "^2.5.4",
     "d3": "^5.6.0",
     "d3-ng2-service": "^2.2.0",

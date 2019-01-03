@@ -3,6 +3,8 @@ import {InfoLevel} from "../../../../../../model/level/info-level";
 import {AlertTypeEnum} from "../../../../../../enums/alert-type.enum";
 import {AlertService} from "../../../../../../services/event-services/alert.service";
 import {environment} from "../../../../../../../environments/environment";
+import {TrainingDefinitionSetterService} from "../../../../../../services/data-setters/training-definition-setter.service";
+import {ComponentErrorHandlerService} from "../../../../../../services/component-error-handler.service";
 
 @Component({
   selector: 'info-level-configuration',
@@ -15,15 +17,20 @@ import {environment} from "../../../../../../../environments/environment";
 export class InfoLevelConfigurationComponent implements OnInit, OnChanges {
 
   @Input('level') level: InfoLevel;
+  @Input('trainingDefinitionId') trainingDefinitionId: number;
 
   @Output('deleteLevel') deleteLevel: EventEmitter<number> = new EventEmitter();
 
   title: string;
   content: string;
 
+  isLoading = false;
   dirty = false;
 
-  constructor(private alertService: AlertService) { }
+  constructor(private trainingDefinitionSetter: TrainingDefinitionSetterService,
+              private alertService: AlertService,
+              private errorHandler: ComponentErrorHandlerService) {}
+
 
   ngOnInit() {
   }
@@ -38,7 +45,7 @@ export class InfoLevelConfigurationComponent implements OnInit, OnChanges {
    * Emits event saying that this level should be deleted
    */
   onDeleteLevel() {
-    this.deleteLevel.emit(this.level.order - 1); // -1 because levels are ordered 1,2,3,4...
+    this.deleteLevel.emit(this.level.id);
   }
 
   /**
@@ -54,10 +61,18 @@ export class InfoLevelConfigurationComponent implements OnInit, OnChanges {
    */
   saveChanges() {
     if (this.validateChanges()) {
+      this.isLoading = true;
       this.setInputValuesToLevel();
-      this.dirty = false;
-      // TODO: call service and save level through rest
-      this.level.id = -999 // change to id retrieved from rest later
+      this.trainingDefinitionSetter.updateInfoLevel(this.trainingDefinitionId, this.level)
+        .subscribe(resp => {
+          this.isLoading = false;
+          this.dirty = false;
+          this.alertService.emitAlert(AlertTypeEnum.Success, 'Info level was successfully saved');
+        },
+  err => {
+          this.isLoading =false;
+          this.errorHandler.displayHttpError(err, 'Updating info level "' + this.level.title + '"');
+            });
     }
   }
 
@@ -102,7 +117,9 @@ export class InfoLevelConfigurationComponent implements OnInit, OnChanges {
    * Sets initial values to inputs from info level object (edit mode)
    */
   private setInitialValues() {
-    this.title = this.level.title;
-    this.content = this.level.content;
+    if (this.level) {
+      this.title = this.level.title;
+      this.content = this.level.content;
+    }
   }
 }

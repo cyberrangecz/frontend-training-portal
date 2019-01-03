@@ -17,6 +17,7 @@ import { BasicLevelInfoDTO } from './basicLevelInfoDTO';
  * .
  */
 export interface AccessTrainingRunDTO {
-    abstractLevelDto?: AbstractLevelDTO;
-    infoAboutLevels?: Array<BasicLevelInfoDTO>;
+    abstract_level_dto?: AbstractLevelDTO;
+    info_about_levels?: Array<BasicLevelInfoDTO>;
+    training_run_id: number;
 }

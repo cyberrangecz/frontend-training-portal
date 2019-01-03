@@ -10,15 +10,12 @@ import {AlertService} from "../../../../services/event-services/alert.service";
 import {TrainingDefinitionSetterService} from "../../../../services/data-setters/training-definition-setter.service";
 import {TrainingInstanceGetterService} from "../../../../services/data-getters/training-instance-getter.service";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
-import {Observable} from "rxjs/internal/Observable";
 import {merge, of} from "rxjs";
 import {environment} from "../../../../../environments/environment";
 import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
-
-export class TrainingDefinitionTableDataObject {
-  trainingDefinition: TrainingDefinition;
-  canBeArchived: boolean;
-}
+import {ComponentErrorHandlerService} from "../../../../services/component-error-handler.service";
+import {TrainingDefinitionTableDataModel} from "../../../../model/table-models/training-definition-table-data-model";
+import {TableDataWithPaginationWrapper} from "../../../../model/table-models/table-data-with-pagination-wrapper";
 
 @Component({
   selector: 'designer-overview-training-definition',
@@ -36,10 +33,11 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
 
   displayedColumns: string[] = ['title', 'description', 'status', 'authors', 'actions'];
 
-  dataSource: MatTableDataSource<TrainingDefinitionTableDataObject>;
+  dataSource: MatTableDataSource<TrainingDefinitionTableDataModel>;
 
   resultsLength = 0;
-  isLoading = true;
+  isLoadingResults = true;
+  isInErrorState = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -50,6 +48,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
     private dialog: MatDialog,
     private activeUserService: ActiveUserService,
     private alertService: AlertService,
+    private errorHandler: ComponentErrorHandlerService,
     private trainingInstanceGetter: TrainingInstanceGetterService,
     private trainingDefinitionGetter: TrainingDefinitionGetterService,
     private trainingDefinitionSetter: TrainingDefinitionSetterService) {
@@ -107,7 +106,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    * @param {number} id id of training definition which should be downloaded
    */
   downloadTrainingDefinition(id: number) {
-    this.trainingDefinitionGetter.downloadTrainingDef(id);
+    this.trainingDefinitionGetter.downloadTrainingDefinition(id);
   }
 
   /**
@@ -117,11 +116,11 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
   removeTrainingDefinition(id: number) {
     this.trainingDefinitionSetter.removeTrainingDefinition(id)
       .subscribe(resp => {
-        this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully deleted');
+        this.alertService.emitAlert(AlertTypeEnum.Success, 'Training definition was successfully deleted');
         this.fetchData();
       },
         err => {
-          this.alertService.emitAlert(AlertTypeEnum.Error, 'Remote server could not be reached. Try again later.');
+          this.errorHandler.displayHttpError(err, 'Removing training definition');
         });
   }
 
@@ -135,7 +134,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully cloned.');
           this.fetchData();
         },
-        err => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Training was not cloned.'));
+        err => this.errorHandler.displayHttpError(err, 'Cloning training definition'));
   }
 
   /**
@@ -152,7 +151,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
         },
           err => {
             trainingDef.state = tempState;
-            this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Training was not archived');
+            this.errorHandler.displayHttpError(err, 'Archiving training definition');
       }
       );
   }
@@ -173,72 +172,37 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    * Fetches data from the server and maps them to table data objects
    */
   fetchData() {
+    this.isInErrorState = false;
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(
         startWith({}),
         switchMap(() => {
-          this.isLoading = true;
-          return this.trainingDefinitionGetter.getTrainingDefsWithPaginations(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
+          this.isLoadingResults = true;
+          return this.trainingDefinitionGetter.getTrainingDefinitionsWithPagination(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
         }),
         map(data => {
-          // Flip flag to show that loading has finished.
-          this.isLoading = false;
-          this.resultsLength = data.length;
-
-          return this.mapTrainingDefinitionsToTableObjects(data);
+          this.isLoadingResults = false;
+          this.resultsLength = data.tablePagination.totalElements;
+          return data;
         }),
         catchError((err) => {
-          this.isLoading = false;
-          this.alertService.emitAlert(AlertTypeEnum.Error, 'Remote server could not be reached. Try again later.');
+          this.isLoadingResults = false;
+          this.isInErrorState = true;
+          this.errorHandler.displayHttpError(err, 'Loading training definitions');
           return of([]);
         })
-      ).subscribe(data => this.createDataSource(data));
+      ).subscribe((data: TableDataWithPaginationWrapper<TrainingDefinitionTableDataModel[]>) => this.createDataSource(data));
   }
 
   /**
    * Creates table data source from fetched data
    * @param data Training Definitions fetched from server
    */
-  private createDataSource(data: TrainingDefinitionTableDataObject[]) {
-    this.dataSource = new MatTableDataSource(data);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-
+  private createDataSource(data: TableDataWithPaginationWrapper<TrainingDefinitionTableDataModel[]>) {
+    this.dataSource = new MatTableDataSource(data.tableData);
     this.dataSource.filterPredicate =
-      (data: TrainingDefinitionTableDataObject, filter: string) =>
+      (data: TrainingDefinitionTableDataModel, filter: string) =>
         data.trainingDefinition.title.toLowerCase().indexOf(filter) !== -1
         || data.trainingDefinition.state.toLowerCase().indexOf(filter) !== -1;
-  }
-
-  /**
-   * Maps training definition object to data object displayed in a table
-   * @param trainings array of training definitions
-   * @returns array of mapped training definition table data objects
-   */
-  private mapTrainingDefinitionsToTableObjects(trainings: TrainingDefinition[]): TrainingDefinitionTableDataObject[] {
-    const result: TrainingDefinitionTableDataObject[] = [];
-    trainings.forEach(training => {
-      const trainingDataObject = new TrainingDefinitionTableDataObject();
-      trainingDataObject.trainingDefinition = training;
-      this.canTrainingBeArchived(training).subscribe(result => trainingDataObject.canBeArchived = result);
-
-      result.push(trainingDataObject);
-    });
-    return result;
-  }
-
-
-  /**
-   * Determines if training can be archived (no training instance associated with the definition is running or scheduled to run in a future)
-   * @param {TrainingDefinition} trainingDef training definition which ability to be archives should be determined
-   * @returns {Observable<boolean>} true if can be archived, false otherwise
-   */
- private canTrainingBeArchived(trainingDef: TrainingDefinition): Observable<boolean> {
-  return this.trainingInstanceGetter.getTrainingInstancesByTrainingDefinitionId(trainingDef.id)
-    .pipe(map((trainingInstances) => {
-      return trainingInstances.every(trainingInstance =>
-        (trainingInstance.startTime.valueOf() <= Date.now()
-          && trainingInstance.endTime.valueOf() <= Date.now()))
-    }));
   }
 }

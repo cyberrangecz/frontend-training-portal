@@ -4,5 +4,5 @@
 <mat-menu #menu="matMenu">
   <a mat-menu-item routerLink="/home">Home</a>
   <a mat-menu-item routerLink="/user">Profile Details</a>
-  <a mat-menu-item (click)="logout()">Logout</a>
+  <a mat-menu-item *ngIf="isUserLoggedIn" (click)="logout()">Logout</a>
 </mat-menu>

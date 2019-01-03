@@ -1,8 +1,8 @@
-<div class="level">
+<div class="level" *ngIf="level">
   <div class="header">
     <h2>Game Level Detail</h2>
     <span class="spacer"></span>
-    <button mat-raised-button color="primary" (click)="saveChanges()">
+    <button mat-raised-button color="primary" [disabled]="isLoading" (click)="saveChanges()">
       Save Changes
     </button>
   </div>
@@ -13,8 +13,8 @@
         <!-- TITLE filed -->
         <mat-form-field appearance="outline">
           <mat-label>Title</mat-label>
-          <input (change)="onContentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
-          <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title=''; onContentChanged()">
+          <input [disabled]="isLoading" (change)="onContentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
+          <button mat-button *ngIf="title && !isLoading" matSuffix mat-icon-button aria-label="Clear" (click)="title=''; onContentChanged()">
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
@@ -32,20 +32,20 @@
         <!-- MAX SCORE filed -->
         <mat-form-field appearance="outline" hintLabel="Number in range from 0 to 100">
           <mat-label>Maximal Score</mat-label>
-          <input matInput (change)="onContentChanged()" placeholder="Maximal Score" type="number" max="100" min="0" [(ngModel)]="maxScore" required>
+          <input matInput [disabled]="isLoading" (change)="onContentChanged()" placeholder="Maximal Score" type="number" max="100" min="0" [(ngModel)]="maxScore" required>
         </mat-form-field>
 
         <!-- INCORRECT FLAG LIMIT field -->
         <mat-form-field appearance="outline" hintLabel="A positive number">
           <mat-label>Incorrect Flag Limit</mat-label>
-          <input matInput (change)="onContentChanged()" placeholder="Incorrect Flag Limit" type="number" min="0" [(ngModel)]="incorrectFlagLimit" required>
+          <input matInput [disabled]="isLoading" (change)="onContentChanged()" placeholder="Incorrect Flag Limit" type="number" min="0" [(ngModel)]="incorrectFlagLimit" required>
         </mat-form-field>
 
         <!-- FLAG field -->
         <mat-form-field appearance="outline" hintLabel="Max 50 characters">
           <mat-label>Flag</mat-label>
-          <input matInput (change)="onContentChanged()" placeholder="Flag" maxlength="50" [(ngModel)]="flag" required>
-          <button mat-button *ngIf="flag" matSuffix mat-icon-button aria-label="Clear" (click)="flag=''; onContentChanged()">
+          <input matInput [disabled]="isLoading" (change)="onContentChanged()" placeholder="Flag" maxlength="50" [(ngModel)]="flag" required>
+          <button mat-button *ngIf="flag && !isLoading" matSuffix mat-icon-button aria-label="Clear" (click)="flag=''; onContentChanged()">
             <mat-icon>close</mat-icon>
           </button>
           <mat-hint align="end">{{flag?.length || 0}}/50</mat-hint>
@@ -54,25 +54,24 @@
         <!-- ESTIMATED DURATION field -->
         <mat-form-field appearance="outline" hintLabel="Number in minutes. Range from 1 to 60">
           <mat-label>Estimated Duration</mat-label>
-          <input matInput (change)="onContentChanged()" placeholder="Estimated Duration in Seconds" type="number" max="60" min="1" [(ngModel)]="estimatedDuration">
+          <input matInput [disabled]="isLoading" (change)="onContentChanged()" placeholder="Estimated Duration in Seconds" type="number" max="60" min="1" [(ngModel)]="estimatedDuration">
         </mat-form-field>
 
         <!-- SOLUTION PENALIZED field -->
-        <mat-checkbox (change)="onContentChanged()" [(ngModel)]="solutionPenalized">Solution Penalized</mat-checkbox>
+        <mat-checkbox (change)="onContentChanged()" [disabled]="isLoading" [(ngModel)]="solutionPenalized">Solution Penalized</mat-checkbox>
       </div>
     </div>
 
     <!--HINTS component -->
-    <hint-stepper [(hints)]="hints" [levelMaxScore]="level.maxScore"></hint-stepper>
+    <hint-stepper [(hints)]="hints" [levelMaxScore]="level.maxScore" [disabled]="isLoading"></hint-stepper>
   </div>
 
   <div class="footer">
     <span class="spacer"></span>
-    <button mat-raised-button color="warn" (click)="onDeleteLevel()">
+    <button mat-raised-button color="warn" [disabled]="isLoading" (click)="onDeleteLevel()">
       Delete level
     </button>
-
-    <button mat-raised-button color="primary" (click)="saveChanges()">
+    <button mat-raised-button color="primary" [disabled]="isLoading" (click)="saveChanges()">
       Save Changes
     </button>
   </div>

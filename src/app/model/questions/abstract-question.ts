@@ -4,7 +4,7 @@
 export abstract class AbstractQuestion {
   id: number;
   title: string;
-
+  order: number;
   score: number;
   penalty: number;
   required: boolean;

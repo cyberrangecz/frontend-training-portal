@@ -10,7 +10,7 @@ import {UserGetterService} from "../../../../services/data-getters/user-getter.s
 import {TrainingDefinitionGetterService} from "../../../../services/data-getters/training-definition-getter.service";
 import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
 import {TrainingInstanceSetterService} from "../../../../services/data-setters/training-instance-setter.service";
-import {environment} from "../../../../../environments/environment";
+import {ActiveUserService} from "../../../../services/active-user.service";
 
 @Component({
   selector: 'training-instance-definition',
@@ -41,6 +41,7 @@ export class TrainingInstanceEditComponent implements OnInit {
   constructor(
     private alertService: AlertService,
     private userGetter: UserGetterService,
+    private activeUserService: ActiveUserService,
     private trainingDefinitionGetter: TrainingDefinitionGetterService,
     private trainingInstanceSetter: TrainingInstanceSetterService,
     private dialog: MatDialog) {
@@ -83,16 +84,21 @@ export class TrainingInstanceEditComponent implements OnInit {
       this.setInputValuesToTraining();
       if (this.editMode) {
         this.trainingInstanceSetter.updateTrainingInstance(this.trainingInstance)
-          .subscribe(response => this.alertService.emitAlert(AlertTypeEnum.Success, 'Changes were successfully saved.'),
+          .subscribe(response => {
+            this.alertService.emitAlert(AlertTypeEnum.Success, 'Changes were successfully saved.');
+            this.trainingChanged();
+            },
             (err) => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Changes were not saved.')
           );
       } else {
-        this.trainingInstanceSetter.addTrainingInstance(this.trainingInstance)
-          .subscribe(response => this.alertService.emitAlert(AlertTypeEnum.Success, 'Changes were successfully saved.'),
+        this.trainingInstanceSetter.createTrainingInstance(this.trainingInstance)
+          .subscribe(response => {
+            this.alertService.emitAlert(AlertTypeEnum.Success, 'Changes were successfully saved.');
+            this.trainingChanged();
+            },
             (err) => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Changes were not saved.')
           );
       }
-      this.trainingChanged();
     }
   }
 
@@ -175,7 +181,7 @@ export class TrainingInstanceEditComponent implements OnInit {
     this.trainingInstance.title = this.title;
     this.trainingInstance.poolSize = this.poolSize;
     this.trainingInstance.organizersIds = this.organizers.map(user => user.id);
-    this.trainingInstance.trainingDefinitionId = this.trainingDefinition.id;
+    this.trainingInstance.trainingDefinition = this.trainingDefinition;
     this.trainingInstance.keyword = this.password;
   }
 
@@ -189,8 +195,7 @@ export class TrainingInstanceEditComponent implements OnInit {
     this.poolSize = this.trainingInstance.poolSize;
     this.userGetter.loadUsersByIds(this.trainingInstance.organizersIds)
       .subscribe(organizers => this.organizers = organizers);
-    this.trainingDefinitionGetter.getTrainingDefById(this.trainingInstance.trainingDefinitionId)
-      .subscribe(trainingDef => this.trainingDefinition = trainingDef);
+    this.trainingDefinition = this.trainingInstance.trainingDefinition;
     this.password = this.trainingInstance.keyword;
 
   }
@@ -199,6 +204,7 @@ export class TrainingInstanceEditComponent implements OnInit {
    * Creates new object of training instance with default values
    */
   private createNewTrainingInstance() {
-    this.trainingInstance = new TrainingInstance(null, new Date(), new Date(), null, [], '');
+    this.trainingInstance = new TrainingInstance();
+    this.organizers = [this.activeUserService.getActiveUser()];
   }
 }

@@ -12,7 +12,7 @@
     <!-- ADD HINT button -->
     <div class="header">
       <h3>Hints</h3>
-      <button class="add-hint" mat-icon-button color="primary" (click)="addHint()"
+      <button [disabled]="disabled" class="add-hint" mat-icon-button color="primary" (click)="addHint()"
               matTooltip="Add new hint">
         <mat-icon>add_circle</mat-icon>
       </button>
@@ -33,6 +33,7 @@
                                 (penaltyChange)="calculateHintPenaltySum()"
                                 [levelMaxScore]="levelMaxScore"
                                 [initHintPenaltySum]="initialPenaltySum"
+                                [disabled]="disabled"
                                 [order]="i"></hint-configuration>
           </div>
         </mat-step>

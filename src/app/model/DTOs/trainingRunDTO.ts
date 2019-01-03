@@ -18,14 +18,14 @@ import { TrainingInstanceDTO } from './trainingInstanceDTO';
  * .
  */
 export interface TrainingRunDTO {
-    currentLevel?: AbstractLevelDTO;
-    endTime?: Date;
-    eventLogReference?: string;
+    current_level?: AbstractLevelDTO;
+    end_time?: Date;
+    event_log_reference?: string;
     id?: number;
-    sandboxInstanceRef?: SandboxInstanceRefDTO;
-    startTime?: Date;
+    sandbox_instance_ref?: SandboxInstanceRefDTO;
+    start_time?: Date;
     state?: TrainingRunDTO.StateEnum;
-    trainingInstance?: TrainingInstanceDTO;
+    training_instance?: TrainingInstanceDTO;
 }
 export namespace TrainingRunDTO {
     export type StateEnum = 'NEW' | 'ALLOCATED' | 'READY' | 'ARCHIVED';

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ActiveTrainingRunLevelsService} from "../../../services/active-training-run-levels.service";
 
 @Component({
   selector: 'trainee-overview',
@@ -10,9 +11,10 @@ import { Component, OnInit } from '@angular/core';
  */
 export class TraineeOverviewComponent implements OnInit {
 
-  constructor() { }
+  constructor(private activeLevelsService: ActiveTrainingRunLevelsService) { }
 
   ngOnInit() {
+    this.activeLevelsService.clear();
   }
 
 }

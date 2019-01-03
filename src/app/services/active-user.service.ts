@@ -5,6 +5,7 @@ import {Subject} from "rxjs/internal/Subject";
 import {Observable} from "rxjs/internal/Observable";
 import {OAuthService} from "angular-oauth2-oidc";
 import {Set} from "typescript-collections"
+import {Router} from "@angular/router";
 
 /**
  * Service maintaining active (logged in user)
@@ -21,17 +22,15 @@ export class ActiveUserService {
    */
   onActiveUserChanged: Observable<number> = this._onActiveUserChangedSubject.asObservable();
 
-  constructor(private oAuthService: OAuthService) {
-    this.setActiveMockedUser();
+  constructor(private router: Router,
+    private oAuthService: OAuthService) {
   }
-
-
   /**
    * Decides whether active user has designer role
    * @returns {boolean} true if active user has organizer role, false otherwise
    */
   isDesigner(): boolean {
-    return this._activeUser === undefined ? false : this._activeUser.roles.contains(UserRoleEnum.Designer);
+    return !this._activeUser ? false : this._activeUser.roles.contains(UserRoleEnum.Designer);
   }
 
   /**
@@ -39,7 +38,7 @@ export class ActiveUserService {
    * @returns {boolean} true if active user has organizer role, false otherwise
    */
   isOrganizer(): boolean {
-    return this._activeUser === undefined ? false : this._activeUser.roles.contains(UserRoleEnum.Organizer);
+    return !this._activeUser ? false : this._activeUser.roles.contains(UserRoleEnum.Organizer);
   }
 
   /**
@@ -47,26 +46,12 @@ export class ActiveUserService {
    * @returns {boolean} true if active user has trainee role, false otherwise
    */
   isTrainee(): boolean {
-    return this._activeUser === undefined ? false : this._activeUser.roles.contains(UserRoleEnum.Trainee);
+    return !this._activeUser ? false : this._activeUser.roles.contains(UserRoleEnum.Trainee);
   }
 
   login() {
     this.oAuthService.initImplicitFlow();
-    // TODO: replace with user get from REST API
-    this.setActiveMockedUser();
-
-  }
-
-  private setActiveMockedUser() {
-    const loggedInUser = new User();
-    loggedInUser.id = 1;
-    loggedInUser.name = "Test user";
-    const roles = new Set<UserRoleEnum>();
-    roles.add(UserRoleEnum.Designer);
-    roles.add(UserRoleEnum.Organizer);
-    roles.add(UserRoleEnum.Trainee);
-    loggedInUser.roles = roles;
-    this.setActiveUser(loggedInUser);
+    this.loadProfile();
   }
 
   logout() {
@@ -79,7 +64,7 @@ export class ActiveUserService {
    * @returns {boolean} true if active user is authenticated, false otherwise
    */
   isAuthenticated(): boolean {
-    return this._activeUser !== null && this._activeUser !== undefined //&& this.oAuthService.hasValidAccessToken();
+    return this._activeUser && this.oAuthService.hasValidAccessToken();
   }
 
   /**
@@ -94,6 +79,19 @@ export class ActiveUserService {
    */
   getActiveUserAuthorizationHeader(): string {
     return this.oAuthService.authorizationHeader();
+  }
+
+  loadProfile() {
+    const claims = this.oAuthService.getIdentityClaims();
+    const user: User = new User();
+    user.id = 1;
+    user.name = claims['sub'];
+    const roles = new Set<UserRoleEnum>();
+    roles.add(UserRoleEnum.Designer);
+    roles.add(UserRoleEnum.Organizer);
+    roles.add(UserRoleEnum.Trainee);
+    user.roles = roles;
+    this.setActiveUser(user);
   }
 
   /**

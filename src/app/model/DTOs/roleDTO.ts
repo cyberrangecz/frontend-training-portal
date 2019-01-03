@@ -13,5 +13,5 @@
 
 export interface RoleDTO {
     id?: number;
-    roleType?: string;
+    role_type?: string;
 }

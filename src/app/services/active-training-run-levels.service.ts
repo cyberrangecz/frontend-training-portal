@@ -2,6 +2,11 @@ import {Injectable} from "@angular/core";
 import {Subject} from "rxjs/internal/Subject";
 import {Observable} from "rxjs/internal/Observable";
 import {AbstractLevel} from "../model/level/abstract-level";
+import {GameLevel} from "../model/level/game-level";
+import {AssessmentLevel} from "../model/level/assessment-level";
+import {InfoLevel} from "../model/level/info-level";
+import {TrainingRunSetterService} from "./data-setters/training-run.setter.service";
+import {map} from "rxjs/operators";
 
 /**
  * Service maintaining levels of training and active level instance for sub component of trainee training run
@@ -9,8 +14,13 @@ import {AbstractLevel} from "../model/level/abstract-level";
 @Injectable()
 export class ActiveTrainingRunLevelsService {
 
+  constructor(private trainingRunSetter: TrainingRunSetterService) {
+  }
+
   private _activeLevels: AbstractLevel[];
-  private _activeLevel: AbstractLevel;
+  private _activeLevel: GameLevel | AssessmentLevel | InfoLevel;
+
+  trainingRunId: number;
 
   private _onActiveLevelChangedSubject: Subject<AbstractLevel> = new Subject<AbstractLevel>();
   /**
@@ -28,7 +38,7 @@ export class ActiveTrainingRunLevelsService {
     return this._activeLevels;
   }
 
-  getActiveLevel() {
+  getActiveLevel(): AbstractLevel {
     return this._activeLevel;
   }
 
@@ -42,10 +52,10 @@ export class ActiveTrainingRunLevelsService {
 
   /**
    * Sets currently active level
-   * @param {number} index order of the level
+   * @param level
    */
-  setActiveLevel(index: number) {
-    this._activeLevel = this._activeLevels[index];
+  setActiveLevel(level: GameLevel | InfoLevel | AssessmentLevel) {
+    this._activeLevel = level;
     this._onActiveLevelChangedSubject.next(this._activeLevel);
   }
 
@@ -68,13 +78,19 @@ export class ActiveTrainingRunLevelsService {
   /**
    * Sets the next level in order as active
    */
-  nextLevel() {
-    const index = this._activeLevels.indexOf(this._activeLevel);
-    if (index + 1 < this._activeLevels.length) {
-      this.setActiveLevel(index + 1);
-      this.currentLevelLocked = true;
-      this._onLevelLockChangedSubject.next(true);
-    }
+  nextLevel(): Observable<AbstractLevel> {
+    return this.trainingRunSetter.nextLevel(this.trainingRunId)
+      .pipe(map(resp => {
+        this.currentLevelLocked = true;
+        this.setActiveLevel(resp);
+        this._onLevelLockChangedSubject.next(true);
+        return resp;
+      }));
+  }
+
+  clear() {
+    this._activeLevel = null;
+    this._activeLevels = [];
   }
 
 }

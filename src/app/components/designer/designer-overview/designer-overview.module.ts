@@ -14,6 +14,10 @@ import {SandboxDefinitionSetterService} from "../../../services/data-setters/san
 import {SharedModule} from "../../shared/shared.module";
 import {TrainingDefinitionGuard} from "../../../guards/training-definition-guard.service";
 import {UploadService} from "../../../services/data-setters/upload.service";
+import {TrainingDefinitionMapperService} from "../../../services/data-mappers/training-definition-mapper.service";
+import {TrainingInstanceMapperService} from "../../../services/data-mappers/training-instance-mapper.service";
+import {LevelMapperService} from "../../../services/data-mappers/level-mapper.service";
+import {TrainingRunMapperService} from "../../../services/data-mappers/training-run-mapper.service";
 
 @NgModule({
   imports: [
@@ -32,9 +36,13 @@ import {UploadService} from "../../../services/data-setters/upload.service";
     TrainingDefinitionGuard,
     TrainingDefinitionGetterService,
     TrainingDefinitionSetterService,
+    TrainingDefinitionMapperService,
     TrainingInstanceGetterService,
+    TrainingInstanceMapperService,
+    TrainingRunMapperService,
     SandboxDefinitionGetterService,
     SandboxDefinitionSetterService,
+    LevelMapperService
   ],
   entryComponents: [
     UploadDialogComponent,

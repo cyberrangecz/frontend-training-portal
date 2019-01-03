@@ -1,17 +1,27 @@
-import {Component, Input, OnChanges, OnInit, QueryList, SimpleChanges, ViewChildren} from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  QueryList,
+  SimpleChanges,
+  ViewChildren
+} from '@angular/core';
 import {AbstractLevel} from "../../../../../model/level/abstract-level";
-import {InfoLevel} from "../../../../../model/level/info-level";
-import {GameLevel} from "../../../../../model/level/game-level";
-import {AssessmentLevel} from "../../../../../model/level/assessment-level";
-import {AssessmentTypeEnum} from "../../../../../enums/assessment-type.enum";
 import {LevelConfigurationComponent} from "../level-configuration/level-configuration.component";
 import {DeleteDialogComponent} from "../../delete-dialog/delete-dialog.component";
 import {MatDialog} from "@angular/material";
 import {TrainingDefinitionSetterService} from "../../../../../services/data-setters/training-definition-setter.service";
 import {AlertService} from "../../../../../services/event-services/alert.service";
 import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
-import {environment} from "../../../../../../environments/environment";
 import {HttpErrorResponse} from "@angular/common/http";
+import {ComponentErrorHandlerService} from "../../../../../services/component-error-handler.service";
+import {TrainingDefinitionGetterService} from "../../../../../services/data-getters/training-definition-getter.service";
+import {UnsavedChangesDialogComponent} from "../../unsaved-changes-dialog/unsaved-changes-dialog.component";
+import {map} from "rxjs/operators";
+import {TrainingDefinition} from "../../../../../model/training/training-definition";
 
 @Component({
   selector: 'training-level-stepper',
@@ -26,23 +36,27 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
   @ViewChildren(LevelConfigurationComponent) levelConfigurationComponents: QueryList<LevelConfigurationComponent>;
 
   @Input('isTrainingSaved') isTrainingSaved: boolean;
-  @Input('trainingDefinitionId') trainingDefinitionId: number;
+  @Input('trainingDefinition') trainingDefinition: TrainingDefinition;
   @Input('levels') levels: AbstractLevel[];
 
-  isLoading = false;
+  @Output('onLevelDeleted') onLevelDeleted: EventEmitter<number> = new EventEmitter();
+  isLoading = true;
   selectedStep: number = 0;
 
   constructor(public dialog: MatDialog,
               private alertService: AlertService,
-              private trainingDefinitionSetter: TrainingDefinitionSetterService) {
-  }
+              private errorHandler: ComponentErrorHandlerService,
+              private trainingDefinitionGetter: TrainingDefinitionGetterService,
+              private trainingDefinitionSetter: TrainingDefinitionSetterService) { }
 
   ngOnInit() {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if ('levels' in changes) {
-      this.resolveInitialLevels();
+    if ('levels' in changes || 'trainingDefinition' in changes) {
+      if (this.trainingDefinition != null) {
+        this.resolveInitialLevels();
+      }
     }
   }
 
@@ -57,7 +71,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
       levels.push(
         {
           canBeDeactivated: levelCanDeactivate,
-          order: levelComponent.level.order
+          title: levelComponent.level.title
         });
       }
     );
@@ -69,24 +83,13 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    */
   addInfoLevel() {
     this.isLoading = true;
-    const newInfoLevel = new InfoLevel(this.trainingDefinitionId,
-      "New Info Level",
-      0,
-      this.levels.length + 1,
-      '',
-      '',
-      '');
-    newInfoLevel.id = null;
-
-    this.trainingDefinitionSetter.createInfoLevel(this.trainingDefinitionId, newInfoLevel)
+    this.trainingDefinitionSetter.createInfoLevel(this.trainingDefinition.id)
       .subscribe(
-        id => {
+        level => {
           this.isLoading = false;
-          newInfoLevel.id = id;
-          this.levels.push(newInfoLevel);
-          this.isLoading = false;
+          this.levels.push(level);
         },
-        (err: HttpErrorResponse) => this.handleHttpError(err)
+        (err: HttpErrorResponse) => this.errorHandler.displayHttpError(err, 'Creating info level')
       );
   }
 
@@ -95,27 +98,14 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    */
   addGameLevel() {
     this.isLoading = true;
-    const newGameLevel = new GameLevel(this.trainingDefinitionId,
-      "New Game Level",
-      100,
-      this.levels.length + 1,
-      '',
-      '',
-      '',
-      [],
-      '',
-      '',
-      0,
-      5,
-      true);
-    this.trainingDefinitionSetter.createGameLevel(this.trainingDefinitionId, newGameLevel)
+    this.trainingDefinitionSetter.createGameLevel(this.trainingDefinition.id)
       .subscribe(
-        id => {
-        newGameLevel.id = id;
-        this.levels.push(newGameLevel);
-        this.isLoading = false
+        level => {
+        this.isLoading = false;
+          this.levels.push(level);
         },
-        (err: HttpErrorResponse) =>  this.handleHttpError(err));
+        (err: HttpErrorResponse) =>  this.errorHandler.displayHttpError(err, 'Creating game level')
+      );
   }
 
   /**
@@ -123,22 +113,13 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    */
   addAssessmentLevel() {
    this.isLoading = true;
-    const newAssessmentLevel = new AssessmentLevel(this.trainingDefinitionId,
-      "New Assessment Level",
-      0,
-      this.levels.length + 1,
-      '',
-      '',
-      null,
-      AssessmentTypeEnum.Questionnaire);
-    this.trainingDefinitionSetter.createAssessmentLevel(this.trainingDefinitionId, newAssessmentLevel)
+    this.trainingDefinitionSetter.createAssessmentLevel(this.trainingDefinition.id)
       .subscribe(
-        id => {
-          newAssessmentLevel.id = id;
-          this.levels.push(newAssessmentLevel);
+        level => {
           this.isLoading = false;
+          this.levels.push(level);
         },
-        (err: HttpErrorResponse) => this.handleHttpError(err)
+        (err: HttpErrorResponse) => this.errorHandler.displayHttpError(err, 'Creating assessment level')
       );
   }
 
@@ -147,122 +128,129 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    */
   swapLeft() {
     this.isLoading = true;
-    if (this.selectedStep !== 0) {
-      this.trainingDefinitionSetter.swapLeft(this.trainingDefinitionId, this.levels[this.selectedStep].id)
-        .subscribe(resp => {
+    const swappedLevel = this.levels[this.selectedStep];
+    this.trainingDefinitionSetter.swapLeft(this.trainingDefinition.id, swappedLevel.id)
+      .subscribe(resp => {
+          this.selectedStep--;
+          this.levels = resp.sort((levelA, levelB ) => levelA.order - levelB.order);
+          this.alertService.emitAlert(AlertTypeEnum.Success, 'Level "' + swappedLevel.title + '" was successfully swapped to the left');
           this.isLoading = false;
         },
-          (err: HttpErrorResponse) => this.handleHttpError(err));
-
-      // TODO: Should be reloaded from REST API instead of calculating?
-      const tempLevel = this.levels[this.selectedStep - 1];
-      tempLevel.order += 1;
-
-      this.levels[this.selectedStep].order -= 1;
-      this.levels[this.selectedStep - 1] = this.levels[this.selectedStep];
-      this.levels[this.selectedStep] = tempLevel;
-      this.selectedStep -= 1;
-    }
+        err => {
+          this.errorHandler.displayHttpError(err, 'Swapping level "' + swappedLevel.title + '" to the left');
+          this.isLoading = false;
+        }
+      );
   }
   /**
    * Swaps order of currently selected level with level next to him (to the right)
    */
   swapRight() {
     this.isLoading = true;
-    if (this.selectedStep !== this.levels.length - 1) {
-      this.trainingDefinitionSetter.swapRight(this.trainingDefinitionId, this.levels[this.selectedStep].id)
-        .subscribe(resp => {
-            this.isLoading = false;
+    const swappedLevel = this.levels[this.selectedStep];
+    this.trainingDefinitionSetter.swapRight(this.trainingDefinition.id, swappedLevel.id)
+      .subscribe(resp => {
+          this.selectedStep++;
+          this.levels = resp.sort((levelA, levelB ) => levelA.order - levelB.order);
+          this.alertService.emitAlert(AlertTypeEnum.Success, 'Level "' + swappedLevel.title + '" was successfully swapped to the right');
+          this.isLoading = false;
         },
-          (err: HttpErrorResponse) => this.handleHttpError(err));
-
-      // TODO: Should be reloaded from REST API instead of calculating?
-      const tempLevel = this.levels[this.selectedStep + 1];
-      tempLevel.order -= 1;
-
-      this.levels[this.selectedStep].order += 1;
-      this.levels[this.selectedStep + 1] = this.levels[this.selectedStep];
-      this.levels[this.selectedStep] = tempLevel;
-      this.selectedStep += 1;
-    }
+        err => {
+          this.errorHandler.displayHttpError(err, 'Swapping level "' + swappedLevel.title + '" to the right');
+          this.isLoading = false;
+        }
+        );
   }
 
   /**
    * Deletes level on given index
-   * @param {number} index index of level which should be deleted
+   * @param {number} id index of level which should be deleted
    */
-  deleteLevel(index: number) {
+  deleteLevel(id: number) {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data:
         {
           type: 'level',
-          title: this.levels[index].title
+          title: this.levels.find(level => level.id === id).title
         }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
         this.isLoading = true;
-        this.trainingDefinitionSetter.removeLevel(this.trainingDefinitionId, this.levels[index].id)
-          .subscribe(response => {
-            this.levels.splice(index, 1);
-            this.decreaseOrderOfLevelsFromIndex(index);
-            this.changeSelectedStepAfterRemoving(index);
-            this.isLoading = false;
+        const toDelete = this.levels.find(level => level.id === id);
+        this.trainingDefinitionSetter.removeLevel(this.trainingDefinition.id, toDelete.id)
+          .subscribe(resp => {
+              this.alertService.emitAlert(AlertTypeEnum.Success ,'Level "' + toDelete.title + '" was successfully deleted');
+              this.onLevelDeleted.emit(toDelete.id);
             },
-            (err: HttpErrorResponse) => this.handleHttpError(err));
+              err => this.errorHandler.displayHttpError(err, 'Deleting level "' + toDelete.title + '"')
+          );
       }
     });
   }
 
   /**
-   * Decreases order of levels by one (typically after removing a level) from given index
-   * @param {number} index of a level from which onwards should the order be decreased
-   */
-  private decreaseOrderOfLevelsFromIndex(index: number) {
-    for (let i = index; i < this.levels.length; i++) {
-      this.levels[i].order--;
-    }
-  }
-
-  /**
-   * Changes selected step to the one before removed or to first one if the first step is removed
-   * @param {number} index index of the removed step
-   */
-  private changeSelectedStepAfterRemoving(index: number) {
-    if (index === 0) {
-      this.selectedStep = 0;
-    } else {
-      this.selectedStep--;
-    }
-  }
-
-  /**
-   * Triggered after selection of active level is changes in the stepper
+   * Triggered after selection of active level is changed in the stepper
    * @param event event of active level change
    */
   selectionChanged(event) {
-    this.selectedStep = event.selectedIndex;
+    this.changeSelectedStep(event.selectedIndex);
+    //TODO : this should only be used if lazy loading is implemented
+
+    /*    if (this.getCanDeactivateLevels().find(level => level.order === this.selectedStep).canBeDeactivated) {
+      this.changeSelectedStep(event.selectedStep);
+    } else {
+      this.resolveBySaveChangesDialog(event.selectedStep);
+    }*/
+  }
+
+  private resolveBySaveChangesDialog(selectedLevelIndex: number) {
+    const dialogRef = this.dialog.open(UnsavedChangesDialogComponent, {
+      data: {
+        payload: ['Current level is not saved. Do you want to discard changes?'],
+        saveOption: true
+      }
+    });
+    dialogRef.afterClosed().pipe(map(result => {
+      if (result && result.type === 'confirm') {
+        this.changeSelectedStep(selectedLevelIndex);
+      }
+    }))
+  }
+
+  private changeSelectedStep(index: number) {
+    this.selectedStep = index;
   }
 
   /**
    * Initializes levels with default values
    */
   private resolveInitialLevels() {
-    if (!this.levels) {
+    if (!this.levels || this.levels.length == 0) {
       this.levels = [];
+    } else {
+      this.levels = this.sortInitialLevels(this.levels);
     }
+    this.isLoading = false;
   }
 
-  /**
-   * Handles http error after request is made
-   * @param err http error
-   */
-  private handleHttpError(err: HttpErrorResponse) {
-    this.isLoading = false;
-    if (err.status === 404)
-      this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach the server right now. Please check your internet connection.')
+  private sortInitialLevels(levels: AbstractLevel[]): AbstractLevel[] {
+    const result: AbstractLevel[] = [];
+    let currentLevel = this.findFirstLevel(levels);
+    result.push(currentLevel);
+    while (currentLevel && currentLevel.nextLevel) {
+      currentLevel = this.levels.find(level => level.id === currentLevel.nextLevel);
+      result.push(currentLevel);
+    }
+    return result;
   }
+
+  private findFirstLevel(levels: AbstractLevel[]): AbstractLevel {
+    const first = this.trainingDefinition.startingLevel;
+    return levels.find(level => level.id === first)
+  }
+
 }
 
 

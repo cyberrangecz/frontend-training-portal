@@ -5,7 +5,7 @@ import {AbstractQuestion} from "./abstract-question";
  */
 export class FreeFormQuestion extends AbstractQuestion {
 
-  correctAnswer: string;
+  correctAnswers: string[];
   usersAnswer: string;
 
   constructor(title: string) {

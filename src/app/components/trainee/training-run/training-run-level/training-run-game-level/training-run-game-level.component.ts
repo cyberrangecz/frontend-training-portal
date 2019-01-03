@@ -1,7 +1,5 @@
 import {
-  AfterViewInit,
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnInit,
@@ -13,6 +11,8 @@ import {MatDialog} from "@angular/material";
 import {RevealHintDialogComponent} from "./user-action-dialogs/reveal-hint-dialog/reveal-hint-dialog.component";
 import {RevealSolutionDialogComponent} from "./user-action-dialogs/reveal-solution-dialog/reveal-solution-dialog.component";
 import {WrongFlagDialogComponent} from "./user-action-dialogs/wrong-flag-dialog/wrong-flag-dialog.component";
+import {TrainingRunSetterService} from "../../../../../services/data-setters/training-run.setter.service";
+import {ComponentErrorHandlerService} from "../../../../../services/component-error-handler.service";
 
 @Component({
   selector: 'training-run-game-level',
@@ -29,11 +29,12 @@ import {WrongFlagDialogComponent} from "./user-action-dialogs/wrong-flag-dialog/
 export class TrainingRunGameLevelComponent implements OnInit {
 
   @Input('level') level: GameLevel;
-
   @Output('nextLevel') nextLevel: EventEmitter<number> = new EventEmitter<number>();
 
   graphWidth: number;
   graphHeight: number;
+
+  isLoading = false;
 
   displayedText: string;
   flag: string;
@@ -43,11 +44,12 @@ export class TrainingRunGameLevelComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
+    private trainingRunSetter: TrainingRunSetterService,
+    private errorHandler: ComponentErrorHandlerService,
     private activeLevelService: ActiveTrainingRunLevelsService) { }
 
   ngOnInit() {
     this.setGraphTopologyElementSize(window.innerWidth, window.innerHeight);
-
     this.displayedText = this.level.content;
     this.initHintButtons();
   }
@@ -70,8 +72,14 @@ export class TrainingRunGameLevelComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
         this.displayedText += '\n\n## <span style="color:slateblue">Hint ' + index + ": " + hintButton.hint.title + "</span>\n" + hintButton.hint.content;
-        hintButton.displayed = true;
-        // TODO: Call REST to inform about hint taken
+        this.trainingRunSetter.takeHint(this.activeLevelService.trainingRunId, hintButton.hint.id)
+          .subscribe(resp => {
+            hintButton.displayed = true;
+            // TODO: display content
+          },
+          err => {
+            this.errorHandler.displayHttpError(err, 'Taking hint "' + hintButton.hint.title + '"');
+            });
       }
     })
   }
@@ -99,7 +107,6 @@ export class TrainingRunGameLevelComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
         this.revealSolution();
-        // TODO: Call REST to inform about solution taken
       }
     })
   }
@@ -108,11 +115,15 @@ export class TrainingRunGameLevelComponent implements OnInit {
    * Checks whether the flag is correct and perform appropriate actions
    */
   submitFlag() {
-    if (this.flag === this.level.flag) {
-      this.runActionsAfterCorrectFlagSubmitted();
-    } else {
-      this.runActionsAfterWrongFlagSubmitted()
-    }
+    this.trainingRunSetter.isCorrectFlag(this.activeLevelService.trainingRunId, this.flag)
+      .subscribe(resp => {
+        if (resp.isCorrect) {
+          this.runActionsAfterCorrectFlagSubmitted();
+        } else {
+          this.runActionsAfterWrongFlagSubmitted(resp.remainingAttempts)
+        }
+      });
+
   }
 
   /**
@@ -142,8 +153,6 @@ export class TrainingRunGameLevelComponent implements OnInit {
    * The level is unlocked and the user can continue to the next one
    */
   private runActionsAfterCorrectFlagSubmitted() {
-    // TODO: Call REST to update incorrect flag count
-    this.level.incorrectFlagCount = 0;
     this.activeLevelService.unlockCurrentLevel();
     this.correctFlag = true;
     this.nextLevel.emit(this.level.order + 1);
@@ -153,36 +162,41 @@ export class TrainingRunGameLevelComponent implements OnInit {
    * otherwise popup dialog informing the user about penalty for submitting incorrect flag is displayed and the information
    * is send to the endpoint
    */
-  private runActionsAfterWrongFlagSubmitted() {
+  private runActionsAfterWrongFlagSubmitted(remainingAttempts: number) {
     if (!this.solutionShown) {
-      // TODO: Call REST to increase incorrect flag count
-      this.level.incorrectFlagCount++;
-      if (this.level.incorrectFlagCount === this.level.incorrectFlagLimit) {
+      if (remainingAttempts === 0) {
         this.revealSolution();
       }
     }
-
     const dialogRef = this.dialog.open(WrongFlagDialogComponent, {
       data: {
-        incorrectFlagCount: this.level.incorrectFlagCount,
-        incorrectFlagLimit: this.level.incorrectFlagLimit
+         remainingAttempts: remainingAttempts,
       }
     });
-    // TODO: Call REST to inform about incorrect flag
   }
 
   /**
    * Reveals solution text and deducts points if solution is penalized
    */
   private revealSolution() {
-    if (this.level.solutionPenalized) {
-      // TODO: deduct remaining points (via REST?)
+    this.isLoading = true;
+/*    if (this.level.solutionPenalized) {
       let pointsToDeduct = this.level.maxScore - this.hintButtons
         .map(hintButton => hintButton.displayed ? hintButton.hint.hintPenalty : 0)
         .reduce((sum, currentHintPoints) => sum + currentHintPoints);
-    }
-    this.solutionShown = true;
-    this.displayedText = this.level.solution;
+    }*/
+    this.trainingRunSetter.takeSolution(this.activeLevelService.trainingRunId)
+      .subscribe(resp => {
+        this.solutionShown = true;
+        this.displayedText = resp;
+1        // TODO: deduct remaining points (via REST?)
+        this.isLoading = false;
+      },
+      err => {
+        this.isLoading = false;
+        this.errorHandler.displayHttpError(err, "Loading solution");
+      })
+
   }
 
 

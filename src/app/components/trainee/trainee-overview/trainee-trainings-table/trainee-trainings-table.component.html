@@ -2,15 +2,18 @@
   <div class="training-table-wrapper">
     <div class="training-table">
       <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter by training instance title">
+        <input matInput (keyup)="applyFilter($event.target.value)"
+               [disabled]="isInErrorState"
+               placeholder="Filter by training instance title">
       </mat-form-field>
 
       <div class="mat-elevation-z8">
         <div class="loading"
-             *ngIf="isLoadingResults || isInErrorState">
-          <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+             *ngIf="isLoading || isInErrorState">
+          <mat-spinner *ngIf="isLoading"></mat-spinner>
           <div class="loading-error" *ngIf="isInErrorState">
             We have some trouble loading the data. Please try again later.
+            <button mat-icon-button (click)="fetchData()" color="primary"><mat-icon>refresh</mat-icon></button>
           </div>
         </div>
 
@@ -18,26 +21,28 @@
 
           <!-- TRAINING INSTANCE TITLE Column -->
           <ng-container matColumnDef="title">
-            <th class="title" mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+            <th class="title" mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="isInErrorState">Title</th>
             <td class="title" mat-cell *matCellDef="let training">
-              <div *ngIf="training.trainingRun?.startTime.valueOf() < now && training.trainingRun?.endTime.valueOf() > now;
+              <div *ngIf="training.trainingInstanceStartTime.valueOf() < now
+               && training.trainingInstanceEndTime.valueOf() > now
+               && !isLoading
               then clickableTitle else nonClickableTitle"></div>
 
               <ng-template #clickableTitle>
-                <a class="training-link" mat-button color="primary"
-                   [routerLink]="['training', training.trainingRun?.id, 'level', training.trainingRun?.currentLevel]">
-                  {{ training.trainingInstance?.title }}</a>
+                <button [disabled]="isLoading" class="training-link" mat-button color="primary"
+                        (click)="resume(training.trainingRunId)">
+                  {{ training.trainingInstanceTitle }}</button>
               </ng-template>
 
-              <ng-template #nonClickableTitle>{{ training.trainingInstance?.title }}</ng-template>
+              <ng-template #nonClickableTitle>{{ training.trainingInstanceTitle }}</ng-template>
             </td>
           </ng-container>
 
           <!-- DATE Column -->
           <ng-container matColumnDef="date">
-            <th class="date" mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+            <th class="date" mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="isInErrorState">Date</th>
             <td class="date" mat-cell *matCellDef="let training">
-              {{ training.trainingInstance?.startTime.toDateString() }} - {{ training.trainingInstance?.endTime.toDateString() }}
+              {{ training.trainingInstanceStartTime | dateTimeFormat }} - {{ training.trainingInstanceEndTime | dateTimeFormat }}
             </td>
           </ng-container>
 
@@ -45,7 +50,7 @@
           <ng-container matColumnDef="completedLevels">
             <th class="completedLevels" mat-header-cell *matHeaderCellDef>Completed Levels</th>
             <td class="completedLevels" mat-cell *matCellDef="let training">
-              {{ training.trainingRun.currentLevel }}/{{ training?.totalLevels }}
+              {{ training.currentLevel }}/{{ training.totalLevels }}
             </td>
           </ng-container>
 
@@ -56,18 +61,20 @@
 
               <div class="action-buttons">
                 <!-- TRY AGAIN button-->
-                <button *ngIf="training.trainingInstance?.startTime <= now && training.trainingInstance?.endTime >= now"
-                  mat-icon-button color="primary"
-                  (click)="tryAgain(training.trainingInstance)">
+                <button *ngIf="training.action === actionType.TryAgain"
+                        mat-icon-button color="primary"
+                        [disabled]="isLoading"
+                        (click)="tryAgain(1)">
                   <mat-icon
                     matTooltip="Try again"
                     aria-label="Try again button">
                     refresh</mat-icon>
                 </button>
                 <!-- RESULTS button-->
-                <button *ngIf="training.trainingRun?.state === 'archived'"
+                <button *ngIf="training.action === actionType.Results"
                         mat-icon-button color="primary"
-                        (click)="accessResults(training.trainingRun)">
+                        [disabled]="isLoading"
+                        (click)="accessResults(training.trainingRunId)">
                   <mat-icon
                     matTooltip="Access results"
                     aria-label="Access results button">
@@ -79,7 +86,7 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+        <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
       </div>
     </div>
   </div>

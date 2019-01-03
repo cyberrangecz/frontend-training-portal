@@ -6,6 +6,8 @@ import {InfoLevel} from "../../../../../model/level/info-level";
 import {GameLevelConfigurationComponent} from "./game-level-configuration/game-level-configuration.component";
 import {AssessmentLevelConfigurationComponent} from "./assessment-level-configuration/assessment-level-configuration.component";
 import {InfoLevelConfigurationComponent} from "./info-level-configuration/info-level-configuration.component";
+import {Observable} from "rxjs";
+import {TrainingDefinitionGetterService} from "../../../../../services/data-getters/training-definition-getter.service";
 
 @Component({
   selector: 'level-configuration',
@@ -21,10 +23,11 @@ export class LevelConfigurationComponent implements OnInit, OnChanges {
   @ViewChild(AssessmentLevelConfigurationComponent) assessmentLevelComponent;
   @ViewChild(InfoLevelConfigurationComponent) infoLevelComponent;
 
-
   @Input('level') level: AbstractLevel;
-
+  @Input('trainingDefinitionId') trainingDefinitionId: number;
   @Output('deleteLevel') deleteLevel: EventEmitter<number> = new EventEmitter();
+
+  detailedLevel$: Observable<GameLevel> | Observable<InfoLevel> | Observable<AssessmentLevel>;
 
   isGameLevelActive: boolean;
   isInfoLevelActive: boolean;
@@ -32,6 +35,8 @@ export class LevelConfigurationComponent implements OnInit, OnChanges {
 
   ngOnInit() {
   }
+
+  constructor(private trainingDefinitionGetter: TrainingDefinitionGetterService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if ('level' in changes) {
@@ -65,8 +70,17 @@ export class LevelConfigurationComponent implements OnInit, OnChanges {
    * Resolves type of level
    */
   private resolveLevelType() {
-    this.isGameLevelActive = this.level instanceof GameLevel;
-    this.isInfoLevelActive = this.level instanceof InfoLevel;
-    this.isAssessmentLevelActive = this.level instanceof AssessmentLevel;
+    if (this.level instanceof GameLevel) {
+      this.detailedLevel$ = this.trainingDefinitionGetter.getLevelById(this.level.id) as Observable<GameLevel>;
+      this.isGameLevelActive = true;
+    }
+    if (this.level instanceof InfoLevel) {
+      this.detailedLevel$ = this.trainingDefinitionGetter.getLevelById(this.level.id) as Observable<InfoLevel>;
+      this.isInfoLevelActive = true;
+    }
+    if (this.level instanceof AssessmentLevel) {
+      this.detailedLevel$ = this.trainingDefinitionGetter.getLevelById(this.level.id) as Observable<AssessmentLevel>;
+      this.isAssessmentLevelActive = true;
+    }
   }
 }

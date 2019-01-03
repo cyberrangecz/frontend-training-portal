@@ -25,6 +25,8 @@ export class HintStepperComponent implements OnInit, OnChanges {
 
   @Input('hints') hints: Hint[];
   @Input('levelMaxScore') levelMaxScore: number;
+  @Input('disabled') disabled: boolean;
+
   @Output('hints') hintsChange = new EventEmitter();
 
   @ViewChildren(HintConfigurationComponent) hintConfigurationChildren: QueryList<HintConfigurationComponent>;
@@ -57,10 +59,11 @@ export class HintStepperComponent implements OnInit, OnChanges {
    * Creates new hint with default values
    */
   addHint() {
-    this.hints.push(new Hint(
-      'New hint',
-      '',
-      0));
+    const hint = new Hint();
+    hint.title = 'New hint';
+    hint.content = '';
+    hint.hintPenalty = 0;
+    this.hints.push(hint);
     this.dirty = true;
     this.hintsChanged();
   }

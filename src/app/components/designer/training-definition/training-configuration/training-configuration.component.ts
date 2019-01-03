@@ -1,18 +1,22 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {TrainingDefinition} from "../../../../model/training/training-definition";
-import {TrainingDefinitionStateEnum} from "../../../../enums/training-definition-state.enum";
-import {TrainingDefinitionSetterService} from "../../../../services/data-setters/training-definition-setter.service";
-import {AlertService} from "../../../../services/event-services/alert.service";
-import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
-import {SandboxDefinitionPickerComponent} from "./sandbox-definition-picker/sandbox-definition-picker.component";
-import {MatDialog} from "@angular/material";
-import {AuthorsPickerComponent} from "./authors-picker/authors-picker.component";
-import {User} from "../../../../model/user/user";
-import {SandboxDefinition} from "../../../../model/sandbox/sandbox-definition";
-import {UserGetterService} from "../../../../services/data-getters/user-getter.service";
-import {SandboxDefinitionGetterService} from "../../../../services/data-getters/sandbox-definition-getter.service";
-import {Router} from "@angular/router";
-import {ActiveUserService} from "../../../../services/active-user.service";
+import {TrainingDefinition} from '../../../../model/training/training-definition';
+import {TrainingDefinitionStateEnum} from '../../../../enums/training-definition-state.enum';
+import {TrainingDefinitionSetterService} from '../../../../services/data-setters/training-definition-setter.service';
+import {AlertService} from '../../../../services/event-services/alert.service';
+import {AlertTypeEnum} from '../../../../enums/alert-type.enum';
+import {SandboxDefinitionPickerComponent} from './sandbox-definition-picker/sandbox-definition-picker.component';
+import {MatDialog} from '@angular/material';
+import {AuthorsPickerComponent} from './authors-picker/authors-picker.component';
+import {User} from '../../../../model/user/user';
+import {SandboxDefinition} from '../../../../model/sandbox/sandbox-definition';
+import {UserGetterService} from '../../../../services/data-getters/user-getter.service';
+import {SandboxDefinitionGetterService} from '../../../../services/data-getters/sandbox-definition-getter.service';
+import {Router} from '@angular/router';
+import {ActiveUserService} from '../../../../services/active-user.service';
+import {ComponentErrorHandlerService} from '../../../../services/component-error-handler.service';
+import {map} from 'rxjs/operators';
+import {StateChangeDialogComponent} from '../state-change-dialog/state-change-dialog.component';
+import {Observable, of} from 'rxjs';
 
 /**
  * Component for creating new or editing already existing training definition
@@ -26,13 +30,14 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
 
   @Input('trainingDefinition') trainingDefinition: TrainingDefinition;
   @Output('isTrainingSaved') savedTrainingChange = new EventEmitter<boolean>();
+  @Output('trainingDefId') idChange = new EventEmitter<number>();
 
   editMode: boolean;
 
   title: string;
   description: string;
-  prerequisites: string;
-  outcomes: string;
+  prerequisites: string[];
+  outcomes: string[];
   authors: User[];
   sandboxDef: SandboxDefinition;
   selectedState: string;
@@ -44,9 +49,10 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
   constructor(
     private router: Router,
     private dialog: MatDialog,
-    private activeUserService: ActiveUserService,
+    private errorHandler: ComponentErrorHandlerService,
     private alertService: AlertService,
     private userGetter: UserGetterService,
+    private activeUserService: ActiveUserService,
     private sandboxDefinitionGetter: SandboxDefinitionGetterService,
     private trainingDefinitionSetter: TrainingDefinitionSetterService) {
 
@@ -102,10 +108,12 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
    */
   saveTrainingDef() {
     if (this.validateInput()) {
-      this.setInputValuesToTrainingDef();
-      this.sendRequestToSaveChanges();
-      this.savedTrainingChange.emit(true);
-      this.dirty = false;
+      this.checkStateChange().subscribe(confirmed => {
+        if (confirmed) {
+          this.setInputValuesToTrainingDef();
+          this.sendRequestToSaveChanges();
+        }
+      })
     }
   }
 
@@ -113,24 +121,73 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.dirty = true;
   }
 
+  private performActionsAfterSuccessfulSave(id: number) {
+    this.trainingDefinition.id = id;
+    this.idChange.emit(id);
+    this.savedTrainingChange.emit(true);
+    this.dirty = false;
+    this.redirectIfStateNotUnreleased();
+    this.resolveModeAfterSuccessfulSave();
+  }
+
+  private resolveModeAfterSuccessfulSave() {
+    if (!this.editMode && this.trainingDefinition.state == TrainingDefinitionStateEnum.Unreleased) {
+      this.router.navigate(['designer/training/' + this.trainingDefinition.id]);
+    }
+    if (!this.editMode) {
+      this.editMode = true;
+    }
+  }
+
   /**
    * Sends request to endpoint to save changes in edited training definition or to create a new one based on currently active mode
    */
   private sendRequestToSaveChanges() {
     if (this.editMode) {
-      this.trainingDefinitionSetter.updateTrainingDefinition(this.trainingDefinition)
-        .subscribe(response => this.alertService.emitAlert(AlertTypeEnum.Success, 'Changes were successfully saved.'),
-          (err) => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Changes were not saved.')
-        );
+      this.sendUpdateTrainingDefinitionRequest();
     } else {
-      this.trainingDefinitionSetter.addTrainingDefinition(this.trainingDefinition)
-        .subscribe(response => {
-          this.trainingDefinition.id = response;
-          this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully saved.')
-          },
-          (err) => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Training was not saved.')
-        )
+      this.sendCreateTrainingDefinitionRequest()
     }
+  }
+
+  private redirectIfStateNotUnreleased() {
+    if (this.trainingDefinition.state !== TrainingDefinitionStateEnum.Unreleased) {
+      this.router.navigate(['/designer']);
+    }
+  }
+
+  private checkStateChange(): Observable<boolean> {
+    if (!this.editMode || this.selectedState === TrainingDefinitionStateEnum.Unreleased ) {
+      return of(true);
+    } else {
+      return this.displayUserDialogToConfirmStateChange()
+    }
+  }
+
+  private displayUserDialogToConfirmStateChange(): Observable<boolean> {
+    const dialogRef = this.dialog.open(StateChangeDialogComponent, {data: this.selectedState});
+    return dialogRef.afterClosed()
+      .pipe(map(result => result && result.type === 'confirm'));
+  }
+
+  private sendUpdateTrainingDefinitionRequest() {
+    this.trainingDefinitionSetter.updateTrainingDefinition(this.trainingDefinition)
+      .subscribe(response => {
+          this.alertService.emitAlert(AlertTypeEnum.Success, 'Changes were successfully saved.');
+          this.performActionsAfterSuccessfulSave(response);
+        },
+        err => this.errorHandler.displayHttpError(err, 'Editing training definition')
+      );
+  }
+
+  private sendCreateTrainingDefinitionRequest() {
+    this.trainingDefinitionSetter.createTrainingDefinition(this.trainingDefinition)
+      .subscribe(response => {
+          this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully saved.');
+          this.performActionsAfterSuccessfulSave(response);
+        },
+        err => this.errorHandler.displayHttpError(err, 'Creating new training definition')
+      )
   }
 
   /**
@@ -140,12 +197,8 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     if (!this.trainingDefinition) {
       this.editMode = false;
       this.initValuesForNewTraining();
-      this.trainingDefinition = new TrainingDefinition(
-        null,
-        [],
-        TrainingDefinitionStateEnum.Unreleased,
-        []
-      );
+      this.trainingDefinition = new TrainingDefinition();
+      this.trainingDefinition.state = TrainingDefinitionStateEnum.Unreleased;
       this.trainingDefinition.title = 'New Training Definition';
       this.showProgress = true;
     } else {
@@ -160,9 +213,10 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
   private initValuesForNewTraining() {
     this.title = '';
     this.description = '';
-    this.prerequisites = '';
-    this.outcomes = '';
+    this.prerequisites = [''];
+    this.outcomes = [''];
     this.selectedState = 'unreleased';
+    this.authors = [this.activeUserService.getActiveUser()];
   }
 
   /**
@@ -176,7 +230,16 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.selectedState = this.trainingDefinition.state;
     this.showProgress = this.trainingDefinition.showProgress;
 
-    this.userGetter.loadUsersByIds(this.trainingDefinition.authorIds)
+    if (!this.prerequisites) this.prerequisites = [''];
+    if (!this.outcomes) this.outcomes = [''];
+
+    let userIds = [];
+    if (this.trainingDefinition.authorIds.length > 0 && this.trainingDefinition.authorIds[0] instanceof User) {
+      userIds = this.trainingDefinition.authorIds.map((user: User) => user.id);
+    } else {
+      userIds = this.trainingDefinition.authorIds;
+    }
+    this.userGetter.loadUsersByIds(userIds)
       .subscribe(authors => this.authors = authors);
 
     this.sandboxDefinitionGetter.getSandboxDefById(this.trainingDefinition.sandboxDefinitionId)

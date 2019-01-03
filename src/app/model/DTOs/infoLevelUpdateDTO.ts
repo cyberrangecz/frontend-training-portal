@@ -11,13 +11,27 @@
  */
 
 
+import {AbstractLevelDTO} from "./abstractLevelDTO";
+import {PostHookDTO} from "./postHookDTO";
+import {PreHookDTO} from "./preHookDTO";
+
 /**
  * Info Level to update.
  */
-export interface InfoLevelUpdateDTO {
+export interface InfoLevelUpdateDTO extends AbstractLevelDTO{
     content?: string;
     id?: number;
-    maxScore?: number;
-    nextLevel?: number;
     title?: string;
+}
+
+export class InfoLevelUpdateDTOClass implements InfoLevelUpdateDTO {
+  level_type: AbstractLevelDTO.LevelTypeEnum;
+  max_score: number;
+  next_level: number;
+  order: number;
+  post_hook: PostHookDTO;
+  pre_hook: PreHookDTO;
+  content: string;
+  id: number;
+  title: string;
 }
