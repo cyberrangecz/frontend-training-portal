@@ -14,33 +14,31 @@ Implementation of the frontend for KYPO Trainings (former Capture the flag games
 ## Initial Configuration
 You need to configure environments.ts file located in project directory.
 ```
-  trainingRestBasePath: 'http://localhost:8080/kypo2-rest-training/api/v1/', // where Trainings REST is running
-  usersEndpointUri: 'http://localhost:3000/users/', // where Json-Server is running
-  sandboxDefsEndpointUri: 'http://localhost:3000/sandbox-definitions/', // where Json-Server is running
+  production: false,
+  // REST API PATHS
+  trainingRestBasePath: 'http://localhost:8080/kypo2-rest-training/api/v1/',
+  usersEndpointUri: 'http://localhost:3000/users/',
   sandboxDefsEndpointUri: 'http://localhost:3000/sandbox-definitions/',
   trainingDefsEndpointUri:  this.trainingRestBasePath + 'training-definitions/',
   trainingInstancesEndpointUri: this.trainingRestBasePath +  + 'training-instances/',
   trainingRunsEndpointUri:  this.trainingRestBasePath + 'training-runs/',
   levelsEndpointUri:  this.trainingRestBasePath + 'levels/',
 
+  // BEHAVIOUR SETTINGS
   defaultAlertDuration: 2500, // 0 to display until user dismisses it
   defaultPaginationSize: 5,
 
+  // OIDC SETTINGS
   // Url of the Identity Provider
   issuer: 'https://oidc.ics.muni.cz/oidc/',
-
   // URL of the SPA to redirect the user after silent refresh
   silentRefreshRedirectUri: window.location.origin + '/silent-refresh.html',
-
   // URL of the SPA to redirect the user to after login
   redirectUri: window.location.origin + '/index.html',
-
   // The SPA's id. The SPA is registered with this id at the auth-server
-  clientId: 'Your OIDC Client id here',
-
+  clientId: 'Your OIDC Client ID here',
   // set the scope for the permissions the client should request
   scope: 'openid profile email',
-
   sessionChecksEnabled: false,
 ```
 
