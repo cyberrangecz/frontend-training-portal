@@ -13,5 +13,5 @@
 
 export interface UserRefDTO {
     id?: number;
-    user_ref_id?: number;
+    user_ref_login?: string;
 }

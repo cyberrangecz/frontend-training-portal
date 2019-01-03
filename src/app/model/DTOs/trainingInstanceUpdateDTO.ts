@@ -24,7 +24,7 @@ export interface TrainingInstanceUpdateDTO {
     pool_size?: number;
     start_time?: string;
     title?: string;
-    training_definition_io?: number;
+    training_definition_id?: number;
 }
 
 export class TrainingInstanceUpdateDTOClass implements TrainingInstanceUpdateDTO {

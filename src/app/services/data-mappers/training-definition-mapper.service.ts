@@ -75,8 +75,8 @@ export class TrainingDefinitionMapperService {
 
   private getAuthorRefDtoFromDTO(trainingDefinitionDTO: TrainingDefinitionDTO): number[] {
     let result = [];
-    if (trainingDefinitionDTO.author_ref) {
-      result = trainingDefinitionDTO.author_ref.map(author => author.id);
+    if (trainingDefinitionDTO.authors) {
+      result = trainingDefinitionDTO.authors.map(author => author.id);
     }
     return result;
   }

@@ -19,7 +19,7 @@ import {AbstractLevelDTO} from "./abstractLevelDTO";
  * .
  */
 export interface TrainingDefinitionDTO {
-    author_ref?: Array<AuthorRefDTO>;
+    authors?: Array<AuthorRefDTO>;
     levels?: Array<AbstractLevelDTO>;
     description?: string;
     id?: number;
@@ -33,7 +33,7 @@ export interface TrainingDefinitionDTO {
 }
 
 export class TrainingDefinitionDTOClass {
-  author_ref?: Array<AuthorRefDTO>;
+  authors?: Array<AuthorRefDTO>;
   levels?: Array<AbstractLevelDTO>;
   description?: string;
   id?: number;
