@@ -5,9 +5,9 @@
   <mat-divider></mat-divider>
   <div class="content">
     <mat-form-field appearance="outline">
-      <mat-label>Password</mat-label>
-      <input matInput placeholder="Password" [(ngModel)]="password" required>
-      <button mat-button *ngIf="password" matSuffix mat-icon-button aria-label="Clear" (click)="password=''">
+      <mat-label>Access Token</mat-label>
+      <input matInput placeholder="Access Token" [(ngModel)]="accessToken" required>
+      <button mat-button *ngIf="accessToken" matSuffix mat-icon-button aria-label="Clear" (click)="accessToken=''">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>

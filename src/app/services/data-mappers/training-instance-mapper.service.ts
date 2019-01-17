@@ -64,7 +64,7 @@ export class TrainingInstanceMapperService {
     result.title = trainingInstanceDTO.title;
     result.poolSize = trainingInstanceDTO.pool_size;
     result.organizersIds = trainingInstanceDTO.organizers.map(organizer => organizer.id);
-    result.keyword = trainingInstanceDTO.access_token;
+    result.accessToken = trainingInstanceDTO.access_token;
     return result;
   }
 
@@ -78,7 +78,7 @@ export class TrainingInstanceMapperService {
     result.pool_size = trainingInstance.poolSize;
     result.start_time = trainingInstance.startTime.toISOString();
     result.end_time = trainingInstance.endTime.toISOString();
-    result.access_token = trainingInstance.keyword;
+    result.access_token = trainingInstance.accessToken;
     result.org_ids =  trainingInstance.organizersIds;
     result.training_definition_id = trainingInstance.trainingDefinition.id;
     return result;
@@ -95,7 +95,7 @@ export class TrainingInstanceMapperService {
     result.pool_size = trainingInstance.poolSize;
     result.start_time = trainingInstance.startTime.toISOString();
     result.end_time = trainingInstance.endTime.toISOString();
-    result.access_token = trainingInstance.keyword;
+    result.access_token = trainingInstance.accessToken;
     result.org_ids =  trainingInstance.organizersIds;
     result.training_definition_id = trainingInstance.trainingDefinition.id;
     return result;

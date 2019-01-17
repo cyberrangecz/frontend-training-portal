@@ -26,7 +26,7 @@ import {ComponentErrorHandlerService} from "../../../../services/component-error
  */
 export class TrainingInstancesListComponent implements OnInit {
 
-  displayedColumns: string[] = ['title', 'date', 'trainingDefinition', 'poolSize', 'password', 'actions'];
+  displayedColumns: string[] = ['title', 'date', 'trainingDefinition', 'poolSize', 'accessToken', 'actions'];
 
   dataSource: MatTableDataSource<TrainingInstanceTableDataModel>;
 

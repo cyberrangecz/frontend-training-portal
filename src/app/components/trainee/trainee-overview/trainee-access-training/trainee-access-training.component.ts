@@ -13,11 +13,11 @@ import {AbstractLevel} from "../../../../model/level/abstract-level";
   styleUrls: ['./trainee-access-training.component.css']
 })
 /**
- * Components where user can access active training run by inserting correct password
+ * Components where user can access active training run by inserting correct accessToken
  */
 export class TraineeAccessTrainingComponent implements OnInit {
 
-  password: string;
+  accessToken: string;
 
   constructor(
     private router: Router,
@@ -31,12 +31,12 @@ export class TraineeAccessTrainingComponent implements OnInit {
   }
 
   /**
-   * Finds active training run with matching password and allocates resources for the trainee.
+   * Finds active training run with matching accessToken and allocates resources for the trainee.
    * If resources are allocated, navigates user to the first level of the training
    */
   access() {
-    if (this.password && this.password.replace(/\s/g, '') !== '') {
-      this.trainingRunSetterService.accessTrainingRun(this.password)
+    if (this.accessToken && this.accessToken.replace(/\s/g, '') !== '') {
+      this.trainingRunSetterService.accessTrainingRun(this.accessToken)
         .subscribe(resp => {
           if (resp.currentLevel && resp.levels && resp.levels.length > 0) {
             this.sortReceivedLevels(resp.levels);

@@ -35,7 +35,7 @@ export class TrainingInstanceEditComponent implements OnInit {
   poolSize: number;
   organizers: User[];
   trainingDefinition: TrainingDefinition;
-  password: string;
+  accessToken: string;
 
 
   constructor(
@@ -137,7 +137,7 @@ export class TrainingInstanceEditComponent implements OnInit {
       errorMessage += 'Pool size must be number in range from 1 to 100\n'
     }
 
-    if (!this.password || this.password.replace(/\s/g, '') === '') {
+    if (!this.accessToken || this.accessToken.replace(/\s/g, '') === '') {
       errorMessage += 'Password cannot be empty\n'
     }
 
@@ -182,7 +182,7 @@ export class TrainingInstanceEditComponent implements OnInit {
     this.trainingInstance.poolSize = this.poolSize;
     this.trainingInstance.organizersIds = this.organizers.map(user => user.id);
     this.trainingInstance.trainingDefinition = this.trainingDefinition;
-    this.trainingInstance.keyword = this.password;
+    this.trainingInstance.accessToken = this.accessToken;
   }
 
   /**
@@ -196,7 +196,7 @@ export class TrainingInstanceEditComponent implements OnInit {
     this.userGetter.loadUsersByIds(this.trainingInstance.organizersIds)
       .subscribe(organizers => this.organizers = organizers);
     this.trainingDefinition = this.trainingInstance.trainingDefinition;
-    this.password = this.trainingInstance.keyword;
+    this.accessToken = this.trainingInstance.accessToken;
 
   }
 

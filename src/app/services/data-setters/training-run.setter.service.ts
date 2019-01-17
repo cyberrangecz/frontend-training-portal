@@ -28,8 +28,8 @@ export class TrainingRunSetterService {
   }
 
   /**
-   * Tries to access training run with password. Returns training run if the password is correct
-   * @param password password to access the training run
+   * Tries to access training run with accessToken. Returns training run if the accessToken is correct
+   * @param password accessToken to access the training run
    */
   accessTrainingRun(password: string): Observable<AccessTrainingRun> {
     return this.http.post<AccessTrainingRunDTO>(environment.trainingRunsEndpointUri + "?accessToken=" + password, {})

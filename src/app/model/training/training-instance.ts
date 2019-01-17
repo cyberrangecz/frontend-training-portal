@@ -12,7 +12,7 @@ export class TrainingInstance {
   title: string;
   poolSize: number;
   organizersIds: number[];
-  keyword: string;
+  accessToken: string;
 
 
   constructor() {
