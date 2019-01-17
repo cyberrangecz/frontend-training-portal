@@ -11,8 +11,8 @@ import {MatDialog} from "@angular/material";
 import {RevealHintDialogComponent} from "./user-action-dialogs/reveal-hint-dialog/reveal-hint-dialog.component";
 import {RevealSolutionDialogComponent} from "./user-action-dialogs/reveal-solution-dialog/reveal-solution-dialog.component";
 import {WrongFlagDialogComponent} from "./user-action-dialogs/wrong-flag-dialog/wrong-flag-dialog.component";
-import {TrainingRunSetterService} from "../../../../../services/data-setters/training-run.setter.service";
 import {ComponentErrorHandlerService} from "../../../../../services/component-error-handler.service";
+import {TrainingRunFacade} from "../../../../../services/facades/training-run-facade.service";
 
 @Component({
   selector: 'training-run-game-level',
@@ -44,7 +44,7 @@ export class TrainingRunGameLevelComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private trainingRunSetter: TrainingRunSetterService,
+    private trainingRunFacade: TrainingRunFacade,
     private errorHandler: ComponentErrorHandlerService,
     private activeLevelService: ActiveTrainingRunLevelsService) { }
 
@@ -72,7 +72,7 @@ export class TrainingRunGameLevelComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
         this.displayedText += '\n\n## <span style="color:slateblue">Hint ' + index + ": " + hintButton.hint.title + "</span>\n" + hintButton.hint.content;
-        this.trainingRunSetter.takeHint(this.activeLevelService.trainingRunId, hintButton.hint.id)
+        this.trainingRunFacade.takeHint(this.activeLevelService.trainingRunId, hintButton.hint.id)
           .subscribe(resp => {
             hintButton.displayed = true;
             // TODO: display content
@@ -115,7 +115,7 @@ export class TrainingRunGameLevelComponent implements OnInit {
    * Checks whether the flag is correct and perform appropriate actions
    */
   submitFlag() {
-    this.trainingRunSetter.isCorrectFlag(this.activeLevelService.trainingRunId, this.flag)
+    this.trainingRunFacade.isCorrectFlag(this.activeLevelService.trainingRunId, this.flag)
       .subscribe(resp => {
         if (resp.isCorrect) {
           this.runActionsAfterCorrectFlagSubmitted();
@@ -185,7 +185,7 @@ export class TrainingRunGameLevelComponent implements OnInit {
         .map(hintButton => hintButton.displayed ? hintButton.hint.hintPenalty : 0)
         .reduce((sum, currentHintPoints) => sum + currentHintPoints);
     }*/
-    this.trainingRunSetter.takeSolution(this.activeLevelService.trainingRunId)
+    this.trainingRunFacade.takeSolution(this.activeLevelService.trainingRunId)
       .subscribe(resp => {
         this.solutionShown = true;
         this.displayedText = resp;

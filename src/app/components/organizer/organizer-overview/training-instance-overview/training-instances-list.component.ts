@@ -3,12 +3,11 @@ import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from "@angular/mat
 import {TrainingInstance} from "../../../../model/training/training-instance";
 import {AlertService} from "../../../../services/event-services/alert.service";
 import {ActiveUserService} from "../../../../services/active-user.service";
-import {TrainingInstanceGetterService} from "../../../../services/data-getters/training-instance-getter.service";
+import {TrainingInstanceFacade} from "../../../../services/facades/training-instance-facade.service";
 import {TrainingEditPopupComponent} from "./training-edit-popup/training-edit-popup.component";
 import {TrainingDeleteDialogComponent} from "./training-delete-dialog/training-delete-dialog.component";
 import {merge, of} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
-import {TrainingInstanceSetterService} from "../../../../services/data-setters/training-instance-setter.service";
 import {environment} from "../../../../../environments/environment";
 import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
 import {TrainingInstanceTableDataModel} from "../../../../model/table-models/training-instance-table-data-model";
@@ -45,8 +44,7 @@ export class TrainingInstancesListComponent implements OnInit {
     private alertService: AlertService,
     private errorHandler: ComponentErrorHandlerService,
     private activeUserService: ActiveUserService,
-    private trainingInstanceGetter: TrainingInstanceGetterService,
-    private trainingInstanceSetter: TrainingInstanceSetterService
+    private trainingInstanceFacade: TrainingInstanceFacade
   ) { }
 
   ngOnInit() {
@@ -90,7 +88,7 @@ export class TrainingInstancesListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
-        this.trainingInstanceSetter.removeTrainingInstance(training.trainingInstance.id)
+        this.trainingInstanceFacade.removeTrainingInstance(training.trainingInstance.id)
           .subscribe(response => {
             this.alertService.emitAlert(AlertTypeEnum.Success, 'Training instance was successfully removed.');
             this.fetchData();
@@ -107,7 +105,7 @@ export class TrainingInstancesListComponent implements OnInit {
    */
   archiveTraining(id: number) {
     // TODO: call rest to download all training instances data
-    this.trainingInstanceGetter.downloadTrainingInstance(id)
+    this.trainingInstanceFacade.downloadTrainingInstance(id)
   }
 
   /**
@@ -115,7 +113,7 @@ export class TrainingInstancesListComponent implements OnInit {
    * @param trainingInstanceId Id of training instance for which should sanboxes be allocated
    */
   allocateTrainingInstanceSandboxes(trainingInstanceId: number) {
-    this.trainingInstanceSetter.allocateSandboxesForTrainingInstance(trainingInstanceId)
+    this.trainingInstanceFacade.allocateSandboxesForTrainingInstance(trainingInstanceId)
       .subscribe(response => {
         this.alertService.emitAlert(AlertTypeEnum.Info, 'Allocation of sandboxes for selected training instance have begun.');
         // TODO: change state or bool so the allocation could not be requested again
@@ -156,7 +154,7 @@ export class TrainingInstancesListComponent implements OnInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.trainingInstanceGetter.getTrainingInstancesWithPagination(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
+          return this.trainingInstanceFacade.getTrainingInstancesWithPagination(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
         }),
         map(data => {
           // Flip flag to show that loading has finished.

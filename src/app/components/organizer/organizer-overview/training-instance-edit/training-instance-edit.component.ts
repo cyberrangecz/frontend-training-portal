@@ -6,11 +6,11 @@ import {MatDialog} from "@angular/material";
 import {OrganizersPickerComponent} from "./organizers-picker/organizers-picker.component";
 import {TrainingDefinitionPickerComponent} from "./training-definition-picker/training-definition-picker.component";
 import {TrainingInstance} from "../../../../model/training/training-instance";
-import {UserGetterService} from "../../../../services/data-getters/user-getter.service";
-import {TrainingDefinitionGetterService} from "../../../../services/data-getters/training-definition-getter.service";
+import {UserFacade} from "../../../../services/facades/user-facade.service";
+import {TrainingDefinitionFacade} from "../../../../services/facades/training-definition-facade.service";
 import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
-import {TrainingInstanceSetterService} from "../../../../services/data-setters/training-instance-setter.service";
 import {ActiveUserService} from "../../../../services/active-user.service";
+import {TrainingInstanceFacade} from "../../../../services/facades/training-instance-facade.service";
 
 @Component({
   selector: 'training-instance-definition',
@@ -40,10 +40,10 @@ export class TrainingInstanceEditComponent implements OnInit {
 
   constructor(
     private alertService: AlertService,
-    private userGetter: UserGetterService,
+    private userFacade: UserFacade,
     private activeUserService: ActiveUserService,
-    private trainingDefinitionGetter: TrainingDefinitionGetterService,
-    private trainingInstanceSetter: TrainingInstanceSetterService,
+    private trainingDefinitionFacade: TrainingDefinitionFacade,
+    private trainingInstanceFacade: TrainingInstanceFacade,
     private dialog: MatDialog) {
   }
 
@@ -83,7 +83,7 @@ export class TrainingInstanceEditComponent implements OnInit {
     if (this.validateInputValues()) {
       this.setInputValuesToTraining();
       if (this.editMode) {
-        this.trainingInstanceSetter.updateTrainingInstance(this.trainingInstance)
+        this.trainingInstanceFacade.updateTrainingInstance(this.trainingInstance)
           .subscribe(response => {
             this.alertService.emitAlert(AlertTypeEnum.Success, 'Changes were successfully saved.');
             this.trainingChanged();
@@ -91,7 +91,7 @@ export class TrainingInstanceEditComponent implements OnInit {
             (err) => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Changes were not saved.')
           );
       } else {
-        this.trainingInstanceSetter.createTrainingInstance(this.trainingInstance)
+        this.trainingInstanceFacade.createTrainingInstance(this.trainingInstance)
           .subscribe(response => {
             this.alertService.emitAlert(AlertTypeEnum.Success, 'Changes were successfully saved.');
             this.trainingChanged();
@@ -193,7 +193,7 @@ export class TrainingInstanceEditComponent implements OnInit {
     this.endTime = this.trainingInstance.endTime;
     this.title = this.trainingInstance.title;
     this.poolSize = this.trainingInstance.poolSize;
-    this.userGetter.loadUsersByIds(this.trainingInstance.organizersIds)
+    this.userFacade.loadUsersByIds(this.trainingInstance.organizersIds)
       .subscribe(organizers => this.organizers = organizers);
     this.trainingDefinition = this.trainingInstance.trainingDefinition;
     this.accessToken = this.trainingInstance.accessToken;

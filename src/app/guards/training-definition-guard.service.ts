@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot, CanActivate, CanDeactivate, Router, RouterStateSnapshot} from "@angular/router";
 import {Observable} from "rxjs/internal/Observable";
 import {ActiveUserService} from "../services/active-user.service";
-import {TrainingDefinitionGetterService} from "../services/data-getters/training-definition-getter.service";
+import {TrainingDefinitionFacade} from "../services/facades/training-definition-facade.service";
 import {map} from "rxjs/operators";
 import {TrainingDefinitionStateEnum} from "../enums/training-definition-state.enum";
 import {AlertService} from "../services/event-services/alert.service";
@@ -18,12 +18,12 @@ export class TrainingDefinitionGuard implements CanActivate, CanDeactivate<Train
     private router: Router,
     private alertService: AlertService,
     private activeUserService: ActiveUserService,
-    private trainingDefinitionGetter: TrainingDefinitionGetterService) {
+    private trainingDefinitionFacade: TrainingDefinitionFacade) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     const id = +route.paramMap.get('id');
-    return this.trainingDefinitionGetter.getTrainingDefinitionById(id)
+    return this.trainingDefinitionFacade.getTrainingDefinitionById(id)
       .pipe(map((trainingDef => {
         // Training definition with such id either does not exist, cannot be edited or user is not authorized to edit it
         if (!trainingDef

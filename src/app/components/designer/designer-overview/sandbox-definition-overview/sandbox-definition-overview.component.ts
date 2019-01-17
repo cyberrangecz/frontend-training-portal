@@ -2,10 +2,9 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
 import {SandboxDefinition} from "../../../../model/sandbox/sandbox-definition";
 import {ActiveUserService} from "../../../../services/active-user.service";
-import {SandboxDefinitionGetterService} from "../../../../services/data-getters/sandbox-definition-getter.service";
-import {TrainingDefinitionGetterService} from "../../../../services/data-getters/training-definition-getter.service";
+import {SandboxDefinitionFacade} from "../../../../services/facades/sandbox-definition-facade.service";
+import {TrainingDefinitionFacade} from "../../../../services/facades/training-definition-facade.service";
 import {AlertService} from "../../../../services/event-services/alert.service";
-import {SandboxDefinitionSetterService} from "../../../../services/data-setters/sandbox-definition-setter.service";
 import {TrainingDefinitionStateEnum} from "../../../../enums/training-definition-state.enum";
 import {TrainingDefinition} from "../../../../model/training/training-definition";
 import {UploadDialogComponent} from "../../../shared/upload-dialog/upload-dialog.component";
@@ -45,9 +44,8 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
     private alertService: AlertService,
     private errorHandler: ComponentErrorHandlerService,
     private activeUserService: ActiveUserService,
-    private trainingDefinitionGetter: TrainingDefinitionGetterService,
-    private sandboxDefinitionGetter: SandboxDefinitionGetterService,
-    private sandboxDefinitionSetter: SandboxDefinitionSetterService
+    private trainingDefinitionFacade: TrainingDefinitionFacade,
+    private sandboxDefinitionFacade: SandboxDefinitionFacade,
   ) {
   }
 
@@ -88,7 +86,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
    * @param {SandboxDefinitionTableDataObject} sandboxDataObject sandbox definition data object which should be deleted
    */
   removeSandboxDefinition(sandboxDataObject: SandboxDefinitionTableDataModel) {
-    this.sandboxDefinitionSetter.removeSandboxDefinition(sandboxDataObject.sandbox.id)
+    this.sandboxDefinitionFacade.removeSandboxDefinition(sandboxDataObject.sandbox.id)
       .subscribe(resp => {
         this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox was successfully removed.');
         this.fetchData();
@@ -112,7 +110,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
    */
   deploySandboxDefinition(id: number) {
     // TODO: Handle response
-    this.sandboxDefinitionSetter.deploySandboxDefinition(id)
+    this.sandboxDefinitionFacade.deploySandboxDefinition(id)
       .subscribe(resp => {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox was successfully download.');
           this.fetchData();
@@ -138,7 +136,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.sandboxDefinitionGetter.getSandboxDefsWithPagination(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
+          return this.sandboxDefinitionFacade.getSandboxDefsWithPagination(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
         }),
         map(data => {
           // Flip flag to show that loading has finished.
@@ -164,7 +162,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
     data.forEach(sandbox => {
       const tableDataObject = new SandboxDefinitionTableDataModel();
       tableDataObject.sandbox = sandbox;
-      this.trainingDefinitionGetter.getTrainingDefinitionsBySandboxDefinitionId(sandbox.id)
+      this.trainingDefinitionFacade.getTrainingDefinitionsBySandboxDefinitionId(sandbox.id)
         .subscribe(result => {
           tableDataObject.associatedTrainingDefinitions = result;
           tableDataObject.canBeRemoved = this.canSandboxBeRemoved(tableDataObject.sandbox, tableDataObject.associatedTrainingDefinitions);

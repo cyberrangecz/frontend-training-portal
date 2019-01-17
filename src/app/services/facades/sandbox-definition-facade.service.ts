@@ -5,13 +5,14 @@ import {SandboxDefinition} from "../../model/sandbox/sandbox-definition";
 import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
 import {PaginationParams} from "../../model/http/params/pagination-params";
+import {of} from "rxjs";
 
 @Injectable()
 /**
  * Service to abstract from sandbox definition endpoint.
  * Can retrieve sandbox definition based on several parameters
  */
-export class SandboxDefinitionGetterService {
+export class SandboxDefinitionFacade {
 
   constructor(private http: HttpClient) {
   }
@@ -48,6 +49,20 @@ export class SandboxDefinitionGetterService {
   getSandboxDefById(id: number): Observable<SandboxDefinition> {
     return this.http.get(environment.sandboxDefsEndpointUri + id)
       .pipe(map(response => this.parseSandboxDef(response)));
+  }
+
+  /**
+   * Sends request to remove sandbox definition with provided id
+   * @param {number} id id of sandbox definition which should be removed
+   */
+  removeSandboxDefinition(id: number): Observable<any> {
+    return of(null)
+    // TODO: REQUEST to remove sandbox with id
+  }
+
+  deploySandboxDefinition(id: number): Observable<any> {
+    return of(null)
+    // TODO: REQUEST to deploy sandbox deifiniton
   }
 
   /**

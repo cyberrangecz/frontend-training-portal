@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {TrainingDefinitionGetterService} from "../../../../services/data-getters/training-definition-getter.service";
+import {TrainingDefinitionFacade} from "../../../../services/facades/training-definition-facade.service";
 import {TrainingDefinition} from "../../../../model/training/training-definition";
 import {ActiveUserService} from "../../../../services/active-user.service";
 import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
@@ -7,8 +7,7 @@ import {TrainingDefinitionStateEnum} from "../../../../enums/training-definition
 import {ActivatedRoute, Router} from "@angular/router";
 import {UploadDialogComponent} from "../../../shared/upload-dialog/upload-dialog.component";
 import {AlertService} from "../../../../services/event-services/alert.service";
-import {TrainingDefinitionSetterService} from "../../../../services/data-setters/training-definition-setter.service";
-import {TrainingInstanceGetterService} from "../../../../services/data-getters/training-instance-getter.service";
+import {TrainingInstanceFacade} from "../../../../services/facades/training-instance-facade.service";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {merge, of} from "rxjs";
 import {environment} from "../../../../../environments/environment";
@@ -49,9 +48,8 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
     private activeUserService: ActiveUserService,
     private alertService: AlertService,
     private errorHandler: ComponentErrorHandlerService,
-    private trainingInstanceGetter: TrainingInstanceGetterService,
-    private trainingDefinitionGetter: TrainingDefinitionGetterService,
-    private trainingDefinitionSetter: TrainingDefinitionSetterService) {
+    private traininigInstanceFacade: TrainingInstanceFacade,
+    private trainingDefinitionFacade: TrainingDefinitionFacade) {
   }
 
   ngOnInit() {
@@ -106,7 +104,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    * @param {number} id id of training definition which should be downloaded
    */
   downloadTrainingDefinition(id: number) {
-    this.trainingDefinitionGetter.downloadTrainingDefinition(id);
+    this.trainingDefinitionFacade.downloadTrainingDefinition(id);
   }
 
   /**
@@ -114,7 +112,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    * @param {number} id training definition which should be deleted
    */
   removeTrainingDefinition(id: number) {
-    this.trainingDefinitionSetter.removeTrainingDefinition(id)
+    this.trainingDefinitionFacade.removeTrainingDefinition(id)
       .subscribe(resp => {
         this.alertService.emitAlert(AlertTypeEnum.Success, 'Training definition was successfully deleted');
         this.fetchData();
@@ -129,7 +127,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    * @param {number} id id of training definition which should be cloned
    */
   cloneTrainingDefinition(id: number) {
-    this.trainingDefinitionSetter.cloneTrainingDefinition(id)
+    this.trainingDefinitionFacade.cloneTrainingDefinition(id)
       .subscribe(response => {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully cloned.');
           this.fetchData();
@@ -144,7 +142,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
   archiveTrainingDefinition(trainingDef: TrainingDefinition) {
     const tempState = trainingDef.state;
     trainingDef.state = TrainingDefinitionStateEnum.Archived;
-    this.trainingDefinitionSetter.updateTrainingDefinition(trainingDef)
+    this.trainingDefinitionFacade.updateTrainingDefinition(trainingDef)
       .subscribe(response => {
         this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully archived.');
         this.fetchData();
@@ -178,7 +176,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.trainingDefinitionGetter.getTrainingDefinitionsWithPagination(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
+          return this.trainingDefinitionFacade.getTrainingDefinitionsWithPagination(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
         }),
         map(data => {
           this.isLoadingResults = false;

@@ -3,7 +3,7 @@ import {ActiveTrainingInstanceService} from "../../../../../services/active-trai
 import {TrainingInstance} from "../../../../../model/training/training-instance";
 import {TrainingDefinition} from "../../../../../model/training/training-definition";
 import {User} from "../../../../../model/user/user";
-import {UserGetterService} from "../../../../../services/data-getters/user-getter.service";
+import {UserFacade} from "../../../../../services/facades/user-facade.service";
 
 @Component({
   selector: 'training-info',
@@ -22,7 +22,7 @@ export class TrainingInfoComponent implements OnInit, OnDestroy {
   trainingChangesSubscription;
 
   constructor(private activeTrainingInstanceService: ActiveTrainingInstanceService,
-              private userGetter: UserGetterService) { }
+              private userFacade: UserFacade) { }
 
   ngOnInit() {
     this.loadData();
@@ -36,7 +36,7 @@ export class TrainingInfoComponent implements OnInit, OnDestroy {
     this.trainingInstance = this.activeTrainingInstanceService.getActiveTrainingInstance();
     if (this.trainingInstance) {
       this.trainingDefinition = this.trainingInstance.trainingDefinition;
-      this.userGetter.loadUsersByIds(this.trainingInstance.organizersIds)
+      this.userFacade.loadUsersByIds(this.trainingInstance.organizersIds)
         .subscribe(organizers => this.organizers = organizers);
     }
   }

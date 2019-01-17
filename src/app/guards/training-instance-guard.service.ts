@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
 import {Observable} from "rxjs/internal/Observable";
 import {map} from "rxjs/operators";
-import {TrainingInstanceGetterService} from "../services/data-getters/training-instance-getter.service";
+import {TrainingInstanceFacade} from "../services/facades/training-instance-facade.service";
 import {ActiveUserService} from "../services/active-user.service";
 
 /**
@@ -13,14 +13,14 @@ export class TrainingInstanceGuard implements CanActivate {
 
   constructor(
     private router: Router,
-    private trainingInstanceGetter: TrainingInstanceGetterService,
+    private trainingInstanceFacade: TrainingInstanceFacade,
     private activeUserService: ActiveUserService) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     const id = +route.paramMap.get('id');
     const now = Date.now();
-    return this.trainingInstanceGetter.getTrainingInstanceById(id)
+    return this.trainingInstanceFacade.getTrainingInstanceById(id)
       .pipe(map((trainingInstance => {
         // Training instance with such id either does not exist or user is not authorized to display it
         if (!trainingInstance

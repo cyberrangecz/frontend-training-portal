@@ -5,8 +5,8 @@ import {AbstractLevel} from "../model/level/abstract-level";
 import {GameLevel} from "../model/level/game-level";
 import {AssessmentLevel} from "../model/level/assessment-level";
 import {InfoLevel} from "../model/level/info-level";
-import {TrainingRunSetterService} from "./data-setters/training-run.setter.service";
 import {map} from "rxjs/operators";
+import {TrainingRunFacade} from "./facades/training-run-facade.service";
 
 /**
  * Service maintaining levels of training and active level instance for sub component of trainee training run
@@ -14,7 +14,7 @@ import {map} from "rxjs/operators";
 @Injectable()
 export class ActiveTrainingRunLevelsService {
 
-  constructor(private trainingRunSetter: TrainingRunSetterService) {
+  constructor(private trainingRunFacade: TrainingRunFacade) {
   }
 
   private _activeLevels: AbstractLevel[];
@@ -79,7 +79,7 @@ export class ActiveTrainingRunLevelsService {
    * Sets the next level in order as active
    */
   nextLevel(): Observable<AbstractLevel> {
-    return this.trainingRunSetter.nextLevel(this.trainingRunId)
+    return this.trainingRunFacade.nextLevel(this.trainingRunId)
       .pipe(map(resp => {
         this.currentLevelLocked = true;
         this.setActiveLevel(resp);

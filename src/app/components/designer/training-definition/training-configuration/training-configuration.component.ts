@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {TrainingDefinition} from '../../../../model/training/training-definition';
 import {TrainingDefinitionStateEnum} from '../../../../enums/training-definition-state.enum';
-import {TrainingDefinitionSetterService} from '../../../../services/data-setters/training-definition-setter.service';
 import {AlertService} from '../../../../services/event-services/alert.service';
 import {AlertTypeEnum} from '../../../../enums/alert-type.enum';
 import {SandboxDefinitionPickerComponent} from './sandbox-definition-picker/sandbox-definition-picker.component';
@@ -9,14 +8,15 @@ import {MatDialog} from '@angular/material';
 import {AuthorsPickerComponent} from './authors-picker/authors-picker.component';
 import {User} from '../../../../model/user/user';
 import {SandboxDefinition} from '../../../../model/sandbox/sandbox-definition';
-import {UserGetterService} from '../../../../services/data-getters/user-getter.service';
-import {SandboxDefinitionGetterService} from '../../../../services/data-getters/sandbox-definition-getter.service';
+import {UserFacade} from '../../../../services/facades/user-facade.service';
+import {SandboxDefinitionFacade} from '../../../../services/facades/sandbox-definition-facade.service';
 import {Router} from '@angular/router';
 import {ActiveUserService} from '../../../../services/active-user.service';
 import {ComponentErrorHandlerService} from '../../../../services/component-error-handler.service';
 import {map} from 'rxjs/operators';
 import {StateChangeDialogComponent} from '../state-change-dialog/state-change-dialog.component';
 import {Observable, of} from 'rxjs';
+import {TrainingDefinitionFacade} from "../../../../services/facades/training-definition-facade.service";
 
 /**
  * Component for creating new or editing already existing training definition
@@ -51,10 +51,10 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     private dialog: MatDialog,
     private errorHandler: ComponentErrorHandlerService,
     private alertService: AlertService,
-    private userGetter: UserGetterService,
+    private userFacade: UserFacade,
     private activeUserService: ActiveUserService,
-    private sandboxDefinitionGetter: SandboxDefinitionGetterService,
-    private trainingDefinitionSetter: TrainingDefinitionSetterService) {
+    private sandboxDefinitionFacade: SandboxDefinitionFacade,
+    private trainingDefinitionFacade: TrainingDefinitionFacade) {
 
   }
 
@@ -171,7 +171,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
   }
 
   private sendUpdateTrainingDefinitionRequest() {
-    this.trainingDefinitionSetter.updateTrainingDefinition(this.trainingDefinition)
+    this.trainingDefinitionFacade.updateTrainingDefinition(this.trainingDefinition)
       .subscribe(response => {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Changes were successfully saved.');
           this.performActionsAfterSuccessfulSave(response);
@@ -181,7 +181,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
   }
 
   private sendCreateTrainingDefinitionRequest() {
-    this.trainingDefinitionSetter.createTrainingDefinition(this.trainingDefinition)
+    this.trainingDefinitionFacade.createTrainingDefinition(this.trainingDefinition)
       .subscribe(response => {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully saved.');
           this.performActionsAfterSuccessfulSave(response);
@@ -239,10 +239,10 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     } else {
       userIds = this.trainingDefinition.authorIds;
     }
-    this.userGetter.loadUsersByIds(userIds)
+    this.userFacade.loadUsersByIds(userIds)
       .subscribe(authors => this.authors = authors);
 
-    this.sandboxDefinitionGetter.getSandboxDefById(this.trainingDefinition.sandboxDefinitionId)
+    this.sandboxDefinitionFacade.getSandboxDefById(this.trainingDefinition.sandboxDefinitionId)
       .subscribe(sandbox => this.sandboxDef = sandbox)
   }
 

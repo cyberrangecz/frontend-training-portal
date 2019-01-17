@@ -28,7 +28,7 @@ import {MCQChoiceDTO} from '../../model/DTOs/mcqChoiceDTO';
 import {EMIChoiceDTO} from '../../model/DTOs/emiChoiceDTO';
 
 @Injectable()
-export class LevelMapperService {
+export class LevelMapper {
 
   /**
    * Maps an array of level DTOs to an array of levels

@@ -11,7 +11,7 @@ import {DesignerGuard} from "./guards/designer-guard.service";
 import {OrganizerGuard} from "./guards/organizer-guard.service";
 import {TraineeGuard} from "./guards/trainee-guard.service";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {UserGetterService} from "./services/data-getters/user-getter.service";
+import {UserFacade} from "./services/facades/user-facade.service";
 import {SharedModule} from "./components/shared/shared.module";
 import {TrainingDistractionFreeModeService} from "./services/training-distraction-free-mode.service";
 import {AuthInterceptor} from "./http-interceptors/auth-interceptor";
@@ -44,7 +44,7 @@ import {ErrorLogInterceptor} from "./http-interceptors/error-log-interceptor";
     OrganizerGuard,
     TraineeGuard,
     ActiveUserService,
-    UserGetterService,
+    UserFacade,
     TrainingDistractionFreeModeService,
     { provide: HTTP_INTERCEPTORS, useClass: ErrorLogInterceptor, multi: true},
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

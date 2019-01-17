@@ -5,19 +5,17 @@ import {DesignerOverviewComponent} from "./designer-overview.component";
 import {DesignerOverviewMaterialModule} from "./designer-overview-material.module";
 import { TrainingDefinitionOverviewComponent } from './training-definition-overview/training-definition-overview.component';
 import { SandboxDefinitionOverviewComponent } from './sandbox-definition-overview/sandbox-definition-overview.component';
-import {TrainingDefinitionGetterService} from "../../../services/data-getters/training-definition-getter.service";
-import {SandboxDefinitionGetterService} from "../../../services/data-getters/sandbox-definition-getter.service";
+import {TrainingDefinitionFacade} from "../../../services/facades/training-definition-facade.service";
+import {SandboxDefinitionFacade} from "../../../services/facades/sandbox-definition-facade.service";
 import { UploadDialogComponent } from '../../shared/upload-dialog/upload-dialog.component';
-import {TrainingDefinitionSetterService} from "../../../services/data-setters/training-definition-setter.service";
-import {TrainingInstanceGetterService} from "../../../services/data-getters/training-instance-getter.service";
-import {SandboxDefinitionSetterService} from "../../../services/data-setters/sandbox-definition-setter.service";
+import {TrainingInstanceFacade} from "../../../services/facades/training-instance-facade.service";
 import {SharedModule} from "../../shared/shared.module";
 import {TrainingDefinitionGuard} from "../../../guards/training-definition-guard.service";
-import {UploadService} from "../../../services/data-setters/upload.service";
-import {TrainingDefinitionMapperService} from "../../../services/data-mappers/training-definition-mapper.service";
-import {TrainingInstanceMapperService} from "../../../services/data-mappers/training-instance-mapper.service";
-import {LevelMapperService} from "../../../services/data-mappers/level-mapper.service";
-import {TrainingRunMapperService} from "../../../services/data-mappers/training-run-mapper.service";
+import {UploadService} from "../../../services/upload.service";
+import {TrainingDefinitionMapper} from "../../../services/mappers/training-definition-mapper.service";
+import {TrainingInstanceMapper} from "../../../services/mappers/training-instance-mapper.service";
+import {LevelMapper} from "../../../services/mappers/level-mapper.service";
+import {TrainingRunMapper} from "../../../services/mappers/training-run-mapper.service";
 
 @NgModule({
   imports: [
@@ -34,15 +32,14 @@ import {TrainingRunMapperService} from "../../../services/data-mappers/training-
   providers: [
     UploadService,
     TrainingDefinitionGuard,
-    TrainingDefinitionGetterService,
-    TrainingDefinitionSetterService,
-    TrainingDefinitionMapperService,
-    TrainingInstanceGetterService,
-    TrainingInstanceMapperService,
-    TrainingRunMapperService,
-    SandboxDefinitionGetterService,
-    SandboxDefinitionSetterService,
-    LevelMapperService
+    TrainingDefinitionFacade,
+    TrainingDefinitionFacade,
+    TrainingDefinitionMapper,
+    TrainingInstanceFacade,
+    TrainingInstanceMapper,
+    TrainingRunMapper,
+    SandboxDefinitionFacade,
+    LevelMapper
   ],
   entryComponents: [
     UploadDialogComponent,

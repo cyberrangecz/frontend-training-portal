@@ -5,10 +5,9 @@ import {TrainingSummaryMaterialModule} from "./training-summary-material.module"
 import {TrainingSummaryRoutingModule} from "./training-summary-routing.module";
 import { TrainingInfoComponent } from './training-info/training-info.component';
 import { TrainingSummaryTableComponent } from './training-summary-table/training-summary-table.component';
-import {TrainingRunGetterService} from "../../../../services/data-getters/training-run-getter.service";
+import {TrainingRunFacade} from "../../../../services/facades/training-run-facade.service";
 import {SharedModule} from "../../../shared/shared.module";
-import {TrainingRunSetterService} from "../../../../services/data-setters/training-run.setter.service";
-import {TrainingRunMapperService} from '../../../../services/data-mappers/training-run-mapper.service';
+import {TrainingRunMapper} from '../../../../services/mappers/training-run-mapper.service';
 import {PipesModule} from '../../../../pipes/pipes.module';
 import {ComponentErrorHandlerService} from "../../../../services/component-error-handler.service";
 
@@ -26,9 +25,8 @@ import {ComponentErrorHandlerService} from "../../../../services/component-error
   TrainingSummaryTableComponent
   ],
   providers: [
-    TrainingRunGetterService,
-    TrainingRunSetterService,
-    TrainingRunMapperService,
+    TrainingRunFacade,
+    TrainingRunMapper,
     ComponentErrorHandlerService
   ]
 })

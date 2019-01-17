@@ -7,17 +7,16 @@ import { TraineeAccessTrainingComponent } from './trainee-access-training/traine
 import { TraineeTrainingsTableComponent } from './trainee-trainings-table/trainee-trainings-table.component';
 import {FormsModule} from "@angular/forms";
 import {SharedModule} from "../../shared/shared.module";
-import {TrainingInstanceGetterService} from "../../../services/data-getters/training-instance-getter.service";
-import {TrainingRunGetterService} from "../../../services/data-getters/training-run-getter.service";
+import {TrainingInstanceFacade} from "../../../services/facades/training-instance-facade.service";
+import {TrainingRunFacade} from "../../../services/facades/training-run-facade.service";
 import {TrainingRunGuard} from "../../../guards/training-run-guard.service";
-import {TrainingInstanceMapperService} from "../../../services/data-mappers/training-instance-mapper.service";
-import {TrainingRunMapperService} from "../../../services/data-mappers/training-run-mapper.service";
-import {LevelMapperService} from "../../../services/data-mappers/level-mapper.service";
-import {TrainingDefinitionMapperService} from "../../../services/data-mappers/training-definition-mapper.service";
-import {TrainingDefinitionGetterService} from "../../../services/data-getters/training-definition-getter.service";
+import {TrainingInstanceMapper} from "../../../services/mappers/training-instance-mapper.service";
+import {TrainingRunMapper} from "../../../services/mappers/training-run-mapper.service";
+import {LevelMapper} from "../../../services/mappers/level-mapper.service";
+import {TrainingDefinitionMapper} from "../../../services/mappers/training-definition-mapper.service";
+import {TrainingDefinitionFacade} from "../../../services/facades/training-definition-facade.service";
 import {PipesModule} from "../../../pipes/pipes.module";
 import {ActiveTrainingRunLevelsService} from "../../../services/active-training-run-levels.service";
-import {TrainingRunSetterService} from "../../../services/data-setters/training-run.setter.service";
 
 @NgModule({
   imports: [
@@ -34,16 +33,15 @@ import {TrainingRunSetterService} from "../../../services/data-setters/training-
     TraineeTrainingsTableComponent
   ],
   providers: [
-    TrainingDefinitionGetterService,
-    TrainingDefinitionMapperService,
-    TrainingInstanceGetterService,
-    TrainingInstanceMapperService,
-    TrainingRunGetterService,
-    TrainingRunMapperService,
+    TrainingDefinitionFacade,
+    TrainingDefinitionMapper,
+    TrainingInstanceFacade,
+    TrainingInstanceMapper,
+    TrainingRunFacade,
+    TrainingRunMapper,
     TrainingRunGuard,
-    LevelMapperService,
+    LevelMapper,
     ActiveTrainingRunLevelsService,
-    TrainingRunSetterService
   ]
 })
 

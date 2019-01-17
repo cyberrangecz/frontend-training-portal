@@ -2,7 +2,7 @@ import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {MatDialogRef, MatListOption, MatSelectionList} from "@angular/material";
 import {SandboxDefinition} from "../../../../../model/sandbox/sandbox-definition";
 import {Observable} from "rxjs/internal/Observable";
-import {SandboxDefinitionGetterService} from "../../../../../services/data-getters/sandbox-definition-getter.service";
+import {SandboxDefinitionFacade} from "../../../../../services/facades/sandbox-definition-facade.service";
 import {SelectionModel} from "@angular/cdk/collections";
 
 @Component({
@@ -22,13 +22,13 @@ export class SandboxDefinitionPickerComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<SandboxDefinitionPickerComponent>,
-    private sandboxDefinitionGetter: SandboxDefinitionGetterService) {
+    private sandboxDefinitionFacade: SandboxDefinitionFacade) {
 
   }
 
   ngOnInit() {
     this.sandboxDefsList.selectedOptions = new SelectionModel<MatListOption>(false);
-    this.sandboxDefs$ = this.sandboxDefinitionGetter.getSandboxDefs();
+    this.sandboxDefs$ = this.sandboxDefinitionFacade.getSandboxDefs();
   }
 
   /**

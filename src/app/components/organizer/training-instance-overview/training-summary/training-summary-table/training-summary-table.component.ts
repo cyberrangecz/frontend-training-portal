@@ -1,18 +1,17 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
-import {TrainingRun} from "../../../../../model/training/training-run";
 import {TrainingInstance} from "../../../../../model/training/training-instance";
 import {ActiveTrainingInstanceService} from "../../../../../services/active-training-instance.service";
 import {merge, of} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
-import {TrainingRunSetterService} from "../../../../../services/data-setters/training-run.setter.service";
 import {AlertService} from "../../../../../services/event-services/alert.service";
 import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
-import {TrainingInstanceGetterService} from "../../../../../services/data-getters/training-instance-getter.service";
+import {TrainingInstanceFacade} from "../../../../../services/facades/training-instance-facade.service";
 import {ComponentErrorHandlerService} from "../../../../../services/component-error-handler.service";
 import {TrainingRunTableDataModel} from "../../../../../model/table-models/training-run-table-data-model";
 import {TableDataWithPaginationWrapper} from "../../../../../model/table-models/table-data-with-pagination-wrapper";
 import {environment} from "../../../../../../environments/environment";
+import {TrainingRunFacade} from "../../../../../services/facades/training-run-facade.service";
 
 @Component({
   selector: 'training-summary-table',
@@ -42,8 +41,8 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
     private alertService: AlertService,
     private errorHandler: ComponentErrorHandlerService,
     private activeTrainingInstanceService: ActiveTrainingInstanceService,
-    private trainingRunSetter: TrainingRunSetterService,
-    private trainingInstanceGetter: TrainingInstanceGetterService) { }
+    private trainingRunFacade: TrainingRunFacade,
+    private trainingInstanceFacade: TrainingInstanceFacade) { }
 
   ngOnInit() {
     this.loadActiveTraining();
@@ -81,7 +80,7 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
    */
   revertTrainingRun(trainingRunTableObject: TrainingRunTableDataModel) {
     trainingRunTableObject.isWaitingForRevertResponse = true;
-    this.trainingRunSetter.revert(trainingRunTableObject.trainingRun.id).subscribe(
+    this.trainingRunFacade.revert(trainingRunTableObject.trainingRun.id).subscribe(
       response => {
         trainingRunTableObject.isWaitingForRevertResponse = false;
         this.alertService.emitAlert(AlertTypeEnum.Success, 'Training run was successfully reverted');
@@ -124,7 +123,7 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.trainingInstanceGetter.getTrainingRunsByTrainingInstanceIdWithPagination(this.trainingInstance.id,
+          return this.trainingInstanceFacade.getTrainingRunsByTrainingInstanceIdWithPagination(this.trainingInstance.id,
             this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction)
         }),
         map(data => {

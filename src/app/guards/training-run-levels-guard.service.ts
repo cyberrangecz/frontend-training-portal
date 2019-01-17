@@ -2,12 +2,12 @@ import {ActivatedRouteSnapshot, CanActivate, CanDeactivate, Router, RouterStateS
 import {TrainingDistractionFreeModeService} from "../services/training-distraction-free-mode.service";
 import {Observable} from "rxjs/internal/Observable";
 import {Injectable} from "@angular/core";
-import {TrainingInstanceGetterService} from "../services/data-getters/training-instance-getter.service";
-import {TrainingRunGetterService} from "../services/data-getters/training-run-getter.service";
+import {TrainingInstanceFacade} from "../services/facades/training-instance-facade.service";
+import {TrainingRunFacade} from "../services/facades/training-run-facade.service";
 import {concatMap, map} from "rxjs/operators";
 import {TrainingRunLevelComponent} from "../components/trainee/training-run/training-run-level/training-run-level.component";
 import {ActiveTrainingRunLevelsService} from "../services/active-training-run-levels.service";
-import {TrainingDefinitionGetterService} from "../services/data-getters/training-definition-getter.service";
+import {TrainingDefinitionFacade} from "../services/facades/training-definition-facade.service";
 import {AbstractLevel} from "../model/level/abstract-level";
 @Injectable()
 /**

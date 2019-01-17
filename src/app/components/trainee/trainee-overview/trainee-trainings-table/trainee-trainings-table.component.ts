@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
-import {TrainingRunGetterService} from "../../../../services/data-getters/training-run-getter.service";
+import {TrainingRunFacade} from "../../../../services/facades/training-run-facade.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {merge, of} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
@@ -8,7 +8,6 @@ import {environment} from "../../../../../environments/environment";
 import {TraineeAccessedTrainingsTableDataModel} from "../../../../model/table-models/trainee-accessed-trainings-table-data-model";
 import {TraineeAccessTrainingRunActionEnum} from "../../../../enums/trainee-access-training-run-actions.enum";
 import {TableDataWithPaginationWrapper} from "../../../../model/table-models/table-data-with-pagination-wrapper";
-import {TrainingRunSetterService} from "../../../../services/data-setters/training-run.setter.service";
 import {ComponentErrorHandlerService} from "../../../../services/component-error-handler.service";
 import {ActiveTrainingRunLevelsService} from "../../../../services/active-training-run-levels.service";
 
@@ -39,8 +38,7 @@ export class TraineeTrainingsTableComponent implements OnInit {
     private activeRoute: ActivatedRoute,
     private activeTrainingRunLevelsService: ActiveTrainingRunLevelsService,
     private errorHandler: ComponentErrorHandlerService,
-    private trainingRunGetter: TrainingRunGetterService,
-    private trainingRunSetter: TrainingRunSetterService) { }
+    private trainingRunFacade: TrainingRunFacade) { }
 
   ngOnInit() {
     this.initDataSource();
@@ -65,7 +63,7 @@ export class TraineeTrainingsTableComponent implements OnInit {
 
   resume(trainingRunId: number) {
     this.isLoading = true;
-    this.trainingRunSetter.resume(trainingRunId)
+    this.trainingRunFacade.resume(trainingRunId)
       .subscribe(resp => {
           this.activeTrainingRunLevelsService.trainingRunId = resp.trainingRunId;
           this.activeTrainingRunLevelsService.setActiveLevels(resp.levels.sort((a, b) => a.order - b.order));
@@ -107,7 +105,7 @@ export class TraineeTrainingsTableComponent implements OnInit {
       .pipe(
         startWith({}),
         switchMap(() => {
-          return this.trainingRunGetter.getAccessedTrainingRunsWithPagination(this.paginator.pageIndex, this.paginator.pageSize,
+          return this.trainingRunFacade.getAccessedTrainingRunsWithPagination(this.paginator.pageIndex, this.paginator.pageSize,
             this.resolveSortParam(this.sort.active), this.sort.direction);
         }),
         map(data => {

@@ -7,7 +7,7 @@ import {GameLevelConfigurationComponent} from "./game-level-configuration/game-l
 import {AssessmentLevelConfigurationComponent} from "./assessment-level-configuration/assessment-level-configuration.component";
 import {InfoLevelConfigurationComponent} from "./info-level-configuration/info-level-configuration.component";
 import {Observable} from "rxjs";
-import {TrainingDefinitionGetterService} from "../../../../../services/data-getters/training-definition-getter.service";
+import {TrainingDefinitionFacade} from "../../../../../services/facades/training-definition-facade.service";
 
 @Component({
   selector: 'level-configuration',
@@ -36,7 +36,7 @@ export class LevelConfigurationComponent implements OnInit, OnChanges {
   ngOnInit() {
   }
 
-  constructor(private trainingDefinitionGetter: TrainingDefinitionGetterService) {}
+  constructor(private trainingDefinitionFacade: TrainingDefinitionFacade) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if ('level' in changes) {
@@ -71,15 +71,15 @@ export class LevelConfigurationComponent implements OnInit, OnChanges {
    */
   private resolveLevelType() {
     if (this.level instanceof GameLevel) {
-      this.detailedLevel$ = this.trainingDefinitionGetter.getLevelById(this.level.id) as Observable<GameLevel>;
+      this.detailedLevel$ = this.trainingDefinitionFacade.getLevelById(this.level.id) as Observable<GameLevel>;
       this.isGameLevelActive = true;
     }
     if (this.level instanceof InfoLevel) {
-      this.detailedLevel$ = this.trainingDefinitionGetter.getLevelById(this.level.id) as Observable<InfoLevel>;
+      this.detailedLevel$ = this.trainingDefinitionFacade.getLevelById(this.level.id) as Observable<InfoLevel>;
       this.isInfoLevelActive = true;
     }
     if (this.level instanceof AssessmentLevel) {
-      this.detailedLevel$ = this.trainingDefinitionGetter.getLevelById(this.level.id) as Observable<AssessmentLevel>;
+      this.detailedLevel$ = this.trainingDefinitionFacade.getLevelById(this.level.id) as Observable<AssessmentLevel>;
       this.isAssessmentLevelActive = true;
     }
   }

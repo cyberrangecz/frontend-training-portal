@@ -13,7 +13,7 @@ import {Observable} from "rxjs/internal/Observable";
  * Service to abstract communication with User endpoint.
  * Can retrieve users based on various parameters.
  */
-export class UserGetterService {
+export class UserFacade {
 
   constructor(private http: HttpClient,
               private activeUserService: ActiveUserService) {

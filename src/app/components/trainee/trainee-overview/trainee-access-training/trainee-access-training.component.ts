@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {AlertService} from "../../../../services/event-services/alert.service";
 import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
 import {ActivatedRoute, Router} from "@angular/router";
-import {TrainingRunSetterService} from "../../../../services/data-setters/training-run.setter.service";
 import {ComponentErrorHandlerService} from "../../../../services/component-error-handler.service";
 import {ActiveTrainingRunLevelsService} from "../../../../services/active-training-run-levels.service";
 import {AbstractLevel} from "../../../../model/level/abstract-level";
+import {TrainingRunFacade} from "../../../../services/facades/training-run-facade.service";
 
 @Component({
   selector: 'trainee-access-training',
@@ -25,7 +25,7 @@ export class TraineeAccessTrainingComponent implements OnInit {
     private alertService: AlertService,
     private errorHandler: ComponentErrorHandlerService,
     private activeTrainingRunLevelsService: ActiveTrainingRunLevelsService,
-    private trainingRunSetterService: TrainingRunSetterService) { }
+    private trainingRunFacade: TrainingRunFacade) { }
 
   ngOnInit() {
   }
@@ -36,7 +36,7 @@ export class TraineeAccessTrainingComponent implements OnInit {
    */
   access() {
     if (this.accessToken && this.accessToken.replace(/\s/g, '') !== '') {
-      this.trainingRunSetterService.accessTrainingRun(this.accessToken)
+      this.trainingRunFacade.accessTrainingRun(this.accessToken)
         .subscribe(resp => {
           if (resp.currentLevel && resp.levels && resp.levels.length > 0) {
             this.sortReceivedLevels(resp.levels);

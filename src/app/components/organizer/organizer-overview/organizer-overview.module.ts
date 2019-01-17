@@ -10,17 +10,16 @@ import {FormsModule} from "@angular/forms";
 import {OrganizerOverviewMaterialModule} from "./organizer-overview-material.module";
 import { OrganizersPickerComponent } from './training-instance-edit/organizers-picker/organizers-picker.component';
 import { TrainingDefinitionPickerComponent } from './training-instance-edit/training-definition-picker/training-definition-picker.component';
-import {TrainingDefinitionGetterService} from "../../../services/data-getters/training-definition-getter.service";
-import {TrainingInstanceGetterService} from "../../../services/data-getters/training-instance-getter.service";
+import {TrainingDefinitionFacade} from "../../../services/facades/training-definition-facade.service";
+import {TrainingInstanceFacade} from "../../../services/facades/training-instance-facade.service";
 import {OwlDateTimeModule, OwlNativeDateTimeModule} from "ng-pick-datetime";
 import { TrainingEditPopupComponent } from './training-instance-overview/training-edit-popup/training-edit-popup.component';
 import { TrainingDeleteDialogComponent } from './training-instance-overview/training-delete-dialog/training-delete-dialog.component';
-import {TrainingInstanceSetterService} from "../../../services/data-setters/training-instance-setter.service";
-import {TrainingInstanceMapperService} from "../../../services/data-mappers/training-instance-mapper.service";
-import {TrainingDefinitionMapperService} from "../../../services/data-mappers/training-definition-mapper.service";
-import {LevelMapperService} from "../../../services/data-mappers/level-mapper.service";
+import {TrainingInstanceMapper} from "../../../services/mappers/training-instance-mapper.service";
+import {TrainingDefinitionMapper} from "../../../services/mappers/training-definition-mapper.service";
+import {LevelMapper} from "../../../services/mappers/level-mapper.service";
 import {PipesModule} from '../../../pipes/pipes.module';
-import {TrainingRunMapperService} from "../../../services/data-mappers/training-run-mapper.service";
+import {TrainingRunMapper} from "../../../services/mappers/training-run-mapper.service";
 
 @NgModule({
   imports: [
@@ -45,13 +44,12 @@ import {TrainingRunMapperService} from "../../../services/data-mappers/training-
   ],
   providers: [
     TrainingInstanceGuard,
-    TrainingDefinitionGetterService,
-    TrainingDefinitionMapperService,
-    TrainingInstanceGetterService,
-    TrainingInstanceSetterService,
-    TrainingInstanceMapperService,
-    TrainingRunMapperService,
-    LevelMapperService
+    TrainingDefinitionFacade,
+    TrainingDefinitionMapper,
+    TrainingInstanceFacade,
+    TrainingInstanceMapper,
+    TrainingRunMapper,
+    LevelMapper
   ],
   entryComponents: [
     OrganizersPickerComponent,

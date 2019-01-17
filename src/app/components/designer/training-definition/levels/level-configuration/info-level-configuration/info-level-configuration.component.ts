@@ -2,9 +2,8 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 import {InfoLevel} from "../../../../../../model/level/info-level";
 import {AlertTypeEnum} from "../../../../../../enums/alert-type.enum";
 import {AlertService} from "../../../../../../services/event-services/alert.service";
-import {environment} from "../../../../../../../environments/environment";
-import {TrainingDefinitionSetterService} from "../../../../../../services/data-setters/training-definition-setter.service";
 import {ComponentErrorHandlerService} from "../../../../../../services/component-error-handler.service";
+import {TrainingDefinitionFacade} from "../../../../../../services/facades/training-definition-facade.service";
 
 @Component({
   selector: 'info-level-configuration',
@@ -27,7 +26,7 @@ export class InfoLevelConfigurationComponent implements OnInit, OnChanges {
   isLoading = false;
   dirty = false;
 
-  constructor(private trainingDefinitionSetter: TrainingDefinitionSetterService,
+  constructor(private trainingDefinitionFacade: TrainingDefinitionFacade,
               private alertService: AlertService,
               private errorHandler: ComponentErrorHandlerService) {}
 
@@ -63,7 +62,7 @@ export class InfoLevelConfigurationComponent implements OnInit, OnChanges {
     if (this.validateChanges()) {
       this.isLoading = true;
       this.setInputValuesToLevel();
-      this.trainingDefinitionSetter.updateInfoLevel(this.trainingDefinitionId, this.level)
+      this.trainingDefinitionFacade.updateInfoLevel(this.trainingDefinitionId, this.level)
         .subscribe(resp => {
           this.isLoading = false;
           this.dirty = false;

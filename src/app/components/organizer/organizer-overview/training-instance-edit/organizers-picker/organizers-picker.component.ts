@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {UserGetterService} from "../../../../../services/data-getters/user-getter.service";
+import {UserFacade} from "../../../../../services/facades/user-facade.service";
 import {Observable} from "rxjs/internal/Observable";
 import {User} from "../../../../../model/user/user";
 import {MatDialogRef} from "@angular/material";
@@ -23,14 +23,14 @@ export class OrganizersPickerComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<OrganizersPickerComponent>,
-    private userGetter: UserGetterService,
+    private userFacade: UserFacade,
     private activeUserService: ActiveUserService) {
     this.activeUser = this.activeUserService.getActiveUser();
     this.selectedOrganizers.push(this.activeUser);
   }
 
   ngOnInit() {
-    this.organizers$ = this.userGetter.loadUsersByRoles([UserRoleEnum.Organizer])
+    this.organizers$ = this.userFacade.loadUsersByRoles([UserRoleEnum.Organizer])
       .pipe(map(organizers =>
         organizers
           .filter(organizer => organizer.id !== this.activeUser.id)));

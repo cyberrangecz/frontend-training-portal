@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 import {AlertTypeEnum} from "../../../enums/alert-type.enum";
-import {UploadService} from "../../../services/data-setters/upload.service";
+import {UploadService} from "../../../services/upload.service";
 
 @Component({
   selector: 'designer-training-upload-dialog',

@@ -4,19 +4,18 @@ import {TrainingInstance} from "../../model/training/training-instance";
 import {TrainingInstanceCreateDTO, TrainingInstanceCreateDTOClass} from "../../model/DTOs/trainingInstanceCreateDTO";
 import {TrainingInstanceUpdateDTO, TrainingInstanceUpdateDTOClass} from "../../model/DTOs/trainingInstanceUpdateDTO";
 import {TrainingInstanceRestResource} from "../../model/DTOs/trainingInstanceRestResource";
-import {TrainingDefinitionMapperService} from './training-definition-mapper.service';
+import {TrainingDefinitionMapper} from './training-definition-mapper.service';
 import {TrainingDefinitionDTO} from '../../model/DTOs/trainingDefinitionDTO';
 import {UserRefDTO} from '../../model/DTOs/userRefDTO';
 import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
 import {TrainingInstanceTableDataModel} from "../../model/table-models/training-instance-table-data-model";
 import {Pagination} from "../../model/DTOs/pagination";
 import {TablePagination} from "../../model/table-models/table-pagination";
-import {locale} from "moment";
 
 @Injectable()
-export class TrainingInstanceMapperService {
+export class TrainingInstanceMapper {
 
-  constructor(private trainingDefinitionMapper: TrainingDefinitionMapperService) {
+  constructor(private trainingDefinitionMapper: TrainingDefinitionMapper) {
 
   }
 

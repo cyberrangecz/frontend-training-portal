@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {TrainingRun} from '../../model/training/training-run';
 import {TrainingRunDTO} from '../../model/DTOs/trainingRunDTO';
-import {LevelMapperService} from './level-mapper.service';
+import {LevelMapper} from './level-mapper.service';
 import {TrainingRunStateEnum} from '../../enums/training-run-state.enum';
-import {TrainingInstanceMapperService} from './training-instance-mapper.service';
+import {TrainingInstanceMapper} from './training-instance-mapper.service';
 import {TrainingRunRestResource} from '../../model/DTOs/trainingRunRestResource';
 import {AccessedTrainingRunDTO} from "../../model/DTOs/accessedTrainingRunDTO";
 import {TraineeAccessedTrainingsTableDataModel} from "../../model/table-models/trainee-accessed-trainings-table-data-model";
@@ -26,10 +26,10 @@ import {MultipleChoiceQuestionAnswerDTO} from '../../model/DTOs/multipleChoiceQu
 import {ExtendedMatchingItemsAnswerDTO} from '../../model/DTOs/extendedMatchingItemsAnswerDTO';
 
 @Injectable()
-export class TrainingRunMapperService {
+export class TrainingRunMapper {
 
-  constructor(private levelMapper: LevelMapperService,
-              private trainingInstanceMapper: TrainingInstanceMapperService) {
+  constructor(private levelMapper: LevelMapper,
+              private trainingInstanceMapper: TrainingInstanceMapper) {
   }
 
   /**

@@ -15,12 +15,12 @@ import {TrainingDefinitionDTO} from '../../model/DTOs/trainingDefinitionDTO';
 import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
 import {TrainingDefinitionTableDataModel} from "../../model/table-models/training-definition-table-data-model";
 import {TablePagination} from "../../model/table-models/table-pagination";
-import {LevelMapperService} from "./level-mapper.service";
+import {LevelMapper} from "./level-mapper.service";
 
 @Injectable()
-export class TrainingDefinitionMapperService {
+export class TrainingDefinitionMapper {
 
-  constructor(private levelMapper: LevelMapperService) {
+  constructor(private levelMapper: LevelMapper) {
 
   }
 

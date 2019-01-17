@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 
 @Injectable()
-export class SandboxInstanceGetterService {
+export class SandboxInstanceFacade {
 
   constructor(private http: HttpClient) {
   }

@@ -4,8 +4,8 @@ import {AlertTypeEnum} from "../../../../../../enums/alert-type.enum";
 import {AlertService} from "../../../../../../services/event-services/alert.service";
 import {Hint} from "../../../../../../model/level/hint";
 import {HintStepperComponent} from "../hints/hint-stepper/hint-stepper.component";
-import {TrainingDefinitionSetterService} from "../../../../../../services/data-setters/training-definition-setter.service";
 import {ComponentErrorHandlerService} from "../../../../../../services/component-error-handler.service";
+import {TrainingDefinitionFacade} from "../../../../../../services/facades/training-definition-facade.service";
 
 @Component({
   selector: 'game-level-configuration',
@@ -39,7 +39,7 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
 
   constructor(private alertService: AlertService,
               private errorHandler: ComponentErrorHandlerService,
-              private trainingDefinitionSetter: TrainingDefinitionSetterService) { }
+              private trainingDefinitionFacade: TrainingDefinitionFacade) { }
 
   ngOnInit() {
   }
@@ -73,7 +73,7 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
       this.isLoading = true;
       this.setInputValuesToLevel();
       this.childComponent.saveChanges();
-      this.trainingDefinitionSetter.updateGameLevel(this.trainingDefinitionId, this.level)
+      this.trainingDefinitionFacade.updateGameLevel(this.trainingDefinitionId, this.level)
         .subscribe(resp => {
           this.dirty = false;
           this.isLoading = false;

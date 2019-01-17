@@ -2,7 +2,7 @@ import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {TrainingDefinition} from "../../../model/training/training-definition";
 import {map, switchMap} from "rxjs/operators";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
-import {TrainingDefinitionGetterService} from "../../../services/data-getters/training-definition-getter.service";
+import {TrainingDefinitionFacade} from "../../../services/facades/training-definition-facade.service";
 import {Observable} from "rxjs/internal/Observable";
 import {AbstractLevel} from "../../../model/level/abstract-level";
 import {TrainingConfigurationComponent} from "./training-configuration/training-configuration.component";
@@ -36,7 +36,7 @@ export class TrainingDefinitionComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private dialog: MatDialog,
-    private trainingDefinitionGetter: TrainingDefinitionGetterService) {
+    private trainingDefinitionFacade: TrainingDefinitionFacade) {
 
   }
 
@@ -135,7 +135,7 @@ export class TrainingDefinitionComponent implements OnInit {
         if (params.has('id')) {
           const trainingDefId = +params.get('id');
           this.isTrainingSaved = true;
-          return trainingDefId === null ? of(null) : this.trainingDefinitionGetter.getTrainingDefinitionById(trainingDefId, true);
+          return trainingDefId === null ? of(null) : this.trainingDefinitionFacade.getTrainingDefinitionById(trainingDefId, true);
         }
         this.isTrainingSaved = false;
         return of(null);

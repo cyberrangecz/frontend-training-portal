@@ -4,7 +4,7 @@ import {MatDialogRef, MatListOption, MatSelectionList} from "@angular/material";
 import {SelectionModel} from "@angular/cdk/collections";
 import {SandboxDefinitionPickerComponent} from "../../../../designer/training-definition/training-configuration/sandbox-definition-picker/sandbox-definition-picker.component";
 import {TrainingDefinition} from "../../../../../model/training/training-definition";
-import {TrainingDefinitionGetterService} from "../../../../../services/data-getters/training-definition-getter.service";
+import {TrainingDefinitionFacade} from "../../../../../services/facades/training-definition-facade.service";
 
 @Component({
   selector: 'training-definition-picker',
@@ -23,13 +23,13 @@ export class TrainingDefinitionPickerComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<SandboxDefinitionPickerComponent>,
-    private trainingDefinitionGetter: TrainingDefinitionGetterService) {
+    private trainingDefinitionFacade: TrainingDefinitionFacade) {
 
   }
 
   ngOnInit() {
     this.trainingDefsList.selectedOptions = new SelectionModel<MatListOption>(false);
-    this.trainingDefs$ = this.trainingDefinitionGetter.getTrainingDefinitions();
+    this.trainingDefs$ = this.trainingDefinitionFacade.getTrainingDefinitions();
   }
 
   /**

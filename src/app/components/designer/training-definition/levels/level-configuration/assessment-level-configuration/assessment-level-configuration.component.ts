@@ -6,7 +6,7 @@ import {QuestionsOverviewComponent} from "../questions/questions-overview/questi
 import {AbstractQuestion} from "../../../../../../model/questions/abstract-question";
 import {AssessmentTypeEnum} from "../../../../../../enums/assessment-type.enum";
 import {ComponentErrorHandlerService} from "../../../../../../services/component-error-handler.service";
-import {TrainingDefinitionSetterService} from "../../../../../../services/data-setters/training-definition-setter.service";
+import {TrainingDefinitionFacade} from "../../../../../../services/facades/training-definition-facade.service";
 
 @Component({
   selector: 'assessment-level-configuration',
@@ -33,7 +33,7 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
   dirty = false;
   isLoading = false;
 
-  constructor(private trainingDefinitionSetter: TrainingDefinitionSetterService,
+  constructor(private trainingDefinitionFacade: TrainingDefinitionFacade,
               private alertService: AlertService,
               private errorHandler: ComponentErrorHandlerService) { }
 
@@ -63,7 +63,7 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
       this.setInputValuesToLevel();
       this.childComponent.saveChanges();
       this.level.questions = this.childComponent.questions;
-      this.trainingDefinitionSetter.updateAssessmentLevel(this.trainingDefinitionId, this.level)
+      this.trainingDefinitionFacade.updateAssessmentLevel(this.trainingDefinitionId, this.level)
         .subscribe(resp => {
             this.dirty = false;
             this.isLoading = false;

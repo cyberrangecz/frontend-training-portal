@@ -13,12 +13,11 @@ import {AbstractLevel} from "../../../../../model/level/abstract-level";
 import {LevelConfigurationComponent} from "../level-configuration/level-configuration.component";
 import {DeleteDialogComponent} from "../../delete-dialog/delete-dialog.component";
 import {MatDialog} from "@angular/material";
-import {TrainingDefinitionSetterService} from "../../../../../services/data-setters/training-definition-setter.service";
 import {AlertService} from "../../../../../services/event-services/alert.service";
 import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ComponentErrorHandlerService} from "../../../../../services/component-error-handler.service";
-import {TrainingDefinitionGetterService} from "../../../../../services/data-getters/training-definition-getter.service";
+import {TrainingDefinitionFacade} from "../../../../../services/facades/training-definition-facade.service";
 import {UnsavedChangesDialogComponent} from "../../unsaved-changes-dialog/unsaved-changes-dialog.component";
 import {map} from "rxjs/operators";
 import {TrainingDefinition} from "../../../../../model/training/training-definition";
@@ -46,8 +45,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
   constructor(public dialog: MatDialog,
               private alertService: AlertService,
               private errorHandler: ComponentErrorHandlerService,
-              private trainingDefinitionGetter: TrainingDefinitionGetterService,
-              private trainingDefinitionSetter: TrainingDefinitionSetterService) { }
+              private trainingDefinitionFacade: TrainingDefinitionFacade) { }
 
   ngOnInit() {
   }
@@ -83,7 +81,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    */
   addInfoLevel() {
     this.isLoading = true;
-    this.trainingDefinitionSetter.createInfoLevel(this.trainingDefinition.id)
+    this.trainingDefinitionFacade.createInfoLevel(this.trainingDefinition.id)
       .subscribe(
         level => {
           this.isLoading = false;
@@ -98,7 +96,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    */
   addGameLevel() {
     this.isLoading = true;
-    this.trainingDefinitionSetter.createGameLevel(this.trainingDefinition.id)
+    this.trainingDefinitionFacade.createGameLevel(this.trainingDefinition.id)
       .subscribe(
         level => {
         this.isLoading = false;
@@ -113,7 +111,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    */
   addAssessmentLevel() {
    this.isLoading = true;
-    this.trainingDefinitionSetter.createAssessmentLevel(this.trainingDefinition.id)
+    this.trainingDefinitionFacade.createAssessmentLevel(this.trainingDefinition.id)
       .subscribe(
         level => {
           this.isLoading = false;
@@ -129,7 +127,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
   swapLeft() {
     this.isLoading = true;
     const swappedLevel = this.levels[this.selectedStep];
-    this.trainingDefinitionSetter.swapLeft(this.trainingDefinition.id, swappedLevel.id)
+    this.trainingDefinitionFacade.swapLeft(this.trainingDefinition.id, swappedLevel.id)
       .subscribe(resp => {
           this.selectedStep--;
           this.levels = resp.sort((levelA, levelB ) => levelA.order - levelB.order);
@@ -148,7 +146,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
   swapRight() {
     this.isLoading = true;
     const swappedLevel = this.levels[this.selectedStep];
-    this.trainingDefinitionSetter.swapRight(this.trainingDefinition.id, swappedLevel.id)
+    this.trainingDefinitionFacade.swapRight(this.trainingDefinition.id, swappedLevel.id)
       .subscribe(resp => {
           this.selectedStep++;
           this.levels = resp.sort((levelA, levelB ) => levelA.order - levelB.order);
@@ -179,7 +177,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
       if (result && result.type === 'confirm') {
         this.isLoading = true;
         const toDelete = this.levels.find(level => level.id === id);
-        this.trainingDefinitionSetter.removeLevel(this.trainingDefinition.id, toDelete.id)
+        this.trainingDefinitionFacade.removeLevel(this.trainingDefinition.id, toDelete.id)
           .subscribe(resp => {
               this.alertService.emitAlert(AlertTypeEnum.Success ,'Level "' + toDelete.title + '" was successfully deleted');
               this.onLevelDeleted.emit(toDelete.id);
