@@ -16,6 +16,7 @@ import {TrainingDefinitionMapper} from "../../../services/mappers/training-defin
 import {TrainingInstanceMapper} from "../../../services/mappers/training-instance-mapper.service";
 import {LevelMapper} from "../../../services/mappers/level-mapper.service";
 import {TrainingRunMapper} from "../../../services/mappers/training-run-mapper.service";
+import {DownloadService} from '../../../services/download.service';
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import {TrainingRunMapper} from "../../../services/mappers/training-run-mapper.s
   ],
   providers: [
     UploadService,
+    DownloadService,
     TrainingDefinitionGuard,
     TrainingDefinitionFacade,
     TrainingDefinitionFacade,

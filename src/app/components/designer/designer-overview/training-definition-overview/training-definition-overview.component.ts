@@ -1,20 +1,20 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {TrainingDefinitionFacade} from "../../../../services/facades/training-definition-facade.service";
-import {TrainingDefinition} from "../../../../model/training/training-definition";
-import {ActiveUserService} from "../../../../services/active-user.service";
-import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
-import {TrainingDefinitionStateEnum} from "../../../../enums/training-definition-state.enum";
-import {ActivatedRoute, Router} from "@angular/router";
-import {UploadDialogComponent} from "../../../shared/upload-dialog/upload-dialog.component";
-import {AlertService} from "../../../../services/event-services/alert.service";
-import {TrainingInstanceFacade} from "../../../../services/facades/training-instance-facade.service";
-import {catchError, map, startWith, switchMap} from "rxjs/operators";
-import {merge, of} from "rxjs";
-import {environment} from "../../../../../environments/environment";
-import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
-import {ComponentErrorHandlerService} from "../../../../services/component-error-handler.service";
-import {TrainingDefinitionTableDataModel} from "../../../../model/table-models/training-definition-table-data-model";
-import {TableDataWithPaginationWrapper} from "../../../../model/table-models/table-data-with-pagination-wrapper";
+import {TrainingDefinitionFacade} from '../../../../services/facades/training-definition-facade.service';
+import {TrainingDefinition} from '../../../../model/training/training-definition';
+import {ActiveUserService} from '../../../../services/active-user.service';
+import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {TrainingDefinitionStateEnum} from '../../../../enums/training-definition-state.enum';
+import {ActivatedRoute, Router} from '@angular/router';
+import {UploadDialogComponent} from '../../../shared/upload-dialog/upload-dialog.component';
+import {AlertService} from '../../../../services/event-services/alert.service';
+import {TrainingInstanceFacade} from '../../../../services/facades/training-instance-facade.service';
+import {catchError, map, startWith, switchMap} from 'rxjs/operators';
+import {merge, of} from 'rxjs';
+import {environment} from '../../../../../environments/environment';
+import {AlertTypeEnum} from '../../../../enums/alert-type.enum';
+import {ComponentErrorHandlerService} from '../../../../services/component-error-handler.service';
+import {TrainingDefinitionTableDataModel} from '../../../../model/table-models/training-definition-table-data-model';
+import {TableDataWithPaginationWrapper} from '../../../../model/table-models/table-data-with-pagination-wrapper';
 
 @Component({
   selector: 'designer-overview-training-definition',
@@ -104,7 +104,13 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    * @param {number} id id of training definition which should be downloaded
    */
   downloadTrainingDefinition(id: number) {
-    this.trainingDefinitionFacade.downloadTrainingDefinition(id);
+    this.isLoadingResults = true;
+    this.trainingDefinitionFacade.downloadTrainingDefinition(id)
+      .subscribe(resp => this.isLoadingResults = false,
+        err => {
+        this.errorHandler.displayHttpError(err, 'Downloading training definition');
+        this.isLoadingResults = false;
+      });
   }
 
   /**

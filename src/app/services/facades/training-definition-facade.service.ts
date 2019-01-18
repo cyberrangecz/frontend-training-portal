@@ -1,9 +1,8 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
-import {catchError, map, tap} from "rxjs/operators";
+import {map} from "rxjs/operators";
 import {TrainingDefinition} from "../../model/training/training-definition";
-import {TrainingDefinitionStateEnum} from "../../enums/training-definition-state.enum";
 import {Observable} from "rxjs/internal/Observable";
 import {PaginationParams} from "../../model/http/params/pagination-params";
 import {TrainingDefinitionMapper} from "../mappers/training-definition-mapper.service";
@@ -21,6 +20,7 @@ import {TrainingDefinitionDTO} from "../../model/DTOs/trainingDefinitionDTO";
 import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
 import {TrainingDefinitionTableDataModel} from "../../model/table-models/training-definition-table-data-model";
 import {BasicLevelInfoDTO} from "../../model/DTOs/basicLevelInfoDTO";
+import {DownloadService} from '../download.service';
 
 @Injectable()
 /**
@@ -30,6 +30,7 @@ import {BasicLevelInfoDTO} from "../../model/DTOs/basicLevelInfoDTO";
 export class TrainingDefinitionFacade {
 
   constructor(private http: HttpClient,
+              private downloadService: DownloadService,
               private levelMapper: LevelMapper,
               private trainingDefinitionMapper: TrainingDefinitionMapper) {
   }
@@ -70,11 +71,15 @@ export class TrainingDefinitionFacade {
         this.trainingDefinitionMapper.mapTrainingDefinitionDTOToTrainingDefinition(response, withLevels)));  }
 
   /**
-   * Downloads Training Definition file
+   * Downloads Training Definition file. Returns observable of boolean. True is returned when the data are received correctly
    * @param id id of training definition which should be downloaded
    */
-  downloadTrainingDefinition(id: number) {
-    // TODO: call to download Training Def
+  downloadTrainingDefinition(id: number) : Observable<boolean> {
+    return this.http.get(environment.trainingRestBasePath + 'exports/training-definitions/' + id)
+      .pipe(map(resp =>  {
+        this.downloadService.downloadFileFromJSON(resp,  resp['title'] + '.json');
+        return true;
+      }));
   }
 
   /**
