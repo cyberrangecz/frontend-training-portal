@@ -7,16 +7,12 @@ import { TraineeAccessTrainingComponent } from './trainee-access-training/traine
 import { TraineeTrainingsTableComponent } from './trainee-trainings-table/trainee-trainings-table.component';
 import {FormsModule} from "@angular/forms";
 import {SharedModule} from "../../shared/shared.module";
-import {TrainingInstanceFacade} from "../../../services/facades/training-instance-facade.service";
-import {TrainingRunFacade} from "../../../services/facades/training-run-facade.service";
 import {TrainingRunGuard} from "../../../guards/training-run-guard.service";
-import {TrainingInstanceMapper} from "../../../services/mappers/training-instance-mapper.service";
-import {TrainingRunMapper} from "../../../services/mappers/training-run-mapper.service";
-import {LevelMapper} from "../../../services/mappers/level-mapper.service";
-import {TrainingDefinitionMapper} from "../../../services/mappers/training-definition-mapper.service";
-import {TrainingDefinitionFacade} from "../../../services/facades/training-definition-facade.service";
 import {PipesModule} from "../../../pipes/pipes.module";
 import {ActiveTrainingRunLevelsService} from "../../../services/active-training-run-levels.service";
+import {TrainingInstanceFacadeModule} from '../../../services/facades/modules/training-instance-facade.module';
+import {TrainingRunFacadeModule} from '../../../services/facades/modules/training-run-facade.module';
+import {TrainingDefinitionFacadeModule} from '../../../services/facades/modules/training-definition-facade.module';
 
 @NgModule({
   imports: [
@@ -25,7 +21,10 @@ import {ActiveTrainingRunLevelsService} from "../../../services/active-training-
     SharedModule,
     TraineeOverviewRoutingModule,
     TraineeOverviewMaterialModule,
-    PipesModule
+    PipesModule,
+    TrainingInstanceFacadeModule,
+    TrainingRunFacadeModule,
+    TrainingDefinitionFacadeModule
   ],
   declarations: [
     TraineeOverviewComponent,
@@ -33,14 +32,7 @@ import {ActiveTrainingRunLevelsService} from "../../../services/active-training-
     TraineeTrainingsTableComponent
   ],
   providers: [
-    TrainingDefinitionFacade,
-    TrainingDefinitionMapper,
-    TrainingInstanceFacade,
-    TrainingInstanceMapper,
-    TrainingRunFacade,
-    TrainingRunMapper,
     TrainingRunGuard,
-    LevelMapper,
     ActiveTrainingRunLevelsService,
   ]
 })

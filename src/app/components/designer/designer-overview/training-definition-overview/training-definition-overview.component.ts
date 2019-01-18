@@ -48,7 +48,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
     private activeUserService: ActiveUserService,
     private alertService: AlertService,
     private errorHandler: ComponentErrorHandlerService,
-    private traininigInstanceFacade: TrainingInstanceFacade,
+    private trainingInstanceFacade: TrainingInstanceFacade,
     private trainingDefinitionFacade: TrainingDefinitionFacade) {
   }
 

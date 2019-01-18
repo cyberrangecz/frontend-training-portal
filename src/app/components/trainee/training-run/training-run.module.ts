@@ -7,11 +7,9 @@ import {TrainingRunLevelModule} from "./training-run-level/training-run-level.mo
 import {PipesModule} from "../../../pipes/pipes.module";
 import { TrainingTimerComponent } from './training-timer/training-timer.component';
 import {CountdownTimerModule} from "ngx-countdown-timer";
-import {TrainingDefinitionFacade} from "../../../services/facades/training-definition-facade.service";
 import {TrainingRunLevelsGuard} from "../../../guards/training-run-levels-guard.service";
-import {TrainingDefinitionMapper} from "../../../services/mappers/training-definition-mapper.service";
-import {LevelMapper} from "../../../services/mappers/level-mapper.service";
-import {TrainingRunMapper} from "../../../services/mappers/training-run-mapper.service";
+import {TrainingDefinitionFacadeModule} from '../../../services/facades/modules/training-definition-facade.module';
+import {TrainingRunFacadeModule} from '../../../services/facades/modules/training-run-facade.module';
 
 @NgModule({
   imports: [
@@ -19,6 +17,8 @@ import {TrainingRunMapper} from "../../../services/mappers/training-run-mapper.s
     TrainingRunMaterialModule,
     TrainingRunRoutingModule,
     TrainingRunLevelModule,
+    TrainingDefinitionFacadeModule,
+    TrainingRunFacadeModule,
     PipesModule.forRoot(),
     CountdownTimerModule.forRoot()
   ],
@@ -27,10 +27,6 @@ import {TrainingRunMapper} from "../../../services/mappers/training-run-mapper.s
     TrainingTimerComponent
   ],
   providers: [
-    TrainingDefinitionFacade,
-    TrainingDefinitionMapper,
-    TrainingRunMapper,
-    LevelMapper,
     TrainingRunLevelsGuard,
   ]
 })

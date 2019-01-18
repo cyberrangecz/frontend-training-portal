@@ -10,16 +10,12 @@ import {FormsModule} from "@angular/forms";
 import {OrganizerOverviewMaterialModule} from "./organizer-overview-material.module";
 import { OrganizersPickerComponent } from './training-instance-edit/organizers-picker/organizers-picker.component';
 import { TrainingDefinitionPickerComponent } from './training-instance-edit/training-definition-picker/training-definition-picker.component';
-import {TrainingDefinitionFacade} from "../../../services/facades/training-definition-facade.service";
-import {TrainingInstanceFacade} from "../../../services/facades/training-instance-facade.service";
 import {OwlDateTimeModule, OwlNativeDateTimeModule} from "ng-pick-datetime";
 import { TrainingEditPopupComponent } from './training-instance-overview/training-edit-popup/training-edit-popup.component';
 import { TrainingDeleteDialogComponent } from './training-instance-overview/training-delete-dialog/training-delete-dialog.component';
-import {TrainingInstanceMapper} from "../../../services/mappers/training-instance-mapper.service";
-import {TrainingDefinitionMapper} from "../../../services/mappers/training-definition-mapper.service";
-import {LevelMapper} from "../../../services/mappers/level-mapper.service";
 import {PipesModule} from '../../../pipes/pipes.module';
-import {TrainingRunMapper} from "../../../services/mappers/training-run-mapper.service";
+import {TrainingDefinitionFacadeModule} from '../../../services/facades/modules/training-definition-facade.module';
+import {TrainingInstanceFacadeModule} from '../../../services/facades/modules/training-instance-facade.module';
 
 @NgModule({
   imports: [
@@ -31,6 +27,8 @@ import {TrainingRunMapper} from "../../../services/mappers/training-run-mapper.s
     OwlNativeDateTimeModule,
     OrganizerOverviewMaterialModule,
     OrganizerOverviewRoutingModule,
+    TrainingDefinitionFacadeModule,
+    TrainingInstanceFacadeModule
 
   ],
   declarations: [
@@ -43,13 +41,7 @@ import {TrainingRunMapper} from "../../../services/mappers/training-run-mapper.s
     TrainingDeleteDialogComponent
   ],
   providers: [
-    TrainingInstanceGuard,
-    TrainingDefinitionFacade,
-    TrainingDefinitionMapper,
-    TrainingInstanceFacade,
-    TrainingInstanceMapper,
-    TrainingRunMapper,
-    LevelMapper
+    TrainingInstanceGuard
   ],
   entryComponents: [
     OrganizersPickerComponent,
