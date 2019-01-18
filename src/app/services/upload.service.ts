@@ -1,6 +1,8 @@
 import {Injectable} from "@angular/core";
-import {Observable} from "rxjs";
-import {HttpClient} from "@angular/common/http";
+import {fromEvent, Observable} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {TrainingDefinitionDTO} from '../model/DTOs/trainingDefinitionDTO';
+import {mergeMap} from 'rxjs/operators';
 
 @Injectable()
 export class UploadService {
@@ -9,11 +11,14 @@ export class UploadService {
   constructor(private http: HttpClient) {
   }
 
-  public upload(file: File): Observable<any> {
-    const url = '';
-    const formData: FormData = new FormData();
-    formData.append('file', file, file.name);
-
-    return this.http.post(url, {formData});
+  public uploadTrainingDefinition(url: string, file: File): Observable<TrainingDefinitionDTO> {
+    let fileReader = new FileReader();
+    const fileRead$ = fromEvent(fileReader, 'load')
+      .pipe(mergeMap(e => {
+        const jsonBody = JSON.parse(fileReader.result as string);
+        return this.http.post<TrainingDefinitionDTO>(url, jsonBody);
+      }));
+    fileReader.readAsText(file);
+    return fileRead$;
   }
 }

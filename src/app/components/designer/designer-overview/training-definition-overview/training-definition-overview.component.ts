@@ -88,6 +88,9 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
       if (result) {
         this.alertService.emitAlert(result.type, result.message);
       }
+      if (result && result.type === AlertTypeEnum.Success) {
+        this.fetchData();
+      }
     });
   }
 

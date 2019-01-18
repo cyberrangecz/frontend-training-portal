@@ -21,6 +21,7 @@ import {TableDataWithPaginationWrapper} from "../../model/table-models/table-dat
 import {TrainingDefinitionTableDataModel} from "../../model/table-models/training-definition-table-data-model";
 import {BasicLevelInfoDTO} from "../../model/DTOs/basicLevelInfoDTO";
 import {DownloadService} from '../download.service';
+import {UploadService} from '../upload.service';
 
 @Injectable()
 /**
@@ -31,6 +32,7 @@ export class TrainingDefinitionFacade {
 
   constructor(private http: HttpClient,
               private downloadService: DownloadService,
+              private uploadService: UploadService,
               private levelMapper: LevelMapper,
               private trainingDefinitionMapper: TrainingDefinitionMapper) {
   }
@@ -80,6 +82,11 @@ export class TrainingDefinitionFacade {
         this.downloadService.downloadFileFromJSON(resp,  resp['title'] + '.json');
         return true;
       }));
+  }
+
+  uploadTrainingDefinition(file: File): Observable<TrainingDefinition> {
+    return this.uploadService.uploadTrainingDefinition(environment.trainingRestBasePath + 'import/training-definitions', file)
+      .pipe(map(resp => this.trainingDefinitionMapper.mapTrainingDefinitionDTOToTrainingDefinition(resp, false)));
   }
 
   /**
