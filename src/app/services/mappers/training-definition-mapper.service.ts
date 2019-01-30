@@ -25,7 +25,6 @@ import {ViewGroupUpdateDTO} from "../../model/DTOs/viewGroupUpdateDTO";
 export class TrainingDefinitionMapper {
 
   constructor(private levelMapper: LevelMapper) {
-
   }
 
   /**

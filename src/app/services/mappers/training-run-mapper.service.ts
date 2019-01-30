@@ -75,7 +75,7 @@ export class TrainingRunMapper {
     result.endTime = new Date(trainingRunDTO.end_time);
     result.eventLogReference = trainingRunDTO.event_log_reference;
     result.sandboxInstanceId = trainingRunDTO.sandbox_instance_ref.id;
-    result.userId = trainingRunDTO.participant_ref.id;
+    result.user = trainingRunDTO.participant_ref.user_ref_login;
     result.state = this.mapTrainigRunDTOStateToEnum(trainingRunDTO.state);
 
     if (result.currentLevel) {

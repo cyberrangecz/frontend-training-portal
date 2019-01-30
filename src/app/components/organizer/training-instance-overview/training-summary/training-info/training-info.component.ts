@@ -36,7 +36,7 @@ export class TrainingInfoComponent implements OnInit, OnDestroy {
     this.trainingInstance = this.activeTrainingInstanceService.getActiveTrainingInstance();
     if (this.trainingInstance) {
       this.trainingDefinition = this.trainingInstance.trainingDefinition;
-      this.userFacade.loadUsersByIds(this.trainingInstance.organizersIds)
+      this.userFacade.loadUsersByIds(this.trainingInstance.organizers)
         .subscribe(organizers => this.organizers = organizers);
     }
   }

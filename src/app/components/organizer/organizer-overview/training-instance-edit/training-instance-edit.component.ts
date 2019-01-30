@@ -180,7 +180,7 @@ export class TrainingInstanceEditComponent implements OnInit {
     this.trainingInstance.endTime = this.endTime;
     this.trainingInstance.title = this.title;
     this.trainingInstance.poolSize = this.poolSize;
-    this.trainingInstance.organizersIds = this.organizers.map(user => user.id);
+    this.trainingInstance.organizers = this.organizers.map(user => user.id);
     this.trainingInstance.trainingDefinition = this.trainingDefinition;
     this.trainingInstance.accessToken = this.accessToken;
   }
@@ -193,7 +193,7 @@ export class TrainingInstanceEditComponent implements OnInit {
     this.endTime = this.trainingInstance.endTime;
     this.title = this.trainingInstance.title;
     this.poolSize = this.trainingInstance.poolSize;
-    this.userFacade.loadUsersByIds(this.trainingInstance.organizersIds)
+    this.userFacade.loadUsersByIds(this.trainingInstance.organizers)
       .subscribe(organizers => this.organizers = organizers);
     this.trainingDefinition = this.trainingInstance.trainingDefinition;
     this.accessToken = this.trainingInstance.accessToken;

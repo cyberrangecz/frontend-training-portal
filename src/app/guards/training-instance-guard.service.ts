@@ -26,7 +26,7 @@ export class TrainingInstanceGuard implements CanActivate {
         if (!trainingInstance
           || trainingInstance.startTime.valueOf() > now
           || trainingInstance.endTime.valueOf() < now
-          || !trainingInstance.organizersIds.includes(this.activeUserService.getActiveUser().id)) {
+          || !trainingInstance.organizers.includes(this.activeUserService.getActiveUser().id)) {
           this.router.navigate(['not-authorized']);
           return false;
         }

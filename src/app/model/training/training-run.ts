@@ -10,7 +10,7 @@ export class TrainingRun {
   id: number;
   trainingInstance: TrainingInstance;
   sandboxInstanceId: number;
-  userId: number;
+  user: string;
   startTime: Date;
   endTime: Date;
   currentLevel: AbstractLevel | number;

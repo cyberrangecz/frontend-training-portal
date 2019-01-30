@@ -5,11 +5,8 @@ import {TrainingInstanceCreateDTO, TrainingInstanceCreateDTOClass} from "../../m
 import {TrainingInstanceUpdateDTO, TrainingInstanceUpdateDTOClass} from "../../model/DTOs/trainingInstanceUpdateDTO";
 import {TrainingInstanceRestResource} from "../../model/DTOs/trainingInstanceRestResource";
 import {TrainingDefinitionMapper} from './training-definition-mapper.service';
-import {TrainingDefinitionDTO} from '../../model/DTOs/trainingDefinitionDTO';
-import {UserRefDTO} from '../../model/DTOs/userRefDTO';
 import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
 import {TrainingInstanceTableDataModel} from "../../model/table-models/training-instance-table-data-model";
-import {Pagination} from "../../model/DTOs/pagination";
 import {TablePagination} from "../../model/table-models/table-pagination";
 
 @Injectable()
@@ -62,7 +59,7 @@ export class TrainingInstanceMapper {
     result.endTime = new Date(trainingInstanceDTO.end_time);
     result.title = trainingInstanceDTO.title;
     result.poolSize = trainingInstanceDTO.pool_size;
-    result.organizersIds = trainingInstanceDTO.organizers.map(organizer => organizer.id);
+    result.organizers = trainingInstanceDTO.organizers.map(organizer => organizer.user_ref_login);
     result.accessToken = trainingInstanceDTO.access_token;
     return result;
   }
@@ -78,7 +75,7 @@ export class TrainingInstanceMapper {
     result.start_time = trainingInstance.startTime.toISOString();
     result.end_time = trainingInstance.endTime.toISOString();
     result.access_token = trainingInstance.accessToken;
-    result.org_ids =  trainingInstance.organizersIds;
+    result.organizer_logins =  trainingInstance.organizers;
     result.training_definition_id = trainingInstance.trainingDefinition.id;
     return result;
   }
@@ -95,7 +92,7 @@ export class TrainingInstanceMapper {
     result.start_time = trainingInstance.startTime.toISOString();
     result.end_time = trainingInstance.endTime.toISOString();
     result.access_token = trainingInstance.accessToken;
-    result.org_ids =  trainingInstance.organizersIds;
+    result.organizer_logins =  trainingInstance.organizers;
     result.training_definition_id = trainingInstance.trainingDefinition.id;
     return result;
   }

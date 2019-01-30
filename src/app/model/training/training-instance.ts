@@ -11,7 +11,7 @@ export class TrainingInstance {
   endTime: Date;
   title: string;
   poolSize: number;
-  organizersIds: number[];
+  organizers: string[];
   accessToken: string;
 
 
