@@ -6,7 +6,6 @@ import {AlertTypeEnum} from '../../../../enums/alert-type.enum';
 import {SandboxDefinitionPickerComponent} from './sandbox-definition-picker/sandbox-definition-picker.component';
 import {MatDialog} from '@angular/material';
 import {AuthorsPickerComponent} from './authors-picker/authors-picker.component';
-import {User} from '../../../../model/user/user';
 import {SandboxDefinition} from '../../../../model/sandbox/sandbox-definition';
 import {UserFacade} from '../../../../services/facades/user-facade.service';
 import {SandboxDefinitionFacade} from '../../../../services/facades/sandbox-definition-facade.service';

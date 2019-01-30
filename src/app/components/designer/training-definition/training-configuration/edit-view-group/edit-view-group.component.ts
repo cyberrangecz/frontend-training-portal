@@ -31,6 +31,7 @@ export class EditViewGroupComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.resolveMode();
     this.initializeActiveUser();
     this.initializeOrganizers();
     this.initializeInputs();
@@ -57,7 +58,7 @@ export class EditViewGroupComponent implements OnInit {
 
   private initializeInputs() {
     if (this.editMode) {
-      this.title = this.viewGroup.description;
+      this.title = this.viewGroup.title;
       this.description = this.viewGroup.description;
       this.selectedOrganizers = this.viewGroup.organizers as string[];
     } else {
@@ -101,7 +102,11 @@ export class EditViewGroupComponent implements OnInit {
   private initializeOrganizers() {
     this.organizers$ = this.userFacade.getOrganizers()
       .pipe(map(users => users
-        .filter(user => user.login === this.activeUser)
+        .filter(user => user.login !== this.activeUser)
         .map(user => user.login )));
+  }
+
+  private resolveMode() {
+    this.editMode = this.viewGroup !== null && this.viewGroup !== undefined;
   }
 }

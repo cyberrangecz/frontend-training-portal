@@ -20,7 +20,7 @@
     </button>
   </mat-form-field>
   <mat-selection-list #organizersList [(ngModel)]="selectedOrganizers">
-    <mat-list-option *ngIf="activeUser" [value]="activeUser" [selected]="true">
+    <mat-list-option *ngIf="activeUser" [value]="activeUser">
       {{ activeUser }} (You)
     </mat-list-option>
     <mat-list-option *ngFor="let organizer of organizers$ | async"
