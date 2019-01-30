@@ -28,6 +28,7 @@ import {ErrorLogInterceptor} from "./http-interceptors/error-log-interceptor";
     HttpClientModule,
     AppRoutingModule,
     SharedModule,
+    UserFacade,
     OAuthModule.forRoot(
       {
         resourceServer: {
@@ -44,7 +45,6 @@ import {ErrorLogInterceptor} from "./http-interceptors/error-log-interceptor";
     OrganizerGuard,
     TraineeGuard,
     ActiveUserService,
-    UserFacade,
     TrainingDistractionFreeModeService,
     { provide: HTTP_INTERCEPTORS, useClass: ErrorLogInterceptor, multi: true},
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

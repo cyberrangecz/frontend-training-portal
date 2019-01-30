@@ -73,6 +73,27 @@ export class TrainingDefinitionFacade {
         this.trainingDefinitionMapper.mapTrainingDefinitionDTOToTrainingDefinition(response, withLevels)));  }
 
   /**
+   * Retrieves training definition by id of associated sandbox definition
+   * @param {number} sandboxId id of sandbox definition associated with training definition
+   * @returns {Observable<TrainingDefinition[]>} Observable of list of training definitions matching sandbox definition id
+   */
+  getTrainingDefinitionsBySandboxDefinitionId(sandboxId: number): Observable<TrainingDefinition[]> {
+    return this.http.get<TrainingDefinitionRestResource>(environment.trainingDefsEndpointUri + 'sandbox-definitions/' + sandboxId)
+      .pipe(map(response =>
+        this.trainingDefinitionMapper.mapTrainingDefinitionDTOsToTrainingDefinitions(response)));
+  }
+
+  /**
+   * Retrieves level with matching id
+   * @param levelId id of level which should be retrieved
+   */
+  getLevelById(levelId: number): Observable<GameLevel | InfoLevel | AssessmentLevel> {
+    return this.http.get<GameLevelDTO | InfoLevelDTO | AssessmentLevelDTO>(environment.trainingDefsEndpointUri + 'levels/' + levelId)
+      .pipe(map(response =>
+      this.levelMapper.mapLevelDTOToLevel(response)));
+  }
+
+  /**
    * Downloads Training Definition file. Returns observable of boolean. True is returned when the data are received correctly
    * @param id id of training definition which should be downloaded
    */
@@ -87,27 +108,6 @@ export class TrainingDefinitionFacade {
   uploadTrainingDefinition(file: File): Observable<TrainingDefinition> {
     return this.uploadService.uploadTrainingDefinition(environment.trainingRestBasePath + 'import/training-definitions', file)
       .pipe(map(resp => this.trainingDefinitionMapper.mapTrainingDefinitionDTOToTrainingDefinition(resp, false)));
-  }
-
-  /**
-   * Retrieves training definition by id of associated sandbox definition
-   * @param {number} sandboxId id of sandbox definition associated with training definition
-   * @returns {Observable<TrainingDefinition[]>} Observable of list of training definitions matching sandbox definition id
-   */
-  getTrainingDefinitionsBySandboxDefinitionId(sandboxId: number): Observable<TrainingDefinition[]> {
-    return this.http.get<TrainingDefinitionRestResource>(environment.trainingDefsEndpointUri + 'sandbox-definitions/' + sandboxId)
-      .pipe(map(response =>
-        this.trainingDefinitionMapper.mapTrainingDefinitionDTOsToTrainingDefinitions(response)));
-  }
-
-  /**
-   * Returns level with matching id
-   * @param levelId id of level which should be retrieved
-   */
-  getLevelById(levelId: number): Observable<GameLevel | InfoLevel | AssessmentLevel> {
-    return this.http.get<GameLevelDTO | InfoLevelDTO | AssessmentLevelDTO>(environment.trainingDefsEndpointUri + 'levels/' + levelId)
-      .pipe(map(response =>
-      this.levelMapper.mapLevelDTOToLevel(response)));
   }
 
   /**
