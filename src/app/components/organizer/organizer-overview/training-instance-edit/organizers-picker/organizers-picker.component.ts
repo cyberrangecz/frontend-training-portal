@@ -3,7 +3,6 @@ import {UserFacade} from "../../../../../services/facades/user-facade.service";
 import {Observable} from "rxjs/internal/Observable";
 import {User} from "../../../../../model/user/user";
 import {MatDialogRef} from "@angular/material";
-import {UserRoleEnum} from "../../../../../enums/user-role.enum";
 import {ActiveUserService} from "../../../../../services/active-user.service";
 import {map} from "rxjs/operators";
 
@@ -30,10 +29,10 @@ export class OrganizersPickerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.organizers$ = this.userFacade.loadUsersByRoles([UserRoleEnum.Organizer])
+    this.organizers$ = this.userFacade.getOrganizers()
       .pipe(map(organizers =>
         organizers
-          .filter(organizer => organizer.id !== this.activeUser.id)));
+          .filter(organizer => organizer.login !== this.activeUser.login)));
   }
 
   /**

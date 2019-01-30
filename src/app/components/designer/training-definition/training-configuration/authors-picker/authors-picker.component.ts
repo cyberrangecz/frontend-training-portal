@@ -3,7 +3,6 @@ import {User} from "../../../../../model/user/user";
 import {Observable} from "rxjs/internal/Observable";
 import {MatDialogRef} from "@angular/material";
 import {UserFacade} from "../../../../../services/facades/user-facade.service";
-import {UserRoleEnum} from "../../../../../enums/user-role.enum";
 import {ActiveUserService} from "../../../../../services/active-user.service";
 import {map} from "rxjs/operators";
 
@@ -20,6 +19,7 @@ export class AuthorsPickerComponent implements OnInit {
   authors$: Observable<User[]>;
   selectedAuthors: User[] = [];
   activeUser: User;
+
   constructor(
     public dialogRef: MatDialogRef<AuthorsPickerComponent>,
     private userFacade: UserFacade,
@@ -29,9 +29,9 @@ export class AuthorsPickerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authors$ = this.userFacade.loadUsersByRoles([UserRoleEnum.Designer])
+    this.authors$ = this.userFacade.getDesigners()
       .pipe(map(authors => authors
-        .filter(author => author.id !== this.activeUser.id)));
+        .filter(author => author.login !== this.activeUser.login)));
   }
 
   /**

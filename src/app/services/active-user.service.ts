@@ -85,8 +85,6 @@ export class ActiveUserService {
     const claims = this.oAuthService.getIdentityClaims();
     const user: User = new User();
     user.login = claims['sub'];
-    // TODO Add name
-    console.log(claims);
     const roles = new Set<UserRoleEnum>();
     roles.add(UserRoleEnum.Designer);
     roles.add(UserRoleEnum.Organizer);

@@ -1,0 +1,13 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+div {
+  max-height: 600px;
+}
+

@@ -1,6 +1,5 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {TrainingDefinition} from "../../../../model/training/training-definition";
-import {User} from "../../../../model/user/user";
 import {AlertService} from "../../../../services/event-services/alert.service";
 import {MatDialog} from "@angular/material";
 import {OrganizersPickerComponent} from "./organizers-picker/organizers-picker.component";
@@ -33,7 +32,7 @@ export class TrainingInstanceEditComponent implements OnInit {
   startTime: Date;
   endTime: Date;
   poolSize: number;
-  organizers: User[];
+  organizers: string[];
   trainingDefinition: TrainingDefinition;
   accessToken: string;
 
@@ -180,7 +179,7 @@ export class TrainingInstanceEditComponent implements OnInit {
     this.trainingInstance.endTime = this.endTime;
     this.trainingInstance.title = this.title;
     this.trainingInstance.poolSize = this.poolSize;
-    this.trainingInstance.organizers = this.organizers.map(user => user.id);
+    this.trainingInstance.organizers = this.organizers;
     this.trainingInstance.trainingDefinition = this.trainingDefinition;
     this.trainingInstance.accessToken = this.accessToken;
   }
@@ -193,8 +192,7 @@ export class TrainingInstanceEditComponent implements OnInit {
     this.endTime = this.trainingInstance.endTime;
     this.title = this.trainingInstance.title;
     this.poolSize = this.trainingInstance.poolSize;
-    this.userFacade.loadUsersByIds(this.trainingInstance.organizers)
-      .subscribe(organizers => this.organizers = organizers);
+    this.organizers = this.trainingInstance.organizers;
     this.trainingDefinition = this.trainingInstance.trainingDefinition;
     this.accessToken = this.trainingInstance.accessToken;
 
@@ -205,6 +203,6 @@ export class TrainingInstanceEditComponent implements OnInit {
    */
   private createNewTrainingInstance() {
     this.trainingInstance = new TrainingInstance();
-    this.organizers = [this.activeUserService.getActiveUser()];
+    this.organizers = [this.activeUserService.getActiveUser().login];
   }
 }

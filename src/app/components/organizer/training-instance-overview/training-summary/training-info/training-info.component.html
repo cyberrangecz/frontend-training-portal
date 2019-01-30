@@ -1,5 +1,5 @@
 <div class="content"
-    *ngIf="trainingInstance && trainingDefinition && organizers">
+    *ngIf="trainingInstance && trainingDefinition">
   <h2> {{ trainingInstance.title }}</h2>
   <h3>{{ trainingDefinition.title }}</h3>
   <p>{{ trainingDefinition.description }}</p>
@@ -9,5 +9,5 @@
   <h4>Start Time: {{ trainingInstance.startTime | dateTimeFormat }}</h4>
   <h4>End Time: {{ trainingInstance.endTime | dateTimeFormat }}</h4>
   <h4>Pool Size: {{ trainingInstance.poolSize }}</h4>
-  <h4> Organizers: {{ organizers }} </h4>
+  <h4> Organizers: {{ trainingInstance.organizers }} </h4>
 </div>

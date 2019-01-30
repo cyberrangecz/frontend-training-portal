@@ -29,7 +29,7 @@ export interface TrainingDefinitionDTO {
     starting_level?: number;
     state?: TrainingDefinitionDTO.StateEnum;
     title?: string;
-    viewGroup?: ViewGroupDTO;
+    td_view_group?: ViewGroupDTO;
 }
 
 export class TrainingDefinitionDTOClass {
@@ -44,7 +44,7 @@ export class TrainingDefinitionDTOClass {
   starting_level?: number;
   state?: TrainingDefinitionDTO.StateEnum;
   title?: string;
-  viewGroup?: ViewGroupDTO;
+  td_view_group?: ViewGroupDTO;
 }
 export namespace TrainingDefinitionDTO {
     export type StateEnum = 'PRIVATED' | 'RELEASED' | 'ARCHIVED' | 'UNRELEASED';

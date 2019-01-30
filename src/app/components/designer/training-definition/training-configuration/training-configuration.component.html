@@ -22,6 +22,25 @@
       </button>
     </div>
 
+    <!-- VIEW GROUP field-->
+    <div class="line-with-button">
+      <div *ngIf="viewGroup">
+        <p  style="color: black">View Group: {{ viewGroup.title }}</p>
+        <span class="spacer"></span>
+        <button (click)="editViewGroup()"
+                mat-raised-button color="accent">
+          Edit
+        </button>
+      </div>
+      <div *ngIf="!viewGroup">
+        <p>View Group*</p>
+        <button (click)="editViewGroup()"
+                mat-raised-button color="accent">
+          Create
+        </button>
+      </div>
+    </div>
+
     <!-- DESCRIPTION field-->
     <mat-form-field appearance="outline">
       <mat-label>Description</mat-label>

@@ -17,6 +17,8 @@ import {map} from 'rxjs/operators';
 import {StateChangeDialogComponent} from '../state-change-dialog/state-change-dialog.component';
 import {Observable, of} from 'rxjs';
 import {TrainingDefinitionFacade} from "../../../../services/facades/training-definition-facade.service";
+import {ViewGroup} from "../../../../model/user/view-group";
+import {EditViewGroupComponent} from "./edit-view-group/edit-view-group.component";
 
 /**
  * Component for creating new or editing already existing training definition
@@ -38,10 +40,11 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
   description: string;
   prerequisites: string[];
   outcomes: string[];
-  authors: User[];
+  authors: string[];
   sandboxDef: SandboxDefinition;
   selectedState: string;
   showProgress: boolean;
+  viewGroup: ViewGroup;
 
   dirty = false;
   states: string[];
@@ -89,6 +92,20 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
       }
     });
   }
+
+  editViewGroup() {
+    const dialogRef = this.dialog.open(EditViewGroupComponent, {
+      data: this.viewGroup
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.type === 'confirm') {
+        this.viewGroup = result.viewGroup;
+        this.dirty = true;
+      }
+    })
+  }
+
   /**
    * Displays dialog window with list of sandbox definitions and assigns selected sandbox definition to the training definition
    */
@@ -216,7 +233,8 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.prerequisites = [''];
     this.outcomes = [''];
     this.selectedState = 'unreleased';
-    this.authors = [this.activeUserService.getActiveUser()];
+    this.viewGroup = null;
+    this.authors = [this.activeUserService.getActiveUser().login];
   }
 
   /**
@@ -229,18 +247,11 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.outcomes = this.trainingDefinition.outcomes;
     this.selectedState = this.trainingDefinition.state;
     this.showProgress = this.trainingDefinition.showProgress;
-
+    this.viewGroup = this.trainingDefinition.viewGroup;
     if (!this.prerequisites) this.prerequisites = [''];
     if (!this.outcomes) this.outcomes = [''];
+    this.authors = this.trainingDefinition.authors as string[];
 
-    let userIds = [];
-    if (this.trainingDefinition.authors.length > 0 && this.trainingDefinition.authors[0] instanceof User) {
-      userIds = this.trainingDefinition.authors.map((user: User) => user.id);
-    } else {
-      userIds = this.trainingDefinition.authors;
-    }
-    this.userFacade.loadUsersByIds(userIds)
-      .subscribe(authors => this.authors = authors);
 
     this.sandboxDefinitionFacade.getSandboxDefById(this.trainingDefinition.sandboxDefinitionId)
       .subscribe(sandbox => this.sandboxDef = sandbox)
@@ -251,13 +262,14 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
    */
   private setInputValuesToTrainingDef() {
     this.trainingDefinition.title = this.title;
-    this.trainingDefinition.authors = this.authors.map(author => author.id);
+    this.trainingDefinition.authors = this.authors;
     this.trainingDefinition.description = this.description;
     this.trainingDefinition.prerequisites = this.prerequisites;
     this.trainingDefinition.outcomes = this.outcomes;
     this.trainingDefinition.state = TrainingDefinitionStateEnum[this.selectedState.charAt(0).toUpperCase() + this.selectedState.slice(1)];
     this.trainingDefinition.sandboxDefinitionId = this.sandboxDef.id;
     this.trainingDefinition.showProgress = this.showProgress;
+    this.trainingDefinition.viewGroup = this.viewGroup;
   }
 
   /**
@@ -272,6 +284,12 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
 
     if (!this.authors || this.authors.length === 0) {
       errorMessage += 'Authors cannot be empty\n';
+    }
+
+    if (!this.viewGroup
+      || !this.viewGroup.organizers
+      || this.viewGroup.organizers.length === 0) {
+      errorMessage += 'View group cannot be empty\n';
     }
     if (!this.sandboxDef) {
       errorMessage += 'Sandbox definition cannot be empty\n';

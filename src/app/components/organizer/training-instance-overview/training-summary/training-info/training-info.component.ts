@@ -2,7 +2,6 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActiveTrainingInstanceService} from "../../../../../services/active-training-instance.service";
 import {TrainingInstance} from "../../../../../model/training/training-instance";
 import {TrainingDefinition} from "../../../../../model/training/training-definition";
-import {User} from "../../../../../model/user/user";
 import {UserFacade} from "../../../../../services/facades/user-facade.service";
 
 @Component({
@@ -17,7 +16,6 @@ export class TrainingInfoComponent implements OnInit, OnDestroy {
 
   trainingInstance: TrainingInstance;
   trainingDefinition: TrainingDefinition;
-  organizers: User[];
 
   trainingChangesSubscription;
 
@@ -36,8 +34,6 @@ export class TrainingInfoComponent implements OnInit, OnDestroy {
     this.trainingInstance = this.activeTrainingInstanceService.getActiveTrainingInstance();
     if (this.trainingInstance) {
       this.trainingDefinition = this.trainingInstance.trainingDefinition;
-      this.userFacade.loadUsersByIds(this.trainingInstance.organizers)
-        .subscribe(organizers => this.organizers = organizers);
     }
   }
 

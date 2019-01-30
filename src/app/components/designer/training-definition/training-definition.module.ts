@@ -14,6 +14,7 @@ import {PipesModule} from "../../../pipes/pipes.module";
 import { UnsavedChangesDialogComponent } from './unsaved-changes-dialog/unsaved-changes-dialog.component';
 import {DeleteDialogComponent} from "./delete-dialog/delete-dialog.component";
 import { StateChangeDialogComponent } from './state-change-dialog/state-change-dialog.component';
+import { EditViewGroupComponent } from './training-configuration/edit-view-group/edit-view-group.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -33,7 +34,8 @@ import { StateChangeDialogComponent } from './state-change-dialog/state-change-d
     SandboxDefinitionPickerComponent,
     UnsavedChangesDialogComponent,
     DeleteDialogComponent,
-    StateChangeDialogComponent
+    StateChangeDialogComponent,
+    EditViewGroupComponent
   ],
   providers: [
   ],
@@ -42,7 +44,8 @@ import { StateChangeDialogComponent } from './state-change-dialog/state-change-d
     AuthorsPickerComponent,
     UnsavedChangesDialogComponent,
     DeleteDialogComponent,
-    StateChangeDialogComponent
+    StateChangeDialogComponent,
+    EditViewGroupComponent
   ]
 })
 
