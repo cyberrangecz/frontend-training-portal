@@ -15,12 +15,12 @@ export class ActiveUserService {
 
   private _activeUser: User;
 
-  private _onActiveUserChangedSubject: Subject<number> = new Subject<number>();
+  private _onActiveUserChangedSubject: Subject<string> = new Subject<string>();
   /**
    * Observable of active user changes (when user logs out or logs in)
    * @type {Observable<number>}
    */
-  onActiveUserChanged: Observable<number> = this._onActiveUserChangedSubject.asObservable();
+  onActiveUserChanged: Observable<string> = this._onActiveUserChangedSubject.asObservable();
 
   constructor(private router: Router,
     private oAuthService: OAuthService) {
@@ -84,8 +84,9 @@ export class ActiveUserService {
   loadProfile() {
     const claims = this.oAuthService.getIdentityClaims();
     const user: User = new User();
-    user.id = 7;
-    user.name = claims['sub'];
+    user.login = claims['sub'];
+    // TODO Add name
+    console.log(claims);
     const roles = new Set<UserRoleEnum>();
     roles.add(UserRoleEnum.Designer);
     roles.add(UserRoleEnum.Organizer);
@@ -100,7 +101,7 @@ export class ActiveUserService {
    */
   setActiveUser(user: User) {
     this._activeUser = user;
-    const id = this._activeUser === null || this._activeUser === undefined ? null : this._activeUser.id;
-    this._onActiveUserChangedSubject.next(id);
+    const login = this._activeUser === null || this._activeUser === undefined ? null : this._activeUser.login;
+    this._onActiveUserChangedSubject.next(login);
   }
 }

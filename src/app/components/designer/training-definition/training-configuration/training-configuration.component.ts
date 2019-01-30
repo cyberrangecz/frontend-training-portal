@@ -234,10 +234,10 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     if (!this.outcomes) this.outcomes = [''];
 
     let userIds = [];
-    if (this.trainingDefinition.authorIds.length > 0 && this.trainingDefinition.authorIds[0] instanceof User) {
-      userIds = this.trainingDefinition.authorIds.map((user: User) => user.id);
+    if (this.trainingDefinition.authors.length > 0 && this.trainingDefinition.authors[0] instanceof User) {
+      userIds = this.trainingDefinition.authors.map((user: User) => user.id);
     } else {
-      userIds = this.trainingDefinition.authorIds;
+      userIds = this.trainingDefinition.authors;
     }
     this.userFacade.loadUsersByIds(userIds)
       .subscribe(authors => this.authors = authors);
@@ -251,7 +251,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
    */
   private setInputValuesToTrainingDef() {
     this.trainingDefinition.title = this.title;
-    this.trainingDefinition.authorIds = this.authors.map(author => author.id);
+    this.trainingDefinition.authors = this.authors.map(author => author.id);
     this.trainingDefinition.description = this.description;
     this.trainingDefinition.prerequisites = this.prerequisites;
     this.trainingDefinition.outcomes = this.outcomes;

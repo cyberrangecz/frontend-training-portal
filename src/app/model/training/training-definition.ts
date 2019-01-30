@@ -1,6 +1,7 @@
 import {TrainingDefinitionStateEnum} from "../../enums/training-definition-state.enum";
 import {AbstractLevel} from "../level/abstract-level";
 import {User} from "../user/user";
+import {ViewGroup} from "../user/view-group";
 
 /**
  * Class representing training definition in a system.
@@ -11,7 +12,8 @@ export class TrainingDefinition {
   sandboxDefinitionId: number;
   title: string;
   description: string;
-  authorIds: Array<User | number>;
+  authors: Array<User | string>;
+  viewGroup: ViewGroup;
   prerequisites: string[];
   outcomes: string[];
   state: TrainingDefinitionStateEnum;

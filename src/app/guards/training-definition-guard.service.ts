@@ -28,7 +28,7 @@ export class TrainingDefinitionGuard implements CanActivate, CanDeactivate<Train
         // Training definition with such id either does not exist, cannot be edited or user is not authorized to edit it
         if (!trainingDef
           || trainingDef.state !== TrainingDefinitionStateEnum.Unreleased
-          || !trainingDef.authorIds.includes(this.activeUserService.getActiveUser().id)) {
+          || !trainingDef.authors.includes(this.activeUserService.getActiveUser().id)) {
           this.router.navigate(['not-authorized']);
           return false;
         }

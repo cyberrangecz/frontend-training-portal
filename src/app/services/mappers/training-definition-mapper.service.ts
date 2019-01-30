@@ -16,6 +16,10 @@ import {TableDataWithPaginationWrapper} from "../../model/table-models/table-dat
 import {TrainingDefinitionTableDataModel} from "../../model/table-models/training-definition-table-data-model";
 import {TablePagination} from "../../model/table-models/table-pagination";
 import {LevelMapper} from "./level-mapper.service";
+import {ViewGroupDTO} from "../../model/DTOs/viewGroupDTO";
+import {ViewGroup} from "../../model/user/view-group";
+import {ViewGroupCreateDTO} from "../../model/DTOs/viewGroupCreateDTO";
+import {ViewGroupUpdateDTO} from "../../model/DTOs/viewGroupUpdateDTO";
 
 @Injectable()
 export class TrainingDefinitionMapper {
@@ -62,21 +66,22 @@ export class TrainingDefinitionMapper {
     result.sandboxDefinitionId = trainingDefinitionDTO.sandbox_definition_ref_id;
     result.title = trainingDefinitionDTO.title;
     result.description = trainingDefinitionDTO.description;
-    result.authorIds = this.getAuthorRefDtoFromDTO(trainingDefinitionDTO);
+    result.authors = this.getAuthorsFromDTO(trainingDefinitionDTO);
     result.prerequisites =  trainingDefinitionDTO.prerequisities;
     result.outcomes = trainingDefinitionDTO.outcomes;
     result.state = this.mapTrainingDefDTOStateToEnum(trainingDefinitionDTO.state);
     result.startingLevel = trainingDefinitionDTO.starting_level;
+    result.viewGroup = this.getViewGroupFromDTO(trainingDefinitionDTO.viewGroup);
     if (withLevels) {
       result.levels = this.getLevelsFromDTO(trainingDefinitionDTO);
     }
     return result;
   }
 
-  private getAuthorRefDtoFromDTO(trainingDefinitionDTO: TrainingDefinitionDTO): number[] {
+  private getAuthorsFromDTO(trainingDefinitionDTO: TrainingDefinitionDTO): string[] {
     let result = [];
     if (trainingDefinitionDTO.authors) {
-      result = trainingDefinitionDTO.authors.map(author => author.id);
+      result = trainingDefinitionDTO.authors.map(author => author.user_ref_login);
     }
     return result;
   }
@@ -87,6 +92,16 @@ export class TrainingDefinitionMapper {
       levels = this.levelMapper.mapLevelDTOsToLevels(trainingDefinitionDTO.levels);
     }
     return levels;
+  }
+
+
+  private getViewGroupFromDTO(viewGroupDTO: ViewGroupDTO): ViewGroup {
+    const result = new ViewGroup();
+    result.id = viewGroupDTO.id;
+    result.title = viewGroupDTO.title;
+    result.description = viewGroupDTO.description;
+    result.organizers = viewGroupDTO.organizers.map(organizer => organizer.user_ref_login);
+    return result;
   }
 
 
@@ -106,7 +121,8 @@ export class TrainingDefinitionMapper {
     result.title = trainingDefinition.title;
     result.sandbox_definition_ref_id = trainingDefinition.sandboxDefinitionId;
     result.show_stepper_bar = trainingDefinition.showProgress;
-    result.aut_ids = trainingDefinition.authorIds as number[];
+    result.author_logins = trainingDefinition.authors as string[];
+    result.td_view_group = this.createViewGroupCreateDTO(trainingDefinition.viewGroup);
     return result;
   }
 
@@ -124,11 +140,29 @@ export class TrainingDefinitionMapper {
     result.sandbox_definition_ref_id = trainingDefinition.sandboxDefinitionId;
     trainingDefinition.outcomes.forEach(outcome => result.outcomes.push(outcome));
     trainingDefinition.prerequisites.forEach(prerequisite => result.prerequisities.push(prerequisite));
-    result.aut_ids = trainingDefinition.authorIds as number[];
+    result.author_logins = trainingDefinition.authors as string[];
     result.outcomes = trainingDefinition.outcomes;
     result.prerequisities = trainingDefinition.prerequisites;
     result.state = this.mapTrainingDefStateToDTOEnum(trainingDefinition.state);
     result.title = trainingDefinition.title;
+    result.td_view_group = this.createViewGroupUpdateDTO(trainingDefinition.viewGroup);
+    return result;
+  }
+
+  private createViewGroupCreateDTO(viewGroup: ViewGroup): ViewGroupCreateDTO {
+    const result = new ViewGroupCreateDTO();
+    result.title = viewGroup.title;
+    result.description = viewGroup.description;
+    result.organizer_logins = viewGroup.organizers as string [];
+    return result;
+  }
+
+  private createViewGroupUpdateDTO(viewGroup: ViewGroup): ViewGroupUpdateDTO {
+    const result = new ViewGroupUpdateDTO();
+    result.id = viewGroup.id;
+    result.title = viewGroup.title;
+    result.description = viewGroup.description;
+    result.organizer_logins = viewGroup.organizers as string [];
     return result;
   }
 
@@ -156,4 +190,6 @@ export class TrainingDefinitionMapper {
       }
     }
   }
+
+
 }
