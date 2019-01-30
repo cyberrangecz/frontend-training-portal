@@ -1,5 +1,4 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {UnsavedChangesDialogComponent} from "../unsaved-changes-dialog/unsaved-changes-dialog.component";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 
 @Component({
@@ -10,8 +9,8 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 export class DeleteDialogComponent implements OnInit {
 
   constructor(
-    public dialogRef: MatDialogRef<UnsavedChangesDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: string[]) {
+    public dialogRef: MatDialogRef<DeleteDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { type: string, title: string }) {
   }
 
   ngOnInit() {

@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TrainingDistractionFreeModeService} from "./services/training-distraction-free-mode.service";
-import {authConfig} from "./auth/auth-config";
+import {authConfig} from "./config/auth-config";
 import {JwksValidationHandler, OAuthService} from "angular-oauth2-oidc";
 import {Router} from "@angular/router";
 import {ActiveUserService} from "./services/active-user.service";
