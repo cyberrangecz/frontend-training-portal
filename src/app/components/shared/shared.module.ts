@@ -10,9 +10,7 @@ import {AlertComponent} from "./alert/alert.component";
 import {NotAuthorizedComponent} from "./not-authorized/not-authorized.component";
 import {AlertService} from "../../services/event-services/alert.service";
 import {FormsModule} from "@angular/forms";
-import {UploadDialogComponent} from "./upload-dialog/upload-dialog.component";
 import {UploadService} from "../../services/upload.service";
-import {ngfModule} from "angular-file";
 import { AlertSnackbarComponent } from './alert/alert-snackbar/alert-snackbar.component';
 import {ComponentErrorHandlerService} from "../../services/component-error-handler.service";
 
@@ -21,7 +19,6 @@ import {ComponentErrorHandlerService} from "../../services/component-error-handl
     CommonModule,
     RouterModule,
     FormsModule,
-    ngfModule,
     SharedMaterialModule
   ],
   declarations: [
@@ -31,7 +28,6 @@ import {ComponentErrorHandlerService} from "../../services/component-error-handl
     SidenavComponent,
     AlertComponent,
     NotAuthorizedComponent,
-    UploadDialogComponent,
     AlertSnackbarComponent,
   ],
   exports: [
@@ -41,7 +37,6 @@ import {ComponentErrorHandlerService} from "../../services/component-error-handl
     SidenavComponent,
     AlertComponent,
     NotAuthorizedComponent,
-    UploadDialogComponent,
     SharedMaterialModule
   ],
   providers: [

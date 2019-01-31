@@ -6,25 +6,28 @@ import {DesignerOverviewMaterialModule} from "./designer-overview-material.modul
 import { TrainingDefinitionOverviewComponent } from './training-definition-overview/training-definition-overview.component';
 import { SandboxDefinitionOverviewComponent } from './sandbox-definition-overview/sandbox-definition-overview.component';
 import {SandboxDefinitionFacade} from "../../../services/facades/sandbox-definition-facade.service";
-import { UploadDialogComponent } from '../../shared/upload-dialog/upload-dialog.component';
+import { DesignerUploadDialogComponent } from '../upload-dialog/designer-upload-dialog.component';
 import {SharedModule} from "../../shared/shared.module";
 import {TrainingDefinitionGuard} from "../../../guards/training-definition-guard.service";
 import {TrainingDefinitionFacadeModule} from '../../../services/facades/modules/training-definition-facade.module';
 import {TrainingInstanceFacadeModule} from '../../../services/facades/modules/training-instance-facade.module';
 import {PipesModule} from "../../../pipes/pipes.module";
+import {ngfModule} from "angular-file";
 
 @NgModule({
   imports: [
     CommonModule,
+    ngfModule,
     SharedModule,
     PipesModule,
     DesignerOverviewRoutingModule,
     DesignerOverviewMaterialModule,
     TrainingDefinitionFacadeModule,
-    TrainingInstanceFacadeModule,
+    TrainingInstanceFacadeModule
   ],
   declarations: [
     DesignerOverviewComponent,
+    DesignerUploadDialogComponent,
     TrainingDefinitionOverviewComponent,
     SandboxDefinitionOverviewComponent,
   ],
@@ -33,7 +36,7 @@ import {PipesModule} from "../../../pipes/pipes.module";
     SandboxDefinitionFacade,
   ],
   entryComponents: [
-    UploadDialogComponent,
+    DesignerUploadDialogComponent,
   ]
 })
 

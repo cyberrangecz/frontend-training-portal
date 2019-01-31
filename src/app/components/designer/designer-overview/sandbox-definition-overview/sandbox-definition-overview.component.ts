@@ -7,7 +7,7 @@ import {TrainingDefinitionFacade} from "../../../../services/facades/training-de
 import {AlertService} from "../../../../services/event-services/alert.service";
 import {TrainingDefinitionStateEnum} from "../../../../enums/training-definition-state.enum";
 import {TrainingDefinition} from "../../../../model/training/training-definition";
-import {UploadDialogComponent} from "../../../shared/upload-dialog/upload-dialog.component";
+import {DesignerUploadDialogComponent} from "../../upload-dialog/designer-upload-dialog.component";
 import {merge, of} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {environment} from "../../../../../environments/environment";
@@ -68,7 +68,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
    * Displays dialog window to upload a file with sandbox definition and creates alert with a result of the upload
    */
   uploadSandboxDefinition() {
-    const dialogRef = this.dialog.open(UploadDialogComponent, {
+    const dialogRef = this.dialog.open(DesignerUploadDialogComponent, {
       data: {
         title: 'Upload Sandbox Definition',
         type: 'sandbox'

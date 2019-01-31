@@ -106,7 +106,7 @@ export class TrainingDefinitionFacade {
   }
 
   uploadTrainingDefinition(file: File): Observable<TrainingDefinition> {
-    return this.uploadService.uploadTrainingDefinition(environment.trainingRestBasePath + 'import/training-definitions', file)
+    return this.uploadService.uploadTrainingDefinition(environment.trainingRestBasePath + 'imports/training-definitions', file)
       .pipe(map(resp => this.trainingDefinitionMapper.mapTrainingDefinitionDTOToTrainingDefinition(resp, false)));
   }
 

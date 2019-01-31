@@ -5,7 +5,7 @@ import {ActiveUserService} from '../../../../services/active-user.service';
 import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {TrainingDefinitionStateEnum} from '../../../../enums/training-definition-state.enum';
 import {ActivatedRoute, Router} from '@angular/router';
-import {UploadDialogComponent} from '../../../shared/upload-dialog/upload-dialog.component';
+import {DesignerUploadDialogComponent} from '../../upload-dialog/designer-upload-dialog.component';
 import {AlertService} from '../../../../services/event-services/alert.service';
 import {TrainingInstanceFacade} from '../../../../services/facades/training-instance-facade.service';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
@@ -78,7 +78,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    * Displays dialog window to upload a file with training definition and creates alert with a result of the upload
    */
   uploadTrainingDefinition() {
-    const dialogRef = this.dialog.open(UploadDialogComponent, {
+    const dialogRef = this.dialog.open(DesignerUploadDialogComponent, {
       data: {
         title: 'Upload Training Definition',
         type: 'training'

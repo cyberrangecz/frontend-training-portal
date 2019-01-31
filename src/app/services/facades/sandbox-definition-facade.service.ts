@@ -6,6 +6,8 @@ import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
 import {PaginationParams} from "../../model/http/params/pagination-params";
 import {of} from "rxjs";
+import {SandboxDefinitionCreateDTO} from "../../model/DTOs/sandbox-definition/sandbox-definition-create-dto";
+import {UploadService} from "../upload.service";
 
 @Injectable()
 /**
@@ -14,7 +16,13 @@ import {of} from "rxjs";
  */
 export class SandboxDefinitionFacade {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private uploadService: UploadService) {
+  }
+
+
+  uploadSandboxDefinition(file: File): Observable<SandboxDefinitionCreateDTO> {
+    return this.uploadService.uploadSandboxDefinition(environment.trainingRestBasePath + 'imports/sandbox-definitions', file);
   }
 
   /**
