@@ -4,7 +4,7 @@ import {OrganizerOverviewRoutingModule} from "./organizer-overview-routing.modul
 import {OrganizerOverviewComponent} from "./organizer-overview.component";
 import {TrainingInstanceGuard} from "../../../guards/training-instance-guard.service";
 import { TrainingInstanceEditComponent } from './training-instance-edit/training-instance-edit.component';
-import { TrainingInstancesListComponent } from './training-instance-overview/training-instances-list.component';
+import { TrainingInstancesTableComponent } from './training-instance-overview/training-instances-table.component';
 import {SharedModule} from "../../shared/shared.module";
 import {FormsModule} from "@angular/forms";
 import {OrganizerOverviewMaterialModule} from "./organizer-overview-material.module";
@@ -34,7 +34,7 @@ import {TrainingInstanceFacadeModule} from '../../../services/facades/modules/tr
   declarations: [
     OrganizerOverviewComponent,
     TrainingInstanceEditComponent,
-    TrainingInstancesListComponent,
+    TrainingInstancesTableComponent,
     OrganizersPickerComponent,
     TrainingDefinitionPickerComponent,
     TrainingEditPopupComponent,

@@ -16,7 +16,7 @@ h2 {
   padding: 20px;
   display: flex;
   flex-direction: row;
-  width: 90vh;
+  width: 75vw;
 }
 
 .training-table-wrapper {
@@ -46,20 +46,23 @@ td.date, th.date {
   width: 30%;
 }
 
-td.state, th.state {
-  width: 15%;
-}
-
-td.poolSize, th.poolSize {
-  width: 5%;
-}
-
-td.password, th.password {
+td.trainingDefinition, th.trainingDefinition {
+  text-align: center;
   width: 10%;
 }
 
-td.actions, th.actions {
+td.poolSize, th.poolSize {
+  text-align: center;
+  width: 10%;
+}
+
+td.password, th.password {
+  text-align: center;
   width: 20%;
+}
+
+td.actions, th.actions {
+  width: 10%;
 }
 
 .loading {
@@ -77,4 +80,10 @@ td.actions, th.actions {
 .loading-error {
   color: #980000;
   text-align: center;
+}
+
+@media screen and (max-width: 800px) {
+  .training {
+    width: 90vw;
+  }
 }

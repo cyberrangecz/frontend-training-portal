@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {TrainingInstancesListComponent} from "./training-instance-overview/training-instances-list.component";
+import {TrainingInstancesTableComponent} from "./training-instance-overview/training-instances-table.component";
 
 @Component({
   selector: 'organizer-overview',
@@ -11,7 +11,7 @@ import {TrainingInstancesListComponent} from "./training-instance-overview/train
  */
 export class OrganizerOverviewComponent implements OnInit {
 
-  @ViewChild(TrainingInstancesListComponent) trainingInstancesListComponent: TrainingInstancesListComponent;
+  @ViewChild(TrainingInstancesTableComponent) trainingInstancesListComponent: TrainingInstancesTableComponent;
 
   constructor() { }
 

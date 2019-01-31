@@ -15,15 +15,15 @@ import {TableDataWithPaginationWrapper} from "../../../../model/table-models/tab
 import {ComponentErrorHandlerService} from "../../../../services/component-error-handler.service";
 
 @Component({
-  selector: 'training-instances-list',
-  templateUrl: './training-instances-list.component.html',
-  styleUrls: ['./training-instances-list.component.css']
+  selector: 'training-instances-table',
+  templateUrl: './training-instances-table.component.html',
+  styleUrls: ['./training-instances-table.component.css']
 })
 
 /**
  * Component for list of training instance displayed in form of a table. Only training instances where the active user is listed as an organizer is shown
  */
-export class TrainingInstancesListComponent implements OnInit {
+export class TrainingInstancesTableComponent implements OnInit {
 
   displayedColumns: string[] = ['title', 'date', 'trainingDefinition', 'poolSize', 'accessToken', 'actions'];
 
