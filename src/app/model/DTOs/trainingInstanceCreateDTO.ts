@@ -21,8 +21,8 @@ import {SandboxDefinitionRefDTO} from "./sandboxDefinitionRefDTO";
  */
 export interface TrainingInstanceCreateDTO {
     end_time?: string;
-  access_token?: string;
-  organizer_logins?: Array<string>;
+    access_token?: string;
+    organizer_logins?: Array<string>;
     pool_size?: number;
     start_time?: string;
     title?: string;

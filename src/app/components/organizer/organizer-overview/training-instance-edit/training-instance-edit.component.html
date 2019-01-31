@@ -60,7 +60,9 @@
 
           <!-- ORGANIZERS field-->
           <div class="line-with-button">
-            <p *ngIf="organizers && organizers.length > 0" style="color: black">Organizers: {{ organizers }}</p>
+            <p *ngIf="organizers && organizers.length > 0"
+               [matTooltip]="organizers"
+               style="color: black">Organizers: {{ organizers | authorsTableFormat}}</p>
             <p *ngIf="!organizers || organizers.length === 0">Organizers*</p>
             <span class="spacer"></span>
             <button (click)="chooseOrganizers()"
@@ -71,7 +73,7 @@
 
         <!-- TRAINING DEFINITION field-->
         <div class="line-with-button">
-          <p *ngIf="trainingDefinition" style="color: black">Training Definition: {{ trainingDefinition }}</p>
+          <p *ngIf="trainingDefinition" style="color: black">Training Definition: {{ trainingDefinition.title }}</p>
           <p *ngIf="!trainingDefinition">Training Definition*</p>
           <span class="spacer"></span>
           <button (click)="chooseTrainingDefinition()"
