@@ -11,15 +11,17 @@ import {SharedModule} from "../../shared/shared.module";
 import {TrainingDefinitionGuard} from "../../../guards/training-definition-guard.service";
 import {TrainingDefinitionFacadeModule} from '../../../services/facades/modules/training-definition-facade.module';
 import {TrainingInstanceFacadeModule} from '../../../services/facades/modules/training-instance-facade.module';
+import {PipesModule} from "../../../pipes/pipes.module";
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
+    PipesModule,
     DesignerOverviewRoutingModule,
     DesignerOverviewMaterialModule,
     TrainingDefinitionFacadeModule,
-    TrainingInstanceFacadeModule
+    TrainingInstanceFacadeModule,
   ],
   declarations: [
     DesignerOverviewComponent,

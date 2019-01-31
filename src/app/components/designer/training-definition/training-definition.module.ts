@@ -23,7 +23,7 @@ import { EditViewGroupComponent } from './training-configuration/edit-view-group
     TrainingDefinitionRoutingModule,
     TrainingDefinitionMaterialModule,
     LevelConfigurationModule,
-    PipesModule.forRoot(),
+    PipesModule
 
   ],
   declarations: [

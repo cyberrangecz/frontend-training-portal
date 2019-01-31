@@ -53,7 +53,13 @@
           <!-- AUTHORS Column -->
           <ng-container matColumnDef="authors">
             <th class="authors" mat-header-cell *matHeaderCellDef>Authors</th>
-            <td class="authors" mat-cell *matCellDef="let data"> {{ data.trainingDefinition?.authors }}</td>
+            <td class="authors" mat-cell
+                *matCellDef="let data">
+              <div [matTooltip]="data.trainingDefinition?.authors"
+                matTooltipPosition="above">
+                {{ data.trainingDefinition?.authors | authorsTableFormat }}
+              </div>
+            </td>
           </ng-container>
 
           <!--ACTIONS Column -->

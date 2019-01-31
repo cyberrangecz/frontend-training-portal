@@ -19,7 +19,7 @@ import {TrainingRunFacadeModule} from '../../../services/facades/modules/trainin
     TrainingRunLevelModule,
     TrainingDefinitionFacadeModule,
     TrainingRunFacadeModule,
-    PipesModule.forRoot(),
+    PipesModule,
     CountdownTimerModule.forRoot()
   ],
   declarations: [

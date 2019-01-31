@@ -22,7 +22,7 @@ import {TrainingInstanceFacadeModule} from '../../../services/facades/modules/tr
     CommonModule,
     SharedModule,
     FormsModule,
-    PipesModule.forRoot(),
+    PipesModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     OrganizerOverviewMaterialModule,

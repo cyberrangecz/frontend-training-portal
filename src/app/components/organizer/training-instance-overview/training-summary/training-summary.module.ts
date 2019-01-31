@@ -14,7 +14,7 @@ import {TrainingRunFacadeModule} from '../../../../services/facades/modules/trai
   imports: [
     CommonModule,
     SharedModule,
-    PipesModule.forRoot(),
+    PipesModule,
     TrainingSummaryMaterialModule,
     TrainingSummaryRoutingModule,
     TrainingRunFacadeModule

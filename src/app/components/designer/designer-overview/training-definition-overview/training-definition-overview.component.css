@@ -23,11 +23,11 @@ h2 {
 }
 
 .train-def-table-wrapper {
-  flex-grow: 9;
+  flex-grow: 10;
 }
 
 .train-def-table {
-  width: 70%;
+  width: 90%;
   margin: auto auto;
   justify-items: center;
   justify-content: center;
@@ -64,7 +64,6 @@ table {
   width: 100%;
 }
 
-
 td.title, th.title {
   width: 20%;
 }
@@ -74,14 +73,17 @@ td.description, th.description {
 }
 
 td.authors, th.authors {
+  text-align: center;
   width: 20%;
 }
 
 td.actions, th.actions {
+  text-align: center;
   width: 20%;
 }
 
 td.state, th.state {
+  text-align: center;
   width: 10%;
 }
 
