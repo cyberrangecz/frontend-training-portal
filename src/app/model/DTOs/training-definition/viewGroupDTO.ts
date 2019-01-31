@@ -1,4 +1,4 @@
-import {UserRefDTO} from "./userRefDTO";
+import {UserRefDTO} from "../user/userRefDTO";
 
 export class ViewGroupDTO {
   id: number;

@@ -9,44 +9,42 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { AuthorRefDTO } from './authorRefDTO';
-import {AbstractLevelDTO} from "./abstractLevelDTO";
+import { AuthorRefDTO } from '../user/authorRefDTO';
+import { SandboxDefinitionRefDTO } from '../sandbox-definition/sandboxDefinitionRefDTO';
 import {ViewGroupDTO} from "./viewGroupDTO";
+import {ViewGroupUpdateDTO} from "./viewGroupUpdateDTO";
 
 
 /**
- * .
+ * Training Definition to update.
  */
-export interface TrainingDefinitionDTO {
-    authors?: Array<AuthorRefDTO>;
-    levels?: Array<AbstractLevelDTO>;
+export interface TrainingDefinitionUpdateDTO {
+    author_logins?: Array<string>;
+    td_view_group: ViewGroupUpdateDTO
     description?: string;
     id?: number;
     outcomes?: Array<string>;
     prerequisities?: Array<string>;
     sandbox_definition_ref_id?: number;
     show_stepper_bar?: boolean;
-    starting_level?: number;
-    state?: TrainingDefinitionDTO.StateEnum;
+    state?: TrainingDefinitionUpdateDTO.StateEnum;
     title?: string;
-    td_view_group?: ViewGroupDTO;
 }
 
-export class TrainingDefinitionDTOClass {
-  authors?: Array<AuthorRefDTO>;
-  levels?: Array<AbstractLevelDTO>;
-  description?: string;
-  id?: number;
-  outcomes?: Array<string>;
-  prerequisities?: Array<string>;
+export class TrainingDefinitionUpdateDTOClass implements TrainingDefinitionUpdateDTO {
+  author_logins?: Array<string>;
+  td_view_group: ViewGroupUpdateDTO;
+  description: string;
+  id: number;
+  outcomes: Array<string>;
+  prerequisities: Array<string>;
   sandbox_definition_ref_id?: number;
-  show_stepper_bar?: boolean;
-  starting_level?: number;
-  state?: TrainingDefinitionDTO.StateEnum;
-  title?: string;
-  td_view_group?: ViewGroupDTO;
+  show_stepper_bar: boolean;
+  state: TrainingDefinitionUpdateDTO.StateEnum;
+  title: string;
 }
-export namespace TrainingDefinitionDTO {
+
+export namespace TrainingDefinitionUpdateDTO {
     export type StateEnum = 'PRIVATED' | 'RELEASED' | 'ARCHIVED' | 'UNRELEASED';
     export const StateEnum = {
         PRIVATED: 'PRIVATED' as StateEnum,

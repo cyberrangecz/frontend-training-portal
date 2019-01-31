@@ -5,22 +5,22 @@ import {TrainingRun} from "../../model/training/training-run";
 import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
 import {PaginationParams} from "../../model/http/params/pagination-params";
-import {TrainingRunDTO} from "../../model/DTOs/trainingRunDTO";
+import {TrainingRunDTO} from "../../model/DTOs/training-run/trainingRunDTO";
 import {TrainingRunMapper} from "../mappers/training-run-mapper.service";
-import {TrainingRunRestResource} from '../../model/DTOs/trainingRunRestResource';
+import {TrainingRunRestResource} from '../../model/DTOs/training-run/trainingRunRestResource';
 import {TraineeAccessedTrainingsTableDataModel} from "../../model/table-models/trainee-accessed-trainings-table-data-model";
 import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
 import {AbstractQuestion} from "../../model/questions/abstract-question";
-import {HintDTO} from "../../model/DTOs/hintDTO";
-import {IsCorrectFlagDTO} from "../../model/DTOs/isCorrectFlagDTO";
+import {HintDTO} from "../../model/DTOs/level/game/hintDTO";
+import {IsCorrectFlagDTO} from "../../model/DTOs/level/game/isCorrectFlagDTO";
 import {FlagCheck} from "../../model/level/flag-check";
 import {InfoLevel} from "../../model/level/info-level";
 import {AssessmentLevel} from "../../model/level/assessment-level";
-import {AbstractLevelDTO} from "../../model/DTOs/abstractLevelDTO";
+import {AbstractLevelDTO} from "../../model/DTOs/level/abstractLevelDTO";
 import {GameLevel} from "../../model/level/game-level";
 import {Hint} from "../../model/level/hint";
 import {AccessTrainingRun} from "../../model/training/access-training-run";
-import {AccessTrainingRunDTO} from "../../model/DTOs/accessTrainingRunDTO";
+import {AccessTrainingRunDTO} from "../../model/DTOs/training-run/accessTrainingRunDTO";
 import {LevelMapper} from "../mappers/level-mapper.service";
 
 /**

@@ -1,31 +1,31 @@
 import {Injectable} from "@angular/core";
-import {AbstractLevelDTO} from "../../model/DTOs/abstractLevelDTO";
+import {AbstractLevelDTO} from "../../model/DTOs/level/abstractLevelDTO";
 import {AbstractLevel} from "../../model/level/abstract-level";
 import {GameLevel} from "../../model/level/game-level";
-import {GameLevelUpdateDTO, GameLevelUpdateDTOClass} from "../../model/DTOs/gameLevelUpdateDTO";
-import {InfoLevelUpdateDTO, InfoLevelUpdateDTOClass} from "../../model/DTOs/infoLevelUpdateDTO";
+import {GameLevelUpdateDTO, GameLevelUpdateDTOClass} from "../../model/DTOs/level/game/gameLevelUpdateDTO";
+import {InfoLevelUpdateDTO, InfoLevelUpdateDTOClass} from "../../model/DTOs/level/info/infoLevelUpdateDTO";
 import {InfoLevel} from "../../model/level/info-level";
 import {AssessmentLevel} from "../../model/level/assessment-level";
-import {AssessmentLevelUpdateDTO, AssessmentLevelUpdateDTOClass} from "../../model/DTOs/assessmentLevelUpdateDTO";
-import {GameLevelDTO} from "../../model/DTOs/gameLevelDTO";
-import {InfoLevelDTO} from "../../model/DTOs/infoLevelDTO";
-import {AssessmentLevelDTO} from "../../model/DTOs/assessmentLevelDTO";
+import {AssessmentLevelUpdateDTO, AssessmentLevelUpdateDTOClass} from "../../model/DTOs/level/assessment/assessmentLevelUpdateDTO";
+import {GameLevelDTO} from "../../model/DTOs/level/game/gameLevelDTO";
+import {InfoLevelDTO} from "../../model/DTOs/level/info/infoLevelDTO";
+import {AssessmentLevelDTO} from "../../model/DTOs/level/assessment/assessmentLevelDTO";
 import {AbstractLevelTypeEnum} from "../../enums/abstract-level-type.enum";
 import {AssessmentTypeEnum} from "../../enums/assessment-type.enum";
-import {HintDTO, HintDTOClass} from "../../model/DTOs/hintDTO";
+import {HintDTO, HintDTOClass} from "../../model/DTOs/level/game/hintDTO";
 import {Hint} from "../../model/level/hint";
-import {BasicLevelInfoDTO} from "../../model/DTOs/basicLevelInfoDTO";
+import {BasicLevelInfoDTO} from "../../model/DTOs/level/basicLevelInfoDTO";
 import LevelTypeEnum = AbstractLevelDTO.LevelTypeEnum;
 import {AbstractQuestion} from '../../model/questions/abstract-question';
 import {FreeFormQuestion} from '../../model/questions/free-form-question';
 import {MultipleChoiceQuestion} from '../../model/questions/multiple-choice-question';
 import {ExtendedMatchingItems} from '../../model/questions/extended-matching-items';
-import {AbstractQuestionCreateDTO, AbstractQuestionDTO} from '../../model/DTOs/abstactQuestionDTO';
-import {MultipleChoiceQuestionCreateDTO, MultipleChoiceQuestionCreateDTOClass} from '../../model/DTOs/multipleChoiceQuestionCreateDTO';
-import {ExtendedMatchingItemsCreateDTO, ExtendedMatchingItemsDTOClass} from '../../model/DTOs/extendedMatchingItemsDTO';
-import {FreeFormQuestionCreateDTO, FreeFormQuestionDTOClass} from '../../model/DTOs/freeFormQuestionDTO';
-import {MCQChoiceDTO} from '../../model/DTOs/mcqChoiceDTO';
-import {EMIChoiceDTO} from '../../model/DTOs/emiChoiceDTO';
+import {AbstractQuestionCreateDTO, AbstractQuestionDTO} from '../../model/DTOs/level/assessment/abstactQuestionDTO';
+import {MultipleChoiceQuestionCreateDTO, MultipleChoiceQuestionCreateDTOClass} from '../../model/DTOs/level/assessment/multipleChoiceQuestionCreateDTO';
+import {ExtendedMatchingItemsCreateDTO, ExtendedMatchingItemsDTOClass} from '../../model/DTOs/level/assessment/extendedMatchingItemsDTO';
+import {FreeFormQuestionCreateDTO, FreeFormQuestionDTOClass} from '../../model/DTOs/level/assessment/freeFormQuestionDTO';
+import {MCQChoiceDTO} from '../../model/DTOs/level/assessment/mcqChoiceDTO';
+import {EMIChoiceDTO} from '../../model/DTOs/level/assessment/emiChoiceDTO';
 
 @Injectable()
 export class LevelMapper {

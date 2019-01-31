@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {fromEvent, Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
-import {TrainingDefinitionDTO} from '../model/DTOs/trainingDefinitionDTO';
+import {TrainingDefinitionDTO} from '../model/DTOs/training-definition/trainingDefinitionDTO';
 import {mergeMap} from 'rxjs/operators';
 
 @Injectable()

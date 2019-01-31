@@ -5,21 +5,21 @@ import {AbstractLevel} from "../../model/level/abstract-level";
 import {
   TrainingDefinitionCreateDTO,
   TrainingDefinitionCreateDTOClass
-} from "../../model/DTOs/trainingDefinitionCreateDTO";
+} from "../../model/DTOs/training-definition/trainingDefinitionCreateDTO";
 import {
   TrainingDefinitionUpdateDTO,
   TrainingDefinitionUpdateDTOClass
-} from "../../model/DTOs/trainingDefinitionUpdateDTO";
-import {TrainingDefinitionRestResource} from "../../model/DTOs/trainingDefinitionRestResource";
-import {TrainingDefinitionDTO} from '../../model/DTOs/trainingDefinitionDTO';
+} from "../../model/DTOs/training-definition/trainingDefinitionUpdateDTO";
+import {TrainingDefinitionRestResource} from "../../model/DTOs/training-definition/trainingDefinitionRestResource";
+import {TrainingDefinitionDTO} from '../../model/DTOs/training-definition/trainingDefinitionDTO';
 import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
 import {TrainingDefinitionTableDataModel} from "../../model/table-models/training-definition-table-data-model";
 import {TablePagination} from "../../model/table-models/table-pagination";
 import {LevelMapper} from "./level-mapper.service";
-import {ViewGroupDTO} from "../../model/DTOs/viewGroupDTO";
+import {ViewGroupDTO} from "../../model/DTOs/training-definition/viewGroupDTO";
 import {ViewGroup} from "../../model/user/view-group";
-import {ViewGroupCreateDTO} from "../../model/DTOs/viewGroupCreateDTO";
-import {ViewGroupUpdateDTO} from "../../model/DTOs/viewGroupUpdateDTO";
+import {ViewGroupCreateDTO} from "../../model/DTOs/training-definition/viewGroupCreateDTO";
+import {ViewGroupUpdateDTO} from "../../model/DTOs/training-definition/viewGroupUpdateDTO";
 
 @Injectable()
 export class TrainingDefinitionMapper {
