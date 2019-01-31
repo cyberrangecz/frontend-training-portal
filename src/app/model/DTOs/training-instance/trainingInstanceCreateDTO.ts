@@ -13,7 +13,7 @@ import { TrainingDefinitionDTO } from '../training-definition/trainingDefinition
 import { UserRefDTO } from '../user/userRefDTO';
 import {BasicLevelInfoDTO} from "../level/basicLevelInfoDTO";
 import {AuthorRefDTO} from "../user/authorRefDTO";
-import {SandboxDefinitionRefDTO} from "../sandbox-definition/sandboxDefinitionRefDTO";
+import {SandboxDefinitionRefDto} from "../sandbox-definition/sandbox-definition-ref-dto";
 
 
 /**

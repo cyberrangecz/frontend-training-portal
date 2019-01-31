@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 import { AuthorRefDTO } from '../user/authorRefDTO';
-import { SandboxDefinitionRefDTO } from '../sandbox-definition/sandboxDefinitionRefDTO';
+import { SandboxDefinitionRefDto } from '../sandbox-definition/sandbox-definition-ref-dto';
 import {ViewGroupDTO} from "./viewGroupDTO";
 import {ViewGroupUpdateDTO} from "./viewGroupUpdateDTO";
 
