@@ -137,7 +137,7 @@ export class TrainingInstanceEditComponent implements OnInit {
     }
 
     if (!this.accessToken || this.accessToken.replace(/\s/g, '') === '') {
-      errorMessage += 'Password cannot be empty\n'
+      errorMessage += 'Access token cannot be empty\n'
     }
 
     if (!this.organizers) {
@@ -151,16 +151,13 @@ export class TrainingInstanceEditComponent implements OnInit {
     if (!this.startTime) {
       errorMessage += 'Start time must not be empty\n'
     }
-
-    if (!this.endTime) {
-      errorMessage += 'End time must not be empty\n'
-    }
-
-    if (this.startTime > this.endTime) {
+    else if (this.startTime > this.endTime) {
       errorMessage += 'Start time must be before end time\n'
     }
 
-    if (this.startTime.valueOf() < Date.now() || this.endTime.valueOf() < Date.now()) {
+    if (!this.endTime) {
+      errorMessage += 'End time must not be empty\n'
+    } else if (this.startTime.valueOf() < Date.now() || this.endTime.valueOf() < Date.now()) {
       errorMessage += 'Start time and end time cannot be in the past\n'
     }
 
