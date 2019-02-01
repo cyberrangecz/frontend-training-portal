@@ -12,7 +12,7 @@
 
 
 
-import {UserRefDTO} from "../user/userRefDTO";
+import {UserRefDTO} from "../user/user-ref-dto";
 import {TrainingDefinitionDTO} from "../training-definition/trainingDefinitionDTO";
 
 /**

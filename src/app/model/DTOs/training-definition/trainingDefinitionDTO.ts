@@ -9,7 +9,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { AuthorRefDTO } from '../user/authorRefDTO';
+import { AuthorRefDto } from '../user/author-ref-dto';
 import {AbstractLevelDTO} from "../level/abstractLevelDTO";
 import {ViewGroupDTO} from "./viewGroupDTO";
 
@@ -18,7 +18,7 @@ import {ViewGroupDTO} from "./viewGroupDTO";
  * .
  */
 export interface TrainingDefinitionDTO {
-    authors?: Array<AuthorRefDTO>;
+    authors?: Array<AuthorRefDto>;
     levels?: Array<AbstractLevelDTO>;
     description?: string;
     id?: number;
@@ -33,7 +33,7 @@ export interface TrainingDefinitionDTO {
 }
 
 export class TrainingDefinitionDTOClass {
-  authors?: Array<AuthorRefDTO>;
+  authors?: Array<AuthorRefDto>;
   levels?: Array<AbstractLevelDTO>;
   description?: string;
   id?: number;

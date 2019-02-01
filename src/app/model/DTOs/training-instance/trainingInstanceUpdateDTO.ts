@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 import { TrainingDefinitionDTO } from '../training-definition/trainingDefinitionDTO';
-import { UserRefDTO } from '../user/userRefDTO';
+import { UserRefDTO } from '../user/user-ref-dto';
 
 
 /**

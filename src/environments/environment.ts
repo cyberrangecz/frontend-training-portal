@@ -17,7 +17,8 @@ export const environment = {
   trainingRunsEndpointUri:  'http://localhost:8080/kypo2-rest-training/api/v1/training-runs/',
   levelsEndpointUri:  'http://localhost:8080/kypo2-rest-training/api/v1/levels/',
 
-
+  //USER AND GROUP API
+  userAndGroupRestBasePath: 'http://localhost:8081/kypo2-rest-user-and-group/api/v1/',
 
   // OIDC SETTINGS
   // Url of the Identity Provider

@@ -12,7 +12,7 @@
 import { AbstractLevelDTO } from '../level/abstractLevelDTO';
 import { SandboxInstanceRefDTO } from '../sandbox-instance/sandboxInstanceRefDTO';
 import { TrainingInstanceDTO } from '../training-instance/trainingInstanceDTO';
-import {UserRefDTO} from "../user/userRefDTO";
+import {UserRefDTO} from "../user/user-ref-dto";
 
 
 /**

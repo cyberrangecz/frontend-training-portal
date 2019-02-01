@@ -1,10 +1,13 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
 import {User} from "../../model/user/user";
 import {map} from "rxjs/operators";
 import {UserMapper} from "../mappers/user.mapper.service";
+import {UserBasicInfoDTO} from "../../model/DTOs/user/user-basic-info-dto";
+import {UserRoleEnum} from "../../enums/user-role.enum";
+import {RoleDTO} from "../../model/DTOs/user/role-dto";
 
 @Injectable()
 /**
@@ -22,7 +25,7 @@ export class UserFacade {
    */
   getOrganizers(): Observable<User[]> {
     return this.http.get<string[]>(environment.trainingDefsEndpointUri + 'organizers')
-      .pipe(map(resp => this.userMapper.getOrganizersFromLogins(resp)));
+      .pipe(map(resp => this.userMapper.mapLoginsToOrganizerUsers(resp)));
   }
 
   /**
@@ -30,7 +33,18 @@ export class UserFacade {
    */
   getDesigners(): Observable<User[]> {
     return this.http.get<string[]>(environment.trainingDefsEndpointUri + 'designers')
-      .pipe(map(resp => this.userMapper.getDesignersFromLogins(resp)));
+      .pipe(map(resp => this.userMapper.mapLoginsToDesignerUsers(resp)));
   }
 
+  getUserInfo(): Observable<User> {
+    return this.http.get<UserBasicInfoDTO>(environment.userAndGroupRestBasePath + 'users/basic-info')
+      .pipe(map(resp => this.userMapper.mapUserBasicInfoDTOToUser(resp)))
+  }
+
+  getUserRolesByGroups(groupIds: number[]): Observable<UserRoleEnum[]> {
+    const params = new HttpParams().append('ids', groupIds.toString());
+    return this.http.get<[RoleDTO]>(environment.trainingRestBasePath + 'roles/roles-of-groups',
+      { params: params })
+      .pipe(map(resp => this.userMapper.mapRoleDTOsToRoles(resp)));
+  }
 }

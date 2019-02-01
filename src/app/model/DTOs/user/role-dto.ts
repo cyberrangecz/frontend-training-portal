@@ -11,7 +11,7 @@
  */
 
 
-export interface AuthorRefDTO {
-    user_ref_login?: string;
+export interface RoleDTO {
     id?: number;
+    role_type?: string;
 }

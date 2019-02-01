@@ -25,10 +25,8 @@ export class PortalComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.createTrainingButtons();
-    this.createCyberExButtons();
-    this.createOtherAgendaButtons();
     this.subscribeUserChange();
+    this.activeUserService.loadProfile();
   }
 
   ngOnDestroy() {
@@ -115,7 +113,7 @@ export class PortalComponent implements OnInit, OnDestroy {
    */
   private subscribeUserChange() {
     this.userChangeSubscription = this.activeUserService.onActiveUserChanged.
-      subscribe(id => {
+      subscribe(login => {
         this.createTrainingButtons();
         this.createCyberExButtons();
         this.createOtherAgendaButtons();

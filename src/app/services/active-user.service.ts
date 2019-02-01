@@ -6,6 +6,8 @@ import {Observable} from "rxjs/internal/Observable";
 import {OAuthService} from "angular-oauth2-oidc";
 import {Set} from "typescript-collections"
 import {Router} from "@angular/router";
+import {UserFacade} from "./facades/user-facade.service";
+import {map, switchMap} from "rxjs/operators";
 
 /**
  * Service maintaining active (logged in user)
@@ -23,6 +25,7 @@ export class ActiveUserService {
   onActiveUserChanged: Observable<string> = this._onActiveUserChangedSubject.asObservable();
 
   constructor(private router: Router,
+    private userFacade: UserFacade,
     private oAuthService: OAuthService) {
   }
   /**
@@ -64,7 +67,7 @@ export class ActiveUserService {
    * @returns {boolean} true if active user is authenticated, false otherwise
    */
   isAuthenticated(): boolean {
-    return this._activeUser && this.oAuthService.hasValidAccessToken();
+    return this.oAuthService.hasValidAccessToken();
   }
 
   /**
@@ -82,15 +85,17 @@ export class ActiveUserService {
   }
 
   loadProfile() {
-    const claims = this.oAuthService.getIdentityClaims();
-    const user: User = new User();
-    user.login = claims['sub'];
-    const roles = new Set<UserRoleEnum>();
-    roles.add(UserRoleEnum.Designer);
-    roles.add(UserRoleEnum.Organizer);
-    roles.add(UserRoleEnum.Trainee);
-    user.roles = roles;
-    this.setActiveUser(user);
+    this.userFacade.getUserInfo()
+      .pipe(switchMap((user: User) =>
+        this.userFacade.getUserRolesByGroups(user.groupIds)
+          .pipe(map( roles => {
+            this.addRolesToUser(roles, user);
+            return user;
+          }))
+      ))
+      .subscribe((user: User) => {
+        this.setActiveUser(user);
+      });
   }
 
   /**
@@ -101,5 +106,9 @@ export class ActiveUserService {
     this._activeUser = user;
     const login = this._activeUser === null || this._activeUser === undefined ? null : this._activeUser.login;
     this._onActiveUserChangedSubject.next(login);
+  }
+
+  private addRolesToUser(roles: UserRoleEnum[], user: User) {
+    roles.forEach(role => user.roles.add(role));
   }
 }

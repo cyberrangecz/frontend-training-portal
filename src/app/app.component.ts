@@ -27,11 +27,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    this.subscribeOidcEvents();
+    this.subscribeOIDCEvents();
     this.configureOidc();
     this.distractionFreeMode = this.distractionFreeModeService.getDistractionFreeMode();
     this.subscribeForDistractionFreeModeChanges();
-    this.loadProfile();
   }
 
   ngOnDestroy() {
@@ -57,17 +56,8 @@ export class AppComponent implements OnInit, OnDestroy {
       });
   }
 
-  private loadProfile() {
-    const claims = this.oAuthService.getIdentityClaims();
-    this.activeUserService.loadProfile();
-
-  }
-
-  private subscribeOidcEvents() {
+  private subscribeOIDCEvents() {
     this.oAuthService.events.subscribe(event => {
-      if (event.type === 'token_received') {
-          this.loadProfile()
-      }
       if (event.type === 'token_refresh_error'
         || event.type === 'token_error'
         || event.type === 'silent_refresh_error'

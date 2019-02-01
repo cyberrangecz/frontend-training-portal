@@ -10,9 +10,9 @@
  * Do not edit the class manually.
  */
 import { TrainingDefinitionDTO } from '../training-definition/trainingDefinitionDTO';
-import { UserRefDTO } from '../user/userRefDTO';
+import { UserRefDTO } from '../user/user-ref-dto';
 import {BasicLevelInfoDTO} from "../level/basicLevelInfoDTO";
-import {AuthorRefDTO} from "../user/authorRefDTO";
+import {AuthorRefDto} from "../user/author-ref-dto";
 import {SandboxDefinitionRefDto} from "../sandbox-definition/sandbox-definition-ref-dto";
 
 
