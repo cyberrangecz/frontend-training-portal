@@ -13,8 +13,9 @@ export class User {
   roles: Set<UserRoleEnum>;
 
   constructor() {
-
+    this.roles = new Set();
   }
+
 
   toString(): string {
     return this.login;

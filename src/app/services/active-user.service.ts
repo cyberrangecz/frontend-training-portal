@@ -109,6 +109,8 @@ export class ActiveUserService {
   }
 
   private addRolesToUser(roles: UserRoleEnum[], user: User) {
-    roles.forEach(role => user.roles.add(role));
+    roles.forEach(role => {
+      user.roles.add(role);
+    });
   }
 }

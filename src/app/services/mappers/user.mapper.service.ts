@@ -34,7 +34,11 @@ export class UserMapper {
   }
 
   mapStringToRole(role: string): UserRoleEnum {
-    return UserRoleEnum[role.toLowerCase()];
+    switch (role.toUpperCase()) {
+      case 'DESIGNER': return UserRoleEnum.Designer;
+      case 'ORGANIZER': return UserRoleEnum.Organizer;
+      case 'TRAINEE': return UserRoleEnum.Trainee;
+    }
   }
 
   mapUserBasicInfoDTOToUser(userInfoDTO: UserBasicInfoDTO): User {
