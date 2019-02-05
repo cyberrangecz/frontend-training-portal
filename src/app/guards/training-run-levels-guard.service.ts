@@ -7,8 +7,6 @@ import {TrainingRunFacade} from "../services/facades/training-run-facade.service
 import {concatMap, map} from "rxjs/operators";
 import {TrainingRunLevelComponent} from "../components/trainee/training-run/training-run-level/training-run-level.component";
 import {ActiveTrainingRunLevelsService} from "../services/active-training-run-levels.service";
-import {TrainingDefinitionFacade} from "../services/facades/training-definition-facade.service";
-import {AbstractLevel} from "../model/level/abstract-level";
 @Injectable()
 /**
  * Guard triggered when accessing training run level. Turns on and off the distraction free mode

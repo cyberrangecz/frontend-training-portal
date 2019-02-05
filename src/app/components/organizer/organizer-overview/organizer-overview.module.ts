@@ -2,7 +2,6 @@ import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {OrganizerOverviewRoutingModule} from "./organizer-overview-routing.module";
 import {OrganizerOverviewComponent} from "./organizer-overview.component";
-import {TrainingInstanceGuard} from "../../../guards/training-instance-guard.service";
 import { TrainingInstanceEditComponent } from './training-instance-edit/training-instance-edit.component';
 import { TrainingInstancesTableComponent } from './training-instance-overview/training-instances-table.component';
 import {SharedModule} from "../../shared/shared.module";
@@ -41,7 +40,6 @@ import {TrainingInstanceFacadeModule} from '../../../services/facades/modules/tr
     TrainingDeleteDialogComponent
   ],
   providers: [
-    TrainingInstanceGuard
   ],
   entryComponents: [
     OrganizersPickerComponent,

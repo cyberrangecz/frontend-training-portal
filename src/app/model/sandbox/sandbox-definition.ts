@@ -1,16 +1,16 @@
-import {TrainingDefinition} from "../training/training-definition";
-
 /**
  * Class representing sandbox definition in a system
  */
+import {TrainingDefinition} from "../training/training-definition";
+import {User} from "../user/user";
+
 export class SandboxDefinition {
   id: number;
   title: string;
-  authorIds: number[];
+  asocciatedTrainingDefs: TrainingDefinition[];
+  authors: User[];
 
-  constructor(title: string, authorIds: number[]) {
-    this.title = title;
-    this.authorIds = authorIds;
+  constructor() {
   }
 
   toString() {

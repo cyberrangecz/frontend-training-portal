@@ -1,7 +1,6 @@
 import {RouterModule, Routes} from "@angular/router";
 import {NgModule} from "@angular/core";
 import {OrganizerOverviewComponent} from "./organizer-overview.component";
-import {TrainingInstanceGuard} from "../../../guards/training-instance-guard.service";
 
 const routes: Routes = [
   {
@@ -11,7 +10,6 @@ const routes: Routes = [
   {
     path: 'training/:id',
     loadChildren: 'app/components/organizer/training-instance-overview/training-instance-overview.module#TrainingInstanceOverviewModule',
-    canActivate: [TrainingInstanceGuard]
   }
 ];
 

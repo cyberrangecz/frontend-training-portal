@@ -7,13 +7,15 @@ export const environment = {
   defaultPaginationSize: 5,
 
   // TRAINING REST API
-  trainingRestBasePath: 'http://localhost:8080/kypo2-rest-training/api/v1/',
-  usersEndpointUri: 'http://localhost:3000/users/',
-  sandboxDefsEndpointUri: 'http://localhost:3000/sandbox-definitions/',
-  trainingDefsEndpointUri:  'http://localhost:8080/kypo2-rest-training/api/v1/training-definitions/',
-  trainingInstancesEndpointUri: 'http://localhost:8080/kypo2-rest-training/api/v1/training-instances/',
-  trainingRunsEndpointUri:  'http://localhost:8080/kypo2-rest-training/api/v1/training-runs/',
-  levelsEndpointUri:  'http://localhost:8080/kypo2-rest-training/api/v1/levels/',
+  trainingRestBasePath: 'http://localhost:8083/kypo2-rest-training/api/v1/',
+  sandboxDefsEndpointUri: 'http://localhost:3000/sandboxes/',
+  trainingDefsEndpointUri:  'http://localhost:8083/kypo2-rest-training/api/v1/training-definitions/',
+  trainingInstancesEndpointUri: 'http://localhost:8083/kypo2-rest-training/api/v1/training-instances/',
+  trainingRunsEndpointUri:  'http://localhost:8083/kypo2-rest-training/api/v1/training-runs/',
+  levelsEndpointUri:  'http://localhost:8083/kypo2-rest-training/api/v1/levels/',
+
+  //USER AND GROUP API
+  userAndGroupRestBasePath: 'http://localhost:8084/kypo2-rest-user-and-group/api/v1/',
 
   //OIDC
   // Url of the Identity Provider

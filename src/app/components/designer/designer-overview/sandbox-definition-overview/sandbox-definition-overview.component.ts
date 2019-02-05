@@ -136,7 +136,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.sandboxDefinitionFacade.getSandboxDefsWithPagination(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
+          return this.sandboxDefinitionFacade.getSandboxDefs();
         }),
         map(data => {
           // Flip flag to show that loading has finished.

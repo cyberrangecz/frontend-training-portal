@@ -20,17 +20,16 @@ export interface AbstractLevelDTO {
     id?: number;
     max_score?: number;
     next_level?: number;
-    post_hook?: PostHookDTO;
-    pre_hook?: PreHookDTO;
+    snapshot_hook?: any;
     title?: string;
     level_type: AbstractLevelDTO.LevelTypeEnum;
 }
 
 export namespace AbstractLevelDTO {
-  export type LevelTypeEnum = 'INFO' | 'ASSESSMENT' | 'GAME';
+  export type LevelTypeEnum = 'INFO_LEVEL' | 'ASSESSMENT_LEVEL' | 'GAME_LEVEL';
   export const LevelTypeEnum = {
-    INFO: 'INFO' as LevelTypeEnum,
-    ASSESSMENT: 'ASSESSMENT' as LevelTypeEnum,
-    GAME: 'GAME' as LevelTypeEnum
+    INFO: 'INFO_LEVEL' as LevelTypeEnum,
+    ASSESSMENT: 'ASSESSMENT_LEVEL' as LevelTypeEnum,
+    GAME: 'GAME_LEVEL' as LevelTypeEnum
   }
 }

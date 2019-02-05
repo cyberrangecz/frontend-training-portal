@@ -4,7 +4,6 @@ import {map, switchMap} from "rxjs/operators";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {TrainingDefinitionFacade} from "../../../services/facades/training-definition-facade.service";
 import {Observable} from "rxjs/internal/Observable";
-import {AbstractLevel} from "../../../model/level/abstract-level";
 import {TrainingConfigurationComponent} from "./training-configuration/training-configuration.component";
 import {TrainingLevelStepperComponent} from "./levels/training-level-stepper/training-level-stepper.component";
 import {MatDialog} from "@angular/material";
@@ -27,7 +26,6 @@ export class TrainingDefinitionComponent implements OnInit {
   @ViewChild(TrainingLevelStepperComponent) trainingLevelStepperComponent;
 
   trainingDefinition$: Observable<TrainingDefinition>;
-  levels$: Observable<AbstractLevel[]>;
 
   isTrainingSaved: boolean;
   isSidenavOpen: boolean = true;
@@ -121,7 +119,6 @@ export class TrainingDefinitionComponent implements OnInit {
   private fetchData() {
     if (this.route.paramMap) {
       this.trainingDefinition$ = this.fetchTrainingDefinition();
-      this.levels$ = this.fetchLevelsFromTrainingDefinition();
     }
   }
 
@@ -140,11 +137,5 @@ export class TrainingDefinitionComponent implements OnInit {
         this.isTrainingSaved = false;
         return of(null);
       }));
-  }
-
-  private fetchLevelsFromTrainingDefinition(): Observable<AbstractLevel[]> {
-      return this.trainingDefinition$.pipe(map(trainingDef =>
-        trainingDef ? trainingDef.levels : null
-      ));
   }
 }

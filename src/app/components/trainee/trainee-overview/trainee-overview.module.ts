@@ -7,7 +7,6 @@ import { TraineeAccessTrainingComponent } from './trainee-access-training/traine
 import { TraineeTrainingsTableComponent } from './trainee-trainings-table/trainee-trainings-table.component';
 import {FormsModule} from "@angular/forms";
 import {SharedModule} from "../../shared/shared.module";
-import {TrainingRunGuard} from "../../../guards/training-run-guard.service";
 import {PipesModule} from "../../../pipes/pipes.module";
 import {ActiveTrainingRunLevelsService} from "../../../services/active-training-run-levels.service";
 import {TrainingInstanceFacadeModule} from '../../../services/facades/modules/training-instance-facade.module';
@@ -32,7 +31,6 @@ import {TrainingDefinitionFacadeModule} from '../../../services/facades/modules/
     TraineeTrainingsTableComponent
   ],
   providers: [
-    TrainingRunGuard,
     ActiveTrainingRunLevelsService,
   ]
 })

@@ -9,16 +9,15 @@ export const environment = {
   defaultPaginationSize: 5,
 
   // TRAINING REST API
-  trainingRestBasePath: 'http://localhost:8080/kypo2-rest-training/api/v1/',
-  usersEndpointUri: 'http://localhost:3000/users/',
-  sandboxDefsEndpointUri: 'http://localhost:3000/sandbox-definitions/',
-  trainingDefsEndpointUri:  'http://localhost:8080/kypo2-rest-training/api/v1/training-definitions/',
-  trainingInstancesEndpointUri: 'http://localhost:8080/kypo2-rest-training/api/v1/training-instances/',
-  trainingRunsEndpointUri:  'http://localhost:8080/kypo2-rest-training/api/v1/training-runs/',
-  levelsEndpointUri:  'http://localhost:8080/kypo2-rest-training/api/v1/levels/',
+  trainingRestBasePath: 'http://localhost:8083/kypo2-rest-training/api/v1/',
+  sandboxDefsEndpointUri: 'http://localhost:3000/sandboxes/',
+  trainingDefsEndpointUri:  'http://localhost:8083/kypo2-rest-training/api/v1/training-definitions/',
+  trainingInstancesEndpointUri: 'http://localhost:8083/kypo2-rest-training/api/v1/training-instances/',
+  trainingRunsEndpointUri:  'http://localhost:8083/kypo2-rest-training/api/v1/training-runs/',
+  levelsEndpointUri:  'http://localhost:8083/kypo2-rest-training/api/v1/levels/',
 
   //USER AND GROUP API
-  userAndGroupRestBasePath: 'http://localhost:8081/kypo2-rest-user-and-group/api/v1/',
+  userAndGroupRestBasePath: 'http://localhost:8084/kypo2-rest-user-and-group/api/v1/',
 
   // OIDC SETTINGS
   // Url of the Identity Provider
@@ -28,7 +27,7 @@ export const environment = {
   // URL of the SPA to redirect the user to after login
   redirectUri: window.location.origin + '/index.html',
   // The SPA's id. The SPA is registered with this id at the config-server
-  clientId: '18cd6765-be1a-4de4-a6c0-6adf9b9882d1',
+  clientId: '3693320b-6acb-442c-be51-86e18f574f9d', //'18cd6765-be1a-4de4-a6c0-6adf9b9882d1',
   // set the scope for the permissions the client should request
   scope: 'openid profile email',
   sessionChecksEnabled: false,

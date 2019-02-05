@@ -1,7 +1,6 @@
 import {RouterModule, Routes} from "@angular/router";
 import {NgModule} from "@angular/core";
 import {DesignerOverviewComponent} from "./designer-overview.component";
-import {TrainingDefinitionGuard} from "../../../guards/training-definition-guard.service";
 
 const routes: Routes = [
   {
@@ -15,7 +14,6 @@ const routes: Routes = [
   {
     path: 'training/:id',
     loadChildren: 'app/components/designer/training-definition/training-definition.module#TrainingDefinitionModule',
-    canActivate: [TrainingDefinitionGuard]
   }
 ];
 

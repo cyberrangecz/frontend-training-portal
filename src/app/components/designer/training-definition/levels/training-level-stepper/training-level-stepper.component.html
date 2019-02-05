@@ -37,9 +37,9 @@
   <h4>Training contains {{ levels.length }} level(s)</h4>
 </div>
 
-<div class="content">
+<div class="content"
+     *ngIf="!isLoading && levels && levels.length > 0">
   <mat-horizontal-stepper
-    *ngIf="!isLoading && levels && levels.length > 0"
     [(selectedIndex)]="selectedStep"
     (selectionChange)="selectionChanged($event)"
     #stepper>

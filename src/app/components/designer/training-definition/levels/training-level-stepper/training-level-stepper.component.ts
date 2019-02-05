@@ -36,9 +36,10 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
 
   @Input('isTrainingSaved') isTrainingSaved: boolean;
   @Input('trainingDefinition') trainingDefinition: TrainingDefinition;
-  @Input('levels') levels: AbstractLevel[];
 
   @Output('onLevelDeleted') onLevelDeleted: EventEmitter<number> = new EventEmitter();
+
+  levels: AbstractLevel[];
   isLoading = true;
   selectedStep: number = 0;
 
@@ -51,8 +52,8 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if ('levels' in changes || 'trainingDefinition' in changes) {
-      if (this.trainingDefinition != null) {
+    if ('trainingDefinition' in changes) {
+      if (this.trainingDefinition) {
         this.resolveInitialLevels();
       }
     }
@@ -225,10 +226,10 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    * Initializes levels with default values
    */
   private resolveInitialLevels() {
-    if (!this.levels || this.levels.length == 0) {
-      this.levels = [];
+    if (this.trainingDefinition.levels) {
+      this.levels = this.sortInitialLevels(this.trainingDefinition.levels);
     } else {
-      this.levels = this.sortInitialLevels(this.levels);
+      this.levels = [];
     }
     this.isLoading = false;
   }
@@ -238,7 +239,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
     let currentLevel = this.findFirstLevel(levels);
     result.push(currentLevel);
     while (currentLevel && currentLevel.nextLevel) {
-      currentLevel = this.levels.find(level => level.id === currentLevel.nextLevel);
+      currentLevel = levels.find(level => level.id === currentLevel.nextLevel);
       result.push(currentLevel);
     }
     return result;

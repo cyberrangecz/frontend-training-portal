@@ -8,6 +8,8 @@ import {PaginationParams} from "../../model/http/params/pagination-params";
 import {of} from "rxjs";
 import {SandboxDefinitionCreateDTO} from "../../model/DTOs/sandbox-definition/sandbox-definition-create-dto";
 import {UploadService} from "../upload.service";
+import {SandboxDefinitionMapperService} from "../mappers/sandbox-definition-mapper.service";
+import {SandboxDefinitionDTO} from "../../model/DTOs/sandbox-definition/sandbox-definition-dto";
 
 @Injectable()
 /**
@@ -17,6 +19,7 @@ import {UploadService} from "../upload.service";
 export class SandboxDefinitionFacade {
 
   constructor(private http: HttpClient,
+              private sandboxDefinitionMapper: SandboxDefinitionMapperService,
               private uploadService: UploadService) {
   }
 
@@ -30,24 +33,11 @@ export class SandboxDefinitionFacade {
    * @returns {Observable<SandboxDefinition[]>} Observable of sandbox definitions list
    */
   getSandboxDefs(): Observable<SandboxDefinition[]> {
-    return this.http.get(environment.sandboxDefsEndpointUri)
+    return this.http.get<SandboxDefinitionDTO[]>(environment.sandboxDefsEndpointUri)
       .pipe(map(response =>
-      this.parseSandboxDefs(response)));
+      this.sandboxDefinitionMapper.mapSandboxDefinitionsDTOToSandboxDefinitions(response)));
   }
 
-  /**
-   * Retrieves all sandbox definition on specified page of a pagination
-   * @param page page of pagination
-   * @param size size of a page
-   * @param sort attribute by which will result be sorted
-   * @param sortDir sortDirection (asc, desc)
-   */
-  getSandboxDefsWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<SandboxDefinition[]> {
-    let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
-    return this.http.get(environment.sandboxDefsEndpointUri, { params: params })
-      .pipe(map(response =>
-        this.parseSandboxDefs(response)));
-  }
 
   /**
    * Retrieves sandbox by its id
@@ -55,8 +45,8 @@ export class SandboxDefinitionFacade {
    * @returns {Observable<SandboxDefinition>} Observable of retrieved sandbox definition, null if no sandbox definition with such id is found
    */
   getSandboxDefById(id: number): Observable<SandboxDefinition> {
-    return this.http.get(environment.sandboxDefsEndpointUri + id)
-      .pipe(map(response => this.parseSandboxDef(response)));
+    return this.http.get<SandboxDefinitionDTO>(environment.sandboxDefsEndpointUri + id)
+      .pipe(map(response => this.sandboxDefinitionMapper.mapSandboxDefinitionDTOToSandboxDefinition(response)));
   }
 
   /**
@@ -72,38 +62,4 @@ export class SandboxDefinitionFacade {
     return of(null)
     // TODO: REQUEST to deploy sandbox deifiniton
   }
-
-  /**
-   * Parses JSON received from HTTP response
-   * @param sandboxDefsJson JSON defining sandbox definitions
-   * @returns {SandboxDefinition[]} List of sandbox definitions created from JSON
-   */
-  private parseSandboxDefs(sandboxDefsJson): SandboxDefinition[] {
-    const sandboxDefs: SandboxDefinition[] =[];
-    sandboxDefsJson.forEach(sandboxJson => {
-      sandboxDefs.push(this.parseSandboxDef(sandboxJson));
-    });
-    return sandboxDefs;
-  }
-
-  private parseSandboxDef(sandboxDefJson): SandboxDefinition {
-    const sandbox = new SandboxDefinition(
-      sandboxDefJson.title,
-      this.parseAuthorIds(sandboxDefJson.authors));
-    sandbox.id = sandboxDefJson.id;
-    return sandbox;
-  }
-
-  /**
-   * Parses JSON defining authors of sandbox definitions
-   * @param authorsJson JSON defining authors of sandbox definitions
-   * @returns {number[]} List of authors ids
-   */
-  private parseAuthorIds(authorsJson) {
-    const ids: number[] = [];
-    authorsJson.forEach(author => ids.push(author.id));
-    return ids;
-  }
-
-
 }

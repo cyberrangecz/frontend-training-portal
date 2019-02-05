@@ -95,11 +95,15 @@ export class TrainingDefinitionMapper {
 
 
   private getViewGroupFromDTO(viewGroupDTO: ViewGroupDTO): ViewGroup {
-    const result = new ViewGroup();
-    result.title = viewGroupDTO.title;
-    result.description = viewGroupDTO.description;
-    result.organizers = viewGroupDTO.organizers.map(organizer => organizer.user_ref_login);
-    return result;
+    if (viewGroupDTO) {
+      const result = new ViewGroup();
+      result.title = viewGroupDTO.title;
+      result.description = viewGroupDTO.description;
+      result.organizers = viewGroupDTO.organizers.map(organizer => organizer.user_ref_login);
+      return result;
+    } else {
+      return null;
+    }
   }
 
 

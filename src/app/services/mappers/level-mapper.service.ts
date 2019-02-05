@@ -217,8 +217,6 @@ export class LevelMapper {
     level.title = levelDTO.title;
     level.nextLevel = levelDTO.next_level;
     level.maxScore = levelDTO.max_score;
-    //TODO: mapping level.preHook = levelDTO.preHook;
-    //TODO: mapping level.postHook = levelDTO.postHook;
   }
 
   /**
@@ -231,8 +229,6 @@ export class LevelMapper {
     levelDTO.title = level.title;
     levelDTO.next_level = level.nextLevel;
     levelDTO.max_score = level.maxScore;
-    //TODO: mapping levelDTO.post_hook;
-    //TODO: mapping levelDTO.pre_hook;
   }
 
   private mapAssessmentTypeFromDTO(type: AssessmentLevelDTO.AssessmentTypeEnum): AssessmentTypeEnum {
