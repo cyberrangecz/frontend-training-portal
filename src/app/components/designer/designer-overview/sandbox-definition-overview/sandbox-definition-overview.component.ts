@@ -109,13 +109,12 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
    * @param {number} id id of sandbox definition which should be deployed
    */
   deploySandboxDefinition(id: number) {
-    // TODO: Handle response
-    this.sandboxDefinitionFacade.deploySandboxDefinition(id)
+/*    this.sandboxDefinitionFacade.deploySandboxDefinition(id)
       .subscribe(resp => {
-          this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox was successfully download.');
+          this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox was successfully deployed.');
           this.fetchData();
         },
-        err => this.errorHandler.displayHttpError(err, 'Deploying sandbox definition'));
+        err => this.errorHandler.displayHttpError(err, 'Deploying sandbox definition'));*/
   }
 
   /**
