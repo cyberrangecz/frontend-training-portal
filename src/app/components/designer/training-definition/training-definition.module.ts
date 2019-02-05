@@ -15,6 +15,7 @@ import { UnsavedChangesDialogComponent } from './unsaved-changes-dialog/unsaved-
 import {DeleteDialogComponent} from "./delete-dialog/delete-dialog.component";
 import { StateChangeDialogComponent } from './state-change-dialog/state-change-dialog.component';
 import { EditViewGroupComponent } from './training-configuration/edit-view-group/edit-view-group.component';
+import {TrainingDefinitionGuard} from "../../../guards/training-definition-guard.service";
 @NgModule({
   imports: [
     CommonModule,
@@ -38,6 +39,7 @@ import { EditViewGroupComponent } from './training-configuration/edit-view-group
     EditViewGroupComponent
   ],
   providers: [
+    TrainingDefinitionGuard
   ],
   entryComponents: [
     SandboxDefinitionPickerComponent,
