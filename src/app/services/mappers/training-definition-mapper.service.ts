@@ -95,17 +95,13 @@ export class TrainingDefinitionMapper {
 
 
   private getViewGroupFromDTO(viewGroupDTO: ViewGroupDTO): ViewGroup {
-    if (viewGroupDTO) {
-      const result = new ViewGroup();
-      result.title = viewGroupDTO.title;
-      result.description = viewGroupDTO.description;
-      result.organizers = viewGroupDTO.organizers.map(organizer => organizer.user_ref_login);
-      return result;
-    } else {
-      return null;
-    }
+    const result = new ViewGroup();
+    result.id = viewGroupDTO.id;
+    result.title = viewGroupDTO.title;
+    result.description = viewGroupDTO.description;
+    result.organizers = viewGroupDTO.organizers.map(organizer => organizer.user_ref_login);
+    return result;
   }
-
 
   /**
    * Maps internal training definition object to TrainingDefinitionCreate DTO object used in communication with REST API
@@ -161,6 +157,7 @@ export class TrainingDefinitionMapper {
 
   private createViewGroupUpdateDTO(viewGroup: ViewGroup): ViewGroupUpdateDTO {
     const result = new ViewGroupUpdateDTO();
+    result.id = viewGroup.id;
     result.title = viewGroup.title;
     result.description = viewGroup.description;
     result.organizer_logins = viewGroup.organizers as string [];
