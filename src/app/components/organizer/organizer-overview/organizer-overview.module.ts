@@ -41,7 +41,6 @@ import {TrainingInstanceSandboxAllocationService} from "../../../services/traini
     TrainingDeleteDialogComponent
   ],
   providers: [
-    TrainingInstanceSandboxAllocationService
   ],
   entryComponents: [
     OrganizersPickerComponent,

@@ -113,25 +113,22 @@ export class TrainingInstancesTableComponent implements OnInit {
 
   /**
    *
-   * @param trainingInstanceId Id of training instance for which should sanboxes be allocated
+   * @param trainingInstanceId Id of training instance for which should sandboxes be allocated
    */
   allocateTrainingInstanceSandboxes(trainingInstanceId: number) {
     this.trainingInstanceFacade.createPool(trainingInstanceId)
       .pipe(switchMap(resp => {
-        this.sandboxAllocationService.poolId = resp;
-        this.sandboxAllocationService.state = SandboxAllocationEnum.POOL_OBTAINED;
-        this.alertService.emitAlert(AlertTypeEnum.Info, 'Pool was obtained. Sandbox allocation will begin');
+        this.sandboxAllocationService.setPoolId(resp);
         // TODO Start periodic check of state of allocation
+        this.sandboxAllocationService.begin();
         return this.trainingInstanceFacade.allocateSandboxesForTrainingInstance(trainingInstanceId);
       }))
       .subscribe(
         response => {
-          this.sandboxAllocationService.state = SandboxAllocationEnum.FINISHED;
-          this.alertService.emitAlert(AlertTypeEnum.Info, 'Sandboxes were successfully allocated');
+          // TODO call service
         },
         err => {
-        this.sandboxAllocationService.state = SandboxAllocationEnum.FAILED;
-        this.alertService.emitAlert(AlertTypeEnum.Error, 'Error during allocation of sandboxes.');
+         // TODO call service
         }
       );
   }
