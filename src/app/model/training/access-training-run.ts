@@ -5,6 +5,7 @@ import {AbstractLevel} from "../level/abstract-level";
 
 export class AccessTrainingRun {
   trainingRunId: number;
+  sandboxInstanceId: number;
   currentLevel: GameLevel | InfoLevel | AssessmentLevel;
   levels: AbstractLevel[];
 }

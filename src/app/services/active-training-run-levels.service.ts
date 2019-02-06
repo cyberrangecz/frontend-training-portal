@@ -20,6 +20,7 @@ export class ActiveTrainingRunLevelsService {
   private _activeLevels: AbstractLevel[];
   private _activeLevel: GameLevel | AssessmentLevel | InfoLevel;
 
+  sandboxInstanceId: number;
   trainingRunId: number;
 
   private _onActiveLevelChangedSubject: Subject<AbstractLevel> = new Subject<AbstractLevel>();

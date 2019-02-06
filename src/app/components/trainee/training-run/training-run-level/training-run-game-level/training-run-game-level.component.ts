@@ -53,7 +53,7 @@ export class TrainingRunGameLevelComponent implements OnInit {
     this.displayedText = this.level.content;
     this.initHintButtons();
   }
-  
+
 
   /**
    * Displays popup dialog asking for users confirmation of the action. If the action is confirmed by user,
@@ -148,7 +148,7 @@ export class TrainingRunGameLevelComponent implements OnInit {
   private calculateHeightWith43AspectRatio(width: number): number {
     return (width / 4) * 3;
   }
-  
+
   /**
    * The level is unlocked and the user can continue to the next one
    */
@@ -189,7 +189,7 @@ export class TrainingRunGameLevelComponent implements OnInit {
       .subscribe(resp => {
         this.solutionShown = true;
         this.displayedText = resp;
-1        // TODO: deduct remaining points (via REST?)
+      // TODO: deduct remaining points (via REST?)
         this.isLoading = false;
       },
       err => {

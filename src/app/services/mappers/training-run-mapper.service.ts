@@ -90,6 +90,7 @@ export class TrainingRunMapper {
   mapAccessTrainingRunDTOToAccessTrainingRun(accessDTO: AccessTrainingRunDTO): AccessTrainingRun {
     const result = new AccessTrainingRun();
     result.trainingRunId = accessDTO.training_run_id;
+    result.sandboxInstanceId = accessDTO.sandbox_instance_id;
     result.currentLevel = this.levelMapper.mapLevelDTOToLevel(accessDTO.abstract_level_dto);
     result.levels = this.levelMapper.mapBasicInfoDTOsToAbstractLevels(accessDTO.info_about_levels);
     return result;

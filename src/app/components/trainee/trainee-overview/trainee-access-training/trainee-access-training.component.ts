@@ -41,6 +41,7 @@ export class TraineeAccessTrainingComponent implements OnInit {
           if (resp.currentLevel && resp.levels && resp.levels.length > 0) {
             this.sortReceivedLevels(resp.levels);
             this.activeTrainingRunLevelsService.trainingRunId = resp.trainingRunId;
+            this.activeTrainingRunLevelsService.sandboxInstanceId = resp.sandboxInstanceId;
             this.activeTrainingRunLevelsService.setActiveLevels(resp.levels.sort((a, b) => a.order - b.order));
             this.activeTrainingRunLevelsService.setActiveLevel(resp.currentLevel);
             this.router.navigate(['training/game'], {relativeTo: this.activeRoute});

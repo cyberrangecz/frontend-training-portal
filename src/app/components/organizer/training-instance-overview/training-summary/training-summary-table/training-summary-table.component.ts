@@ -23,7 +23,7 @@ import {TrainingRunFacade} from "../../../../../services/facades/training-run-fa
  */
 export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
 
-  displayedColumns: string[] = ['sandboxId', 'playerId', 'state', 'actions'];
+  displayedColumns: string[] = ['sandboxInstanceId', 'playerId', 'state', 'actions'];
   trainingInstance: TrainingInstance;
 
   activeTrainingSubscription;
