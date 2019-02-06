@@ -13,6 +13,8 @@ import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
 import {TrainingInstanceTableDataModel} from "../../../../model/table-models/training-instance-table-data-model";
 import {TableDataWithPaginationWrapper} from "../../../../model/table-models/table-data-with-pagination-wrapper";
 import {ComponentErrorHandlerService} from "../../../../services/component-error-handler.service";
+import {TrainingInstanceSandboxAllocationService} from "../../../../services/training-instance-sandbox-allocation.service";
+import {SandboxAllocationEnum} from "../../../../enums/sandbox-allocation-state.enum";
 
 @Component({
   selector: 'training-instances-table',
@@ -44,6 +46,7 @@ export class TrainingInstancesTableComponent implements OnInit {
     private alertService: AlertService,
     private errorHandler: ComponentErrorHandlerService,
     private activeUserService: ActiveUserService,
+    private sandboxAllocationService: TrainingInstanceSandboxAllocationService,
     private trainingInstanceFacade: TrainingInstanceFacade
   ) { }
 
@@ -113,12 +116,23 @@ export class TrainingInstancesTableComponent implements OnInit {
    * @param trainingInstanceId Id of training instance for which should sanboxes be allocated
    */
   allocateTrainingInstanceSandboxes(trainingInstanceId: number) {
-    this.trainingInstanceFacade.allocateSandboxesForTrainingInstance(trainingInstanceId)
-      .subscribe(response => {
-        this.alertService.emitAlert(AlertTypeEnum.Info, 'Allocation of sandboxes for selected training instance have begun.');
-        // TODO: change state or bool so the allocation could not be requested again
-      },
-        (err) => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Allocation have not begun.')
+    this.trainingInstanceFacade.createPool(trainingInstanceId)
+      .pipe(switchMap(resp => {
+        this.sandboxAllocationService.poolId = resp;
+        this.sandboxAllocationService.state = SandboxAllocationEnum.POOL_OBTAINED;
+        this.alertService.emitAlert(AlertTypeEnum.Info, 'Pool was obtained. Sandbox allocation will begin');
+        // TODO Start periodic check of state of allocation
+        return this.trainingInstanceFacade.allocateSandboxesForTrainingInstance(trainingInstanceId);
+      }))
+      .subscribe(
+        response => {
+          this.sandboxAllocationService.state = SandboxAllocationEnum.FINISHED;
+          this.alertService.emitAlert(AlertTypeEnum.Info, 'Sandboxes were successfully allocated');
+        },
+        err => {
+        this.sandboxAllocationService.state = SandboxAllocationEnum.FAILED;
+        this.alertService.emitAlert(AlertTypeEnum.Error, 'Error during allocation of sandboxes.');
+        }
       );
   }
 

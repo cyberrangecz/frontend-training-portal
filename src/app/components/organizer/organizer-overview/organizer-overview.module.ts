@@ -15,6 +15,7 @@ import { TrainingDeleteDialogComponent } from './training-instance-overview/trai
 import {PipesModule} from '../../../pipes/pipes.module';
 import {TrainingDefinitionFacadeModule} from '../../../services/facades/modules/training-definition-facade.module';
 import {TrainingInstanceFacadeModule} from '../../../services/facades/modules/training-instance-facade.module';
+import {TrainingInstanceSandboxAllocationService} from "../../../services/training-instance-sandbox-allocation.service";
 
 @NgModule({
   imports: [
@@ -40,6 +41,7 @@ import {TrainingInstanceFacadeModule} from '../../../services/facades/modules/tr
     TrainingDeleteDialogComponent
   ],
   providers: [
+    TrainingInstanceSandboxAllocationService
   ],
   entryComponents: [
     OrganizersPickerComponent,

@@ -104,6 +104,14 @@ export class TrainingInstanceFacade {
   }
 
   /**
+   * Sends request to create pool for sandboxes of selected training isntance
+   * @param trainingInstanceId
+   */
+  createPool(trainingInstanceId: number): Observable<number> {
+    return this.http.post<number>(environment.trainingInstancesEndpointUri + trainingInstanceId + '/pools', null);
+  }
+
+  /**
    * Sends request to allocate all sandboxes for selected training instance
    * @param trainingInstanceId
    */
