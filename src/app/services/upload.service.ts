@@ -36,6 +36,6 @@ export class UploadService {
   }
 
   private createYamlContentHeader(): HttpHeaders {
-    return new HttpHeaders().append('Content-Type', 'text/yaml' )
+    return new HttpHeaders().append('Content-Type', 'application/yaml' )
   }
 }

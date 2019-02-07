@@ -24,7 +24,7 @@ export class SandboxDefinitionFacade {
 
 
   uploadSandboxDefinition(file: File): Observable<SandboxDefinitionCreateDTO> {
-    return this.uploadService.uploadSandboxDefinition(environment.trainingRestBasePath + 'imports/sandbox-definitions', file);
+    return this.uploadService.uploadSandboxDefinition(environment.sandboxDefsEndpointUri, file);
   }
 
   /**
