@@ -4,7 +4,6 @@ import {Observable} from "rxjs/internal/Observable";
 import {SandboxDefinition} from "../../model/sandbox/sandbox-definition";
 import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
-import {of} from "rxjs";
 import {SandboxDefinitionCreateDTO} from "../../model/DTOs/sandbox-definition/sandbox-definition-create-dto";
 import {UploadService} from "../upload.service";
 import {SandboxDefinitionMapperService} from "../mappers/sandbox-definition-mapper.service";
@@ -44,6 +43,7 @@ export class SandboxDefinitionFacade {
    * @returns {Observable<SandboxDefinition>} Observable of retrieved sandbox definition, null if no sandbox definition with such id is found
    */
   getSandboxDefById(id: number): Observable<SandboxDefinition> {
+
     return this.http.get<SandboxDefinitionDTO>(environment.sandboxDefsEndpointUri + id)
       .pipe(map(response => this.sandboxDefinitionMapper.mapSandboxDefinitionDTOToSandboxDefinition(response)));
   }

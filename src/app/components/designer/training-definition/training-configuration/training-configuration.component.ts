@@ -250,8 +250,6 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     if (!this.prerequisites) this.prerequisites = [''];
     if (!this.outcomes) this.outcomes = [''];
     this.authors = this.trainingDefinition.authors as string[];
-
-
     this.sandboxDefinitionFacade.getSandboxDefById(this.trainingDefinition.sandboxDefinitionId)
       .subscribe(sandbox => this.sandboxDef = sandbox)
   }

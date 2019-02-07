@@ -23,11 +23,12 @@
           <ng-container matColumnDef="title">
             <th class="title" mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="isInErrorState">Title</th>
             <td class="title" mat-cell *matCellDef="let training">
-              <div *ngIf="training.trainingInstanceStartTime.valueOf() < now
+<!--              <div *ngIf="training.trainingInstanceStartTime.valueOf() < now
                && training.trainingInstanceEndTime.valueOf() > now
-               && !isLoading
-              then clickableTitle else nonClickableTitle"></div>
+              then clickableTitle else nonClickableTitle"></div>-->
 
+              <div *ngIf="true
+              then clickableTitle else nonClickableTitle"></div>
               <ng-template #clickableTitle>
                 <button [disabled]="isLoading" class="training-link" mat-button color="primary"
                         (click)="resume(training.trainingRunId)">

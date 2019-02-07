@@ -50,7 +50,7 @@ export class TraineeTrainingsTableComponent implements OnInit {
    */
   tryAgain(trainingInstanceId: number) {
     // TODO: Integrate with appropriate REST API call once its resolved
-    this.router.navigate(['training/game'], {relativeTo: this.activeRoute});
+    //this.router.navigate(['training/game'], {relativeTo: this.activeRoute});
   }
 
   /**
