@@ -17,7 +17,7 @@ export const environment = {
   levelsEndpointUri:  'http://localhost:8083/kypo2-rest-training/api/v1/levels/',
 
   // SANDBOX REST API
-  sandboxDefsEndpointUri: 'http://147.251.21.38:8443/kypo-openstack/api/v1/definitions/',
+  sandboxDefsEndpointUri: ' http://localhost:3000/sandboxes', //'http://147.251.21.38:8443/kypo-openstack/api/v1/definitions/',
   poolsEndpointUri: 'http://147.251.21.38:8443/kypo-openstack/api/v1/pools/',
 
   //USER AND GROUP API
@@ -37,7 +37,7 @@ export const environment = {
   sessionChecksEnabled: false,
 
   // TOPOLOGY CONFIG
-  topologyRestUrl: '/assets/sample-data/graph-test-data.json',
+  topologyRestUrl: 'http://localhost:8085/kypo2-rest-topology/api/v1/sandboxes/',
   sandboxName: '',
   scenarioRestUrl: '',
   decoratorsRestUrl: '',

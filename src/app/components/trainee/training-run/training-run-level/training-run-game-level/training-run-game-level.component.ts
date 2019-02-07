@@ -13,6 +13,7 @@ import {RevealSolutionDialogComponent} from "./user-action-dialogs/reveal-soluti
 import {WrongFlagDialogComponent} from "./user-action-dialogs/wrong-flag-dialog/wrong-flag-dialog.component";
 import {ComponentErrorHandlerService} from "../../../../../services/component-error-handler.service";
 import {TrainingRunFacade} from "../../../../../services/facades/training-run-facade.service";
+import {ActiveUserService} from '../../../../../services/active-user.service';
 
 @Component({
   selector: 'training-run-game-level',
@@ -33,7 +34,8 @@ export class TrainingRunGameLevelComponent implements OnInit {
 
   graphWidth: number;
   graphHeight: number;
-
+  topologyAuthToken: string;
+  sandboxId: number;
   isLoading = false;
 
   displayedText: string;
@@ -45,10 +47,13 @@ export class TrainingRunGameLevelComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private trainingRunFacade: TrainingRunFacade,
+    private activeUserService: ActiveUserService,
     private errorHandler: ComponentErrorHandlerService,
     private activeLevelService: ActiveTrainingRunLevelsService) { }
 
   ngOnInit() {
+    this.topologyAuthToken = this.activeUserService.getActiveUserAuthorizationHeader();
+    this.sandboxId = this.activeLevelService.sandboxInstanceId;
     this.setGraphTopologyElementSize(window.innerWidth, window.innerHeight);
     this.displayedText = this.level.content;
     this.initHintButtons();

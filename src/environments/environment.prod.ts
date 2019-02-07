@@ -33,7 +33,7 @@ export const environment = {
   sessionChecksEnabled: false,
 
   // TOPOLOGY COMPONENT CONFIG
-  topologyRestUrl: '/assets/sample-data/graph-test-data.json',
+  topologyRestUrl: 'http://localhost:8085/kypo2-rest-topology/api/v1/sandboxes/',
   sandboxName: '',
   scenarioRestUrl: '',
   decoratorsRestUrl: '',
