@@ -119,16 +119,15 @@ export class TrainingInstancesTableComponent implements OnInit {
     this.trainingInstanceFacade.createPool(trainingInstanceId)
       .pipe(switchMap(resp => {
         this.sandboxAllocationService.setPoolId(resp);
-        // TODO Start periodic check of state of allocation
         this.sandboxAllocationService.begin();
         return this.trainingInstanceFacade.allocateSandboxesForTrainingInstance(trainingInstanceId);
       }))
       .subscribe(
         response => {
-          // TODO call service
+          this.sandboxAllocationService.finish();
         },
         err => {
-         // TODO call service
+         this.sandboxAllocationService.fail();
         }
       );
   }

@@ -4,18 +4,17 @@ import {Observable} from "rxjs/internal/Observable";
 import {SandboxDefinition} from "../../model/sandbox/sandbox-definition";
 import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
-import {PaginationParams} from "../../model/http/params/pagination-params";
 import {of} from "rxjs";
 import {SandboxDefinitionCreateDTO} from "../../model/DTOs/sandbox-definition/sandbox-definition-create-dto";
 import {UploadService} from "../upload.service";
 import {SandboxDefinitionMapperService} from "../mappers/sandbox-definition-mapper.service";
 import {SandboxDefinitionDTO} from "../../model/DTOs/sandbox-definition/sandbox-definition-dto";
 
-@Injectable()
 /**
  * Service to abstract from sandbox definition endpoint.
  * Can retrieve sandbox definition based on several parameters
  */
+@Injectable()
 export class SandboxDefinitionFacade {
 
   constructor(private http: HttpClient,
@@ -55,10 +54,5 @@ export class SandboxDefinitionFacade {
    */
   removeSandboxDefinition(id: number): Observable<any> {
     return this.http.delete(environment.sandboxDefsEndpointUri + id);
-  }
-
-  deploySandboxDefinition(id: number): Observable<any> {
-    return of(null)
-    // TODO: REQUEST to deploy sandbox deifiniton
   }
 }

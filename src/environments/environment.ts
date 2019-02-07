@@ -5,16 +5,20 @@
 export const environment = {
   production: false,
 
+  // BEHAVIOUR SETTING
   defaultAlertDuration: 2500, // 0 to display until user dismisses it
   defaultPaginationSize: 5,
 
   // TRAINING REST API
   trainingRestBasePath: 'http://localhost:8083/kypo2-rest-training/api/v1/',
-  sandboxDefsEndpointUri: 'http://localhost:3000/sandboxes/',
   trainingDefsEndpointUri:  'http://localhost:8083/kypo2-rest-training/api/v1/training-definitions/',
   trainingInstancesEndpointUri: 'http://localhost:8083/kypo2-rest-training/api/v1/training-instances/',
   trainingRunsEndpointUri:  'http://localhost:8083/kypo2-rest-training/api/v1/training-runs/',
   levelsEndpointUri:  'http://localhost:8083/kypo2-rest-training/api/v1/levels/',
+
+  // SANDBOX REST API
+  sandboxDefsEndpointUri: 'http://localhost:3000/sandboxes/',
+  poolsEndpointUri: 'http:/url/v1/pools',
 
   //USER AND GROUP API
   userAndGroupRestBasePath: 'http://localhost:8084/kypo2-rest-user-and-group/api/v1/',

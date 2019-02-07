@@ -1,17 +1,23 @@
 export const environment = {
   production: true,
 
+  // BEHAVIOUR SETTINGS
   defaultAlertDuration: 2500, // 0 to display until user dismisses it
   defaultPaginationSize: 5,
 
   // TRAINING REST API
-  trainingRestBasePath: '',
-  usersEndpointUri: '',
-  sandboxDefsEndpointUri: '',
-  trainingDefsEndpointUri: '',
-  trainingInstancesEndpointUri: '',
-  trainingRunsEndpointUri: '',
-  levelsEndpointUri: '',
+  trainingRestBasePath: 'http://localhost:8083/kypo2-rest-training/api/v1/',
+  trainingDefsEndpointUri:  'http://localhost:8083/kypo2-rest-training/api/v1/training-definitions/',
+  trainingInstancesEndpointUri: 'http://localhost:8083/kypo2-rest-training/api/v1/training-instances/',
+  trainingRunsEndpointUri:  'http://localhost:8083/kypo2-rest-training/api/v1/training-runs/',
+  levelsEndpointUri:  'http://localhost:8083/kypo2-rest-training/api/v1/levels/',
+
+  // SANDBOX REST API
+  sandboxDefsEndpointUri: 'http://localhost:3000/sandboxes/',
+  poolsEndpointUri: 'http:/url/v1/pools',
+
+  //USER AND GROUP API
+  userAndGroupRestBasePath: 'http://localhost:8084/kypo2-rest-user-and-group/api/v1/',
 
   //OIDC
   // Url of the Identity Provider
@@ -21,7 +27,7 @@ export const environment = {
   // URL of the SPA to redirect the user to after login
   redirectUri: window.location.origin,
   // The SPA's id. The SPA is registered with this id at the config-server
-  clientId: '3693320b-6acb-442c-be51-86e18f574f9d',
+  clientId: '18cd6765-be1a-4de4-a6c0-6adf9b9882d1',
   // set the scope for the permissions the client should request
   scope: 'openid profile email',
   sessionChecksEnabled: false,

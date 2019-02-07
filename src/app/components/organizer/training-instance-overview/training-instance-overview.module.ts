@@ -5,6 +5,7 @@ import {TrainingInstanceOverviewRoutingModule} from "./training-instance-overvie
 import {TrainingInstanceOverviewMaterialModule} from "./training-instance-overview-material.module";
 import {ActiveTrainingInstanceService} from "../../../services/active-training-instance.service";
 import {TrainingInstanceSandboxAllocationService} from "../../../services/training-instance-sandbox-allocation.service";
+import {SandboxInstanceFacade} from "../../../services/facades/sandbox-instance-facade.service";
 
 @NgModule({
   imports: [
@@ -13,10 +14,12 @@ import {TrainingInstanceSandboxAllocationService} from "../../../services/traini
     TrainingInstanceOverviewMaterialModule
   ],
   declarations: [
-  TrainingInstanceOverviewComponent],
+  TrainingInstanceOverviewComponent
+  ],
   providers: [
     ActiveTrainingInstanceService,
-    TrainingInstanceSandboxAllocationService
+    TrainingInstanceSandboxAllocationService,
+    SandboxInstanceFacade
   ]
 })
 
