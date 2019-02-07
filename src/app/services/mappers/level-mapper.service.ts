@@ -64,8 +64,9 @@ export class LevelMapper {
    */
   mapGameLevelToGameLevelUpdateDTO(level: GameLevel): GameLevelUpdateDTO {
     const result = new GameLevelUpdateDTOClass();
-    this.setAbstractLevelDTOAttributesFromObject(level, result);
-    result.level_type = AbstractLevelDTO.LevelTypeEnum.GAME;
+    result.id = level.id;
+    result.title = level.title;
+    result.max_score = level.maxScore;
     result.content = level.content;
     result.estimated_duration = level.estimatedDuration;
     result.flag = level.flag;
@@ -83,8 +84,8 @@ export class LevelMapper {
    */
   mapInfoLevelToInfoLevelUpdateDTO(level: InfoLevel): InfoLevelUpdateDTO {
     const result = new InfoLevelUpdateDTOClass();
-    this.setAbstractLevelDTOAttributesFromObject(level, result);
-    result.level_type = AbstractLevelDTO.LevelTypeEnum.INFO;
+    result.id = level.id;
+    result.title = level.title;
     result.content = level.content;
     return result;
   }
@@ -95,9 +96,10 @@ export class LevelMapper {
    */
   mapAssessmentLevelToAssessmentLevelUpdateDTO(level: AssessmentLevel): AssessmentLevelUpdateDTO {
     const result = new AssessmentLevelUpdateDTOClass();
-    this.setAbstractLevelDTOAttributesFromObject(level, result);
+    result.id = level.id;
+    result.title = level.title;
+    result.max_score = level.maxScore;
     result.instructions = level.instructions;
-    result.level_type = AbstractLevelDTO.LevelTypeEnum.ASSESSMENT;
     result.type = this.mapAssessmentTypeToDTO(level.assessmentType);
     result.questions = '[]';
     result.questions = JSON.stringify(this.mapQuestionsToDTO(level.questions));
@@ -217,18 +219,6 @@ export class LevelMapper {
     level.title = levelDTO.title;
     level.nextLevel = levelDTO.next_level;
     level.maxScore = levelDTO.max_score;
-  }
-
-  /**
-   *
-   * @param level
-   * @param levelDto
-   */
-  private setAbstractLevelDTOAttributesFromObject(level: AbstractLevel, levelDTO: AbstractLevelDTO) {
-    levelDTO.id = level.id;
-    levelDTO.title = level.title;
-    levelDTO.next_level = level.nextLevel;
-    levelDTO.max_score = level.maxScore;
   }
 
   private mapAssessmentTypeFromDTO(type: AssessmentLevelDTO.AssessmentTypeEnum): AssessmentTypeEnum {

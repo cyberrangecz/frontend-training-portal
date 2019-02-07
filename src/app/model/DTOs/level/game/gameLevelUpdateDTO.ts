@@ -18,7 +18,9 @@ import {PreHookDTO} from "../../training-definition/preHookDTO";
 /**
  * Game Level to update.
  */
-export interface GameLevelUpdateDTO extends AbstractLevelDTO{
+export interface GameLevelUpdateDTO {
+  id: number;
+  max_score?: number;
   attachments?: Array<string>;
   content?: string;
   estimated_duration?: number;
@@ -39,11 +41,7 @@ export class GameLevelUpdateDTOClass implements GameLevelUpdateDTO {
   incorrect_flag_limit: number;
   level_type: AbstractLevelDTO.LevelTypeEnum;
   max_score: number;
-  next_level: number;
-  post_hook: PostHookDTO;
-  pre_hook: PreHookDTO;
   solution: string;
   solution_penalized: boolean;
   title: string;
-
 }

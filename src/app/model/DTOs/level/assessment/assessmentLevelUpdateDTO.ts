@@ -18,7 +18,10 @@ import {PostHookDTO} from "../../training-definition/postHookDTO";
 /**
  * Assessment Level to update.
  */
-export interface AssessmentLevelUpdateDTO extends AbstractLevelDTO {
+export interface AssessmentLevelUpdateDTO {
+    id?: number;
+    title?: string;
+    max_score?: number;
     instructions?: string;
     questions?: string;
     type?: AssessmentLevelUpdateDTO.TypeEnum;
@@ -34,13 +37,8 @@ export namespace AssessmentLevelUpdateDTO {
 export class AssessmentLevelUpdateDTOClass implements AssessmentLevelUpdateDTO {
   id: number;
   instructions: string;
-  level_type: AbstractLevelDTO.LevelTypeEnum;
   max_score: number;
-  next_level: number;
-  post_hook: PostHookDTO;
-  pre_hook: PreHookDTO;
   questions: string;
   title: string;
   type: AssessmentLevelUpdateDTO.TypeEnum;
-
 }
