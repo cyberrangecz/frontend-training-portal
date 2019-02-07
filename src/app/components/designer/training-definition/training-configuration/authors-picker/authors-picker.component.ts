@@ -40,7 +40,7 @@ export class AuthorsPickerComponent implements OnInit {
   confirm() {
     const result = {
       type: 'confirm',
-      authors: this.selectedAuthors
+      authors: this.selectedAuthors.map(author => author.login)
     };
     this.dialogRef.close(result);
   }
