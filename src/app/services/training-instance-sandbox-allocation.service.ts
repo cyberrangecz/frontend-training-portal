@@ -55,7 +55,7 @@ export class TrainingInstanceSandboxAllocationService {
   private resolveSandboxAllocationState(sandboxes: SandboxInstanceDTO[]) {
     let finishedSandboxesCount = 0;
     sandboxes.forEach(sandbox => {
-      if (sandbox.status === 'finished') {
+      if (sandbox.status === 'SNAPSHOT_COMPLETE') {
         finishedSandboxesCount++;
       }
     });
