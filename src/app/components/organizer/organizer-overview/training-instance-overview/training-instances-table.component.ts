@@ -14,7 +14,6 @@ import {TrainingInstanceTableDataModel} from "../../../../model/table-models/tra
 import {TableDataWithPaginationWrapper} from "../../../../model/table-models/table-data-with-pagination-wrapper";
 import {ComponentErrorHandlerService} from "../../../../services/component-error-handler.service";
 import {TrainingInstanceSandboxAllocationService} from "../../../../services/training-instance-sandbox-allocation.service";
-import {SandboxAllocationEnum} from "../../../../enums/sandbox-allocation-state.enum";
 
 @Component({
   selector: 'training-instances-table',

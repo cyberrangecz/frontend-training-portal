@@ -226,7 +226,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    * Initializes levels with default values
    */
   private resolveInitialLevels() {
-    if (this.trainingDefinition.levels) {
+    if (this.trainingDefinition.levels && this.trainingDefinition.levels.length > 0 && this.trainingDefinition.startingLevel) {
       this.levels = this.sortInitialLevels(this.trainingDefinition.levels);
     } else {
       this.levels = [];
