@@ -18,7 +18,7 @@ export const environment = {
 
   // SANDBOX REST API
   sandboxDefsEndpointUri: 'http://147.251.21.38:8443/kypo-openstack/api/v1/definitions/',
-  poolsEndpointUri: 'http://147.251.21.38:8443/kypo-openstack/api/v1/pools',
+  poolsEndpointUri: 'http://147.251.21.38:8443/kypo-openstack/api/v1/pools/',
 
   //USER AND GROUP API
   userAndGroupRestBasePath: 'http://localhost:8084/kypo2-rest-user-and-group/api/v1/',

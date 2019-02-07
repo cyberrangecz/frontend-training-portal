@@ -9,18 +9,33 @@ import {SandboxInstanceDTO} from "../model/DTOs/sandbox-instance/sandbox-instanc
 
 @Injectable()
 export class TrainingInstanceSandboxAllocationService {
-  poolId: number;
+
   state: SandboxAllocationEnum;
+
+  private poolId: number;
+  private readonly LOCAL_STORAGE_POOL_ID_KEY = 'pool_id';
 
   constructor(private alertService: AlertService,
               private sandboxInstanceFacade: SandboxInstanceFacade) {
     this.state = SandboxAllocationEnum.NONE;
   }
 
-  setPoolId(poolId: number) {
+  setPoolId(poolId: number, instanceId: number) {
     this.poolId = poolId;
+    localStorage.setItem(this.LOCAL_STORAGE_POOL_ID_KEY + '_of_instance_' + instanceId.toString(), poolId.toString());
     this.state = SandboxAllocationEnum.POOL_OBTAINED;
     this.alertService.emitAlert(AlertTypeEnum.Info, 'Pool was obtained. Sandbox allocation will begin. This may take a few minutes.');
+  }
+
+  getPoolId(instanceId): number {
+    const poolId = localStorage.getItem(this.LOCAL_STORAGE_POOL_ID_KEY + '_of_instance_' + instanceId);
+    if (poolId) {
+      const result = Number.parseInt(poolId);
+      if (result && !Number.isNaN(result)) {
+        return result
+      }
+    }
+    return null
   }
 
   begin() {

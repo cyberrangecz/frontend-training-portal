@@ -116,20 +116,12 @@ export class TrainingInstancesTableComponent implements OnInit {
    * @param trainingInstanceId Id of training instance for which should sandboxes be allocated
    */
   allocateTrainingInstanceSandboxes(trainingInstanceId: number) {
-    this.trainingInstanceFacade.createPool(trainingInstanceId)
-      .pipe(switchMap(resp => {
-        this.sandboxAllocationService.setPoolId(resp);
-        this.sandboxAllocationService.begin();
-        return this.trainingInstanceFacade.allocateSandboxesForTrainingInstance(trainingInstanceId);
-      }))
-      .subscribe(
-        response => {
-          this.sandboxAllocationService.finish();
-        },
-        err => {
-         this.sandboxAllocationService.fail();
-        }
-      );
+    const poolId = this.sandboxAllocationService.getPoolId(trainingInstanceId);
+    if (poolId === null || poolId === undefined) {
+      this.createPoolAndAllocateSandboxes(trainingInstanceId)
+    } else {
+      this.allocateSandboxesForPool(trainingInstanceId, poolId);
+    }
   }
 
   /**
@@ -190,5 +182,35 @@ export class TrainingInstancesTableComponent implements OnInit {
     this.dataSource.filterPredicate =
       (data: TrainingInstanceTableDataModel, filter: string) =>
         data.trainingInstance.title.toLowerCase().indexOf(filter) !== -1;
+  }
+
+  private createPoolAndAllocateSandboxes(trainingInstanceId: number) {
+    this.trainingInstanceFacade.createPool(trainingInstanceId)
+      .pipe(switchMap(resp => {
+        this.sandboxAllocationService.setPoolId(resp, trainingInstanceId);
+        this.sandboxAllocationService.begin();
+        return this.trainingInstanceFacade.allocateSandboxesForTrainingInstance(trainingInstanceId);
+      }))
+      .subscribe(
+        response => {
+          this.sandboxAllocationService.finish();
+        },
+        err => {
+          this.sandboxAllocationService.fail();
+        }
+      );
+  }
+
+  private allocateSandboxesForPool(trainingInstanceId: number, poolId: number) {
+    this.sandboxAllocationService.begin();
+    this.trainingInstanceFacade.allocateSandboxesForTrainingInstance(trainingInstanceId)
+      .subscribe(
+        response => {
+          this.sandboxAllocationService.finish();
+        },
+        err => {
+          this.sandboxAllocationService.fail();
+        }
+      );
   }
 }
