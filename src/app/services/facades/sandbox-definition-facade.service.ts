@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
 import {SandboxDefinition} from "../../model/sandbox/sandbox-definition";
 import {environment} from "../../../environments/environment";
@@ -31,7 +31,8 @@ export class SandboxDefinitionFacade {
    * @returns {Observable<SandboxDefinition[]>} Observable of sandbox definitions list
    */
   getSandboxDefs(): Observable<SandboxDefinition[]> {
-    return this.http.get<SandboxDefinitionDTO[]>(environment.sandboxDefsEndpointUri)
+    const  headers = new  HttpHeaders().set("Accept", "application/json");
+    return this.http.get<SandboxDefinitionDTO[]>(environment.sandboxDefsEndpointUri, { headers: headers })
       .pipe(map(response =>
       this.sandboxDefinitionMapper.mapSandboxDefinitionsDTOToSandboxDefinitions(response)));
   }
@@ -43,8 +44,8 @@ export class SandboxDefinitionFacade {
    * @returns {Observable<SandboxDefinition>} Observable of retrieved sandbox definition, null if no sandbox definition with such id is found
    */
   getSandboxDefById(id: number): Observable<SandboxDefinition> {
-
-    return this.http.get<SandboxDefinitionDTO>(environment.sandboxDefsEndpointUri + id)
+    const  headers = new  HttpHeaders().set("Accept", "application/json");
+    return this.http.get<SandboxDefinitionDTO>(environment.sandboxDefsEndpointUri + id, { headers: headers })
       .pipe(map(response => this.sandboxDefinitionMapper.mapSandboxDefinitionDTOToSandboxDefinition(response)));
   }
 
@@ -54,5 +55,9 @@ export class SandboxDefinitionFacade {
    */
   removeSandboxDefinition(id: number): Observable<any> {
     return this.http.delete(environment.sandboxDefsEndpointUri + id);
+  }
+
+  private createDefaultHeaders() {
+    return new HttpHeaders({'Accept': 'application/json'});
   }
 }

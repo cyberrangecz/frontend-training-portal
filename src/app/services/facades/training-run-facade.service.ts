@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
 import {TrainingRun} from "../../model/training/training-run";
 import {environment} from "../../../environments/environment";
@@ -22,6 +22,7 @@ import {Hint} from "../../model/level/hint";
 import {AccessTrainingRun} from "../../model/training/access-training-run";
 import {AccessTrainingRunDTO} from "../../model/DTOs/training-run/accessTrainingRunDTO";
 import {LevelMapper} from "../mappers/level-mapper.service";
+import {ActiveUserService} from "../active-user.service";
 
 /**
  * Service abstracting the training run endpoint.
@@ -31,6 +32,7 @@ import {LevelMapper} from "../mappers/level-mapper.service";
 export class TrainingRunFacade {
 
   constructor(private http: HttpClient,
+              private activeUserService: ActiveUserService,
               private levelMapper: LevelMapper,
               private trainingRunMapper: TrainingRunMapper) {
   }
@@ -122,7 +124,8 @@ export class TrainingRunFacade {
    * @param trainingRunId id of a training run
    */
   nextLevel(trainingRunId: number): Observable<GameLevel | AssessmentLevel | InfoLevel> {
-    return this.http.get<AbstractLevelDTO>(environment.trainingRunsEndpointUri + trainingRunId + '/next-levels')
+    const  headers = new  HttpHeaders().set("Authorization", this.activeUserService.getActiveUserAuthorizationHeader());
+    return this.http.get<AbstractLevelDTO>(environment.trainingRunsEndpointUri + trainingRunId + '/next-levels', { headers: headers})
       .pipe(map(response => this.levelMapper.mapLevelDTOToLevel(response)));
   }
 
@@ -132,7 +135,8 @@ export class TrainingRunFacade {
    * @param flag flag submitted by user
    */
   isCorrectFlag(trainingRunId: number, flag: string): Observable<FlagCheck> {
-    return this.http.get<IsCorrectFlagDTO>(environment.trainingRunsEndpointUri + trainingRunId + '/is-correct-flag?flag=' + flag)
+    const  headers = new  HttpHeaders().set("Authorization", this.activeUserService.getActiveUserAuthorizationHeader());
+    return this.http.get<IsCorrectFlagDTO>(environment.trainingRunsEndpointUri + trainingRunId + '/is-correct-flag?flag=' + flag, {headers: headers})
       .pipe(map(response => this.trainingRunMapper.mapIsCorrectFlagDTOToObject(response)));
   }
 
@@ -142,7 +146,8 @@ export class TrainingRunFacade {
    * @param hintId id of requested hint
    */
   takeHint(trainingRunId: number, hintId: number): Observable<Hint> {
-    return this.http.get<HintDTO>(environment.trainingRunsEndpointUri + trainingRunId + '/hints/' + hintId)
+    const  headers = new  HttpHeaders().set("Authorization", this.activeUserService.getActiveUserAuthorizationHeader());
+    return this.http.get<HintDTO>(environment.trainingRunsEndpointUri + trainingRunId + '/hints/' + hintId, {headers: headers})
       .pipe(map(response => this.levelMapper.mapHintDTOToHint(response)));
   }
 
@@ -151,8 +156,10 @@ export class TrainingRunFacade {
    * @param trainingRun id of the training run in which, solution should be revealed (level is decided based on the current level property)
    */
   takeSolution(trainingRun: number): Observable<string> {
+    const  headers = new  HttpHeaders().set("Authorization", this.activeUserService.getActiveUserAuthorizationHeader());
     return this.http.get(environment.trainingRunsEndpointUri + trainingRun + '/solutions',
-      { responseType: "text" });
+      { headers: headers,
+      responseType: "text" });
   }
 
   /**

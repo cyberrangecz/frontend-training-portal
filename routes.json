@@ -1,8 +1,0 @@
-{
-  "/training-definitions/sandbox-definitions/:id": "/training-definitions?sandbox_definition=:id",
-  "/training-definitions/:id/assessment-levels": "/levels?training_definition_id=:id&type=assessment",
-  "/training-definitions/:id/game-levels": "/levels?training_definition_id=:id&type=game",
-  "/training-definitions/:id/info-levels": "/levels?training_definition_id=:id&type=info"
-
-
-}
