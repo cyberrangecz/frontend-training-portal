@@ -42,7 +42,6 @@
   </training-run-level>
   <div class="main-button" *ngIf="levels">
     <button *ngIf="selectedStep + 1 < levels.length && displayNextButton"
-            [disabled]="isActiveLevelLocked"
             mat-raised-button color="primary"
             (click)="nextLevel()"
     >Next
