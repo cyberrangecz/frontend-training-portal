@@ -44,16 +44,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private configureOidc() {
-    this.oAuthService.setStorage(localStorage);
     this.oAuthService.configure(authConfig);
-    this.oAuthService.loadDiscoveryDocument()
-      .then(() => {
-        this.oAuthService.tryLogin()
-          .then(() => {
-            this.oAuthService.tokenValidationHandler = new JwksValidationHandler();
-            this.oAuthService.setupAutomaticSilentRefresh();
-          })
-      });
+    this.oAuthService.tokenValidationHandler = new JwksValidationHandler();
+    this.oAuthService.setupAutomaticSilentRefresh();
   }
 
   private subscribeOIDCEvents() {
@@ -63,8 +56,8 @@ export class AppComponent implements OnInit, OnDestroy {
         || event.type === 'silent_refresh_error'
         || event.type === 'token_validation_error') {
           console.log(event.type);
-          this.activeUserService.logout();
-          this.router.navigate(['/login']);
+          //this.activeUserService.logout();
+          //this.router.navigate(['/login']);
       }
     })
   }
