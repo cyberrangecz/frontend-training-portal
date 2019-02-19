@@ -1,0 +1,41 @@
+.content {
+  display: flex;
+  flex-direction: row;
+}
+
+.content mat-horizontal-stepper {
+  flex-grow: 8;
+  max-width: 100%;
+
+}
+
+/deep/.mat-horizontal-stepper-header-container {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  margin-bottom: 20px;
+}
+
+h2 {
+  margin: 0;
+}
+
+.stepper-control {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+h4 {
+  margin: 0;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+

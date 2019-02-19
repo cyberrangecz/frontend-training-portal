@@ -1,0 +1,89 @@
+h2 {
+  text-align: center;
+  margin: 20px auto;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.mat-sort-header-container {
+  align-items: center;
+}
+
+.training {
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  width: 75vw;
+}
+
+.training-table-wrapper {
+  flex-grow: 10;
+}
+
+.training-table {
+  width: 100%;
+  margin: auto auto;
+  justify-items: center;
+  justify-content: center;
+}
+
+.training-link {
+  padding:0;
+}
+
+table {
+  width: 100%;
+}
+
+td.title, th.title {
+  width: 20%;
+}
+
+td.date, th.date {
+  width: 30%;
+}
+
+td.trainingDefinition, th.trainingDefinition {
+  text-align: center;
+  width: 10%;
+}
+
+td.poolSize, th.poolSize {
+  text-align: center;
+  width: 10%;
+}
+
+td.password, th.password {
+  text-align: center;
+  width: 20%;
+}
+
+td.actions, th.actions {
+  width: 10%;
+}
+
+.loading {
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-error {
+  color: #980000;
+  text-align: center;
+}
+
+@media screen and (max-width: 800px) {
+  .training {
+    width: 90vw;
+  }
+}

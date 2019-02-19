@@ -1,0 +1,94 @@
+<h2>Sandbox Definition</h2>
+<div class="sandbox-def">
+  <div class="sandbox-def-buttons">
+    <button mat-stroked-button color="primary"
+            (click)="uploadSandboxDefinition()">
+      Upload Sandbox Definition
+    </button>
+  </div>
+
+  <div class="sandbox-def-table-wrapper">
+    <div class="sandbox-def-table">
+      <mat-form-field>
+        <input matInput [disabled]="isInErrorState"
+               (keyup)="applyFilter($event.target.value)"
+               placeholder="Filter by title">
+      </mat-form-field>
+
+      <div class="mat-elevation-z8">
+
+        <div class="loading"
+             *ngIf="isLoadingResults || isInErrorState">
+          <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+          <div class="loading-error" *ngIf="isInErrorState">
+            We had some trouble loading the data.
+            <button mat-icon-button (click)="fetchData()" color="primary"><mat-icon>refresh</mat-icon></button>
+          </div>
+        </div>
+
+        <table mat-table [dataSource]="dataSource" matSort>
+
+          <!-- TITLE Column -->
+          <ng-container matColumnDef="title">
+            <th [disabled]="isInErrorState" class="title" mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+            <td class="title" mat-cell *matCellDef="let data"> {{ data.sandbox?.title }}</td>
+          </ng-container>
+
+          <!-- ASSOCIATED TRAINING DEFS Column -->
+          <ng-container matColumnDef="associatedTrainingDefs">
+            <th class="assocTrainingDefs" mat-header-cell *matHeaderCellDef>Associated Training Definitions</th>
+            <td class="assocTrainingDefs" mat-cell *matCellDef="let data"> {{data.associatedTrainingDefinitions }}</td>
+          </ng-container>
+
+          <!-- AUTHORS Column -->
+          <ng-container matColumnDef="authors">
+            <th class="authors" mat-header-cell *matHeaderCellDef>Authors</th>
+            <td class="authors" mat-cell *matCellDef="let data"> {{ data.sandbox?.authorIds }}</td>
+          </ng-container>
+
+          <!-- ACTIONS Column -->
+          <ng-container matColumnDef="actions">
+            <th class="actions" mat-header-cell *matHeaderCellDef>Actions</th>
+            <td class="actions" mat-cell *matCellDef="let data">
+
+              <div class="action-buttons">
+                <!-- REMOVE button-->
+                <button *ngIf="data.canBeRemoved"
+                        mat-icon-button color="primary"
+                        matTooltip="Remove sandbox definition"
+                        (click)="removeSandboxDefinition(data)">
+                  <mat-icon
+                    aria-label="Remove sandbox definition button">
+                    delete</mat-icon>
+                </button>
+
+                <!-- UPDATE button-->
+                <button *ngIf="data.canBeRemoved"
+                        mat-icon-button color="primary"
+                        matTooltip="Update sandbox definition"
+                        (click)="updateSandboxDefinition(data.sandbox?.id)">
+                  <mat-icon
+                    aria-label="Update sandbox definition button">
+                    cached</mat-icon>
+                </button>
+
+                <!-- DEPLOY button-->
+                <button *ngIf="true"
+                        mat-icon-button color="primary"
+                        matTooltip="Deploy sandbox definition"
+                        (click)="deploySandboxDefinition(data.sandbox?.id)">
+                  <mat-icon
+                    aria-label="Deploy sandbox definition button">
+                    launch</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>

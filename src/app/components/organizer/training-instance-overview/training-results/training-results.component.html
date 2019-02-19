@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="header">
+    <h2>Training Results</h2>
+    <mat-divider></mat-divider>
+    <button class="trigger" mat-raised-button color="primary" [matMenuTriggerFor]="menu">
+      Change View
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="navigateTo('score-development')">
+        <mat-icon>score</mat-icon>
+        <span>Score Development View</span>
+      </button>
+      <button mat-menu-item (click)="navigateTo('scatter-plot')">
+        <mat-icon>scatter_plot</mat-icon>
+        <span>Score Scatter Plot View</span>
+      </button>
+      <button mat-menu-item (click)="navigateTo('progress')">
+        <mat-icon>timeline</mat-icon>
+        <span>Training Progress View</span>
+      </button>
+      <mat-divider></mat-divider>
+      <button mat-menu-item (click)="navigateTo('combined')">
+        <mat-icon>dashboard</mat-icon>
+        <span>Combined View</span>
+      </button>
+    </mat-menu>
+  </div>
+  <div class="content">
+    <router-outlet name="view"></router-outlet>
+  </div>
+</div>

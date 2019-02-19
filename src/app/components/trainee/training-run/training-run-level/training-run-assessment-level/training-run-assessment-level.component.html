@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="header">
+    <h1>{{ level.title }}</h1>
+  </div>
+  <div class="content">
+    <ngx-md [data]="level.instructions"></ngx-md>
+    <!-- QUESTIONS -->
+    <div class="questions">
+      <div *ngFor="let question of level.questions; index as i" class="question">
+        <mat-divider></mat-divider>
+        <trainee-question [question]="question" [index]="i + 1" (contentChanged)="onContentChanged()"></trainee-question>
+      </div>
+    </div>
+  </div>
+</div>

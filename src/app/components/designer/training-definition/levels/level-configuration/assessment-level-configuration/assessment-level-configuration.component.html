@@ -1,0 +1,45 @@
+<div class="level" *ngIf="level">
+  <div class="header">
+    <h2>Assessment Level Detail</h2>
+    <span class="spacer"></span>
+    <button mat-raised-button color="primary" [disabled]="isLoading" (click)="saveChanges()">
+      Save Changes
+    </button>
+  </div>
+
+  <div class="content">
+    <div class="panel-wrapper">
+      <div class="left-panel">
+        <!-- TITLE field -->
+        <mat-form-field appearance="outline">
+          <mat-label>Title</mat-label>
+          <input [disabled]="isLoading" (change)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
+          <button mat-button *ngIf="title && !isLoading" matSuffix mat-icon-button aria-label="Clear" (click)="title=''; contentChanged()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <!-- INSTRUCTIONS field -->
+        <h3>Instructions</h3>
+        <markdown-editor class="mrkdwn-content" (change)="contentChanged()" [(content)]="instructions"></markdown-editor>
+      </div>
+
+      <div class="right-panel">
+
+        <mat-checkbox [disabled]="isLoading" [(ngModel)]="isTest">Is Test?</mat-checkbox>
+      </div>
+    </div>
+    <!-- QUESTIONS component -->
+    <question-overview [questions]="questions" [isTest]="isTest" [disabled]="isLoading"></question-overview>
+  </div>
+
+  <div class="footer">
+    <span class="spacer"></span>
+    <button mat-raised-button color="warn" [disabled]="isLoading" (click)="onDeleteLevel()">
+      Delete level
+    </button>
+    <button mat-raised-button color="primary" [disabled]="isLoading" (click)="saveChanges()">
+      Save Changes
+    </button>
+  </div>
+</div>

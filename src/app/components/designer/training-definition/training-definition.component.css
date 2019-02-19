@@ -1,0 +1,36 @@
+.content {
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 150px);
+  justify-content: center;
+}
+
+.sidenav {
+  width: 20%;
+}
+
+.level {
+  flex: 90%;
+  max-width: 90%;
+  display: flex;
+  flex-direction: column;
+}
+
+.training-config {
+  flex: 20%;
+  min-width: 20%;
+}
+
+
+@media screen and (max-width: 800px) {
+  .content {
+    flex-direction: column;
+  }
+  .level {
+    flex: 100%;
+    max-width: calc(100% - 20px);
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,57 @@
+<div class="loading" *ngIf="isLoading">
+  <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+</div>
+
+<div class="content">
+
+  <!-- LEVEL STEPPER -->
+  <mat-horizontal-stepper class="training-run"
+                          *ngIf="withStepper && levels"
+                          [selectedIndex]="selectedStep"
+                          [linear]="true"
+                          #stepper>
+    <ng-template matStepperIcon="edit" let-index="index">
+      <mat-icon *ngIf="levels[index].type === 'game'">videogame_asset</mat-icon>
+      <mat-icon *ngIf="levels[index].type === 'assessment'">assignment</mat-icon>
+      <mat-icon *ngIf="levels[index].type === 'info'">info</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="number" let-index="index">
+      <mat-icon *ngIf="levels[index].type === 'game'">videogame_asset</mat-icon>
+      <mat-icon *ngIf="levels[index].type === 'assessment'">assignment</mat-icon>
+      <mat-icon *ngIf="levels[index].type === 'info'">info</mat-icon>
+    </ng-template>
+
+    <mat-step *ngFor="let level of levels; index as i"
+              [editable]="false"
+              [completed]="i <= selectedStep">
+      <ng-template matStepLabel>{{ level.title | levelStepperLabel: i + 1: levels.length }}</ng-template>
+    </mat-step>
+  </mat-horizontal-stepper>
+
+<!--
+  &lt;!&ndash; TIMER &ndash;&gt;
+  <div class="timer">
+    <training-timer *ngIf="withTimer" [startTime]="startTime"></training-timer>
+  </div>
+-->
+
+  <!-- CONTENT OF ACTIVE LEVEL -->
+  <training-run-level (nextLevel)="nextLevel()"
+                      (displayNextLevelButton)="setDisplayNextLevelButton($event)">
+
+  </training-run-level>
+  <div class="main-button" *ngIf="levels">
+    <button *ngIf="selectedStep + 1 < levels.length && displayNextButton"
+            mat-raised-button color="primary"
+            (click)="nextLevel()"
+    >Next
+    </button>
+    <button *ngIf="selectedStep + 1 === levels.length"
+            [disabled]="isActiveLevelLocked"
+            mat-raised-button color="primary"
+            (click)="showResults()">
+      Finish
+    </button>
+  </div>
+</div>
+

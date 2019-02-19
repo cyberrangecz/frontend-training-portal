@@ -1,0 +1,57 @@
+<div class="container">
+  <div class="header">
+    <h1>{{ level.title }}</h1>
+  </div>
+  <div class="content">
+    <div class="left-panel">
+
+      <!-- TOPOLOGY COMPONENT-->
+     <lib-force-graph #topology [width]="graphWidth"
+                      [height]="graphHeight"
+                      [sandboxId]="sandboxId"
+                      [authorizationToken]=topologyAuthToken>
+     </lib-force-graph>
+
+    </div>
+    <div class="right-panel">
+      <div class="hint-bar">
+
+        <!-- HINT BUTTONS-->
+        <button
+          *ngFor="let hintButton of hintButtons; index as i"
+          mat-raised-button color="primary"
+          [disabled]="correctFlag || solutionShown || hintButton.displayed"
+          (click)="showHint(hintButton, i + 1);"
+          matTooltip="{{ hintButton.hint.title }}">
+          Hint {{ i + 1 }}
+        </button>
+
+        <!-- SOLUTION BUTTON-->
+        <button mat-raised-button color="warn"
+                [disabled]="correctFlag || solutionShown"
+                (click)="showSolutionButtonClick()"
+                matTooltip="Display solution">
+          Solution
+        </button>
+      </div>
+      <div class="level-content">
+        <ngx-md [data]="displayedText"></ngx-md>
+      </div>
+      <div class="flag-input">
+
+        <!-- FLAG field-->
+        <mat-form-field appearance="outline">
+          <mat-label>Flag</mat-label>
+          <input matInput placeholder="Flag" [disabled]="correctFlag" [(ngModel)]="flag" required>
+          <button mat-button *ngIf="flag" [disabled]="correctFlag" matSuffix mat-icon-button aria-label="Clear" (click)="flag=''">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <button mat-button color="accent"
+                [disabled]="!flag || correctFlag"
+                (click)="submitFlag()">
+          Submit</button>
+      </div>
+    </div>
+  </div>
+</div>

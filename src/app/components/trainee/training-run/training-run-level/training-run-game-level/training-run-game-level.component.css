@@ -1,0 +1,74 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+}
+
+.header {
+  margin-top: 50px;
+  text-align: center;
+  width: 90%;
+}
+
+.content {
+  margin-top: 50px;
+  display: flex;
+  width: 90%;
+  flex-direction: row;
+}
+
+.left-panel {
+  flex-grow: 6;
+  display: flex;
+  flex-direction: column;
+  margin-right: 30px;
+}
+
+.right-panel {
+  flex-grow: 4;
+  display: flex;
+  flex-direction: column;
+  margin-left: 30px;
+}
+
+.flag-input {
+  margin: 20px;
+  align-self: flex-end;
+  display: flex;
+  flex-direction: row;
+  align-content: baseline;
+  align-items: baseline;
+}
+
+.hint-bar {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+}
+
+button {
+  margin: 0 20px;
+}
+
+mat-form-field {
+  width: 300px;
+}
+
+@media screen and (max-width: 1000px) {
+  .content {
+    width: 90%;
+    flex-direction: column;
+  }
+
+  .container {
+    align-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .hint-bar {
+    margin-top: 25px;
+  }
+}
+

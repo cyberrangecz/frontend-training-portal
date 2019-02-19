@@ -1,0 +1,51 @@
+.content {
+  display: flex;
+  flex-direction: row;
+}
+
+.left-panel {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 7;
+}
+
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 3;
+  align-items: flex-end;
+  align-content: flex-end;
+}
+
+.right-panel mat-form-field {
+  width: 100%;
+}
+
+.right-panel > * {
+  margin-bottom: 10px;
+}
+
+mat-divider {
+  margin: 0 20px;
+}
+
+mat-checkbox {
+  margin: 0 10px;
+}
+
+@media screen and (max-width: 850px) {
+  .content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .right-panel {
+    margin-top: 20px;
+    align-items: flex-start;
+    align-content: flex-start;
+  }
+
+  mat-form-field {
+    width: 80%;
+  }
+}

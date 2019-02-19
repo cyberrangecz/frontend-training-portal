@@ -1,0 +1,66 @@
+<mat-progress-spinner *ngIf="isLoading"></mat-progress-spinner>
+<div class="header">
+  <h2>Levels</h2>
+  <button class="add-level" mat-icon-button color="primary" [disabled]="!isTrainingSaved || isLoading" [matMenuTriggerFor]="levelMenu"
+          matTooltip="Add new level">
+    <mat-icon>add_circle</mat-icon>
+  </button>
+  <mat-menu #levelMenu="matMenu">
+    <button mat-menu-item
+            (click)="addGameLevel()">
+      <mat-icon>videogame_asset</mat-icon>
+      <span>Game level</span>
+    </button>
+    <button mat-menu-item
+            (click)="addAssessmentLevel()">
+      <mat-icon>assignment</mat-icon>
+      <span>Assessment level</span>
+    </button>
+    <button mat-menu-item
+            (click)="addInfoLevel()">
+      <mat-icon>info</mat-icon>
+      <span>Info level</span>
+    </button>
+  </mat-menu>
+</div>
+
+<div class="stepper-control" *ngIf="!isLoading && levels && levels.length > 0">
+  <button mat-icon-button color="primary" (click)="swapLeft()" [disabled]="selectedStep === 0"
+          matTooltip="Swap selected level to left">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <button mat-icon-button color="primary" (click)="swapRight()" [disabled]="selectedStep === levels.length - 1"
+          matTooltip="Swap selected level to right">
+    <mat-icon>arrow_forward</mat-icon>
+  </button>
+  <span class="spacer"></span>
+  <h4>Training contains {{ levels.length }} level(s)</h4>
+</div>
+
+<div class="content"
+     *ngIf="!isLoading && levels && levels.length > 0">
+  <mat-horizontal-stepper
+    [(selectedIndex)]="selectedStep"
+    (selectionChange)="selectionChanged($event)"
+    #stepper>
+
+    <ng-template matStepperIcon="edit" let-index="index">
+      <mat-icon *ngIf="levels[index].type === 'game'">videogame_asset</mat-icon>
+      <mat-icon *ngIf="levels[index].type === 'assessment'">assignment</mat-icon>
+      <mat-icon *ngIf="levels[index].type === 'info'">info</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="number" let-index="index">
+      <mat-icon *ngIf="levels[index].type === 'game'">videogame_asset</mat-icon>
+      <mat-icon *ngIf="levels[index].type === 'assessment'">assignment</mat-icon>
+      <mat-icon *ngIf="levels[index].type === 'info'">info</mat-icon>
+    </ng-template>
+
+    <mat-step *ngFor="let level of levels; index as i">
+      <ng-template matStepLabel>{{ level.title | levelStepperLabel: i + 1: levels.length }}</ng-template>
+      <div class="step-content">
+        <level-configuration (deleteLevel)="deleteLevel($event)" [level]="level" [trainingDefinitionId]="trainingDefinition.id"></level-configuration>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>
+

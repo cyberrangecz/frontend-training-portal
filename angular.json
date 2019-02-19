@@ -23,7 +23,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/kypo2-trainings-visualization-overview-lib/styles.scss"
             ],
             "scripts": []
           },
@@ -44,6 +45,14 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
+            },
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.staging.ts"
+                }
+              ]
             }
           }
         },
@@ -55,6 +64,9 @@
           "configurations": {
             "production": {
               "browserTarget": "trainings:build:production"
+            },
+            "staging": {
+              "browserTarget": "trainings:build:staging"
             }
           }
         },

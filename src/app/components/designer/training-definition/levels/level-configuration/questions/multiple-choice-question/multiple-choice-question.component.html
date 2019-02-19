@@ -1,0 +1,60 @@
+<div class="content">
+
+  <div class="left-panel">
+  <!-- TITLE field-->
+    <mat-form-field appearance="outline">
+      <mat-label>Title</mat-label>
+      <input (change)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
+      <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title =''; contentChanged()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
+
+    <button mat-button color="warn" (click)="clearAnswers()" class="clear-answers">Clear Answers</button>
+
+    <!-- OPTIONS field -->
+    <div *ngFor="let option of options; index as i; trackBy: trackByFn" class="option">
+      <mat-checkbox [checked]="correctAnswersIndexes.includes(i)" (change)="onAnswerChanged($event, i)"></mat-checkbox>
+      <mat-form-field>
+        <mat-label>Option {{ i + 1 }}</mat-label>
+        <input (change)="contentChanged()" matInput placeholder="Option {{ i + 1 }}" [(ngModel)]="options[i]">
+        <button mat-button *ngIf="option" matSuffix mat-icon-button aria-label="Clear" (click)="options[i]= ''; contentChanged()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <button mat-button matSuffix mat-icon-button aria-label="Delete option" color="warn" matTooltip="Delete option"
+              (click)="deleteOption(i)">
+        <mat-icon>remove_circle</mat-icon>
+      </button>
+    </div>
+
+    <button mat-button matSuffix mat-icon-button aria-label="Add new option" color="primary" matTooltip="Add new option"
+            (click)="addOption()">
+      <mat-icon>add_circle</mat-icon>
+    </button>
+
+    <!-- NOTE -->
+    <p class="note">Note: Do not forget to select correct answers</p>
+  </div>
+
+  <mat-divider [vertical]="true"></mat-divider>
+
+  <div class="right-panel">
+    <!-- SCORE field -->
+    <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionScore }}">
+      <mat-label>Score</mat-label>
+      <input [disabled]="!required" (change)="contentChanged()" matInput placeholder="Score" type="number" [max]="maxQuestionScore" min="0" [(ngModel)]="score" [required]="required">
+    </mat-form-field>
+
+    <!-- PENALTY field -->
+    <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionPenalty }}">
+      <mat-label>Penalty</mat-label>
+      <input [disabled]="!required" (change)="contentChanged()" matInput placeholder="Question Penalty" type="number" [max]="maxQuestionPenalty" min="0" [(ngModel)]="penalty" [required]="required">
+    </mat-form-field>
+
+    <!-- REQUIRED checkbox -->
+    <mat-checkbox [disabled]="isTest" [(ngModel)]="required">Required</mat-checkbox>
+  </div>
+</div>
+

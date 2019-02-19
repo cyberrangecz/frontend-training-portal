@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="header">
+    <h3>Combined View</h3>
+  </div>
+  <div class="content">
+      <kypo2-viz-overview-timeline
+      [gameData]="mockGameData"
+      [feedbackLearnerId]="mockFeedbackLearnerId"
+      [size]="{width: 800, height: 600*0.8}"
+    ></kypo2-viz-overview-timeline>
+    <kypo2-viz-overview-clustering
+      [gameData]="mockGameData"
+      [feedbackLearnerId]="mockFeedbackLearnerId"
+    ></kypo2-viz-overview-clustering>
+  </div>
+</div>

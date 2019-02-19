@@ -1,0 +1,8 @@
+<button mat-button class="menu-trigger" [matMenuTriggerFor]="menu">
+  <mat-icon>person</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+  <a mat-menu-item routerLink="/home">Home</a>
+  <a mat-menu-item routerLink="/user">Profile Details</a>
+  <a mat-menu-item *ngIf="isUserLoggedIn" (click)="logout()">Logout</a>
+</mat-menu>

@@ -1,0 +1,23 @@
+<div class="container" *ngIf="display">
+  <div class="header">
+    <h1>Training Results</h1>
+  </div>
+  <div class="content">
+    <div class="left-panel">
+      <kypo2-viz-overview-timeline
+        [gameData]="mockGameData"
+        [feedbackLearnerId]="mockFeedbackLearnerId"
+        [size]="{width: 800, height: 600*0.8}"
+      ></kypo2-viz-overview-timeline>
+    </div>
+    <div class="middle-panel">
+      <kypo2-viz-overview-clustering
+        [gameData]="mockGameData"
+        [feedbackLearnerId]="mockFeedbackLearnerId"
+      ></kypo2-viz-overview-clustering>
+    </div>
+    <div class="right-panel">
+
+    </div>
+  </div>
+</div>

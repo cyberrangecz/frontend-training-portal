@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>Choose Authors</h1>
+<mat-divider></mat-divider>
+<div mat-dialog-content>
+  <mat-selection-list #authorsList [(ngModel)]="selectedAuthors">
+    <mat-list-option *ngIf="activeUser" [value]="activeUser" [selected]="true" disabled="true">
+      {{ activeUser.login }} (You)
+    </mat-list-option>
+    <mat-list-option *ngFor="let author of authors$ | async"
+                     [value]="author">
+      {{ author.login }}
+    </mat-list-option>
+  </mat-selection-list>
+</div>
+
+<div mat-dialog-actions>
+  <button (click)="cancel()"
+          mat-button color="primary">Cancel</button>
+  <span class="spacer"></span>
+  <button (click)="confirm()"
+          [disabled]="!selectedAuthors || selectedAuthors.length === 0"
+          mat-button color="primary">Confirm</button>
+</div>

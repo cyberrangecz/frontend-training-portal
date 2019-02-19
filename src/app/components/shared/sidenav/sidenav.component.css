@@ -1,0 +1,12 @@
+a {
+  display: block;
+}
+
+a.main-nav {
+  padding-left: 0;
+}
+
+p {
+  margin-top: 10px;
+  margin-left: 5px;
+}

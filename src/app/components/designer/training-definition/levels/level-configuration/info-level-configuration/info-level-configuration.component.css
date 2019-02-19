@@ -1,0 +1,44 @@
+div .level {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+}
+
+div .header {
+  display: flex;
+  align-items: baseline;
+  flex-direction: row;
+  margin-bottom: 25px;
+}
+
+div .spacer {
+  flex: 1 1 auto;
+}
+
+div .content {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  width: 70%;
+}
+
+button {
+  margin-right: 15px;
+}
+
+@media screen and (max-width: 800px) {
+  div .content {
+    width: 100%;
+  }
+}
+markdown-editor {
+  height: 40vh;
+}
+
+div .footer {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+

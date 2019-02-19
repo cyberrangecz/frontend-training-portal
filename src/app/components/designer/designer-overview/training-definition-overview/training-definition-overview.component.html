@@ -1,0 +1,133 @@
+<h2>Training Definition</h2>
+<div class="train-def">
+
+  <div class="train-def-buttons">
+    <button mat-stroked-button color="primary"
+            (click)="newTrainingDefinition()">
+      New Training Definition
+    </button>
+    <button mat-stroked-button color="primary"
+            (click)="uploadTrainingDefinition()">
+      Upload Training Definition
+    </button>
+  </div>
+
+  <div class="train-def-table-wrapper">
+    <div class="train-def-table">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)"
+               [disabled]="isInErrorState"
+               placeholder="Filter by title or status">
+      </mat-form-field>
+      <div class="mat-elevation-z8">
+        <div class="loading"
+             *ngIf="isLoadingResults || isInErrorState">
+          <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+          <div class="loading-error" *ngIf="isInErrorState">
+            We had some trouble loading the data.
+            <button mat-icon-button (click)="fetchData()" color="primary"><mat-icon>refresh</mat-icon></button>
+          </div>
+        </div>
+
+        <table mat-table [dataSource]="dataSource" matSort>
+          <!-- TITLE Column -->
+          <ng-container matColumnDef="title">
+            <th class="title" mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="isInErrorState">Title</th>
+            <td class="title" mat-cell *matCellDef="let data">
+              {{ data.trainingDefinition?.title }}
+            </td>
+          </ng-container>
+
+          <!-- DESCRIPTION Column -->
+          <ng-container matColumnDef="description">
+            <th class="description" mat-header-cell *matHeaderCellDef>Description</th>
+            <td class="description" mat-cell *matCellDef="let data"> {{ data.trainingDefinition?.description }}</td>
+          </ng-container>
+
+          <!-- STATUS Column -->
+          <ng-container matColumnDef="status">
+            <th class="status" mat-header-cell *matHeaderCellDef>Status</th>
+            <td class="status" mat-cell *matCellDef="let data"> {{ data.trainingDefinition?.state }}</td>
+          </ng-container>
+
+          <!-- AUTHORS Column -->
+          <ng-container matColumnDef="authors">
+            <th class="authors" mat-header-cell *matHeaderCellDef>Authors</th>
+            <td class="authors" mat-cell
+                *matCellDef="let data">
+              <div [matTooltip]="data.trainingDefinition?.authors"
+                matTooltipPosition="above">
+                {{ data.trainingDefinition?.authors | authorsTableFormat }}
+              </div>
+            </td>
+          </ng-container>
+
+          <!--ACTIONS Column -->
+          <ng-container matColumnDef="actions">
+            <th class="actions" mat-header-cell *matHeaderCellDef >Actions</th>
+            <td class="actions" mat-cell *matCellDef="let data">
+
+              <div class="action-buttons">
+                <!-- EDIT button -->
+                <button *ngIf="data.trainingDefinition?.state === trainingStateEnum.Unreleased"
+                        mat-icon-button color="primary"
+                        matTooltip="Edit training definition"
+                        (click)="editTrainingDefinition(data.trainingDefinition?.id)">
+                  <mat-icon
+                    aria-label="Edit training definition button">
+                    create</mat-icon>
+                </button>
+
+                <!-- CLONE button -->
+                <button *ngIf="data.trainingDefinition?.state === trainingStateEnum.Released ||
+                             data.trainingDefinition?.state === trainingStateEnum.Archived"
+                        mat-icon-button color="primary"
+                        matTooltip="Clone training definition"
+                        (click)="cloneTrainingDefinition(data.trainingDefinition?.id)">
+                  <mat-icon
+                    aria-label="Clone training definition button">
+                    file_copy</mat-icon>
+                </button>
+
+                <!-- REMOVE button -->
+                <button *ngIf="data.trainingDefinition?.state === trainingStateEnum.Unreleased ||
+                             data.trainingDefinition?.state === trainingStateEnum.Archived"
+                        mat-icon-button color="primary"
+                        matTooltip="Remove training definition"
+                        (click)="removeTrainingDefinition(data.trainingDefinition?.id)">
+                  <mat-icon
+                    aria-label="Remove training definition button"
+                  >delete</mat-icon>
+                </button>
+
+                <!-- DOWNLOAD button -->
+                <button mat-icon-button color="primary"
+                        matTooltip="Download training definition"
+                        (click)="downloadTrainingDefinition(data.trainingDefinition?.id)">
+                  <mat-icon
+                    aria-label="Download training definition button">
+                    cloud_download</mat-icon>
+                </button>
+
+                <!-- ARCHIVE button -->
+                <button *ngIf="data.trainingDefinition?.state !== trainingStateEnum.Archived
+                              && data.trainingDefinition?.canBeArchived"
+                        mat-icon-button color="primary"
+                        matTooltip="Archive training definition"
+                        (click)="archiveTrainingDefinition(data.trainingDefinition)">
+                  <mat-icon
+                    aria-label="Archive training definition button">
+                    archive</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>

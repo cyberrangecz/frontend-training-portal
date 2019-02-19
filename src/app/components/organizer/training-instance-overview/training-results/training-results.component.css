@@ -1,0 +1,16 @@
+.container {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+}
+
+.content {
+  display:flex;
+}
+
+button.trigger {
+  margin-top: 20px;
+}

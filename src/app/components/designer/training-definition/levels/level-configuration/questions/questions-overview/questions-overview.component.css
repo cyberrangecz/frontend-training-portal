@@ -1,0 +1,22 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  margin-bottom: 20px;
+}
+
+h3 {
+  margin: 0;
+  color: slateblue;
+}
+
+mat-card {
+  margin: 20px 0;
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  margin-top: 20px;
+}

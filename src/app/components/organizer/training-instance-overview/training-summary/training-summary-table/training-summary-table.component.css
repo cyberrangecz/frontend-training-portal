@@ -1,0 +1,62 @@
+mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.mat-sort-header-container {
+  align-items: center;
+}
+
+.training {
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+}
+
+.training-table-wrapper {
+  flex-grow: 10;
+}
+
+.training-table {
+  width: 100%;
+  margin: auto auto;
+  justify-items: center;
+  justify-content: center;
+}
+
+table {
+  width: 100%;
+}
+
+td.sandboxId, th.sandboxId {
+  width: 25%;
+}
+
+td.playerId, th.playerId {
+  width: 25%;
+}
+
+td.state, th.state {
+  width: 25%;
+}
+
+td.actions, th.actions {
+  width: 25%;
+}
+
+.loading {
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-error {
+  color: #980000;
+  text-align: center;
+}

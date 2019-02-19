@@ -1,0 +1,32 @@
+.content {
+  width: 80%;
+  border: 1px solid gainsboro;
+}
+
+.container {
+  height: calc(100vh - 80px);
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+}
+
+.header {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+  margin-top: 50px;
+}
+
+mat-icon {
+  margin-right: 10px;
+}
+
+@media screen and (max-width: 800px) {
+  .content {
+    width: 100%;
+    border: 0;
+  }
+}

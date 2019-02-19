@@ -1,1 +1,20 @@
-<p>hello world</p>
+<shared-toolbar *ngIf="!distractionFreeMode"></shared-toolbar>
+<mat-drawer-container *ngIf="!distractionFreeMode" class="container" autosize>
+  <mat-drawer #drawer class="sidenav" mode="side">
+    <shared-sidenav></shared-sidenav>
+  </mat-drawer>
+
+  <div class="sidenav-content">
+    <button
+      class="sidenav-button"
+      type="button"
+      mat-icon-button
+      (click)="drawer.toggle(); toggleSidenav()">
+      <mat-icon *ngIf="!isSidenavOpen">menu</mat-icon>
+      <mat-icon *ngIf="isSidenavOpen">chevron_left</mat-icon>
+    </button>
+    <router-outlet *ngIf="!distractionFreeMode"></router-outlet>
+  </div>
+</mat-drawer-container>
+<router-outlet *ngIf="distractionFreeMode"></router-outlet>
+

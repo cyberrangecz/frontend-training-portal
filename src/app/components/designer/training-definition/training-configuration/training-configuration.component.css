@@ -1,0 +1,42 @@
+h1 {
+  text-align: center;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-container > * {
+  width: 90%;
+  margin: 10px;
+}
+
+.form-container button {
+  width: 130px;
+}
+
+.line-with-button {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+.line-with-button p {
+  color: grey;
+  width: 100%;
+}
+
+.line-with-button button {
+  margin-left: 10px;
+}
+
+.main-button button {
+  margin-top: 20px;
+}
+
+.spacer {
+  flex: 1 1 auto
+}
+
+

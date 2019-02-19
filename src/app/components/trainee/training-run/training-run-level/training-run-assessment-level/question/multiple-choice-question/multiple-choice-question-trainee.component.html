@@ -1,0 +1,12 @@
+<div class="content">
+  <!-- TITLE-->
+  <h2>{{ index }}. {{ question.title }}</h2>
+
+  <!-- OPTIONS -->
+  <div class="checkboxes">
+    <mat-checkbox *ngFor="let option of question.options; index as i"
+                  (change)="onAnswerChanged($event, i)">
+      {{ option }}
+    </mat-checkbox>
+  </div>
+</div>

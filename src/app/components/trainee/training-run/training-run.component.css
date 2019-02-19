@@ -1,0 +1,38 @@
+.loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-button {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end
+}
+
+button {
+  margin-right: 50px;
+}
+
+.timer {
+  margin: 10px 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.training-run {
+  pointer-events: none !important;
+}
