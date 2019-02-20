@@ -31,9 +31,12 @@ export class UserMenuComponent implements OnInit, OnDestroy {
     }
   }
 
+  login() {
+    this.activeUserService.login();
+  }
+
   logout() {
     this.activeUserService.logout();
-    this.router.navigate(['/login']);
   }
 
   private subscribeToActiveUserChanges() {

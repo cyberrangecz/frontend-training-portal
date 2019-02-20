@@ -53,13 +53,18 @@ export class ActiveUserService {
   }
 
   login() {
-    this.setActiveUser(new User());
-    this.oAuthService.initImplicitFlow();
+    this.oAuthService.loadDiscoveryDocumentAndLogin()
+      .then(() => {
+        this.setActiveUser(new User());
+        this.loadProfile();
+      });
   }
 
   logout() {
     this.setActiveUser(undefined);
+    localStorage.clear();
     this.oAuthService.logOut(true);
+    this.router.navigate(['/home']);
   }
 
   /**

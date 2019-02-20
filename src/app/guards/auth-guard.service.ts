@@ -12,24 +12,19 @@ export class AuthGuard implements CanActivate {
 
   constructor(
     private router: Router,
-    private oauthService: OAuthService
-  ) {}
+    private oauthService: OAuthService) {
+  }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    if (this.oauthService.hasValidIdToken()) {
+    if (this.oauthService.hasValidIdToken() && this.oauthService.hasValidAccessToken()) {
       return Promise.resolve(true);
     }
-
     return this.oauthService.loadDiscoveryDocumentAndLogin()
-      .then(_ => {
+      .then(() => {
         return this.oauthService.hasValidIdToken() && this.oauthService.hasValidAccessToken();
       })
       .then(valid => {
-        if (!valid) {
-          this.router.navigate(['/unauthorized']);
-        }
         return valid;
       });
-
   }
 }

@@ -27,8 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    this.subscribeOIDCEvents();
-    this.configureOidc();
+    this.configureOIDC();
     this.distractionFreeMode = this.distractionFreeModeService.getDistractionFreeMode();
     this.subscribeForDistractionFreeModeChanges();
   }
@@ -43,24 +42,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.isSidenavOpen = !this.isSidenavOpen;
   }
 
-  private configureOidc() {
+  private configureOIDC() {
     this.oAuthService.configure(authConfig);
     this.oAuthService.tokenValidationHandler = new JwksValidationHandler();
-    this.oAuthService.setupAutomaticSilentRefresh();
   }
 
-  private subscribeOIDCEvents() {
-    this.oAuthService.events.subscribe(event => {
-      if (event.type === 'token_refresh_error'
-        || event.type === 'token_error'
-        || event.type === 'silent_refresh_error'
-        || event.type === 'token_validation_error') {
-          console.log(event.type);
-          //this.activeUserService.logout();
-          //this.router.navigate(['/login']);
-      }
-    })
-  }
 
   /**
    * Subscribes to changes of distraction free mode (mode without sidebar and toolbar)

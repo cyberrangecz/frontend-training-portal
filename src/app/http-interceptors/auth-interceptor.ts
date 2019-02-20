@@ -36,9 +36,7 @@ export class AuthInterceptor implements HttpInterceptor {
           err => {
         if (err instanceof HttpErrorResponse) {
           if (err.status === 401) {
-            console.log('Unauthorized');
-            window.confirm('You cannot access this resource. You will be navigated to the login page.');
-            this.router.navigate(['login']);
+            console.log('Unauthorized request');
           }
         }
       }));
