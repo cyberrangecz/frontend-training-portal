@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
 import {ActiveUserService} from "../services/active-user.service";
 import {Observable} from "rxjs/internal/Observable";
+import {OAuthService} from 'angular-oauth2-oidc';
 
 @Injectable()
 /**
@@ -11,16 +12,19 @@ export class AuthGuard implements CanActivate {
 
   constructor(
     private router: Router,
-    private userService: ActiveUserService
-  ) {}
+    private oauthService: OAuthService) {
+  }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    if (this.userService.isAuthenticated()) {
-      if (this.userService.isTrainee() && !this.userService.isDesigner() && !this.userService.isOrganizer()) {
-        this.router.navigate(['trainee']);
-      }
-      return true;
+    if (this.oauthService.hasValidIdToken() && this.oauthService.hasValidAccessToken()) {
+      return Promise.resolve(true);
     }
-    this.router.navigate(['login']);
+    return this.oauthService.loadDiscoveryDocumentAndLogin()
+      .then(() => {
+        return this.oauthService.hasValidIdToken() && this.oauthService.hasValidAccessToken();
+      })
+      .then(valid => {
+        return valid;
+      });
   }
 }

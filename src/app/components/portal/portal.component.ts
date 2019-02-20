@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActiveUserService} from "../../services/active-user.service";
 import {Router} from "@angular/router";
+import {User} from '../../model/user/user';
 
 @Component({
   selector: 'overview',
@@ -113,7 +114,7 @@ export class PortalComponent implements OnInit, OnDestroy {
    */
   private subscribeUserChange() {
     this.userChangeSubscription = this.activeUserService.onActiveUserChanged.
-      subscribe(login => {
+      subscribe(user => {
         this.createTrainingButtons();
         this.createCyberExButtons();
         this.createOtherAgendaButtons();

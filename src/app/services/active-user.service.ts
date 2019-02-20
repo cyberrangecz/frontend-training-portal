@@ -17,12 +17,12 @@ export class ActiveUserService {
 
   private _activeUser: User;
 
-  private _onActiveUserChangedSubject: Subject<string> = new Subject<string>();
+  private _onActiveUserChangedSubject: Subject<User> = new Subject<User>();
   /**
    * Observable of active user changes (when user logs out or logs in)
-   * @type {Observable<number>}
+   * @type {Observable<User>}
    */
-  onActiveUserChanged: Observable<string> = this._onActiveUserChangedSubject.asObservable();
+  onActiveUserChanged: Observable<User> = this._onActiveUserChangedSubject.asObservable();
 
   constructor(private router: Router,
     private userFacade: UserFacade,
@@ -53,13 +53,18 @@ export class ActiveUserService {
   }
 
   login() {
-    this.oAuthService.initImplicitFlow();
-    this.loadProfile();
+    this.oAuthService.loadDiscoveryDocumentAndLogin()
+      .then(() => {
+        this.setActiveUser(new User());
+        this.loadProfile();
+      });
   }
 
   logout() {
-    this.oAuthService.logOut(true);
     this.setActiveUser(undefined);
+    localStorage.clear();
+    this.oAuthService.logOut(true);
+    this.router.navigate(['/home']);
   }
 
   /**
@@ -67,7 +72,7 @@ export class ActiveUserService {
    * @returns {boolean} true if active user is authenticated, false otherwise
    */
   isAuthenticated(): boolean {
-    return this.oAuthService.hasValidAccessToken();
+    return this.oAuthService.hasValidAccessToken() && this.getActiveUser() !== null && this.getActiveUser() !== undefined;
   }
 
   /**
@@ -104,8 +109,7 @@ export class ActiveUserService {
    */
   setActiveUser(user: User) {
     this._activeUser = user;
-    const login = this._activeUser === null || this._activeUser === undefined ? null : this._activeUser.login;
-    this._onActiveUserChangedSubject.next(login);
+    this._onActiveUserChangedSubject.next(user);
   }
 
   private addRolesToUser(roles: UserRoleEnum[], user: User) {

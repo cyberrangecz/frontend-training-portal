@@ -31,15 +31,18 @@ export class UserMenuComponent implements OnInit, OnDestroy {
     }
   }
 
+  login() {
+    this.activeUserService.login();
+  }
+
   logout() {
     this.activeUserService.logout();
-    this.router.navigate(['/login']);
   }
 
   private subscribeToActiveUserChanges() {
     this.activeUserSubscription = this.activeUserService.onActiveUserChanged
-      .subscribe(event => {
-        this.isUserLoggedIn = event !== null && event !== undefined;
+      .subscribe(user => {
+        this.isUserLoggedIn = user !== null && user !== undefined;
       })
   }
 }

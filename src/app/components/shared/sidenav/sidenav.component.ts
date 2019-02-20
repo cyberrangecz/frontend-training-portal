@@ -1,5 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActiveUserService} from "../../../services/active-user.service";
+import {User} from '../../../model/user/user';
 
 @Component({
   selector: 'shared-sidenav',
@@ -67,7 +68,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
    */
   private subscribeUserChange() {
     this.userChangeSubscription = this.activeUserService.onActiveUserChanged
-      .subscribe(id => {
+      .subscribe(user => {
         this.createTrainings();
         this.setActiveTrainings();
       })

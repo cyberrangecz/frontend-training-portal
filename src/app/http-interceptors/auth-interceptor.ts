@@ -27,23 +27,18 @@ export class AuthInterceptor implements HttpInterceptor {
    * @param next next http handler
    */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this.activeUserService.isAuthenticated()) {
-      const clonedReq = req.clone({
-        headers: req.headers.append('Authorization', this.activeUserService.getActiveUserAuthorizationHeader())
-      });
-      return next.handle(clonedReq)
-        .pipe(tap((event: HttpEvent<any>) => {
-        },
-            err => {
-          if (err instanceof HttpErrorResponse) {
-            if (err.status === 401) {
-              console.log('Unauthorized');
-              window.confirm('You cannot access this resource. You will be navigated to the login page.');
-              this.router.navigate(['login']);
-            }
+    const clonedReq = req.clone({
+      headers: req.headers.append('Authorization', this.activeUserService.getActiveUserAuthorizationHeader())
+    });
+    return next.handle(clonedReq)
+      .pipe(tap((event: HttpEvent<any>) => {
+      },
+          err => {
+        if (err instanceof HttpErrorResponse) {
+          if (err.status === 401) {
+            console.log('Unauthorized request');
           }
-        }));
-    }
-    return next.handle(req);
+        }
+      }));
   }
 }
