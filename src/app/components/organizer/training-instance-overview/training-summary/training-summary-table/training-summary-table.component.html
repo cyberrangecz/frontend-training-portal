@@ -20,9 +20,9 @@
         <table mat-table [dataSource]="dataSource" matSort>
 
           <!-- SANDBOX ID Column -->
-          <ng-container matColumnDef="sandboxId">
-            <th class="sandboxId" mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="isInErrorState">Sandbox ID</th>
-            <td class="sandboxId" mat-cell *matCellDef="let data">
+          <ng-container matColumnDef="sandboxInstanceId">
+            <th class="sandboxInstanceId" mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="isInErrorState">Sandbox ID</th>
+            <td class="sandboxInstanceId" mat-cell *matCellDef="let data">
               {{ data.trainingRun?.sandboxInstanceId }}
             </td>
           </ng-container>
