@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
 import {Observable} from "rxjs/internal/Observable";
 import {ActiveUserService} from "../services/active-user.service";
+import {AuthGuard} from "./auth-guard.service";
 
 @Injectable()
 /**
@@ -11,15 +12,20 @@ export class TraineeGuard implements CanActivate {
 
   constructor(
     private router: Router,
+    private authGuard: AuthGuard,
     private userService: ActiveUserService) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    if (this.userService.isAuthenticated() && this.userService.isTrainee()) {
-      return true;
-    }
-    this.router.navigate(['home']);
-    return false;
+    const authResultPromise = this.authGuard.canActivate(route, state) as Promise<boolean>;
+    return authResultPromise
+      .then(authenticated => {
+        if (authenticated && this.userService.isTrainee()) {
+          return true;
+        }
+        this.router.navigate(['home']);
+        return false;
+      });
   }
 
 }

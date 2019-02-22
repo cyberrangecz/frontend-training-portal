@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActiveUserService} from "../../services/active-user.service";
 import {Router} from "@angular/router";
-import {User} from '../../model/user/user';
 
 @Component({
   selector: 'overview',
@@ -26,8 +25,8 @@ export class PortalComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.initRoutes();
     this.subscribeUserChange();
-    this.activeUserService.loadProfile();
   }
 
   ngOnDestroy() {
@@ -44,9 +43,12 @@ export class PortalComponent implements OnInit, OnDestroy {
     this.router.navigate([route]);
   }
 
-  /**
-   * Creates source objects for KYPO trainings buttons. Visibility is determined based on user roles.
-   */
+  private initRoutes() {
+    this.createTrainingButtons();
+    this.createCyberExButtons();
+    this.createOtherAgendaButtons();
+  }
+
   private createTrainingButtons() {
     this.trainingRoles = [
       {
@@ -115,9 +117,7 @@ export class PortalComponent implements OnInit, OnDestroy {
   private subscribeUserChange() {
     this.userChangeSubscription = this.activeUserService.onActiveUserChanged.
       subscribe(user => {
-        this.createTrainingButtons();
-        this.createCyberExButtons();
-        this.createOtherAgendaButtons();
+      this.initRoutes();
     });
   }
 

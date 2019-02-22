@@ -52,11 +52,24 @@ export class ActiveUserService {
     return !this._activeUser ? false : this._activeUser.roles.contains(UserRoleEnum.Trainee);
   }
 
+  isTraineeOnly(): boolean {
+    return !this._activeUser
+      ? false
+      : this._activeUser.roles.size() == 1 && this.isTrainee()
+  }
+
+  getRolesCount(): number {
+    if (this._activeUser) {
+      return this._activeUser.roles.size();
+    }
+    return 0;
+  }
+
   login() {
     this.oAuthService.loadDiscoveryDocumentAndLogin()
       .then(() => {
         this.setActiveUser(new User());
-        this.loadProfile();
+        this.loadUserAndHisRoles();
       });
   }
 
@@ -89,18 +102,16 @@ export class ActiveUserService {
     return this.oAuthService.authorizationHeader();
   }
 
-  loadProfile() {
-    this.userFacade.getUserInfo()
+  loadUserAndHisRoles(): Observable<User> {
+    return this.userFacade.getUserInfo()
       .pipe(switchMap((user: User) =>
         this.userFacade.getUserRolesByGroups(user.groupIds)
           .pipe(map( roles => {
             this.addRolesToUser(roles, user);
+            this.setActiveUser(user);
             return user;
           }))
-      ))
-      .subscribe((user: User) => {
-        this.setActiveUser(user);
-      });
+      ));
   }
 
   /**
@@ -109,6 +120,7 @@ export class ActiveUserService {
    */
   setActiveUser(user: User) {
     this._activeUser = user;
+    console.log(user + ' was set as an active user');
     this._onActiveUserChangedSubject.next(user);
   }
 

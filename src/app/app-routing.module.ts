@@ -6,7 +6,6 @@ import {OrganizerGuard} from "./guards/organizer-guard.service";
 import {TraineeGuard} from "./guards/trainee-guard.service";
 
 const routes: Routes = [
-
   {
     path: 'home',
     loadChildren: 'app/components/portal/portal.module#PortalModule',
@@ -30,11 +29,11 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: 'home',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: '**',
-    redirectTo: 'home'
+    redirectTo: 'home',
   }
 ];
 
