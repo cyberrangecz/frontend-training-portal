@@ -80,18 +80,19 @@ export class TrainingInstanceFacade {
    * Sends request to create new training instance in DB and returns id of the created training instance
    * @param {TrainingInstance} trainingInstance training instance which should be created
    */
-  createTrainingInstance(trainingInstance: TrainingInstance): Observable<number> {
+  createTrainingInstance(trainingInstance: TrainingInstance): Observable<TrainingInstance> {
     return this.http.post<TrainingInstanceDTO>(environment.trainingInstancesEndpointUri,
       this.trainingInstanceMapper.mapTrainingInstanceToTrainingInstanceCreateDTO(trainingInstance))
-      .pipe(map(trainingInstanceDTO => trainingInstanceDTO.id ));
+      .pipe(map(trainingInstanceDTO =>
+        this.trainingInstanceMapper.mapTrainingInstanceDTOToTrainingInstance(trainingInstanceDTO)));
   }
 
   /**
    * Sends request to update training instance in DB
    * @param trainingInstance training instance which should be updated
    */
-  updateTrainingInstance(trainingInstance: TrainingInstance): Observable<any> {
-    return this.http.put<TrainingInstanceDTO>(environment.trainingInstancesEndpointUri,
+  updateTrainingInstance(trainingInstance: TrainingInstance): Observable<string> {
+    return this.http.put<string>(environment.trainingInstancesEndpointUri,
       this.trainingInstanceMapper.mapTrainingInstanceToTrainingInstanceUpdateDTO(trainingInstance));
   }
 
