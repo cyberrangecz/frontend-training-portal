@@ -12,13 +12,14 @@
 import { AuthorRefDto } from '../user/author-ref-dto';
 import {AbstractLevelDTO} from "../level/abstractLevelDTO";
 import {ViewGroupDTO} from "./viewGroupDTO";
+import {UserRefDTO} from '../user/user-ref-dto';
 
 
 /**
  * .
  */
 export interface TrainingDefinitionDTO {
-    authors?: Array<AuthorRefDto>;
+    authors?: Array<UserRefDTO>;
     levels?: Array<AbstractLevelDTO>;
     description?: string;
     id?: number;
@@ -33,7 +34,7 @@ export interface TrainingDefinitionDTO {
 }
 
 export class TrainingDefinitionDTOClass {
-  authors?: Array<AuthorRefDto>;
+  authors?: Array<UserRefDTO>;
   levels?: Array<AbstractLevelDTO>;
   description?: string;
   id?: number;

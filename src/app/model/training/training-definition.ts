@@ -12,7 +12,7 @@ export class TrainingDefinition {
   sandboxDefinitionId: number;
   title: string;
   description: string;
-  authors: Array<User | string>;
+  authors: User[];
   viewGroup: ViewGroup;
   prerequisites: string[];
   outcomes: string[];

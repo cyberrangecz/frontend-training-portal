@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {TrainingInstanceFacade} from '../training-instance-facade.service';
 import {TrainingRunMapper} from '../../mappers/training-run-mapper.service';
 import {TrainingInstanceMapper} from '../../mappers/training-instance-mapper.service';
+import {UserMapper} from '../../mappers/user.mapper.service';
 
 @NgModule({
   imports: [
@@ -11,7 +12,8 @@ import {TrainingInstanceMapper} from '../../mappers/training-instance-mapper.ser
   providers: [
     TrainingInstanceFacade,
     TrainingInstanceMapper,
-    TrainingRunMapper
+    TrainingRunMapper,
+    UserMapper
   ]
 })
 export class TrainingInstanceFacadeModule {

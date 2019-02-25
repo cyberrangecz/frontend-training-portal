@@ -18,6 +18,7 @@ import {Observable, of} from 'rxjs';
 import {TrainingDefinitionFacade} from "../../../../services/facades/training-definition-facade.service";
 import {ViewGroup} from "../../../../model/user/view-group";
 import {EditViewGroupComponent} from "./edit-view-group/edit-view-group.component";
+import {User} from '../../../../model/user/user';
 
 /**
  * Component for creating new or editing already existing training definition
@@ -39,7 +40,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
   description: string;
   prerequisites: string[];
   outcomes: string[];
-  authors: string[];
+  authors: User[];
   sandboxDef: SandboxDefinition;
   selectedState: string;
   showProgress: boolean;
