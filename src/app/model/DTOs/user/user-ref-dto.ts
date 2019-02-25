@@ -11,8 +11,7 @@
  */
 
 
-export interface UserRefDTO {
-    id?: number;
+export class UserRefDTO {
     user_ref_full_name: string;
     user_ref_login?: string;
 }
