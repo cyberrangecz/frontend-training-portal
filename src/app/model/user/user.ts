@@ -18,6 +18,6 @@ export class User {
 
 
   toString(): string {
-    return this.login;
+    return this.name;
   }
 }

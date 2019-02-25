@@ -21,11 +21,11 @@
   </mat-form-field>
   <mat-selection-list #organizersList [(ngModel)]="selectedOrganizers">
     <mat-list-option *ngIf="activeUser" [value]="activeUser">
-      {{ activeUser }} (You)
+      {{ activeUser.name }} (You)
     </mat-list-option>
     <mat-list-option *ngFor="let organizer of organizers$ | async"
                      [value]="organizer">
-      {{ organizer }}
+      {{ organizer.name }}
     </mat-list-option>
   </mat-selection-list>
 </div>

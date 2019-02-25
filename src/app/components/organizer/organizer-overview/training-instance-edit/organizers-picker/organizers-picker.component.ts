@@ -41,7 +41,7 @@ export class OrganizersPickerComponent implements OnInit {
   confirm() {
     const result = {
       type: 'confirm',
-      organizers: this.selectedOrganizers.map(organizer => organizer.login)
+      organizers: this.selectedOrganizers
     };
     this.dialogRef.close(result);
   }

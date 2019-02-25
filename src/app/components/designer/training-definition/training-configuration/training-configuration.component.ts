@@ -234,7 +234,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.outcomes = [''];
     this.selectedState = 'unreleased';
     this.viewGroup = null;
-    this.authors = [this.activeUserService.getActiveUser().login];
+    this.authors = [this.activeUserService.getActiveUser()];
   }
 
   /**
@@ -250,7 +250,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.viewGroup = this.trainingDefinition.viewGroup;
     if (!this.prerequisites) this.prerequisites = [''];
     if (!this.outcomes) this.outcomes = [''];
-    this.authors = this.trainingDefinition.authors as string[];
+    this.authors = this.trainingDefinition.authors;
     this.sandboxDefinitionFacade.getSandboxDefById(this.trainingDefinition.sandboxDefinitionId)
       .subscribe(sandbox => this.sandboxDef = sandbox)
   }
