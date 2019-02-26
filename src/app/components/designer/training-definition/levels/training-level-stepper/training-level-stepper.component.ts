@@ -18,8 +18,6 @@ import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ComponentErrorHandlerService} from "../../../../../services/component-error-handler.service";
 import {TrainingDefinitionFacade} from "../../../../../services/facades/training-definition-facade.service";
-import {UnsavedChangesDialogComponent} from "../../unsaved-changes-dialog/unsaved-changes-dialog.component";
-import {map} from "rxjs/operators";
 import {TrainingDefinition} from "../../../../../model/training/training-definition";
 
 @Component({
@@ -36,8 +34,6 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
 
   @Input('isTrainingSaved') isTrainingSaved: boolean;
   @Input('trainingDefinition') trainingDefinition: TrainingDefinition;
-
-  @Output('onLevelDeleted') onLevelDeleted: EventEmitter<number> = new EventEmitter();
 
   levels: AbstractLevel[];
   isLoading = true;
@@ -163,31 +159,36 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
 
   /**
    * Deletes level on given index
-   * @param {number} id index of level which should be deleted
+   * @param {number} toDeleteId index of level which should be deleted
    */
-  deleteLevel(id: number) {
+  onDeleteLevel(toDeleteId: number) {
+    const levelToDelete = this.levels.find(level => level.id === toDeleteId);
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data:
         {
           type: 'level',
-          title: this.levels.find(level => level.id === id).title
+          title: levelToDelete.title
         }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
         this.isLoading = true;
-        const toDelete = this.levels.find(level => level.id === id);
-        this.trainingDefinitionFacade.removeLevel(this.trainingDefinition.id, toDelete.id)
-          .subscribe(resp => {
-              this.alertService.emitAlert(AlertTypeEnum.Success ,'Level "' + toDelete.title + '" was successfully deleted');
-              this.onLevelDeleted.emit(toDelete.id);
+        this.trainingDefinitionFacade.removeLevel(this.trainingDefinition.id, toDeleteId)
+          .subscribe(levels => {
+            this.changeSelectedStep(0);
+              this.alertService.emitAlert(AlertTypeEnum.Success ,'Level "' + levelToDelete.title + '" was successfully deleted');
+              this.levels = levels.sort((levelA, levelB ) => levelA.order - levelB.order);
+              this.isLoading = false;
             },
-              err => this.errorHandler.displayHttpError(err, 'Deleting level "' + toDelete.title + '"')
-          );
+              err => {
+                this.errorHandler.displayHttpError(err, 'Deleting level "' + levelToDelete.title + '"');
+                this.isLoading = false;
+              });
       }
     });
   }
+
 
   /**
    * Triggered after selection of active level is changed in the stepper
@@ -195,27 +196,6 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    */
   selectionChanged(event) {
     this.changeSelectedStep(event.selectedIndex);
-    //TODO : this should only be used if lazy loading is implemented
-
-    /*    if (this.getCanDeactivateLevels().find(level => level.order === this.selectedStep).canBeDeactivated) {
-      this.changeSelectedStep(event.selectedStep);
-    } else {
-      this.resolveBySaveChangesDialog(event.selectedStep);
-    }*/
-  }
-
-  private resolveBySaveChangesDialog(selectedLevelIndex: number) {
-    const dialogRef = this.dialog.open(UnsavedChangesDialogComponent, {
-      data: {
-        payload: ['Current level is not saved. Do you want to discard changes?'],
-        saveOption: true
-      }
-    });
-    dialogRef.afterClosed().pipe(map(result => {
-      if (result && result.type === 'confirm') {
-        this.changeSelectedStep(selectedLevelIndex);
-      }
-    }))
   }
 
   private changeSelectedStep(index: number) {

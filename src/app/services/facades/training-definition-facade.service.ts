@@ -192,10 +192,10 @@ export class TrainingDefinitionFacade {
    * @param trainingDefId id of training definition associated with the level which should be deleted
    * @param levelId id of level which should be removed
    */
-  removeLevel(trainingDefId: number, levelId: number) {
-    return this.http.delete(environment.trainingDefsEndpointUri + trainingDefId +
-      '/levels/' + levelId,
-      { headers: this.createDefaultHeaders()});
+  removeLevel(trainingDefId: number, levelId: number): Observable<AbstractLevel[]> {
+    return this.http.delete<BasicLevelInfoDTO[]>(environment.trainingDefsEndpointUri + trainingDefId +
+      '/levels/' + levelId, { headers: this.createDefaultHeaders()})
+      .pipe(map(resp => this.levelMapper.mapBasicInfoDTOsToAbstractLevels(resp)));
   }
 
   /**
