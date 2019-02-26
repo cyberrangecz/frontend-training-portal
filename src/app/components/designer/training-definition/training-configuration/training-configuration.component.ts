@@ -41,7 +41,8 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
   prerequisites: string[];
   outcomes: string[];
   authors: User[];
-  sandboxDef: SandboxDefinition;
+  sandboxDef$: Observable<SandboxDefinition>;
+  selectedSandboxDefId: number;
   selectedState: string;
   showProgress: boolean;
   viewGroup: ViewGroup;
@@ -97,7 +98,6 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     const dialogRef = this.dialog.open(EditViewGroupComponent, {
       data: this.viewGroup
     });
-
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
         this.viewGroup = result.viewGroup;
@@ -111,10 +111,11 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
    */
   chooseSandboxDefs() {
     const dialogRef = this.dialog.open(SandboxDefinitionPickerComponent);
-
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
-        this.sandboxDef = result.sandboxDef;
+        console.log(result);
+        this.sandboxDef$ = of(result.sandboxDef);
+        this.selectedSandboxDefId = result.sandboxDef.id;
         this.dirty = true;
       }
     });
@@ -161,9 +162,9 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
    */
   private sendRequestToSaveChanges() {
     if (this.editMode) {
-      this.sendUpdateTrainingDefinitionRequest();
+      this.updateTrainingDefinition();
     } else {
-      this.sendCreateTrainingDefinitionRequest()
+      this.createTrainingDefinition()
     }
   }
 
@@ -187,7 +188,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
       .pipe(map(result => result && result.type === 'confirm'));
   }
 
-  private sendUpdateTrainingDefinitionRequest() {
+  private updateTrainingDefinition() {
     this.trainingDefinitionFacade.updateTrainingDefinition(this.trainingDefinition)
       .subscribe(response => {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Changes were successfully saved.');
@@ -197,7 +198,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
       );
   }
 
-  private sendCreateTrainingDefinitionRequest() {
+  private createTrainingDefinition() {
     this.trainingDefinitionFacade.createTrainingDefinition(this.trainingDefinition)
       .subscribe(response => {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully saved.');
@@ -249,25 +250,28 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     if (!this.prerequisites) this.prerequisites = [''];
     if (!this.outcomes) this.outcomes = [''];
     this.authors = this.trainingDefinition.authors;
-    this.loadSandboxDefinition(this.trainingDefinition.sandboxDefinitionId);
+    this.loadSandboxDefinition();
   }
 
-  private loadSandboxDefinition(sandboxId: number) {
-    this.sandboxDefinitionFacade.getSandboxDefById(sandboxId)
-      .subscribe(sandboxDef => this.sandboxDef = sandboxDef);
+  private loadSandboxDefinition() {
+    this.sandboxDef$ = this.sandboxDefinitionFacade.getSandboxDefById(this.trainingDefinition.sandboxDefinitionId)
+      .pipe(map(result => {
+        this.selectedSandboxDefId = result.id;
+        return result;
+      }));
   }
 
   /**
    * Sets validated values from user input to the training definition object
    */
   private setInputValuesToTrainingDef() {
+    this.trainingDefinition.sandboxDefinitionId = this.selectedSandboxDefId;
     this.trainingDefinition.title = this.title;
     this.trainingDefinition.authors = this.authors;
     this.trainingDefinition.description = this.description;
     this.trainingDefinition.prerequisites = this.prerequisites;
     this.trainingDefinition.outcomes = this.outcomes;
     this.trainingDefinition.state = TrainingDefinitionStateEnum[this.selectedState.charAt(0).toUpperCase() + this.selectedState.slice(1)];
-    this.trainingDefinition.sandboxDefinitionId = this.sandboxDef.id;
     this.trainingDefinition.showStepperBar = this.showProgress;
     this.trainingDefinition.viewGroup = this.viewGroup;
   }
@@ -291,7 +295,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
       || this.viewGroup.organizers.length === 0) {
       errorMessage += 'View group cannot be empty\n';
     }
-    if (!this.sandboxDef) {
+    if (this.selectedSandboxDefId === null || this.selectedSandboxDefId === undefined) {
       errorMessage += 'Sandbox definition cannot be empty\n';
     }
     if (errorMessage !== '') {
