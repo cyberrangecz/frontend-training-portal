@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>Choose Sandbox Definition</h1>
 <mat-divider></mat-divider>
 <div mat-dialog-content>
-  <mat-selection-list #sandboxDefsList [(ngModel)]="selectedSandboxDefs">
+  <mat-selection-list #sandboxDefsList [(ngModel)]="selectedSandboxDef">
     <mat-list-option *ngFor="let sandbox of sandboxDefs$ | async"
                       [value]="sandbox">
       {{ sandbox.title }}
@@ -14,6 +14,6 @@
           mat-button color="primary">Cancel</button>
   <span class="spacer"></span>
   <button (click)="confirm()"
-          [disabled]="!selectedSandboxDefs || selectedSandboxDefs.length === 0"
+          [disabled]="!selectedSandboxDef"
           mat-button color="primary">Confirm</button>
 </div>

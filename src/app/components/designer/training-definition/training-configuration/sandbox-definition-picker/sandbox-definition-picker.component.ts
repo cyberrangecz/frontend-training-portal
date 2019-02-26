@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatDialogRef, MatListOption, MatSelectionList} from "@angular/material";
 import {SandboxDefinition} from "../../../../../model/sandbox/sandbox-definition";
 import {Observable} from "rxjs/internal/Observable";
@@ -16,14 +16,13 @@ import {SelectionModel} from "@angular/cdk/collections";
 export class SandboxDefinitionPickerComponent implements OnInit {
 
   sandboxDefs$: Observable<SandboxDefinition[]>;
-  selectedSandboxDefs: SandboxDefinition[];
+  selectedSandboxDef: SandboxDefinition;
 
   @ViewChild(MatSelectionList) sandboxDefsList: MatSelectionList;
 
   constructor(
     public dialogRef: MatDialogRef<SandboxDefinitionPickerComponent>,
     private sandboxDefinitionFacade: SandboxDefinitionFacade) {
-
   }
 
   ngOnInit() {
@@ -37,7 +36,7 @@ export class SandboxDefinitionPickerComponent implements OnInit {
   confirm() {
     const result = {
       type: 'confirm',
-      sandboxDef: this.selectedSandboxDefs[0]
+      sandboxDef: this.selectedSandboxDef
     };
     this.dialogRef.close(result);
   }

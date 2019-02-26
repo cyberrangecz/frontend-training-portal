@@ -215,8 +215,6 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
       this.editMode = false;
       this.initValuesForNewTraining();
       this.trainingDefinition = new TrainingDefinition();
-      this.trainingDefinition.state = TrainingDefinitionStateEnum.Unreleased;
-      this.trainingDefinition.title = 'New Training Definition';
       this.showProgress = true;
     } else {
       this.editMode = true;
@@ -251,8 +249,12 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     if (!this.prerequisites) this.prerequisites = [''];
     if (!this.outcomes) this.outcomes = [''];
     this.authors = this.trainingDefinition.authors;
-    this.sandboxDefinitionFacade.getSandboxDefById(this.trainingDefinition.sandboxDefinitionId)
-      .subscribe(sandbox => this.sandboxDef = sandbox)
+    this.loadSandboxDefinition(this.trainingDefinition.sandboxDefinitionId);
+  }
+
+  private loadSandboxDefinition(sandboxId: number) {
+    this.sandboxDefinitionFacade.getSandboxDefById(sandboxId)
+      .subscribe(sandboxDef => this.sandboxDef = sandboxDef);
   }
 
   /**

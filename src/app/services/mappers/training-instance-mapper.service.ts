@@ -1,8 +1,8 @@
 import {Injectable} from "@angular/core";
 import {TrainingInstanceDTO} from "../../model/DTOs/training-instance/trainingInstanceDTO";
 import {TrainingInstance} from "../../model/training/training-instance";
-import {TrainingInstanceCreateDTO, TrainingInstanceCreateDTOClass} from "../../model/DTOs/training-instance/trainingInstanceCreateDTO";
-import {TrainingInstanceUpdateDTO, TrainingInstanceUpdateDTOClass} from "../../model/DTOs/training-instance/trainingInstanceUpdateDTO";
+import {TrainingInstanceCreateDTO} from "../../model/DTOs/training-instance/trainingInstanceCreateDTO";
+import {TrainingInstanceUpdateDTO} from "../../model/DTOs/training-instance/trainingInstanceUpdateDTO";
 import {TrainingInstanceRestResource} from "../../model/DTOs/training-instance/trainingInstanceRestResource";
 import {TrainingDefinitionMapper} from './training-definition-mapper.service';
 import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
