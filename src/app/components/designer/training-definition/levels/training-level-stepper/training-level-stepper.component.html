@@ -55,7 +55,7 @@
       <mat-icon *ngIf="levels[index].type === 'info'">info</mat-icon>
     </ng-template>
 
-    <mat-step *ngFor="let level of levels; index as i">
+    <mat-step [state]="level.type" *ngFor="let level of levels; index as i">
       <ng-template matStepLabel>{{ level.title | levelStepperLabel: i + 1: levels.length }}</ng-template>
       <div class="step-content">
         <level-configuration (deleteLevel)="onDeleteLevel($event)" [level]="level" [trainingDefinitionId]="trainingDefinition.id"></level-configuration>
