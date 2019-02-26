@@ -14,13 +14,14 @@ import { SandboxDefinitionRefDto } from '../sandbox-definition/sandbox-definitio
 import {ViewGroupDTO} from "./viewGroupDTO";
 import {ViewGroupCreateDTO} from "./viewGroupCreateDTO";
 import {UserRefDTO} from "../user/user-ref-dto";
+import {UserInfoDTO} from "../user/user-info-dto";
 
 
 /**
  * Training Definition to create.
  */
 export class TrainingDefinitionCreateDTO {
-    authors?: UserRefDTO[];
+    authors?: UserInfoDTO[];
     td_view_group: ViewGroupCreateDTO;
     description?: string;
     outcomes?: string[];

@@ -21,15 +21,15 @@ export class UserMapper {
     return user;
   }
 
-  mapUsersToUserRefDTOs(users: User[]): UserRefDTO[] {
-    return users.map(user => this.mapUserToUserRefDTO(user));
+  mapUsersToUserInfoDTOs(users: User[]): UserInfoDTO[] {
+    return users.map(user => this.mapUserToUserInfoDTO(user));
   }
 
-  mapUserToUserRefDTO(user: User): UserRefDTO {
-    const userRef = new UserRefDTO();
-    userRef.user_ref_login = user.login;
-    userRef.user_ref_full_name = user.name;
-    return userRef;
+  mapUserToUserInfoDTO(user: User): UserInfoDTO {
+    const userDTO = new UserInfoDTO();
+    userDTO.login = user.login;
+    userDTO.full_name = user.name;
+    return userDTO;
   }
 
   mapUserInfoDTOsToOrganizerUsers(userDTOs: UserInfoDTO[]): User[] {

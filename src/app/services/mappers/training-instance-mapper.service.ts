@@ -77,7 +77,7 @@ export class TrainingInstanceMapper {
     result.start_time = trainingInstance.startTime.toISOString();
     result.end_time = trainingInstance.endTime.toISOString();
     result.access_token = trainingInstance.accessToken;
-    result.organizers =  this.userMapper.mapUsersToUserRefDTOs(trainingInstance.organizers);
+    result.organizers =  this.userMapper.mapUsersToUserInfoDTOs(trainingInstance.organizers);
     result.training_definition_id = trainingInstance.trainingDefinition.id;
     return result;
   }
@@ -94,7 +94,7 @@ export class TrainingInstanceMapper {
     result.start_time = trainingInstance.startTime.toISOString();
     result.end_time = trainingInstance.endTime.toISOString();
     result.access_token = trainingInstance.accessToken;
-    result.organizers =  this.userMapper.mapUsersToUserRefDTOs(trainingInstance.organizers);
+    result.organizers =  this.userMapper.mapUsersToUserInfoDTOs(trainingInstance.organizers);
     result.training_definition_id = trainingInstance.trainingDefinition.id;
     return result;
   }

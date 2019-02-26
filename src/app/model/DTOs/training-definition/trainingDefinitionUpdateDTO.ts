@@ -14,13 +14,14 @@ import { SandboxDefinitionRefDto } from '../sandbox-definition/sandbox-definitio
 import {ViewGroupDTO} from "./viewGroupDTO";
 import {ViewGroupUpdateDTO} from "./viewGroupUpdateDTO";
 import {UserRefDTO} from "../user/user-ref-dto";
+import {UserInfoDTO} from "../user/user-info-dto";
 
 
 /**
  * Training Definition to update.
  */
 export class TrainingDefinitionUpdateDTO {
-    authors?: UserRefDTO[];
+    authors?: UserInfoDTO[];
     td_view_group: ViewGroupUpdateDTO;
     description?: string;
     id?: number;

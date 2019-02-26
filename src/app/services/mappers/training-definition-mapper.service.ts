@@ -89,7 +89,7 @@ export class TrainingDefinitionMapper {
     result.title = trainingDefinition.title;
     result.sandbox_definition_ref_id = trainingDefinition.sandboxDefinitionId;
     result.show_stepper_bar = trainingDefinition.showStepperBar;
-    result.authors = this.userMapper.mapUsersToUserRefDTOs(trainingDefinition.authors);
+    result.authors = this.userMapper.mapUsersToUserInfoDTOs(trainingDefinition.authors);
     result.td_view_group = this.createViewGroupCreateDTO(trainingDefinition.viewGroup);
     return result;
   }
@@ -109,7 +109,7 @@ export class TrainingDefinitionMapper {
     result.show_stepper_bar = trainingDefinition.showStepperBar;
     trainingDefinition.outcomes.forEach(outcome => result.outcomes.push(outcome));
     trainingDefinition.prerequisites.forEach(prerequisite => result.prerequisities.push(prerequisite));
-    result.authors = this.userMapper.mapUsersToUserRefDTOs(trainingDefinition.authors);
+    result.authors = this.userMapper.mapUsersToUserInfoDTOs(trainingDefinition.authors);
     result.outcomes = trainingDefinition.outcomes;
     result.prerequisities = trainingDefinition.prerequisites;
     result.state = this.mapTrainingDefStateToDTOEnum(trainingDefinition.state);

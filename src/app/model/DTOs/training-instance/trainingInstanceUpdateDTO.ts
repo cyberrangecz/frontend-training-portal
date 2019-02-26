@@ -11,6 +11,7 @@
  */
 import { TrainingDefinitionDTO } from '../training-definition/trainingDefinitionDTO';
 import { UserRefDTO } from '../user/user-ref-dto';
+import {UserInfoDTO} from "../user/user-info-dto";
 
 
 /**
@@ -20,7 +21,7 @@ export class TrainingInstanceUpdateDTO {
     end_time?: string;
     id?: number;
     access_token?: string;
-    organizers?: UserRefDTO[];
+    organizers?: UserInfoDTO[];
     pool_size?: number;
     start_time?: string;
     title?: string;
