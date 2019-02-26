@@ -61,7 +61,7 @@ export class TrainingInstanceMapper {
     result.endTime = new Date(trainingInstanceDTO.end_time);
     result.title = trainingInstanceDTO.title;
     result.poolSize = trainingInstanceDTO.pool_size;
-    result.organizers = this.userMapper.mapUsersFromUserRefDTOs(trainingInstanceDTO.organizers);
+    result.organizers = this.userMapper.mapUserRefDTOsToUsers(trainingInstanceDTO.organizers);
     result.accessToken = trainingInstanceDTO.access_token;
     return result;
   }
@@ -71,13 +71,13 @@ export class TrainingInstanceMapper {
    * @param trainingInstance training instance object which should be created
    */
   mapTrainingInstanceToTrainingInstanceCreateDTO(trainingInstance: TrainingInstance): TrainingInstanceCreateDTO {
-    const result = new TrainingInstanceCreateDTOClass();
+    const result = new TrainingInstanceCreateDTO();
     result.title = trainingInstance.title;
     result.pool_size = trainingInstance.poolSize;
     result.start_time = trainingInstance.startTime.toISOString();
     result.end_time = trainingInstance.endTime.toISOString();
     result.access_token = trainingInstance.accessToken;
-    result.organizer_logins =  trainingInstance.organizers.map(organizer => organizer.login);
+    result.organizers =  this.userMapper.mapUsersToUserRefDTOs(trainingInstance.organizers);
     result.training_definition_id = trainingInstance.trainingDefinition.id;
     return result;
   }
@@ -87,14 +87,14 @@ export class TrainingInstanceMapper {
    * @param trainingInstance training instance object which should be updated
    */
   mapTrainingInstanceToTrainingInstanceUpdateDTO(trainingInstance: TrainingInstance): TrainingInstanceUpdateDTO {
-    const result = new TrainingInstanceUpdateDTOClass();
+    const result = new TrainingInstanceUpdateDTO();
     result.id = trainingInstance.id;
     result.title = trainingInstance.title;
     result.pool_size = trainingInstance.poolSize;
     result.start_time = trainingInstance.startTime.toISOString();
     result.end_time = trainingInstance.endTime.toISOString();
     result.access_token = trainingInstance.accessToken;
-    result.organizer_logins =  trainingInstance.organizers.map(organizer => organizer.login);
+    result.organizers =  this.userMapper.mapUsersToUserRefDTOs(trainingInstance.organizers);
     result.training_definition_id = trainingInstance.trainingDefinition.id;
     return result;
   }

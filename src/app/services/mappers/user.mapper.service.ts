@@ -7,25 +7,25 @@ import {UserInfoDTO} from '../../model/DTOs/user/user-info-dto';
 
 export class UserMapper {
 
-  mapUsersFromUserRefDTOs(users: UserRefDTO[]): User[] {
+  mapUserRefDTOsToUsers(users: UserRefDTO[]): User[] {
     if (!users) {
       return [];
     }
-    return users.map(userDTO =>  this.mapUserFromUserRefDTO(userDTO));
+    return users.map(userDTO =>  this.mapUserRefDTOToUser(userDTO));
   }
 
-  mapUserFromUserRefDTO(userDTO: UserRefDTO): User {
+  mapUserRefDTOToUser(userDTO: UserRefDTO): User {
     const user = new User();
     user.login = userDTO.user_ref_login;
     user.name = userDTO.user_ref_full_name;
     return user;
   }
 
-  mapUserRefDTOsFromUsers(users: User[]): UserRefDTO[] {
-    return users.map(user => this.mapUserRefDTOFromUser(user));
+  mapUsersToUserRefDTOs(users: User[]): UserRefDTO[] {
+    return users.map(user => this.mapUserToUserRefDTO(user));
   }
 
-  mapUserRefDTOFromUser(user: User): UserRefDTO {
+  mapUserToUserRefDTO(user: User): UserRefDTO {
     const userRef = new UserRefDTO();
     userRef.user_ref_login = user.login;
     userRef.user_ref_full_name = user.name;

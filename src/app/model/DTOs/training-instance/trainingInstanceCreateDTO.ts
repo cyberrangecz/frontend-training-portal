@@ -19,22 +19,12 @@ import {SandboxDefinitionRefDto} from "../sandbox-definition/sandbox-definition-
 /**
  * Training Instance to create.
  */
-export interface TrainingInstanceCreateDTO {
+export class TrainingInstanceCreateDTO {
     end_time?: string;
     access_token?: string;
-    organizer_logins?: Array<string>;
+    organizers?: UserRefDTO[];
     pool_size?: number;
     start_time?: string;
     title?: string;
     training_definition_id?: number;
-}
-
-export class TrainingInstanceCreateDTOClass implements TrainingInstanceCreateDTO {
-  end_time: string;
-  access_token: string;
-  organizer_logins?: Array<string>;
-  pool_size: number;
-  start_time: string;
-  title: string;
-  training_definition_id: number;
 }

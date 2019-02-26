@@ -246,7 +246,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.prerequisites = this.trainingDefinition.prerequisites;
     this.outcomes = this.trainingDefinition.outcomes;
     this.selectedState = this.trainingDefinition.state;
-    this.showProgress = this.trainingDefinition.showProgress;
+    this.showProgress = this.trainingDefinition.showStepperBar;
     this.viewGroup = this.trainingDefinition.viewGroup;
     if (!this.prerequisites) this.prerequisites = [''];
     if (!this.outcomes) this.outcomes = [''];
@@ -266,7 +266,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.trainingDefinition.outcomes = this.outcomes;
     this.trainingDefinition.state = TrainingDefinitionStateEnum[this.selectedState.charAt(0).toUpperCase() + this.selectedState.slice(1)];
     this.trainingDefinition.sandboxDefinitionId = this.sandboxDef.id;
-    this.trainingDefinition.showProgress = this.showProgress;
+    this.trainingDefinition.showStepperBar = this.showProgress;
     this.trainingDefinition.viewGroup = this.viewGroup;
   }
 
