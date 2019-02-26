@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {UserFacade} from "../../../../../services/facades/user-facade.service";
-import {Observable} from "rxjs/internal/Observable";
 import {User} from "../../../../../model/user/user";
-import {MatDialogRef} from "@angular/material";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 import {ActiveUserService} from "../../../../../services/active-user.service";
 import {map} from "rxjs/operators";
 
@@ -16,11 +15,13 @@ import {map} from "rxjs/operators";
  */
 export class OrganizersPickerComponent implements OnInit {
 
-  organizers$: Observable<User[]>;
+  organizers: User[];
   selectedOrganizers: User[] = [];
   activeUser: User;
+  isLoading = true;
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data,
     public dialogRef: MatDialogRef<OrganizersPickerComponent>,
     private userFacade: UserFacade,
     private activeUserService: ActiveUserService) {
@@ -29,10 +30,14 @@ export class OrganizersPickerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.organizers$ = this.userFacade.getOrganizers()
+    this.userFacade.getOrganizers()
       .pipe(map(organizers =>
-        organizers
-          .filter(organizer => organizer.login !== this.activeUser.login)));
+        organizers.filter(organizer => organizer.login !== this.activeUser.login)))
+      .subscribe(organizers => {
+        this.organizers = organizers;
+        this.preselectOrganizers();
+        this.isLoading = false;
+    });
   }
 
   /**
@@ -55,6 +60,18 @@ export class OrganizersPickerComponent implements OnInit {
       organizers: null
     };
     this.dialogRef.close(result);
+  }
+
+  selectionEquality(a: User, b: User): boolean {
+    return a.login == b.login;
+  }
+
+  private preselectOrganizers() {
+    if (this.data && this.data.length > 0) {
+      const preselectedLogins = this.data.map(user => user.login);
+      const usersToPreselect = this.organizers.filter(organizer => preselectedLogins.includes(organizer.login));
+      this.selectedOrganizers.push(...usersToPreselect);
+    }
   }
 
 }

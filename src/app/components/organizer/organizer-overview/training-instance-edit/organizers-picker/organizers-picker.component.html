@@ -1,11 +1,11 @@
 <h1 mat-dialog-title>Choose Organizers</h1>
 <mat-divider></mat-divider>
 <div mat-dialog-content>
-  <mat-selection-list #authorsList [(ngModel)]="selectedOrganizers">
+  <mat-selection-list *ngIf="!isLoading" #authorsList [(ngModel)]="selectedOrganizers" [compareWith]="selectionEquality">
     <mat-list-option *ngIf="activeUser" [value]="activeUser" [selected]="true" [disabled]="true">
       {{ activeUser.name }} (You)
     </mat-list-option>
-    <mat-list-option *ngFor="let organizer of organizers$ | async"
+    <mat-list-option *ngFor="let organizer of organizers"
                      [value]="organizer">
       {{ organizer.name }}
     </mat-list-option>

@@ -84,7 +84,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
    * Displays dialog window with list of authors and assigns selected authors to the training definition
    */
   chooseAuthors() {
-    const dialogRef = this.dialog.open(AuthorsPickerComponent);
+    const dialogRef = this.dialog.open(AuthorsPickerComponent, { data: this.trainingDefinition.authors });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {

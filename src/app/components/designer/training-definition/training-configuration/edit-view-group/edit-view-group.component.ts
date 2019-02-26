@@ -19,10 +19,11 @@ export class EditViewGroupComponent implements OnInit {
 
   title: string;
   description: string;
-  organizers$: Observable<User[]>;
+  organizers: User[];
   activeUser: User;
   selectedOrganizers: User[] = [];
   editMode: boolean;
+  isLoading = true;
 
   constructor(public dialogRef: MatDialogRef<EditViewGroupComponent>,
               @Inject(MAT_DIALOG_DATA) public viewGroup: ViewGroup,
@@ -33,8 +34,8 @@ export class EditViewGroupComponent implements OnInit {
 
   ngOnInit() {
     this.resolveMode();
-    this.initializeActiveUser();
     this.initializeOrganizers();
+    this.initializeActiveUser();
     this.initializeInputs();
   }
 
@@ -55,6 +56,9 @@ export class EditViewGroupComponent implements OnInit {
       viewGroup: null
     };
     this.dialogRef.close(result);
+  }
+  selectionEquality(a: User, b: User): boolean {
+    return a.login == b.login;
   }
 
   private initializeInputs() {
@@ -96,17 +100,42 @@ export class EditViewGroupComponent implements OnInit {
   private initializeActiveUser() {
     const user = this.activeUserService.getActiveUser();
     if (user.roles.contains(UserRoleEnum.Organizer)) {
-      this.activeUser = this.activeUserService.getActiveUser();
+      this.activeUser = user;
+      if (!this.editMode) {
+        this.selectedOrganizers.push(this.activeUser);
+      }
     }
   }
 
   private initializeOrganizers() {
-    this.organizers$ = this.userFacade.getOrganizers()
-      .pipe(map(users => users
-        .filter(user => user.login !== this.activeUser.login)));
+    this.userFacade.getOrganizers()
+      .pipe(map(users => {
+        const filteredUsers = users.filter(user => user.login !== this.activeUser.login);
+        if (this.editMode) {
+          this.preselectOrganizers(this.findInitiallyPreselectedUsers(filteredUsers))
+        }
+        return filteredUsers;
+      }))
+      .subscribe(users => {
+        this.organizers = users;
+        this.isLoading = false;
+      });
   }
 
   private resolveMode() {
     this.editMode = this.viewGroup !== null && this.viewGroup !== undefined;
+  }
+
+  private findInitiallyPreselectedUsers(organizers: User[]): User[] {
+    const userLoginsInEditedViewGroup = this.viewGroup.organizers.map(organizer => organizer.login);
+    const result = organizers.filter(user => userLoginsInEditedViewGroup.includes(user.login));
+    if (userLoginsInEditedViewGroup.includes(this.activeUser.login)) {
+      result.push(this.activeUser);
+    }
+    return result;
+  }
+
+  private preselectOrganizers(users: User[]) {
+      this.selectedOrganizers.push(...users);
   }
 }
