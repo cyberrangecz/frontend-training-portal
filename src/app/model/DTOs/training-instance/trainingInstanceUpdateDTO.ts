@@ -16,24 +16,13 @@ import { UserRefDTO } from '../user/user-ref-dto';
 /**
  * Training Instance to update.
  */
-export interface TrainingInstanceUpdateDTO {
+export class TrainingInstanceUpdateDTO {
     end_time?: string;
     id?: number;
     access_token?: string;
-    organizer_logins?: Array<string>;
+    organizers?: UserRefDTO[];
     pool_size?: number;
     start_time?: string;
     title?: string;
     training_definition_id?: number;
-}
-
-export class TrainingInstanceUpdateDTOClass implements TrainingInstanceUpdateDTO {
-  end_time: string;
-  id: number;
-  access_token: string;
-  organizer_logins?: Array<string>;
-  pool_size: number;
-  start_time: string;
-  title: string;
-  training_definition_id: number;
 }

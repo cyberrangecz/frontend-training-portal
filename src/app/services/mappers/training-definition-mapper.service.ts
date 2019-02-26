@@ -2,14 +2,8 @@ import {Injectable} from "@angular/core";
 import {TrainingDefinition} from "../../model/training/training-definition";
 import {TrainingDefinitionStateEnum} from "../../enums/training-definition-state.enum";
 import {AbstractLevel} from "../../model/level/abstract-level";
-import {
-  TrainingDefinitionCreateDTO,
-  TrainingDefinitionCreateDTOClass
-} from "../../model/DTOs/training-definition/trainingDefinitionCreateDTO";
-import {
-  TrainingDefinitionUpdateDTO,
-  TrainingDefinitionUpdateDTOClass
-} from "../../model/DTOs/training-definition/trainingDefinitionUpdateDTO";
+import {TrainingDefinitionCreateDTO} from "../../model/DTOs/training-definition/trainingDefinitionCreateDTO";
+import {TrainingDefinitionUpdateDTO} from "../../model/DTOs/training-definition/trainingDefinitionUpdateDTO";
 import {TrainingDefinitionRestResource} from "../../model/DTOs/training-definition/trainingDefinitionRestResource";
 import {TrainingDefinitionDTO} from '../../model/DTOs/training-definition/trainingDefinitionDTO';
 import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
@@ -20,11 +14,13 @@ import {ViewGroupDTO} from "../../model/DTOs/training-definition/viewGroupDTO";
 import {ViewGroup} from "../../model/user/view-group";
 import {ViewGroupCreateDTO} from "../../model/DTOs/training-definition/viewGroupCreateDTO";
 import {ViewGroupUpdateDTO} from "../../model/DTOs/training-definition/viewGroupUpdateDTO";
+import {UserMapper} from './user.mapper.service';
 
 @Injectable()
 export class TrainingDefinitionMapper {
 
-  constructor(private levelMapper: LevelMapper) {
+  constructor(private levelMapper: LevelMapper,
+              private userMapper: UserMapper) {
   }
 
   /**
@@ -65,7 +61,7 @@ export class TrainingDefinitionMapper {
     result.sandboxDefinitionId = trainingDefinitionDTO.sandbox_definition_ref_id;
     result.title = trainingDefinitionDTO.title;
     result.description = trainingDefinitionDTO.description;
-    result.authors = this.getAuthorsFromDTO(trainingDefinitionDTO);
+    result.authors = this.userMapper.mapUserRefDTOsToUsers(trainingDefinitionDTO.authors);
     result.prerequisites =  trainingDefinitionDTO.prerequisities;
     result.outcomes = trainingDefinitionDTO.outcomes;
     result.state = this.mapTrainingDefDTOStateToEnum(trainingDefinitionDTO.state);
@@ -77,11 +73,48 @@ export class TrainingDefinitionMapper {
     return result;
   }
 
-  private getAuthorsFromDTO(trainingDefinitionDTO: TrainingDefinitionDTO): string[] {
-    let result = [];
-    if (trainingDefinitionDTO.authors) {
-      result = trainingDefinitionDTO.authors.map(author => author.user_ref_login);
-    }
+  /**
+   * Maps internal training definition object to TrainingDefinitionCreate DTO object used in communication with REST API
+   * @param trainingDefinition training definition object from which will the DTO be created
+   */
+  mapTrainingDefinitionToTrainingDefinitionCreateDTO(trainingDefinition: TrainingDefinition): TrainingDefinitionCreateDTO {
+    const result = new TrainingDefinitionCreateDTO();
+    result.outcomes = [];
+    result.prerequisities = [];
+
+    result.description = trainingDefinition.description;
+    trainingDefinition.outcomes.forEach(outcome => result.outcomes.push(outcome));
+    trainingDefinition.prerequisites.forEach(prerequisite => result.prerequisities.push(prerequisite));
+    result.state = this.mapTrainingDefStateToDTOEnum(trainingDefinition.state);
+    result.title = trainingDefinition.title;
+    result.sandbox_definition_ref_id = trainingDefinition.sandboxDefinitionId;
+    result.show_stepper_bar = trainingDefinition.showStepperBar;
+    result.authors = this.userMapper.mapUsersToUserRefDTOs(trainingDefinition.authors);
+    result.td_view_group = this.createViewGroupCreateDTO(trainingDefinition.viewGroup);
+    return result;
+  }
+
+  /**
+   * Maps internal training definition object to TrainingDefinitionUpdate DTO object used in communication with REST API
+   * @param trainingDefinition training definition object from which will the DTO be created
+   */
+  mapTrainingDefinitionToTrainingDefinitionUpdateDTO(trainingDefinition: TrainingDefinition): TrainingDefinitionUpdateDTO {
+    const result = new TrainingDefinitionUpdateDTO();
+    result.outcomes = [];
+    result.prerequisities = [];
+
+    result.id = trainingDefinition.id;
+    result.description = trainingDefinition.description;
+    result.sandbox_definition_ref_id = trainingDefinition.sandboxDefinitionId;
+    result.show_stepper_bar = trainingDefinition.showStepperBar;
+    trainingDefinition.outcomes.forEach(outcome => result.outcomes.push(outcome));
+    trainingDefinition.prerequisites.forEach(prerequisite => result.prerequisities.push(prerequisite));
+    result.authors = this.userMapper.mapUsersToUserRefDTOs(trainingDefinition.authors);
+    result.outcomes = trainingDefinition.outcomes;
+    result.prerequisities = trainingDefinition.prerequisites;
+    result.state = this.mapTrainingDefStateToDTOEnum(trainingDefinition.state);
+    result.title = trainingDefinition.title;
+    result.td_view_group = this.createViewGroupUpdateDTO(trainingDefinition.viewGroup);
     return result;
   }
 
@@ -99,59 +132,16 @@ export class TrainingDefinitionMapper {
     result.id = viewGroupDTO.id;
     result.title = viewGroupDTO.title;
     result.description = viewGroupDTO.description;
-    result.organizers = viewGroupDTO.organizers.map(organizer => organizer.user_ref_login);
+    result.organizers = this.userMapper.mapUserRefDTOsToUsers(viewGroupDTO.organizers);
     return result;
   }
 
-  /**
-   * Maps internal training definition object to TrainingDefinitionCreate DTO object used in communication with REST API
-   * @param trainingDefinition training definition object from which will the DTO be created
-   */
-  mapTrainingDefinitionToTrainingDefinitionCreateDTO(trainingDefinition: TrainingDefinition): TrainingDefinitionCreateDTO {
-    const result: TrainingDefinitionCreateDTO = new TrainingDefinitionCreateDTOClass();
-    result.outcomes = [];
-    result.prerequisities = [];
-
-    result.description = trainingDefinition.description;
-    trainingDefinition.outcomes.forEach(outcome => result.outcomes.push(outcome));
-    trainingDefinition.prerequisites.forEach(prerequisite => result.prerequisities.push(prerequisite));
-    result.state = this.mapTrainingDefStateToDTOEnum(trainingDefinition.state);
-    result.title = trainingDefinition.title;
-    result.sandbox_definition_ref_id = trainingDefinition.sandboxDefinitionId;
-    result.show_stepper_bar = trainingDefinition.showProgress;
-    result.author_logins = trainingDefinition.authors as string[];
-    result.td_view_group = this.createViewGroupCreateDTO(trainingDefinition.viewGroup);
-    return result;
-  }
-
-  /**
-   * Maps internal training definition object to TrainingDefinitionUpdate DTO object used in communication with REST API
-   * @param trainingDefinition training definition object from which will the DTO be created
-   */
-  mapTrainingDefinitionToTrainingDefinitionUpdateDTO(trainingDefinition: TrainingDefinition): TrainingDefinitionUpdateDTO {
-    const result: TrainingDefinitionUpdateDTO = new TrainingDefinitionUpdateDTOClass();
-    result.outcomes = [];
-    result.prerequisities = [];
-
-    result.id = trainingDefinition.id;
-    result.description = trainingDefinition.description;
-    result.sandbox_definition_ref_id = trainingDefinition.sandboxDefinitionId;
-    trainingDefinition.outcomes.forEach(outcome => result.outcomes.push(outcome));
-    trainingDefinition.prerequisites.forEach(prerequisite => result.prerequisities.push(prerequisite));
-    result.author_logins = trainingDefinition.authors as string[];
-    result.outcomes = trainingDefinition.outcomes;
-    result.prerequisities = trainingDefinition.prerequisites;
-    result.state = this.mapTrainingDefStateToDTOEnum(trainingDefinition.state);
-    result.title = trainingDefinition.title;
-    result.td_view_group = this.createViewGroupUpdateDTO(trainingDefinition.viewGroup);
-    return result;
-  }
 
   private createViewGroupCreateDTO(viewGroup: ViewGroup): ViewGroupCreateDTO {
     const result = new ViewGroupCreateDTO();
     result.title = viewGroup.title;
     result.description = viewGroup.description;
-    result.organizer_logins = viewGroup.organizers as string [];
+    result.organizer_logins = viewGroup.organizers.map(organizer => organizer.login);
     return result;
   }
 
@@ -160,7 +150,7 @@ export class TrainingDefinitionMapper {
     result.id = viewGroup.id;
     result.title = viewGroup.title;
     result.description = viewGroup.description;
-    result.organizer_logins = viewGroup.organizers as string [];
+    result.organizer_logins = viewGroup.organizers.map(organizer => organizer.login);
     return result;
   }
 

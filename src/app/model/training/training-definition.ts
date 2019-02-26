@@ -12,13 +12,13 @@ export class TrainingDefinition {
   sandboxDefinitionId: number;
   title: string;
   description: string;
-  authors: Array<User | string>;
+  authors: User[];
   viewGroup: ViewGroup;
   prerequisites: string[];
   outcomes: string[];
   state: TrainingDefinitionStateEnum;
   levels: AbstractLevel[];
-  showProgress: boolean;
+  showStepperBar: boolean;
   startingLevel: AbstractLevel | number;
 
   canBeArchived: boolean;

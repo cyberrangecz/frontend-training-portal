@@ -2,6 +2,7 @@
  * Class representing training instance of a definition.
  */
 import {TrainingDefinition} from './training-definition';
+import {User} from '../user/user';
 
 export class TrainingInstance {
 
@@ -11,7 +12,7 @@ export class TrainingInstance {
   endTime: Date;
   title: string;
   poolSize: number;
-  organizers: string[];
+  organizers: User[];
   accessToken: string;
 
 

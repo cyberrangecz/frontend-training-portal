@@ -13,33 +13,22 @@ import { AuthorRefDto } from '../user/author-ref-dto';
 import { SandboxDefinitionRefDto } from '../sandbox-definition/sandbox-definition-ref-dto';
 import {ViewGroupDTO} from "./viewGroupDTO";
 import {ViewGroupCreateDTO} from "./viewGroupCreateDTO";
+import {UserRefDTO} from "../user/user-ref-dto";
 
 
 /**
  * Training Definition to create.
  */
-export interface TrainingDefinitionCreateDTO {
-    author_logins?: Array<string>;
+export class TrainingDefinitionCreateDTO {
+    authors?: UserRefDTO[];
     td_view_group: ViewGroupCreateDTO;
     description?: string;
-    outcomes?: Array<string>;
-    prerequisities?: Array<string>;
+    outcomes?: string[];
+    prerequisities?: string[];
     sandbox_definition_ref_id: number;
     show_stepper_bar?: boolean;
     state?: TrainingDefinitionCreateDTO.StateEnum;
     title?: string;
-}
-
-export class TrainingDefinitionCreateDTOClass implements  TrainingDefinitionCreateDTO {
-  author_logins: Array<string>;
-  td_view_group: ViewGroupCreateDTO;
-  description: string;
-  outcomes: Array<string>;
-  prerequisities: Array<string>;
-  sandbox_definition_ref_id: number;
-  show_stepper_bar: boolean;
-  state: TrainingDefinitionCreateDTO.StateEnum;
-  title: string;
 }
 
 export namespace TrainingDefinitionCreateDTO {

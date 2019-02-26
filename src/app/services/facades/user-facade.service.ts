@@ -8,6 +8,9 @@ import {UserMapper} from "../mappers/user.mapper.service";
 import {UserBasicInfoDTO} from "../../model/DTOs/user/user-basic-info-dto";
 import {UserRoleEnum} from "../../enums/user-role.enum";
 import {RoleDTO} from "../../model/DTOs/user/role-dto";
+import {UserRefDTO} from '../../model/DTOs/user/user-ref-dto';
+import {UserInfo} from 'angular-oauth2-oidc';
+import {UserInfoDTO} from '../../model/DTOs/user/user-info-dto';
 
 @Injectable()
 /**
@@ -24,16 +27,16 @@ export class UserFacade {
    * Retrieves all organizer logins
    */
   getOrganizers(): Observable<User[]> {
-    return this.http.get<string[]>(environment.trainingDefsEndpointUri + 'organizers')
-      .pipe(map(resp => this.userMapper.mapLoginsToOrganizerUsers(resp)));
+    return this.http.get<UserInfoDTO[]>(environment.trainingDefsEndpointUri + 'organizers')
+      .pipe(map(resp => this.userMapper.mapUserInfoDTOsToOrganizerUsers(resp)));
   }
 
   /**
    * Retrieves all designer logins
    */
   getDesigners(): Observable<User[]> {
-    return this.http.get<string[]>(environment.trainingDefsEndpointUri + 'designers')
-      .pipe(map(resp => this.userMapper.mapLoginsToDesignerUsers(resp)));
+    return this.http.get<UserInfoDTO[]>(environment.trainingDefsEndpointUri + 'designers')
+      .pipe(map(resp => this.userMapper.mapUserInfoDTOsToDesignerUsers(resp)));
   }
 
   getUserInfo(): Observable<User> {

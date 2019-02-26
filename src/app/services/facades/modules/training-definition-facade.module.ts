@@ -5,6 +5,7 @@ import {LevelMapper} from '../../mappers/level-mapper.service';
 import {UploadService} from '../../upload.service';
 import {TrainingDefinitionMapper} from '../../mappers/training-definition-mapper.service';
 import {CommonModule} from '@angular/common';
+import {UserMapper} from '../../mappers/user.mapper.service';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import {CommonModule} from '@angular/common';
     DownloadService,
     UploadService,
     LevelMapper,
+    UserMapper,
     TrainingDefinitionMapper
   ]
 })

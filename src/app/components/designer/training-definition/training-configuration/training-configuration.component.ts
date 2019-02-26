@@ -18,6 +18,7 @@ import {Observable, of} from 'rxjs';
 import {TrainingDefinitionFacade} from "../../../../services/facades/training-definition-facade.service";
 import {ViewGroup} from "../../../../model/user/view-group";
 import {EditViewGroupComponent} from "./edit-view-group/edit-view-group.component";
+import {User} from '../../../../model/user/user';
 
 /**
  * Component for creating new or editing already existing training definition
@@ -39,7 +40,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
   description: string;
   prerequisites: string[];
   outcomes: string[];
-  authors: string[];
+  authors: User[];
   sandboxDef: SandboxDefinition;
   selectedState: string;
   showProgress: boolean;
@@ -233,7 +234,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.outcomes = [''];
     this.selectedState = 'unreleased';
     this.viewGroup = null;
-    this.authors = [this.activeUserService.getActiveUser().login];
+    this.authors = [this.activeUserService.getActiveUser()];
   }
 
   /**
@@ -245,11 +246,11 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.prerequisites = this.trainingDefinition.prerequisites;
     this.outcomes = this.trainingDefinition.outcomes;
     this.selectedState = this.trainingDefinition.state;
-    this.showProgress = this.trainingDefinition.showProgress;
+    this.showProgress = this.trainingDefinition.showStepperBar;
     this.viewGroup = this.trainingDefinition.viewGroup;
     if (!this.prerequisites) this.prerequisites = [''];
     if (!this.outcomes) this.outcomes = [''];
-    this.authors = this.trainingDefinition.authors as string[];
+    this.authors = this.trainingDefinition.authors;
     this.sandboxDefinitionFacade.getSandboxDefById(this.trainingDefinition.sandboxDefinitionId)
       .subscribe(sandbox => this.sandboxDef = sandbox)
   }
@@ -265,7 +266,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.trainingDefinition.outcomes = this.outcomes;
     this.trainingDefinition.state = TrainingDefinitionStateEnum[this.selectedState.charAt(0).toUpperCase() + this.selectedState.slice(1)];
     this.trainingDefinition.sandboxDefinitionId = this.sandboxDef.id;
-    this.trainingDefinition.showProgress = this.showProgress;
+    this.trainingDefinition.showStepperBar = this.showProgress;
     this.trainingDefinition.viewGroup = this.viewGroup;
   }
 

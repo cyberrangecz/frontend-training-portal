@@ -24,11 +24,13 @@ import {MultipleChoiceQuestion} from '../../model/questions/multiple-choice-ques
 import {ExtendedMatchingItems} from '../../model/questions/extended-matching-items';
 import {MultipleChoiceQuestionAnswerDTO} from '../../model/DTOs/level/assessment/multipleChoiceQuestionAnswerDTO';
 import {ExtendedMatchingItemsAnswerDTO} from '../../model/DTOs/level/assessment/extendedMatchingItemsAnswerDTO';
+import {UserMapper} from './user.mapper.service';
 
 @Injectable()
 export class TrainingRunMapper {
 
   constructor(private levelMapper: LevelMapper,
+              private userMapper: UserMapper,
               private trainingInstanceMapper: TrainingInstanceMapper) {
   }
 
@@ -75,7 +77,7 @@ export class TrainingRunMapper {
     result.endTime = new Date(trainingRunDTO.end_time);
     result.eventLogReference = trainingRunDTO.event_log_reference;
     result.sandboxInstanceId = trainingRunDTO.sandbox_instance_ref.id;
-    result.user = trainingRunDTO.participant_ref.user_ref_login;
+    result.user = this.userMapper.mapUserRefDTOToUser(trainingRunDTO.participant_ref);
     result.state = this.mapTrainigRunDTOStateToEnum(trainingRunDTO.state);
 
     if (result.currentLevel) {

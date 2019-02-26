@@ -24,11 +24,12 @@ export class AuthorsPickerComponent implements OnInit {
     public dialogRef: MatDialogRef<AuthorsPickerComponent>,
     private userFacade: UserFacade,
     private activeUserService: ActiveUserService) {
-      this.activeUser = this.activeUserService.getActiveUser();
-      this.selectedAuthors.push(this.activeUser);
+
   }
 
   ngOnInit() {
+    this.activeUser = this.activeUserService.getActiveUser();
+    this.selectedAuthors.push(this.activeUser);
     this.authors$ = this.userFacade.getDesigners()
       .pipe(map(authors => authors
         .filter(author => author.login !== this.activeUser.login)));
@@ -40,7 +41,7 @@ export class AuthorsPickerComponent implements OnInit {
   confirm() {
     const result = {
       type: 'confirm',
-      authors: this.selectedAuthors.map(author => author.login)
+      authors: this.selectedAuthors
     };
     this.dialogRef.close(result);
   }

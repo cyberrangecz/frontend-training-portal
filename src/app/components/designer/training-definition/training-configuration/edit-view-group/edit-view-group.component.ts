@@ -8,6 +8,7 @@ import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
 import {AlertService} from "../../../../../services/event-services/alert.service";
 import {ActiveUserService} from "../../../../../services/active-user.service";
 import {UserRoleEnum} from "../../../../../enums/user-role.enum";
+import {User} from '../../../../../model/user/user';
 
 @Component({
   selector: 'app-edit-view-group',
@@ -18,9 +19,9 @@ export class EditViewGroupComponent implements OnInit {
 
   title: string;
   description: string;
-  organizers$: Observable<string[]>;
-  activeUser: string;
-  selectedOrganizers: string[] = [];
+  organizers$: Observable<User[]>;
+  activeUser: User;
+  selectedOrganizers: User[] = [];
   editMode: boolean;
 
   constructor(public dialogRef: MatDialogRef<EditViewGroupComponent>,
@@ -60,7 +61,7 @@ export class EditViewGroupComponent implements OnInit {
     if (this.editMode) {
       this.title = this.viewGroup.title;
       this.description = this.viewGroup.description;
-      this.selectedOrganizers = this.viewGroup.organizers as string[];
+      this.selectedOrganizers = this.viewGroup.organizers;
     } else {
       this.viewGroup = new ViewGroup();
     }
@@ -95,15 +96,14 @@ export class EditViewGroupComponent implements OnInit {
   private initializeActiveUser() {
     const user = this.activeUserService.getActiveUser();
     if (user.roles.contains(UserRoleEnum.Organizer)) {
-      this.activeUser = this.activeUserService.getActiveUser().login;
+      this.activeUser = this.activeUserService.getActiveUser();
     }
   }
 
   private initializeOrganizers() {
     this.organizers$ = this.userFacade.getOrganizers()
       .pipe(map(users => users
-        .filter(user => user.login !== this.activeUser)
-        .map(user => user.login )));
+        .filter(user => user.login !== this.activeUser.login)));
   }
 
   private resolveMode() {

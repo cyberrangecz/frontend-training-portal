@@ -10,6 +10,7 @@ import {TrainingDefinitionFacade} from "../../../../services/facades/training-de
 import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
 import {ActiveUserService} from "../../../../services/active-user.service";
 import {TrainingInstanceFacade} from "../../../../services/facades/training-instance-facade.service";
+import {User} from '../../../../model/user/user';
 
 @Component({
   selector: 'training-instance-definition',
@@ -32,7 +33,7 @@ export class TrainingInstanceEditComponent implements OnInit {
   startTime: Date;
   endTime: Date;
   poolSize: number;
-  organizers: string[];
+  organizers: User[];
   trainingDefinition: TrainingDefinition;
   accessToken: string;
 
@@ -142,7 +143,7 @@ export class TrainingInstanceEditComponent implements OnInit {
       errorMessage += 'Access token cannot be empty\n'
     }
 
-    if (!this.organizers) {
+    if (!this.organizers || this.organizers.length <= 0) {
       errorMessage += 'Organizers must not be empty\n'
     }
 
@@ -202,6 +203,6 @@ export class TrainingInstanceEditComponent implements OnInit {
    */
   private createNewTrainingInstance() {
     this.trainingInstance = new TrainingInstance();
-    this.organizers = [this.activeUserService.getActiveUser().login];
+    this.organizers = [this.activeUserService.getActiveUser()];
   }
 }

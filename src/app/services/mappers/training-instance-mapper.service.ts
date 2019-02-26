@@ -8,11 +8,13 @@ import {TrainingDefinitionMapper} from './training-definition-mapper.service';
 import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
 import {TrainingInstanceTableDataModel} from "../../model/table-models/training-instance-table-data-model";
 import {TablePagination} from "../../model/table-models/table-pagination";
+import {UserMapper} from './user.mapper.service';
 
 @Injectable()
 export class TrainingInstanceMapper {
 
-  constructor(private trainingDefinitionMapper: TrainingDefinitionMapper) {
+  constructor(private trainingDefinitionMapper: TrainingDefinitionMapper,
+              private userMapper: UserMapper) {
 
   }
 
@@ -59,7 +61,7 @@ export class TrainingInstanceMapper {
     result.endTime = new Date(trainingInstanceDTO.end_time);
     result.title = trainingInstanceDTO.title;
     result.poolSize = trainingInstanceDTO.pool_size;
-    result.organizers = trainingInstanceDTO.organizers.map(organizer => organizer.user_ref_login);
+    result.organizers = this.userMapper.mapUserRefDTOsToUsers(trainingInstanceDTO.organizers);
     result.accessToken = trainingInstanceDTO.access_token;
     return result;
   }
@@ -69,13 +71,13 @@ export class TrainingInstanceMapper {
    * @param trainingInstance training instance object which should be created
    */
   mapTrainingInstanceToTrainingInstanceCreateDTO(trainingInstance: TrainingInstance): TrainingInstanceCreateDTO {
-    const result = new TrainingInstanceCreateDTOClass();
+    const result = new TrainingInstanceCreateDTO();
     result.title = trainingInstance.title;
     result.pool_size = trainingInstance.poolSize;
     result.start_time = trainingInstance.startTime.toISOString();
     result.end_time = trainingInstance.endTime.toISOString();
     result.access_token = trainingInstance.accessToken;
-    result.organizer_logins =  trainingInstance.organizers;
+    result.organizers =  this.userMapper.mapUsersToUserRefDTOs(trainingInstance.organizers);
     result.training_definition_id = trainingInstance.trainingDefinition.id;
     return result;
   }
@@ -85,14 +87,14 @@ export class TrainingInstanceMapper {
    * @param trainingInstance training instance object which should be updated
    */
   mapTrainingInstanceToTrainingInstanceUpdateDTO(trainingInstance: TrainingInstance): TrainingInstanceUpdateDTO {
-    const result = new TrainingInstanceUpdateDTOClass();
+    const result = new TrainingInstanceUpdateDTO();
     result.id = trainingInstance.id;
     result.title = trainingInstance.title;
     result.pool_size = trainingInstance.poolSize;
     result.start_time = trainingInstance.startTime.toISOString();
     result.end_time = trainingInstance.endTime.toISOString();
     result.access_token = trainingInstance.accessToken;
-    result.organizer_logins =  trainingInstance.organizers;
+    result.organizers =  this.userMapper.mapUsersToUserRefDTOs(trainingInstance.organizers);
     result.training_definition_id = trainingInstance.trainingDefinition.id;
     return result;
   }

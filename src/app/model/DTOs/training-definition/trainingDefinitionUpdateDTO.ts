@@ -13,35 +13,23 @@ import { AuthorRefDto } from '../user/author-ref-dto';
 import { SandboxDefinitionRefDto } from '../sandbox-definition/sandbox-definition-ref-dto';
 import {ViewGroupDTO} from "./viewGroupDTO";
 import {ViewGroupUpdateDTO} from "./viewGroupUpdateDTO";
+import {UserRefDTO} from "../user/user-ref-dto";
 
 
 /**
  * Training Definition to update.
  */
-export interface TrainingDefinitionUpdateDTO {
-    author_logins?: Array<string>;
-    td_view_group: ViewGroupUpdateDTO
+export class TrainingDefinitionUpdateDTO {
+    authors?: UserRefDTO[];
+    td_view_group: ViewGroupUpdateDTO;
     description?: string;
     id?: number;
-    outcomes?: Array<string>;
-    prerequisities?: Array<string>;
+    outcomes?: string[];
+    prerequisities?: string[];
     sandbox_definition_ref_id?: number;
     show_stepper_bar?: boolean;
     state?: TrainingDefinitionUpdateDTO.StateEnum;
     title?: string;
-}
-
-export class TrainingDefinitionUpdateDTOClass implements TrainingDefinitionUpdateDTO {
-  author_logins?: Array<string>;
-  td_view_group: ViewGroupUpdateDTO;
-  description: string;
-  id: number;
-  outcomes: Array<string>;
-  prerequisities: Array<string>;
-  sandbox_definition_ref_id?: number;
-  show_stepper_bar: boolean;
-  state: TrainingDefinitionUpdateDTO.StateEnum;
-  title: string;
 }
 
 export namespace TrainingDefinitionUpdateDTO {

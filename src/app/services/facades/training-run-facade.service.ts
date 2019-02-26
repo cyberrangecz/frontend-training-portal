@@ -135,8 +135,7 @@ export class TrainingRunFacade {
    * @param flag flag submitted by user
    */
   isCorrectFlag(trainingRunId: number, flag: string): Observable<FlagCheck> {
-    const  headers = new  HttpHeaders().set("Authorization", this.activeUserService.getActiveUserAuthorizationHeader());
-    return this.http.get<IsCorrectFlagDTO>(environment.trainingRunsEndpointUri + trainingRunId + '/is-correct-flag?flag=' + flag, {headers: headers})
+    return this.http.get<IsCorrectFlagDTO>(environment.trainingRunsEndpointUri + trainingRunId + '/is-correct-flag?flag=' + flag)
       .pipe(map(response => this.trainingRunMapper.mapIsCorrectFlagDTOToObject(response)));
   }
 
@@ -146,8 +145,7 @@ export class TrainingRunFacade {
    * @param hintId id of requested hint
    */
   takeHint(trainingRunId: number, hintId: number): Observable<Hint> {
-    const  headers = new  HttpHeaders().set("Authorization", this.activeUserService.getActiveUserAuthorizationHeader());
-    return this.http.get<HintDTO>(environment.trainingRunsEndpointUri + trainingRunId + '/hints/' + hintId, {headers: headers})
+    return this.http.get<HintDTO>(environment.trainingRunsEndpointUri + trainingRunId + '/hints/' + hintId)
       .pipe(map(response => this.levelMapper.mapHintDTOToHint(response)));
   }
 
@@ -156,10 +154,7 @@ export class TrainingRunFacade {
    * @param trainingRun id of the training run in which, solution should be revealed (level is decided based on the current level property)
    */
   takeSolution(trainingRun: number): Observable<string> {
-    const  headers = new  HttpHeaders().set("Authorization", this.activeUserService.getActiveUserAuthorizationHeader());
-    return this.http.get(environment.trainingRunsEndpointUri + trainingRun + '/solutions',
-      { headers: headers,
-      responseType: "text" });
+    return this.http.get(environment.trainingRunsEndpointUri + trainingRun + '/solutions', {responseType: "text" });
   }
 
   /**

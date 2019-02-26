@@ -2,29 +2,58 @@ import {User} from "../../model/user/user";
 import {UserRoleEnum} from "../../enums/user-role.enum";
 import {RoleDTO} from "../../model/DTOs/user/role-dto";
 import {UserBasicInfoDTO} from "../../model/DTOs/user/user-basic-info-dto";
+import {UserRefDTO} from '../../model/DTOs/user/user-ref-dto';
+import {UserInfoDTO} from '../../model/DTOs/user/user-info-dto';
 
 export class UserMapper {
 
-  mapLoginsToOrganizerUsers(logins: string[]): User[] {
-    return logins.map(login =>
-      this.mapLoginToOrganizerUser(login));
+  mapUserRefDTOsToUsers(users: UserRefDTO[]): User[] {
+    if (!users) {
+      return [];
+    }
+    return users.map(userDTO =>  this.mapUserRefDTOToUser(userDTO));
   }
 
-  mapLoginToOrganizerUser(login: string): User {
+  mapUserRefDTOToUser(userDTO: UserRefDTO): User {
     const user = new User();
-    user.login = login;
+    user.login = userDTO.user_ref_login;
+    user.name = userDTO.user_ref_full_name;
+    return user;
+  }
+
+  mapUsersToUserRefDTOs(users: User[]): UserRefDTO[] {
+    return users.map(user => this.mapUserToUserRefDTO(user));
+  }
+
+  mapUserToUserRefDTO(user: User): UserRefDTO {
+    const userRef = new UserRefDTO();
+    userRef.user_ref_login = user.login;
+    userRef.user_ref_full_name = user.name;
+    return userRef;
+  }
+
+  mapUserInfoDTOsToOrganizerUsers(userDTOs: UserInfoDTO[]): User[] {
+    return userDTOs.map(userDTO =>
+      this.mapUserInfoDTOToOrganizerUser(userDTO));
+  }
+
+  mapUserInfoDTOToOrganizerUser(userDTO: UserInfoDTO): User {
+    const user = new User();
+    user.login = userDTO.login;
+    user.name = userDTO.full_name;
     user.roles.add(UserRoleEnum.Organizer);
     return user;
   }
 
-  mapLoginsToDesignerUsers(logins: string[]): User[] {
-    return logins.map(login =>
-      this.mapLoginToDesignerUser(login));
+  mapUserInfoDTOsToDesignerUsers(userDTOs: UserInfoDTO[]): User[] {
+    return userDTOs.map(userDTO =>
+      this.mapUserInfoDTOToDesignerUser(userDTO));
   }
 
-  mapLoginToDesignerUser(login: string): User {
+  mapUserInfoDTOToDesignerUser(userDTO: UserInfoDTO): User {
     const user = new User();
-    user.login = login;
+    user.login = userDTO.login;
+    user.name = userDTO.full_name;
     user.roles.add(UserRoleEnum.Designer);
     return user;
   }
