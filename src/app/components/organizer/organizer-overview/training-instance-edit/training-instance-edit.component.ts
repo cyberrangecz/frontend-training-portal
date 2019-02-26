@@ -54,7 +54,7 @@ export class TrainingInstanceEditComponent implements OnInit {
    * Opens popup dialog to choose organizers from a list
    */
   chooseOrganizers() {
-    const dialogRef = this.dialog.open(OrganizersPickerComponent);
+    const dialogRef = this.dialog.open(OrganizersPickerComponent, { data: this.organizers });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {

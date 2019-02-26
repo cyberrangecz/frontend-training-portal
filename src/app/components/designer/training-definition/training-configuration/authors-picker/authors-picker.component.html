@@ -1,11 +1,11 @@
 <h1 mat-dialog-title>Choose Authors</h1>
 <mat-divider></mat-divider>
-<div mat-dialog-content>
-  <mat-selection-list #authorsList [(ngModel)]="selectedAuthors">
-    <mat-list-option *ngIf="activeUser" [value]="activeUser" [selected]="true" disabled="true">
+<div mat-dialog-content *ngIf="!isLoading">
+  <mat-selection-list #authorsList [(ngModel)]="selectedAuthors" [compareWith]="selectionEquality">
+    <mat-list-option *ngIf="activeUser" [value]="activeUser" disabled="true">
       {{ activeUser.name }} (You)
     </mat-list-option>
-    <mat-list-option *ngFor="let author of authors$ | async"
+    <mat-list-option *ngFor="let author of authors"
                      [value]="author">
       {{ author.name }}
     </mat-list-option>
