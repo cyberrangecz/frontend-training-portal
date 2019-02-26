@@ -141,7 +141,7 @@ export class TrainingDefinitionMapper {
     const result = new ViewGroupCreateDTO();
     result.title = viewGroup.title;
     result.description = viewGroup.description;
-    result.organizer_logins = viewGroup.organizers.map(organizer => organizer.login);
+    result.organizers = this.userMapper.mapUsersToUserInfoDTOs(viewGroup.organizers);
     return result;
   }
 
@@ -150,7 +150,7 @@ export class TrainingDefinitionMapper {
     result.id = viewGroup.id;
     result.title = viewGroup.title;
     result.description = viewGroup.description;
-    result.organizer_logins = viewGroup.organizers.map(organizer => organizer.login);
+    result.organizers = this.userMapper.mapUsersToUserInfoDTOs(viewGroup.organizers);
     return result;
   }
 

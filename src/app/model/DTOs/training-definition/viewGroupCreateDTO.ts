@@ -1,5 +1,7 @@
+import {UserInfoDTO} from "../user/user-info-dto";
+
 export class ViewGroupCreateDTO {
   title: string;
   description: string;
-  organizer_logins: string[];
+  organizers: UserInfoDTO[];
 }
