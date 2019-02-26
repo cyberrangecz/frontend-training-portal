@@ -16,7 +16,7 @@ import {SelectionModel} from "@angular/cdk/collections";
 export class SandboxDefinitionPickerComponent implements OnInit {
 
   sandboxDefs$: Observable<SandboxDefinition[]>;
-  selectedSandboxDef: SandboxDefinition;
+  selectedSandboxDefs: SandboxDefinition[];
 
   @ViewChild(MatSelectionList) sandboxDefsList: MatSelectionList;
 
@@ -36,7 +36,7 @@ export class SandboxDefinitionPickerComponent implements OnInit {
   confirm() {
     const result = {
       type: 'confirm',
-      sandboxDef: this.selectedSandboxDef
+      sandboxDef: this.selectedSandboxDefs[0] // should be a single object but angular material does not allow that
     };
     this.dialogRef.close(result);
   }
