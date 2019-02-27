@@ -92,8 +92,9 @@ export class TrainingInstanceFacade {
    * @param trainingInstance training instance which should be updated
    */
   updateTrainingInstance(trainingInstance: TrainingInstance): Observable<string> {
-    return this.http.put<string>(environment.trainingInstancesEndpointUri,
-      this.trainingInstanceMapper.mapTrainingInstanceToTrainingInstanceUpdateDTO(trainingInstance));
+    return this.http.put(environment.trainingInstancesEndpointUri,
+      this.trainingInstanceMapper.mapTrainingInstanceToTrainingInstanceUpdateDTO(trainingInstance),
+      { responseType: 'text'});
   }
 
   /**

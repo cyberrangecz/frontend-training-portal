@@ -85,11 +85,14 @@ export class TrainingInstanceEditComponent implements OnInit {
       if (this.editMode) {
         this.trainingInstanceFacade.updateTrainingInstance(this.trainingInstance)
           .subscribe(newAccessToken => {
+            console.log(newAccessToken);
             this.alertService.emitAlert(AlertTypeEnum.Success,
               'Changes were successfully saved. Access token is ' + newAccessToken);
             this.trainingChanged();
             },
-            (err) => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Changes were not saved.')
+            (err) =>  {
+            this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Changes were not saved.')
+            }
           );
       } else {
         this.trainingInstanceFacade.createTrainingInstance(this.trainingInstance)
