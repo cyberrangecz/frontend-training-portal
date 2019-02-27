@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, Optional} from '@angular/core';
 import {User} from "../../../../../model/user/user";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 import {UserFacade} from "../../../../../services/facades/user-facade.service";
@@ -6,7 +6,7 @@ import {ActiveUserService} from "../../../../../services/active-user.service";
 import {map} from "rxjs/operators";
 
 @Component({
-  selector: 'training-authors-chooser',
+  selector: 'training-authors-picker',
   templateUrl: './authors-picker.component.html',
   styleUrls: ['./authors-picker.component.css']
 })
@@ -21,7 +21,7 @@ export class AuthorsPickerComponent implements OnInit {
   isLoading = true;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public preselectedUsers: User[],
+    @Optional() @Inject(MAT_DIALOG_DATA) public preselectedUsers: User[],
     public dialogRef: MatDialogRef<AuthorsPickerComponent>,
     private userFacade: UserFacade,
     private activeUserService: ActiveUserService) {

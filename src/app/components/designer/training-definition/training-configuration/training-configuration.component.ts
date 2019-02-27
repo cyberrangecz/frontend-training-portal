@@ -113,7 +113,6 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     const dialogRef = this.dialog.open(SandboxDefinitionPickerComponent);
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
-        console.log(result);
         this.sandboxDef$ = of(result.sandboxDef);
         this.selectedSandboxDefId = result.sandboxDef.id;
         this.dirty = true;

@@ -72,8 +72,8 @@ export class ActiveTrainingRunLevelsService {
    * Locks current level
    */
   lockCurrentLevel() {
-    this.currentLevelLocked = false;
-    this._onLevelLockChangedSubject.next(false);
+    this.currentLevelLocked = true;
+    this._onLevelLockChangedSubject.next(true);
   }
 
   /**
@@ -84,7 +84,7 @@ export class ActiveTrainingRunLevelsService {
       .pipe(map(resp => {
         this.currentLevelLocked = true;
         this.setActiveLevel(resp);
-        this._onLevelLockChangedSubject.next(true);
+        this.lockCurrentLevel();
         return resp;
       }));
   }

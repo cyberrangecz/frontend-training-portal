@@ -25,7 +25,6 @@ import {TrainingDefinitionGuard} from "../../../guards/training-definition-guard
     TrainingDefinitionMaterialModule,
     LevelConfigurationModule,
     PipesModule
-
   ],
   declarations: [
     TrainingDefinitionComponent,

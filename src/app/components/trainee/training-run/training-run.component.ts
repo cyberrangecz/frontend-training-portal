@@ -58,7 +58,7 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
    */
   nextLevel() {
     if (!this.isActiveLevelLocked) {
-      this.trainingRunLevelChild.submit(); // TODO: check if submitted?
+      this.trainingRunLevelChild.submit();
       this.activeLevelsService.nextLevel()
         .subscribe(resp => {
           this.selectedStep += 1;
@@ -89,12 +89,10 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
    * Loads all necessary data about levels and sets up the training
    */
   private initData() {
-    // TODO: with stepper, with timer
     this.levels = this.activeLevelsService.getActiveLevels();
     this.selectedStep = 0;
   }
 
-  /**
   /**
    * Subscribes to changes in level lock. Component is informed when user finished all necessary actions in the current level and is ready to continue
    */
