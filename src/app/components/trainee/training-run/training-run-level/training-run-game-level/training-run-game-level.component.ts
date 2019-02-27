@@ -6,7 +6,7 @@ import {
   Output
 } from '@angular/core';
 import {GameLevel} from "../../../../../model/level/game-level";
-import {ActiveTrainingRunLevelsService} from "../../../../../services/active-training-run-levels.service";
+import {ActiveTrainingRunService} from "../../../../../services/active-training-run.service";
 import {MatDialog} from "@angular/material";
 import {RevealHintDialogComponent} from "./user-action-dialogs/reveal-hint-dialog/reveal-hint-dialog.component";
 import {RevealSolutionDialogComponent} from "./user-action-dialogs/reveal-solution-dialog/reveal-solution-dialog.component";
@@ -49,7 +49,7 @@ export class TrainingRunGameLevelComponent implements OnInit {
     private trainingRunFacade: TrainingRunFacade,
     private activeUserService: ActiveUserService,
     private errorHandler: ComponentErrorHandlerService,
-    private activeLevelService: ActiveTrainingRunLevelsService) { }
+    private activeLevelService: ActiveTrainingRunService) { }
 
   ngOnInit() {
     this.topologyAuthToken = this.activeUserService.getActiveUserAuthorizationHeader();

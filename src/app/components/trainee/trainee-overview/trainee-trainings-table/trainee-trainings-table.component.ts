@@ -9,7 +9,7 @@ import {TraineeAccessedTrainingsTableDataModel} from "../../../../model/table-mo
 import {TraineeAccessTrainingRunActionEnum} from "../../../../enums/trainee-access-training-run-actions.enum";
 import {TableDataWithPaginationWrapper} from "../../../../model/table-models/table-data-with-pagination-wrapper";
 import {ComponentErrorHandlerService} from "../../../../services/component-error-handler.service";
-import {ActiveTrainingRunLevelsService} from "../../../../services/active-training-run-levels.service";
+import {ActiveTrainingRunService} from "../../../../services/active-training-run.service";
 
 @Component({
   selector: 'trainee-trainings-table',
@@ -36,7 +36,7 @@ export class TraineeTrainingsTableComponent implements OnInit {
   constructor(
     private router: Router,
     private activeRoute: ActivatedRoute,
-    private activeTrainingRunLevelsService: ActiveTrainingRunLevelsService,
+    private activeTrainingRunLevelsService: ActiveTrainingRunService,
     private errorHandler: ComponentErrorHandlerService,
     private trainingRunFacade: TrainingRunFacade) { }
 

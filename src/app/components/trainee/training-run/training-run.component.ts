@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {AbstractLevel} from "../../../model/level/abstract-level";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ActiveTrainingRunLevelsService} from "../../../services/active-training-run-levels.service";
+import {ActiveTrainingRunService} from "../../../services/active-training-run.service";
 import {TrainingRunLevelComponent} from "./training-run-level/training-run-level.component";
 import {ComponentErrorHandlerService} from "../../../services/component-error-handler.service";
 
@@ -36,7 +36,7 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
     private router: Router,
     private activeRoute: ActivatedRoute,
     private errorHandler: ComponentErrorHandlerService,
-    private activeLevelsService: ActiveTrainingRunLevelsService) {
+    private activeTrainingRunService: ActiveTrainingRunService) {
   }
 
   ngOnInit() {
@@ -59,17 +59,17 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
   nextLevel() {
     if (!this.isActiveLevelLocked) {
       this.trainingRunLevelChild.submit();
-      if (this.activeLevelsService.hasNextLevel()) {
-        this.activeLevelsService.nextLevel()
+      if (this.activeTrainingRunService.hasNextLevel()) {
+        this.activeTrainingRunService.nextLevel()
           .subscribe(resp => {
               this.selectedStep += 1;
             },
             err => {
-              this.errorHandler.displayHttpError(err, "Loading next level");
+              this.errorHandler.displayHttpError(err, 'Loading next level');
             });
       }
       else {
-        this.showResults();
+        this.finishTraining();
       }
     }
   }
@@ -83,18 +83,23 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
     this.cdr.detectChanges();
   }
 
-  /**
-   * Navigates to page with results of current training
-   */
-  showResults() {
-    this.router.navigate(['results'], {relativeTo: this.activeRoute.parent});
+
+  finishTraining() {
+    this.activeTrainingRunService.finish()
+      .subscribe(resp => {
+        this.activeTrainingRunService.clear();
+        this.router.navigate(['results'], {relativeTo: this.activeRoute.parent});
+      },
+        err => {
+        this.errorHandler.displayHttpError(err, 'Finishing training run');
+        })
   }
 
   /**
    * Loads all necessary data about levels and sets up the training
    */
   private initData() {
-    this.levels = this.activeLevelsService.getActiveLevels();
+    this.levels = this.activeTrainingRunService.getActiveLevels();
     this.selectedStep = 0;
   }
 
@@ -102,7 +107,7 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
    * Subscribes to changes in level lock. Component is informed when user finished all necessary actions in the current level and is ready to continue
    */
   private subscribeLevelLockChange() {
-    this.activeLevelsService.onLevelLockChanged.subscribe(
+    this.activeTrainingRunService.onLevelLockChanged.subscribe(
       lockChange => this.isActiveLevelLocked = lockChange
     );
   }

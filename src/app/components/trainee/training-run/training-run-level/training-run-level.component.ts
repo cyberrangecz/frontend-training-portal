@@ -1,6 +1,6 @@
 import {Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {ActiveTrainingRunLevelsService} from "../../../../services/active-training-run-levels.service";
+import {ActiveTrainingRunService} from "../../../../services/active-training-run.service";
 import {AbstractLevel} from "../../../../model/level/abstract-level";
 import {InfoLevel} from "../../../../model/level/info-level";
 import {AssessmentLevel} from "../../../../model/level/assessment-level";
@@ -34,7 +34,7 @@ export class TrainingRunLevelComponent implements OnInit, OnDestroy {
   constructor(
     private dialog: MatDialog,
     private activeRoute: ActivatedRoute,
-    private activeLevelsService: ActiveTrainingRunLevelsService) { }
+    private activeLevelsService: ActiveTrainingRunService) { }
 
   ngOnInit() {
     this.initLevel();

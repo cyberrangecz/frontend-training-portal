@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, Input, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {AssessmentLevel} from "../../../../../model/level/assessment-level";
-import {ActiveTrainingRunLevelsService} from "../../../../../services/active-training-run-levels.service";
+import {ActiveTrainingRunService} from "../../../../../services/active-training-run.service";
 import {TraineeQuestionComponent} from "./question/trainee-question.component";
 import {TrainingRunFacade} from "../../../../../services/facades/training-run-facade.service";
 import {AbstractQuestion} from "../../../../../model/questions/abstract-question";
@@ -18,7 +18,7 @@ export class TrainingRunAssessmentLevelComponent implements OnInit, AfterViewIni
   @ViewChildren(TraineeQuestionComponent) questionComponents: QueryList<TraineeQuestionComponent>;
   @Input('level') level: AssessmentLevel;
 
-  constructor(private activeLevelService: ActiveTrainingRunLevelsService,
+  constructor(private activeLevelService: ActiveTrainingRunService,
               private trainingRunFacade: TrainingRunFacade) { }
 
   ngOnInit() {

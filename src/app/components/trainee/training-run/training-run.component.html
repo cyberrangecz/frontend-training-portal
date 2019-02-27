@@ -49,7 +49,7 @@
     <button *ngIf="selectedStep + 1 === levels.length && displayNextButton"
             [disabled]="isActiveLevelLocked"
             mat-raised-button color="primary"
-            (click)="showResults()">
+            (click)="finishTraining()">
       Finish
     </button>
   </div>

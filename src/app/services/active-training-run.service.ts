@@ -7,12 +7,13 @@ import {AssessmentLevel} from "../model/level/assessment-level";
 import {InfoLevel} from "../model/level/info-level";
 import {map} from "rxjs/operators";
 import {TrainingRunFacade} from "./facades/training-run-facade.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 /**
  * Service maintaining levels of training and active level instance for sub component of trainee training run
  */
 @Injectable()
-export class ActiveTrainingRunLevelsService {
+export class ActiveTrainingRunService {
 
   constructor(private trainingRunFacade: TrainingRunFacade) {
   }
@@ -82,15 +83,18 @@ export class ActiveTrainingRunLevelsService {
   nextLevel(): Observable<AbstractLevel> {
     return this.trainingRunFacade.nextLevel(this.trainingRunId)
       .pipe(map(resp => {
-        this.currentLevelLocked = true; // TODO check if problem with locked info level does not begin here
         this.setActiveLevel(resp);
-        this.lockCurrentLevel();
+        this.lockCurrentLevel(); // TODO check if problem with locked info level does not begin here
         return resp;
       }));
   }
 
   hasNextLevel(): boolean {
     return this._activeLevel.id !== this._activeLevels[this._activeLevels.length - 1].id;
+  }
+
+  finish() {
+    return this.trainingRunFacade.finishTrainingRun(this.trainingRunId);
   }
 
   clear() {

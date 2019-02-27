@@ -167,5 +167,8 @@ export class TrainingRunFacade {
       { responses: this.trainingRunMapper.mapQuestionsToUserAnswerJSON(questions)});
   }
 
+  finishTrainingRun(trainingRunId: number): Observable<any> {
+    return this.http.put(environment.trainingRunsEndpointUri + trainingRunId, null);
+  }
 }
 
