@@ -3,20 +3,28 @@
   flex-direction: column;
   align-items: center;
   align-content: center;
+  max-width: 900px;
 }
 
 .header {
   margin-top: 50px;
   text-align: center;
   width: 60%;
-
 }
 
 .content {
-  max-width: 900px;
   margin-top: 50px;
   display: flex;
   width: 60%;
+}
+
+ngx-md {
+  width: 100%;
+}
+
+pre {
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
 }
 
 @media screen and (max-width: 800px) {

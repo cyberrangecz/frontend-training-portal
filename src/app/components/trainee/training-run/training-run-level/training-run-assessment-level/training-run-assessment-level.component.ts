@@ -2,6 +2,8 @@ import {AfterViewInit, Component, Input, OnInit, QueryList, ViewChildren} from '
 import {AssessmentLevel} from "../../../../../model/level/assessment-level";
 import {ActiveTrainingRunLevelsService} from "../../../../../services/active-training-run-levels.service";
 import {TraineeQuestionComponent} from "./question/trainee-question.component";
+import {TrainingRunFacade} from "../../../../../services/facades/training-run-facade.service";
+import {AbstractQuestion} from "../../../../../model/questions/abstract-question";
 
 @Component({
   selector: 'training-run-assessment-level',
@@ -16,7 +18,8 @@ export class TrainingRunAssessmentLevelComponent implements OnInit, AfterViewIni
   @ViewChildren(TraineeQuestionComponent) questionComponents: QueryList<TraineeQuestionComponent>;
   @Input('level') level: AssessmentLevel;
 
-  constructor(private activeLevelService: ActiveTrainingRunLevelsService) { }
+  constructor(private activeLevelService: ActiveTrainingRunLevelsService,
+              private trainingRunFacade: TrainingRunFacade) { }
 
   ngOnInit() {
   }
@@ -29,8 +32,19 @@ export class TrainingRunAssessmentLevelComponent implements OnInit, AfterViewIni
    * Validates answers and calls REST API to save user's answers
    */
   submit() {
-    this.questionComponents.forEach(component => component.saveChanges());
-    // TODO: Submit user answers through REST
+    const results: AbstractQuestion[] = [];
+    this.questionComponents.forEach(component =>
+    {
+      component.saveChanges();
+      results.push(component.question);
+    });
+    this.trainingRunFacade.submitQuestions(this.activeLevelService.trainingRunId, results)
+      .subscribe(result => {
+        // TODO
+      },
+        err => {
+        // TODO
+        });
   }
 
   /**
