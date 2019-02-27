@@ -82,11 +82,15 @@ export class ActiveTrainingRunLevelsService {
   nextLevel(): Observable<AbstractLevel> {
     return this.trainingRunFacade.nextLevel(this.trainingRunId)
       .pipe(map(resp => {
-        this.currentLevelLocked = true;
+        this.currentLevelLocked = true; // TODO check if problem with locked info level does not begin here
         this.setActiveLevel(resp);
         this.lockCurrentLevel();
         return resp;
       }));
+  }
+
+  hasNextLevel(): boolean {
+    return this._activeLevel.id !== this._activeLevels[this._activeLevels.length - 1].id;
   }
 
   clear() {

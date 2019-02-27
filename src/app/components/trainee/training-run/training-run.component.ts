@@ -59,13 +59,18 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
   nextLevel() {
     if (!this.isActiveLevelLocked) {
       this.trainingRunLevelChild.submit();
-      this.activeLevelsService.nextLevel()
-        .subscribe(resp => {
-          this.selectedStep += 1;
-        },
-          err => {
-            this.errorHandler.displayHttpError(err, "Loading next level");
-          });
+      if (this.activeLevelsService.hasNextLevel()) {
+        this.activeLevelsService.nextLevel()
+          .subscribe(resp => {
+              this.selectedStep += 1;
+            },
+            err => {
+              this.errorHandler.displayHttpError(err, "Loading next level");
+            });
+      }
+      else {
+        this.showResults();
+      }
     }
   }
 
