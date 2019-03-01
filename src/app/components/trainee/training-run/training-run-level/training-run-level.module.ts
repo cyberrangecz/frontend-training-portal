@@ -27,7 +27,7 @@ import {LeaveConfirmationDialogComponent} from "../leave-confirmation-dialog/lea
     TrainingRunLevelMaterialModule,
     TrainingRunLevelRoutingModule,
     GraphModule.forRoot(CustomTopologyConfig),
-    NgxMdModule.forRoot()
+    //NgxMdModule.forRoot()
   ],
   declarations: [
     TrainingRunLevelComponent,

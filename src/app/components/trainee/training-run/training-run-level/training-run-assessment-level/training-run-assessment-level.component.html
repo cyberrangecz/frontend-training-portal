@@ -3,7 +3,10 @@
     <h1>{{ level.title }}</h1>
   </div>
   <div class="content">
+    {{ level.instructions }}
+<!--
     <ngx-md [data]="level.instructions"></ngx-md>
+-->
     <!-- QUESTIONS -->
     <div class="questions">
       <div *ngFor="let question of level.questions; index as i" class="question">
