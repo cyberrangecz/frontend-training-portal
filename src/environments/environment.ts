@@ -10,18 +10,18 @@ export const environment = {
   defaultPaginationSize: 5,
 
   // TRAINING REST API
-  trainingRestBasePath: 'http://localhost:8083/kypo2-rest-training/api/v1/',
-  trainingDefsEndpointUri:  'http://localhost:8083/kypo2-rest-training/api/v1/training-definitions/',
-  trainingInstancesEndpointUri: 'http://localhost:8083/kypo2-rest-training/api/v1/training-instances/',
-  trainingRunsEndpointUri:  'http://localhost:8083/kypo2-rest-training/api/v1/training-runs/',
-  levelsEndpointUri:  'http://localhost:8083/kypo2-rest-training/api/v1/levels/',
+  trainingRestBasePath: 'http://147.251.21.216:8083/kypo2-rest-training/api/v1/',
+  trainingDefsEndpointUri:  'http://http://147.251.21.216:8083/kypo2-rest-training/api/v1/training-definitions/',
+  trainingInstancesEndpointUri: 'http://147.251.21.216:8083/kypo2-rest-training/api/v1/training-instances/',
+  trainingRunsEndpointUri:  'http://147.251.21.216:8083/kypo2-rest-training/api/v1/training-runs/',
+  levelsEndpointUri:  'http://147.251.21.216:8083/kypo2-rest-training/api/v1/levels/',
 
   // SANDBOX REST API
-  sandboxDefsEndpointUri: 'http://147.251.21.38:8443/kypo-openstack/api/v1/definitions/',
-  poolsEndpointUri: 'http://147.251.21.38:8443/kypo-openstack/api/v1/pools/',
+  sandboxDefsEndpointUri: 'http://147.251.21.216:8443/kypo-openstack/api/v1/definitions/',
+  poolsEndpointUri: 'http://147.251.21.216:8443/kypo-openstack/api/v1/pools/',
 
   //USER AND GROUP API
-  userAndGroupRestBasePath: 'http://localhost:8084/kypo2-rest-user-and-group/api/v1/',
+  userAndGroupRestBasePath: 'http://147.251.21.216:8084/kypo2-rest-user-and-group/api/v1/',
 
   // OIDC SETTINGS
   // Url of the Identity Provider
@@ -31,7 +31,7 @@ export const environment = {
   // URL of the SPA to redirect the user to after login
   redirectUri: window.location.origin + '/index.html',
   // The SPA's id. The SPA is registered with this id at the config-server
-  clientId: '3693320b-6acb-442c-be51-86e18f574f9d', //'18cd6765-be1a-4de4-a6c0-6adf9b9882d1',
+  clientId: '593bbf49-a82b-4f6e-9baf-c4ed488d5066', //'18cd6765-be1a-4de4-a6c0-6adf9b9882d1',
   // set the scope for the permissions the client should request
   scope: 'openid profile email',
   sessionChecksEnabled: false,

@@ -20,7 +20,6 @@ export class AuthGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     if (this.hasValidTokens()) {
       if (this.hasSomeUserRole()) {
-        this.navigateToTraineeRouteIfHasOnlyTraineeRole();
         return Promise.resolve(true);
       }
       return this.canLoadUserRoles();
