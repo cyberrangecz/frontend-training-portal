@@ -4,9 +4,7 @@
   </div>
   <div class="content">
     {{ level.instructions }}
-<!--
-    <ngx-md [data]="level.instructions"></ngx-md>
--->
+    <markdown [data]="level.instructions"></markdown>
     <!-- QUESTIONS -->
     <div class="questions">
       <div *ngFor="let question of level.questions; index as i" class="question">
