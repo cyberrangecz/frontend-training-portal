@@ -27,7 +27,7 @@ import {MarkdownModule} from "ngx-markdown";
     TrainingRunLevelMaterialModule,
     TrainingRunLevelRoutingModule,
     GraphModule.forRoot(CustomTopologyConfig),
-    MarkdownModule.forChild()
+    MarkdownModule.forRoot()
   ],
   declarations: [
     TrainingRunLevelComponent,
