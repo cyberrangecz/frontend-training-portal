@@ -59,10 +59,10 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
    */
   saveChanges() {
     if (this.validateChanges()) {
-      this.isLoading = true;
       this.setInputValuesToLevel();
       this.childComponent.saveChanges();
       this.level.questions = this.childComponent.questions;
+      this.isLoading = true;
       this.trainingDefinitionFacade.updateAssessmentLevel(this.trainingDefinitionId, this.level)
         .subscribe(resp => {
             this.dirty = false;
