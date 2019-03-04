@@ -11,7 +11,7 @@ export const environment = {
 
   // TRAINING REST API
   trainingRestBasePath: 'http://147.251.21.216:8083/kypo2-rest-training/api/v1/',
-  trainingDefsEndpointUri:  'http://http://147.251.21.216:8083/kypo2-rest-training/api/v1/training-definitions/',
+  trainingDefsEndpointUri:  'http://147.251.21.216:8083/kypo2-rest-training/api/v1/training-definitions/',
   trainingInstancesEndpointUri: 'http://147.251.21.216:8083/kypo2-rest-training/api/v1/training-instances/',
   trainingRunsEndpointUri:  'http://147.251.21.216:8083/kypo2-rest-training/api/v1/training-runs/',
   levelsEndpointUri:  'http://147.251.21.216:8083/kypo2-rest-training/api/v1/levels/',
@@ -37,7 +37,7 @@ export const environment = {
   sessionChecksEnabled: false,
 
   // TOPOLOGY CONFIG
-  topologyRestUrl: 'http://localhost:8085/kypo2-rest-topology/api/v1/sandboxes/',
+  topologyRestUrl: 'http://147.251.21.216/kypo2-rest-topology/api/v1/sandboxes/',
   sandboxName: '',
   scenarioRestUrl: '',
   decoratorsRestUrl: '',

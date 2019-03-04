@@ -3,6 +3,7 @@
     <h1>{{ level.title }}</h1>
   </div>
   <div class="content">
-    <ngx-md [data]="level.content"></ngx-md>
+    {{ level.content }}
+    <markdown [data]="level.content"></markdown>
   </div>
 </div>
