@@ -1,9 +1,7 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatDialogRef, MatListOption, MatSelectionList} from "@angular/material";
+import {Component, Inject, OnInit, Optional} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 import {SandboxDefinition} from "../../../../../model/sandbox/sandbox-definition";
-import {Observable} from "rxjs/internal/Observable";
 import {SandboxDefinitionFacade} from "../../../../../services/facades/sandbox-definition-facade.service";
-import {SelectionModel} from "@angular/cdk/collections";
 
 @Component({
   selector: 'app-sandbox-definition-picker',
@@ -15,19 +13,26 @@ import {SelectionModel} from "@angular/cdk/collections";
  */
 export class SandboxDefinitionPickerComponent implements OnInit {
 
-  sandboxDefs$: Observable<SandboxDefinition[]>;
-  selectedSandboxDefs: SandboxDefinition[];
-
-  @ViewChild(MatSelectionList) sandboxDefsList: MatSelectionList;
+  sandboxDefs: SandboxDefinition[];
+  selectedSandboxDef: SandboxDefinition;
+  isLoading = true;
 
   constructor(
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: number,
     public dialogRef: MatDialogRef<SandboxDefinitionPickerComponent>,
     private sandboxDefinitionFacade: SandboxDefinitionFacade) {
+
   }
 
   ngOnInit() {
-    this.sandboxDefsList.selectedOptions = new SelectionModel<MatListOption>(false);
-    this.sandboxDefs$ = this.sandboxDefinitionFacade.getSandboxDefs();
+    this.sandboxDefinitionFacade.getSandboxDefs()
+      .subscribe(sandboxes => {
+        this.sandboxDefs = sandboxes;
+        if (this.hasInitialSandbox()) {
+          this.addPreselectedSandbox(sandboxes);
+        }
+        this.isLoading = false;
+      });
   }
 
   /**
@@ -36,7 +41,7 @@ export class SandboxDefinitionPickerComponent implements OnInit {
   confirm() {
     const result = {
       type: 'confirm',
-      sandboxDef: this.selectedSandboxDefs[0] // should be a single object but angular material does not allow that
+      sandboxDef: this.selectedSandboxDef
     };
     this.dialogRef.close(result);
   }
@@ -52,4 +57,14 @@ export class SandboxDefinitionPickerComponent implements OnInit {
     this.dialogRef.close(result);
   }
 
+  private hasInitialSandbox(): boolean {
+    return this.data !== null && this.data !== undefined;
+  }
+
+  private addPreselectedSandbox(sandboxes: SandboxDefinition[]) {
+    const preselected = sandboxes.find(sandbox => sandbox.id == this.data);
+    if (preselected) {
+      this.selectedSandboxDef = preselected;
+    }
+  }
 }

@@ -4,7 +4,7 @@ import {
   MatDialogModule, MatDividerModule,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule, MatListModule, MatMenuModule,
+  MatInputModule, MatListModule, MatMenuModule, MatRadioModule,
   MatSelectModule, MatSidenavModule, MatStepperModule, MatTooltipModule
 } from "@angular/material";
 
@@ -22,7 +22,8 @@ import {
     MatMenuModule,
     MatTooltipModule,
     MatCheckboxModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatRadioModule
   ],
   exports: [
     MatFormFieldModule,
@@ -37,7 +38,8 @@ import {
     MatMenuModule,
     MatTooltipModule,
     MatCheckboxModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatRadioModule
   ]
 })
 

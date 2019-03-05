@@ -6,9 +6,7 @@ import {AlertTypeEnum} from '../../../../enums/alert-type.enum';
 import {SandboxDefinitionPickerComponent} from './sandbox-definition-picker/sandbox-definition-picker.component';
 import {MatDialog} from '@angular/material';
 import {AuthorsPickerComponent} from './authors-picker/authors-picker.component';
-import {SandboxDefinition} from '../../../../model/sandbox/sandbox-definition';
 import {UserFacade} from '../../../../services/facades/user-facade.service';
-import {SandboxDefinitionFacade} from '../../../../services/facades/sandbox-definition-facade.service';
 import {Router} from '@angular/router';
 import {ActiveUserService} from '../../../../services/active-user.service';
 import {ComponentErrorHandlerService} from '../../../../services/component-error-handler.service';
@@ -41,8 +39,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
   prerequisites: string[];
   outcomes: string[];
   authors: User[];
-  sandboxDef$: Observable<SandboxDefinition>;
-  selectedSandboxDefId: number;
+  sandboxDefId: number;
   selectedState: string;
   showProgress: boolean;
   viewGroup: ViewGroup;
@@ -57,7 +54,6 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     private alertService: AlertService,
     private userFacade: UserFacade,
     private activeUserService: ActiveUserService,
-    private sandboxDefinitionFacade: SandboxDefinitionFacade,
     private trainingDefinitionFacade: TrainingDefinitionFacade) {
 
   }
@@ -110,11 +106,10 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
    * Displays dialog window with list of sandbox definitions and assigns selected sandbox definition to the training definition
    */
   chooseSandboxDefs() {
-    const dialogRef = this.dialog.open(SandboxDefinitionPickerComponent);
+    const dialogRef = this.dialog.open(SandboxDefinitionPickerComponent, { data : this.sandboxDefId});
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
-        this.sandboxDef$ = of(result.sandboxDef);
-        this.selectedSandboxDefId = result.sandboxDef.id;
+        this.sandboxDefId = result.sandboxDef.id;
         this.dirty = true;
       }
     });
@@ -249,22 +244,15 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     if (!this.prerequisites) this.prerequisites = [''];
     if (!this.outcomes) this.outcomes = [''];
     this.authors = this.trainingDefinition.authors;
-    this.loadSandboxDefinition();
+    this.sandboxDefId = this.trainingDefinition.sandboxDefinitionId;
   }
 
-  private loadSandboxDefinition() {
-    this.sandboxDef$ = this.sandboxDefinitionFacade.getSandboxDefById(this.trainingDefinition.sandboxDefinitionId)
-      .pipe(map(result => {
-        this.selectedSandboxDefId = result.id;
-        return result;
-      }));
-  }
 
   /**
    * Sets validated values from user input to the training definition object
    */
   private setInputValuesToTrainingDef() {
-    this.trainingDefinition.sandboxDefinitionId = this.selectedSandboxDefId;
+    this.trainingDefinition.sandboxDefinitionId = this.sandboxDefId;
     this.trainingDefinition.title = this.title;
     this.trainingDefinition.authors = this.authors;
     this.trainingDefinition.description = this.description;
@@ -294,7 +282,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
       || this.viewGroup.organizers.length === 0) {
       errorMessage += 'View group cannot be empty\n';
     }
-    if (this.selectedSandboxDefId === null || this.selectedSandboxDefId === undefined) {
+    if (this.sandboxDefId === null || this.sandboxDefId === undefined) {
       errorMessage += 'Sandbox definition cannot be empty\n';
     }
     if (errorMessage !== '') {

@@ -1,12 +1,16 @@
 <h1 mat-dialog-title>Choose Sandbox Definition</h1>
 <mat-divider></mat-divider>
-<div mat-dialog-content>
-  <mat-selection-list #sandboxDefsList [(ngModel)]="selectedSandboxDefs">
-    <mat-list-option *ngFor="let sandbox of sandboxDefs$ | async"
-                      [value]="sandbox">
-      {{ sandbox.title }}
-    </mat-list-option>
-  </mat-selection-list>
+<div mat-dialog-content *ngIf="!isLoading">
+  <mat-list role="list">
+    <mat-list-item role="listitem" *ngFor="let sandbox of sandboxDefs">
+      <mat-radio-button [checked]="sandbox === selectedSandboxDef"
+                        [value]="sandbox"
+
+                        (change)="selectedSandboxDef = $event.value">
+        {{ sandbox.title }}
+      </mat-radio-button>
+    </mat-list-item>
+  </mat-list>
 </div>
 
 <div mat-dialog-actions>
@@ -14,6 +18,6 @@
           mat-button color="primary">Cancel</button>
   <span class="spacer"></span>
   <button (click)="confirm()"
-          [disabled]="!selectedSandboxDefs"
+          [disabled]="!selectedSandboxDef"
           mat-button color="primary">Confirm</button>
 </div>
