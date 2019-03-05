@@ -85,7 +85,6 @@ export class TrainingInstanceEditComponent implements OnInit {
       if (this.editMode) {
         this.trainingInstanceFacade.updateTrainingInstance(this.trainingInstance)
           .subscribe(newAccessToken => {
-            console.log(newAccessToken);
             this.alertService.emitAlert(AlertTypeEnum.Success,
               'Changes were successfully saved. Access token is ' + newAccessToken);
             this.trainingChanged();
