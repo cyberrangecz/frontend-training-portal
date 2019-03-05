@@ -1,12 +1,16 @@
 <h1 mat-dialog-title>Choose Training Definition</h1>
 <mat-divider></mat-divider>
-<div mat-dialog-content>
-  <mat-selection-list #trainingDefsList [(ngModel)]="selectedTrainingDefs">
-    <mat-list-option *ngFor="let training of trainingDefs$ | async"
-                     [value]="training">
-      {{ training.title }}
-    </mat-list-option>
-  </mat-selection-list>
+<div mat-dialog-content *ngIf="!isLoading">
+  <mat-list role="list">
+    <mat-list-item role="listitem" *ngFor="let training of trainingDefs">
+      <mat-radio-button [checked]="training === selectedTrainingDef"
+                        [value]="training"
+
+                        (change)="selectedTrainingDef = $event.value">
+        {{ training.title }}
+      </mat-radio-button>
+    </mat-list-item>
+  </mat-list>
 </div>
 
 <div mat-dialog-actions>
@@ -14,7 +18,7 @@
           mat-button color="primary">Cancel</button>
   <span class="spacer"></span>
   <button (click)="confirm()"
-          [disabled]="!selectedTrainingDefs || selectedTrainingDefs.length === 0"
+          [disabled]="!selectedTrainingDef"
           mat-button color="primary">Confirm</button>
 </div>
 

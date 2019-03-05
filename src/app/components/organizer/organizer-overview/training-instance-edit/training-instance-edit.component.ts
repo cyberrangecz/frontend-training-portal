@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {TrainingDefinition} from "../../../../model/training/training-definition";
 import {AlertService} from "../../../../services/event-services/alert.service";
-import {MatDialog} from "@angular/material";
+import {MatDialog, MatDialogRef} from "@angular/material";
 import {OrganizersPickerComponent} from "./organizers-picker/organizers-picker.component";
 import {TrainingDefinitionPickerComponent} from "./training-definition-picker/training-definition-picker.component";
 import {TrainingInstance} from "../../../../model/training/training-instance";
@@ -67,7 +67,7 @@ export class TrainingInstanceEditComponent implements OnInit {
    * Opens popup dialog to choose training definition from a list
    */
   chooseTrainingDefinition() {
-    const dialogRef = this.dialog.open(TrainingDefinitionPickerComponent);
+    const dialogRef = this.dialog.open(TrainingDefinitionPickerComponent, { data: this.trainingDefinition });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {

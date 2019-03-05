@@ -3,7 +3,7 @@ import {
   MatButtonModule,
   MatDialogModule, MatDividerModule,
   MatFormFieldModule, MatIconModule,
-  MatInputModule, MatListModule, MatOptionModule, MatPaginatorModule, MatProgressSpinnerModule,
+  MatInputModule, MatListModule, MatOptionModule, MatPaginatorModule, MatProgressSpinnerModule, MatRadioModule,
   MatSelectModule, MatSortModule,
   MatTableModule, MatTooltipModule
 } from "@angular/material";
@@ -25,7 +25,8 @@ import {
     MatOptionModule,
     MatPaginatorModule,
     MatSortModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatRadioModule
   ],
   exports: [
     MatFormFieldModule,
@@ -41,7 +42,8 @@ import {
     MatOptionModule,
     MatPaginatorModule,
     MatSortModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatRadioModule
   ]
 })
 

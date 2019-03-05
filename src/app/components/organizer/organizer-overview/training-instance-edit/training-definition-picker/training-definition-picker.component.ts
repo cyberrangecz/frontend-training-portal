@@ -1,7 +1,5 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {Observable} from "rxjs/internal/Observable";
-import {MatDialogRef, MatListOption, MatSelectionList} from "@angular/material";
-import {SelectionModel} from "@angular/cdk/collections";
+import {Component, Inject, OnInit, Optional} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 import {SandboxDefinitionPickerComponent} from "../../../../designer/training-definition/training-configuration/sandbox-definition-picker/sandbox-definition-picker.component";
 import {TrainingDefinition} from "../../../../../model/training/training-definition";
 import {TrainingDefinitionFacade} from "../../../../../services/facades/training-definition-facade.service";
@@ -16,20 +14,19 @@ import {TrainingDefinitionFacade} from "../../../../../services/facades/training
  */
 export class TrainingDefinitionPickerComponent implements OnInit {
 
-  trainingDefs$: Observable<TrainingDefinition[]>;
-  selectedTrainingDefs: TrainingDefinition[];
-
-  @ViewChild(MatSelectionList) trainingDefsList: MatSelectionList;
+  trainingDefs: TrainingDefinition[];
+  selectedTrainingDef: TrainingDefinition;
+  isLoading = true;
 
   constructor(
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: TrainingDefinition,
     public dialogRef: MatDialogRef<SandboxDefinitionPickerComponent>,
     private trainingDefinitionFacade: TrainingDefinitionFacade) {
 
   }
 
   ngOnInit() {
-    this.trainingDefsList.selectedOptions = new SelectionModel<MatListOption>(false);
-    this.trainingDefs$ = this.trainingDefinitionFacade.getTrainingDefinitions();
+    this.loadTrainingDefinitions();
   }
 
   /**
@@ -38,7 +35,7 @@ export class TrainingDefinitionPickerComponent implements OnInit {
   confirm() {
     const result = {
       type: 'confirm',
-      trainingDef: this.selectedTrainingDefs[0]
+      trainingDef: this.selectedTrainingDef
     };
     this.dialogRef.close(result);
   }
@@ -54,4 +51,25 @@ export class TrainingDefinitionPickerComponent implements OnInit {
     this.dialogRef.close(result);
   }
 
+  private loadTrainingDefinitions() {
+    this.trainingDefinitionFacade.getTrainingDefinitions()
+      .subscribe(trainings => {
+        if (this.hasPreselection()) {
+          this.preselectTrainingDef(trainings)
+        }
+        this.trainingDefs = trainings;
+        this.isLoading = false;
+      })
+  }
+
+  private hasPreselection(): boolean {
+    return this.data !== null && this.data !== undefined;
+  }
+
+  private preselectTrainingDef(trainings: TrainingDefinition[]) {
+    const preselected = trainings.find(training => training.id == this.data.id);
+    if (preselected) {
+      this.selectedTrainingDef = preselected;
+    }
+  }
 }
