@@ -387,14 +387,16 @@ export class LevelMapper {
 
   private mapEMIChoicesToDTO(question: ExtendedMatchingItems, questionDTO: ExtendedMatchingItemsCreateDTO) {
     let index = 0;
-    const half = Math.floor((question.rows.length + question.cols.length) / 2);
+    const half = question.rows.length - question.cols.length; // TODO: higher - lower
     const choices: EMIChoiceDTO[] = [];
 
     question.rows.forEach(row => {
       const choice = new EMIChoiceDTO();
       choice.order = index;
       choice.text = row;
-      choice.pair = question.correctAnswers.find(answer => answer.x === index).y + half;
+      if (question.correctAnswers && question.correctAnswers.length > 0) {
+        choice.pair = question.correctAnswers.find(answer => answer.x === index).y + half;
+      }
       choices.push(choice);
       index++;
     });
@@ -403,7 +405,9 @@ export class LevelMapper {
       const choice = new EMIChoiceDTO();
       choice.order = index;
       choice.text = col;
-      choice.pair = question.correctAnswers.find(answer => answer.y === index - half).x;
+      if (question.correctAnswers && question.correctAnswers.length > 0) {
+        choice.pair = question.correctAnswers.find(answer => answer.x === index - half).x;
+      }
       choices.push(choice);
       index++;
     });
