@@ -18,6 +18,8 @@ import {UserInfoDTO} from '../../model/DTOs/user/user-info-dto';
  * Can retrieve users based on various parameters.
  */
 export class UserFacade {
+  readonly trainingDefinitionUriExtension = 'training-definitions/';
+  readonly trainingDefsEndpointUri = environment.trainingRestBasePath + this.trainingDefinitionUriExtension;
 
   constructor(private http: HttpClient,
               private userMapper: UserMapper) {
@@ -27,7 +29,7 @@ export class UserFacade {
    * Retrieves all organizer logins
    */
   getOrganizers(): Observable<User[]> {
-    return this.http.get<UserInfoDTO[]>(environment.trainingDefsEndpointUri + 'organizers')
+    return this.http.get<UserInfoDTO[]>(this.trainingDefsEndpointUri + 'organizers')
       .pipe(map(resp => this.userMapper.mapUserInfoDTOsToOrganizerUsers(resp)));
   }
 
@@ -35,7 +37,7 @@ export class UserFacade {
    * Retrieves all designer logins
    */
   getDesigners(): Observable<User[]> {
-    return this.http.get<UserInfoDTO[]>(environment.trainingDefsEndpointUri + 'designers')
+    return this.http.get<UserInfoDTO[]>(this.trainingDefsEndpointUri + 'designers')
       .pipe(map(resp => this.userMapper.mapUserInfoDTOsToDesignerUsers(resp)));
   }
 

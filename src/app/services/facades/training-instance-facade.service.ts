@@ -22,6 +22,11 @@ import {TrainingRunTableDataModel} from "../../model/table-models/training-run-t
  */
 export class TrainingInstanceFacade {
 
+  readonly trainingInstancesUriExtension = 'training-instances/';
+  readonly trainingRunsUriExtension = 'training-runs/';
+
+  readonly trainingInstancesEndpointUri = environment.trainingRestBasePath + this.trainingInstancesUriExtension;
+
   constructor(private http: HttpClient,
               private trainingRunMapper: TrainingRunMapper,
               private trainingInstanceMapper: TrainingInstanceMapper) {
@@ -32,7 +37,7 @@ export class TrainingInstanceFacade {
    * @returns {Observable<TrainingInstance[]>} Observable of training instances list
    */
   getTrainingInstances(): Observable<TrainingInstance[]> {
-    return this.http.get<TrainingInstanceRestResource>(environment.trainingInstancesEndpointUri)
+    return this.http.get<TrainingInstanceRestResource>(this.trainingInstancesEndpointUri)
       .pipe(map(response =>
         this.trainingInstanceMapper.mapTrainingInstanceDTOsToTrainingInstances(response)));
   }
@@ -46,7 +51,7 @@ export class TrainingInstanceFacade {
    */
   getTrainingInstancesWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<TableDataWithPaginationWrapper<TrainingInstanceTableDataModel[]>> {
     let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
-    return this.http.get<TrainingInstanceRestResource>(environment.trainingInstancesEndpointUri, { params: params })
+    return this.http.get<TrainingInstanceRestResource>(this.trainingInstancesEndpointUri, { params: params })
       .pipe(map(response =>
         this.trainingInstanceMapper.mapTrainingInstanceDTOsToTrainingInstancesWithPagination(response)));
   }
@@ -57,13 +62,13 @@ export class TrainingInstanceFacade {
    * @returns {Observable<TrainingInstance>} Observable of training instance, null if no such training instance is found
    */
   getTrainingInstanceById(id: number): Observable<TrainingInstance> {
-    return this.http.get<TrainingInstanceDTO>(environment.trainingInstancesEndpointUri + id)
+    return this.http.get<TrainingInstanceDTO>(this.trainingInstancesEndpointUri + id)
       .pipe(map(response =>
         this.trainingInstanceMapper.mapTrainingInstanceDTOToTrainingInstance(response)));
   }
 
   getTrainingRunsByTrainingInstanceId(trainingInstanceId: number): Observable<TrainingRun[]> {
-    return this.http.get<TrainingRunRestResource>(environment.trainingInstancesEndpointUri + trainingInstanceId + '/training-runs/')
+    return this.http.get<TrainingRunRestResource>(`${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.trainingRunsUriExtension}`)
       .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
   }
 
@@ -71,7 +76,7 @@ export class TrainingInstanceFacade {
       : Observable<TableDataWithPaginationWrapper<TrainingRunTableDataModel[]>> {
       let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
         return this.http.get<TrainingRunRestResource>(
-          environment.trainingInstancesEndpointUri + trainingInstanceId + '/training-runs/',
+          this.trainingInstancesEndpointUri + trainingInstanceId + '/' + this.trainingRunsUriExtension,
           { params: params })
           .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRunsWithPagination(response)));
   }
@@ -81,7 +86,7 @@ export class TrainingInstanceFacade {
    * @param {TrainingInstance} trainingInstance training instance which should be created
    */
   createTrainingInstance(trainingInstance: TrainingInstance): Observable<TrainingInstance> {
-    return this.http.post<TrainingInstanceDTO>(environment.trainingInstancesEndpointUri,
+    return this.http.post<TrainingInstanceDTO>(this.trainingInstancesEndpointUri,
       this.trainingInstanceMapper.mapTrainingInstanceToTrainingInstanceCreateDTO(trainingInstance))
       .pipe(map(trainingInstanceDTO =>
         this.trainingInstanceMapper.mapTrainingInstanceDTOToTrainingInstance(trainingInstanceDTO)));
@@ -92,7 +97,7 @@ export class TrainingInstanceFacade {
    * @param trainingInstance training instance which should be updated
    */
   updateTrainingInstance(trainingInstance: TrainingInstance): Observable<string> {
-    return this.http.put(environment.trainingInstancesEndpointUri,
+    return this.http.put(this.trainingInstancesEndpointUri,
       this.trainingInstanceMapper.mapTrainingInstanceToTrainingInstanceUpdateDTO(trainingInstance),
       { responseType: 'text'});
   }
@@ -102,7 +107,7 @@ export class TrainingInstanceFacade {
    * @param trainingInstanceId id of training instance which should be deleted
    */
   removeTrainingInstance(trainingInstanceId: number): Observable<any> {
-    return this.http.delete<any>(environment.trainingInstancesEndpointUri + trainingInstanceId);
+    return this.http.delete<any>(this.trainingInstancesEndpointUri + trainingInstanceId);
   }
 
   /**
@@ -110,7 +115,7 @@ export class TrainingInstanceFacade {
    * @param trainingInstanceId
    */
   createPool(trainingInstanceId: number): Observable<number> {
-    return this.http.post<number>(environment.trainingInstancesEndpointUri + trainingInstanceId + '/pools', null);
+    return this.http.post<number>(this.trainingInstancesEndpointUri + trainingInstanceId + '/pools', null);
   }
 
   /**
@@ -118,7 +123,7 @@ export class TrainingInstanceFacade {
    * @param trainingInstanceId
    */
   allocateSandboxesForTrainingInstance(trainingInstanceId: number ): Observable<any> {
-    return this.http.post<any>(environment.trainingInstancesEndpointUri + trainingInstanceId + '/sandbox-instances', null);
+    return this.http.post<any>(this.trainingInstancesEndpointUri + trainingInstanceId + '/sandbox-instances', null);
   }
 
   /**

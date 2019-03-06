@@ -31,6 +31,10 @@ import {ActiveUserService} from "../active-user.service";
 @Injectable()
 export class TrainingRunFacade {
 
+  readonly trainingRunsUriExtension = 'training-runs/';
+
+  readonly trainingRunsEndpointUri = environment.trainingRestBasePath + this.trainingRunsUriExtension;
+
   constructor(private http: HttpClient,
               private activeUserService: ActiveUserService,
               private levelMapper: LevelMapper,
@@ -42,7 +46,7 @@ export class TrainingRunFacade {
    * @returns {Observable<TrainingRun[]>} observable of list of training runs
    */
   getTrainingRuns(): Observable<TrainingRun[]> {
-    return this.http.get<TrainingRunRestResource>(environment.trainingRunsEndpointUri)
+    return this.http.get<TrainingRunRestResource>(this.trainingRunsEndpointUri)
       .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
   }
 
@@ -52,7 +56,7 @@ export class TrainingRunFacade {
    * @returns {Observable<TrainingRun>} observable of training run
    */
   getTrainingRunById(id: number): Observable<TrainingRun> {
-    return this.http.get<TrainingRunDTO>(environment.trainingRunsEndpointUri + id)
+    return this.http.get<TrainingRunDTO>(this.trainingRunsEndpointUri + id)
       .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOToTrainingRun(response)));
   }
 
@@ -62,7 +66,7 @@ export class TrainingRunFacade {
    * @returns {Observable<TrainingRun[]>} observable of training runs
    */
   getTrainingRunsByTrainingInstanceId(id: number): Observable<TrainingRun[]> {
-    return this.http.get<TrainingRunRestResource>(environment.trainingRunsEndpointUri + id)
+    return this.http.get<TrainingRunRestResource>(this.trainingRunsEndpointUri + id)
       .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
   }
 
@@ -75,7 +79,7 @@ export class TrainingRunFacade {
    */
   getTrainingRunsWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<TrainingRun[]> {
     let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
-    return this.http.get<TrainingRunRestResource>(environment.trainingRunsEndpointUri, { params: params })
+    return this.http.get<TrainingRunRestResource>(this.trainingRunsEndpointUri, { params: params })
       .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
 
   }
@@ -85,14 +89,14 @@ export class TrainingRunFacade {
    * @returns {Observable<TraineeAccessedTrainingsTableDataModel[]>} observable of list of active training runs to be displayed in table
    */
   getAccessedTrainingRuns(): Observable<TableDataWithPaginationWrapper<TraineeAccessedTrainingsTableDataModel[]>> {
-    return this.http.get<TrainingRunRestResource>(environment.trainingRunsEndpointUri + 'accessible/')
+    return this.http.get<TrainingRunRestResource>(this.trainingRunsEndpointUri + 'accessible/')
       .pipe(map(response => this.trainingRunMapper.mapAccessedTrainingRunDTOsToTrainingRunTableObjects(response)));
   }
 
   getAccessedTrainingRunsWithPagination(page: number, size: number, sort: string, sortDir: string):
     Observable<TableDataWithPaginationWrapper<TraineeAccessedTrainingsTableDataModel[]>> {
     let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
-    return this.http.get<TrainingRunRestResource>(environment.trainingRunsEndpointUri + 'accessible/', {params: params})
+    return this.http.get<TrainingRunRestResource>(this.trainingRunsEndpointUri + 'accessible/', {params: params})
       .pipe(map(response => this.trainingRunMapper.mapAccessedTrainingRunDTOsToTrainingRunTableObjects(response)));
   }
 
@@ -101,12 +105,12 @@ export class TrainingRunFacade {
    * @param password accessToken to access the training run
    */
   accessTrainingRun(password: string): Observable<AccessTrainingRun> {
-    return this.http.post<AccessTrainingRunDTO>(environment.trainingRunsEndpointUri + "?accessToken=" + password, {})
+    return this.http.post<AccessTrainingRunDTO>(this.trainingRunsEndpointUri + "?accessToken=" + password, {})
       .pipe(map(response => this.trainingRunMapper.mapAccessTrainingRunDTOToAccessTrainingRun(response)));
   }
 
   resume(trainingRunId: number): Observable<AccessTrainingRun> {
-    return this.http.get<AccessTrainingRunDTO>(environment.trainingRunsEndpointUri + trainingRunId + '/resumption')
+    return this.http.get<AccessTrainingRunDTO>(this.trainingRunsEndpointUri + trainingRunId + '/resumption')
       .pipe(map(response => this.trainingRunMapper.mapAccessTrainingRunDTOToAccessTrainingRun(response)));
   }
 
@@ -116,7 +120,7 @@ export class TrainingRunFacade {
    */
   revert(id: number): Observable<Object> {
     // TODO: Change observable type later
-    return this.http.get(environment.trainingRunsEndpointUri + id + '/revert');
+    return this.http.get(this.trainingRunsEndpointUri + id + '/revert');
   }
 
   /**
@@ -125,7 +129,7 @@ export class TrainingRunFacade {
    */
   nextLevel(trainingRunId: number): Observable<GameLevel | AssessmentLevel | InfoLevel> {
     const  headers = new  HttpHeaders().set("Authorization", this.activeUserService.getActiveUserAuthorizationHeader());
-    return this.http.get<AbstractLevelDTO>(environment.trainingRunsEndpointUri + trainingRunId + '/next-levels', { headers: headers})
+    return this.http.get<AbstractLevelDTO>(this.trainingRunsEndpointUri + trainingRunId + '/next-levels', { headers: headers})
       .pipe(map(response => this.levelMapper.mapLevelDTOToLevel(response)));
   }
 
@@ -135,7 +139,7 @@ export class TrainingRunFacade {
    * @param flag flag submitted by user
    */
   isCorrectFlag(trainingRunId: number, flag: string): Observable<FlagCheck> {
-    return this.http.get<IsCorrectFlagDTO>(environment.trainingRunsEndpointUri + trainingRunId + '/is-correct-flag?flag=' + flag)
+    return this.http.get<IsCorrectFlagDTO>(this.trainingRunsEndpointUri + trainingRunId + '/is-correct-flag?flag=' + flag)
       .pipe(map(response => this.trainingRunMapper.mapIsCorrectFlagDTOToObject(response)));
   }
 
@@ -145,7 +149,7 @@ export class TrainingRunFacade {
    * @param hintId id of requested hint
    */
   takeHint(trainingRunId: number, hintId: number): Observable<Hint> {
-    return this.http.get<HintDTO>(environment.trainingRunsEndpointUri + trainingRunId + '/hints/' + hintId)
+    return this.http.get<HintDTO>(this.trainingRunsEndpointUri + trainingRunId + '/hints/' + hintId)
       .pipe(map(response => this.levelMapper.mapHintDTOToHint(response)));
   }
 
@@ -154,7 +158,7 @@ export class TrainingRunFacade {
    * @param trainingRun id of the training run in which, solution should be revealed (level is decided based on the current level property)
    */
   takeSolution(trainingRun: number): Observable<string> {
-    return this.http.get(environment.trainingRunsEndpointUri + trainingRun + '/solutions', {responseType: "text" });
+    return this.http.get(this.trainingRunsEndpointUri + trainingRun + '/solutions', {responseType: "text" });
   }
 
   /**
@@ -163,12 +167,12 @@ export class TrainingRunFacade {
    * @param questions questions which answers should be submitted
    */
   submitQuestions(trainingRun: number, questions: AbstractQuestion[]) {
-    return this.http.put(environment.trainingRunsEndpointUri + trainingRun + '/assessment-evaluations',
+    return this.http.put(this.trainingRunsEndpointUri + trainingRun + '/assessment-evaluations',
       { responses: this.trainingRunMapper.mapQuestionsToUserAnswerJSON(questions)});
   }
 
   finishTrainingRun(trainingRunId: number): Observable<any> {
-    return this.http.put(environment.trainingRunsEndpointUri + trainingRunId, null);
+    return this.http.put(this.trainingRunsEndpointUri + trainingRunId, null);
   }
 }
 

@@ -29,6 +29,16 @@ import {UploadService} from '../upload.service';
  * Can retrieve training definition based on several parameters
  */
 export class TrainingDefinitionFacade {
+  readonly trainingDefinitionUriExtension = 'training-definitions/';
+  readonly exportsUriExtension = 'exports/';
+  readonly importsUriExtension = 'imports/';
+  readonly sandboxDefinitionUriExtension = 'sandbox-definitions/';
+  readonly levelsUriExtension = 'levels/';
+
+  readonly trainingDefsEndpointUri = environment.trainingRestBasePath + this.trainingDefinitionUriExtension;
+  readonly trainingExportEndpointUri = environment.trainingRestBasePath + this.exportsUriExtension;
+  readonly trainingImportEndpointUri = environment.trainingRestBasePath + this.importsUriExtension;
+
 
   constructor(private http: HttpClient,
               private downloadService: DownloadService,
@@ -42,7 +52,7 @@ export class TrainingDefinitionFacade {
    * @returns {Observable<TrainingDefinition[]>} Observable of training definitions list
    */
   getTrainingDefinitions(): Observable<TrainingDefinition[]> {
-    return this.http.get<TrainingDefinitionRestResource>(environment.trainingDefsEndpointUri)
+    return this.http.get<TrainingDefinitionRestResource>(this.trainingDefsEndpointUri)
       .pipe(map(response =>
         this.trainingDefinitionMapper.mapTrainingDefinitionDTOsToTrainingDefinitions(response)));
   }
@@ -56,7 +66,7 @@ export class TrainingDefinitionFacade {
    */
   getTrainingDefinitionsWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<TableDataWithPaginationWrapper<TrainingDefinitionTableDataModel[]>> {
     let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
-    return this.http.get<TrainingDefinitionRestResource>(environment.trainingDefsEndpointUri, { params: params })
+    return this.http.get<TrainingDefinitionRestResource>(this.trainingDefsEndpointUri, { params: params })
       .pipe(map(response =>
         this.trainingDefinitionMapper.mapTrainingDefinitionDTOsToTrainingDefinitionsWithPagination(response)));
   }
@@ -68,7 +78,7 @@ export class TrainingDefinitionFacade {
    * @returns {Observable<TrainingDefinition>} Observable of retrieved training definition, null if no training with such id is found
    */
   getTrainingDefinitionById(id: number, withLevels = false): Observable<TrainingDefinition> {
-    return this.http.get<TrainingDefinitionDTO>(environment.trainingDefsEndpointUri + id)
+    return this.http.get<TrainingDefinitionDTO>(this.trainingDefsEndpointUri + id)
       .pipe(map(response =>
         this.trainingDefinitionMapper.mapTrainingDefinitionDTOToTrainingDefinition(response, withLevels)));  }
 
@@ -78,7 +88,7 @@ export class TrainingDefinitionFacade {
    * @returns {Observable<TrainingDefinition[]>} Observable of list of training definitions matching sandbox definition id
    */
   getTrainingDefinitionsBySandboxDefinitionId(sandboxId: number): Observable<TrainingDefinition[]> {
-    return this.http.get<TrainingDefinitionRestResource>(environment.trainingDefsEndpointUri + 'sandbox-definitions/' + sandboxId)
+    return this.http.get<TrainingDefinitionRestResource>(this.trainingDefsEndpointUri + this.sandboxDefinitionUriExtension + sandboxId)
       .pipe(map(response =>
         this.trainingDefinitionMapper.mapTrainingDefinitionDTOsToTrainingDefinitions(response)));
   }
@@ -88,7 +98,7 @@ export class TrainingDefinitionFacade {
    * @param levelId id of level which should be retrieved
    */
   getLevelById(levelId: number): Observable<GameLevel | InfoLevel | AssessmentLevel> {
-    return this.http.get<GameLevelDTO | InfoLevelDTO | AssessmentLevelDTO>(environment.trainingDefsEndpointUri + 'levels/' + levelId)
+    return this.http.get<GameLevelDTO | InfoLevelDTO | AssessmentLevelDTO>(this.trainingDefsEndpointUri + this.levelsUriExtension + levelId)
       .pipe(map(response =>
       this.levelMapper.mapLevelDTOToLevel(response)));
   }
@@ -98,7 +108,7 @@ export class TrainingDefinitionFacade {
    * @param id id of training definition which should be downloaded
    */
   downloadTrainingDefinition(id: number) : Observable<boolean> {
-    return this.http.get(environment.trainingRestBasePath + 'exports/training-definitions/' + id)
+    return this.http.get(this.trainingExportEndpointUri + this.trainingDefinitionUriExtension + id)
       .pipe(map(resp =>  {
         this.downloadService.downloadFileFromJSON(resp,  resp['title'] + '.json');
         return true;
@@ -106,7 +116,7 @@ export class TrainingDefinitionFacade {
   }
 
   uploadTrainingDefinition(file: File): Observable<TrainingDefinition> {
-    return this.uploadService.uploadTrainingDefinition(environment.trainingRestBasePath + 'imports/training-definitions', file)
+    return this.uploadService.uploadTrainingDefinition(this.trainingImportEndpointUri + this.trainingDefinitionUriExtension, file)
       .pipe(map(resp => this.trainingDefinitionMapper.mapTrainingDefinitionDTOToTrainingDefinition(resp, false)));
   }
 
@@ -115,7 +125,7 @@ export class TrainingDefinitionFacade {
    * @param {number} trainingDefId id of training definition which should be removed
    */
   removeTrainingDefinition(trainingDefId: number) {
-    return this.http.delete(environment.trainingDefsEndpointUri + trainingDefId,
+    return this.http.delete(this.trainingDefsEndpointUri + trainingDefId,
       { headers: this.createDefaultHeaders()});
   }
 
@@ -124,7 +134,7 @@ export class TrainingDefinitionFacade {
    * @param trainingDefId id of training definition which should be cloned
    */
   cloneTrainingDefinition(trainingDefId: number): Observable<number> {
-    return this.http.post<number>(environment.trainingDefsEndpointUri + trainingDefId,
+    return this.http.post<number>(this.trainingDefsEndpointUri + trainingDefId,
       {},
       { headers: this.createDefaultHeaders()});
   }
@@ -135,7 +145,7 @@ export class TrainingDefinitionFacade {
    * @param trainingDef updated training definition
    */
   updateTrainingDefinition(trainingDef: TrainingDefinition): Observable<number> {
-    return this.http.put<number>(environment.trainingDefsEndpointUri,
+    return this.http.put<number>(this.trainingDefsEndpointUri,
       this.trainingDefinitionMapper.mapTrainingDefinitionToTrainingDefinitionUpdateDTO(trainingDef),
       { headers: this.createDefaultHeaders()})
   }
@@ -145,7 +155,7 @@ export class TrainingDefinitionFacade {
    * @param {TrainingDefinition} trainingDef training definition which should be created
    */
   createTrainingDefinition(trainingDef: TrainingDefinition): Observable<number> {
-    return this.http.post<number>(environment.trainingDefsEndpointUri,
+    return this.http.post<number>(this.trainingDefsEndpointUri,
       this.trainingDefinitionMapper.mapTrainingDefinitionToTrainingDefinitionCreateDTO(trainingDef),
       { headers: this.createDefaultHeaders()})
       .pipe(map(trainingDef => (trainingDef as TrainingDefinitionDTO).id));
@@ -157,7 +167,7 @@ export class TrainingDefinitionFacade {
    * @param assessmentLevel new assessment level which should be created in DB
    */
   createAssessmentLevel(trainingDefId: number): Observable<AssessmentLevel> {
-    return this.http.post<AbstractLevelDTO>(environment.trainingDefsEndpointUri + trainingDefId + '/levels/ASSESSMENT',
+    return this.http.post<AbstractLevelDTO>(`${this.trainingDefsEndpointUri + trainingDefId}/${this.levelsUriExtension}ASSESSMENT`,
       {},
       { headers: this.createDefaultHeaders()})
       .pipe(map(resp => this.levelMapper.mapBasicInfoDTOToAbstractLevel(resp) as AssessmentLevel));
@@ -169,7 +179,7 @@ export class TrainingDefinitionFacade {
    * @param gameLevel new game level which should be created in DB
    */
   createGameLevel(trainingDefId: number): Observable<GameLevel> {
-    return this.http.post<AbstractLevelDTO>(environment.trainingDefsEndpointUri + trainingDefId + '/levels/GAME',
+    return this.http.post<AbstractLevelDTO>(`${this.trainingDefsEndpointUri + trainingDefId}/${this.levelsUriExtension}GAME`,
       {},
       { headers: this.createDefaultHeaders()})
       .pipe(map(resp => this.levelMapper.mapBasicInfoDTOToAbstractLevel(resp) as GameLevel));
@@ -181,7 +191,7 @@ export class TrainingDefinitionFacade {
    * @param infoLevel new info level which should be created in DB
    */
   createInfoLevel(trainingDefId: number): Observable<InfoLevel> {
-    return this.http.post<AbstractLevelDTO>(environment.trainingDefsEndpointUri + trainingDefId + '/levels/INFO',
+    return this.http.post<AbstractLevelDTO>(`${this.trainingDefsEndpointUri + trainingDefId}/${this.levelsUriExtension}/INFO`,
       {},
       { headers: this.createDefaultHeaders()})
       .pipe(map(resp => this.levelMapper.mapBasicInfoDTOToAbstractLevel(resp) as InfoLevel));
@@ -193,8 +203,8 @@ export class TrainingDefinitionFacade {
    * @param levelId id of level which should be removed
    */
   removeLevel(trainingDefId: number, levelId: number): Observable<AbstractLevel[]> {
-    return this.http.delete<BasicLevelInfoDTO[]>(environment.trainingDefsEndpointUri + trainingDefId +
-      '/levels/' + levelId, { headers: this.createDefaultHeaders()})
+    return this.http.delete<BasicLevelInfoDTO[]>(`${this.trainingDefsEndpointUri + trainingDefId}/${this.levelsUriExtension}${levelId}`,
+      { headers: this.createDefaultHeaders()})
       .pipe(map(resp => this.levelMapper.mapBasicInfoDTOsToAbstractLevels(resp)));
   }
 
@@ -204,7 +214,7 @@ export class TrainingDefinitionFacade {
    * @param gameLevel game level which should be updated
    */
   updateGameLevel(trainingDefId: number, gameLevel: GameLevel) {
-    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/game-levels',
+    return this.http.put(`${this.trainingDefsEndpointUri + trainingDefId}/game-levels`,
       this.levelMapper.mapGameLevelToGameLevelUpdateDTO(gameLevel),
       { headers: this.createDefaultHeaders()});
   }
@@ -215,7 +225,7 @@ export class TrainingDefinitionFacade {
    * @param infoLevel info level which should be updated
    */
   updateInfoLevel(trainingDefId: number, infoLevel: InfoLevel) {
-    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/info-levels',
+    return this.http.put(`${this.trainingDefsEndpointUri + trainingDefId}/info-levels`,
       this.levelMapper.mapInfoLevelToInfoLevelUpdateDTO(infoLevel),
       { headers: this.createDefaultHeaders()});
   }
@@ -226,7 +236,7 @@ export class TrainingDefinitionFacade {
    * @param assessmentLevel assessment level which should be updated
    */
   updateAssessmentLevel(trainingDefId: number, assessmentLevel: AssessmentLevel) {
-    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/assessment-levels',
+    return this.http.put(`${this.trainingDefsEndpointUri + trainingDefId}/assessment-levels`,
       this.levelMapper.mapAssessmentLevelToAssessmentLevelUpdateDTO(assessmentLevel),
       { headers: this.createDefaultHeaders()});
   }
@@ -237,7 +247,7 @@ export class TrainingDefinitionFacade {
    * @param levelId id of a level which should be swapped
    */
   swapLeft(trainingDefId: number, levelId: number): Observable<AbstractLevel[]> {
-    return this.http.put<BasicLevelInfoDTO[]>(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + levelId + '/swap-left',
+    return this.http.put<BasicLevelInfoDTO[]>(`${this.trainingDefsEndpointUri + trainingDefId + this.levelsUriExtension}/${levelId}/swap-left`,
       {},
       { headers: this.createDefaultHeaders()})
       .pipe(map(resp => this.levelMapper.mapBasicInfoDTOsToAbstractLevels(resp)));
@@ -249,7 +259,7 @@ export class TrainingDefinitionFacade {
    * @param levelId id of a level which should be swapped
    */
   swapRight(trainingDefId: number, levelId: number): Observable<AbstractLevel[]>{
-    return this.http.put<BasicLevelInfoDTO[]>(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + levelId + '/swap-right',
+    return this.http.put<BasicLevelInfoDTO[]>(`${this.trainingDefsEndpointUri + trainingDefId + this.levelsUriExtension}/${levelId}/swap-right`,
       {},
       { headers: this.createDefaultHeaders()})
       .pipe(map(resp => this.levelMapper.mapBasicInfoDTOsToAbstractLevels(resp)));
@@ -262,7 +272,7 @@ export class TrainingDefinitionFacade {
    * @param secondLevelId id of second level which should be swapped
    */
   swap(trainingDefId: number, firstLevelId: number, secondLevelId: number) {
-    return this.http.put(environment.trainingDefsEndpointUri + trainingDefId + '/levels/' + firstLevelId + '/swap/' + trainingDefId,
+    return this.http.put(`${this.trainingDefsEndpointUri + trainingDefId + this.levelsUriExtension}/${firstLevelId}/swap/${trainingDefId}`,
       {},
       { headers: this.createDefaultHeaders()});
   }

@@ -7,10 +7,6 @@ export const environment = {
 
   // TRAINING REST API
   trainingRestBasePath: 'http://localhost:8083/kypo2-rest-training/api/v1/',
-  trainingDefsEndpointUri:  'http://localhost:8083/kypo2-rest-training/api/v1/training-definitions/',
-  trainingInstancesEndpointUri: 'http://localhost:8083/kypo2-rest-training/api/v1/training-instances/',
-  trainingRunsEndpointUri:  'http://localhost:8083/kypo2-rest-training/api/v1/training-runs/',
-  levelsEndpointUri:  'http://localhost:8083/kypo2-rest-training/api/v1/levels/',
 
   // SANDBOX REST API
   sandboxDefsEndpointUri: 'http://147.251.21.38:8443/kypo-openstack/api/v1/definitions/',
