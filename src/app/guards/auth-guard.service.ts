@@ -38,11 +38,19 @@ export class AuthGuard implements CanActivate {
       .then(() => {
         return this.hasValidTokens();
       })
-      .then(validTokens => {
-        if (validTokens) {
+      .then(hasValidTokens => {
+        if (hasValidTokens)
           return this.canLoadUserRoles();
+        else
+          return false;
+      })
+      .then(isAuthenticated => {
+        if (isAuthenticated) {
+          this.oauthService.setupAutomaticSilentRefresh();
+          return true
         }
-        return validTokens;
+        else
+          return false;
       });
   }
 
