@@ -3,13 +3,15 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "
 import {ActiveUserService} from "../services/active-user.service";
 import {Observable} from "rxjs/internal/Observable";
 import {OAuthService} from 'angular-oauth2-oidc';
-import {map} from "rxjs/operators";
-import {User} from "../model/user/user";
+import {catchError, switchMap} from "rxjs/operators";
+import {of} from "rxjs";
 @Injectable()
 /**
  * Guard which determines if user is signed in and can access private resources.
  */
 export class AuthGuard implements CanActivate {
+
+  readonly MAX_REST_API_REQUEST_ATTEMPTS = 3;
 
   constructor(
     private router: Router,
@@ -49,18 +51,42 @@ export class AuthGuard implements CanActivate {
   }
 
   private canLoadUserRoles(): Promise<boolean> {
-    //TODO: multiple calls might be needed if user is being created for the first time
+    return this.tryLoadUserAndRole().toPromise();
+  }
+
+  private tryLoadUserAndRole(loadRoleAttempts: number = 0): Observable<boolean> {
     return this.activeUserService.loadUserAndHisRoles()
-      .pipe(map((user: User) => {
-        this.navigateToTraineeRouteIfHasOnlyTraineeRole();
-        return true;
-      }))
-      .toPromise();
+      .pipe(switchMap(() => {
+        if (this.canAccessAfterMultipleAttempts(loadRoleAttempts)) {
+          this.navigateToTraineeRouteIfHasOnlyTraineeRole();
+          return of(true);
+        } else
+          return of(false)
+      }),
+        catchError(() => {
+          if (this.canRetryRoleRequest(loadRoleAttempts))
+            return this.tryLoadUserAndRole(++loadRoleAttempts);
+          else
+            return of(false)
+        })
+      );
+  }
+
+  private canAccessAfterMultipleAttempts(loadRoleAttempts: number): Observable<boolean> {
+    if (this.hasSomeUserRole()) {
+      return of(true);
+    }
+    else if (this.canRetryRoleRequest(loadRoleAttempts))
+      return this.tryLoadUserAndRole(++loadRoleAttempts)
   }
 
   private navigateToTraineeRouteIfHasOnlyTraineeRole() {
     if (this.activeUserService.isTraineeOnly()) {
       this.router.navigate(['trainee']);
     }
+  }
+
+  private canRetryRoleRequest(loadRoleAttempts: number): boolean {
+    return loadRoleAttempts < this.MAX_REST_API_REQUEST_ATTEMPTS;
   }
 }

@@ -27,9 +27,9 @@ export const environment = {
   // Url of the Identity Provider
   issuer: 'https://oidc.ics.muni.cz/oidc/',
   // URL of the SPA to redirect the user after silent refresh
-  silentRefreshRedirectUri: window.location.origin + '/silent-refresh.html',
+  silentRefreshRedirectUri: window.location.origin,
   // URL of the SPA to redirect the user to after login
-  redirectUri: window.location.origin + '/index.html',
+  redirectUri: window.location.origin,
   // The SPA's id. The SPA is registered with this id at the config-server
   clientId: '593bbf49-a82b-4f6e-9baf-c4ed488d5066', //'18cd6765-be1a-4de4-a6c0-6adf9b9882d1',
   // set the scope for the permissions the client should request
