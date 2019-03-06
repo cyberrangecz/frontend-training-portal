@@ -191,7 +191,7 @@ export class TrainingDefinitionFacade {
    * @param infoLevel new info level which should be created in DB
    */
   createInfoLevel(trainingDefId: number): Observable<InfoLevel> {
-    return this.http.post<AbstractLevelDTO>(`${this.trainingDefsEndpointUri + trainingDefId}/${this.levelsUriExtension}/INFO`,
+    return this.http.post<AbstractLevelDTO>(`${this.trainingDefsEndpointUri + trainingDefId}/${this.levelsUriExtension}INFO`,
       {},
       { headers: this.createDefaultHeaders()})
       .pipe(map(resp => this.levelMapper.mapBasicInfoDTOToAbstractLevel(resp) as InfoLevel));
@@ -247,7 +247,7 @@ export class TrainingDefinitionFacade {
    * @param levelId id of a level which should be swapped
    */
   swapLeft(trainingDefId: number, levelId: number): Observable<AbstractLevel[]> {
-    return this.http.put<BasicLevelInfoDTO[]>(`${this.trainingDefsEndpointUri + trainingDefId + this.levelsUriExtension}/${levelId}/swap-left`,
+    return this.http.put<BasicLevelInfoDTO[]>(`${this.trainingDefsEndpointUri + trainingDefId}/${this.levelsUriExtension}${levelId}/swap-left`,
       {},
       { headers: this.createDefaultHeaders()})
       .pipe(map(resp => this.levelMapper.mapBasicInfoDTOsToAbstractLevels(resp)));
@@ -259,7 +259,7 @@ export class TrainingDefinitionFacade {
    * @param levelId id of a level which should be swapped
    */
   swapRight(trainingDefId: number, levelId: number): Observable<AbstractLevel[]>{
-    return this.http.put<BasicLevelInfoDTO[]>(`${this.trainingDefsEndpointUri + trainingDefId + this.levelsUriExtension}/${levelId}/swap-right`,
+    return this.http.put<BasicLevelInfoDTO[]>(`${this.trainingDefsEndpointUri + trainingDefId}/${this.levelsUriExtension}${levelId}/swap-right`,
       {},
       { headers: this.createDefaultHeaders()})
       .pipe(map(resp => this.levelMapper.mapBasicInfoDTOsToAbstractLevels(resp)));
