@@ -67,8 +67,9 @@ export class TraineeQuestionComponent implements OnInit, OnChanges {
     }
   }
 
-  onContentChanged(event: number) {
-    this.contentChanged.emit(event);
+  onContentChanged(event: { index: number, question: AbstractQuestion }) {
+    this.question = event.question;
+    this.contentChanged.emit(event.index);
   }
   /**
    * Resolves type of question to create appropriate child component

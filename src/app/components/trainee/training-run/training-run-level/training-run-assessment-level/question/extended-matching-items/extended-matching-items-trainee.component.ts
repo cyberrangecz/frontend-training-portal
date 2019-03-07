@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ExtendedMatchingItems} from "../../../../../../../model/questions/extended-matching-items";
+import {AbstractQuestion} from '../../../../../../../model/questions/abstract-question';
 
 @Component({
   selector: 'trainee-extended-matching-items',
@@ -14,7 +15,7 @@ export class ExtendedMatchingItemsTraineeComponent implements OnInit {
   @Input('question') question: ExtendedMatchingItems;
   @Input('index') index: number;
 
-  @Output('contentChanged') contentChanged: EventEmitter<number> = new EventEmitter();
+  @Output('contentChanged') contentChanged: EventEmitter<{index: number, question: AbstractQuestion}> = new EventEmitter();
 
   usersAnswers: {x: number, y: number}[] = [];
 
@@ -52,7 +53,10 @@ export class ExtendedMatchingItemsTraineeComponent implements OnInit {
   onAnswerChanged(i: number, j: number) {
     this.deleteAnswerByRow(i);
     this.usersAnswers.push({x: i, y: j});
-    this.contentChanged.emit(this.index);
+    this.contentChanged.emit({
+      index: this.index,
+      question: this.question
+    });
   }
 
   /**

@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FreeFormQuestion} from "../../../../../../../model/questions/free-form-question";
+import {AbstractQuestion} from '../../../../../../../model/questions/abstract-question';
 
 @Component({
   selector: 'trainee-free-form-question',
@@ -14,7 +15,7 @@ export class FreeFormQuestionTraineeComponent implements OnInit {
   @Input('question') question: FreeFormQuestion;
   @Input('index') index: number;
 
-  @Output('contentChanged') contentChanged: EventEmitter<number> = new EventEmitter();
+  @Output('contentChanged') contentChanged: EventEmitter<{index: number, question: AbstractQuestion}> = new EventEmitter();
   answer: string;
 
   constructor() { }
@@ -30,14 +31,17 @@ export class FreeFormQuestionTraineeComponent implements OnInit {
   }
 
   onChange() {
-    this.contentChanged.emit(this.index);
-  }
+    this.contentChanged.emit({
+      index: this.index,
+      question: this.question
+    });  }
 
   /**
    * Saves changes from user input to question object
    */
   saveChanges() {
     this.question.usersAnswer = this.answer;
+
   }
 
 

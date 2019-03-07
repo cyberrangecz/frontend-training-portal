@@ -126,7 +126,7 @@ export class TrainingRunMapper {
 
   mapQuestionsToUserAnswerJSON(questions: AbstractQuestion[]): string {
     const result: AbstractAssessmentAnswerDTO[] = [];
-    questions.forEach(question => this.mapQuestionToUserAnswerDTO(question));
+    questions.forEach(question => result.push(this.mapQuestionToUserAnswerDTO(question)));
     return JSON.stringify(result);
   }
 

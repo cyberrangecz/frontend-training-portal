@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MultipleChoiceQuestion} from "../../../../../../../model/questions/multiple-choice-question";
 import {MatCheckboxChange} from "@angular/material";
+import {AbstractQuestion} from '../../../../../../../model/questions/abstract-question';
 
 @Component({
   selector: 'trainee-multiple-choice-question',
@@ -15,7 +16,7 @@ export class MultipleChoiceQuestionTraineeComponent implements OnInit {
   @Input('question') question: MultipleChoiceQuestion;
   @Input('index') index: number;
 
-  @Output('contentChanged') contentChanged: EventEmitter<number> = new EventEmitter();
+  @Output('contentChanged') contentChanged: EventEmitter<{index: number, question: AbstractQuestion}> = new EventEmitter();
 
   userAnswersIndexes: number[] = [];
 
@@ -49,8 +50,10 @@ export class MultipleChoiceQuestionTraineeComponent implements OnInit {
     } else {
       this.removeCorrectAnswer(index);
     }
-    this.contentChanged.emit(index);
-
+    this.contentChanged.emit({
+      index: this.index,
+      question: this.question
+    });
   }
 
   /**
