@@ -168,7 +168,7 @@ export class TrainingRunFacade {
    */
   submitQuestions(trainingRun: number, questions: AbstractQuestion[]) {
     return this.http.put(this.trainingRunsEndpointUri + trainingRun + '/assessment-evaluations',
-      { responses: this.trainingRunMapper.mapQuestionsToUserAnswerJSON(questions)});
+       this.trainingRunMapper.mapQuestionsToUserAnswerJSON(questions));
   }
 
   finishTrainingRun(trainingRunId: number): Observable<any> {
