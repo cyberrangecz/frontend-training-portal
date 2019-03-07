@@ -84,7 +84,7 @@ export class ActiveTrainingRunService {
     return this.trainingRunFacade.nextLevel(this.trainingRunId)
       .pipe(map(resp => {
         this.setActiveLevel(resp);
-        this.lockCurrentLevel(); // TODO check if problem with locked info level does not begin here
+        //this.lockCurrentLevel(); // TODO check if problem with locked info level does not begin here
         return resp;
       }));
   }
