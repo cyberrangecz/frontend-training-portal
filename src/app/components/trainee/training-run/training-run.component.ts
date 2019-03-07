@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ActiveTrainingRunService} from "../../../services/active-training-run.service";
 import {TrainingRunLevelComponent} from "./training-run-level/training-run-level.component";
 import {ComponentErrorHandlerService} from "../../../services/component-error-handler.service";
+import {switchMap} from 'rxjs/operators';
 
 
 @Component({
@@ -58,7 +59,9 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
    */
   nextLevel() {
     if (!this.isActiveLevelLocked) {
-      this.trainingRunLevelChild.submit();
+      if (this.trainingRunLevelChild.isAssessmentLevel) {
+        this.nextLevelFromAssessmentLevel();
+      }
       if (this.activeTrainingRunService.hasNextLevel()) {
         this.activeTrainingRunService.nextLevel()
           .subscribe(resp => {
@@ -71,6 +74,25 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
       else {
         this.finishTraining();
       }
+    }
+  }
+
+  private nextLevelFromAssessmentLevel() {
+    this.trainingRunLevelChild.submit();
+    if (this.activeTrainingRunService.hasNextLevel()) {
+      this.trainingRunLevelChild.submit()
+        .pipe(switchMap(result =>
+          this.activeTrainingRunService.nextLevel()
+        ))
+        .subscribe(resp => {
+            this.selectedStep += 1;
+          },
+          err => {
+            this.errorHandler.displayHttpError(err, 'Loading next level');
+          });
+    }
+    else {
+      this.finishTraining();
     }
   }
 

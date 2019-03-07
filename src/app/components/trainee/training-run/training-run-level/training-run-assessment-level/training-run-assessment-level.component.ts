@@ -4,6 +4,7 @@ import {ActiveTrainingRunService} from "../../../../../services/active-training-
 import {TraineeQuestionComponent} from "./question/trainee-question.component";
 import {TrainingRunFacade} from "../../../../../services/facades/training-run-facade.service";
 import {AbstractQuestion} from "../../../../../model/questions/abstract-question";
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'training-run-assessment-level',
@@ -31,20 +32,14 @@ export class TrainingRunAssessmentLevelComponent implements OnInit, AfterViewIni
   /**
    * Validates answers and calls REST API to save user's answers
    */
-  submit() {
+  submit(): Observable<any> {
     const results: AbstractQuestion[] = [];
     this.questionComponents.forEach(component =>
     {
       component.saveChanges();
       results.push(component.question);
     });
-    this.trainingRunFacade.submitQuestions(this.activeLevelService.trainingRunId, results)
-      .subscribe(result => {
-        // TODO
-      },
-        err => {
-        // TODO
-        });
+    return this.trainingRunFacade.submitQuestions(this.activeLevelService.trainingRunId, results)
   }
 
   /**

@@ -37,6 +37,7 @@ export class TrainingRunGameLevelComponent implements OnInit {
   topologyAuthToken: string;
   sandboxId: number;
   isLoading = false;
+  isTopologyDataReady = false;
 
   displayedText: string;
   flag: string;
@@ -55,6 +56,7 @@ export class TrainingRunGameLevelComponent implements OnInit {
     this.topologyAuthToken = this.activeUserService.getActiveUserAuthorizationHeader();
     this.sandboxId = this.activeLevelService.sandboxInstanceId;
     this.setGraphTopologyElementSize(window.innerWidth, window.innerHeight);
+    this.isTopologyDataReady = true;
     this.displayedText = this.level.content;
     this.initHintButtons();
   }
@@ -76,11 +78,10 @@ export class TrainingRunGameLevelComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
-        this.displayedText += '\n\n## <span style="color:slateblue">Hint ' + index + ": " + hintButton.hint.title + "</span>\n" + hintButton.hint.content;
         this.trainingRunFacade.takeHint(this.activeLevelService.trainingRunId, hintButton.hint.id)
           .subscribe(resp => {
             hintButton.displayed = true;
-            // TODO: display content
+              this.displayedText += '\n\n## <span style="color:slateblue">Hint ' + index + ": " + resp.title + "</span>\n" + resp.content;
           },
           err => {
             this.errorHandler.displayHttpError(err, 'Taking hint "' + hintButton.hint.title + '"');

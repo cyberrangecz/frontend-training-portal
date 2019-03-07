@@ -7,6 +7,7 @@ import {AssessmentLevel} from "../../../../model/level/assessment-level";
 import {GameLevel} from "../../../../model/level/game-level";
 import {TrainingRunAssessmentLevelComponent} from "./training-run-assessment-level/training-run-assessment-level.component";
 import {MatDialog} from "@angular/material";
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'training-run-level',
@@ -66,9 +67,9 @@ export class TrainingRunLevelComponent implements OnInit, OnDestroy {
   /**
    * Submits all user input data to REST
    */
-  submit() {
+  submit(): Observable<any> {
     if (this.isAssessmentLevel) {
-      this.assessmentLevelChild.submit();
+      return this.assessmentLevelChild.submit();
     }
   }
 

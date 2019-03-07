@@ -66,6 +66,7 @@ export class TraineeTrainingsTableComponent implements OnInit {
     this.trainingRunFacade.resume(trainingRunId)
       .subscribe(resp => {
           this.activeTrainingRunLevelsService.trainingRunId = resp.trainingRunId;
+          this.activeTrainingRunLevelsService.sandboxInstanceId = resp.sandboxInstanceId;
           this.activeTrainingRunLevelsService.setActiveLevels(resp.levels.sort((a, b) => a.order - b.order));
           this.activeTrainingRunLevelsService.setActiveLevel(resp.currentLevel);
           this.isLoading = false;

@@ -2,11 +2,13 @@
   <div class="header">
     <h1>{{ level.title }}</h1>
   </div>
-  <div class="content">
+  <div *ngIf="!isLoading" class="content">
     <div class="left-panel">
 
       <!-- TOPOLOGY COMPONENT-->
-     <lib-force-graph #topology [width]="graphWidth"
+     <lib-force-graph #topology
+                      *ngIf="isTopologyDataReady"
+                      [width]="graphWidth"
                       [height]="graphHeight"
                       [sandboxId]="sandboxId"
                       [authorizationToken]=topologyAuthToken>
