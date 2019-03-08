@@ -36,3 +36,13 @@ button {
 .training-run {
   pointer-events: none !important;
 }
+
+pre {
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+markdown > pre {
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}

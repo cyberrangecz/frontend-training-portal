@@ -1,5 +1,9 @@
-
 pre {
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+markdown > pre {
   white-space: pre-wrap;
   overflow-wrap: break-word;
 }

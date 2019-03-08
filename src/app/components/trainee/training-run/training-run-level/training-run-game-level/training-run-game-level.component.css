@@ -3,6 +3,11 @@ pre {
   overflow-wrap: break-word;
 }
 
+markdown > pre {
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
 .container {
   display: flex;
   flex-direction: column;

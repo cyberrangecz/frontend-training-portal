@@ -26,6 +26,11 @@ pre {
   overflow-wrap: break-word;
 }
 
+markdown > pre {
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
 @media screen and (max-width: 800px) {
   .content {
     width: 90%;
