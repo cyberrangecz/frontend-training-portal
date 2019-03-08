@@ -41,7 +41,7 @@
     "zone.js": "^0.8.26",
     "markdown-editor-lib": "1.0.1",
     "spice-client-lib": "0.0.1",
-    "graph-topology": "1.0.1",
+    "graph-topology": "1.0.2",
     "graph-topology-model-lib": "1.0.0"
   },
   "devDependencies": {

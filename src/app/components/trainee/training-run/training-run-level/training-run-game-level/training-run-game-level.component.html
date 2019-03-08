@@ -2,16 +2,15 @@
   <div class="header">
     <h1>{{ level.title }}</h1>
   </div>
-  <div *ngIf="!isLoading" class="content">
+  <mat-spinner *ngIf="!isGameDataLoaded || !isTopologyLoaded"></mat-spinner>
+  <div class="content">
     <div class="left-panel">
-
       <!-- TOPOLOGY COMPONENT-->
-     <lib-force-graph #topology
-                      *ngIf="isTopologyDataReady"
+     <lib-force-graph  #topology
                       [width]="graphWidth"
                       [height]="graphHeight"
                       [sandboxId]="sandboxId"
-                      [authorizationToken]=topologyAuthToken>
+                      (onTopologyLoaded)="topologyLoaded()">
      </lib-force-graph>
 
     </div>
