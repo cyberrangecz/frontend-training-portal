@@ -22,7 +22,7 @@ export class TrainingRunLevelsGuard implements CanActivate, CanDeactivate<Traini
       this.distractionFreeModeService.setDistractionFreeMode(true);
       return true;
     } else {
-      return false;
+      this.router.navigate(['/trainee']);
     }
   }
 
