@@ -34,10 +34,9 @@ export class TrainingRunGameLevelComponent implements OnInit {
 
   graphWidth: number;
   graphHeight: number;
-  topologyAuthToken: string;
   sandboxId: number;
-  isLoading = false;
-  isTopologyDataReady = false;
+  isGameDataLoaded = true;
+  isTopologyLoaded = false;
 
   displayedText: string;
   flag: string;
@@ -53,12 +52,14 @@ export class TrainingRunGameLevelComponent implements OnInit {
     private activeLevelService: ActiveTrainingRunService) { }
 
   ngOnInit() {
-    this.topologyAuthToken = this.activeUserService.getActiveUserAuthorizationHeader();
     this.sandboxId = this.activeLevelService.sandboxInstanceId;
-    this.setGraphTopologyElementSize(window.innerWidth, window.innerHeight);
-    this.isTopologyDataReady = true;
     this.displayedText = this.level.content;
     this.initHintButtons();
+  }
+
+  topologyLoaded() {
+    this.isTopologyLoaded = true;
+    this.setGraphTopologyElementSize(window.innerWidth, window.innerHeight);
   }
 
 
@@ -185,7 +186,7 @@ export class TrainingRunGameLevelComponent implements OnInit {
    * Reveals solution text and deducts points if solution is penalized
    */
   private revealSolution() {
-    this.isLoading = true;
+    this.isGameDataLoaded = false;
 /*    if (this.level.solutionPenalized) {
       let pointsToDeduct = this.level.maxScore - this.hintButtons
         .map(hintButton => hintButton.displayed ? hintButton.hint.hintPenalty : 0)
@@ -196,10 +197,10 @@ export class TrainingRunGameLevelComponent implements OnInit {
         this.solutionShown = true;
         this.displayedText = resp;
       // TODO: deduct remaining points (via REST?)
-        this.isLoading = false;
+        this.isGameDataLoaded = true;
       },
       err => {
-        this.isLoading = false;
+        this.isGameDataLoaded = true;
         this.errorHandler.displayHttpError(err, "Loading solution");
       })
 
@@ -218,4 +219,5 @@ export class TrainingRunGameLevelComponent implements OnInit {
         })
     );
   }
+
 }

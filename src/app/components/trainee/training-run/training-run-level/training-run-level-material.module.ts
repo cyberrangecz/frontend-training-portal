@@ -4,7 +4,7 @@ import {
   MatDialogModule, MatDividerModule,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule, MatRadioModule,
+  MatInputModule, MatProgressSpinnerModule, MatRadioModule,
   MatTooltipModule
 } from "@angular/material";
 
@@ -19,6 +19,7 @@ import {
     MatRadioModule,
     MatCheckboxModule,
     MatDividerModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     MatButtonModule,
@@ -29,7 +30,8 @@ import {
     MatTooltipModule,
     MatRadioModule,
     MatCheckboxModule,
-    MatDividerModule
+    MatDividerModule,
+    MatProgressSpinnerModule
   ]
 })
 export class TrainingRunLevelMaterialModule {
