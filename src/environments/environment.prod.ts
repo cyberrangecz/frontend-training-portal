@@ -29,7 +29,7 @@ export const environment = {
   sessionChecksEnabled: false,
 
   // TOPOLOGY COMPONENT CONFIG
-  topologyRestUrl: 'http://147.251.21.216/kypo2-rest-topology/api/v1/sandboxes/',
+  topologyRestUrl: 'http://147.251.21.216:8085/kypo2-rest-topology/api/v1/sandboxes/',
   sandboxName: '',
   scenarioRestUrl: '',
   decoratorsRestUrl: '',
