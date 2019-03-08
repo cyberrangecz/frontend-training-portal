@@ -15,14 +15,16 @@
     <div class="panel-wrapper">
       <div class="left-panel">
         <!-- START TIME field -->
-        <mat-form-field appearance="outline">
+        <mat-form-field
+          [owlDateTimeTrigger]="startTimePicker"
+          appearance="outline">
           <mat-label>Start Time</mat-label>
           <div class="input-wrapper">
             <input matInput
                    placeholder="Start Time"
                    required
                    [(ngModel)]="startTime"
-                   [owlDateTimeTrigger]="startTimePicker"
+
                    [owlDateTime]="startTimePicker">
             <owl-date-time #startTimePicker [startAt]="startAt"></owl-date-time>
           </div>
@@ -44,7 +46,9 @@
 
       <div class="right-panel">
         <!-- END TIME field -->
-        <mat-form-field appearance="outline">
+        <mat-form-field
+          [owlDateTimeTrigger]="endTimePicker"
+          appearance="outline">
           <mat-label>End Time</mat-label>
           <div class="input-wrapper">
             <input
@@ -52,7 +56,6 @@
               placeholder="End Time"
               required
               [(ngModel)]="endTime"
-             [owlDateTimeTrigger]="endTimePicker"
               [owlDateTime]="endTimePicker">
             <owl-date-time #endTimePicker></owl-date-time>
           </div>
