@@ -4,6 +4,7 @@ import {AuthGuard} from "./guards/auth-guard.service";
 import {DesignerGuard} from "./guards/designer-guard.service";
 import {OrganizerGuard} from "./guards/organizer-guard.service";
 import {TraineeGuard} from "./guards/trainee-guard.service";
+import {AdminGuard} from './guards/admin-guard.service';
 
 const routes: Routes = [
   {
@@ -25,6 +26,11 @@ const routes: Routes = [
     path: 'trainee',
     loadChildren: 'app/components/trainee/trainee-overview/trainee-overview.module#TraineeOverviewModule',
     canActivate: [TraineeGuard]
+  },
+  {
+    path: 'admin',
+    loadChildren: 'app/components/admin/admin.module#AdminModule',
+    canActivate: [AdminGuard]
   },
   {
     path: '',

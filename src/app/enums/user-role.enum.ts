@@ -1,5 +1,6 @@
 export enum UserRoleEnum {
   Designer = 'designer',
   Organizer = 'organizer',
-  Trainee = 'trainee'
+  Trainee = 'trainee',
+  Admin = 'admin'
 }

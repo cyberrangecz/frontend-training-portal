@@ -16,6 +16,7 @@ import {TrainingDistractionFreeModeService} from "./services/training-distractio
 import {AuthInterceptor} from "./http-interceptors/auth-interceptor";
 import {OAuthModule, OAuthStorage} from "angular-oauth2-oidc";
 import {UserFacadeModule} from "./services/facades/modules/user-facade.module";
+import {AdminGuard} from './guards/admin-guard.service';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import {UserFacadeModule} from "./services/facades/modules/user-facade.module";
     LoginGuard,
     DesignerGuard,
     OrganizerGuard,
+    AdminGuard,
     TraineeGuard,
     ActiveUserService,
     TrainingDistractionFreeModeService,

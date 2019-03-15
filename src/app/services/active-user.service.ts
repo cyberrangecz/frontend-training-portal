@@ -1,13 +1,12 @@
-import {Injectable} from "@angular/core";
-import {User} from "../model/user/user";
-import {UserRoleEnum} from "../enums/user-role.enum";
-import {Subject} from "rxjs/internal/Subject";
-import {Observable} from "rxjs/internal/Observable";
-import {OAuthService} from "angular-oauth2-oidc";
-import {Set} from "typescript-collections"
-import {Router} from "@angular/router";
-import {UserFacade} from "./facades/user-facade.service";
-import {map, switchMap} from "rxjs/operators";
+import {Injectable} from '@angular/core';
+import {User} from '../model/user/user';
+import {UserRoleEnum} from '../enums/user-role.enum';
+import {Subject} from 'rxjs/internal/Subject';
+import {Observable} from 'rxjs/internal/Observable';
+import {OAuthService} from 'angular-oauth2-oidc';
+import {Router} from '@angular/router';
+import {UserFacade} from './facades/user-facade.service';
+import {map, switchMap} from 'rxjs/operators';
 
 /**
  * Service maintaining active (logged in user)
@@ -50,6 +49,10 @@ export class ActiveUserService {
    */
   isTrainee(): boolean {
     return !this._activeUser ? false : this._activeUser.roles.contains(UserRoleEnum.Trainee);
+  }
+
+  isAdmin(): boolean {
+    return !this._activeUser ? false : this._activeUser.roles.contains(UserRoleEnum.Admin);
   }
 
   isTraineeOnly(): boolean {

@@ -17,6 +17,7 @@ export const environment = {
 
   //USER AND GROUP API
   userAndGroupRestBasePath: 'http://147.251.21.216:8084/kypo2-rest-user-and-group/api/v1/',
+  userAndGroupDefaultPaginationSize: 20,
 
   // OIDC SETTINGS
   // Url of the Identity Provider
