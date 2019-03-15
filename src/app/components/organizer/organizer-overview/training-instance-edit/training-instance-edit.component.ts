@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
 import {TrainingDefinition} from "../../../../model/training/training-definition";
 import {AlertService} from "../../../../services/event-services/alert.service";
-import {MatDialog, MatDialogRef} from "@angular/material";
+import {MatDialog} from "@angular/material";
 import {OrganizersPickerComponent} from "./organizers-picker/organizers-picker.component";
 import {TrainingDefinitionPickerComponent} from "./training-definition-picker/training-definition-picker.component";
 import {TrainingInstance} from "../../../../model/training/training-instance";
@@ -11,6 +11,7 @@ import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
 import {ActiveUserService} from "../../../../services/active-user.service";
 import {TrainingInstanceFacade} from "../../../../services/facades/training-instance-facade.service";
 import {User} from '../../../../model/user/user';
+import {interval, Subscription} from 'rxjs';
 
 @Component({
   selector: 'training-instance-definition',
@@ -20,14 +21,12 @@ import {User} from '../../../../model/user/user';
 /**
  * Component for creating new or editing existing training instance
  */
-export class TrainingInstanceEditComponent implements OnInit {
+export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
 
   @Input('trainingInstance') trainingInstance: TrainingInstance;
   @Output('trainingChange') trainingChange = new EventEmitter<TrainingInstance>();
 
   editMode: boolean;
-
-  startAt: Date = new Date();
 
   title: string;
   startTime: Date;
@@ -37,6 +36,7 @@ export class TrainingInstanceEditComponent implements OnInit {
   trainingDefinition: TrainingDefinition;
   accessToken: string;
 
+  startTimeUpdateSubscription: Subscription;
 
   constructor(
     private alertService: AlertService,
@@ -50,6 +50,13 @@ export class TrainingInstanceEditComponent implements OnInit {
   ngOnInit() {
     this.resolveInitialInputValues();
   }
+
+  ngOnDestroy(): void {
+    if (this.startTimeUpdateSubscription) {
+      this.startTimeUpdateSubscription.unsubscribe();
+    }
+  }
+
   /**
    * Opens popup dialog to choose organizers from a list
    */
@@ -122,7 +129,7 @@ export class TrainingInstanceEditComponent implements OnInit {
       this.setInputValuesFromTraining()
     } else {
       this.editMode =false;
-      this.createNewTrainingInstance();
+      this.setInputValueForNewInstance();
     }
   }
 
@@ -200,11 +207,19 @@ export class TrainingInstanceEditComponent implements OnInit {
 
   }
 
-  /**
-   * Creates new object of training instance with default values
-   */
-  private createNewTrainingInstance() {
+  private setInputValueForNewInstance() {
     this.trainingInstance = new TrainingInstance();
+    this.startTime = new Date();
+    this.startTime.setMinutes(this.startTime.getMinutes() + 5);
+    this.setUpPeriodicTimeStartTimeUpdate();
     this.organizers = [this.activeUserService.getActiveUser()];
   }
+
+  private setUpPeriodicTimeStartTimeUpdate() {
+    const source = interval(60000);
+    this.startTimeUpdateSubscription = source.subscribe( () =>
+      this.startTime.setMinutes(this.startTime.getMinutes() + 1)
+    );
+  }
+
 }
