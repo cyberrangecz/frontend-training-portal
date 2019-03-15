@@ -26,7 +26,7 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
   @Input('trainingInstance') trainingInstance: TrainingInstance;
   @Output('trainingChange') trainingChange = new EventEmitter<TrainingInstance>();
 
-  editMode: boolean;
+  isEditMode: boolean;
 
   title: string;
   startTime: Date;
@@ -37,6 +37,7 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
   accessToken: string;
 
   startTimeUpdateSubscription: Subscription;
+  userChangedStartTime = false;
 
   constructor(
     private alertService: AlertService,
@@ -83,34 +84,46 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
     });
   }
 
+  onStartTimeNgModelChanged() {
+    this.userChangedStartTime = true;
+  }
+
   /**
    * Validates user input, sets input values to training instance object and calls REST API to save the changes in an endpoint
    */
   saveChanges() {
     if (this.validateInputValues()) {
       this.setInputValuesToTraining();
-      if (this.editMode) {
-        this.trainingInstanceFacade.updateTrainingInstance(this.trainingInstance)
-          .subscribe(newAccessToken => {
-            this.alertService.emitAlert(AlertTypeEnum.Success,
-              'Changes were successfully saved. Access token is ' + newAccessToken);
-            this.trainingChanged();
-            },
-            (err) =>  {
-            this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Changes were not saved.')
-            }
-          );
+      if (this.isEditMode) {
+        this.updateTrainingInstance();
       } else {
-        this.trainingInstanceFacade.createTrainingInstance(this.trainingInstance)
-          .subscribe(createdInstance => {
-            this.alertService.emitAlert(AlertTypeEnum.Success,
-              'Changes were successfully saved.\n Access token is: ' + createdInstance.accessToken);
-            this.trainingChanged();
-            },
-            (err) => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Changes were not saved.')
-          );
+        this.createTrainingInstance();
       }
     }
+  }
+
+  private updateTrainingInstance() {
+    this.trainingInstanceFacade.updateTrainingInstance(this.trainingInstance)
+      .subscribe(newAccessToken => {
+          this.alertService.emitAlert(AlertTypeEnum.Success,
+            'Changes were successfully saved. Access token is ' + newAccessToken);
+          this.trainingChanged();
+        },
+        (err) =>  {
+          this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Changes were not saved.')
+        }
+      );
+  }
+
+  private createTrainingInstance() {
+    this.trainingInstanceFacade.createTrainingInstance(this.trainingInstance)
+      .subscribe(createdInstance => {
+          this.alertService.emitAlert(AlertTypeEnum.Success,
+            'Changes were successfully saved.\n Access token is: ' + createdInstance.accessToken);
+          this.trainingChanged();
+        },
+        (err) => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Changes were not saved.')
+      );
   }
 
   /**
@@ -125,10 +138,10 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
    */
   private resolveInitialInputValues() {
     if (this.trainingInstance) {
-      this.editMode = true;
+      this.isEditMode = true;
       this.setInputValuesFromTraining()
     } else {
-      this.editMode =false;
+      this.isEditMode =false;
       this.setInputValueForNewInstance();
     }
   }
@@ -180,9 +193,6 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  /**
-   * Sets user input values to the training instance object
-   */
   private setInputValuesToTraining() {
     this.trainingInstance.startTime = this.startTime;
     this.trainingInstance.endTime = this.endTime;
@@ -217,9 +227,10 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
 
   private setUpPeriodicTimeStartTimeUpdate() {
     const source = interval(60000);
-    this.startTimeUpdateSubscription = source.subscribe( () =>
-      this.startTime.setMinutes(this.startTime.getMinutes() + 1)
-    );
+    this.startTimeUpdateSubscription = source.subscribe( () => {
+      if (!this.userChangedStartTime) {
+        this.startTime.setMinutes(this.startTime.getMinutes() + 1);
+      }
+    });
   }
-
 }

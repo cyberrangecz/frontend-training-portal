@@ -1,6 +1,6 @@
 <div class="container">
   <div class="header">
-    <h3 *ngIf="!editMode">New Training Instance</h3>
+    <h3 *ngIf="!isEditMode">New Training Instance</h3>
   </div>
   <div class="content">
     <!--TITLE field-->
@@ -24,6 +24,7 @@
                    placeholder="Start Time"
                    required
                    [(ngModel)]="startTime"
+                   (ngModelChange)="onStartTimeNgModelChanged()"
                    [owlDateTime]="startTimePicker">
             <owl-date-time #startTimePicker [startAt]="startTime"></owl-date-time>
           </div>
