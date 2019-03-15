@@ -79,8 +79,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
     this.trainingDefinitionFacade.createInfoLevel(this.trainingDefinition.id)
       .subscribe(
         level => {
-          this.isLoading = false;
-          this.levels.push(level);
+          this.onLevelAdded(level);
         },
         (err: HttpErrorResponse) => this.errorHandler.displayHttpError(err, 'Creating info level')
       );
@@ -94,8 +93,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
     this.trainingDefinitionFacade.createGameLevel(this.trainingDefinition.id)
       .subscribe(
         level => {
-        this.isLoading = false;
-          this.levels.push(level);
+          this.onLevelAdded(level);
         },
         (err: HttpErrorResponse) =>  this.errorHandler.displayHttpError(err, 'Creating game level')
       );
@@ -109,8 +107,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
     this.trainingDefinitionFacade.createAssessmentLevel(this.trainingDefinition.id)
       .subscribe(
         level => {
-          this.isLoading = false;
-          this.levels.push(level);
+          this.onLevelAdded(level);
         },
         (err: HttpErrorResponse) => this.errorHandler.displayHttpError(err, 'Creating assessment level')
       );
@@ -226,6 +223,16 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
   private findFirstLevel(levels: AbstractLevel[]): AbstractLevel {
     const first = this.trainingDefinition.startingLevel;
     return levels.find(level => level.id === first)
+  }
+
+  private onLevelAdded(level: AbstractLevel) {
+    this.isLoading = false;
+    this.levels.push(level);
+    this.navigateToLastLevel()
+  }
+
+  private navigateToLastLevel() {
+    this.changeSelectedStep(this.levels.length - 1);
   }
 
 }
