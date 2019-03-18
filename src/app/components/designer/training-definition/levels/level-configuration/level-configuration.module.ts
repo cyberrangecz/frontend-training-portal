@@ -15,12 +15,13 @@ import { MarkdownEditorModule } from "markdown-editor-lib";
 import { FreeFormQuestionComponent } from './questions/free-form-question/free-form-question.component';
 import { MultipleChoiceQuestionComponent } from './questions/multiple-choice-question/multiple-choice-question.component';
 import { ExtendedMatchingItemsComponent } from './questions/extended-matching-items/extended-matching-items.component'
+import {MarkdownConfig} from "../../../../../config/markdown-config";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    MarkdownEditorModule,
+    MarkdownEditorModule.forRoot(MarkdownConfig),
     LevelConfigurationMaterialModule,
     SharedModule,
   ],
