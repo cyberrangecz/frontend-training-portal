@@ -108,14 +108,18 @@ export class ActiveUserService {
   loadUserAndHisRoles(): Observable<User> {
     return this.userFacade.getUserInfo()
       .pipe(switchMap((user: User) =>
-        this.userFacade.getUserRolesByGroups(user.groupIds)
-          .pipe(map( roles => {
-            this.addRolesToUser(roles, user);
-            this.addRolesToUser([UserRoleEnum.Admin], user);
-            this.setActiveUser(user);
-            return user;
-          }))
+        this.loadUserRoles(user)
       ));
+  }
+
+  private loadUserRoles(user: User): Observable<User> {
+    return this.userFacade.getUserRolesByGroups(user.groupIds)
+      .pipe(map( roles => {
+        this.addRolesToUser(roles, user);
+        this.addRolesToUser([UserRoleEnum.Admin], user); // TODO: RETRIEVE FROM API!
+        this.setActiveUser(user);
+        return user;
+      }))
   }
 
   /**
@@ -124,7 +128,6 @@ export class ActiveUserService {
    */
   setActiveUser(user: User) {
     this._activeUser = user;
-    console.log(user + ' was set as an active user');
     this._onActiveUserChangedSubject.next(user);
   }
 

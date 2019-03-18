@@ -4,6 +4,7 @@ import {UserAndGroupManagementModule} from 'kypo2-user-and-group-management'
 import { AdminOverviewComponent } from './admin-overview/admin-overview.component';
 import {UserAndGroupConfig} from "../../config/user-and-group-config";
 import {AdminRoutingModule} from "./admin-routing.module";
+import {MatDividerModule} from "@angular/material";
 
 @NgModule({
   declarations: [
