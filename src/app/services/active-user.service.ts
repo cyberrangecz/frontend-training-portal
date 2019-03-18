@@ -1,13 +1,12 @@
-import {Injectable} from "@angular/core";
-import {User} from "../model/user/user";
-import {UserRoleEnum} from "../enums/user-role.enum";
-import {Subject} from "rxjs/internal/Subject";
-import {Observable} from "rxjs/internal/Observable";
-import {OAuthService} from "angular-oauth2-oidc";
-import {Set} from "typescript-collections"
-import {Router} from "@angular/router";
-import {UserFacade} from "./facades/user-facade.service";
-import {map, switchMap} from "rxjs/operators";
+import {Injectable} from '@angular/core';
+import {User} from '../model/user/user';
+import {UserRoleEnum} from '../enums/user-role.enum';
+import {Subject} from 'rxjs/internal/Subject';
+import {Observable} from 'rxjs/internal/Observable';
+import {OAuthService} from 'angular-oauth2-oidc';
+import {Router} from '@angular/router';
+import {UserFacade} from './facades/user-facade.service';
+import {map, switchMap} from 'rxjs/operators';
 
 /**
  * Service maintaining active (logged in user)
@@ -50,6 +49,10 @@ export class ActiveUserService {
    */
   isTrainee(): boolean {
     return !this._activeUser ? false : this._activeUser.roles.contains(UserRoleEnum.Trainee);
+  }
+
+  isAdmin(): boolean {
+    return !this._activeUser ? false : this._activeUser.roles.contains(UserRoleEnum.Admin);
   }
 
   isTraineeOnly(): boolean {
@@ -105,13 +108,17 @@ export class ActiveUserService {
   loadUserAndHisRoles(): Observable<User> {
     return this.userFacade.getUserInfo()
       .pipe(switchMap((user: User) =>
-        this.userFacade.getUserRolesByGroups(user.groupIds)
-          .pipe(map( roles => {
-            this.addRolesToUser(roles, user);
-            this.setActiveUser(user);
-            return user;
-          }))
+        this.loadUserRoles(user)
       ));
+  }
+
+  private loadUserRoles(user: User): Observable<User> {
+    return this.userFacade.getUserRolesByGroups(user.groupIds)
+      .pipe(map( roles => {
+        this.addRolesToUser(roles, user);
+        this.setActiveUser(user);
+        return user;
+      }))
   }
 
   /**
@@ -120,7 +127,6 @@ export class ActiveUserService {
    */
   setActiveUser(user: User) {
     this._activeUser = user;
-    console.log(user + ' was set as an active user');
     this._onActiveUserChangedSubject.next(user);
   }
 

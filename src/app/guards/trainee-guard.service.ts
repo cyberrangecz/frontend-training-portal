@@ -27,5 +27,4 @@ export class TraineeGuard implements CanActivate {
         return false;
       });
   }
-
 }

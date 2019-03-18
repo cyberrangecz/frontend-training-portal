@@ -100,8 +100,8 @@ export class PortalComponent implements OnInit, OnDestroy {
     this.otherAgendaRoles = [
       {
         name: 'Administrator',
-        disabled: true,
-        route: ''
+        disabled: !this.activeUserService.isAdmin(),
+        route: '/admin'
       },
       {
         name: 'Sandbox Designer',

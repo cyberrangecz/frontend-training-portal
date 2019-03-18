@@ -1,14 +1,11 @@
-import {Injectable} from "@angular/core";
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
-import {ActiveUserService} from "../services/active-user.service";
-import {Observable} from "rxjs/internal/Observable";
-import {AuthGuard} from "./auth-guard.service";
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
+import {Observable} from 'rxjs';
+import {AuthGuard} from './auth-guard.service';
+import {ActiveUserService} from '../services/active-user.service';
+import {Injectable} from '@angular/core';
 
 @Injectable()
-/**
- * Guard which determines if user is signed in and has role of designer.
- */
-export class DesignerGuard implements CanActivate {
+export class AdminGuard implements CanActivate {
 
   constructor(
     private router: Router,
@@ -20,7 +17,7 @@ export class DesignerGuard implements CanActivate {
     const authResultPromise = this.authGuard.canActivate(route, state) as Promise<boolean>;
     return authResultPromise
       .then(authenticated => {
-        if (authenticated && this.userService.isDesigner()) {
+        if (authenticated && this.userService.isAdmin()) {
           return true;
         }
         this.router.navigate(['home']);
