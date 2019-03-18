@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActiveUserService} from "../../../services/active-user.service";
-import {User} from '../../../model/user/user';
+import {UserMenuSection} from "../../../model/menu/user-menu-section.model";
+import {Agenda} from "../../../model/menu/agenda.model";
 
 @Component({
   selector: 'shared-sidenav',
@@ -12,9 +13,7 @@ import {User} from '../../../model/user/user';
  */
 export class SidenavComponent implements OnInit, OnDestroy {
 
-  private trainings;
-  activeTrainings;
-
+  menuSections: UserMenuSection[];
   private userChangeSubscription;
 
   constructor(private activeUserService: ActiveUserService) {
@@ -22,8 +21,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.createTrainings();
-    this.setActiveTrainings();
+    this.initUserMenu();
     this.subscribeUserChange();
   }
 
@@ -33,34 +31,69 @@ export class SidenavComponent implements OnInit, OnDestroy {
     }
   }
 
-  /**
-   * Creates source objects for training navigation links
-   */
-  private createTrainings() {
-    this.trainings = [
+  private initUserMenu() {
+    this.menuSections = [];
+    const trainingAgendas = this.getActiveTrainingAgendas();
+
+    if (trainingAgendas.length > 0) {
+      this.menuSections.push(
+        {
+          name: 'TRAININGS',
+          agendas: trainingAgendas,
+        });
+    }
+
+    const otherAgendas = this.getActiveOtherAgendas();
+    if (otherAgendas.length > 0) {
+      this.menuSections.push(
+        {
+          name: 'OTHER AGENDAS',
+          agendas: this.getActiveOtherAgendas(),
+        });
+    }
+  }
+
+  private getActiveTrainingAgendas(): Agenda[] {
+    return this.createTrainingAgendas().filter(agenda => agenda.isVisible);
+  }
+
+  private getActiveOtherAgendas(): Agenda[] {
+    return this.createOtherAgendas().filter(agenda => agenda.isVisible);
+  }
+
+  private createTrainingAgendas(): Agenda[] {
+    return [
       {
         title: 'Designer',
-        visible: this.activeUserService.isDesigner(),
+        isVisible: this.activeUserService.isDesigner(),
         route: '/designer'
       },
       {
         title: 'Organizer',
-        visible: this.activeUserService.isOrganizer(),
+        isVisible: this.activeUserService.isOrganizer(),
         route: '/organizer'
       },
       {
         title: 'Trainee',
-        visible: this.activeUserService.isTrainee(),
+        isVisible: this.activeUserService.isTrainee(),
         route: '/trainee'
       }
     ];
   }
 
-  /**
-   * Sets active trainings based on visibility of training objects
-   */
-  private setActiveTrainings() {
-    this.activeTrainings = this.trainings.filter(training => training.visible);
+  private createOtherAgendas(): Agenda[] {
+    return [
+      {
+        title: 'Administrator',
+        isVisible: this.activeUserService.isAdmin(),
+        route: '/admin'
+      },
+      {
+        title: 'Sandbox Designer',
+        isVisible: false,
+        route: ''
+      },
+    ];
   }
 
   /**
@@ -69,8 +102,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
   private subscribeUserChange() {
     this.userChangeSubscription = this.activeUserService.onActiveUserChanged
       .subscribe(user => {
-        this.createTrainings();
-        this.setActiveTrainings();
+        this.initUserMenu();
       })
   }
 }

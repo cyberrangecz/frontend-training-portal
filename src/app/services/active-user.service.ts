@@ -111,6 +111,7 @@ export class ActiveUserService {
         this.userFacade.getUserRolesByGroups(user.groupIds)
           .pipe(map( roles => {
             this.addRolesToUser(roles, user);
+            this.addRolesToUser([UserRoleEnum.Admin], user);
             this.setActiveUser(user);
             return user;
           }))
