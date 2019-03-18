@@ -39,7 +39,7 @@
     "rxjs": "^6.3.3",
     "typescript-collections": "^1.3.2",
     "zone.js": "^0.8.26",
-    "markdown-editor-lib": "1.0.2",
+    "kypo2-markdown-editor": "1.0.0",
     "spice-client-lib": "0.0.1",
     "graph-topology": "1.0.5",
     "kypo2-user-and-group-management": "1.0.0",
