@@ -17,8 +17,8 @@ import { FreeFormQuestionTraineeComponent } from './training-run-assessment-leve
 import { MultipleChoiceQuestionTraineeComponent } from './training-run-assessment-level/question/multiple-choice-question/multiple-choice-question-trainee.component';
 import { ExtendedMatchingItemsTraineeComponent } from './training-run-assessment-level/question/extended-matching-items/extended-matching-items-trainee.component';
 import {LeaveConfirmationDialogComponent} from "../leave-confirmation-dialog/leave-confirmation-dialog.component";
-import {MarkdownModule, MarkedOptions} from "ngx-markdown";
-import {HttpClient} from "@angular/common/http";
+import {MarkdownModule} from "ngx-markdown";
+import {MarkdownConfig} from "../../../../config/markdown-config";
 
 
 @NgModule({
@@ -28,21 +28,7 @@ import {HttpClient} from "@angular/common/http";
     TrainingRunLevelMaterialModule,
     TrainingRunLevelRoutingModule,
     GraphModule.forRoot(CustomTopologyConfig),
-    MarkdownModule.forRoot({
-      loader: HttpClient,
-      markedOptions: {
-        provide: MarkedOptions,
-        useValue: {
-          gfm: true,
-          tables: true,
-          breaks: false,
-          pedantic: false,
-          sanitize: true,
-          smartLists: true,
-          smartypants: false,
-        },
-      }
-    })
+    MarkdownModule.forRoot(MarkdownConfig)
   ],
   declarations: [
     TrainingRunLevelComponent,
