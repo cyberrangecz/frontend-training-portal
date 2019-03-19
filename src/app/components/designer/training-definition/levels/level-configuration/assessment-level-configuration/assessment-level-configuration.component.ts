@@ -7,6 +7,7 @@ import {AbstractQuestion} from "../../../../../../model/questions/abstract-quest
 import {AssessmentTypeEnum} from "../../../../../../enums/assessment-type.enum";
 import {ComponentErrorHandlerService} from "../../../../../../services/component-error-handler.service";
 import {TrainingDefinitionFacade} from "../../../../../../services/facades/training-definition-facade.service";
+import {LevelsDefinitionService} from "../../../../../../services/levels-definition.service";
 
 @Component({
   selector: 'assessment-level-configuration',
@@ -34,6 +35,7 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
   isLoading = false;
 
   constructor(private trainingDefinitionFacade: TrainingDefinitionFacade,
+              private levelService: LevelsDefinitionService,
               private alertService: AlertService,
               private errorHandler: ComponentErrorHandlerService) { }
 
@@ -67,6 +69,7 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
         .subscribe(resp => {
             this.dirty = false;
             this.isLoading = false;
+            this.levelService.emitLevelUpdated(this.level);
             this.alertService.emitAlert(AlertTypeEnum.Success, 'Assessment level was successfully saved');
           },
           err => {

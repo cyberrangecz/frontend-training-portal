@@ -19,7 +19,7 @@ export class TrainingDefinition {
   state: TrainingDefinitionStateEnum;
   levels: AbstractLevel[];
   showStepperBar: boolean;
-  startingLevel: AbstractLevel | number;
+  startingLevelId: number;
 
   canBeArchived: boolean;
 

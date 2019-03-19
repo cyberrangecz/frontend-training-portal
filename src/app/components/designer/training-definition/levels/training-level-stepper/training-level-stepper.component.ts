@@ -1,7 +1,7 @@
 import {
   Component,
   Input,
-  OnChanges,
+  OnChanges, OnDestroy,
   OnInit,
   QueryList,
   SimpleChanges,
@@ -17,6 +17,8 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {ComponentErrorHandlerService} from "../../../../../services/component-error-handler.service";
 import {TrainingDefinitionFacade} from "../../../../../services/facades/training-definition-facade.service";
 import {TrainingDefinition} from "../../../../../model/training/training-definition";
+import {Subscription} from "rxjs";
+import {LevelsDefinitionService} from "../../../../../services/levels-definition.service";
 
 @Component({
   selector: 'training-level-stepper',
@@ -26,7 +28,7 @@ import {TrainingDefinition} from "../../../../../model/training/training-definit
 /**
  * Component of training level stepper which is used to create new or edit existing levels in training definition.
  */
-export class TrainingLevelStepperComponent implements OnInit, OnChanges {
+export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestroy {
 
   @ViewChildren(LevelConfigurationComponent) levelConfigurationComponents: QueryList<LevelConfigurationComponent>;
 
@@ -37,12 +39,16 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
   isLoading = true;
   selectedStep: number = 0;
 
+  private _levelUpdateSubscription: Subscription;
+
   constructor(public dialog: MatDialog,
+              private levelService: LevelsDefinitionService,
               private alertService: AlertService,
               private errorHandler: ComponentErrorHandlerService,
               private trainingDefinitionFacade: TrainingDefinitionFacade) { }
 
   ngOnInit() {
+    this.subscribeLevelUpdates();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -53,6 +59,13 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
     }
   }
 
+  ngOnDestroy(): void {
+    if (this._levelUpdateSubscription) {
+      this._levelUpdateSubscription.unsubscribe();
+    }
+  }
+
+
   /**
    * Determines if all levels in level stepper were saved and user can navigate to different component
    * @returns {{ canDeactivate: boolean, order: number }[]} object with list of levels which can be deactivated and its order (index)
@@ -60,7 +73,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
   getCanDeactivateLevels(): { canBeDeactivated: boolean, order: number }[] {
     const levels = [];
     this.levelConfigurationComponents.forEach(levelComponent => {
-      const levelCanDeactivate = levelComponent.level.id !== undefined && levelComponent.canDeactivate(); // if level does not have id it is a new level and has not been saved yet
+      const levelCanDeactivate = levelComponent.canDeactivate();
       levels.push(
         {
           canBeDeactivated: levelCanDeactivate,
@@ -120,9 +133,9 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
     this.isLoading = true;
     const swappedLevel = this.levels[this.selectedStep];
     this.trainingDefinitionFacade.swapLeft(this.trainingDefinition.id, swappedLevel.id)
-      .subscribe(resp => {
+      .subscribe(swappedLevels => {
           this.selectedStep--;
-          this.levels = resp.sort((levelA, levelB ) => levelA.order - levelB.order);
+          this.levels = swappedLevels
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Level "' + swappedLevel.title + '" was successfully swapped to the left');
           this.isLoading = false;
         },
@@ -139,9 +152,9 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
     this.isLoading = true;
     const swappedLevel = this.levels[this.selectedStep];
     this.trainingDefinitionFacade.swapRight(this.trainingDefinition.id, swappedLevel.id)
-      .subscribe(resp => {
+      .subscribe(swappedLevels => {
           this.selectedStep++;
-          this.levels = resp.sort((levelA, levelB ) => levelA.order - levelB.order);
+          this.levels = swappedLevels;
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Level "' + swappedLevel.title + '" was successfully swapped to the right');
           this.isLoading = false;
         },
@@ -157,7 +170,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
    * @param {number} toDeleteId index of level which should be deleted
    */
   onDeleteLevel(toDeleteId: number) {
-    const levelToDelete = this.levels.find(level => level.id === toDeleteId);
+    const levelToDelete = this.findLevel(this.levels, toDeleteId);
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data:
         {
@@ -165,30 +178,29 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
           title: levelToDelete.title
         }
     });
-
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
-        this.isLoading = true;
-        this.trainingDefinitionFacade.removeLevel(this.trainingDefinition.id, toDeleteId)
-          .subscribe(levels => {
-            this.changeSelectedStep(0);
-              this.alertService.emitAlert(AlertTypeEnum.Success ,'Level "' + levelToDelete.title + '" was successfully deleted');
-              this.levels = levels.sort((levelA, levelB ) => levelA.order - levelB.order);
-              this.isLoading = false;
-            },
-              err => {
-                this.errorHandler.displayHttpError(err, 'Deleting level "' + levelToDelete.title + '"');
-                this.isLoading = false;
-              });
+        this.sendDeleteLevelRequest(levelToDelete)
       }
     });
   }
 
+  private sendDeleteLevelRequest(levelToDelete: AbstractLevel) {
+    this.isLoading = true;
+    this.trainingDefinitionFacade.deleteLevel(this.trainingDefinition.id, levelToDelete.id)
+      .subscribe(updatedLevels => {
+          this.changeSelectedStep(0);
+          this.alertService.emitAlert(AlertTypeEnum.Success ,'Level "' + levelToDelete.title + '" was successfully deleted');
+          this.levels = updatedLevels;
+          this.isLoading = false;
+        },
+        err => {
+          this.errorHandler.displayHttpError(err, 'Deleting level "' + levelToDelete.title + '"');
+          this.isLoading = false;
+        });
+  }
 
-  /**
-   * Triggered after selection of active level is changed in the stepper
-   * @param event event of active level change
-   */
+
   selectionChanged(event) {
     this.changeSelectedStep(event.selectedIndex);
   }
@@ -197,32 +209,17 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
     this.selectedStep = index;
   }
 
-  /**
-   * Initializes levels with default values
-   */
   private resolveInitialLevels() {
-    if (this.trainingDefinition.levels && this.trainingDefinition.levels.length > 0 && this.trainingDefinition.startingLevel) {
-      this.levels = this.sortInitialLevels(this.trainingDefinition.levels);
+    if (this.trainingDefinition.levels && this.trainingDefinition.levels.length > 0 && this.trainingDefinition.startingLevelId) {
+      this.levels = this.trainingDefinition.levels;
     } else {
       this.levels = [];
     }
     this.isLoading = false;
   }
 
-  private sortInitialLevels(levels: AbstractLevel[]): AbstractLevel[] {
-    const result: AbstractLevel[] = [];
-    let currentLevel = this.findFirstLevel(levels);
-    result.push(currentLevel);
-    while (currentLevel && currentLevel.nextLevel) {
-      currentLevel = levels.find(level => level.id === currentLevel.nextLevel);
-      result.push(currentLevel);
-    }
-    return result;
-  }
-
-  private findFirstLevel(levels: AbstractLevel[]): AbstractLevel {
-    const first = this.trainingDefinition.startingLevel;
-    return levels.find(level => level.id === first)
+  private findLevel(levels: AbstractLevel[], levelId): AbstractLevel {
+    return levels.find(level => level.id === levelId);
   }
 
   private onLevelAdded(level: AbstractLevel) {
@@ -235,6 +232,17 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
     this.changeSelectedStep(this.levels.length - 1);
   }
 
+  private subscribeLevelUpdates() {
+    this._levelUpdateSubscription = this.levelService.onLevelUpdated
+      .subscribe(level => this.updateLevelTitle(level))
+  }
+
+  private updateLevelTitle(level: AbstractLevel) {
+    const levelToUpdate = this.findLevel(this.levels, level.id);
+    if (levelToUpdate) {
+      levelToUpdate.title = level.title;
+    }
+  }
 }
 
 
