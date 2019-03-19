@@ -37,15 +37,9 @@ export class TraineeAccessTrainingComponent implements OnInit {
   access() {
     if (this.accessToken && this.accessToken.replace(/\s/g, '') !== '') {
       this.trainingRunFacade.accessTrainingRun(this.accessToken)
-        .subscribe(resp => {
-          if (resp.currentLevel && resp.levels && resp.levels.length > 0) {
-            this.sortReceivedLevels(resp.levels);
-            this.activeTrainingRunLevelsService.trainingRunId = resp.trainingRunId;
-            this.activeTrainingRunLevelsService.sandboxInstanceId = resp.sandboxInstanceId;
-            this.activeTrainingRunLevelsService.setActiveLevels(resp.levels.sort((a, b) => a.order - b.order));
-            this.activeTrainingRunLevelsService.setActiveLevel(resp.currentLevel);
-            this.router.navigate(['training/game'], {relativeTo: this.activeRoute});
-          }
+        .subscribe(trainingRunInfo => {
+          this.activeTrainingRunLevelsService.setUpFromAccessTrainingRunInfo(trainingRunInfo);
+          this.router.navigate(['training/game'], {relativeTo: this.activeRoute});
         },
           err=> {
           this.errorHandler.displayHttpError(err, 'Connecting to training run');
@@ -53,9 +47,5 @@ export class TraineeAccessTrainingComponent implements OnInit {
     } else {
       this.alertService.emitAlert(AlertTypeEnum.Error, 'Password cannot be empty');
     }
-  }
-
-  private sortReceivedLevels(levels: AbstractLevel[]) {
-    levels.sort((a, b) => a.order - b.order);
   }
 }

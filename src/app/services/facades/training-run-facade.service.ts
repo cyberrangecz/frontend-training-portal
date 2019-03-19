@@ -19,7 +19,7 @@ import {AssessmentLevel} from "../../model/level/assessment-level";
 import {AbstractLevelDTO} from "../../model/DTOs/level/abstractLevelDTO";
 import {GameLevel} from "../../model/level/game-level";
 import {Hint} from "../../model/level/hint";
-import {AccessTrainingRun} from "../../model/training/access-training-run";
+import {AccessTrainingRunInfo} from "../../model/training/access-training-run-info";
 import {AccessTrainingRunDTO} from "../../model/DTOs/training-run/accessTrainingRunDTO";
 import {LevelMapper} from "../mappers/level-mapper.service";
 import {ActiveUserService} from "../active-user.service";
@@ -104,14 +104,26 @@ export class TrainingRunFacade {
    * Tries to access training run with accessToken. Returns training run if the accessToken is correct
    * @param password accessToken to access the training run
    */
-  accessTrainingRun(password: string): Observable<AccessTrainingRun> {
+  accessTrainingRun(password: string): Observable<AccessTrainingRunInfo> {
     return this.http.post<AccessTrainingRunDTO>(this.trainingRunsEndpointUri + "?accessToken=" + password, {})
-      .pipe(map(response => this.trainingRunMapper.mapAccessTrainingRunDTOToAccessTrainingRun(response)));
+      .pipe(
+        map(response => this.trainingRunMapper.mapAccessTrainingRunDTOToAccessTrainingRun(response)),
+        map(trainingRun =>  {
+          trainingRun.levels = trainingRun.levels.sort((a, b) => a.order - b.order);
+          return trainingRun;
+        })
+      );
   }
 
-  resume(trainingRunId: number): Observable<AccessTrainingRun> {
+  resume(trainingRunId: number): Observable<AccessTrainingRunInfo> {
     return this.http.get<AccessTrainingRunDTO>(this.trainingRunsEndpointUri + trainingRunId + '/resumption')
-      .pipe(map(response => this.trainingRunMapper.mapAccessTrainingRunDTOToAccessTrainingRun(response)));
+      .pipe(
+        map(response => this.trainingRunMapper.mapAccessTrainingRunDTOToAccessTrainingRun(response)),
+        map(trainingRun =>  {
+          trainingRun.levels = trainingRun.levels.sort((a, b) => a.order - b.order);
+          return trainingRun;
+        })
+      );
   }
 
   /**
