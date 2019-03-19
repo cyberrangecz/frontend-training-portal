@@ -3,7 +3,7 @@
   flex-direction: row;
 }
 
-.content mat-horizontal-stepper {
+.content mat-card {
   flex-grow: 8;
   max-width: 100%;
 
