@@ -39,28 +39,30 @@
 
 <div class="content"
      *ngIf="!isLoading && levels && levels.length > 0">
-  <mat-horizontal-stepper
-    [(selectedIndex)]="selectedStep"
-    (selectionChange)="selectionChanged($event)"
-    #stepper>
+  <mat-card>
+    <mat-horizontal-stepper
+      [(selectedIndex)]="selectedStep"
+      (selectionChange)="selectionChanged($event)"
+      #stepper>
 
-    <ng-template matStepperIcon="edit" let-index="index">
-      <mat-icon *ngIf="levels[index].type === 'game'">videogame_asset</mat-icon>
-      <mat-icon *ngIf="levels[index].type === 'assessment'">assignment</mat-icon>
-      <mat-icon *ngIf="levels[index].type === 'info'">info</mat-icon>
-    </ng-template>
-    <ng-template matStepperIcon="number" let-index="index">
-      <mat-icon *ngIf="levels[index].type === 'game'">videogame_asset</mat-icon>
-      <mat-icon *ngIf="levels[index].type === 'assessment'">assignment</mat-icon>
-      <mat-icon *ngIf="levels[index].type === 'info'">info</mat-icon>
-    </ng-template>
+      <ng-template matStepperIcon="edit" let-index="index">
+        <mat-icon *ngIf="levels[index].type === 'game'">videogame_asset</mat-icon>
+        <mat-icon *ngIf="levels[index].type === 'assessment'">assignment</mat-icon>
+        <mat-icon *ngIf="levels[index].type === 'info'">info</mat-icon>
+      </ng-template>
+      <ng-template matStepperIcon="number" let-index="index">
+        <mat-icon *ngIf="levels[index].type === 'game'">videogame_asset</mat-icon>
+        <mat-icon *ngIf="levels[index].type === 'assessment'">assignment</mat-icon>
+        <mat-icon *ngIf="levels[index].type === 'info'">info</mat-icon>
+      </ng-template>
 
-    <mat-step [state]="level.type" *ngFor="let level of levels; index as i">
-      <ng-template matStepLabel>{{ level.title | levelStepperLabel: i + 1: levels.length }}</ng-template>
-      <div class="step-content">
-        <level-configuration (deleteLevel)="onDeleteLevel($event)" [level]="level" [trainingDefinitionId]="trainingDefinition.id"></level-configuration>
-      </div>
-    </mat-step>
-  </mat-horizontal-stepper>
+      <mat-step [state]="level.type" *ngFor="let level of levels; index as i">
+        <ng-template matStepLabel>{{ level.title | levelStepperLabel: i + 1: levels.length }}</ng-template>
+        <div class="step-content">
+          <level-configuration (deleteLevel)="onDeleteLevel($event)" [level]="level" [trainingDefinitionId]="trainingDefinition.id"></level-configuration>
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </mat-card>
 </div>
 
