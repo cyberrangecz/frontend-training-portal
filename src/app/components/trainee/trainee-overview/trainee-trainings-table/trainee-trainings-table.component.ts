@@ -64,11 +64,8 @@ export class TraineeTrainingsTableComponent implements OnInit {
   resume(trainingRunId: number) {
     this.isLoading = true;
     this.trainingRunFacade.resume(trainingRunId)
-      .subscribe(resp => {
-          this.activeTrainingRunLevelsService.trainingRunId = resp.trainingRunId;
-          this.activeTrainingRunLevelsService.sandboxInstanceId = resp.sandboxInstanceId;
-          this.activeTrainingRunLevelsService.setActiveLevels(resp.levels.sort((a, b) => a.order - b.order));
-          this.activeTrainingRunLevelsService.setActiveLevel(resp.currentLevel);
+      .subscribe(trainingRunInfo => {
+          this.activeTrainingRunLevelsService.setUpFromAccessTrainingRunInfo(trainingRunInfo);
           this.isLoading = false;
           this.router.navigate(['training/game'], {relativeTo: this.activeRoute});
       },

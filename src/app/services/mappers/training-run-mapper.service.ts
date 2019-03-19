@@ -13,7 +13,7 @@ import {TableDataWithPaginationWrapper} from "../../model/table-models/table-dat
 import {TrainingRunTableDataModel} from "../../model/table-models/training-run-table-data-model";
 import {TablePagination} from "../../model/table-models/table-pagination";
 import {AccessTrainingRunDTO} from "../../model/DTOs/training-run/accessTrainingRunDTO";
-import {AccessTrainingRun} from "../../model/training/access-training-run";
+import {AccessTrainingRunInfo} from "../../model/training/access-training-run-info";
 import {IsCorrectFlagDTO} from "../../model/DTOs/level/game/isCorrectFlagDTO";
 import {FlagCheck} from "../../model/level/flag-check";
 import {AbstractQuestion} from '../../model/questions/abstract-question';
@@ -89,8 +89,8 @@ export class TrainingRunMapper {
     return result;
   }
 
-  mapAccessTrainingRunDTOToAccessTrainingRun(accessDTO: AccessTrainingRunDTO): AccessTrainingRun {
-    const result = new AccessTrainingRun();
+  mapAccessTrainingRunDTOToAccessTrainingRun(accessDTO: AccessTrainingRunDTO): AccessTrainingRunInfo {
+    const result = new AccessTrainingRunInfo();
     result.trainingRunId = accessDTO.training_run_id;
     result.sandboxInstanceId = accessDTO.sandbox_instance_id;
     result.currentLevel = this.levelMapper.mapLevelDTOToLevel(accessDTO.abstract_level_dto);

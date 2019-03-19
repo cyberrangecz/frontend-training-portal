@@ -3,7 +3,7 @@ import {InfoLevel} from "../level/info-level";
 import {AssessmentLevel} from "../level/assessment-level";
 import {AbstractLevel} from "../level/abstract-level";
 
-export class AccessTrainingRun {
+export class AccessTrainingRunInfo {
   trainingRunId: number;
   sandboxInstanceId: number;
   currentLevel: GameLevel | InfoLevel | AssessmentLevel;

@@ -8,6 +8,7 @@ import {InfoLevel} from "../model/level/info-level";
 import {map} from "rxjs/operators";
 import {TrainingRunFacade} from "./facades/training-run-facade.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {AccessTrainingRunInfo} from "../model/training/access-training-run-info";
 
 /**
  * Service maintaining levels of training and active level instance for sub component of trainee training run
@@ -35,6 +36,13 @@ export class ActiveTrainingRunService {
   onLevelLockChanged: Observable<boolean> = this._onLevelLockChangedSubject.asObservable();
 
   currentLevelLocked: boolean = true;
+
+  setUpFromAccessTrainingRunInfo(trainingRunInfo: AccessTrainingRunInfo) {
+    this.trainingRunId = trainingRunInfo.trainingRunId;
+    this.sandboxInstanceId = trainingRunInfo.sandboxInstanceId;
+    this.setActiveLevels(trainingRunInfo.levels);
+    this.setActiveLevel(trainingRunInfo.currentLevel);
+  }
 
   getActiveLevels(): AbstractLevel[] {
     return this._activeLevels;
