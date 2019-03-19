@@ -42,9 +42,6 @@ export class TraineeAccessTrainingComponent implements OnInit {
           this.router.navigate(['training/game'], {relativeTo: this.activeRoute});
         },
           err=> {
-          if (err.status == 503) {
-
-          }
           this.errorHandler.displayHttpError(err, 'Connecting to training run');
         })
     } else {
