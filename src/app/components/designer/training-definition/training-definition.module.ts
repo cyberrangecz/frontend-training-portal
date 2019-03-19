@@ -16,6 +16,7 @@ import {DeleteDialogComponent} from "./delete-dialog/delete-dialog.component";
 import { StateChangeDialogComponent } from './state-change-dialog/state-change-dialog.component';
 import { EditViewGroupComponent } from './training-configuration/edit-view-group/edit-view-group.component';
 import {TrainingDefinitionGuard} from "../../../guards/training-definition-guard.service";
+import {LevelsDefinitionService} from "../../../services/levels-definition.service";
 @NgModule({
   imports: [
     CommonModule,
@@ -38,7 +39,8 @@ import {TrainingDefinitionGuard} from "../../../guards/training-definition-guard
     EditViewGroupComponent
   ],
   providers: [
-    TrainingDefinitionGuard
+    TrainingDefinitionGuard,
+    LevelsDefinitionService
   ],
   entryComponents: [
     SandboxDefinitionPickerComponent,

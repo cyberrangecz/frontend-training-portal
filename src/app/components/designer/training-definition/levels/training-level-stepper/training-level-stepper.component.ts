@@ -1,7 +1,7 @@
 import {
   Component,
   Input,
-  OnChanges,
+  OnChanges, OnDestroy,
   OnInit,
   QueryList,
   SimpleChanges,
@@ -17,6 +17,8 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {ComponentErrorHandlerService} from "../../../../../services/component-error-handler.service";
 import {TrainingDefinitionFacade} from "../../../../../services/facades/training-definition-facade.service";
 import {TrainingDefinition} from "../../../../../model/training/training-definition";
+import {Subscription} from "rxjs";
+import {LevelsDefinitionService} from "../../../../../services/levels-definition.service";
 
 @Component({
   selector: 'training-level-stepper',
@@ -26,7 +28,7 @@ import {TrainingDefinition} from "../../../../../model/training/training-definit
 /**
  * Component of training level stepper which is used to create new or edit existing levels in training definition.
  */
-export class TrainingLevelStepperComponent implements OnInit, OnChanges {
+export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestroy {
 
   @ViewChildren(LevelConfigurationComponent) levelConfigurationComponents: QueryList<LevelConfigurationComponent>;
 
@@ -37,12 +39,16 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
   isLoading = true;
   selectedStep: number = 0;
 
+  private _levelUpdateSubscription: Subscription;
+
   constructor(public dialog: MatDialog,
+              private levelService: LevelsDefinitionService,
               private alertService: AlertService,
               private errorHandler: ComponentErrorHandlerService,
               private trainingDefinitionFacade: TrainingDefinitionFacade) { }
 
   ngOnInit() {
+    this.subscribeLevelUpdates();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -52,6 +58,13 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
       }
     }
   }
+
+  ngOnDestroy(): void {
+    if (this._levelUpdateSubscription) {
+      this._levelUpdateSubscription.unsubscribe();
+    }
+  }
+
 
   /**
    * Determines if all levels in level stepper were saved and user can navigate to different component
@@ -219,6 +232,17 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges {
     this.changeSelectedStep(this.levels.length - 1);
   }
 
+  private subscribeLevelUpdates() {
+    this._levelUpdateSubscription = this.levelService.onLevelUpdated
+      .subscribe(level => this.updateLevelTitle(level))
+  }
+
+  private updateLevelTitle(level: AbstractLevel) {
+    const levelToUpdate = this.findLevel(this.levels, level.id);
+    if (levelToUpdate) {
+      levelToUpdate.title = level.title;
+    }
+  }
 }
 
 

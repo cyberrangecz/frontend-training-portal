@@ -4,6 +4,7 @@ import {AlertTypeEnum} from "../../../../../../enums/alert-type.enum";
 import {AlertService} from "../../../../../../services/event-services/alert.service";
 import {ComponentErrorHandlerService} from "../../../../../../services/component-error-handler.service";
 import {TrainingDefinitionFacade} from "../../../../../../services/facades/training-definition-facade.service";
+import {LevelsDefinitionService} from "../../../../../../services/levels-definition.service";
 
 @Component({
   selector: 'info-level-configuration',
@@ -27,6 +28,7 @@ export class InfoLevelConfigurationComponent implements OnInit, OnChanges {
   dirty = false;
 
   constructor(private trainingDefinitionFacade: TrainingDefinitionFacade,
+              private levelService: LevelsDefinitionService,
               private alertService: AlertService,
               private errorHandler: ComponentErrorHandlerService) {}
 
@@ -66,6 +68,7 @@ export class InfoLevelConfigurationComponent implements OnInit, OnChanges {
         .subscribe(resp => {
           this.isLoading = false;
           this.dirty = false;
+          this.levelService.emitLevelUpdated(this.level);
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Info level was successfully saved');
         },
   err => {

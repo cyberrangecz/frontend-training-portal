@@ -6,6 +6,7 @@ import {Hint} from "../../../../../../model/level/hint";
 import {HintStepperComponent} from "../hints/hint-stepper/hint-stepper.component";
 import {ComponentErrorHandlerService} from "../../../../../../services/component-error-handler.service";
 import {TrainingDefinitionFacade} from "../../../../../../services/facades/training-definition-facade.service";
+import {LevelsDefinitionService} from "../../../../../../services/levels-definition.service";
 
 @Component({
   selector: 'game-level-configuration',
@@ -38,6 +39,7 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
   isLoading = false;
 
   constructor(private alertService: AlertService,
+              private levelService: LevelsDefinitionService,
               private errorHandler: ComponentErrorHandlerService,
               private trainingDefinitionFacade: TrainingDefinitionFacade) { }
 
@@ -77,6 +79,7 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
         .subscribe(resp => {
           this.dirty = false;
           this.isLoading = false;
+          this.levelService.emitLevelUpdated(this.level);
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Game level was successfully saved');
         },
           err => {
