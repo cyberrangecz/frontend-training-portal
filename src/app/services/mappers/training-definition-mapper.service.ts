@@ -65,7 +65,7 @@ export class TrainingDefinitionMapper {
     result.prerequisites =  trainingDefinitionDTO.prerequisities;
     result.outcomes = trainingDefinitionDTO.outcomes;
     result.state = this.mapTrainingDefDTOStateToEnum(trainingDefinitionDTO.state);
-    result.startingLevel = trainingDefinitionDTO.starting_level;
+    result.startingLevelId = trainingDefinitionDTO.starting_level;
     if (trainingDefinitionDTO.td_view_group) {
       result.viewGroup = this.getViewGroupFromDTO(trainingDefinitionDTO.td_view_group);
     }

@@ -134,4 +134,6 @@ export class TrainingDefinitionComponent implements OnInit {
         return of(null);
       }));
   }
+
+
 }

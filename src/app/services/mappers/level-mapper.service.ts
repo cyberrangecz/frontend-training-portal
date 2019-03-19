@@ -217,7 +217,7 @@ export class LevelMapper {
   private setAbstractLevelAttributesFromDTO(level: AbstractLevel, levelDTO: AbstractLevelDTO) {
     level.id = levelDTO.id;
     level.title = levelDTO.title;
-    level.nextLevel = levelDTO.next_level;
+    level.nextLevelId = levelDTO.next_level;
     level.maxScore = levelDTO.max_score;
   }
 
