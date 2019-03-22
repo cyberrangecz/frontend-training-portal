@@ -23,6 +23,7 @@ export interface TrainingInstanceDTO {
     id?: number;
     organizers?: Array<UserRefDTO>;
     pool_size?: number;
+    pool_id: number;
     start_time?: Date;
     title?: string;
     training_definition?: TrainingDefinitionDTO;

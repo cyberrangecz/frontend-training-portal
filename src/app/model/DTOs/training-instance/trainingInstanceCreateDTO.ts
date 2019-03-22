@@ -14,7 +14,7 @@ import { UserRefDTO } from '../user/user-ref-dto';
 import {BasicLevelInfoDTO} from "../level/basicLevelInfoDTO";
 import {AuthorRefDto} from "../user/author-ref-dto";
 import {SandboxDefinitionRefDto} from "../sandbox-definition/sandbox-definition-ref-dto";
-import {UserInfoDTO} from "../user/user-info-dto";
+import {UserBasicDTO} from "../user/user-basic-dto";
 
 
 /**
@@ -23,7 +23,7 @@ import {UserInfoDTO} from "../user/user-info-dto";
 export class TrainingInstanceCreateDTO {
     end_time?: string;
     access_token?: string;
-    organizers?: UserInfoDTO[];
+    organizers?: UserBasicDTO[];
     pool_size?: number;
     start_time?: string;
     title?: string;

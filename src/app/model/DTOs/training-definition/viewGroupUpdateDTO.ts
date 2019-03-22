@@ -1,8 +1,8 @@
-import {UserInfoDTO} from "../user/user-info-dto";
+import {UserBasicDTO} from "../user/user-basic-dto";
 
 export class ViewGroupUpdateDTO {
   id: number;
   title: string;
   description: string;
-  organizers: UserInfoDTO[];
+  organizers: UserBasicDTO[];
 }
