@@ -7,6 +7,7 @@ import {User} from '../user/user';
 export class TrainingInstance {
 
   id: number;
+  poolId: number;
   trainingDefinition: TrainingDefinition;
   startTime: Date;
   endTime: Date;
@@ -14,8 +15,6 @@ export class TrainingInstance {
   poolSize: number;
   organizers: User[];
   accessToken: string;
-
-
   constructor() {
   }
 }
