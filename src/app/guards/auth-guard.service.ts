@@ -62,18 +62,18 @@ export class AuthGuard implements CanActivate {
     return this.tryLoadUserAndRole().toPromise();
   }
 
-  private tryLoadUserAndRole(loadRoleAttempts: number = 0): Observable<boolean> {
-    return this.activeUserService.loadUserAndHisRoles()
+  private tryLoadUserAndRole(attemptCount: number = 0): Observable<boolean> {
+    return this.activeUserService.loadUserInfo()
       .pipe(switchMap(() => {
-        if (this.canAccessAfterMultipleAttempts(loadRoleAttempts)) {
+        if (this.canAccessAfterMultipleAttempts(attemptCount)) {
           this.navigateToTraineeRouteIfHasOnlyTraineeRole();
           return of(true);
         } else
           return of(false)
       }),
         catchError(() => {
-          if (this.canRetryRoleRequest(loadRoleAttempts))
-            return this.tryLoadUserAndRole(++loadRoleAttempts);
+          if (this.canRetryRoleRequest(attemptCount))
+            return this.tryLoadUserAndRole(++attemptCount);
           else
             return of(false)
         })

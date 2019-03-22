@@ -72,7 +72,7 @@ export class ActiveUserService {
     this.oAuthService.loadDiscoveryDocumentAndLogin()
       .then(() => {
         this.setActiveUser(new User());
-        this.loadUserAndHisRoles();
+        this.loadUserInfo();
       });
   }
 
@@ -105,22 +105,13 @@ export class ActiveUserService {
     return this.oAuthService.authorizationHeader();
   }
 
-  loadUserAndHisRoles(): Observable<User> {
+  loadUserInfo(): Observable<User> {
     return this.userFacade.getUserInfo()
-      .pipe(switchMap((user: User) =>
-        this.loadUserRoles(user)
-      ));
-  }
-
-  private loadUserRoles(user: User): Observable<User> {
-    return this.userFacade.getUserRolesByGroups(user.groupIds)
-      .pipe(map( roles => {
-        this.addRolesToUser(roles, user);
+      .pipe(map(user =>{
         this.setActiveUser(user);
         return user;
       }))
   }
-
   /**
    * Sets active user
    * @param {User} user user to be set as active
@@ -128,11 +119,5 @@ export class ActiveUserService {
   setActiveUser(user: User) {
     this._activeUser = user;
     this._onActiveUserChangedSubject.next(user);
-  }
-
-  private addRolesToUser(roles: UserRoleEnum[], user: User) {
-    roles.forEach(role => {
-      user.roles.add(role);
-    });
   }
 }

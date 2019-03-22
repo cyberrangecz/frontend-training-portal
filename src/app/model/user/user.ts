@@ -12,8 +12,11 @@ export class User {
   groupIds: number[];
   roles: Set<UserRoleEnum>;
 
-  constructor() {
+  constructor(roles?: UserRoleEnum[]) {
     this.roles = new Set();
+    if (roles) {
+      roles.forEach(role => this.roles.add(role));
+    }
   }
 
 

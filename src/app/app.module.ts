@@ -6,7 +6,6 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {AppRoutingModule} from "./app-routing.module";
 import {ActiveUserService} from "./services/active-user.service";
 import {AuthGuard} from "./guards/auth-guard.service";
-import {LoginGuard} from "./guards/login-guard.service";
 import {DesignerGuard} from "./guards/designer-guard.service";
 import {OrganizerGuard} from "./guards/organizer-guard.service";
 import {TraineeGuard} from "./guards/trainee-guard.service";
@@ -40,7 +39,6 @@ import {AdminGuard} from './guards/admin-guard.service';
   providers: [
     { provide: OAuthStorage, useValue: localStorage },
     AuthGuard,
-    LoginGuard,
     DesignerGuard,
     OrganizerGuard,
     AdminGuard,
