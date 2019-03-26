@@ -1,0 +1,23 @@
+<h2 *ngIf="editMode" mat-dialog-title>Edit Beta Testing Group</h2>
+<h2 *ngIf="!editMode" mat-dialog-title>Create Beta Testing Group</h2>
+<mat-divider></mat-divider>
+<div class="content" mat-dialog-content>
+  <mat-selection-list *ngIf="!isLoading" #organizersList [(ngModel)]="selectedOrganizers" [compareWith]="selectionEquality">
+    <mat-list-option *ngIf="activeUser" [value]="activeUser" [selected]="true" [disabled]="true">
+      {{ activeUser.name }} (You)
+    </mat-list-option>
+    <mat-list-option *ngFor="let organizer of organizers"
+                     [value]="organizer">
+      {{ organizer.name}}
+    </mat-list-option>
+  </mat-selection-list>
+</div>
+
+<div mat-dialog-actions>
+  <button (click)="cancel()"
+          mat-button color="primary">Cancel</button>
+  <span class="spacer"></span>
+  <button (click)="confirm()"
+          [disabled]="!selectedOrganizers || selectedOrganizers.length === 0"
+          mat-button color="primary">Confirm</button>
+</div>

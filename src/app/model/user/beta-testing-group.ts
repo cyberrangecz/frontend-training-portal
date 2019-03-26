@@ -1,8 +1,6 @@
 import {User} from "./user";
 
-export class ViewGroup {
+export class BetaTestingGroup {
   id: number;
-  title: string;
-  description: string;
   organizers: User[];
 }

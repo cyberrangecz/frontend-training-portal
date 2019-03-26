@@ -14,8 +14,8 @@ import {map} from 'rxjs/operators';
 import {StateChangeDialogComponent} from '../state-change-dialog/state-change-dialog.component';
 import {Observable, of} from 'rxjs';
 import {TrainingDefinitionFacade} from "../../../../services/facades/training-definition-facade.service";
-import {ViewGroup} from "../../../../model/user/view-group";
-import {EditViewGroupComponent} from "./edit-view-group/edit-view-group.component";
+import {BetaTestingGroup} from "../../../../model/user/beta-testing-group";
+import {EditBetaTestingGroupComponent} from "./edit-beta-testing-group/edit-beta-testing-group.component";
 import {User} from '../../../../model/user/user';
 
 /**
@@ -42,7 +42,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
   sandboxDefId: number;
   selectedState: string;
   showProgress: boolean;
-  viewGroup: ViewGroup;
+  betaTestingGroup: BetaTestingGroup;
 
   dirty = false;
   states: string[];
@@ -90,13 +90,13 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     });
   }
 
-  editViewGroup() {
-    const dialogRef = this.dialog.open(EditViewGroupComponent, {
-      data: this.viewGroup
+  chooseBetaTestingGroup() {
+    const dialogRef = this.dialog.open(EditBetaTestingGroupComponent, {
+      data: this.betaTestingGroup
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
-        this.viewGroup = result.viewGroup;
+        this.betaTestingGroup = result.betaTestingGroup;
         this.dirty = true;
       }
     })
@@ -226,7 +226,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.prerequisites = [''];
     this.outcomes = [''];
     this.selectedState = 'unreleased';
-    this.viewGroup = null;
+    this.betaTestingGroup = null;
     this.authors = [this.activeUserService.getActiveUser()];
   }
 
@@ -240,7 +240,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.outcomes = this.trainingDefinition.outcomes;
     this.selectedState = this.trainingDefinition.state;
     this.showProgress = this.trainingDefinition.showStepperBar;
-    this.viewGroup = this.trainingDefinition.viewGroup;
+    this.betaTestingGroup = this.trainingDefinition.betaTestingGroup;
     if (!this.prerequisites) this.prerequisites = [''];
     if (!this.outcomes) this.outcomes = [''];
     this.authors = this.trainingDefinition.authors;
@@ -260,7 +260,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.trainingDefinition.outcomes = this.outcomes;
     this.trainingDefinition.state = TrainingDefinitionStateEnum[this.selectedState.charAt(0).toUpperCase() + this.selectedState.slice(1)];
     this.trainingDefinition.showStepperBar = this.showProgress;
-    this.trainingDefinition.viewGroup = this.viewGroup;
+    this.trainingDefinition.betaTestingGroup = this.betaTestingGroup;
   }
 
   /**
@@ -277,11 +277,6 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
       errorMessage += 'Authors cannot be empty\n';
     }
 
-    if (!this.viewGroup
-      || !this.viewGroup.organizers
-      || this.viewGroup.organizers.length === 0) {
-      errorMessage += 'View group cannot be empty\n';
-    }
     if (this.sandboxDefId === null || this.sandboxDefId === undefined) {
       errorMessage += 'Sandbox definition cannot be empty\n';
     }

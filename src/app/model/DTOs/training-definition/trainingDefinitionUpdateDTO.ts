@@ -11,8 +11,8 @@
  */
 import { AuthorRefDto } from '../user/author-ref-dto';
 import { SandboxDefinitionRefDto } from '../sandbox-definition/sandbox-definition-ref-dto';
-import {ViewGroupDTO} from "./viewGroupDTO";
-import {ViewGroupUpdateDTO} from "./viewGroupUpdateDTO";
+import {BetaTestingGroupDTO} from "./betaTestingGroupDTO";
+import {BetaTestingGroupUpdateDTO} from "./betaTestingGroupUpdateDTO";
 import {UserRefDTO} from "../user/user-ref-dto";
 import {UserBasicDTO} from "../user/user-basic-dto";
 
@@ -22,7 +22,7 @@ import {UserBasicDTO} from "../user/user-basic-dto";
  */
 export class TrainingDefinitionUpdateDTO {
     authors?: UserBasicDTO[];
-    td_view_group: ViewGroupUpdateDTO;
+    beta_testing_group: BetaTestingGroupUpdateDTO;
     description?: string;
     id?: number;
     outcomes?: string[];
