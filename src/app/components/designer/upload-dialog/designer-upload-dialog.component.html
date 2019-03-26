@@ -46,8 +46,8 @@
 
 <!-- DIALOG ACTIONS -->
 <div mat-dialog-actions class="actions">
-  <button (click)="cancel()" mat-raised-button color="primary">Cancel</button>
-  <button [disabled]="!selectedFile || uploadInProgress" (click)="upload()" mat-raised-button color="primary">Upload</button>
+  <button (click)="cancel()" mat-button color="warn">Cancel</button>
+  <button [disabled]="!selectedFile || uploadInProgress" (click)="upload()" mat-button color="primary">Upload</button>
 </div>
 
 

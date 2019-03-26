@@ -3,6 +3,7 @@
   <p class="mat-body-1">Your progress in current level may be lost.</p>
 </div>
 <div mat-dialog-actions>
-  <button mat-button cdkFocusInitial (click)="cancel()">Cancel</button>
-  <button mat-button (click)="confirm()">Confirm</button>
+  <button mat-button color="warn" cdkFocusInitial (click)="cancel()">Cancel</button>
+  <span class="spacer"></span>
+  <button mat-button color="primary" (click)="confirm()">Confirm</button>
 </div>
