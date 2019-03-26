@@ -1,32 +1,28 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {Observable} from "rxjs";
+import {Component, Inject, OnInit, Optional} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 import {UserFacade} from "../../../../../services/facades/user-facade.service";
 import {map} from "rxjs/operators";
-import {ViewGroup} from "../../../../../model/user/view-group";
+import {BetaTestingGroup} from "../../../../../model/user/beta-testing-group";
 import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
 import {AlertService} from "../../../../../services/event-services/alert.service";
 import {ActiveUserService} from "../../../../../services/active-user.service";
-import {UserRoleEnum} from "../../../../../enums/user-role.enum";
 import {User} from '../../../../../model/user/user';
 
 @Component({
-  selector: 'app-edit-view-group',
-  templateUrl: './edit-view-group.component.html',
-  styleUrls: ['./edit-view-group.component.css']
+  selector: 'app-edit-beta-testing-group',
+  templateUrl: './edit-beta-testing-group.component.html',
+  styleUrls: ['./edit-beta-testing-group.component.css']
 })
-export class EditViewGroupComponent implements OnInit {
+export class EditBetaTestingGroupComponent implements OnInit {
 
-  title: string;
-  description: string;
   organizers: User[];
   activeUser: User;
   selectedOrganizers: User[] = [];
   editMode: boolean;
   isLoading = true;
 
-  constructor(public dialogRef: MatDialogRef<EditViewGroupComponent>,
-              @Inject(MAT_DIALOG_DATA) public viewGroup: ViewGroup,
+  constructor(public dialogRef: MatDialogRef<EditBetaTestingGroupComponent>,
+              @Optional() @Inject(MAT_DIALOG_DATA) public betaTestingGroup: BetaTestingGroup,
               private activeUserService: ActiveUserService,
               private alertService: AlertService,
               private userFacade: UserFacade) {
@@ -44,7 +40,7 @@ export class EditViewGroupComponent implements OnInit {
       this.setInputValuesToViewGroup();
       const result = {
         type: 'confirm',
-        viewGroup: this.viewGroup
+        betaTestingGroup: this.betaTestingGroup
       };
       this.dialogRef.close(result);
     }
@@ -53,33 +49,26 @@ export class EditViewGroupComponent implements OnInit {
   cancel() {
     const result = {
       type: 'cancel',
-      viewGroup: null
+      betaTestingGroup: null
     };
     this.dialogRef.close(result);
   }
+
   selectionEquality(a: User, b: User): boolean {
     return a.login == b.login;
   }
 
   private initializeInputs() {
     if (this.editMode) {
-      this.title = this.viewGroup.title;
-      this.description = this.viewGroup.description;
-      this.selectedOrganizers = this.viewGroup.organizers;
+      this.selectedOrganizers = this.betaTestingGroup.organizers;
     } else {
-      this.viewGroup = new ViewGroup();
+      this.betaTestingGroup = new BetaTestingGroup();
     }
   }
 
   private validateInput(): boolean {
     let errorMessage: string = '';
 
-    if (!this.title || this.title.replace(/\s/g, '') === '') {
-      errorMessage += 'Title cannot be empty\n'
-    }
-    if (!this.description || this.description.replace(/\s/g, '') === '') {
-      errorMessage += 'Description cannot be empty\n'
-    }
     if (!this.selectedOrganizers || this.selectedOrganizers.length === 0) {
       errorMessage += 'Organizers cannot be empty\n';
     }
@@ -92,19 +81,15 @@ export class EditViewGroupComponent implements OnInit {
   }
 
   private setInputValuesToViewGroup() {
-    this.viewGroup.title = this.title;
-    this.viewGroup.description = this.description;
-    this.viewGroup.organizers = this.selectedOrganizers;
+    this.betaTestingGroup.organizers = this.selectedOrganizers;
   }
 
   private initializeActiveUser() {
     const user = this.activeUserService.getActiveUser();
-    if (user.roles.contains(UserRoleEnum.Organizer)) {
       this.activeUser = user;
       if (!this.editMode) {
         this.selectedOrganizers.push(this.activeUser);
       }
-    }
   }
 
   private initializeOrganizers() {
@@ -123,13 +108,13 @@ export class EditViewGroupComponent implements OnInit {
   }
 
   private resolveMode() {
-    this.editMode = this.viewGroup !== null && this.viewGroup !== undefined;
+    this.editMode = this.betaTestingGroup !== null && this.betaTestingGroup !== undefined;
   }
 
   private findInitiallyPreselectedUsers(organizers: User[]): User[] {
-    const userLoginsInEditedViewGroup = this.viewGroup.organizers.map(organizer => organizer.login);
-    const result = organizers.filter(user => userLoginsInEditedViewGroup.includes(user.login));
-    if (userLoginsInEditedViewGroup.includes(this.activeUser.login)) {
+    const userLoginsInEditedBetaTestingGroup = this.betaTestingGroup.organizers.map(organizer => organizer.login);
+    const result = organizers.filter(user => userLoginsInEditedBetaTestingGroup.includes(user.login));
+    if (userLoginsInEditedBetaTestingGroup.includes(this.activeUser.login)) {
       result.push(this.activeUser);
     }
     return result;

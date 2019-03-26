@@ -10,10 +10,10 @@ import {TableDataWithPaginationWrapper} from "../../model/table-models/table-dat
 import {TrainingDefinitionTableDataModel} from "../../model/table-models/training-definition-table-data-model";
 import {TablePagination} from "../../model/table-models/table-pagination";
 import {LevelMapper} from "./level-mapper.service";
-import {ViewGroupDTO} from "../../model/DTOs/training-definition/viewGroupDTO";
-import {ViewGroup} from "../../model/user/view-group";
-import {ViewGroupCreateDTO} from "../../model/DTOs/training-definition/viewGroupCreateDTO";
-import {ViewGroupUpdateDTO} from "../../model/DTOs/training-definition/viewGroupUpdateDTO";
+import {BetaTestingGroupDTO} from "../../model/DTOs/training-definition/betaTestingGroupDTO";
+import {BetaTestingGroup} from "../../model/user/beta-testing-group";
+import {BetaTestingGroupCreateDTO} from "../../model/DTOs/training-definition/betaTestingGroupCreateDTO";
+import {BetaTestingGroupUpdateDTO} from "../../model/DTOs/training-definition/betaTestingGroupUpdateDTO";
 import {UserMapper} from './user.mapper.service';
 
 @Injectable()
@@ -66,8 +66,8 @@ export class TrainingDefinitionMapper {
     result.outcomes = trainingDefinitionDTO.outcomes;
     result.state = this.mapTrainingDefDTOStateToEnum(trainingDefinitionDTO.state);
     result.startingLevelId = trainingDefinitionDTO.starting_level;
-    if (trainingDefinitionDTO.td_view_group) {
-      result.viewGroup = this.getViewGroupFromDTO(trainingDefinitionDTO.td_view_group);
+    if (trainingDefinitionDTO.beta_testing_group) {
+      result.betaTestingGroup = this.getBetaTestingGroupFromDTO(trainingDefinitionDTO.beta_testing_group);
     }
     if (withLevels) {
       result.levels = this.getLevelsFromDTO(trainingDefinitionDTO);
@@ -92,7 +92,7 @@ export class TrainingDefinitionMapper {
     result.sandbox_definition_ref_id = trainingDefinition.sandboxDefinitionId;
     result.show_stepper_bar = trainingDefinition.showStepperBar;
     result.authors = this.userMapper.mapUsersToUserBasicDTOs(trainingDefinition.authors);
-    result.td_view_group = this.createViewGroupCreateDTO(trainingDefinition.viewGroup);
+    result.beta_testing_group = this.createBetaTestingGroupCreateDTO(trainingDefinition.betaTestingGroup);
     return result;
   }
 
@@ -116,7 +116,7 @@ export class TrainingDefinitionMapper {
     result.prerequisities = trainingDefinition.prerequisites;
     result.state = this.mapTrainingDefStateToDTOEnum(trainingDefinition.state);
     result.title = trainingDefinition.title;
-    result.td_view_group = this.createViewGroupUpdateDTO(trainingDefinition.viewGroup);
+    result.beta_testing_group = this.createBetaTestingGroupUpdateDTO(trainingDefinition.betaTestingGroup);
     return result;
   }
 
@@ -129,31 +129,31 @@ export class TrainingDefinitionMapper {
   }
 
 
-  private getViewGroupFromDTO(viewGroupDTO: ViewGroupDTO): ViewGroup {
-    const result = new ViewGroup();
-    result.id = viewGroupDTO.id;
-    result.title = viewGroupDTO.title;
-    result.description = viewGroupDTO.description;
-    result.organizers = this.userMapper.mapUserRefDTOsToUsers(viewGroupDTO.organizers);
+  private getBetaTestingGroupFromDTO(betaTestingGroupDTO: BetaTestingGroupDTO): BetaTestingGroup {
+    const result = new BetaTestingGroup();
+    result.id = betaTestingGroupDTO.id;
+    result.organizers = this.userMapper.mapUserRefDTOsToUsers(betaTestingGroupDTO.organizers);
     return result;
   }
 
 
-  private createViewGroupCreateDTO(viewGroup: ViewGroup): ViewGroupCreateDTO {
-    const result = new ViewGroupCreateDTO();
-    result.title = viewGroup.title;
-    result.description = viewGroup.description;
-    result.organizers = this.userMapper.mapUsersToUserBasicDTOs(viewGroup.organizers);
-    return result;
+  private createBetaTestingGroupCreateDTO(betaTestingGroup: BetaTestingGroup): BetaTestingGroupCreateDTO {
+    if (betaTestingGroup) {
+      const result = new BetaTestingGroupCreateDTO();
+      result.organizers = this.userMapper.mapUsersToUserBasicDTOs(betaTestingGroup.organizers);
+      return result;
+    }
+    return null;
   }
 
-  private createViewGroupUpdateDTO(viewGroup: ViewGroup): ViewGroupUpdateDTO {
-    const result = new ViewGroupUpdateDTO();
-    result.id = viewGroup.id;
-    result.title = viewGroup.title;
-    result.description = viewGroup.description;
-    result.organizers = this.userMapper.mapUsersToUserBasicDTOs(viewGroup.organizers);
-    return result;
+  private createBetaTestingGroupUpdateDTO(betaTestingGroup: BetaTestingGroup): BetaTestingGroupUpdateDTO {
+    if (betaTestingGroup) {
+      const result = new BetaTestingGroupUpdateDTO();
+      result.id = betaTestingGroup.id;
+      result.organizers = this.userMapper.mapUsersToUserBasicDTOs(betaTestingGroup.organizers);
+      return result;
+    }
+    return null;
   }
 
   private mapTrainingDefDTOStateToEnum(stateDTO: TrainingDefinitionDTO.StateEnum): TrainingDefinitionStateEnum {

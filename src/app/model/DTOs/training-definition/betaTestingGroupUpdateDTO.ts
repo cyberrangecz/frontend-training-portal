@@ -1,7 +1,6 @@
 import {UserBasicDTO} from "../user/user-basic-dto";
 
-export class ViewGroupCreateDTO {
-  title: string;
-  description: string;
+export class BetaTestingGroupUpdateDTO {
+  id: number;
   organizers: UserBasicDTO[];
 }

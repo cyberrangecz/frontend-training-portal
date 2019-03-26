@@ -17,27 +17,22 @@
       <p *ngIf="!authors">Authors*</p>
       <span class="spacer"></span>
       <button (click)="chooseAuthors()"
-        mat-raised-button color="accent">
+        mat-button color="accent">
         Choose
       </button>
     </div>
 
-    <!-- VIEW GROUP field-->
-    <div *ngIf="viewGroup" class="line-with-button">
-        <p  style="color: black">View Group: {{ viewGroup.title }}</p>
-        <span class="spacer"></span>
-        <button (click)="editViewGroup()"
-                mat-raised-button color="accent">
-          Edit
-        </button>
-    </div>
-    <div *ngIf="!viewGroup" class="line-with-button">
-      <p>View Group*</p>
-      <button (click)="editViewGroup()"
-              mat-raised-button color="accent">
-        Create
+    <!-- SANDBOX DEFINITION field-->
+    <div class="line-with-button">
+      <p *ngIf="!sandboxDefId">Sandbox Definition Id*</p>
+      <p *ngIf="sandboxDefId" style="color: black"> Sandbox Definition Id: {{ sandboxDefId }}</p>
+      <span class="spacer"></span>
+      <button (click)="chooseSandboxDefs()"
+              mat-button color="accent">
+        Choose
       </button>
     </div>
+
     <!-- DESCRIPTION field-->
     <mat-form-field appearance="outline">
       <mat-label>Description</mat-label>
@@ -81,13 +76,21 @@
       </mat-select>
     </mat-form-field>
 
-    <!-- SANDBOX DEFINITION field-->
-    <div class="line-with-button">
-      <p style="color: black"> Sandbox Definition Id: {{ sandboxDefId }}</p>
-      <span class="spacer"></span>
-      <button (click)="chooseSandboxDefs()"
-        mat-raised-button color="accent">
-        Choose
+    <!-- BETA TESTING GROUP field-->
+    <div  class="line-with-button">
+      <p *ngIf="betaTestingGroup" style="color: black"> Beta Testing Group: {{ betaTestingGroup?.organizers }}</p>
+      <p *ngIf="!betaTestingGroup">Beta Testing Group</p>
+      <button
+        *ngIf="!betaTestingGroup"
+        (click)="chooseBetaTestingGroup()"
+        mat-button color="accent">
+        Create
+      </button>
+      <button
+        *ngIf="betaTestingGroup"
+        (click)="chooseBetaTestingGroup()"
+        mat-button color="accent">
+        Edit
       </button>
     </div>
 
@@ -95,7 +98,7 @@
     <div class="main-button">
       <button (click)="saveTrainingDef()"
         mat-raised-button color="primary">
-        Save changes
+        Save
       </button>
     </div>
   </div>

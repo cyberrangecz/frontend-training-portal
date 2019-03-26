@@ -14,7 +14,7 @@ import {PipesModule} from "../../../pipes/pipes.module";
 import { UnsavedChangesDialogComponent } from './unsaved-changes-dialog/unsaved-changes-dialog.component';
 import {DeleteDialogComponent} from "./delete-dialog/delete-dialog.component";
 import { StateChangeDialogComponent } from './state-change-dialog/state-change-dialog.component';
-import { EditViewGroupComponent } from './training-configuration/edit-view-group/edit-view-group.component';
+import { EditBetaTestingGroupComponent } from './training-configuration/edit-beta-testing-group/edit-beta-testing-group.component';
 import {TrainingDefinitionGuard} from "../../../guards/training-definition-guard.service";
 import {LevelsDefinitionService} from "../../../services/levels-definition.service";
 @NgModule({
@@ -36,7 +36,7 @@ import {LevelsDefinitionService} from "../../../services/levels-definition.servi
     UnsavedChangesDialogComponent,
     DeleteDialogComponent,
     StateChangeDialogComponent,
-    EditViewGroupComponent
+    EditBetaTestingGroupComponent
   ],
   providers: [
     TrainingDefinitionGuard,
@@ -48,7 +48,7 @@ import {LevelsDefinitionService} from "../../../services/levels-definition.servi
     UnsavedChangesDialogComponent,
     DeleteDialogComponent,
     StateChangeDialogComponent,
-    EditViewGroupComponent
+    EditBetaTestingGroupComponent
   ]
 })
 
