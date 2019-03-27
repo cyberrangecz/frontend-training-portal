@@ -131,7 +131,6 @@ export class TrainingDefinitionMapper {
 
   private getBetaTestingGroupFromDTO(betaTestingGroupDTO: BetaTestingGroupDTO): BetaTestingGroup {
     const result = new BetaTestingGroup();
-    result.id = betaTestingGroupDTO.id;
     result.organizers = this.userMapper.mapUserRefDTOsToUsers(betaTestingGroupDTO.organizers);
     return result;
   }
@@ -149,7 +148,6 @@ export class TrainingDefinitionMapper {
   private createBetaTestingGroupUpdateDTO(betaTestingGroup: BetaTestingGroup): BetaTestingGroupUpdateDTO {
     if (betaTestingGroup) {
       const result = new BetaTestingGroupUpdateDTO();
-      result.id = betaTestingGroup.id;
       result.organizers = this.userMapper.mapUsersToUserBasicDTOs(betaTestingGroup.organizers);
       return result;
     }
