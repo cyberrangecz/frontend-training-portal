@@ -42,7 +42,7 @@
     "kypo2-markdown-editor": "1.0.1",
     "spice-client-lib": "0.0.1",
     "graph-topology": "1.0.5",
-    "kypo2-user-and-group-management": "1.0.2",
+    "kypo2-user-and-group-management": "1.0.3",
     "graph-topology-model-lib": "1.0.0"
   },
   "devDependencies": {
