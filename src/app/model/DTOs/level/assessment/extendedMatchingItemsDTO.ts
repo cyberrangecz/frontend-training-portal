@@ -1,13 +1,12 @@
 import {AbstractQuestionCreateDTO, AbstractQuestionDTO} from './abstactQuestionDTO';
 import {EMIChoiceDTO} from './emiChoiceDTO';
 
-export interface ExtendedMatchingItemsCreateDTO extends AbstractQuestionCreateDTO{
-  choices: EMIChoiceDTO[];
-}
 
-export class ExtendedMatchingItemsDTOClass implements ExtendedMatchingItemsCreateDTO {
+export class ExtendedMatchingItemsDTO implements AbstractQuestionCreateDTO {
   answer_required: boolean;
-  choices: EMIChoiceDTO[];
+  rows: string[];
+  cols: string[];
+  correct_answers: EMIChoiceDTO[];
   order: number;
   penalty: number;
   points: number;

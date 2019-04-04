@@ -124,12 +124,16 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
   /**
    * Validates input of every child component and saves user input to REST
    */
-  saveChanges() {
+  save() {
     this.questionConfigurationChildren.forEach(child => child.saveChanges());
     const savedQuestion: AbstractQuestion[] = [];
     this.questionConfigurationChildren.forEach(child => savedQuestion.push(child.question));
     this.questions = savedQuestion;
     this.dirty = false
+  }
+
+  validateInput(): boolean {
+    return this.questionConfigurationChildren.toArray().every(child => child.validateInput());
   }
 
   private resolveInitialQuestions() {

@@ -25,6 +25,7 @@ import {ExtendedMatchingItems} from '../../model/questions/extended-matching-ite
 import {MultipleChoiceQuestionAnswerDTO} from '../../model/DTOs/level/assessment/multipleChoiceQuestionAnswerDTO';
 import {ExtendedMatchingItemsAnswerDTO} from '../../model/DTOs/level/assessment/extendedMatchingItemsAnswerDTO';
 import {UserMapper} from './user.mapper.service';
+import {EMIChoiceDTO} from '../../model/DTOs/level/assessment/emiChoiceDTO';
 
 @Injectable()
 export class TrainingRunMapper {
@@ -159,11 +160,7 @@ export class TrainingRunMapper {
   private mapEMIToUserAnswerDTO(question: ExtendedMatchingItems): ExtendedMatchingItemsAnswerDTO {
     const result = new ExtendedMatchingItemsAnswerDTO();
     result.question_order = question.order;
-    result.pairs = [[]];
-    question.usersAnswers
-      .forEach(answer => {
-        result.pairs.push([answer.x, answer.y]);
-      });
+    result.pairs = question.usersAnswers.map(answer => new EMIChoiceDTO(answer.x, answer.y));
     return result;
   }
 

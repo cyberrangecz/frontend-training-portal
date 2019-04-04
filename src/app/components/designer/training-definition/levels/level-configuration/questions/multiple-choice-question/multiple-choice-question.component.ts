@@ -177,7 +177,7 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
   /**
    * Validates user input and calls alert service if there is an error
    */
-  private validateInput(): boolean {
+  validateInput(): boolean {
     let errorTitle = 'Question: ' + this.question.title + '\n';
     let errorMessage: string = '';
 

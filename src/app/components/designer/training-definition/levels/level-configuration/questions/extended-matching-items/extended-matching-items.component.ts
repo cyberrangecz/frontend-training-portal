@@ -84,6 +84,10 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
     this.questionChange.emit();
   }
 
+  requiredChanged() {
+    this.clearAnswers();
+  }
+
   /**
    * Determines whether the user has saved all his work and can leave the component
    * @returns {boolean} true if does not have any unsaved changes, false otherwise
@@ -243,7 +247,7 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
   /**
    * Validates user input and calls alert service if there are any errors
    */
-  private validateInput(): boolean {
+  validateInput(): boolean {
     let errorTitle = 'Question: ' + this.question.title + '\n';
     let errorMessage: string = '';
 
