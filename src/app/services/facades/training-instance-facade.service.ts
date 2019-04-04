@@ -25,7 +25,6 @@ export class TrainingInstanceFacade {
 
 
   readonly exportsUriExtension = 'exports/';
-  readonly  trainingInstanceUriExtension = 'training-instance/';
   readonly trainingInstancesUriExtension = 'training-instances/';
   readonly trainingRunsUriExtension = 'training-runs/';
 
@@ -137,7 +136,7 @@ export class TrainingInstanceFacade {
    * @param id id of training instance which should be downloaded
    */
   downloadTrainingInstance(id: number): Observable<boolean> {
-    return this.http.get(this.trainingExportsEndpointUri + this.trainingInstanceUriExtension + id)
+    return this.http.get(this.trainingExportsEndpointUri + this.trainingInstancesUriExtension + id)
       .pipe(map(resp =>  {
         this.downloadService.downloadFileFromJSON(resp,  resp['title'] + '.json');
         return true;
