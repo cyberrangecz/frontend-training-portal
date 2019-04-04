@@ -14,6 +14,7 @@ import {TrainingRunRestResource} from "../../model/DTOs/training-run/trainingRun
 import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
 import {TrainingInstanceTableDataModel} from "../../model/table-models/training-instance-table-data-model";
 import {TrainingRunTableDataModel} from "../../model/table-models/training-run-table-data-model";
+import {DownloadService} from "../download.service";
 
 @Injectable()
 /**
@@ -22,12 +23,17 @@ import {TrainingRunTableDataModel} from "../../model/table-models/training-run-t
  */
 export class TrainingInstanceFacade {
 
+
+  readonly exportsUriExtension = 'exports/';
+  readonly  trainingInstanceUriExtension = 'training-instance/';
   readonly trainingInstancesUriExtension = 'training-instances/';
   readonly trainingRunsUriExtension = 'training-runs/';
 
   readonly trainingInstancesEndpointUri = environment.trainingRestBasePath + this.trainingInstancesUriExtension;
+  readonly trainingExportsEndpointUri = environment.trainingRestBasePath + this.exportsUriExtension;
 
   constructor(private http: HttpClient,
+              private downloadService: DownloadService,
               private trainingRunMapper: TrainingRunMapper,
               private trainingInstanceMapper: TrainingInstanceMapper) {
   }
@@ -130,7 +136,11 @@ export class TrainingInstanceFacade {
    * Downloads training instance
    * @param id id of training instance which should be downloaded
    */
-  downloadTrainingInstance(id: number) {
-    // TODO: download Training instance
+  downloadTrainingInstance(id: number): Observable<boolean> {
+    return this.http.get(this.trainingExportsEndpointUri + this.trainingInstanceUriExtension + id)
+      .pipe(map(resp =>  {
+        this.downloadService.downloadFileFromJSON(resp,  resp['title'] + '.json');
+        return true;
+      }));
   }
 }
