@@ -247,7 +247,7 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
   /**
    * Validates user input and calls alert service if there are any errors
    */
-  private validateInput(): boolean {
+  validateInput(): boolean {
     let errorTitle = 'Question: ' + this.question.title + '\n';
     let errorMessage: string = '';
 

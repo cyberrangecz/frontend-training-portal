@@ -111,10 +111,7 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
     }
   }
 
-  /**
-   * Validates user input, calls alert service if there is an error
-   */
-  private validateInput(): boolean {
+  validateInput(): boolean {
     let errorTitle = 'Question ' + ':\n';
     let errorMessage: string = '';
 

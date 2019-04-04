@@ -60,10 +60,9 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
    * Validates input, sets values to the level object and calls REST API to save changes
    */
   saveChanges() {
-    // TODO: validate children before sending request
-    if (this.validateChanges()) {
+    if (this.validateInput() && this.childComponent.validateInput()) {
       this.setInputValuesToLevel();
-      this.childComponent.saveChanges();
+      this.childComponent.save();
       this.level.questions = this.childComponent.questions;
       this.isLoading = true;
       this.trainingDefinitionFacade.updateAssessmentLevel(this.trainingDefinitionId, this.level)
@@ -98,7 +97,7 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
    * Validates user input, displays error message if error is found
    * @returns {boolean} true if input passes the validation, false otherwise
    */
-  private validateChanges(): boolean {
+  private validateInput(): boolean {
     let errorMessage: string = '';
 
     if (!this.title || this.title.replace(/\s/g, '') === '') {

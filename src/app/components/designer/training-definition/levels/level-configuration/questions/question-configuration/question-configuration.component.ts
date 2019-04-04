@@ -58,6 +58,16 @@ export class QuestionConfigurationComponent implements OnInit, OnChanges {
     }
   }
 
+  validateInput(): boolean {
+    if (this.isFfq) {
+      return this.ffqChild.validateInput();
+    } else if (this.isMcq) {
+      return this.mcqChild.validateInput();
+    } else {
+      return this.emiChild.validateInput();
+    }
+  }
+
   /**
    * Determines whether the user has saved all his work and can leave the component
    * @returns {boolean} true does not have any unsaved changes, false otherwise
