@@ -19,7 +19,7 @@
       <input [disabled]="!required" (change)="contentChanged()" matInput placeholder="Question Penalty" type="number" [max]="maxQuestionPenalty" min="0" [(ngModel)]="penalty" [required]="required">
     </mat-form-field>
 
-    <mat-checkbox [disabled]="isTest" [(ngModel)]="required">Required</mat-checkbox>
+    <mat-checkbox [disabled]="isTest" (change)="requiredChanged()" [(ngModel)]="required">Required</mat-checkbox>
   </div>
 
   <button mat-button color="warn" (click)="clearAnswers()" class="clear-answers">Clear Answers</button>
@@ -75,7 +75,7 @@
       <!-- ROW OPTIONS -->
       <mat-radio-group>
         <td *ngFor="let col of cols; index as j;">
-            <mat-radio-button [value]="{ x: i, y: j }" (change)="onAnswerChanged(i, j)"></mat-radio-button>
+            <mat-radio-button [disabled]="!required" [value]="{ x: i, y: j }" (change)="onAnswerChanged(i, j)"></mat-radio-button>
         </td>
       </mat-radio-group>
 
