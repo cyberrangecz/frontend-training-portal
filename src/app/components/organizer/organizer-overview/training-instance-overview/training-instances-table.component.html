@@ -82,7 +82,7 @@
 
                 <!-- REMOVE button-->
                 <button *ngIf="training.trainingInstance?.endTime.valueOf() < now"
-                        mat-icon-button color="primary"
+                        mat-icon-button color="warn"
                         matTooltip="Remove training instance"
                         (click)="removeTraining(training)">
                   <mat-icon
