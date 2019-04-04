@@ -352,6 +352,8 @@ export class LevelMapper {
     const result = new ExtendedMatchingItemsDTO();
     this.mapAbstractQuestionAttributesToDTO(question, result);
     result.question_type = AbstractQuestionDTO.QuestionTypeEnum.EMI;
+    result.rows = question.rows;
+    result.cols = question.cols;
     this.mapEMIChoicesToDTO(question, result);
     return result;
   }
