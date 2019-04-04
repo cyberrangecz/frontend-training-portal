@@ -4,7 +4,8 @@
   <p *ngFor="let message of data" class="mat-body-1">{{ message }}</p>
 </div>
 <div mat-dialog-actions>
-  <button mat-button cdkFocusInitial (click)="cancel()">Cancel</button>
-  <button *ngIf="saveOption" mat-button (click)="save()">Save changes</button>
-  <button mat-button (click)="confirm()">Confirm</button>
+  <button mat-button cdkFocusInitial color="warn" (click)="cancel()">Cancel</button>
+  <span class="spacer"></span>
+  <button *ngIf="saveOption" mat-button color="primary" (click)="save()">Save changes</button>
+  <button mat-button (click)="confirm()" color="primary">Confirm</button>
 </div>
