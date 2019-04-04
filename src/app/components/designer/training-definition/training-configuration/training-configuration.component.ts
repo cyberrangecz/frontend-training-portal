@@ -9,7 +9,7 @@ import {AuthorsPickerComponent} from './authors-picker/authors-picker.component'
 import {UserFacade} from '../../../../services/facades/user-facade.service';
 import {Router} from '@angular/router';
 import {ActiveUserService} from '../../../../services/active-user.service';
-import {ComponentErrorHandlerService} from '../../../../services/component-error-handler.service';
+import {ErrorHandlerService} from '../../../../services/error-handler.service';
 import {map} from 'rxjs/operators';
 import {StateChangeDialogComponent} from '../state-change-dialog/state-change-dialog.component';
 import {Observable, of} from 'rxjs';
@@ -50,7 +50,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
   constructor(
     private router: Router,
     private dialog: MatDialog,
-    private errorHandler: ComponentErrorHandlerService,
+    private errorHandler: ErrorHandlerService,
     private alertService: AlertService,
     private userFacade: UserFacade,
     private activeUserService: ActiveUserService,

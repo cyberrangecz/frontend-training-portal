@@ -8,7 +8,7 @@ import {environment} from "../../../../../environments/environment";
 import {TraineeAccessedTrainingsTableDataModel} from "../../../../model/table-models/trainee-accessed-trainings-table-data-model";
 import {TraineeAccessTrainingRunActionEnum} from "../../../../enums/trainee-access-training-run-actions.enum";
 import {TableDataWithPaginationWrapper} from "../../../../model/table-models/table-data-with-pagination-wrapper";
-import {ComponentErrorHandlerService} from "../../../../services/component-error-handler.service";
+import {ErrorHandlerService} from "../../../../services/error-handler.service";
 import {ActiveTrainingRunService} from "../../../../services/active-training-run.service";
 
 @Component({
@@ -37,7 +37,7 @@ export class TraineeTrainingsTableComponent implements OnInit {
     private router: Router,
     private activeRoute: ActivatedRoute,
     private activeTrainingRunLevelsService: ActiveTrainingRunService,
-    private errorHandler: ComponentErrorHandlerService,
+    private errorHandler: ErrorHandlerService,
     private trainingRunFacade: TrainingRunFacade) { }
 
   ngOnInit() {

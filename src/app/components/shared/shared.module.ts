@@ -10,7 +10,7 @@ import {AlertService} from "../../services/event-services/alert.service";
 import {FormsModule} from "@angular/forms";
 import {UploadService} from "../../services/upload.service";
 import { AlertSnackbarComponent } from './alert/alert-snackbar/alert-snackbar.component';
-import {ComponentErrorHandlerService} from "../../services/component-error-handler.service";
+import {ErrorHandlerService} from "../../services/error-handler.service";
 
 @NgModule({
   imports: [
@@ -35,7 +35,7 @@ import {ComponentErrorHandlerService} from "../../services/component-error-handl
   ],
   providers: [
     AlertService,
-    ComponentErrorHandlerService,
+    ErrorHandlerService,
     UploadService
   ],
   entryComponents: [

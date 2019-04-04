@@ -3,7 +3,7 @@ import {AbstractLevel} from "../../../model/level/abstract-level";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ActiveTrainingRunService} from "../../../services/active-training-run.service";
 import {TrainingRunLevelComponent} from "./training-run-level/training-run-level.component";
-import {ComponentErrorHandlerService} from "../../../services/component-error-handler.service";
+import {ErrorHandlerService} from "../../../services/error-handler.service";
 import {switchMap} from 'rxjs/operators';
 
 
@@ -36,7 +36,7 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private router: Router,
     private activeRoute: ActivatedRoute,
-    private errorHandler: ComponentErrorHandlerService,
+    private errorHandler: ErrorHandlerService,
     private activeTrainingRunService: ActiveTrainingRunService) {
   }
 

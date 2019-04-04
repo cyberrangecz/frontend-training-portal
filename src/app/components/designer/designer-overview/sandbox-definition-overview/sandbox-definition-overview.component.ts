@@ -12,7 +12,7 @@ import {merge, of} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {environment} from "../../../../../environments/environment";
 import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
-import {ComponentErrorHandlerService} from "../../../../services/component-error-handler.service";
+import {ErrorHandlerService} from "../../../../services/error-handler.service";
 import {SandboxDefinitionTableDataModel} from "../../../../model/table-models/sandbox-definition-table-data-model";
 
 @Component({
@@ -42,7 +42,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private alertService: AlertService,
-    private errorHandler: ComponentErrorHandlerService,
+    private errorHandler: ErrorHandlerService,
     private activeUserService: ActiveUserService,
     private trainingDefinitionFacade: TrainingDefinitionFacade,
     private sandboxDefinitionFacade: SandboxDefinitionFacade,

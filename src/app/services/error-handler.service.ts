@@ -4,12 +4,11 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {AlertTypeEnum} from "../enums/alert-type.enum";
 
 @Injectable()
-export class ComponentErrorHandlerService {
+export class ErrorHandlerService {
   constructor(private alertService: AlertService) {
   }
 
   displayHttpError(err: HttpErrorResponse, operation: string) {
-    console.log(err);
-    this.alertService.emitAlert(AlertTypeEnum.Error, operation + ' failed with following message: ' + err.message);
+    this.alertService.emitAlert(AlertTypeEnum.Error, operation + ' failed with following message: ' + err.error.message);
   }
 }

@@ -12,7 +12,7 @@ import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 import {merge, of} from 'rxjs';
 import {environment} from '../../../../../environments/environment';
 import {AlertTypeEnum} from '../../../../enums/alert-type.enum';
-import {ComponentErrorHandlerService} from '../../../../services/component-error-handler.service';
+import {ErrorHandlerService} from '../../../../services/error-handler.service';
 import {TrainingDefinitionTableDataModel} from '../../../../model/table-models/training-definition-table-data-model';
 import {TableDataWithPaginationWrapper} from '../../../../model/table-models/table-data-with-pagination-wrapper';
 
@@ -47,7 +47,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
     private dialog: MatDialog,
     private activeUserService: ActiveUserService,
     private alertService: AlertService,
-    private errorHandler: ComponentErrorHandlerService,
+    private errorHandler: ErrorHandlerService,
     private trainingInstanceFacade: TrainingInstanceFacade,
     private trainingDefinitionFacade: TrainingDefinitionFacade) {
   }

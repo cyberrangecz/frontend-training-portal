@@ -5,7 +5,7 @@ import {AlertService} from "../../../../../../services/event-services/alert.serv
 import {QuestionsOverviewComponent} from "../questions/questions-overview/questions-overview.component";
 import {AbstractQuestion} from "../../../../../../model/questions/abstract-question";
 import {AssessmentTypeEnum} from "../../../../../../enums/assessment-type.enum";
-import {ComponentErrorHandlerService} from "../../../../../../services/component-error-handler.service";
+import {ErrorHandlerService} from "../../../../../../services/error-handler.service";
 import {TrainingDefinitionFacade} from "../../../../../../services/facades/training-definition-facade.service";
 import {LevelsDefinitionService} from "../../../../../../services/levels-definition.service";
 
@@ -37,7 +37,7 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
   constructor(private trainingDefinitionFacade: TrainingDefinitionFacade,
               private levelService: LevelsDefinitionService,
               private alertService: AlertService,
-              private errorHandler: ComponentErrorHandlerService) { }
+              private errorHandler: ErrorHandlerService) { }
 
   ngOnInit() {
   }

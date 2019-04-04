@@ -14,7 +14,7 @@ import {MatDialog} from "@angular/material";
 import {AlertService} from "../../../../../services/event-services/alert.service";
 import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
 import {HttpErrorResponse} from "@angular/common/http";
-import {ComponentErrorHandlerService} from "../../../../../services/component-error-handler.service";
+import {ErrorHandlerService} from "../../../../../services/error-handler.service";
 import {TrainingDefinitionFacade} from "../../../../../services/facades/training-definition-facade.service";
 import {TrainingDefinition} from "../../../../../model/training/training-definition";
 import {Subscription} from "rxjs";
@@ -44,7 +44,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
   constructor(public dialog: MatDialog,
               private levelService: LevelsDefinitionService,
               private alertService: AlertService,
-              private errorHandler: ComponentErrorHandlerService,
+              private errorHandler: ErrorHandlerService,
               private trainingDefinitionFacade: TrainingDefinitionFacade) { }
 
   ngOnInit() {

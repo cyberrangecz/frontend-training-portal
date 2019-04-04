@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {AlertService} from "../../../../services/event-services/alert.service";
 import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ComponentErrorHandlerService} from "../../../../services/component-error-handler.service";
+import {ErrorHandlerService} from "../../../../services/error-handler.service";
 import {ActiveTrainingRunService} from "../../../../services/active-training-run.service";
 import {AbstractLevel} from "../../../../model/level/abstract-level";
 import {TrainingRunFacade} from "../../../../services/facades/training-run-facade.service";
@@ -23,7 +23,7 @@ export class TraineeAccessTrainingComponent implements OnInit {
     private router: Router,
     private activeRoute: ActivatedRoute,
     private alertService: AlertService,
-    private errorHandler: ComponentErrorHandlerService,
+    private errorHandler: ErrorHandlerService,
     private activeTrainingRunLevelsService: ActiveTrainingRunService,
     private trainingRunFacade: TrainingRunFacade) { }
 

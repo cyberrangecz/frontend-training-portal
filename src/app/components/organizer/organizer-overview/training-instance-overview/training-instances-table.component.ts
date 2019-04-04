@@ -12,7 +12,7 @@ import {environment} from "../../../../../environments/environment";
 import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
 import {TrainingInstanceTableDataModel} from "../../../../model/table-models/training-instance-table-data-model";
 import {TableDataWithPaginationWrapper} from "../../../../model/table-models/table-data-with-pagination-wrapper";
-import {ComponentErrorHandlerService} from "../../../../services/component-error-handler.service";
+import {ErrorHandlerService} from "../../../../services/error-handler.service";
 import {TrainingInstanceSandboxAllocationService} from "../../../../services/training-instance-sandbox-allocation.service";
 
 @Component({
@@ -43,7 +43,7 @@ export class TrainingInstancesTableComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private alertService: AlertService,
-    private errorHandler: ComponentErrorHandlerService,
+    private errorHandler: ErrorHandlerService,
     private activeUserService: ActiveUserService,
     private sandboxAllocationService: TrainingInstanceSandboxAllocationService,
     private trainingInstanceFacade: TrainingInstanceFacade

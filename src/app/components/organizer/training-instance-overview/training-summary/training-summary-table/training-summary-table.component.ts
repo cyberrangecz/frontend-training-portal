@@ -7,7 +7,7 @@ import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {AlertService} from "../../../../../services/event-services/alert.service";
 import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
 import {TrainingInstanceFacade} from "../../../../../services/facades/training-instance-facade.service";
-import {ComponentErrorHandlerService} from "../../../../../services/component-error-handler.service";
+import {ErrorHandlerService} from "../../../../../services/error-handler.service";
 import {TrainingRunTableDataModel} from "../../../../../model/table-models/training-run-table-data-model";
 import {TableDataWithPaginationWrapper} from "../../../../../model/table-models/table-data-with-pagination-wrapper";
 import {environment} from "../../../../../../environments/environment";
@@ -39,7 +39,7 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
 
   constructor(
     private alertService: AlertService,
-    private errorHandler: ComponentErrorHandlerService,
+    private errorHandler: ErrorHandlerService,
     private activeTrainingInstanceService: ActiveTrainingInstanceService,
     private trainingRunFacade: TrainingRunFacade,
     private trainingInstanceFacade: TrainingInstanceFacade) { }

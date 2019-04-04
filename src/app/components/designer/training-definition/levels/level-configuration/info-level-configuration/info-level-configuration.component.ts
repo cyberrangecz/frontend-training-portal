@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 import {InfoLevel} from "../../../../../../model/level/info-level";
 import {AlertTypeEnum} from "../../../../../../enums/alert-type.enum";
 import {AlertService} from "../../../../../../services/event-services/alert.service";
-import {ComponentErrorHandlerService} from "../../../../../../services/component-error-handler.service";
+import {ErrorHandlerService} from "../../../../../../services/error-handler.service";
 import {TrainingDefinitionFacade} from "../../../../../../services/facades/training-definition-facade.service";
 import {LevelsDefinitionService} from "../../../../../../services/levels-definition.service";
 
@@ -30,7 +30,7 @@ export class InfoLevelConfigurationComponent implements OnInit, OnChanges {
   constructor(private trainingDefinitionFacade: TrainingDefinitionFacade,
               private levelService: LevelsDefinitionService,
               private alertService: AlertService,
-              private errorHandler: ComponentErrorHandlerService) {}
+              private errorHandler: ErrorHandlerService) {}
 
 
   ngOnInit() {

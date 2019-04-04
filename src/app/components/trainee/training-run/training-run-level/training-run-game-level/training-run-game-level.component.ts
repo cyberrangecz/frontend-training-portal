@@ -11,7 +11,7 @@ import {MatDialog} from "@angular/material";
 import {RevealHintDialogComponent} from "./user-action-dialogs/reveal-hint-dialog/reveal-hint-dialog.component";
 import {RevealSolutionDialogComponent} from "./user-action-dialogs/reveal-solution-dialog/reveal-solution-dialog.component";
 import {WrongFlagDialogComponent} from "./user-action-dialogs/wrong-flag-dialog/wrong-flag-dialog.component";
-import {ComponentErrorHandlerService} from "../../../../../services/component-error-handler.service";
+import {ErrorHandlerService} from "../../../../../services/error-handler.service";
 import {TrainingRunFacade} from "../../../../../services/facades/training-run-facade.service";
 import {ActiveUserService} from '../../../../../services/active-user.service';
 
@@ -48,7 +48,7 @@ export class TrainingRunGameLevelComponent implements OnInit {
     private dialog: MatDialog,
     private trainingRunFacade: TrainingRunFacade,
     private activeUserService: ActiveUserService,
-    private errorHandler: ComponentErrorHandlerService,
+    private errorHandler: ErrorHandlerService,
     private activeLevelService: ActiveTrainingRunService) { }
 
   ngOnInit() {
