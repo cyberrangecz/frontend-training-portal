@@ -106,8 +106,13 @@ export class TrainingInstancesTableComponent implements OnInit {
    * @param {number} id
    */
   archiveTraining(id: number) {
-    // TODO: call rest to download all training instances data
-    this.trainingInstanceFacade.downloadTrainingInstance(id)
+    this.trainingInstanceFacade.downloadTrainingInstance(id).subscribe(
+        resp => {
+          this.alertService.emitAlert(AlertTypeEnum.Success, 'Training Instance archive was successfully downloaded');
+      },
+      err => {
+          this.errorHandler.displayHttpError(err, 'Downloading Training Instance archive');
+      });
   }
 
   /**
