@@ -47,6 +47,8 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
   dirty = false;
   states: string[];
 
+  loggedUserLogin: string;
+
   constructor(
     private router: Router,
     private dialog: MatDialog,
@@ -60,6 +62,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.states = Object.values(TrainingDefinitionStateEnum);
+    this.loggedUserLogin = this.activeUserService.getActiveUser().login;
   }
 
   ngOnChanges(changes: SimpleChanges) {

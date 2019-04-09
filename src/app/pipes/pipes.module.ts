@@ -3,6 +3,7 @@ import {LevelStepperLabelPipe} from "./level-stepper-label.pipe";
 import {DateTimeFormatPipe} from './date-time-format.pipe';
 import {AuthorsTableFormatPipe} from "./authors-table-format.pipe";
 import {CommonModule} from "@angular/common";
+import {ShorterAuthorsFormatPipe} from './shorter-authors-format.pipe';
 
 @NgModule({
   imports: [
@@ -11,12 +12,14 @@ import {CommonModule} from "@angular/common";
   declarations: [
     LevelStepperLabelPipe,
     DateTimeFormatPipe,
-    AuthorsTableFormatPipe
+    AuthorsTableFormatPipe,
+    ShorterAuthorsFormatPipe
   ],
   exports: [
     LevelStepperLabelPipe,
     DateTimeFormatPipe,
-    AuthorsTableFormatPipe
+    AuthorsTableFormatPipe,
+    ShorterAuthorsFormatPipe
   ]
 })
 
