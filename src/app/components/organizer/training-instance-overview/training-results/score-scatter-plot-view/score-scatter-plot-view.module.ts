@@ -11,7 +11,6 @@ import {Kypo2TrainingsVisualizationOverviewLibModule} from "kypo2-trainings-visu
     ScoreScatterPlotViewRoutingModule,
     ScoreScatterPlotViewMaterialModule,
     Kypo2TrainingsVisualizationOverviewLibModule
-
   ],
   declarations: [
   ScoreScatterPlotViewComponent
