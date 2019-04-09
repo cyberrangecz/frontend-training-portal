@@ -55,11 +55,11 @@ export class TrainingDefinitionPickerComponent implements OnInit {
     this.trainingDefinitionFacade.getTrainingDefinitions()
       .subscribe(trainings => {
         if (this.hasPreselection()) {
-          this.preselectTrainingDef(trainings)
+          this.preselectTrainingDef(trainings);
         }
         this.trainingDefs = trainings;
         this.isLoading = false;
-      })
+      });
   }
 
   private hasPreselection(): boolean {

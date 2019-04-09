@@ -65,7 +65,7 @@
           <div class="line-with-button">
             <p *ngIf="organizers && organizers.length > 0"
                [matTooltip]="organizers"
-               style="color: black">Organizers: {{ organizers | authorsTableFormat}}</p>
+               style="color: black">Organizers: {{ organizers | shorterAuthorsFormat: loggedUserLogin }}</p>
             <p *ngIf="!organizers || organizers.length === 0">Organizers*</p>
             <span class="spacer"></span>
             <button (click)="chooseOrganizers()"

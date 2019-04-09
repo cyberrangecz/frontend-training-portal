@@ -39,6 +39,8 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
   startTimeUpdateSubscription: Subscription;
   userChangedStartTime = false;
 
+  loggedUserLogin: string;
+
   constructor(
     private alertService: AlertService,
     private userFacade: UserFacade,
@@ -50,6 +52,7 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.resolveInitialInputValues();
+    this.loggedUserLogin = this.activeUserService.getActiveUser().login;
   }
 
   ngOnDestroy(): void {
