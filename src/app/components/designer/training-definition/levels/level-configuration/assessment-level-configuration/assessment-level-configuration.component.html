@@ -1,6 +1,16 @@
 <div class="level" *ngIf="level">
   <div class="header">
     <h2>Assessment Level Detail</h2>
+    <div class="save-info">
+      <div *ngIf="dirty">
+        <mat-icon style="vertical-align:bottom" color="warn">close</mat-icon>
+        <span style="left-margin: 5px">Not Saved</span>
+      </div>
+      <div *ngIf="!dirty">
+        <mat-icon style="vertical-align:bottom" class="green-icon">done</mat-icon>
+        <span style="left-margin: 5px">Saved</span>
+      </div>
+    </div>
     <span class="spacer"></span>
     <button mat-raised-button color="primary" [disabled]="isLoading" (click)="saveChanges()">
       Save Changes
