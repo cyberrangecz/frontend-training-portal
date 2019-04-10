@@ -44,4 +44,12 @@ div .footer {
   align-items: baseline;
 }
 
+div .save-info {
+  margin-left: 10px;
+}
+
+.green-icon {
+  color: lawngreen;
+}
+
 

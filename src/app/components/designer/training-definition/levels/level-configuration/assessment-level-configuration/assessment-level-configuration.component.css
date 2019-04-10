@@ -81,3 +81,11 @@ markdown-editor.mrkdwn-solution {
   }
 
 }
+
+div .save-info {
+  margin-left: 10px;
+}
+
+.green-icon {
+  color: lawngreen;
+}
