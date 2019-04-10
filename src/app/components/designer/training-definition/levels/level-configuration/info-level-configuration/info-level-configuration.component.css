@@ -52,4 +52,12 @@ div .save-info {
   color: lawngreen;
 }
 
+.bottom-align {
+  vertical-align:bottom
+}
+
+.left-margin {
+  left-margin: 5px
+}
+
 
