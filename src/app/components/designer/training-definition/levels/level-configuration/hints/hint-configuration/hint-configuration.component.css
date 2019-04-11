@@ -53,3 +53,7 @@ markdown-editor {
     width: 100%;
   }
 }
+
+.delete-button {
+  float: right;
+}
