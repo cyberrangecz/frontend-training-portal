@@ -28,5 +28,7 @@
     <markdown-editor (change)="onContentChanged()" class="mrkdwn-content" [(content)]="content"></markdown-editor>
   </div>
 
-  <button mat-raised-button color="warn" [disabled]="disabled" (click)="onDeleteHint()">Delete hint</button>
+  <div>
+    <button class="delete-button" mat-raised-button color="warn" [disabled]="disabled" (click)="onDeleteHint()">Delete hint</button>
+  </div>
 </div>
