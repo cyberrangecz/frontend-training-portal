@@ -23,7 +23,7 @@
         <!-- TITLE field -->
         <mat-form-field appearance="outline">
           <mat-label>Title</mat-label>
-          <input [disabled]="isLoading" (change)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
+          <input [disabled]="isLoading" (ngModelChange)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
           <button mat-button *ngIf="title && !isLoading" matSuffix mat-icon-button aria-label="Clear" (click)="title=''; contentChanged()">
             <mat-icon>close</mat-icon>
           </button>
@@ -31,12 +31,12 @@
 
         <!-- INSTRUCTIONS field -->
         <h3>Instructions</h3>
-        <markdown-editor class="mrkdwn-content" (change)="contentChanged()" [(content)]="instructions"></markdown-editor>
+        <markdown-editor class="mrkdwn-content" (contentChange)="contentChanged()" [(content)]="instructions"></markdown-editor>
       </div>
 
       <div class="right-panel">
 
-        <mat-checkbox [disabled]="isLoading" [(ngModel)]="isTest">Is Test?</mat-checkbox>
+        <mat-checkbox [disabled]="isLoading" (ngModelChange)="contentChanged()" [(ngModel)]="isTest">Is Test?</mat-checkbox>
       </div>
     </div>
     <!-- QUESTIONS component -->

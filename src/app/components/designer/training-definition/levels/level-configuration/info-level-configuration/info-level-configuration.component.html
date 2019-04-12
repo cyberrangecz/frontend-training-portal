@@ -21,7 +21,7 @@
     <!-- TITLE filed -->
     <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>
-      <input [disabled]="isLoading" (change)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
+      <input [disabled]="isLoading" (ngModelChange)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
       <button mat-button *ngIf="title && !isLoading" matSuffix mat-icon-button aria-label="Clear" (click)="title=''; contentChanged()">
         <mat-icon>close</mat-icon>
       </button>
@@ -29,7 +29,7 @@
 
     <!-- CONTENT filed -->
     <h3>Content</h3>
-    <markdown-editor (change)="contentChanged()" [(content)]="content"></markdown-editor>
+    <markdown-editor (contentChange)="contentChanged()" [(content)]="content"></markdown-editor>
   </div>
 
   <div class="footer">
