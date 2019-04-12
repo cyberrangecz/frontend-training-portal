@@ -3,7 +3,7 @@
     <!-- TITLE field-->
     <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>
-      <input (change)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
+      <input (ngModelChange)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
       <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title=''; contentChanged()">
         <mat-icon>close</mat-icon>
       </button>
@@ -13,7 +13,7 @@
     <div class="answer" *ngFor="let answer of answers; index as i; trackBy: trackByFn;">
       <mat-form-field appearance="outline">
         <mat-label>Answer {{ i + 1}}</mat-label>
-        <input (change)="contentChanged()" matInput placeholder="Answer" [(ngModel)]="answers[i]">
+        <input (ngModelChange)="contentChanged()" matInput placeholder="Answer" [(ngModel)]="answers[i]">
         <button mat-button *ngIf="answers[i]" matSuffix mat-icon-button aria-label="Clear" (click)="answers[i]=''; contentChanged()">
           <mat-icon>close</mat-icon>
         </button>
@@ -33,17 +33,17 @@
     <!-- SCORE field -->
     <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionScore }}">
       <mat-label>Score</mat-label>
-      <input [disabled]="!required" (change)="contentChanged()" matInput placeholder="Score" type="number" [max]="maxQuestionScore" min="0" [(ngModel)]="score" [required]="required">
+      <input [disabled]="!required" (ngModelChange)="contentChanged()" matInput placeholder="Score" type="number" [max]="maxQuestionScore" min="0" [(ngModel)]="score" [required]="required">
     </mat-form-field>
 
     <!-- PENALTY field -->
     <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionPenalty }}">
       <mat-label>Penalty</mat-label>
-      <input [disabled]="!required" (change)="contentChanged()" matInput placeholder="Question Penalty" type="number" [max]="maxQuestionPenalty" min="0" [(ngModel)]="penalty" [required]="required">
+      <input [disabled]="!required" (ngModelChange)="contentChanged()" matInput placeholder="Question Penalty" type="number" [max]="maxQuestionPenalty" min="0" [(ngModel)]="penalty" [required]="required">
     </mat-form-field>
 
     <!-- REQUIRED checkbox -->
-    <mat-checkbox [disabled]="isTest" [(ngModel)]="required">Required</mat-checkbox>
+    <mat-checkbox [disabled]="isTest" (ngModelChange)="contentChanged()" [(ngModel)]="required">Required</mat-checkbox>
   </div>
 </div>
 

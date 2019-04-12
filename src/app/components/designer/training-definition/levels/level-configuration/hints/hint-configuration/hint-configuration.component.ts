@@ -2,7 +2,6 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 import {Hint} from "../../../../../../../model/level/hint";
 import {AlertTypeEnum} from "../../../../../../../enums/alert-type.enum";
 import {AlertService} from "../../../../../../../services/event-services/alert.service";
-import {environment} from "../../../../../../../../environments/environment";
 
 @Component({
   selector: 'hint-configuration',
@@ -55,17 +54,8 @@ export class HintConfigurationComponent implements OnInit, OnChanges {
   saveChanges() {
     if (this.validateInput()) {
       this.setInputValuesToHint();
-      this.hintChanged();
       this.dirty = false;
-        // TODO: save through rest api
     }
-  }
-
-  /**
-   * Reacts on changes in inputs. Sets dirty to true
-   */
-  onContentChanged() {
-    this.dirty = true;
   }
 
   /**
@@ -89,10 +79,9 @@ export class HintConfigurationComponent implements OnInit, OnChanges {
     this.deleteHint.emit(this.hint);
   }
 
-  /**
-   * Emits event if hint is saved
-   */
-  private hintChanged() {
+
+  hintChanged() {
+    this.dirty = true;
     this.hintChange.emit(this.hint);
   }
 

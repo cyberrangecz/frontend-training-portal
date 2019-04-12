@@ -174,7 +174,6 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
         const indexOfAnswerToDelete = this.correctAnswers.indexOf(answerToDelete);
         if (indexOfAnswerToDelete > -1) {
           this.correctAnswers.splice(indexOfAnswerToDelete, 1);
-          this.contentChanged();
         }
       });
     }
@@ -190,7 +189,6 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
       const indexOfAnswerToDelete = this.correctAnswers.indexOf(answerToDelete);
       if (indexOfAnswerToDelete > -1) {
         this.correctAnswers.splice(indexOfAnswerToDelete, 1);
-        this.contentChanged();
       }
     }
   }

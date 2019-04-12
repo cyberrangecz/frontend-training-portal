@@ -73,10 +73,12 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
 
   removeAnswer(index: number) {
     this.answers.splice(index, 1);
+    this.contentChanged()
   }
 
   addAnswer() {
     this.answers.push("");
+    this.contentChanged()
   }
 
   trackByFn(index: any, item: any) {

@@ -6,8 +6,8 @@
     <div class="title">
       <mat-form-field appearance="outline">
         <mat-label>Title</mat-label>
-        <input [disabled]="disabled"(change)="onContentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
-        <button mat-button *ngIf="title && !disabled" matSuffix mat-icon-button aria-label="Clear" (click)="title=''; onContentChanged()">
+        <input [disabled]="disabled"(ngModelChange)="hintChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
+        <button mat-button *ngIf="title && !disabled" matSuffix mat-icon-button aria-label="Clear" (click)="title=''; hintChanged()">
           <mat-icon>close</mat-icon>
         </button>
       </mat-form-field>
@@ -17,7 +17,7 @@
     <div class="penalty">
       <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxHintPenalty }}">
         <mat-label>Hint Penalty</mat-label>
-        <input [disabled]="disabled" (change)="onContentChanged(); onPenaltyChanged()" matInput placeholder="Hint Penalty" type="number" [max]="maxHintPenalty" min="0" [(ngModel)]="hintPenalty" required>
+        <input [disabled]="disabled" (ngModelChange)="hintChanged(); onPenaltyChanged()" matInput placeholder="Hint Penalty" type="number" [max]="maxHintPenalty" min="0" [(ngModel)]="hintPenalty" required>
       </mat-form-field>
     </div>
   </div>
@@ -25,7 +25,7 @@
   <div class="content">
     <!--CONTENT field -->
     <h3>Content</h3>
-    <markdown-editor (change)="onContentChanged()" class="mrkdwn-content" [(content)]="content"></markdown-editor>
+    <markdown-editor (contentChange)="hintChanged()" class="mrkdwn-content" [(content)]="content"></markdown-editor>
   </div>
 
   <div>

@@ -29,6 +29,7 @@
           <ng-template matStepLabel>Hint {{ i + 1 }}</ng-template>
           <div class="step-content">
             <hint-configuration [(hint)]="hints[i]"
+                                (hint)="hintsChanged()"
                                 (deleteHint)="deleteHint($event)"
                                 (penaltyChange)="calculateHintPenaltySum()"
                                 [levelMaxScore]="levelMaxScore"
