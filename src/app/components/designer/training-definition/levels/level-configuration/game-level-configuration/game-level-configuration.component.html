@@ -46,7 +46,7 @@
         </mat-form-field>
 
         <!-- INCORRECT FLAG LIMIT field -->
-        <mat-form-field appearance="outline" hintLabel="A positive number. Insert 0 for unlimited flag submission">
+        <mat-form-field appearance="outline" hintLabel="A positive number. Insert 0 for unlimited flag submission. If the limit will be overreached, solution will be displayed automatically.">
           <mat-label>Incorrect Flag Limit</mat-label>
           <input matInput [disabled]="isLoading" (ngModelChange)="onContentChanged()" placeholder="Incorrect Flag Limit" type="number" min="0" [(ngModel)]="incorrectFlagLimit" required>
         </mat-form-field>
@@ -68,7 +68,7 @@
         </mat-form-field>
 
         <!-- SOLUTION PENALIZED field -->
-        <mat-checkbox (ngModelChange)="onContentChanged()" [disabled]="isLoading" [(ngModel)]="solutionPenalized">Solution Penalized</mat-checkbox>
+        <mat-checkbox (ngModelChange)="onContentChanged()" [disabled]="isLoading" [(ngModel)]="solutionPenalized">Solution Penalized (trainee will got 0 points for the level)</mat-checkbox>
       </div>
     </div>
 
