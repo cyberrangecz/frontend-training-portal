@@ -63,7 +63,6 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
     const newFfq = new FreeFormQuestion('New Free Form Question');
     newFfq.required = this.isTest;
     this.questions.push(newFfq);
-    this.dirty = true;
     this.questionChanged();
   }
 
@@ -76,7 +75,6 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
     newMcq.options.push("");
     newMcq.required = this.isTest;
     this.questions.push(newMcq);
-    this.dirty = true;
     this.questionChanged();
   }
 
@@ -91,11 +89,11 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
     newEmi.rows.push("");
     newEmi.rows.push("");
     this.questions.push(newEmi);
-    this.dirty = true;
     this.questionChanged();
   }
 
   questionChanged() {
+    this.dirty = true;
     this.questionChange.emit()
   }
 
@@ -115,7 +113,6 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
         this.questions.splice(index, 1);
-        this.dirty = true;
         this.questionChanged();
       }
     });

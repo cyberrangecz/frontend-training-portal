@@ -3,7 +3,7 @@
     <!-- TITLE field-->
     <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>
-      <input (change)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
+      <input (ngModelChange)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
       <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title =''; contentChanged()">
         <mat-icon>close</mat-icon>
       </button>
@@ -11,15 +11,15 @@
 
     <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionScore }}">
       <mat-label>Score</mat-label>
-      <input [disabled]="!required" (change)="contentChanged()" matInput placeholder="Score" type="number" [max]="maxQuestionScore" min="0" [(ngModel)]="score" [required]="required">
+      <input [disabled]="!required" (ngModelChange)="contentChanged()" matInput placeholder="Score" type="number" [max]="maxQuestionScore" min="0" [(ngModel)]="score" [required]="required">
     </mat-form-field>
 
     <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionPenalty }}">
       <mat-label>Penalty</mat-label>
-      <input [disabled]="!required" (change)="contentChanged()" matInput placeholder="Question Penalty" type="number" [max]="maxQuestionPenalty" min="0" [(ngModel)]="penalty" [required]="required">
+      <input [disabled]="!required" (ngModelChange)="contentChanged()" matInput placeholder="Question Penalty" type="number" [max]="maxQuestionPenalty" min="0" [(ngModel)]="penalty" [required]="required">
     </mat-form-field>
 
-    <mat-checkbox [disabled]="isTest" (change)="requiredChanged()" [(ngModel)]="required">Required</mat-checkbox>
+    <mat-checkbox [disabled]="isTest" (ngModelChange)="requiredChanged()" [(ngModel)]="required">Required</mat-checkbox>
   </div>
 
   <button mat-button color="warn" (click)="clearAnswers()" class="clear-answers">Clear Answers</button>
@@ -44,7 +44,7 @@
         <!-- COL NAME -->
         <mat-form-field class="col-field" floatLabel="never">
           <mat-label>Column {{ i + 1 }}</mat-label>
-          <input (change)="contentChanged()" matInput placeholder="Column {{ i + 1 }}" [(ngModel)]="cols[i]">
+          <input (ngModelChange)="contentChanged()" matInput placeholder="Column {{ i + 1 }}" [(ngModel)]="cols[i]">
           <button mat-button *ngIf="col" matSuffix mat-icon-button aria-label="Clear" (click)="cols[i]= ''; contentChanged()">
             <mat-icon>close</mat-icon>
           </button>
@@ -65,7 +65,7 @@
        <!-- ROW NAME -->
         <mat-form-field class="row-field" floatLabel="never">
           <mat-label>Row {{ i + 1 }}</mat-label>
-          <input (change)="contentChanged()" matInput placeholder="Row {{ i + 1 }}" [(ngModel)]="rows[i]">
+          <input (ngModelChange)="contentChanged()" matInput placeholder="Row {{ i + 1 }}" [(ngModel)]="rows[i]">
           <button mat-button *ngIf="row" matSuffix mat-icon-button aria-label="Clear" (click)="rows[i]= ''; contentChanged()">
             <mat-icon>close</mat-icon>
           </button>

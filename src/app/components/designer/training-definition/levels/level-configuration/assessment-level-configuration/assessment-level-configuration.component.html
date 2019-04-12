@@ -40,7 +40,7 @@
       </div>
     </div>
     <!-- QUESTIONS component -->
-    <question-overview [questions]="questions" [isTest]="isTest" [disabled]="isLoading"></question-overview>
+    <question-overview (questions)="contentChanged()" [questions]="questions" [isTest]="isTest" [disabled]="isLoading"></question-overview>
   </div>
 
   <div class="footer">
