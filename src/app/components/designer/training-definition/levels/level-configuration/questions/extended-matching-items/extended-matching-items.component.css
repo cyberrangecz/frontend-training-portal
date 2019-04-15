@@ -75,6 +75,7 @@ mat-divider {
 
 button.clear-answers {
   width: 120px;
+  float: right;
 }
 
 p.note {
