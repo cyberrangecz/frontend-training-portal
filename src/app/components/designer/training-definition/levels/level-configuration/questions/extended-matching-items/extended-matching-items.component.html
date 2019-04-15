@@ -22,8 +22,6 @@
     <mat-checkbox [disabled]="isTest" (ngModelChange)="requiredChanged()" [(ngModel)]="required">Required</mat-checkbox>
   </div>
 
-  <button mat-button color="warn" (click)="clearAnswers()" class="clear-answers">Clear Answers</button>
-
   <!-- EMI -->
   <table>
     <!-- DELETE COL BUTTONS -->
@@ -96,6 +94,7 @@
         </button>
       </td>
     </tr>
+    <button mat-button color="warn" (click)="clearAnswers()" class="clear-answers">Clear Answers</button>
   </table>
   <p class="note">Note: Do not forget to select correct answers</p>
 </div>
