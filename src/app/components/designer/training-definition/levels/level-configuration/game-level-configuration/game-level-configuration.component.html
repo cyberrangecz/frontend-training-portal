@@ -68,7 +68,7 @@
         </mat-form-field>
 
         <!-- SOLUTION PENALIZED field -->
-        <mat-checkbox (ngModelChange)="onContentChanged()" [disabled]="isLoading" [(ngModel)]="solutionPenalized">Solution Penalized (trainee will got 0 points for the level)</mat-checkbox>
+        <mat-checkbox (ngModelChange)="onContentChanged()" [disabled]="isLoading" [(ngModel)]="solutionPenalized" matTooltip="Penalty for displaying the solution">Solution Penalized (trainee will got 0 points for the level)</mat-checkbox>
       </div>
     </div>
 
