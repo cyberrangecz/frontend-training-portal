@@ -22,7 +22,6 @@ export class SandboxAllocationContentMinimizedComponent implements OnInit, OnDes
     if (this.isRunning) {
       this.displayedMessage = 'Sandbox allocation in progress...';
     }
-    else this.displayedMessage = 'It is not running or whatever...';
     this.subscribeAllocationStateChange();
   }
 

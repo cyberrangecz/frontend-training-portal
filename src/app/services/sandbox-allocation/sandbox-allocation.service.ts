@@ -175,7 +175,7 @@ export class SandboxAllocationService {
       sandboxAllocation.requestedPoolSize = totalSandboxCount;
     }
     this.addAllocation(sandboxAllocation);
-    this.sandboxAllocationBarService.open();
+    //this.sandboxAllocationBarService.open(); TODO fix
     this.emitAllocationStateChange(SandboxAllocationState.RUNNING);
   }
 
@@ -185,7 +185,7 @@ export class SandboxAllocationService {
     const sandboxAllocation = new TrainingInstanceSandboxAllocationState(trainingInstance);
     sandboxAllocation.requestedPoolSize = totalSandboxCount - 1;
     this.addAllocation(sandboxAllocation);
-    this.sandboxAllocationBarService.open();
+    //this.sandboxAllocationBarService.open(); TODO fix
     this.emitAllocationStateChange(SandboxAllocationState.RUNNING);
   }
 
