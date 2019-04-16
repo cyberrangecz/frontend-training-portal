@@ -77,8 +77,7 @@
                 </button>
 
                 <!-- CLONE button -->
-                <button *ngIf="data.trainingDefinition?.state === trainingStateEnum.Released ||
-                             data.trainingDefinition?.state === trainingStateEnum.Archived"
+                <button *ngIf="data.trainingDefinition?.state !== trainingStateEnum.Privated"
                         mat-icon-button color="primary"
                         matTooltip="Clone training definition"
                         (click)="cloneTrainingDefinition(data.trainingDefinition?.id)">
