@@ -15,9 +15,9 @@ import { TrainingDeleteDialogComponent } from './training-instance-overview/trai
 import {PipesModule} from '../../../pipes/pipes.module';
 import {TrainingDefinitionFacadeModule} from '../../../services/facades/modules/training-definition-facade.module';
 import {TrainingInstanceFacadeModule} from '../../../services/facades/modules/training-instance-facade.module';
-import {TrainingInstanceSandboxAllocationService} from "../../../services/training-instance-sandbox-allocation.service";
 import {ActiveTrainingInstanceService} from "../../../services/active-training-instance.service";
-import {SandboxInstanceFacade} from "../../../services/facades/sandbox-instance-facade.service";
+import {SandboxInstanceFacadeModule} from "../../../services/facades/modules/sandbox-instance-facade.module";
+import {SandboxInstancesSubtableComponent} from './training-instance-overview/sandbox-instances-subtable/sandbox-instances-subtable.component';
 
 @NgModule({
   imports: [
@@ -30,7 +30,8 @@ import {SandboxInstanceFacade} from "../../../services/facades/sandbox-instance-
     OrganizerOverviewMaterialModule,
     OrganizerOverviewRoutingModule,
     TrainingDefinitionFacadeModule,
-    TrainingInstanceFacadeModule
+    TrainingInstanceFacadeModule,
+    SandboxInstanceFacadeModule
 
   ],
   declarations: [
@@ -40,12 +41,11 @@ import {SandboxInstanceFacade} from "../../../services/facades/sandbox-instance-
     OrganizersPickerComponent,
     TrainingDefinitionPickerComponent,
     TrainingEditPopupComponent,
-    TrainingDeleteDialogComponent
+    TrainingDeleteDialogComponent,
+    SandboxInstancesSubtableComponent
   ],
   providers: [
     ActiveTrainingInstanceService,
-    TrainingInstanceSandboxAllocationService,
-    SandboxInstanceFacade
   ],
   entryComponents: [
     OrganizersPickerComponent,

@@ -17,4 +17,8 @@ export class TrainingInstance {
   accessToken: string;
   constructor() {
   }
+
+  hasPoolId(): boolean {
+    return this.poolId !== undefined && this.poolId !== null;
+  }
 }

@@ -12,7 +12,7 @@ import {TrainingRun} from "../../model/training/training-run";
 import {TrainingRunMapper} from "../mappers/training-run-mapper.service";
 import {TrainingRunRestResource} from "../../model/DTOs/training-run/trainingRunRestResource";
 import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
-import {TrainingInstanceTableDataModel} from "../../model/table-models/training-instance-table-data-model";
+import {TrainingInstanceTableData} from "../../model/table-models/training-instance-table-data";
 import {TrainingRunTableDataModel} from "../../model/table-models/training-run-table-data-model";
 import {DownloadService} from "../download.service";
 
@@ -54,7 +54,7 @@ export class TrainingInstanceFacade {
    * @param sort attribute by which will result be sorted
    * @param sortDir sort direction (asc, desc)
    */
-  getTrainingInstancesWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<TableDataWithPaginationWrapper<TrainingInstanceTableDataModel[]>> {
+  getTrainingInstancesWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<TableDataWithPaginationWrapper<TrainingInstanceTableData[]>> {
     let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
     return this.http.get<TrainingInstanceRestResource>(this.trainingInstancesEndpointUri, { params: params })
       .pipe(map(response =>
@@ -115,21 +115,7 @@ export class TrainingInstanceFacade {
     return this.http.delete<any>(this.trainingInstancesEndpointUri + trainingInstanceId);
   }
 
-  /**
-   * Sends request to create pool for sandboxes of selected training isntance
-   * @param trainingInstanceId
-   */
-  createPool(trainingInstanceId: number): Observable<number> {
-    return this.http.post<number>(this.trainingInstancesEndpointUri + trainingInstanceId + '/pools', null);
-  }
 
-  /**
-   * Sends request to allocate all sandboxes for selected training instance
-   * @param trainingInstanceId
-   */
-  allocateSandboxesForTrainingInstance(trainingInstanceId: number ): Observable<any> {
-    return this.http.post<any>(this.trainingInstancesEndpointUri + trainingInstanceId + '/sandbox-instances', null);
-  }
 
   /**
    * Downloads training instance

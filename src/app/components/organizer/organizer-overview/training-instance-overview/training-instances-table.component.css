@@ -3,6 +3,29 @@ h2 {
   margin: 20px auto;
 }
 
+tr.detail-row {
+  height: 0;
+}
+
+tr.row:not(.expanded-row):hover {
+  background: #f5f5f5;
+}
+
+tr.row:not(.expanded-row):active {
+  background: #efefef;
+}
+
+.row td {
+  border-bottom-width: 0;
+}
+
+.row-detail {
+  width: 100%;
+  background: #f5f5f5;
+  overflow: hidden;
+  display: flex;
+}
+
 .mat-form-field {
   font-size: 14px;
   width: 100%;
@@ -13,10 +36,11 @@ h2 {
 }
 
 .training {
+  align-items: center;
   padding: 20px;
   display: flex;
   flex-direction: row;
-  width: 75vw;
+  width: 90vw;
 }
 
 .training-table-wrapper {
@@ -39,30 +63,57 @@ table {
 }
 
 td.title, th.title {
-  width: 20%;
+  text-align: center;
+  width: 15%;
 }
 
 td.date, th.date {
-  width: 30%;
+  text-align: center;
+  width: 25%;
 }
 
 td.trainingDefinition, th.trainingDefinition {
   text-align: center;
-  width: 10%;
+  width: 15%;
 }
 
-td.poolSize, th.poolSize {
+td.pool-size, th.pool-size {
   text-align: center;
-  width: 10%;
+  width: 15%;
+}
+
+.pool-size-content {
+  padding: 0 10px;
+  display: flex;
+  flex-direction: row;
+  align-content: space-evenly;
+  align-items: baseline;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+.allocation-failure {
+  flex-grow: 1;
+}
+
+.pool-size-count {
+  flex-grow: 1;
+}
+
+.pool-allocation-progress {
+  flex-grow: 2;
 }
 
 td.password, th.password {
   text-align: center;
-  width: 20%;
+  width: 15%;
 }
 
 td.actions, th.actions {
-  width: 10%;
+  width: 15%;
 }
 
 .loading {

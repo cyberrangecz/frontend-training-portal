@@ -11,13 +11,22 @@ import {FormsModule} from "@angular/forms";
 import {UploadService} from "../../services/upload.service";
 import { AlertSnackbarComponent } from './alert/alert-snackbar/alert-snackbar.component';
 import {ErrorHandlerService} from "../../services/error-handler.service";
+import { SandboxAllocationWindowComponent } from './sandbox-allocation/sandbox-allocation-window.component';
+import {SandboxAllocationService} from "../../services/sandbox-allocation/sandbox-allocation.service";
+import {TrainingInstanceFacadeModule} from '../../services/facades/modules/training-instance-facade.module';
+import { SandboxAllocationPanelComponent } from './sandbox-allocation/sandbox-allocation-panel/sandbox-allocation-panel.component';
+import { SandboxAllocationContentMinimizedComponent } from './sandbox-allocation/sandbox-allocation-content-minimized/sandbox-allocation-content-minimized.component';
+import {InstanceAllocationObservablesPoolService} from "../../services/sandbox-allocation/instance-allocation-observables-pool.service";
+import {SandboxInstanceFacadeModule} from "../../services/facades/modules/sandbox-instance-facade.module";
+import {SandboxAllocationContentMaximizedComponent} from './sandbox-allocation/sandbox-allocation-content-maximized/sandbox-allocation-content-maximized.component';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
     FormsModule,
-    SharedMaterialModule
+    SharedMaterialModule,
+    SandboxInstanceFacadeModule
   ],
   declarations: [
     ToolbarComponent,
@@ -25,18 +34,26 @@ import {ErrorHandlerService} from "../../services/error-handler.service";
     SidenavComponent,
     AlertComponent,
     AlertSnackbarComponent,
+    SandboxAllocationWindowComponent,
+    SandboxAllocationPanelComponent,
+    SandboxAllocationContentMinimizedComponent,
+    SandboxAllocationContentMaximizedComponent,
   ],
   exports: [
     ToolbarComponent,
     UserMenuComponent,
     SidenavComponent,
     AlertComponent,
-    SharedMaterialModule
+    SharedMaterialModule,
+    SandboxAllocationWindowComponent
   ],
   providers: [
     AlertService,
     ErrorHandlerService,
-    UploadService
+    UploadService,
+    TrainingInstanceFacadeModule,
+    InstanceAllocationObservablesPoolService,
+    SandboxAllocationService,
   ],
   entryComponents: [
     AlertSnackbarComponent

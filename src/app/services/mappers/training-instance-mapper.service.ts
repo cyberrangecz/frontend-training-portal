@@ -6,7 +6,7 @@ import {TrainingInstanceUpdateDTO} from "../../model/DTOs/training-instance/trai
 import {TrainingInstanceRestResource} from "../../model/DTOs/training-instance/trainingInstanceRestResource";
 import {TrainingDefinitionMapper} from './training-definition-mapper.service';
 import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
-import {TrainingInstanceTableDataModel} from "../../model/table-models/training-instance-table-data-model";
+import {TrainingInstanceTableData} from "../../model/table-models/training-instance-table-data";
 import {TablePagination} from "../../model/table-models/table-pagination";
 import {UserMapper} from './user.mapper.service';
 
@@ -32,12 +32,15 @@ export class TrainingInstanceMapper {
    * Maps training instance dtos received from remote server to training instance objects
    * @param resource array of training instance dtos received from remote server with pagination
    */
-  mapTrainingInstanceDTOsToTrainingInstancesWithPagination(resource: TrainingInstanceRestResource): TableDataWithPaginationWrapper<TrainingInstanceTableDataModel[]> {
-    const tableDataList: TrainingInstanceTableDataModel[] = [];
+  mapTrainingInstanceDTOsToTrainingInstancesWithPagination(resource: TrainingInstanceRestResource): TableDataWithPaginationWrapper<TrainingInstanceTableData[]> {
+    const tableDataList: TrainingInstanceTableData[] = [];
     resource.content.forEach(dto => {
-      const tableRow = new TrainingInstanceTableDataModel();
+      const tableRow = new TrainingInstanceTableData();
       tableRow.trainingInstance = this.mapTrainingInstanceDTOToTrainingInstance(dto);
       tableRow.trainingDefinitionTitle = tableRow.trainingInstance.trainingDefinition.title;
+      tableRow.isAllocationInProgress = false;
+      tableRow.allocatedSandboxesCount = 0;
+      tableRow.failedSandboxesCount = 0;
       tableDataList.push(tableRow);
     });
     const tablePagination = new TablePagination(resource.pagination.number,

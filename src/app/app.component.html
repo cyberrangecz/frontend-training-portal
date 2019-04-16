@@ -17,4 +17,7 @@
   </div>
 </mat-drawer-container>
 <router-outlet *ngIf="distractionFreeMode"></router-outlet>
+<app-sandbox-allocation *ngIf="isSandboxBarActive">
+</app-sandbox-allocation>
+
 

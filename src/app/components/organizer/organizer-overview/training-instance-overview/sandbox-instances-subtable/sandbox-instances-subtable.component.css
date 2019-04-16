@@ -1,0 +1,93 @@
+h2 {
+  margin: 20px;
+}
+
+.allocation-state {
+  padding: 0 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+.allocation-failed {
+  margin-right: 10px;
+}
+
+.sandbox-created {
+  color: #6DF000;
+  margin-right: 10px;
+}
+
+.allocation-state-text {
+}
+
+.allocation-progress {
+  max-width: 30%;
+  margin-right: 10px;
+}
+
+
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.mat-sort-header-container {
+  align-items: center;
+}
+
+.mat-progress-bar {
+  width: 70%;
+}
+
+.sandbox {
+  align-items: center;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  width: 90vw;
+}
+
+.sandbox-table-wrapper {
+  flex-grow: 10;
+}
+
+.sandbox-table {
+  width: 100%;
+  margin: auto auto;
+  justify-items: center;
+  justify-content: center;
+}
+
+table {
+  width: 100%;
+}
+
+td.id, th.id {
+  width: 20%;
+}
+td.state, th.state {
+  width: 50%;
+}
+
+td.actions, th.actions {
+  width: 30%;
+}
+
+.loading {
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-error {
+  color: #980000;
+  text-align: center;
+}

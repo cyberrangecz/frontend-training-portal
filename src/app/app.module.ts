@@ -16,6 +16,7 @@ import {AuthInterceptor} from "./http-interceptors/auth-interceptor";
 import {OAuthModule, OAuthStorage} from "angular-oauth2-oidc";
 import {UserFacadeModule} from "./services/facades/modules/user-facade.module";
 import {AdminGuard} from './guards/admin-guard.service';
+import {SandboxAllocationBarService} from './services/sandbox-allocation/sandbox-allocation-bar.service';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,6 @@ import {AdminGuard} from './guards/admin-guard.service';
       })
   ],
   providers: [
-    { provide: OAuthStorage, useValue: localStorage },
     AuthGuard,
     DesignerGuard,
     OrganizerGuard,
@@ -45,6 +45,8 @@ import {AdminGuard} from './guards/admin-guard.service';
     TraineeGuard,
     ActiveUserService,
     TrainingDistractionFreeModeService,
+    SandboxAllocationBarService,
+    { provide: OAuthStorage, useValue: localStorage },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]

@@ -9,8 +9,7 @@ export const environment = {
   trainingRestBasePath: 'http://147.251.21.216:8083/kypo2-rest-training/api/v1/',
 
   // SANDBOX REST API
-  sandboxDefsEndpointUri:  'http://147.251.21.216:8080/kypo-openstack/api/v1/definitions/',
-  poolsEndpointUri: 'http://147.251.21.216:8080/kypo-openstack/api/v1/pools/',
+  sandboxRestBasePath: 'http://147.251.21.216:8080/kypo-openstack/api/v1/',
 
   //USER AND GROUP API
   userAndGroupRestBasePath: 'http://147.251.21.216:8084/kypo2-rest-user-and-group/api/v1/',

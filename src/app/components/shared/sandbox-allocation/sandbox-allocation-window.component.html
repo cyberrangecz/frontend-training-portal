@@ -1,0 +1,14 @@
+<div class="allocation-window">
+  <app-sandbox-allocation-panel
+    (closeEvent)="onClose($event)"
+    (maximizeEvent)="onMaximized($event)">
+  </app-sandbox-allocation-panel>
+
+  <app-sandbox-allocation-content-maximized *ngIf="isMaximized"
+
+  ></app-sandbox-allocation-content-maximized>
+
+  <app-sandbox-allocation-content-minimized *ngIf="!isMaximized"
+
+  ></app-sandbox-allocation-content-minimized>
+</div>
