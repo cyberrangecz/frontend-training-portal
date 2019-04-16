@@ -281,7 +281,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     }
 
     if (this.sandboxDefId === null || this.sandboxDefId === undefined) {
-      errorMessage += 'Sandbox definition cannot be empty\n';
+      errorMessage += 'No sandbox definiton specified. Training definition requires one sandbox definition.\n';
     }
     if (errorMessage !== '') {
       this.alertService.emitAlert(AlertTypeEnum.Error, errorMessage);
