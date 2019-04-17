@@ -15,7 +15,7 @@
       <mat-form-field>
         <input matInput (keyup)="applyFilter($event.target.value)"
                [disabled]="isInErrorState"
-               placeholder="Filter by title or status">
+               placeholder="Filter by title or state">
       </mat-form-field>
       <div class="mat-elevation-z8">
         <div class="loading"
@@ -45,7 +45,19 @@
           <!-- STATUS Column -->
           <ng-container matColumnDef="state">
             <th class="status" mat-header-cell mat-sort-header *matHeaderCellDef>State</th>
-            <td class="status" mat-cell *matCellDef="let data"> {{ data.trainingDefinition?.state }}</td>
+            <td class="status" mat-cell *matCellDef="let data">
+                <mat-select (selectionChange)="changeTrainingDefinitionState(data)"
+                            *ngIf="!data.isLoadingStateChange"
+                            [disabled]="data.possibleStates.length <= 1"
+                            [(ngModel)]="data.selectedState">
+                  <mat-option *ngFor="let state of data.possibleStates"
+                              [value]="state">
+                    {{ state | titlecase }}
+                  </mat-option>
+                </mat-select>
+              <mat-progress-spinner *ngIf="data.isLoadingStateChange" color="accent" mode="indeterminate" diameter="25">
+              </mat-progress-spinner>
+            </td>
           </ng-container>
 
           <!-- AUTHORS Column -->
@@ -77,8 +89,7 @@
                 </button>
 
                 <!-- CLONE button -->
-                <button *ngIf="data.trainingDefinition?.state !== trainingStateEnum.Privated"
-                        mat-icon-button color="primary"
+                <button mat-icon-button color="primary"
                         matTooltip="Clone training definition"
                         (click)="cloneTrainingDefinition(data.trainingDefinition?.id)">
                   <mat-icon
@@ -104,17 +115,6 @@
                   <mat-icon
                     aria-label="Download training definition button">
                     cloud_download</mat-icon>
-                </button>
-
-                <!-- ARCHIVE button -->
-                <button *ngIf="data.trainingDefinition?.state !== trainingStateEnum.Archived
-                              && data.trainingDefinition?.canBeArchived"
-                        mat-icon-button color="primary"
-                        matTooltip="Archive training definition"
-                        (click)="archiveTrainingDefinition(data.trainingDefinition)">
-                  <mat-icon
-                    aria-label="Archive training definition button">
-                    archive</mat-icon>
                 </button>
               </div>
             </td>

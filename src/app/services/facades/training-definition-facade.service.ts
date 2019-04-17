@@ -18,11 +18,12 @@ import {AssessmentLevel} from "../../model/level/assessment-level";
 import {TrainingDefinitionRestResource} from "../../model/DTOs/training-definition/trainingDefinitionRestResource";
 import {TrainingDefinitionDTO} from "../../model/DTOs/training-definition/trainingDefinitionDTO";
 import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
-import {TrainingDefinitionTableDataModel} from "../../model/table-models/training-definition-table-data-model";
+import {TrainingDefinitionTableData} from "../../model/table-models/training-definition-table-data";
 import {BasicLevelInfoDTO} from "../../model/DTOs/level/basicLevelInfoDTO";
 import {DownloadService} from '../download.service';
 import {UploadService} from '../upload.service';
 import {ResponseHeaderContentDispositionReader} from '../../model/http/response-headers/response-header-content-disposition-reader';
+import {TrainingDefinitionStateEnum} from '../../enums/training-definition-state.enum';
 
 @Injectable()
 /**
@@ -65,7 +66,7 @@ export class TrainingDefinitionFacade {
    * @param sort attribute by which will result be sorted
    * @param sortDir sort direction (asc, desc)
    */
-  getTrainingDefinitionsWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<TableDataWithPaginationWrapper<TrainingDefinitionTableDataModel[]>> {
+  getTrainingDefinitionsWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<TableDataWithPaginationWrapper<TrainingDefinitionTableData[]>> {
     let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
     return this.http.get<TrainingDefinitionRestResource>(this.trainingDefsEndpointUri, { params: params })
       .pipe(map(response =>
@@ -95,6 +96,11 @@ export class TrainingDefinitionFacade {
     return this.http.get<TrainingDefinitionRestResource>(this.trainingDefsEndpointUri + this.sandboxDefinitionUriExtension + sandboxId)
       .pipe(map(response =>
         this.trainingDefinitionMapper.mapTrainingDefinitionDTOsToTrainingDefinitions(response)));
+  }
+
+  changeTrainingDefinitionState(newState: TrainingDefinitionStateEnum, trainingDefinitionId: number): Observable<any> {
+    return this.http.put(`${this.trainingDefsEndpointUri + trainingDefinitionId}/states/${this.trainingDefinitionMapper.mapTrainingDefStateToDTOEnum(newState)}`,
+      {});
   }
 
   /**

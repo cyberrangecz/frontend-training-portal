@@ -1,19 +1,19 @@
-import {Injectable} from "@angular/core";
-import {TrainingDefinition} from "../../model/training/training-definition";
-import {TrainingDefinitionStateEnum} from "../../enums/training-definition-state.enum";
-import {AbstractLevel} from "../../model/level/abstract-level";
-import {TrainingDefinitionCreateDTO} from "../../model/DTOs/training-definition/trainingDefinitionCreateDTO";
-import {TrainingDefinitionUpdateDTO} from "../../model/DTOs/training-definition/trainingDefinitionUpdateDTO";
-import {TrainingDefinitionRestResource} from "../../model/DTOs/training-definition/trainingDefinitionRestResource";
+import {Injectable} from '@angular/core';
+import {TrainingDefinition} from '../../model/training/training-definition';
+import {TrainingDefinitionStateEnum} from '../../enums/training-definition-state.enum';
+import {AbstractLevel} from '../../model/level/abstract-level';
+import {TrainingDefinitionCreateDTO} from '../../model/DTOs/training-definition/trainingDefinitionCreateDTO';
+import {TrainingDefinitionUpdateDTO} from '../../model/DTOs/training-definition/trainingDefinitionUpdateDTO';
+import {TrainingDefinitionRestResource} from '../../model/DTOs/training-definition/trainingDefinitionRestResource';
 import {TrainingDefinitionDTO} from '../../model/DTOs/training-definition/trainingDefinitionDTO';
-import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
-import {TrainingDefinitionTableDataModel} from "../../model/table-models/training-definition-table-data-model";
-import {TablePagination} from "../../model/table-models/table-pagination";
-import {LevelMapper} from "./level-mapper.service";
-import {BetaTestingGroupDTO} from "../../model/DTOs/training-definition/betaTestingGroupDTO";
-import {BetaTestingGroup} from "../../model/user/beta-testing-group";
-import {BetaTestingGroupCreateDTO} from "../../model/DTOs/training-definition/betaTestingGroupCreateDTO";
-import {BetaTestingGroupUpdateDTO} from "../../model/DTOs/training-definition/betaTestingGroupUpdateDTO";
+import {TableDataWithPaginationWrapper} from '../../model/table-models/table-data-with-pagination-wrapper';
+import {TrainingDefinitionTableData} from '../../model/table-models/training-definition-table-data';
+import {TablePagination} from '../../model/table-models/table-pagination';
+import {LevelMapper} from './level-mapper.service';
+import {BetaTestingGroupDTO} from '../../model/DTOs/training-definition/betaTestingGroupDTO';
+import {BetaTestingGroup} from '../../model/user/beta-testing-group';
+import {BetaTestingGroupCreateDTO} from '../../model/DTOs/training-definition/betaTestingGroupCreateDTO';
+import {BetaTestingGroupUpdateDTO} from '../../model/DTOs/training-definition/betaTestingGroupUpdateDTO';
 import {UserMapper} from './user.mapper.service';
 
 @Injectable()
@@ -35,11 +35,13 @@ export class TrainingDefinitionMapper {
     return result;
   }
 
-  mapTrainingDefinitionDTOsToTrainingDefinitionsWithPagination(resource: TrainingDefinitionRestResource): TableDataWithPaginationWrapper<TrainingDefinitionTableDataModel[]> {
-    const tableData: TrainingDefinitionTableDataModel[] = [];
+  mapTrainingDefinitionDTOsToTrainingDefinitionsWithPagination(resource: TrainingDefinitionRestResource): TableDataWithPaginationWrapper<TrainingDefinitionTableData[]> {
+    const tableData: TrainingDefinitionTableData[] = [];
     resource.content.forEach((trainingDTO: TrainingDefinitionDTO) => {
-      const rowData = new TrainingDefinitionTableDataModel();
+      const rowData = new TrainingDefinitionTableData();
       rowData.trainingDefinition = this.mapTrainingDefinitionDTOToTrainingDefinition(trainingDTO, false);
+      rowData.selectedState = rowData.trainingDefinition.state;
+      rowData.createPossibleStates();
       tableData.push(rowData);
     });
     const tablePagination = new TablePagination(resource.pagination.number,
@@ -87,7 +89,7 @@ export class TrainingDefinitionMapper {
     result.description = trainingDefinition.description;
     trainingDefinition.outcomes.forEach(outcome => result.outcomes.push(outcome));
     trainingDefinition.prerequisites.forEach(prerequisite => result.prerequisities.push(prerequisite));
-    result.state = this.mapTrainingDefStateToDTOEnum(trainingDefinition.state);
+    result.state = TrainingDefinitionDTO.StateEnum.UNRELEASED;
     result.title = trainingDefinition.title;
     result.sandbox_definition_ref_id = trainingDefinition.sandboxDefinitionId;
     result.show_stepper_bar = trainingDefinition.showStepperBar;
@@ -154,10 +156,9 @@ export class TrainingDefinitionMapper {
     return null;
   }
 
-  private mapTrainingDefDTOStateToEnum(stateDTO: TrainingDefinitionDTO.StateEnum): TrainingDefinitionStateEnum {
+  mapTrainingDefDTOStateToEnum(stateDTO: TrainingDefinitionDTO.StateEnum): TrainingDefinitionStateEnum {
     switch (stateDTO) {
       case TrainingDefinitionDTO.StateEnum.ARCHIVED: return TrainingDefinitionStateEnum.Archived;
-      case TrainingDefinitionDTO.StateEnum.PRIVATED: return TrainingDefinitionStateEnum.Privated;
       case TrainingDefinitionDTO.StateEnum.RELEASED: return TrainingDefinitionStateEnum.Released;
       case TrainingDefinitionDTO.StateEnum.UNRELEASED: return TrainingDefinitionStateEnum.Unreleased;
       default: {
@@ -167,17 +168,14 @@ export class TrainingDefinitionMapper {
     }
   }
 
-  private mapTrainingDefStateToDTOEnum(state: TrainingDefinitionStateEnum): TrainingDefinitionDTO.StateEnum {
+  mapTrainingDefStateToDTOEnum(state: TrainingDefinitionStateEnum): TrainingDefinitionDTO.StateEnum {
     switch(state) {
       case TrainingDefinitionStateEnum.Unreleased: return TrainingDefinitionDTO.StateEnum.UNRELEASED;
       case TrainingDefinitionStateEnum.Released: return TrainingDefinitionDTO.StateEnum.RELEASED;
-      case TrainingDefinitionStateEnum.Privated: return TrainingDefinitionDTO.StateEnum.PRIVATED;
       case TrainingDefinitionStateEnum.Archived: return TrainingDefinitionDTO.StateEnum.ARCHIVED;
       default: {
         console.error('Attribute "state" of TrainingDefinition does not match any of the TrainingDefinitionDTO states');
       }
     }
   }
-
-
 }
