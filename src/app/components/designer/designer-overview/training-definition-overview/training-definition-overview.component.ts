@@ -107,10 +107,12 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    * @param {number} id id of training definition which should be downloaded
    */
   downloadTrainingDefinition(id: number) {
-    this.isLoadingResults = true;
     this.trainingDefinitionFacade.downloadTrainingDefinition(id)
-      .subscribe(resp => this.isLoadingResults = false,
+      .subscribe(resp => {},
         err => {
+        if (err.status === 406) {
+          this.alertService.emitAlert(AlertTypeEnum.Error, 'Training definition could not be downloaded');
+        }
         this.errorHandler.displayHttpError(err, 'Downloading training definition');
         this.isLoadingResults = false;
       });
