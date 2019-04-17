@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from "rxjs/internal/Observable";
 import {TrainingInstance} from "../../model/training/training-instance";
 import {environment} from "../../../environments/environment";
@@ -15,6 +15,7 @@ import {TableDataWithPaginationWrapper} from "../../model/table-models/table-dat
 import {TrainingInstanceTableData} from "../../model/table-models/training-instance-table-data";
 import {TrainingRunTableDataModel} from "../../model/table-models/training-run-table-data-model";
 import {DownloadService} from "../download.service";
+import {ResponseHeaderContentDispositionReader} from '../../model/http/response-headers/response-header-content-disposition-reader';
 
 @Injectable()
 /**
@@ -122,9 +123,19 @@ export class TrainingInstanceFacade {
    * @param id id of training instance which should be downloaded
    */
   downloadTrainingInstance(id: number): Observable<boolean> {
-    return this.http.get(this.trainingExportsEndpointUri + this.trainingInstancesUriExtension + id)
+    const headers = new HttpHeaders();
+    headers.set('Accept', [
+      'application/octet-stream'
+    ]);
+    return this.http.get(this.trainingExportsEndpointUri + this.trainingInstancesUriExtension + id,
+      {
+          responseType: 'blob',
+          observe: 'response',
+          headers: headers
+      })
       .pipe(map(resp =>  {
-        this.downloadService.downloadFileFromJSON(resp,  resp['title'] + '.json');
+        this.downloadService.downloadJSONFileFromBlobResponse(resp,
+          ResponseHeaderContentDispositionReader.getFilenameFromResponse(resp, 'training-instance.json'));
         return true;
       }));
   }

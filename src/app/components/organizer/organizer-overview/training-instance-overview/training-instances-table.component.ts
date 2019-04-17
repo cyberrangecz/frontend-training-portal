@@ -127,9 +127,11 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
   archiveTraining(id: number) {
     this.trainingInstanceFacade.downloadTrainingInstance(id).subscribe(
         resp => {
-          this.alertService.emitAlert(AlertTypeEnum.Success, 'Training Instance archive was successfully downloaded');
       },
       err => {
+          if (err.status === 406) {
+
+          }
           this.errorHandler.displayHttpError(err, 'Downloading Training Instance archive');
       });
   }

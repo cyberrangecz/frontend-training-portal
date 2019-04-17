@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
 import {TrainingDefinition} from "../../model/training/training-definition";
@@ -22,6 +22,7 @@ import {TrainingDefinitionTableDataModel} from "../../model/table-models/trainin
 import {BasicLevelInfoDTO} from "../../model/DTOs/level/basicLevelInfoDTO";
 import {DownloadService} from '../download.service';
 import {UploadService} from '../upload.service';
+import {ResponseHeaderContentDispositionReader} from '../../model/http/response-headers/response-header-content-disposition-reader';
 
 @Injectable()
 /**
@@ -111,12 +112,24 @@ export class TrainingDefinitionFacade {
    * @param id id of training definition which should be downloaded
    */
   downloadTrainingDefinition(id: number) : Observable<boolean> {
-    return this.http.get(this.trainingExportEndpointUri + this.trainingDefinitionUriExtension + id)
+    const headers = new HttpHeaders();
+    headers.set('Accept', [
+      'application/octet-stream'
+    ]);
+
+    return this.http.get(this.trainingExportEndpointUri + this.trainingDefinitionUriExtension + id,
+      {
+        responseType: 'blob',
+        observe: 'response',
+        headers: headers
+      })
       .pipe(map(resp =>  {
-        this.downloadService.downloadFileFromJSON(resp,  resp['title'] + '.json');
+        this.downloadService.downloadJSONFileFromBlobResponse(resp,
+          ResponseHeaderContentDispositionReader.getFilenameFromResponse(resp, 'training-definition.json'));
         return true;
       }));
   }
+
 
   uploadTrainingDefinition(file: File): Observable<TrainingDefinition> {
     return this.uploadService.uploadTrainingDefinition(this.trainingImportEndpointUri + this.trainingDefinitionUriExtension, file)
@@ -317,4 +330,5 @@ export class TrainingDefinitionFacade {
   private findLevel(levels: AbstractLevel[], levelId): AbstractLevel {
     return levels.find(level => level.id === levelId);
   }
+
 }
