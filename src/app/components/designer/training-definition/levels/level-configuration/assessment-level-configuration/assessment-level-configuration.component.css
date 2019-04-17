@@ -1,3 +1,9 @@
+.save-info-content {
+  display: inline-flex;
+  vertical-align: middle;
+  align-items: center;
+}
+
 div .level {
   display: flex;
   flex-direction: column;

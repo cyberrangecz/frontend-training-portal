@@ -2,12 +2,15 @@
   <div class="header">
     <h2>Game Level Detail</h2>
     <div class="save-info">
-      <div *ngIf="dirty">
-        <mat-icon class="bottom-align" color="warn">close</mat-icon>
+      <div *ngIf="dirty" class="save-info-content">
+        <mat-icon color="warn">close</mat-icon>
         <span class="left-margin">Not Saved</span>
+        <button mat-button color="accent" [disabled]="isLoading" (click)="saveChanges()">
+          Save
+        </button>
       </div>
-      <div *ngIf="!dirty">
-        <mat-icon class="bottom-align green-icon">done</mat-icon>
+      <div *ngIf="!dirty" class="save-info-content">
+        <mat-icon class="green-icon">done</mat-icon>
         <span class="left-margin">Saved</span>
       </div>
     </div>

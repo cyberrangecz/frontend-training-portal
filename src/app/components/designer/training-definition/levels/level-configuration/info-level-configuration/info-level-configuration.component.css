@@ -1,4 +1,8 @@
-
+.save-info-content {
+  display: inline-flex;
+  vertical-align: middle;
+  align-items: center;
+}
 
 div .level {
   display: flex;
@@ -52,12 +56,8 @@ div .save-info {
   color: lawngreen;
 }
 
-.bottom-align {
-  vertical-align:bottom
-}
-
 .left-margin {
-  left-margin: 5px
+  margin-left: 5px
 }
 
 
