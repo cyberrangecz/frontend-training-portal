@@ -37,7 +37,15 @@
           <!-- ASSOCIATED TRAINING DEFS Column -->
           <ng-container matColumnDef="associatedTrainingDefs">
             <th class="assocTrainingDefs" mat-header-cell *matHeaderCellDef>Associated Training Definitions</th>
-            <td class="assocTrainingDefs" mat-cell *matCellDef="let data"> {{data.associatedTrainingDefinitions }}</td>
+            <td class="assocTrainingDefs" mat-cell *matCellDef="let data">
+              <div *ngIf="data?.associatedTrainingDefinitions?.length <= 1" class="single-associated-td">
+                {{ data?.associatedTrainingDefinitions | trainingDefinitionsTableFormat }}
+              </div>
+              <div *ngIf="data?.associatedTrainingDefinitions?.length > 1" class="multiple-associated-td">
+                {{ data?.associatedTrainingDefinitions | trainingDefinitionsTableFormat }}
+                <button mat-button color="accent" (click)="showAssociatedTrainingDefinitions(data)">Show more</button>
+              </div>
+            </td>
           </ng-container>
 
           <!-- AUTHORS Column -->
@@ -70,16 +78,6 @@
                   <mat-icon
                     aria-label="Update sandbox definition button">
                     cached</mat-icon>
-                </button>
-
-                <!-- DEPLOY button-->
-                <button *ngIf="true"
-                        mat-icon-button color="primary"
-                        matTooltip="Deploy sandbox definition"
-                        (click)="deploySandboxDefinition(data.sandbox?.id)">
-                  <mat-icon
-                    aria-label="Deploy sandbox definition button">
-                    launch</mat-icon>
                 </button>
               </div>
             </td>

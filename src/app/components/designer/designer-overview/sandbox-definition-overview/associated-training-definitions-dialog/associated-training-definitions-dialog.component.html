@@ -1,0 +1,22 @@
+<h1 mat-dialog-title class="mat-h1">Training definitions associated with sandbox definition: {{ data.sandboxDefinition.title | titlecase }}</h1>
+<mat-divider></mat-divider>
+<div mat-dialog-content class="content">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!-- TITLE Column -->
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef> Title </th>
+      <td mat-cell *matCellDef="let training"> {{training.title}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
+
+<!-- DIALOG ACTIONS -->
+<div mat-dialog-actions class="actions">
+  <span class="spacer"></span>
+  <button (click)="close()" mat-button color="primary">OK</button>
+</div>
+
+

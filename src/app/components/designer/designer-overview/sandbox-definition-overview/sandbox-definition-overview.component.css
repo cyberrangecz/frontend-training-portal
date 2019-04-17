@@ -26,7 +26,7 @@ h2 {
 }
 
 .sandbox-def-table {
-  width: 70%;
+  width: 90%;
   margin: auto auto;
   justify-items: center;
   justify-content: center;
@@ -66,16 +66,22 @@ td.title, th.title {
   width: 25%;
 }
 
-td.description, th.description {
-  width: 30%;
+td.associatedTrainingDefs, th.associatedTrainingDefs {
+  width: 45%;
 }
 
 td.authors, th.authors {
-  width: 25%;
+  width: 20%;
 }
 
 td.actions, th.actions {
-  width: 20%;
+  width: 10%;
+}
+
+.multiple-associated-td {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
 }
 
 @media screen and (max-width: 800px) {
