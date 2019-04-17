@@ -13,10 +13,13 @@ import {PipesModule} from "../../../pipes/pipes.module";
 import {ngfModule} from "angular-file";
 import {SandboxDefinitionFacadeModule} from "../../../services/facades/modules/sandbox-definition-facade.module";
 import { AssociatedTrainingDefinitionsDialogComponent } from './sandbox-definition-overview/associated-training-definitions-dialog/associated-training-definitions-dialog.component';
+import {FormsModule} from '@angular/forms';
+import {StateChangeDialogComponent} from './training-definition-overview/state-change-dialog/state-change-dialog.component';
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     ngfModule,
     SharedModule,
     PipesModule,
@@ -32,12 +35,14 @@ import { AssociatedTrainingDefinitionsDialogComponent } from './sandbox-definiti
     TrainingDefinitionOverviewComponent,
     SandboxDefinitionOverviewComponent,
     AssociatedTrainingDefinitionsDialogComponent,
+    StateChangeDialogComponent
   ],
   providers: [
   ],
   entryComponents: [
     DesignerUploadDialogComponent,
-    AssociatedTrainingDefinitionsDialogComponent
+    AssociatedTrainingDefinitionsDialogComponent,
+    StateChangeDialogComponent
   ]
 })
 

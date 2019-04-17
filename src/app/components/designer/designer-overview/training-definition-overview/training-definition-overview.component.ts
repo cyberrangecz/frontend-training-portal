@@ -1,6 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {TrainingDefinitionFacade} from '../../../../services/facades/training-definition-facade.service';
-import {TrainingDefinition} from '../../../../model/training/training-definition';
 import {ActiveUserService} from '../../../../services/active-user.service';
 import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {TrainingDefinitionStateEnum} from '../../../../enums/training-definition-state.enum';
@@ -13,8 +12,10 @@ import {merge, of} from 'rxjs';
 import {environment} from '../../../../../environments/environment';
 import {AlertTypeEnum} from '../../../../enums/alert-type.enum';
 import {ErrorHandlerService} from '../../../../services/error-handler.service';
-import {TrainingDefinitionTableDataModel} from '../../../../model/table-models/training-definition-table-data-model';
+import {TrainingDefinitionTableData} from '../../../../model/table-models/training-definition-table-data';
 import {TableDataWithPaginationWrapper} from '../../../../model/table-models/table-data-with-pagination-wrapper';
+import {HttpErrorResponse} from '@angular/common/http';
+import {StateChangeDialogComponent} from './state-change-dialog/state-change-dialog.component';
 
 @Component({
   selector: 'designer-overview-training-definition',
@@ -29,10 +30,9 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
 
   // needed to compare values against enums in a template
   trainingStateEnum = TrainingDefinitionStateEnum;
-
   displayedColumns: string[] = ['title', 'description', 'state', 'authors', 'actions'];
 
-  dataSource: MatTableDataSource<TrainingDefinitionTableDataModel>;
+  dataSource: MatTableDataSource<TrainingDefinitionTableData>;
 
   resultsLength = 0;
   isLoadingResults = true;
@@ -146,23 +146,46 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
         err => this.errorHandler.displayHttpError(err, 'Cloning training definition'));
   }
 
-  /**
-   * Archives chosen training definition and sends request to edit the training definition in a database
-   * @param {TrainingDefinition} trainingDef training definition which should be edited
-   */
-  archiveTrainingDefinition(trainingDef: TrainingDefinition) {
-    const tempState = trainingDef.state;
-    trainingDef.state = TrainingDefinitionStateEnum.Archived;
-    this.trainingDefinitionFacade.updateTrainingDefinition(trainingDef)
-      .subscribe(response => {
-        this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully archived.');
-        this.fetchData();
-        },
-          err => {
-            trainingDef.state = tempState;
-            this.errorHandler.displayHttpError(err, 'Archiving training definition');
+
+  changeTrainingDefinitionState(row: TrainingDefinitionTableData) {
+    const dialogRef = this.dialog.open(StateChangeDialogComponent, {
+      data: {
+        fromState: row.trainingDefinition.state,
+        toState: row.selectedState
       }
-      );
+    });
+
+    dialogRef.afterClosed().subscribe(result => this.onChangeTrainingStateDialogClosed(row, result));
+  }
+
+  private onChangeTrainingStateDialogClosed(row: TrainingDefinitionTableData, result) {
+    if (result && result.type === 'confirm') {
+      this.sendChangeTrainingDefinitionStateRequest(row);
+    }
+    else {
+      row.selectedState = row.trainingDefinition.state;
+    }
+  }
+
+  private sendChangeTrainingDefinitionStateRequest(row: TrainingDefinitionTableData) {
+    row.isLoadingStateChange = true;
+    this.trainingDefinitionFacade.changeTrainingDefinitionState(row.selectedState, row.trainingDefinition.id)
+      .subscribe(
+        resp => this.onTrainingDefinitionStateChangeConfirmedByServer(row),
+        err => this.onTrainingDefinitionStateChangeDeniedByServer(row, err)
+      )
+  }
+
+  private onTrainingDefinitionStateChangeConfirmedByServer(row: TrainingDefinitionTableData) {
+    row.isLoadingStateChange = false;
+    row.trainingDefinition.state = row.selectedState;
+    row.createPossibleStates();
+  }
+
+  private onTrainingDefinitionStateChangeDeniedByServer(row: TrainingDefinitionTableData, err: HttpErrorResponse) {
+    row.isLoadingStateChange = false;
+    row.selectedState = row.trainingDefinition.state;
+    this.errorHandler.displayHttpError(err, 'Changing state of training definition');
   }
 
   /**
@@ -200,18 +223,19 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
           this.errorHandler.displayHttpError(err, 'Loading training definitions');
           return of([]);
         })
-      ).subscribe((data: TableDataWithPaginationWrapper<TrainingDefinitionTableDataModel[]>) => this.createDataSource(data));
+      ).subscribe((data: TableDataWithPaginationWrapper<TrainingDefinitionTableData[]>) => this.createDataSource(data));
   }
 
   /**
    * Creates table data source from fetched data
    * @param data Training Definitions fetched from server
    */
-  private createDataSource(data: TableDataWithPaginationWrapper<TrainingDefinitionTableDataModel[]>) {
+  private createDataSource(data: TableDataWithPaginationWrapper<TrainingDefinitionTableData[]>) {
     this.dataSource = new MatTableDataSource(data.tableData);
     this.dataSource.filterPredicate =
-      (data: TrainingDefinitionTableDataModel, filter: string) =>
+      (data: TrainingDefinitionTableData, filter: string) =>
         data.trainingDefinition.title.toLowerCase().indexOf(filter) !== -1
         || data.trainingDefinition.state.toLowerCase().indexOf(filter) !== -1;
   }
+
 }

@@ -10,9 +10,6 @@ import {UserFacade} from '../../../../services/facades/user-facade.service';
 import {Router} from '@angular/router';
 import {ActiveUserService} from '../../../../services/active-user.service';
 import {ErrorHandlerService} from '../../../../services/error-handler.service';
-import {map} from 'rxjs/operators';
-import {StateChangeDialogComponent} from '../state-change-dialog/state-change-dialog.component';
-import {Observable, of} from 'rxjs';
 import {TrainingDefinitionFacade} from "../../../../services/facades/training-definition-facade.service";
 import {BetaTestingGroup} from "../../../../model/user/beta-testing-group";
 import {EditBetaTestingGroupComponent} from "./edit-beta-testing-group/edit-beta-testing-group.component";
@@ -40,12 +37,10 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
   outcomes: string[];
   authors: User[];
   sandboxDefId: number;
-  selectedState: string;
   showProgress: boolean;
   betaTestingGroup: BetaTestingGroup;
 
   dirty = false;
-  states: string[];
 
   loggedUserLogin: string;
 
@@ -61,7 +56,6 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.states = Object.values(TrainingDefinitionStateEnum);
     this.loggedUserLogin = this.activeUserService.getActiveUser().login;
   }
 
@@ -123,12 +117,8 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
    */
   saveTrainingDef() {
     if (this.validateInput()) {
-      this.checkStateChange().subscribe(confirmed => {
-        if (confirmed) {
-          this.setInputValuesToTrainingDef();
-          this.sendRequestToSaveChanges();
-        }
-      })
+      this.setInputValuesToTrainingDef();
+      this.sendRequestToSaveChanges();
     }
   }
 
@@ -141,12 +131,11 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.idChange.emit(id);
     this.savedTrainingChange.emit(true);
     this.dirty = false;
-    this.redirectIfStateNotUnreleased();
     this.resolveModeAfterSuccessfulSave();
   }
 
   private resolveModeAfterSuccessfulSave() {
-    if (!this.editMode && this.trainingDefinition.state == TrainingDefinitionStateEnum.Unreleased) {
+    if (!this.editMode) {
       this.router.navigate(['designer/training/' + this.trainingDefinition.id]);
     }
     if (!this.editMode) {
@@ -163,26 +152,6 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     } else {
       this.createTrainingDefinition()
     }
-  }
-
-  private redirectIfStateNotUnreleased() {
-    if (this.trainingDefinition.state !== TrainingDefinitionStateEnum.Unreleased) {
-      this.router.navigate(['/designer']);
-    }
-  }
-
-  private checkStateChange(): Observable<boolean> {
-    if (!this.editMode || this.selectedState === TrainingDefinitionStateEnum.Unreleased ) {
-      return of(true);
-    } else {
-      return this.displayUserDialogToConfirmStateChange()
-    }
-  }
-
-  private displayUserDialogToConfirmStateChange(): Observable<boolean> {
-    const dialogRef = this.dialog.open(StateChangeDialogComponent, {data: this.selectedState});
-    return dialogRef.afterClosed()
-      .pipe(map(result => result && result.type === 'confirm'));
   }
 
   private updateTrainingDefinition() {
@@ -228,7 +197,6 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.description = '';
     this.prerequisites = [''];
     this.outcomes = [''];
-    this.selectedState = 'unreleased';
     this.betaTestingGroup = null;
     this.authors = [this.activeUserService.getActiveUser()];
   }
@@ -241,7 +209,6 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.description = this.trainingDefinition.description;
     this.prerequisites = this.trainingDefinition.prerequisites;
     this.outcomes = this.trainingDefinition.outcomes;
-    this.selectedState = this.trainingDefinition.state;
     this.showProgress = this.trainingDefinition.showStepperBar;
     this.betaTestingGroup = this.trainingDefinition.betaTestingGroup;
     if (!this.prerequisites) this.prerequisites = [''];
@@ -261,7 +228,6 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.trainingDefinition.description = this.description;
     this.trainingDefinition.prerequisites = this.prerequisites;
     this.trainingDefinition.outcomes = this.outcomes;
-    this.trainingDefinition.state = TrainingDefinitionStateEnum[this.selectedState.charAt(0).toUpperCase() + this.selectedState.slice(1)];
     this.trainingDefinition.showStepperBar = this.showProgress;
     this.trainingDefinition.betaTestingGroup = this.betaTestingGroup;
   }

@@ -63,19 +63,6 @@
     <!-- SHOW STEPPER BAR checkbox-->
     <mat-checkbox (change)="contentChanged()"  [(ngModel)]="showProgress">Show Stepper Bar</mat-checkbox>
 
-    <!-- STATE field-->
-    <mat-form-field *ngIf="editMode" appearance="outline">
-      <mat-label>State</mat-label>
-      <mat-select placeholder="State"
-                  (change)="contentChanged()"
-                  [(ngModel)]="selectedState">
-        <mat-option *ngFor="let state of states"
-                    [value]="state">
-          {{ state | titlecase }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
     <!-- BETA TESTING GROUP field-->
     <div  class="line-with-button">
       <p *ngIf="betaTestingGroup" style="color: black"> Beta Testing Group: {{ betaTestingGroup?.organizers | shorterAuthorsFormat: loggedUserLogin }}</p>

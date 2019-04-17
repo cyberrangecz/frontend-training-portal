@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Change state from {{ data.fromState | titlecase}} to  {{ data.toState | titlecase }}</h1>
+<div mat-dialog-content>
+  <p class="mat-body-1">Do you really want to change state to: {{ data.toState | titlecase }} </p>
+  <p class="mat-body-1">{{ displayedText }}</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button  color="warn" cdkFocusInitial (click)="cancel()">Cancel</button>
+  <span class="spacer"></span>
+  <button mat-button color="primary" (click)="confirm()">Confirm</button>
+</div>
