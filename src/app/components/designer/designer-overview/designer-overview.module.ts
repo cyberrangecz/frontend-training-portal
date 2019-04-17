@@ -12,6 +12,7 @@ import {TrainingInstanceFacadeModule} from '../../../services/facades/modules/tr
 import {PipesModule} from "../../../pipes/pipes.module";
 import {ngfModule} from "angular-file";
 import {SandboxDefinitionFacadeModule} from "../../../services/facades/modules/sandbox-definition-facade.module";
+import { AssociatedTrainingDefinitionsDialogComponent } from './sandbox-definition-overview/associated-training-definitions-dialog/associated-training-definitions-dialog.component';
 
 @NgModule({
   imports: [
@@ -30,11 +31,13 @@ import {SandboxDefinitionFacadeModule} from "../../../services/facades/modules/s
     DesignerUploadDialogComponent,
     TrainingDefinitionOverviewComponent,
     SandboxDefinitionOverviewComponent,
+    AssociatedTrainingDefinitionsDialogComponent,
   ],
   providers: [
   ],
   entryComponents: [
     DesignerUploadDialogComponent,
+    AssociatedTrainingDefinitionsDialogComponent
   ]
 })
 
