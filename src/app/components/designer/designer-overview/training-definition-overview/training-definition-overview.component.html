@@ -43,8 +43,8 @@
           </ng-container>
 
           <!-- STATUS Column -->
-          <ng-container matColumnDef="status">
-            <th class="status" mat-header-cell *matHeaderCellDef>Status</th>
+          <ng-container matColumnDef="state">
+            <th class="status" mat-header-cell mat-sort-header *matHeaderCellDef>State</th>
             <td class="status" mat-cell *matCellDef="let data"> {{ data.trainingDefinition?.state }}</td>
           </ng-container>
 
