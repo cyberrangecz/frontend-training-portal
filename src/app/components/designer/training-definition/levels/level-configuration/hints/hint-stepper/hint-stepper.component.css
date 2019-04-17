@@ -3,12 +3,25 @@
   overflow-x: auto;
 }
 
+mat-horizontal-stepper {
+  border: 1px solid gainsboro;
+}
+
+.step-content {
+  padding-top: 20px;
+}
+
 .header {
   display: flex;
   flex-direction: row;
   align-items: baseline;
   margin-bottom: 20px;
 }
+
+mat-divider {
+  position: relative!important;
+}
+
 
 h3 {
   margin: 0;
