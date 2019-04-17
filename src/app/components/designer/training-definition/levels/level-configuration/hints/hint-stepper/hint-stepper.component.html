@@ -26,6 +26,7 @@
         (selectionChange)="selectionChanged($event)"
         #stepper>
         <mat-step *ngFor="let hint of hints; index as i">
+          <mat-divider *ngIf="hints && hints.length > 0"></mat-divider>
           <ng-template matStepLabel>Hint {{ i + 1 }}</ng-template>
           <div class="step-content">
             <hint-configuration [(hint)]="hints[i]"
