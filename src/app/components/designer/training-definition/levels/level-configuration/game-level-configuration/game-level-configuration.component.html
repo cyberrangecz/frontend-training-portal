@@ -44,8 +44,8 @@
       <div class="right-panel">
         <!-- MAX SCORE filed -->
         <mat-form-field appearance="outline" hintLabel="Number in range from 0 to 100">
-          <mat-label>Maximal Score</mat-label>
-          <input matInput [disabled]="isLoading" (ngModelChange)="onContentChanged()" placeholder="Maximal Score" type="number" max="100" min="0" [(ngModel)]="maxScore" required>
+          <mat-label>Points for the level</mat-label>
+          <input matInput [disabled]="isLoading" (ngModelChange)="onContentChanged()" placeholder="Points for the level" type="number" max="100" min="0" [(ngModel)]="maxScore" required>
         </mat-form-field>
 
         <!-- INCORRECT FLAG LIMIT field -->
@@ -66,8 +66,8 @@
 
         <!-- ESTIMATED DURATION field -->
         <mat-form-field appearance="outline" hintLabel="Number in minutes. Range from 1 to 60">
-          <mat-label>Estimated Duration</mat-label>
-          <input matInput [disabled]="isLoading" (ngModelChange)="onContentChanged()" placeholder="Estimated Duration in Seconds" type="number" max="60" min="1" [(ngModel)]="estimatedDuration">
+          <mat-label>Estimated Duration in minutes</mat-label>
+          <input matInput [disabled]="isLoading" (ngModelChange)="onContentChanged()" placeholder="Estimated Duration in Minutes" type="number" max="60" min="1" [(ngModel)]="estimatedDuration">
         </mat-form-field>
 
         <!-- SOLUTION PENALIZED field -->
