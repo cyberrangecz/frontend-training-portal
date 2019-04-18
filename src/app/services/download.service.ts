@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {saveAs} from 'file-saver';
+import {HttpResponse} from '@angular/common/http';
 @Injectable()
 export class DownloadService {
 
@@ -8,8 +9,8 @@ export class DownloadService {
     saveAs(blob, filename);
   }
 
-  downloadJSONFileFromBlobResponse(data: any, filename: string) {
-    let blob = new Blob([data], { type: 'text/json' });
+  downloadJSONFileFromBlobResponse(response: HttpResponse<Blob>, filename: string) {
+    let blob = new Blob([response.body], { type: 'text/json' });
     saveAs(blob, filename);
   }
 }
