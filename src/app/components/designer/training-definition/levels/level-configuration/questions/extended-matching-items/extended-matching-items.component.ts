@@ -59,7 +59,6 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
       if (this.isTest) {
         this.required = true;
       } else {
-        this.score = 0;
         this.penalty = 0;
       }
 
@@ -89,6 +88,7 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
   }
 
   requiredChanged() {
+    this.score = 0;
     this.clearAnswers();
   }
 
@@ -220,14 +220,16 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
     this.question.correctAnswers = this.correctAnswers;
     this.question.required = this.required;
 
-    if (this.question.required && this.isTest) {
-      this.question.penalty = this.penalty;
+    if (this.question.required) {
       this.question.score = this.score;
     } else {
-      this.question.penalty = 0;
       this.question.score = 0;
     }
-
+    if (this.isTest) {
+      this.question.penalty = this.penalty;
+    } else {
+      this.question.penalty = 0;
+    }
   }
 
   /**
