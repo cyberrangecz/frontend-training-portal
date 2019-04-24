@@ -9,11 +9,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { AuthorRefDto } from '../user/author-ref-dto';
-import { SandboxDefinitionRefDto } from '../sandbox-definition/sandbox-definition-ref-dto';
-import {BetaTestingGroupDTO} from "./betaTestingGroupDTO";
 import {BetaTestingGroupUpdateDTO} from "./betaTestingGroupUpdateDTO";
-import {UserRefDTO} from "../user/user-ref-dto";
 import {UserBasicDTO} from "../user/user-basic-dto";
 
 

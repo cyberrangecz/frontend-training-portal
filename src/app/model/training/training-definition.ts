@@ -20,8 +20,7 @@ export class TrainingDefinition {
   levels: AbstractLevel[];
   showStepperBar: boolean;
   startingLevelId: number;
-
-  canBeArchived: boolean;
+  lastEditTime: Date;
 
 
   constructor() {

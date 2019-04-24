@@ -17,6 +17,7 @@ export class TrainingDefinitionDTO {
   state?: TrainingDefinitionDTO.StateEnum;
   title?: string;
   beta_testing_group?: BetaTestingGroupDTO;
+  last_edited?: Date;
 }
 export namespace TrainingDefinitionDTO {
     export type StateEnum = 'RELEASED' | 'ARCHIVED' | 'UNRELEASED';
