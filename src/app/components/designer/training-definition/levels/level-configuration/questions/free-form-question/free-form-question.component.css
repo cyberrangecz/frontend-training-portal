@@ -3,6 +3,10 @@
   flex-direction: row;
 }
 
+.warn {
+  color: #f44336;
+}
+
 .left-panel {
   display: flex;
   flex-direction: column;
@@ -22,6 +26,11 @@
 }
 
 .right-panel > * {
+  margin-bottom: 10px;
+}
+
+button.clear-answers {
+  width: 120px;
   margin-bottom: 10px;
 }
 

@@ -90,8 +90,14 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
 
   requiredChanged() {
     this.score = 0;
+    this.clearAnswers();
+  }
+
+  private clearAnswers() {
+    this.answers = [];
     this.contentChanged();
   }
+
   /**
    * Sets initial values from passed question to the user input components
    */
@@ -139,10 +145,19 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
       errorMessage += 'Question score must be a number in range from 0 to ' + this.maxQuestionScore + '\n'
     }
 
+    if (this.required && this.hasEmptyAnswer()) {
+      errorMessage += 'Required question must have at least one answer and all must be not empty';
+    }
+
     if (errorMessage !== '') {
       this.alertService.emitAlert(AlertTypeEnum.Error, errorTitle + errorMessage);
       return false;
     }
     return true;
+  }
+
+  private hasEmptyAnswer(): boolean {
+    return  this.answers.length < 1
+      || this.answers.some(answer => answer.replace(/\s/g, '')  === '');
   }
 }

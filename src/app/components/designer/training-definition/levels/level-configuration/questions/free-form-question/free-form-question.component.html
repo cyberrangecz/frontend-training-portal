@@ -9,7 +9,8 @@
       </button>
     </mat-form-field>
 
-    <!-- CORRECT ANSWERS filed -->
+    <button *ngIf="answers.length > 0" mat-button color="warn" (click)="clearAnswers()" class="clear-answers">Clear Answers</button>
+    <!-- CORRECT ANSWERS field -->
     <div class="answer" *ngFor="let answer of answers; index as i; trackBy: trackByFn;">
       <mat-form-field appearance="outline">
         <mat-label>Answer {{ i + 1}}</mat-label>
@@ -23,7 +24,7 @@
       </button>
     </div>
 
-    <button mat-icon-button>
+    <button *ngIf="required" mat-icon-button>
       <mat-icon aria-label="Add correct answer" color="primary" (click)="addAnswer()">add_circle</mat-icon>
     </button>
   </div>
@@ -44,6 +45,6 @@
 
     <!-- REQUIRED checkbox -->
     <mat-checkbox [disabled]="isTest" (ngModelChange)="requiredChanged()" [(ngModel)]="required">Required</mat-checkbox>
+    <p *ngIf="required" class="warn">Switching to not required will delete your answers.</p>
   </div>
 </div>
-

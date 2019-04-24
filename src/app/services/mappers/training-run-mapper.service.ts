@@ -153,7 +153,7 @@ export class TrainingRunMapper {
   private mapMCQToUserAnswerDTO(question: MultipleChoiceQuestion): MultipleChoiceQuestionAnswerDTO {
     const result = new MultipleChoiceQuestionAnswerDTO();
     result.question_order = question.order;
-    result.choices = question.usersAnswersIndexes;
+    result.choices = question.usersAnswersIndices;
     return result;
   }
 

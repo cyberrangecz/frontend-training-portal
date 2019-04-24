@@ -21,7 +21,7 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
 
   title: string;
   options: string[];
-  correctAnswersIndexes: number[];
+  correctAnswersIndices: number[];
   score: number;
   penalty: number;
   required: boolean;
@@ -71,7 +71,7 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
    * Deletes all answers selected by user
    */
   clearAnswers() {
-    this.correctAnswersIndexes = [];
+    this.correctAnswersIndices = [];
     this.contentChanged();
   }
 
@@ -127,7 +127,7 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
 
   requiredChanged() {
     this.score = 0;
-    this.contentChanged();
+    this.clearAnswers();
   }
 
   /**
@@ -135,7 +135,7 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
    * @param index index of the answer which should be marked as correct
    */
   private addCorrectAnswer(index: number) {
-    this.correctAnswersIndexes.push(index);
+    this.correctAnswersIndices.push(index);
     this.contentChanged();
 
   }
@@ -145,9 +145,9 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
    * @param index index of the answer which should be deleted
    */
   private removeCorrectAnswer(index: number) {
-    const indexToRemove = this.correctAnswersIndexes.indexOf(index);
+    const indexToRemove = this.correctAnswersIndices.indexOf(index);
     if (indexToRemove != -1) {
-      this.correctAnswersIndexes.splice(indexToRemove, 1);
+      this.correctAnswersIndices.splice(indexToRemove, 1);
       this.contentChanged();
     }
   }
@@ -158,7 +158,7 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
   private setInitialValues() {
     this.title = this.question.title;
     this.options = this.question.options;
-    this.correctAnswersIndexes = this.question.correctAnswersIndexes;
+    this.correctAnswersIndices = this.question.correctAnswersIndices;
     this.score = this.question.score;
     this.penalty = this.question.penalty;
     this.required = this.question.required;
@@ -170,7 +170,7 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
   private setInputValues() {
     this.question.title = this.title;
     this.question.options = this.options;
-    this.question.correctAnswersIndexes = this.correctAnswersIndexes;
+    this.question.correctAnswersIndices = this.correctAnswersIndices;
     this.question.required = this.required;
 
     if (this.question.required) {
@@ -214,6 +214,9 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
       }
     }
 
+    if (this.required && !this.hasSelectedAnswers()) {
+      errorMessage += "Required question must have selected correct answers"
+    }
     if (errorMessage !== '') {
       this.alertService.emitAlert(AlertTypeEnum.Error, errorTitle + errorMessage);
       return false;
@@ -221,4 +224,7 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
     return true;
   }
 
+  private hasSelectedAnswers(): boolean {
+    return this.correctAnswersIndices && this.correctAnswersIndices.length >= 1;
+  }
 }

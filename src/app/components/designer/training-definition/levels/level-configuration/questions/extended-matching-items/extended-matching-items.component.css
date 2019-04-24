@@ -7,6 +7,11 @@ mat-checkbox {
   flex-direction: column;
 }
 
+p.required-switch-note {
+  text-align: right;
+  color: #f44336;
+}
+
 table {
   margin-top: 10px;
   max-width: 100%;

@@ -36,7 +36,7 @@ export class MultipleChoiceQuestionTraineeComponent implements OnInit {
    * Saves changes from user input to question object
    */
   saveChanges() {
-    this.question.usersAnswersIndexes = this.userAnswersIndexes;
+    this.question.usersAnswersIndices = this.userAnswersIndexes;
   }
 
   /**
