@@ -15,6 +15,7 @@ import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
 import {ErrorHandlerService} from "../../../../services/error-handler.service";
 import {SandboxDefinitionTableData} from "../../../../model/table-models/sandbox-definition-table-data";
 import {AssociatedTrainingDefinitionsDialogComponent} from './associated-training-definitions-dialog/associated-training-definitions-dialog.component';
+import {AssociatedTrainingDefinition} from '../../../../model/training/associated-training-definition';
 
 @Component({
   selector: 'designer-overview-sandbox-definition',
@@ -155,7 +156,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
     data.forEach(sandbox => {
       const tableDataObject = new SandboxDefinitionTableData();
       tableDataObject.sandbox = sandbox;
-      this.trainingDefinitionFacade.getTrainingDefinitionsBySandboxDefinitionId(sandbox.id)
+      this.trainingDefinitionFacade.getTrainingDefinitionsAssociatedWithSandboxDefinition(sandbox.id)
         .subscribe(result => {
           tableDataObject.associatedTrainingDefinitions = result;
           tableDataObject.canBeRemoved = this.canSandboxBeRemoved(tableDataObject.sandbox, tableDataObject.associatedTrainingDefinitions);
@@ -183,12 +184,12 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
    * Determines if sandbox definition can be removed (if sandbox is not associated with any training definition or all
    * associated training definitions are archived.
    * @param {SandboxDefinition} sandbox definition to determine if can be removed
-   * @param {TrainingDefinition[]} assocTrainings training definitions associated with the sandbox definitions
+   * @param {AssociatedTrainingDefinition[]} assocTrainings training definitions associated with the sandbox definitions
    * @returns {boolean} true if sandbox definition can be removed, false otherwise
    */
-  private canSandboxBeRemoved(sandbox: SandboxDefinition, assocTrainings: TrainingDefinition[]): boolean {
-        return assocTrainings.length === 0 || assocTrainings.every(training =>
-            training.state === TrainingDefinitionStateEnum.Archived);
+  private canSandboxBeRemoved(sandbox: SandboxDefinition, assocTrainings: AssociatedTrainingDefinition[]): boolean {
+        return assocTrainings.length === 0;
+          //|| assocTrainings.every(training => training.state === TrainingDefinitionStateEnum.Archived);
   }
 
 }

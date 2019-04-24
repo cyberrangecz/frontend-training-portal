@@ -15,6 +15,10 @@ import {BetaTestingGroup} from '../../model/user/beta-testing-group';
 import {BetaTestingGroupCreateDTO} from '../../model/DTOs/training-definition/betaTestingGroupCreateDTO';
 import {BetaTestingGroupUpdateDTO} from '../../model/DTOs/training-definition/betaTestingGroupUpdateDTO';
 import {UserMapper} from './user.mapper.service';
+import {RestResourceDTO} from 'kypo2-user-and-group-management/lib/model/DTO/rest-resource-dto.model';
+import {AssociatedTrainingDefinition} from '../../model/training/associated-training-definition';
+import {AssociatedTrainingDefinitionDTO} from '../../model/DTOs/training-definition/associated-training-definition-dto';
+import {AssociatedTrainingDefinitionRestResource} from '../../model/DTOs/training-definition/associated-training-definition-rest-resource';
 
 @Injectable()
 export class TrainingDefinitionMapper {
@@ -119,6 +123,18 @@ export class TrainingDefinitionMapper {
     result.state = this.mapTrainingDefStateToDTOEnum(trainingDefinition.state);
     result.title = trainingDefinition.title;
     result.beta_testing_group = this.createBetaTestingGroupUpdateDTO(trainingDefinition.betaTestingGroup);
+    return result;
+  }
+
+  mapAssociatedTrainingDefinitionDTOsToAssociatedTrainingDefinitions(dtos: AssociatedTrainingDefinitionRestResource): AssociatedTrainingDefinition[] {
+    return dtos.content.map(dto => this.mapAssociatedTrainingDefinitionDTOToAssociatedTrainingDefinition(dto));
+  }
+
+  mapAssociatedTrainingDefinitionDTOToAssociatedTrainingDefinition(dto: AssociatedTrainingDefinitionDTO): AssociatedTrainingDefinition {
+    const result = new AssociatedTrainingDefinition();
+    result.id = dto.id;
+    result.title = dto.title;
+    result.canBeEdited = dto.can_edit;
     return result;
   }
 
