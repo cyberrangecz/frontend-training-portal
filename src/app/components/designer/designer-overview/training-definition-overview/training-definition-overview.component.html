@@ -72,6 +72,14 @@
             </td>
           </ng-container>
 
+          <!-- LASTEDIT Column -->
+          <ng-container matColumnDef="last-edit">
+            <th class="last-edit" mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="isInErrorState">Last Edit</th>
+            <td class="last-edit" mat-cell *matCellDef="let data">
+              {{ data.trainingDefinition?.lastEditTime | dateTimeFormat }}
+            </td>
+          </ng-container>
+
           <!--ACTIONS Column -->
           <ng-container matColumnDef="actions">
             <th class="actions" mat-header-cell *matHeaderCellDef >Actions</th>
