@@ -13,7 +13,7 @@
 /**
  * Info Level to update.
  */
-export interface InfoLevelUpdateDTO{
+export interface InfoLevelUpdateDTO {
     content?: string;
     id?: number;
     title?: string;

@@ -32,6 +32,12 @@
           </button>
         </mat-form-field>
 
+        <!-- ESTIMATED DURATION field -->
+        <mat-form-field appearance="outline" hintLabel="Number in minutes. Range from 1 to 60">
+          <mat-label>Estimated Duration in minutes</mat-label>
+          <input matInput [disabled]="isLoading" (ngModelChange)="onContentChanged()" placeholder="Estimated Duration in Minutes" type="number" max="60" min="1" [(ngModel)]="estimatedDuration">
+        </mat-form-field>
+
         <!--CONTENT field -->
         <h3>Content</h3>
         <markdown-editor class="mrkdwn-content" (contentChange)="onContentChanged()" [(content)]="content"></markdown-editor>
@@ -62,12 +68,6 @@
             <mat-icon>close</mat-icon>
           </button>
           <mat-hint align="end">{{flag?.length || 0}}/50</mat-hint>
-        </mat-form-field>
-
-        <!-- ESTIMATED DURATION field -->
-        <mat-form-field appearance="outline" hintLabel="Number in minutes. Range from 1 to 60">
-          <mat-label>Estimated Duration in minutes</mat-label>
-          <input matInput [disabled]="isLoading" (ngModelChange)="onContentChanged()" placeholder="Estimated Duration in Minutes" type="number" max="60" min="1" [(ngModel)]="estimatedDuration">
         </mat-form-field>
 
         <!-- SOLUTION PENALIZED field -->

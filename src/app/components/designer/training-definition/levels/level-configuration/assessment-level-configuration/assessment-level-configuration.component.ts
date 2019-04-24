@@ -29,6 +29,7 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
   title: string;
   instructions: string;
   isTest: boolean;
+  estimatedDuration: number;
   questions: AbstractQuestion[];
 
   dirty = false;
@@ -104,6 +105,12 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
       errorMessage += 'Title cannot be empty\n'
     }
 
+    if (!this.estimatedDuration && this.estimatedDuration !== 0) {
+      this.estimatedDuration = 60;
+    } else if (this.estimatedDuration < 1 || this.estimatedDuration > 60) {
+      errorMessage += 'Estimated duration must be a number in range from 1 to 60\n'
+    }
+
     if (errorMessage !== '') {
       this.alertService.emitAlert(AlertTypeEnum.Error, errorMessage);
       return false;
@@ -123,6 +130,7 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
     } else {
       this.level.assessmentType = AssessmentTypeEnum.Questionnaire;
     }
+    this.level.estimatedDuration = this.estimatedDuration;
   }
 
   /**
@@ -134,6 +142,7 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
       this.questions = this.level.questions;
       this.instructions = this.level.instructions;
       this.isTest = this.level.assessmentType === AssessmentTypeEnum.Test;
+      this.estimatedDuration = this.level.estimatedDuration;
     }
   }
 

@@ -22,6 +22,7 @@ export interface AssessmentLevelUpdateDTO {
     id?: number;
     title?: string;
     max_score?: number;
+    estimated_duration: number;
     instructions?: string;
     questions?: string;
     type?: AssessmentLevelUpdateDTO.TypeEnum;
@@ -40,5 +41,6 @@ export class AssessmentLevelUpdateDTOClass implements AssessmentLevelUpdateDTO {
   max_score: number;
   questions: string;
   title: string;
+  estimated_duration: number;
   type: AssessmentLevelUpdateDTO.TypeEnum;
 }
