@@ -9,7 +9,8 @@
       </button>
     </mat-form-field>
 
-    <!-- CORRECT ANSWERS filed -->
+    <button *ngIf="answers.length > 0" mat-button color="warn" (click)="clearAnswers()" class="clear-answers">Clear Answers</button>
+    <!-- CORRECT ANSWERS field -->
     <div class="answer" *ngFor="let answer of answers; index as i; trackBy: trackByFn;">
       <mat-form-field appearance="outline">
         <mat-label>Answer {{ i + 1}}</mat-label>

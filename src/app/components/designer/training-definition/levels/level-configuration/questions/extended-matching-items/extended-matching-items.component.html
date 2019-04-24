@@ -20,7 +20,11 @@
     </mat-form-field>
 
     <mat-checkbox [disabled]="isTest" (ngModelChange)="requiredChanged()" [(ngModel)]="required">Required</mat-checkbox>
+    <p *ngIf="required" class="required-switch-note">Switching to not required will delete your answers.</p>
   </div>
+
+  <button *ngIf="correctAnswers.length > 0" mat-button color="warn" (click)="clearAnswers()" class="clear-answers">Clear Answers</button>
+
 
   <!-- EMI -->
   <table>
@@ -94,7 +98,6 @@
         </button>
       </td>
     </tr>
-    <button mat-button color="warn" (click)="clearAnswers()" class="clear-answers">Clear Answers</button>
   </table>
   <p class="note">Note: Do not forget to select correct answers</p>
 </div>

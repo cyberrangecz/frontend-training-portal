@@ -325,7 +325,7 @@ export class LevelMapper {
     questionDTO.choices
       .filter(choice => choice.is_correct)
       .forEach(correctChoice => answers.push(correctChoice.order));
-    result.correctAnswersIndexes = answers;
+    result.correctAnswersIndices = answers;
 
     questionDTO.choices
       .sort((a, b) => a.order - b.order)
@@ -391,7 +391,7 @@ export class LevelMapper {
       const choice =  new MCQChoiceDTO();
       choice.text = option;
       choice.order = index;
-      choice.is_correct = question.correctAnswersIndexes.includes(index);
+      choice.is_correct = question.correctAnswersIndices.includes(index);
       result.push(choice);
       index++;
     });

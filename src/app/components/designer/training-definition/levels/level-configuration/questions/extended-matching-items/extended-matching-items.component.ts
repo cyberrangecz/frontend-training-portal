@@ -277,24 +277,18 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
 
     for (let i = 0; i < this.rows.length; i++) {
       if (!this.rows[i] || this.rows[i].replace(/\s/g, '') === '') {
-        errorMessage += (i + 1) + '. row cannot be empty\n'
+        errorMessage += (i + 1) + '. row title cannot be empty\n'
       }
     }
 
     for (let i = 0; i < this.cols.length; i++) {
       if (!this.cols[i] || this.cols[i].replace(/\s/g, '') === '') {
-        errorMessage += (i + 1) + '. column cannot be empty\n'
+        errorMessage += (i + 1) + '. column title cannot be empty\n'
       }
     }
 
-    if (this.correctAnswers.length > 0) {
-      this.correctAnswers.sort((fst, snd) => fst.x - snd.x);
-      for (let i = 0; i < this.rows.length; i++) {
-        if (!this.correctAnswers[i]) {
-          errorMessage += 'Either none or all answers in EMI have to be selected\n';
-          break;
-        }
-      }
+    if (this.required && !this.hasSelectedAnswers()) {
+      errorMessage="Required question must have selected correct answers"
     }
 
     if (errorMessage !== '') {
@@ -302,5 +296,9 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
       return false;
     }
     return true;
+  }
+
+  private hasSelectedAnswers() {
+    return this.rows.length === this.correctAnswers.length;
   }
 }
