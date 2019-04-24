@@ -8,6 +8,7 @@ export abstract class AbstractLevel {
   title: string;
   order: number;
   nextLevelId: number;
+  estimatedDuration: number;
   maxScore: number;
   preHook: string;
   postHook: string;

@@ -99,6 +99,7 @@ export class LevelMapper {
     result.id = level.id;
     result.title = level.title;
     result.max_score = level.maxScore;
+    result.estimated_duration = level.estimatedDuration;
     result.instructions = level.instructions;
     result.type = this.mapAssessmentTypeToDTO(level.assessmentType);
     result.questions = '[]';
@@ -173,7 +174,6 @@ export class LevelMapper {
     result.solution = gameLevelDTO.solution;
     result.incorrectFlagLimit = gameLevelDTO.incorrect_flag_limit;
     result.solutionPenalized = gameLevelDTO.solution_penalized;
-    result.estimatedDuration = gameLevelDTO.estimated_duration;
     result.attachments = gameLevelDTO.attachments;
     if (gameLevelDTO.hints) {
       result.hints = this.mapHintsDTOToHints(gameLevelDTO.hints);
@@ -218,6 +218,7 @@ export class LevelMapper {
     level.id = levelDTO.id;
     level.title = levelDTO.title;
     level.nextLevelId = levelDTO.next_level;
+    level.estimatedDuration = levelDTO.estimated_duration;
     level.maxScore = levelDTO.max_score;
   }
 
