@@ -45,6 +45,10 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
       if (this.isTest) {
         this.required = true;
       }
+      else {
+        this.score = 0;
+        this.penalty = 0;
+      }
     }
   }
 
@@ -165,7 +169,7 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
     this.question.correctAnswersIndexes = this.correctAnswersIndexes;
     this.question.required = this.required;
 
-    if (this.question.required) {
+    if (this.question.required && this.isTest) {
       this.question.penalty = this.penalty;
       this.question.score = this.score;
     } else {
