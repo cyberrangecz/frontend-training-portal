@@ -17,6 +17,7 @@ export class TrainingDefinitionDTO {
   state?: TrainingDefinitionDTO.StateEnum;
   title?: string;
   beta_testing_group?: BetaTestingGroupDTO;
+  estimated_duration: number;
   last_edited?: Date;
 }
 export namespace TrainingDefinitionDTO {

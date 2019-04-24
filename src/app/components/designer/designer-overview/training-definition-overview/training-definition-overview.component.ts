@@ -30,7 +30,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
 
   // needed to compare values against enums in a template
   trainingStateEnum = TrainingDefinitionStateEnum;
-  displayedColumns: string[] = ['title', 'description', 'state', 'authors', 'last-edit', 'actions'];
+  displayedColumns: string[] = ['title', 'description', 'state', 'authors', 'estimated-duration', 'last-edit', 'actions'];
 
   dataSource: MatTableDataSource<TrainingDefinitionTableData>;
 

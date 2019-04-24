@@ -179,10 +179,10 @@ export class TrainingDefinitionFacade {
    * @param {TrainingDefinition} trainingDef training definition which should be created
    */
   createTrainingDefinition(trainingDef: TrainingDefinition): Observable<number> {
-    return this.http.post<number>(this.trainingDefsEndpointUri,
+    return this.http.post<TrainingDefinitionDTO>(this.trainingDefsEndpointUri,
       this.trainingDefinitionMapper.mapTrainingDefinitionToTrainingDefinitionCreateDTO(trainingDef),
       { headers: this.createDefaultHeaders()})
-      .pipe(map(trainingDef => (trainingDef as TrainingDefinitionDTO).id));
+      .pipe(map(trainingDef => trainingDef.id));
   }
 
   /**
