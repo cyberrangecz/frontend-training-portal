@@ -23,7 +23,7 @@
       </button>
     </div>
 
-    <button mat-icon-button>
+    <button *ngIf="required" mat-icon-button>
       <mat-icon aria-label="Add correct answer" color="primary" (click)="addAnswer()">add_circle</mat-icon>
     </button>
   </div>
@@ -44,6 +44,6 @@
 
     <!-- REQUIRED checkbox -->
     <mat-checkbox [disabled]="isTest" (ngModelChange)="requiredChanged()" [(ngModel)]="required">Required</mat-checkbox>
+    <p *ngIf="required" class="warn">Switching to not required will delete your answers.</p>
   </div>
 </div>
-

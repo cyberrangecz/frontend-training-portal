@@ -3,6 +3,10 @@
   flex-direction: row;
 }
 
+.warn {
+  color: #f44336;
+}
+
 .left-panel {
   display: flex;
   flex-direction: column;
