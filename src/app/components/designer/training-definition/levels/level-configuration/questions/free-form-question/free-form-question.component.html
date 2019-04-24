@@ -33,7 +33,7 @@
     <!-- SCORE field -->
     <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionScore }}">
       <mat-label>Points</mat-label>
-      <input [disabled]="!required || !isTest" (ngModelChange)="contentChanged()" matInput placeholder="Points" type="number" [max]="maxQuestionScore" min="0" [(ngModel)]="score" [required]="required">
+      <input [disabled]="!required" (ngModelChange)="contentChanged()" matInput placeholder="Points" type="number" [max]="maxQuestionScore" min="0" [(ngModel)]="score" [required]="required">
     </mat-form-field>
 
     <!-- PENALTY field -->
@@ -43,7 +43,7 @@
     </mat-form-field>
 
     <!-- REQUIRED checkbox -->
-    <mat-checkbox [disabled]="isTest" (ngModelChange)="contentChanged()" [(ngModel)]="required">Required</mat-checkbox>
+    <mat-checkbox [disabled]="isTest" (ngModelChange)="requiredChanged()" [(ngModel)]="required">Required</mat-checkbox>
   </div>
 </div>
 

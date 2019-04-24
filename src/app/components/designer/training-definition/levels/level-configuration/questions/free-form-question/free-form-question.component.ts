@@ -43,7 +43,6 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
         this.required = true;
       }
       else {
-        this.score = 0;
         this.penalty = 0;
       }
     }
@@ -89,6 +88,10 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
     return index;
   }
 
+  requiredChanged() {
+    this.score = 0;
+    this.contentChanged();
+  }
   /**
    * Sets initial values from passed question to the user input components
    */
@@ -108,12 +111,15 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
     this.question.correctAnswers = this.answers;
     this.question.required = this.required;
 
-    if (this.question.required && this.isTest) {
-      this.question.penalty = this.penalty;
+    if (this.question.required) {
       this.question.score = this.score;
     } else {
-      this.question.penalty = 0;
       this.question.score = 0;
+    }
+    if (this.isTest) {
+      this.question.penalty = this.penalty;
+    } else {
+      this.question.penalty = 0;
     }
   }
 
