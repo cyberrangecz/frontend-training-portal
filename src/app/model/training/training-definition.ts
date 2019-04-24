@@ -10,18 +10,20 @@ export class TrainingDefinition {
 
   id: number;
   sandboxDefinitionId: number;
+  startingLevelId: number;
+  estimatedDuration: number;
+  showStepperBar: boolean;
   title: string;
   description: string;
-  authors: User[];
-  betaTestingGroup: BetaTestingGroup;
   prerequisites: string[];
   outcomes: string[];
   state: TrainingDefinitionStateEnum;
+  betaTestingGroup: BetaTestingGroup;
+  authors: User[];
   levels: AbstractLevel[];
-  showStepperBar: boolean;
-  startingLevelId: number;
-  lastEditTime: Date;
 
+
+  lastEditTime: Date;
 
   constructor() {
   }

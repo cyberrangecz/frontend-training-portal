@@ -70,7 +70,7 @@ td.title, th.title {
 }
 
 td.description, th.description {
-  width: 25%;
+  width: 20%;
 }
 
 td.authors, th.authors {
@@ -79,12 +79,16 @@ td.authors, th.authors {
 }
 
 td.last-edit, th.last-edit {
-  width: 15%;
+  width: 10%;
 }
 
 td.actions, th.actions {
   text-align: center;
   width: 20%;
+}
+
+td.estimated-duration, th.estimated-duration {
+  width: 10%;
 }
 
 td.state, th.state {
