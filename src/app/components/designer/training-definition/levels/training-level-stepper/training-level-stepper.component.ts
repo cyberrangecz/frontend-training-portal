@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import {AbstractLevel} from "../../../../../model/level/abstract-level";
 import {LevelConfigurationComponent} from "../level-configuration/level-configuration.component";
-import {DeleteDialogComponent} from "../../delete-dialog/delete-dialog.component";
+import {DeleteDialogComponent} from "../../../../shared/delete-dialog/delete-dialog.component";
 import {MatDialog} from "@angular/material";
 import {AlertService} from "../../../../../services/event-services/alert.service";
 import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";

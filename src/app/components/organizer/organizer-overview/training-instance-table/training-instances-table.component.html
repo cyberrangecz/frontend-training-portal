@@ -127,10 +127,10 @@
                 <!-- REMOVE button-->
                 <button *ngIf="training.trainingInstance?.endTime.valueOf() < now"
                         mat-icon-button color="warn"
-                        matTooltip="Remove training instance"
-                        (click)="removeTraining(training);$event.stopPropagation()">
+                        matTooltip="Delete training instance"
+                        (click)="deleteTraining(training);$event.stopPropagation()">
                   <mat-icon
-                    aria-label="Remove training instance button">
+                    aria-label="Delete training instance button">
                     delete</mat-icon>
                 </button>
 

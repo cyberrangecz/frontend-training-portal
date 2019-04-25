@@ -16,6 +16,7 @@ import {ErrorHandlerService} from "../../../../services/error-handler.service";
 import {SandboxDefinitionTableData} from "../../../../model/table-models/sandbox-definition-table-data";
 import {AssociatedTrainingDefinitionsDialogComponent} from './associated-training-definitions-dialog/associated-training-definitions-dialog.component';
 import {TrainingDefinitionInfo} from '../../../../model/training/training-definition-info';
+import {DeleteDialogComponent} from "../../../shared/delete-dialog/delete-dialog.component";
 
 @Component({
   selector: 'designer-overview-sandbox-definition',
@@ -84,15 +85,20 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
   }
   /**
    * Removes sandbox definition data object from data source and sends request to delete the sandbox in database
-   * @param {SandboxDefinitionTableDataObject} sandboxDataObject sandbox definition data object which should be deleted
+   * @param {SandboxDefinitionTableData} sandboxRow sandbox definition data row which should be deleted
    */
-  removeSandboxDefinition(sandboxDataObject: SandboxDefinitionTableData) {
-    this.sandboxDefinitionFacade.removeSandboxDefinition(sandboxDataObject.sandbox.id)
-      .subscribe(resp => {
-        this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox was successfully removed.');
-        this.fetchData();
-      },
-        err => this.errorHandler.displayHttpError(err, 'Removing sandbox definition'));
+  deleteSandboxDefinition(sandboxRow: SandboxDefinitionTableData) {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: {
+        type: 'Sandbox Definition',
+        title: sandboxRow.sandbox.title
+      }
+    });
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result && result.type === 'confirm')
+          this.sendRequestToDeleteSandboxDefinition(sandboxRow.sandbox.id)
+      });
   }
 
   showAssociatedTrainingDefinitions(row: SandboxDefinitionTableData) {
@@ -190,6 +196,15 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
   private canSandboxBeRemoved(sandbox: SandboxDefinition, assocTrainings: TrainingDefinitionInfo[]): boolean {
         return assocTrainings.length === 0;
           //|| assocTrainings.every(training => training.state === TrainingDefinitionStateEnum.Archived);
+  }
+
+  private sendRequestToDeleteSandboxDefinition(sandboxId: number) {
+    this.sandboxDefinitionFacade.deleteSandboxDefinition(sandboxId)
+      .subscribe(resp => {
+          this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox was successfully deleted.');
+          this.fetchData();
+        },
+        err => this.errorHandler.displayHttpError(err, 'Removing sandbox definition'));
   }
 
 }

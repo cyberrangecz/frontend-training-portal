@@ -117,10 +117,10 @@
                 <button *ngIf="data.trainingDefinition?.state === trainingStateEnum.Unreleased ||
                              data.trainingDefinition?.state === trainingStateEnum.Archived"
                         mat-icon-button color="warn"
-                        matTooltip="Remove training definition"
-                        (click)="removeTrainingDefinition(data.trainingDefinition?.id)">
+                        matTooltip="Delete training definition"
+                        (click)="deleteTrainingDefinition(data.trainingDefinition)">
                   <mat-icon
-                    aria-label="Remove training definition button"
+                    aria-label="Delete training definition button"
                   >delete</mat-icon>
                 </button>
 
