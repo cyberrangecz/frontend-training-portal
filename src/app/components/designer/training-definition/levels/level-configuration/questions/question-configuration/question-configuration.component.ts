@@ -19,6 +19,7 @@ export class QuestionConfigurationComponent implements OnInit, OnChanges {
 
   @Input('question') question: AbstractQuestion;
   @Input('isTest') isTest: boolean;
+  @Input('required') required: boolean;
 
   @Output('question') questionChange = new EventEmitter();
 

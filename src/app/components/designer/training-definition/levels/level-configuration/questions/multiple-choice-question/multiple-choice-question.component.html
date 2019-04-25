@@ -1,6 +1,4 @@
 <div class="content">
-
-  <div class="left-panel">
   <!-- TITLE field-->
     <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>
@@ -11,8 +9,22 @@
     </mat-form-field>
 
 
-    <button *ngIf="correctAnswersIndices.length > 0" mat-button color="warn" (click)="clearAnswers()" class="clear-answers">Clear Answers</button>
+  <div class="inline-input">
+    <!-- SCORE field -->
+    <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionScore }}">
+      <mat-label>Points</mat-label>
+      <input [disabled]="!required" (ngModelChange)="contentChanged()" matInput placeholder="Points" type="number" [max]="maxQuestionScore" min="0" [(ngModel)]="score" [required]="required">
+    </mat-form-field>
 
+    <!-- PENALTY field -->
+    <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionPenalty }}">
+      <mat-label>Penalty points</mat-label>
+      <input [disabled]="!required || !isTest" (ngModelChange)="contentChanged()" matInput placeholder="Question Penalty points" type="number" [max]="maxQuestionPenalty" min="0" [(ngModel)]="penalty" [required]="required">
+    </mat-form-field>
+  </div>
+
+
+    <button *ngIf="correctAnswersIndices.length > 0" mat-button color="warn" (click)="clearAnswers()" class="clear-answers">Clear Answers</button>
     <!-- OPTIONS field -->
     <div *ngFor="let option of options; index as i; trackBy: trackByFn" class="option">
       <mat-checkbox [disabled]="!required" [checked]="correctAnswersIndices.includes(i)" (change)="onAnswerChanged($event, i)"></mat-checkbox>
@@ -33,29 +45,5 @@
             (click)="addOption()">
       <mat-icon>add_circle</mat-icon>
     </button>
-
-    <!-- NOTE -->
-    <p class="note">Note: Do not forget to select correct answers</p>
-  </div>
-
-  <mat-divider [vertical]="true"></mat-divider>
-
-  <div class="right-panel">
-    <!-- SCORE field -->
-    <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionScore }}">
-      <mat-label>Points</mat-label>
-      <input [disabled]="!required" (ngModelChange)="contentChanged()" matInput placeholder="Points" type="number" [max]="maxQuestionScore" min="0" [(ngModel)]="score" [required]="required">
-    </mat-form-field>
-
-    <!-- PENALTY field -->
-    <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionPenalty }}">
-      <mat-label>Penalty points</mat-label>
-      <input [disabled]="!required || !isTest" (ngModelChange)="contentChanged()" matInput placeholder="Question Penalty points" type="number" [max]="maxQuestionPenalty" min="0" [(ngModel)]="penalty" [required]="required">
-    </mat-form-field>
-
-    <!-- REQUIRED checkbox -->
-    <mat-checkbox (change)="requiredChanged()" [disabled]="isTest" [(ngModel)]="required">Required</mat-checkbox>
-    <p *ngIf="required" class="warn">Switching to not required will delete your answers.</p>
-  </div>
 </div>
 

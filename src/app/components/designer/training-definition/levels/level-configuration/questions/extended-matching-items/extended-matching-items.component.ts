@@ -26,6 +26,7 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
 
   @Input('question') question: ExtendedMatchingItems;
   @Input('isTest') isTest: boolean;
+  @Input('required') required: boolean;
 
   @Output('question') questionChange = new EventEmitter();
 
@@ -35,7 +36,6 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
   correctAnswers: { x: number, y:number }[];
   score: number;
   penalty: number;
-  required: boolean;
 
   maxQuestionScore: number = 100;
   maxQuestionPenalty: number = 100;
@@ -56,12 +56,12 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
       this.setInitialValues();
     }
     if ('isTest' in changes) {
-      if (this.isTest) {
-        this.required = true;
-      } else {
+      if (!this.isTest) {
         this.penalty = 0;
       }
-
+    }
+    if ('required' in changes && !changes['required'].isFirstChange()) {
+      this.requiredChanged();
     }
   }
 
@@ -88,8 +88,10 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
   }
 
   requiredChanged() {
-    this.score = 0;
-    this.clearAnswers();
+    if (!this.required) {
+      this.score = 0;
+      this.clearAnswers();
+    }
   }
 
   /**
@@ -115,7 +117,9 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
    */
   clearAnswers() {
     this.correctAnswers = [];
-    this.radioButtons.forEach(button => button.checked = false);
+    if (this.radioButtons) {
+      this.radioButtons.forEach(button => button.checked = false);
+    }
     this.contentChanged();
   }
 

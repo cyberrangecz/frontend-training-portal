@@ -1,24 +1,22 @@
 .content {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .warn {
   color: #f44336;
 }
 
-.left-panel {
+.inline-input {
   display: flex;
-  flex-direction: column;
-  flex-grow: 7;
+  flex-direction: row;
+  align-content: space-between;
+  margin-bottom: 10px;
 }
 
-.right-panel {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 3;
-  align-items: flex-end;
-  align-content: flex-end;
+.inline-input > * {
+  flex-grow: 1;
+  margin-right: 10px;
 }
 
 .right-panel mat-form-field {
