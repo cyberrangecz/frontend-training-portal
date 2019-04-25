@@ -40,8 +40,9 @@
 
       </div>
       <div class="right-panel">
-
-        <mat-checkbox [disabled]="isLoading" (ngModelChange)="contentChanged()" [(ngModel)]="isTest">Is Test?</mat-checkbox>
+        <div class="test-toggle-wrapper">
+          <mat-slide-toggle [disabled]="isLoading" (change)="onChangeToggle()" (ngModelChange)="contentChanged()" [(ngModel)]="isTest">{{ isTestToggleLabel }}</mat-slide-toggle>
+        </div>
       </div>
     </div>
     <!-- QUESTIONS component -->
