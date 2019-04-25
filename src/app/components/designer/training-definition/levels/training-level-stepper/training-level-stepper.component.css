@@ -13,6 +13,10 @@
   overflow-x: auto;
 }
 
+button.add-level {
+  margin-left: 20px;
+}
+
 .step-content {
   padding-top: 20px;
 }
