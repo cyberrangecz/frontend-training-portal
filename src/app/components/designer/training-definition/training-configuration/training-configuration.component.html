@@ -5,7 +5,7 @@
     <!-- TITLE field-->
     <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>
-      <input (change)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
+      <input (ngModelChange)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
       <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title=''; contentChanged()">
         <mat-icon>close</mat-icon>
       </button>
@@ -36,7 +36,7 @@
     <!-- DESCRIPTION field-->
     <mat-form-field appearance="outline">
       <mat-label>Description</mat-label>
-      <textarea (change)="contentChanged()"  matInput placeholder="Description" [(ngModel)]="description"></textarea>
+      <textarea (ngModelChange)="contentChanged()"  matInput placeholder="Description" [(ngModel)]="description"></textarea>
       <button mat-button *ngIf="description" matSuffix mat-icon-button aria-label="Clear" (click)="description=''; contentChanged()">
         <mat-icon>close</mat-icon>
       </button>
@@ -45,7 +45,7 @@
     <!-- PREREQUISITES field-->
     <mat-form-field appearance="outline">
       <mat-label>Notes for instructors</mat-label>
-      <textarea (change)="contentChanged()"  matInput placeholder="Notes for instructors" [(ngModel)]="prerequisites[0]"></textarea>
+      <textarea (ngModelChange)="contentChanged()"  matInput placeholder="Notes for instructors" [(ngModel)]="prerequisites[0]"></textarea>
       <button mat-button *ngIf="prerequisites" matSuffix mat-icon-button aria-label="Clear" (click)="prerequisites=['']; contentChanged()">
         <mat-icon>close</mat-icon>
       </button>
@@ -54,14 +54,14 @@
     <!-- OUTCOMES field-->
     <mat-form-field appearance="outline">
       <mat-label>Learning outcomes</mat-label>
-      <textarea (change)="contentChanged()"  matInput placeholder="Learning outcomes" [(ngModel)]="outcomes[0]"></textarea>
+      <textarea (ngModelChange)="contentChanged()"  matInput placeholder="Learning outcomes" [(ngModel)]="outcomes[0]"></textarea>
       <button mat-button *ngIf="outcomes" matSuffix mat-icon-button aria-label="Clear" (click)="outcomes=['']; contentChanged()">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
 
     <!-- SHOW STEPPER BAR checkbox-->
-    <mat-checkbox (change)="contentChanged()" matTooltip="When active, trainee can see which level he is playing and how many there are until the end" [(ngModel)]="showProgress">Show Stepper Bar</mat-checkbox>
+    <mat-checkbox (ngModelChange)="contentChanged()" matTooltip="When active, trainee can see which level he is playing and how many there are until the end" [(ngModel)]="showProgress">Show Stepper Bar</mat-checkbox>
 
     <!-- BETA TESTING GROUP field-->
     <div  class="line-with-button">
@@ -82,10 +82,10 @@
     </div>
 
     <!-- SAVE button-->
-    <div class="main-button">
+    <div *ngIf="dirty" class="main-button">
       <button (click)="saveTrainingDef()"
         mat-raised-button color="primary">
-        Save
+         Save description
       </button>
     </div>
   </div>

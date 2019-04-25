@@ -72,12 +72,12 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
    */
   getCanDeactivateLevels(): { canBeDeactivated: boolean, order: number }[] {
     const levels = [];
-    this.levelConfigurationComponents.forEach(levelComponent => {
+    this.levelConfigurationComponents.forEach((levelComponent , i) => {
       const levelCanDeactivate = levelComponent.canDeactivate();
       levels.push(
         {
           canBeDeactivated: levelCanDeactivate,
-          title: levelComponent.level.title
+          order: i + 1
         });
       }
     );
