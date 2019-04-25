@@ -16,9 +16,9 @@ import {BetaTestingGroupCreateDTO} from '../../model/DTOs/training-definition/be
 import {BetaTestingGroupUpdateDTO} from '../../model/DTOs/training-definition/betaTestingGroupUpdateDTO';
 import {UserMapper} from './user.mapper.service';
 import {RestResourceDTO} from 'kypo2-user-and-group-management/lib/model/DTO/rest-resource-dto.model';
-import {AssociatedTrainingDefinition} from '../../model/training/associated-training-definition';
-import {AssociatedTrainingDefinitionDTO} from '../../model/DTOs/training-definition/associated-training-definition-dto';
-import {AssociatedTrainingDefinitionRestResource} from '../../model/DTOs/training-definition/associated-training-definition-rest-resource';
+import {TrainingDefinitionInfo} from '../../model/training/training-definition-info';
+import {TrainingDefinitionInfoDTO} from '../../model/DTOs/training-definition/training-definition-info-d-t-o';
+import {TrainingDefinitionInfoRestResource} from '../../model/DTOs/training-definition/training-definition-info-rest-resource';
 
 @Injectable()
 export class TrainingDefinitionMapper {
@@ -128,12 +128,12 @@ export class TrainingDefinitionMapper {
     return result;
   }
 
-  mapAssociatedTrainingDefinitionDTOsToAssociatedTrainingDefinitions(dtos: AssociatedTrainingDefinitionRestResource): AssociatedTrainingDefinition[] {
-    return dtos.content.map(dto => this.mapAssociatedTrainingDefinitionDTOToAssociatedTrainingDefinition(dto));
+  mapTrainingDefinitionsInfoDTOsToTrainingDefinitionsInfo(dtos: TrainingDefinitionInfoRestResource): TrainingDefinitionInfo[] {
+    return dtos.content.map(dto => this.mapTrainingDefinitionInfoDTOToTrainingDefinitionInfo(dto));
   }
 
-  mapAssociatedTrainingDefinitionDTOToAssociatedTrainingDefinition(dto: AssociatedTrainingDefinitionDTO): AssociatedTrainingDefinition {
-    const result = new AssociatedTrainingDefinition();
+  mapTrainingDefinitionInfoDTOToTrainingDefinitionInfo(dto: TrainingDefinitionInfoDTO): TrainingDefinitionInfo {
+    const result = new TrainingDefinitionInfo();
     result.id = dto.id;
     result.title = dto.title;
     result.canBeEdited = dto.can_edit;

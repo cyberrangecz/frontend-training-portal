@@ -15,7 +15,7 @@ import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
 import {ErrorHandlerService} from "../../../../services/error-handler.service";
 import {SandboxDefinitionTableData} from "../../../../model/table-models/sandbox-definition-table-data";
 import {AssociatedTrainingDefinitionsDialogComponent} from './associated-training-definitions-dialog/associated-training-definitions-dialog.component';
-import {AssociatedTrainingDefinition} from '../../../../model/training/associated-training-definition';
+import {TrainingDefinitionInfo} from '../../../../model/training/training-definition-info';
 
 @Component({
   selector: 'designer-overview-sandbox-definition',
@@ -184,10 +184,10 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
    * Determines if sandbox definition can be removed (if sandbox is not associated with any training definition or all
    * associated training definitions are archived.
    * @param {SandboxDefinition} sandbox definition to determine if can be removed
-   * @param {AssociatedTrainingDefinition[]} assocTrainings training definitions associated with the sandbox definitions
+   * @param {TrainingDefinitionInfo[]} assocTrainings training definitions associated with the sandbox definitions
    * @returns {boolean} true if sandbox definition can be removed, false otherwise
    */
-  private canSandboxBeRemoved(sandbox: SandboxDefinition, assocTrainings: AssociatedTrainingDefinition[]): boolean {
+  private canSandboxBeRemoved(sandbox: SandboxDefinition, assocTrainings: TrainingDefinitionInfo[]): boolean {
         return assocTrainings.length === 0;
           //|| assocTrainings.every(training => training.state === TrainingDefinitionStateEnum.Archived);
   }

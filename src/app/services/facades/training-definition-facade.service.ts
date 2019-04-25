@@ -24,8 +24,8 @@ import {DownloadService} from '../download.service';
 import {UploadService} from '../upload.service';
 import {ResponseHeaderContentDispositionReader} from '../../model/http/response-headers/response-header-content-disposition-reader';
 import {TrainingDefinitionStateEnum} from '../../enums/training-definition-state.enum';
-import {AssociatedTrainingDefinition} from '../../model/training/associated-training-definition';
-import {AssociatedTrainingDefinitionRestResource} from '../../model/DTOs/training-definition/associated-training-definition-rest-resource';
+import {TrainingDefinitionInfo} from '../../model/training/training-definition-info';
+import {TrainingDefinitionInfoRestResource} from '../../model/DTOs/training-definition/training-definition-info-rest-resource';
 
 @Injectable()
 /**
@@ -75,6 +75,12 @@ export class TrainingDefinitionFacade {
         this.trainingDefinitionMapper.mapTrainingDefinitionDTOsToTrainingDefinitionsWithPagination(response)));
   }
 
+  getTrainingDefinitionsForOrganizers(): Observable<TrainingDefinitionInfo[]> {
+    return this.http.get<TrainingDefinitionInfoRestResource>(this.trainingDefsEndpointUri)
+      .pipe(map(response =>
+        this.trainingDefinitionMapper.mapTrainingDefinitionsInfoDTOsToTrainingDefinitionsInfo(response)));
+  }
+
   /**
    * Retrieves training definition by its id
    * @param {number} id id of training definition
@@ -94,10 +100,10 @@ export class TrainingDefinitionFacade {
    * @param {number} sandboxId id of sandbox definition associated with training definition
    * @returns {Observable<TrainingDefinition[]>} Observable of list of training definitions matching sandbox definition id
    */
-  getTrainingDefinitionsAssociatedWithSandboxDefinition(sandboxId: number): Observable<AssociatedTrainingDefinition[]> {
-    return this.http.get<AssociatedTrainingDefinitionRestResource>(this.trainingDefsEndpointUri + this.sandboxDefinitionUriExtension + sandboxId)
+  getTrainingDefinitionsAssociatedWithSandboxDefinition(sandboxId: number): Observable<TrainingDefinitionInfo[]> {
+    return this.http.get<TrainingDefinitionInfoRestResource>(this.trainingDefsEndpointUri + this.sandboxDefinitionUriExtension + sandboxId)
       .pipe(map(response =>
-        this.trainingDefinitionMapper.mapAssociatedTrainingDefinitionDTOsToAssociatedTrainingDefinitions(response)));
+        this.trainingDefinitionMapper.mapTrainingDefinitionsInfoDTOsToTrainingDefinitionsInfo(response)));
   }
 
   changeTrainingDefinitionState(newState: TrainingDefinitionStateEnum, trainingDefinitionId: number): Observable<any> {
