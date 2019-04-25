@@ -15,7 +15,7 @@ import {AbstractQuestion} from "../../../../../../../model/questions/abstract-qu
 import {FreeFormQuestion} from "../../../../../../../model/questions/free-form-question";
 import {MultipleChoiceQuestion} from "../../../../../../../model/questions/multiple-choice-question";
 import {ExtendedMatchingItems} from "../../../../../../../model/questions/extended-matching-items";
-import {DeleteDialogComponent} from "../../../../delete-dialog/delete-dialog.component";
+import {DeleteDialogComponent} from "../../../../../../shared/delete-dialog/delete-dialog.component";
 import {MatDialog} from "@angular/material";
 
 @Component({

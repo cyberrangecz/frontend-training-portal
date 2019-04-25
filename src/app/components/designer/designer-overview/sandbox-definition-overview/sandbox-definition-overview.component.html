@@ -63,10 +63,10 @@
                 <!-- REMOVE button-->
                 <button *ngIf="data.canBeRemoved"
                         mat-icon-button color="warn"
-                        matTooltip="Remove sandbox definition"
-                        (click)="removeSandboxDefinition(data)">
+                        matTooltip="Delete sandbox definition"
+                        (click)="deleteSandboxDefinition(data)">
                   <mat-icon
-                    aria-label="Remove sandbox definition button">
+                    aria-label="Delete sandbox definition button">
                     delete</mat-icon>
                 </button>
 

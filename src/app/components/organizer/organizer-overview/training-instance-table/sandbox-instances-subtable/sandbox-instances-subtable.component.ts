@@ -72,7 +72,7 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
     if (this.globalAllocationSubscription) {
       this.globalAllocationSubscription.unsubscribe();
     }
-    if (this.dataSource.data) {
+    if (this.dataSource && this.dataSource.data) {
       this.dataSource.data.forEach(sandboxRow => {
         if (sandboxRow.allocationSubscription) {
           sandboxRow.allocationSubscription.unsubscribe();

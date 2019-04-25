@@ -16,6 +16,8 @@ import {TrainingDefinitionTableData} from '../../../../model/table-models/traini
 import {TableDataWithPaginationWrapper} from '../../../../model/table-models/table-data-with-pagination-wrapper';
 import {HttpErrorResponse} from '@angular/common/http';
 import {StateChangeDialogComponent} from './state-change-dialog/state-change-dialog.component';
+import {DeleteDialogComponent} from "../../../shared/delete-dialog/delete-dialog.component";
+import {TrainingDefinition} from "../../../../model/training/training-definition";
 
 @Component({
   selector: 'designer-overview-training-definition',
@@ -120,17 +122,20 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
 
   /**
    * Calls service to delete the training definition
-   * @param {number} id training definition which should be deleted
+   * @param {TrainingDefinition} trainingDefinition training definition which should be deleted
    */
-  removeTrainingDefinition(id: number) {
-    this.trainingDefinitionFacade.removeTrainingDefinition(id)
-      .subscribe(resp => {
-        this.alertService.emitAlert(AlertTypeEnum.Success, 'Training definition was successfully deleted');
-        this.fetchData();
-      },
-        err => {
-          this.errorHandler.displayHttpError(err, 'Removing training definition');
-        });
+  deleteTrainingDefinition(trainingDefinition: TrainingDefinition) {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: {
+        type: 'Training Definition',
+        title: trainingDefinition.title
+      }
+    });
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result && result.type === 'confirm')
+          this.sendRequestToDeleteTrainingDefinition(trainingDefinition.id)
+      });
   }
 
   /**
@@ -156,6 +161,32 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => this.onChangeTrainingStateDialogClosed(row, result));
+  }
+
+  /**
+   * Fetches data from the server and maps them to table data objects
+   */
+  fetchData() {
+    this.isInErrorState = false;
+    merge(this.sort.sortChange, this.paginator.page)
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          this.isLoadingResults = true;
+          return this.trainingDefinitionFacade.getTrainingDefinitionsWithPagination(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
+        }),
+        map(data => {
+          this.isLoadingResults = false;
+          this.resultsLength = data.tablePagination.totalElements;
+          return data;
+        }),
+        catchError((err) => {
+          this.isLoadingResults = false;
+          this.isInErrorState = true;
+          this.errorHandler.displayHttpError(err, 'Loading training definitions');
+          return of([]);
+        })
+      ).subscribe((data: TableDataWithPaginationWrapper<TrainingDefinitionTableData[]>) => this.createDataSource(data));
   }
 
   private onChangeTrainingStateDialogClosed(row: TrainingDefinitionTableData, result) {
@@ -200,30 +231,15 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
     this.fetchData();
   }
 
-  /**
-   * Fetches data from the server and maps them to table data objects
-   */
-  fetchData() {
-    this.isInErrorState = false;
-    merge(this.sort.sortChange, this.paginator.page)
-      .pipe(
-        startWith({}),
-        switchMap(() => {
-          this.isLoadingResults = true;
-          return this.trainingDefinitionFacade.getTrainingDefinitionsWithPagination(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
-        }),
-        map(data => {
-          this.isLoadingResults = false;
-          this.resultsLength = data.tablePagination.totalElements;
-          return data;
-        }),
-        catchError((err) => {
-          this.isLoadingResults = false;
-          this.isInErrorState = true;
-          this.errorHandler.displayHttpError(err, 'Loading training definitions');
-          return of([]);
-        })
-      ).subscribe((data: TableDataWithPaginationWrapper<TrainingDefinitionTableData[]>) => this.createDataSource(data));
+  private sendRequestToDeleteTrainingDefinition(id: number) {
+    this.trainingDefinitionFacade.deleteTrainingDefinition(id)
+      .subscribe(resp => {
+          this.alertService.emitAlert(AlertTypeEnum.Success, 'Training definition was successfully deleted');
+          this.fetchData();
+        },
+        err => {
+          this.errorHandler.displayHttpError(err, 'Removing training definition');
+        });
   }
 
   /**

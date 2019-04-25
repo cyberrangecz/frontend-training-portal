@@ -112,7 +112,7 @@ export class TrainingInstanceFacade {
    * Sends request to delete training instance from DB
    * @param trainingInstanceId id of training instance which should be deleted
    */
-  removeTrainingInstance(trainingInstanceId: number): Observable<any> {
+  deleteTrainingInstance(trainingInstanceId: number): Observable<any> {
     return this.http.delete<any>(this.trainingInstancesEndpointUri + trainingInstanceId);
   }
 

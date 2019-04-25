@@ -11,7 +11,7 @@ import {
 import {Hint} from "../../../../../../../model/level/hint";
 import {HintConfigurationComponent} from "../hint-configuration/hint-configuration.component";
 import {MatDialog} from "@angular/material";
-import {DeleteDialogComponent} from "../../../../delete-dialog/delete-dialog.component";
+import {DeleteDialogComponent} from "../../../../../../shared/delete-dialog/delete-dialog.component";
 
 @Component({
   selector: 'hint-stepper',

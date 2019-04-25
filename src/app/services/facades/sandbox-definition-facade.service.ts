@@ -55,7 +55,7 @@ export class SandboxDefinitionFacade {
    * Sends request to remove sandbox definition with provided id
    * @param {number} id id of sandbox definition which should be removed
    */
-  removeSandboxDefinition(id: number): Observable<any> {
+  deleteSandboxDefinition(id: number): Observable<any> {
     return this.http.delete(this.sandboxDefsEndpoint + id);
   }
 

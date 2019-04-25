@@ -12,7 +12,7 @@ import { SandboxDefinitionPickerComponent } from './training-configuration/sandb
 import {LevelConfigurationModule} from "./levels/level-configuration/level-configuration.module";
 import {PipesModule} from "../../../pipes/pipes.module";
 import { UnsavedChangesDialogComponent } from './unsaved-changes-dialog/unsaved-changes-dialog.component';
-import {DeleteDialogComponent} from "./delete-dialog/delete-dialog.component";
+import {DeleteDialogComponent} from "../../shared/delete-dialog/delete-dialog.component";
 import { EditBetaTestingGroupComponent } from './training-configuration/edit-beta-testing-group/edit-beta-testing-group.component';
 import {TrainingDefinitionGuard} from "../../../guards/training-definition-guard.service";
 import {LevelsDefinitionService} from "../../../services/levels-definition.service";
@@ -33,7 +33,6 @@ import {LevelsDefinitionService} from "../../../services/levels-definition.servi
     AuthorsPickerComponent,
     SandboxDefinitionPickerComponent,
     UnsavedChangesDialogComponent,
-    DeleteDialogComponent,
     EditBetaTestingGroupComponent
   ],
   providers: [
@@ -44,7 +43,6 @@ import {LevelsDefinitionService} from "../../../services/levels-definition.servi
     SandboxDefinitionPickerComponent,
     AuthorsPickerComponent,
     UnsavedChangesDialogComponent,
-    DeleteDialogComponent,
     EditBetaTestingGroupComponent
   ]
 })

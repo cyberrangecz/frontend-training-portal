@@ -19,6 +19,7 @@ import { SandboxAllocationContentMinimizedComponent } from './sandbox-allocation
 import {InstanceAllocationObservablesPoolService} from "../../services/sandbox-allocation/instance-allocation-observables-pool.service";
 import {SandboxInstanceFacadeModule} from "../../services/facades/modules/sandbox-instance-facade.module";
 import {SandboxAllocationContentMaximizedComponent} from './sandbox-allocation/sandbox-allocation-content-maximized/sandbox-allocation-content-maximized.component';
+import {DeleteDialogComponent} from "./delete-dialog/delete-dialog.component";
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import {SandboxAllocationContentMaximizedComponent} from './sandbox-allocation/s
     SidenavComponent,
     AlertComponent,
     AlertSnackbarComponent,
+    DeleteDialogComponent,
     SandboxAllocationWindowComponent,
     SandboxAllocationPanelComponent,
     SandboxAllocationContentMinimizedComponent,
@@ -45,6 +47,7 @@ import {SandboxAllocationContentMaximizedComponent} from './sandbox-allocation/s
     SidenavComponent,
     AlertComponent,
     SharedMaterialModule,
+    DeleteDialogComponent,
     SandboxAllocationWindowComponent
   ],
   providers: [
@@ -56,7 +59,8 @@ import {SandboxAllocationContentMaximizedComponent} from './sandbox-allocation/s
     SandboxAllocationService,
   ],
   entryComponents: [
-    AlertSnackbarComponent
+    AlertSnackbarComponent,
+    DeleteDialogComponent
   ]
 })
 

@@ -24,7 +24,7 @@ import {
     MatCheckboxModule,
     MatSidenavModule,
     MatRadioModule,
-    MatCardModule
+    MatCardModule,
   ],
   exports: [
     MatFormFieldModule,

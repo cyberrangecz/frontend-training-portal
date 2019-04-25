@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {TrainingInstancesTableComponent} from "./training-instance-overview/training-instances-table.component";
+import {TrainingInstancesTableComponent} from "./training-instance-table/training-instances-table.component";
 
 @Component({
   selector: 'organizer-overview',

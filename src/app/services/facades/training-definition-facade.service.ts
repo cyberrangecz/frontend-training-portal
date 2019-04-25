@@ -154,7 +154,7 @@ export class TrainingDefinitionFacade {
    * Sends request to remove training definition with provided id
    * @param {number} trainingDefId id of training definition which should be removed
    */
-  removeTrainingDefinition(trainingDefId: number) {
+  deleteTrainingDefinition(trainingDefId: number) {
     return this.http.delete(this.trainingDefsEndpointUri + trainingDefId,
       { headers: this.createDefaultHeaders()});
   }

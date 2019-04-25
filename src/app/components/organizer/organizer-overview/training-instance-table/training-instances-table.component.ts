@@ -5,7 +5,6 @@ import {AlertService} from "../../../../services/event-services/alert.service";
 import {ActiveUserService} from "../../../../services/active-user.service";
 import {TrainingInstanceFacade} from "../../../../services/facades/training-instance-facade.service";
 import {TrainingEditPopupComponent} from "./training-edit-popup/training-edit-popup.component";
-import {TrainingDeleteDialogComponent} from "./training-delete-dialog/training-delete-dialog.component";
 import {merge, Observable, of} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {environment} from "../../../../../environments/environment";
@@ -18,6 +17,7 @@ import {SandboxAllocationService} from "../../../../services/sandbox-allocation/
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {TrainingInstanceSandboxAllocationState} from '../../../../model/training/training-instance-sandbox-allocation-state';
 import {ErrorHandlerService} from "../../../../services/error-handler.service";
+import {DeleteDialogComponent} from "../../../shared/delete-dialog/delete-dialog.component";
 
 @Component({
   selector: 'training-instances-table',
@@ -102,20 +102,17 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
    * confirmed, training instance is removed and REST API called to remove training from endpoint
    * @param {TrainingInstanceTableData} training training instance which should be removed
    */
-  removeTraining(training: TrainingInstanceTableData) {
-    const dialogRef = this.dialog.open(TrainingDeleteDialogComponent, {
-      data: training
+  deleteTraining(training: TrainingInstanceTableData) {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: {
+        type: 'Training Instance',
+        title: training.trainingInstance.title
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
-        this.trainingInstanceFacade.removeTrainingInstance(training.trainingInstance.id)
-          .subscribe(response => {
-            this.alertService.emitAlert(AlertTypeEnum.Success, 'Training instance was successfully removed.');
-            this.fetchData();
-          },
-            (err) => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Training instance was not removed')
-          );
+        this.sendRequestToDeleteTrainingInstance(training.trainingInstance.id);
       }
     });
   }
@@ -288,4 +285,13 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
     }
   }
 
+  private sendRequestToDeleteTrainingInstance(trainingInstanceId: number) {
+    this.trainingInstanceFacade.deleteTrainingInstance(trainingInstanceId)
+      .subscribe(response => {
+          this.alertService.emitAlert(AlertTypeEnum.Success, 'Training instance was successfully deleted.');
+          this.fetchData();
+        },
+        (err) => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Training instance was not removed')
+      );
+  }
 }
