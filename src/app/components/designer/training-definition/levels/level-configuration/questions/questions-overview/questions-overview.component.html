@@ -11,7 +11,7 @@
 
     <!-- ADD QUESTION button -->
     <div class="header">
-      <button class="add-question" mat-raised-button color="primary" [matMenuTriggerFor]="questionsMenu"
+      <button class="add-question" mat-button color="primary" [matMenuTriggerFor]="questionsMenu"
               matTooltip="Add new question">
         Add Question
       </button>
@@ -63,8 +63,9 @@
       </mat-card>
     </div>
 
-    <div class="footer">
-      <button class="add-question" mat-raised-button color="primary" [matMenuTriggerFor]="questionsMenu"
+    <div *ngIf="questions && questions.length > 0" class="footer">
+      <!-- ADD QUESTION button -->
+      <button class="add-question" mat-button color="primary" [matMenuTriggerFor]="questionsMenu"
               matTooltip="Add new question">
         Add Question
       </button>
