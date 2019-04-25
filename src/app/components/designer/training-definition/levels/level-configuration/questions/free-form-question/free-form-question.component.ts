@@ -15,6 +15,7 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
 
   @Input('question') question: FreeFormQuestion;
   @Input('isTest') isTest: boolean;
+  @Input('required') required: boolean;
 
   @Output('question') questionChange = new EventEmitter();
 
@@ -22,7 +23,6 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
   answers: string[];
   score: number;
   penalty: number;
-  required: boolean;
 
   maxQuestionScore: number = 100;
   maxQuestionPenalty: number = 100;
@@ -39,12 +39,12 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
       this.setInitialValues();
     }
     if ('isTest' in changes) {
-      if (this.isTest) {
-        this.required = true;
-      }
-      else {
+      if (!this.isTest) {
         this.penalty = 0;
       }
+    }
+    if ('required' in changes && !changes['required'].isFirstChange()) {
+      this.requiredChanged();
     }
   }
 
@@ -89,8 +89,10 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
   }
 
   requiredChanged() {
-    this.score = 0;
-    this.clearAnswers();
+    if (!this.required) {
+      this.score = 0;
+      this.clearAnswers();
+    }
   }
 
   private clearAnswers() {

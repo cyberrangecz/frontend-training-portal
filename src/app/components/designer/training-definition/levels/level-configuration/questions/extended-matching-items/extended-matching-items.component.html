@@ -9,23 +9,22 @@
       </button>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionScore }}">
-      <mat-label>Points</mat-label>
-      <input [disabled]="!required" (ngModelChange)="contentChanged()" matInput placeholder="Points" type="number" [max]="maxQuestionScore" min="0" [(ngModel)]="score" [required]="required">
-    </mat-form-field>
+    <!--SCORE field -->
+    <div class="inline-input">
+      <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionScore }}">
+        <mat-label>Points</mat-label>
+        <input [disabled]="!required" (ngModelChange)="contentChanged()" matInput placeholder="Points" type="number" [max]="maxQuestionScore" min="0" [(ngModel)]="score" [required]="required">
+      </mat-form-field>
 
-    <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionPenalty }}">
-      <mat-label>Penalty points</mat-label>
-      <input [disabled]="!required || !isTest" (ngModelChange)="contentChanged()" matInput placeholder="Question Penalty points" type="number" [max]="maxQuestionPenalty" min="0" [(ngModel)]="penalty" [required]="required">
-    </mat-form-field>
-
-    <mat-checkbox [disabled]="isTest" (ngModelChange)="requiredChanged()" [(ngModel)]="required">Required</mat-checkbox>
-    <p *ngIf="required" class="required-switch-note">Switching to not required will delete your answers.</p>
+      <!--PENALTY field -->
+      <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionPenalty }}">
+        <mat-label>Penalty points</mat-label>
+        <input [disabled]="!required || !isTest" (ngModelChange)="contentChanged()" matInput placeholder="Question Penalty points" type="number" [max]="maxQuestionPenalty" min="0" [(ngModel)]="penalty" [required]="required">
+      </mat-form-field>
+    </div>
   </div>
 
   <button *ngIf="correctAnswers.length > 0" mat-button color="warn" (click)="clearAnswers()" class="clear-answers">Clear Answers</button>
-
-
   <!-- EMI -->
   <table>
     <!-- DELETE COL BUTTONS -->
@@ -99,6 +98,5 @@
       </td>
     </tr>
   </table>
-  <p class="note">Note: Do not forget to select correct answers</p>
 </div>
 

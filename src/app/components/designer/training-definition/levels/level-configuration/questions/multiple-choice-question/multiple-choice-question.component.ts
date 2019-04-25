@@ -16,7 +16,7 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
 
   @Input('question') question: MultipleChoiceQuestion;
   @Input('isTest') isTest: boolean;
-
+  @Input('required') required: boolean;
   @Output('question') questionChange = new EventEmitter();
 
   title: string;
@@ -24,7 +24,6 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
   correctAnswersIndices: number[];
   score: number;
   penalty: number;
-  required: boolean;
 
   maxQuestionScore: number = 100;
   maxQuestionPenalty: number = 100;
@@ -42,12 +41,12 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
       this.setInitialValues();
     }
     if ('isTest' in changes) {
-      if (this.isTest) {
-        this.required = true;
-      }
-      else {
+      if (!this.isTest) {
         this.penalty = 0;
       }
+    }
+    if ('required' in changes && !changes['required'].isFirstChange()) {
+      this.requiredChanged();
     }
   }
 
@@ -126,8 +125,10 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
   }
 
   requiredChanged() {
-    this.score = 0;
-    this.clearAnswers();
+    if (!this.required) {
+      this.score = 0;
+      this.clearAnswers();
+    }
   }
 
   /**

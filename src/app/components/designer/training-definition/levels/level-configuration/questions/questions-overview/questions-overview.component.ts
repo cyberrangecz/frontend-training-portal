@@ -1,4 +1,5 @@
 import {
+  AfterViewInit, ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -25,7 +26,7 @@ import {MatDialog} from "@angular/material";
 /**
  * Wrapper component for questions inside the assessment level. Creates child question components.
  */
-export class QuestionsOverviewComponent implements OnInit, OnChanges {
+export class QuestionsOverviewComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Input('questions') questions: AbstractQuestion[];
   @Input('isTest') isTest: boolean;
@@ -37,7 +38,9 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
 
   dirty = false;
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog,
+              private cdRef:ChangeDetectorRef) {
+  }
 
   ngOnInit() {
   }
@@ -46,6 +49,15 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
     if ('questions' in changes) {
       this.resolveInitialQuestions();
     }
+    if ('isTest' in changes) {
+      if (this.isTest && this.questions) {
+        this.questions.forEach(question => question.required = true);
+      }
+    }
+  }
+
+  ngAfterViewInit() {
+    this.cdRef.detectChanges();
   }
 
   /**
