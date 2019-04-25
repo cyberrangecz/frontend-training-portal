@@ -38,7 +38,7 @@
       Delete level
     </button>
 
-    <button *ngIf="dirty" mat-raised-button color="primary" [disabled]="isLoading" (click)="saveChanges()">
+    <button mat-raised-button color="primary" [disabled]="isLoading || !dirty" (click)="saveChanges()">
       Save level
     </button>
   </div>

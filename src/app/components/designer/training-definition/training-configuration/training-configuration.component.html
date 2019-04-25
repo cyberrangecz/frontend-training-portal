@@ -82,8 +82,9 @@
     </div>
 
     <!-- SAVE button-->
-    <div *ngIf="dirty" class="main-button">
+    <div class="main-button">
       <button (click)="saveTrainingDef()"
+              [disabled]="!dirty"
         mat-raised-button color="primary">
          Save description
       </button>
