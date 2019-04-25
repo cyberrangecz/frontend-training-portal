@@ -18,6 +18,7 @@ export class EditBetaTestingGroupComponent implements OnInit {
   organizers: User[];
   activeUser: User;
   selectedOrganizers: User[] = [];
+  activeUserIsOrganizer: boolean;
   editMode: boolean;
   isLoading = true;
 
@@ -85,11 +86,8 @@ export class EditBetaTestingGroupComponent implements OnInit {
   }
 
   private initializeActiveUser() {
-    const user = this.activeUserService.getActiveUser();
-      this.activeUser = user;
-      if (!this.editMode) {
-        this.selectedOrganizers.push(this.activeUser);
-      }
+    this.activeUser = this.activeUserService.getActiveUser();
+    this.activeUserIsOrganizer = this.activeUserService.isOrganizer();
   }
 
   private initializeOrganizers() {

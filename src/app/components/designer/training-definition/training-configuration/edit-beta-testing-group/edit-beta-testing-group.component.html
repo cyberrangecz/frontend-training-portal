@@ -3,7 +3,7 @@
 <mat-divider></mat-divider>
 <div class="content" mat-dialog-content>
   <mat-selection-list *ngIf="!isLoading" #organizersList [(ngModel)]="selectedOrganizers" [compareWith]="selectionEquality">
-    <mat-list-option *ngIf="activeUser" [value]="activeUser" [selected]="true" [disabled]="true">
+    <mat-list-option *ngIf="activeUser && activeUserIsOrganizer" [value]="activeUser">
       {{ activeUser.name }} (You)
     </mat-list-option>
     <mat-list-option *ngFor="let organizer of organizers"
