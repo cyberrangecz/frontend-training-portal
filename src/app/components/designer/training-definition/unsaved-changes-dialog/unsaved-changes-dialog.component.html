@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>Unsaved changes</h1>
 <div mat-dialog-content>
   <p class="mat-body-1">Do you want to leave without saving?</p>
-  <p *ngFor="let message of data" class="mat-body-1">{{ message }}</p>
+  <p *ngFor="let message of messages" class="mat-body-1">{{ message }}</p>
 </div>
 <div mat-dialog-actions>
   <button mat-button cdkFocusInitial color="warn" (click)="cancel()">Cancel</button>
