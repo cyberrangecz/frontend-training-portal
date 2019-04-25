@@ -37,7 +37,7 @@ div .left-panel {
   display: flex;
   flex-direction: column;
   flex-grow: 3;
-  margin-right: 30px
+  margin-right: 30px;
 }
 
 div .right-panel {
@@ -70,9 +70,27 @@ markdown-editor.mrkdwn-solution {
   margin-bottom: 20px;
   height: 30vh;
 }
+.test-toggle-wrapper {
+  width: 150px;
+}
 
 
+div .save-info {
+  margin-left: 10px;
+}
 
+
+.green-icon {
+  color: lawngreen;
+}
+
+.bottom-align {
+  vertical-align:bottom
+}
+
+.left-margin {
+  margin-left: 5px
+}
 
 @media screen and (max-width: 800px) {
   div .panel-wrapper {
@@ -86,20 +104,4 @@ markdown-editor.mrkdwn-solution {
     margin-left: 0;
   }
 
-}
-
-div .save-info {
-  margin-left: 10px;
-}
-
-.green-icon {
-  color: lawngreen;
-}
-
-.bottom-align {
-  vertical-align:bottom
-}
-
-.left-margin {
-  left-margin: 5px
 }

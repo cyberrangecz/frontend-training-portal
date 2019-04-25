@@ -16,6 +16,7 @@ import { MultipleChoiceQuestionComponent } from './questions/multiple-choice-que
 import { ExtendedMatchingItemsComponent } from './questions/extended-matching-items/extended-matching-items.component'
 import {MarkdownConfig} from "../../../../../config/markdown-config";
 import {MarkdownEditorModule} from "kypo2-markdown-editor";
+import {MatSlideToggleModule} from '@angular/material';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import {MarkdownEditorModule} from "kypo2-markdown-editor";
     MarkdownEditorModule.forRoot(MarkdownConfig),
     LevelConfigurationMaterialModule,
     SharedModule,
+    MatSlideToggleModule,
   ],
   exports: [
     LevelConfigurationComponent
