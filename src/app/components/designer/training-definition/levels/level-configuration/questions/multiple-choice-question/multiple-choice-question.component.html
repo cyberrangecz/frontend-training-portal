@@ -1,12 +1,12 @@
 <div class="content">
   <!-- TITLE field-->
-    <mat-form-field appearance="outline">
-      <mat-label>Title</mat-label>
-      <input (ngModelChange)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
-      <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title =''; contentChanged()">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Title</mat-label>
+    <input (ngModelChange)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
+    <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title =''; contentChanged()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
 
 
   <div class="inline-input">
@@ -24,26 +24,24 @@
   </div>
 
 
-    <button *ngIf="correctAnswersIndices.length > 0" mat-button color="warn" (click)="clearAnswers()" class="clear-answers">Clear Answers</button>
-    <!-- OPTIONS field -->
-    <div *ngFor="let option of options; index as i; trackBy: trackByFn" class="option">
-      <mat-checkbox [disabled]="!required" [checked]="correctAnswersIndices.includes(i)" (change)="onAnswerChanged($event, i)"></mat-checkbox>
-      <mat-form-field>
-        <mat-label>Option {{ i + 1 }}</mat-label>
-        <input (ngModelChange)="contentChanged()" matInput placeholder="Option {{ i + 1 }}" [(ngModel)]="options[i]">
-        <button mat-button *ngIf="option" matSuffix mat-icon-button aria-label="Clear" (click)="options[i]= ''; contentChanged()">
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field>
-      <button mat-button matSuffix mat-icon-button aria-label="Delete option" color="warn" matTooltip="Delete option"
-              (click)="deleteOption(i)">
-        <mat-icon>remove_circle</mat-icon>
+  <button *ngIf="correctAnswersIndices.length > 0" mat-button color="warn" (click)="clearAnswers()" class="clear-answers">Clear Answers</button>
+  <!-- OPTIONS field -->
+  <div *ngFor="let option of options; index as i; trackBy: trackByFn" class="option">
+    <mat-checkbox [disabled]="!required" [checked]="correctAnswersIndices.includes(i)" (change)="onAnswerChanged($event, i)"></mat-checkbox>
+    <mat-form-field>
+      <mat-label>Option {{ i + 1 }}</mat-label>
+      <input (ngModelChange)="contentChanged()" matInput placeholder="Option {{ i + 1 }}" [(ngModel)]="options[i]">
+      <button mat-button *ngIf="option" matSuffix mat-icon-button aria-label="Clear" (click)="options[i]= ''; contentChanged()">
+        <mat-icon>close</mat-icon>
       </button>
-    </div>
-
-    <button mat-button matSuffix mat-icon-button aria-label="Add new option" color="primary" matTooltip="Add new option"
-            (click)="addOption()">
-      <mat-icon>add_circle</mat-icon>
+    </mat-form-field>
+    <button mat-button matSuffix mat-icon-button aria-label="Delete option" color="warn" matTooltip="Delete option"
+            (click)="deleteOption(i)">
+      <mat-icon>remove_circle</mat-icon>
     </button>
-</div>
+  </div>
 
+  <div class="main-button">
+    <button (click)="addOption()" mat-button color="primary">Add Option</button>
+  </div>
+</div>
