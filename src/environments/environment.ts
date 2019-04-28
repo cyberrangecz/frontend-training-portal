@@ -21,7 +21,7 @@ export const environment = {
 
   // OIDC SETTINGS
   // Url of the Identity Provider
-  issuer: 'https://oidc.ics.muni.cz/oidc/',
+  issuer: 'https://oidc.muni.cz/oidc/',
   // URL of the SPA to redirect the user after silent refresh
   silentRefreshRedirectUri: window.location.origin,
   // URL of the SPA to redirect the user to after login
