@@ -7,6 +7,4 @@ export const CustomTopologyConfig: TopologyConfig = {
   topologyRestUrl: environment.topologyRestUrl,
   useRealTime: environment.useRealTime,
   useDecorators: environment.useDecorators,
-  sandboxName: environment.sandboxName,
-  scenarioRestUrl: environment.scenarioRestUrl
 };
