@@ -21,13 +21,13 @@ export const environment = {
 
   // OIDC SETTINGS
   // Url of the Identity Provider
-  issuer: 'https://oidc.ics.muni.cz/oidc/',
+  issuer: 'https://oidc.muni.cz/oidc/',
   // URL of the SPA to redirect the user after silent refresh
   silentRefreshRedirectUri: window.location.origin,
   // URL of the SPA to redirect the user to after login
   redirectUri: window.location.origin,
   // The SPA's id. The SPA is registered with this id at the config-server
-  clientId: '593bbf49-a82b-4f6e-9baf-c4ed488d5066',
+  clientId: 'b53f2660-8fa0-4d32-94e4-23a59d7e7077',
   // set the scope for the permissions the client should request
   scope: 'openid profile email',
   sessionChecksEnabled: false,

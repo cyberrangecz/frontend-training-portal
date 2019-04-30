@@ -5,7 +5,7 @@ import {AlertService} from "../../../../services/event-services/alert.service";
 import {ActiveUserService} from "../../../../services/active-user.service";
 import {TrainingInstanceFacade} from "../../../../services/facades/training-instance-facade.service";
 import {TrainingEditPopupComponent} from "./training-edit-popup/training-edit-popup.component";
-import {merge, Observable, of} from "rxjs";
+import {interval, merge, Observable, of, Subscription} from 'rxjs';
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {environment} from "../../../../../environments/environment";
 import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
@@ -50,6 +50,8 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  private _currentTimeUpdateSubscription: Subscription;
+
   constructor(
     private dialog: MatDialog,
     private alertService: AlertService,
@@ -61,11 +63,15 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.now = Date.now();
+    this.initCurrentTimePeriodicalUpdate();
     this.initTableDataSource();
   }
 
   ngOnDestroy(): void {
+    if (this._currentTimeUpdateSubscription) {
+      this._currentTimeUpdateSubscription.unsubscribe();
+    }
+
     this.dataSource.data.forEach(row => {
       if (row.allocationSubscription) {
         row.allocationSubscription.unsubscribe();
@@ -293,5 +299,12 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
         },
         (err) => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Training instance was not removed')
       );
+  }
+
+  private initCurrentTimePeriodicalUpdate() {
+    this.now = Date.now();
+    this._currentTimeUpdateSubscription = interval(60000).subscribe(value =>
+      this.now = Date.now()
+    );
   }
 }
