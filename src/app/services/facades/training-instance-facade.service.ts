@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from "rxjs/internal/Observable";
 import {TrainingInstance} from "../../model/training/training-instance";
 import {environment} from "../../../environments/environment";
-import {map} from "rxjs/operators";
+import {catchError, map} from "rxjs/operators";
 import {PaginationParams} from "../../model/http/params/pagination-params";
 import {TrainingInstanceMapper} from "../mappers/training-instance-mapper.service";
 import {TrainingInstanceDTO} from "../../model/DTOs/training-instance/trainingInstanceDTO";
@@ -16,6 +16,7 @@ import {TrainingInstanceTableData} from "../../model/table-models/training-insta
 import {TrainingRunTableDataModel} from "../../model/table-models/training-run-table-data-model";
 import {DownloadService} from "../download.service";
 import {ResponseHeaderContentDispositionReader} from '../../model/http/response-headers/response-header-content-disposition-reader';
+import {of} from "rxjs";
 
 @Injectable()
 /**
@@ -73,6 +74,15 @@ export class TrainingInstanceFacade {
         this.trainingInstanceMapper.mapTrainingInstanceDTOToTrainingInstance(response)));
   }
 
+
+  getTrainingInstanceExists(id: number): Observable<boolean> {
+    return this.http.get(this.trainingInstancesEndpointUri + id)
+      .pipe(
+        map(response => true),
+        catchError(err => of(false))
+      )
+  }
+
   getTrainingRunsByTrainingInstanceId(trainingInstanceId: number): Observable<TrainingRun[]> {
     return this.http.get<TrainingRunRestResource>(`${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.trainingRunsUriExtension}`)
       .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
@@ -115,8 +125,6 @@ export class TrainingInstanceFacade {
   deleteTrainingInstance(trainingInstanceId: number): Observable<any> {
     return this.http.delete<any>(this.trainingInstancesEndpointUri + trainingInstanceId);
   }
-
-
 
   /**
    * Downloads training instance

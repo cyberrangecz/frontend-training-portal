@@ -1,10 +1,12 @@
 import {RouterModule, Routes} from "@angular/router";
 import {NgModule} from "@angular/core";
 import {TrainingInstanceOverviewComponent} from "./training-instance-overview.component";
+import {TrainingInstanceGuardService} from "../../../guards/training-instance-guard.service";
 
 const routes: Routes = [
   {
     path: '',
+    canActivate: [TrainingInstanceGuardService],
     children: [
       {
         path: 'overview',

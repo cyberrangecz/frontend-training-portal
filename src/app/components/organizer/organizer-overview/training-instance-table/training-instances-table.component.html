@@ -44,7 +44,7 @@
               then clickableTitle else nonClickableTitle"></div>
 
               <ng-template #clickableTitle>
-                <a class="training-link" mat-button color="primary"
+                <a class="training-link" mat-button color="primary" (click)="$event.stopPropagation()"
                    [routerLink]="['training', training.trainingInstance?.id, 'overview', { outlets: { display: ['summary'] }}]">
                   {{ training.trainingInstance?.title }}</a>
               </ng-template>

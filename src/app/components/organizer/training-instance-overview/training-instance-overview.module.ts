@@ -3,6 +3,7 @@ import {CommonModule} from "@angular/common";
 import { TrainingInstanceOverviewComponent } from './training-instance-overview.component';
 import {TrainingInstanceOverviewRoutingModule} from "./training-instance-overview-routing.module";
 import {TrainingInstanceOverviewMaterialModule} from "./training-instance-overview-material.module";
+import {TrainingInstanceGuardService} from "../../../guards/training-instance-guard.service";
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import {TrainingInstanceOverviewMaterialModule} from "./training-instance-overvi
   TrainingInstanceOverviewComponent
   ],
   providers: [
+    TrainingInstanceGuardService
   ]
 })
 

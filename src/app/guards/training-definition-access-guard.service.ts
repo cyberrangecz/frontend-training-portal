@@ -1,8 +1,7 @@
 import {Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from "@angular/router";
-import {Observable, of} from "rxjs";
+import {Observable} from "rxjs";
 import {TrainingDefinitionFacade} from "../services/facades/training-definition-facade.service";
-import {catchError} from "rxjs/operators";
 
 @Injectable()
 export class TrainingDefinitionAccessGuardService implements CanActivate {
@@ -20,5 +19,4 @@ export class TrainingDefinitionAccessGuardService implements CanActivate {
     }
     return false;
   }
-
 }
