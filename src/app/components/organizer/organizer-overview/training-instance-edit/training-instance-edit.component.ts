@@ -94,7 +94,7 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
   /**
    * Validates user input, sets input values to training instance object and calls REST API to save the changes in an endpoint
    */
-  saveChanges() {
+  save() {
     if (this.validateInputValues()) {
       this.setInputValuesToTraining();
       if (this.isEditMode) {

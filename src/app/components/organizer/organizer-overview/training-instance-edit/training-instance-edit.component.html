@@ -69,7 +69,7 @@
             <p *ngIf="!organizers || organizers.length === 0">Organizers*</p>
             <span class="spacer"></span>
             <button (click)="chooseOrganizers()"
-                    mat-raised-button color="accent">
+                    mat-button color="accent">
               Choose
             </button>
           </div>
@@ -80,15 +80,15 @@
           <p *ngIf="!trainingDefinition">Training Definition*</p>
           <span class="spacer"></span>
           <button (click)="chooseTrainingDefinition()"
-                  mat-raised-button color="accent">
+                  mat-button color="accent">
             Choose
           </button>
         </div>
 
         <div class="save-button">
           <span class="spacer"></span>
-          <button mat-raised-button class="main" color="primary" (click)="saveChanges()">
-            Save Changes
+          <button mat-raised-button class="main" color="primary" (click)="save()">
+            Save
           </button>
         </div>
       </div>
