@@ -14,7 +14,6 @@ export class StateChangeDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<StateChangeDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data) {
-
   }
 
   ngOnInit() {

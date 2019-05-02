@@ -65,10 +65,8 @@
             <th class="authors" mat-header-cell *matHeaderCellDef>Authors</th>
             <td class="authors" mat-cell
                 *matCellDef="let data">
-              <div [matTooltip]="data.trainingDefinition?.authors"
-                matTooltipPosition="above">
-                {{ data.trainingDefinition?.authors | authorsTableFormat }}
-              </div>
+                {{ data.trainingDefinition?.authors | shorterAuthorsFormat: loggedUserLogin }}
+              <button *ngIf="data.trainingDefinition?.authors?.length > 1" mat-button color="accent" (click)="showAuthorsList(data?.trainingDefinition)">Show</button>
             </td>
           </ng-container>
 
