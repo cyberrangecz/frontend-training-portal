@@ -18,6 +18,8 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {StateChangeDialogComponent} from './state-change-dialog/state-change-dialog.component';
 import {DeleteDialogComponent} from "../../../shared/delete-dialog/delete-dialog.component";
 import {TrainingDefinition} from "../../../../model/training/training-definition";
+import {User} from "../../../../model/user/user";
+import {AuthorsListDialogComponent} from "./authors-list-dialog/authors-list-dialog.component";
 
 @Component({
   selector: 'designer-overview-training-definition',
@@ -32,6 +34,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
 
   // needed to compare values against enums in a template
   trainingStateEnum = TrainingDefinitionStateEnum;
+  loggedUserLogin: string;
   displayedColumns: string[] = ['title', 'description', 'state', 'authors', 'estimated-duration', 'last-edit', 'actions'];
 
   dataSource: MatTableDataSource<TrainingDefinitionTableData>;
@@ -56,6 +59,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
 
   ngOnInit() {
     this.initTableDataSource();
+    this.loggedUserLogin = this.activeUserService.getActiveUser().login
   }
 
   /**
@@ -161,6 +165,15 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => this.onChangeTrainingStateDialogClosed(row, result));
+  }
+
+  showAuthorsList(trainingDefinition: TrainingDefinition) {
+    this.dialog.open(AuthorsListDialogComponent, {
+      data: {
+        authors: trainingDefinition.authors,
+        trainingDefinition: trainingDefinition
+      }
+    })
   }
 
   /**

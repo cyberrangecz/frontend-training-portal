@@ -15,6 +15,7 @@ import {SandboxDefinitionFacadeModule} from "../../../services/facades/modules/s
 import { AssociatedTrainingDefinitionsDialogComponent } from './sandbox-definition-overview/associated-training-definitions-dialog/associated-training-definitions-dialog.component';
 import {FormsModule} from '@angular/forms';
 import {StateChangeDialogComponent} from './training-definition-overview/state-change-dialog/state-change-dialog.component';
+import { AuthorsListDialogComponent } from './training-definition-overview/authors-list-dialog/authors-list-dialog.component';
 
 @NgModule({
   imports: [
@@ -35,14 +36,16 @@ import {StateChangeDialogComponent} from './training-definition-overview/state-c
     TrainingDefinitionOverviewComponent,
     SandboxDefinitionOverviewComponent,
     AssociatedTrainingDefinitionsDialogComponent,
-    StateChangeDialogComponent
+    StateChangeDialogComponent,
+    AuthorsListDialogComponent
   ],
   providers: [
   ],
   entryComponents: [
     DesignerUploadDialogComponent,
     AssociatedTrainingDefinitionsDialogComponent,
-    StateChangeDialogComponent
+    StateChangeDialogComponent,
+    AuthorsListDialogComponent
   ]
 })
 

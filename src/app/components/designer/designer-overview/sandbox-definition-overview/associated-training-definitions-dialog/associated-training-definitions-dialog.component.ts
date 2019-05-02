@@ -12,20 +12,12 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class AssociatedTrainingDefinitionsDialogComponent implements OnInit {
 
-  displayedColumns = ['title', 'actions'];
-  dataSource: DataSource<TrainingDefinitionInfo>;
-
-  constructor(public dialogRef: MatDialogRef<AssessmentLevelConfigurationComponent>,
+  constructor(public dialogRef: MatDialogRef<AssociatedTrainingDefinitionsDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data,
               private router: Router) {
   }
 
   ngOnInit() {
-    this.dataSource = this.data.trainingDefinitions;
-  }
-
-  close() {
-    this.dialogRef.close();
   }
 
   editTrainingDefinition(id: number) {

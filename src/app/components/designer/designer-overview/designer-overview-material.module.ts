@@ -3,7 +3,7 @@ import {
   MatButtonModule,
   MatCardModule, MatDialogModule,
   MatDividerModule,
-  MatFormFieldModule, MatIconModule, MatInputModule,
+  MatFormFieldModule, MatIconModule, MatInputModule, MatListModule,
   MatPaginatorModule, MatProgressSpinnerModule, MatSelectModule,
   MatSortModule,
   MatTableModule, MatTooltipModule
@@ -22,6 +22,7 @@ import {
     MatTooltipModule,
     MatDialogModule,
     MatProgressSpinnerModule,
+    MatListModule,
     MatSelectModule
   ],
   exports: [
@@ -36,7 +37,8 @@ import {
     MatTooltipModule,
     MatDialogModule,
     MatProgressSpinnerModule,
-    MatSelectModule
+    MatSelectModule,
+    MatListModule
   ]
 })
 
