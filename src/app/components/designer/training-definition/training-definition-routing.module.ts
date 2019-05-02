@@ -1,13 +1,15 @@
 import {NgModule} from "@angular/core";
 import {RouterModule, Routes} from "@angular/router";
 import {TrainingDefinitionComponent} from "./training-definition.component";
-import {TrainingDefinitionGuard} from "../../../guards/training-definition-guard.service";
+import {TrainingDefinitionLeaveGuard} from "../../../guards/training-definition-leave-guard.service";
+import {TrainingDefinitionAccessGuardService} from "../../../guards/training-definition-access-guard.service";
 
 const routes: Routes = [
   {
     path: '',
     component: TrainingDefinitionComponent,
-    canDeactivate: [TrainingDefinitionGuard]
+    canActivate: [TrainingDefinitionAccessGuardService],
+    canDeactivate: [TrainingDefinitionLeaveGuard]
   },
 
 ];

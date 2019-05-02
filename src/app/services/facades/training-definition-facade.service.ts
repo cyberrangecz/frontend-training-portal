@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {environment} from "../../../environments/environment";
-import {map} from "rxjs/operators";
+import {catchError, map} from "rxjs/operators";
 import {TrainingDefinition} from "../../model/training/training-definition";
 import {Observable} from "rxjs/internal/Observable";
 import {PaginationParams} from "../../model/http/params/pagination-params";
@@ -26,6 +26,7 @@ import {ResponseHeaderContentDispositionReader} from '../../model/http/response-
 import {TrainingDefinitionStateEnum} from '../../enums/training-definition-state.enum';
 import {TrainingDefinitionInfo} from '../../model/training/training-definition-info';
 import {TrainingDefinitionInfoRestResource} from '../../model/DTOs/training-definition/training-definition-info-rest-resource';
+import {of} from "rxjs";
 
 @Injectable()
 /**
@@ -93,6 +94,14 @@ export class TrainingDefinitionFacade {
         map(response => this.trainingDefinitionMapper.mapTrainingDefinitionDTOToTrainingDefinition(response, withLevels)),
         map(trainingDefinition => this.sortLevelsOfTrainingDefinition(trainingDefinition))
         );
+  }
+
+  getTrainingDefinitionExists(id: number): Observable<boolean> {
+    return this.http.get(this.trainingDefsEndpointUri + id)
+      .pipe(
+        map(response => true),
+        catchError(err => of(false))
+      )
   }
 
   /**

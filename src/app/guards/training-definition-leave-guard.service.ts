@@ -4,10 +4,9 @@ import {TrainingDefinitionComponent} from "../components/designer/training-defin
 import {Observable} from "rxjs";
 
 @Injectable()
-export class TrainingDefinitionGuard implements CanDeactivate<TrainingDefinitionComponent> {
+export class TrainingDefinitionLeaveGuard implements CanDeactivate<TrainingDefinitionComponent> {
 
   canDeactivate(component: TrainingDefinitionComponent, currentRoute: ActivatedRouteSnapshot, currentState: RouterStateSnapshot, nextState?: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     return component.canDeactivate();
   }
-
 }
