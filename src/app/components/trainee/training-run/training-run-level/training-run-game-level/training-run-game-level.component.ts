@@ -162,7 +162,7 @@ export class TrainingRunGameLevelComponent implements OnInit {
   private runActionsAfterCorrectFlagSubmitted() {
     this.activeLevelService.unlockCurrentLevel();
     this.correctFlag = true;
-    this.nextLevel.emit(this.level.order + 1);
+    this.nextLevel.emit();
   }
 
   /**
