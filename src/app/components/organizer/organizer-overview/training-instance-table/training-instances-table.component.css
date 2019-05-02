@@ -26,6 +26,11 @@ tr.row:not(.expanded-row):active {
   display: flex;
 }
 
+.row-detail-content {
+  width:  90%;
+  margin: auto auto;
+}
+
 .mat-form-field {
   font-size: 14px;
   width: 100%;

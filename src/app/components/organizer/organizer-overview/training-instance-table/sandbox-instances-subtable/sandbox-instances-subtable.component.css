@@ -46,7 +46,7 @@ h2 {
   padding: 20px;
   display: flex;
   flex-direction: row;
-  width: 90vw;
+  width: 100%;
 }
 
 .sandbox-table-wrapper {
@@ -54,8 +54,8 @@ h2 {
 }
 
 .sandbox-table {
-  width: 100%;
   margin: auto auto;
+  flex-grow: 10;
   justify-items: center;
   justify-content: center;
 }
