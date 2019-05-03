@@ -60,39 +60,45 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
   nextLevel() {
     if (!this.isActiveLevelLocked) {
       if (this.trainingRunLevelChild.isAssessmentLevel) {
-        this.nextLevelFromAssessmentLevel();
-      }
-      if (this.activeTrainingRunService.hasNextLevel()) {
-        this.activeTrainingRunService.nextLevel()
-          .subscribe(resp => {
-              this.selectedStep += 1;
-            },
-            err => {
-              this.errorHandler.displayHttpError(err, 'Loading next level');
-            });
-      }
-      else {
-        this.finishTraining();
-      }
-    }
-  }
-
-  private nextLevelFromAssessmentLevel() {
-    this.trainingRunLevelChild.submit();
-    if (this.activeTrainingRunService.hasNextLevel()) {
-      this.trainingRunLevelChild.submit()
-        .pipe(switchMap(result =>
+        if (this.activeTrainingRunService.hasNextLevel()) {
+          this.trainingRunLevelChild.submit()
+            .pipe(switchMap( resp =>
+              this.activeTrainingRunService.nextLevel()
+            ))
+            .subscribe(resp => {
+                this.selectedStep += 1;
+              },
+              err => {
+                this.errorHandler.displayHttpError(err, 'Loading next level');
+              });
+        }
+        else {
+          this.trainingRunLevelChild.submit()
+            .pipe(switchMap( resp =>
+              this.activeTrainingRunService.finish()
+            ))
+            .subscribe(resp => {
+                this.activeTrainingRunService.clear();
+                this.router.navigate(['results'], {relativeTo: this.activeRoute.parent});
+              },
+              err => {
+                this.errorHandler.displayHttpError(err, 'Finishing training run');
+              })
+        }
+      } else {
+        if (this.activeTrainingRunService.hasNextLevel()) {
           this.activeTrainingRunService.nextLevel()
-        ))
-        .subscribe(resp => {
-            this.selectedStep += 1;
-          },
-          err => {
-            this.errorHandler.displayHttpError(err, 'Loading next level');
-          });
-    }
-    else {
-      this.finishTraining();
+            .subscribe(resp => {
+                this.selectedStep += 1;
+              },
+              err => {
+                this.errorHandler.displayHttpError(err, 'Loading next level');
+              });
+        }
+        else {
+          this.finishTraining();
+        }
+      }
     }
   }
 
