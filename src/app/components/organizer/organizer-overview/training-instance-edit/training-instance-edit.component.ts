@@ -1,14 +1,14 @@
 import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
 import {TrainingDefinition} from "../../../../model/training/training-definition";
-import {AlertService} from "../../../../services/event-services/alert.service";
+import {AlertService} from "../../../../services/shared/alert.service";
 import {MatDialog} from "@angular/material";
 import {OrganizersPickerComponent} from "./organizers-picker/organizers-picker.component";
 import {TrainingDefinitionPickerComponent} from "./training-definition-picker/training-definition-picker.component";
 import {TrainingInstance} from "../../../../model/training/training-instance";
 import {UserFacade} from "../../../../services/facades/user-facade.service";
 import {TrainingDefinitionFacade} from "../../../../services/facades/training-definition-facade.service";
-import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
-import {ActiveUserService} from "../../../../services/active-user.service";
+import {AlertTypeEnum} from "../../../../model/enums/alert-type.enum";
+import {ActiveUserService} from "../../../../services/shared/active-user.service";
 import {TrainingInstanceFacade} from "../../../../services/facades/training-instance-facade.service";
 import {User} from '../../../../model/user/user';
 import {interval, Subscription} from 'rxjs';

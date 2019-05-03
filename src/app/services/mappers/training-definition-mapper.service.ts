@@ -1,14 +1,14 @@
 import {Injectable} from '@angular/core';
 import {TrainingDefinition} from '../../model/training/training-definition';
-import {TrainingDefinitionStateEnum} from '../../enums/training-definition-state.enum';
+import {TrainingDefinitionStateEnum} from '../../model/enums/training-definition-state.enum';
 import {AbstractLevel} from '../../model/level/abstract-level';
 import {TrainingDefinitionCreateDTO} from '../../model/DTOs/training-definition/trainingDefinitionCreateDTO';
 import {TrainingDefinitionUpdateDTO} from '../../model/DTOs/training-definition/trainingDefinitionUpdateDTO';
 import {TrainingDefinitionRestResource} from '../../model/DTOs/training-definition/trainingDefinitionRestResource';
 import {TrainingDefinitionDTO} from '../../model/DTOs/training-definition/trainingDefinitionDTO';
-import {TableDataWithPaginationWrapper} from '../../model/table-models/table-data-with-pagination-wrapper';
-import {TrainingDefinitionTableData} from '../../model/table-models/training-definition-table-data';
-import {TablePagination} from '../../model/table-models/table-pagination';
+import {PaginatedTable} from '../../model/table-adapters/paginated-table';
+import {TrainingDefinitionTableAdapter} from '../../model/table-adapters/training-definition-table-adapter';
+import {TablePagination} from '../../model/table-adapters/table-pagination';
 import {LevelMapper} from './level-mapper.service';
 import {BetaTestingGroupDTO} from '../../model/DTOs/training-definition/betaTestingGroupDTO';
 import {BetaTestingGroup} from '../../model/user/beta-testing-group';
@@ -39,10 +39,10 @@ export class TrainingDefinitionMapper {
     return result;
   }
 
-  mapTrainingDefinitionDTOsToTrainingDefinitionsWithPagination(resource: TrainingDefinitionRestResource): TableDataWithPaginationWrapper<TrainingDefinitionTableData[]> {
-    const tableData: TrainingDefinitionTableData[] = [];
+  mapTrainingDefinitionDTOsToTrainingDefinitionsWithPagination(resource: TrainingDefinitionRestResource): PaginatedTable<TrainingDefinitionTableAdapter[]> {
+    const tableData: TrainingDefinitionTableAdapter[] = [];
     resource.content.forEach((trainingDTO: TrainingDefinitionDTO) => {
-      const rowData = new TrainingDefinitionTableData();
+      const rowData = new TrainingDefinitionTableAdapter();
       rowData.trainingDefinition = this.mapTrainingDefinitionDTOToTrainingDefinition(trainingDTO, false);
       rowData.selectedState = rowData.trainingDefinition.state;
       rowData.createPossibleStates();
@@ -53,7 +53,7 @@ export class TrainingDefinitionMapper {
       resource.pagination.size,
       resource.pagination.total_elements,
       resource.pagination.total_pages);
-    return new TableDataWithPaginationWrapper(tableData, tablePagination);
+    return new PaginatedTable(tableData, tablePagination);
   }
 
   /**

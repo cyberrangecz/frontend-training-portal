@@ -28,6 +28,13 @@ markdown > pre {
   width: 60%;
 }
 
+.footer {
+  margin-top: 30px;
+  width: 90%;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
 .questions {
   margin-top: 60px;
   display: flex;

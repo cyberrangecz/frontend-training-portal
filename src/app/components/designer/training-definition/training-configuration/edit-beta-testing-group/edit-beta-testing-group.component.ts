@@ -3,9 +3,9 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 import {UserFacade} from "../../../../../services/facades/user-facade.service";
 import {map} from "rxjs/operators";
 import {BetaTestingGroup} from "../../../../../model/user/beta-testing-group";
-import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
-import {AlertService} from "../../../../../services/event-services/alert.service";
-import {ActiveUserService} from "../../../../../services/active-user.service";
+import {AlertTypeEnum} from "../../../../../model/enums/alert-type.enum";
+import {AlertService} from "../../../../../services/shared/alert.service";
+import {ActiveUserService} from "../../../../../services/shared/active-user.service";
 import {User} from '../../../../../model/user/user';
 
 @Component({

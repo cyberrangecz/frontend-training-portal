@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FreeFormQuestion} from "../../../../../../../model/questions/free-form-question";
-import {AlertService} from "../../../../../../../services/event-services/alert.service";
-import {AlertTypeEnum} from "../../../../../../../enums/alert-type.enum";
+import {AlertService} from "../../../../../../../services/shared/alert.service";
+import {AlertTypeEnum} from "../../../../../../../model/enums/alert-type.enum";
 
 @Component({
   selector: 'free-form-question',

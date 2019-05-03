@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {UserFacade} from "../../../../../services/facades/user-facade.service";
 import {User} from "../../../../../model/user/user";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
-import {ActiveUserService} from "../../../../../services/active-user.service";
+import {ActiveUserService} from "../../../../../services/shared/active-user.service";
 import {map} from "rxjs/operators";
 
 @Component({

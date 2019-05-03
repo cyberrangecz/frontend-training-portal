@@ -2,16 +2,16 @@ import {Injectable} from '@angular/core';
 import {TrainingRun} from '../../model/training/training-run';
 import {TrainingRunDTO} from '../../model/DTOs/training-run/trainingRunDTO';
 import {LevelMapper} from './level-mapper.service';
-import {TrainingRunStateEnum} from '../../enums/training-run-state.enum';
+import {TrainingRunStateEnum} from '../../model/enums/training-run-state.enum';
 import {TrainingInstanceMapper} from './training-instance-mapper.service';
 import {TrainingRunRestResource} from '../../model/DTOs/training-run/trainingRunRestResource';
 import {AccessedTrainingRunDTO} from "../../model/DTOs/training-run/accessedTrainingRunDTO";
-import {TraineeAccessedTrainingsTableDataModel} from "../../model/table-models/trainee-accessed-trainings-table-data-model";
-import {TraineeAccessTrainingRunActionEnum} from "../../enums/trainee-access-training-run-actions.enum";
+import {AccessedTrainingRunsTableAdapter} from "../../model/table-adapters/accessed-training-runs-table-adapter";
+import {TraineeAccessTrainingRunActionEnum} from "../../model/enums/trainee-access-training-run-actions.enum";
 import PossibleActionEnum = AccessedTrainingRunDTO.PossibleActionEnum;
-import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
-import {TrainingRunTableDataModel} from "../../model/table-models/training-run-table-data-model";
-import {TablePagination} from "../../model/table-models/table-pagination";
+import {PaginatedTable} from "../../model/table-adapters/paginated-table";
+import {TrainingRunTableAdapter} from "../../model/table-adapters/training-run-table-adapter";
+import {TablePagination} from "../../model/table-adapters/table-pagination";
 import {AccessTrainingRunDTO} from "../../model/DTOs/training-run/accessTrainingRunDTO";
 import {AccessTrainingRunInfo} from "../../model/training/access-training-run-info";
 import {IsCorrectFlagDTO} from "../../model/DTOs/level/game/isCorrectFlagDTO";
@@ -50,10 +50,10 @@ export class TrainingRunMapper {
    * Maps training run DTOs retrieved from remote server to training run objects with pagination
    * @param resource training run DTOs retrieved from remote server
    */
-  mapTrainingRunDTOsToTrainingRunsWithPagination(resource: TrainingRunRestResource): TableDataWithPaginationWrapper<TrainingRunTableDataModel[]> {
-    const tableData: TrainingRunTableDataModel[] = [];
+  mapTrainingRunDTOsToTrainingRunsWithPagination(resource: TrainingRunRestResource): PaginatedTable<TrainingRunTableAdapter[]> {
+    const tableData: TrainingRunTableAdapter[] = [];
     resource.content.forEach(trainingRunDTO => {
-      const tableRow = new TrainingRunTableDataModel();
+      const tableRow = new TrainingRunTableAdapter();
       tableRow.trainingRun = this.mapTrainingRunDTOToTrainingRun(trainingRunDTO);
       tableRow.isWaitingForRevertResponse = false;
       tableData.push(tableRow);
@@ -64,7 +64,7 @@ export class TrainingRunMapper {
       resource.pagination.size,
       resource.pagination.total_elements,
       resource.pagination.total_pages);
-    return new TableDataWithPaginationWrapper(tableData, tablePagination);
+    return new PaginatedTable(tableData, tablePagination);
   }
 
   /**
@@ -100,8 +100,8 @@ export class TrainingRunMapper {
   }
 
   mapAccessedTrainingRunDTOsToTrainingRunTableObjects(resource: TrainingRunRestResource)
-    : TableDataWithPaginationWrapper<TraineeAccessedTrainingsTableDataModel[]> {
-    const tableData: TraineeAccessedTrainingsTableDataModel[] = [];
+    : PaginatedTable<AccessedTrainingRunsTableAdapter[]> {
+    const tableData: AccessedTrainingRunsTableAdapter[] = [];
     resource.content.forEach(accessedTrainingRunDTO =>
       tableData.push(this.mapAccessedTrainingRunDTOToTrainingRunTableObject(accessedTrainingRunDTO)));
     const tablePagination = new TablePagination(resource.pagination.number,
@@ -109,12 +109,12 @@ export class TrainingRunMapper {
       resource.pagination.size,
       resource.pagination.total_elements,
       resource.pagination.total_pages);
-    return new TableDataWithPaginationWrapper(tableData, tablePagination);
+    return new PaginatedTable(tableData, tablePagination);
   }
 
 
-  mapAccessedTrainingRunDTOToTrainingRunTableObject(accessedTrainingRunDTO: AccessedTrainingRunDTO): TraineeAccessedTrainingsTableDataModel {
-    const result = new TraineeAccessedTrainingsTableDataModel();
+  mapAccessedTrainingRunDTOToTrainingRunTableObject(accessedTrainingRunDTO: AccessedTrainingRunDTO): AccessedTrainingRunsTableAdapter {
+    const result = new AccessedTrainingRunsTableAdapter();
     result.currentLevel = accessedTrainingRunDTO.current_level_order;
     result.totalLevels = accessedTrainingRunDTO.number_of_levels;
     result.trainingInstanceTitle = accessedTrainingRunDTO.title;

@@ -1,11 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {TrainingDistractionFreeModeService} from "./services/training-distraction-free-mode.service";
-import {authConfig} from "./config/auth-config";
+import {TrainingDistractionFreeModeService} from "./services/shared/training-distraction-free-mode.service";
+import {authConfig} from "./model/config/auth-config";
 import {JwksValidationHandler, OAuthService} from "angular-oauth2-oidc";
 import {Router} from "@angular/router";
-import {ActiveUserService} from "./services/active-user.service";
-import {SandboxAllocationBarService} from './services/sandbox-allocation/sandbox-allocation-bar.service';
-import {SandboxAllocationBarState} from './enums/sandbox-allocation-bar-state.enum';
+import {ActiveUserService} from "./services/shared/active-user.service";
+import {SandboxAllocationBarService} from './services/organizer/sandbox-allocation/sandbox-allocation-bar.service';
+import {SandboxAllocationBarState} from './model/enums/sandbox-allocation-bar-state.enum';
 import {Subscription} from 'rxjs';
 
 /**

@@ -1,19 +1,19 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {TrainingDefinitionFacade} from '../../../../services/facades/training-definition-facade.service';
-import {ActiveUserService} from '../../../../services/active-user.service';
+import {ActiveUserService} from '../../../../services/shared/active-user.service';
 import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
-import {TrainingDefinitionStateEnum} from '../../../../enums/training-definition-state.enum';
+import {TrainingDefinitionStateEnum} from '../../../../model/enums/training-definition-state.enum';
 import {ActivatedRoute, Router} from '@angular/router';
 import {DesignerUploadDialogComponent} from '../../upload-dialog/designer-upload-dialog.component';
-import {AlertService} from '../../../../services/event-services/alert.service';
+import {AlertService} from '../../../../services/shared/alert.service';
 import {TrainingInstanceFacade} from '../../../../services/facades/training-instance-facade.service';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 import {merge, of} from 'rxjs';
 import {environment} from '../../../../../environments/environment';
-import {AlertTypeEnum} from '../../../../enums/alert-type.enum';
-import {ErrorHandlerService} from '../../../../services/error-handler.service';
-import {TrainingDefinitionTableData} from '../../../../model/table-models/training-definition-table-data';
-import {TableDataWithPaginationWrapper} from '../../../../model/table-models/table-data-with-pagination-wrapper';
+import {AlertTypeEnum} from '../../../../model/enums/alert-type.enum';
+import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
+import {TrainingDefinitionTableAdapter} from '../../../../model/table-adapters/training-definition-table-adapter';
+import {PaginatedTable} from '../../../../model/table-adapters/paginated-table';
 import {HttpErrorResponse} from '@angular/common/http';
 import {StateChangeDialogComponent} from './state-change-dialog/state-change-dialog.component';
 import {DeleteDialogComponent} from "../../../shared/delete-dialog/delete-dialog.component";
@@ -37,7 +37,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
   loggedUserLogin: string;
   displayedColumns: string[] = ['title', 'description', 'state', 'authors', 'estimated-duration', 'last-edit', 'actions'];
 
-  dataSource: MatTableDataSource<TrainingDefinitionTableData>;
+  dataSource: MatTableDataSource<TrainingDefinitionTableAdapter>;
 
   resultsLength = 0;
   isLoadingResults = true;
@@ -156,7 +156,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
   }
 
 
-  changeTrainingDefinitionState(row: TrainingDefinitionTableData) {
+  changeTrainingDefinitionState(row: TrainingDefinitionTableAdapter) {
     const dialogRef = this.dialog.open(StateChangeDialogComponent, {
       data: {
         fromState: row.trainingDefinition.state,
@@ -199,10 +199,10 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
           this.errorHandler.displayHttpError(err, 'Loading training definitions');
           return of([]);
         })
-      ).subscribe((data: TableDataWithPaginationWrapper<TrainingDefinitionTableData[]>) => this.createDataSource(data));
+      ).subscribe((data: PaginatedTable<TrainingDefinitionTableAdapter[]>) => this.createDataSource(data));
   }
 
-  private onChangeTrainingStateDialogClosed(row: TrainingDefinitionTableData, result) {
+  private onChangeTrainingStateDialogClosed(row: TrainingDefinitionTableAdapter, result) {
     if (result && result.type === 'confirm') {
       this.sendChangeTrainingDefinitionStateRequest(row);
     }
@@ -211,7 +211,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
     }
   }
 
-  private sendChangeTrainingDefinitionStateRequest(row: TrainingDefinitionTableData) {
+  private sendChangeTrainingDefinitionStateRequest(row: TrainingDefinitionTableAdapter) {
     row.isLoadingStateChange = true;
     this.trainingDefinitionFacade.changeTrainingDefinitionState(row.selectedState, row.trainingDefinition.id)
       .subscribe(
@@ -220,13 +220,13 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
       )
   }
 
-  private onTrainingDefinitionStateChangeConfirmedByServer(row: TrainingDefinitionTableData) {
+  private onTrainingDefinitionStateChangeConfirmedByServer(row: TrainingDefinitionTableAdapter) {
     row.isLoadingStateChange = false;
     row.trainingDefinition.state = row.selectedState;
     row.createPossibleStates();
   }
 
-  private onTrainingDefinitionStateChangeDeniedByServer(row: TrainingDefinitionTableData, err: HttpErrorResponse) {
+  private onTrainingDefinitionStateChangeDeniedByServer(row: TrainingDefinitionTableAdapter, err: HttpErrorResponse) {
     row.isLoadingStateChange = false;
     row.selectedState = row.trainingDefinition.state;
     this.errorHandler.displayHttpError(err, 'Changing state of training definition');
@@ -259,10 +259,10 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    * Creates table data source from fetched data
    * @param data Training Definitions fetched from server
    */
-  private createDataSource(data: TableDataWithPaginationWrapper<TrainingDefinitionTableData[]>) {
+  private createDataSource(data: PaginatedTable<TrainingDefinitionTableAdapter[]>) {
     this.dataSource = new MatTableDataSource(data.tableData);
     this.dataSource.filterPredicate =
-      (data: TrainingDefinitionTableData, filter: string) =>
+      (data: TrainingDefinitionTableAdapter, filter: string) =>
         data.trainingDefinition.title.toLowerCase().indexOf(filter) !== -1
         || data.trainingDefinition.state.toLowerCase().indexOf(filter) !== -1;
   }

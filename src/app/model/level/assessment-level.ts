@@ -1,4 +1,4 @@
-import {AssessmentTypeEnum} from "../../enums/assessment-type.enum";
+import {AssessmentTypeEnum} from "../enums/assessment-type.enum";
 import {AbstractLevel} from "./abstract-level";
 import {AbstractQuestion} from "../questions/abstract-question";
 
@@ -9,7 +9,6 @@ export class AssessmentLevel extends AbstractLevel {
   questions: AbstractQuestion[];
   instructions: string;
   assessmentType: AssessmentTypeEnum;
-
 
   constructor() {
     super()

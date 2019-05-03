@@ -6,7 +6,7 @@ import {User} from "../../model/user/user";
 import {map} from "rxjs/operators";
 import {UserMapper} from "../mappers/user.mapper.service";
 import {UserInfoDTO} from "../../model/DTOs/user/user-info-dto";
-import {UserRoleEnum} from "../../enums/user-role.enum";
+import {UserRoleEnum} from "../../model/enums/user-role.enum";
 import {RoleDTO} from "../../model/DTOs/user/role-dto";
 import {UserRefDTO} from '../../model/DTOs/user/user-ref-dto';
 import {UserInfo} from 'angular-oauth2-oidc';

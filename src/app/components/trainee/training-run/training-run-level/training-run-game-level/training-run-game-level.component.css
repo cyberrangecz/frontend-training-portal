@@ -21,11 +21,19 @@ markdown > pre {
   width: 90%;
 }
 
+.footer {
+  margin-top: 30px;
+  width: 90%;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
 .content {
   margin-top: 50px;
   display: flex;
   width: 90%;
   flex-direction: row;
+
 }
 
 .left-panel {

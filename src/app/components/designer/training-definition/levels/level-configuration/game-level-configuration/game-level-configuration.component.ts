@@ -1,12 +1,12 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {GameLevel} from "../../../../../../model/level/game-level";
-import {AlertTypeEnum} from "../../../../../../enums/alert-type.enum";
-import {AlertService} from "../../../../../../services/event-services/alert.service";
+import {AlertTypeEnum} from "../../../../../../model/enums/alert-type.enum";
+import {AlertService} from "../../../../../../services/shared/alert.service";
 import {Hint} from "../../../../../../model/level/hint";
 import {HintStepperComponent} from "../hints/hint-stepper/hint-stepper.component";
-import {ErrorHandlerService} from "../../../../../../services/error-handler.service";
+import {ErrorHandlerService} from "../../../../../../services/shared/error-handler.service";
 import {TrainingDefinitionFacade} from "../../../../../../services/facades/training-definition-facade.service";
-import {LevelsDefinitionService} from "../../../../../../services/levels-definition.service";
+import {LevelsDefinitionService} from "../../../../../../services/designer/levels-definition.service";
 
 @Component({
   selector: 'game-level-configuration',

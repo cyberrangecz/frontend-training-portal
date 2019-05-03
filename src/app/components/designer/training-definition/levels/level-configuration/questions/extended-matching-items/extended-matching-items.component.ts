@@ -10,8 +10,8 @@ import {
   ViewChildren
 } from '@angular/core';
 import {ExtendedMatchingItems} from "../../../../../../../model/questions/extended-matching-items";
-import {AlertService} from "../../../../../../../services/event-services/alert.service";
-import {AlertTypeEnum} from "../../../../../../../enums/alert-type.enum";
+import {AlertService} from "../../../../../../../services/shared/alert.service";
+import {AlertTypeEnum} from "../../../../../../../model/enums/alert-type.enum";
 import {MatRadioButton} from "@angular/material";
 
 @Component({

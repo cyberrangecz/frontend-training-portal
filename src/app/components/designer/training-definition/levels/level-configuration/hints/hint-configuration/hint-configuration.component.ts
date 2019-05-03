@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {Hint} from "../../../../../../../model/level/hint";
-import {AlertTypeEnum} from "../../../../../../../enums/alert-type.enum";
-import {AlertService} from "../../../../../../../services/event-services/alert.service";
+import {AlertTypeEnum} from "../../../../../../../model/enums/alert-type.enum";
+import {AlertService} from "../../../../../../../services/shared/alert.service";
 
 @Component({
   selector: 'hint-configuration',

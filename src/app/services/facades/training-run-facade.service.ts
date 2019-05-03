@@ -8,8 +8,8 @@ import {PaginationParams} from "../../model/http/params/pagination-params";
 import {TrainingRunDTO} from "../../model/DTOs/training-run/trainingRunDTO";
 import {TrainingRunMapper} from "../mappers/training-run-mapper.service";
 import {TrainingRunRestResource} from '../../model/DTOs/training-run/trainingRunRestResource';
-import {TraineeAccessedTrainingsTableDataModel} from "../../model/table-models/trainee-accessed-trainings-table-data-model";
-import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
+import {AccessedTrainingRunsTableAdapter} from "../../model/table-adapters/accessed-training-runs-table-adapter";
+import {PaginatedTable} from "../../model/table-adapters/paginated-table";
 import {AbstractQuestion} from "../../model/questions/abstract-question";
 import {HintDTO} from "../../model/DTOs/level/game/hintDTO";
 import {IsCorrectFlagDTO} from "../../model/DTOs/level/game/isCorrectFlagDTO";
@@ -22,7 +22,7 @@ import {Hint} from "../../model/level/hint";
 import {AccessTrainingRunInfo} from "../../model/training/access-training-run-info";
 import {AccessTrainingRunDTO} from "../../model/DTOs/training-run/accessTrainingRunDTO";
 import {LevelMapper} from "../mappers/level-mapper.service";
-import {ActiveUserService} from "../active-user.service";
+import {ActiveUserService} from "../shared/active-user.service";
 
 /**
  * Service abstracting the training run endpoint.
@@ -86,15 +86,15 @@ export class TrainingRunFacade {
 
   /**
    * Retrieves all training runs which are still active (can be accessed and "played")
-   * @returns {Observable<TraineeAccessedTrainingsTableDataModel[]>} observable of list of active training runs to be displayed in table
+   * @returns {Observable<AccessedTrainingRunsTableAdapter[]>} observable of list of active training runs to be displayed in table
    */
-  getAccessedTrainingRuns(): Observable<TableDataWithPaginationWrapper<TraineeAccessedTrainingsTableDataModel[]>> {
+  getAccessedTrainingRuns(): Observable<PaginatedTable<AccessedTrainingRunsTableAdapter[]>> {
     return this.http.get<TrainingRunRestResource>(this.trainingRunsEndpointUri + 'accessible/')
       .pipe(map(response => this.trainingRunMapper.mapAccessedTrainingRunDTOsToTrainingRunTableObjects(response)));
   }
 
   getAccessedTrainingRunsWithPagination(page: number, size: number, sort: string, sortDir: string):
-    Observable<TableDataWithPaginationWrapper<TraineeAccessedTrainingsTableDataModel[]>> {
+    Observable<PaginatedTable<AccessedTrainingRunsTableAdapter[]>> {
     let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
     return this.http.get<TrainingRunRestResource>(this.trainingRunsEndpointUri + 'accessible/', {params: params})
       .pipe(map(response => this.trainingRunMapper.mapAccessedTrainingRunDTOsToTrainingRunTableObjects(response)));
@@ -178,7 +178,7 @@ export class TrainingRunFacade {
    * @param trainingRun id of the training run in which, questions should be submitted (level is decided based on the current level property)
    * @param questions questions which answers should be submitted
    */
-  submitQuestions(trainingRun: number, questions: AbstractQuestion[]) {
+  submitAnswers(trainingRun: number, questions: AbstractQuestion[]): Observable<any> {
     return this.http.put(this.trainingRunsEndpointUri + trainingRun + '/assessment-evaluations',
        this.trainingRunMapper.mapQuestionsToUserAnswerJSON(questions));
   }

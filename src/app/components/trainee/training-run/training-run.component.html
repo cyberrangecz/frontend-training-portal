@@ -3,7 +3,6 @@
 </div>
 
 <div class="content">
-
   <!-- LEVEL STEPPER -->
   <mat-horizontal-stepper class="training-run"
                           *ngIf="withStepper && levels"
@@ -28,30 +27,12 @@
     </mat-step>
   </mat-horizontal-stepper>
 
-<!--
-  &lt;!&ndash; TIMER &ndash;&gt;
+  <!-- TIMER -->
   <div class="timer">
     <training-timer *ngIf="withTimer" [startTime]="startTime"></training-timer>
   </div>
--->
 
   <!-- CONTENT OF ACTIVE LEVEL -->
-  <training-run-level (nextLevel)="nextLevel()"
-                      (displayNextLevelButton)="setDisplayNextLevelButton($event)">
-  </training-run-level>
-  <div class="main-button" *ngIf="levels">
-    <button *ngIf="selectedStep + 1 < levels.length && displayNextButton"
-            [disabled]="isActiveLevelLocked"
-            mat-raised-button color="primary"
-            (click)="nextLevel()"
-    >Next
-    </button>
-    <button *ngIf="selectedStep + 1 === levels.length && displayNextButton"
-            [disabled]="isActiveLevelLocked"
-            mat-raised-button color="primary"
-            (click)="finishTraining()">
-      Finish
-    </button>
-  </div>
+  <training-run-level></training-run-level>
 </div>
 

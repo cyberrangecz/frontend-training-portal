@@ -10,8 +10,8 @@ import {AssessmentLevelUpdateDTO, AssessmentLevelUpdateDTOClass} from "../../mod
 import {GameLevelDTO} from "../../model/DTOs/level/game/gameLevelDTO";
 import {InfoLevelDTO} from "../../model/DTOs/level/info/infoLevelDTO";
 import {AssessmentLevelDTO} from "../../model/DTOs/level/assessment/assessmentLevelDTO";
-import {AbstractLevelTypeEnum} from "../../enums/abstract-level-type.enum";
-import {AssessmentTypeEnum} from "../../enums/assessment-type.enum";
+import {AbstractLevelTypeEnum} from "../../model/enums/abstract-level-type.enum";
+import {AssessmentTypeEnum} from "../../model/enums/assessment-type.enum";
 import {HintDTO, HintDTOClass} from "../../model/DTOs/level/game/hintDTO";
 import {Hint} from "../../model/level/hint";
 import {BasicLevelInfoDTO} from "../../model/DTOs/level/basicLevelInfoDTO";
@@ -210,7 +210,7 @@ export class LevelMapper {
   }
 
   /**
-   * Helper method which sets abstract level attributes (common for all type of levels) from level DTO
+   * Helper method which sets abstract level attributes (shared for all type of levels) from level DTO
    * @param level level object which attributes should be set accordingly to received dto
    * @param levelDTO level dto received from remote server
    */

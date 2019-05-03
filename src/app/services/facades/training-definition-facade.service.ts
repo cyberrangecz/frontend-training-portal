@@ -17,13 +17,13 @@ import {InfoLevel} from "../../model/level/info-level";
 import {AssessmentLevel} from "../../model/level/assessment-level";
 import {TrainingDefinitionRestResource} from "../../model/DTOs/training-definition/trainingDefinitionRestResource";
 import {TrainingDefinitionDTO} from "../../model/DTOs/training-definition/trainingDefinitionDTO";
-import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
-import {TrainingDefinitionTableData} from "../../model/table-models/training-definition-table-data";
+import {PaginatedTable} from "../../model/table-adapters/paginated-table";
+import {TrainingDefinitionTableAdapter} from "../../model/table-adapters/training-definition-table-adapter";
 import {BasicLevelInfoDTO} from "../../model/DTOs/level/basicLevelInfoDTO";
-import {DownloadService} from '../download.service';
-import {UploadService} from '../upload.service';
+import {DownloadService} from '../shared/download.service';
+import {UploadService} from '../shared/upload.service';
 import {ResponseHeaderContentDispositionReader} from '../../model/http/response-headers/response-header-content-disposition-reader';
-import {TrainingDefinitionStateEnum} from '../../enums/training-definition-state.enum';
+import {TrainingDefinitionStateEnum} from '../../model/enums/training-definition-state.enum';
 import {TrainingDefinitionInfo} from '../../model/training/training-definition-info';
 import {TrainingDefinitionInfoRestResource} from '../../model/DTOs/training-definition/training-definition-info-rest-resource';
 import {of} from "rxjs";
@@ -69,7 +69,7 @@ export class TrainingDefinitionFacade {
    * @param sort attribute by which will result be sorted
    * @param sortDir sort direction (asc, desc)
    */
-  getTrainingDefinitionsWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<TableDataWithPaginationWrapper<TrainingDefinitionTableData[]>> {
+  getTrainingDefinitionsWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<PaginatedTable<TrainingDefinitionTableAdapter[]>> {
     let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
     return this.http.get<TrainingDefinitionRestResource>(this.trainingDefsEndpointUri, { params: params })
       .pipe(map(response =>

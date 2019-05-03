@@ -1,4 +1,4 @@
-import {AlertTypeEnum} from "../../enums/alert-type.enum";
+import {AlertTypeEnum} from "../enums/alert-type.enum";
 
 /**
  * Class representing an alert event. Type is used to determines meaning of the alert (success, warning, etc) and

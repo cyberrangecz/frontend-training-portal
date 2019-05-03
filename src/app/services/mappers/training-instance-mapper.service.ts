@@ -5,9 +5,9 @@ import {TrainingInstanceCreateDTO} from "../../model/DTOs/training-instance/trai
 import {TrainingInstanceUpdateDTO} from "../../model/DTOs/training-instance/trainingInstanceUpdateDTO";
 import {TrainingInstanceRestResource} from "../../model/DTOs/training-instance/trainingInstanceRestResource";
 import {TrainingDefinitionMapper} from './training-definition-mapper.service';
-import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
-import {TrainingInstanceTableData} from "../../model/table-models/training-instance-table-data";
-import {TablePagination} from "../../model/table-models/table-pagination";
+import {PaginatedTable} from "../../model/table-adapters/paginated-table";
+import {TrainingInstanceTableAdapter} from "../../model/table-adapters/training-instance-table-adapter";
+import {TablePagination} from "../../model/table-adapters/table-pagination";
 import {UserMapper} from './user.mapper.service';
 
 @Injectable()
@@ -32,10 +32,10 @@ export class TrainingInstanceMapper {
    * Maps training instance dtos received from remote server to training instance objects
    * @param resource array of training instance dtos received from remote server with pagination
    */
-  mapTrainingInstanceDTOsToTrainingInstancesWithPagination(resource: TrainingInstanceRestResource): TableDataWithPaginationWrapper<TrainingInstanceTableData[]> {
-    const tableDataList: TrainingInstanceTableData[] = [];
+  mapTrainingInstanceDTOsToTrainingInstancesWithPagination(resource: TrainingInstanceRestResource): PaginatedTable<TrainingInstanceTableAdapter[]> {
+    const tableDataList: TrainingInstanceTableAdapter[] = [];
     resource.content.forEach(dto => {
-      const tableRow = new TrainingInstanceTableData();
+      const tableRow = new TrainingInstanceTableAdapter();
       tableRow.trainingInstance = this.mapTrainingInstanceDTOToTrainingInstance(dto);
       tableRow.trainingDefinitionTitle = tableRow.trainingInstance.trainingDefinition.title;
       tableRow.isAllocationInProgress = false;
@@ -48,7 +48,7 @@ export class TrainingInstanceMapper {
       resource.pagination.size,
       resource.pagination.total_elements,
       resource.pagination.total_pages);
-    return new TableDataWithPaginationWrapper(tableDataList, tablePagination);
+    return new PaginatedTable(tableDataList, tablePagination);
   }
 
   /**

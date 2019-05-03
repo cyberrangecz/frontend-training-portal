@@ -1,22 +1,22 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
 import {TrainingInstance} from "../../../../model/training/training-instance";
-import {AlertService} from "../../../../services/event-services/alert.service";
-import {ActiveUserService} from "../../../../services/active-user.service";
+import {AlertService} from "../../../../services/shared/alert.service";
+import {ActiveUserService} from "../../../../services/shared/active-user.service";
 import {TrainingInstanceFacade} from "../../../../services/facades/training-instance-facade.service";
 import {TrainingEditPopupComponent} from "./training-edit-popup/training-edit-popup.component";
 import {interval, merge, Observable, of, Subscription} from 'rxjs';
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {environment} from "../../../../../environments/environment";
-import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
-import {TrainingInstanceTableData} from "../../../../model/table-models/training-instance-table-data";
-import {TableDataWithPaginationWrapper} from "../../../../model/table-models/table-data-with-pagination-wrapper";
+import {AlertTypeEnum} from "../../../../model/enums/alert-type.enum";
+import {TrainingInstanceTableAdapter} from "../../../../model/table-adapters/training-instance-table-adapter";
+import {PaginatedTable} from "../../../../model/table-adapters/paginated-table";
 import {SandboxInstanceFacade} from "../../../../services/facades/sandbox-instance-facade.service";
 import {SandboxInstance} from "../../../../model/sandbox/sandbox-instance";
-import {SandboxAllocationService} from "../../../../services/sandbox-allocation/sandbox-allocation.service";
+import {SandboxAllocationService} from "../../../../services/organizer/sandbox-allocation/sandbox-allocation.service";
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {TrainingInstanceSandboxAllocationState} from '../../../../model/training/training-instance-sandbox-allocation-state';
-import {ErrorHandlerService} from "../../../../services/error-handler.service";
+import {ErrorHandlerService} from "../../../../services/shared/error-handler.service";
 import {DeleteDialogComponent} from "../../../shared/delete-dialog/delete-dialog.component";
 
 @Component({
@@ -39,12 +39,12 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
 
   displayedColumns: string[] = ['title', 'date', 'trainingDefinition', 'poolSize', 'accessToken', 'actions'];
 
-  dataSource: MatTableDataSource<TrainingInstanceTableData>;
+  dataSource: MatTableDataSource<TrainingInstanceTableAdapter>;
 
   resultsLength = 0;
   isLoadingResults = true;
   isInErrorState = false;
-  expandedRow: TrainingInstanceTableData;
+  expandedRow: TrainingInstanceTableAdapter;
   now: number;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -106,9 +106,9 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
   /**
    * Opens popup dialog to confirm if the user really wants to delete the training instance. If the action is
    * confirmed, training instance is removed and REST API called to remove training from endpoint
-   * @param {TrainingInstanceTableData} training training instance which should be removed
+   * @param {TrainingInstanceTableAdapter} training training instance which should be removed
    */
-  deleteTraining(training: TrainingInstanceTableData) {
+  deleteTraining(training: TrainingInstanceTableAdapter) {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data: {
         type: 'Training Instance',
@@ -139,7 +139,7 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
       });
   }
 
-  allocateTrainingInstanceSandboxes(row: TrainingInstanceTableData) {
+  allocateTrainingInstanceSandboxes(row: TrainingInstanceTableAdapter) {
     row.isAllocationInProgress = true;
     const allocation$ = this.allocationService.allocateSandboxes(row.trainingInstance);
     row.allocationSubscription = allocation$
@@ -150,7 +150,7 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
   }
 
 
-  onAllocationEvent(allocation$: Observable<TrainingInstanceSandboxAllocationState>, instanceRow: TrainingInstanceTableData) {
+  onAllocationEvent(allocation$: Observable<TrainingInstanceSandboxAllocationState>, instanceRow: TrainingInstanceTableAdapter) {
     instanceRow.allocationSubscription = allocation$.subscribe(
       allocationState => this.onAllocationUpdate(allocationState, instanceRow),
       err => this.onAllocationUpdateError(err, instanceRow)
@@ -207,28 +207,28 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
           this.errorHandler.displayHttpError(err, 'Loading training definitions');
           return of([]);
         })
-      ).subscribe((data: TableDataWithPaginationWrapper<TrainingInstanceTableData[]>) => this.createDataSource(data));
+      ).subscribe((data: PaginatedTable<TrainingInstanceTableAdapter[]>) => this.createDataSource(data));
   }
   /**
    * Creates data source from fetched data
    * @param data fetched data
    */
-  private createDataSource(data: TableDataWithPaginationWrapper<TrainingInstanceTableData[]>) {
+  private createDataSource(data: PaginatedTable<TrainingInstanceTableAdapter[]>) {
     this.dataSource = new MatTableDataSource(data.tableData);
     this.dataSource.filterPredicate =
-      (data: TrainingInstanceTableData, filter: string) =>
+      (data: TrainingInstanceTableAdapter, filter: string) =>
         data.trainingInstance.title.toLowerCase().indexOf(filter) !== -1;
   }
 
 
-  private resolveAllocationStateForTable(data: TableDataWithPaginationWrapper<TrainingInstanceTableData[]>) {
+  private resolveAllocationStateForTable(data: PaginatedTable<TrainingInstanceTableAdapter[]>) {
     data.tableData.forEach(row => {
       this.resolveAllocationStateForRow(row);
       this.subscribeForAllocationIfAvailable(row);
     })
   }
 
-  private resolveAllocationStateForRow(instanceTableRow: TrainingInstanceTableData) {
+  private resolveAllocationStateForRow(instanceTableRow: TrainingInstanceTableAdapter) {
     if (instanceTableRow.trainingInstance.hasPoolId()) {
       instanceTableRow.allocationSubscription = this.sandboxInstanceFacade.getSandboxesInPool( instanceTableRow.trainingInstance.poolId)
         .subscribe(sandboxes => {
@@ -267,7 +267,7 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
       sandbox.isFailed())
   }
 
-  private onAllocationUpdate(allocationState: TrainingInstanceSandboxAllocationState, row: TrainingInstanceTableData) {
+  private onAllocationUpdate(allocationState: TrainingInstanceSandboxAllocationState, row: TrainingInstanceTableAdapter) {
     if (row) {
       row.isAllocationInProgress = !allocationState.hasAllocationFinished();
       row.allocatedSandboxesCount = allocationState.getSuccessfullyCreatedSandboxesCount();
@@ -276,12 +276,12 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  private onAllocationUpdateError(err, row: TrainingInstanceTableData) {
+  private onAllocationUpdateError(err, row: TrainingInstanceTableAdapter) {
     row.isAllocationInProgress = false;
     this.errorHandler.displayHttpError(err, 'Allocation of sandboxes');
   }
 
-  private subscribeForAllocationIfAvailable(row: TrainingInstanceTableData) {
+  private subscribeForAllocationIfAvailable(row: TrainingInstanceTableAdapter) {
     const allocationState$ = this.allocationService.getRunningAllocationStateObservable(row.trainingInstance);
     if (allocationState$) {
       row.allocationSubscription = allocationState$.subscribe(

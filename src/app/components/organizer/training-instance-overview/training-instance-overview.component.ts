@@ -1,7 +1,7 @@
  import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {TrainingInstanceFacade} from "../../../services/facades/training-instance-facade.service";
-import {ActiveTrainingInstanceService} from "../../../services/active-training-instance.service";
+import {ActiveTrainingInstanceService} from "../../../services/organizer/active-training-instance.service";
 @Component({
   selector: 'training-instance-overview',
   templateUrl: './training-instance-overview.component.html',

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {MultipleChoiceQuestion} from "../../../../../../../model/questions/multiple-choice-question";
-import {AlertService} from "../../../../../../../services/event-services/alert.service";
-import {AlertTypeEnum} from "../../../../../../../enums/alert-type.enum";
+import {AlertService} from "../../../../../../../services/shared/alert.service";
+import {AlertTypeEnum} from "../../../../../../../model/enums/alert-type.enum";
 import {MatCheckboxChange} from "@angular/material";
 
 @Component({
