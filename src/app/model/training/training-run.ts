@@ -1,4 +1,4 @@
-import {TrainingRunStateEnum} from "../../enums/training-run-state.enum";
+import {TrainingRunStateEnum} from "../enums/training-run-state.enum";
 import {AbstractLevel} from "../level/abstract-level";
 import {TrainingInstance} from "./training-instance";
 import {User} from '../user/user';

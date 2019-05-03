@@ -1,13 +1,11 @@
-import {Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {ActiveTrainingRunService} from "../../../../services/active-training-run.service";
+import {ActiveTrainingRunService} from "../../../../services/trainee/active-training-run.service";
 import {AbstractLevel} from "../../../../model/level/abstract-level";
 import {InfoLevel} from "../../../../model/level/info-level";
 import {AssessmentLevel} from "../../../../model/level/assessment-level";
 import {GameLevel} from "../../../../model/level/game-level";
-import {TrainingRunAssessmentLevelComponent} from "./training-run-assessment-level/training-run-assessment-level.component";
 import {MatDialog} from "@angular/material";
-import {Observable} from 'rxjs';
 
 @Component({
   selector: 'training-run-level',
@@ -19,11 +17,6 @@ import {Observable} from 'rxjs';
  * and displays child component accordingly
  */
 export class TrainingRunLevelComponent implements OnInit, OnDestroy {
-
-  @ViewChild(TrainingRunAssessmentLevelComponent) assessmentLevelChild: TrainingRunAssessmentLevelComponent;
-
-  @Output('nextLevel') nextLevel: EventEmitter<number> = new EventEmitter<number>();
-  @Output('displayNextLevelButton') displayNextLevelButton: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   level: AbstractLevel;
   isInfoLevel = false;
@@ -65,21 +58,11 @@ export class TrainingRunLevelComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Submits all user input data to REST
-   */
-  submit(): Observable<any> {
-    if (this.isAssessmentLevel) {
-      return this.assessmentLevelChild.submit();
-    }
-  }
-
-  /**
    * Loads level from service maintaining active level
    */
   private initLevel() {
     this.level = this.activeLevelsService.getActiveLevel();
     this.resolveLevelType();
-    this.setDisplayNextButtonValue();
   }
 
   /**
@@ -94,24 +77,6 @@ export class TrainingRunLevelComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Decides whether next level button in training page should be displayed or not (game level)
-   */
-  private setDisplayNextButtonValue() {
-    if (this.isGameLevel) {
-      this.displayNextLevelButton.emit(false);
-    } else {
-      this.displayNextLevelButton.emit(true);
-    }
-  }
-
-  /**
-   * Catches next level event from sub component and passes it to to parent
-   */
-  private moveToNextLevel() {
-     this.nextLevel.emit();
-  }
-;
-  /**
    * Subscribes to changes of active level. If active level is changed, it re-initializes level data and displays
    * different child component if its type is changed
    */
@@ -120,7 +85,6 @@ export class TrainingRunLevelComponent implements OnInit, OnDestroy {
       .subscribe(activeLevel => {
         this.level = activeLevel;
         this.resolveLevelType();
-        this.setDisplayNextButtonValue();
       })
   }
 }

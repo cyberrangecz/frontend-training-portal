@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
 import {Subscription} from "rxjs";
-import {SandboxAllocationService} from "../../../../services/sandbox-allocation/sandbox-allocation.service";
+import {SandboxAllocationService} from "../../../../services/organizer/sandbox-allocation/sandbox-allocation.service";
 
 @Component({
   selector: 'app-sandbox-allocation-panel',

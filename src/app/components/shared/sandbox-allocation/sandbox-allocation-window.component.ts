@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {SandboxAllocationBarService} from '../../../services/sandbox-allocation/sandbox-allocation-bar.service';
+import {SandboxAllocationBarService} from '../../../services/organizer/sandbox-allocation/sandbox-allocation-bar.service';
 
 @Component({
   selector: 'app-sandbox-allocation',

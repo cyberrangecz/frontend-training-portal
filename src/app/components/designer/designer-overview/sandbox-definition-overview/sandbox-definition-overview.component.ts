@@ -1,19 +1,19 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
 import {SandboxDefinition} from "../../../../model/sandbox/sandbox-definition";
-import {ActiveUserService} from "../../../../services/active-user.service";
+import {ActiveUserService} from "../../../../services/shared/active-user.service";
 import {SandboxDefinitionFacade} from "../../../../services/facades/sandbox-definition-facade.service";
 import {TrainingDefinitionFacade} from "../../../../services/facades/training-definition-facade.service";
-import {AlertService} from "../../../../services/event-services/alert.service";
-import {TrainingDefinitionStateEnum} from "../../../../enums/training-definition-state.enum";
+import {AlertService} from "../../../../services/shared/alert.service";
+import {TrainingDefinitionStateEnum} from "../../../../model/enums/training-definition-state.enum";
 import {TrainingDefinition} from "../../../../model/training/training-definition";
 import {DesignerUploadDialogComponent} from "../../upload-dialog/designer-upload-dialog.component";
 import {merge, of} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {environment} from "../../../../../environments/environment";
-import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
-import {ErrorHandlerService} from "../../../../services/error-handler.service";
-import {SandboxDefinitionTableData} from "../../../../model/table-models/sandbox-definition-table-data";
+import {AlertTypeEnum} from "../../../../model/enums/alert-type.enum";
+import {ErrorHandlerService} from "../../../../services/shared/error-handler.service";
+import {SandboxDefinitionTableAdapter} from "../../../../model/table-adapters/sandbox-definition-table-adapter";
 import {AssociatedTrainingDefinitionsDialogComponent} from './associated-training-definitions-dialog/associated-training-definitions-dialog.component';
 import {TrainingDefinitionInfo} from '../../../../model/training/training-definition-info';
 import {DeleteDialogComponent} from "../../../shared/delete-dialog/delete-dialog.component";
@@ -32,7 +32,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
 
   displayedColumns: string[] = ['title', 'associatedTrainingDefs', 'authors', 'actions'];
 
-  dataSource: MatTableDataSource<SandboxDefinitionTableData>;
+  dataSource: MatTableDataSource<SandboxDefinitionTableAdapter>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -85,9 +85,9 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
   }
   /**
    * Removes sandbox definition data object from data source and sends request to delete the sandbox in database
-   * @param {SandboxDefinitionTableData} sandboxRow sandbox definition data row which should be deleted
+   * @param {SandboxDefinitionTableAdapter} sandboxRow sandbox definition data row which should be deleted
    */
-  deleteSandboxDefinition(sandboxRow: SandboxDefinitionTableData) {
+  deleteSandboxDefinition(sandboxRow: SandboxDefinitionTableAdapter) {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data: {
         type: 'Sandbox Definition',
@@ -101,7 +101,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
       });
   }
 
-  showAssociatedTrainingDefinitions(row: SandboxDefinitionTableData) {
+  showAssociatedTrainingDefinitions(row: SandboxDefinitionTableAdapter) {
     this.dialog.open(AssociatedTrainingDefinitionsDialogComponent, {
       data: {
         sandboxDefinition: row.sandbox,
@@ -157,10 +157,10 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
    * Maps sandbox definitions to table data objects
    * @param data sandbox definitions
    */
-  private mapSandboxDefsToTableObjects(data: SandboxDefinition[]): SandboxDefinitionTableData[] {
-    const result: SandboxDefinitionTableData[] = [];
+  private mapSandboxDefsToTableObjects(data: SandboxDefinition[]): SandboxDefinitionTableAdapter[] {
+    const result: SandboxDefinitionTableAdapter[] = [];
     data.forEach(sandbox => {
-      const tableDataObject = new SandboxDefinitionTableData();
+      const tableDataObject = new SandboxDefinitionTableAdapter();
       tableDataObject.sandbox = sandbox;
       this.trainingDefinitionFacade.getTrainingDefinitionsAssociatedWithSandboxDefinition(sandbox.id)
         .subscribe(result => {
@@ -177,12 +177,12 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
    * Creates data source from sandbox definiton table data objects
    * @param data
    */
-  private createDataSource(data: SandboxDefinitionTableData[]) {
+  private createDataSource(data: SandboxDefinitionTableAdapter[]) {
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort;
 
     this.dataSource.filterPredicate =
-      (data: SandboxDefinitionTableData, filter: string) =>
+      (data: SandboxDefinitionTableAdapter, filter: string) =>
         data.sandbox.title.toLowerCase().indexOf(filter) !== -1
   }
 

@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActiveUserService} from "../../../services/active-user.service";
+import {ActiveUserService} from "../../../services/shared/active-user.service";
 import {UserMenuSection} from "../../../model/menu/user-menu-section.model";
 import {Agenda} from "../../../model/menu/agenda.model";
 

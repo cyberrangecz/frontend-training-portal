@@ -1,7 +1,7 @@
 import {NgModule} from "@angular/core";
 import {RouterModule, Routes} from "@angular/router";
 import {TrainingRunComponent} from "./training-run.component";
-import {TrainingRunLevelsGuard} from "../../../guards/training-run-levels-guard.service";
+import {TrainingRunLevelsGuard} from "../../../services/guards/training-run-levels-guard.service";
 const routes: Routes = [
   {
     path: 'game',

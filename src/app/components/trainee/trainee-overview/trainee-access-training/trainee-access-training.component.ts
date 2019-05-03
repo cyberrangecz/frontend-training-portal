@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {AlertService} from "../../../../services/event-services/alert.service";
-import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
+import {AlertService} from "../../../../services/shared/alert.service";
+import {AlertTypeEnum} from "../../../../model/enums/alert-type.enum";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ErrorHandlerService} from "../../../../services/error-handler.service";
-import {ActiveTrainingRunService} from "../../../../services/active-training-run.service";
+import {ErrorHandlerService} from "../../../../services/shared/error-handler.service";
+import {ActiveTrainingRunService} from "../../../../services/trainee/active-training-run.service";
 import {AbstractLevel} from "../../../../model/level/abstract-level";
 import {TrainingRunFacade} from "../../../../services/facades/training-run-facade.service";
 
@@ -41,7 +41,7 @@ export class TraineeAccessTrainingComponent implements OnInit {
       this.trainingRunFacade.accessTrainingRun(this.accessToken)
         .subscribe(trainingRunInfo => {
             this.isLoading = false;
-            this.activeTrainingRunLevelsService.setUpFromAccessTrainingRunInfo(trainingRunInfo);
+            this.activeTrainingRunLevelsService.setUpFromTrainingRun(trainingRunInfo);
           this.router.navigate(['training/game'], {relativeTo: this.activeRoute});
         },
           err=> {

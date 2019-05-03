@@ -1,4 +1,4 @@
-import {UserRoleEnum} from "../../enums/user-role.enum";
+import {UserRoleEnum} from "../enums/user-role.enum";
 import {Set} from 'typescript-collections/'
 
 /**

@@ -1,4 +1,4 @@
-import {TrainingDefinitionStateEnum} from "../../enums/training-definition-state.enum";
+import {TrainingDefinitionStateEnum} from "../enums/training-definition-state.enum";
 import {AbstractLevel} from "../level/abstract-level";
 import {User} from "../user/user";
 import {BetaTestingGroup} from "../user/beta-testing-group";

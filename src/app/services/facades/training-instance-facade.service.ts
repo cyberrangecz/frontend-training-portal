@@ -11,10 +11,10 @@ import {TrainingInstanceRestResource} from '../../model/DTOs/training-instance/t
 import {TrainingRun} from "../../model/training/training-run";
 import {TrainingRunMapper} from "../mappers/training-run-mapper.service";
 import {TrainingRunRestResource} from "../../model/DTOs/training-run/trainingRunRestResource";
-import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
-import {TrainingInstanceTableData} from "../../model/table-models/training-instance-table-data";
-import {TrainingRunTableDataModel} from "../../model/table-models/training-run-table-data-model";
-import {DownloadService} from "../download.service";
+import {PaginatedTable} from "../../model/table-adapters/paginated-table";
+import {TrainingInstanceTableAdapter} from "../../model/table-adapters/training-instance-table-adapter";
+import {TrainingRunTableAdapter} from "../../model/table-adapters/training-run-table-adapter";
+import {DownloadService} from "../shared/download.service";
 import {ResponseHeaderContentDispositionReader} from '../../model/http/response-headers/response-header-content-disposition-reader';
 import {of} from "rxjs";
 
@@ -56,7 +56,7 @@ export class TrainingInstanceFacade {
    * @param sort attribute by which will result be sorted
    * @param sortDir sort direction (asc, desc)
    */
-  getTrainingInstancesWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<TableDataWithPaginationWrapper<TrainingInstanceTableData[]>> {
+  getTrainingInstancesWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<PaginatedTable<TrainingInstanceTableAdapter[]>> {
     let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
     return this.http.get<TrainingInstanceRestResource>(this.trainingInstancesEndpointUri, { params: params })
       .pipe(map(response =>
@@ -89,7 +89,7 @@ export class TrainingInstanceFacade {
   }
 
   getTrainingRunsByTrainingInstanceIdWithPagination(trainingInstanceId: number, page: number, size: number, sort: string, sortDir: string)
-      : Observable<TableDataWithPaginationWrapper<TrainingRunTableDataModel[]>> {
+      : Observable<PaginatedTable<TrainingRunTableAdapter[]>> {
       let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
         return this.http.get<TrainingRunRestResource>(
           this.trainingInstancesEndpointUri + trainingInstanceId + '/' + this.trainingRunsUriExtension,

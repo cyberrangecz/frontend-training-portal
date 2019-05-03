@@ -1,5 +1,5 @@
 import {AbstractLevel} from "./abstract-level";
-import {AbstractLevelTypeEnum} from "../../enums/abstract-level-type.enum";
+import {AbstractLevelTypeEnum} from "../enums/abstract-level-type.enum";
 
 /**
  * Class representing single level in a training of type Info

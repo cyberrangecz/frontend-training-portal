@@ -11,14 +11,14 @@ import {AbstractLevel} from "../../../../../model/level/abstract-level";
 import {LevelConfigurationComponent} from "../level-configuration/level-configuration.component";
 import {DeleteDialogComponent} from "../../../../shared/delete-dialog/delete-dialog.component";
 import {MatDialog} from "@angular/material";
-import {AlertService} from "../../../../../services/event-services/alert.service";
-import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
+import {AlertService} from "../../../../../services/shared/alert.service";
+import {AlertTypeEnum} from "../../../../../model/enums/alert-type.enum";
 import {HttpErrorResponse} from "@angular/common/http";
-import {ErrorHandlerService} from "../../../../../services/error-handler.service";
+import {ErrorHandlerService} from "../../../../../services/shared/error-handler.service";
 import {TrainingDefinitionFacade} from "../../../../../services/facades/training-definition-facade.service";
 import {TrainingDefinition} from "../../../../../model/training/training-definition";
 import {Subscription} from "rxjs";
-import {LevelsDefinitionService} from "../../../../../services/levels-definition.service";
+import {LevelsDefinitionService} from "../../../../../services/designer/levels-definition.service";
 
 @Component({
   selector: 'training-level-stepper',

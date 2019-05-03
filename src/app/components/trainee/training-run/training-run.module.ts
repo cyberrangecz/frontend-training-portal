@@ -7,7 +7,7 @@ import {TrainingRunLevelModule} from "./training-run-level/training-run-level.mo
 import {PipesModule} from "../../../pipes/pipes.module";
 import { TrainingTimerComponent } from './training-timer/training-timer.component';
 import {CountdownTimerModule} from "ngx-countdown-timer";
-import {TrainingRunLevelsGuard} from "../../../guards/training-run-levels-guard.service";
+import {TrainingRunLevelsGuard} from "../../../services/guards/training-run-levels-guard.service";
 import {TrainingDefinitionFacadeModule} from '../../../services/facades/modules/training-definition-facade.module';
 import {TrainingRunFacadeModule} from '../../../services/facades/modules/training-run-facade.module';
 

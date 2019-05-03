@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {SandboxAllocationState} from "../../../../enums/sandbox-allocation-state";
+import {SandboxAllocationState} from "../../../../model/enums/sandbox-allocation-state";
 import {Subscription} from "rxjs";
-import {SandboxAllocationService} from "../../../../services/sandbox-allocation/sandbox-allocation.service";
+import {SandboxAllocationService} from "../../../../services/organizer/sandbox-allocation/sandbox-allocation.service";
 
 @Component({
   selector: 'app-sandbox-allocation-content-minimized',

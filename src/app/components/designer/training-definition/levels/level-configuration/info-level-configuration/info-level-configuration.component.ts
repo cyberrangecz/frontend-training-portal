@@ -1,10 +1,10 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {InfoLevel} from "../../../../../../model/level/info-level";
-import {AlertTypeEnum} from "../../../../../../enums/alert-type.enum";
-import {AlertService} from "../../../../../../services/event-services/alert.service";
-import {ErrorHandlerService} from "../../../../../../services/error-handler.service";
+import {AlertTypeEnum} from "../../../../../../model/enums/alert-type.enum";
+import {AlertService} from "../../../../../../services/shared/alert.service";
+import {ErrorHandlerService} from "../../../../../../services/shared/error-handler.service";
 import {TrainingDefinitionFacade} from "../../../../../../services/facades/training-definition-facade.service";
-import {LevelsDefinitionService} from "../../../../../../services/levels-definition.service";
+import {LevelsDefinitionService} from "../../../../../../services/designer/levels-definition.service";
 
 @Component({
   selector: 'info-level-configuration',

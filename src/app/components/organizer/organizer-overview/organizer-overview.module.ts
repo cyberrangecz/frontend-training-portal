@@ -14,7 +14,7 @@ import { TrainingEditPopupComponent } from './training-instance-table/training-e
 import {PipesModule} from '../../../pipes/pipes.module';
 import {TrainingDefinitionFacadeModule} from '../../../services/facades/modules/training-definition-facade.module';
 import {TrainingInstanceFacadeModule} from '../../../services/facades/modules/training-instance-facade.module';
-import {ActiveTrainingInstanceService} from "../../../services/active-training-instance.service";
+import {ActiveTrainingInstanceService} from "../../../services/organizer/active-training-instance.service";
 import {SandboxInstanceFacadeModule} from "../../../services/facades/modules/sandbox-instance-facade.module";
 import {SandboxInstancesSubtableComponent} from './training-instance-table/sandbox-instances-subtable/sandbox-instances-subtable.component';
 

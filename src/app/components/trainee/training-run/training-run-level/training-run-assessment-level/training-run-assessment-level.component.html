@@ -12,4 +12,16 @@
       </div>
     </div>
   </div>
+  <div class="footer">
+    <button *ngIf="!isSubmitted" mat-raised-button color="primary" (click)="submit()" [disabled]="!canSubmit">Submit</button>
+    <div *ngIf="isSubmitted">
+      <div *ngIf="hasNextLevel then nextLevelButton else finishButton"></div>
+        <ng-template #nextLevelButton>
+          <button mat-raised-button color="primary" (click)="nextLevel()">Next level</button>
+        </ng-template>
+        <ng-template #finishButton>
+          <button mat-raised-button color="primary" (click)="finish()">Finish training</button>
+        </ng-template>
+    </div>
+  </div>
 </div>

@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {SandboxInstanceDTO} from "../../model/DTOs/sandbox-instance/sandbox-instance-dto";
 import {SandboxInstance} from "../../model/sandbox/sandbox-instance";
-import {SandboxInstanceState} from "../../enums/sandbox-instance-state";
+import {SandboxInstanceState} from "../../model/enums/sandbox-instance-state";
 
 @Injectable()
 export class SandboxInstanceMapper {

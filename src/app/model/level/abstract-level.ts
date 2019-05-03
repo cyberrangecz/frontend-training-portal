@@ -1,7 +1,7 @@
 /**
  * Parent class of all level types. Can't be instantiated
  */
-import {AbstractLevelTypeEnum} from "../../enums/abstract-level-type.enum";
+import {AbstractLevelTypeEnum} from "../enums/abstract-level-type.enum";
 
 export abstract class AbstractLevel {
   id: number;

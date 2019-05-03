@@ -4,7 +4,7 @@ import {TrainingInstanceFacade} from '../training-instance-facade.service';
 import {TrainingRunMapper} from '../../mappers/training-run-mapper.service';
 import {TrainingInstanceMapper} from '../../mappers/training-instance-mapper.service';
 import {UserMapper} from '../../mappers/user.mapper.service';
-import {DownloadService} from "../../download.service";
+import {DownloadService} from "../../shared/download.service";
 
 @NgModule({
   imports: [

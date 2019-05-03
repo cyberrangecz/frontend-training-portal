@@ -12,13 +12,13 @@ import {
 import {TrainingInstance} from '../../../../../model/training/training-instance';
 import {SandboxInstance} from '../../../../../model/sandbox/sandbox-instance';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
-import {SandboxAllocationService} from '../../../../../services/sandbox-allocation/sandbox-allocation.service';
+import {SandboxAllocationService} from '../../../../../services/organizer/sandbox-allocation/sandbox-allocation.service';
 import {SandboxInstanceFacade} from '../../../../../services/facades/sandbox-instance-facade.service';
-import {SandboxInstanceTableData} from '../../../../../model/table-models/sandbox-instance-table-data';
+import {SandboxInstanceTableAdapter} from '../../../../../model/table-adapters/sandbox-instance-table-adapter';
 import {environment} from '../../../../../../environments/environment';
 import {Observable, Subscription} from 'rxjs';
 import {TrainingInstanceSandboxAllocationState} from '../../../../../model/training/training-instance-sandbox-allocation-state';
-import {ErrorHandlerService} from '../../../../../services/error-handler.service';
+import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
 
 
 @Component({
@@ -33,7 +33,7 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
 
   displayedColumns: string[] = ['id', 'state', 'actions'];
 
-  dataSource: MatTableDataSource<SandboxInstanceTableData>;
+  dataSource: MatTableDataSource<SandboxInstanceTableAdapter>;
 
   globalAllocationSubscription: Subscription;
 
@@ -45,7 +45,7 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  filterByStatusFn = (data: SandboxInstanceTableData, filter: string) =>
+  filterByStatusFn = (data: SandboxInstanceTableAdapter, filter: string) =>
     data.sandboxInstance.state.toString().toLowerCase().indexOf(filter) !== -1;
 
   constructor(
@@ -89,7 +89,7 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
     }
   }
 
-  deleteSandbox(sandboxRow: SandboxInstanceTableData) {
+  deleteSandbox(sandboxRow: SandboxInstanceTableAdapter) {
     const sandboxCount = this.dataSource.data.length;
     const sandboxDeletion$ = this.allocationService.deleteSandbox(this.trainingInstance, sandboxRow.sandboxInstance, sandboxCount);
     sandboxRow.allocationSubscription = sandboxDeletion$.subscribe(
@@ -99,7 +99,7 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
     this.allocationEvent.emit(sandboxDeletion$);
   }
 
-  reallocateSandbox(sandboxRow: SandboxInstanceTableData) {
+  reallocateSandbox(sandboxRow: SandboxInstanceTableAdapter) {
     const sandboxCount = this.dataSource.data.length;
     const sandboxReallocation$ = this.allocationService.reallocate(this.trainingInstance, sandboxRow.sandboxInstance, sandboxCount);
     sandboxRow.allocationSubscription = sandboxReallocation$
@@ -161,9 +161,9 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
     )
   }
 
-  private mapSandboxesToTableData(sandboxes: SandboxInstance[]): SandboxInstanceTableData[] {
+  private mapSandboxesToTableData(sandboxes: SandboxInstance[]): SandboxInstanceTableAdapter[] {
     return sandboxes.map(sandbox => {
-      const result = new SandboxInstanceTableData();
+      const result = new SandboxInstanceTableAdapter();
       result.sandboxInstance = sandbox;
       result.isCreated = sandbox.isCreated();
       result.isFailed = sandbox.isFailed();

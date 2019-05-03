@@ -1,13 +1,13 @@
 import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {AssessmentLevel} from "../../../../../../model/level/assessment-level";
-import {AlertTypeEnum} from "../../../../../../enums/alert-type.enum";
-import {AlertService} from "../../../../../../services/event-services/alert.service";
+import {AlertTypeEnum} from "../../../../../../model/enums/alert-type.enum";
+import {AlertService} from "../../../../../../services/shared/alert.service";
 import {QuestionsOverviewComponent} from "../questions/questions-overview/questions-overview.component";
 import {AbstractQuestion} from "../../../../../../model/questions/abstract-question";
-import {AssessmentTypeEnum} from "../../../../../../enums/assessment-type.enum";
-import {ErrorHandlerService} from "../../../../../../services/error-handler.service";
+import {AssessmentTypeEnum} from "../../../../../../model/enums/assessment-type.enum";
+import {ErrorHandlerService} from "../../../../../../services/shared/error-handler.service";
 import {TrainingDefinitionFacade} from "../../../../../../services/facades/training-definition-facade.service";
-import {LevelsDefinitionService} from "../../../../../../services/levels-definition.service";
+import {LevelsDefinitionService} from "../../../../../../services/designer/levels-definition.service";
 import {MatSlideToggleChange} from '@angular/material';
 
 @Component({
