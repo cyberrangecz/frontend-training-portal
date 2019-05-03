@@ -23,11 +23,8 @@
           <ng-container matColumnDef="title">
             <th class="title" mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="isInErrorState">Title</th>
             <td class="title" mat-cell *matCellDef="let training">
-<!--              <div *ngIf="training.trainingInstanceStartTime.valueOf() < now
+            <div *ngIf="training.trainingInstanceStartTime.valueOf() < now
                && training.trainingInstanceEndTime.valueOf() > now
-              then clickableTitle else nonClickableTitle"></div>-->
-<!-- TODO FIX WHEN BUG IS FIXED ON BACKEND-->
-              <div *ngIf="true
               then clickableTitle else nonClickableTitle"></div>
               <ng-template #clickableTitle>
                 <button [disabled]="isLoading" class="training-link" mat-button color="primary"
@@ -65,7 +62,7 @@
                 <button *ngIf="training.action === actionType.TryAgain"
                         mat-icon-button color="primary"
                         [disabled]="isLoading"
-                        (click)="tryAgain(1)">
+                        (click)="tryAgain(training.trainingRunId)">
                   <mat-icon
                     matTooltip="Try again"
                     aria-label="Try again button">
