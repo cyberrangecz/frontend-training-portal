@@ -4,15 +4,6 @@
   <mat-list>
     <mat-list-item *ngFor="let trainingDefinition of data.trainingDefinitions">
       {{ trainingDefinition.title }}
-      <button *ngIf="trainingDefinition.canBeEdited"
-              mat-icon-button
-              color="primary"
-              matTooltip="Edit"
-              (click)="editTrainingDefinition(trainingDefinition.id)">
-        <mat-icon>
-          edit
-        </mat-icon>
-      </button>
     </mat-list-item>
   </mat-list>
 </div>

@@ -13,15 +13,10 @@ import {ActivatedRoute, Router} from '@angular/router';
 export class AssociatedTrainingDefinitionsDialogComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<AssociatedTrainingDefinitionsDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data,
-              private router: Router) {
+              @Inject(MAT_DIALOG_DATA) public data) {
   }
 
   ngOnInit() {
   }
 
-  editTrainingDefinition(id: number) {
-    this.dialogRef.close();
-    this.router.navigate(['designer', 'training', id])
-  }
 }
