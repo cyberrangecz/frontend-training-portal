@@ -61,5 +61,4 @@ export class TrainingRunAssessmentLevelComponent implements OnInit, AfterViewIni
       }
     }
   }
-
 }
