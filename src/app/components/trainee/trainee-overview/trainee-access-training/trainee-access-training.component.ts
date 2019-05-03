@@ -18,6 +18,7 @@ import {TrainingRunFacade} from "../../../../services/facades/training-run-facad
 export class TraineeAccessTrainingComponent implements OnInit {
 
   accessToken: string;
+  isLoading: boolean;
 
   constructor(
     private router: Router,
@@ -36,12 +37,15 @@ export class TraineeAccessTrainingComponent implements OnInit {
    */
   access() {
     if (this.accessToken && this.accessToken.replace(/\s/g, '') !== '') {
+      this.isLoading = true;
       this.trainingRunFacade.accessTrainingRun(this.accessToken)
         .subscribe(trainingRunInfo => {
-          this.activeTrainingRunLevelsService.setUpFromAccessTrainingRunInfo(trainingRunInfo);
+            this.isLoading = false;
+            this.activeTrainingRunLevelsService.setUpFromAccessTrainingRunInfo(trainingRunInfo);
           this.router.navigate(['training/game'], {relativeTo: this.activeRoute});
         },
           err=> {
+          this.isLoading = false;
           this.errorHandler.displayHttpError(err, 'Connecting to training run');
         })
     } else {
