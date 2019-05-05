@@ -10,16 +10,16 @@ export const environment = {
   defaultPaginationSize: 5,
 
   // TRAINING REST API
-  trainingRestBasePath: 'http://147.251.21.216:8083/kypo2-rest-training/api/v1/',
-  // SANDBOX REST API
-  sandboxDefsEndpointUri:  'http://147.251.21.216:8080/kypo-openstack/api/v1/definitions/',
+  trainingRestBasePath: 'http://147.251.124.129:8083/kypo2-rest-training/api/v1/',
 
-  sandboxRestBasePath: 'http://147.251.21.216:8080/kypo-openstack/api/v1/',
+  // SANDBOX REST API
+  sandboxRestBasePath: 'http://147.251.124.129:8080/kypo2-django-openstack/api/v1/',
+
   //USER AND GROUP API
-  userAndGroupRestBasePath: 'http://147.251.21.216:8084/kypo2-rest-user-and-group/api/v1/',
+  userAndGroupRestBasePath: 'http://147.251.124.129:8084/kypo2-rest-user-and-group/api/v1/',
   userAndGroupDefaultPaginationSize: 20,
 
-  // OIDC SETTINGS
+  //OIDC
   // Url of the Identity Provider
   issuer: 'https://oidc.muni.cz/oidc/',
   // URL of the SPA to redirect the user after silent refresh
@@ -32,10 +32,8 @@ export const environment = {
   scope: 'openid profile email',
   sessionChecksEnabled: false,
 
-  // TOPOLOGY CONFIG
-  topologyRestUrl: 'http://147.251.21.216:8085/kypo2-rest-topology/api/v1/sandboxes/',
-  sandboxName: '',
-  scenarioRestUrl: '',
+  // TOPOLOGY COMPONENT CONFIG
+  topologyRestUrl: 'http://147.251.124.129:8085/kypo2-rest-topology/api/v1/sandboxes/',
   decoratorsRestUrl: '',
   defaultDecoratorRefreshPeriodInSeconds: 3,
   useRealTime: false,
