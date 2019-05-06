@@ -10,7 +10,6 @@ export class TrainingDefinition {
 
   id: number;
   sandboxDefinitionId: number;
-  startingLevelId: number;
   estimatedDuration: number;
   showStepperBar: boolean;
   title: string;

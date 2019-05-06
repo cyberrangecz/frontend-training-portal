@@ -19,7 +19,6 @@ import { PreHookDTO } from '../training-definition/preHookDTO';
 export interface AbstractLevelDTO {
     id?: number;
     max_score?: number;
-    next_level?: number;
     estimated_duration: number;
     snapshot_hook?: any;
     title?: string;

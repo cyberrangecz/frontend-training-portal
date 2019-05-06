@@ -210,7 +210,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
   }
 
   private resolveInitialLevels() {
-    if (this.trainingDefinition.levels && this.trainingDefinition.levels.length > 0 && this.trainingDefinition.startingLevelId) {
+    if (this.trainingDefinition.levels && this.trainingDefinition.levels.length > 0) {
       this.levels = this.trainingDefinition.levels;
     } else {
       this.levels = [];

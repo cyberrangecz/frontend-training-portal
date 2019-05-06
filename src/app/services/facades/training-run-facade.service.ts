@@ -108,10 +108,6 @@ export class TrainingRunFacade {
     return this.http.post<AccessTrainingRunDTO>(this.trainingRunsEndpointUri + "?accessToken=" + password, {})
       .pipe(
         map(response => this.trainingRunMapper.mapAccessTrainingRunDTOToAccessTrainingRun(response)),
-        map(trainingRun =>  {
-          trainingRun.levels = trainingRun.levels.sort((a, b) => a.order - b.order);
-          return trainingRun;
-        })
       );
   }
 
@@ -119,10 +115,6 @@ export class TrainingRunFacade {
     return this.http.get<AccessTrainingRunDTO>(this.trainingRunsEndpointUri + trainingRunId + '/resumption')
       .pipe(
         map(response => this.trainingRunMapper.mapAccessTrainingRunDTOToAccessTrainingRun(response)),
-        map(trainingRun =>  {
-          trainingRun.levels = trainingRun.levels.sort((a, b) => a.order - b.order);
-          return trainingRun;
-        })
       );
   }
 

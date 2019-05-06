@@ -7,7 +7,6 @@ export abstract class AbstractLevel {
   id: number;
   title: string;
   order: number;
-  nextLevelId: number;
   estimatedDuration: number;
   maxScore: number;
   preHook: string;
@@ -16,7 +15,4 @@ export abstract class AbstractLevel {
   // custom attribute for displaying icons customized to level type
   type: AbstractLevelTypeEnum;
 
-  hasNextLevel(): boolean {
-    return this.nextLevelId !== undefined && this.nextLevelId !== null;
-  }
 }

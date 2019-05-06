@@ -92,7 +92,6 @@ export class TrainingDefinitionFacade {
     return this.http.get<TrainingDefinitionDTO>(this.trainingDefsEndpointUri + id)
       .pipe(
         map(response => this.trainingDefinitionMapper.mapTrainingDefinitionDTOToTrainingDefinition(response, withLevels)),
-        map(trainingDefinition => this.sortLevelsOfTrainingDefinition(trainingDefinition))
         );
   }
 
@@ -291,7 +290,6 @@ export class TrainingDefinitionFacade {
       { headers: this.createDefaultHeaders()})
       .pipe(
         map(resp => this.levelMapper.mapBasicInfoDTOsToAbstractLevels(resp)),
-        map(levels => levels.sort((levelA, levelB ) => levelA.order - levelB.order))
       );
   }
 
@@ -306,7 +304,6 @@ export class TrainingDefinitionFacade {
       { headers: this.createDefaultHeaders()})
       .pipe(
         map(resp => this.levelMapper.mapBasicInfoDTOsToAbstractLevels(resp)),
-        map(levels => levels.sort((levelA, levelB ) => levelA.order - levelB.order))
       );
   }
 
@@ -322,7 +319,6 @@ export class TrainingDefinitionFacade {
       { headers: this.createDefaultHeaders()})
       .pipe(
         map(resp => this.levelMapper.mapBasicInfoDTOsToAbstractLevels(resp)),
-        map(levels => levels.sort((levelA, levelB ) => levelA.order - levelB.order))
       );
   }
 
@@ -334,24 +330,6 @@ export class TrainingDefinitionFacade {
     const headers = new HttpHeaders();
     headers.set('Accept', httpHeaderAccepts);
     return headers;
-  }
-
-  private sortLevelsOfTrainingDefinition(trainingDefinition: TrainingDefinition): TrainingDefinition {
-    const sortedLevels: AbstractLevel[] = [];
-    if (trainingDefinition && trainingDefinition.startingLevelId && trainingDefinition.levels && trainingDefinition.levels.length > 0) {
-      let currentLevel = this.findLevel(trainingDefinition.levels, trainingDefinition.startingLevelId);
-      sortedLevels.push(currentLevel);
-      while (currentLevel && currentLevel.hasNextLevel()) {
-        currentLevel = this.findLevel(trainingDefinition.levels, currentLevel.nextLevelId);
-        sortedLevels.push(currentLevel);
-      }
-      trainingDefinition.levels = sortedLevels;
-    }
-    return trainingDefinition;
-  }
-
-  private findLevel(levels: AbstractLevel[], levelId): AbstractLevel {
-    return levels.find(level => level.id === levelId);
   }
 
 }

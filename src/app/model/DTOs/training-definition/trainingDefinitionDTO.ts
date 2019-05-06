@@ -13,7 +13,6 @@ export class TrainingDefinitionDTO {
   prerequisities?: Array<string>;
   sandbox_definition_ref_id?: number;
   show_stepper_bar?: boolean;
-  starting_level?: number;
   state?: TrainingDefinitionDTO.StateEnum;
   title?: string;
   beta_testing_group?: BetaTestingGroupDTO;

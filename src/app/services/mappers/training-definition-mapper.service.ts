@@ -73,7 +73,6 @@ export class TrainingDefinitionMapper {
     result.state = this.mapTrainingDefDTOStateToEnum(trainingDefinitionDTO.state);
     result.lastEditTime = trainingDefinitionDTO.last_edited;
     result.estimatedDuration = trainingDefinitionDTO.estimated_duration;
-    result.startingLevelId = trainingDefinitionDTO.starting_level;
     if (trainingDefinitionDTO.beta_testing_group) {
       result.betaTestingGroup = this.getBetaTestingGroupFromDTO(trainingDefinitionDTO.beta_testing_group);
     }
