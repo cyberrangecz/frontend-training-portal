@@ -19,6 +19,7 @@ import {TrainingDefinitionFacade} from "../../../../../services/facades/training
 import {TrainingDefinition} from "../../../../../model/training/training-definition";
 import {Subscription} from "rxjs";
 import {LevelsDefinitionService} from "../../../../../services/designer/levels-definition.service";
+import {map, switchMap} from "rxjs/operators";
 
 @Component({
   selector: 'training-level-stepper',
@@ -90,6 +91,9 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
   addInfoLevel() {
     this.isLoading = true;
     this.trainingDefinitionFacade.createInfoLevel(this.trainingDefinition.id)
+      .pipe(
+        switchMap(basicLevelInfo => this.trainingDefinitionFacade.getLevelById(basicLevelInfo.id))
+      )
       .subscribe(
         level => {
           this.onLevelAdded(level);
@@ -104,6 +108,9 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
   addGameLevel() {
     this.isLoading = true;
     this.trainingDefinitionFacade.createGameLevel(this.trainingDefinition.id)
+      .pipe(
+        switchMap(basicLevelInfo => this.trainingDefinitionFacade.getLevelById(basicLevelInfo.id))
+      )
       .subscribe(
         level => {
           this.onLevelAdded(level);
@@ -118,6 +125,9 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
   addAssessmentLevel() {
    this.isLoading = true;
     this.trainingDefinitionFacade.createAssessmentLevel(this.trainingDefinition.id)
+      .pipe(
+        switchMap(basicLevelInfo => this.trainingDefinitionFacade.getLevelById(basicLevelInfo.id))
+      )
       .subscribe(
         level => {
           this.onLevelAdded(level);
