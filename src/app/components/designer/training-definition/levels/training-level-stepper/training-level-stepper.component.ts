@@ -131,35 +131,38 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
    */
   swapLeft() {
     this.isLoading = true;
-    const swappedLevel = this.levels[this.selectedStep];
-    this.trainingDefinitionFacade.swapLeft(this.trainingDefinition.id, swappedLevel.id)
-      .subscribe(swappedLevels => {
+    const from = this.levels[this.selectedStep];
+    const to = this.levels[this.selectedStep - 1];
+    this.trainingDefinitionFacade.swap(this.trainingDefinition.id, from.id, to.id)
+      .subscribe(swappedLevelsInfo => {
+          this.swapLevelsLocally(this.selectedStep, this.selectedStep - 1);
           this.selectedStep--;
-          this.levels = swappedLevels
-          this.alertService.emitAlert(AlertTypeEnum.Success, 'Level "' + swappedLevel.title + '" was successfully swapped to the left');
+          this.alertService.emitAlert(AlertTypeEnum.Success, 'Level "' + from.title + '" was successfully swapped to the left');
           this.isLoading = false;
         },
         err => {
-          this.errorHandler.displayHttpError(err, 'Swapping level "' + swappedLevel.title + '" to the left');
+          this.errorHandler.displayHttpError(err, 'Swapping level "' + from.title + '" to the left');
           this.isLoading = false;
         }
       );
   }
+
   /**
    * Swaps order of currently selected level with level next to him (to the right)
    */
   swapRight() {
     this.isLoading = true;
-    const swappedLevel = this.levels[this.selectedStep];
-    this.trainingDefinitionFacade.swapRight(this.trainingDefinition.id, swappedLevel.id)
-      .subscribe(swappedLevels => {
+    const from = this.levels[this.selectedStep];
+    const to = this.levels[this.selectedStep + 1];
+    this.trainingDefinitionFacade.swap(this.trainingDefinition.id, from.id, to.id)
+      .subscribe(swappedLevelsInfo => {
+          this.swapLevelsLocally(this.selectedStep, this.selectedStep + 1);
           this.selectedStep++;
-          this.levels = swappedLevels;
-          this.alertService.emitAlert(AlertTypeEnum.Success, 'Level "' + swappedLevel.title + '" was successfully swapped to the right');
+          this.alertService.emitAlert(AlertTypeEnum.Success, 'Level "' + from.title + '" was successfully swapped to the right');
           this.isLoading = false;
         },
         err => {
-          this.errorHandler.displayHttpError(err, 'Swapping level "' + swappedLevel.title + '" to the right');
+          this.errorHandler.displayHttpError(err, 'Swapping level "' + from.title + '" to the right');
           this.isLoading = false;
         }
         );
@@ -191,7 +194,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
       .subscribe(updatedLevels => {
           this.changeSelectedStep(0);
           this.alertService.emitAlert(AlertTypeEnum.Success ,'Level "' + levelToDelete.title + '" was successfully deleted');
-          this.levels = updatedLevels;
+          this.levels = this.levels.filter(level => level.id != levelToDelete.id);
           this.isLoading = false;
         },
         err => {
@@ -242,6 +245,12 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
     if (levelToUpdate) {
       levelToUpdate.title = level.title;
     }
+  }
+
+  private swapLevelsLocally(from: number, to: number) {
+    const tempLevel = this.levels[from];
+    this.levels[from] = this.levels[to];
+    this.levels[to]= tempLevel;
   }
 }
 
