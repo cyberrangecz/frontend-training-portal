@@ -27,8 +27,6 @@ export class LevelConfigurationComponent implements OnInit, OnChanges {
   @Input('trainingDefinitionId') trainingDefinitionId: number;
   @Output('deleteLevel') deleteLevel: EventEmitter<number> = new EventEmitter();
 
-  detailedLevel$: Observable<GameLevel> | Observable<InfoLevel> | Observable<AssessmentLevel>;
-
   isGameLevelActive: boolean;
   isInfoLevelActive: boolean;
   isAssessmentLevelActive: boolean;
@@ -71,15 +69,12 @@ export class LevelConfigurationComponent implements OnInit, OnChanges {
    */
   private resolveLevelType() {
     if (this.level instanceof GameLevel) {
-      this.detailedLevel$ = this.trainingDefinitionFacade.getLevelById(this.level.id) as Observable<GameLevel>;
       this.isGameLevelActive = true;
     }
     if (this.level instanceof InfoLevel) {
-      this.detailedLevel$ = this.trainingDefinitionFacade.getLevelById(this.level.id) as Observable<InfoLevel>;
       this.isInfoLevelActive = true;
     }
     if (this.level instanceof AssessmentLevel) {
-      this.detailedLevel$ = this.trainingDefinitionFacade.getLevelById(this.level.id) as Observable<AssessmentLevel>;
       this.isAssessmentLevelActive = true;
     }
   }

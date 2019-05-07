@@ -280,47 +280,21 @@ export class TrainingDefinitionFacade {
   }
 
   /**
-   * Swaps order with level on the left
-   * @param trainingDefId id of training definition id associated with the level
-   * @param levelId id of a level which should be swapped
-   */
-  swapLeft(trainingDefId: number, levelId: number): Observable<AbstractLevel[]> {
-    return this.http.put<BasicLevelInfoDTO[]>(`${this.trainingDefsEndpointUri + trainingDefId}/${this.levelsUriExtension}${levelId}/swap-left`,
-      {},
-      { headers: this.createDefaultHeaders()})
-      .pipe(
-        map(resp => this.levelMapper.mapBasicInfoDTOsToAbstractLevels(resp)),
-      );
-  }
-
-  /**
-   * Swaps order with level on the right
-   * @param trainingDefId id of training definition associated with the level
-   * @param levelId id of a level which should be swapped
-   */
-  swapRight(trainingDefId: number, levelId: number): Observable<AbstractLevel[]>{
-    return this.http.put<BasicLevelInfoDTO[]>(`${this.trainingDefsEndpointUri + trainingDefId}/${this.levelsUriExtension}${levelId}/swap-right`,
-      {},
-      { headers: this.createDefaultHeaders()})
-      .pipe(
-        map(resp => this.levelMapper.mapBasicInfoDTOsToAbstractLevels(resp)),
-      );
-  }
-
-  /**
    * Swaps order of two levels
    * @param trainingDefId id of training definition associated with the level
-   * @param firstLevelId id of first level which should be swapped
-   * @param secondLevelId id of second level which should be swapped
+   * @param fromId id of first level which should be swapped
+   * @param toId id of second level which should be swapped
    */
-  swap(trainingDefId: number, firstLevelId: number, secondLevelId: number) {
-    return this.http.put<BasicLevelInfoDTO[]>(`${this.trainingDefsEndpointUri + trainingDefId + this.levelsUriExtension}/${firstLevelId}/swap/${trainingDefId}`,
+  swap(trainingDefId: number, fromId: number, toId: number): Observable<AbstractLevel[]> {
+    return this.http.put<BasicLevelInfoDTO[]>(`${this.trainingDefsEndpointUri + trainingDefId}/${this.levelsUriExtension}${fromId}/swap-with/${toId}`,
       {},
       { headers: this.createDefaultHeaders()})
       .pipe(
         map(resp => this.levelMapper.mapBasicInfoDTOsToAbstractLevels(resp)),
       );
   }
+
+
 
   private createDefaultHeaders() {
     let httpHeaderAccepts: string[] = [
