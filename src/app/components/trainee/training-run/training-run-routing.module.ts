@@ -8,16 +8,7 @@ const routes: Routes = [
     component: TrainingRunComponent,
     canActivate: [TrainingRunLevelsGuard],
     canDeactivate: [TrainingRunLevelsGuard]
-  },
-  {
-    path: 'results',
-    loadChildren: 'app/components/trainee/training-run/training-run-results/training-run-results.module#TrainingRunResultsModule',
-  },
-  {
-    path: '',
-    redirectTo: 'game',
-    pathMatch: 'full'
-  },
+  }
 ];
 
 @NgModule({

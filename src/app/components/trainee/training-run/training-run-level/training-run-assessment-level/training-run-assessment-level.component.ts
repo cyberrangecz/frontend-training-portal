@@ -33,6 +33,7 @@ export class TrainingRunAssessmentLevelComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    this.isSubmitted = false;
     this.hasNextLevel = this.activeLevelService.hasNextLevel();
     this.initCanSubmit();
   }

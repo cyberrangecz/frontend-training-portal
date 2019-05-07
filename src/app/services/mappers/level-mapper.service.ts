@@ -121,12 +121,6 @@ export class LevelMapper {
     return result;
   }
 
-  mapHintsDTOToHints(hints: HintDTO[]): Hint[] {
-    const result: Hint[] = [];
-    hints.forEach(hintDto => result.push(this.mapHintDTOToHint(hintDto)));
-    return result;
-  }
-
   mapHintDTOToHint(hint: HintDTO): Hint {
     const result = new Hint();
     result.id = hint.id;
@@ -168,6 +162,7 @@ export class LevelMapper {
   private createGameLevelFromDTO(gameLevelDTO: GameLevelDTO): GameLevel {
     const result = new GameLevel();
     this.setAbstractLevelAttributesFromDTO(result, gameLevelDTO);
+    result.hints = gameLevelDTO.hints.map(hintDto => this.mapHintDTOToHint(hintDto));
     result.type = AbstractLevelTypeEnum.Game;
     result.flag = gameLevelDTO.flag;
     result.content = gameLevelDTO.content;
@@ -175,9 +170,6 @@ export class LevelMapper {
     result.incorrectFlagLimit = gameLevelDTO.incorrect_flag_limit;
     result.solutionPenalized = gameLevelDTO.solution_penalized;
     result.attachments = gameLevelDTO.attachments;
-    if (gameLevelDTO.hints) {
-      result.hints = this.mapHintsDTOToHints(gameLevelDTO.hints);
-    }
     return result;
   }
 
