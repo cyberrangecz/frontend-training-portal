@@ -10,7 +10,6 @@ import {RevealHintDialogComponent} from "./user-action-dialogs/reveal-hint-dialo
 import {RevealSolutionDialogComponent} from "./user-action-dialogs/reveal-solution-dialog/reveal-solution-dialog.component";
 import {WrongFlagDialogComponent} from "./user-action-dialogs/wrong-flag-dialog/wrong-flag-dialog.component";
 import {ErrorHandlerService} from "../../../../../services/shared/error-handler.service";
-import {TrainingRunFacade} from "../../../../../services/facades/training-run-facade.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {TrainingRunGameLevelService} from "../../../../../services/trainee/training-run-game-level.service";
 
@@ -228,7 +227,7 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
     this.gameLevelService.takeHint(this.activeLevelService.trainingRunId, hintButton.hint.id)
       .subscribe(resp => {
           hintButton.displayed = true;
-          this.displayedText += '\n\n## <span style="color:slateblue">Hint ' + index + ": " + resp.title + "</span>\n" + resp.content;
+          this.displayedText += '\n\n## Hint ' + index + ": " + resp.title + "\n" + resp.content;
         },
         err => {
           this.errorHandler.displayHttpError(err, 'Taking hint "' + hintButton.hint.title + '"');
@@ -239,6 +238,7 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
    * Initializes hint buttons from hints of the game level
    */
   private initHintButtons() {
+    this.hintButtons = [];
     this.level.hints.forEach(hint =>
       this.hintButtons.push(
         {

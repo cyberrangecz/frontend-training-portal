@@ -58,7 +58,8 @@ export class TraineeTrainingsTableComponent implements OnInit {
    * @param {number} trainingRunId if of training run which results should be displayed
    */
   accessResults(trainingRunId: number) {
-    this.router.navigate(['training/results'],{relativeTo: this.activeRoute})
+    this.router.navigate(['training/' + trainingRunId + '/results'],{relativeTo: this.activeRoute});
+
   }
 
   resume(trainingRunId: number) {

@@ -105,7 +105,12 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    * @param {number} trainingDefId id of a training definition which should be edited
    */
   editTrainingDefinition(trainingDefId: number) {
-    this.router.navigate(['training', trainingDefId], {relativeTo: this.activatedRoute})
+    this.router.navigate(['training', trainingDefId], {relativeTo: this.activatedRoute});
+  }
+
+
+  previewTrainingDefinition(id: number) {
+    this.router.navigate(['training', id, 'preview'], {relativeTo: this.activatedRoute});
   }
 
   /**

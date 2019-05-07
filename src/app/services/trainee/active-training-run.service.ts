@@ -68,7 +68,7 @@ export class ActiveTrainingRunService {
     return this.trainingRunFacade.finishTrainingRun(this.trainingRunId)
       .pipe(map(resp => {
         this.clear();
-        this.router.navigate(['results'], {relativeTo: this.activeRoute.parent})
+        this.router.navigate([this.trainingRunId + '/results'], {relativeTo: this.activeRoute.parent})
       }));
   }
 

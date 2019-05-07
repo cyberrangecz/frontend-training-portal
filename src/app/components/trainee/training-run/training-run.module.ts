@@ -10,21 +10,19 @@ import {CountdownTimerModule} from "ngx-countdown-timer";
 import {TrainingRunLevelsGuard} from "../../../services/guards/training-run-levels-guard.service";
 import {TrainingDefinitionFacadeModule} from '../../../services/facades/modules/training-definition-facade.module';
 import {TrainingRunFacadeModule} from '../../../services/facades/modules/training-run-facade.module';
+import {TrainingRunComponentModule} from "./training-run-component.module";
 
 @NgModule({
   imports: [
     CommonModule,
-    TrainingRunMaterialModule,
+    TrainingRunComponentModule,
     TrainingRunRoutingModule,
     TrainingRunLevelModule,
     TrainingDefinitionFacadeModule,
     TrainingRunFacadeModule,
-    PipesModule,
     CountdownTimerModule.forRoot()
   ],
   declarations: [
-    TrainingRunComponent,
-    TrainingTimerComponent
   ],
   providers: [
     TrainingRunLevelsGuard,

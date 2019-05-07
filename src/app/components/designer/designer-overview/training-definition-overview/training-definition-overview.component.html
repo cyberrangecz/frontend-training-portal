@@ -130,6 +130,15 @@
                     aria-label="Download training definition button">
                     cloud_download</mat-icon>
                 </button>
+
+                <!-- PREVIEW button -->
+                <button mat-icon-button color="primary"
+                        matTooltip="Preview training run"
+                        (click)="previewTrainingDefinition(data.trainingDefinition?.id)">
+                  <mat-icon
+                    aria-label="Preview training definition button">
+                    play_arrow</mat-icon>
+                </button>
               </div>
             </td>
           </ng-container>

@@ -11,6 +11,10 @@ const routes: Routes = [
     canActivate: [TrainingDefinitionAccessGuardService],
     canDeactivate: [TrainingDefinitionLeaveGuard]
   },
+  {
+    path: 'preview',
+    loadChildren: 'app/components/designer/training-preview/training-preview.module#TrainingPreviewModule',
+  }
 
 ];
 
