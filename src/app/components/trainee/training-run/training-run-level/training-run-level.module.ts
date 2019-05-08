@@ -11,7 +11,6 @@ import {CountdownTimerModule} from "ngx-countdown-timer";
   imports: [
     CommonModule,
     FormsModule,
-    TrainingRunLevelComponentModule,
   ],
   declarations: [
   ],

@@ -4,7 +4,7 @@ import {TrainingRunComponent} from "./training-run.component";
 import {TrainingRunLevelsGuard} from "../../../services/guards/training-run-levels-guard.service";
 const routes: Routes = [
   {
-    path: 'game',
+    path: '',
     component: TrainingRunComponent,
     canActivate: [TrainingRunLevelsGuard],
     canDeactivate: [TrainingRunLevelsGuard]

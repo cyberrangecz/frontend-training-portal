@@ -15,12 +15,12 @@ import {TrainingRunComponentModule} from "./training-run-component.module";
 @NgModule({
   imports: [
     CommonModule,
-    TrainingRunComponentModule,
-    TrainingRunRoutingModule,
+    CountdownTimerModule.forRoot(),
     TrainingRunLevelModule,
+    TrainingRunComponentModule,
     TrainingDefinitionFacadeModule,
     TrainingRunFacadeModule,
-    CountdownTimerModule.forRoot()
+    TrainingRunRoutingModule,
   ],
   declarations: [
   ],
