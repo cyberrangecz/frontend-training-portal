@@ -28,6 +28,7 @@
                   <app-sandbox-instances-subtable
                     *ngIf="data == expandedRow"
                     [trainingInstance]="data.trainingInstance"
+                    [allocation$]="data.allocation$"
                     (allocationEvent)="onAllocationEvent($event, data)">
                   </app-sandbox-instances-subtable>
                 </div>

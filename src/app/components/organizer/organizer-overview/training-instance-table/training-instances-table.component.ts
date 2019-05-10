@@ -138,8 +138,8 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
 
   allocateTrainingInstanceSandboxes(row: TrainingInstanceTableAdapter) {
     row.isAllocationInProgress = true;
-    const allocation$ = this.allocationService.allocateSandboxes(row.trainingInstance);
-    row.allocationSubscription = allocation$
+    row.allocation$ = this.allocationService.allocateSandboxes(row.trainingInstance);
+    row.allocationSubscription = row.allocation$
       .subscribe(
         allocationState => this.onAllocationUpdate(allocationState, row),
         err => this.onAllocationUpdateError(err, row)
