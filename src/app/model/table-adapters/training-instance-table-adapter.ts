@@ -1,6 +1,7 @@
 import {TrainingInstance} from "../training/training-instance";
 import {TableAdapter} from "./table-adapter";
-import {Subscription} from "rxjs";
+import {Observable, Subscription} from 'rxjs';
+import {TrainingInstanceSandboxAllocationState} from '../training/training-instance-sandbox-allocation-state';
 
 export class TrainingInstanceTableAdapter implements TableAdapter {
   trainingDefinitionTitle: string;
@@ -11,4 +12,5 @@ export class TrainingInstanceTableAdapter implements TableAdapter {
   areSandboxDataLoaded: boolean;
   trainingInstance: TrainingInstance;
   allocationSubscription: Subscription;
+  allocation$: Observable<TrainingInstanceSandboxAllocationState>
 }

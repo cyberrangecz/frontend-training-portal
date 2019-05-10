@@ -19,6 +19,7 @@ import {environment} from '../../../../../../environments/environment';
 import {Observable, Subscription} from 'rxjs';
 import {TrainingInstanceSandboxAllocationState} from '../../../../../model/training/training-instance-sandbox-allocation-state';
 import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
+import {SandboxAllocationState} from '../../../../../model/enums/sandbox-allocation-state';
 
 
 @Component({
@@ -29,6 +30,7 @@ import {ErrorHandlerService} from '../../../../../services/shared/error-handler.
 export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() trainingInstance: TrainingInstance;
+  @Input() allocation$: Observable<TrainingInstanceSandboxAllocationState>;
   @Output() allocationEvent: EventEmitter<Observable<TrainingInstanceSandboxAllocationState>> = new EventEmitter();
 
   displayedColumns: string[] = ['id', 'state', 'actions'];
@@ -66,6 +68,9 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
         this.initTableDataSource();
       }
     }
+    if ('allocation$' in changes) {
+
+    }
   }
 
   ngOnDestroy(): void {
@@ -93,7 +98,7 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
     const sandboxCount = this.dataSource.data.length;
     const sandboxDeletion$ = this.allocationService.deleteSandbox(this.trainingInstance, sandboxRow.sandboxInstance, sandboxCount);
     sandboxRow.allocationSubscription = sandboxDeletion$.subscribe(
-        allocationState => this.fetchData(allocationState),
+        allocationState => this.displayData(allocationState),
         err => this.errorHandler.displayHttpError(err, 'Removing sandbox with id: ' +  sandboxRow.sandboxInstance.id)
         );
     this.allocationEvent.emit(sandboxDeletion$);
@@ -104,7 +109,7 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
     const sandboxReallocation$ = this.allocationService.reallocate(this.trainingInstance, sandboxRow.sandboxInstance, sandboxCount);
     sandboxRow.allocationSubscription = sandboxReallocation$
       .subscribe(
-        allocationState => this.fetchData(allocationState),
+        allocationState => this.displayData(allocationState),
         err => this.errorHandler.displayHttpError(err, 'Reallocating sandbox with id: ' +  sandboxRow.sandboxInstance.id)
       );
     this.allocationEvent.emit(sandboxReallocation$);
@@ -115,18 +120,17 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
     this.paginator.pageSize = environment.defaultPaginationSize;
     this.sort.active = 'status';
     this.sort.direction = 'desc';
-    this.fetchData();
+    this.displayData();
   }
 
-  private fetchData(allocationState: TrainingInstanceSandboxAllocationState = null) {
+  private displayData(allocationState: TrainingInstanceSandboxAllocationState = null) {
     this.isLoadingResults = true;
     if (allocationState) {
       this.createDataSourceFromAllocationState(allocationState);
     }
     else {
-      const activeSandboxesAllocation$ = this.allocationService.getRunningAllocationStateObservable(this.trainingInstance);
-      if (activeSandboxesAllocation$) {
-        this.createDataSourceFromAllocationObservable(activeSandboxesAllocation$);
+      if (this.allocation$) {
+        this.createDataSourceFromAllocationObservable(this.allocation$);
       }
       else {
         this.fetchDataFromServer();
