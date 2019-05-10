@@ -17,6 +17,7 @@ import {OAuthModule, OAuthStorage} from "angular-oauth2-oidc";
 import {UserFacadeModule} from "./services/facades/modules/user-facade.module";
 import {AdminGuard} from './services/guards/admin-guard.service';
 import {SandboxAllocationBarService} from './services/organizer/sandbox-allocation/sandbox-allocation-bar.service';
+import {ErrorLogInterceptor} from './services/http-interceptors/error-log-interceptor';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import {SandboxAllocationBarService} from './services/organizer/sandbox-allocati
     SandboxAllocationBarService,
     { provide: OAuthStorage, useValue: localStorage },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorLogInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })
