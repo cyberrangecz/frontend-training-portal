@@ -11,15 +11,14 @@ import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 import {merge, of} from 'rxjs';
 import {environment} from '../../../../../environments/environment';
 import {AlertTypeEnum} from '../../../../model/enums/alert-type.enum';
-import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
 import {TrainingDefinitionTableAdapter} from '../../../../model/table-adapters/training-definition-table-adapter';
 import {PaginatedTable} from '../../../../model/table-adapters/paginated-table';
 import {HttpErrorResponse} from '@angular/common/http';
 import {StateChangeDialogComponent} from './state-change-dialog/state-change-dialog.component';
 import {DeleteDialogComponent} from "../../../shared/delete-dialog/delete-dialog.component";
 import {TrainingDefinition} from "../../../../model/training/training-definition";
-import {User} from "../../../../model/user/user";
-import {AuthorsListDialogComponent} from "./authors-list-dialog/authors-list-dialog.component";
+import {AuthorsListDialogComponent} from './authors-list-dialog/authors-list-dialog.component';
+import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
 
 @Component({
   selector: 'designer-overview-training-definition',
