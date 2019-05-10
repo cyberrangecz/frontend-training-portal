@@ -3,11 +3,12 @@
     <h3 *ngIf="!isEditMode">New Training Instance</h3>
   </div>
   <div class="content">
+
     <!--TITLE field-->
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" >
       <mat-label>Title</mat-label>
-      <input matInput placeholder="Title" [(ngModel)]="title" required>
-      <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title=''">
+      <input matInput placeholder="Title" (ngModelChange)="contentChanged()" [(ngModel)]="title" required>
+      <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title=''; contentChanged()">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
@@ -33,15 +34,17 @@
         <!-- POOL SIZE filed -->
         <mat-form-field appearance="outline" hintLabel="Number in range from 1 to 100">
           <mat-label>Pool Size</mat-label>
-          <input matInput placeholder="Pool Size" type="number" max="100" min="1" [(ngModel)]="poolSize" required>
+          <input matInput placeholder="Pool Size" (ngModelChange)="contentChanged()" type="number" max="100" min="1" [(ngModel)]="poolSize" required>
         </mat-form-field>
 
         <!-- ACCESS TOKEN filed -->
         <mat-form-field appearance="outline"  hintLabel="Generated PIN code will be added to your token">
           <mat-label>Access Token Prefix</mat-label>
-          <input matInput placeholder="Access Token" [(ngModel)]="accessToken" required>
+          <input matInput placeholder="Access Token" (ngModelChange)="contentChanged()" [(ngModel)]="accessToken" required>
+          <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title=''; contentChanged()">
+            <mat-icon>close</mat-icon>
+          </button>
         </mat-form-field>
-
       </div>
 
       <div class="right-panel">
@@ -55,6 +58,7 @@
               matInput
               placeholder="End Time"
               required
+              (ngModelChange)="contentChanged()"
               [(ngModel)]="endTime"
               [owlDateTime]="endTimePicker">
             <owl-date-time #endTimePicker></owl-date-time>
@@ -87,7 +91,7 @@
 
         <div class="save-button">
           <span class="spacer"></span>
-          <button mat-raised-button class="main" color="primary" (click)="save()">
+          <button mat-raised-button class="main" color="primary" [disabled]="!dirty" (click)="save()">
             Save
           </button>
         </div>

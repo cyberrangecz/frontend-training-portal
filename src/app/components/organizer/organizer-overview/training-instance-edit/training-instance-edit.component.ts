@@ -28,6 +28,7 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
   @Output('trainingChange') trainingChange = new EventEmitter<TrainingInstance>();
 
   isEditMode: boolean;
+  dirty: boolean;
 
   title: string;
   startTime: Date;
@@ -54,6 +55,7 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.resolveInitialInputValues();
+    this.dirty = false;
     this.loggedUserLogin = this.activeUserService.getActiveUser().login;
   }
 
@@ -72,6 +74,7 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
         this.organizers = result.organizers;
+        this.contentChanged();
       }
     });
   }
@@ -85,12 +88,14 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
         this.trainingDefinition = result.trainingDef;
+        this.contentChanged();
       }
     });
   }
 
   onStartTimeNgModelChanged() {
     this.userChangedStartTime = true;
+    this.contentChanged();
   }
 
   /**
@@ -107,12 +112,17 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
     }
   }
 
+  contentChanged() {
+    this.dirty = true;
+  }
+
   private updateTrainingInstance() {
     this.trainingInstanceFacade.updateTrainingInstance(this.trainingInstance)
       .subscribe(
         newAccessToken => {
           this.alertService.emitAlert(AlertTypeEnum.Success,
             'Changes were successfully saved. Access token is ' + newAccessToken);
+          this.dirty = false;
           this.trainingChanged();
       },
         err => this.errorHandler.displayHttpError(err, 'Updating Training Instance')
@@ -125,6 +135,7 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
         createdInstance => {
           this.alertService.emitAlert(AlertTypeEnum.Success,
             'Changes were successfully saved.\n Access token is: ' + createdInstance.accessToken);
+          this.dirty = false;
           this.trainingChanged();
         },
         err => this.errorHandler.displayHttpError(err, 'Saving Training Instance')
