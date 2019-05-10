@@ -72,7 +72,7 @@
 
           <!--ESTIMATED DURATION COLUMN-->
           <ng-container matColumnDef="estimated-duration">
-            <th class="estimated-duration" mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="isInErrorState">Estimated Duration</th>
+            <th class="estimated-duration" mat-header-cell *matHeaderCellDef mat-sort-header="estimatedDuration" [disabled]="isInErrorState">Estimated Duration</th>
             <td class="estimated-duration" mat-cell *matCellDef="let data">
               {{ data.trainingDefinition?.estimatedDuration }} min
             </td>
@@ -80,7 +80,7 @@
 
           <!-- LAST EDIT Column -->
           <ng-container matColumnDef="last-edit">
-            <th class="last-edit" mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="isInErrorState">Last Edit</th>
+            <th class="last-edit" mat-header-cell *matHeaderCellDef mat-sort-header="lastEdited" [disabled]="isInErrorState">Last Edit</th>
             <td class="last-edit" mat-cell *matCellDef="let data">
               {{ data.trainingDefinition?.lastEditTime | dateTimeFormat }}
             </td>
