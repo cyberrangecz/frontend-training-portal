@@ -77,7 +77,7 @@ export class TrainingDefinitionFacade {
   }
 
   getTrainingDefinitionsForOrganizers(): Observable<TrainingDefinitionInfo[]> {
-    return this.http.get<TrainingDefinitionInfoRestResource>(this.trainingDefsEndpointUri)
+    return this.http.get<TrainingDefinitionInfoRestResource>(this.trainingDefsEndpointUri + 'for-organizers')
       .pipe(map(response =>
         this.trainingDefinitionMapper.mapTrainingDefinitionsInfoDTOsToTrainingDefinitionsInfo(response)));
   }
