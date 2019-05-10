@@ -18,6 +18,7 @@ import {UserFacadeModule} from "./services/facades/modules/user-facade.module";
 import {AdminGuard} from './services/guards/admin-guard.service';
 import {SandboxAllocationBarService} from './services/organizer/sandbox-allocation/sandbox-allocation-bar.service';
 import {ErrorLogInterceptor} from './services/http-interceptors/error-log-interceptor';
+import {NgxHotjarModule} from 'ngx-hotjar';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,16 @@ import {ErrorLogInterceptor} from './services/http-interceptors/error-log-interc
     AppRoutingModule,
     SharedModule,
     UserFacadeModule,
+    NgxHotjarModule.forRoot('<script>\n' +
+      '    (function(h,o,t,j,a,r){\n' +
+      '        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};\n' +
+      '        h._hjSettings={hjid:1315402,hjsv:6};\n' +
+      '        a=o.getElementsByTagName(\'head\')[0];\n' +
+      '        r=o.createElement(\'script\');r.async=1;\n' +
+      '        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;\n' +
+      '        a.appendChild(r);\n' +
+      '    })(window,document,\'https://static.hotjar.com/c/hotjar-\',\'.js?sv=\');\n' +
+      '</script>'),
     OAuthModule.forRoot(
       {
         resourceServer: {
