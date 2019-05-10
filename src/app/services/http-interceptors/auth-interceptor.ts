@@ -5,13 +5,11 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
-  HttpResponse
 } from "@angular/common/http";
 import {Observable} from "rxjs";
 import {ActiveUserService} from "../shared/active-user.service";
 import {tap} from "rxjs/operators";
 import {Router} from "@angular/router";
-import {environment} from "../../../environments/environment";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {

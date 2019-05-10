@@ -132,9 +132,6 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
         resp => {
       },
       err => {
-          if (err.status === 406) {
-
-          }
           this.errorHandler.displayHttpError(err, 'Downloading Training Instance archive');
       });
   }
@@ -297,7 +294,7 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Training instance was successfully deleted.');
           this.fetchData();
         },
-        (err) => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Training instance was not removed')
+        err => this.errorHandler.displayHttpError(err, 'Deleting Training Instance')
       );
   }
 

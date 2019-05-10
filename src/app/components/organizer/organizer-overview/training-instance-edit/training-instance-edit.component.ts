@@ -12,6 +12,7 @@ import {ActiveUserService} from "../../../../services/shared/active-user.service
 import {TrainingInstanceFacade} from "../../../../services/facades/training-instance-facade.service";
 import {User} from '../../../../model/user/user';
 import {interval, Subscription} from 'rxjs';
+import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
 
 @Component({
   selector: 'training-instance-definition',
@@ -43,6 +44,7 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
 
   constructor(
     private alertService: AlertService,
+    private errorHandler: ErrorHandlerService,
     private userFacade: UserFacade,
     private activeUserService: ActiveUserService,
     private trainingDefinitionFacade: TrainingDefinitionFacade,
@@ -107,25 +109,25 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
 
   private updateTrainingInstance() {
     this.trainingInstanceFacade.updateTrainingInstance(this.trainingInstance)
-      .subscribe(newAccessToken => {
+      .subscribe(
+        newAccessToken => {
           this.alertService.emitAlert(AlertTypeEnum.Success,
             'Changes were successfully saved. Access token is ' + newAccessToken);
           this.trainingChanged();
-        },
-        (err) =>  {
-          this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Changes were not saved.')
-        }
+      },
+        err => this.errorHandler.displayHttpError(err, 'Updating Training Instance')
       );
   }
 
   private createTrainingInstance() {
     this.trainingInstanceFacade.createTrainingInstance(this.trainingInstance)
-      .subscribe(createdInstance => {
+      .subscribe(
+        createdInstance => {
           this.alertService.emitAlert(AlertTypeEnum.Success,
             'Changes were successfully saved.\n Access token is: ' + createdInstance.accessToken);
           this.trainingChanged();
         },
-        (err) => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Changes were not saved.')
+        err => this.errorHandler.displayHttpError(err, 'Saving Training Instance')
       );
   }
 
