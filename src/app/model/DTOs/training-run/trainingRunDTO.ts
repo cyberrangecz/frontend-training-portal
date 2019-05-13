@@ -30,12 +30,11 @@ export interface TrainingRunDTO {
     training_instance?: TrainingInstanceDTO;
 }
 export namespace TrainingRunDTO {
-    export type StateEnum = 'NEW' | 'ALLOCATED' | 'READY' | 'ARCHIVED' | 'FINISHED';
+    export type StateEnum = 'NEW' | 'ALLOCATED' | 'READY' | 'FINISHED';
     export const StateEnum = {
         NEW: 'NEW' as StateEnum,
         ALLOCATED: 'ALLOCATED' as StateEnum,
         READY: 'READY' as StateEnum,
-        ARCHIVED: 'ARCHIVED' as StateEnum,
         FINISHED: 'FINISHED' as StateEnum
     }
 }

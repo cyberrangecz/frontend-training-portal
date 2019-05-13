@@ -189,7 +189,6 @@ export class TrainingRunMapper {
   private mapTrainigRunDTOStateToEnum(state: TrainingRunDTO.StateEnum): TrainingRunStateEnum {
     switch (state) {
       case TrainingRunDTO.StateEnum.ALLOCATED: return TrainingRunStateEnum.Allocated;
-      case TrainingRunDTO.StateEnum.ARCHIVED: return TrainingRunStateEnum.Archived;
       case TrainingRunDTO.StateEnum.NEW: return TrainingRunStateEnum.New;
       case TrainingRunDTO.StateEnum.READY: return TrainingRunStateEnum.Ready;
       case TrainingRunDTO.StateEnum.FINISHED: return TrainingRunStateEnum.Finished;
