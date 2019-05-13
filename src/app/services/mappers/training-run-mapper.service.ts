@@ -146,7 +146,11 @@ export class TrainingRunMapper {
   private mapFFQToUserAnswerDTO(question: FreeFormQuestion): FreeFormAnswerDTO {
     const result = new FreeFormAnswerDTO();
     result.question_order = question.order;
-    result.text = question.usersAnswer;
+    if (!question.usersAnswer) {
+      result.text = '';
+    } else {
+      result.text = question.usersAnswer;
+    }
     return result;
   }
 
