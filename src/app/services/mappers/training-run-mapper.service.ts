@@ -181,7 +181,6 @@ export class TrainingRunMapper {
 
   private mapActionEnumFromDTOToTableDataModel(action: PossibleActionEnum): TraineeAccessTrainingRunActionEnum {
     switch (action) {
-      case PossibleActionEnum.TRYAGAIN: return TraineeAccessTrainingRunActionEnum.TryAgain;
       case PossibleActionEnum.RESULTS: return TraineeAccessTrainingRunActionEnum.Results;
       default: console.error('Could not map attribute "action" of "AccessedTrainingRunDTO to any known action');
     }
