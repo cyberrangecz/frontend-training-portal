@@ -5,17 +5,16 @@ import {LevelMapper} from './level-mapper.service';
 import {TrainingRunStateEnum} from '../../model/enums/training-run-state.enum';
 import {TrainingInstanceMapper} from './training-instance-mapper.service';
 import {TrainingRunRestResource} from '../../model/DTOs/training-run/trainingRunRestResource';
-import {AccessedTrainingRunDTO} from "../../model/DTOs/training-run/accessedTrainingRunDTO";
-import {AccessedTrainingRunsTableAdapter} from "../../model/table-adapters/accessed-training-runs-table-adapter";
-import {TraineeAccessTrainingRunActionEnum} from "../../model/enums/trainee-access-training-run-actions.enum";
-import PossibleActionEnum = AccessedTrainingRunDTO.PossibleActionEnum;
-import {PaginatedTable} from "../../model/table-adapters/paginated-table";
-import {TrainingRunTableAdapter} from "../../model/table-adapters/training-run-table-adapter";
-import {TablePagination} from "../../model/table-adapters/table-pagination";
-import {AccessTrainingRunDTO} from "../../model/DTOs/training-run/accessTrainingRunDTO";
-import {AccessTrainingRunInfo} from "../../model/training/access-training-run-info";
-import {IsCorrectFlagDTO} from "../../model/DTOs/level/game/isCorrectFlagDTO";
-import {FlagCheck} from "../../model/level/flag-check";
+import {AccessedTrainingRunDTO} from '../../model/DTOs/training-run/accessedTrainingRunDTO';
+import {AccessedTrainingRunsTableAdapter} from '../../model/table-adapters/accessed-training-runs-table-adapter';
+import {TraineeAccessTrainingRunActionEnum} from '../../model/enums/trainee-access-training-run-actions.enum';
+import {PaginatedTable} from '../../model/table-adapters/paginated-table';
+import {TrainingRunTableAdapter} from '../../model/table-adapters/training-run-table-adapter';
+import {TablePagination} from '../../model/table-adapters/table-pagination';
+import {AccessTrainingRunDTO} from '../../model/DTOs/training-run/accessTrainingRunDTO';
+import {AccessTrainingRunInfo} from '../../model/training/access-training-run-info';
+import {IsCorrectFlagDTO} from '../../model/DTOs/level/game/isCorrectFlagDTO';
+import {FlagCheck} from '../../model/level/flag-check';
 import {AbstractQuestion} from '../../model/questions/abstract-question';
 import {AbstractAssessmentAnswerDTO} from '../../model/DTOs/level/assessment/abstractAssessmentAnswerDTO';
 import {FreeFormAnswerDTO} from '../../model/DTOs/level/assessment/freeFormAnswerDTO';
@@ -26,6 +25,7 @@ import {MultipleChoiceQuestionAnswerDTO} from '../../model/DTOs/level/assessment
 import {ExtendedMatchingItemsAnswerDTO} from '../../model/DTOs/level/assessment/extendedMatchingItemsAnswerDTO';
 import {UserMapper} from './user.mapper.service';
 import {EMIChoiceDTO} from '../../model/DTOs/level/assessment/emiChoiceDTO';
+import PossibleActionEnum = AccessedTrainingRunDTO.PossibleActionEnum;
 
 @Injectable()
 export class TrainingRunMapper {
@@ -193,6 +193,7 @@ export class TrainingRunMapper {
       case TrainingRunDTO.StateEnum.ARCHIVED: return TrainingRunStateEnum.Archived;
       case TrainingRunDTO.StateEnum.NEW: return TrainingRunStateEnum.New;
       case TrainingRunDTO.StateEnum.READY: return TrainingRunStateEnum.Ready;
+      case TrainingRunDTO.StateEnum.FINISHED: return TrainingRunStateEnum.Finished;
       default: {
         console.error('Could not map training run state to enum');
         return null;
