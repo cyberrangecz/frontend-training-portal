@@ -24,9 +24,8 @@ export interface AccessedTrainingRunDTO {
     training_instance_start_date?: Date;
 }
 export namespace AccessedTrainingRunDTO {
-    export type PossibleActionEnum = 'TRY_AGAIN' | 'RESULTS';
+    export type PossibleActionEnum = 'RESULTS';
     export const PossibleActionEnum = {
-        TRYAGAIN: 'TRY_AGAIN' as PossibleActionEnum,
         RESULTS: 'RESULTS' as PossibleActionEnum
     }
 }

@@ -45,15 +45,6 @@ export class TraineeTrainingsTableComponent implements OnInit {
   }
 
   /**
-   * Allocates resources for new sandbox and starts new training run on a first level
-   * @param {number} trainingRunId id of training run which should be started
-   */
-  tryAgain(trainingRunId: number) {
-    // TODO: Integrate with appropriate REST API call once its resolved
-    //this.router.navigate(['training/game'], {relativeTo: this.activeRoute});
-  }
-
-  /**
    * Navigates to page with results of selected training run
    * @param {number} trainingRunId if of training run which results should be displayed
    */
