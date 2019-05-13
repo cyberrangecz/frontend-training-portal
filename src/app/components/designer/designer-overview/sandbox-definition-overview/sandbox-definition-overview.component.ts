@@ -111,15 +111,6 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
   }
 
   /**
-   * Replaces the original sandbox definition with a new one uploaded by the user.
-   * Opens dialog window where user can choose file to upload
-   * @param {number} id id of sandbox definition which should be replaced
-   */
-  updateSandboxDefinition(id: number) {
-    this.uploadSandboxDefinition();
-  }
-
-  /**
    * Creates table data source from sandbox definitions retrieved from a server. Only sandbox definitions where
    * active user is listed as an author are shown
    */

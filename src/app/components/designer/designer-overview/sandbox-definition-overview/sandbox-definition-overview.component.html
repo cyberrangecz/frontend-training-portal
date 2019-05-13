@@ -69,16 +69,6 @@
                     aria-label="Delete sandbox definition button">
                     delete</mat-icon>
                 </button>
-
-                <!-- UPDATE button-->
-                <button *ngIf="data.canBeRemoved"
-                        mat-icon-button color="primary"
-                        matTooltip="Update sandbox definition"
-                        (click)="updateSandboxDefinition(data.sandbox?.id)">
-                  <mat-icon
-                    aria-label="Update sandbox definition button">
-                    cached</mat-icon>
-                </button>
               </div>
             </td>
           </ng-container>
