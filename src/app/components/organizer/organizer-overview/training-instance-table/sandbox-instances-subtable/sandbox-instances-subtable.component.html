@@ -34,9 +34,14 @@
                 <mat-icon *ngIf="data.isCreated" class="sandbox-created" matTooltip="Sandbox is allocated">done</mat-icon>
                 <mat-icon *ngIf="data.isFailed" class="allocation-failed" color="warn" matTooltip="Sandbox allocation failed">error</mat-icon>
                 <mat-progress-bar *ngIf="data.isInProgress" class="allocation-progress" color="accent" mode="indeterminate"></mat-progress-bar>
-                <span class="allocation-state-text">{{data?.sandboxInstance.state}}</span>
+                <div *ngIf="!data.isCreated && !data.isFailed && !data.isInProgress then notAllocatedState else allocationState"></div>
+                <ng-template #notAllocatedState>
+                  <span class="allocation-state-text"> NOT ALLOCATED</span>
+                </ng-template>
+                <ng-template #allocationState>
+                  <span class="allocation-state-text">{{data?.sandboxInstance?.state}}</span>
+                </ng-template>
               </div>
-
             </td>
           </ng-container>
 
@@ -50,19 +55,21 @@
                 <button *ngIf="data.isCreated || data.isFailed"
                         mat-icon-button color="warn"
                         matTooltip="Remove sandbox instance"
+                        [disabled]="isDisabled"
                         (click)="deleteSandbox(data)">
                   <mat-icon
                     aria-label="Remove sandbox instance button">
                     delete</mat-icon>
                 </button>
 
-                <!-- REALLOCATE button-->
-                <button *ngIf="data.isCreated || data.isFailed"
+                <!-- ALLOCATE button-->
+                <button *ngIf="!data.isCreated && !data.isFailed && !data.isInProgress"
                         mat-icon-button color="primary"
-                        matTooltip="Reallocate sandbox instance"
-                        (click)="reallocateSandbox(data)">
+                        matTooltip="Allocate sandbox instance"
+                        [disabled]="isDisabled"
+                        (click)="allocateSandbox(data)">
                   <mat-icon
-                    aria-label="Reallocate sandbox instance button">
+                    aria-label="Allocate sandbox instance button">
                     launch</mat-icon>
                 </button>
               </div>
@@ -75,3 +82,4 @@
       </div>
     </div>
   </div>
+</div>

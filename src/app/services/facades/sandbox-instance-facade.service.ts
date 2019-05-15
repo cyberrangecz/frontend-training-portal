@@ -62,7 +62,7 @@ export class SandboxInstanceFacade {
     );
   }
 
-  reallocateSandbox(trainingInstanceId: number, sandboxId: number): Observable<any> {
-    return this.http.post(`${this.trainingInstancesEndpointUri  + trainingInstanceId}/${this.sandboxInstancesUriExtension}${sandboxId}`,
+  allocateSandbox(trainingInstanceId: number): Observable<any> {
+    return this.http.post(`${this.trainingInstancesEndpointUri  + trainingInstanceId}/${this.sandboxInstancesUriExtension}`,
       {});
   }}

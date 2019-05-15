@@ -69,26 +69,22 @@ export class SandboxAllocationService {
   }
 
 
-  deleteSandbox(trainingInstance: TrainingInstance, sandbox: SandboxInstance, totalSandboxCount: number): Observable<TrainingInstanceSandboxAllocationState>{
+  deleteSandbox(trainingInstance: TrainingInstance, sandbox: SandboxInstance, requestedPoolSize: number): Observable<TrainingInstanceSandboxAllocationState>{
     return this.sandboxInstanceFacade.deleteSandbox(trainingInstance.id, sandbox.id)
       .pipe(
         flatMap( deleteResponse => {
-        this.onDeleteRequestSuccessful(trainingInstance, totalSandboxCount);
+        this.onDeleteRequestSuccessful(trainingInstance, requestedPoolSize);
         return this.sandboxAllocationPoolService.addAllocation(trainingInstance.id)
-      }),
-        shareReplay(Number.POSITIVE_INFINITY)
-      );
+      }));
   }
 
-  reallocate(trainingInstance: TrainingInstance, sandbox: SandboxInstance, totalSandboxCount: number): Observable<TrainingInstanceSandboxAllocationState> {
-    return this.sandboxInstanceFacade.reallocateSandbox(trainingInstance.id, sandbox.id)
+  allocateSandbox(trainingInstance: TrainingInstance, requestedPoolSize: number): Observable<TrainingInstanceSandboxAllocationState> {
+    return this.sandboxInstanceFacade.allocateSandbox(trainingInstance.id)
       .pipe(
-        flatMap( reallocationResponse => {
-          this.onAllocationRequestSuccessful(trainingInstance, totalSandboxCount);
+        flatMap( allocationResponse => {
+          this.onAllocationRequestSuccessful(trainingInstance, requestedPoolSize);
           return this.sandboxAllocationPoolService.addAllocation(trainingInstance.id)
-      }),
-        shareReplay(Number.POSITIVE_INFINITY)
-      );
+      }));
   }
 
   isRunning(): boolean {
@@ -183,7 +179,7 @@ export class SandboxAllocationService {
     this.startPeriodicalCheckIfNotRunning();
     this._isRunning = true;
     const sandboxAllocation = new TrainingInstanceSandboxAllocationState(trainingInstance);
-    sandboxAllocation.requestedPoolSize = totalSandboxCount - 1;
+    sandboxAllocation.requestedPoolSize = totalSandboxCount;
     this.addAllocation(sandboxAllocation);
     //this.sandboxAllocationBarService.open(); TODO fix
     this.emitAllocationStateChange(SandboxAllocationState.RUNNING);

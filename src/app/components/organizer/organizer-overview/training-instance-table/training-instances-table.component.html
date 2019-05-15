@@ -26,7 +26,7 @@
                    [@detailExpand]="data == expandedRow ? 'expanded' : 'collapsed'">
                 <div class="row-detail-content">
                   <app-sandbox-instances-subtable
-                    *ngIf="data == expandedRow"
+                    *ngIf="data == expandedRow && data.trainingInstance?.hasPoolId()"
                     [trainingInstance]="data.trainingInstance"
                     [allocation$]="data.allocation$"
                     (allocationEvent)="onAllocationEvent($event, data)">
@@ -106,7 +106,9 @@
           <!-- PASSWORD Column -->
           <ng-container matColumnDef="accessToken">
             <th class="password" mat-header-cell *matHeaderCellDef>Access Token</th>
-            <td class="password" mat-cell *matCellDef="let training"> {{ training.trainingInstance?.accessToken }}</td>
+            <td class="password" mat-cell *matCellDef="let training">
+              <span (click)="$event.stopPropagation()"> {{ training.trainingInstance?.accessToken }} </span>
+            </td>
           </ng-container>
 
           <!-- ACTIONS Column -->
