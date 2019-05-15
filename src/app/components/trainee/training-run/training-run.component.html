@@ -5,7 +5,7 @@
 <div class="content">
   <!-- LEVEL STEPPER -->
   <mat-horizontal-stepper class="training-run"
-                          *ngIf="withStepper && levels"
+                          *ngIf="isStepperDisplayed && levels"
                           [selectedIndex]="selectedStep"
                           [linear]="true"
                           #stepper>
@@ -29,7 +29,7 @@
 
   <!-- TIMER -->
   <div class="timer">
-    <training-timer *ngIf="withTimer" [startTime]="startTime"></training-timer>
+    <training-timer *ngIf="isTimerDisplayed" [startTime]="startTime"></training-timer>
   </div>
 
   <!-- CONTENT OF ACTIVE LEVEL -->

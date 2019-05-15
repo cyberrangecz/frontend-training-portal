@@ -20,6 +20,7 @@ export interface AbstractLevelDTO {
     id?: number;
     max_score?: number;
     estimated_duration: number;
+    order: number;
     snapshot_hook?: any;
     title?: string;
     level_type: AbstractLevelDTO.LevelTypeEnum;
