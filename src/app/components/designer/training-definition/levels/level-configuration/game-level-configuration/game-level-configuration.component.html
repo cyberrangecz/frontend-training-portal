@@ -51,9 +51,9 @@
         </mat-form-field>
 
         <!-- INCORRECT FLAG LIMIT field -->
-        <mat-form-field appearance="outline" hintLabel="A positive number. Insert 0 for unlimited flag submission. If the limit will be overreached, solution will be displayed automatically.">
+        <mat-form-field appearance="outline" hintLabel="1 to 100. If the limit will be overreached, solution will be displayed automatically.">
           <mat-label>Incorrect Flag Limit</mat-label>
-          <input matInput [disabled]="isLoading" (ngModelChange)="onContentChanged()" placeholder="Incorrect Flag Limit" type="number" min="0" [(ngModel)]="incorrectFlagLimit" required>
+          <input matInput [disabled]="isLoading" (ngModelChange)="onContentChanged()" placeholder="Incorrect Flag Limit" type="number" min="1" max="100" [(ngModel)]="incorrectFlagLimit" required>
         </mat-form-field>
 
         <!-- FLAG field -->
