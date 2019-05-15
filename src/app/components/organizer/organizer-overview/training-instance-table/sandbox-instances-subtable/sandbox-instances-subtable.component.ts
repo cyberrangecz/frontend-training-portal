@@ -19,7 +19,6 @@ import {environment} from '../../../../../../environments/environment';
 import {Observable, Subscription} from 'rxjs';
 import {TrainingInstanceSandboxAllocationState} from '../../../../../model/training/training-instance-sandbox-allocation-state';
 import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
-import {SandboxAllocationState} from '../../../../../model/enums/sandbox-allocation-state';
 
 
 @Component({
@@ -43,6 +42,7 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
   isInErrorState = false;
   hasPoolId = true;
   isLoadingResults = false;
+  isDisabled = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -69,7 +69,7 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
       }
     }
     if ('allocation$' in changes) {
-
+      this.displayData();
     }
   }
 
@@ -95,24 +95,38 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
   }
 
   deleteSandbox(sandboxRow: SandboxInstanceTableAdapter) {
-    const sandboxCount = this.dataSource.data.length;
+    const sandboxCount = this.getSandboxCount() - 1;
+    this.isDisabled = true;
     const sandboxDeletion$ = this.allocationService.deleteSandbox(this.trainingInstance, sandboxRow.sandboxInstance, sandboxCount);
     sandboxRow.allocationSubscription = sandboxDeletion$.subscribe(
-        allocationState => this.displayData(allocationState),
-        err => this.errorHandler.displayHttpError(err, 'Removing sandbox with id: ' +  sandboxRow.sandboxInstance.id)
+        allocationState =>  {
+          this.isDisabled = false;
+          this.displayData(allocationState);
+        },
+        err =>  {
+          this.isDisabled = false;
+          this.errorHandler.displayHttpError(err, 'Removing sandbox with id: ' +  sandboxRow.sandboxInstance.id);
+        }
         );
     this.allocationEvent.emit(sandboxDeletion$);
   }
 
-  reallocateSandbox(sandboxRow: SandboxInstanceTableAdapter) {
-    const sandboxCount = this.dataSource.data.length;
-    const sandboxReallocation$ = this.allocationService.reallocate(this.trainingInstance, sandboxRow.sandboxInstance, sandboxCount);
-    sandboxRow.allocationSubscription = sandboxReallocation$
+  allocateSandbox(sandboxRow: SandboxInstanceTableAdapter) {
+    this.isDisabled = true;
+    const sandboxCount = this.getSandboxCount() + 1;
+    const sandboxAllocation$ = this.allocationService.allocateSandbox(this.trainingInstance, sandboxCount);
+    sandboxRow.allocationSubscription = sandboxAllocation$
       .subscribe(
-        allocationState => this.displayData(allocationState),
-        err => this.errorHandler.displayHttpError(err, 'Reallocating sandbox with id: ' +  sandboxRow.sandboxInstance.id)
+        allocationState =>  {
+          this.isDisabled = false;
+          this.displayData(allocationState)
+        },
+        err =>  {
+          this.isDisabled = false;
+          this.errorHandler.displayHttpError(err, 'Allocating sandbox');
+        }
       );
-    this.allocationEvent.emit(sandboxReallocation$);
+    this.allocationEvent.emit(sandboxAllocation$);
   }
 
   private initTableDataSource() {
@@ -166,19 +180,34 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
   }
 
   private mapSandboxesToTableData(sandboxes: SandboxInstance[]): SandboxInstanceTableAdapter[] {
-    return sandboxes.map(sandbox => {
-      const result = new SandboxInstanceTableAdapter();
-      result.sandboxInstance = sandbox;
-      result.isCreated = sandbox.isCreated();
-      result.isFailed = sandbox.isFailed();
-      result.isInProgress = sandbox.isInProgress();
-      return result;
-    })
+    const result: SandboxInstanceTableAdapter[] = [];
+
+    for (let i = 0; i < this.trainingInstance.poolSize - sandboxes.length; i++) {
+      const emptyRow = new SandboxInstanceTableAdapter();
+      emptyRow.isCreated = false;
+      emptyRow.isFailed = false;
+      emptyRow.isInProgress = false;
+      result.push(emptyRow);
+    }
+
+    sandboxes.forEach(sandbox => {
+      const sandboxRow = new SandboxInstanceTableAdapter();
+      sandboxRow.sandboxInstance = sandbox;
+      sandboxRow.isCreated = sandbox.isCreated();
+      sandboxRow.isFailed = sandbox.isFailed();
+      sandboxRow.isInProgress = sandbox.isInProgress();
+      result.push(sandboxRow);
+    });
+    return result;
   }
 
   private createDataSourceFromAllocationState(allocationState: TrainingInstanceSandboxAllocationState) {
     this.dataSource = new MatTableDataSource(this.mapSandboxesToTableData(allocationState.sandboxes));
     this.dataSource.filterPredicate = this.filterByStatusFn;
     this.isLoadingResults = false;
+  }
+
+  private getSandboxCount(): number {
+    return this.dataSource.data.filter(row => !row.sandboxInstance || !row.sandboxInstance.isBeingDeleted()).length
   }
 }

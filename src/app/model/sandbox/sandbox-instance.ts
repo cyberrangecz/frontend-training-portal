@@ -11,6 +11,7 @@ export class SandboxInstance {
   constructor() {
   }
 
+
   isCreated(): boolean {
     return this.state === SandboxInstanceState.CREATE_COMPLETE;
   }
@@ -39,5 +40,9 @@ export class SandboxInstance {
       || this.state === SandboxInstanceState.SNAPSHOT_IN_PROGRESS
       || this.state === SandboxInstanceState.SUSPEND_IN_PROGRESS
       || this.state === SandboxInstanceState.UPDATE_IN_PROGRESS;
+  }
+
+  isBeingDeleted(): boolean {
+    return this.state === SandboxInstanceState.DELETE_IN_PROGRESS;
   }
 }
