@@ -37,6 +37,7 @@ export class TrainingPreviewComponent implements OnInit {
   private createMockTrainingRun(training: TrainingDefinition) {
     const mockRun = new AccessTrainingRunInfo();
     mockRun.levels = training.levels;
+    mockRun.isStepperDisplayed = training.showStepperBar;
     return mockRun;
   }
 }

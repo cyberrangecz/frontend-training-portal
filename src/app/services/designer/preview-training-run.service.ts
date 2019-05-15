@@ -15,12 +15,14 @@ export class PreviewTrainingRunService {
 
   private _levels: AbstractLevel[] = [];
   private _activeLevelIndex: number;
+  private _isStepperDisplayed: boolean;
 
   private _onActiveLevelChangedSubject: Subject<AbstractLevel> = new Subject();
   onActiveLevelChanged: Observable<AbstractLevel> = this._onActiveLevelChangedSubject.asObservable();
 
   setUpFromTrainingRun(trainingRunInfo: AccessTrainingRunInfo) {
     this._levels = trainingRunInfo.levels;
+    this._isStepperDisplayed = trainingRunInfo.isStepperDisplayed;
     this._activeLevelIndex = 0;
     const firstLevel = this._levels[this._activeLevelIndex];
     if (firstLevel instanceof GameLevel && this.gameService instanceof PreviewGameLevelService) {
@@ -35,6 +37,14 @@ export class PreviewTrainingRunService {
   getActiveLevel(): AbstractLevel {
     return this._levels[this._activeLevelIndex];
   }
+
+  getStartTime(): Date {
+    return new Date();
+  }
+
+  getIsStepperDisplayed(): boolean {
+    return this._isStepperDisplayed;
+}
 
   nextLevel(): Observable<AbstractLevel> {
     this._activeLevelIndex++;

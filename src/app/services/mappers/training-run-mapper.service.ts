@@ -94,8 +94,11 @@ export class TrainingRunMapper {
     const result = new AccessTrainingRunInfo();
     result.trainingRunId = accessDTO.training_run_id;
     result.sandboxInstanceId = accessDTO.sandbox_instance_id;
+    result.startTime = accessDTO.start_time;
+    result.isStepperDisplayed = accessDTO.with_stepper;
     result.currentLevel = this.levelMapper.mapLevelDTOToLevel(accessDTO.abstract_level_dto);
     result.levels = this.levelMapper.mapBasicInfoDTOsToAbstractLevels(accessDTO.info_about_levels);
+
     return result;
   }
 
@@ -182,6 +185,7 @@ export class TrainingRunMapper {
   private mapActionEnumFromDTOToTableDataModel(action: PossibleActionEnum): TraineeAccessTrainingRunActionEnum {
     switch (action) {
       case PossibleActionEnum.RESULTS: return TraineeAccessTrainingRunActionEnum.Results;
+      case null: return null;
       default: console.error('Could not map attribute "action" of "AccessedTrainingRunDTO to any known action');
     }
   }

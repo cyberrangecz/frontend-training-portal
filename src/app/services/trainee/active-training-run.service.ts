@@ -23,6 +23,8 @@ export class ActiveTrainingRunService {
 
   private _activeLevels: AbstractLevel[];
   private _activeLevel: GameLevel | AssessmentLevel | InfoLevel;
+  private _startTime: Date;
+  private _isStepperDisplayed: boolean;
 
   sandboxInstanceId: number;
   trainingRunId: number;
@@ -37,6 +39,7 @@ export class ActiveTrainingRunService {
   setUpFromTrainingRun(trainingRunInfo: AccessTrainingRunInfo) {
     this.trainingRunId = trainingRunInfo.trainingRunId;
     this.sandboxInstanceId = trainingRunInfo.sandboxInstanceId;
+    this._isStepperDisplayed = trainingRunInfo.isStepperDisplayed;
     this.initLevels(trainingRunInfo.levels);
     this.setActiveLevel(trainingRunInfo.currentLevel);
   }
@@ -47,6 +50,14 @@ export class ActiveTrainingRunService {
 
   getActiveLevel(): AbstractLevel {
     return this._activeLevel;
+  }
+
+  getStartTime(): Date {
+    return this._startTime;
+  }
+
+  getIsStepperDisplayed(): boolean {
+    return this._isStepperDisplayed;
   }
 
   /**

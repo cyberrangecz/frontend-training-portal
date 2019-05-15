@@ -1,11 +1,6 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { Component, OnDestroy, OnInit} from '@angular/core';
 import {AbstractLevel} from "../../../model/level/abstract-level";
-import {ActivatedRoute, Router} from "@angular/router";
 import {ActiveTrainingRunService} from "../../../services/trainee/active-training-run.service";
-import {TrainingRunLevelComponent} from "./training-run-level/training-run-level.component";
-import {ErrorHandlerService} from "../../../services/shared/error-handler.service";
-import {switchMap} from 'rxjs/operators';
-
 
 @Component({
   selector: 'training-run',
@@ -21,8 +16,8 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
   levels: AbstractLevel[];
 
   selectedStep: number;
-  withStepper: boolean;
-  withTimer: boolean;
+  isStepperDisplayed: boolean;
+  isTimerDisplayed: boolean;
   startTime: Date;
   isLoading = false;
 
@@ -34,8 +29,7 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.initData();
     this.subscribeToActiveLevelChange();
-    this.withStepper = true;
-    this.withTimer = true;
+    this.isTimerDisplayed = true;
   }
 
   ngOnDestroy() {
@@ -46,7 +40,9 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
 
   private initData() {
     this.levels = this.activeTrainingRunService.getLevels();
-    this.selectedStep = 0;
+    this.startTime = this.activeTrainingRunService.getStartTime();
+    this.isStepperDisplayed = this.activeTrainingRunService.getIsStepperDisplayed();
+    this.selectedStep = this.activeTrainingRunService.getActiveLevel().order;
   }
 
 

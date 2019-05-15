@@ -9,8 +9,6 @@ export abstract class AbstractLevel {
   order: number;
   estimatedDuration: number;
   maxScore: number;
-  preHook: string;
-  postHook: string;
 
   // custom attribute for displaying icons customized to level type
   type: AbstractLevelTypeEnum;

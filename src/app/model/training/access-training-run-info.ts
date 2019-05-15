@@ -8,4 +8,6 @@ export class AccessTrainingRunInfo {
   sandboxInstanceId: number;
   currentLevel: GameLevel | InfoLevel | AssessmentLevel;
   levels: AbstractLevel[];
+  isStepperDisplayed: boolean;
+  startTime: Date;
 }
