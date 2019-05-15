@@ -1,4 +1,11 @@
 <mat-toolbar  color="primary">
+  <button
+    *ngIf="!isHome"
+    mat-icon-button
+    matTooltip="Go Back"
+    (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
   <a routerLink="/home">
     <img id="logo" src="./assets/images/kypo-logo.svg"/>
   </a>
