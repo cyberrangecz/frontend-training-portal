@@ -115,8 +115,8 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
     if (!this.flag || this.flag.replace(/\s/g, '') === '' || this.flag.length > 50) {
       errorMessage += 'Flag cannot be empty or larger than 50 characters\n'
     }
-    if (Number.isNaN(this.incorrectFlagLimit) || this.incorrectFlagLimit < 0) {
-      errorMessage += 'Incorrect flag limit must be a positive number\n'
+    if (Number.isNaN(this.incorrectFlagLimit) || this.incorrectFlagLimit < 1 || this.incorrectFlagLimit > 100) {
+      errorMessage += 'Incorrect flag limit must be in range of 1 to 100\n'
     }
     if (Number.isNaN(this.maxScore) || this.maxScore < 0 || this.maxScore > 100) {
       errorMessage += 'Maximal score must be a number in range from 0 to 100\n'
