@@ -53,7 +53,7 @@
                 <button
                         mat-icon-button color="primary"
                         matTooltip="Revert training run"
-                        *ngIf="!data.isWaitingForRevertResponse || !data?.trainingRun?.user"
+                        *ngIf="!data.isWaitingForRevertResponse && !data.trainingRun?.user && data.trainingRun?.sandboxInstanceId"
                         (click)="revertTrainingRun(data)">
                   <mat-icon
                     aria-label="Revert training run button">
