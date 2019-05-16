@@ -21,6 +21,6 @@ export interface AccessTrainingRunDTO {
     info_about_levels?: Array<BasicLevelInfoDTO>;
     training_run_id: number;
     sandbox_instance_id: number;
-    with_stepper: boolean;
+    show_stepper_bar: boolean;
     start_time: Date;
 }

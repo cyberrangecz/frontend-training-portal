@@ -96,8 +96,8 @@ export class TrainingRunMapper {
     const result = new AccessTrainingRunInfo();
     result.trainingRunId = accessDTO.training_run_id;
     result.sandboxInstanceId = accessDTO.sandbox_instance_id;
-    result.startTime = accessDTO.start_time;
-    result.isStepperDisplayed = accessDTO.with_stepper;
+    result.startTime = new Date(accessDTO.start_time);
+    result.isStepperDisplayed = accessDTO.show_stepper_bar;
     result.currentLevel = this.levelMapper.mapLevelDTOToLevel(accessDTO.abstract_level_dto);
     result.levels = this.levelMapper.mapBasicInfoDTOsToAbstractLevels(accessDTO.info_about_levels);
 
