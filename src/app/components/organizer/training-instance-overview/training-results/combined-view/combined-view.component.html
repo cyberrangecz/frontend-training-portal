@@ -5,17 +5,20 @@
   <div class="content">
 
     <kypo2-viz-hurdling
+      *ngIf="!isLoading"
       [trainingInstanceId]="trainingInstanceId"
       [trainingDefinitionId]="trainingDefinitionId">
     </kypo2-viz-hurdling>
 
     <kypo2-viz-overview-timeline
+      *ngIf="!isLoading"
     [size]="vizSize"
     [trainingInstanceId]="trainingInstanceId"
     [trainingDefinitionId]="trainingDefinitionId">
     </kypo2-viz-overview-timeline>
 
     <kypo2-viz-overview-clustering
+      *ngIf="!isLoading"
       [size]="vizSize"
       [trainingInstanceId]="trainingInstanceId"
       [trainingDefinitionId]="trainingDefinitionId">

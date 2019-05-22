@@ -4,7 +4,7 @@
     <mat-divider></mat-divider>
   </div>
   <div class="content">
-    <kypo2-viz-hurdling
+    <kypo2-viz-hurdling *ngIf="!isLoading"
       [trainingInstanceId]="trainingInstanceId"
       [trainingDefinitionId]="trainingDefinitionId">
     </kypo2-viz-hurdling>
