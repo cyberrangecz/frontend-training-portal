@@ -16,8 +16,8 @@ export class TrainingProgressViewComponent implements OnInit {
 
   ngOnInit() {
     const activeTrainingInstance = this.activeTrainingInstanceService.getActiveTrainingInstance();
-    this.trainingDefinitionId = activeTrainingInstance.id;
-    this.trainingInstanceId = activeTrainingInstance.trainingDefinition.id;
+    this.trainingDefinitionId = activeTrainingInstance.trainingDefinition.id;
+    this.trainingInstanceId = activeTrainingInstance.id;
   }
 
 }
