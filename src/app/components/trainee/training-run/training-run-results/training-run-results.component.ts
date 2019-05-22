@@ -7,13 +7,17 @@ import {ActiveUserService} from '../../../../services/shared/active-user.service
 @Component({
   selector: 'training-run-results',
   templateUrl: './training-run-results.component.html',
-  styleUrls: ['./training-run-results.component.css']
+  styleUrls: ['./training-run-results.component.css'],
+  host: {
+    '(window:resize)': 'onResize($event)'
+  }
 })
 /**
  * Component displaying various visualization of training run results
  */
 export class TrainingRunResultsComponent implements OnInit, AfterViewInit {
   display = false;
+  vizSize: {width: number, height: number};
 
   isLoading: boolean = true;
   isInErrorState: boolean = false;
@@ -28,13 +32,17 @@ export class TrainingRunResultsComponent implements OnInit, AfterViewInit {
 }
 
   ngOnInit() {
+    this.setVisualizationSize(window.innerWidth, innerHeight);
     this.loadData()
   }
-
   ngAfterViewInit() {
     // hack because visualization components won't render properly
     // (probably because changing the setting of distraction free mode when leaving last level)
     setTimeout(x => this.display = true, 1);
+  }
+
+  onResize(event) {
+    this.setVisualizationSize(event.target.innerWidth, event.target.innerHeight);
   }
 
   loadData() {
@@ -63,5 +71,11 @@ export class TrainingRunResultsComponent implements OnInit, AfterViewInit {
 
   private parseUcoFromUserLogin() {
     return this.activeUserService.getActiveUser().login.split('@')[0]
+  }
+
+  private setVisualizationSize(windowWidth: number, windowHeight: number) {
+      const width = windowWidth / 2;
+      const height = windowHeight / 2;
+      this.vizSize = { width: width, height: height }
   }
 }

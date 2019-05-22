@@ -29,7 +29,7 @@
 
   <!-- TIMER -->
   <div class="timer">
-    <training-timer *ngIf="isTimerDisplayed" [startTime]="startTime"></training-timer>
+    <training-timer *ngIf="isTimerDisplayed && startTime" [startTime]="startTime"></training-timer>
   </div>
 
   <!-- CONTENT OF ACTIVE LEVEL -->
