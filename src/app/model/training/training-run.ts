@@ -9,15 +9,15 @@ import {User} from '../user/user';
 export class TrainingRun {
 
   id: number;
-  trainingInstance: TrainingInstance;
   sandboxInstanceId: number;
+  trainingInstanceId: number;
+  trainingDefinitionId: number;
   user: User;
   startTime: Date;
   endTime: Date;
   currentLevel: AbstractLevel | number;
   eventLogReference: string;
   state: TrainingRunStateEnum;
-
   constructor() {
   }
 }

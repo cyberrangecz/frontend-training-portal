@@ -40,17 +40,11 @@
           <ng-container matColumnDef="title">
             <th class="title" mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
             <td class="title" mat-cell *matCellDef="let training">
-              <div *ngIf="training.trainingInstance?.startTime.valueOf() < now
-                            && training.trainingInstance?.endTime.valueOf() > now;
-              then clickableTitle else nonClickableTitle"></div>
-
-              <ng-template #clickableTitle>
-                <a class="training-link" mat-button color="primary" (click)="$event.stopPropagation()"
-                   [routerLink]="['training', training.trainingInstance?.id, 'overview', { outlets: { display: ['summary'] }}]">
-                  {{ training.trainingInstance?.title }}</a>
-              </ng-template>
-
-              <ng-template #nonClickableTitle>{{training.trainingInstance?.title}}</ng-template>
+              <a class="training-link"
+                 mat-button color="primary"
+                 [routerLink]="['training', training.trainingInstance?.id, 'overview', { outlets: { display: ['summary'] }}]"
+                 (click)="$event.stopPropagation()">
+                {{ training.trainingInstance?.title }}</a>
             </td>
           </ng-container>
 

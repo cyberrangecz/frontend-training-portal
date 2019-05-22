@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GAME_INFORMATION } from '../../../../shared/mocks/information.mock';
-import { EVENTS } from '../../../../shared/mocks/events.mock';
+import {ActiveTrainingInstanceService} from "../../../../../services/organizer/active-training-instance.service";
 
 @Component({
   selector: 'score-scatter-plot-view',
@@ -9,15 +8,16 @@ import { EVENTS } from '../../../../shared/mocks/events.mock';
 })
 export class ScoreScatterPlotViewComponent implements OnInit {
 
-  mockFeedbackLearnerId: number;
-  mockGameData;
+  trainingDefinitionId: number;
+  trainingInstanceId: number;
 
-
-  constructor() { }
+  constructor(private activeTrainingInstanceService: ActiveTrainingInstanceService) {
+  }
 
   ngOnInit() {
-    this.mockFeedbackLearnerId = 9003575;
-    this.mockGameData = {information: GAME_INFORMATION, events: EVENTS};
+    const activeTrainingInstance = this.activeTrainingInstanceService.getActiveTrainingInstance();
+    this.trainingInstanceId = activeTrainingInstance.id;
+    this.trainingDefinitionId = activeTrainingInstance.trainingDefinition.id;
   }
 
 }

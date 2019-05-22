@@ -28,6 +28,8 @@ export interface TrainingRunDTO {
     start_time?: Date;
     state?: TrainingRunDTO.StateEnum;
     training_instance?: TrainingInstanceDTO;
+    definition_id: number;
+    instance_id: number;
 }
 export namespace TrainingRunDTO {
     export type StateEnum = 'NEW' | 'ALLOCATED' | 'READY' | 'FINISHED';

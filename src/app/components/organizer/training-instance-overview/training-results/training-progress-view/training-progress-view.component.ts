@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ActiveTrainingInstanceService} from "../../../../../services/organizer/active-training-instance.service";
 
 @Component({
   selector: 'training-progress-view',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TrainingProgressViewComponent implements OnInit {
 
-  constructor() { }
+  trainingDefinitionId: number;
+  trainingInstanceId: number;
+
+  constructor(private activeTrainingInstanceService: ActiveTrainingInstanceService) {
+  }
 
   ngOnInit() {
+    const activeTrainingInstance = this.activeTrainingInstanceService.getActiveTrainingInstance();
+    this.trainingDefinitionId = activeTrainingInstance.id;
+    this.trainingInstanceId = activeTrainingInstance.trainingDefinition.id;
   }
 
 }
