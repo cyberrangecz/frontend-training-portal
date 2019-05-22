@@ -86,9 +86,6 @@ export class TrainingRunMapper {
     if (result.currentLevel) {
       result.currentLevel = this.levelMapper.mapLevelDTOToLevel(trainingRunDTO.current_level);
     }
-    if (result.trainingInstance) {
-      result.trainingInstance = this.trainingInstanceMapper.mapTrainingInstanceDTOToTrainingInstance(trainingRunDTO.training_instance);
-    }
     return result;
   }
 
