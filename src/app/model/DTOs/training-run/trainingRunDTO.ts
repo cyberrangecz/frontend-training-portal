@@ -27,7 +27,6 @@ export interface TrainingRunDTO {
     participant_ref: UserRefDTO;
     start_time?: Date;
     state?: TrainingRunDTO.StateEnum;
-    training_instance?: TrainingInstanceDTO;
     definition_id: number;
     instance_id: number;
 }

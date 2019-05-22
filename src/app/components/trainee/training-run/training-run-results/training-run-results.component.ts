@@ -48,7 +48,7 @@ export class TrainingRunResultsComponent implements OnInit, AfterViewInit {
           trainingRun => {
           this.trainingInstanceId = trainingRun.trainingInstanceId;
           this.trainingDefinitionId = trainingRun.trainingDefinitionId;
-          this.isLoading = false;
+            this.isLoading = false;
         },
           err => {
             this.errorHandler.displayHttpError(err, 'Loading results of training run');

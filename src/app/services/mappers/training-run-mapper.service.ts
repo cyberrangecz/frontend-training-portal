@@ -74,12 +74,15 @@ export class TrainingRunMapper {
   mapTrainingRunDTOToTrainingRun(trainingRunDTO: TrainingRunDTO): TrainingRun {
     const result = new TrainingRun();
     result.id = trainingRunDTO.id;
+    result.trainingDefinitionId = trainingRunDTO.definition_id;
+    result.trainingInstanceId = trainingRunDTO.instance_id;
     result.startTime = new Date(trainingRunDTO.start_time);
     result.endTime = new Date(trainingRunDTO.end_time);
     result.eventLogReference = trainingRunDTO.event_log_reference;
     if (trainingRunDTO.sandbox_instance_ref) {
       result.sandboxInstanceId = trainingRunDTO.sandbox_instance_ref.id;
     }
+
     result.user = this.userMapper.mapUserRefDTOToUser(trainingRunDTO.participant_ref);
     result.state = this.mapTrainigRunDTOStateToEnum(trainingRunDTO.state);
 
