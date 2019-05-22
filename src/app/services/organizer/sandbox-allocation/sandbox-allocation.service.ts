@@ -64,7 +64,7 @@ export class SandboxAllocationService {
         this.onAllocationRequestSuccessful(trainingInstance);
         return this.sandboxAllocationPoolService.addAllocation(trainingInstance.id)
         }),
-        shareReplay(Number.POSITIVE_INFINITY),
+        shareReplay(Number.POSITIVE_INFINITY)
       );
   }
 
@@ -75,7 +75,9 @@ export class SandboxAllocationService {
         flatMap( deleteResponse => {
         this.onDeleteRequestSuccessful(trainingInstance, requestedPoolSize);
         return this.sandboxAllocationPoolService.addAllocation(trainingInstance.id)
-      }));
+      }),
+        shareReplay(Number.POSITIVE_INFINITY),
+      );
   }
 
   allocateSandbox(trainingInstance: TrainingInstance, requestedPoolSize: number): Observable<TrainingInstanceSandboxAllocationState> {
@@ -84,7 +86,9 @@ export class SandboxAllocationService {
         flatMap( allocationResponse => {
           this.onAllocationRequestSuccessful(trainingInstance, requestedPoolSize);
           return this.sandboxAllocationPoolService.addAllocation(trainingInstance.id)
-      }));
+      }),
+        shareReplay(Number.POSITIVE_INFINITY)
+      );
   }
 
   isRunning(): boolean {
