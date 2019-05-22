@@ -8,6 +8,15 @@ markdown > pre {
   overflow-wrap: break-word;
 }
 
+lib-force-graph {
+  border: 1px solid gainsboro;
+}
+
+.topology-placeholder {
+  border: 1px solid gainsboro;
+}
+
+
 .container {
   display: flex;
   flex-direction: column;

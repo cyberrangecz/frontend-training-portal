@@ -12,6 +12,13 @@
                       [sandboxId]="sandboxId"
                       (onTopologyLoaded)="topologyLoaded()">
      </lib-force-graph>
+      <div *ngIf="!sandboxId" class="topology-placeholder">
+        <h3>There will be topology component</h3>
+        <img src="assets/images/placeholders/topology-placeholder.png"
+             alt="Topology placeholder"
+             [width]="graphWidth"
+             [height]="graphHeight"/>
+      </div>
 
 
     </div>
