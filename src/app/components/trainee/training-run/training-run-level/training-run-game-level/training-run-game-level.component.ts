@@ -63,7 +63,6 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
 
   topologyLoaded() {
     this.isTopologyLoaded = true;
-    this.setGraphTopologyElementSize(window.innerWidth, window.innerHeight);
   }
 
 
@@ -154,6 +153,7 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
     this.displayedText = this.level.content;
     this.correctFlag = false;
     this.hasNextLevel = this.activeLevelService.hasNextLevel();
+    this.setGraphTopologyElementSize(window.innerWidth, window.innerHeight);
     this.initHintButtons();
   }
 
