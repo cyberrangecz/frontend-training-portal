@@ -1,20 +1,24 @@
-import {Injectable} from "@angular/core";
-import {TrainingDefinition} from "../../model/training/training-definition";
-import {TrainingDefinitionStateEnum} from "../../enums/training-definition-state.enum";
-import {AbstractLevel} from "../../model/level/abstract-level";
-import {TrainingDefinitionCreateDTO} from "../../model/DTOs/training-definition/trainingDefinitionCreateDTO";
-import {TrainingDefinitionUpdateDTO} from "../../model/DTOs/training-definition/trainingDefinitionUpdateDTO";
-import {TrainingDefinitionRestResource} from "../../model/DTOs/training-definition/trainingDefinitionRestResource";
+import {Injectable} from '@angular/core';
+import {TrainingDefinition} from '../../model/training/training-definition';
+import {TrainingDefinitionStateEnum} from '../../model/enums/training-definition-state.enum';
+import {AbstractLevel} from '../../model/level/abstract-level';
+import {TrainingDefinitionCreateDTO} from '../../model/DTOs/training-definition/trainingDefinitionCreateDTO';
+import {TrainingDefinitionUpdateDTO} from '../../model/DTOs/training-definition/trainingDefinitionUpdateDTO';
+import {TrainingDefinitionRestResource} from '../../model/DTOs/training-definition/trainingDefinitionRestResource';
 import {TrainingDefinitionDTO} from '../../model/DTOs/training-definition/trainingDefinitionDTO';
-import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
-import {TrainingDefinitionTableDataModel} from "../../model/table-models/training-definition-table-data-model";
-import {TablePagination} from "../../model/table-models/table-pagination";
-import {LevelMapper} from "./level-mapper.service";
-import {ViewGroupDTO} from "../../model/DTOs/training-definition/viewGroupDTO";
-import {ViewGroup} from "../../model/user/view-group";
-import {ViewGroupCreateDTO} from "../../model/DTOs/training-definition/viewGroupCreateDTO";
-import {ViewGroupUpdateDTO} from "../../model/DTOs/training-definition/viewGroupUpdateDTO";
+import {PaginatedTable} from '../../model/table-adapters/paginated-table';
+import {TrainingDefinitionTableAdapter} from '../../model/table-adapters/training-definition-table-adapter';
+import {TablePagination} from '../../model/table-adapters/table-pagination';
+import {LevelMapper} from './level-mapper.service';
+import {BetaTestingGroupDTO} from '../../model/DTOs/training-definition/betaTestingGroupDTO';
+import {BetaTestingGroup} from '../../model/user/beta-testing-group';
+import {BetaTestingGroupCreateDTO} from '../../model/DTOs/training-definition/betaTestingGroupCreateDTO';
+import {BetaTestingGroupUpdateDTO} from '../../model/DTOs/training-definition/betaTestingGroupUpdateDTO';
 import {UserMapper} from './user.mapper.service';
+import {RestResourceDTO} from 'kypo2-user-and-group-management/lib/model/DTO/rest-resource-dto.model';
+import {TrainingDefinitionInfo} from '../../model/training/training-definition-info';
+import {TrainingDefinitionInfoDTO} from '../../model/DTOs/training-definition/training-definition-info-d-t-o';
+import {TrainingDefinitionInfoRestResource} from '../../model/DTOs/training-definition/training-definition-info-rest-resource';
 
 @Injectable()
 export class TrainingDefinitionMapper {
@@ -35,11 +39,13 @@ export class TrainingDefinitionMapper {
     return result;
   }
 
-  mapTrainingDefinitionDTOsToTrainingDefinitionsWithPagination(resource: TrainingDefinitionRestResource): TableDataWithPaginationWrapper<TrainingDefinitionTableDataModel[]> {
-    const tableData: TrainingDefinitionTableDataModel[] = [];
+  mapTrainingDefinitionDTOsToTrainingDefinitionsWithPagination(resource: TrainingDefinitionRestResource): PaginatedTable<TrainingDefinitionTableAdapter[]> {
+    const tableData: TrainingDefinitionTableAdapter[] = [];
     resource.content.forEach((trainingDTO: TrainingDefinitionDTO) => {
-      const rowData = new TrainingDefinitionTableDataModel();
+      const rowData = new TrainingDefinitionTableAdapter();
       rowData.trainingDefinition = this.mapTrainingDefinitionDTOToTrainingDefinition(trainingDTO, false);
+      rowData.selectedState = rowData.trainingDefinition.state;
+      rowData.createPossibleStates();
       tableData.push(rowData);
     });
     const tablePagination = new TablePagination(resource.pagination.number,
@@ -47,7 +53,7 @@ export class TrainingDefinitionMapper {
       resource.pagination.size,
       resource.pagination.total_elements,
       resource.pagination.total_pages);
-    return new TableDataWithPaginationWrapper(tableData, tablePagination);
+    return new PaginatedTable(tableData, tablePagination);
   }
 
   /**
@@ -65,9 +71,11 @@ export class TrainingDefinitionMapper {
     result.prerequisites =  trainingDefinitionDTO.prerequisities;
     result.outcomes = trainingDefinitionDTO.outcomes;
     result.state = this.mapTrainingDefDTOStateToEnum(trainingDefinitionDTO.state);
-    result.startingLevel = trainingDefinitionDTO.starting_level;
-    if (trainingDefinitionDTO.td_view_group) {
-      result.viewGroup = this.getViewGroupFromDTO(trainingDefinitionDTO.td_view_group);
+    result.lastEditTime = trainingDefinitionDTO.last_edited;
+    result.estimatedDuration = trainingDefinitionDTO.estimated_duration;
+    result.showStepperBar = trainingDefinitionDTO.show_stepper_bar;
+    if (trainingDefinitionDTO.beta_testing_group) {
+      result.betaTestingGroup = this.getBetaTestingGroupFromDTO(trainingDefinitionDTO.beta_testing_group);
     }
     if (withLevels) {
       result.levels = this.getLevelsFromDTO(trainingDefinitionDTO);
@@ -87,12 +95,12 @@ export class TrainingDefinitionMapper {
     result.description = trainingDefinition.description;
     trainingDefinition.outcomes.forEach(outcome => result.outcomes.push(outcome));
     trainingDefinition.prerequisites.forEach(prerequisite => result.prerequisities.push(prerequisite));
-    result.state = this.mapTrainingDefStateToDTOEnum(trainingDefinition.state);
+    result.state = TrainingDefinitionDTO.StateEnum.UNRELEASED;
     result.title = trainingDefinition.title;
     result.sandbox_definition_ref_id = trainingDefinition.sandboxDefinitionId;
     result.show_stepper_bar = trainingDefinition.showStepperBar;
-    result.authors = this.userMapper.mapUsersToUserInfoDTOs(trainingDefinition.authors);
-    result.td_view_group = this.createViewGroupCreateDTO(trainingDefinition.viewGroup);
+    result.authors = this.userMapper.mapUsersToUserBasicDTOs(trainingDefinition.authors);
+    result.beta_testing_group = this.createBetaTestingGroupCreateDTO(trainingDefinition.betaTestingGroup);
     return result;
   }
 
@@ -111,12 +119,24 @@ export class TrainingDefinitionMapper {
     result.show_stepper_bar = trainingDefinition.showStepperBar;
     trainingDefinition.outcomes.forEach(outcome => result.outcomes.push(outcome));
     trainingDefinition.prerequisites.forEach(prerequisite => result.prerequisities.push(prerequisite));
-    result.authors = this.userMapper.mapUsersToUserInfoDTOs(trainingDefinition.authors);
+    result.authors = this.userMapper.mapUsersToUserBasicDTOs(trainingDefinition.authors);
     result.outcomes = trainingDefinition.outcomes;
     result.prerequisities = trainingDefinition.prerequisites;
     result.state = this.mapTrainingDefStateToDTOEnum(trainingDefinition.state);
     result.title = trainingDefinition.title;
-    result.td_view_group = this.createViewGroupUpdateDTO(trainingDefinition.viewGroup);
+    result.beta_testing_group = this.createBetaTestingGroupUpdateDTO(trainingDefinition.betaTestingGroup);
+    return result;
+  }
+
+  mapTrainingDefinitionsInfoDTOsToTrainingDefinitionsInfo(dtos: TrainingDefinitionInfoRestResource): TrainingDefinitionInfo[] {
+    return dtos.content.map(dto => this.mapTrainingDefinitionInfoDTOToTrainingDefinitionInfo(dto));
+  }
+
+  mapTrainingDefinitionInfoDTOToTrainingDefinitionInfo(dto: TrainingDefinitionInfoDTO): TrainingDefinitionInfo {
+    const result = new TrainingDefinitionInfo();
+    result.id = dto.id;
+    result.title = dto.title;
+    result.canBeEdited = dto.can_edit;
     return result;
   }
 
@@ -129,37 +149,34 @@ export class TrainingDefinitionMapper {
   }
 
 
-  private getViewGroupFromDTO(viewGroupDTO: ViewGroupDTO): ViewGroup {
-    const result = new ViewGroup();
-    result.id = viewGroupDTO.id;
-    result.title = viewGroupDTO.title;
-    result.description = viewGroupDTO.description;
-    result.organizers = this.userMapper.mapUserRefDTOsToUsers(viewGroupDTO.organizers);
+  private getBetaTestingGroupFromDTO(betaTestingGroupDTO: BetaTestingGroupDTO): BetaTestingGroup {
+    const result = new BetaTestingGroup();
+    result.organizers = this.userMapper.mapUserRefDTOsToUsers(betaTestingGroupDTO.organizers);
     return result;
   }
 
 
-  private createViewGroupCreateDTO(viewGroup: ViewGroup): ViewGroupCreateDTO {
-    const result = new ViewGroupCreateDTO();
-    result.title = viewGroup.title;
-    result.description = viewGroup.description;
-    result.organizers = this.userMapper.mapUsersToUserInfoDTOs(viewGroup.organizers);
-    return result;
+  private createBetaTestingGroupCreateDTO(betaTestingGroup: BetaTestingGroup): BetaTestingGroupCreateDTO {
+    if (betaTestingGroup) {
+      const result = new BetaTestingGroupCreateDTO();
+      result.organizers = this.userMapper.mapUsersToUserBasicDTOs(betaTestingGroup.organizers);
+      return result;
+    }
+    return null;
   }
 
-  private createViewGroupUpdateDTO(viewGroup: ViewGroup): ViewGroupUpdateDTO {
-    const result = new ViewGroupUpdateDTO();
-    result.id = viewGroup.id;
-    result.title = viewGroup.title;
-    result.description = viewGroup.description;
-    result.organizers = this.userMapper.mapUsersToUserInfoDTOs(viewGroup.organizers);
-    return result;
+  private createBetaTestingGroupUpdateDTO(betaTestingGroup: BetaTestingGroup): BetaTestingGroupUpdateDTO {
+    if (betaTestingGroup) {
+      const result = new BetaTestingGroupUpdateDTO();
+      result.organizers = this.userMapper.mapUsersToUserBasicDTOs(betaTestingGroup.organizers);
+      return result;
+    }
+    return null;
   }
 
-  private mapTrainingDefDTOStateToEnum(stateDTO: TrainingDefinitionDTO.StateEnum): TrainingDefinitionStateEnum {
+  mapTrainingDefDTOStateToEnum(stateDTO: TrainingDefinitionDTO.StateEnum): TrainingDefinitionStateEnum {
     switch (stateDTO) {
       case TrainingDefinitionDTO.StateEnum.ARCHIVED: return TrainingDefinitionStateEnum.Archived;
-      case TrainingDefinitionDTO.StateEnum.PRIVATED: return TrainingDefinitionStateEnum.Privated;
       case TrainingDefinitionDTO.StateEnum.RELEASED: return TrainingDefinitionStateEnum.Released;
       case TrainingDefinitionDTO.StateEnum.UNRELEASED: return TrainingDefinitionStateEnum.Unreleased;
       default: {
@@ -169,17 +186,14 @@ export class TrainingDefinitionMapper {
     }
   }
 
-  private mapTrainingDefStateToDTOEnum(state: TrainingDefinitionStateEnum): TrainingDefinitionDTO.StateEnum {
+  mapTrainingDefStateToDTOEnum(state: TrainingDefinitionStateEnum): TrainingDefinitionDTO.StateEnum {
     switch(state) {
       case TrainingDefinitionStateEnum.Unreleased: return TrainingDefinitionDTO.StateEnum.UNRELEASED;
       case TrainingDefinitionStateEnum.Released: return TrainingDefinitionDTO.StateEnum.RELEASED;
-      case TrainingDefinitionStateEnum.Privated: return TrainingDefinitionDTO.StateEnum.PRIVATED;
       case TrainingDefinitionStateEnum.Archived: return TrainingDefinitionDTO.StateEnum.ARCHIVED;
       default: {
         console.error('Attribute "state" of TrainingDefinition does not match any of the TrainingDefinitionDTO states');
       }
     }
   }
-
-
 }

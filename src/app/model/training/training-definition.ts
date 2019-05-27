@@ -1,7 +1,7 @@
-import {TrainingDefinitionStateEnum} from "../../enums/training-definition-state.enum";
+import {TrainingDefinitionStateEnum} from "../enums/training-definition-state.enum";
 import {AbstractLevel} from "../level/abstract-level";
 import {User} from "../user/user";
-import {ViewGroup} from "../user/view-group";
+import {BetaTestingGroup} from "../user/beta-testing-group";
 
 /**
  * Class representing training definition in a system.
@@ -10,19 +10,19 @@ export class TrainingDefinition {
 
   id: number;
   sandboxDefinitionId: number;
+  estimatedDuration: number;
+  showStepperBar: boolean;
   title: string;
   description: string;
-  authors: User[];
-  viewGroup: ViewGroup;
   prerequisites: string[];
   outcomes: string[];
   state: TrainingDefinitionStateEnum;
+  betaTestingGroup: BetaTestingGroup;
+  authors: User[];
   levels: AbstractLevel[];
-  showStepperBar: boolean;
-  startingLevel: AbstractLevel | number;
 
-  canBeArchived: boolean;
 
+  lastEditTime: Date;
 
   constructor() {
   }

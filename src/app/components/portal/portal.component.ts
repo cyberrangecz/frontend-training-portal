@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActiveUserService} from "../../services/active-user.service";
+import {ActiveUserService} from "../../services/shared/active-user.service";
 import {Router} from "@angular/router";
 
 @Component({
@@ -100,8 +100,8 @@ export class PortalComponent implements OnInit, OnDestroy {
     this.otherAgendaRoles = [
       {
         name: 'Administrator',
-        disabled: true,
-        route: ''
+        disabled: !this.activeUserService.isAdmin(),
+        route: '/admin'
       },
       {
         name: 'Sandbox Designer',

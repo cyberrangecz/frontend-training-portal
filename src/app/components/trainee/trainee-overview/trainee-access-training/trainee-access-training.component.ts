@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {AlertService} from "../../../../services/event-services/alert.service";
-import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
+import {AlertService} from "../../../../services/shared/alert.service";
+import {AlertTypeEnum} from "../../../../model/enums/alert-type.enum";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ComponentErrorHandlerService} from "../../../../services/component-error-handler.service";
-import {ActiveTrainingRunService} from "../../../../services/active-training-run.service";
+import {ErrorHandlerService} from "../../../../services/shared/error-handler.service";
+import {ActiveTrainingRunService} from "../../../../services/trainee/active-training-run.service";
 import {AbstractLevel} from "../../../../model/level/abstract-level";
 import {TrainingRunFacade} from "../../../../services/facades/training-run-facade.service";
 
@@ -18,12 +18,13 @@ import {TrainingRunFacade} from "../../../../services/facades/training-run-facad
 export class TraineeAccessTrainingComponent implements OnInit {
 
   accessToken: string;
+  isLoading: boolean;
 
   constructor(
     private router: Router,
     private activeRoute: ActivatedRoute,
     private alertService: AlertService,
-    private errorHandler: ComponentErrorHandlerService,
+    private errorHandler: ErrorHandlerService,
     private activeTrainingRunLevelsService: ActiveTrainingRunService,
     private trainingRunFacade: TrainingRunFacade) { }
 
@@ -36,26 +37,19 @@ export class TraineeAccessTrainingComponent implements OnInit {
    */
   access() {
     if (this.accessToken && this.accessToken.replace(/\s/g, '') !== '') {
+      this.isLoading = true;
       this.trainingRunFacade.accessTrainingRun(this.accessToken)
-        .subscribe(resp => {
-          if (resp.currentLevel && resp.levels && resp.levels.length > 0) {
-            this.sortReceivedLevels(resp.levels);
-            this.activeTrainingRunLevelsService.trainingRunId = resp.trainingRunId;
-            this.activeTrainingRunLevelsService.sandboxInstanceId = resp.sandboxInstanceId;
-            this.activeTrainingRunLevelsService.setActiveLevels(resp.levels.sort((a, b) => a.order - b.order));
-            this.activeTrainingRunLevelsService.setActiveLevel(resp.currentLevel);
-            this.router.navigate(['training/game'], {relativeTo: this.activeRoute});
-          }
+        .subscribe(trainingRunInfo => {
+            this.isLoading = false;
+            this.activeTrainingRunLevelsService.setUpFromTrainingRun(trainingRunInfo);
+          this.router.navigate(['training/game'], {relativeTo: this.activeRoute});
         },
           err=> {
+          this.isLoading = false;
           this.errorHandler.displayHttpError(err, 'Connecting to training run');
         })
     } else {
       this.alertService.emitAlert(AlertTypeEnum.Error, 'Password cannot be empty');
     }
-  }
-
-  private sortReceivedLevels(levels: AbstractLevel[]) {
-    levels.sort((a, b) => a.order - b.order);
   }
 }

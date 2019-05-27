@@ -3,6 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 import {SandboxDefinitionPickerComponent} from "../../../../designer/training-definition/training-configuration/sandbox-definition-picker/sandbox-definition-picker.component";
 import {TrainingDefinition} from "../../../../../model/training/training-definition";
 import {TrainingDefinitionFacade} from "../../../../../services/facades/training-definition-facade.service";
+import {TrainingDefinitionInfo} from "../../../../../model/training/training-definition-info";
 
 @Component({
   selector: 'training-definition-picker',
@@ -14,8 +15,8 @@ import {TrainingDefinitionFacade} from "../../../../../services/facades/training
  */
 export class TrainingDefinitionPickerComponent implements OnInit {
 
-  trainingDefs: TrainingDefinition[];
-  selectedTrainingDef: TrainingDefinition;
+  trainingDefs: TrainingDefinitionInfo[];
+  selectedTrainingDef: TrainingDefinitionInfo;
   isLoading = true;
 
   constructor(
@@ -52,21 +53,21 @@ export class TrainingDefinitionPickerComponent implements OnInit {
   }
 
   private loadTrainingDefinitions() {
-    this.trainingDefinitionFacade.getTrainingDefinitions()
+    this.trainingDefinitionFacade.getTrainingDefinitionsForOrganizers()
       .subscribe(trainings => {
         if (this.hasPreselection()) {
-          this.preselectTrainingDef(trainings)
+          this.preselectTrainingDef(trainings);
         }
         this.trainingDefs = trainings;
         this.isLoading = false;
-      })
+      });
   }
 
   private hasPreselection(): boolean {
     return this.data !== null && this.data !== undefined;
   }
 
-  private preselectTrainingDef(trainings: TrainingDefinition[]) {
+  private preselectTrainingDef(trainings: TrainingDefinitionInfo[]) {
     const preselected = trainings.find(training => training.id == this.data.id);
     if (preselected) {
       this.selectedTrainingDef = preselected;

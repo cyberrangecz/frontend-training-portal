@@ -1,0 +1,17 @@
+<h1 mat-dialog-title class="mat-h1">Training definitions associated with sandbox definition: {{ data.sandboxDefinition.title | titlecase }}</h1>
+<mat-divider></mat-divider>
+<div mat-dialog-content class="content">
+  <mat-list>
+    <mat-list-item *ngFor="let trainingDefinition of data.trainingDefinitions">
+      {{ trainingDefinition.title }}
+    </mat-list-item>
+  </mat-list>
+</div>
+
+<!-- DIALOG ACTIONS -->
+<div mat-dialog-actions class="actions">
+  <span class="spacer"></span>
+  <button mat-dialog-close mat-button color="primary">OK</button>
+</div>
+
+

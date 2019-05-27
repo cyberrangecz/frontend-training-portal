@@ -1,17 +1,26 @@
 <div class="level" *ngIf="level">
   <div class="header">
     <h2>Info Level Detail</h2>
-    <span class="spacer"></span>
-    <button mat-raised-button color="primary" [disabled]="isLoading" (click)="saveChanges()">
-      Save Changes
-    </button>
+    <div class="save-info">
+      <div *ngIf="dirty" class="save-info-content">
+        <mat-icon color="warn">close</mat-icon>
+        <span class="left-margin">Not Saved</span>
+        <button mat-button color="accent" [disabled]="isLoading" (click)="saveChanges()">
+          Save
+        </button>
+      </div>
+      <div *ngIf="!dirty" class="save-info-content">
+        <mat-icon class="green-icon">done</mat-icon>
+        <span class="left-margin">Saved</span>
+      </div>
+    </div>
   </div>
 
   <div class="content">
     <!-- TITLE filed -->
     <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>
-      <input [disabled]="isLoading" (change)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
+      <input [disabled]="isLoading" (ngModelChange)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
       <button mat-button *ngIf="title && !isLoading" matSuffix mat-icon-button aria-label="Clear" (click)="title=''; contentChanged()">
         <mat-icon>close</mat-icon>
       </button>
@@ -19,7 +28,8 @@
 
     <!-- CONTENT filed -->
     <h3>Content</h3>
-    <markdown-editor (change)="contentChanged()" [(content)]="content"></markdown-editor>
+    <markdown-editor (contentChange)="contentChanged()" [(content)]="content"></markdown-editor>
+
   </div>
 
   <div class="footer">
@@ -28,8 +38,8 @@
       Delete level
     </button>
 
-    <button mat-raised-button color="primary" [disabled]="isLoading" (click)="saveChanges()">
-      Save Changes
+    <button mat-raised-button color="primary" [disabled]="isLoading || !dirty" (click)="saveChanges()">
+      Save level
     </button>
   </div>
 </div>

@@ -1,4 +1,8 @@
-
+.save-info-content {
+  display: inline-flex;
+  vertical-align: middle;
+  align-items: center;
+}
 
 div .level {
   display: flex;
@@ -42,6 +46,18 @@ div .footer {
   display: flex;
   flex-direction: row;
   align-items: baseline;
+}
+
+div .save-info {
+  margin-left: 10px;
+}
+
+.green-icon {
+  color: lawngreen;
+}
+
+.left-margin {
+  margin-left: 5px
 }
 
 

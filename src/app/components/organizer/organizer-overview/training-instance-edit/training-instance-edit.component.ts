@@ -1,16 +1,18 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
 import {TrainingDefinition} from "../../../../model/training/training-definition";
-import {AlertService} from "../../../../services/event-services/alert.service";
-import {MatDialog, MatDialogRef} from "@angular/material";
+import {AlertService} from "../../../../services/shared/alert.service";
+import {MatDialog} from "@angular/material";
 import {OrganizersPickerComponent} from "./organizers-picker/organizers-picker.component";
 import {TrainingDefinitionPickerComponent} from "./training-definition-picker/training-definition-picker.component";
 import {TrainingInstance} from "../../../../model/training/training-instance";
 import {UserFacade} from "../../../../services/facades/user-facade.service";
 import {TrainingDefinitionFacade} from "../../../../services/facades/training-definition-facade.service";
-import {AlertTypeEnum} from "../../../../enums/alert-type.enum";
-import {ActiveUserService} from "../../../../services/active-user.service";
+import {AlertTypeEnum} from "../../../../model/enums/alert-type.enum";
+import {ActiveUserService} from "../../../../services/shared/active-user.service";
 import {TrainingInstanceFacade} from "../../../../services/facades/training-instance-facade.service";
 import {User} from '../../../../model/user/user';
+import {interval, Subscription} from 'rxjs';
+import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
 
 @Component({
   selector: 'training-instance-definition',
@@ -20,14 +22,13 @@ import {User} from '../../../../model/user/user';
 /**
  * Component for creating new or editing existing training instance
  */
-export class TrainingInstanceEditComponent implements OnInit {
+export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
 
   @Input('trainingInstance') trainingInstance: TrainingInstance;
   @Output('trainingChange') trainingChange = new EventEmitter<TrainingInstance>();
 
-  editMode: boolean;
-
-  startAt: Date = new Date();
+  isEditMode: boolean;
+  dirty: boolean;
 
   title: string;
   startTime: Date;
@@ -37,9 +38,14 @@ export class TrainingInstanceEditComponent implements OnInit {
   trainingDefinition: TrainingDefinition;
   accessToken: string;
 
+  startTimeUpdateSubscription: Subscription;
+  userChangedStartTime = false;
+
+  loggedUserLogin: string;
 
   constructor(
     private alertService: AlertService,
+    private errorHandler: ErrorHandlerService,
     private userFacade: UserFacade,
     private activeUserService: ActiveUserService,
     private trainingDefinitionFacade: TrainingDefinitionFacade,
@@ -49,7 +55,16 @@ export class TrainingInstanceEditComponent implements OnInit {
 
   ngOnInit() {
     this.resolveInitialInputValues();
+    this.dirty = false;
+    this.loggedUserLogin = this.activeUserService.getActiveUser().login;
   }
+
+  ngOnDestroy(): void {
+    if (this.startTimeUpdateSubscription) {
+      this.startTimeUpdateSubscription.unsubscribe();
+    }
+  }
+
   /**
    * Opens popup dialog to choose organizers from a list
    */
@@ -59,6 +74,7 @@ export class TrainingInstanceEditComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
         this.organizers = result.organizers;
+        this.contentChanged();
       }
     });
   }
@@ -72,38 +88,58 @@ export class TrainingInstanceEditComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
         this.trainingDefinition = result.trainingDef;
+        this.contentChanged();
       }
     });
+  }
+
+  onStartTimeNgModelChanged() {
+    this.userChangedStartTime = true;
+    this.contentChanged();
   }
 
   /**
    * Validates user input, sets input values to training instance object and calls REST API to save the changes in an endpoint
    */
-  saveChanges() {
+  save() {
     if (this.validateInputValues()) {
       this.setInputValuesToTraining();
-      if (this.editMode) {
-        this.trainingInstanceFacade.updateTrainingInstance(this.trainingInstance)
-          .subscribe(newAccessToken => {
-            this.alertService.emitAlert(AlertTypeEnum.Success,
-              'Changes were successfully saved. Access token is ' + newAccessToken);
-            this.trainingChanged();
-            },
-            (err) =>  {
-            this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Changes were not saved.')
-            }
-          );
+      if (this.isEditMode) {
+        this.updateTrainingInstance();
       } else {
-        this.trainingInstanceFacade.createTrainingInstance(this.trainingInstance)
-          .subscribe(createdInstance => {
-            this.alertService.emitAlert(AlertTypeEnum.Success,
-              'Changes were successfully saved.\n Access token is: ' + createdInstance.accessToken);
-            this.trainingChanged();
-            },
-            (err) => this.alertService.emitAlert(AlertTypeEnum.Error, 'Could not reach remote server. Changes were not saved.')
-          );
+        this.createTrainingInstance();
       }
     }
+  }
+
+  contentChanged() {
+    this.dirty = true;
+  }
+
+  private updateTrainingInstance() {
+    this.trainingInstanceFacade.updateTrainingInstance(this.trainingInstance)
+      .subscribe(
+        newAccessToken => {
+          this.alertService.emitAlert(AlertTypeEnum.Success,
+            'Changes were successfully saved. Access token is ' + newAccessToken);
+          this.dirty = false;
+          this.trainingChanged();
+      },
+        err => this.errorHandler.displayHttpError(err, 'Updating Training Instance')
+      );
+  }
+
+  private createTrainingInstance() {
+    this.trainingInstanceFacade.createTrainingInstance(this.trainingInstance)
+      .subscribe(
+        createdInstance => {
+          this.alertService.emitAlert(AlertTypeEnum.Success,
+            'Changes were successfully saved.\n Access token is: ' + createdInstance.accessToken);
+          this.dirty = false;
+          this.trainingChanged();
+        },
+        err => this.errorHandler.displayHttpError(err, 'Saving Training Instance')
+      );
   }
 
   /**
@@ -118,11 +154,11 @@ export class TrainingInstanceEditComponent implements OnInit {
    */
   private resolveInitialInputValues() {
     if (this.trainingInstance) {
-      this.editMode = true;
+      this.isEditMode = true;
       this.setInputValuesFromTraining()
     } else {
-      this.editMode =false;
-      this.createNewTrainingInstance();
+      this.isEditMode =false;
+      this.setInputValueForNewInstance();
     }
   }
 
@@ -173,9 +209,6 @@ export class TrainingInstanceEditComponent implements OnInit {
     return true;
   }
 
-  /**
-   * Sets user input values to the training instance object
-   */
   private setInputValuesToTraining() {
     this.trainingInstance.startTime = this.startTime;
     this.trainingInstance.endTime = this.endTime;
@@ -200,11 +233,20 @@ export class TrainingInstanceEditComponent implements OnInit {
 
   }
 
-  /**
-   * Creates new object of training instance with default values
-   */
-  private createNewTrainingInstance() {
+  private setInputValueForNewInstance() {
     this.trainingInstance = new TrainingInstance();
+    this.startTime = new Date();
+    this.startTime.setMinutes(this.startTime.getMinutes() + 5);
+    this.setUpPeriodicTimeStartTimeUpdate();
     this.organizers = [this.activeUserService.getActiveUser()];
+  }
+
+  private setUpPeriodicTimeStartTimeUpdate() {
+    const source = interval(60000);
+    this.startTimeUpdateSubscription = source.subscribe( () => {
+      if (!this.userChangedStartTime) {
+        this.startTime.setMinutes(this.startTime.getMinutes() + 1);
+      }
+    });
   }
 }

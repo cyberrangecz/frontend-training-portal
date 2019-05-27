@@ -1,10 +1,19 @@
 <div class="level" *ngIf="level">
   <div class="header">
     <h2>Game Level Detail</h2>
-    <span class="spacer"></span>
-    <button mat-raised-button color="primary" [disabled]="isLoading" (click)="saveChanges()">
-      Save Changes
-    </button>
+    <div class="save-info">
+      <div *ngIf="dirty" class="save-info-content">
+        <mat-icon color="warn">close</mat-icon>
+        <span class="left-margin">Not Saved</span>
+        <button mat-button color="accent" [disabled]="isLoading" (click)="saveChanges()">
+          Save
+        </button>
+      </div>
+      <div *ngIf="!dirty" class="save-info-content">
+        <mat-icon class="green-icon">done</mat-icon>
+        <span class="left-margin">Saved</span>
+      </div>
+    </div>
   </div>
 
   <div class="content">
@@ -13,57 +22,57 @@
         <!-- TITLE filed -->
         <mat-form-field appearance="outline">
           <mat-label>Title</mat-label>
-          <input [disabled]="isLoading" (change)="onContentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
+          <input [disabled]="isLoading" (ngModelChange)="onContentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
           <button mat-button *ngIf="title && !isLoading" matSuffix mat-icon-button aria-label="Clear" (click)="title=''; onContentChanged()">
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
 
+        <!-- ESTIMATED DURATION field -->
+        <mat-form-field appearance="outline" hintLabel="Number in minutes. Range from 1 to 60">
+          <mat-label>Estimated Duration in minutes</mat-label>
+          <input matInput [disabled]="isLoading" (ngModelChange)="onContentChanged()" placeholder="Estimated Duration in Minutes" type="number" max="60" min="1" [(ngModel)]="estimatedDuration">
+        </mat-form-field>
+
         <!--CONTENT field -->
         <h3>Content</h3>
-        <markdown-editor class="mrkdwn-content" (change)="onContentChanged()" [(content)]="content"></markdown-editor>
+        <markdown-editor class="mrkdwn-content" (contentChange)="onContentChanged()" [(content)]="content"></markdown-editor>
 
         <!--SOLUTION field -->
         <h3>Solution</h3>
-        <markdown-editor class="mrkdwn-solution" (change)="onContentChanged()" [(content)]="solution"></markdown-editor>
+        <markdown-editor class="mrkdwn-solution" (contentChange)="onContentChanged()" [(content)]="solution"></markdown-editor>
       </div>
 
       <div class="right-panel">
         <!-- MAX SCORE filed -->
         <mat-form-field appearance="outline" hintLabel="Number in range from 0 to 100">
-          <mat-label>Maximal Score</mat-label>
-          <input matInput [disabled]="isLoading" (change)="onContentChanged()" placeholder="Maximal Score" type="number" max="100" min="0" [(ngModel)]="maxScore" required>
+          <mat-label>Points for the level</mat-label>
+          <input matInput [disabled]="isLoading" (ngModelChange)="onContentChanged()" placeholder="Points for the level" type="number" max="100" min="0" [(ngModel)]="maxScore" required>
         </mat-form-field>
 
         <!-- INCORRECT FLAG LIMIT field -->
-        <mat-form-field appearance="outline" hintLabel="A positive number. Insert 0 for unlimited flag submission">
+        <mat-form-field appearance="outline" hintLabel="1 to 100. If the limit will be overreached, solution will be displayed automatically.">
           <mat-label>Incorrect Flag Limit</mat-label>
-          <input matInput [disabled]="isLoading" (change)="onContentChanged()" placeholder="Incorrect Flag Limit" type="number" min="0" [(ngModel)]="incorrectFlagLimit" required>
+          <input matInput [disabled]="isLoading" (ngModelChange)="onContentChanged()" placeholder="Incorrect Flag Limit" type="number" min="1" max="100" [(ngModel)]="incorrectFlagLimit" required>
         </mat-form-field>
 
         <!-- FLAG field -->
         <mat-form-field appearance="outline" hintLabel="Max 50 characters">
           <mat-label>Flag</mat-label>
-          <input matInput [disabled]="isLoading" (change)="onContentChanged()" placeholder="Flag" maxlength="50" [(ngModel)]="flag" required>
+          <input matInput [disabled]="isLoading" (ngModelChange)="onContentChanged()" placeholder="Flag" maxlength="50" [(ngModel)]="flag" required>
           <button mat-button *ngIf="flag && !isLoading" matSuffix mat-icon-button aria-label="Clear" (click)="flag=''; onContentChanged()">
             <mat-icon>close</mat-icon>
           </button>
           <mat-hint align="end">{{flag?.length || 0}}/50</mat-hint>
         </mat-form-field>
 
-        <!-- ESTIMATED DURATION field -->
-        <mat-form-field appearance="outline" hintLabel="Number in minutes. Range from 1 to 60">
-          <mat-label>Estimated Duration</mat-label>
-          <input matInput [disabled]="isLoading" (change)="onContentChanged()" placeholder="Estimated Duration in Seconds" type="number" max="60" min="1" [(ngModel)]="estimatedDuration">
-        </mat-form-field>
-
         <!-- SOLUTION PENALIZED field -->
-        <mat-checkbox (change)="onContentChanged()" [disabled]="isLoading" [(ngModel)]="solutionPenalized">Solution Penalized</mat-checkbox>
+        <mat-checkbox (ngModelChange)="onContentChanged()" [disabled]="isLoading" [(ngModel)]="solutionPenalized" matTooltip="Penalty for displaying the solution">Solution Penalized (trainee will get 0 points for the level)</mat-checkbox>
       </div>
     </div>
 
     <!--HINTS component -->
-    <hint-stepper [(hints)]="hints" [levelMaxScore]="level.maxScore" [disabled]="isLoading"></hint-stepper>
+    <hint-stepper  (hints)="onContentChanged()" [(hints)]="hints" [levelMaxScore]="level.maxScore" [disabled]="isLoading"></hint-stepper>
   </div>
 
   <div class="footer">
@@ -71,8 +80,8 @@
     <button mat-raised-button color="warn" [disabled]="isLoading" (click)="onDeleteLevel()">
       Delete level
     </button>
-    <button mat-raised-button color="primary" [disabled]="isLoading" (click)="saveChanges()">
-      Save Changes
+    <button mat-raised-button color="primary" [disabled]="isLoading || !dirty" (click)="saveChanges()">
+      Save level
     </button>
   </div>
 </div>

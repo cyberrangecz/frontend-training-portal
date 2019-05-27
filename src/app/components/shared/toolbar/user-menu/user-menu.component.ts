@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActiveUserService} from "../../../../services/active-user.service";
+import {ActiveUserService} from "../../../../services/shared/active-user.service";
 import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
 

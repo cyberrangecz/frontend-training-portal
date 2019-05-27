@@ -1,9 +1,9 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from "rxjs/internal/Observable";
 import {TrainingInstance} from "../../model/training/training-instance";
 import {environment} from "../../../environments/environment";
-import {map} from "rxjs/operators";
+import {catchError, map} from "rxjs/operators";
 import {PaginationParams} from "../../model/http/params/pagination-params";
 import {TrainingInstanceMapper} from "../mappers/training-instance-mapper.service";
 import {TrainingInstanceDTO} from "../../model/DTOs/training-instance/trainingInstanceDTO";
@@ -11,9 +11,12 @@ import {TrainingInstanceRestResource} from '../../model/DTOs/training-instance/t
 import {TrainingRun} from "../../model/training/training-run";
 import {TrainingRunMapper} from "../mappers/training-run-mapper.service";
 import {TrainingRunRestResource} from "../../model/DTOs/training-run/trainingRunRestResource";
-import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
-import {TrainingInstanceTableDataModel} from "../../model/table-models/training-instance-table-data-model";
-import {TrainingRunTableDataModel} from "../../model/table-models/training-run-table-data-model";
+import {PaginatedTable} from "../../model/table-adapters/paginated-table";
+import {TrainingInstanceTableAdapter} from "../../model/table-adapters/training-instance-table-adapter";
+import {TrainingRunTableAdapter} from "../../model/table-adapters/training-run-table-adapter";
+import {DownloadService} from "../shared/download.service";
+import {ResponseHeaderContentDispositionReader} from '../../model/http/response-headers/response-header-content-disposition-reader';
+import {of} from "rxjs";
 
 @Injectable()
 /**
@@ -22,12 +25,16 @@ import {TrainingRunTableDataModel} from "../../model/table-models/training-run-t
  */
 export class TrainingInstanceFacade {
 
+
+  readonly exportsUriExtension = 'exports/';
   readonly trainingInstancesUriExtension = 'training-instances/';
   readonly trainingRunsUriExtension = 'training-runs/';
 
   readonly trainingInstancesEndpointUri = environment.trainingRestBasePath + this.trainingInstancesUriExtension;
+  readonly trainingExportsEndpointUri = environment.trainingRestBasePath + this.exportsUriExtension;
 
   constructor(private http: HttpClient,
+              private downloadService: DownloadService,
               private trainingRunMapper: TrainingRunMapper,
               private trainingInstanceMapper: TrainingInstanceMapper) {
   }
@@ -49,7 +56,7 @@ export class TrainingInstanceFacade {
    * @param sort attribute by which will result be sorted
    * @param sortDir sort direction (asc, desc)
    */
-  getTrainingInstancesWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<TableDataWithPaginationWrapper<TrainingInstanceTableDataModel[]>> {
+  getTrainingInstancesWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<PaginatedTable<TrainingInstanceTableAdapter[]>> {
     let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
     return this.http.get<TrainingInstanceRestResource>(this.trainingInstancesEndpointUri, { params: params })
       .pipe(map(response =>
@@ -67,13 +74,22 @@ export class TrainingInstanceFacade {
         this.trainingInstanceMapper.mapTrainingInstanceDTOToTrainingInstance(response)));
   }
 
+
+  getTrainingInstanceExists(id: number): Observable<boolean> {
+    return this.http.get(this.trainingInstancesEndpointUri + id)
+      .pipe(
+        map(response => true),
+        catchError(err => of(false))
+      )
+  }
+
   getTrainingRunsByTrainingInstanceId(trainingInstanceId: number): Observable<TrainingRun[]> {
     return this.http.get<TrainingRunRestResource>(`${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.trainingRunsUriExtension}`)
       .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
   }
 
   getTrainingRunsByTrainingInstanceIdWithPagination(trainingInstanceId: number, page: number, size: number, sort: string, sortDir: string)
-      : Observable<TableDataWithPaginationWrapper<TrainingRunTableDataModel[]>> {
+      : Observable<PaginatedTable<TrainingRunTableAdapter[]>> {
       let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
         return this.http.get<TrainingRunRestResource>(
           this.trainingInstancesEndpointUri + trainingInstanceId + '/' + this.trainingRunsUriExtension,
@@ -106,31 +122,29 @@ export class TrainingInstanceFacade {
    * Sends request to delete training instance from DB
    * @param trainingInstanceId id of training instance which should be deleted
    */
-  removeTrainingInstance(trainingInstanceId: number): Observable<any> {
+  deleteTrainingInstance(trainingInstanceId: number): Observable<any> {
     return this.http.delete<any>(this.trainingInstancesEndpointUri + trainingInstanceId);
-  }
-
-  /**
-   * Sends request to create pool for sandboxes of selected training isntance
-   * @param trainingInstanceId
-   */
-  createPool(trainingInstanceId: number): Observable<number> {
-    return this.http.post<number>(this.trainingInstancesEndpointUri + trainingInstanceId + '/pools', null);
-  }
-
-  /**
-   * Sends request to allocate all sandboxes for selected training instance
-   * @param trainingInstanceId
-   */
-  allocateSandboxesForTrainingInstance(trainingInstanceId: number ): Observable<any> {
-    return this.http.post<any>(this.trainingInstancesEndpointUri + trainingInstanceId + '/sandbox-instances', null);
   }
 
   /**
    * Downloads training instance
    * @param id id of training instance which should be downloaded
    */
-  downloadTrainingInstance(id: number) {
-    // TODO: download Training instance
+  downloadTrainingInstance(id: number): Observable<boolean> {
+    const headers = new HttpHeaders();
+    headers.set('Accept', [
+      'application/octet-stream'
+    ]);
+    return this.http.get(this.trainingExportsEndpointUri + this.trainingInstancesUriExtension + id,
+      {
+          responseType: 'blob',
+          observe: 'response',
+          headers: headers
+      })
+      .pipe(map(resp =>  {
+        this.downloadService.downloadJSONFileFromBlobResponse(resp,
+          ResponseHeaderContentDispositionReader.getFilenameFromResponse(resp, 'training-instance.json'));
+        return true;
+      }));
   }
 }

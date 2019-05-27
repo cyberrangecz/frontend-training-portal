@@ -1,6 +1,5 @@
 <div class="portal-content">
   <h1>KYPO Portal</h1>
-  <h2>Choose your role...</h2>
 
   <div class="portal-menu">
     <div class="left-line">
@@ -19,14 +18,11 @@
       <div class="middle-line-header" >
         <h3>Cyber Exercises</h3>
       </div>
-      <button mat-raised-button color="primary" disabled="true">
-        Designer
-      </button>
-      <button mat-raised-button color="primary" disabled="true">
-        Organizer
-      </button>
-      <button mat-raised-button color="primary" disabled="true">
-        Participant
+      <button *ngFor="let cyberExerciseRole of cyberExerciseRoles"
+              mat-raised-button color="primary"
+              [disabled]="cyberExerciseRole.disabled"
+              (click)="navigateToRoute(cyberExerciseRole.route)">
+        {{ cyberExerciseRole.name }}
       </button>
     </div>
 
@@ -34,11 +30,11 @@
       <div class="right-line-header">
         <h3>Other Agendas</h3>
       </div>
-      <button mat-raised-button color="primary" disabled="true">
-        Administrator
-      </button>
-      <button mat-raised-button color="primary" disabled="true">
-        Sandbox Designer
+      <button *ngFor="let otherAgendaRole of otherAgendaRoles"
+              mat-raised-button color="primary"
+              [disabled]="otherAgendaRole.disabled"
+              (click)="navigateToRoute(otherAgendaRole.route)">
+        {{ otherAgendaRole.name }}
       </button>
     </div>
   </div>

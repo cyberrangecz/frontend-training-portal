@@ -5,11 +5,11 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {merge, of} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {environment} from "../../../../../environments/environment";
-import {TraineeAccessedTrainingsTableDataModel} from "../../../../model/table-models/trainee-accessed-trainings-table-data-model";
-import {TraineeAccessTrainingRunActionEnum} from "../../../../enums/trainee-access-training-run-actions.enum";
-import {TableDataWithPaginationWrapper} from "../../../../model/table-models/table-data-with-pagination-wrapper";
-import {ComponentErrorHandlerService} from "../../../../services/component-error-handler.service";
-import {ActiveTrainingRunService} from "../../../../services/active-training-run.service";
+import {AccessedTrainingRunsTableAdapter} from "../../../../model/table-adapters/accessed-training-runs-table-adapter";
+import {TraineeAccessTrainingRunActionEnum} from "../../../../model/enums/trainee-access-training-run-actions.enum";
+import {PaginatedTable} from "../../../../model/table-adapters/paginated-table";
+import {ErrorHandlerService} from "../../../../services/shared/error-handler.service";
+import {ActiveTrainingRunService} from "../../../../services/trainee/active-training-run.service";
 
 @Component({
   selector: 'trainee-trainings-table',
@@ -22,7 +22,7 @@ import {ActiveTrainingRunService} from "../../../../services/active-training-run
 export class TraineeTrainingsTableComponent implements OnInit {
 
   displayedColumns: string[] = ['title', 'date', 'completedLevels', 'actions'];
-  dataSource: MatTableDataSource<TraineeAccessedTrainingsTableDataModel>;
+  dataSource: MatTableDataSource<AccessedTrainingRunsTableAdapter>;
 
   actionType = TraineeAccessTrainingRunActionEnum;
   resultsLength = 0;
@@ -37,7 +37,7 @@ export class TraineeTrainingsTableComponent implements OnInit {
     private router: Router,
     private activeRoute: ActivatedRoute,
     private activeTrainingRunLevelsService: ActiveTrainingRunService,
-    private errorHandler: ComponentErrorHandlerService,
+    private errorHandler: ErrorHandlerService,
     private trainingRunFacade: TrainingRunFacade) { }
 
   ngOnInit() {
@@ -45,30 +45,19 @@ export class TraineeTrainingsTableComponent implements OnInit {
   }
 
   /**
-   * Allocates resources for new sandbox and starts new training run on a first level
-   * @param {number} trainingInstanceId id of training instance which should be started
-   */
-  tryAgain(trainingInstanceId: number) {
-    // TODO: Integrate with appropriate REST API call once its resolved
-    //this.router.navigate(['training/game'], {relativeTo: this.activeRoute});
-  }
-
-  /**
    * Navigates to page with results of selected training run
    * @param {number} trainingRunId if of training run which results should be displayed
    */
   accessResults(trainingRunId: number) {
-    this.router.navigate(['training/results'],{relativeTo: this.activeRoute})
+    this.router.navigate(['training/' + trainingRunId + '/results'],{relativeTo: this.activeRoute});
+
   }
 
   resume(trainingRunId: number) {
     this.isLoading = true;
     this.trainingRunFacade.resume(trainingRunId)
-      .subscribe(resp => {
-          this.activeTrainingRunLevelsService.trainingRunId = resp.trainingRunId;
-          this.activeTrainingRunLevelsService.sandboxInstanceId = resp.sandboxInstanceId;
-          this.activeTrainingRunLevelsService.setActiveLevels(resp.levels.sort((a, b) => a.order - b.order));
-          this.activeTrainingRunLevelsService.setActiveLevel(resp.currentLevel);
+      .subscribe(trainingRunInfo => {
+          this.activeTrainingRunLevelsService.setUpFromTrainingRun(trainingRunInfo);
           this.isLoading = false;
           this.router.navigate(['training/game'], {relativeTo: this.activeRoute});
       },
@@ -120,7 +109,7 @@ export class TraineeTrainingsTableComponent implements OnInit {
           this.isInErrorState = true;
           return of([]);
         })
-      ).subscribe((data: TableDataWithPaginationWrapper<TraineeAccessedTrainingsTableDataModel[]>) =>
+      ).subscribe((data: PaginatedTable<AccessedTrainingRunsTableAdapter[]>) =>
       this.createDataSource(data.tableData));
   }
 
@@ -128,12 +117,12 @@ export class TraineeTrainingsTableComponent implements OnInit {
     return tableHeader === 'date' ? 'startTime' : tableHeader;
   }
 
-  private createDataSource(data: TraineeAccessedTrainingsTableDataModel[]) {
+  private createDataSource(data: AccessedTrainingRunsTableAdapter[]) {
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort;
 
     this.dataSource.filterPredicate =
-      (data: TraineeAccessedTrainingsTableDataModel, filter: string) =>
+      (data: AccessedTrainingRunsTableAdapter, filter: string) =>
         data.trainingInstanceTitle.toLowerCase().indexOf(filter) !== -1
   }
 }

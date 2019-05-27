@@ -83,30 +83,29 @@ export class TrainingDefinitionComponent implements OnInit {
   }
   private getErrorMessages(): string[] {
     const result: string[] = [];
-    const canDeactivateLevels = this.trainingLevelStepperComponent.getCanDeactivateLevels();
-    const isLevelChangesSaved = canDeactivateLevels.every(level => level.canBeDeactivated);
-
-    this.addMessageIfNotEmpty(result, this.getTrainingChangesMessage(this.trainingConfigurationComponent.canDeactivate()));
-    this.addMessageIfNotEmpty(result, this.getLevelsChangesMessage(isLevelChangesSaved, canDeactivateLevels));
-    return result;
-  }
-
-  private addMessageIfNotEmpty(messages: string[], message: string) {
-    if (message) {
-      messages.push(message);
+    const canDeactivateLevelComponents = this.trainingLevelStepperComponent.getCanDeactivateLevels();
+    const isLevelChangesSaved = canDeactivateLevelComponents.every(level => level.canBeDeactivated);
+    const trainingDefMessage = this.getTrainingChangesMessage(this.trainingConfigurationComponent.canDeactivate());
+    const levelsMessage =this.getLevelsChangesMessage(isLevelChangesSaved, canDeactivateLevelComponents);
+    if (trainingDefMessage) {
+      result.push(trainingDefMessage);
     }
+    if (levelsMessage) {
+      result.push(levelsMessage)
+    }
+    return result;
   }
 
   private getTrainingChangesMessage(isTrainingChangesSaved: boolean): string {
     return isTrainingChangesSaved ? null : 'Training definition is not saved.';
   }
 
-  private getLevelsChangesMessage(isLevelChangesSaved: boolean, canDeactivateLevels): string {
+  private getLevelsChangesMessage(isLevelChangesSaved: boolean, canDeactivateLevelComponents): string {
     return isLevelChangesSaved
       ? null
-      : 'Following levels are not saved: ' + canDeactivateLevels
-      .filter(level => !level.canBeDeactivated)
-      .map(level => level.title) + '.';
+      : 'Following levels are not saved:' + canDeactivateLevelComponents
+      .filter(levelComponent => !levelComponent.canBeDeactivated)
+      .map(levelComponent => ' ' + levelComponent.order) + '.';
   }
 
   /**
@@ -134,4 +133,6 @@ export class TrainingDefinitionComponent implements OnInit {
         return of(null);
       }));
   }
+
+
 }

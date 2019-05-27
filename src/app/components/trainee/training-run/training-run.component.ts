@@ -1,11 +1,6 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { Component, OnDestroy, OnInit} from '@angular/core';
 import {AbstractLevel} from "../../../model/level/abstract-level";
-import {ActivatedRoute, Router} from "@angular/router";
-import {ActiveTrainingRunService} from "../../../services/active-training-run.service";
-import {TrainingRunLevelComponent} from "./training-run-level/training-run-level.component";
-import {ComponentErrorHandlerService} from "../../../services/component-error-handler.service";
-import {switchMap} from 'rxjs/operators';
-
+import {ActiveTrainingRunService} from "../../../services/trainee/active-training-run.service";
 
 @Component({
   selector: 'training-run',
@@ -18,119 +13,42 @@ import {switchMap} from 'rxjs/operators';
  */
 export class TrainingRunComponent implements OnInit, OnDestroy {
 
-  @ViewChild(TrainingRunLevelComponent) trainingRunLevelChild: TrainingRunLevelComponent;
-
   levels: AbstractLevel[];
 
   selectedStep: number;
-  withStepper: boolean;
-  withTimer: boolean;
+  isStepperDisplayed: boolean;
+  isTimerDisplayed: boolean;
   startTime: Date;
   isLoading = false;
 
-  displayNextButton = false;
-  isActiveLevelLocked = true;
-  levelLockSubscription;
+  activeLevelChangeSubscription;
 
-  constructor(
-    private cdr: ChangeDetectorRef,
-    private router: Router,
-    private activeRoute: ActivatedRoute,
-    private errorHandler: ComponentErrorHandlerService,
-    private activeTrainingRunService: ActiveTrainingRunService) {
+  constructor(private activeTrainingRunService: ActiveTrainingRunService) {
   }
 
   ngOnInit() {
     this.initData();
-    this.subscribeLevelLockChange();
-    this.selectedStep = 0;
-    this.withStepper = true;
-    this.withTimer = true;
+    this.subscribeToActiveLevelChange();
+    this.isTimerDisplayed = true;
   }
 
   ngOnDestroy() {
-    if (this.levelLockSubscription) {
-      this.levelLockSubscription.unsubscribe();
+    if (this.activeLevelChangeSubscription) {
+      this.activeLevelChangeSubscription.unsubscribe();
     }
   }
 
-  /**
-   * If it is possible (user finished current level), sets next level as active and navigates to it
-   */
-  nextLevel() {
-    if (!this.isActiveLevelLocked) {
-      if (this.trainingRunLevelChild.isAssessmentLevel) {
-        this.nextLevelFromAssessmentLevel();
-      }
-      if (this.activeTrainingRunService.hasNextLevel()) {
-        this.activeTrainingRunService.nextLevel()
-          .subscribe(resp => {
-              this.selectedStep += 1;
-            },
-            err => {
-              this.errorHandler.displayHttpError(err, 'Loading next level');
-            });
-      }
-      else {
-        this.finishTraining();
-      }
-    }
-  }
-
-  private nextLevelFromAssessmentLevel() {
-    this.trainingRunLevelChild.submit();
-    if (this.activeTrainingRunService.hasNextLevel()) {
-      this.trainingRunLevelChild.submit()
-        .pipe(switchMap(result =>
-          this.activeTrainingRunService.nextLevel()
-        ))
-        .subscribe(resp => {
-            this.selectedStep += 1;
-          },
-          err => {
-            this.errorHandler.displayHttpError(err, 'Loading next level');
-          });
-    }
-    else {
-      this.finishTraining();
-    }
-  }
-
-  /**
-   * Sets if the next level button should be displayed
-   * @param {boolean} value true if next level button should be displayed, false otherwise
-   */
-  setDisplayNextLevelButton(value: boolean) {
-    this.displayNextButton = value;
-    this.cdr.detectChanges();
-  }
-
-
-  finishTraining() {
-    this.activeTrainingRunService.finish()
-      .subscribe(resp => {
-        this.activeTrainingRunService.clear();
-        this.router.navigate(['results'], {relativeTo: this.activeRoute.parent});
-      },
-        err => {
-        this.errorHandler.displayHttpError(err, 'Finishing training run');
-        })
-  }
-
-  /**
-   * Loads all necessary data about levels and sets up the training
-   */
   private initData() {
-    this.levels = this.activeTrainingRunService.getActiveLevels();
-    this.selectedStep = 0;
+    this.levels = this.activeTrainingRunService.getLevels();
+    this.startTime = this.activeTrainingRunService.getStartTime();
+    this.isStepperDisplayed = this.activeTrainingRunService.getIsStepperDisplayed();
+    this.selectedStep = this.activeTrainingRunService.getActiveLevel().order;
   }
 
-  /**
-   * Subscribes to changes in level lock. Component is informed when user finished all necessary actions in the current level and is ready to continue
-   */
-  private subscribeLevelLockChange() {
-    this.activeTrainingRunService.onLevelLockChanged.subscribe(
-      lockChange => this.isActiveLevelLocked = lockChange
+
+  private subscribeToActiveLevelChange() {
+    this.activeTrainingRunService.onActiveLevelChanged.subscribe(
+      activeLevel => this.selectedStep += 1
     );
   }
 }

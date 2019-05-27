@@ -4,9 +4,11 @@
   </div>
   <div class="content">
     <kypo2-viz-overview-clustering
-      [gameData]="mockGameData"
-      [feedbackLearnerId]="mockFeedbackLearnerId"
-    ></kypo2-viz-overview-clustering>
+      *ngIf="!isLoading"
+      [size]="vizSize"
+      [trainingInstanceId]="trainingInstanceId"
+      [trainingDefinitionId]="trainingDefinitionId">
+    </kypo2-viz-overview-clustering>
   </div>
 </div>
 

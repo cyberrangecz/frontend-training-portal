@@ -1,20 +1,22 @@
 .content {
   display: flex;
+  flex-direction: column;
+}
+
+.warn {
+  color: #f44336;
+}
+
+.inline-input {
+  display: flex;
   flex-direction: row;
+  align-content: space-between;
+  margin-bottom: 10px;
 }
 
-.left-panel {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 7;
-}
-
-.right-panel {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 3;
-  align-items: flex-end;
-  align-content: flex-end;
+.inline-input > * {
+  flex-grow: 1;
+  margin-right: 10px;
 }
 
 .right-panel mat-form-field {
@@ -22,6 +24,11 @@
 }
 
 .right-panel > * {
+  margin-bottom: 10px;
+}
+
+button.clear-answers {
+  width: 120px;
   margin-bottom: 10px;
 }
 
@@ -49,3 +56,4 @@ mat-checkbox {
     width: 80%;
   }
 }
+

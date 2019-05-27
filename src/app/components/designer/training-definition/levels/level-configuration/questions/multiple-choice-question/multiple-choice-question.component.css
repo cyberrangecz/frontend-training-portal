@@ -8,21 +8,23 @@ mat-checkbox {
 
 .content {
   display: flex;
+  flex-direction: column;
+}
+
+.inline-input {
+  display: flex;
   flex-direction: row;
+  align-content: space-between;
+  margin-bottom: 10px;
 }
 
-.left-panel {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 7;
+.inline-input > * {
+  flex-grow: 1;
+  margin-right: 10px;
 }
 
-.right-panel {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 3;
-  align-items: flex-end;
-  align-content: flex-end;
+.warn {
+  color: #f44336;
 }
 
 .right-panel mat-form-field {
@@ -62,4 +64,10 @@ p.note {
   mat-form-field {
     width: 80%;
   }
+}
+
+.main-button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }

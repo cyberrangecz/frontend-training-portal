@@ -1,12 +1,14 @@
 import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {AssessmentLevel} from "../../../../../../model/level/assessment-level";
-import {AlertTypeEnum} from "../../../../../../enums/alert-type.enum";
-import {AlertService} from "../../../../../../services/event-services/alert.service";
+import {AlertTypeEnum} from "../../../../../../model/enums/alert-type.enum";
+import {AlertService} from "../../../../../../services/shared/alert.service";
 import {QuestionsOverviewComponent} from "../questions/questions-overview/questions-overview.component";
 import {AbstractQuestion} from "../../../../../../model/questions/abstract-question";
-import {AssessmentTypeEnum} from "../../../../../../enums/assessment-type.enum";
-import {ComponentErrorHandlerService} from "../../../../../../services/component-error-handler.service";
+import {AssessmentTypeEnum} from "../../../../../../model/enums/assessment-type.enum";
+import {ErrorHandlerService} from "../../../../../../services/shared/error-handler.service";
 import {TrainingDefinitionFacade} from "../../../../../../services/facades/training-definition-facade.service";
+import {LevelsDefinitionService} from "../../../../../../services/designer/levels-definition.service";
+import {MatSlideToggleChange} from '@angular/material';
 
 @Component({
   selector: 'assessment-level-configuration',
@@ -28,14 +30,17 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
   title: string;
   instructions: string;
   isTest: boolean;
+  estimatedDuration: number;
   questions: AbstractQuestion[];
 
   dirty = false;
   isLoading = false;
 
+  isTestToggleLabel: string;
   constructor(private trainingDefinitionFacade: TrainingDefinitionFacade,
+              private levelService: LevelsDefinitionService,
               private alertService: AlertService,
-              private errorHandler: ComponentErrorHandlerService) { }
+              private errorHandler: ErrorHandlerService) { }
 
   ngOnInit() {
   }
@@ -58,15 +63,16 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
    * Validates input, sets values to the level object and calls REST API to save changes
    */
   saveChanges() {
-    if (this.validateChanges()) {
+    if (this.validateInput() && this.childComponent.validateInput()) {
       this.setInputValuesToLevel();
-      this.childComponent.saveChanges();
+      this.childComponent.save();
       this.level.questions = this.childComponent.questions;
       this.isLoading = true;
       this.trainingDefinitionFacade.updateAssessmentLevel(this.trainingDefinitionId, this.level)
         .subscribe(resp => {
             this.dirty = false;
             this.isLoading = false;
+            this.levelService.emitLevelUpdated(this.level);
             this.alertService.emitAlert(AlertTypeEnum.Success, 'Assessment level was successfully saved');
           },
           err => {
@@ -74,6 +80,10 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
             this.errorHandler.displayHttpError(err, 'Saving assessment level "' + this.level.title + '"');
           });
     }
+  }
+
+  onChangeToggle() {
+    this.isTestToggleLabel = this.isTest ? 'Test' : 'Questionnaire';
   }
 
   /**
@@ -94,11 +104,17 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
    * Validates user input, displays error message if error is found
    * @returns {boolean} true if input passes the validation, false otherwise
    */
-  private validateChanges(): boolean {
+  private validateInput(): boolean {
     let errorMessage: string = '';
 
     if (!this.title || this.title.replace(/\s/g, '') === '') {
       errorMessage += 'Title cannot be empty\n'
+    }
+
+    if (!this.estimatedDuration && this.estimatedDuration !== 0) {
+      this.estimatedDuration = 60;
+    } else if (this.estimatedDuration < 1 || this.estimatedDuration > 60) {
+      errorMessage += 'Estimated duration must be a number in range from 1 to 60\n'
     }
 
     if (errorMessage !== '') {
@@ -120,6 +136,7 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
     } else {
       this.level.assessmentType = AssessmentTypeEnum.Questionnaire;
     }
+    this.level.estimatedDuration = this.estimatedDuration;
   }
 
   /**
@@ -131,6 +148,8 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
       this.questions = this.level.questions;
       this.instructions = this.level.instructions;
       this.isTest = this.level.assessmentType === AssessmentTypeEnum.Test;
+      this.estimatedDuration = this.level.estimatedDuration;
+      this.isTestToggleLabel = this.isTest ? 'Test' : 'Questionnaire';
     }
   }
 

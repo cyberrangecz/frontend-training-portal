@@ -11,7 +11,7 @@
 
     <!-- ADD QUESTION button -->
     <div class="header">
-      <button class="add-question" mat-raised-button color="primary" [matMenuTriggerFor]="questionsMenu"
+      <button class="add-question" mat-button color="primary" [matMenuTriggerFor]="questionsMenu"
               matTooltip="Add new question">
         Add Question
       </button>
@@ -43,10 +43,17 @@
           <mat-card-title>
             <h3>Question {{ i + 1 }}: {{ question.title }}</h3>
           </mat-card-title>
+          <span class="spacer"></span>
+          <div class="required">
+            <mat-checkbox class="mat-typography" [disabled]="isTest" [(ngModel)]="question.required">Required</mat-checkbox>
+            <p *ngIf="question.required" class="mat-typography required-switch-note">Switching to not required will delete your answers.</p>
+          </div>
         </mat-card-header>
         <mat-card-content>
           <question-configuration
+            (question)="questionChanged()"
             [(question)]="questions[i]"
+            [required]="question.required"
             [isTest]="isTest">
           </question-configuration>
         </mat-card-content>
@@ -56,8 +63,9 @@
       </mat-card>
     </div>
 
-    <div class="footer">
-      <button class="add-question" mat-raised-button color="primary" [matMenuTriggerFor]="questionsMenu"
+    <div *ngIf="questions && questions.length > 0" class="footer">
+      <!-- ADD QUESTION button -->
+      <button class="add-question" mat-button color="primary" [matMenuTriggerFor]="questionsMenu"
               matTooltip="Add new question">
         Add Question
       </button>

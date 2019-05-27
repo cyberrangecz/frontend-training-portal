@@ -1,0 +1,27 @@
+<div class="panel">
+    <span [matBadge]="unseenSandboxStateChanges?.toString()"
+          matBadgeColor="accent"
+          matBadgePosition="above before"
+          matBadgeOverlap="true"></span>
+  <span class="spacer"></span>
+
+<!--  <button *ngIf="!isExpanded"
+          (click)="maximize()"
+          matTooltip="Maximize"
+          mat-icon-button>
+    <mat-icon>maximize</mat-icon>
+  </button>-->
+
+<!--  <button *ngIf="isExpanded"
+          (click)="minimize()"
+          matTooltip="Minimize"
+          mat-icon-button>
+    <mat-icon>minimize</mat-icon>
+  </button>-->
+
+  <button (click)="close()"
+          matTooltip="Close"
+          mat-icon-button>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>

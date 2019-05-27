@@ -9,20 +9,16 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { AuthorRefDto } from '../user/author-ref-dto';
-import { SandboxDefinitionRefDto } from '../sandbox-definition/sandbox-definition-ref-dto';
-import {ViewGroupDTO} from "./viewGroupDTO";
-import {ViewGroupUpdateDTO} from "./viewGroupUpdateDTO";
-import {UserRefDTO} from "../user/user-ref-dto";
-import {UserInfoDTO} from "../user/user-info-dto";
+import {BetaTestingGroupUpdateDTO} from "./betaTestingGroupUpdateDTO";
+import {UserBasicDTO} from "../user/user-basic-dto";
 
 
 /**
  * Training Definition to update.
  */
 export class TrainingDefinitionUpdateDTO {
-    authors?: UserInfoDTO[];
-    td_view_group: ViewGroupUpdateDTO;
+    authors?: UserBasicDTO[];
+    beta_testing_group: BetaTestingGroupUpdateDTO;
     description?: string;
     id?: number;
     outcomes?: string[];

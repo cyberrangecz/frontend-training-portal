@@ -2,22 +2,30 @@
   <div class="header">
     <h1>Training Results</h1>
   </div>
-  <div class="content">
-    <div class="left-panel">
+  <div  class="content">
+    <mat-progress-spinner *ngIf="isLoading && !isInErrorState" mode="indeterminate"></mat-progress-spinner>
+    <div *ngIf="!isLoading && isInErrorState" class="failed">
+      <h3>Loading data for visualizations failed.</h3>
+      <button mat-button color="primary" (click)="loadData()">Try again</button>
+    </div>
+    <div *ngIf="!isLoading && !isInErrorState" class="left-panel">
       <kypo2-viz-overview-timeline
-        [gameData]="mockGameData"
-        [feedbackLearnerId]="mockFeedbackLearnerId"
-        [size]="{width: 800, height: 600*0.8}"
+        [size]="vizSize"
+        [feedbackLearnerId]="activeUserUco"
+        [trainingDefinitionId]="trainingDefinitionId"
+        [trainingInstanceId]="trainingInstanceId"
+
       ></kypo2-viz-overview-timeline>
     </div>
-    <div class="middle-panel">
+    <div *ngIf="!isLoading && !isInErrorState" class="middle-panel">
       <kypo2-viz-overview-clustering
-        [gameData]="mockGameData"
-        [feedbackLearnerId]="mockFeedbackLearnerId"
-      ></kypo2-viz-overview-clustering>
+        [size]="vizSize"
+        [feedbackLearnerId]="activeUserUco"
+        [trainingDefinitionId]="trainingDefinitionId"
+        [trainingInstanceId]="trainingInstanceId">
+      </kypo2-viz-overview-clustering>
     </div>
-    <div class="right-panel">
-
+    <div *ngIf="!isLoading && !isInErrorState" class="right-panel">
     </div>
   </div>
 </div>

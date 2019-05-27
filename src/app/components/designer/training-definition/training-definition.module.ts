@@ -12,10 +12,11 @@ import { SandboxDefinitionPickerComponent } from './training-configuration/sandb
 import {LevelConfigurationModule} from "./levels/level-configuration/level-configuration.module";
 import {PipesModule} from "../../../pipes/pipes.module";
 import { UnsavedChangesDialogComponent } from './unsaved-changes-dialog/unsaved-changes-dialog.component';
-import {DeleteDialogComponent} from "./delete-dialog/delete-dialog.component";
-import { StateChangeDialogComponent } from './state-change-dialog/state-change-dialog.component';
-import { EditViewGroupComponent } from './training-configuration/edit-view-group/edit-view-group.component';
-import {TrainingDefinitionGuard} from "../../../guards/training-definition-guard.service";
+import {DeleteDialogComponent} from "../../shared/delete-dialog/delete-dialog.component";
+import { EditBetaTestingGroupComponent } from './training-configuration/edit-beta-testing-group/edit-beta-testing-group.component';
+import {TrainingDefinitionLeaveGuard} from "../../../services/guards/training-definition-leave-guard.service";
+import {LevelsDefinitionService} from "../../../services/designer/levels-definition.service";
+import {TrainingDefinitionAccessGuardService} from "../../../services/guards/training-definition-access-guard.service";
 @NgModule({
   imports: [
     CommonModule,
@@ -33,20 +34,18 @@ import {TrainingDefinitionGuard} from "../../../guards/training-definition-guard
     AuthorsPickerComponent,
     SandboxDefinitionPickerComponent,
     UnsavedChangesDialogComponent,
-    DeleteDialogComponent,
-    StateChangeDialogComponent,
-    EditViewGroupComponent
+    EditBetaTestingGroupComponent
   ],
   providers: [
-    TrainingDefinitionGuard
+    TrainingDefinitionLeaveGuard,
+    TrainingDefinitionAccessGuardService,
+    LevelsDefinitionService
   ],
   entryComponents: [
     SandboxDefinitionPickerComponent,
     AuthorsPickerComponent,
     UnsavedChangesDialogComponent,
-    DeleteDialogComponent,
-    StateChangeDialogComponent,
-    EditViewGroupComponent
+    EditBetaTestingGroupComponent
   ]
 })
 

@@ -1,0 +1,85 @@
+<h2 *ngIf="hasPoolId">List of allocated sandbox for training instance: {{trainingInstance.title}}</h2>
+<h2 *ngIf="!hasPoolId">No sandboxes allocated</h2>
+<div class="sandbox">
+  <div class="sandbox-table-wrapper">
+    <div class="sandbox-table">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter by status">
+      </mat-form-field>
+      <div class="mat-elevation-z8">
+        <div class="loading"
+             *ngIf="isLoadingResults || isInErrorState">
+          <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+          <div class="loading-error" *ngIf="isInErrorState">
+            We have some trouble loading the data. Please try again later.
+            <button mat-icon-button (click)="fetchData()" color="primary"><mat-icon>refresh</mat-icon></button>
+          </div>
+        </div>
+
+        <table mat-table [dataSource]="dataSource" matSort>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="id">
+            <th class="id" mat-header-cell *matHeaderCellDef>ID</th>
+            <td class="id" mat-cell *matCellDef="let data">
+              {{data?.sandboxInstance?.id}}
+            </td>
+          </ng-container>
+
+          <!-- STATE Column -->
+          <ng-container matColumnDef="state">
+            <th class="state" mat-header-cell *matHeaderCellDef mat-sort-header>State</th>
+            <td class="state" mat-cell *matCellDef="let data">
+              <div class="allocation-state">
+                <mat-icon *ngIf="data.isCreated" class="sandbox-created" matTooltip="Sandbox is allocated">done</mat-icon>
+                <mat-icon *ngIf="data.isFailed" class="allocation-failed" color="warn" matTooltip="Sandbox allocation failed">error</mat-icon>
+                <mat-progress-bar *ngIf="data.isInProgress" class="allocation-progress" color="accent" mode="indeterminate"></mat-progress-bar>
+                <div *ngIf="!data.isCreated && !data.isFailed && !data.isInProgress then notAllocatedState else allocationState"></div>
+                <ng-template #notAllocatedState>
+                  <span class="allocation-state-text"> NOT ALLOCATED</span>
+                </ng-template>
+                <ng-template #allocationState>
+                  <span class="allocation-state-text">{{data?.sandboxInstance?.state}}</span>
+                </ng-template>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- ACTIONS Column -->
+          <ng-container matColumnDef="actions">
+            <th class="actions" mat-header-cell *matHeaderCellDef>Actions</th>
+            <td class="actions" mat-cell *matCellDef="let data">
+              <div class="action-buttons">
+
+                <!-- DELETE button-->
+                <button *ngIf="data.isCreated || data.isFailed"
+                        mat-icon-button color="warn"
+                        matTooltip="Remove sandbox instance"
+                        [disabled]="isDisabled"
+                        (click)="deleteSandbox(data)">
+                  <mat-icon
+                    aria-label="Remove sandbox instance button">
+                    delete</mat-icon>
+                </button>
+
+                <!-- ALLOCATE button-->
+                <button *ngIf="!data.isCreated && !data.isFailed && !data.isInProgress"
+                        mat-icon-button color="primary"
+                        matTooltip="Allocate sandbox instance"
+                        [disabled]="isDisabled"
+                        (click)="allocateSandbox(data)">
+                  <mat-icon
+                    aria-label="Allocate sandbox instance button">
+                    launch</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="row"></tr>
+        </table>
+        <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>

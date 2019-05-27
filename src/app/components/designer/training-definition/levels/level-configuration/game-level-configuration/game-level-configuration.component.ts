@@ -1,11 +1,12 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {GameLevel} from "../../../../../../model/level/game-level";
-import {AlertTypeEnum} from "../../../../../../enums/alert-type.enum";
-import {AlertService} from "../../../../../../services/event-services/alert.service";
+import {AlertTypeEnum} from "../../../../../../model/enums/alert-type.enum";
+import {AlertService} from "../../../../../../services/shared/alert.service";
 import {Hint} from "../../../../../../model/level/hint";
 import {HintStepperComponent} from "../hints/hint-stepper/hint-stepper.component";
-import {ComponentErrorHandlerService} from "../../../../../../services/component-error-handler.service";
+import {ErrorHandlerService} from "../../../../../../services/shared/error-handler.service";
 import {TrainingDefinitionFacade} from "../../../../../../services/facades/training-definition-facade.service";
+import {LevelsDefinitionService} from "../../../../../../services/designer/levels-definition.service";
 
 @Component({
   selector: 'game-level-configuration',
@@ -38,7 +39,8 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
   isLoading = false;
 
   constructor(private alertService: AlertService,
-              private errorHandler: ComponentErrorHandlerService,
+              private levelService: LevelsDefinitionService,
+              private errorHandler: ErrorHandlerService,
               private trainingDefinitionFacade: TrainingDefinitionFacade) { }
 
   ngOnInit() {
@@ -77,6 +79,7 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
         .subscribe(resp => {
           this.dirty = false;
           this.isLoading = false;
+          this.levelService.emitLevelUpdated(this.level);
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Game level was successfully saved');
         },
           err => {
@@ -112,8 +115,8 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
     if (!this.flag || this.flag.replace(/\s/g, '') === '' || this.flag.length > 50) {
       errorMessage += 'Flag cannot be empty or larger than 50 characters\n'
     }
-    if (Number.isNaN(this.incorrectFlagLimit) || this.incorrectFlagLimit < 0) {
-      errorMessage += 'Incorrect flag limit must be a positive number\n'
+    if (Number.isNaN(this.incorrectFlagLimit) || this.incorrectFlagLimit < 1 || this.incorrectFlagLimit > 100) {
+      errorMessage += 'Incorrect flag limit must be in range of 1 to 100\n'
     }
     if (Number.isNaN(this.maxScore) || this.maxScore < 0 || this.maxScore > 100) {
       errorMessage += 'Maximal score must be a number in range from 0 to 100\n'

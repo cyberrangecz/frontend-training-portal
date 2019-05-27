@@ -1,15 +1,15 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
 import {TrainingInstance} from "../../../../../model/training/training-instance";
-import {ActiveTrainingInstanceService} from "../../../../../services/active-training-instance.service";
+import {ActiveTrainingInstanceService} from "../../../../../services/organizer/active-training-instance.service";
 import {merge, of} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
-import {AlertService} from "../../../../../services/event-services/alert.service";
-import {AlertTypeEnum} from "../../../../../enums/alert-type.enum";
+import {AlertService} from "../../../../../services/shared/alert.service";
+import {AlertTypeEnum} from "../../../../../model/enums/alert-type.enum";
 import {TrainingInstanceFacade} from "../../../../../services/facades/training-instance-facade.service";
-import {ComponentErrorHandlerService} from "../../../../../services/component-error-handler.service";
-import {TrainingRunTableDataModel} from "../../../../../model/table-models/training-run-table-data-model";
-import {TableDataWithPaginationWrapper} from "../../../../../model/table-models/table-data-with-pagination-wrapper";
+import {ErrorHandlerService} from "../../../../../services/shared/error-handler.service";
+import {TrainingRunTableAdapter} from "../../../../../model/table-adapters/training-run-table-adapter";
+import {PaginatedTable} from "../../../../../model/table-adapters/paginated-table";
 import {environment} from "../../../../../../environments/environment";
 import {TrainingRunFacade} from "../../../../../services/facades/training-run-facade.service";
 
@@ -23,12 +23,12 @@ import {TrainingRunFacade} from "../../../../../services/facades/training-run-fa
  */
 export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
 
-  displayedColumns: string[] = ['sandboxInstanceId', 'playerId', 'state', 'actions'];
+  displayedColumns: string[] = ['sandboxInstanceId', 'player', 'state', 'actions'];
   trainingInstance: TrainingInstance;
 
   activeTrainingSubscription;
 
-  dataSource: MatTableDataSource<TrainingRunTableDataModel>;
+  dataSource: MatTableDataSource<TrainingRunTableAdapter>;
 
   resultsLength = 0;
   isLoadingResults = true;
@@ -39,7 +39,7 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
 
   constructor(
     private alertService: AlertService,
-    private errorHandler: ComponentErrorHandlerService,
+    private errorHandler: ErrorHandlerService,
     private activeTrainingInstanceService: ActiveTrainingInstanceService,
     private trainingRunFacade: TrainingRunFacade,
     private trainingInstanceFacade: TrainingInstanceFacade) { }
@@ -78,7 +78,7 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
    * Reverts selected training run
    * @param trainingRunTableObject table object of training run
    */
-  revertTrainingRun(trainingRunTableObject: TrainingRunTableDataModel) {
+  revertTrainingRun(trainingRunTableObject: TrainingRunTableAdapter) {
     trainingRunTableObject.isWaitingForRevertResponse = true;
     this.trainingRunFacade.revert(trainingRunTableObject.trainingRun.id).subscribe(
       response => {
@@ -137,17 +137,17 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
           this.isInErrorState = true;
           return of([]);
         })
-      ).subscribe((data: TableDataWithPaginationWrapper<TrainingRunTableDataModel[]>) => this.createDataSource(data.tableData));
+      ).subscribe((data: PaginatedTable<TrainingRunTableAdapter[]>) => this.createDataSource(data.tableData));
   }
 
   /**
    * Creates data source from fetched data
    * @param data fetched training runs
    */
-  private createDataSource(data: TrainingRunTableDataModel[]) {
+  private createDataSource(data: TrainingRunTableAdapter[]) {
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.filterPredicate =
-      (data: TrainingRunTableDataModel, filter: string) =>
+      (data: TrainingRunTableAdapter, filter: string) =>
         data.trainingRun.state.toLowerCase().indexOf(filter) !== -1
   }
 

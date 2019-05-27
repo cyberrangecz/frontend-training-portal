@@ -19,6 +19,7 @@ export class QuestionConfigurationComponent implements OnInit, OnChanges {
 
   @Input('question') question: AbstractQuestion;
   @Input('isTest') isTest: boolean;
+  @Input('required') required: boolean;
 
   @Output('question') questionChange = new EventEmitter();
 
@@ -55,6 +56,16 @@ export class QuestionConfigurationComponent implements OnInit, OnChanges {
       return this.mcqChild.saveChanges();
     } else {
       return this.emiChild.saveChanges();
+    }
+  }
+
+  validateInput(): boolean {
+    if (this.isFfq) {
+      return this.ffqChild.validateInput();
+    } else if (this.isMcq) {
+      return this.mcqChild.validateInput();
+    } else {
+      return this.emiChild.validateInput();
     }
   }
 

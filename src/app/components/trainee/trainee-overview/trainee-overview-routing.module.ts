@@ -8,8 +8,12 @@ const routes: Routes = [
     component: TraineeOverviewComponent
   },
   {
-    path: 'training',
+    path: 'training/game',
     loadChildren: 'app/components/trainee/training-run/training-run.module#TrainingRunModule',
+  },
+  {
+    path: 'training/:id/results',
+    loadChildren: 'app/components/trainee/training-run/training-run-results/training-run-results.module#TrainingRunResultsModule',
   }
 ];
 

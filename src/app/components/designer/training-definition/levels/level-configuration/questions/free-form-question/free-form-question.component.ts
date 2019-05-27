@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FreeFormQuestion} from "../../../../../../../model/questions/free-form-question";
-import {AlertService} from "../../../../../../../services/event-services/alert.service";
-import {AlertTypeEnum} from "../../../../../../../enums/alert-type.enum";
+import {AlertService} from "../../../../../../../services/shared/alert.service";
+import {AlertTypeEnum} from "../../../../../../../model/enums/alert-type.enum";
 
 @Component({
   selector: 'free-form-question',
@@ -15,6 +15,7 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
 
   @Input('question') question: FreeFormQuestion;
   @Input('isTest') isTest: boolean;
+  @Input('required') required: boolean;
 
   @Output('question') questionChange = new EventEmitter();
 
@@ -22,7 +23,6 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
   answers: string[];
   score: number;
   penalty: number;
-  required: boolean;
 
   maxQuestionScore: number = 100;
   maxQuestionPenalty: number = 100;
@@ -39,9 +39,12 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
       this.setInitialValues();
     }
     if ('isTest' in changes) {
-      if (this.isTest) {
-        this.required = true;
+      if (!this.isTest) {
+        this.penalty = 0;
       }
+    }
+    if ('required' in changes && !changes['required'].isFirstChange()) {
+      this.requiredChanged();
     }
   }
 
@@ -73,14 +76,28 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
 
   removeAnswer(index: number) {
     this.answers.splice(index, 1);
+    this.contentChanged()
   }
 
   addAnswer() {
     this.answers.push("");
+    this.contentChanged()
   }
 
   trackByFn(index: any, item: any) {
     return index;
+  }
+
+  requiredChanged() {
+    if (!this.required) {
+      this.score = 0;
+      this.clearAnswers();
+    }
+  }
+
+  private clearAnswers() {
+    this.answers = [];
+    this.contentChanged();
   }
 
   /**
@@ -103,18 +120,18 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
     this.question.required = this.required;
 
     if (this.question.required) {
-      this.question.penalty = this.penalty;
       this.question.score = this.score;
     } else {
-      this.question.penalty = 0;
       this.question.score = 0;
+    }
+    if (this.isTest) {
+      this.question.penalty = this.penalty;
+    } else {
+      this.question.penalty = 0;
     }
   }
 
-  /**
-   * Validates user input, calls alert service if there is an error
-   */
-  private validateInput(): boolean {
+  validateInput(): boolean {
     let errorTitle = 'Question ' + ':\n';
     let errorMessage: string = '';
 
@@ -130,10 +147,19 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
       errorMessage += 'Question score must be a number in range from 0 to ' + this.maxQuestionScore + '\n'
     }
 
+    if (this.required && this.hasEmptyAnswer()) {
+      errorMessage += 'Required question must have at least one answer and all must be not empty';
+    }
+
     if (errorMessage !== '') {
       this.alertService.emitAlert(AlertTypeEnum.Error, errorTitle + errorMessage);
       return false;
     }
     return true;
+  }
+
+  private hasEmptyAnswer(): boolean {
+    return  this.answers.length < 1
+      || this.answers.some(answer => answer.replace(/\s/g, '')  === '');
   }
 }

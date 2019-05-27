@@ -34,14 +34,14 @@ export class FreeFormQuestionTraineeComponent implements OnInit {
     this.contentChanged.emit({
       index: this.index,
       question: this.question
-    });  }
+    });
+  }
 
   /**
    * Saves changes from user input to question object
    */
   saveChanges() {
     this.question.usersAnswer = this.answer;
-
   }
 
 

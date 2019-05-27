@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {environment} from "../../../environments/environment";
-import {map} from "rxjs/operators";
+import {catchError, map} from "rxjs/operators";
 import {TrainingDefinition} from "../../model/training/training-definition";
 import {Observable} from "rxjs/internal/Observable";
 import {PaginationParams} from "../../model/http/params/pagination-params";
@@ -17,11 +17,16 @@ import {InfoLevel} from "../../model/level/info-level";
 import {AssessmentLevel} from "../../model/level/assessment-level";
 import {TrainingDefinitionRestResource} from "../../model/DTOs/training-definition/trainingDefinitionRestResource";
 import {TrainingDefinitionDTO} from "../../model/DTOs/training-definition/trainingDefinitionDTO";
-import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
-import {TrainingDefinitionTableDataModel} from "../../model/table-models/training-definition-table-data-model";
+import {PaginatedTable} from "../../model/table-adapters/paginated-table";
+import {TrainingDefinitionTableAdapter} from "../../model/table-adapters/training-definition-table-adapter";
 import {BasicLevelInfoDTO} from "../../model/DTOs/level/basicLevelInfoDTO";
-import {DownloadService} from '../download.service';
-import {UploadService} from '../upload.service';
+import {DownloadService} from '../shared/download.service';
+import {UploadService} from '../shared/upload.service';
+import {ResponseHeaderContentDispositionReader} from '../../model/http/response-headers/response-header-content-disposition-reader';
+import {TrainingDefinitionStateEnum} from '../../model/enums/training-definition-state.enum';
+import {TrainingDefinitionInfo} from '../../model/training/training-definition-info';
+import {TrainingDefinitionInfoRestResource} from '../../model/DTOs/training-definition/training-definition-info-rest-resource';
+import {of} from "rxjs";
 
 @Injectable()
 /**
@@ -64,11 +69,17 @@ export class TrainingDefinitionFacade {
    * @param sort attribute by which will result be sorted
    * @param sortDir sort direction (asc, desc)
    */
-  getTrainingDefinitionsWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<TableDataWithPaginationWrapper<TrainingDefinitionTableDataModel[]>> {
+  getTrainingDefinitionsWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<PaginatedTable<TrainingDefinitionTableAdapter[]>> {
     let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
     return this.http.get<TrainingDefinitionRestResource>(this.trainingDefsEndpointUri, { params: params })
       .pipe(map(response =>
         this.trainingDefinitionMapper.mapTrainingDefinitionDTOsToTrainingDefinitionsWithPagination(response)));
+  }
+
+  getTrainingDefinitionsForOrganizers(): Observable<TrainingDefinitionInfo[]> {
+    return this.http.get<TrainingDefinitionInfoRestResource>(this.trainingDefsEndpointUri + 'for-organizers')
+      .pipe(map(response =>
+        this.trainingDefinitionMapper.mapTrainingDefinitionsInfoDTOsToTrainingDefinitionsInfo(response)));
   }
 
   /**
@@ -79,18 +90,33 @@ export class TrainingDefinitionFacade {
    */
   getTrainingDefinitionById(id: number, withLevels = false): Observable<TrainingDefinition> {
     return this.http.get<TrainingDefinitionDTO>(this.trainingDefsEndpointUri + id)
-      .pipe(map(response =>
-        this.trainingDefinitionMapper.mapTrainingDefinitionDTOToTrainingDefinition(response, withLevels)));  }
+      .pipe(
+        map(response => this.trainingDefinitionMapper.mapTrainingDefinitionDTOToTrainingDefinition(response, withLevels)),
+        );
+  }
+
+  getTrainingDefinitionExists(id: number): Observable<boolean> {
+    return this.http.get(this.trainingDefsEndpointUri + id)
+      .pipe(
+        map(response => true),
+        catchError(err => of(false))
+      )
+  }
 
   /**
    * Retrieves training definition by id of associated sandbox definition
    * @param {number} sandboxId id of sandbox definition associated with training definition
    * @returns {Observable<TrainingDefinition[]>} Observable of list of training definitions matching sandbox definition id
    */
-  getTrainingDefinitionsBySandboxDefinitionId(sandboxId: number): Observable<TrainingDefinition[]> {
-    return this.http.get<TrainingDefinitionRestResource>(this.trainingDefsEndpointUri + this.sandboxDefinitionUriExtension + sandboxId)
+  getTrainingDefinitionsAssociatedWithSandboxDefinition(sandboxId: number): Observable<TrainingDefinitionInfo[]> {
+    return this.http.get<TrainingDefinitionInfoRestResource>(this.trainingDefsEndpointUri + this.sandboxDefinitionUriExtension + sandboxId)
       .pipe(map(response =>
-        this.trainingDefinitionMapper.mapTrainingDefinitionDTOsToTrainingDefinitions(response)));
+        this.trainingDefinitionMapper.mapTrainingDefinitionsInfoDTOsToTrainingDefinitionsInfo(response)));
+  }
+
+  changeTrainingDefinitionState(newState: TrainingDefinitionStateEnum, trainingDefinitionId: number): Observable<any> {
+    return this.http.put(`${this.trainingDefsEndpointUri + trainingDefinitionId}/states/${this.trainingDefinitionMapper.mapTrainingDefStateToDTOEnum(newState)}`,
+      {});
   }
 
   /**
@@ -108,12 +134,24 @@ export class TrainingDefinitionFacade {
    * @param id id of training definition which should be downloaded
    */
   downloadTrainingDefinition(id: number) : Observable<boolean> {
-    return this.http.get(this.trainingExportEndpointUri + this.trainingDefinitionUriExtension + id)
+    const headers = new HttpHeaders();
+    headers.set('Accept', [
+      'application/octet-stream'
+    ]);
+
+    return this.http.get(this.trainingExportEndpointUri + this.trainingDefinitionUriExtension + id,
+      {
+        responseType: 'blob',
+        observe: 'response',
+        headers: headers
+      })
       .pipe(map(resp =>  {
-        this.downloadService.downloadFileFromJSON(resp,  resp['title'] + '.json');
+        this.downloadService.downloadJSONFileFromBlobResponse(resp,
+          ResponseHeaderContentDispositionReader.getFilenameFromResponse(resp, 'training-definition.json'));
         return true;
       }));
   }
+
 
   uploadTrainingDefinition(file: File): Observable<TrainingDefinition> {
     return this.uploadService.uploadTrainingDefinition(this.trainingImportEndpointUri + this.trainingDefinitionUriExtension, file)
@@ -124,7 +162,7 @@ export class TrainingDefinitionFacade {
    * Sends request to remove training definition with provided id
    * @param {number} trainingDefId id of training definition which should be removed
    */
-  removeTrainingDefinition(trainingDefId: number) {
+  deleteTrainingDefinition(trainingDefId: number) {
     return this.http.delete(this.trainingDefsEndpointUri + trainingDefId,
       { headers: this.createDefaultHeaders()});
   }
@@ -155,10 +193,10 @@ export class TrainingDefinitionFacade {
    * @param {TrainingDefinition} trainingDef training definition which should be created
    */
   createTrainingDefinition(trainingDef: TrainingDefinition): Observable<number> {
-    return this.http.post<number>(this.trainingDefsEndpointUri,
+    return this.http.post<TrainingDefinitionDTO>(this.trainingDefsEndpointUri,
       this.trainingDefinitionMapper.mapTrainingDefinitionToTrainingDefinitionCreateDTO(trainingDef),
       { headers: this.createDefaultHeaders()})
-      .pipe(map(trainingDef => (trainingDef as TrainingDefinitionDTO).id));
+      .pipe(map(trainingDef => trainingDef.id));
   }
 
   /**
@@ -202,7 +240,7 @@ export class TrainingDefinitionFacade {
    * @param trainingDefId id of training definition associated with the level which should be deleted
    * @param levelId id of level which should be removed
    */
-  removeLevel(trainingDefId: number, levelId: number): Observable<AbstractLevel[]> {
+  deleteLevel(trainingDefId: number, levelId: number): Observable<AbstractLevel[]> {
     return this.http.delete<BasicLevelInfoDTO[]>(`${this.trainingDefsEndpointUri + trainingDefId}/${this.levelsUriExtension}${levelId}`,
       { headers: this.createDefaultHeaders()})
       .pipe(map(resp => this.levelMapper.mapBasicInfoDTOsToAbstractLevels(resp)));
@@ -242,40 +280,21 @@ export class TrainingDefinitionFacade {
   }
 
   /**
-   * Swaps order with level on the left
-   * @param trainingDefId id of training definition id associated with the level
-   * @param levelId id of a level which should be swapped
-   */
-  swapLeft(trainingDefId: number, levelId: number): Observable<AbstractLevel[]> {
-    return this.http.put<BasicLevelInfoDTO[]>(`${this.trainingDefsEndpointUri + trainingDefId}/${this.levelsUriExtension}${levelId}/swap-left`,
-      {},
-      { headers: this.createDefaultHeaders()})
-      .pipe(map(resp => this.levelMapper.mapBasicInfoDTOsToAbstractLevels(resp)));
-  }
-
-  /**
-   * Swaps order with level on the right
-   * @param trainingDefId id of training definition associated with the level
-   * @param levelId id of a level which should be swapped
-   */
-  swapRight(trainingDefId: number, levelId: number): Observable<AbstractLevel[]>{
-    return this.http.put<BasicLevelInfoDTO[]>(`${this.trainingDefsEndpointUri + trainingDefId}/${this.levelsUriExtension}${levelId}/swap-right`,
-      {},
-      { headers: this.createDefaultHeaders()})
-      .pipe(map(resp => this.levelMapper.mapBasicInfoDTOsToAbstractLevels(resp)));
-  }
-
-  /**
    * Swaps order of two levels
    * @param trainingDefId id of training definition associated with the level
-   * @param firstLevelId id of first level which should be swapped
-   * @param secondLevelId id of second level which should be swapped
+   * @param fromId id of first level which should be swapped
+   * @param toId id of second level which should be swapped
    */
-  swap(trainingDefId: number, firstLevelId: number, secondLevelId: number) {
-    return this.http.put(`${this.trainingDefsEndpointUri + trainingDefId + this.levelsUriExtension}/${firstLevelId}/swap/${trainingDefId}`,
+  swap(trainingDefId: number, fromId: number, toId: number): Observable<AbstractLevel[]> {
+    return this.http.put<BasicLevelInfoDTO[]>(`${this.trainingDefsEndpointUri + trainingDefId}/${this.levelsUriExtension}${fromId}/swap-with/${toId}`,
       {},
-      { headers: this.createDefaultHeaders()});
+      { headers: this.createDefaultHeaders()})
+      .pipe(
+        map(resp => this.levelMapper.mapBasicInfoDTOsToAbstractLevels(resp)),
+      );
   }
+
+
 
   private createDefaultHeaders() {
     let httpHeaderAccepts: string[] = [
@@ -286,4 +305,5 @@ export class TrainingDefinitionFacade {
     headers.set('Accept', httpHeaderAccepts);
     return headers;
   }
+
 }

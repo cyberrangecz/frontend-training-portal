@@ -27,14 +27,15 @@ export interface TrainingRunDTO {
     participant_ref: UserRefDTO;
     start_time?: Date;
     state?: TrainingRunDTO.StateEnum;
-    training_instance?: TrainingInstanceDTO;
+    definition_id: number;
+    instance_id: number;
 }
 export namespace TrainingRunDTO {
-    export type StateEnum = 'NEW' | 'ALLOCATED' | 'READY' | 'ARCHIVED';
+    export type StateEnum = 'NEW' | 'ALLOCATED' | 'READY' | 'FINISHED';
     export const StateEnum = {
         NEW: 'NEW' as StateEnum,
         ALLOCATED: 'ALLOCATED' as StateEnum,
         READY: 'READY' as StateEnum,
-        ARCHIVED: 'ARCHIVED' as StateEnum
+        FINISHED: 'FINISHED' as StateEnum
     }
 }

@@ -5,7 +5,6 @@ import {AbstractLevelDTO} from "../abstractLevelDTO";
 export interface GameLevelDTO extends AbstractLevelDTO {
   attachments: string[];
   content: string;
-  estimated_duration: number;
   flag: string;
   hints: HintDTO[];
   incorrect_flag_limit: number;

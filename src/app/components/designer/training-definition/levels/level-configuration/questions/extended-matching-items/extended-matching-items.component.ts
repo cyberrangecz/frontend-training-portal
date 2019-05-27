@@ -10,8 +10,8 @@ import {
   ViewChildren
 } from '@angular/core';
 import {ExtendedMatchingItems} from "../../../../../../../model/questions/extended-matching-items";
-import {AlertService} from "../../../../../../../services/event-services/alert.service";
-import {AlertTypeEnum} from "../../../../../../../enums/alert-type.enum";
+import {AlertService} from "../../../../../../../services/shared/alert.service";
+import {AlertTypeEnum} from "../../../../../../../model/enums/alert-type.enum";
 import {MatRadioButton} from "@angular/material";
 
 @Component({
@@ -26,6 +26,7 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
 
   @Input('question') question: ExtendedMatchingItems;
   @Input('isTest') isTest: boolean;
+  @Input('required') required: boolean;
 
   @Output('question') questionChange = new EventEmitter();
 
@@ -35,7 +36,6 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
   correctAnswers: { x: number, y:number }[];
   score: number;
   penalty: number;
-  required: boolean;
 
   maxQuestionScore: number = 100;
   maxQuestionPenalty: number = 100;
@@ -56,9 +56,12 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
       this.setInitialValues();
     }
     if ('isTest' in changes) {
-      if (this.isTest) {
-        this.required = true;
+      if (!this.isTest) {
+        this.penalty = 0;
       }
+    }
+    if ('required' in changes && !changes['required'].isFirstChange()) {
+      this.requiredChanged();
     }
   }
 
@@ -84,6 +87,13 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
     this.questionChange.emit();
   }
 
+  requiredChanged() {
+    if (!this.required) {
+      this.score = 0;
+      this.clearAnswers();
+    }
+  }
+
   /**
    * Determines whether the user has saved all his work and can leave the component
    * @returns {boolean} true if does not have any unsaved changes, false otherwise
@@ -107,7 +117,9 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
    */
   clearAnswers() {
     this.correctAnswers = [];
-    this.radioButtons.forEach(button => button.checked = false);
+    if (this.radioButtons) {
+      this.radioButtons.forEach(button => button.checked = false);
+    }
     this.contentChanged();
   }
 
@@ -170,7 +182,6 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
         const indexOfAnswerToDelete = this.correctAnswers.indexOf(answerToDelete);
         if (indexOfAnswerToDelete > -1) {
           this.correctAnswers.splice(indexOfAnswerToDelete, 1);
-          this.contentChanged();
         }
       });
     }
@@ -186,7 +197,6 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
       const indexOfAnswerToDelete = this.correctAnswers.indexOf(answerToDelete);
       if (indexOfAnswerToDelete > -1) {
         this.correctAnswers.splice(indexOfAnswerToDelete, 1);
-        this.contentChanged();
       }
     }
   }
@@ -215,13 +225,15 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
     this.question.required = this.required;
 
     if (this.question.required) {
-      this.question.penalty = this.penalty;
       this.question.score = this.score;
     } else {
-      this.question.penalty = 0;
       this.question.score = 0;
     }
-
+    if (this.isTest) {
+      this.question.penalty = this.penalty;
+    } else {
+      this.question.penalty = 0;
+    }
   }
 
   /**
@@ -243,7 +255,7 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
   /**
    * Validates user input and calls alert service if there are any errors
    */
-  private validateInput(): boolean {
+  validateInput(): boolean {
     let errorTitle = 'Question: ' + this.question.title + '\n';
     let errorMessage: string = '';
 
@@ -269,24 +281,18 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
 
     for (let i = 0; i < this.rows.length; i++) {
       if (!this.rows[i] || this.rows[i].replace(/\s/g, '') === '') {
-        errorMessage += (i + 1) + '. row cannot be empty\n'
+        errorMessage += (i + 1) + '. row title cannot be empty\n'
       }
     }
 
     for (let i = 0; i < this.cols.length; i++) {
       if (!this.cols[i] || this.cols[i].replace(/\s/g, '') === '') {
-        errorMessage += (i + 1) + '. column cannot be empty\n'
+        errorMessage += (i + 1) + '. column title cannot be empty\n'
       }
     }
 
-    if (this.correctAnswers.length > 0) {
-      this.correctAnswers.sort((fst, snd) => fst.x - snd.x);
-      for (let i = 0; i < this.rows.length; i++) {
-        if (!this.correctAnswers[i]) {
-          errorMessage += 'Either none or all answers in EMI have to be selected\n';
-          break;
-        }
-      }
+    if (this.required && !this.hasSelectedAnswers()) {
+      errorMessage="Required question must have selected correct answers"
     }
 
     if (errorMessage !== '') {
@@ -294,5 +300,9 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
       return false;
     }
     return true;
+  }
+
+  private hasSelectedAnswers() {
+    return this.rows.length === this.correctAnswers.length;
   }
 }

@@ -5,7 +5,7 @@
     <!-- TITLE field-->
     <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>
-      <input (change)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
+      <input (ngModelChange)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
       <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title=''; contentChanged()">
         <mat-icon>close</mat-icon>
       </button>
@@ -13,35 +13,30 @@
 
     <!-- AUTHORS field-->
     <div class="line-with-button">
-      <p *ngIf="authors" style="color: black">Authors: {{ authors }}</p>
+      <p *ngIf="authors" style="color: black">Authors: {{ authors | shorterAuthorsFormat: loggedUserLogin }}</p>
       <p *ngIf="!authors">Authors*</p>
       <span class="spacer"></span>
       <button (click)="chooseAuthors()"
-        mat-raised-button color="accent">
+        mat-button color="accent">
         Choose
       </button>
     </div>
 
-    <!-- VIEW GROUP field-->
-    <div *ngIf="viewGroup" class="line-with-button">
-        <p  style="color: black">View Group: {{ viewGroup.title }}</p>
-        <span class="spacer"></span>
-        <button (click)="editViewGroup()"
-                mat-raised-button color="accent">
-          Edit
-        </button>
-    </div>
-    <div *ngIf="!viewGroup" class="line-with-button">
-      <p>View Group*</p>
-      <button (click)="editViewGroup()"
-              mat-raised-button color="accent">
-        Create
+    <!-- SANDBOX DEFINITION field-->
+    <div class="line-with-button">
+      <p *ngIf="!sandboxDefId">Sandbox Definition Id*</p>
+      <p *ngIf="sandboxDefId" style="color: black"> Sandbox Definition Id: {{ sandboxDefId }}</p>
+      <span class="spacer"></span>
+      <button (click)="chooseSandboxDefs()"
+              mat-button color="accent">
+        Choose
       </button>
     </div>
+
     <!-- DESCRIPTION field-->
     <mat-form-field appearance="outline">
       <mat-label>Description</mat-label>
-      <textarea (change)="contentChanged()"  matInput placeholder="Description" [(ngModel)]="description"></textarea>
+      <textarea (ngModelChange)="contentChanged()"  matInput placeholder="Description" [(ngModel)]="description"></textarea>
       <button mat-button *ngIf="description" matSuffix mat-icon-button aria-label="Clear" (click)="description=''; contentChanged()">
         <mat-icon>close</mat-icon>
       </button>
@@ -49,8 +44,8 @@
 
     <!-- PREREQUISITES field-->
     <mat-form-field appearance="outline">
-      <mat-label>Prerequisites</mat-label>
-      <textarea (change)="contentChanged()"  matInput placeholder="Prerequisites" [(ngModel)]="prerequisites[0]"></textarea>
+      <mat-label>Notes for instructors</mat-label>
+      <textarea (ngModelChange)="contentChanged()"  matInput placeholder="Notes for instructors" [(ngModel)]="prerequisites[0]"></textarea>
       <button mat-button *ngIf="prerequisites" matSuffix mat-icon-button aria-label="Clear" (click)="prerequisites=['']; contentChanged()">
         <mat-icon>close</mat-icon>
       </button>
@@ -58,44 +53,40 @@
 
     <!-- OUTCOMES field-->
     <mat-form-field appearance="outline">
-      <mat-label>Outcomes</mat-label>
-      <textarea (change)="contentChanged()"  matInput placeholder="Outcomes" [(ngModel)]="outcomes[0]"></textarea>
+      <mat-label>Learning outcomes</mat-label>
+      <textarea (ngModelChange)="contentChanged()"  matInput placeholder="Learning outcomes" [(ngModel)]="outcomes[0]"></textarea>
       <button mat-button *ngIf="outcomes" matSuffix mat-icon-button aria-label="Clear" (click)="outcomes=['']; contentChanged()">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
 
     <!-- SHOW STEPPER BAR checkbox-->
-    <mat-checkbox (change)="contentChanged()"  [(ngModel)]="showProgress">Show Stepper Bar</mat-checkbox>
+    <mat-checkbox (ngModelChange)="contentChanged()" matTooltip="When active, trainee can see which level he is playing and how many there are until the end" [(ngModel)]="showProgress">Show Stepper Bar</mat-checkbox>
 
-    <!-- STATE field-->
-    <mat-form-field *ngIf="editMode" appearance="outline">
-      <mat-label>State</mat-label>
-      <mat-select placeholder="State"
-                  (change)="contentChanged()"
-                  [(ngModel)]="selectedState">
-        <mat-option *ngFor="let state of states"
-                    [value]="state">
-          {{ state | titlecase }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <!-- SANDBOX DEFINITION field-->
-    <div class="line-with-button">
-      <p style="color: black"> Sandbox Definition Id: {{ sandboxDefId }}</p>
-      <span class="spacer"></span>
-      <button (click)="chooseSandboxDefs()"
-        mat-raised-button color="accent">
-        Choose
+    <!-- BETA TESTING GROUP field-->
+    <div  class="line-with-button">
+      <p *ngIf="betaTestingGroup" style="color: black"> Beta Testing Group: {{ betaTestingGroup?.organizers | shorterAuthorsFormat: loggedUserLogin }}</p>
+      <p *ngIf="!betaTestingGroup">Beta Testing Group</p>
+      <button
+        *ngIf="!betaTestingGroup"
+        (click)="chooseBetaTestingGroup()"
+        mat-button color="accent">
+        Create
+      </button>
+      <button
+        *ngIf="betaTestingGroup"
+        (click)="chooseBetaTestingGroup()"
+        mat-button color="accent">
+        Edit
       </button>
     </div>
 
     <!-- SAVE button-->
     <div class="main-button">
       <button (click)="saveTrainingDef()"
+              [disabled]="!dirty"
         mat-raised-button color="primary">
-        Save changes
+         Save description
       </button>
     </div>
   </div>

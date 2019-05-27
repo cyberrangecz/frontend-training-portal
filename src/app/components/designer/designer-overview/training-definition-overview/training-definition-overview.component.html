@@ -15,7 +15,7 @@
       <mat-form-field>
         <input matInput (keyup)="applyFilter($event.target.value)"
                [disabled]="isInErrorState"
-               placeholder="Filter by title or status">
+               placeholder="Filter by title or state">
       </mat-form-field>
       <div class="mat-elevation-z8">
         <div class="loading"
@@ -43,9 +43,21 @@
           </ng-container>
 
           <!-- STATUS Column -->
-          <ng-container matColumnDef="status">
-            <th class="status" mat-header-cell *matHeaderCellDef>Status</th>
-            <td class="status" mat-cell *matCellDef="let data"> {{ data.trainingDefinition?.state }}</td>
+          <ng-container matColumnDef="state">
+            <th class="status" mat-header-cell mat-sort-header *matHeaderCellDef>State</th>
+            <td class="status" mat-cell *matCellDef="let data">
+                <mat-select (selectionChange)="changeTrainingDefinitionState(data)"
+                            *ngIf="!data.isLoadingStateChange"
+                            [disabled]="data.possibleStates.length <= 1"
+                            [(ngModel)]="data.selectedState">
+                  <mat-option *ngFor="let state of data.possibleStates"
+                              [value]="state">
+                    {{ state | titlecase }}
+                  </mat-option>
+                </mat-select>
+              <mat-progress-spinner *ngIf="data.isLoadingStateChange" color="accent" mode="indeterminate" diameter="25">
+              </mat-progress-spinner>
+            </td>
           </ng-container>
 
           <!-- AUTHORS Column -->
@@ -53,10 +65,24 @@
             <th class="authors" mat-header-cell *matHeaderCellDef>Authors</th>
             <td class="authors" mat-cell
                 *matCellDef="let data">
-              <div [matTooltip]="data.trainingDefinition?.authors"
-                matTooltipPosition="above">
-                {{ data.trainingDefinition?.authors | authorsTableFormat }}
-              </div>
+                {{ data.trainingDefinition?.authors | shorterAuthorsFormat: loggedUserLogin }}
+              <button *ngIf="data.trainingDefinition?.authors?.length > 1" mat-button color="accent" (click)="showAuthorsList(data?.trainingDefinition)">Show</button>
+            </td>
+          </ng-container>
+
+          <!--ESTIMATED DURATION COLUMN-->
+          <ng-container matColumnDef="estimated-duration">
+            <th class="estimated-duration" mat-header-cell *matHeaderCellDef mat-sort-header="estimatedDuration" [disabled]="isInErrorState">Estimated Duration</th>
+            <td class="estimated-duration" mat-cell *matCellDef="let data">
+              {{ data.trainingDefinition?.estimatedDuration }} min
+            </td>
+          </ng-container>
+
+          <!-- LAST EDIT Column -->
+          <ng-container matColumnDef="last-edit">
+            <th class="last-edit" mat-header-cell *matHeaderCellDef mat-sort-header="lastEdited" [disabled]="isInErrorState">Last Edit</th>
+            <td class="last-edit" mat-cell *matCellDef="let data">
+              {{ data.trainingDefinition?.lastEditTime | dateTimeFormat }}
             </td>
           </ng-container>
 
@@ -77,9 +103,7 @@
                 </button>
 
                 <!-- CLONE button -->
-                <button *ngIf="data.trainingDefinition?.state === trainingStateEnum.Released ||
-                             data.trainingDefinition?.state === trainingStateEnum.Archived"
-                        mat-icon-button color="primary"
+                <button mat-icon-button color="primary"
                         matTooltip="Clone training definition"
                         (click)="cloneTrainingDefinition(data.trainingDefinition?.id)">
                   <mat-icon
@@ -90,11 +114,11 @@
                 <!-- REMOVE button -->
                 <button *ngIf="data.trainingDefinition?.state === trainingStateEnum.Unreleased ||
                              data.trainingDefinition?.state === trainingStateEnum.Archived"
-                        mat-icon-button color="primary"
-                        matTooltip="Remove training definition"
-                        (click)="removeTrainingDefinition(data.trainingDefinition?.id)">
+                        mat-icon-button color="warn"
+                        matTooltip="Delete training definition"
+                        (click)="deleteTrainingDefinition(data.trainingDefinition)">
                   <mat-icon
-                    aria-label="Remove training definition button"
+                    aria-label="Delete training definition button"
                   >delete</mat-icon>
                 </button>
 
@@ -107,15 +131,13 @@
                     cloud_download</mat-icon>
                 </button>
 
-                <!-- ARCHIVE button -->
-                <button *ngIf="data.trainingDefinition?.state !== trainingStateEnum.Archived
-                              && data.trainingDefinition?.canBeArchived"
-                        mat-icon-button color="primary"
-                        matTooltip="Archive training definition"
-                        (click)="archiveTrainingDefinition(data.trainingDefinition)">
+                <!-- PREVIEW button -->
+                <button mat-icon-button color="primary"
+                        matTooltip="Preview training run"
+                        (click)="previewTrainingDefinition(data.trainingDefinition?.id)">
                   <mat-icon
-                    aria-label="Archive training definition button">
-                    archive</mat-icon>
+                    aria-label="Preview training definition button">
+                    play_arrow</mat-icon>
                 </button>
               </div>
             </td>

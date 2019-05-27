@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
-import {AlertTypeEnum} from "../../../enums/alert-type.enum";
-import {UploadService} from "../../../services/upload.service";
+import {AlertTypeEnum} from "../../../model/enums/alert-type.enum";
+import {UploadService} from "../../../services/shared/upload.service";
 import {TrainingDefinition} from '../../../model/training/training-definition';
 import {TrainingDefinitionFacade} from '../../../services/facades/training-definition-facade.service';
 import {SandboxDefinitionFacade} from "../../../services/facades/sandbox-definition-facade.service";

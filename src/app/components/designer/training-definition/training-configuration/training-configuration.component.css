@@ -2,6 +2,10 @@ h1 {
   text-align: center;
 }
 
+button {
+  text-align: center;
+}
+
 .form-container {
   display: flex;
   flex-direction: column;
@@ -12,23 +16,24 @@ h1 {
   margin: 10px;
 }
 
-.form-container button {
-  width: 130px;
-}
 
 .line-with-button {
   display: flex;
   flex-direction: row;
   align-items: baseline;
+  justify-content: space-between;
 }
 
 .line-with-button p {
   color: grey;
-  width: 100%;
 }
 
-.line-with-button button {
-  margin-left: 10px;
+
+
+.main-button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 .main-button button {

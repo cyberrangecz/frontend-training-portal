@@ -1,19 +1,17 @@
 import {
   Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output
+  Input, OnChanges,
+  OnInit, SimpleChanges,
 } from '@angular/core';
 import {GameLevel} from "../../../../../model/level/game-level";
-import {ActiveTrainingRunService} from "../../../../../services/active-training-run.service";
+import {ActiveTrainingRunService} from "../../../../../services/trainee/active-training-run.service";
 import {MatDialog} from "@angular/material";
 import {RevealHintDialogComponent} from "./user-action-dialogs/reveal-hint-dialog/reveal-hint-dialog.component";
 import {RevealSolutionDialogComponent} from "./user-action-dialogs/reveal-solution-dialog/reveal-solution-dialog.component";
 import {WrongFlagDialogComponent} from "./user-action-dialogs/wrong-flag-dialog/wrong-flag-dialog.component";
-import {ComponentErrorHandlerService} from "../../../../../services/component-error-handler.service";
-import {TrainingRunFacade} from "../../../../../services/facades/training-run-facade.service";
-import {ActiveUserService} from '../../../../../services/active-user.service';
+import {ErrorHandlerService} from "../../../../../services/shared/error-handler.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {TrainingRunGameLevelService} from "../../../../../services/trainee/training-run-game-level.service";
 
 @Component({
   selector: 'training-run-game-level',
@@ -27,16 +25,16 @@ import {ActiveUserService} from '../../../../../services/active-user.service';
  * Component of a game level in a training run. Users needs to find out correct solution (flag) and submit it
  * before he can continue to the next level.
  */
-export class TrainingRunGameLevelComponent implements OnInit {
+export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
 
   @Input('level') level: GameLevel;
-  @Output('nextLevel') nextLevel: EventEmitter<number> = new EventEmitter<number>();
 
   graphWidth: number;
   graphHeight: number;
   sandboxId: number;
   isGameDataLoaded = true;
   isTopologyLoaded = false;
+  hasNextLevel: boolean;
 
   displayedText: string;
   flag: string;
@@ -46,20 +44,25 @@ export class TrainingRunGameLevelComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private trainingRunFacade: TrainingRunFacade,
-    private activeUserService: ActiveUserService,
-    private errorHandler: ComponentErrorHandlerService,
+    private errorHandler: ErrorHandlerService,
+    private router: Router,
+    private activeRoute: ActivatedRoute,
+    private gameLevelService: TrainingRunGameLevelService,
     private activeLevelService: ActiveTrainingRunService) { }
 
   ngOnInit() {
-    this.sandboxId = this.activeLevelService.sandboxInstanceId;
-    this.displayedText = this.level.content;
-    this.initHintButtons();
+    this.init()
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if ('level' in changes) {
+      this.init()
+    }
+  }
+
 
   topologyLoaded() {
     this.isTopologyLoaded = true;
-    this.setGraphTopologyElementSize(window.innerWidth, window.innerHeight);
   }
 
 
@@ -79,14 +82,7 @@ export class TrainingRunGameLevelComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
-        this.trainingRunFacade.takeHint(this.activeLevelService.trainingRunId, hintButton.hint.id)
-          .subscribe(resp => {
-            hintButton.displayed = true;
-              this.displayedText += '\n\n## <span style="color:slateblue">Hint ' + index + ": " + resp.title + "</span>\n" + resp.content;
-          },
-          err => {
-            this.errorHandler.displayHttpError(err, 'Taking hint "' + hintButton.hint.title + '"');
-            });
+        this.sendRequestToShowHint(hintButton, index);
       }
     })
   }
@@ -103,7 +99,7 @@ export class TrainingRunGameLevelComponent implements OnInit {
    * Displays popup dialog asking for users confirmation of the action. If the action is confirmed by user,
    * the solution is displayed.
    */
-  showSolutionButtonClick() {
+  revealSolution() {
     const dialogRef = this.dialog.open(RevealSolutionDialogComponent, {
       data: {
         title: 'solution',
@@ -113,7 +109,7 @@ export class TrainingRunGameLevelComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
-        this.revealSolution();
+        this.sendRequestToRevealSolution();
       }
     })
   }
@@ -122,15 +118,43 @@ export class TrainingRunGameLevelComponent implements OnInit {
    * Checks whether the flag is correct and perform appropriate actions
    */
   submitFlag() {
-    this.trainingRunFacade.isCorrectFlag(this.activeLevelService.trainingRunId, this.flag)
-      .subscribe(resp => {
-        if (resp.isCorrect) {
-          this.runActionsAfterCorrectFlagSubmitted();
-        } else {
-          this.runActionsAfterWrongFlagSubmitted(resp.remainingAttempts)
-        }
-      });
+    this.gameLevelService.isCorrectFlag(this.activeLevelService.trainingRunId, this.flag)
+      .subscribe(
+        resp => {
+            if (resp.isCorrect) {
+              this.onCorrectFlagSubmitted();
+            } else {
+              this.onWrongFlagSubmitted(resp.remainingAttempts)
+            }
+          },
+        err => this.errorHandler.displayHttpError(err, 'Submitting flag')
+      );
+  }
 
+  nextLevel() {
+    this.activeLevelService.nextLevel()
+      .subscribe(
+        resp => {},
+        err => this.errorHandler.displayHttpError(err, 'Moving to next level')
+      )
+  }
+
+  finish() {
+    this.activeLevelService.finish()
+      .subscribe(
+        resp => {},
+        err => this.errorHandler.displayHttpError(err, 'Finishing training')
+      )
+  }
+
+
+  private init() {
+    this.sandboxId = this.activeLevelService.sandboxInstanceId;
+    this.displayedText = this.level.content;
+    this.correctFlag = false;
+    this.hasNextLevel = this.activeLevelService.hasNextLevel();
+    this.setGraphTopologyElementSize(window.innerWidth, window.innerHeight);
+    this.initHintButtons();
   }
 
   /**
@@ -159,20 +183,23 @@ export class TrainingRunGameLevelComponent implements OnInit {
   /**
    * The level is unlocked and the user can continue to the next one
    */
-  private runActionsAfterCorrectFlagSubmitted() {
-    this.activeLevelService.unlockCurrentLevel();
+  private onCorrectFlagSubmitted() {
     this.correctFlag = true;
-    this.nextLevel.emit(this.level.order + 1);
+    if (this.hasNextLevel) {
+      this.nextLevel();
+    } else {
+      this.finish();
+    }
   }
 
   /**
    * otherwise popup dialog informing the user about penalty for submitting incorrect flag is displayed and the information
    * is send to the endpoint
    */
-  private runActionsAfterWrongFlagSubmitted(remainingAttempts: number) {
+  private onWrongFlagSubmitted(remainingAttempts: number) {
     if (!this.solutionShown) {
       if (remainingAttempts === 0) {
-        this.revealSolution();
+        this.sendRequestToRevealSolution();
       }
     }
     const dialogRef = this.dialog.open(WrongFlagDialogComponent, {
@@ -182,35 +209,36 @@ export class TrainingRunGameLevelComponent implements OnInit {
     });
   }
 
-  /**
-   * Reveals solution text and deducts points if solution is penalized
-   */
-  private revealSolution() {
+  private sendRequestToRevealSolution() {
     this.isGameDataLoaded = false;
-/*    if (this.level.solutionPenalized) {
-      let pointsToDeduct = this.level.maxScore - this.hintButtons
-        .map(hintButton => hintButton.displayed ? hintButton.hint.hintPenalty : 0)
-        .reduce((sum, currentHintPoints) => sum + currentHintPoints);
-    }*/
-    this.trainingRunFacade.takeSolution(this.activeLevelService.trainingRunId)
+    this.gameLevelService.takeSolution(this.activeLevelService.trainingRunId)
       .subscribe(resp => {
         this.solutionShown = true;
         this.displayedText = resp;
-      // TODO: deduct remaining points (via REST?)
         this.isGameDataLoaded = true;
       },
       err => {
         this.isGameDataLoaded = true;
         this.errorHandler.displayHttpError(err, "Loading solution");
       })
-
   }
 
+  private sendRequestToShowHint(hintButton, index: number) {
+    this.gameLevelService.takeHint(this.activeLevelService.trainingRunId, hintButton.hint.id)
+      .subscribe(resp => {
+          hintButton.displayed = true;
+          this.displayedText += '\n\n## Hint ' + index + ": " + resp.title + "\n" + resp.content;
+        },
+        err => {
+          this.errorHandler.displayHttpError(err, 'Taking hint "' + hintButton.hint.title + '"');
+        });
+  }
 
   /**
    * Initializes hint buttons from hints of the game level
    */
   private initHintButtons() {
+    this.hintButtons = [];
     this.level.hints.forEach(hint =>
       this.hintButtons.push(
         {

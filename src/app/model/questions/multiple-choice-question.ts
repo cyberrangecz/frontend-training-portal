@@ -5,13 +5,13 @@ import {AbstractQuestion} from "./abstract-question";
  */
 export class MultipleChoiceQuestion extends AbstractQuestion {
   options: string[];
-  correctAnswersIndexes: number[];
-  usersAnswersIndexes: number[];
+  correctAnswersIndices: number[];
+  usersAnswersIndices: number[];
 
   constructor(title: string) {
     super(title);
     this.options = [];
-    this.correctAnswersIndexes = [];
-    this.usersAnswersIndexes = [];
+    this.correctAnswersIndices = [];
+    this.usersAnswersIndices = [];
   }
 }

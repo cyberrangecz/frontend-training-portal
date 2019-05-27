@@ -8,6 +8,15 @@ markdown > pre {
   overflow-wrap: break-word;
 }
 
+lib-force-graph {
+  border: 1px solid gainsboro;
+}
+
+.topology-placeholder {
+  border: 1px solid gainsboro;
+}
+
+
 .container {
   display: flex;
   flex-direction: column;
@@ -21,11 +30,19 @@ markdown > pre {
   width: 90%;
 }
 
+.footer {
+  margin-top: 30px;
+  width: 90%;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
 .content {
   margin-top: 50px;
   display: flex;
   width: 90%;
   flex-direction: row;
+
 }
 
 .left-panel {

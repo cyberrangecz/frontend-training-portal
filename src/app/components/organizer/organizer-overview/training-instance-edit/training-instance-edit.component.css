@@ -36,10 +36,6 @@ div .right-panel {
   margin-left: 20px;
 }
 
-button {
-  width: 130px;
-}
-
 .save-button {
   display: flex;
 }
@@ -61,7 +57,6 @@ button {
 }
 
 button.main {
-  width: 130px;
   margin-top: 15px;
 }
 

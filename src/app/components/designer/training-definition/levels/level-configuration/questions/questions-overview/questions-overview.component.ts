@@ -1,4 +1,5 @@
 import {
+  AfterViewInit, ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -14,7 +15,7 @@ import {AbstractQuestion} from "../../../../../../../model/questions/abstract-qu
 import {FreeFormQuestion} from "../../../../../../../model/questions/free-form-question";
 import {MultipleChoiceQuestion} from "../../../../../../../model/questions/multiple-choice-question";
 import {ExtendedMatchingItems} from "../../../../../../../model/questions/extended-matching-items";
-import {DeleteDialogComponent} from "../../../../delete-dialog/delete-dialog.component";
+import {DeleteDialogComponent} from "../../../../../../shared/delete-dialog/delete-dialog.component";
 import {MatDialog} from "@angular/material";
 
 @Component({
@@ -25,7 +26,7 @@ import {MatDialog} from "@angular/material";
 /**
  * Wrapper component for questions inside the assessment level. Creates child question components.
  */
-export class QuestionsOverviewComponent implements OnInit, OnChanges {
+export class QuestionsOverviewComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Input('questions') questions: AbstractQuestion[];
   @Input('isTest') isTest: boolean;
@@ -37,7 +38,9 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
 
   dirty = false;
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog,
+              private cdRef:ChangeDetectorRef) {
+  }
 
   ngOnInit() {
   }
@@ -46,6 +49,15 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
     if ('questions' in changes) {
       this.resolveInitialQuestions();
     }
+    if ('isTest' in changes) {
+      if (this.isTest && this.questions) {
+        this.questions.forEach(question => question.required = true);
+      }
+    }
+  }
+
+  ngAfterViewInit() {
+    this.cdRef.detectChanges();
   }
 
   /**
@@ -63,7 +75,6 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
     const newFfq = new FreeFormQuestion('New Free Form Question');
     newFfq.required = this.isTest;
     this.questions.push(newFfq);
-    this.dirty = true;
     this.questionChanged();
   }
 
@@ -76,7 +87,6 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
     newMcq.options.push("");
     newMcq.required = this.isTest;
     this.questions.push(newMcq);
-    this.dirty = true;
     this.questionChanged();
   }
 
@@ -91,11 +101,11 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
     newEmi.rows.push("");
     newEmi.rows.push("");
     this.questions.push(newEmi);
-    this.dirty = true;
     this.questionChanged();
   }
 
   questionChanged() {
+    this.dirty = true;
     this.questionChange.emit()
   }
 
@@ -115,7 +125,6 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
         this.questions.splice(index, 1);
-        this.dirty = true;
         this.questionChanged();
       }
     });
@@ -124,12 +133,16 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges {
   /**
    * Validates input of every child component and saves user input to REST
    */
-  saveChanges() {
+  save() {
     this.questionConfigurationChildren.forEach(child => child.saveChanges());
     const savedQuestion: AbstractQuestion[] = [];
     this.questionConfigurationChildren.forEach(child => savedQuestion.push(child.question));
     this.questions = savedQuestion;
     this.dirty = false
+  }
+
+  validateInput(): boolean {
+    return this.questionConfigurationChildren.toArray().every(child => child.validateInput());
   }
 
   private resolveInitialQuestions() {

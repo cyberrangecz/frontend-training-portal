@@ -3,15 +3,16 @@
   mat-button color="primary">
   1. HOME PAGE
 </a>
-<p class="main-nav"
-   *ngIf="activeTrainings.length > 0">
-  2. TRAININGS
-</p>
 
-<a *ngFor="let training of activeTrainings; let i = index"
-   class="sub-nav"
-   routerLink="{{training.route}}"
-   mat-button color="primary">
-  2.{{ i + 1 }} {{ training.title }}
-</a>
+<div *ngFor="let menuSection of menuSections; let menuSectionOrder = index">
+  <p class="main-nav">
+     {{ menuSectionOrder + 2}} {{ menuSection.name }}
+  </p>
 
+  <a *ngFor="let agenda of menuSection.agendas; let agendaOrder = index"
+     class="sub-nav"
+     routerLink="{{agenda.route}}"
+     mat-button color="primary">
+    {{ menuSectionOrder + 2 }}.{{ agendaOrder + 1 }} {{ agenda.title }}
+  </a>
+</div>

@@ -10,8 +10,8 @@ import {AssessmentLevelUpdateDTO, AssessmentLevelUpdateDTOClass} from "../../mod
 import {GameLevelDTO} from "../../model/DTOs/level/game/gameLevelDTO";
 import {InfoLevelDTO} from "../../model/DTOs/level/info/infoLevelDTO";
 import {AssessmentLevelDTO} from "../../model/DTOs/level/assessment/assessmentLevelDTO";
-import {AbstractLevelTypeEnum} from "../../enums/abstract-level-type.enum";
-import {AssessmentTypeEnum} from "../../enums/assessment-type.enum";
+import {AbstractLevelTypeEnum} from "../../model/enums/abstract-level-type.enum";
+import {AssessmentTypeEnum} from "../../model/enums/assessment-type.enum";
 import {HintDTO, HintDTOClass} from "../../model/DTOs/level/game/hintDTO";
 import {Hint} from "../../model/level/hint";
 import {BasicLevelInfoDTO} from "../../model/DTOs/level/basicLevelInfoDTO";
@@ -22,10 +22,10 @@ import {MultipleChoiceQuestion} from '../../model/questions/multiple-choice-ques
 import {ExtendedMatchingItems} from '../../model/questions/extended-matching-items';
 import {AbstractQuestionCreateDTO, AbstractQuestionDTO} from '../../model/DTOs/level/assessment/abstactQuestionDTO';
 import {MultipleChoiceQuestionCreateDTO, MultipleChoiceQuestionCreateDTOClass} from '../../model/DTOs/level/assessment/multipleChoiceQuestionCreateDTO';
-import {ExtendedMatchingItemsCreateDTO, ExtendedMatchingItemsDTOClass} from '../../model/DTOs/level/assessment/extendedMatchingItemsDTO';
 import {FreeFormQuestionCreateDTO, FreeFormQuestionDTOClass} from '../../model/DTOs/level/assessment/freeFormQuestionDTO';
 import {MCQChoiceDTO} from '../../model/DTOs/level/assessment/mcqChoiceDTO';
 import {EMIChoiceDTO} from '../../model/DTOs/level/assessment/emiChoiceDTO';
+import {ExtendedMatchingItemsDTO} from '../../model/DTOs/level/assessment/extendedMatchingItemsDTO';
 
 @Injectable()
 export class LevelMapper {
@@ -99,6 +99,7 @@ export class LevelMapper {
     result.id = level.id;
     result.title = level.title;
     result.max_score = level.maxScore;
+    result.estimated_duration = level.estimatedDuration;
     result.instructions = level.instructions;
     result.type = this.mapAssessmentTypeToDTO(level.assessmentType);
     result.questions = '[]';
@@ -117,12 +118,6 @@ export class LevelMapper {
     result.id = level.id;
     result.title = level.title;
     result.order = level.order;
-    return result;
-  }
-
-  mapHintsDTOToHints(hints: HintDTO[]): Hint[] {
-    const result: Hint[] = [];
-    hints.forEach(hintDto => result.push(this.mapHintDTOToHint(hintDto)));
     return result;
   }
 
@@ -167,17 +162,14 @@ export class LevelMapper {
   private createGameLevelFromDTO(gameLevelDTO: GameLevelDTO): GameLevel {
     const result = new GameLevel();
     this.setAbstractLevelAttributesFromDTO(result, gameLevelDTO);
+    result.hints = gameLevelDTO.hints.map(hintDto => this.mapHintDTOToHint(hintDto));
     result.type = AbstractLevelTypeEnum.Game;
     result.flag = gameLevelDTO.flag;
     result.content = gameLevelDTO.content;
     result.solution = gameLevelDTO.solution;
     result.incorrectFlagLimit = gameLevelDTO.incorrect_flag_limit;
     result.solutionPenalized = gameLevelDTO.solution_penalized;
-    result.estimatedDuration = gameLevelDTO.estimated_duration;
     result.attachments = gameLevelDTO.attachments;
-    if (gameLevelDTO.hints) {
-      result.hints = this.mapHintsDTOToHints(gameLevelDTO.hints);
-    }
     return result;
   }
 
@@ -210,14 +202,15 @@ export class LevelMapper {
   }
 
   /**
-   * Helper method which sets abstract level attributes (common for all type of levels) from level DTO
+   * Helper method which sets abstract level attributes (shared for all type of levels) from level DTO
    * @param level level object which attributes should be set accordingly to received dto
    * @param levelDTO level dto received from remote server
    */
   private setAbstractLevelAttributesFromDTO(level: AbstractLevel, levelDTO: AbstractLevelDTO) {
     level.id = levelDTO.id;
     level.title = levelDTO.title;
-    level.nextLevel = levelDTO.next_level;
+    level.order = levelDTO.order;
+    level.estimatedDuration = levelDTO.estimated_duration;
     level.maxScore = levelDTO.max_score;
   }
 
@@ -305,27 +298,14 @@ export class LevelMapper {
     return result;
   }
 
-  private mapEMIFromDTO(questionDTO): ExtendedMatchingItems {
+  private mapEMIFromDTO(questionDTO: ExtendedMatchingItemsDTO): ExtendedMatchingItems {
     const result = new ExtendedMatchingItems(questionDTO.text);
     this.mapAbtractQuestionAttributesFromDTO(questionDTO, result);
-    const answers: {x: number, y: number}[] = [];
-    const rows: string[] = [];
-    const cols: string[] = [];
-
-    questionDTO.choices.forEach(choice => {
-      const half = Math.floor((questionDTO.choices.length) / 2);
-      if (choice.order < half) {
-        rows.push(choice.text);
-        if (choice.pair) {
-          answers.push({x: choice.order, y: choice.pair - half});
-        }
-      } else {
-        cols.push(choice.text);
-      }
-    });
-    result.rows = rows;
-    result.cols = cols;
-    result.correctAnswers = answers;
+    result.cols = questionDTO.cols;
+    result.rows = questionDTO.rows;
+    if (questionDTO.answer_required) {
+      this.mapEmiChoicesFromDTO(questionDTO.correct_answers, result);
+    }
     return result;
   }
 
@@ -337,7 +317,7 @@ export class LevelMapper {
     questionDTO.choices
       .filter(choice => choice.is_correct)
       .forEach(correctChoice => answers.push(correctChoice.order));
-    result.correctAnswersIndexes = answers;
+    result.correctAnswersIndices = answers;
 
     questionDTO.choices
       .sort((a, b) => a.order - b.order)
@@ -361,10 +341,12 @@ export class LevelMapper {
     return result;
   }
 
-  private mapEMIToDTO(question: ExtendedMatchingItems): ExtendedMatchingItemsCreateDTO {
-    const result = new ExtendedMatchingItemsDTOClass();
+  private mapEMIToDTO(question: ExtendedMatchingItems): ExtendedMatchingItemsDTO {
+    const result = new ExtendedMatchingItemsDTO();
     this.mapAbstractQuestionAttributesToDTO(question, result);
     result.question_type = AbstractQuestionDTO.QuestionTypeEnum.EMI;
+    result.rows = question.rows;
+    result.cols = question.cols;
     this.mapEMIChoicesToDTO(question, result);
     return result;
   }
@@ -385,33 +367,13 @@ export class LevelMapper {
     questionDTO.text = question.title;
   }
 
-  private mapEMIChoicesToDTO(question: ExtendedMatchingItems, questionDTO: ExtendedMatchingItemsCreateDTO) {
-    let index = 0;
-    const half = question.rows.length - question.cols.length; // TODO: higher - lower
-    const choices: EMIChoiceDTO[] = [];
-
-    question.rows.forEach(row => {
-      const choice = new EMIChoiceDTO();
-      choice.order = index;
-      choice.text = row;
-      if (question.correctAnswers && question.correctAnswers.length > 0) {
-        choice.pair = question.correctAnswers.find(answer => answer.x === index).y + half;
-      }
-      choices.push(choice);
-      index++;
-    });
-
-    question.cols.forEach(col => {
-      const choice = new EMIChoiceDTO();
-      choice.order = index;
-      choice.text = col;
-      if (question.correctAnswers && question.correctAnswers.length > 0) {
-        choice.pair = question.correctAnswers.find(answer => answer.x === index - half).x;
-      }
-      choices.push(choice);
-      index++;
-    });
-    questionDTO.choices = choices;
+  private mapEMIChoicesToDTO(question: ExtendedMatchingItems, questionDTO: ExtendedMatchingItemsDTO) {
+    if (question.required) {
+      questionDTO.correct_answers = question.correctAnswers.map(answer => new EMIChoiceDTO(answer.x, answer.y));
+    }
+    else {
+      questionDTO.correct_answers = [new EMIChoiceDTO(-1, -1)];
+    }
   }
 
   private mapMCQChoicesToDTO(question: MultipleChoiceQuestion, questionDTO: MultipleChoiceQuestionCreateDTO) {
@@ -421,10 +383,19 @@ export class LevelMapper {
       const choice =  new MCQChoiceDTO();
       choice.text = option;
       choice.order = index;
-      choice.is_correct = question.correctAnswersIndexes.includes(index);
+      choice.is_correct = question.correctAnswersIndices.includes(index);
       result.push(choice);
       index++;
     });
     questionDTO.choices = result;
+  }
+
+  private mapEmiChoicesFromDTO(correctAnswersDTO: EMIChoiceDTO[], result: ExtendedMatchingItems) {
+    result.correctAnswers = correctAnswersDTO.map(answerDTO =>  {
+     return  {
+       x : answerDTO.x,
+       y: answerDTO.y
+     }
+    });
   }
 }

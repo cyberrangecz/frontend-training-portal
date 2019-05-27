@@ -1,4 +1,9 @@
+import {RoleDTO} from "./role-dto";
+
 export class UserInfoDTO {
-  login: string;
   full_name: string;
+  id: number;
+  login: string;
+  mail: string;
+  roles: RoleDTO[];
 }

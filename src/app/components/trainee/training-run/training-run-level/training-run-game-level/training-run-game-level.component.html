@@ -6,11 +6,20 @@
     <div class="left-panel">
       <!-- TOPOLOGY COMPONENT-->
      <lib-force-graph  #topology
+                       *ngIf="sandboxId"
                       [width]="graphWidth"
                       [height]="graphHeight"
                       [sandboxId]="sandboxId"
                       (onTopologyLoaded)="topologyLoaded()">
      </lib-force-graph>
+      <div *ngIf="!sandboxId" class="topology-placeholder">
+        <h3>There will be topology component</h3>
+        <img src="assets/images/placeholders/topology-placeholder.png"
+             alt="Topology placeholder"
+             [width]="graphWidth"
+             [height]="graphHeight"/>
+      </div>
+
 
     </div>
     <div class="right-panel">
@@ -29,7 +38,7 @@
         <!-- SOLUTION BUTTON-->
         <button mat-raised-button color="warn"
                 [disabled]="correctFlag || solutionShown"
-                (click)="showSolutionButtonClick()"
+                (click)="revealSolution()"
                 matTooltip="Display solution">
           Solution
         </button>
@@ -53,5 +62,14 @@
           Submit</button>
       </div>
     </div>
+  </div>
+  <div *ngIf="correctFlag" class="footer">
+    <div *ngIf="hasNextLevel then nextLevelButton else finishButton"></div>
+      <ng-template #nextLevelButton>
+        <button mat-raised-button color="primary" (click)="nextLevel()">Next level</button>
+      </ng-template>
+      <ng-template #finishButton>
+        <button mat-raised-button color="primary" (click)="finish()">Finish training</button>
+      </ng-template>
   </div>
 </div>

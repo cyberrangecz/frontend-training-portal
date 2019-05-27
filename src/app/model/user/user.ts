@@ -1,4 +1,4 @@
-import {UserRoleEnum} from "../../enums/user-role.enum";
+import {UserRoleEnum} from "../enums/user-role.enum";
 import {Set} from 'typescript-collections/'
 
 /**
@@ -12,8 +12,11 @@ export class User {
   groupIds: number[];
   roles: Set<UserRoleEnum>;
 
-  constructor() {
+  constructor(roles?: UserRoleEnum[]) {
     this.roles = new Set();
+    if (roles) {
+      roles.forEach(role => this.roles.add(role));
+    }
   }
 
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ActiveTrainingRunService} from "../../../services/active-training-run.service";
+import {ActiveTrainingRunService} from "../../../services/trainee/active-training-run.service";
 
 @Component({
   selector: 'trainee-overview',

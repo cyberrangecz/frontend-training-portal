@@ -7,7 +7,7 @@ import { TrainingInfoComponent } from './training-info/training-info.component';
 import { TrainingSummaryTableComponent } from './training-summary-table/training-summary-table.component';
 import {SharedModule} from "../../../shared/shared.module";
 import {PipesModule} from '../../../../pipes/pipes.module';
-import {ComponentErrorHandlerService} from "../../../../services/component-error-handler.service";
+import {ErrorHandlerService} from "../../../../services/shared/error-handler.service";
 import {TrainingRunFacadeModule} from '../../../../services/facades/modules/training-run-facade.module';
 
 @NgModule({
@@ -25,7 +25,7 @@ import {TrainingRunFacadeModule} from '../../../../services/facades/modules/trai
   TrainingSummaryTableComponent
   ],
   providers: [
-    ComponentErrorHandlerService
+    ErrorHandlerService
   ]
 })
 

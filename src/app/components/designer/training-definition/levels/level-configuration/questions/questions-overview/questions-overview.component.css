@@ -10,6 +10,25 @@ h3 {
   color: slateblue;
 }
 
+mat-card-header {
+  align-items: baseline;
+}
+
+.spacer {
+  flex: 1 0 auto;
+}
+
+.required {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+p.required-switch-note {
+  margin-left: 10px;
+  color: #f44336;
+}
+
 mat-card {
   margin: 20px 0;
 }

@@ -3,15 +3,22 @@
   flex-direction: row;
 }
 
-.content mat-horizontal-stepper {
+.content mat-card {
   flex-grow: 8;
   max-width: 100%;
-
 }
 
 /deep/.mat-horizontal-stepper-header-container {
   max-width: 100%;
   overflow-x: auto;
+}
+
+button.add-level {
+  margin-left: 20px;
+}
+
+.step-content {
+  padding-top: 20px;
 }
 
 .header {

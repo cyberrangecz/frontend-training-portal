@@ -2,7 +2,6 @@ div .container {
   display: flex;
   flex-direction: row;
   width: 100%;
-
 }
 
 div .header {
@@ -25,4 +24,6 @@ trainee-access-training {
 
 trainee-trainings-table {
   margin-top: 50px;
+  width: 100vw;
+  max-width: 960px;
 }

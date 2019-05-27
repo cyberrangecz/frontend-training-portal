@@ -7,33 +7,30 @@ export const environment = {
   defaultPaginationSize: 5,
 
   // TRAINING REST API
-  trainingRestBasePath: 'http://localhost:8083/kypo2-rest-training/api/v1/',
+  trainingRestBasePath: 'http://147.251.124.129:8083/kypo2-rest-training/api/v1/',
 
   // SANDBOX REST API
-  sandboxDefsEndpointUri: 'http://147.251.21.38:8443/kypo-openstack/api/v1/definitions/',
-  poolsEndpointUri: 'http://147.251.21.38:8443/kypo-openstack/api/v1/pools/',
-
+  sandboxRestBasePath: 'http://147.251.124.129:8080/kypo2-django-openstack/api/v1/',
 
   //USER AND GROUP API
-  userAndGroupRestBasePath: 'http://localhost:8084/kypo2-rest-user-and-group/api/v1/',
+  userAndGroupRestBasePath: 'http://147.251.124.129:8084/kypo2-rest-user-and-group/api/v1/',
+  userAndGroupDefaultPaginationSize: 20,
 
   //OIDC
   // Url of the Identity Provider
-  issuer: 'https://oidc.ics.muni.cz/oidc/',
+  issuer: 'https://oidc.muni.cz/oidc/',
   // URL of the SPA to redirect the user after silent refresh
-  silentRefreshRedirectUri: window.location.origin + '/silent-refresh.html',
+  silentRefreshRedirectUri: window.location.origin,
   // URL of the SPA to redirect the user to after login
   redirectUri: window.location.origin,
   // The SPA's id. The SPA is registered with this id at the config-server
-  clientId: '18cd6765-be1a-4de4-a6c0-6adf9b9882d1',
+  clientId: 'b53f2660-8fa0-4d32-94e4-23a59d7e7077',
   // set the scope for the permissions the client should request
   scope: 'openid profile email',
   sessionChecksEnabled: false,
 
   // TOPOLOGY COMPONENT CONFIG
-  topologyRestUrl: 'http://localhost:8085/kypo2-rest-topology/api/v1/sandboxes/',
-  sandboxName: '',
-  scenarioRestUrl: '',
+  topologyRestUrl: 'http://147.251.124.129:8085/kypo2-rest-topology/api/v1/sandboxes/',
   decoratorsRestUrl: '',
   defaultDecoratorRefreshPeriodInSeconds: 3,
   useRealTime: false,

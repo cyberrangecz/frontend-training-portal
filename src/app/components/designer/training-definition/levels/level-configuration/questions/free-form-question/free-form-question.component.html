@@ -1,49 +1,44 @@
 <div class="content">
-  <div class="left-panel">
-    <!-- TITLE field-->
-    <mat-form-field appearance="outline">
-      <mat-label>Title</mat-label>
-      <input (change)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
-      <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title=''; contentChanged()">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-
-    <!-- CORRECT ANSWERS filed -->
-    <div class="answer" *ngFor="let answer of answers; index as i; trackBy: trackByFn;">
-      <mat-form-field appearance="outline">
-        <mat-label>Answer {{ i + 1}}</mat-label>
-        <input (change)="contentChanged()" matInput placeholder="Answer" [(ngModel)]="answers[i]">
-        <button mat-button *ngIf="answers[i]" matSuffix mat-icon-button aria-label="Clear" (click)="answers[i]=''; contentChanged()">
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field>
-      <button mat-icon-button>
-        <mat-icon aria-label="Remove correct answer" color="warn" (click)="removeAnswer(i)">remove_circle</mat-icon>
-      </button>
-    </div>
-
-    <button mat-icon-button>
-      <mat-icon aria-label="Add correct answer" color="primary" (click)="addAnswer()">add_circle</mat-icon>
+  <!-- TITLE field-->
+  <mat-form-field appearance="outline">
+    <mat-label>Title</mat-label>
+    <input (ngModelChange)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
+    <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title=''; contentChanged()">
+      <mat-icon>close</mat-icon>
     </button>
-  </div>
-  <mat-divider [vertical]="true"></mat-divider>
+  </mat-form-field>
 
-  <div class="right-panel">
+  <div class="inline-input">
     <!-- SCORE field -->
     <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionScore }}">
-      <mat-label>Score</mat-label>
-      <input [disabled]="!required" (change)="contentChanged()" matInput placeholder="Score" type="number" [max]="maxQuestionScore" min="0" [(ngModel)]="score" [required]="required">
+      <mat-label>Points</mat-label>
+      <input [disabled]="!required" (ngModelChange)="contentChanged()" matInput placeholder="Points" type="number" [max]="maxQuestionScore" min="0" [(ngModel)]="score" [required]="required">
     </mat-form-field>
 
     <!-- PENALTY field -->
     <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionPenalty }}">
-      <mat-label>Penalty</mat-label>
-      <input [disabled]="!required" (change)="contentChanged()" matInput placeholder="Question Penalty" type="number" [max]="maxQuestionPenalty" min="0" [(ngModel)]="penalty" [required]="required">
+      <mat-label>Penalty points</mat-label>
+      <input [disabled]="!required || !isTest" (ngModelChange)="contentChanged()" matInput placeholder="Question Penalty points" type="number" [max]="maxQuestionPenalty" min="0" [(ngModel)]="penalty" [required]="required">
     </mat-form-field>
-
-    <!-- REQUIRED checkbox -->
-    <mat-checkbox [disabled]="isTest" [(ngModel)]="required">Required</mat-checkbox>
   </div>
-</div>
 
+
+  <button *ngIf="answers.length > 0" mat-button color="warn" (click)="clearAnswers()" class="clear-answers">Clear Answers</button>
+  <!-- CORRECT ANSWERS field -->
+  <div class="answer" *ngFor="let answer of answers; index as i; trackBy: trackByFn;">
+    <mat-form-field appearance="outline">
+      <mat-label>Answer {{ i + 1}}</mat-label>
+      <input (ngModelChange)="contentChanged()" matInput placeholder="Answer" [(ngModel)]="answers[i]">
+      <button mat-button *ngIf="answers[i]" matSuffix mat-icon-button aria-label="Clear" (click)="answers[i]=''; contentChanged()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <button mat-icon-button>
+      <mat-icon aria-label="Remove correct answer" color="warn" (click)="removeAnswer(i)">remove_circle</mat-icon>
+    </button>
+  </div>
+
+  <button *ngIf="required" mat-icon-button>
+    <mat-icon aria-label="Add correct answer" color="primary" (click)="addAnswer()">add_circle</mat-icon>
+  </button>
+</div>

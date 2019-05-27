@@ -1,10 +1,22 @@
-mat-checkbox {
-  margin: 0 10px;
-}
-
 .content {
   display: flex;
   flex-direction: column;
+}
+
+.inline-input {
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
+}
+
+.inline-input > * {
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
+p.required-switch-note {
+  text-align: right;
+  color: #f44336;
 }
 
 table {
@@ -50,7 +62,7 @@ td {
   align-content: center;
 }
 
-.form-container > * {
+.form-container {
   display: flex;
   flex-direction: column;
   width: 90%;
@@ -75,10 +87,7 @@ mat-divider {
 
 button.clear-answers {
   width: 120px;
-}
-
-p.note {
-  text-align: right;
+  float: right;
 }
 
 @media screen and (max-width: 850px) {

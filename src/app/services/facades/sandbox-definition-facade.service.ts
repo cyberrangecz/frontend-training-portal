@@ -5,7 +5,7 @@ import {SandboxDefinition} from "../../model/sandbox/sandbox-definition";
 import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
 import {SandboxDefinitionCreateDTO} from "../../model/DTOs/sandbox-definition/sandbox-definition-create-dto";
-import {UploadService} from "../upload.service";
+import {UploadService} from "../shared/upload.service";
 import {SandboxDefinitionMapperService} from "../mappers/sandbox-definition-mapper.service";
 import {SandboxDefinitionDTO} from "../../model/DTOs/sandbox-definition/sandbox-definition-dto";
 
@@ -16,6 +16,8 @@ import {SandboxDefinitionDTO} from "../../model/DTOs/sandbox-definition/sandbox-
 @Injectable()
 export class SandboxDefinitionFacade {
 
+  private readonly sandboxDefsEndpoint = environment.sandboxRestBasePath + 'definitions/';
+
   constructor(private http: HttpClient,
               private sandboxDefinitionMapper: SandboxDefinitionMapperService,
               private uploadService: UploadService) {
@@ -23,7 +25,7 @@ export class SandboxDefinitionFacade {
 
 
   uploadSandboxDefinition(file: File): Observable<SandboxDefinitionCreateDTO> {
-    return this.uploadService.uploadSandboxDefinition(environment.sandboxDefsEndpointUri, file);
+    return this.uploadService.uploadSandboxDefinition(this.sandboxDefsEndpoint, file);
   }
 
   /**
@@ -32,7 +34,7 @@ export class SandboxDefinitionFacade {
    */
   getSandboxDefs(): Observable<SandboxDefinition[]> {
     const  headers = new  HttpHeaders().set("Accept", "application/json");
-    return this.http.get<SandboxDefinitionDTO[]>(environment.sandboxDefsEndpointUri, { headers: headers })
+    return this.http.get<SandboxDefinitionDTO[]>(this.sandboxDefsEndpoint, { headers: headers })
       .pipe(map(response =>
       this.sandboxDefinitionMapper.mapSandboxDefinitionsDTOToSandboxDefinitions(response)));
   }
@@ -45,7 +47,7 @@ export class SandboxDefinitionFacade {
    */
   getSandboxDefById(id: number): Observable<SandboxDefinition> {
     const  headers = new  HttpHeaders().set("Accept", "application/json");
-    return this.http.get<SandboxDefinitionDTO>(environment.sandboxDefsEndpointUri + id, { headers: headers })
+    return this.http.get<SandboxDefinitionDTO>(this.sandboxDefsEndpoint + id, { headers: headers })
       .pipe(map(response => this.sandboxDefinitionMapper.mapSandboxDefinitionDTOToSandboxDefinition(response)));
   }
 
@@ -53,8 +55,8 @@ export class SandboxDefinitionFacade {
    * Sends request to remove sandbox definition with provided id
    * @param {number} id id of sandbox definition which should be removed
    */
-  removeSandboxDefinition(id: number): Observable<any> {
-    return this.http.delete(environment.sandboxDefsEndpointUri + id);
+  deleteSandboxDefinition(id: number): Observable<any> {
+    return this.http.delete(this.sandboxDefsEndpoint + id);
   }
 
   private createDefaultHeaders() {

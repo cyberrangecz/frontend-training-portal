@@ -2,20 +2,19 @@ import {Injectable} from '@angular/core';
 import {TrainingRun} from '../../model/training/training-run';
 import {TrainingRunDTO} from '../../model/DTOs/training-run/trainingRunDTO';
 import {LevelMapper} from './level-mapper.service';
-import {TrainingRunStateEnum} from '../../enums/training-run-state.enum';
+import {TrainingRunStateEnum} from '../../model/enums/training-run-state.enum';
 import {TrainingInstanceMapper} from './training-instance-mapper.service';
 import {TrainingRunRestResource} from '../../model/DTOs/training-run/trainingRunRestResource';
-import {AccessedTrainingRunDTO} from "../../model/DTOs/training-run/accessedTrainingRunDTO";
-import {TraineeAccessedTrainingsTableDataModel} from "../../model/table-models/trainee-accessed-trainings-table-data-model";
-import {TraineeAccessTrainingRunActionEnum} from "../../enums/trainee-access-training-run-actions.enum";
-import PossibleActionEnum = AccessedTrainingRunDTO.PossibleActionEnum;
-import {TableDataWithPaginationWrapper} from "../../model/table-models/table-data-with-pagination-wrapper";
-import {TrainingRunTableDataModel} from "../../model/table-models/training-run-table-data-model";
-import {TablePagination} from "../../model/table-models/table-pagination";
-import {AccessTrainingRunDTO} from "../../model/DTOs/training-run/accessTrainingRunDTO";
-import {AccessTrainingRun} from "../../model/training/access-training-run";
-import {IsCorrectFlagDTO} from "../../model/DTOs/level/game/isCorrectFlagDTO";
-import {FlagCheck} from "../../model/level/flag-check";
+import {AccessedTrainingRunDTO} from '../../model/DTOs/training-run/accessedTrainingRunDTO';
+import {AccessedTrainingRunsTableAdapter} from '../../model/table-adapters/accessed-training-runs-table-adapter';
+import {TraineeAccessTrainingRunActionEnum} from '../../model/enums/trainee-access-training-run-actions.enum';
+import {PaginatedTable} from '../../model/table-adapters/paginated-table';
+import {TrainingRunTableAdapter} from '../../model/table-adapters/training-run-table-adapter';
+import {TablePagination} from '../../model/table-adapters/table-pagination';
+import {AccessTrainingRunDTO} from '../../model/DTOs/training-run/accessTrainingRunDTO';
+import {AccessTrainingRunInfo} from '../../model/training/access-training-run-info';
+import {IsCorrectFlagDTO} from '../../model/DTOs/level/game/isCorrectFlagDTO';
+import {FlagCheck} from '../../model/level/flag-check';
 import {AbstractQuestion} from '../../model/questions/abstract-question';
 import {AbstractAssessmentAnswerDTO} from '../../model/DTOs/level/assessment/abstractAssessmentAnswerDTO';
 import {FreeFormAnswerDTO} from '../../model/DTOs/level/assessment/freeFormAnswerDTO';
@@ -25,6 +24,8 @@ import {ExtendedMatchingItems} from '../../model/questions/extended-matching-ite
 import {MultipleChoiceQuestionAnswerDTO} from '../../model/DTOs/level/assessment/multipleChoiceQuestionAnswerDTO';
 import {ExtendedMatchingItemsAnswerDTO} from '../../model/DTOs/level/assessment/extendedMatchingItemsAnswerDTO';
 import {UserMapper} from './user.mapper.service';
+import {EMIChoiceDTO} from '../../model/DTOs/level/assessment/emiChoiceDTO';
+import PossibleActionEnum = AccessedTrainingRunDTO.PossibleActionEnum;
 
 @Injectable()
 export class TrainingRunMapper {
@@ -49,10 +50,10 @@ export class TrainingRunMapper {
    * Maps training run DTOs retrieved from remote server to training run objects with pagination
    * @param resource training run DTOs retrieved from remote server
    */
-  mapTrainingRunDTOsToTrainingRunsWithPagination(resource: TrainingRunRestResource): TableDataWithPaginationWrapper<TrainingRunTableDataModel[]> {
-    const tableData: TrainingRunTableDataModel[] = [];
+  mapTrainingRunDTOsToTrainingRunsWithPagination(resource: TrainingRunRestResource): PaginatedTable<TrainingRunTableAdapter[]> {
+    const tableData: TrainingRunTableAdapter[] = [];
     resource.content.forEach(trainingRunDTO => {
-      const tableRow = new TrainingRunTableDataModel();
+      const tableRow = new TrainingRunTableAdapter();
       tableRow.trainingRun = this.mapTrainingRunDTOToTrainingRun(trainingRunDTO);
       tableRow.isWaitingForRevertResponse = false;
       tableData.push(tableRow);
@@ -63,7 +64,7 @@ export class TrainingRunMapper {
       resource.pagination.size,
       resource.pagination.total_elements,
       resource.pagination.total_pages);
-    return new TableDataWithPaginationWrapper(tableData, tablePagination);
+    return new PaginatedTable(tableData, tablePagination);
   }
 
   /**
@@ -73,34 +74,39 @@ export class TrainingRunMapper {
   mapTrainingRunDTOToTrainingRun(trainingRunDTO: TrainingRunDTO): TrainingRun {
     const result = new TrainingRun();
     result.id = trainingRunDTO.id;
+    result.trainingDefinitionId = trainingRunDTO.definition_id;
+    result.trainingInstanceId = trainingRunDTO.instance_id;
     result.startTime = new Date(trainingRunDTO.start_time);
     result.endTime = new Date(trainingRunDTO.end_time);
     result.eventLogReference = trainingRunDTO.event_log_reference;
-    result.sandboxInstanceId = trainingRunDTO.sandbox_instance_ref.id;
+    if (trainingRunDTO.sandbox_instance_ref) {
+      result.sandboxInstanceId = trainingRunDTO.sandbox_instance_ref.id;
+    }
+
     result.user = this.userMapper.mapUserRefDTOToUser(trainingRunDTO.participant_ref);
     result.state = this.mapTrainigRunDTOStateToEnum(trainingRunDTO.state);
 
     if (result.currentLevel) {
       result.currentLevel = this.levelMapper.mapLevelDTOToLevel(trainingRunDTO.current_level);
     }
-    if (result.trainingInstance) {
-      result.trainingInstance = this.trainingInstanceMapper.mapTrainingInstanceDTOToTrainingInstance(trainingRunDTO.training_instance);
-    }
     return result;
   }
 
-  mapAccessTrainingRunDTOToAccessTrainingRun(accessDTO: AccessTrainingRunDTO): AccessTrainingRun {
-    const result = new AccessTrainingRun();
+  mapAccessTrainingRunDTOToAccessTrainingRun(accessDTO: AccessTrainingRunDTO): AccessTrainingRunInfo {
+    const result = new AccessTrainingRunInfo();
     result.trainingRunId = accessDTO.training_run_id;
     result.sandboxInstanceId = accessDTO.sandbox_instance_id;
+    result.startTime = new Date(accessDTO.start_time);
+    result.isStepperDisplayed = accessDTO.show_stepper_bar;
     result.currentLevel = this.levelMapper.mapLevelDTOToLevel(accessDTO.abstract_level_dto);
     result.levels = this.levelMapper.mapBasicInfoDTOsToAbstractLevels(accessDTO.info_about_levels);
+
     return result;
   }
 
   mapAccessedTrainingRunDTOsToTrainingRunTableObjects(resource: TrainingRunRestResource)
-    : TableDataWithPaginationWrapper<TraineeAccessedTrainingsTableDataModel[]> {
-    const tableData: TraineeAccessedTrainingsTableDataModel[] = [];
+    : PaginatedTable<AccessedTrainingRunsTableAdapter[]> {
+    const tableData: AccessedTrainingRunsTableAdapter[] = [];
     resource.content.forEach(accessedTrainingRunDTO =>
       tableData.push(this.mapAccessedTrainingRunDTOToTrainingRunTableObject(accessedTrainingRunDTO)));
     const tablePagination = new TablePagination(resource.pagination.number,
@@ -108,12 +114,12 @@ export class TrainingRunMapper {
       resource.pagination.size,
       resource.pagination.total_elements,
       resource.pagination.total_pages);
-    return new TableDataWithPaginationWrapper(tableData, tablePagination);
+    return new PaginatedTable(tableData, tablePagination);
   }
 
 
-  mapAccessedTrainingRunDTOToTrainingRunTableObject(accessedTrainingRunDTO: AccessedTrainingRunDTO): TraineeAccessedTrainingsTableDataModel {
-    const result = new TraineeAccessedTrainingsTableDataModel();
+  mapAccessedTrainingRunDTOToTrainingRunTableObject(accessedTrainingRunDTO: AccessedTrainingRunDTO): AccessedTrainingRunsTableAdapter {
+    const result = new AccessedTrainingRunsTableAdapter();
     result.currentLevel = accessedTrainingRunDTO.current_level_order;
     result.totalLevels = accessedTrainingRunDTO.number_of_levels;
     result.trainingInstanceTitle = accessedTrainingRunDTO.title;
@@ -145,25 +151,25 @@ export class TrainingRunMapper {
   private mapFFQToUserAnswerDTO(question: FreeFormQuestion): FreeFormAnswerDTO {
     const result = new FreeFormAnswerDTO();
     result.question_order = question.order;
-    result.text = question.usersAnswer;
+    if (!question.usersAnswer) {
+      result.text = '';
+    } else {
+      result.text = question.usersAnswer;
+    }
     return result;
   }
 
   private mapMCQToUserAnswerDTO(question: MultipleChoiceQuestion): MultipleChoiceQuestionAnswerDTO {
     const result = new MultipleChoiceQuestionAnswerDTO();
     result.question_order = question.order;
-    result.choices = question.usersAnswersIndexes;
+    result.choices = question.usersAnswersIndices;
     return result;
   }
 
   private mapEMIToUserAnswerDTO(question: ExtendedMatchingItems): ExtendedMatchingItemsAnswerDTO {
     const result = new ExtendedMatchingItemsAnswerDTO();
     result.question_order = question.order;
-    result.pairs = [[]];
-    question.usersAnswers
-      .forEach(answer => {
-        result.pairs.push([answer.x, answer.y]);
-      });
+    result.pairs = question.usersAnswers.map(answer => new EMIChoiceDTO(answer.x, answer.y));
     return result;
   }
 
@@ -180,8 +186,8 @@ export class TrainingRunMapper {
 
   private mapActionEnumFromDTOToTableDataModel(action: PossibleActionEnum): TraineeAccessTrainingRunActionEnum {
     switch (action) {
-      case PossibleActionEnum.TRYAGAIN: return TraineeAccessTrainingRunActionEnum.TryAgain;
       case PossibleActionEnum.RESULTS: return TraineeAccessTrainingRunActionEnum.Results;
+      case null: return null;
       default: console.error('Could not map attribute "action" of "AccessedTrainingRunDTO to any known action');
     }
   }
@@ -189,9 +195,9 @@ export class TrainingRunMapper {
   private mapTrainigRunDTOStateToEnum(state: TrainingRunDTO.StateEnum): TrainingRunStateEnum {
     switch (state) {
       case TrainingRunDTO.StateEnum.ALLOCATED: return TrainingRunStateEnum.Allocated;
-      case TrainingRunDTO.StateEnum.ARCHIVED: return TrainingRunStateEnum.Archived;
       case TrainingRunDTO.StateEnum.NEW: return TrainingRunStateEnum.New;
       case TrainingRunDTO.StateEnum.READY: return TrainingRunStateEnum.Ready;
+      case TrainingRunDTO.StateEnum.FINISHED: return TrainingRunStateEnum.Finished;
       default: {
         console.error('Could not map training run state to enum');
         return null;

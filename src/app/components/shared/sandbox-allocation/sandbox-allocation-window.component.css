@@ -1,0 +1,8 @@
+.allocation-window {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  background: #0d47a1 ;
+}
+
+

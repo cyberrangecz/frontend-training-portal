@@ -33,15 +33,16 @@ table {
 }
 
 td.title, th.title {
-  width: 30%;
+  width: 40%;
 }
 
 td.date, th.date {
-  width: 40%;
+  width: 30%;
 }
 
 td.completedLevels, th.completedLevels {
   width: 20%;
+  text-align: center;
 }
 
 td.actions, th.actions {

@@ -1,21 +1,18 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {TrainingDefinition} from '../../../../model/training/training-definition';
-import {TrainingDefinitionStateEnum} from '../../../../enums/training-definition-state.enum';
-import {AlertService} from '../../../../services/event-services/alert.service';
-import {AlertTypeEnum} from '../../../../enums/alert-type.enum';
+import {TrainingDefinitionStateEnum} from '../../../../model/enums/training-definition-state.enum';
+import {AlertService} from '../../../../services/shared/alert.service';
+import {AlertTypeEnum} from '../../../../model/enums/alert-type.enum';
 import {SandboxDefinitionPickerComponent} from './sandbox-definition-picker/sandbox-definition-picker.component';
 import {MatDialog} from '@angular/material';
 import {AuthorsPickerComponent} from './authors-picker/authors-picker.component';
 import {UserFacade} from '../../../../services/facades/user-facade.service';
 import {Router} from '@angular/router';
-import {ActiveUserService} from '../../../../services/active-user.service';
-import {ComponentErrorHandlerService} from '../../../../services/component-error-handler.service';
-import {map} from 'rxjs/operators';
-import {StateChangeDialogComponent} from '../state-change-dialog/state-change-dialog.component';
-import {Observable, of} from 'rxjs';
+import {ActiveUserService} from '../../../../services/shared/active-user.service';
+import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
 import {TrainingDefinitionFacade} from "../../../../services/facades/training-definition-facade.service";
-import {ViewGroup} from "../../../../model/user/view-group";
-import {EditViewGroupComponent} from "./edit-view-group/edit-view-group.component";
+import {BetaTestingGroup} from "../../../../model/user/beta-testing-group";
+import {EditBetaTestingGroupComponent} from "./edit-beta-testing-group/edit-beta-testing-group.component";
 import {User} from '../../../../model/user/user';
 
 /**
@@ -40,17 +37,17 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
   outcomes: string[];
   authors: User[];
   sandboxDefId: number;
-  selectedState: string;
   showProgress: boolean;
-  viewGroup: ViewGroup;
+  betaTestingGroup: BetaTestingGroup;
 
   dirty = false;
-  states: string[];
+
+  loggedUserLogin: string;
 
   constructor(
     private router: Router,
     private dialog: MatDialog,
-    private errorHandler: ComponentErrorHandlerService,
+    private errorHandler: ErrorHandlerService,
     private alertService: AlertService,
     private userFacade: UserFacade,
     private activeUserService: ActiveUserService,
@@ -59,7 +56,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.states = Object.values(TrainingDefinitionStateEnum);
+    this.loggedUserLogin = this.activeUserService.getActiveUser().login;
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -90,13 +87,13 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     });
   }
 
-  editViewGroup() {
-    const dialogRef = this.dialog.open(EditViewGroupComponent, {
-      data: this.viewGroup
+  chooseBetaTestingGroup() {
+    const dialogRef = this.dialog.open(EditBetaTestingGroupComponent, {
+      data: this.betaTestingGroup
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
-        this.viewGroup = result.viewGroup;
+        this.betaTestingGroup = result.betaTestingGroup;
         this.dirty = true;
       }
     })
@@ -120,12 +117,8 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
    */
   saveTrainingDef() {
     if (this.validateInput()) {
-      this.checkStateChange().subscribe(confirmed => {
-        if (confirmed) {
-          this.setInputValuesToTrainingDef();
-          this.sendRequestToSaveChanges();
-        }
-      })
+      this.setInputValuesToTrainingDef();
+      this.sendRequestToSaveChanges();
     }
   }
 
@@ -138,12 +131,11 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.idChange.emit(id);
     this.savedTrainingChange.emit(true);
     this.dirty = false;
-    this.redirectIfStateNotUnreleased();
     this.resolveModeAfterSuccessfulSave();
   }
 
   private resolveModeAfterSuccessfulSave() {
-    if (!this.editMode && this.trainingDefinition.state == TrainingDefinitionStateEnum.Unreleased) {
+    if (!this.editMode) {
       this.router.navigate(['designer/training/' + this.trainingDefinition.id]);
     }
     if (!this.editMode) {
@@ -160,26 +152,6 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     } else {
       this.createTrainingDefinition()
     }
-  }
-
-  private redirectIfStateNotUnreleased() {
-    if (this.trainingDefinition.state !== TrainingDefinitionStateEnum.Unreleased) {
-      this.router.navigate(['/designer']);
-    }
-  }
-
-  private checkStateChange(): Observable<boolean> {
-    if (!this.editMode || this.selectedState === TrainingDefinitionStateEnum.Unreleased ) {
-      return of(true);
-    } else {
-      return this.displayUserDialogToConfirmStateChange()
-    }
-  }
-
-  private displayUserDialogToConfirmStateChange(): Observable<boolean> {
-    const dialogRef = this.dialog.open(StateChangeDialogComponent, {data: this.selectedState});
-    return dialogRef.afterClosed()
-      .pipe(map(result => result && result.type === 'confirm'));
   }
 
   private updateTrainingDefinition() {
@@ -225,8 +197,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.description = '';
     this.prerequisites = [''];
     this.outcomes = [''];
-    this.selectedState = 'unreleased';
-    this.viewGroup = null;
+    this.betaTestingGroup = null;
     this.authors = [this.activeUserService.getActiveUser()];
   }
 
@@ -238,9 +209,8 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.description = this.trainingDefinition.description;
     this.prerequisites = this.trainingDefinition.prerequisites;
     this.outcomes = this.trainingDefinition.outcomes;
-    this.selectedState = this.trainingDefinition.state;
     this.showProgress = this.trainingDefinition.showStepperBar;
-    this.viewGroup = this.trainingDefinition.viewGroup;
+    this.betaTestingGroup = this.trainingDefinition.betaTestingGroup;
     if (!this.prerequisites) this.prerequisites = [''];
     if (!this.outcomes) this.outcomes = [''];
     this.authors = this.trainingDefinition.authors;
@@ -258,9 +228,8 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.trainingDefinition.description = this.description;
     this.trainingDefinition.prerequisites = this.prerequisites;
     this.trainingDefinition.outcomes = this.outcomes;
-    this.trainingDefinition.state = TrainingDefinitionStateEnum[this.selectedState.charAt(0).toUpperCase() + this.selectedState.slice(1)];
     this.trainingDefinition.showStepperBar = this.showProgress;
-    this.trainingDefinition.viewGroup = this.viewGroup;
+    this.trainingDefinition.betaTestingGroup = this.betaTestingGroup;
   }
 
   /**
@@ -277,13 +246,8 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
       errorMessage += 'Authors cannot be empty\n';
     }
 
-    if (!this.viewGroup
-      || !this.viewGroup.organizers
-      || this.viewGroup.organizers.length === 0) {
-      errorMessage += 'View group cannot be empty\n';
-    }
     if (this.sandboxDefId === null || this.sandboxDefId === undefined) {
-      errorMessage += 'Sandbox definition cannot be empty\n';
+      errorMessage += 'No sandbox definiton specified. Training definition requires one sandbox definition.\n';
     }
     if (errorMessage !== '') {
       this.alertService.emitAlert(AlertTypeEnum.Error, errorMessage);
