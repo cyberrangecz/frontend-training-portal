@@ -185,6 +185,7 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
    */
   private onCorrectFlagSubmitted() {
     this.correctFlag = true;
+    this.flag = "";
     if (this.hasNextLevel) {
       this.nextLevel();
     } else {
@@ -197,6 +198,7 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
    * is send to the endpoint
    */
   private onWrongFlagSubmitted(remainingAttempts: number) {
+    this.flag = "";
     if (!this.solutionShown) {
       if (remainingAttempts === 0) {
         this.sendRequestToRevealSolution();
