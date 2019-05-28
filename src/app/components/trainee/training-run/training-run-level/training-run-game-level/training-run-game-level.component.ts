@@ -1,7 +1,7 @@
 import {
-  Component, HostBinding, HostListener,
-  Input, OnChanges,
-  OnInit, SimpleChanges,
+  AfterContentChecked,
+  Component, ElementRef, HostListener, Input, OnChanges,
+  OnInit, SimpleChanges, ViewChild,
 } from '@angular/core';
 import {GameLevel} from "../../../../../model/level/game-level";
 import {ActiveTrainingRunService} from "../../../../../services/trainee/active-training-run.service";
@@ -26,7 +26,15 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
 
   @Input('level') level: GameLevel;
 
+  @ViewChild('rightPanel') rightPanelDiv: ElementRef;
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.calculateTopologySize()
+  }
+
   sandboxId: number;
+  topologyWidth: number;
+  topologyHeight: number;
   isGameDataLoaded: boolean;
   isTopologyLoaded: boolean;
   hasNextLevel: boolean;
@@ -55,7 +63,6 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
       this.init();
     }
   }
-
 
   topologyLoaded() {
     this.isTopologyLoaded = true;
@@ -142,6 +149,7 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
     this.isGameDataLoaded = true;
     this.isTopologyLoaded = false;
     this.displayedHints = '';
+    this.calculateTopologySize();
     this.sandboxId = this.activeLevelService.sandboxInstanceId;
     this.displayedText = this.level.content;
     this.hasNextLevel = this.activeLevelService.hasNextLevel();
@@ -153,7 +161,7 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
    * @param width
    */
   private calculateHeightWith43AspectRatio(width: number): number {
-    return (width / 4) * 3;
+      return (width / 4) * 3;
   }
 
   /**
@@ -226,4 +234,8 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
     );
   }
 
+  private calculateTopologySize() {
+    this.topologyWidth = window.innerWidth >= 1920 ? this.rightPanelDiv.nativeElement.getBoundingClientRect().width : (window.innerWidth / 2);
+    this.topologyHeight = this.calculateHeightWith43AspectRatio(this.topologyWidth);
+  }
 }

@@ -30,8 +30,8 @@ markdown {
 
 markdown ::ng-deep img {
   max-width: 100%;
-  display: inline-block;
-}
+  display: block;
+  margin: 0 auto;}
 
 markdown ::ng-deep pre {
   white-space: pre-wrap;

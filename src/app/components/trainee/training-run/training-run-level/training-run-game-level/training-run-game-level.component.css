@@ -1,6 +1,7 @@
 markdown ::ng-deep img {
   max-width: 100%;
-  display: inline-block;
+  display: block;
+  margin: 0 auto;
 }
 
 markdown ::ng-deep pre {
@@ -15,7 +16,6 @@ lib-force-graph {
 .topology-placeholder {
   border: 1px solid gainsboro;
 }
-
 
 .container {
   display: flex;
@@ -69,7 +69,7 @@ lib-force-graph {
   flex: 1 1 0;
 }
 
-.hint-bar {
+.game-control-bar {
   display: flex;
   flex-direction: row;
   align-items: baseline;
@@ -84,19 +84,35 @@ mat-form-field {
   width: 150px;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1900px) {
   .content {
     width: 90%;
     flex-direction: column;
   }
 
-  .container {
-    align-content: center;
-    align-items: center;
+  .left-panel {
+    width: 100%;
+    display: flex;
     flex-direction: column;
+    margin-right: 0;
   }
 
-  .hint-bar {
+  .right-panel {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .game-control-panel {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+  }
+
+  .game-control-bar {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
   }
 }
 
