@@ -1,5 +1,5 @@
 import {
-  Component,
+  Component, HostBinding, HostListener,
   Input, OnChanges,
   OnInit, SimpleChanges,
 } from '@angular/core';
@@ -17,9 +17,6 @@ import {TrainingRunGameLevelService} from "../../../../../services/trainee/train
   selector: 'training-run-game-level',
   templateUrl: './training-run-game-level.component.html',
   styleUrls: ['./training-run-game-level.component.css'],
-  host: {
-    '(window:resize)': 'onResize($event)'
-  }
 })
 /**
  * Component of a game level in a training run. Users needs to find out correct solution (flag) and submit it
@@ -29,14 +26,13 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
 
   @Input('level') level: GameLevel;
 
-  graphWidth: number;
-  graphHeight: number;
   sandboxId: number;
   isGameDataLoaded: boolean;
   isTopologyLoaded: boolean;
   hasNextLevel: boolean;
 
   displayedText: string;
+  displayedHints: string;
   flag: string;
   correctFlag: boolean;
   solutionShown: boolean;
@@ -85,14 +81,6 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
         this.sendRequestToShowHint(hintButton, index);
       }
     })
-  }
-
-  /**
-   * Recalculates width and height of the topology graph element after browser windows was resized
-   * @param event browser window resize event
-   */
-  onResize(event) {
-    this.setGraphTopologyElementSize(event.target.innerWidth, event.target.innerHeight);
   }
 
   /**
@@ -153,26 +141,11 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
     this.solutionShown = false;
     this.isGameDataLoaded = true;
     this.isTopologyLoaded = false;
+    this.displayedHints = '';
     this.sandboxId = this.activeLevelService.sandboxInstanceId;
     this.displayedText = this.level.content;
     this.hasNextLevel = this.activeLevelService.hasNextLevel();
-    this.setGraphTopologyElementSize(window.innerWidth, window.innerHeight);
     this.initHintButtons();
-  }
-
-  /**
-   * Calculates and sets width and height of the graph topology element
-   * @param windowWidth width of the browser window
-   * @param windowHeight height of the browser window
-   */
-  private setGraphTopologyElementSize(windowWidth: number, windowHeight: number) {
-    if (windowWidth < 1000) {
-      this.graphWidth = windowWidth / 1.2;
-      this.graphHeight = this.calculateHeightWith43AspectRatio(this.graphWidth);
-    } else {
-      this.graphWidth = windowWidth / 1.7;
-      this.graphHeight = this.calculateHeightWith43AspectRatio(this.graphWidth);
-    }
   }
 
   /**
@@ -219,7 +192,7 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
     this.gameLevelService.takeSolution(this.activeLevelService.trainingRunId)
       .subscribe(resp => {
         this.solutionShown = true;
-        this.displayedText = resp;
+        this.displayedHints = resp;
         this.isGameDataLoaded = true;
       },
       err => {
@@ -232,7 +205,7 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
     this.gameLevelService.takeHint(this.activeLevelService.trainingRunId, hintButton.hint.id)
       .subscribe(resp => {
           hintButton.displayed = true;
-          this.displayedText += '\n\n## Hint ' + index + ": " + resp.title + "\n" + resp.content;
+          this.displayedHints += '\n\n## Hint ' + index + ": " + resp.title + "\n" + resp.content;
         },
         err => {
           this.errorHandler.displayHttpError(err, 'Taking hint "' + hintButton.hint.title + '"');

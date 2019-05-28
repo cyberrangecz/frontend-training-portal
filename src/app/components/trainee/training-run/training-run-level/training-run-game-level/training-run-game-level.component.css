@@ -1,9 +1,9 @@
-pre {
-  white-space: pre-wrap;
-  overflow-wrap: break-word;
+markdown ::ng-deep img {
+  max-width: 100%;
+  display: inline-block;
 }
 
-markdown > pre {
+markdown ::ng-deep pre {
   white-space: pre-wrap;
   overflow-wrap: break-word;
 }
@@ -46,40 +46,42 @@ lib-force-graph {
 }
 
 .left-panel {
-  flex-grow: 6;
+  width: 60%;
   display: flex;
   flex-direction: column;
   margin-right: 30px;
 }
 
 .right-panel {
-  flex-grow: 4;
+  width: 40%;
   display: flex;
   flex-direction: column;
-  margin-left: 30px;
 }
 
 .flag-input {
-  margin: 20px;
-  align-self: flex-end;
   display: flex;
   flex-direction: row;
   align-content: baseline;
   align-items: baseline;
 }
 
+.spacer {
+  flex: 1 1 0;
+}
+
 .hint-bar {
   display: flex;
   flex-direction: row;
-  margin-bottom: 20px;
+  align-items: baseline;
+  margin: 20px 0;
 }
 
 button {
-  margin: 0 20px;
+  margin-right: 10px;
 }
 
 mat-form-field {
-  width: 300px;
+  width: 150px;
 }
 
 @media screen and (max-width: 1000px) {
@@ -95,7 +97,6 @@ mat-form-field {
   }
 
   .hint-bar {
-    margin-top: 25px;
   }
 }
 
