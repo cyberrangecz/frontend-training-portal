@@ -32,14 +32,14 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
   graphWidth: number;
   graphHeight: number;
   sandboxId: number;
-  isGameDataLoaded = true;
-  isTopologyLoaded = false;
+  isGameDataLoaded: boolean;
+  isTopologyLoaded: boolean;
   hasNextLevel: boolean;
 
   displayedText: string;
   flag: string;
-  correctFlag = false;
-  solutionShown = false;
+  correctFlag: boolean;
+  solutionShown: boolean;
   hintButtons = [];
 
   constructor(
@@ -51,12 +51,12 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
     private activeLevelService: ActiveTrainingRunService) { }
 
   ngOnInit() {
-    this.init()
+    this.init();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if ('level' in changes) {
-      this.init()
+      this.init();
     }
   }
 
@@ -149,9 +149,12 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
 
 
   private init() {
+    this.correctFlag = false;
+    this.solutionShown = false;
+    this.isGameDataLoaded = true;
+    this.isTopologyLoaded = false;
     this.sandboxId = this.activeLevelService.sandboxInstanceId;
     this.displayedText = this.level.content;
-    this.correctFlag = false;
     this.hasNextLevel = this.activeLevelService.hasNextLevel();
     this.setGraphTopologyElementSize(window.innerWidth, window.innerHeight);
     this.initHintButtons();
