@@ -51,7 +51,7 @@
         <!-- FLAG field-->
         <mat-form-field appearance="outline">
           <mat-label>Flag</mat-label>
-          <input matInput placeholder="Flag" [disabled]="correctFlag" [(ngModel)]="flag" required>
+          <input matInput placeholder="Flag" [disabled]="correctFlag" [(ngModel)]="flag">
           <button mat-button *ngIf="flag" [disabled]="correctFlag" matSuffix mat-icon-button aria-label="Clear" (click)="flag=''">
             <mat-icon>close</mat-icon>
           </button>
