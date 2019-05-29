@@ -15,7 +15,6 @@ h2 {
   flex-direction: column;
   justify-content: center;
   justify-items: center;
-  flex-grow: 1;
 }
 
 .train-def-buttons button {

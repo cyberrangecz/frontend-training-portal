@@ -13,7 +13,6 @@ h2 {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  flex-grow: 1;
 }
 
 .sandbox-def-buttons button {
@@ -22,7 +21,7 @@ h2 {
 }
 
 .sandbox-def-table-wrapper {
-  flex-grow: 9;
+  flex-grow: 10;
 }
 
 .sandbox-def-table {
