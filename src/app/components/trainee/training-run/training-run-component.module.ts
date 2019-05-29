@@ -6,12 +6,14 @@ import {TrainingTimerComponent} from "./training-timer/training-timer.component"
 import {PipesModule} from "../../../pipes/pipes.module";
 import {TrainingRunLevelComponentModule} from "./training-run-level/training-run-level-component.module";
 import {CountdownTimerModule} from "ngx-countdown-timer";
+import {RouterModule} from '@angular/router';
 
 @NgModule({
   imports: [
     CommonModule,
     CountdownTimerModule,
     TrainingRunMaterialModule,
+    RouterModule,
     TrainingRunLevelComponentModule,
     PipesModule,
   ],
