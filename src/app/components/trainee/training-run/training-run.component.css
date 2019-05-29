@@ -12,37 +12,42 @@
 }
 
 .content {
-  padding: 50px;
   display: flex;
   flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  width: 100%;
+}
+
+img {
+  width: 200px;
+  height: 60px;
+}
+
+.spacer {
+  flex: 1 1 0;
+}
+
+a {
+  height: 60px;
 }
 
 .main-button {
   width: 100%;
   display: flex;
-  justify-content: flex-end
+  justify-content: flex-end;
 }
 
 button {
   margin-right: 50px;
 }
 
-.timer {
-  margin: 10px 10px;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.training-run {
+.training-run-stepper {
+  max-width: 80%;
   pointer-events: none !important;
-}
-
-pre {
-  white-space: pre-wrap;
-  overflow-wrap: break-word;
-}
-
-markdown > pre {
-  white-space: pre-wrap;
-  overflow-wrap: break-word;
 }

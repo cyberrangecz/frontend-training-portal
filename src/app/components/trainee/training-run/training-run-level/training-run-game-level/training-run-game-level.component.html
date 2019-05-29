@@ -4,62 +4,72 @@
   </div>
   <div class="content">
     <div class="left-panel">
+      <div class="level-content">
+        <markdown [data]="displayedText"></markdown>
+      </div>
+    </div>
+    <div class="right-panel" #rightPanel>
       <!-- TOPOLOGY COMPONENT-->
-     <lib-force-graph  #topology
-                       *ngIf="sandboxId"
-                      [width]="graphWidth"
-                      [height]="graphHeight"
-                      [sandboxId]="sandboxId"
-                      (onTopologyLoaded)="topologyLoaded()">
-     </lib-force-graph>
-      <div *ngIf="!sandboxId" class="topology-placeholder">
+      <lib-force-graph  #topology
+                        *ngIf="sandboxId"
+                        [width]="topologyWidth"
+                        [height]="topologyHeight"
+                        [sandboxId]="sandboxId"
+                        [style.width.px]="topologyWidth"
+                        [style.height.px]="topologyHeight"
+                        (onTopologyLoaded)="topologyLoaded()">
+      </lib-force-graph>
+      <div *ngIf="!sandboxId"
+           class="topology-placeholder"
+           [style.width.px]="topologyWidth"
+           [style.height.px]="topologyHeight">
         <h3>There will be topology component</h3>
         <img src="assets/images/placeholders/topology-placeholder.png"
              alt="Topology placeholder"
-             [width]="graphWidth"
-             [height]="graphHeight"/>
+             [width]="topologyWidth"
+             [height]="topologyHeight">
       </div>
 
-
-    </div>
-    <div class="right-panel">
-      <div class="hint-bar">
-
-        <!-- HINT BUTTONS-->
-        <button
-          *ngFor="let hintButton of hintButtons; index as i"
-          mat-raised-button color="primary"
-          [disabled]="correctFlag || solutionShown || hintButton.displayed"
-          (click)="showHint(hintButton, i + 1);"
-          matTooltip="{{ hintButton.hint.title }}">
-          Hint {{ i + 1 }}
-        </button>
-
-        <!-- SOLUTION BUTTON-->
-        <button mat-raised-button color="warn"
-                [disabled]="correctFlag || solutionShown"
-                (click)="revealSolution()"
-                matTooltip="Display solution">
-          Solution
-        </button>
-      </div>
-      <div class="level-content">
-         <markdown [data]="displayedText"></markdown>
-      </div>
-      <div class="flag-input">
-
-        <!-- FLAG field-->
-        <mat-form-field appearance="outline">
-          <mat-label>Flag</mat-label>
-          <input matInput placeholder="Flag" [disabled]="correctFlag" [(ngModel)]="flag">
-          <button mat-button *ngIf="flag" [disabled]="correctFlag" matSuffix mat-icon-button aria-label="Clear" (click)="flag=''">
-            <mat-icon>close</mat-icon>
+      <div class="game-control-panel">
+        <div class="game-control-bar">
+          <!-- HINT BUTTONS-->
+          <button
+            *ngFor="let hintButton of hintButtons; index as i"
+            mat-raised-button color="primary"
+            [disabled]="correctFlag || solutionShown || hintButton.displayed"
+            (click)="showHint(hintButton, i + 1);"
+            matTooltip="{{ hintButton.hint.title }}">
+            Hint {{ i + 1 }}
           </button>
-        </mat-form-field>
-        <button mat-button color="accent"
-                [disabled]="!flag || correctFlag"
-                (click)="submitFlag()">
-          Submit</button>
+
+          <!-- SOLUTION BUTTON-->
+          <button mat-raised-button color="warn"
+                  [disabled]="correctFlag || solutionShown"
+                  (click)="revealSolution()"
+                  matTooltip="Display solution">
+            Solution
+          </button>
+
+          <div class="spacer"></div>
+          <div class="flag-input">
+            <!-- FLAG field-->
+            <mat-form-field appearance="outline">
+              <mat-label>Flag</mat-label>
+              <input matInput placeholder="Flag" [disabled]="correctFlag" [(ngModel)]="flag">
+              <button mat-button *ngIf="flag" [disabled]="correctFlag" matSuffix mat-icon-button aria-label="Clear" (click)="flag=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+            <button mat-button color="accent"
+                    [disabled]="!flag || correctFlag"
+                    (click)="submitFlag()">
+              Submit</button>
+          </div>
+        </div>
+
+        <div class="hint-content">
+          <markdown *ngIf="displayedHints || displayedHints !== ''" [data]="displayedHints"></markdown>
+        </div>
       </div>
     </div>
   </div>

@@ -6,13 +6,13 @@
 }
 
 .header {
-  margin-top: 50px;
+  margin-top: 10px;
   text-align: center;
   width: 60%;
 }
 
 .content {
-  margin-top: 50px;
+  margin-top: 10px;
   display: flex;
   width: 60%;
 }
@@ -28,12 +28,13 @@ markdown {
   width: 100%;
 }
 
-pre {
-  white-space: pre-wrap;
-  overflow-wrap: break-word;
+markdown ::ng-deep img {
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
 }
 
-markdown > pre {
+markdown ::ng-deep pre {
   white-space: pre-wrap;
   overflow-wrap: break-word;
 }
@@ -41,6 +42,9 @@ markdown > pre {
 @media screen and (max-width: 800px) {
   .content {
     width: 90%;
+  }
+  markdown > img {
+    max-width: 700px;
   }
 }
 
