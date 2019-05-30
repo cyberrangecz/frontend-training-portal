@@ -136,7 +136,7 @@ export class TrainingDefinitionMapper {
     const result = new TrainingDefinitionInfo();
     result.id = dto.id;
     result.title = dto.title;
-    result.canBeEdited = dto.can_edit;
+    result.state = this.mapTrainingDefDTOStateToEnum(dto.state);
     return result;
   }
 

@@ -1,5 +1,7 @@
+import {TrainingDefinitionDTO} from "./trainingDefinitionDTO";
+
 export class TrainingDefinitionInfoDTO {
   id: number;
   title: string;
-  can_edit: boolean;
+  state: TrainingDefinitionDTO.StateEnum;
 }
