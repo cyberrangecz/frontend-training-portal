@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {Observable} from "rxjs";
 import {SandboxInstance} from "../../model/sandbox/sandbox-instance";
@@ -63,6 +63,11 @@ export class SandboxInstanceFacade {
   }
 
   allocateSandbox(trainingInstanceId: number): Observable<any> {
-    return this.http.post(`${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.sandboxInstancesUriExtension}?count=1`,
-      {});
+    let params = new HttpParams();
+    params = params.append('count', '1');
+    return this.http.post(`${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.sandboxInstancesUriExtension}`,
+      {},
+      {
+        params: params
+      });
   }}

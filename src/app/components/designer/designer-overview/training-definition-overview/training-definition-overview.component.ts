@@ -19,6 +19,7 @@ import {DeleteDialogComponent} from "../../../shared/delete-dialog/delete-dialog
 import {TrainingDefinition} from "../../../../model/training/training-definition";
 import {AuthorsListDialogComponent} from './authors-list-dialog/authors-list-dialog.component';
 import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
+import {CloneDialogComponent} from "./clone-dialog/clone-dialog.component";
 
 @Component({
   selector: 'designer-overview-training-definition',
@@ -146,17 +147,18 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
       });
   }
 
-  /**
-   * Calls service to create clone of the training definition and refreshes the table
-   * @param {number} id id of training definition which should be cloned
-   */
-  cloneTrainingDefinition(id: number) {
-    this.trainingDefinitionFacade.cloneTrainingDefinition(id)
-      .subscribe(response => {
-          this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully cloned.');
-          this.fetchData();
-        },
-        err => this.errorHandler.displayHttpError(err, 'Cloning training definition'));
+
+  cloneTrainingDefinition(trainingDefinition: TrainingDefinition) {
+    const dialogRef = this.dialog.open(CloneDialogComponent, {
+      data: trainingDefinition
+    });
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result.type === 'confirm') {
+          this.sendRequestToCloneTrainingDefinition(trainingDefinition.id, result.title);
+        }
+      }
+    );
   }
 
 
@@ -168,7 +170,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => this.onChangeTrainingStateDialogClosed(row, result));
+    dialogRef.afterClosed().subscribe(result => this.onChangeTrainingStateDialogC(row, result));
   }
 
   showAuthorsList(trainingDefinition: TrainingDefinition) {
@@ -206,7 +208,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
       ).subscribe((data: PaginatedTable<TrainingDefinitionTableAdapter[]>) => this.createDataSource(data));
   }
 
-  private onChangeTrainingStateDialogClosed(row: TrainingDefinitionTableAdapter, result) {
+  private onChangeTrainingStateDialogC(row: TrainingDefinitionTableAdapter, result) {
     if (result && result.type === 'confirm') {
       this.sendChangeTrainingDefinitionStateRequest(row);
     }
@@ -234,6 +236,15 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
     row.isLoadingStateChange = false;
     row.selectedState = row.trainingDefinition.state;
     this.errorHandler.displayHttpError(err, 'Changing state of training definition');
+  }
+
+  private sendRequestToCloneTrainingDefinition(id: number, title: string) {
+    this.trainingDefinitionFacade.cloneTrainingDefinition(id, title)
+      .subscribe(response => {
+          this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully cloned.');
+          this.fetchData();
+        },
+        err => this.errorHandler.displayHttpError(err, 'Cloning training definition'));
   }
 
   /**
@@ -270,5 +281,6 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
         data.trainingDefinition.title.toLowerCase().indexOf(filter) !== -1
         || data.trainingDefinition.state.toLowerCase().indexOf(filter) !== -1;
   }
+
 
 }
