@@ -51,7 +51,13 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   }
 
   private resolveIsHome() {
-    this.isHome = this.location.path(false).endsWith('home');
+    let path = this.location.path(false);
+    this.isHome = path.endsWith('home')
+      || (!this.isInDesignerSublocation(path)
+          && !this.isInOrganizerSublocation(path)
+          && !this.isInTraineeSublocation(path)
+          && !this.isInAdminSublocation(path)
+      );
   }
 
 
@@ -98,5 +104,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     return !this.isInDesignerSublocation(path)
       && !this.isInOrganizerSublocation(path)
       && !this.isInTraineeSublocation(path)
+  }
+
+  private isInAdminSublocation(path: string) {
+    return path.includes('admin');
   }
 }
