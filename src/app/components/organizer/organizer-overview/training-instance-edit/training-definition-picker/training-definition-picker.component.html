@@ -1,11 +1,19 @@
 <h1 mat-dialog-title>Choose Training Definition</h1>
 <mat-divider></mat-divider>
 <div mat-dialog-content *ngIf="!isLoading">
-  <mat-list role="list">
-    <mat-list-item role="listitem" *ngFor="let training of trainingDefs">
+  <mat-list>
+    <h3 mat-subheader *ngIf="releasedTrainingDefs.length > 0">Released</h3>
+    <mat-list-item *ngFor="let training of releasedTrainingDefs">
       <mat-radio-button [checked]="training === selectedTrainingDef"
                         [value]="training"
-
+                        (change)="selectedTrainingDef = $event.value">
+        {{ training.title }}
+      </mat-radio-button>
+    </mat-list-item>
+    <h3 mat-subheader *ngIf="unreleasedTrainingDefs.length > 0">Unreleased</h3>
+    <mat-list-item *ngFor="let training of unreleasedTrainingDefs">
+      <mat-radio-button [checked]="training === selectedTrainingDef"
+                        [value]="training"
                         (change)="selectedTrainingDef = $event.value">
         {{ training.title }}
       </mat-radio-button>

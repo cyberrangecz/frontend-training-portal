@@ -4,6 +4,7 @@ import {SandboxDefinitionPickerComponent} from "../../../../designer/training-de
 import {TrainingDefinition} from "../../../../../model/training/training-definition";
 import {TrainingDefinitionFacade} from "../../../../../services/facades/training-definition-facade.service";
 import {TrainingDefinitionInfo} from "../../../../../model/training/training-definition-info";
+import {TrainingDefinitionStateEnum} from "../../../../../model/enums/training-definition-state.enum";
 
 @Component({
   selector: 'training-definition-picker',
@@ -15,7 +16,8 @@ import {TrainingDefinitionInfo} from "../../../../../model/training/training-def
  */
 export class TrainingDefinitionPickerComponent implements OnInit {
 
-  trainingDefs: TrainingDefinitionInfo[];
+  releasedTrainingDefs: TrainingDefinitionInfo[] = [];
+  unreleasedTrainingDefs: TrainingDefinitionInfo[] = [];
   selectedTrainingDef: TrainingDefinitionInfo;
   isLoading = true;
 
@@ -58,7 +60,8 @@ export class TrainingDefinitionPickerComponent implements OnInit {
         if (this.hasPreselection()) {
           this.preselectTrainingDef(trainings);
         }
-        this.trainingDefs = trainings;
+        this.releasedTrainingDefs = trainings.filter(training => training.state === TrainingDefinitionStateEnum.Released);
+        this.unreleasedTrainingDefs = trainings.filter(training => training.state === TrainingDefinitionStateEnum.Unreleased);
         this.isLoading = false;
       });
   }
