@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
 import {environment} from "../../../environments/environment";
 import {catchError, map} from "rxjs/operators";
 import {TrainingDefinition} from "../../model/training/training-definition";
@@ -27,6 +27,7 @@ import {TrainingDefinitionStateEnum} from '../../model/enums/training-definition
 import {TrainingDefinitionInfo} from '../../model/training/training-definition-info';
 import {TrainingDefinitionInfoRestResource} from '../../model/DTOs/training-definition/training-definition-info-rest-resource';
 import {of} from "rxjs";
+import {Params} from "@angular/router";
 
 @Injectable()
 /**
@@ -169,12 +170,18 @@ export class TrainingDefinitionFacade {
 
   /**
    * Sends request to clone training definition
-   * @param trainingDefId id of training definition which should be cloned
+   * @param trainingDefId id of training definition which should be cloned.
+   * @param title title of cloned TD
    */
-  cloneTrainingDefinition(trainingDefId: number): Observable<number> {
+  cloneTrainingDefinition(trainingDefId: number, title: string): Observable<number> {
+    let params = new HttpParams();
+    params = params.append('title', title);
     return this.http.post<number>(this.trainingDefsEndpointUri + trainingDefId,
       {},
-      { headers: this.createDefaultHeaders()});
+      {
+        params: params,
+        headers: this.createDefaultHeaders()
+      });
   }
 
 

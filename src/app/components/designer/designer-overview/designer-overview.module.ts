@@ -16,6 +16,7 @@ import { AssociatedTrainingDefinitionsDialogComponent } from './sandbox-definiti
 import {FormsModule} from '@angular/forms';
 import {StateChangeDialogComponent} from './training-definition-overview/state-change-dialog/state-change-dialog.component';
 import { AuthorsListDialogComponent } from './training-definition-overview/authors-list-dialog/authors-list-dialog.component';
+import { CloneDialogComponent } from './training-definition-overview/clone-dialog/clone-dialog.component';
 
 @NgModule({
   imports: [
@@ -37,7 +38,8 @@ import { AuthorsListDialogComponent } from './training-definition-overview/autho
     SandboxDefinitionOverviewComponent,
     AssociatedTrainingDefinitionsDialogComponent,
     StateChangeDialogComponent,
-    AuthorsListDialogComponent
+    AuthorsListDialogComponent,
+    CloneDialogComponent
   ],
   providers: [
   ],
@@ -45,7 +47,8 @@ import { AuthorsListDialogComponent } from './training-definition-overview/autho
     DesignerUploadDialogComponent,
     AssociatedTrainingDefinitionsDialogComponent,
     StateChangeDialogComponent,
-    AuthorsListDialogComponent
+    AuthorsListDialogComponent,
+    CloneDialogComponent
   ]
 })
 
