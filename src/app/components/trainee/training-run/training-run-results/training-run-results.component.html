@@ -9,13 +9,20 @@
       <button mat-button color="primary" (click)="loadData()">Try again</button>
     </div>
     <div *ngIf="!isLoading && !isInErrorState" class="left-panel">
+      <kypo2-viz-overview-table
+        [trainingDefinitionId]="trainingDefinitionId"
+        [standalone]="true"
+        [trainingInstanceId]="trainingInstanceId"
+        [feedbackLearnerId]="activeUserUco">
+      </kypo2-viz-overview-table>
       <kypo2-viz-overview-timeline
         [size]="vizSize"
+        [enableAllPlayers]="false"
         [feedbackLearnerId]="activeUserUco"
         [trainingDefinitionId]="trainingDefinitionId"
-        [trainingInstanceId]="trainingInstanceId"
+        [trainingInstanceId]="trainingInstanceId">
 
-      ></kypo2-viz-overview-timeline>
+      </kypo2-viz-overview-timeline>
     </div>
     <div *ngIf="!isLoading && !isInErrorState" class="middle-panel">
       <kypo2-viz-overview-clustering
