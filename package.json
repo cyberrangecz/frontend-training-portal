@@ -35,7 +35,7 @@
     "kypo2-markdown-editor": "1.0.4",
     "kypo2-trainings-hurdling-viz-lib": "0.9.1",
     "kypo2-trainings-visualization-overview-lib": "0.9.5",
-    "kypo2-user-and-group-management": "1.0.5",
+    "kypo2-user-and-group-management": "1.0.6",
     "marked": "^0.6.1",
     "moment": "^2.22.2",
     "ng-pick-datetime": "^6.0.10",
