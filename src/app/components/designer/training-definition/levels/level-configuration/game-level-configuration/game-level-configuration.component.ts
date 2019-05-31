@@ -84,7 +84,7 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
         },
           err => {
             this.isLoading = false;
-            this.errorHandler.displayHttpError(err, 'Saving game level "' + this.level.title + '"');
+            this.errorHandler.displayInAlert(err, 'Saving game level "' + this.level.title + '"');
           });
     }
   }

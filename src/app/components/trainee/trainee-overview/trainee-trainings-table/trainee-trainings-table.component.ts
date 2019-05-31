@@ -62,7 +62,7 @@ export class TraineeTrainingsTableComponent implements OnInit {
           this.router.navigate(['training/game'], {relativeTo: this.activeRoute});
       },
         err => {
-        this.errorHandler.displayHttpError(err, "Resuming training run");
+        this.errorHandler.displayInAlert(err, "Resuming training run");
         this.isLoading = false;
       })
   }

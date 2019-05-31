@@ -122,7 +122,7 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
               this.onWrongFlagSubmitted(resp.remainingAttempts)
             }
           },
-        err => this.errorHandler.displayHttpError(err, 'Submitting flag')
+        err => this.errorHandler.displayInAlert(err, 'Submitting flag')
       );
   }
 
@@ -130,7 +130,7 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
     this.activeLevelService.nextLevel()
       .subscribe(
         resp => {},
-        err => this.errorHandler.displayHttpError(err, 'Moving to next level')
+        err => this.errorHandler.displayInAlert(err, 'Moving to next level')
       )
   }
 
@@ -138,7 +138,7 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
     this.activeLevelService.finish()
       .subscribe(
         resp => {},
-        err => this.errorHandler.displayHttpError(err, 'Finishing training')
+        err => this.errorHandler.displayInAlert(err, 'Finishing training')
       )
   }
 
@@ -205,7 +205,7 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
       },
       err => {
         this.isGameDataLoaded = true;
-        this.errorHandler.displayHttpError(err, "Loading solution");
+        this.errorHandler.displayInAlert(err, "Loading solution");
       })
   }
 
@@ -216,7 +216,7 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
           this.displayedHints += '\n\n## Hint ' + index + ": " + resp.title + "\n" + resp.content;
         },
         err => {
-          this.errorHandler.displayHttpError(err, 'Taking hint "' + hintButton.hint.title + '"');
+          this.errorHandler.displayInAlert(err, 'Taking hint "' + hintButton.hint.title + '"');
         });
   }
 

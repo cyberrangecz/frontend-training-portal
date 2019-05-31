@@ -105,7 +105,7 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
         },
         err =>  {
           this.isDisabled = false;
-          this.errorHandler.displayHttpError(err, 'Removing sandbox with id: ' +  sandboxRow.sandboxInstance.id);
+          this.errorHandler.displayInAlert(err, 'Removing sandbox with id: ' +  sandboxRow.sandboxInstance.id);
         }
         );
     this.allocationEvent.emit(sandboxDeletion$);
@@ -123,7 +123,7 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
         },
         err =>  {
           this.isDisabled = false;
-          this.errorHandler.displayHttpError(err, 'Allocating sandbox');
+          this.errorHandler.displayInAlert(err, 'Allocating sandbox');
         }
       );
     this.allocationEvent.emit(sandboxAllocation$);

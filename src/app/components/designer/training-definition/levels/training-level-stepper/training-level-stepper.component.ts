@@ -98,7 +98,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
         level => {
           this.onLevelAdded(level);
         },
-        (err: HttpErrorResponse) => this.errorHandler.displayHttpError(err, 'Creating info level')
+        (err: HttpErrorResponse) => this.errorHandler.displayInAlert(err, 'Creating info level')
       );
   }
 
@@ -115,7 +115,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
         level => {
           this.onLevelAdded(level);
         },
-        (err: HttpErrorResponse) =>  this.errorHandler.displayHttpError(err, 'Creating game level')
+        (err: HttpErrorResponse) =>  this.errorHandler.displayInAlert(err, 'Creating game level')
       );
   }
 
@@ -132,7 +132,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
         level => {
           this.onLevelAdded(level);
         },
-        (err: HttpErrorResponse) => this.errorHandler.displayHttpError(err, 'Creating assessment level')
+        (err: HttpErrorResponse) => this.errorHandler.displayInAlert(err, 'Creating assessment level')
       );
   }
 
@@ -151,7 +151,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
           this.isLoading = false;
         },
         err => {
-          this.errorHandler.displayHttpError(err, 'Swapping level "' + from.title + '" to the left');
+          this.errorHandler.displayInAlert(err, 'Swapping level "' + from.title + '" to the left');
           this.isLoading = false;
         }
       );
@@ -172,7 +172,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
           this.isLoading = false;
         },
         err => {
-          this.errorHandler.displayHttpError(err, 'Swapping level "' + from.title + '" to the right');
+          this.errorHandler.displayInAlert(err, 'Swapping level "' + from.title + '" to the right');
           this.isLoading = false;
         }
         );
@@ -208,7 +208,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
           this.isLoading = false;
         },
         err => {
-          this.errorHandler.displayHttpError(err, 'Deleting level "' + levelToDelete.title + '"');
+          this.errorHandler.displayInAlert(err, 'Deleting level "' + levelToDelete.title + '"');
           this.isLoading = false;
         });
   }

@@ -34,7 +34,7 @@ export class TrainingRunInfoLevelComponent implements OnInit, OnChanges {
     this.activeLevelService.nextLevel()
       .subscribe(
         resp => {},
-        err => this.errorHandler.displayHttpError(err, 'Moving to next level')
+        err => this.errorHandler.displayInAlert(err, 'Moving to next level')
       )
   }
 
@@ -42,7 +42,7 @@ export class TrainingRunInfoLevelComponent implements OnInit, OnChanges {
     this.activeLevelService.finish()
       .subscribe(
         resp => {},
-        err => this.errorHandler.displayHttpError(err, 'Finishing training')
+        err => this.errorHandler.displayInAlert(err, 'Finishing training')
       )
   }
 }

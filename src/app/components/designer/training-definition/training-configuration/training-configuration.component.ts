@@ -160,7 +160,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Changes were successfully saved.');
           this.performActionsAfterSuccessfulSave(response);
         },
-        err => this.errorHandler.displayHttpError(err, 'Editing training definition')
+        err => this.errorHandler.displayInAlert(err, 'Editing training definition')
       );
   }
 
@@ -170,7 +170,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully saved.');
           this.performActionsAfterSuccessfulSave(response);
         },
-        err => this.errorHandler.displayHttpError(err, 'Creating new training definition')
+        err => this.errorHandler.displayInAlert(err, 'Creating new training definition')
       )
   }
 

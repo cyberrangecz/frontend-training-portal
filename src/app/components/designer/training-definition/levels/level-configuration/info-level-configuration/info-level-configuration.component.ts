@@ -73,7 +73,7 @@ export class InfoLevelConfigurationComponent implements OnInit, OnChanges {
         },
   err => {
           this.isLoading =false;
-          this.errorHandler.displayHttpError(err, 'Updating info level "' + this.level.title + '"');
+          this.errorHandler.displayInAlert(err, 'Updating info level "' + this.level.title + '"');
             });
     }
   }

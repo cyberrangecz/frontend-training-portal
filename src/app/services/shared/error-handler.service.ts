@@ -8,16 +8,16 @@ export class ErrorHandlerService {
   constructor(private alertService: AlertService) {
   }
 
-  displayHttpError(err: HttpErrorResponse, operation: string) {
+  displayInAlert(err: HttpErrorResponse, operation: string) {
     if (err.status === 404 || err.status === 0) {
-      return;
+      this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} Wrong request. Report the issue to developers`);
     }
     if (err.status === 401) {
-      this.alertService.emitAlert(AlertTypeEnum.Error, operation + 'Unauthorized. Try to refresh page or login again');
+      this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} Unauthorized. Try to refresh page or login again`);
     }
     if (err.status === 403) {
-      this.alertService.emitAlert(AlertTypeEnum.Error, operation + 'You may not have access rights to requested resource. Contact system administrator.');
+      this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} You may not have access rights to requested resource. Contact system administrator.`);
     }
-    this.alertService.emitAlert(AlertTypeEnum.Error, operation + ' failed with following message: ' + err.error.message);
+    this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} failed with following message: ${err.error.message}`);
   }
 }

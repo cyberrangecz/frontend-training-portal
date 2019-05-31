@@ -132,7 +132,7 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
         resp => {
       },
       err => {
-          this.errorHandler.displayHttpError(err, 'Downloading Training Instance archive');
+          this.errorHandler.displayInAlert(err, 'Downloading Training Instance archive');
       });
   }
 
@@ -201,7 +201,7 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
         catchError((err) => {
           this.isLoadingResults = false;
           this.isInErrorState = true;
-          this.errorHandler.displayHttpError(err, 'Loading training definitions');
+          this.errorHandler.displayInAlert(err, 'Loading training definitions');
           return of([]);
         })
       ).subscribe((data: PaginatedTable<TrainingInstanceTableAdapter[]>) => this.createDataSource(data));
@@ -275,7 +275,7 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
 
   private onAllocationUpdateError(err, row: TrainingInstanceTableAdapter) {
     row.isAllocationInProgress = false;
-    this.errorHandler.displayHttpError(err, 'Allocation of sandboxes');
+    this.errorHandler.displayInAlert(err, 'Allocation of sandboxes');
   }
 
   private subscribeForAllocationIfAvailable(row: TrainingInstanceTableAdapter) {
@@ -294,7 +294,7 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Training instance was successfully deleted.');
           this.fetchData();
         },
-        err => this.errorHandler.displayHttpError(err, 'Deleting Training Instance')
+        err => this.errorHandler.displayInAlert(err, 'Deleting Training Instance')
       );
   }
 

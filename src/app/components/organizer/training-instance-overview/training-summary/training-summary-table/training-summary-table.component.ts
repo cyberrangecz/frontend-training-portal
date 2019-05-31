@@ -87,7 +87,7 @@ export class TrainingSummaryTableComponent implements OnInit, OnDestroy {
       },
       err => {
         trainingRunTableObject.isWaitingForRevertResponse = false;
-        this.errorHandler.displayHttpError(err, 'Reverting training run');
+        this.errorHandler.displayInAlert(err, 'Reverting training run');
       }
     )
   }

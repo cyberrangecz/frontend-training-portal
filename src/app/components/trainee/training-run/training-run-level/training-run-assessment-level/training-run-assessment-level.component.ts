@@ -69,7 +69,7 @@ export class TrainingRunAssessmentLevelComponent implements OnInit, OnChanges {
     this.activeLevelService.nextLevel()
       .subscribe(
         resp => {},
-        err => this.errorHandler.displayHttpError(err, 'Moving to next level')
+        err => this.errorHandler.displayInAlert(err, 'Moving to next level')
       );
   }
 
@@ -77,7 +77,7 @@ export class TrainingRunAssessmentLevelComponent implements OnInit, OnChanges {
     this.activeLevelService.finish()
       .subscribe(
         resp => {},
-        err => this.errorHandler.displayHttpError(err, 'Finishing training')
+        err => this.errorHandler.displayInAlert(err, 'Finishing training')
       )
   }
 
@@ -89,7 +89,7 @@ export class TrainingRunAssessmentLevelComponent implements OnInit, OnChanges {
   }
 
   private onSubmittedError(err) {
-    this.errorHandler.displayHttpError(err, 'Submitting answers');
+    this.errorHandler.displayInAlert(err, 'Submitting answers');
     this.isSubmitted = false;
   }
 

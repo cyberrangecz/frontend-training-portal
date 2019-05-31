@@ -46,7 +46,7 @@ export class TraineeAccessTrainingComponent implements OnInit {
         },
           err=> {
           this.isLoading = false;
-          this.errorHandler.displayHttpError(err, 'Connecting to training run');
+          this.errorHandler.displayInAlert(err, 'Connecting to training run');
         })
     } else {
       this.alertService.emitAlert(AlertTypeEnum.Error, 'Password cannot be empty');

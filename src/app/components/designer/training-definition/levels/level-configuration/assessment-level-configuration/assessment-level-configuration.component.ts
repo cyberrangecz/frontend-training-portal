@@ -77,7 +77,7 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
           },
           err => {
             this.isLoading = false;
-            this.errorHandler.displayHttpError(err, 'Saving assessment level "' + this.level.title + '"');
+            this.errorHandler.displayInAlert(err, 'Saving assessment level "' + this.level.title + '"');
           });
     }
   }

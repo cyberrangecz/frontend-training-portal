@@ -124,7 +124,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
         if (err.status === 406) {
           this.alertService.emitAlert(AlertTypeEnum.Error, 'Training definition could not be downloaded');
         }
-        this.errorHandler.displayHttpError(err, 'Downloading training definition');
+        this.errorHandler.displayInAlert(err, 'Downloading training definition');
         this.isLoadingResults = false;
       });
   }
@@ -202,7 +202,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
         catchError((err) => {
           this.isLoadingResults = false;
           this.isInErrorState = true;
-          this.errorHandler.displayHttpError(err, 'Loading training definitions');
+          this.errorHandler.displayInAlert(err, 'Loading training definitions');
           return of([]);
         })
       ).subscribe((data: PaginatedTable<TrainingDefinitionTableAdapter[]>) => this.createDataSource(data));
@@ -235,7 +235,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
   private onTrainingDefinitionStateChangeDeniedByServer(row: TrainingDefinitionTableAdapter, err: HttpErrorResponse) {
     row.isLoadingStateChange = false;
     row.selectedState = row.trainingDefinition.state;
-    this.errorHandler.displayHttpError(err, 'Changing state of training definition');
+    this.errorHandler.displayInAlert(err, 'Changing state of training definition');
   }
 
   private sendRequestToCloneTrainingDefinition(id: number, title: string) {
@@ -244,7 +244,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully cloned.');
           this.fetchData();
         },
-        err => this.errorHandler.displayHttpError(err, 'Cloning training definition'));
+        err => this.errorHandler.displayInAlert(err, 'Cloning training definition'));
   }
 
   /**
@@ -266,7 +266,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
           this.fetchData();
         },
         err => {
-          this.errorHandler.displayHttpError(err, 'Removing training definition');
+          this.errorHandler.displayInAlert(err, 'Removing training definition');
         });
   }
 

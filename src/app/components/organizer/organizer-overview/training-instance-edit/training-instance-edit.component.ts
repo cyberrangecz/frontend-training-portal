@@ -125,7 +125,7 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
           this.dirty = false;
           this.trainingChanged();
       },
-        err => this.errorHandler.displayHttpError(err, 'Updating Training Instance')
+        err => this.errorHandler.displayInAlert(err, 'Updating Training Instance')
       );
   }
 
@@ -138,7 +138,7 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
           this.dirty = false;
           this.trainingChanged();
         },
-        err => this.errorHandler.displayHttpError(err, 'Saving Training Instance')
+        err => this.errorHandler.displayInAlert(err, 'Saving Training Instance')
       );
   }
 

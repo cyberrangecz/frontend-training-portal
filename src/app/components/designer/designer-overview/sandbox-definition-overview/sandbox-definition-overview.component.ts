@@ -138,7 +138,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
         catchError((err) => {
           this.isLoadingResults = false;
           this.isInErrorState = true;
-          this.errorHandler.displayHttpError(err, 'Loading sandbox definitions');
+          this.errorHandler.displayInAlert(err, 'Loading sandbox definitions');
           return of([]);
         })
       ).subscribe(data => this.createDataSource(data));
@@ -195,7 +195,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox was successfully deleted.');
           this.fetchData();
         },
-        err => this.errorHandler.displayHttpError(err, 'Removing sandbox definition'));
+        err => this.errorHandler.displayInAlert(err, 'Removing sandbox definition'));
   }
 
 }
