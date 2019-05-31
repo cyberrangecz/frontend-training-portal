@@ -24,6 +24,8 @@
             <input matInput
                    placeholder="Start Time"
                    required
+                   [min]="now"
+                   [max]="endTime"
                    [(ngModel)]="startTime"
                    (ngModelChange)="onStartTimeNgModelChanged()"
                    [owlDateTime]="startTimePicker">
@@ -58,6 +60,7 @@
               matInput
               placeholder="End Time"
               required
+              [min]="startTime"
               (ngModelChange)="contentChanged()"
               [(ngModel)]="endTime"
               [owlDateTime]="endTimePicker">

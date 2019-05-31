@@ -29,6 +29,7 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
 
   isEditMode: boolean;
   dirty: boolean;
+  now: Date;
 
   title: string;
   startTime: Date;
@@ -43,6 +44,9 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
 
   loggedUserLogin: string;
 
+  private _currentTimeUpdateSubscription: Subscription;
+
+
   constructor(
     private alertService: AlertService,
     private errorHandler: ErrorHandlerService,
@@ -55,6 +59,7 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.resolveInitialInputValues();
+    this.initCurrentTimePeriodicalUpdate();
     this.dirty = false;
     this.loggedUserLogin = this.activeUserService.getActiveUser().login;
   }
@@ -62,6 +67,9 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.startTimeUpdateSubscription) {
       this.startTimeUpdateSubscription.unsubscribe();
+    }
+    if (this._currentTimeUpdateSubscription) {
+      this._currentTimeUpdateSubscription.unsubscribe();
     }
   }
 
@@ -248,5 +256,12 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
         this.startTime.setMinutes(this.startTime.getMinutes() + 1);
       }
     });
+  }
+
+  private initCurrentTimePeriodicalUpdate() {
+    this.now = new Date();
+    this._currentTimeUpdateSubscription = interval(60000).subscribe(value =>
+      this.now = new Date()
+    );
   }
 }
