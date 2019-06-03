@@ -77,6 +77,11 @@ td.date, th.date {
   width: 25%;
 }
 
+:host ::ng-deep .mat-sort-header-container {
+  display: flex;
+  justify-content: center;
+}
+
 td.trainingDefinition, th.trainingDefinition {
   text-align: center;
   width: 15%;
@@ -117,8 +122,15 @@ td.password, th.password {
   width: 15%;
 }
 
-td.actions, th.actions {
+th.actions {
+  text-align: center;
   width: 15%;
+}
+
+td.actions {
+  width: 15%;
+  display: flex;
+  justify-content: center;
 }
 
 .loading {
