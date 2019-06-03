@@ -50,7 +50,7 @@
 
           <!-- DATE Column -->
           <ng-container matColumnDef="date">
-            <th class="date" mat-header-cell *matHeaderCellDef>Date</th>
+            <th class="date" mat-header-cell *matHeaderCellDef mat-sort-header="startTime">Date</th>
             <td class="date" mat-cell *matCellDef="let training">
               {{ training.trainingInstance?.startTime | dateTimeFormat}} - {{ training.trainingInstance?.endTime | dateTimeFormat }}</td>
           </ng-container>
