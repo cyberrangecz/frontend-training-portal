@@ -5,6 +5,10 @@
   <p>{{ trainingDefinition.description }}</p>
   <div class="ver-spacer"></div>
   <h2>Access token: {{ trainingInstance.accessToken }}</h2>
+  <a  mat-button color="accent"
+    routerLink="/organizer/training/{{ trainingInstance.id }}/access-token">
+    Display for trainees
+  </a>
   <div class="ver-spacer"></div>
   <h4>Start Time: {{ trainingInstance.startTime | dateTimeFormat }}</h4>
   <h4>End Time: {{ trainingInstance.endTime | dateTimeFormat }}</h4>

@@ -2,7 +2,6 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActiveTrainingInstanceService} from "../../../../../services/organizer/active-training-instance.service";
 import {TrainingInstance} from "../../../../../model/training/training-instance";
 import {TrainingDefinition} from "../../../../../model/training/training-definition";
-import {UserFacade} from "../../../../../services/facades/user-facade.service";
 
 @Component({
   selector: 'training-info',
@@ -19,8 +18,7 @@ export class TrainingInfoComponent implements OnInit, OnDestroy {
 
   trainingChangesSubscription;
 
-  constructor(private activeTrainingInstanceService: ActiveTrainingInstanceService,
-              private userFacade: UserFacade) { }
+  constructor(private activeTrainingInstanceService: ActiveTrainingInstanceService) { }
 
   ngOnInit() {
     this.loadData();

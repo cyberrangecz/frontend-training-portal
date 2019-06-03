@@ -10,7 +10,12 @@ const routes: Routes = [
   {
     path: 'training/:id',
     loadChildren: 'app/components/organizer/training-instance-overview/training-instance-overview.module#TrainingInstanceOverviewModule',
-  }
+  },
+  {
+    path: 'training/:id/access-token',
+    loadChildren: 'app/components/organizer/access-token-detail/access-token-detail.module#AccessTokenDetailModule'
+  },
+
 ];
 
 @NgModule({
