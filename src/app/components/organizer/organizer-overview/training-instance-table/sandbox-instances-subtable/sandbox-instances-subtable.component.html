@@ -63,7 +63,7 @@
                 </button>
 
                 <!-- ALLOCATE button-->
-                <button *ngIf="!data.isCreated && !data.isFailed && !data.isInProgress"
+                <button *ngIf="canAllocate && !data.isCreated && !data.isFailed && !data.isInProgress"
                         mat-icon-button color="primary"
                         matTooltip="Allocate sandbox instance"
                         [disabled]="isDisabled"
