@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import {TrainingInstance} from '../../../../../model/training/training-instance';
 import {SandboxInstance} from '../../../../../model/sandbox/sandbox-instance';
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {SandboxAllocationService} from '../../../../../services/organizer/sandbox-allocation/sandbox-allocation.service';
 import {SandboxInstanceFacade} from '../../../../../services/facades/sandbox-instance-facade.service';
 import {SandboxInstanceTableAdapter} from '../../../../../model/table-adapters/sandbox-instance-table-adapter';
@@ -19,6 +19,7 @@ import {environment} from '../../../../../../environments/environment';
 import {Observable, Subscription} from 'rxjs';
 import {TrainingInstanceSandboxAllocationState} from '../../../../../model/training/training-instance-sandbox-allocation-state';
 import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
+import {DeleteDialogComponent} from '../../../../shared/delete-dialog/delete-dialog.component';
 
 
 @Component({
@@ -41,6 +42,7 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
   resultsLength = 0;
   isInErrorState = false;
   hasPoolId = true;
+  canAllocate: boolean;
   isLoadingResults = false;
   isDisabled = false;
 
@@ -51,6 +53,7 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
     data.sandboxInstance.state.toString().toLowerCase().indexOf(filter) !== -1;
 
   constructor(
+    private dialog: MatDialog,
     private errorHandler: ErrorHandlerService,
     private allocationService: SandboxAllocationService,
     private sandboxInstanceFacade: SandboxInstanceFacade) {
@@ -63,6 +66,10 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
     if ('trainingInstance' in changes) {
       if (this.trainingInstance && this.trainingInstance.poolId === null || this.trainingInstance.poolId === undefined) {
         this.hasPoolId = false;
+        this.canAllocate = false;
+      }
+      if (this.trainingInstance && this.trainingInstance.endTime.valueOf() > Date.now()) {
+        this.canAllocate = false;
       }
       else {
         this.initTableDataSource();
@@ -95,19 +102,34 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
   }
 
   deleteSandbox(sandboxRow: SandboxInstanceTableAdapter) {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: {
+        type: 'Sandbox Instance',
+        title: sandboxRow.sandboxInstance.id.toString()
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.type === 'confirm') {
+        this.sendRequestToDeleteSandbox(sandboxRow);
+      }
+    });
+  }
+
+  private sendRequestToDeleteSandbox(sandboxRow: SandboxInstanceTableAdapter) {
     const sandboxCount = this.getSandboxCount() - 1;
     this.isDisabled = true;
     const sandboxDeletion$ = this.allocationService.deleteSandbox(this.trainingInstance, sandboxRow.sandboxInstance, sandboxCount);
     sandboxRow.allocationSubscription = sandboxDeletion$.subscribe(
-        allocationState =>  {
-          this.isDisabled = false;
-          this.displayData(allocationState);
-        },
-        err =>  {
-          this.isDisabled = false;
-          this.errorHandler.displayInAlert(err, 'Removing sandbox with id: ' +  sandboxRow.sandboxInstance.id);
-        }
-        );
+      allocationState =>  {
+        this.isDisabled = false;
+        this.displayData(allocationState);
+      },
+      err =>  {
+        this.isDisabled = false;
+        this.errorHandler.displayInAlert(err, 'Removing sandbox with id: ' +  sandboxRow.sandboxInstance.id);
+      }
+    );
     this.allocationEvent.emit(sandboxDeletion$);
   }
 
