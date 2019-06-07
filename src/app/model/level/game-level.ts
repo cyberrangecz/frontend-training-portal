@@ -17,4 +17,8 @@ export class GameLevel extends AbstractLevel {
   constructor() {
     super();
   }
+
+  hasSolution(): boolean {
+    return this.solution !== null && this.solution !== undefined;
+  }
 }

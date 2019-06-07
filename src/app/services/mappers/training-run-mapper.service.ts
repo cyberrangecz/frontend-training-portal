@@ -26,6 +26,9 @@ import {ExtendedMatchingItemsAnswerDTO} from '../../model/DTOs/level/assessment/
 import {UserMapper} from './user.mapper.service';
 import {EMIChoiceDTO} from '../../model/DTOs/level/assessment/emiChoiceDTO';
 import PossibleActionEnum = AccessedTrainingRunDTO.PossibleActionEnum;
+import {BasicLevelInfoDTO} from "../../model/DTOs/level/basicLevelInfoDTO";
+import LevelTypeEnum = BasicLevelInfoDTO.LevelTypeEnum;
+import {GameLevel} from "../../model/level/game-level";
 
 @Injectable()
 export class TrainingRunMapper {
@@ -101,6 +104,17 @@ export class TrainingRunMapper {
     result.currentLevel = this.levelMapper.mapLevelDTOToLevel(accessDTO.abstract_level_dto);
     result.levels = this.levelMapper.mapBasicInfoDTOsToAbstractLevels(accessDTO.info_about_levels);
 
+    if (accessDTO.taken_solution && accessDTO.abstract_level_dto.level_type === LevelTypeEnum.GAME) {
+      (result.currentLevel as GameLevel).solution = accessDTO.taken_solution;
+    }
+    if (accessDTO.taken_hints && accessDTO.taken_hints.length > 0  && accessDTO.abstract_level_dto.level_type === LevelTypeEnum.GAME) {
+      accessDTO.taken_hints.forEach(takenHint =>  {
+        const matchingHint = (result.currentLevel as GameLevel).hints.find(hint => hint.id === takenHint.id);
+        if (matchingHint) {
+          matchingHint.content = takenHint.content;
+        }
+      });
+    }
     return result;
   }
 

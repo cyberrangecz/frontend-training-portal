@@ -11,7 +11,7 @@
     <div class="right-panel" #rightPanel>
       <!-- TOPOLOGY COMPONENT-->
       <lib-force-graph  #topology
-                        *ngIf="sandboxId"
+                        *ngIf="!isPreviewMode"
                         [width]="topologyWidth"
                         [height]="topologyHeight"
                         [sandboxId]="sandboxId"
@@ -19,7 +19,7 @@
                         [style.height.px]="topologyHeight"
                         (onTopologyLoaded)="topologyLoaded()">
       </lib-force-graph>
-      <div *ngIf="!sandboxId"
+      <div *ngIf="isPreviewMode"
            class="topology-placeholder"
            [style.width.px]="topologyWidth"
            [style.height.px]="topologyHeight">

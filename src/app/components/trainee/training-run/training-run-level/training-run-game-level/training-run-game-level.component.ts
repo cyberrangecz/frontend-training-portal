@@ -12,6 +12,7 @@ import {WrongFlagDialogComponent} from "./user-action-dialogs/wrong-flag-dialog/
 import {ErrorHandlerService} from "../../../../../services/shared/error-handler.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {TrainingRunGameLevelService} from "../../../../../services/trainee/training-run-game-level.service";
+import {Hint} from "../../../../../model/level/hint";
 
 @Component({
   selector: 'training-run-game-level',
@@ -38,6 +39,7 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
   isGameDataLoaded: boolean;
   isTopologyLoaded: boolean;
   hasNextLevel: boolean;
+  isPreviewMode: boolean;
 
   displayedText: string;
   displayedHints: string;
@@ -144,6 +146,7 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
 
 
   private init() {
+    this.isPreviewMode = this.sandboxId === null || this.sandboxId === undefined;
     this.correctFlag = false;
     this.solutionShown = false;
     this.isGameDataLoaded = true;
@@ -154,6 +157,14 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
     this.displayedText = this.level.content;
     this.hasNextLevel = this.activeLevelService.hasNextLevel();
     this.initHintButtons();
+    if (!this.isPreviewMode && this.level.hasSolution()) {
+      this.showSolution();
+    }
+  }
+
+  private showSolution() {
+    this.solutionShown = true;
+    this.displayedHints = this.level.solution;
   }
 
   /**
@@ -199,8 +210,8 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
     this.isGameDataLoaded = false;
     this.gameLevelService.takeSolution(this.activeLevelService.trainingRunId)
       .subscribe(resp => {
-        this.solutionShown = true;
-        this.displayedHints = resp;
+        this.level.solution = resp;
+        this.showSolution();
         this.isGameDataLoaded = true;
       },
       err => {
@@ -213,7 +224,7 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
     this.gameLevelService.takeHint(this.activeLevelService.trainingRunId, hintButton.hint.id)
       .subscribe(resp => {
           hintButton.displayed = true;
-          this.displayedHints += '\n\n## Hint ' + index + ": " + resp.title + "\n" + resp.content;
+          this.addHintToTextField(resp, index);
         },
         err => {
           this.errorHandler.displayInAlert(err, 'Taking hint "' + hintButton.hint.title + '"');
@@ -225,13 +236,20 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
    */
   private initHintButtons() {
     this.hintButtons = [];
-    this.level.hints.forEach(hint =>
-      this.hintButtons.push(
-        {
-          displayed: false,
-          hint: hint
-        })
-    );
+    this.level.hints.forEach((hint, index) => {
+        this.hintButtons.push(
+          {
+            displayed: !this.isPreviewMode && hint.hasContent(),
+            hint: hint
+          });
+        if (!this.isPreviewMode && hint.hasContent()) {
+          this.addHintToTextField(hint, index);
+        }
+    });
+  }
+
+  private addHintToTextField(hint: Hint, order: number) {
+    this.displayedHints += '\n\n## Hint ' + order + ": " + hint.title + "\n" + hint.content;
   }
 
   private calculateTopologySize() {
