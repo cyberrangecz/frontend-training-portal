@@ -1,5 +1,6 @@
 a {
   display: block;
+  text-align: left;
 }
 
 a.main-nav {
