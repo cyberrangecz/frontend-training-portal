@@ -68,7 +68,7 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
         this.hasPoolId = false;
         this.canAllocate = false;
       }
-      if (this.trainingInstance && this.trainingInstance.endTime.valueOf() > Date.now()) {
+      if (this.trainingInstance && this.trainingInstance.endTime.valueOf() <= Date.now()) {
         this.canAllocate = false;
       }
       else {
