@@ -6,7 +6,7 @@ import {Set} from 'typescript-collections/'
  */
 export class User {
   id: number;
-  login: string; // unique
+  login: string;
   name: string;
   mail: string;
   groupIds: number[];
