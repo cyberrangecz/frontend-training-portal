@@ -11,6 +11,7 @@
  */
 import { AbstractLevelDTO } from '../level/abstractLevelDTO';
 import { BasicLevelInfoDTO } from '../level/basicLevelInfoDTO';
+import {HintDTO} from "../level/game/hintDTO";
 
 
 /**
@@ -23,4 +24,6 @@ export interface AccessTrainingRunDTO {
     sandbox_instance_id: number;
     show_stepper_bar: boolean;
     start_time: Date;
+    taken_solution: string;
+    taken_hints: HintDTO[];
 }
