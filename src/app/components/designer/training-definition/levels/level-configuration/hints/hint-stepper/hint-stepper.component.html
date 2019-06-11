@@ -1,5 +1,5 @@
 <mat-accordion>
-  <mat-expansion-panel>
+  <mat-expansion-panel expanded>
     <mat-expansion-panel-header>
       <mat-panel-title>
         Hints
@@ -19,12 +19,19 @@
     </div>
 
     <!-- HINT stepper -->
-    <div class="hint-stepper">
+    <div *ngIf="hints && hints.length > 0" class="hint-stepper">
       <mat-horizontal-stepper
-        *ngIf="hints.length > 0"
         [(selectedIndex)]="selectedStep"
         (selectionChange)="selectionChanged($event)"
-        #stepper>
+        #hintStepper>
+
+        <ng-template matStepperIcon="edit" let-index="index">
+          <mat-icon>help_outline</mat-icon>
+        </ng-template>
+        <ng-template matStepperIcon="number" let-index="index">
+          <mat-icon>help_outline</mat-icon>
+        </ng-template>
+
         <mat-step *ngFor="let hint of hints; index as i">
           <mat-divider *ngIf="hints && hints.length > 0"></mat-divider>
           <ng-template matStepLabel>Hint {{ i + 1 }}</ng-template>
