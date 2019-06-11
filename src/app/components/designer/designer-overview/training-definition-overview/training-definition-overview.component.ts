@@ -254,7 +254,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
   private initTableDataSource() {
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
     this.paginator.pageSize = environment.defaultPaginationSize;
-    this.sort.active = 'title';
+    this.sort.active = 'lastEdited';
     this.sort.direction = 'desc';
     this.fetchData();
   }
