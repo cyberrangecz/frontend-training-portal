@@ -127,8 +127,10 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
   }
 
   private performActionsAfterSuccessfulSave(id: number) {
-    this.trainingDefinition.id = id;
-    this.idChange.emit(id);
+    if (this.trainingDefinition.id === undefined || this.trainingDefinition.id == null) {
+      this.trainingDefinition.id = id;
+      this.idChange.emit(id);
+    }
     this.savedTrainingChange.emit(true);
     this.dirty = false;
     this.resolveModeAfterSuccessfulSave();
