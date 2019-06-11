@@ -43,7 +43,7 @@
         <mat-form-field appearance="outline"  hintLabel="Generated PIN code will be added to your token">
           <mat-label>Access Token Prefix</mat-label>
           <input matInput placeholder="Access Token" (ngModelChange)="contentChanged()" [(ngModel)]="accessToken" required>
-          <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title=''; contentChanged()">
+          <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="accessToken=''; contentChanged()">
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
