@@ -90,21 +90,24 @@ export class TraineeTrainingsTableComponent implements OnInit {
   }
 
   private fetchData() {
-    this.isLoading = true;
+    let timeoutHandle = 0;
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(
         startWith({}),
         switchMap(() => {
+          timeoutHandle = setTimeout(() => this.isLoading = true, environment.defaultDelayToDisplayLoading);
           return this.trainingRunFacade.getAccessedTrainingRunsWithPagination(this.paginator.pageIndex, this.paginator.pageSize,
             this.resolveSortParam(this.sort.active), this.sort.direction);
         }),
         map(data => {
+          window.clearTimeout(timeoutHandle);
           this.isLoading = false;
           this.isInErrorState = false;
           this.resultsLength = data.tablePagination.totalElements;
           return data;
         }),
         catchError(() => {
+          window.clearTimeout(timeoutHandle);
           this.isLoading = false;
           this.isInErrorState = true;
           return of([]);

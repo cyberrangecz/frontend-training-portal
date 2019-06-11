@@ -123,19 +123,22 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
   }
 
   private fetchData() {
+    let timeoutHandle = 0;
     merge(this.sort.sortChange, this.paginator.page, this.paginator.pageSize)
       .pipe(
         startWith({}),
         switchMap(() => {
-          this.isLoadingResults = true;
+          timeoutHandle = setTimeout(() => this.isLoadingResults = true, environment.defaultDelayToDisplayLoading);
           return this.sandboxDefinitionFacade.getSandboxDefs();
         }),
         map(data => {
+          window.clearTimeout(timeoutHandle);
           this.isLoadingResults = false;
           this.resultsLength = data.length;
           return this.mapSandboxDefsToTableObjects(data);
         }),
         catchError((err) => {
+          window.clearTimeout(timeoutHandle);
           this.isLoadingResults = false;
           this.isInErrorState = true;
           this.errorHandler.displayInAlert(err, 'Loading sandbox definitions');

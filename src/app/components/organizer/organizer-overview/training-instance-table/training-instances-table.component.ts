@@ -181,11 +181,12 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
    * Fetches data from the server
    */
   private fetchData() {
+    let timeoutHandle = 0;
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(
         startWith({}),
         switchMap(() => {
-          this.isLoadingResults = true;
+          timeoutHandle = setTimeout(() => this.isLoadingResults = true, environment.defaultDelayToDisplayLoading);
           return this.trainingInstanceFacade.getTrainingInstancesWithPagination(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
         }),
         map( trainingInstancesData => {
@@ -193,12 +194,14 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
           return trainingInstancesData;
         }),
         map(data => {
+          window.clearTimeout(timeoutHandle);
           this.isLoadingResults = false;
           this.isInErrorState = false;
           this.resultsLength = data.tablePagination.totalElements;
           return data;
         }),
         catchError((err) => {
+          window.clearTimeout(timeoutHandle);
           this.isLoadingResults = false;
           this.isInErrorState = true;
           this.errorHandler.displayInAlert(err, 'Loading training definitions');

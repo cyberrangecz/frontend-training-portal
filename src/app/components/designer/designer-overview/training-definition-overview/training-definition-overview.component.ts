@@ -187,19 +187,22 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    */
   fetchData() {
     this.isInErrorState = false;
+    let timeoutHandle = 0;
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(
         startWith({}),
         switchMap(() => {
-          this.isLoadingResults = true;
+          timeoutHandle = setTimeout(() => this.isLoadingResults = true, environment.defaultDelayToDisplayLoading);
           return this.trainingDefinitionFacade.getTrainingDefinitionsWithPagination(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
         }),
         map(data => {
+          window.clearTimeout(timeoutHandle);
           this.isLoadingResults = false;
           this.resultsLength = data.tablePagination.totalElements;
           return data;
         }),
         catchError((err) => {
+          window.clearTimeout(timeoutHandle);
           this.isLoadingResults = false;
           this.isInErrorState = true;
           this.errorHandler.displayInAlert(err, 'Loading training definitions');
