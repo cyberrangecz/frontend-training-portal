@@ -38,7 +38,7 @@
     </button>
   </div>
 
-  <button *ngIf="required" mat-icon-button>
+  <button *ngIf="required && isTest" mat-icon-button>
     <mat-icon aria-label="Add correct answer" color="primary" (click)="addAnswer()">add_circle</mat-icon>
   </button>
 </div>

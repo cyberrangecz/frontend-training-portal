@@ -24,11 +24,6 @@ mat-card-header {
   align-items: flex-end;
 }
 
-p.required-switch-note {
-  margin-left: 10px;
-  color: #f44336;
-}
-
 mat-card {
   margin: 20px 0;
 }

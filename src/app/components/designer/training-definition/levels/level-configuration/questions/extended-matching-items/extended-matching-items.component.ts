@@ -50,14 +50,14 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
   ngOnInit() {
   }
 
-
   ngOnChanges(changes: SimpleChanges): void {
     if ('question' in changes) {
       this.setInitialValues();
     }
-    if ('isTest' in changes) {
+    if ('isTest' in changes && !changes['isTest'].isFirstChange()) {
       if (!this.isTest) {
         this.penalty = 0;
+        this.clearAnswers();
       }
     }
     if ('required' in changes && !changes['required'].isFirstChange()) {
@@ -90,7 +90,6 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
   requiredChanged() {
     if (!this.required) {
       this.score = 0;
-      this.clearAnswers();
     }
   }
 
@@ -291,8 +290,8 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
       }
     }
 
-    if (this.required && !this.hasSelectedAnswers()) {
-      errorMessage="Required question must have selected correct answers"
+    if (this.isTest && !this.hasSelectedAnswers()) {
+      errorMessage += "Test question must have selected correct answers"
     }
 
     if (errorMessage !== '') {

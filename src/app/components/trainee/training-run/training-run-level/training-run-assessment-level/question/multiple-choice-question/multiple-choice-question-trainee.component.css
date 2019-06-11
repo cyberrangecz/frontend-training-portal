@@ -1,5 +1,10 @@
 h2 {
   color: #4355b7;
+  margin: 0;
+}
+
+p.required-note {
+  color: #949494;
 }
 
 .checkboxes {

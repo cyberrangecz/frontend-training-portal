@@ -22,7 +22,7 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
   title: string;
   answers: string[];
   score: number;
-  penalty: number;
+  penalty = 0;
 
   maxQuestionScore: number = 100;
   maxQuestionPenalty: number = 100;
@@ -38,9 +38,10 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
     if ('question' in changes) {
       this.setInitialValues();
     }
-    if ('isTest' in changes) {
+    if ('isTest' in changes && !changes['isTest'].isFirstChange()) {
       if (!this.isTest) {
         this.penalty = 0;
+        this.clearAnswers();
       }
     }
     if ('required' in changes && !changes['required'].isFirstChange()) {
@@ -91,7 +92,6 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
   requiredChanged() {
     if (!this.required) {
       this.score = 0;
-      this.clearAnswers();
     }
   }
 
@@ -147,8 +147,8 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
       errorMessage += 'Question score must be a number in range from 0 to ' + this.maxQuestionScore + '\n'
     }
 
-    if (this.required && this.hasEmptyAnswer()) {
-      errorMessage += 'Required question must have at least one answer and all must be not empty';
+    if (this.isTest && this.hasEmptyAnswer()) {
+      errorMessage += "Test question must have selected correct answers"
     }
 
     if (errorMessage !== '') {
