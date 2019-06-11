@@ -5,6 +5,8 @@ export const environment = {
   // BEHAVIOUR SETTINGS
   defaultAlertDuration: 5000, // 0 to display until user dismisses it
   defaultPaginationSize: 5,
+  defaultDelayToDisplayLoading: 500,
+
 
   // TRAINING REST API
   trainingRestBasePath: 'http://147.251.124.129:8083/kypo2-rest-training/api/v1/',
