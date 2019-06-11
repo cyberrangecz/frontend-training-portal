@@ -33,11 +33,12 @@ export class HintStepperComponent implements OnInit, OnChanges {
 
   dirty = false;
   initialPenaltySum: number;
-  selectedStep: number = 0;
+  selectedStep: number;
 
   constructor(public dialog: MatDialog) { }
 
   ngOnInit() {
+    this.selectedStep = 0;
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -66,6 +67,8 @@ export class HintStepperComponent implements OnInit, OnChanges {
     this.hints.push(hint);
     this.dirty = true;
     this.hintsChanged();
+    // hack to workaround bug in cdkStepper library
+    setTimeout(() => this.selectedStep = this.hints.length - 1, 1);
   }
 
   /**
