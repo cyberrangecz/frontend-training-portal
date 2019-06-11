@@ -1,7 +1,7 @@
 <mat-progress-spinner *ngIf="isLoading"></mat-progress-spinner>
 <div class="header">
   <h1>Levels</h1>
-  <button class="add-level" mat-raised-button color="primary" [disabled]="!isTrainingSaved || isLoading" [matMenuTriggerFor]="levelMenu">
+  <button class="add-level" mat-raised-button color="primary" [disabled]="!isTrainingSaved || isWaitingOnServerResponse" [matMenuTriggerFor]="levelMenu">
     Add new level
   </button>
   <mat-menu #levelMenu="matMenu">
@@ -24,11 +24,11 @@
 </div>
 
 <div class="stepper-control" *ngIf="!isLoading && levels && levels.length > 0">
-  <button mat-icon-button color="primary" (click)="swapLeft()" [disabled]="selectedStep === 0"
+  <button mat-icon-button color="primary" (click)="swapLeft()" [disabled]="selectedStep === 0 || isWaitingOnServerResponse"
           matTooltip="Swap selected level to left">
     <mat-icon>arrow_back</mat-icon>
   </button>
-  <button mat-icon-button color="primary" (click)="swapRight()" [disabled]="selectedStep === levels.length - 1"
+  <button mat-icon-button color="primary" (click)="swapRight()" [disabled]="selectedStep === levels.length - 1 || isWaitingOnServerResponse"
           matTooltip="Swap selected level to right">
     <mat-icon>arrow_forward</mat-icon>
   </button>

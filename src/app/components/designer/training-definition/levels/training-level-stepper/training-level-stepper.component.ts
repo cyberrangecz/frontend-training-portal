@@ -38,6 +38,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
 
   levels: AbstractLevel[];
   isLoading = true;
+  isWaitingOnServerResponse = true;
   selectedStep: number = 0;
 
   private _levelUpdateSubscription: Subscription;
@@ -89,7 +90,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
    * Creates new info level with default values
    */
   addInfoLevel() {
-    this.isLoading = true;
+    this.isWaitingOnServerResponse = true;
     this.trainingDefinitionFacade.createInfoLevel(this.trainingDefinition.id)
       .pipe(
         switchMap(basicLevelInfo => this.trainingDefinitionFacade.getLevelById(basicLevelInfo.id))
@@ -106,7 +107,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
    * Creates new game level with default values
    */
   addGameLevel() {
-    this.isLoading = true;
+    this.isWaitingOnServerResponse = true;
     this.trainingDefinitionFacade.createGameLevel(this.trainingDefinition.id)
       .pipe(
         switchMap(basicLevelInfo => this.trainingDefinitionFacade.getLevelById(basicLevelInfo.id))
@@ -123,7 +124,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
    * Creates new assessment level with default values
    */
   addAssessmentLevel() {
-   this.isLoading = true;
+    this.isWaitingOnServerResponse = true;
     this.trainingDefinitionFacade.createAssessmentLevel(this.trainingDefinition.id)
       .pipe(
         switchMap(basicLevelInfo => this.trainingDefinitionFacade.getLevelById(basicLevelInfo.id))
@@ -145,14 +146,14 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
     const to = this.levels[this.selectedStep - 1];
     this.trainingDefinitionFacade.swap(this.trainingDefinition.id, from.id, to.id)
       .subscribe(swappedLevelsInfo => {
+          this.isLoading = false;
           this.swapLevelsLocally(this.selectedStep, this.selectedStep - 1);
           this.selectedStep--;
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Level "' + from.title + '" was successfully swapped to the left');
-          this.isLoading = false;
         },
         err => {
-          this.errorHandler.displayInAlert(err, 'Swapping level "' + from.title + '" to the left');
           this.isLoading = false;
+          this.errorHandler.displayInAlert(err, 'Swapping level "' + from.title + '" to the left');
         }
       );
   }
@@ -166,14 +167,14 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
     const to = this.levels[this.selectedStep + 1];
     this.trainingDefinitionFacade.swap(this.trainingDefinition.id, from.id, to.id)
       .subscribe(swappedLevelsInfo => {
+          this.isLoading = false;
           this.swapLevelsLocally(this.selectedStep, this.selectedStep + 1);
           this.selectedStep++;
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Level "' + from.title + '" was successfully swapped to the right');
-          this.isLoading = false;
         },
         err => {
-          this.errorHandler.displayInAlert(err, 'Swapping level "' + from.title + '" to the right');
           this.isLoading = false;
+          this.errorHandler.displayInAlert(err, 'Swapping level "' + from.title + '" to the right');
         }
         );
   }
@@ -199,17 +200,19 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
   }
 
   private sendDeleteLevelRequest(levelToDelete: AbstractLevel) {
-    this.isLoading = true;
+    this.isWaitingOnServerResponse = true;
     this.trainingDefinitionFacade.deleteLevel(this.trainingDefinition.id, levelToDelete.id)
       .subscribe(updatedLevels => {
-          this.changeSelectedStep(0);
           this.alertService.emitAlert(AlertTypeEnum.Success ,'Level "' + levelToDelete.title + '" was successfully deleted');
           this.levels = this.levels.filter(level => level.id != levelToDelete.id);
-          this.isLoading = false;
+          this.navigateToPreviousLevel();
+          this.isWaitingOnServerResponse = false;
+
         },
         err => {
           this.errorHandler.displayInAlert(err, 'Deleting level "' + levelToDelete.title + '"');
-          this.isLoading = false;
+          this.isWaitingOnServerResponse = false;
+
         });
   }
 
@@ -229,6 +232,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
       this.levels = [];
     }
     this.isLoading = false;
+    this.isWaitingOnServerResponse = false;
   }
 
   private findLevel(levels: AbstractLevel[], levelId): AbstractLevel {
@@ -236,15 +240,19 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
   }
 
   private onLevelAdded(level: AbstractLevel) {
-    this.isLoading = false;
+    this.isWaitingOnServerResponse = false;
     this.levels.push(level);
     this.navigateToLastLevel()
   }
 
   private navigateToLastLevel() {
-    this.changeSelectedStep(this.levels.length - 1);
+    setTimeout(() => this.changeSelectedStep(this.levels.length - 1), 1);
   }
 
+  private navigateToPreviousLevel() {
+    const previousStep = Math.max(0, this.selectedStep - 1);
+    setTimeout( () => this.changeSelectedStep(previousStep), 1);
+  }
   private subscribeLevelUpdates() {
     this._levelUpdateSubscription = this.levelService.onLevelUpdated
       .subscribe(level => this.updateLevelTitle(level))

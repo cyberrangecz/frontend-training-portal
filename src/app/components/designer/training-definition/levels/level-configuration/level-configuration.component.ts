@@ -42,6 +42,7 @@ export class LevelConfigurationComponent implements OnInit, OnChanges {
     }
   }
 
+
   /**
    * Emits event saying that level with given index should be deleted
    * @param {number} index index of a level which should be deleted
