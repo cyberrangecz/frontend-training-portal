@@ -45,8 +45,7 @@
           </mat-card-title>
           <span class="spacer"></span>
           <div class="required">
-            <mat-checkbox class="mat-typography" [disabled]="isTest" [(ngModel)]="question.required">Required</mat-checkbox>
-            <p *ngIf="question.required" class="mat-typography required-switch-note">Switching to not required will delete your answers.</p>
+            <mat-checkbox class="mat-typography" [disabled]="isTest" (change)="questionChanged()"  [(ngModel)]="question.required">Required</mat-checkbox>
           </div>
         </mat-card-header>
         <mat-card-content>

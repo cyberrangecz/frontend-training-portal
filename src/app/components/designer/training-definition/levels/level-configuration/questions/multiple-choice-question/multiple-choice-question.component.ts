@@ -40,9 +40,10 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
     if ('question' in changes) {
       this.setInitialValues();
     }
-    if ('isTest' in changes) {
+    if ('isTest' in changes && !changes['isTest'].isFirstChange()) {
       if (!this.isTest) {
         this.penalty = 0;
+        this.clearAnswers();
       }
     }
     if ('required' in changes && !changes['required'].isFirstChange()) {
@@ -127,7 +128,6 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
   requiredChanged() {
     if (!this.required) {
       this.score = 0;
-      this.clearAnswers();
     }
   }
 
@@ -215,8 +215,8 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
       }
     }
 
-    if (this.required && !this.hasSelectedAnswers()) {
-      errorMessage += "Required question must have selected correct answers"
+    if (this.isTest && !this.hasSelectedAnswers()) {
+      errorMessage += "Test question must have selected correct answers"
     }
     if (errorMessage !== '') {
       this.alertService.emitAlert(AlertTypeEnum.Error, errorTitle + errorMessage);

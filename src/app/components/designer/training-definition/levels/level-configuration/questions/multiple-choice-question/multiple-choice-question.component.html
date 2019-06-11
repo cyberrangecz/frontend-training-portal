@@ -27,7 +27,7 @@
   <button *ngIf="correctAnswersIndices.length > 0" mat-button color="warn" (click)="clearAnswers()" class="clear-answers">Clear Answers</button>
   <!-- OPTIONS field -->
   <div *ngFor="let option of options; index as i; trackBy: trackByFn" class="option">
-    <mat-checkbox [disabled]="!required" [checked]="correctAnswersIndices.includes(i)" (change)="onAnswerChanged($event, i)"></mat-checkbox>
+    <mat-checkbox [disabled]="!isTest || !required" [checked]="correctAnswersIndices.includes(i)" (change)="onAnswerChanged($event, i)"></mat-checkbox>
     <mat-form-field>
       <mat-label>Option {{ i + 1 }}</mat-label>
       <input (ngModelChange)="contentChanged()" matInput placeholder="Option {{ i + 1 }}" [(ngModel)]="options[i]">

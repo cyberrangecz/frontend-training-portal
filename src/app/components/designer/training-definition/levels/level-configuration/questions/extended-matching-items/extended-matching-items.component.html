@@ -76,7 +76,7 @@
       <!-- ROW OPTIONS -->
       <mat-radio-group>
         <td *ngFor="let col of cols; index as j;">
-            <mat-radio-button [disabled]="!required" [value]="{ x: i, y: j }" (change)="onAnswerChanged(i, j)"></mat-radio-button>
+            <mat-radio-button [disabled]="!isTest || !required" [value]="{ x: i, y: j }" (change)="onAnswerChanged(i, j)"></mat-radio-button>
         </td>
       </mat-radio-group>
 
