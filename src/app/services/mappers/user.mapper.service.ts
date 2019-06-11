@@ -17,7 +17,7 @@ export class UserMapper {
   mapUserRefDTOToUser(userDTO: UserRefDTO): User {
     const user = new User();
     user.login = userDTO.user_ref_login;
-    user.name = userDTO.user_ref_full_name;
+    user.name = `${userDTO.user_ref_given_name} ${userDTO.user_ref_family_name}`;
     return user;
   }
 
@@ -28,7 +28,6 @@ export class UserMapper {
   mapUserToUserBasicDTO(user: User): UserBasicDTO {
     const userDTO = new UserBasicDTO();
     userDTO.login = user.login;
-    userDTO.full_name = user.name;
     return userDTO;
   }
 
@@ -40,7 +39,7 @@ export class UserMapper {
   mapUserBasicDTOToOrganizerUser(userDTO: UserBasicDTO): User {
     const user = new User();
     user.login = userDTO.login;
-    user.name = userDTO.full_name;
+    user.name = `${userDTO.given_name} ${userDTO.family_name}`;
     user.roles.add(UserRoleEnum.Organizer);
     return user;
   }
@@ -53,7 +52,7 @@ export class UserMapper {
   mapUserInfoDTOToDesignerUser(userDTO: UserBasicDTO): User {
     const user = new User();
     user.login = userDTO.login;
-    user.name = userDTO.full_name;
+    user.name = `${userDTO.given_name} ${userDTO.family_name}`;
     user.roles.add(UserRoleEnum.Designer);
     return user;
   }
@@ -76,7 +75,7 @@ export class UserMapper {
     user.id = userInfoDTO.id;
     user.login = userInfoDTO.login;
     user.mail = userInfoDTO.mail;
-    user.name = userInfoDTO.full_name;
+    user.name = `${userInfoDTO.given_name} ${userInfoDTO.family_name}`;
     return user;
   }
 }
