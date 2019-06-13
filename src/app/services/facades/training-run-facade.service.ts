@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
 import {TrainingRun} from "../../model/training/training-run";
 import {environment} from "../../../environments/environment";
@@ -95,7 +95,12 @@ export class TrainingRunFacade {
 
   getAccessedTrainingRunsWithPagination(page: number, size: number, sort: string, sortDir: string):
     Observable<PaginatedTable<AccessedTrainingRunsTableAdapter[]>> {
-    let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
+    let params;
+    if (sort === 'title') {
+      params = this.createPaginationParamsForTRTitle(page, size, sortDir);
+    } else {
+      params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
+    }
     return this.http.get<TrainingRunRestResource>(this.trainingRunsEndpointUri + 'accessible/', {params: params})
       .pipe(map(response => this.trainingRunMapper.mapAccessedTrainingRunDTOsToTrainingRunTableObjects(response)));
   }
@@ -122,8 +127,7 @@ export class TrainingRunFacade {
    * Sends request to revert training run
    * @param id id of training run which should be reverted
    */
-  revert(id: number): Observable<Object> {
-    // TODO: Change observable type later
+  revert(id: number): Observable<any> {
     return this.http.get(this.trainingRunsEndpointUri + id + '/revert');
   }
 
@@ -177,6 +181,13 @@ export class TrainingRunFacade {
 
   finishTrainingRun(trainingRunId: number): Observable<any> {
     return this.http.put(this.trainingRunsEndpointUri + trainingRunId, null);
+  }
+
+  private createPaginationParamsForTRTitle(page: number, size: number, sortDir: string): HttpParams {
+    return new HttpParams()
+      .set("page", page.toString())
+      .set("size", size.toString())
+      .set("sortByTitle", sortDir);
   }
 }
 
