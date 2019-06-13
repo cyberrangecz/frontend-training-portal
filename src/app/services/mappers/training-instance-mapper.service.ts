@@ -1,9 +1,9 @@
 import {Injectable} from "@angular/core";
-import {TrainingInstanceDTO} from "../../model/DTOs/training-instance/trainingInstanceDTO";
+import {TrainingInstanceDTO} from "../../model/DTOs/training-instance/training-instance-dto";
 import {TrainingInstance} from "../../model/training/training-instance";
-import {TrainingInstanceCreateDTO} from "../../model/DTOs/training-instance/trainingInstanceCreateDTO";
-import {TrainingInstanceUpdateDTO} from "../../model/DTOs/training-instance/trainingInstanceUpdateDTO";
-import {TrainingInstanceRestResource} from "../../model/DTOs/training-instance/trainingInstanceRestResource";
+import {TrainingInstanceCreateDTO} from "../../model/DTOs/training-instance/training-instance-create-dto";
+import {TrainingInstanceUpdateDTO} from "../../model/DTOs/training-instance/training-instance-update-dto";
+import {TrainingInstanceRestResource} from "../../model/DTOs/training-instance/training-instance-rest-resource";
 import {TrainingDefinitionMapper} from './training-definition-mapper.service';
 import {PaginatedTable} from "../../model/table-adapters/paginated-table";
 import {TrainingInstanceTableAdapter} from "../../model/table-adapters/training-instance-table-adapter";
@@ -81,7 +81,7 @@ export class TrainingInstanceMapper {
     result.start_time = trainingInstance.startTime.toISOString();
     result.end_time = trainingInstance.endTime.toISOString();
     result.access_token = trainingInstance.accessToken;
-    result.organizers =  this.userMapper.mapUsersToUserBasicDTOs(trainingInstance.organizers);
+    result.organizers =  trainingInstance.organizers.map(organizer => organizer.login);
     result.training_definition_id = trainingInstance.trainingDefinition.id;
     return result;
   }
@@ -98,7 +98,7 @@ export class TrainingInstanceMapper {
     result.start_time = trainingInstance.startTime.toISOString();
     result.end_time = trainingInstance.endTime.toISOString();
     result.access_token = trainingInstance.accessToken;
-    result.organizers =  this.userMapper.mapUsersToUserBasicDTOs(trainingInstance.organizers);
+    result.organizers =  trainingInstance.organizers.map(organizer => organizer.login);
     result.training_definition_id = trainingInstance.trainingDefinition.id;
     return result;
   }

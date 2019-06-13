@@ -9,15 +9,15 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { AccessedTrainingRunDTO } from './accessed-training-run-dto';
 import { Pagination } from '../other/pagination';
-import { TrainingInstanceDTO } from './trainingInstanceDTO';
 
 
-export interface TrainingInstanceRestResource {
+export interface AccessedTrainingRunRestResource {
     /**
-     * Retrieved Training Instances from databases.
+     * Retrieved Accessed Training Runs from databases.
      */
-    content?: Array<TrainingInstanceDTO>;
+    content?: Array<AccessedTrainingRunDTO>;
     /**
      * Pagination including: page number, number of elements in page, size, total elements and total pages.
      */

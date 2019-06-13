@@ -1,4 +1,4 @@
-import {TrainingDefinitionDTO} from "./trainingDefinitionDTO";
+import {TrainingDefinitionDTO} from "./training-definition-dto";
 
 export class TrainingDefinitionInfoDTO {
   id: number;

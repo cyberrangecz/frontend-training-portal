@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {fromEvent, Observable} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {TrainingDefinitionDTO} from '../../model/DTOs/training-definition/trainingDefinitionDTO';
+import {TrainingDefinitionDTO} from '../../model/DTOs/training-definition/training-definition-dto';
 import {mergeMap} from 'rxjs/operators';
 import {SandboxDefinitionCreateDTO} from "../../model/DTOs/sandbox-definition/sandbox-definition-create-dto";
 

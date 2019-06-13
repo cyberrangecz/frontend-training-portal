@@ -13,7 +13,7 @@
 
 
 import {UserRefDTO} from "../user/user-ref-dto";
-import {TrainingDefinitionDTO} from "../training-definition/trainingDefinitionDTO";
+import {TrainingDefinitionDTO} from "../training-definition/training-definition-dto";
 
 /**
  * Training Instance.

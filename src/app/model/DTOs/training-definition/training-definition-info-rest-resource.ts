@@ -1,6 +1,6 @@
-import {TrainingDefinitionDTO} from './trainingDefinitionDTO';
+import {TrainingDefinitionDTO} from './training-definition-dto';
 import {Pagination} from '../other/pagination';
-import {TrainingDefinitionInfoDTO} from './training-definition-info-d-t-o';
+import {TrainingDefinitionInfoDTO} from './training-definition-info-dto';
 
 export interface TrainingDefinitionInfoRestResource {
   content?: Array<TrainingDefinitionInfoDTO>;

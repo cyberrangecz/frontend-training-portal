@@ -10,14 +10,14 @@
  * Do not edit the class manually.
  */
 import { Pagination } from '../other/pagination';
-import { TrainingRunDTO } from './trainingRunDTO';
+import { TrainingDefinitionDTO } from './training-definition-dto';
 
 
-export interface TrainingRunRestResource {
+export interface TrainingDefinitionRestResource {
     /**
-     * Retrieved Training Runs from databases.
+     * Retrieved Training Definitions from databases.
      */
-    content?: Array<TrainingRunDTO>;
+    content?: Array<TrainingDefinitionDTO>;
     /**
      * Pagination including: page number, number of elements in page, size, total elements and total pages.
      */
