@@ -15,7 +15,7 @@ import {TrainingDefinitionTableAdapter} from '../../../../model/table-adapters/t
 import {PaginatedTable} from '../../../../model/table-adapters/paginated-table';
 import {HttpErrorResponse} from '@angular/common/http';
 import {StateChangeDialogComponent} from './state-change-dialog/state-change-dialog.component';
-import {DeleteDialogComponent} from "../../../shared/delete-dialog/delete-dialog.component";
+import {ActionConfirmationDialog} from "../../../shared/delete-dialog/action-confirmation-dialog.component";
 import {TrainingDefinition} from "../../../../model/training/training-definition";
 import {AuthorsListDialogComponent} from './authors-list-dialog/authors-list-dialog.component';
 import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
@@ -134,9 +134,10 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    * @param {TrainingDefinition} trainingDefinition training definition which should be deleted
    */
   deleteTrainingDefinition(trainingDefinition: TrainingDefinition) {
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+    const dialogRef = this.dialog.open(ActionConfirmationDialog, {
       data: {
         type: 'Training Definition',
+        action: 'delete',
         title: trainingDefinition.title
       }
     });

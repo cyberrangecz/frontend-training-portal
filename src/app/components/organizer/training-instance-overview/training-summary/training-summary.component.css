@@ -16,12 +16,10 @@ training-info {
   flex-grow: 1;
 }
 
-training-summary-table {
-  flex-grow: 1;
-}
-
-.spacer {
-  flex: 1 1 auto;
+.training-run-overview {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 2;
 }
 
 @media screen and (max-width: 800px) {

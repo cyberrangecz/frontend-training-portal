@@ -1,4 +1,5 @@
 <div class="training">
+  <h2>Active Training Runs</h2>
   <div class="training-table-wrapper">
     <div class="training-table">
       <mat-form-field>
@@ -17,7 +18,7 @@
           </div>
         </div>
 
-        <table mat-table [dataSource]="dataSource" matSort>
+        <table mat-table [dataSource]="activeTrainingRunsDataSource" matSort>
 
           <!-- SANDBOX ID Column -->
           <ng-container matColumnDef="sandboxInstanceId">
@@ -27,17 +28,25 @@
             </td>
           </ng-container>
 
-          <!-- PLAYER ID Column -->
+          <!-- SANDBOX STATE Column -->
+          <ng-container matColumnDef="sandboxInstanceState">
+            <th class="sandboxInstanceState" mat-header-cell *matHeaderCellDef>Sandbox State</th>
+            <td class="sandboxInstanceState" mat-cell *matCellDef="let data">
+              {{ data.trainingRun?.sandboxInstanceState }}
+            </td>
+          </ng-container>
+
+          <!-- PLAYER NAME Column -->
           <ng-container matColumnDef="player">
             <th class="playerId" mat-header-cell *matHeaderCellDef>Player</th>
             <td class="playerId" mat-cell *matCellDef="let data">
-              {{ data.trainingRun?.user?.name }}
+              {{ data.trainingRun?.player?.name }}
             </td>
           </ng-container>
 
           <!-- STATE Column -->
           <ng-container matColumnDef="state">
-            <th class="state" mat-header-cell *matHeaderCellDef>State</th>
+            <th class="state" mat-sort-header mat-header-cell *matHeaderCellDef>Training Run State</th>
             <td class="state" mat-cell *matCellDef="let data">
               {{ data.trainingRun?.state }}
             </td>
@@ -53,12 +62,15 @@
                 <button
                         mat-icon-button color="primary"
                         matTooltip="Revert training run"
-                        *ngIf="!data.isWaitingForRevertResponse && !data.trainingRun?.user && data.trainingRun?.sandboxInstanceId"
+                        *ngIf="data.trainingRun?.sandboxInstanceState !== 'REVERT_IN_PROGRESS'
+                            && (data.trainingRun?.player || data.trainingRun?.state === 'FINISHED')"
                         (click)="revertTrainingRun(data)">
                   <mat-icon
                     aria-label="Revert training run button">
                     rotate_left</mat-icon>
                 </button>
+
+                <mat-progress-bar mode="indeterminate" *ngIf="data.trainingRun?.sandboxInstanceState === 'REVERT_IN_PROGRESS'"></mat-progress-bar>
               </div>
             </td>
           </ng-container>

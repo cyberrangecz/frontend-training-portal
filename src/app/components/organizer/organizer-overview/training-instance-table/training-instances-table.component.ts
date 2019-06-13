@@ -17,7 +17,7 @@ import {SandboxAllocationService} from "../../../../services/organizer/sandbox-a
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {TrainingInstanceSandboxAllocationState} from '../../../../model/training/training-instance-sandbox-allocation-state';
 import {ErrorHandlerService} from "../../../../services/shared/error-handler.service";
-import {DeleteDialogComponent} from "../../../shared/delete-dialog/delete-dialog.component";
+import {ActionConfirmationDialog} from "../../../shared/delete-dialog/action-confirmation-dialog.component";
 
 @Component({
   selector: 'training-instances-table',
@@ -109,9 +109,10 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
    * @param {TrainingInstanceTableAdapter} training training instance which should be removed
    */
   deleteTraining(training: TrainingInstanceTableAdapter) {
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+    const dialogRef = this.dialog.open(ActionConfirmationDialog, {
       data: {
         type: 'Training Instance',
+        action: 'delete',
         title: training.trainingInstance.title
       }
     });

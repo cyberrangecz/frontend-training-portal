@@ -1,0 +1,56 @@
+<div class="training">
+  <h2>Archived Training Runs</h2>
+  <div class="training-table-wrapper">
+    <div class="training-table">
+      <div class="mat-elevation-z8">
+        <div class="loading"
+             *ngIf="isLoadingResults || isInErrorState">
+          <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+          <div class="loading-error" *ngIf="isInErrorState">
+            We have some trouble loading the data. Please try again later.
+            <button mat-icon-button (click)="fetchData()" color="primary"><mat-icon>refresh</mat-icon></button>
+          </div>
+        </div>
+
+        <table mat-table [dataSource]="archivedTrainingRunsDataSource" matSort>
+
+          <!-- SANDBOX ID Column -->
+          <ng-container matColumnDef="sandboxInstanceId">
+            <th class="sandboxInstanceId" mat-header-cell *matHeaderCellDef>Sandbox ID</th>
+            <td class="sandboxInstanceId" mat-cell *matCellDef="let data">
+              {{ data.trainingRun?.sandboxInstanceId }}
+            </td>
+          </ng-container>
+
+          <!-- SANDBOX STATE Column -->
+          <ng-container matColumnDef="sandboxInstanceState">
+            <th class="sandboxInstanceState" mat-header-cell *matHeaderCellDef>Sandbox State</th>
+            <td class="sandboxInstanceState" mat-cell *matCellDef="let data">
+              {{ data.trainingRun?.sandboxInstanceState }}
+            </td>
+          </ng-container>
+
+          <!-- PLAYER NAME Column -->
+          <ng-container matColumnDef="player">
+            <th class="playerId" mat-header-cell *matHeaderCellDef>Player</th>
+            <td class="playerId" mat-cell *matCellDef="let data">
+              {{ data.trainingRun?.player?.name }}
+            </td>
+          </ng-container>
+
+          <!-- STATE Column -->
+          <ng-container matColumnDef="state">
+            <th class="state" mat-header-cell *matHeaderCellDef>Training Run State</th>
+            <td class="state" mat-cell *matCellDef="let data">
+              {{ data.trainingRun?.state }}
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>

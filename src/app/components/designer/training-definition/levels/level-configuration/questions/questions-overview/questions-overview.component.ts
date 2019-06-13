@@ -15,7 +15,7 @@ import {AbstractQuestion} from "../../../../../../../model/questions/abstract-qu
 import {FreeFormQuestion} from "../../../../../../../model/questions/free-form-question";
 import {MultipleChoiceQuestion} from "../../../../../../../model/questions/multiple-choice-question";
 import {ExtendedMatchingItems} from "../../../../../../../model/questions/extended-matching-items";
-import {DeleteDialogComponent} from "../../../../../../shared/delete-dialog/delete-dialog.component";
+import {ActionConfirmationDialog} from "../../../../../../shared/delete-dialog/action-confirmation-dialog.component";
 import {MatDialog} from "@angular/material";
 
 @Component({
@@ -114,10 +114,11 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges, AfterViewI
    * @param index index of question which should be deleted
    */
   deleteQuestion(index: number) {
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+    const dialogRef = this.dialog.open(ActionConfirmationDialog, {
       data:
         {
           type: 'question',
+          action: 'delete',
           title: this.questions[index].title
         }
     });

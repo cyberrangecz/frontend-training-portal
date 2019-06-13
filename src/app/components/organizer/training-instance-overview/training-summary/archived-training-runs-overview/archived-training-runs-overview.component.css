@@ -10,11 +10,7 @@ mat-form-field {
 .training {
   padding: 20px;
   display: flex;
-  flex-direction: row;
-}
-
-.training-table-wrapper {
-  flex-grow: 10;
+  flex-direction: column;
 }
 
 .training-table {
@@ -32,6 +28,10 @@ td.sandboxId, th.sandboxId {
   width: 25%;
 }
 
+td.sandboxState, th.sandboxState {
+  width: 25%;
+}
+
 td.playerId, th.playerId {
   width: 25%;
 }
@@ -40,9 +40,6 @@ td.state, th.state {
   width: 25%;
 }
 
-td.actions, th.actions {
-  width: 25%;
-}
 
 .loading {
   position: relative;

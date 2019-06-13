@@ -3,5 +3,4 @@ import {TableAdapter} from "./table-adapter";
 
 export class TrainingRunTableAdapter implements TableAdapter {
   trainingRun: TrainingRun;
-  isWaitingForRevertResponse: boolean;
 }
