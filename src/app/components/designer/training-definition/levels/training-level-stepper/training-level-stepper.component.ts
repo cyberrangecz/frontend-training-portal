@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import {AbstractLevel} from "../../../../../model/level/abstract-level";
 import {LevelConfigurationComponent} from "../level-configuration/level-configuration.component";
-import {DeleteDialogComponent} from "../../../../shared/delete-dialog/delete-dialog.component";
+import {ActionConfirmationDialog} from "../../../../shared/delete-dialog/action-confirmation-dialog.component";
 import {MatDialog} from "@angular/material";
 import {AlertService} from "../../../../../services/shared/alert.service";
 import {AlertTypeEnum} from "../../../../../model/enums/alert-type.enum";
@@ -185,10 +185,11 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
    */
   onDeleteLevel(toDeleteId: number) {
     const levelToDelete = this.findLevel(this.levels, toDeleteId);
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+    const dialogRef = this.dialog.open(ActionConfirmationDialog, {
       data:
         {
           type: 'level',
+          action: 'delete',
           title: levelToDelete.title
         }
     });

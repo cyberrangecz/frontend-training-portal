@@ -19,7 +19,7 @@ import {environment} from '../../../../../../environments/environment';
 import {Observable, Subscription} from 'rxjs';
 import {TrainingInstanceSandboxAllocationState} from '../../../../../model/training/training-instance-sandbox-allocation-state';
 import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
-import {DeleteDialogComponent} from '../../../../shared/delete-dialog/delete-dialog.component';
+import {ActionConfirmationDialog} from '../../../../shared/delete-dialog/action-confirmation-dialog.component';
 
 
 @Component({
@@ -101,9 +101,10 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
   }
 
   deleteSandbox(sandboxRow: SandboxInstanceTableAdapter) {
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+    const dialogRef = this.dialog.open(ActionConfirmationDialog, {
       data: {
         type: 'Sandbox Instance',
+        action: 'delete',
         title: sandboxRow.sandboxInstance.id.toString()
       }
     });

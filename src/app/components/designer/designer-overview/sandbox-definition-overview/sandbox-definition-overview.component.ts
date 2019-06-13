@@ -16,7 +16,7 @@ import {ErrorHandlerService} from "../../../../services/shared/error-handler.ser
 import {SandboxDefinitionTableAdapter} from "../../../../model/table-adapters/sandbox-definition-table-adapter";
 import {AssociatedTrainingDefinitionsDialogComponent} from './associated-training-definitions-dialog/associated-training-definitions-dialog.component';
 import {TrainingDefinitionInfo} from '../../../../model/training/training-definition-info';
-import {DeleteDialogComponent} from "../../../shared/delete-dialog/delete-dialog.component";
+import {ActionConfirmationDialog} from "../../../shared/delete-dialog/action-confirmation-dialog.component";
 
 @Component({
   selector: 'designer-overview-sandbox-definition',
@@ -88,9 +88,10 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
    * @param {SandboxDefinitionTableAdapter} sandboxRow sandbox definition data row which should be deleted
    */
   deleteSandboxDefinition(sandboxRow: SandboxDefinitionTableAdapter) {
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+    const dialogRef = this.dialog.open(ActionConfirmationDialog, {
       data: {
         type: 'Sandbox Definition',
+        action: 'delete',
         title: sandboxRow.sandbox.title
       }
     });

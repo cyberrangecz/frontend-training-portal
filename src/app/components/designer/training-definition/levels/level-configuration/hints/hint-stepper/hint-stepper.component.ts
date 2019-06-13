@@ -11,7 +11,7 @@ import {
 import {Hint} from "../../../../../../../model/level/hint";
 import {HintConfigurationComponent} from "../hint-configuration/hint-configuration.component";
 import {MatDialog} from "@angular/material";
-import {DeleteDialogComponent} from "../../../../../../shared/delete-dialog/delete-dialog.component";
+import {ActionConfirmationDialog} from "../../../../../../shared/delete-dialog/action-confirmation-dialog.component";
 
 @Component({
   selector: 'hint-stepper',
@@ -84,10 +84,11 @@ export class HintStepperComponent implements OnInit, OnChanges {
    * @param {Hint} hint hint which should be deleted
    */
   deleteHint(hint: Hint) {
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+    const dialogRef = this.dialog.open(ActionConfirmationDialog, {
     data:
       {
       type: 'hint',
+      action: 'delete',
       title: hint.title
       }
     });
