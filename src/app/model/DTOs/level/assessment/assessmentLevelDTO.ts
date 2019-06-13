@@ -1,4 +1,4 @@
-import {AbstractLevelDTO} from "../abstractLevelDTO";
+import {AbstractLevelDTO} from "../abstract-level-dto";
 
 export interface AssessmentLevelDTO extends AbstractLevelDTO {
   assessment_type: AssessmentLevelDTO.AssessmentTypeEnum;

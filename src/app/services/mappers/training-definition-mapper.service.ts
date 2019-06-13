@@ -2,22 +2,22 @@ import {Injectable} from '@angular/core';
 import {TrainingDefinition} from '../../model/training/training-definition';
 import {TrainingDefinitionStateEnum} from '../../model/enums/training-definition-state.enum';
 import {AbstractLevel} from '../../model/level/abstract-level';
-import {TrainingDefinitionCreateDTO} from '../../model/DTOs/training-definition/trainingDefinitionCreateDTO';
-import {TrainingDefinitionUpdateDTO} from '../../model/DTOs/training-definition/trainingDefinitionUpdateDTO';
-import {TrainingDefinitionRestResource} from '../../model/DTOs/training-definition/trainingDefinitionRestResource';
-import {TrainingDefinitionDTO} from '../../model/DTOs/training-definition/trainingDefinitionDTO';
+import {TrainingDefinitionCreateDTO} from '../../model/DTOs/training-definition/training-definition-create-dto';
+import {TrainingDefinitionUpdateDTO} from '../../model/DTOs/training-definition/training-definition-update-dto';
+import {TrainingDefinitionRestResource} from '../../model/DTOs/training-definition/training-definition-rest-resource';
+import {TrainingDefinitionDTO} from '../../model/DTOs/training-definition/training-definition-dto';
 import {PaginatedTable} from '../../model/table-adapters/paginated-table';
 import {TrainingDefinitionTableAdapter} from '../../model/table-adapters/training-definition-table-adapter';
 import {TablePagination} from '../../model/table-adapters/table-pagination';
 import {LevelMapper} from './level-mapper.service';
-import {BetaTestingGroupDTO} from '../../model/DTOs/training-definition/betaTestingGroupDTO';
+import {BetaTestingGroupDTO} from '../../model/DTOs/training-definition/beta-testing-group-dto';
 import {BetaTestingGroup} from '../../model/user/beta-testing-group';
-import {BetaTestingGroupCreateDTO} from '../../model/DTOs/training-definition/betaTestingGroupCreateDTO';
-import {BetaTestingGroupUpdateDTO} from '../../model/DTOs/training-definition/betaTestingGroupUpdateDTO';
+import {BetaTestingGroupCreateDTO} from '../../model/DTOs/training-definition/beta-testing-group-create-dto';
+import {BetaTestingGroupUpdateDTO} from '../../model/DTOs/training-definition/beta-testing-group-update-dto';
 import {UserMapper} from './user.mapper.service';
 import {RestResourceDTO} from 'kypo2-user-and-group-management/lib/model/DTO/rest-resource-dto.model';
 import {TrainingDefinitionInfo} from '../../model/training/training-definition-info';
-import {TrainingDefinitionInfoDTO} from '../../model/DTOs/training-definition/training-definition-info-d-t-o';
+import {TrainingDefinitionInfoDTO} from '../../model/DTOs/training-definition/training-definition-info-dto';
 import {TrainingDefinitionInfoRestResource} from '../../model/DTOs/training-definition/training-definition-info-rest-resource';
 
 @Injectable()
@@ -99,7 +99,7 @@ export class TrainingDefinitionMapper {
     result.title = trainingDefinition.title;
     result.sandbox_definition_ref_id = trainingDefinition.sandboxDefinitionId;
     result.show_stepper_bar = trainingDefinition.showStepperBar;
-    result.authors = this.userMapper.mapUsersToUserBasicDTOs(trainingDefinition.authors);
+    result.authors = trainingDefinition.authors.map(author => author.login);
     result.beta_testing_group = this.createBetaTestingGroupCreateDTO(trainingDefinition.betaTestingGroup);
     return result;
   }
@@ -119,7 +119,7 @@ export class TrainingDefinitionMapper {
     result.show_stepper_bar = trainingDefinition.showStepperBar;
     trainingDefinition.outcomes.forEach(outcome => result.outcomes.push(outcome));
     trainingDefinition.prerequisites.forEach(prerequisite => result.prerequisities.push(prerequisite));
-    result.authors = this.userMapper.mapUsersToUserBasicDTOs(trainingDefinition.authors);
+    result.authors = trainingDefinition.authors.map(author => author.login);
     result.outcomes = trainingDefinition.outcomes;
     result.prerequisities = trainingDefinition.prerequisites;
     result.state = this.mapTrainingDefStateToDTOEnum(trainingDefinition.state);
@@ -159,7 +159,7 @@ export class TrainingDefinitionMapper {
   private createBetaTestingGroupCreateDTO(betaTestingGroup: BetaTestingGroup): BetaTestingGroupCreateDTO {
     if (betaTestingGroup) {
       const result = new BetaTestingGroupCreateDTO();
-      result.organizers = this.userMapper.mapUsersToUserBasicDTOs(betaTestingGroup.organizers);
+      result.organizers = betaTestingGroup.organizers.map(organizer => organizer.login);
       return result;
     }
     return null;
@@ -168,7 +168,7 @@ export class TrainingDefinitionMapper {
   private createBetaTestingGroupUpdateDTO(betaTestingGroup: BetaTestingGroup): BetaTestingGroupUpdateDTO {
     if (betaTestingGroup) {
       const result = new BetaTestingGroupUpdateDTO();
-      result.organizers = this.userMapper.mapUsersToUserBasicDTOs(betaTestingGroup.organizers);
+      result.organizers =  betaTestingGroup.organizers.map(organizer => organizer.login);
       return result;
     }
     return null;

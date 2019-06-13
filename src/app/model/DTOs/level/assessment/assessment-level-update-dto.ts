@@ -11,7 +11,7 @@
  */
 
 
-import {AbstractLevelDTO} from "../abstractLevelDTO";
+import {AbstractLevelDTO} from "../abstract-level-dto";
 import {PreHookDTO} from "../../training-definition/preHookDTO";
 import {PostHookDTO} from "../../training-definition/postHookDTO";
 

@@ -9,9 +9,9 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { AbstractLevelDTO } from '../level/abstractLevelDTO';
-import { SandboxInstanceRefDTO } from '../sandbox-instance/sandboxInstanceRefDTO';
-import { TrainingInstanceDTO } from '../training-instance/trainingInstanceDTO';
+import { AbstractLevelDTO } from '../level/abstract-level-dto';
+import { SandboxInstanceRefDTO } from '../sandbox-instance/sandbox-instance-ref-dto';
+import { TrainingInstanceDTO } from '../training-instance/training-instance-dto';
 import {UserRefDTO} from "../user/user-ref-dto";
 
 

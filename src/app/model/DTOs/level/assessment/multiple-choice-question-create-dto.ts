@@ -1,13 +1,13 @@
-import {AbstractQuestionCreateDTO, AbstractQuestionDTO} from './abstactQuestionDTO';
-import {MCQChoiceDTO} from './mcqChoiceDTO';
+import {AbstractQuestionCreateDTO, AbstractQuestionDTO} from './abstact-question-dto';
+import {mcqDTO} from './mcq-choice-dto';
 
 export interface MultipleChoiceQuestionCreateDTO extends AbstractQuestionCreateDTO {
-  choices: MCQChoiceDTO[];
+  choices: mcqDTO[];
 }
 
 export class MultipleChoiceQuestionCreateDTOClass implements MultipleChoiceQuestionCreateDTO {
   answer_required: boolean;
-  choices: MCQChoiceDTO[];
+  choices: mcqDTO[];
   order: number;
   penalty: number;
   points: number;

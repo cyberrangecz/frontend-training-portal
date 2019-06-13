@@ -1,4 +1,4 @@
-import {AbstractLevelDTO} from "../abstractLevelDTO";
+import {AbstractLevelDTO} from "../abstract-level-dto";
 
 export interface InfoLevelDTO extends AbstractLevelDTO {
   content: string;

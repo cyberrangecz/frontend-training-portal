@@ -1,4 +1,4 @@
-export class EMIChoiceDTO {
+export class EmiChoiceDTO {
   x: number;
   y: number;
 

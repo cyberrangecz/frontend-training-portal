@@ -1,5 +1,5 @@
-import {AbstractLevelDTO} from "../level/abstractLevelDTO";
-import {BetaTestingGroupDTO} from "./betaTestingGroupDTO";
+import {AbstractLevelDTO} from "../level/abstract-level-dto";
+import {BetaTestingGroupDTO} from "./beta-testing-group-dto";
 import {UserRefDTO} from '../user/user-ref-dto';
 
 

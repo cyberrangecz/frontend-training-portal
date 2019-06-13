@@ -9,8 +9,8 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { HintDTO } from './hintDTO';
-import {AbstractLevelDTO} from "../abstractLevelDTO";
+import { HintDTO } from './hint-dto';
+import {AbstractLevelDTO} from "../abstract-level-dto";
 import {PostHookDTO} from "../../training-definition/postHookDTO";
 import {PreHookDTO} from "../../training-definition/preHookDTO";
 

@@ -1,32 +1,32 @@
 import {Injectable} from '@angular/core';
 import {TrainingRun} from '../../model/training/training-run';
-import {TrainingRunDTO} from '../../model/DTOs/training-run/trainingRunDTO';
+import {TrainingRunDTO} from '../../model/DTOs/training-run/training-run-dto';
 import {LevelMapper} from './level-mapper.service';
 import {TrainingRunStateEnum} from '../../model/enums/training-run-state.enum';
 import {TrainingInstanceMapper} from './training-instance-mapper.service';
-import {TrainingRunRestResource} from '../../model/DTOs/training-run/trainingRunRestResource';
-import {AccessedTrainingRunDTO} from '../../model/DTOs/training-run/accessedTrainingRunDTO';
+import {TrainingRunRestResource} from '../../model/DTOs/training-run/training-run-rest-resource';
+import {AccessedTrainingRunDTO} from '../../model/DTOs/training-run/accessed-training-run-dto';
 import {AccessedTrainingRunsTableAdapter} from '../../model/table-adapters/accessed-training-runs-table-adapter';
 import {TraineeAccessTrainingRunActionEnum} from '../../model/enums/trainee-access-training-run-actions.enum';
 import {PaginatedTable} from '../../model/table-adapters/paginated-table';
 import {TrainingRunTableAdapter} from '../../model/table-adapters/training-run-table-adapter';
 import {TablePagination} from '../../model/table-adapters/table-pagination';
-import {AccessTrainingRunDTO} from '../../model/DTOs/training-run/accessTrainingRunDTO';
+import {AccessTrainingRunDTO} from '../../model/DTOs/training-run/access-training-run-dto';
 import {AccessTrainingRunInfo} from '../../model/training/access-training-run-info';
-import {IsCorrectFlagDTO} from '../../model/DTOs/level/game/isCorrectFlagDTO';
+import {IsCorrectFlagDTO} from '../../model/DTOs/level/game/is-correct-flag-dto';
 import {FlagCheck} from '../../model/level/flag-check';
 import {AbstractQuestion} from '../../model/questions/abstract-question';
-import {AbstractAssessmentAnswerDTO} from '../../model/DTOs/level/assessment/abstractAssessmentAnswerDTO';
-import {FreeFormAnswerDTO} from '../../model/DTOs/level/assessment/freeFormAnswerDTO';
+import {AbstractAssessmentAnswerDTO} from '../../model/DTOs/level/assessment/abstract-assessment-answer-dto';
+import {FreeFormAnswerDTO} from '../../model/DTOs/level/assessment/free-form-answer-dto';
 import {FreeFormQuestion} from '../../model/questions/free-form-question';
 import {MultipleChoiceQuestion} from '../../model/questions/multiple-choice-question';
 import {ExtendedMatchingItems} from '../../model/questions/extended-matching-items';
-import {MultipleChoiceQuestionAnswerDTO} from '../../model/DTOs/level/assessment/multipleChoiceQuestionAnswerDTO';
-import {ExtendedMatchingItemsAnswerDTO} from '../../model/DTOs/level/assessment/extendedMatchingItemsAnswerDTO';
+import {MultipleChoiceQuestionAnswerDTO} from '../../model/DTOs/level/assessment/multiple-choice-question-answer-dto';
+import {ExtendedMatchingItemsAnswerDTO} from '../../model/DTOs/level/assessment/extended-matching-items-answer-dto';
 import {UserMapper} from './user.mapper.service';
-import {EMIChoiceDTO} from '../../model/DTOs/level/assessment/emiChoiceDTO';
+import {EmiChoiceDTO} from '../../model/DTOs/level/assessment/emi-choice-dto';
 import PossibleActionEnum = AccessedTrainingRunDTO.PossibleActionEnum;
-import {BasicLevelInfoDTO} from "../../model/DTOs/level/basicLevelInfoDTO";
+import {BasicLevelInfoDTO} from "../../model/DTOs/level/basic-level-info-dto";
 import LevelTypeEnum = BasicLevelInfoDTO.LevelTypeEnum;
 import {GameLevel} from "../../model/level/game-level";
 
@@ -182,7 +182,7 @@ export class TrainingRunMapper {
   private mapEMIToUserAnswerDTO(question: ExtendedMatchingItems): ExtendedMatchingItemsAnswerDTO {
     const result = new ExtendedMatchingItemsAnswerDTO();
     result.question_order = question.order;
-    result.pairs = question.usersAnswers.map(answer => new EMIChoiceDTO(answer.x, answer.y));
+    result.pairs = question.usersAnswers.map(answer => new EmiChoiceDTO(answer.x, answer.y));
     return result;
   }
 

@@ -21,16 +21,6 @@ export class UserMapper {
     return user;
   }
 
-  mapUsersToUserBasicDTOs(users: User[]): UserBasicDTO[] {
-    return users.map(user => this.mapUserToUserBasicDTO(user));
-  }
-
-  mapUserToUserBasicDTO(user: User): UserBasicDTO {
-    const userDTO = new UserBasicDTO();
-    userDTO.login = user.login;
-    return userDTO;
-  }
-
   mapUserBasicDTOsToOrganizerUsers(userDTOs: UserBasicDTO[]): User[] {
     return userDTOs.map(userDTO =>
       this.mapUserBasicDTOToOrganizerUser(userDTO));

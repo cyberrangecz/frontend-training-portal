@@ -1,31 +1,31 @@
 import {Injectable} from "@angular/core";
-import {AbstractLevelDTO} from "../../model/DTOs/level/abstractLevelDTO";
+import {AbstractLevelDTO} from "../../model/DTOs/level/abstract-level-dto";
 import {AbstractLevel} from "../../model/level/abstract-level";
 import {GameLevel} from "../../model/level/game-level";
-import {GameLevelUpdateDTO, GameLevelUpdateDTOClass} from "../../model/DTOs/level/game/gameLevelUpdateDTO";
-import {InfoLevelUpdateDTO, InfoLevelUpdateDTOClass} from "../../model/DTOs/level/info/infoLevelUpdateDTO";
+import {GameLevelUpdateDTO, GameLevelUpdateDTOClass} from "../../model/DTOs/level/game/game-level-update-dto";
+import {InfoLevelUpdateDTO, InfoLevelUpdateDTOClass} from "../../model/DTOs/level/info/info-level-update-dto";
 import {InfoLevel} from "../../model/level/info-level";
 import {AssessmentLevel} from "../../model/level/assessment-level";
-import {AssessmentLevelUpdateDTO, AssessmentLevelUpdateDTOClass} from "../../model/DTOs/level/assessment/assessmentLevelUpdateDTO";
-import {GameLevelDTO} from "../../model/DTOs/level/game/gameLevelDTO";
-import {InfoLevelDTO} from "../../model/DTOs/level/info/infoLevelDTO";
+import {AssessmentLevelUpdateDTO, AssessmentLevelUpdateDTOClass} from "../../model/DTOs/level/assessment/assessment-level-update-dto";
+import {GameLevelDTO} from "../../model/DTOs/level/game/game-level-dto";
+import {InfoLevelDTO} from "../../model/DTOs/level/info/info-level-dto";
 import {AssessmentLevelDTO} from "../../model/DTOs/level/assessment/assessmentLevelDTO";
 import {AbstractLevelTypeEnum} from "../../model/enums/abstract-level-type.enum";
 import {AssessmentTypeEnum} from "../../model/enums/assessment-type.enum";
-import {HintDTO, HintDTOClass} from "../../model/DTOs/level/game/hintDTO";
+import {HintDTO, HintDTOClass} from "../../model/DTOs/level/game/hint-dto";
 import {Hint} from "../../model/level/hint";
-import {BasicLevelInfoDTO} from "../../model/DTOs/level/basicLevelInfoDTO";
+import {BasicLevelInfoDTO} from "../../model/DTOs/level/basic-level-info-dto";
 import LevelTypeEnum = AbstractLevelDTO.LevelTypeEnum;
 import {AbstractQuestion} from '../../model/questions/abstract-question';
 import {FreeFormQuestion} from '../../model/questions/free-form-question';
 import {MultipleChoiceQuestion} from '../../model/questions/multiple-choice-question';
 import {ExtendedMatchingItems} from '../../model/questions/extended-matching-items';
-import {AbstractQuestionCreateDTO, AbstractQuestionDTO} from '../../model/DTOs/level/assessment/abstactQuestionDTO';
-import {MultipleChoiceQuestionCreateDTO, MultipleChoiceQuestionCreateDTOClass} from '../../model/DTOs/level/assessment/multipleChoiceQuestionCreateDTO';
-import {FreeFormQuestionCreateDTO, FreeFormQuestionDTOClass} from '../../model/DTOs/level/assessment/freeFormQuestionDTO';
-import {MCQChoiceDTO} from '../../model/DTOs/level/assessment/mcqChoiceDTO';
-import {EMIChoiceDTO} from '../../model/DTOs/level/assessment/emiChoiceDTO';
-import {ExtendedMatchingItemsDTO} from '../../model/DTOs/level/assessment/extendedMatchingItemsDTO';
+import {AbstractQuestionCreateDTO, AbstractQuestionDTO} from '../../model/DTOs/level/assessment/abstact-question-dto';
+import {MultipleChoiceQuestionCreateDTO, MultipleChoiceQuestionCreateDTOClass} from '../../model/DTOs/level/assessment/multiple-choice-question-create-dto';
+import {FreeFormQuestionCreateDTO, FreeFormQuestionDTOClass} from '../../model/DTOs/level/assessment/free-form-question-dto';
+import {mcqDTO} from '../../model/DTOs/level/assessment/mcq-choice-dto';
+import {EmiChoiceDTO} from '../../model/DTOs/level/assessment/emi-choice-dto';
+import {ExtendedMatchingItemsDTO} from '../../model/DTOs/level/assessment/extended-matching-items-dto';
 
 @Injectable()
 export class LevelMapper {
@@ -369,18 +369,18 @@ export class LevelMapper {
 
   private mapEMIChoicesToDTO(question: ExtendedMatchingItems, questionDTO: ExtendedMatchingItemsDTO) {
     if (question.required) {
-      questionDTO.correct_answers = question.correctAnswers.map(answer => new EMIChoiceDTO(answer.x, answer.y));
+      questionDTO.correct_answers = question.correctAnswers.map(answer => new EmiChoiceDTO(answer.x, answer.y));
     }
     else {
-      questionDTO.correct_answers = [new EMIChoiceDTO(-1, -1)];
+      questionDTO.correct_answers = [new EmiChoiceDTO(-1, -1)];
     }
   }
 
   private mapMCQChoicesToDTO(question: MultipleChoiceQuestion, questionDTO: MultipleChoiceQuestionCreateDTO) {
     let index = 0;
-    const result: MCQChoiceDTO[] = [];
+    const result: mcqDTO[] = [];
     question.options.forEach(option => {
-      const choice =  new MCQChoiceDTO();
+      const choice =  new mcqDTO();
       choice.text = option;
       choice.order = index;
       choice.is_correct = question.correctAnswersIndices.includes(index);
@@ -390,7 +390,7 @@ export class LevelMapper {
     questionDTO.choices = result;
   }
 
-  private mapEmiChoicesFromDTO(correctAnswersDTO: EMIChoiceDTO[], result: ExtendedMatchingItems) {
+  private mapEmiChoicesFromDTO(correctAnswersDTO: EmiChoiceDTO[], result: ExtendedMatchingItems) {
     result.correctAnswers = correctAnswersDTO.map(answerDTO =>  {
      return  {
        x : answerDTO.x,

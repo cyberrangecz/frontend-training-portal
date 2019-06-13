@@ -9,26 +9,27 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import {BetaTestingGroupCreateDTO} from "./betaTestingGroupCreateDTO";
+import {BetaTestingGroupUpdateDTO} from "./beta-testing-group-update-dto";
 import {UserBasicDTO} from "../user/user-basic-dto";
 
 
 /**
- * Training Definition to create.
+ * Training Definition to update.
  */
-export class TrainingDefinitionCreateDTO {
-    authors?: UserBasicDTO[];
-    beta_testing_group: BetaTestingGroupCreateDTO;
+export class TrainingDefinitionUpdateDTO {
+    authors?: string[];
+    beta_testing_group: BetaTestingGroupUpdateDTO;
     description?: string;
+    id?: number;
     outcomes?: string[];
     prerequisities?: string[];
-    sandbox_definition_ref_id: number;
+    sandbox_definition_ref_id?: number;
     show_stepper_bar?: boolean;
-    state?: TrainingDefinitionCreateDTO.StateEnum;
+    state?: TrainingDefinitionUpdateDTO.StateEnum;
     title?: string;
 }
 
-export namespace TrainingDefinitionCreateDTO {
+export namespace TrainingDefinitionUpdateDTO {
     export type StateEnum = 'PRIVATED' | 'RELEASED' | 'ARCHIVED' | 'UNRELEASED';
     export const StateEnum = {
         PRIVATED: 'PRIVATED' as StateEnum,
