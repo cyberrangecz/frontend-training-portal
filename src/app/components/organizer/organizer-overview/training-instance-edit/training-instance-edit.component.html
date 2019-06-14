@@ -34,13 +34,13 @@
         </mat-form-field>
 
         <!-- POOL SIZE filed -->
-        <mat-form-field appearance="outline" hintLabel="Number in range from 1 to 100">
-          <mat-label>Pool Size</mat-label>
-          <input matInput placeholder="Pool Size" (ngModelChange)="contentChanged()" type="number" max="100" min="1" [(ngModel)]="poolSize" required>
+        <mat-form-field appearance="outline" hintLabel="Pool of sandboxes that can be allocated" class="fix-form-hint-spacing">
+          <mat-label>Sandbox pool size</mat-label>
+          <input matInput placeholder="Sandbox pool size" (ngModelChange)="contentChanged()" type="number" max="100" min="1" [(ngModel)]="poolSize" required>
         </mat-form-field>
 
         <!-- ACCESS TOKEN filed -->
-        <mat-form-field appearance="outline"  hintLabel="Generated PIN code will be added to your token">
+        <mat-form-field appearance="outline"  hintLabel="Generated PIN code will be added to your token" class="fix-form-hint-spacing">
           <mat-label>Access Token Prefix</mat-label>
           <input matInput placeholder="Access Token" (ngModelChange)="contentChanged()" [(ngModel)]="accessToken" required>
           <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="accessToken=''; contentChanged()">
