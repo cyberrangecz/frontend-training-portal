@@ -10,7 +10,7 @@ import {AbstractLevel} from "../../model/level/abstract-level";
 import {AbstractLevelDTO} from "../../model/DTOs/level/abstract-level-dto";
 import {GameLevelDTO} from "../../model/DTOs/level/game/game-level-dto";
 import {InfoLevelDTO} from "../../model/DTOs/level/info/info-level-dto";
-import {AssessmentLevelDTO} from "../../model/DTOs/level/assessment/assessmentLevelDTO";
+import {AssessmentLevelDTO} from "../../model/DTOs/level/assessment/assessment-level-dto";
 import {LevelMapper} from "../mappers/level-mapper.service";
 import {GameLevel} from "../../model/level/game-level";
 import {InfoLevel} from "../../model/level/info-level";

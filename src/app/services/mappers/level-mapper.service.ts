@@ -9,7 +9,7 @@ import {AssessmentLevel} from "../../model/level/assessment-level";
 import {AssessmentLevelUpdateDTO, AssessmentLevelUpdateDTOClass} from "../../model/DTOs/level/assessment/assessment-level-update-dto";
 import {GameLevelDTO} from "../../model/DTOs/level/game/game-level-dto";
 import {InfoLevelDTO} from "../../model/DTOs/level/info/info-level-dto";
-import {AssessmentLevelDTO} from "../../model/DTOs/level/assessment/assessmentLevelDTO";
+import {AssessmentLevelDTO} from "../../model/DTOs/level/assessment/assessment-level-dto";
 import {AbstractLevelTypeEnum} from "../../model/enums/abstract-level-type.enum";
 import {AssessmentTypeEnum} from "../../model/enums/assessment-type.enum";
 import {HintDTO, HintDTOClass} from "../../model/DTOs/level/game/hint-dto";
