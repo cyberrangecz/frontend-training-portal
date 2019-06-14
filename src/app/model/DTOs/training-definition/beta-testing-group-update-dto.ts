@@ -1,3 +1,3 @@
 export class BetaTestingGroupUpdateDTO {
-  organizers: string[];
+  organizers_login: string[];
 }

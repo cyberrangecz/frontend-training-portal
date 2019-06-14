@@ -99,7 +99,7 @@ export class TrainingDefinitionMapper {
     result.title = trainingDefinition.title;
     result.sandbox_definition_ref_id = trainingDefinition.sandboxDefinitionId;
     result.show_stepper_bar = trainingDefinition.showStepperBar;
-    result.authors = trainingDefinition.authors.map(author => author.login);
+    result.authors_login = trainingDefinition.authors.map(author => author.login);
     result.beta_testing_group = this.createBetaTestingGroupCreateDTO(trainingDefinition.betaTestingGroup);
     return result;
   }
@@ -119,7 +119,7 @@ export class TrainingDefinitionMapper {
     result.show_stepper_bar = trainingDefinition.showStepperBar;
     trainingDefinition.outcomes.forEach(outcome => result.outcomes.push(outcome));
     trainingDefinition.prerequisites.forEach(prerequisite => result.prerequisities.push(prerequisite));
-    result.authors = trainingDefinition.authors.map(author => author.login);
+    result.authors_login = trainingDefinition.authors.map(author => author.login);
     result.outcomes = trainingDefinition.outcomes;
     result.prerequisities = trainingDefinition.prerequisites;
     result.state = this.mapTrainingDefStateToDTOEnum(trainingDefinition.state);
@@ -159,7 +159,7 @@ export class TrainingDefinitionMapper {
   private createBetaTestingGroupCreateDTO(betaTestingGroup: BetaTestingGroup): BetaTestingGroupCreateDTO {
     if (betaTestingGroup) {
       const result = new BetaTestingGroupCreateDTO();
-      result.organizers = betaTestingGroup.organizers.map(organizer => organizer.login);
+      result.organizers_login = betaTestingGroup.organizers.map(organizer => organizer.login);
       return result;
     }
     return null;
@@ -168,7 +168,7 @@ export class TrainingDefinitionMapper {
   private createBetaTestingGroupUpdateDTO(betaTestingGroup: BetaTestingGroup): BetaTestingGroupUpdateDTO {
     if (betaTestingGroup) {
       const result = new BetaTestingGroupUpdateDTO();
-      result.organizers =  betaTestingGroup.organizers.map(organizer => organizer.login);
+      result.organizers_login =  betaTestingGroup.organizers.map(organizer => organizer.login);
       return result;
     }
     return null;

@@ -17,7 +17,7 @@ import {UserBasicDTO} from "../user/user-basic-dto";
  * Training Definition to update.
  */
 export class TrainingDefinitionUpdateDTO {
-    authors?: string[];
+    authors_login?: string[];
     beta_testing_group: BetaTestingGroupUpdateDTO;
     description?: string;
     id?: number;
