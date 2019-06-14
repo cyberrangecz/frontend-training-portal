@@ -1,7 +1,12 @@
 <h1 mat-dialog-title>Choose Organizers</h1>
 <mat-divider></mat-divider>
-<div mat-dialog-content>
-  <mat-selection-list *ngIf="!isLoading" #authorsList [(ngModel)]="selectedOrganizers" [compareWith]="selectionEquality">
+
+<div class="loading" *ngIf="isLoading">
+  <mat-spinner></mat-spinner>
+</div>
+
+<div mat-dialog-content *ngIf="!isLoading">
+  <mat-selection-list #authorsList [(ngModel)]="selectedOrganizers" [compareWith]="selectionEquality">
     <mat-list-option *ngIf="activeUser" [value]="activeUser" [selected]="true" [disabled]="true">
       {{ activeUser.name }} (You)
     </mat-list-option>
@@ -10,6 +15,9 @@
       {{ organizer.name }}
     </mat-list-option>
   </mat-selection-list>
+  <div class="empty-content" *ngIf="organizers.length === 0">
+    No more organizers found.
+  </div>
 </div>
 
 <div mat-dialog-actions>
