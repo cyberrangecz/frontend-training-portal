@@ -1,107 +1,112 @@
 .save-info-content {
-  display: inline-flex;
-  vertical-align: middle;
-  align-items: center;
+	display: inline-flex;
+	vertical-align: middle;
+	align-items: center;
 }
 
 div .level {
-  display: flex;
-  flex-direction: column;
-  margin: 20px;
+	display: flex;
+	flex-direction: column;
+	margin: 20px;
 }
 
 div .header {
-  display: flex;
-  align-items: baseline;
-  flex-direction: row;
-  margin-bottom: 25px;
+	display: flex;
+	align-items: baseline;
+	flex-direction: row;
+	margin-bottom: 25px;
 }
 
 div .spacer {
-  flex: 1 1 auto;
+	flex: 1 1 auto;
 }
 
 div .content {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-  width: 100%;
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 20px;
+	width: 100%;
 }
 
 div .panel-wrapper {
-  display: flex;
-  flex-direction: row;
+	display: flex;
+	flex-direction: row;
 }
 
 div .left-panel {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 3;
-  margin-right: 30px;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 3;
+	margin-right: 30px;
 }
 
 div .right-panel {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  margin-left: 30px;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	margin-left: 30px;
 }
 
 div .right-panel mat-form-field {
-  margin-bottom: 20px;
+	margin-bottom: 20px;
 }
 
 div .footer {
-  display: flex;
-  flex-direction: row;
-  align-items: baseline;
+	display: flex;
+	flex-direction: row;
+	align-items: baseline;
 }
 
 button {
-  margin-right: 15px;
+	margin-right: 15px;
 }
 
 markdown-editor.mrkdwn-content {
-  margin-bottom: 20px;
-  height: 30vh;
+	margin-bottom: 20px;
+	height: 30vh;
 }
 
 markdown-editor.mrkdwn-solution {
-  margin-bottom: 20px;
-  height: 30vh;
+	margin-bottom: 20px;
+	height: 30vh;
 }
 .test-toggle-wrapper {
-  width: 150px;
+	width: 180px;
 }
 
+.test-toggle-left-margin {
+	margin-left: 15px;
+}
+
+.test-toggle-right-margin {
+	margin-right: 15px;
+}
 
 div .save-info {
-  margin-left: 10px;
+	margin-left: 10px;
 }
 
-
 .green-icon {
-  color: lawngreen;
+	color: lawngreen;
 }
 
 .bottom-align {
-  vertical-align:bottom
+	vertical-align: bottom;
 }
 
 .left-margin {
-  margin-left: 5px
+	margin-left: 5px;
 }
 
 @media screen and (max-width: 800px) {
-  div .panel-wrapper {
-    flex-direction: column;
-  }
-  div .left-panel {
-    margin-right: 0;
-  }
+	div .panel-wrapper {
+		flex-direction: column;
+	}
+	div .left-panel {
+		margin-right: 0;
+	}
 
-  div .right-panel {
-    margin-left: 0;
-  }
-
+	div .right-panel {
+		margin-left: 0;
+	}
 }

@@ -41,6 +41,7 @@
       </div>
       <div class="right-panel">
         <div class="test-toggle-wrapper">
+          <span class="test-toggle-right-margin">Questionnaire</span>
           <mat-slide-toggle
             matTooltip="Switching to questionnaire wil delete your answers"
             [disabled]="isLoading"
@@ -48,7 +49,8 @@
             (ngModelChange)="contentChanged()"
             [(ngModel)]="isTest">
             {{ isTestToggleLabel }}
-          </mat-slide-toggle>
+          </mat-slide-toggle>         
+          <span class="test-toggle-left-margin">Test</span>
         </div>
       </div>
     </div>
