@@ -1,3 +1,5 @@
+import {HintDTO} from "./hint-dto";
+import {AbstractLevelDTO} from "../abstract-level-dto";
 
 export interface GameLevelUpdateDTO {
   id: number;
