@@ -45,11 +45,9 @@
           <mat-slide-toggle
             matTooltip="Switching to questionnaire wil delete your answers"
             [disabled]="isLoading"
-            (change)="onChangeToggle()"
             (ngModelChange)="contentChanged()"
             [(ngModel)]="isTest">
-            {{ isTestToggleLabel }}
-          </mat-slide-toggle>         
+          </mat-slide-toggle>
           <span class="test-toggle-left-margin">Test</span>
         </div>
       </div>

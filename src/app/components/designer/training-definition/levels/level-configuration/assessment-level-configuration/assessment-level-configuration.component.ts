@@ -8,7 +8,6 @@ import {AssessmentTypeEnum} from "../../../../../../model/enums/assessment-type.
 import {ErrorHandlerService} from "../../../../../../services/shared/error-handler.service";
 import {TrainingDefinitionFacade} from "../../../../../../services/facades/training-definition-facade.service";
 import {LevelsDefinitionService} from "../../../../../../services/designer/levels-definition.service";
-import {MatSlideToggleChange} from '@angular/material';
 
 @Component({
   selector: 'assessment-level-configuration',
@@ -36,7 +35,6 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
   dirty = false;
   isLoading = false;
 
-  isTestToggleLabel: string;
   constructor(private trainingDefinitionFacade: TrainingDefinitionFacade,
               private levelService: LevelsDefinitionService,
               private alertService: AlertService,
@@ -80,10 +78,6 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
             this.errorHandler.displayInAlert(err, 'Saving assessment level "' + this.level.title + '"');
           });
     }
-  }
-
-  onChangeToggle() {
-    this.isTestToggleLabel = this.isTest ? 'Test' : 'Questionnaire';
   }
 
   /**
@@ -149,7 +143,6 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
       this.instructions = this.level.instructions;
       this.isTest = this.level.assessmentType === AssessmentTypeEnum.Test;
       this.estimatedDuration = this.level.estimatedDuration;
-      this.isTestToggleLabel = this.isTest ? 'Test' : 'Questionnaire';
     }
   }
 
