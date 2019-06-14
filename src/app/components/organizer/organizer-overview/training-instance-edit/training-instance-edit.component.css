@@ -1,79 +1,82 @@
 .container {
-  margin: 20px;
-  border: 1px solid gainsboro;
-  border-radius: 5px;
-  padding: 20px;
+	margin: 20px;
+	border: 1px solid gainsboro;
+	border-radius: 5px;
+	padding: 20px;
 }
 
 div .container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-content: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	align-content: center;
 }
 
 div .content {
-  display: flex;
-  flex-direction: column;
+	display: flex;
+	flex-direction: column;
 }
 
 div .panel-wrapper {
-  display: flex;
-  flex-direction: row;
+	display: flex;
+	flex-direction: row;
 }
 
 div .left-panel {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 5;
-  margin-right: 20px;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 5;
+	margin-right: 20px;
 }
 
 div .right-panel {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 5;
-  margin-left: 20px;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 5;
+	margin-left: 20px;
 }
 
 .save-button {
-  display: flex;
+	display: flex;
 }
 
 .line-with-button {
-  display: flex;
-  flex-direction: row;
-  align-items: baseline;
-  margin: 20px 0;
+	display: flex;
+	flex-direction: row;
+	align-items: baseline;
+	margin: 20px 0;
 }
 
 .line-with-button p {
-  color: grey;
-  width: 100%;
+	color: grey;
+	width: 100%;
 }
 
 .line-with-button button {
-  margin-left: 10px;
+	margin-left: 10px;
 }
 
 button.main {
-  margin-top: 15px;
+	margin-top: 15px;
 }
 
 .spacer {
-  flex: 1 1 auto
+	flex: 1 1 auto;
+}
+
+.fix-form-hint-spacing {
+	margin-bottom: 13px;
 }
 
 @media screen and (max-width: 800px) {
-  div .panel-wrapper {
-    flex-direction: column;
-  }
-  div .left-panel {
-    margin-right: 0;
-  }
+	div .panel-wrapper {
+		flex-direction: column;
+	}
+	div .left-panel {
+		margin-right: 0;
+	}
 
-  div .right-panel {
-    margin-left: 0;
-  }
-
+	div .right-panel {
+		margin-left: 0;
+	}
 }
