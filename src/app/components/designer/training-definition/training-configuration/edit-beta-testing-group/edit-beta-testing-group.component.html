@@ -2,15 +2,25 @@
 <h2 *ngIf="!editMode" mat-dialog-title>Create Beta Testing Group</h2>
 <mat-divider></mat-divider>
 <div class="content" mat-dialog-content>
-  <mat-selection-list *ngIf="!isLoading" #organizersList [(ngModel)]="selectedOrganizers" [compareWith]="selectionEquality">
-    <mat-list-option *ngIf="activeUser && activeUserIsOrganizer" [value]="activeUser">
-      {{ activeUser.name }} (You)
-    </mat-list-option>
-    <mat-list-option *ngFor="let organizer of organizers"
-                     [value]="organizer">
-      {{ organizer.name}}
-    </mat-list-option>
-  </mat-selection-list>
+
+  <div class="loading" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <div *ngIf="!isLoading">
+    <mat-selection-list #organizersList [(ngModel)]="selectedOrganizers" [compareWith]="selectionEquality">
+      <mat-list-option *ngIf="activeUser && activeUserIsOrganizer" [value]="activeUser">
+        {{ activeUser.name }} (You)
+      </mat-list-option>
+      <mat-list-option *ngFor="let organizer of organizers"
+                       [value]="organizer">
+        {{ organizer.name}}
+      </mat-list-option>
+    </mat-selection-list>
+    <div class="empty-content" *ngIf="organizers.length === 0">
+      No more organizers found.
+    </div>
+  </div>
 </div>
 
 <div mat-dialog-actions>
