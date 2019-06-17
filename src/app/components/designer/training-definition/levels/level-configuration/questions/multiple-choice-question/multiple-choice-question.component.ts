@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 import {MultipleChoiceQuestion} from "../../../../../../../model/questions/multiple-choice-question";
 import {AlertService} from "../../../../../../../services/shared/alert.service";
 import {AlertTypeEnum} from "../../../../../../../model/enums/alert-type.enum";
-import {MatCheckboxChange} from "@angular/material";
+import { MatCheckboxChange } from "@angular/material/checkbox";
 
 @Component({
   selector: 'multiple-choice-question',

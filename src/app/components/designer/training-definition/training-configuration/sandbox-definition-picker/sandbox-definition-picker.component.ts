@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit, Optional} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import {SandboxDefinition} from "../../../../../model/sandbox/sandbox-definition";
 import {SandboxDefinitionFacade} from "../../../../../services/facades/sandbox-definition-facade.service";
 

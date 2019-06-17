@@ -16,7 +16,7 @@ import {FreeFormQuestion} from "../../../../../../../model/questions/free-form-q
 import {MultipleChoiceQuestion} from "../../../../../../../model/questions/multiple-choice-question";
 import {ExtendedMatchingItems} from "../../../../../../../model/questions/extended-matching-items";
 import {ActionConfirmationDialog} from "../../../../../../shared/delete-dialog/action-confirmation-dialog.component";
-import {MatDialog} from "@angular/material";
+import { MatDialog } from "@angular/material/dialog";
 
 @Component({
   selector: 'question-overview',

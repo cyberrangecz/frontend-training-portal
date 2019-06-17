@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 import {GameLevel} from "../../../../../model/level/game-level";
 import {ActiveTrainingRunService} from "../../../../../services/trainee/active-training-run.service";
-import {MatDialog} from "@angular/material";
+import { MatDialog } from "@angular/material/dialog";
 import {RevealHintDialogComponent} from "./user-action-dialogs/reveal-hint-dialog/reveal-hint-dialog.component";
 import {RevealSolutionDialogComponent} from "./user-action-dialogs/reveal-solution-dialog/reveal-solution-dialog.component";
 import {WrongFlagDialogComponent} from "./user-action-dialogs/wrong-flag-dialog/wrong-flag-dialog.component";

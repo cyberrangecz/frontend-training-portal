@@ -1,7 +1,8 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
 import {TrainingRunTableAdapter} from "../../../../../model/table-adapters/training-run-table-adapter";
-import {OnDestroy} from "@angular/core/src/metadata/lifecycle_hooks";
 import {BaseTrainingRunsOverview} from "../base-training-runs-overview";
 import {AlertService} from "../../../../../services/shared/alert.service";
 import {ErrorHandlerService} from "../../../../../services/shared/error-handler.service";

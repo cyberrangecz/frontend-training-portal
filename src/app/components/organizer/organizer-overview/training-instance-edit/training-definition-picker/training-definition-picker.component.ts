@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit, Optional} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import {SandboxDefinitionPickerComponent} from "../../../../designer/training-definition/training-configuration/sandbox-definition-picker/sandbox-definition-picker.component";
 import {TrainingDefinition} from "../../../../../model/training/training-definition";
 import {TrainingDefinitionFacade} from "../../../../../services/facades/training-definition-facade.service";

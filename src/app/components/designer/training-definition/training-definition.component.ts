@@ -6,7 +6,7 @@ import {TrainingDefinitionFacade} from "../../../services/facades/training-defin
 import {Observable} from "rxjs/internal/Observable";
 import {TrainingConfigurationComponent} from "./training-configuration/training-configuration.component";
 import {TrainingLevelStepperComponent} from "./levels/training-level-stepper/training-level-stepper.component";
-import {MatDialog} from "@angular/material";
+import { MatDialog } from "@angular/material/dialog";
 import {UnsavedChangesDialogComponent} from "./unsaved-changes-dialog/unsaved-changes-dialog.component";
 import {of} from "rxjs/internal/observable/of";
 

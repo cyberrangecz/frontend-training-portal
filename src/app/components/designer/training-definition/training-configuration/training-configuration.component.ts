@@ -4,7 +4,7 @@ import {TrainingDefinitionStateEnum} from '../../../../model/enums/training-defi
 import {AlertService} from '../../../../services/shared/alert.service';
 import {AlertTypeEnum} from '../../../../model/enums/alert-type.enum';
 import {SandboxDefinitionPickerComponent} from './sandbox-definition-picker/sandbox-definition-picker.component';
-import {MatDialog} from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import {AuthorsPickerComponent} from './authors-picker/authors-picker.component';
 import {UserFacade} from '../../../../services/facades/user-facade.service';
 import {Router} from '@angular/router';

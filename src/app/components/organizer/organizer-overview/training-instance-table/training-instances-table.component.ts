@@ -1,5 +1,8 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
+import { MatDialog } from "@angular/material/dialog";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
 import {TrainingInstance} from "../../../../model/training/training-instance";
 import {AlertService} from "../../../../services/shared/alert.service";
 import {ActiveUserService} from "../../../../services/shared/active-user.service";

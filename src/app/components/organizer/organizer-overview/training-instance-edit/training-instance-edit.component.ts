@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
 import {TrainingDefinition} from "../../../../model/training/training-definition";
 import {AlertService} from "../../../../services/shared/alert.service";
-import {MatDialog} from "@angular/material";
+import { MatDialog } from "@angular/material/dialog";
 import {OrganizersPickerComponent} from "./organizers-picker/organizers-picker.component";
 import {TrainingDefinitionPickerComponent} from "./training-definition-picker/training-definition-picker.component";
 import {TrainingInstance} from "../../../../model/training/training-instance";

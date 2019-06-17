@@ -3,7 +3,7 @@ import {NgModule} from "@angular/core";
 import { AccessTokenDetailComponent } from './access-token-detail.component';
 import {RouterModule} from "@angular/router";
 import {TrainingInstanceFacadeModule} from "../../../services/facades/modules/training-instance-facade.module";
-import {MatProgressSpinnerModule} from "@angular/material";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import {AccessTokenDetailRoutingModule} from './access-token-detail-routing.module';
 import {TrainingInstanceGuardService} from '../../../services/guards/training-instance-guard.service';
 

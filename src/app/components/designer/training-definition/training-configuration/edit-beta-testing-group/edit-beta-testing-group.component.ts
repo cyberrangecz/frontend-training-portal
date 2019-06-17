@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit, Optional} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import {UserFacade} from "../../../../../services/facades/user-facade.service";
 import {map} from "rxjs/operators";
 import {BetaTestingGroup} from "../../../../../model/user/beta-testing-group";

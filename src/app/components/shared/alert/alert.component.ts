@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AlertEvent} from "../../../model/events/alert-event";
 import {AlertService} from "../../../services/shared/alert.service";
-import {MatSnackBar, MatSnackBarRef} from '@angular/material';
+import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import {AlertSnackbarComponent} from "./alert-snackbar/alert-snackbar.component";
 import {config} from "rxjs";
 import Queue from 'typescript-collections/dist/lib/Queue';

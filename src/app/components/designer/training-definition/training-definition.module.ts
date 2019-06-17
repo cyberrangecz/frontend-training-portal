@@ -12,7 +12,6 @@ import { SandboxDefinitionPickerComponent } from './training-configuration/sandb
 import {LevelConfigurationModule} from "./levels/level-configuration/level-configuration.module";
 import {PipesModule} from "../../../pipes/pipes.module";
 import { UnsavedChangesDialogComponent } from './unsaved-changes-dialog/unsaved-changes-dialog.component';
-import {ActionConfirmationDialog} from "../../shared/delete-dialog/action-confirmation-dialog.component";
 import { EditBetaTestingGroupComponent } from './training-configuration/edit-beta-testing-group/edit-beta-testing-group.component';
 import {TrainingDefinitionLeaveGuard} from "../../../services/guards/training-definition-leave-guard.service";
 import {LevelsDefinitionService} from "../../../services/designer/levels-definition.service";

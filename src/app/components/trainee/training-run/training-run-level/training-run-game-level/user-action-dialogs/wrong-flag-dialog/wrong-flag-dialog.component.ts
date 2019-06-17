@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {RevealHintDialogComponent} from "../reveal-hint-dialog/reveal-hint-dialog.component";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 
 @Component({
   selector: 'app-submit-flag-dialog',

@@ -5,7 +5,7 @@ import {AbstractLevel} from "../../../../model/level/abstract-level";
 import {InfoLevel} from "../../../../model/level/info-level";
 import {AssessmentLevel} from "../../../../model/level/assessment-level";
 import {GameLevel} from "../../../../model/level/game-level";
-import {MatDialog} from "@angular/material";
+import { MatDialog } from "@angular/material/dialog";
 
 @Component({
   selector: 'training-run-level',

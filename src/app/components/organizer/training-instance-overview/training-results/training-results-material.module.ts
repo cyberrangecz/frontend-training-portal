@@ -1,5 +1,8 @@
 import {NgModule} from "@angular/core";
-import {MatButtonModule, MatDividerModule, MatIconModule, MatMenuModule} from "@angular/material";
+import { MatButtonModule } from "@angular/material/button";
+import { MatDividerModule } from "@angular/material/divider";
+import { MatIconModule } from "@angular/material/icon";
+import { MatMenuModule } from "@angular/material/menu";
 
 @NgModule({
   imports: [

@@ -1,5 +1,6 @@
 import {NgModule} from "@angular/core";
-import {MatButtonModule, MatProgressSpinnerModule} from "@angular/material";
+import { MatButtonModule } from "@angular/material/button";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 
 @NgModule({
   imports: [

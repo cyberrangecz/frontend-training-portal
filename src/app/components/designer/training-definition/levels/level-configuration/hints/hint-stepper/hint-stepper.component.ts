@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import {Hint} from "../../../../../../../model/level/hint";
 import {HintConfigurationComponent} from "../hint-configuration/hint-configuration.component";
-import {MatDialog} from "@angular/material";
+import { MatDialog } from "@angular/material/dialog";
 import {ActionConfirmationDialog} from "../../../../../../shared/delete-dialog/action-confirmation-dialog.component";
 
 @Component({

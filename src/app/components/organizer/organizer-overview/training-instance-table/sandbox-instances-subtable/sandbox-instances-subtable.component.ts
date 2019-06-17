@@ -11,7 +11,10 @@ import {
 } from '@angular/core';
 import {TrainingInstance} from '../../../../../model/training/training-instance';
 import {SandboxInstance} from '../../../../../model/sandbox/sandbox-instance';
-import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import {SandboxAllocationService} from '../../../../../services/organizer/sandbox-allocation/sandbox-allocation.service';
 import {SandboxInstanceFacade} from '../../../../../services/facades/sandbox-instance-facade.service';
 import {SandboxInstanceTableAdapter} from '../../../../../model/table-adapters/sandbox-instance-table-adapter';

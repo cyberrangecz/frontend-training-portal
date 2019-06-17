@@ -10,7 +10,7 @@ import {
 import {AbstractLevel} from "../../../../../model/level/abstract-level";
 import {LevelConfigurationComponent} from "../level-configuration/level-configuration.component";
 import {ActionConfirmationDialog} from "../../../../shared/delete-dialog/action-confirmation-dialog.component";
-import {MatDialog} from "@angular/material";
+import { MatDialog } from "@angular/material/dialog";
 import {AlertService} from "../../../../../services/shared/alert.service";
 import {AlertTypeEnum} from "../../../../../model/enums/alert-type.enum";
 import {HttpErrorResponse} from "@angular/common/http";

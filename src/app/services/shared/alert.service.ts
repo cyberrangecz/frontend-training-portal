@@ -3,7 +3,7 @@ import {AlertTypeEnum} from "../../model/enums/alert-type.enum";
 import {environment} from "../../../environments/environment";
 import Queue from 'typescript-collections/dist/lib/Queue';
 import {AlertSnackbarComponent} from '../../components/shared/alert/alert-snackbar/alert-snackbar.component';
-import {MatSnackBar} from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {Injectable} from '@angular/core';
 
 /**

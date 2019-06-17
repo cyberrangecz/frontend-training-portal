@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import {TrainingDefinition} from "../../../../../model/training/training-definition";
 import {AlertService} from "../../../../../services/shared/alert.service";
 import {AlertTypeEnum} from "../../../../../model/enums/alert-type.enum";
