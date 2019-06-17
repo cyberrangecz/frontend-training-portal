@@ -20,13 +20,13 @@ export class AuthGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    if (this.hasValidTokens()) {
+    if (this.hasValidTokens() && this.activeUserService.getActiveUser() !== undefined && this.activeUserService.getActiveUser() !== null) {
       if (this.hasSomeUserRole()) {
         return Promise.resolve(true);
       }
       return this.canLoadUserRoles();
     }
-    return this.canRetrieveTokensFromOIDCServer();
+      return this.canRetrieveTokensFromOIDCServer();
   }
 
   private hasSomeUserRole(): boolean {

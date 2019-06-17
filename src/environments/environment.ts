@@ -22,17 +22,13 @@ export const environment = {
   userAndGroupDefaultPaginationSize: 20,
 
   //OIDC
-  // Url of the Identity Provider
   issuer: 'https://oidc.muni.cz/oidc/',
-  // URL of the SPA to redirect the user after silent refresh
-  silentRefreshRedirectUri: window.location.origin,
-  // URL of the SPA to redirect the user to after login
-  redirectUri: window.location.origin,
-  // The SPA's id. The SPA is registered with this id at the config-server
   clientId: 'b53f2660-8fa0-4d32-94e4-23a59d7e7077',
-  // set the scope for the permissions the client should request
+  redirectUri: window.location.origin,
   scope: 'openid profile email',
-  sessionChecksEnabled: false,
+  logoutUrl: 'https://oidc.muni.cz/oidc/endsession',
+  postLogoutRedirectUri: window.location.origin,
+  sessionChecksEnabled: true,
 
   // TOPOLOGY COMPONENT CONFIG
   topologyRestUrl: 'http://147.251.124.129:8085/kypo2-rest-topology/api/v1/sandboxes/',
