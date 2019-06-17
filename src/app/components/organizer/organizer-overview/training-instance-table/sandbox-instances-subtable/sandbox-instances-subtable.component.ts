@@ -46,8 +46,8 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
   isLoadingResults = false;
   isDisabled = false;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   filterByStatusFn = (data: SandboxInstanceTableAdapter, filter: string) =>
     data.sandboxInstance.state.toString().toLowerCase().indexOf(filter) !== -1;

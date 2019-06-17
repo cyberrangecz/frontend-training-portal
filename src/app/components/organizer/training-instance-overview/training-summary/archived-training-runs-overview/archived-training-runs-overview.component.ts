@@ -26,8 +26,8 @@ export class ArchivedTrainingRunsOverviewComponent extends BaseTrainingRunsOverv
   isLoadingResults = true;
   isInErrorState = false;
 
-  @ViewChild(MatPaginator) activeTrainingRunsPaginator: MatPaginator;
-  @ViewChild(MatSort) activeTrainingRunSort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) activeTrainingRunsPaginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) activeTrainingRunSort: MatSort;
 
   constructor(
     activeTrainingInstanceService: ActiveTrainingInstanceService,

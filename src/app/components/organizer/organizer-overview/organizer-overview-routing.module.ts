@@ -9,11 +9,11 @@ const routes: Routes = [
   },
   {
     path: 'training/:id',
-    loadChildren: 'app/components/organizer/training-instance-overview/training-instance-overview.module#TrainingInstanceOverviewModule',
+    loadChildren: () => import('app/components/organizer/training-instance-overview/training-instance-overview.module').then(m => m.TrainingInstanceOverviewModule),
   },
   {
     path: 'training/:id/access-token',
-    loadChildren: 'app/components/organizer/access-token-detail/access-token-detail.module#AccessTokenDetailModule'
+    loadChildren: () => import('app/components/organizer/access-token-detail/access-token-detail.module').then(m => m.AccessTokenDetailModule)
   },
 
 ];

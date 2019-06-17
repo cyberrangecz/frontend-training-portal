@@ -27,7 +27,7 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
 
   @Input('level') level: GameLevel;
 
-  @ViewChild('rightPanel') rightPanelDiv: ElementRef;
+  @ViewChild('rightPanel', { static: true }) rightPanelDiv: ElementRef;
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.calculateTopologySize()

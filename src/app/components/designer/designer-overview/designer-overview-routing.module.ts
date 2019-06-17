@@ -9,11 +9,11 @@ const routes: Routes = [
   },
   {
     path: 'training/new',
-    loadChildren: 'app/components/designer/training-definition/training-definition.module#TrainingDefinitionModule',
+    loadChildren: () => import('app/components/designer/training-definition/training-definition.module').then(m => m.TrainingDefinitionModule),
   },
   {
     path: 'training/:id',
-    loadChildren: 'app/components/designer/training-definition/training-definition.module#TrainingDefinitionModule',
+    loadChildren: () => import('app/components/designer/training-definition/training-definition.module').then(m => m.TrainingDefinitionModule),
   }
 ];
 

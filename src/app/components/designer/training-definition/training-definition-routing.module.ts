@@ -13,7 +13,7 @@ const routes: Routes = [
   },
   {
     path: 'preview',
-    loadChildren: 'app/components/designer/training-preview/training-preview.module#TrainingPreviewModule',
+    loadChildren: () => import('app/components/designer/training-preview/training-preview.module').then(m => m.TrainingPreviewModule),
   }
 
 ];

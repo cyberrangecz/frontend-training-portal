@@ -27,9 +27,9 @@ export class QuestionConfigurationComponent implements OnInit, OnChanges {
   isMcq: boolean = false;
   isEmi: boolean = false;
 
-  @ViewChild(FreeFormQuestionComponent) ffqChild: FreeFormQuestionComponent;
-  @ViewChild(MultipleChoiceQuestionComponent) mcqChild: MultipleChoiceQuestionComponent;
-  @ViewChild(ExtendedMatchingItemsComponent) emiChild: ExtendedMatchingItemsComponent;
+  @ViewChild(FreeFormQuestionComponent, { static: false }) ffqChild: FreeFormQuestionComponent;
+  @ViewChild(MultipleChoiceQuestionComponent, { static: false }) mcqChild: MultipleChoiceQuestionComponent;
+  @ViewChild(ExtendedMatchingItemsComponent, { static: false }) emiChild: ExtendedMatchingItemsComponent;
 
   constructor() { }
 

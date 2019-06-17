@@ -9,11 +9,11 @@ const routes: Routes = [
   },
   {
     path: 'training/game',
-    loadChildren: 'app/components/trainee/training-run/training-run.module#TrainingRunModule',
+    loadChildren: () => import('app/components/trainee/training-run/training-run.module').then(m => m.TrainingRunModule),
   },
   {
     path: 'training/:id/results',
-    loadChildren: 'app/components/trainee/training-run/training-run-results/training-run-results.module#TrainingRunResultsModule',
+    loadChildren: () => import('app/components/trainee/training-run/training-run-results/training-run-results.module').then(m => m.TrainingRunResultsModule),
   }
 ];
 

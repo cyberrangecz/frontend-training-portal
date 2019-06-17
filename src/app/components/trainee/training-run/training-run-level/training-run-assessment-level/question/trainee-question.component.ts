@@ -19,9 +19,9 @@ export class TraineeQuestionComponent implements OnInit, OnChanges {
 
   @Output('contentChanged') contentChanged: EventEmitter<number> = new EventEmitter();
 
-  @ViewChild(FreeFormQuestionTraineeComponent) ffqChild: FreeFormQuestionTraineeComponent;
-  @ViewChild(ExtendedMatchingItemsTraineeComponent) emiChild: ExtendedMatchingItemsTraineeComponent;
-  @ViewChild(MultipleChoiceQuestionTraineeComponent) mcqChild: MultipleChoiceQuestionTraineeComponent;
+  @ViewChild(FreeFormQuestionTraineeComponent, { static: false }) ffqChild: FreeFormQuestionTraineeComponent;
+  @ViewChild(ExtendedMatchingItemsTraineeComponent, { static: false }) emiChild: ExtendedMatchingItemsTraineeComponent;
+  @ViewChild(MultipleChoiceQuestionTraineeComponent, { static: false }) mcqChild: MultipleChoiceQuestionTraineeComponent;
 
 
   isEmi: boolean = false;

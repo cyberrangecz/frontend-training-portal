@@ -22,7 +22,7 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
   @Input('trainingDefinitionId') trainingDefinitionId: number;
   @Output('deleteLevel') deleteLevel: EventEmitter<number> = new EventEmitter();
 
-  @ViewChild(HintStepperComponent) childComponent: HintStepperComponent;
+  @ViewChild(HintStepperComponent, { static: false }) childComponent: HintStepperComponent;
 
 
   title: string;

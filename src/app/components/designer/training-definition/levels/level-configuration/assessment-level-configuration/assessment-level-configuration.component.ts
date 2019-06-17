@@ -19,7 +19,7 @@ import {LevelsDefinitionService} from "../../../../../../services/designer/level
  */
 export class AssessmentLevelConfigurationComponent implements OnInit {
 
-  @ViewChild(QuestionsOverviewComponent) childComponent: QuestionsOverviewComponent;
+  @ViewChild(QuestionsOverviewComponent, { static: false }) childComponent: QuestionsOverviewComponent;
 
   @Input('level') level: AssessmentLevel;
   @Input('trainingDefinitionId') trainingDefinitionId: number;

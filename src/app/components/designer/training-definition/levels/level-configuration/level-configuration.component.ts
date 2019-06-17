@@ -19,9 +19,9 @@ import {TrainingDefinitionFacade} from "../../../../../services/facades/training
  */
 export class LevelConfigurationComponent implements OnInit, OnChanges {
 
-  @ViewChild(GameLevelConfigurationComponent) gameLevelComponent;
-  @ViewChild(AssessmentLevelConfigurationComponent) assessmentLevelComponent;
-  @ViewChild(InfoLevelConfigurationComponent) infoLevelComponent;
+  @ViewChild(GameLevelConfigurationComponent, { static: false }) gameLevelComponent;
+  @ViewChild(AssessmentLevelConfigurationComponent, { static: false }) assessmentLevelComponent;
+  @ViewChild(InfoLevelConfigurationComponent, { static: false }) infoLevelComponent;
 
   @Input('level') level: AbstractLevel;
   @Input('trainingDefinitionId') trainingDefinitionId: number;

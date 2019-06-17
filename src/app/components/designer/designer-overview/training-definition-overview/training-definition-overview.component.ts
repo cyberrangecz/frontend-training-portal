@@ -43,8 +43,8 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
   isLoadingResults = true;
   isInErrorState = false;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
     private router: Router,

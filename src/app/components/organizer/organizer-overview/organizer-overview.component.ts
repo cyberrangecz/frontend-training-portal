@@ -11,7 +11,7 @@ import {TrainingInstancesTableComponent} from "./training-instance-table/trainin
  */
 export class OrganizerOverviewComponent implements OnInit {
 
-  @ViewChild(TrainingInstancesTableComponent) trainingInstancesListComponent: TrainingInstancesTableComponent;
+  @ViewChild(TrainingInstancesTableComponent, { static: true }) trainingInstancesListComponent: TrainingInstancesTableComponent;
 
   constructor() { }
 

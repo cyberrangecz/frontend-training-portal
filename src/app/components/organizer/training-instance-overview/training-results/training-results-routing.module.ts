@@ -12,22 +12,22 @@ const routes: Routes = [
         children: [
           {
             path: 'scatter-plot',
-            loadChildren: 'app/components/organizer/training-instance-overview/training-results/score-scatter-plot-view/score-scatter-plot-view.module#ScoreScatterPlotViewModule',
+            loadChildren: () => import('app/components/organizer/training-instance-overview/training-results/score-scatter-plot-view/score-scatter-plot-view.module').then(m => m.ScoreScatterPlotViewModule),
             outlet: 'view',
           },
           {
             path: 'score-development',
-            loadChildren: 'app/components/organizer/training-instance-overview/training-results/score-development-view/score-development-view.module#ScoreDevelopmentViewModule',
+            loadChildren: () => import('app/components/organizer/training-instance-overview/training-results/score-development-view/score-development-view.module').then(m => m.ScoreDevelopmentViewModule),
             outlet: 'view',
           },
           {
             path: 'combined',
-            loadChildren: 'app/components/organizer/training-instance-overview/training-results/combined-view/combined-view.module#CombinedViewModule',
+            loadChildren: () => import('app/components/organizer/training-instance-overview/training-results/combined-view/combined-view.module').then(m => m.CombinedViewModule),
             outlet: 'view',
           },
           {
             path: 'progress',
-            loadChildren: 'app/components/organizer/training-instance-overview/training-results/training-progress-view/training-progress-view.module#TrainingProgressViewModule',
+            loadChildren: () => import('app/components/organizer/training-instance-overview/training-results/training-progress-view/training-progress-view.module').then(m => m.TrainingProgressViewModule),
             outlet: 'view',
           }
         ]

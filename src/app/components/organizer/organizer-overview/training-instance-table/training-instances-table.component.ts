@@ -47,8 +47,8 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
   expandedRow: TrainingInstanceTableAdapter;
   now: number;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   private _currentTimeUpdateSubscription: Subscription;
 

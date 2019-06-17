@@ -34,8 +34,8 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
 
   dataSource: MatTableDataSource<SandboxDefinitionTableAdapter>;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   isLoadingResults = true;
   isInErrorState = false;

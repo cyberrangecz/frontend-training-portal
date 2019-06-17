@@ -14,17 +14,17 @@ const routes: Routes = [
         children: [
           {
             path: 'summary',
-            loadChildren: 'app/components/organizer/training-instance-overview/training-summary/training-summary.module#TrainingSummaryModule',
+            loadChildren: () => import('app/components/organizer/training-instance-overview/training-summary/training-summary.module').then(m => m.TrainingSummaryModule),
             outlet: 'display'
           },
           {
             path: 'progress',
-            loadChildren: 'app/components/organizer/training-instance-overview/training-progress/training-progress.module#TrainingProgressModule',
+            loadChildren: () => import('app/components/organizer/training-instance-overview/training-progress/training-progress.module').then(m => m.TrainingProgressModule),
             outlet: 'display'
           },
           {
             path: 'results',
-            loadChildren: 'app/components/organizer/training-instance-overview/training-results/training-results.module#TrainingResultsModule',
+            loadChildren: () => import('app/components/organizer/training-instance-overview/training-results/training-results.module').then(m => m.TrainingResultsModule),
             outlet: 'display'
           }
         ]

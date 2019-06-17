@@ -22,8 +22,8 @@ import {of} from "rxjs/internal/observable/of";
  */
 export class TrainingDefinitionComponent implements OnInit {
 
-  @ViewChild(TrainingConfigurationComponent) trainingConfigurationComponent;
-  @ViewChild(TrainingLevelStepperComponent) trainingLevelStepperComponent;
+  @ViewChild(TrainingConfigurationComponent, { static: true }) trainingConfigurationComponent;
+  @ViewChild(TrainingLevelStepperComponent, { static: true }) trainingLevelStepperComponent;
 
   trainingDefinition$: Observable<TrainingDefinition>;
 
