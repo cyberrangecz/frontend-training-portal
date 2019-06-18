@@ -68,7 +68,7 @@ export class ArchivedTrainingRunsOverviewComponent extends BaseTrainingRunsOverv
         switchMap(() => {
           timeoutHandle = setTimeout(() => this.isLoadingResults = true, environment.defaultDelayToDisplayLoading);
           return this.trainingInstanceFacade.getTrainingRunsByTrainingInstanceIdWithPagination(this.trainingInstance.id,
-            this.activeTrainingRunsPaginator.pageIndex, this.activeTrainingRunsPaginator.pageSize, this.activeTrainingRunSort.active, this.activeTrainingRunSort.direction)
+            this.activeTrainingRunsPaginator.pageIndex, this.activeTrainingRunsPaginator.pageSize, this.activeTrainingRunSort.active, this.activeTrainingRunSort.direction, false)
         }),
         map(data => {
           window.clearTimeout(timeoutHandle);
