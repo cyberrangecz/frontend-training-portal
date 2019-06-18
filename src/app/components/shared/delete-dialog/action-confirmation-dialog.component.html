@@ -1,6 +1,7 @@
 <h1 mat-dialog-title>{{ data.action | titlecase }} {{ data.type | titlecase }}</h1>
 <div mat-dialog-content>
   <p class="mat-body-1">Do you really want to {{ data.action }} {{ data.type }}: {{ data.title | titlecase }} </p>
+  <p class="mat-body-1" *ngIf="data.additionalInfo"> {{ data.additionalInfo }}</p>
 </div>
 <div mat-dialog-actions>
   <button mat-button color="warn" cdkFocusInitial (click)="cancel()">Cancel</button>

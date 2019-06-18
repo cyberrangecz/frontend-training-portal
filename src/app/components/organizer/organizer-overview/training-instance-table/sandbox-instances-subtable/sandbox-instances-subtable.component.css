@@ -18,24 +18,17 @@ h2 {
   margin-right: 10px;
 }
 
-.allocation-state-text {
-}
 
 .allocation-progress {
   max-width: 30%;
   margin-right: 10px;
 }
 
-
-
 .mat-form-field {
   font-size: 14px;
   width: 100%;
 }
 
-.mat-sort-header-container {
-  align-items: center;
-}
 
 .mat-progress-bar {
   width: 70%;
@@ -56,8 +49,11 @@ h2 {
 .sandbox-table {
   margin: auto auto;
   flex-grow: 10;
-  justify-items: center;
-  justify-content: center;
+}
+
+:host ::ng-deep .mat-sort-header-container {
+  display: flex;
+  justify-content: left;
 }
 
 table {
@@ -67,6 +63,7 @@ table {
 td.id, th.id {
   width: 20%;
 }
+
 td.state, th.state {
   width: 50%;
 }

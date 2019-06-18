@@ -1,6 +1,5 @@
 export enum TrainingRunStateEnum {
-  New = 'new',
-  Ready = 'ready',
-  Allocated = 'allocated',
-  Finished = 'finished'
+  RUNNING = 'running',
+  FINISHED = 'finished',
+  ARCHIVED = 'archived'
 }

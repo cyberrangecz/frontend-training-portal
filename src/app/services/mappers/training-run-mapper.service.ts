@@ -207,10 +207,9 @@ export class TrainingRunMapper {
 
   private mapTrainigRunDTOStateToEnum(state: TrainingRunDTO.StateEnum): TrainingRunStateEnum {
     switch (state) {
-      case TrainingRunDTO.StateEnum.ALLOCATED: return TrainingRunStateEnum.Allocated;
-      case TrainingRunDTO.StateEnum.NEW: return TrainingRunStateEnum.New;
-      case TrainingRunDTO.StateEnum.READY: return TrainingRunStateEnum.Ready;
-      case TrainingRunDTO.StateEnum.FINISHED: return TrainingRunStateEnum.Finished;
+      case TrainingRunDTO.StateEnum.RUNNING: return TrainingRunStateEnum.RUNNING;
+      case TrainingRunDTO.StateEnum.FINISHED: return TrainingRunStateEnum.FINISHED;
+      case TrainingRunDTO.StateEnum.ARCHIVED: return TrainingRunStateEnum.ARCHIVED;
       default: {
         console.error('Could not map training run state to enum');
         return null;

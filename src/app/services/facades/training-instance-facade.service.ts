@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from "rxjs/internal/Observable";
 import {TrainingInstance} from "../../model/training/training-instance";
 import {environment} from "../../../environments/environment";
@@ -83,14 +83,16 @@ export class TrainingInstanceFacade {
       )
   }
 
-  getTrainingRunsByTrainingInstanceId(trainingInstanceId: number): Observable<TrainingRun[]> {
+  getTrainingRunsByTrainingInstanceId(trainingInstanceId: number, isActive = true): Observable<TrainingRun[]> {
+    let params =     new HttpParams().set("isActive", isActive.toString());
     return this.http.get<TrainingRunRestResource>(`${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.trainingRunsUriExtension}`)
       .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
   }
 
-  getTrainingRunsByTrainingInstanceIdWithPagination(trainingInstanceId: number, page: number, size: number, sort: string, sortDir: string)
+  getTrainingRunsByTrainingInstanceIdWithPagination(trainingInstanceId: number, page: number, size: number, sort: string, sortDir: string, isActive = true)
       : Observable<PaginatedTable<TrainingRunTableAdapter[]>> {
       let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
+      params = params.append("isActive", isActive.toString());
         return this.http.get<TrainingRunRestResource>(
           this.trainingInstancesEndpointUri + trainingInstanceId + '/' + this.trainingRunsUriExtension,
           { params: params })

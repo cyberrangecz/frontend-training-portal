@@ -20,7 +20,7 @@ import {PaginatedTable} from "../../../../../model/table-adapters/paginated-tabl
 })
 export class ArchivedTrainingRunsOverviewComponent extends BaseTrainingRunsOverview implements OnInit, OnDestroy {
 
-  displayedColumns: string[] = ['sandboxInstanceId', 'sandboxInstanceState', 'player', 'state'];
+  displayedColumns: string[] = ['player', 'state'];
   archivedTrainingRunsDataSource: MatTableDataSource<TrainingRunTableAdapter>;
 
   resultsLength = 0;

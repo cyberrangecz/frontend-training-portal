@@ -13,10 +13,9 @@ import {ErrorHandlerService} from "../../../../../services/shared/error-handler.
 import {TrainingRunTableAdapter} from "../../../../../model/table-adapters/training-run-table-adapter";
 import {PaginatedTable} from "../../../../../model/table-adapters/paginated-table";
 import {environment} from "../../../../../../environments/environment";
-import {TrainingRunFacade} from "../../../../../services/facades/training-run-facade.service";
 import {BaseTrainingRunsOverview} from "../base-training-runs-overview";
-import {TrainingRunStateEnum} from "../../../../../model/enums/training-run-state.enum";
 import {ActionConfirmationDialog} from "../../../../shared/delete-dialog/action-confirmation-dialog.component";
+import {SandboxInstanceFacade} from "../../../../../services/facades/sandbox-instance-facade.service";
 
 @Component({
   selector: 'active-training-runs-overview',
@@ -32,18 +31,29 @@ export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOvervie
   activeTrainingRunsDataSource: MatTableDataSource<TrainingRunTableAdapter>;
 
   resultsLength = 0;
-  isLoadingResults = true;
+  isLoadingTrainingRunResults = true;
+  isLoadingSandboxResults = true;
   isInErrorState = false;
+
+  toAllocateInput: number;
+  hasSandboxesInfoError = false;
+  sandboxDeletionRunningCount: number;
+  sandboxAllocationRunningCount: number;
+  sandboxFailedCount: number;
+  sandboxAvailableCount: number;
+  sandboxCanBeAllocatedCount: number;
+
 
   @ViewChild(MatPaginator, { static: true }) activeTrainingRunsPaginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) activeTrainingRunSort: MatSort;
+
 
   constructor(
     activeTrainingInstanceService: ActiveTrainingInstanceService,
     private dialog: MatDialog,
     private alertService: AlertService,
     private errorHandler: ErrorHandlerService,
-    private trainingRunFacade: TrainingRunFacade,
+    private sandboxInstanceFacade: SandboxInstanceFacade,
     private trainingInstanceFacade: TrainingInstanceFacade) {
     super(activeTrainingInstanceService)
   }
@@ -60,11 +70,11 @@ export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOvervie
    * Reverts selected training run
    * @param row table object of training run
    */
-  revertTrainingRun(row: TrainingRunTableAdapter) {
-    if (row.trainingRun.player && row.trainingRun.state === TrainingRunStateEnum.Allocated) {
-      this.askForRevertConfirmation(row);
+  deleteSandboxOfTrainingRun(row: TrainingRunTableAdapter) {
+    if (row.trainingRun.hasPlayer() && row.trainingRun.isRunning()) {
+      this.askForDeleteSandboxConfirmation(row);
     } else {
-      this.sendRequestToRevertTrainingRun(row.trainingRun.id);
+      this.sendRequestToDeleteSandbox(row);
     }
   }
 
@@ -87,32 +97,62 @@ export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOvervie
     this.activeTrainingRunsPaginator.pageSize = environment.defaultPaginationSize;
     this.activeTrainingRunSort.active = 'state';
     this.activeTrainingRunSort.direction = 'desc';
-    this.fetchData();
+    this.fetchTrainingRuns();
   }
 
   /**
    * Fetch data from server
    */
   protected fetchData() {
+    this.fetchTrainingRuns();
+    this.fetchInfoForSandboxes();
+  }
+
+  private fetchInfoForSandboxes() {
+    let timeoutHandle = setTimeout(() => this.isLoadingSandboxResults = true, environment.defaultDelayToDisplayLoading);
+    this.sandboxInstanceFacade.getSandboxesInPool(this.trainingInstance.poolId)
+      .subscribe(
+        sandboxes => {
+            window.clearTimeout(timeoutHandle);
+            this.isLoadingSandboxResults = false;
+            this.hasSandboxesInfoError = false;
+            this.sandboxFailedCount = sandboxes.filter(sandbox => sandbox.isFailed()).length;
+            this.sandboxDeletionRunningCount = sandboxes.filter(sandbox => sandbox.isBeingDeleted()).length;
+            this.sandboxAllocationRunningCount = sandboxes.filter(sandbox => sandbox.isInProgress()).length - this.sandboxDeletionRunningCount;
+            this.sandboxAvailableCount = sandboxes.filter(sandbox => sandbox.isCreated()).length - this.resultsLength;
+            this.sandboxCanBeAllocatedCount = this.trainingInstance.poolSize - sandboxes.length - this.sandboxFailedCount;
+            if (this.toAllocateInput === undefined) {
+              this.toAllocateInput = this.sandboxCanBeAllocatedCount;
+            }
+          },
+          err => {
+          window.clearTimeout(timeoutHandle);
+          this.isLoadingSandboxResults = false;
+          this.hasSandboxesInfoError = true;
+        }
+      )
+  }
+
+  private fetchTrainingRuns() {
     let timeoutHandle = 0;
     merge(this.activeTrainingRunSort.sortChange, this.activeTrainingRunsPaginator.page)
       .pipe(
         startWith({}),
         switchMap(() => {
-          timeoutHandle = setTimeout(() => this.isLoadingResults = true, environment.defaultDelayToDisplayLoading);
+          timeoutHandle = setTimeout(() => this.isLoadingTrainingRunResults = true, environment.defaultDelayToDisplayLoading);
           return this.trainingInstanceFacade.getTrainingRunsByTrainingInstanceIdWithPagination(this.trainingInstance.id,
             this.activeTrainingRunsPaginator.pageIndex, this.activeTrainingRunsPaginator.pageSize, this.activeTrainingRunSort.active, this.activeTrainingRunSort.direction)
         }),
         map(data => {
           window.clearTimeout(timeoutHandle);
-          this.isLoadingResults = false;
+          this.isLoadingTrainingRunResults = false;
           this.isInErrorState = false;
           this.resultsLength = data.tablePagination.totalElements;
           return data;
         }),
         catchError(() => {
           window.clearTimeout(timeoutHandle);
-          this.isLoadingResults = false;
+          this.isLoadingTrainingRunResults = false;
           this.isInErrorState = true;
           return of([]);
         })
@@ -131,29 +171,46 @@ export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOvervie
   }
 
 
-  private askForRevertConfirmation(row: TrainingRunTableAdapter) {
+  private askForDeleteSandboxConfirmation(row: TrainingRunTableAdapter) {
     const sandboxId: string = row.trainingRun.sandboxInstanceId ? row.trainingRun.sandboxInstanceId.toString() : '';
     const dialogRef = this.dialog.open(ActionConfirmationDialog, {
       data: {
         type: 'sandbox instance',
         title: sandboxId,
-        action: 'revert'
+        action: 'delete'
       }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
-        this.sendRequestToRevertTrainingRun(row.trainingRun.id)
+        this.sendRequestToDeleteSandbox(row)
       }
     });
   }
 
-  private sendRequestToRevertTrainingRun(trainingRunId: number) {
-    this.trainingRunFacade.revert(trainingRunId).subscribe(
+  private sendRequestToAllocateSandboxes(count: number) {
+    this.sandboxInstanceFacade.allocateSandbox(this.trainingInstance.id, count)
+      .subscribe(
+        response => {
+          this.alertService.emitAlert(AlertTypeEnum.Success, 'Allocation of sandboxes has begun');
+          this.fetchInfoForSandboxes();
+        },
+        err => {
+          this.errorHandler.displayInAlert(err, 'Allocation of sandboxes');
+        }
+      )
+  }
+
+  private sendRequestToDeleteSandbox(row: TrainingRunTableAdapter) {
+    row.deletionRequested = true;
+    this.sandboxInstanceFacade.deleteSandbox(this.trainingInstance.id, row.trainingRun.sandboxInstanceId)
+      .subscribe(
       response => {
-        this.alertService.emitAlert(AlertTypeEnum.Success, 'Training run was successfully reverted');
+        this.alertService.emitAlert(AlertTypeEnum.Success, 'Deletion of sandbox instance has started');
+        this.fetchData();
       },
       err => {
-        this.errorHandler.displayInAlert(err, 'Reverting training run');
+        row.deletionRequested = false;
+        this.errorHandler.displayInAlert(err, 'Deletion sandbox instance');
       }
     )
   }

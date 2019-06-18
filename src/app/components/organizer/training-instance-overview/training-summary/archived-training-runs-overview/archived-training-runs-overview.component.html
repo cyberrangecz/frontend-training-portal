@@ -13,23 +13,6 @@
         </div>
 
         <table mat-table [dataSource]="archivedTrainingRunsDataSource" matSort>
-
-          <!-- SANDBOX ID Column -->
-          <ng-container matColumnDef="sandboxInstanceId">
-            <th class="sandboxInstanceId" mat-header-cell *matHeaderCellDef>Sandbox ID</th>
-            <td class="sandboxInstanceId" mat-cell *matCellDef="let data">
-              {{ data.trainingRun?.sandboxInstanceId }}
-            </td>
-          </ng-container>
-
-          <!-- SANDBOX STATE Column -->
-          <ng-container matColumnDef="sandboxInstanceState">
-            <th class="sandboxInstanceState" mat-header-cell *matHeaderCellDef>Sandbox State</th>
-            <td class="sandboxInstanceState" mat-cell *matCellDef="let data">
-              {{ data.trainingRun?.sandboxInstanceState }}
-            </td>
-          </ng-container>
-
           <!-- PLAYER NAME Column -->
           <ng-container matColumnDef="player">
             <th class="playerId" mat-header-cell *matHeaderCellDef>Player</th>
