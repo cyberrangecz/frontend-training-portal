@@ -67,8 +67,8 @@ export class TrainingInstanceMapper {
     result.organizers = this.userMapper.mapUserRefDTOsToUsers(trainingInstanceDTO.organizers);
     result.accessToken = trainingInstanceDTO.access_token;
     result.poolId = trainingInstanceDTO.pool_id;
-    if (trainingInstanceDTO.sandboxes) {
-      result.sandboxWithTrainingRunIds = trainingInstanceDTO.sandboxes;
+    if (trainingInstanceDTO.sandboxes_with_training_run) {
+      result.sandboxWithTrainingRunIds = trainingInstanceDTO.sandboxes_with_training_run;
     }
     return result;
   }
