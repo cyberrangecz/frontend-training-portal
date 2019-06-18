@@ -7,7 +7,6 @@ export const authConfig: AuthConfig = {
   clientId: environment.clientId,
   scope: environment.scope,
   logoutUrl: environment.logoutUrl,
-  sessionChecksEnabled: environment.sessionChecksEnabled,
   postLogoutRedirectUri: environment.postLogoutRedirectUri,
   clearHashAfterLogin: true,
 };

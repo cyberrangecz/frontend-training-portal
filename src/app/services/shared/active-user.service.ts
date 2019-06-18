@@ -78,7 +78,6 @@ export class ActiveUserService {
 
   logout() {
     this.setActiveUser(undefined);
-    //localStorage.clear();
     this.oAuthService.logOut(false);
   }
 
