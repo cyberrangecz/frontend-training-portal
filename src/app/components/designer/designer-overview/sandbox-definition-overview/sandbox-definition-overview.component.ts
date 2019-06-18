@@ -70,7 +70,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
   /**
    * Displays dialog window to upload a file with sandbox definition and creates alert with a result of the upload
    */
-  uploadSandboxDefinition() {
+  addSandboxDefinition() {
     const dialogRef = this.dialog.open(AddSandboxDefinitionDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'success') {
