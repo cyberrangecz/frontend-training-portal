@@ -25,6 +25,6 @@
           mat-button color="warn">Cancel</button>
   <span class="spacer"></span>
   <button (click)="confirm()"
-          [disabled]="!selectedOrganizers || selectedOrganizers.length === 1"
+          [disabled]="!selectedOrganizers || selectedOrganizers.length < 1"
           mat-button color="primary">Confirm</button>
 </div>
