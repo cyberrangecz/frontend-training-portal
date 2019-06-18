@@ -1,5 +1,5 @@
 <div class="training">
-  <div class="sandboxes">
+  <div class="sandboxes" *ngIf="trainingInstance?.endTime.valueOf() > now">
     <h2>Sandboxes</h2>
     <div class="sandbox-error" *ngIf="hasSandboxesInfoError">
       <p color="warn">Could not reach server.</p>

@@ -4,7 +4,7 @@ import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import {ActiveTrainingInstanceService} from "../../../../../services/organizer/active-training-instance.service";
-import {merge, of} from "rxjs";
+import {interval, merge, of, Subscription} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {AlertService} from "../../../../../services/shared/alert.service";
 import {AlertTypeEnum} from "../../../../../model/enums/alert-type.enum";
@@ -34,6 +34,7 @@ export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOvervie
   isLoadingTrainingRunResults = true;
   isLoadingSandboxResults = true;
   isInErrorState = false;
+  now: number;
 
   toAllocateInput: number;
   hasSandboxesInfoError = false;
@@ -43,6 +44,8 @@ export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOvervie
   sandboxAvailableCount: number;
   sandboxCanBeAllocatedCount: number;
 
+
+  private _currentTimeUpdateSubscription: Subscription;
 
   @ViewChild(MatPaginator, { static: true }) activeTrainingRunsPaginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) activeTrainingRunSort: MatSort;
@@ -60,6 +63,8 @@ export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOvervie
 
   ngOnInit() {
     super.ngOnInit();
+    this.initCurrentTimePeriodicalUpdate();
+
   }
 
   ngOnDestroy() {
@@ -213,6 +218,13 @@ export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOvervie
         this.errorHandler.displayInAlert(err, 'Deletion sandbox instance');
       }
     )
+  }
+
+  private initCurrentTimePeriodicalUpdate() {
+    this.now = Date.now();
+    this._currentTimeUpdateSubscription = interval(60000).subscribe(value =>
+      this.now = Date.now()
+    );
   }
 
 }
