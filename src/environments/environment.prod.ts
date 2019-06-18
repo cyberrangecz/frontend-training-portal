@@ -25,7 +25,7 @@ export const environment = {
   clientId: 'b53f2660-8fa0-4d32-94e4-23a59d7e7077',
   scope: 'openid profile email',
   logoutUrl: 'https://oidc.muni.cz/oidc/endsession',
-  postLogoutRedirectUri: window.location.origin,
+  postLogoutRedirectUri: window.location.origin + '/logout-confirmed',
 
   // TOPOLOGY COMPONENT CONFIG
   topologyRestUrl: 'http://147.251.124.129:8085/kypo2-rest-topology/api/v1/sandboxes/',
