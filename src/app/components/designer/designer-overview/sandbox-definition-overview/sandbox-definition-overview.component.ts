@@ -8,9 +8,6 @@ import {ActiveUserService} from "../../../../services/shared/active-user.service
 import {SandboxDefinitionFacade} from "../../../../services/facades/sandbox-definition-facade.service";
 import {TrainingDefinitionFacade} from "../../../../services/facades/training-definition-facade.service";
 import {AlertService} from "../../../../services/shared/alert.service";
-import {TrainingDefinitionStateEnum} from "../../../../model/enums/training-definition-state.enum";
-import {TrainingDefinition} from "../../../../model/training/training-definition";
-import {DesignerUploadDialogComponent} from "../../upload-dialog/designer-upload-dialog.component";
 import {merge, of} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {environment} from "../../../../../environments/environment";
@@ -19,6 +16,7 @@ import {ErrorHandlerService} from "../../../../services/shared/error-handler.ser
 import {SandboxDefinitionTableAdapter} from "../../../../model/table-adapters/sandbox-definition-table-adapter";
 import {AssociatedTrainingDefinitionsDialogComponent} from './associated-training-definitions-dialog/associated-training-definitions-dialog.component';
 import {TrainingDefinitionInfo} from '../../../../model/training/training-definition-info';
+import {AddSandboxDefinitionDialogComponent} from "./add-sandbox-definition-dialog/add-sandbox-definition-dialog.component";
 import {ActionConfirmationDialog} from "../../../shared/delete-dialog/action-confirmation-dialog.component";
 
 @Component({
@@ -73,15 +71,10 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
    * Displays dialog window to upload a file with sandbox definition and creates alert with a result of the upload
    */
   uploadSandboxDefinition() {
-    const dialogRef = this.dialog.open(DesignerUploadDialogComponent, {
-      data: {
-        title: 'Upload Sandbox Definition',
-        type: 'sandbox'
-      }
-    });
+    const dialogRef = this.dialog.open(AddSandboxDefinitionDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.alertService.emitAlert(result.type, result.message);
+      if (result && result.type === 'success') {
+        this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox definition was successfully uploaded');
         this.fetchData();
       }
     });

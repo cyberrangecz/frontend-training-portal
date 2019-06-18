@@ -5,7 +5,7 @@ import {DesignerOverviewComponent} from "./designer-overview.component";
 import {DesignerOverviewMaterialModule} from "./designer-overview-material.module";
 import { TrainingDefinitionOverviewComponent } from './training-definition-overview/training-definition-overview.component';
 import { SandboxDefinitionOverviewComponent } from './sandbox-definition-overview/sandbox-definition-overview.component';
-import { DesignerUploadDialogComponent } from '../upload-dialog/designer-upload-dialog.component';
+import { TrainingDefinitionUploadDialogComponent } from './training-definition-overview/training-definition-upload-dialog/training-definition-upload-dialog.component';
 import {SharedModule} from "../../shared/shared.module";
 import {TrainingDefinitionFacadeModule} from '../../../services/facades/modules/training-definition-facade.module';
 import {TrainingInstanceFacadeModule} from '../../../services/facades/modules/training-instance-facade.module';
@@ -17,6 +17,7 @@ import {FormsModule} from '@angular/forms';
 import {StateChangeDialogComponent} from './training-definition-overview/state-change-dialog/state-change-dialog.component';
 import { AuthorsListDialogComponent } from './training-definition-overview/authors-list-dialog/authors-list-dialog.component';
 import { CloneDialogComponent } from './training-definition-overview/clone-dialog/clone-dialog.component';
+import { AddSandboxDefinitionDialogComponent } from './sandbox-definition-overview/add-sandbox-definition-dialog/add-sandbox-definition-dialog.component';
 
 @NgModule({
   imports: [
@@ -33,19 +34,21 @@ import { CloneDialogComponent } from './training-definition-overview/clone-dialo
   ],
   declarations: [
     DesignerOverviewComponent,
-    DesignerUploadDialogComponent,
+    TrainingDefinitionUploadDialogComponent,
     TrainingDefinitionOverviewComponent,
     SandboxDefinitionOverviewComponent,
     AssociatedTrainingDefinitionsDialogComponent,
     StateChangeDialogComponent,
     AuthorsListDialogComponent,
-    CloneDialogComponent
+    CloneDialogComponent,
+    AddSandboxDefinitionDialogComponent
   ],
   providers: [
   ],
   entryComponents: [
-    DesignerUploadDialogComponent,
+    TrainingDefinitionUploadDialogComponent,
     AssociatedTrainingDefinitionsDialogComponent,
+    AddSandboxDefinitionDialogComponent,
     StateChangeDialogComponent,
     AuthorsListDialogComponent,
     CloneDialogComponent
