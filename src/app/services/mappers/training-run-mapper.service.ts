@@ -82,7 +82,7 @@ export class TrainingRunMapper {
     result.endTime = new Date(trainingRunDTO.end_time);
     result.eventLogReference = trainingRunDTO.event_log_reference;
     if (trainingRunDTO.sandbox_instance_ref) {
-      result.sandboxInstanceId = trainingRunDTO.sandbox_instance_ref.id;
+      result.sandboxInstanceId = trainingRunDTO.sandbox_instance_ref.sandbox_instance_ref;
     }
 
     result.player = this.userMapper.mapUserRefDTOToUser(trainingRunDTO.participant_ref);
