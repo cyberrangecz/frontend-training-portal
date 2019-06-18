@@ -1,0 +1,25 @@
+<h1 mat-dialog-title>Add Sandbox Definition</h1>
+<div mat-dialog-content class="content">
+  <!-- URL field-->
+  <mat-form-field appearance="outline">
+    <mat-label>Gitlab URL</mat-label>
+    <input matInput placeholder="Gitlab URL" [(ngModel)]="gitlabUrl" required>
+    <button mat-button *ngIf="gitlabUrl" matSuffix mat-icon-button aria-label="Clear" (click)="gitlabUrl='';">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <!-- REVISION field-->
+  <mat-form-field appearance="outline">
+    <mat-label>Revision</mat-label>
+    <input matInput placeholder="Revision" [(ngModel)]="revision" required>
+    <button mat-button *ngIf="revision" matSuffix mat-icon-button aria-label="Clear" (click)="revision='';">
+      <mat-icon>close</mat-icon>
+    </button>
+ </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button cdkFocusInitial color="warn" (click)="cancel()">Cancel</button>
+  <span class="spacer"></span>
+  <button mat-button color="primary" [disabled]="gitlabUrl === undefined || revision == undefined || gitlabUrl === '' || revision === ''" (click)="add()">Add</button>
+</div>

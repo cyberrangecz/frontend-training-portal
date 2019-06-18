@@ -1,28 +1,23 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import {AlertTypeEnum} from "../../../model/enums/alert-type.enum";
-import {UploadService} from "../../../services/shared/upload.service";
-import {TrainingDefinition} from '../../../model/training/training-definition';
-import {TrainingDefinitionFacade} from '../../../services/facades/training-definition-facade.service';
-import {SandboxDefinitionFacade} from "../../../services/facades/sandbox-definition-facade.service";
-
+import {TrainingDefinitionFacade} from "../../../../../services/facades/training-definition-facade.service";
+import {AlertTypeEnum} from "../../../../../model/enums/alert-type.enum";
 @Component({
   selector: 'designer-training-upload-dialog',
-  templateUrl: './designer-upload-dialog.component.html',
-  styleUrls: ['./designer-upload-dialog.component.css']
+  templateUrl: './training-definition-upload-dialog.component.html',
+  styleUrls: ['./training-definition-upload-dialog.component.css']
 })
 /**
  * Component of training definition upload dialog window
  */
-export class DesignerUploadDialogComponent implements OnInit {
+export class TrainingDefinitionUploadDialogComponent implements OnInit {
 
   selectedFile: File;
   uploadInProgress = false;
 
-  constructor(public dialogRef: MatDialogRef<DesignerUploadDialogComponent>,
+  constructor(public dialogRef: MatDialogRef<TrainingDefinitionUploadDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data,
-              private trainingDefinitionFacade: TrainingDefinitionFacade,
-              private sandboxDefinitionFacade: SandboxDefinitionFacade) {
+              private trainingDefinitionFacade: TrainingDefinitionFacade) {
   }
 
   ngOnInit() {
@@ -42,9 +37,6 @@ export class DesignerUploadDialogComponent implements OnInit {
     if (this.data.type == 'training') {
       this.uploadTrainingDefinition()
     }
-    if (this.data.type == 'sandbox') {
-      this.uploadSandboxDefinition()
-    }
   }
 
   /**
@@ -60,15 +52,6 @@ export class DesignerUploadDialogComponent implements OnInit {
       .subscribe(
         resp => this.uploadSuccess('Training definition was successfully uploaded.'),
         err => this.uploadFailure(err));
-  }
-
-  private uploadSandboxDefinition() {
-    this.uploadInProgress = true;
-    this.sandboxDefinitionFacade.uploadSandboxDefinition(this.selectedFile)
-      .subscribe(
-        resp => this.uploadSuccess('Sandbox Definition was successfully uploaded'),
-        err => this.uploadFailure(err)
-      )
   }
 
   private uploadSuccess(message: string) {

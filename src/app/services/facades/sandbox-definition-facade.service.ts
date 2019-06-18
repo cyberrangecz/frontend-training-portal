@@ -8,6 +8,7 @@ import {SandboxDefinitionCreateDTO} from "../../model/DTOs/sandbox-definition/sa
 import {UploadService} from "../shared/upload.service";
 import {SandboxDefinitionMapperService} from "../mappers/sandbox-definition-mapper.service";
 import {SandboxDefinitionDTO} from "../../model/DTOs/sandbox-definition/sandbox-definition-dto";
+import {of} from "rxjs";
 
 /**
  * Service to abstract from sandbox definition endpoint.
@@ -19,14 +20,9 @@ export class SandboxDefinitionFacade {
   private readonly sandboxDefsEndpoint = environment.sandboxRestBasePath + 'definitions/';
 
   constructor(private http: HttpClient,
-              private sandboxDefinitionMapper: SandboxDefinitionMapperService,
-              private uploadService: UploadService) {
+              private sandboxDefinitionMapper: SandboxDefinitionMapperService) {
   }
 
-
-  uploadSandboxDefinition(file: File): Observable<SandboxDefinitionCreateDTO> {
-    return this.uploadService.uploadSandboxDefinition(this.sandboxDefsEndpoint, file);
-  }
 
   /**
    * Retrieves all sandbox definitions
@@ -59,7 +55,13 @@ export class SandboxDefinitionFacade {
     return this.http.delete(this.sandboxDefsEndpoint + id);
   }
 
+  addSandboxDefinition(gitlabUrl: string, revision: string): Observable<any> {
+    return this.http.post(this.sandboxDefsEndpoint, { url: gitlabUrl, rev: revision});
+  }
+
   private createDefaultHeaders() {
     return new HttpHeaders({'Accept': 'application/json'});
   }
+
+
 }
