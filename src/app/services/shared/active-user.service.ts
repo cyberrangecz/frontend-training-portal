@@ -6,7 +6,8 @@ import {Observable} from 'rxjs/internal/Observable';
 import {OAuthService} from 'angular-oauth2-oidc';
 import {Router} from '@angular/router';
 import {UserFacade} from '../facades/user-facade.service';
-import {map, switchMap} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
+import {interval, Subscription} from 'rxjs';
 
 /**
  * Service maintaining active (logged in user)
@@ -15,7 +16,7 @@ import {map, switchMap} from 'rxjs/operators';
 export class ActiveUserService {
 
   private _activeUser: User;
-
+  private _tokenRefreshSubscription: Subscription;
   private _onActiveUserChangedSubject: Subject<User> = new Subject<User>();
   /**
    * Observable of active user changes (when user logs out or logs in)
@@ -23,10 +24,25 @@ export class ActiveUserService {
    */
   onActiveUserChanged: Observable<User> = this._onActiveUserChangedSubject.asObservable();
 
+
   constructor(private router: Router,
     private userFacade: UserFacade,
     private oAuthService: OAuthService) {
   }
+
+  dispose() {
+    if (this._tokenRefreshSubscription) {
+      this._tokenRefreshSubscription.unsubscribe();
+    }
+  }
+
+  startSilentTokenRefresh() {
+    if (this._tokenRefreshSubscription === undefined || this._tokenRefreshSubscription.closed) {
+      this._tokenRefreshSubscription = interval(30000)
+        .subscribe( () => this.checkIfTokensAreAboutToExpire())
+    }
+  }
+
   /**
    * Decides whether active user has designer role
    * @returns {boolean} true if active user has organizer role, false otherwise
@@ -117,5 +133,17 @@ export class ActiveUserService {
   setActiveUser(user: User) {
     this._activeUser = user;
     this._onActiveUserChangedSubject.next(user);
+  }
+
+  private expiresInLessThanMinute(expirationTime: number): boolean {
+    return Date.now() + 60000 >= expirationTime;
+  }
+
+  private checkIfTokensAreAboutToExpire() {
+    const idTokenExpirationTime = Number(localStorage.getItem('id_token_expires_at'));
+    const accessTokenExpirationTime = Number(localStorage.getItem('expires_at'));
+    if (this.expiresInLessThanMinute(idTokenExpirationTime) || this.expiresInLessThanMinute(accessTokenExpirationTime)) {
+      this.oAuthService.silentRefresh();
+    }
   }
 }

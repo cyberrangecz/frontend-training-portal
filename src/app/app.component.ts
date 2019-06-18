@@ -47,6 +47,7 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.sandboxAllocationBarSubscription) {
       this.sandboxAllocationBarSubscription.unsubscribe();
     }
+    this.activeUserService.dispose();
   }
 
   toggleSidenav() {

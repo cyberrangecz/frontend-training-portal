@@ -44,13 +44,14 @@ export class AuthGuard implements CanActivate {
         else
           return false;
       })
-      .then(isAuthenticated => {
-        if (isAuthenticated) {
-          this.oauthService.setupAutomaticSilentRefresh();
-          return true
+      .then(hasValidTokens => {
+        if (hasValidTokens) {
+          this.activeUserService.startSilentTokenRefresh();
+          return true;
         }
-        else
+        else {
           return false;
+        }
       });
   }
 
