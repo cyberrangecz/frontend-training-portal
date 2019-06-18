@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  rootPath: 'http://localhost:4200',
 
   // BEHAVIOUR SETTING
   defaultAlertDuration: 5000, // 0 to display until user dismisses it
@@ -27,7 +28,7 @@ export const environment = {
   redirectUri: window.location.origin,
   scope: 'openid profile email',
   logoutUrl: 'https://oidc.muni.cz/oidc/endsession',
-  postLogoutRedirectUri: window.location.origin,
+  postLogoutRedirectUri: window.location.origin + '/logout-confirmed',
   sessionChecksEnabled: true,
 
   // TOPOLOGY COMPONENT CONFIG

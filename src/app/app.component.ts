@@ -55,6 +55,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private configureOIDC() {
     this.oAuthService.configure(authConfig);
+    console.log(authConfig.postLogoutRedirectUri);
     this.oAuthService.tokenValidationHandler = new JwksValidationHandler();
   }
 

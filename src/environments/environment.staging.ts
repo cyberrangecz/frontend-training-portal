@@ -1,6 +1,7 @@
 
 export const environment = {
   production: false,
+  rootPath: 'http://localhost:4200',
 
   // BEHAVIOUR SETTINGS
   defaultAlertDuration: 5000, // 0 to display until user dismisses it
