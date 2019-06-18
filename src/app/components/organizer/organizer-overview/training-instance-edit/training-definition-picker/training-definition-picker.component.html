@@ -15,6 +15,9 @@
         {{ training.title }}
       </mat-radio-button>
     </mat-list-item>
+    <div class="empty-content" *ngIf="releasedTrainingDefs.length >= 0">
+      <p class="mat-typography">No released training definitions found.</p>
+    </div>
     <h3 mat-subheader *ngIf="unreleasedTrainingDefs.length > 0">Unreleased</h3>
     <mat-list-item *ngFor="let training of unreleasedTrainingDefs">
       <mat-radio-button [checked]="training === selectedTrainingDef"
@@ -23,10 +26,11 @@
         {{ training.title }}
       </mat-radio-button>
     </mat-list-item>
+    <div class="empty-content" *ngIf="unreleasedTrainingDefs.length >= 0">
+      <p class="mat-typography">No unreleased training definitions found.</p>
+    </div>
   </mat-list>
-  <div class="empty-content" *ngIf="trainingDefs.length === 0">
-    No training definitions found.
-  </div>
+
 </div>
 
 <div mat-dialog-actions>
