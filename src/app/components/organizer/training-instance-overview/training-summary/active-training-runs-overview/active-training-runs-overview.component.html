@@ -14,17 +14,22 @@
                    type="number"
                    min="1"
                    [max]="sandboxCanBeAllocatedCount"
+                   [disabled]="sandboxCanBeAllocatedCount === undefined || sandboxCanBeAllocatedCount < 1"
                    [(ngModel)]="toAllocateInput">
           </mat-form-field>
           <button mat-button color="primary"
                   (click)="sendRequestToAllocateSandboxes(toAllocateInput)"
-                  [disabled]="toAllocateInput === undefined || toAllocateInput < 0">Allocate</button>
+                  [disabled]="toAllocateInput === undefined || toAllocateInput < 1">Allocate</button>
         </div>
       </div>
       <p>Available for players: {{ sandboxAvailableCount }}</p>
       <p>In failed state: {{ sandboxFailedCount }}</p>
-      <p>Allocating right now: {{ sandboxAllocationRunningCount }}</p>
-      <p>Deleting right now: {{ sandboxDeletionRunningCount }} </p>
+      <div class="allocation-progress">
+        <p>Allocating right now: {{ sandboxAllocationRunningCount }}</p> <mat-progress-bar *ngIf="sandboxAllocationRunningCount > 0"  color="accent" mode="indeterminate"></mat-progress-bar>
+      </div>
+      <div class="allocation-progress">
+        <p>Deleting right now: {{ sandboxDeletionRunningCount }} </p> <mat-progress-bar *ngIf="sandboxDeletionRunningCount > 0" color="accent" mode="indeterminate"></mat-progress-bar>
+      </div>
     </div>
   </div>
   <h2>Active Training Runs</h2>
@@ -87,11 +92,10 @@
 
               <div class="action-buttons">
                 <!-- DELETE button-->
-                <button
+                <button *ngIf="!data.deletionRequested"
                         mat-icon-button
                         color="warn"
                         matTooltip="Delete sandbox of training run"
-                        [disabled]="data.deletionRequested"
                         (click)="deleteSandboxOfTrainingRun(data)">
                   <mat-icon
                     aria-label="Delete sandbox training run button">

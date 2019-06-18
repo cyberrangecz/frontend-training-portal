@@ -7,6 +7,20 @@ mat-form-field {
   align-items: center;
 }
 
+.allocation-progress {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+.allocation-progress > p {
+  margin-right: 20px;
+}
+
+.allocation-progress > mat-progress-bar {
+  width: 100px;
+}
+
 .training {
   padding: 20px;
   display: flex;
