@@ -1,6 +1,5 @@
 import {TrainingRunStateEnum} from "../enums/training-run-state.enum";
 import {AbstractLevel} from "../level/abstract-level";
-import {TrainingInstance} from "./training-instance";
 import {User} from '../user/user';
 import {SandboxInstanceState} from "../enums/sandbox-instance-state";
 
@@ -20,6 +19,15 @@ export class TrainingRun {
   eventLogReference: string;
   state: TrainingRunStateEnum;
   sandboxInstanceState: SandboxInstanceState;
+
   constructor() {
+  }
+
+  isRunning(): boolean {
+    return this.state === TrainingRunStateEnum.RUNNING;
+  }
+
+  hasPlayer(): boolean {
+    return this.player !== undefined && this.player !== null;
   }
 }

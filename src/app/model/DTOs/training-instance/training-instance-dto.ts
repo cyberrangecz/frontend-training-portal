@@ -22,6 +22,7 @@ export interface TrainingInstanceDTO {
     end_time?: Date;
     id?: number;
     organizers?: Array<UserRefDTO>;
+    sandboxes: number[];
     pool_size?: number;
     pool_id: number;
     start_time?: Date;

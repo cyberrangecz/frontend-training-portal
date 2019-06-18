@@ -104,11 +104,20 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
   }
 
   deleteSandbox(sandboxRow: SandboxInstanceTableAdapter) {
+    if (this.trainingInstance.hasTrainingRunConnectedWithSandbox(sandboxRow.sandboxInstance.id)) {
+      this.askForConfirmation(sandboxRow);
+    } else {
+      this.sendRequestToDeleteSandbox(sandboxRow);
+    }
+  }
+
+  private askForConfirmation(sandboxRow: SandboxInstanceTableAdapter) {
     const dialogRef = this.dialog.open(ActionConfirmationDialog, {
       data: {
         type: 'Sandbox Instance',
         action: 'delete',
-        title: sandboxRow.sandboxInstance.id.toString()
+        title: sandboxRow.sandboxInstance.id.toString(),
+        additionalInfo: 'This sandbox instance is connected to training run.'
       }
     });
 

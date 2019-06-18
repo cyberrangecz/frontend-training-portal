@@ -38,18 +38,22 @@ export abstract class BaseTrainingRunsOverview implements OnInit, OnDestroy {
     this.activeTrainingSubscription = this.activeTrainingInstanceService.onActiveTrainingChanged
       .subscribe(change => {
         this.loadActiveTraining();
-        this.fetchData();
+        this.refreshData();
       })
   }
 
   private subscribePeriodicalDataRefresh() {
     this.periodicalDataRefreshSubscription = interval(environment.defaultOrganizerTROverviewRefreshRate)
       .subscribe( () => {
-         this.fetchData();
-      }
-      );
+        this.refreshData();
+      });
   }
 
+  private refreshData() {
+    if (this.trainingInstance.hasPoolId()) {
+      this.fetchData();
+    }
+  }
   private loadActiveTraining() {
     this.trainingInstance = this.activeTrainingInstanceService.getActiveTrainingInstance();
   }

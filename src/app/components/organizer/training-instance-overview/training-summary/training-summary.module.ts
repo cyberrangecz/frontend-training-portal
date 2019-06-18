@@ -10,15 +10,19 @@ import {PipesModule} from '../../../../pipes/pipes.module';
 import {ErrorHandlerService} from "../../../../services/shared/error-handler.service";
 import {TrainingRunFacadeModule} from '../../../../services/facades/modules/training-run-facade.module';
 import { ArchivedTrainingRunsOverviewComponent } from './archived-training-runs-overview/archived-training-runs-overview.component';
+import {SandboxInstanceFacadeModule} from "../../../../services/facades/modules/sandbox-instance-facade.module";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     SharedModule,
     PipesModule,
     TrainingSummaryMaterialModule,
     TrainingSummaryRoutingModule,
-    TrainingRunFacadeModule
+    TrainingRunFacadeModule,
+    SandboxInstanceFacadeModule
   ],
   declarations: [
   TrainingSummaryComponent,

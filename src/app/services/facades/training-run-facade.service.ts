@@ -123,13 +123,6 @@ export class TrainingRunFacade {
       );
   }
 
-  /**
-   * Sends request to revert training run
-   * @param id id of training run which should be reverted
-   */
-  revert(id: number): Observable<any> {
-    return this.http.get(this.trainingRunsEndpointUri + id + '/revert');
-  }
 
   /**
    * Sends request to move to next level

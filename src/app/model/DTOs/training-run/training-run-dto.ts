@@ -31,11 +31,10 @@ export interface TrainingRunDTO {
     instance_id: number;
 }
 export namespace TrainingRunDTO {
-    export type StateEnum = 'NEW' | 'ALLOCATED' | 'READY' | 'FINISHED';
+    export type StateEnum = 'RUNNING' | 'FINISHED' | 'ARCHIVED';
     export const StateEnum = {
-        NEW: 'NEW' as StateEnum,
-        ALLOCATED: 'ALLOCATED' as StateEnum,
-        READY: 'READY' as StateEnum,
-        FINISHED: 'FINISHED' as StateEnum
+        RUNNING: 'RUNNING' as StateEnum,
+        FINISHED: 'FINISHED' as StateEnum,
+        ARCHIVED: 'ARCHIVED' as StateEnum,
     }
 }

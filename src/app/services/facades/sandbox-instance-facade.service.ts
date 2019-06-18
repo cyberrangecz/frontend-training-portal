@@ -4,7 +4,7 @@ import {environment} from "../../../environments/environment";
 import {Observable} from "rxjs";
 import {SandboxInstance} from "../../model/sandbox/sandbox-instance";
 import {SandboxInstanceDTO} from "../../model/DTOs/sandbox-instance/sandbox-instance-dto";
-import {map, shareReplay} from "rxjs/operators";
+import {map} from "rxjs/operators";
 import {SandboxInstanceMapper} from "../mappers/sandbox-instance-mapper.service";
 
 @Injectable()
@@ -62,9 +62,9 @@ export class SandboxInstanceFacade {
     );
   }
 
-  allocateSandbox(trainingInstanceId: number): Observable<any> {
+  allocateSandbox(trainingInstanceId: number, count: number = 1): Observable<any> {
     let params = new HttpParams();
-    params = params.append('count', '1');
+    params = params.append('count', count.toString());
     return this.http.post(`${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.sandboxInstancesUriExtension}`,
       {},
       {

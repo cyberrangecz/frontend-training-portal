@@ -9,6 +9,7 @@ export class TrainingInstance {
   id: number;
   poolId: number;
   trainingDefinition: TrainingDefinition;
+  sandboxWithTrainingRunIds: number[];
   startTime: Date;
   endTime: Date;
   title: string;
@@ -20,5 +21,9 @@ export class TrainingInstance {
 
   hasPoolId(): boolean {
     return this.poolId !== undefined && this.poolId !== null;
+  }
+
+  hasTrainingRunConnectedWithSandbox(sandboxInstanceId: number): boolean {
+    return this.sandboxWithTrainingRunIds.includes(sandboxInstanceId);
   }
 }

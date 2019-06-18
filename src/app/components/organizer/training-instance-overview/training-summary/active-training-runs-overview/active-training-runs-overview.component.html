@@ -1,4 +1,32 @@
 <div class="training">
+  <div class="sandboxes">
+    <h2>Sandboxes</h2>
+    <div class="sandbox-error" *ngIf="hasSandboxesInfoError">
+      <p color="warn">Could not reach server.</p>
+      <button mat-button color="primary" (click)="fetchInfoForSandboxes()">Try Again.</button>
+    </div>
+    <div *ngIf="!hasSandboxesInfoError" class="sandbox-info">
+      <div class="allocate-info">
+        <p>Possible to allocate: {{ sandboxCanBeAllocatedCount }}</p>
+        <div class="allocate-box">
+          <mat-form-field class="allocate-input">
+            <input matInput
+                   type="number"
+                   min="1"
+                   [max]="sandboxCanBeAllocatedCount"
+                   [(ngModel)]="toAllocateInput">
+          </mat-form-field>
+          <button mat-button color="primary"
+                  (click)="sendRequestToAllocateSandboxes(toAllocateInput)"
+                  [disabled]="toAllocateInput === undefined || toAllocateInput < 0">Allocate</button>
+        </div>
+      </div>
+      <p>Available for players: {{ sandboxAvailableCount }}</p>
+      <p>In failed state: {{ sandboxFailedCount }}</p>
+      <p>Allocating right now: {{ sandboxAllocationRunningCount }}</p>
+      <p>Deleting right now: {{ sandboxDeletionRunningCount }} </p>
+    </div>
+  </div>
   <h2>Active Training Runs</h2>
   <div class="training-table-wrapper">
     <div class="training-table">
@@ -10,8 +38,8 @@
 
       <div class="mat-elevation-z8">
         <div class="loading"
-             *ngIf="isLoadingResults || isInErrorState">
-          <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+             *ngIf="isLoadingTrainingRunResults || isInErrorState">
+          <mat-spinner *ngIf="isLoadingTrainingRunResults"></mat-spinner>
           <div class="loading-error" *ngIf="isInErrorState">
             We have some trouble loading the data. Please try again later.
             <button mat-icon-button (click)="fetchData()" color="primary"><mat-icon>refresh</mat-icon></button>
@@ -58,19 +86,18 @@
             <td class="actions" mat-cell *matCellDef="let data">
 
               <div class="action-buttons">
-                <!-- REVERT button-->
+                <!-- DELETE button-->
                 <button
-                        mat-icon-button color="primary"
-                        matTooltip="Revert training run"
-                        *ngIf="data.trainingRun?.sandboxInstanceState !== 'REVERT_IN_PROGRESS'
-                            && (data.trainingRun?.player || data.trainingRun?.state === 'FINISHED')"
-                        (click)="revertTrainingRun(data)">
+                        mat-icon-button
+                        color="warn"
+                        matTooltip="Delete sandbox of training run"
+                        [disabled]="data.deletionRequested"
+                        (click)="deleteSandboxOfTrainingRun(data)">
                   <mat-icon
-                    aria-label="Revert training run button">
-                    rotate_left</mat-icon>
+                    aria-label="Delete sandbox training run button">
+                    delete
+                  </mat-icon>
                 </button>
-
-                <mat-progress-bar mode="indeterminate" *ngIf="data.trainingRun?.sandboxInstanceState === 'REVERT_IN_PROGRESS'"></mat-progress-bar>
               </div>
             </td>
           </ng-container>
