@@ -132,7 +132,7 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
             'Changes were successfully saved. Access token is ' + newAccessToken);
           this.dirty = false;
           this.trainingChanged();
-      },
+        },
         err => this.errorHandler.displayInAlert(err, 'Updating Training Instance')
       );
   }
@@ -163,9 +163,9 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
   private resolveInitialInputValues() {
     if (this.trainingInstance) {
       this.isEditMode = true;
-      this.setInputValuesFromTraining()
+      this.setInputValuesFromTraining();
     } else {
-      this.isEditMode =false;
+      this.isEditMode = false;
       this.setInputValueForNewInstance();
     }
   }
@@ -175,39 +175,38 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
    * @returns {boolean} true if user input passes the validation, false otherwise
    */
   private validateInputValues(): boolean {
-    let errorMessage: string = '';
+    let errorMessage = '';
 
     if (!this.title || this.title.replace(/\s/g, '') === '') {
-      errorMessage += 'Title cannot be empty\n'
+      errorMessage += 'Title cannot be empty\n';
     }
 
     if (!this.poolSize || this.poolSize < 1 || this.poolSize > 100) {
-      errorMessage += 'Pool size must be number in range from 1 to 100\n'
+      errorMessage += 'Pool size must be number in range from 1 to 100\n';
     }
 
     if (!this.accessToken || this.accessToken.replace(/\s/g, '') === '') {
-      errorMessage += 'Access token cannot be empty\n'
+      errorMessage += 'Access token cannot be empty\n';
     }
 
     if (!this.organizers || this.organizers.length <= 0) {
-      errorMessage += 'Organizers must not be empty\n'
+      errorMessage += 'Organizers must not be empty\n';
     }
 
     if (!this.trainingDefinition) {
-      errorMessage += 'Training definition must not be empty\n'
+      errorMessage += 'Training definition must not be empty\n';
     }
 
     if (!this.startTime) {
-      errorMessage += 'Start time must not be empty\n'
-    }
-    else if (this.startTime > this.endTime) {
-      errorMessage += 'Start time must be before end time\n'
+      errorMessage += 'Start time must not be empty\n';
+    } else if (this.startTime > this.endTime) {
+      errorMessage += 'Start time must be before end time\n';
     }
 
     if (!this.endTime) {
-      errorMessage += 'End time must not be empty\n'
+      errorMessage += 'End time must not be empty\n';
     } else if (this.startTime.valueOf() < Date.now() || this.endTime.valueOf() < Date.now()) {
-      errorMessage += 'Start time and end time cannot be in the past\n'
+      errorMessage += 'Start time and end time cannot be in the past\n';
     }
 
     if (errorMessage !== '') {
@@ -251,7 +250,7 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
 
   private setUpPeriodicTimeStartTimeUpdate() {
     const source = interval(60000);
-    this.startTimeUpdateSubscription = source.subscribe( () => {
+    this.startTimeUpdateSubscription = source.subscribe(() => {
       if (!this.userChangedStartTime) {
         this.startTime.setMinutes(this.startTime.getMinutes() + 1);
       }
