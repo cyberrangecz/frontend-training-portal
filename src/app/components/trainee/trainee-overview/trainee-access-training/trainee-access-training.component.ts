@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {AlertService} from "../../../../services/shared/alert.service";
-import {AlertTypeEnum} from "../../../../model/enums/alert-type.enum";
-import {ActivatedRoute, Router} from "@angular/router";
-import {ErrorHandlerService} from "../../../../services/shared/error-handler.service";
-import {ActiveTrainingRunService} from "../../../../services/trainee/active-training-run.service";
-import {AbstractLevel} from "../../../../model/level/abstract-level";
-import {TrainingRunFacade} from "../../../../services/facades/training-run-facade.service";
+import { AlertService } from '../../../../services/shared/alert.service';
+import { AlertTypeEnum } from '../../../../model/enums/alert-type.enum';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ErrorHandlerService } from '../../../../services/shared/error-handler.service';
+import { ActiveTrainingRunService } from '../../../../services/trainee/active-training-run.service';
+import { AbstractLevel } from '../../../../model/level/abstract-level';
+import { TrainingRunFacade } from '../../../../services/facades/training-run-facade.service';
 
 @Component({
   selector: 'trainee-access-training',
@@ -17,7 +17,8 @@ import {TrainingRunFacade} from "../../../../services/facades/training-run-facad
  */
 export class TraineeAccessTrainingComponent implements OnInit {
 
-  accessToken: string;
+  accessTokenPrefix: string;
+  accessTokenPin: string;
   isLoading: boolean;
 
   constructor(
@@ -36,20 +37,33 @@ export class TraineeAccessTrainingComponent implements OnInit {
    * If resources are allocated, navigates user to the first level of the training
    */
   access() {
-    if (this.accessToken && this.accessToken.replace(/\s/g, '') !== '') {
-      this.isLoading = true;
-      this.trainingRunFacade.accessTrainingRun(this.accessToken)
-        .subscribe(trainingRunInfo => {
-            this.isLoading = false;
-            this.activeTrainingRunLevelsService.setUpFromTrainingRun(trainingRunInfo);
-          this.router.navigate(['training/game'], {relativeTo: this.activeRoute});
+    if (this.hasValidInput()) {
+      this.sendRequestToAccessTrainingRun();
+    }
+  }
+
+  private sendRequestToAccessTrainingRun() {
+    this.isLoading = true;
+    const accessToken = this.accessTokenPrefix + '-' + this.accessTokenPin;
+    this.trainingRunFacade.accessTrainingRun(accessToken)
+      .subscribe(trainingRunInfo => {
+          this.isLoading = false;
+          this.activeTrainingRunLevelsService.setUpFromTrainingRun(trainingRunInfo);
+          this.router.navigate(['training/game'], { relativeTo: this.activeRoute });
         },
-          err=> {
+        err => {
           this.isLoading = false;
           this.errorHandler.displayInAlert(err, 'Connecting to training run');
-        })
+        });
+}
+
+  private hasValidInput(): boolean {
+    if (this.accessTokenPrefix && this.accessTokenPrefix.replace(/\s/g, '') !== ''
+      && this.accessTokenPin && this.accessTokenPin.replace(/\s/g, '') !== ''
+      && !isNaN(this.accessTokenPin as any) && this.accessTokenPin.length === 4) {
+      return true;
     } else {
-      this.alertService.emitAlert(AlertTypeEnum.Error, 'Password cannot be empty');
+      this.alertService.emitAlert(AlertTypeEnum.Error, 'Password cannot be empty and must have correct format');
     }
   }
 }
