@@ -125,7 +125,7 @@ export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOvervie
             this.sandboxDeletionRunningCount = sandboxes.filter(sandbox => sandbox.isBeingDeleted()).length;
             this.sandboxAllocationRunningCount = sandboxes.filter(sandbox => sandbox.isInProgress()).length - this.sandboxDeletionRunningCount;
             this.sandboxAvailableCount = sandboxes.filter(sandbox => sandbox.isCreated()).length - this.resultsLength;
-            this.sandboxCanBeAllocatedCount = this.trainingInstance.poolSize - sandboxes.length - this.sandboxFailedCount;
+            this.sandboxCanBeAllocatedCount = Math.max(0, this.trainingInstance.poolSize - sandboxes.length - this.sandboxFailedCount);
             if (this.toAllocateInput === undefined) {
               this.toAllocateInput = this.sandboxCanBeAllocatedCount;
             }
