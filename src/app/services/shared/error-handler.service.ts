@@ -9,7 +9,7 @@ export class ErrorHandlerService {
   }
 
   displayInAlert(err: HttpErrorResponse, operation: string) {
-    if (err.status === 404 || err.status === 0) {
+    if ((err.status === 404 || err.status === 0) && err.error.message === '') {
       this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} Wrong request. Report the issue to developers`);
     }
     if (err.status === 401) {

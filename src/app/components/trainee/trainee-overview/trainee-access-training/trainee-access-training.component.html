@@ -4,7 +4,7 @@
   </div>
   <div class="content">
    <div>
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" class="prefix-form">
       <mat-label>Access Token Prefix</mat-label>
       <input matInput placeholder="Access Token Prefix" [(ngModel)]="accessTokenPrefix" required>
       <button mat-button *ngIf="accessTokenPrefix" matSuffix mat-icon-button aria-label="Clear" (click)="accessTokenPrefix=''">

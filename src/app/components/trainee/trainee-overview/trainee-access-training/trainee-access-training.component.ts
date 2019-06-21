@@ -4,7 +4,6 @@ import { AlertTypeEnum } from '../../../../model/enums/alert-type.enum';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ErrorHandlerService } from '../../../../services/shared/error-handler.service';
 import { ActiveTrainingRunService } from '../../../../services/trainee/active-training-run.service';
-import { AbstractLevel } from '../../../../model/level/abstract-level';
 import { TrainingRunFacade } from '../../../../services/facades/training-run-facade.service';
 
 @Component({

@@ -14,11 +14,12 @@
 	align-items: baseline;
 }
 
-mat-form-field {
-	min-width: 300px;
+.pin-form  {
+  width: 140px;
 }
-.pin-form {
-  width: 150px;
+
+.prefix-form  {
+  min-width: 300px;
 }
 
 button {
