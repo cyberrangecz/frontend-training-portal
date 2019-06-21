@@ -114,7 +114,7 @@ export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOvervie
   }
 
   private fetchInfoForSandboxes() {
-    let timeoutHandle = setTimeout(() => this.isLoadingSandboxResults = true, environment.defaultDelayToDisplayLoading);
+    let timeoutHandle = window.setTimeout(() => this.isLoadingSandboxResults = true, environment.defaultDelayToDisplayLoading);
     this.sandboxInstanceFacade.getSandboxesInPool(this.trainingInstance.poolId)
       .subscribe(
         sandboxes => {
@@ -144,7 +144,7 @@ export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOvervie
       .pipe(
         startWith({}),
         switchMap(() => {
-          timeoutHandle = setTimeout(() => this.isLoadingTrainingRunResults = true, environment.defaultDelayToDisplayLoading);
+          timeoutHandle = window.setTimeout(() => this.isLoadingTrainingRunResults = true, environment.defaultDelayToDisplayLoading);
           return this.trainingInstanceFacade.getTrainingRunsByTrainingInstanceIdWithPagination(this.trainingInstance.id,
             this.activeTrainingRunsPaginator.pageIndex, this.activeTrainingRunsPaginator.pageSize, this.activeTrainingRunSort.active, this.activeTrainingRunSort.direction)
         }),

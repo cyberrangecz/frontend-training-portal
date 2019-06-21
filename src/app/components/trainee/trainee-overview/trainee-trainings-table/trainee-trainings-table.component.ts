@@ -97,7 +97,7 @@ export class TraineeTrainingsTableComponent implements OnInit {
       .pipe(
         startWith({}),
         switchMap(() => {
-          timeoutHandle = setTimeout(() => this.isLoading = true, environment.defaultDelayToDisplayLoading);
+          timeoutHandle =  window.setTimeout(() => this.isLoading = true, environment.defaultDelayToDisplayLoading);
           return this.trainingRunFacade.getAccessedTrainingRunsWithPagination(this.paginator.pageIndex, this.paginator.pageSize,
             this.resolveSortParam(this.sort.active), this.sort.direction);
         }),

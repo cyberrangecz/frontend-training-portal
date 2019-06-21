@@ -125,7 +125,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
       .pipe(
         startWith({}),
         switchMap(() => {
-          timeoutHandle = setTimeout(() => this.isLoadingResults = true, environment.defaultDelayToDisplayLoading);
+          timeoutHandle =  window.setTimeout(() => this.isLoadingResults = true, environment.defaultDelayToDisplayLoading);
           return this.sandboxDefinitionFacade.getSandboxDefs();
         }),
         map(data => {
