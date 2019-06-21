@@ -32,7 +32,7 @@
     "graph-topology-model-lib": "1.0.6",
     "hammerjs": "^2.0.8",
     "kypo2-markdown-editor": "1.0.6",
-    "kypo2-trainings-hurdling-viz-lib": "0.9.3",
+    "kypo2-trainings-hurdling-viz-lib": "0.9.4",
     "kypo2-trainings-visualization-overview-lib": "0.9.7",
     "kypo2-user-and-group-management": "1.0.9",
     "marked": "^0.6.1",
