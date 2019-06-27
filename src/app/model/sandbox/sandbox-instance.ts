@@ -7,13 +7,14 @@ export class SandboxInstance {
   id: number;
   poolId: number;
   state: SandboxInstanceState;
+  stateErrorMessage: string;
 
   constructor() {
   }
 
 
   isCreated(): boolean {
-    return this.state === SandboxInstanceState.CREATE_COMPLETE;
+    return this.state === SandboxInstanceState.CREATE_COMPLETE || this.state === SandboxInstanceState.ANSIBLE_COMPLETE;
   }
 
   isFailed(): boolean {
@@ -39,7 +40,10 @@ export class SandboxInstance {
       || this.state === SandboxInstanceState.ROLLBACK_IN_PROGRESS
       || this.state === SandboxInstanceState.SNAPSHOT_IN_PROGRESS
       || this.state === SandboxInstanceState.SUSPEND_IN_PROGRESS
-      || this.state === SandboxInstanceState.UPDATE_IN_PROGRESS;
+      || this.state === SandboxInstanceState.UPDATE_IN_PROGRESS
+      || this.state === SandboxInstanceState.FULL_BUILD_IN_PROGRESS
+      || this.state === SandboxInstanceState.BOOTSTRAP_IN_PROGRESS
+      || this.state === SandboxInstanceState.ANSIBLE_IN_PROGRESS;
   }
 
   isBeingDeleted(): boolean {

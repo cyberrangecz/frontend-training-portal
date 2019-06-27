@@ -17,6 +17,7 @@ import {TrainingInstanceFacadeModule} from '../../../services/facades/modules/tr
 import {ActiveTrainingInstanceService} from "../../../services/organizer/active-training-instance.service";
 import {SandboxInstanceFacadeModule} from "../../../services/facades/modules/sandbox-instance-facade.module";
 import {SandboxInstancesSubtableComponent} from './training-instance-table/sandbox-instances-subtable/sandbox-instances-subtable.component';
+import { AllocationErrorDialogComponent } from './training-instance-table/allocation-error-dialog/allocation-error-dialog.component';
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import {SandboxInstancesSubtableComponent} from './training-instance-table/sandb
     OrganizersPickerComponent,
     TrainingDefinitionPickerComponent,
     TrainingEditPopupComponent,
-    SandboxInstancesSubtableComponent
+    SandboxInstancesSubtableComponent,
+    AllocationErrorDialogComponent
   ],
   providers: [
     ActiveTrainingInstanceService,
@@ -48,7 +50,8 @@ import {SandboxInstancesSubtableComponent} from './training-instance-table/sandb
   entryComponents: [
     OrganizersPickerComponent,
     TrainingDefinitionPickerComponent,
-    TrainingEditPopupComponent
+    TrainingEditPopupComponent,
+    AllocationErrorDialogComponent
   ]
 })
 
