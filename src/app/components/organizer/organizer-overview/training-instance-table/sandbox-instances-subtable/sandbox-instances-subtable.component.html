@@ -32,7 +32,9 @@
             <td class="state" mat-cell *matCellDef="let data">
               <div class="allocation-state">
                 <mat-icon *ngIf="data.isCreated" class="sandbox-created" matTooltip="Sandbox is allocated">done</mat-icon>
-                <mat-icon *ngIf="data.isFailed" class="allocation-failed" color="warn" matTooltip="Sandbox allocation failed">error</mat-icon>
+                <button *ngIf="data.isFailed" class="allocation-failed" color="warn" matTooltip="Click to display error message" (click)="showSandboxErrorMessage(data)" mat-icon-button>
+                  <mat-icon>error</mat-icon>
+                </button>
                 <mat-progress-bar *ngIf="data.isInProgress" class="allocation-progress" color="accent" mode="indeterminate"></mat-progress-bar>
                 <div *ngIf="!data.isCreated && !data.isFailed && !data.isInProgress then notAllocatedState else allocationState"></div>
                 <ng-template #notAllocatedState>

@@ -15,6 +15,7 @@ export class SandboxInstanceMapper {
     result.id = sandboxDTO.id;
     result.poolId = sandboxDTO.pool;
     result.state = this.getSandboxStateFromString(sandboxDTO.status);
+    result.stateErrorMessage = sandboxDTO.status_reason;
     return result;
   }
 

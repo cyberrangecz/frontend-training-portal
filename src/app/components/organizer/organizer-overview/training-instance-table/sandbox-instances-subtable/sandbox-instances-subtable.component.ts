@@ -23,6 +23,7 @@ import {Observable, Subscription} from 'rxjs';
 import {TrainingInstanceSandboxAllocationState} from '../../../../../model/training/training-instance-sandbox-allocation-state';
 import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
 import {ActionConfirmationDialog} from '../../../../shared/delete-dialog/action-confirmation-dialog.component';
+import {AllocationErrorDialogComponent} from "../allocation-error-dialog/allocation-error-dialog.component";
 
 
 @Component({
@@ -109,6 +110,10 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
     } else {
       this.sendRequestToDeleteSandbox(sandboxRow);
     }
+  }
+
+  showSandboxErrorMessage(sandboxRow: SandboxInstanceTableAdapter) {
+    this.dialog.open(AllocationErrorDialogComponent, { data: sandboxRow.sandboxInstance });
   }
 
   private askForConfirmation(sandboxRow: SandboxInstanceTableAdapter) {
