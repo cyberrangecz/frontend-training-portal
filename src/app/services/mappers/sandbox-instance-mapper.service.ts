@@ -20,6 +20,23 @@ export class SandboxInstanceMapper {
   }
 
   private getSandboxStateFromString(state: string): SandboxInstanceState {
-    return (<any>SandboxInstanceState)[state];
+    const knownState = (<any>SandboxInstanceState)[state];
+    if (knownState !== undefined || knownState !== null) {
+      return knownState;
+    }
+    else {
+      if (state.toLowerCase().includes('progress')) {
+        return SandboxInstanceState.IN_PROGRESS;
+      }
+      if (state.toLowerCase().includes('failed')) {
+        return SandboxInstanceState.FAILED;
+      }
+      if (state.toLowerCase().includes('complete')) {
+        return SandboxInstanceState.COMPLETE;
+      }
+      else {
+        return undefined;
+      }
+    }
   }
 }

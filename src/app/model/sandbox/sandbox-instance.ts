@@ -19,6 +19,7 @@ export class SandboxInstance {
 
   isFailed(): boolean {
     return this.state === SandboxInstanceState.ADOPT_FAILED
+      || this.state === SandboxInstanceState.FAILED
       || this.state === SandboxInstanceState.CHECK_FAILED
       || this.state === SandboxInstanceState.CREATE_FAILED
       || this.state === SandboxInstanceState.DELETE_FAILED
@@ -32,6 +33,7 @@ export class SandboxInstance {
 
   isInProgress(): boolean {
     return this.state === SandboxInstanceState.ADOPT_IN_PROGRESS
+      || this.state === SandboxInstanceState.IN_PROGRESS
       || this.state === SandboxInstanceState.CHECK_IN_PROGRESS
       || this.state === SandboxInstanceState.CREATE_IN_PROGRESS
       || this.state === SandboxInstanceState.DELETE_IN_PROGRESS
