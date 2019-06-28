@@ -21,11 +21,11 @@ export const environment = {
 
   //OIDC
   issuer: 'https://oidc.muni.cz/oidc/',
-  redirectUri: window.location.origin + '/',
+  redirectUri: window.location.origin,
   clientId: '4fbfa660-88e9-4560-98ee-c858610e7946',
   scope: 'openid profile email',
   logoutUrl: 'https://oidc.muni.cz/oidc/endsession',
-  postLogoutRedirectUri: window.location.origin,
+  postLogoutRedirectUri: window.location.origin + '/',
 
   // TOPOLOGY COMPONENT CONFIG
   topologyRestUrl: 'http://147.251.124.178:8085/kypo2-rest-topology/api/v1/sandboxes/',
