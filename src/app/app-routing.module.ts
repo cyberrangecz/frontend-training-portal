@@ -5,10 +5,6 @@ import {DesignerGuard} from "./services/guards/designer-guard.service";
 import {OrganizerGuard} from "./services/guards/organizer-guard.service";
 import {TraineeGuard} from "./services/guards/trainee-guard.service";
 import {AdminGuard} from './services/guards/admin-guard.service';
-import {environment} from "../environments/environment";
-import {LogoutRedirectGuard} from "./services/guards/logout-redirect-guard.service";
-import {AppComponent} from "./app.component";
-import {EmptyComponent} from "./components/shared/empty/empty.component";
 
 const routes: Routes = [
   {
@@ -38,9 +34,8 @@ const routes: Routes = [
   },
   {
     path: 'logout-confirmed',
+    redirectTo: 'home',
     pathMatch: 'full',
-    component: EmptyComponent,
-    canActivate: [LogoutRedirectGuard]
   },
  {
     path: '',

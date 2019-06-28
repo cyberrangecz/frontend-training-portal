@@ -19,7 +19,6 @@ import {AdminGuard} from './services/guards/admin-guard.service';
 import {SandboxAllocationBarService} from './services/organizer/sandbox-allocation/sandbox-allocation-bar.service';
 import {ErrorLogInterceptor} from './services/http-interceptors/error-log-interceptor';
 import {NgxHotjarModule} from 'ngx-hotjar';
-import {LogoutRedirectGuard} from "./services/guards/logout-redirect-guard.service";
 
 @NgModule({
   declarations: [
@@ -56,7 +55,6 @@ import {LogoutRedirectGuard} from "./services/guards/logout-redirect-guard.servi
     OrganizerGuard,
     AdminGuard,
     TraineeGuard,
-    LogoutRedirectGuard,
     ActiveUserService,
     TrainingDistractionFreeModeService,
     SandboxAllocationBarService,
