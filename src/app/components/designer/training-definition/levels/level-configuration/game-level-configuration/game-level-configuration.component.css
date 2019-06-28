@@ -51,12 +51,12 @@ div .right-panel mat-form-field {
   margin-bottom: 20px;
 }
 
-markdown-editor.mrkdwn-content {
+kypo2-markdown-editor.mrkdwn-content {
   margin-bottom: 20px;
   height: 30vh;
 }
 
-markdown-editor.mrkdwn-solution {
+kypo2-markdown-editor.mrkdwn-solution {
   margin-bottom: 20px;
   height: 30vh;
 }
