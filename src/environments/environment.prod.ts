@@ -21,7 +21,7 @@ export const environment = {
 
   //OIDC
   issuer: 'https://oidc.muni.cz/oidc/',
-  redirectUri: window.location.origin,
+  redirectUri: window.location.origin + '/',
   clientId: '4fbfa660-88e9-4560-98ee-c858610e7946',
   scope: 'openid profile email',
   logoutUrl: 'https://oidc.muni.cz/oidc/endsession',
