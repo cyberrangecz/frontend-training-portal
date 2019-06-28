@@ -9,7 +9,6 @@ p.required-note {
 table {
   margin-top: 10px;
   max-width: 100%;
-  display: flex;
   overflow-x: auto;
   align-items: center;
   align-content: center;
