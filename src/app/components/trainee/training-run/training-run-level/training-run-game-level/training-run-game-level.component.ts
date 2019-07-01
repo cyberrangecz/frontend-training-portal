@@ -1,5 +1,4 @@
 import {
-  AfterContentChecked,
   Component, ElementRef, HostListener, Input, OnChanges,
   OnInit, SimpleChanges, ViewChild,
 } from '@angular/core';
