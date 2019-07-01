@@ -14,15 +14,15 @@ import {FreeFormQuestionTraineeComponent} from "./training-run-assessment-level/
 import {MultipleChoiceQuestionTraineeComponent} from "./training-run-assessment-level/question/multiple-choice-question/multiple-choice-question-trainee.component";
 import {ExtendedMatchingItemsTraineeComponent} from "./training-run-assessment-level/question/extended-matching-items/extended-matching-items-trainee.component";
 import {LeaveConfirmationDialogComponent} from "../leave-confirmation-dialog/leave-confirmation-dialog.component";
-import {GraphModule} from "graph-topology";
-import {CustomTopologyConfig} from "../../../../model/config/graph-topology-config";
+import {TrainingRunTopologyGraphConfig} from "../../../../model/config/graph-topology-config";
 import {MarkdownModule} from "ngx-markdown";
 import {MarkdownConfig} from "../../../../model/config/markdown-config";
+import {Kypo2TopologyGraphModule} from "kypo2-topology-graph";
 
 @NgModule({
   imports: [
     CommonModule,
-    GraphModule.forRoot(CustomTopologyConfig),
+    Kypo2TopologyGraphModule.forRoot(TrainingRunTopologyGraphConfig),
     MarkdownModule.forRoot(MarkdownConfig),
     FormsModule,
     TrainingRunLevelMaterialModule,
