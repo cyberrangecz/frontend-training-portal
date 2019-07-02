@@ -2,51 +2,32 @@ Implementation of the frontend for KYPO Trainings (former Capture the flag games
 
 - Contact person: [Vit Rusňák](mailto:rusnak@ics.muni.cz)
 - Lead developer: [Martin Hamerník](https://gitlab.ics.muni.cz/xhamern2)
-- Visualizations developer: [Hai Duong Tran](https://gitlab.ics.muni.cz/445437)
+- Developer: [Erik Kočamba](https://gitlab.ics.muni.cz/445661)
+- Developer: [Igor Ignác](https://gitlab.ics.muni.cz/igorignac5)
+- Visualizations developer: [Karolína Burská](https://gitlab.ics.muni.cz/396296)
+- Former visualizations developer: [Hai Duong Tran](https://gitlab.ics.muni.cz/445437)
 
 ## Prerequisites
-- [Angular v7](https://angular.io/guide/quickstart)
-- [Angular Material](https://material.angular.io/guide/getting-started)
-- [Trainings REST API](https://gitlab.ics.muni.cz/kypo2/services-and-portlets/kypo2-training)
-- [MUNI OIDC Client](https://oidc.ics.muni.cz/oidc/)
-- [JSON-Server](https://www.npmjs.com/package/json-server) (only temporary, until full REST API is implemented)
+- NPM with private [KYPO Nexus repository](https://projects.ics.muni.cz/projects/kbase/knowledgebase/articles/153)
+- [Angular v8](https://angular.io/guide/quickstart)
+- [Angular Material v8](https://material.angular.io/guide/getting-started)
 
-## Initial Configuration
-You need to configure environments.ts file located in project directory.
-```
-  production: false,
-  // REST API PATHS
-  trainingRestBasePath: 'http://localhost:8080/kypo2-rest-training/api/v1/',
-  usersEndpointUri: 'http://localhost:3000/users/',
-  sandboxDefsEndpointUri: 'http://localhost:3000/sandbox-definitions/',
-  trainingDefsEndpointUri:  'http://localhost:8080/kypo2-rest-training/api/v1/training-definitions/',
-  trainingInstancesEndpointUri: 'http://localhost:8080/kypo2-rest-training/api/v1/training-instances/',
-  trainingRunsEndpointUri:  'http://localhost:8080/kypo2-rest-training/api/v1/training-runs/',
-  levelsEndpointUri:  'http://localhost:8080/kypo2-rest-training/api/v1/levels/',
+## Usage
 
-  // BEHAVIOUR SETTINGS
-  defaultAlertDuration: 2500, // 0 to display until user dismisses it
-  defaultPaginationSize: 5,
+You can use the app:
+* [Production environment](http://147.251.124.178)
+* [Development environment](https://kypo-devel.ics.muni.cz/)
+* Locally
 
-  // OIDC SETTINGS
-  // Url of the Identity Provider
-  issuer: 'https://oidc.ics.muni.cz/oidc/',
-  // URL of the SPA to redirect the user after silent refresh
-  silentRefreshRedirectUri: window.location.origin + '/silent-refresh.html',
-  // URL of the SPA to redirect the user to after login
-  redirectUri: window.location.origin + '/index.html',
-  // The SPA's id. The SPA is registered with this id at the auth-server
-  clientId: 'Your OIDC Client ID here',
-  // set the scope for the permissions the client should request
-  scope: 'openid profile email',
-  sessionChecksEnabled: false,
-```
+To run the app locally you will need to configure several backend services.
 
-## Getting Started
-To run and test the application locally you need to checkout to branch devel.
+- [Trainings service](https://gitlab.ics.muni.cz/kypo2/services-and-portlets/kypo2-training)
+- [User and group service](https://gitlab.ics.muni.cz/kypo2/services-and-portlets/kypo2-user-and-group)
+- [Security commons](https://gitlab.ics.muni.cz/kypo2/services-and-portlets/kypo2-security-commons)
+- [Topology service](https://gitlab.ics.muni.cz/kypo2/services-and-portlets/kypo2-topology)
+- [Openstack service](https://gitlab.ics.muni.cz/kypo2/openstack/kypo2-django-openstack)
 
-1. Run ```npm install```
-2. Run json-server with ```$ json-server -w db.json -r routes.json```
-3. Run ```ng serve```
-3. Run Trainings REST API locally
-4. Access ```localhost:4200```
+
+1.  Then edit `environments.ts` file and provide urls of your services.
+2.  Run `npm install`
+3.  Run `ng serve` to run the app on `localhost:4200`
