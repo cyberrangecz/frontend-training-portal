@@ -37,7 +37,7 @@ To run the app locally you will need to configure several backend services.
 To deploy on server:
 
 1.  Make sure you are running all necessary backend services, and access to NPM with private [KYPO Nexus repository](https://projects.ics.muni.cz/projects/kbase/knowledgebase/articles/153)
-2.  Create new environment fil. For example `environment.myserver.ts`
+2.  Create new environment file. For example `environment.myserver.ts`
 3.  Add configuration to `configurations` in `angular.json`. For example: 
 ```
 "myserver": {
