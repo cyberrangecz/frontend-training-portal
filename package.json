@@ -32,7 +32,7 @@
     "kypo2-topology-graph-model": "1.0.0",
     "kypo2-topology-graph": "1.0.0",
     "kypo2-markdown-editor": "1.1.0",
-    "kypo2-trainings-hurdling-viz-lib": "0.9.4",
+    "kypo2-trainings-hurdling-viz-lib": "0.9.5",
     "kypo2-trainings-visualization-overview-lib": "0.9.7",
     "kypo2-user-and-group-management": "1.1.0",
     "marked": "^0.6.1",
