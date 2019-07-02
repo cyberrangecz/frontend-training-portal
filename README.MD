@@ -31,3 +31,23 @@ To run the app locally you will need to configure several backend services.
 1.  Then edit `environments.ts` file and provide urls of your services.
 2.  Run `npm install`
 3.  Run `ng serve` to run the app on `localhost:4200`
+
+
+## Deployment
+To deploy on server:
+
+1.  Make sure you are running all necessary backend services, and access to NPM with private [KYPO Nexus repository](https://projects.ics.muni.cz/projects/kbase/knowledgebase/articles/153)
+2.  Create new environment fil. For example `environment.myserver.ts`
+3.  Add configuration to `configurations` in `angular.json`. For example: 
+```
+"myserver": {
+  "fileReplacements": [
+    {
+      "replace": "src/environments/environment.ts",
+      "with": "src/environments/environment.myserver.ts"
+    }
+   ]
+ }
+```
+4. Run `npm install`
+5. Run `ng build --configuration=myserver`
