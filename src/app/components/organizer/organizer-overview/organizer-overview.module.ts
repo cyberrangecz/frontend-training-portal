@@ -9,7 +9,6 @@ import {FormsModule} from "@angular/forms";
 import {OrganizerOverviewMaterialModule} from "./organizer-overview-material.module";
 import { OrganizersPickerComponent } from './training-instance-edit/organizers-picker/organizers-picker.component';
 import { TrainingDefinitionPickerComponent } from './training-instance-edit/training-definition-picker/training-definition-picker.component';
-import {OwlDateTimeModule, OwlNativeDateTimeModule} from "ng-pick-datetime";
 import { TrainingEditPopupComponent } from './training-instance-table/training-edit-popup/training-edit-popup.component';
 import {PipesModule} from '../../../pipes/pipes.module';
 import {TrainingDefinitionFacadeModule} from '../../../services/facades/modules/training-definition-facade.module';
@@ -18,6 +17,7 @@ import {ActiveTrainingInstanceService} from "../../../services/organizer/active-
 import {SandboxInstanceFacadeModule} from "../../../services/facades/modules/sandbox-instance-facade.module";
 import {SandboxInstancesSubtableComponent} from './training-instance-table/sandbox-instances-subtable/sandbox-instances-subtable.component';
 import { AllocationErrorDialogComponent } from './training-instance-table/allocation-error-dialog/allocation-error-dialog.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@busacca/ng-pick-datetime'
 
 @NgModule({
   imports: [
