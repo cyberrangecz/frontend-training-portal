@@ -51,3 +51,30 @@ To deploy on server:
 ```
 4. Run `npm install`
 5. Run `ng build --configuration=myserver`
+
+
+**NOTE:** If you wish add configuration different than prod but it should use all perks of production build (recommended), you must specify following options in angular.json.
+
+Previous example with build for production environment would look like this:
+
+```
+"myserver": {
+  "fileReplacements": [
+    {
+      "replace": "src/environments/environment.ts",
+      "with": "src/environments/environment.myserver.ts"
+    }
+   ],
+   
+   "optimization": true,
+   "outputHashing": "all",
+   "sourceMap": false,
+   "extractCss": true,
+   "namedChunks": false,
+   "aot": true,
+   "extractLicenses": true,
+   "vendorChunk": false,
+   "buildOptimizer": true
+ }
+ ```
+
