@@ -39,7 +39,11 @@ installAngular:
         - triggers
         - branches
         - tags
-        
+    artifacts:
+      paths:
+        - ./dist
+      expire_in: 1 hour
+
 buildDebian:
     image: gitbuildpackage
     stage: buildDebian
