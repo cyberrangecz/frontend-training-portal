@@ -19,7 +19,7 @@ override_dh_auto_build override_dh_auto_install:
 
 
 override_dh_install:
-	@echo "dist ${PROJECT_DIR}" > debian/install
+	@echo "dist/trainings/* ${PROJECT_DIR}" > debian/install
 	cp debian/site-ssl.conf debian/${PROJECT_NAME}-ssl.conf
 	@echo "debian/${PROJECT_NAME}-ssl.conf /etc/apache2/sites-available" >> debian/install
 	# https
