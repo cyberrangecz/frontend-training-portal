@@ -32,8 +32,9 @@ before_script:
 installAngular:
     stage: installAngular
     script:
+        - cp /usr/local/npmrc ~/.npmrc
         - npm install
-        - ng build prod
+        - ng build --configuration=production
     only:
         - triggers
         - branches
