@@ -1,0 +1,20 @@
+kypo2-trainings (0.0.0) stable; urgency=medium
+
+  * [7a65b67b] Display topology component after its data is loaded
+  * [a244c7ff] Fix oidc token silent refresh issue
+  * [c67bb28d] Http interceptor fix
+  * [221df5af] Add initial selection of organizers in editing view group
+  * [d2672289] Incorrect flag limit 0 infinite is confusing
+  * [c1a474aa] Deleting level results in empty level component view
+  * [7eb19e3f] Sandbox is not matched properly when editing training
+    definition
+  * [60ab109c] User names instead of logins in selection components
+  * [a81dc565] Add info about suffix numeric code added to access token
+  * [333ebd64] Improve organizer table time format
+  * [f6b535cc] Alerts dissappear too fast
+  * [7ae86262] Ctrl mb does not open new tab on requested page
+  * [c66dd801] Wrong param in organizer overview table
+  * [d78f3009] Login fix
+  * [9781a58b] Devel
+
+ -- Martin Machac <machacm@ics.muni.cz>  Wed, 13 Mar 2019 16:23:42 +0100
