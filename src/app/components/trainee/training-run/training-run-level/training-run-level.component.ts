@@ -2,10 +2,8 @@ import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ActiveTrainingRunService} from "../../../../services/trainee/active-training-run.service";
 import {AbstractLevel} from "../../../../model/level/abstract-level";
-import {InfoLevel} from "../../../../model/level/info-level";
-import {AssessmentLevel} from "../../../../model/level/assessment-level";
-import {GameLevel} from "../../../../model/level/game-level";
 import { MatDialog } from "@angular/material/dialog";
+import {AbstractLevelTypeEnum} from "../../../../model/enums/abstract-level-type.enum";
 
 @Component({
   selector: 'training-run-level',
@@ -19,11 +17,8 @@ import { MatDialog } from "@angular/material/dialog";
 export class TrainingRunLevelComponent implements OnInit, OnDestroy {
 
   level: AbstractLevel;
-  isInfoLevel = false;
-  isAssessmentLevel = false;
-  isGameLevel = false;
-
   activeLevelsChangeSubscription;
+  levelTypes = AbstractLevelTypeEnum;
 
   constructor(
     private dialog: MatDialog,
@@ -62,18 +57,6 @@ export class TrainingRunLevelComponent implements OnInit, OnDestroy {
    */
   private initLevel() {
     this.level = this.activeLevelsService.getActiveLevel();
-    this.resolveLevelType();
-  }
-
-  /**
-   * Resolves type of a passed level
-   */
-  private resolveLevelType() {
-    if (this.level) {
-      this.isInfoLevel = this.level instanceof InfoLevel;
-      this.isAssessmentLevel = this.level instanceof AssessmentLevel;
-      this.isGameLevel = this.level instanceof GameLevel;
-    }
   }
 
   /**
@@ -84,7 +67,6 @@ export class TrainingRunLevelComponent implements OnInit, OnDestroy {
     this.activeLevelsChangeSubscription = this.activeLevelsService.onActiveLevelChanged
       .subscribe(activeLevel => {
         this.level = activeLevel;
-        this.resolveLevelType();
       })
   }
 }

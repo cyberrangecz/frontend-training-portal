@@ -1,3 +1,5 @@
-<game-level-configuration *ngIf="isGameLevelActive" (deleteLevel)="onDeleteLevel($event)" [trainingDefinitionId]="trainingDefinitionId" [level]="level"></game-level-configuration>
-<info-level-configuration *ngIf="isInfoLevelActive" (deleteLevel)="onDeleteLevel($event)" [trainingDefinitionId]="trainingDefinitionId" [level]="level"></info-level-configuration>
-<assessment-level-configuration *ngIf="isAssessmentLevelActive" (deleteLevel)="onDeleteLevel($event)" [trainingDefinitionId]="trainingDefinitionId" [level]="level"></assessment-level-configuration>
+<ng-container [ngSwitch]="level.type">
+  <game-level-configuration *ngSwitchCase="levelTypes.Game" (deleteLevel)="onDeleteLevel($event)" [trainingDefinitionId]="trainingDefinitionId" [level]="level"></game-level-configuration>
+  <info-level-configuration *ngSwitchCase="levelTypes.Info" (deleteLevel)="onDeleteLevel($event)" [trainingDefinitionId]="trainingDefinitionId" [level]="level"></info-level-configuration>
+  <assessment-level-configuration *ngSwitchCase="levelTypes.Assessment" (deleteLevel)="onDeleteLevel($event)" [trainingDefinitionId]="trainingDefinitionId" [level]="level"></assessment-level-configuration>
+</ng-container>

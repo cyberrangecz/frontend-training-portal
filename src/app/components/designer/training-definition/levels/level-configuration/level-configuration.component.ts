@@ -1,13 +1,9 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {AbstractLevel} from "../../../../../model/level/abstract-level";
-import {GameLevel} from "../../../../../model/level/game-level";
-import {AssessmentLevel} from "../../../../../model/level/assessment-level";
-import {InfoLevel} from "../../../../../model/level/info-level";
 import {GameLevelConfigurationComponent} from "./game-level-configuration/game-level-configuration.component";
 import {AssessmentLevelConfigurationComponent} from "./assessment-level-configuration/assessment-level-configuration.component";
 import {InfoLevelConfigurationComponent} from "./info-level-configuration/info-level-configuration.component";
-import {Observable} from "rxjs";
-import {TrainingDefinitionFacade} from "../../../../../services/facades/training-definition-facade.service";
+import {AbstractLevelTypeEnum} from "../../../../../model/enums/abstract-level-type.enum";
 
 @Component({
   selector: 'level-configuration',
@@ -17,7 +13,7 @@ import {TrainingDefinitionFacade} from "../../../../../services/facades/training
 /**
  * Main component of level configuration. Serves as a wrapper and resolver of level type and displays specific component accordingly
  */
-export class LevelConfigurationComponent implements OnInit, OnChanges {
+export class LevelConfigurationComponent implements OnInit {
 
   @ViewChild(GameLevelConfigurationComponent, { static: false }) gameLevelComponent;
   @ViewChild(AssessmentLevelConfigurationComponent, { static: false }) assessmentLevelComponent;
@@ -27,21 +23,10 @@ export class LevelConfigurationComponent implements OnInit, OnChanges {
   @Input('trainingDefinitionId') trainingDefinitionId: number;
   @Output('deleteLevel') deleteLevel: EventEmitter<number> = new EventEmitter();
 
-  isGameLevelActive: boolean;
-  isInfoLevelActive: boolean;
-  isAssessmentLevelActive: boolean;
+  levelTypes = AbstractLevelTypeEnum;
 
   ngOnInit() {
   }
-
-  constructor(private trainingDefinitionFacade: TrainingDefinitionFacade) {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if ('level' in changes) {
-      this.resolveLevelType();
-    }
-  }
-
 
   /**
    * Emits event saying that level with given index should be deleted
@@ -56,27 +41,13 @@ export class LevelConfigurationComponent implements OnInit, OnChanges {
    * @returns {boolean} true does not have any unsaved changes, false otherwise
    */
   canDeactivate(): boolean {
-    if (this.isGameLevelActive) {
-      return this.gameLevelComponent.canDeactivate();
-    } else if (this.isAssessmentLevelActive) {
-      return this.assessmentLevelComponent.canDeactivate()
-    } else {
-      return this.infoLevelComponent.canDeactivate();
-    }
-  }
-
-  /**
-   * Resolves type of level
-   */
-  private resolveLevelType() {
-    if (this.level instanceof GameLevel) {
-      this.isGameLevelActive = true;
-    }
-    if (this.level instanceof InfoLevel) {
-      this.isInfoLevelActive = true;
-    }
-    if (this.level instanceof AssessmentLevel) {
-      this.isAssessmentLevelActive = true;
+    switch (this.level.type) {
+      case AbstractLevelTypeEnum.Game:
+        return this.gameLevelComponent.canDeactivate();
+      case AbstractLevelTypeEnum.Info:
+        return this.infoLevelComponent.canDeactivate();
+      case AbstractLevelTypeEnum.Assessment:
+        return this.assessmentLevelComponent.canDeactivate();
     }
   }
 }
