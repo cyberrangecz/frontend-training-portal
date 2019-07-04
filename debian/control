@@ -6,7 +6,7 @@ Standards-Version: 3.9.8
 
 Package: kypo2-trainings
 Architecture: any
-Depends: maven, openjdk-11, ${misc:Depends}
+Depends: ${misc:Depends}
 Priority: optional
 Description: KYPO trainings project
  Implementation of the frontend for KYPO Trainings (former Capture the flag games).
