@@ -32,6 +32,8 @@ override_dh_install:
 	sed -i "s;\\$$[{]PROJECT_NAME[}];${PROJECT_NAME};g" debian/postinst
 	sed -i "s;\\$$[{]PROJECT_DIR[}];${PROJECT_DIR};g" debian/postinst
 	sed -i "s;\\$$[{]HTTPS_PORT[}];${HTTPS_PORT};g" debian/postinst
+	sed -i "s;\\$$[{]LOG_DIR[}];${LOG_DIR};g" debian/postinst
+	sed -i "s;\\$$[{]USER[}];${USER};g" debian/postinst
 	# preinst
 	sed -i "s;\\$$[{]USER[}];${USER};g" debian/preinst
 	# prerm
