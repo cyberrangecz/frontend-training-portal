@@ -1,0 +1,13 @@
+Source: kypo2-trainings
+Maintainer: Martin Machac <machacm@ics.muni.cz>
+Build-depends: debhelper (>= 8.0.0)
+Section: misc
+Standards-Version: 3.9.8
+
+Package: kypo2-trainings
+Architecture: any
+Depends: maven, openjdk-11, ${misc:Depends}
+Priority: optional
+Description: KYPO trainings project
+ Implementation of the frontend for KYPO Trainings (former Capture the flag games).
+
