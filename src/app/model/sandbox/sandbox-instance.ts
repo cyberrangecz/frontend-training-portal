@@ -14,7 +14,8 @@ export class SandboxInstance {
 
 
   isCreated(): boolean {
-    return this.state === SandboxInstanceState.CREATE_COMPLETE || this.state === SandboxInstanceState.ANSIBLE_COMPLETE;
+    return this.state === SandboxInstanceState.FULL_BUILD_COMPLETE
+    || this.state === SandboxInstanceState.COMPLETE;
   }
 
   isFailed(): boolean {
@@ -45,7 +46,8 @@ export class SandboxInstance {
       || this.state === SandboxInstanceState.UPDATE_IN_PROGRESS
       || this.state === SandboxInstanceState.FULL_BUILD_IN_PROGRESS
       || this.state === SandboxInstanceState.BOOTSTRAP_IN_PROGRESS
-      || this.state === SandboxInstanceState.ANSIBLE_IN_PROGRESS;
+      || this.state === SandboxInstanceState.ANSIBLE_IN_PROGRESS
+      || this.state === SandboxInstanceState.ANSIBLE_COMPLETE
   }
 
   isBeingDeleted(): boolean {

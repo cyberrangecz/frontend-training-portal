@@ -25,10 +25,11 @@ export class SandboxInstanceMapper {
       return knownState;
     }
     else {
-      if (state.toLowerCase().includes('progress')) {
+      const stateString = state.toLowerCase();
+      if (stateString.includes('progress')) {
         return SandboxInstanceState.IN_PROGRESS;
       }
-      if (state.toLowerCase().includes('failed')) {
+      if (stateString.includes('fail')) {
         return SandboxInstanceState.FAILED;
       }
       if (state.toLowerCase().includes('complete')) {
