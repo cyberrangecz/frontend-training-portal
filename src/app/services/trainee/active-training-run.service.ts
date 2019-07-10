@@ -17,8 +17,7 @@ import {AccessTrainingRunInfo} from "../../model/training/access-training-run-in
 export class ActiveTrainingRunService {
 
   constructor(private trainingRunFacade: TrainingRunFacade,
-              private router: Router,
-              private activeRoute: ActivatedRoute) {
+              private router: Router) {
   }
 
   private _activeLevels: AbstractLevel[];
@@ -50,6 +49,10 @@ export class ActiveTrainingRunService {
 
   getActiveLevel(): AbstractLevel {
     return this._activeLevel;
+  }
+
+  getActiveLevelPosition(): number {
+    return this._activeLevels.findIndex(level => level.id === this._activeLevel.id);
   }
 
   getStartTime(): Date {

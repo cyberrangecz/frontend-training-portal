@@ -38,6 +38,10 @@ export class PreviewTrainingRunService {
     return this._levels[this._activeLevelIndex];
   }
 
+  getActiveLevelPosition(): number {
+    return this._activeLevelIndex;
+  }
+
   getStartTime(): Date {
     return new Date();
   }
