@@ -1,0 +1,44 @@
+#!/usr/bin/make -f  
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+USER=kypo
+PROJECT_NAME=$(shell dpkg-parsechangelog --show-field source)
+PACKAGE_NAME=$(subst -,_,${PROJECT_NAME})
+PROJECT_DIR=/opt/kypo2/${PROJECT_NAME}
+CONFIG_DIR=/etc/kypo2/${PROJECT_NAME}
+LOG_DIR=/var/log/kypo2
+HTTPS_PORT=443
+CWD=$(shell pwd)
+
+%:  
+	dh $@
+
+override_dh_auto_build override_dh_auto_install:
+
+
+override_dh_install:
+	@echo "dist/trainings/* ${PROJECT_DIR}" > debian/install
+	cp debian/site-ssl.conf debian/${PROJECT_NAME}-ssl.conf
+	@echo "debian/${PROJECT_NAME}-ssl.conf /etc/apache2/sites-available" >> debian/install
+	# https
+	sed -i "s;\\$$[{]HTTPS_PORT[}];${HTTPS_PORT};g" debian/${PROJECT_NAME}-ssl.conf
+	sed -i "s;\\$$[{]USER[}];${USER};g" debian/${PROJECT_NAME}-ssl.conf
+	sed -i "s;\\$$[{]PROJECT_DIR[}];${PROJECT_DIR};g" debian/${PROJECT_NAME}-ssl.conf
+	sed -i "s;\\$$[{]PROJECT_NAME[}];${PROJECT_NAME};g" debian/${PROJECT_NAME}-ssl.conf
+	sed -i "s;\\$$[{]PACKAGE_NAME[}];${PACKAGE_NAME};g" debian/${PROJECT_NAME}-ssl.conf
+	# postinst
+	sed -i "s;\\$$[{]PROJECT_NAME[}];${PROJECT_NAME};g" debian/postinst
+	sed -i "s;\\$$[{]PROJECT_DIR[}];${PROJECT_DIR};g" debian/postinst
+	sed -i "s;\\$$[{]HTTPS_PORT[}];${HTTPS_PORT};g" debian/postinst
+	sed -i "s;\\$$[{]LOG_DIR[}];${LOG_DIR};g" debian/postinst
+	sed -i "s;\\$$[{]USER[}];${USER};g" debian/postinst
+	# preinst
+	sed -i "s;\\$$[{]USER[}];${USER};g" debian/preinst
+	# prerm
+	sed -i "s;\\$$[{]HTTPS_PORT[}];${HTTPS_PORT};g" debian/prerm
+	sed -i "s;\\$$[{]PROJECT_DIR[}];${PROJECT_DIR};g" debian/prerm
+	sed -i "s;\\$$[{]PROJECT_NAME[}];${PROJECT_NAME};g" debian/prerm
+	dh_install
+
