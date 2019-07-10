@@ -42,7 +42,7 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
     this.levels = this.activeTrainingRunService.getLevels();
     this.startTime = this.activeTrainingRunService.getStartTime();
     this.isStepperDisplayed = this.activeTrainingRunService.getIsStepperDisplayed();
-    this.selectedStep = this.activeTrainingRunService.getActiveLevel().order;
+    this.selectedStep = this.activeTrainingRunService.getActiveLevelPosition();
   }
 
 
