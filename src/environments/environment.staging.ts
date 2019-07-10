@@ -1,4 +1,3 @@
-
 export const environment = {
   production: true,
   rootPath: 'https://147.251.124.129',
@@ -24,7 +23,7 @@ export const environment = {
   issuer: 'https://oidc.muni.cz/oidc/',
   redirectUri: window.location.origin,
   clientId: 'b53f2660-8fa0-4d32-94e4-23a59d7e7077',
-  scope: 'openid, email, profile',
+  scope: 'openid email profile',
   logoutUrl: 'https://oidc.muni.cz/oidc/endsession',
   postLogoutRedirectUri: window.location.origin + '/logout-confirmed',
 
