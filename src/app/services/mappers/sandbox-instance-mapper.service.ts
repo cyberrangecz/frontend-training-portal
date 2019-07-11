@@ -15,29 +15,27 @@ export class SandboxInstanceMapper {
     result.id = sandboxDTO.id;
     result.poolId = sandboxDTO.pool;
     result.state = this.getSandboxStateFromString(sandboxDTO.status);
+    result.stateLabel = sandboxDTO.status.replace(new RegExp('_', 'g'), ' ');
     result.stateErrorMessage = sandboxDTO.status_reason;
     return result;
   }
 
   private getSandboxStateFromString(state: string): SandboxInstanceState {
-    const knownState = (<any>SandboxInstanceState)[state];
-    if (knownState !== undefined && knownState !== null) {
-      return knownState;
+    const lowercasedState = state.toLowerCase();
+    if (lowercasedState.includes('delete')) {
+      return SandboxInstanceState.DELETE_IN_PROGRESS;
+    }
+    if (lowercasedState.includes('progress')) {
+      return SandboxInstanceState.IN_PROGRESS;
+    }
+    if (lowercasedState.includes('fail')) {
+      return SandboxInstanceState.FAILED;
+    }
+    if (state.toLowerCase().includes('complete')) {
+      return SandboxInstanceState.COMPLETE;
     }
     else {
-      const stateString = state.toLowerCase();
-      if (stateString.includes('progress')) {
-        return SandboxInstanceState.IN_PROGRESS;
-      }
-      if (stateString.includes('fail')) {
-        return SandboxInstanceState.FAILED;
-      }
-      if (state.toLowerCase().includes('complete')) {
-        return SandboxInstanceState.COMPLETE;
-      }
-      else {
-        return undefined;
-      }
+      return undefined;
     }
   }
 }
