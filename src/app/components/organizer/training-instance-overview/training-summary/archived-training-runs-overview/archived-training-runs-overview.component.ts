@@ -12,6 +12,9 @@ import {environment} from "../../../../../../environments/environment";
 import {merge, of} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {PaginatedTable} from "../../../../../model/table-adapters/paginated-table";
+import {TrainingRunFacade} from "../../../../../services/facades/training-run-facade.service";
+import {MatDialog} from "@angular/material";
+import {ActionConfirmationDialog} from "../../../../shared/delete-dialog/action-confirmation-dialog.component";
 
 @Component({
   selector: 'archived-training-runs-overview',
@@ -32,6 +35,7 @@ export class ArchivedTrainingRunsOverviewComponent extends BaseTrainingRunsOverv
 
   constructor(
     activeTrainingInstanceService: ActiveTrainingInstanceService,
+    private dialog: MatDialog,
     private alertService: AlertService,
     private errorHandler: ErrorHandlerService,
     private trainingInstanceFacade: TrainingInstanceFacade) {
@@ -45,6 +49,35 @@ export class ArchivedTrainingRunsOverviewComponent extends BaseTrainingRunsOverv
   ngOnDestroy() {
     super.ngOnDestroy();
   }
+
+  deleteArchivedTrainingRuns() {
+    const dialogRef = this.dialog.open(ActionConfirmationDialog, {
+      data: {
+        type: 'archived training runs',
+        action: 'delete'
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.type === 'confirm') {
+        this.sendRequestToDeleteArchivedTrainingRuns()
+      }
+    });
+  }
+
+  deleteTrainingRun(id: number) {
+    const dialogRef = this.dialog.open(ActionConfirmationDialog, {
+      data: {
+        type: 'archived training run',
+        action: 'delete'
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.type === 'confirm') {
+        this.sendRequestToDeleteArchivedTrainingRun(id)
+      }
+    });
+  }
+
 
   /**
    * Creates table data source from training runs retrieved from a server.
@@ -87,5 +120,20 @@ export class ArchivedTrainingRunsOverviewComponent extends BaseTrainingRunsOverv
         (data: PaginatedTable<TrainingRunTableAdapter[]>) =>
           this.archivedTrainingRunsDataSource = new MatTableDataSource(data.tableData)
     );
+  }
+
+  private sendRequestToDeleteArchivedTrainingRuns() {
+    const idsToDelete: number[] = this.archivedTrainingRunsDataSource.data.map(row => row.trainingRun.id);
+    this.trainingRunFacade.deleteTrainingRuns(idsToDelete)
+      .subscribe(
+        deleted => this.fetchData(),
+        err => this.errorHandler.displayInAlert(err, 'Deleting training runs'))
+  }
+
+  private sendRequestToDeleteArchivedTrainingRun(id: number) {
+    this.trainingRunFacade.deleteTrainingRun(id)
+      .subscribe(
+        deleted => this.fetchData(),
+        err => this.errorHandler.displayInAlert(err, 'Deleting training run'))
   }
 }

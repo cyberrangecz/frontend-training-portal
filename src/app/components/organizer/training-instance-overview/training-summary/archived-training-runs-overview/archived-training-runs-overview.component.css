@@ -20,24 +20,13 @@ mat-form-field {
   justify-content: center;
 }
 
+button.delete-all {
+  width: 120px;
+  align-self: flex-end;
+}
+
 table {
   width: 100%;
-}
-
-td.sandboxId, th.sandboxId {
-  width: 25%;
-}
-
-td.sandboxState, th.sandboxState {
-  width: 25%;
-}
-
-td.playerId, th.playerId {
-  width: 25%;
-}
-
-td.state, th.state {
-  width: 25%;
 }
 
 

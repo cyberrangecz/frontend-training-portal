@@ -60,7 +60,7 @@ import {ActionConfirmationDialog} from "./delete-dialog/action-confirmation-dial
   ],
   entryComponents: [
     AlertSnackbarComponent,
-    ActionConfirmationDialog
+    ActionConfirmationDialog,
   ]
 })
 
