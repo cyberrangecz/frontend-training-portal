@@ -30,8 +30,4 @@ export class TrainingRun {
   hasPlayer(): boolean {
     return this.player !== undefined && this.player !== null;
   }
-
-  hasSandbox(): boolean {
-    return this.sandboxInstanceId !== undefined && this.sandboxInstanceId !== null;
-  }
 }

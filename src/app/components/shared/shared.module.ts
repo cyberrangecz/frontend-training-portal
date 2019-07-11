@@ -20,7 +20,6 @@ import {InstanceAllocationObservablesPoolService} from "../../services/organizer
 import {SandboxInstanceFacadeModule} from "../../services/facades/modules/sandbox-instance-facade.module";
 import {SandboxAllocationContentMaximizedComponent} from './sandbox-allocation/sandbox-allocation-content-maximized/sandbox-allocation-content-maximized.component';
 import {ActionConfirmationDialog} from "./delete-dialog/action-confirmation-dialog.component";
-import { InfoDialog } from './info-dialog/info-dialog.component';
 
 @NgModule({
   imports: [
@@ -41,7 +40,6 @@ import { InfoDialog } from './info-dialog/info-dialog.component';
     SandboxAllocationPanelComponent,
     SandboxAllocationContentMinimizedComponent,
     SandboxAllocationContentMaximizedComponent,
-    InfoDialog,
   ],
   exports: [
     ToolbarComponent,
@@ -62,8 +60,7 @@ import { InfoDialog } from './info-dialog/info-dialog.component';
   ],
   entryComponents: [
     AlertSnackbarComponent,
-    ActionConfirmationDialog,
-    InfoDialog
+    ActionConfirmationDialog
   ]
 })
 

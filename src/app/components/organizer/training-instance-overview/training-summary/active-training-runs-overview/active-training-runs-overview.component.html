@@ -91,26 +91,14 @@
             <td class="actions" mat-cell *matCellDef="let data">
 
               <div class="action-buttons">
-                <!-- DELETE SANDBOX button-->
+                <!-- DELETE button-->
                 <button *ngIf="!data.deletionRequested"
                         mat-icon-button
-                        color="primary"
+                        color="warn"
                         matTooltip="Delete sandbox of training run"
                         (click)="deleteSandboxOfTrainingRun(data)">
                   <mat-icon
                     aria-label="Delete sandbox training run button">
-                    replay
-                  </mat-icon>
-                </button>
-
-                <!-- DELETE TRAINING RUN button-->
-                <button *ngIf="!data.deletionRequested"
-                        mat-icon-button
-                        color="warn"
-                        matTooltip="Delete training run"
-                        (click)="deleteTrainingRun(data)">
-                  <mat-icon
-                    aria-label="Delete training run button">
                     delete
                   </mat-icon>
                 </button>
