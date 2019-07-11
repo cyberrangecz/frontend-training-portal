@@ -223,9 +223,6 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
 
     for (let i = 0; i < this.trainingInstance.poolSize - sandboxes.length; i++) {
       const emptyRow = new SandboxInstanceTableAdapter();
-      emptyRow.isCreated = false;
-      emptyRow.isFailed = false;
-      emptyRow.isInProgress = false;
       result.push(emptyRow);
     }
 

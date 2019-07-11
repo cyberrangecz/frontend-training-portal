@@ -36,7 +36,7 @@
                   <mat-icon>error</mat-icon>
                 </button>
                 <mat-progress-bar *ngIf="data.isInProgress" class="allocation-progress" color="accent" mode="indeterminate"></mat-progress-bar>
-                <div *ngIf="!data.isCreated && !data.isFailed && !data.isInProgress then notAllocatedState else allocationState"></div>
+                <div *ngIf="!data.sandboxInstance then notAllocatedState else allocationState"></div>
                 <ng-template #notAllocatedState>
                   <span class="allocation-state-text"> NOT ALLOCATED</span>
                 </ng-template>
@@ -65,7 +65,7 @@
                 </button>
 
                 <!-- ALLOCATE button-->
-                <button *ngIf="canAllocate && !data.isCreated && !data.isFailed && !data.isInProgress"
+                <button *ngIf="canAllocate && !data.sandboxInstance"
                         mat-icon-button color="primary"
                         matTooltip="Allocate sandbox instance"
                         [disabled]="isDisabled"

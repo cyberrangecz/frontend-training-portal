@@ -21,7 +21,7 @@ export class SandboxInstanceMapper {
 
   private getSandboxStateFromString(state: string): SandboxInstanceState {
     const knownState = (<any>SandboxInstanceState)[state];
-    if (knownState !== undefined || knownState !== null) {
+    if (knownState !== undefined && knownState !== null) {
       return knownState;
     }
     else {
