@@ -12,6 +12,7 @@ import {environment} from "../../../../../../environments/environment";
 import {merge, of} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
 import {PaginatedTable} from "../../../../../model/table-adapters/paginated-table";
+import {TrainingRunFacade} from "../../../../../services/facades/training-run-facade.service";
 
 @Component({
   selector: 'archived-training-runs-overview',
@@ -20,7 +21,7 @@ import {PaginatedTable} from "../../../../../model/table-adapters/paginated-tabl
 })
 export class ArchivedTrainingRunsOverviewComponent extends BaseTrainingRunsOverview implements OnInit, OnDestroy {
 
-  displayedColumns: string[] = ['player', 'state'];
+  displayedColumns: string[] = ['player', 'state', 'actions'];
   archivedTrainingRunsDataSource: MatTableDataSource<TrainingRunTableAdapter>;
 
   resultsLength = 0;
@@ -34,7 +35,8 @@ export class ArchivedTrainingRunsOverviewComponent extends BaseTrainingRunsOverv
     activeTrainingInstanceService: ActiveTrainingInstanceService,
     private alertService: AlertService,
     private errorHandler: ErrorHandlerService,
-    private trainingInstanceFacade: TrainingInstanceFacade) {
+    private trainingInstanceFacade: TrainingInstanceFacade,
+    private trainingRunFacade: TrainingRunFacade) {
     super(activeTrainingInstanceService)
   }
 
@@ -44,6 +46,13 @@ export class ArchivedTrainingRunsOverviewComponent extends BaseTrainingRunsOverv
 
   ngOnDestroy() {
     super.ngOnDestroy();
+  }
+
+  deleteTrainingRun(id: number) {
+    this.trainingRunFacade.deleteTrainingRun(id)
+      .subscribe(
+        deleted => this.fetchData(),
+        err => this.errorHandler.displayInAlert(err, 'Deleting training run'))
   }
 
   /**

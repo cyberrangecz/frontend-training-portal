@@ -273,7 +273,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
           this.fetchData();
         },
         err => {
-          this.errorHandler.displayInAlert(err, 'Removing training definition');
+          this.errorHandler.displayInAlert(err, 'Deleting training definition');
         });
   }
 

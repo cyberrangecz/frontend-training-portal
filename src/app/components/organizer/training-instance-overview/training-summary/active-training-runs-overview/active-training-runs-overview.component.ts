@@ -16,6 +16,9 @@ import {environment} from "../../../../../../environments/environment";
 import {BaseTrainingRunsOverview} from "../base-training-runs-overview";
 import {ActionConfirmationDialog} from "../../../../shared/delete-dialog/action-confirmation-dialog.component";
 import {SandboxInstanceFacade} from "../../../../../services/facades/sandbox-instance-facade.service";
+import {TrainingRun} from "../../../../../model/training/training-run";
+import {InfoDialog} from "../../../../shared/info-dialog/info-dialog.component";
+import {TrainingRunFacade} from "../../../../../services/facades/training-run-facade.service";
 
 @Component({
   selector: 'active-training-runs-overview',
@@ -57,6 +60,7 @@ export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOvervie
     private alertService: AlertService,
     private errorHandler: ErrorHandlerService,
     private sandboxInstanceFacade: SandboxInstanceFacade,
+    private trainingRunFacade: TrainingRunFacade,
     private trainingInstanceFacade: TrainingInstanceFacade) {
     super(activeTrainingInstanceService)
   }
@@ -82,6 +86,15 @@ export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOvervie
       this.sendRequestToDeleteSandbox(row);
     }
   }
+
+  deleteTrainingRun(row: TrainingRunTableAdapter) {
+    if (row.trainingRun.hasSandbox()) {
+      this.informUserToDeleteSandboxesFirst();
+    } else {
+      this.sendRequestToDeleteTrainingRun(row.trainingRun);
+    }
+  }
+
 
   /**
    * Applies filter data source
@@ -205,6 +218,28 @@ export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOvervie
       )
   }
 
+  private informUserToDeleteSandboxesFirst() {
+    this.dialog.open(InfoDialog, {
+      data: {
+        title: 'Training run has sandboxes',
+        text: 'Selected training run has sandbox allocated. Delete sandbox before deleting training run'
+      }
+    });
+  }
+
+  private sendRequestToDeleteTrainingRun(trainingRun: TrainingRun) {
+    this.trainingRunFacade.deleteTrainingRun(trainingRun.id)
+      .subscribe(
+        response => {
+          this.alertService.emitAlert(AlertTypeEnum.Success, 'Training run was successfully deleted');
+          this.fetchTrainingRuns();
+        },
+        err => {
+          this.errorHandler.displayInAlert(err, 'Deleting training run');
+        }
+      )
+  }
+
   private sendRequestToDeleteSandbox(row: TrainingRunTableAdapter) {
     row.deletionRequested = true;
     this.sandboxInstanceFacade.deleteSandbox(this.trainingInstance.id, row.trainingRun.sandboxInstanceId)
@@ -215,7 +250,7 @@ export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOvervie
       },
       err => {
         row.deletionRequested = false;
-        this.errorHandler.displayInAlert(err, 'Deletion sandbox instance');
+        this.errorHandler.displayInAlert(err, 'Deleting sandbox instance');
       }
     )
   }
@@ -226,5 +261,4 @@ export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOvervie
       this.now = Date.now()
     );
   }
-
 }

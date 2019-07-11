@@ -29,6 +29,25 @@
             </td>
           </ng-container>
 
+          <!-- ACTIONS Column -->
+          <ng-container matColumnDef="actions">
+            <th class="actions" mat-header-cell *matHeaderCellDef>Actions</th>
+            <td class="actions" mat-cell *matCellDef="let data">
+              <div class="action-buttons">
+                <!-- DELETE button-->
+                <button mat-icon-button
+                        color="warn"
+                        matTooltip="Delete training run"
+                        (click)="deleteTrainingRun(data)">
+                  <mat-icon
+                    aria-label="Delete training run button">
+                    delete
+                  </mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
