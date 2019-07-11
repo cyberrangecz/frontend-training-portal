@@ -23,7 +23,7 @@ import {ActionConfirmationDialog} from "../../../../shared/delete-dialog/action-
 })
 export class ArchivedTrainingRunsOverviewComponent extends BaseTrainingRunsOverview implements OnInit, OnDestroy {
 
-  displayedColumns: string[] = ['player', 'state'];
+  displayedColumns: string[] = ['player', 'state', 'actions'];
   archivedTrainingRunsDataSource: MatTableDataSource<TrainingRunTableAdapter>;
 
   resultsLength = 0;
@@ -38,6 +38,7 @@ export class ArchivedTrainingRunsOverviewComponent extends BaseTrainingRunsOverv
     private dialog: MatDialog,
     private alertService: AlertService,
     private errorHandler: ErrorHandlerService,
+    private trainingRunFacade: TrainingRunFacade,
     private trainingInstanceFacade: TrainingInstanceFacade) {
     super(activeTrainingInstanceService)
   }

@@ -105,6 +105,15 @@ export class TrainingRunFacade {
       .pipe(map(response => this.trainingRunMapper.mapAccessedTrainingRunDTOsToTrainingRunTableObjects(response)));
   }
 
+  deleteTrainingRun(trainingRunId: number) {
+    return this.http.delete(this.trainingRunsEndpointUri + trainingRunId);
+  }
+
+  deleteTrainingRuns(trainingRunIds: number[]) {
+    const params = new HttpParams().append('trainingRunIds', trainingRunIds.toString());
+    return this.http.delete(this.trainingRunsEndpointUri, { params: params});
+  }
+
   /**
    * Tries to access training run with accessToken. Returns training run if the accessToken is correct
    * @param password accessToken to access the training run
