@@ -16,6 +16,7 @@ import {environment} from "../../../../../../environments/environment";
 import {BaseTrainingRunsOverview} from "../base-training-runs-overview";
 import {ActionConfirmationDialog} from "../../../../shared/delete-dialog/action-confirmation-dialog.component";
 import {SandboxInstanceFacade} from "../../../../../services/facades/sandbox-instance-facade.service";
+import {TrainingRunFacade} from "../../../../../services/facades/training-run-facade.service";
 
 @Component({
   selector: 'active-training-runs-overview',

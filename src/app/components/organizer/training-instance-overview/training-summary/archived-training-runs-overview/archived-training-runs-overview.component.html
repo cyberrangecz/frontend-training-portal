@@ -1,5 +1,6 @@
 <div class="training">
   <h2>Archived Training Runs</h2>
+  <button *ngIf="resultsLength > 0" class="delete-all" mat-button color="warn" (click)="deleteArchivedTrainingRuns()">Delete all</button>
   <div class="training-table-wrapper">
     <div class="training-table">
       <div class="mat-elevation-z8">
@@ -26,6 +27,25 @@
             <th class="state" mat-header-cell *matHeaderCellDef>Training Run State</th>
             <td class="state" mat-cell *matCellDef="let data">
               {{ data.trainingRun?.state }}
+            </td>
+          </ng-container>
+
+          <!-- ACTIONS Column -->
+          <ng-container matColumnDef="actions">
+            <th class="actions" mat-header-cell *matHeaderCellDef>Actions</th>
+            <td class="actions" mat-cell *matCellDef="let data">
+              <div class="action-buttons">
+                <!-- DELETE button-->
+                <button mat-icon-button
+                        color="warn"
+                        matTooltip="Delete training run"
+                        (click)="deleteTrainingRun(data.trainingRun?.id)">
+                  <mat-icon
+                    aria-label="Delete training run button">
+                    delete
+                  </mat-icon>
+                </button>
+              </div>
             </td>
           </ng-container>
 
