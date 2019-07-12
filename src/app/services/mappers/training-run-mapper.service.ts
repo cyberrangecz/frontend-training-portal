@@ -190,10 +190,11 @@ export class TrainingRunMapper {
    *
    * @param flagResponse
    */
-  mapIsCorrectFlagDTOToObject(flagResponse: IsCorrectFlagDTO): FlagCheck {
+  mapIsCorrectFlagDTOToFlagCheck(flagResponse: IsCorrectFlagDTO): FlagCheck {
     const result = new FlagCheck();
     result.isCorrect = flagResponse.correct;
     result.remainingAttempts = flagResponse.remaining_attempts;
+    result.solution = flagResponse.solution;
     return result
   }
 
