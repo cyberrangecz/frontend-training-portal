@@ -25,6 +25,7 @@ export class PreviewGameLevelService {
       result.isCorrect = false;
       this._remainingAttempts--;
       result.remainingAttempts = this._remainingAttempts;
+      result.solution = this._currentLevel.solution
     }
     return of(result);
 

@@ -12,6 +12,7 @@ import {ErrorHandlerService} from "../../../../../services/shared/error-handler.
 import {ActivatedRoute, Router} from "@angular/router";
 import {TrainingRunGameLevelService} from "../../../../../services/trainee/training-run-game-level.service";
 import {Hint} from "../../../../../model/level/hint";
+import {FlagCheck} from "../../../../../model/level/flag-check";
 
 @Component({
   selector: 'training-run-game-level',
@@ -120,7 +121,7 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
             if (resp.isCorrect) {
               this.onCorrectFlagSubmitted();
             } else {
-              this.onWrongFlagSubmitted(resp.remainingAttempts)
+              this.onWrongFlagSubmitted(resp)
             }
           },
         err => this.errorHandler.displayInAlert(err, 'Submitting flag')
@@ -161,9 +162,12 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
     }
   }
 
-  private showSolution() {
-    this.solutionShown = true;
+  private showSolution(solution: string = null) {
+    if (solution !== null && solution !== undefined) {
+      this.level.solution = solution;
+    }
     this.displayedHints = this.level.solution;
+    this.solutionShown = true;
   }
 
   /**
@@ -187,20 +191,14 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
     }
   }
 
-  /**
-   * otherwise popup dialog informing the user about penalty for submitting incorrect flag is displayed and the information
-   * is send to the endpoint
-   */
-  private onWrongFlagSubmitted(remainingAttempts: number) {
+  private onWrongFlagSubmitted(flagCheck: FlagCheck) {
     this.flag = "";
-    if (!this.solutionShown) {
-      if (remainingAttempts === 0) {
-        this.sendRequestToRevealSolution();
-      }
+    if (!this.solutionShown && flagCheck.remainingAttempts === 0) {
+      this.showSolution(flagCheck.solution);
     }
-    const dialogRef = this.dialog.open(WrongFlagDialogComponent, {
+    this.dialog.open(WrongFlagDialogComponent, {
       data: {
-         remainingAttempts: remainingAttempts,
+         remainingAttempts: flagCheck.remainingAttempts,
       }
     });
   }
@@ -209,8 +207,7 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
     this.isGameDataLoaded = false;
     this.gameLevelService.takeSolution(this.activeLevelService.trainingRunId)
       .subscribe(resp => {
-        this.level.solution = resp;
-        this.showSolution();
+        this.showSolution(resp);
         this.isGameDataLoaded = true;
       },
       err => {

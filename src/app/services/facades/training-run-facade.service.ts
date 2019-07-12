@@ -150,7 +150,7 @@ export class TrainingRunFacade {
    */
   isCorrectFlag(trainingRunId: number, flag: string): Observable<FlagCheck> {
     return this.http.get<IsCorrectFlagDTO>(this.trainingRunsEndpointUri + trainingRunId + '/is-correct-flag?flag=' + flag)
-      .pipe(map(response => this.trainingRunMapper.mapIsCorrectFlagDTOToObject(response)));
+      .pipe(map(response => this.trainingRunMapper.mapIsCorrectFlagDTOToFlagCheck(response)));
   }
 
   /**
