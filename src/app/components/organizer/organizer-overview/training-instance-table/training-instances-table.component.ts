@@ -112,11 +112,13 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
    * @param {TrainingInstanceTableAdapter} training training instance which should be removed
    */
   deleteTraining(training: TrainingInstanceTableAdapter) {
+
     const dialogRef = this.dialog.open(ActionConfirmationDialog, {
       data: {
         type: 'Training Instance',
         action: 'delete',
-        title: training.trainingInstance.title
+        title: training.trainingInstance.title,
+        additionalInfo: training.trainingInstance.isActive(this.now) ? 'This training instance is in progress.' : undefined
       }
     });
 
