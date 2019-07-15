@@ -26,4 +26,8 @@ export class TrainingInstance {
   hasTrainingRunConnectedWithSandbox(sandboxInstanceId: number): boolean {
     return this.sandboxWithTrainingRunIds.includes(sandboxInstanceId);
   }
+
+  isActive(timestamp: number): boolean {
+    return this.startTime.valueOf() < timestamp && this.endTime.valueOf() > timestamp
+  }
 }

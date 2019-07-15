@@ -121,8 +121,7 @@
                 </button>
 
                 <!-- REMOVE button-->
-                <button *ngIf="training.trainingInstance?.endTime.valueOf() < now"
-                        mat-icon-button color="warn"
+                <button mat-icon-button color="warn"
                         matTooltip="Delete training instance"
                         (click)="deleteTraining(training);$event.stopPropagation()">
                   <mat-icon
