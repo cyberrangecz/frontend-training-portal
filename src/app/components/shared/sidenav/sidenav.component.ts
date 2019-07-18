@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActiveUserService} from "../../../services/shared/active-user.service";
 import {UserMenuSection} from "../../../model/menu/user-menu-section.model";
 import {Agenda} from "../../../model/menu/agenda.model";
+import {Kypo2AuthService} from 'kypo2-auth';
 
 @Component({
   selector: 'shared-sidenav',
@@ -16,7 +16,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
   menuSections: UserMenuSection[];
   private userChangeSubscription;
 
-  constructor(private activeUserService: ActiveUserService) {
+  constructor(private authService: Kypo2AuthService) {
 
   }
 
@@ -65,17 +65,17 @@ export class SidenavComponent implements OnInit, OnDestroy {
     return [
       {
         title: 'Designer',
-        isVisible: this.activeUserService.isDesigner(),
+        isVisible: this.authService.isTrainingDesigner(),
         route: '/designer'
       },
       {
         title: 'Organizer',
-        isVisible: this.activeUserService.isOrganizer(),
+        isVisible: this.authService.isTrainingOrganizer(),
         route: '/organizer'
       },
       {
         title: 'Trainee',
-        isVisible: this.activeUserService.isTrainee(),
+        isVisible: this.authService.isTrainingTrainee(),
         route: '/trainee'
       }
     ];
@@ -85,7 +85,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
     return [
       {
         title: 'Administrator',
-        isVisible: this.activeUserService.isAdmin(),
+        isVisible: this.authService.isUserAndGroupAdmin(),
         route: '/admin'
       },
       {
@@ -100,7 +100,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
    * Subscribes for changes of active (logged in) user and in case of changes recalculates visibility of trainings based on his roles.
    */
   private subscribeUserChange() {
-    this.userChangeSubscription = this.activeUserService.onActiveUserChanged
+    this.userChangeSubscription = this.authService.activeUser$
       .subscribe(user => {
         this.initUserMenu();
       })

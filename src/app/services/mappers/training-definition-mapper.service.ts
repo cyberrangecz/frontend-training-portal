@@ -11,14 +11,13 @@ import {TrainingDefinitionTableAdapter} from '../../model/table-adapters/trainin
 import {TablePagination} from '../../model/table-adapters/table-pagination';
 import {LevelMapper} from './level-mapper.service';
 import {BetaTestingGroupDTO} from '../../model/DTOs/training-definition/beta-testing-group-dto';
-import {BetaTestingGroup} from '../../model/user/beta-testing-group';
 import {BetaTestingGroupCreateDTO} from '../../model/DTOs/training-definition/beta-testing-group-create-dto';
 import {BetaTestingGroupUpdateDTO} from '../../model/DTOs/training-definition/beta-testing-group-update-dto';
 import {UserMapper} from './user.mapper.service';
-import {RestResourceDTO} from 'kypo2-user-and-group-management/lib/model/DTO/rest-resource-dto.model';
 import {TrainingDefinitionInfo} from '../../model/training/training-definition-info';
 import {TrainingDefinitionInfoDTO} from '../../model/DTOs/training-definition/training-definition-info-dto';
 import {TrainingDefinitionInfoRestResource} from '../../model/DTOs/training-definition/training-definition-info-rest-resource';
+import {BetaTestingGroup} from '../../model/training/beta-testing-group';
 
 @Injectable()
 export class TrainingDefinitionMapper {

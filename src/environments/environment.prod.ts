@@ -19,18 +19,32 @@ export const environment = {
   userAndGroupRestBasePath: 'http://147.251.124.178:8084/kypo2-rest-user-and-group/api/v1/',
   userAndGroupDefaultPaginationSize: 20,
 
-  //OIDC
-  issuer: 'https://oidc.muni.cz/oidc/',
-  redirectUri: window.location.origin,
-  clientId: '4fbfa660-88e9-4560-98ee-c858610e7946',
-  scope: 'openid profile email',
-  logoutUrl: 'https://oidc.muni.cz/oidc/endsession',
-  postLogoutRedirectUri: window.location.origin + '/',
-
   // TOPOLOGY COMPONENT CONFIG
   topologyRestUrl: 'http://147.251.124.178:8085/kypo2-rest-topology/api/v1/sandboxes/',
   decoratorsRestUrl: '',
   defaultDecoratorRefreshPeriodInSeconds: 3,
   useRealTime: false,
   useDecorators: false,
+
+  kypo2AuthConfig: {
+    maxRetryAttempts: 3,
+    guardMainPageRedirect: 'home',
+    guardLoginPageRedirect: 'login',
+    userInfoRestUri: 'https://147.251.124.129:8084/kypo2-rest-user-and-group/api/v1/users/info',
+    providers: [
+      {
+        label: 'Login with MUNI',
+        textColor: 'white',
+        backgroundColor: '#002776',
+        tokenRefreshTime: 30000,
+        issuer: 'https://oidc.muni.cz/oidc/',
+        clientId: '4fbfa660-88e9-4560-98ee-c858610e7946',
+        redirectUri: window.location.origin,
+        scope: 'openid email profile',
+        logoutUrl: 'https://oidc.muni.cz/oidc/endsession',
+        postLogoutRedirectUri: window.location.origin + '/login',
+        clearHashAfterLogin: true
+      },
+    ]
+  }
 };

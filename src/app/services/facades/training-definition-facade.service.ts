@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from "../../../environments/environment";
 import {catchError, map} from "rxjs/operators";
 import {TrainingDefinition} from "../../model/training/training-definition";
@@ -27,7 +27,6 @@ import {TrainingDefinitionStateEnum} from '../../model/enums/training-definition
 import {TrainingDefinitionInfo} from '../../model/training/training-definition-info';
 import {TrainingDefinitionInfoRestResource} from '../../model/DTOs/training-definition/training-definition-info-rest-resource';
 import {of} from "rxjs";
-import {Params} from "@angular/router";
 
 @Injectable()
 /**
@@ -96,7 +95,7 @@ export class TrainingDefinitionFacade {
         );
   }
 
-  getTrainingDefinitionExists(id: number): Observable<boolean> {
+  exists(id: number): Observable<boolean> {
     return this.http.get(this.trainingDefsEndpointUri + id)
       .pipe(
         map(response => true),

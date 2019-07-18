@@ -1,33 +1,33 @@
 import {Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
-import {Observable} from "rxjs/internal/Observable";
-import { Kypo2AuthGuardWithLogin, Kypo2AuthService} from 'kypo2-auth';
+import {Observable} from "rxjs";
+import { Kypo2AuthGuardWithLogin, Kypo2AuthService} from "kypo2-auth";
 import {map} from "rxjs/operators";
 import {CanActivateToObservable} from "./can-activate-to-observable";
-@Injectable()
+
 /**
- * Guard which determines if user is signed in and has role of designer.
+ * If user has only trainee role it is desired to navigate him directly to his agenda instead of homepage
  */
-export class DesignerGuard implements CanActivate {
+@Injectable()
+export class NotOnlyTraineeGuard implements CanActivate {
 
   constructor(private router: Router,
               private authGuard: Kypo2AuthGuardWithLogin,
               private authService: Kypo2AuthService) {
-
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     return CanActivateToObservable.convert(this.authGuard.canActivate(route, state))
       .pipe(
-        map(canActivate => canActivate ? this.isDesigner() : false)
+        map(canActivate => canActivate ? this.isTraineeOnly() : false)
       );
   }
 
-  private isDesigner(): boolean {
-    if (this.authService.isTrainingDesigner()) {
-      return true;
+  private isTraineeOnly(): boolean {
+    if (this.authService.isTrainingTrainee() && !this.authService.isTrainingOrganizer() && !this.authService.isTrainingDesigner() && !this.authService.isUserAndGroupAdmin()) {
+      this.router.navigate(['trainee']);
+      return false;
     }
-    this.router.navigate(['home']);
-    return false;
+    return true;
   }
 }

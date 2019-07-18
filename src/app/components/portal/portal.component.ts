@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActiveUserService} from "../../services/shared/active-user.service";
 import {Router} from "@angular/router";
+import {Kypo2AuthService} from 'kypo2-auth';
 
 @Component({
   selector: 'overview',
@@ -20,7 +20,7 @@ export class PortalComponent implements OnInit, OnDestroy {
   userChangeSubscription;
 
   constructor(
-    private activeUserService: ActiveUserService,
+    private authService: Kypo2AuthService,
     private router: Router) {
   }
 
@@ -53,18 +53,18 @@ export class PortalComponent implements OnInit, OnDestroy {
     this.trainingRoles = [
       {
         name: 'Designer',
-        disabled: !this.activeUserService.isDesigner(),
+        disabled: !this.authService.isTrainingDesigner(),
         route: '/designer'
       },
       {
         name: 'Organizer',
-        disabled: !this.activeUserService.isOrganizer(),
+        disabled: !this.authService.isTrainingOrganizer(),
         route: '/organizer'
 
       },
       {
         name: 'Trainee',
-        disabled: !this.activeUserService.isTrainee(),
+        disabled: !this.authService.isTrainingTrainee(),
         route: '/trainee'
       }
     ];
@@ -100,7 +100,7 @@ export class PortalComponent implements OnInit, OnDestroy {
     this.otherAgendaRoles = [
       {
         name: 'Administrator',
-        disabled: !this.activeUserService.isAdmin(),
+        disabled: !this.authService.isUserAndGroupAdmin(),
         route: '/admin'
       },
       {
@@ -115,7 +115,7 @@ export class PortalComponent implements OnInit, OnDestroy {
    * Subscribes to changes in active user (logged out/in) and recalculates source objects and visibility based on roles of new user.
    */
   private subscribeUserChange() {
-    this.userChangeSubscription = this.activeUserService.onActiveUserChanged.
+    this.userChangeSubscription = this.authService.activeUser$.
       subscribe(user => {
       this.initRoutes();
     });

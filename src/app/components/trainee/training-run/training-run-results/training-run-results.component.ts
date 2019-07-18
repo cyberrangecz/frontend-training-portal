@@ -2,7 +2,7 @@ import {AfterViewInit, Component, OnInit, } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {TrainingRunFacade} from "../../../../services/facades/training-run-facade.service";
 import {ErrorHandlerService} from "../../../../services/shared/error-handler.service";
-import {ActiveUserService} from '../../../../services/shared/active-user.service';
+import {Kypo2AuthService} from 'kypo2-auth';
 
 @Component({
   selector: 'training-run-results',
@@ -26,7 +26,7 @@ export class TrainingRunResultsComponent implements OnInit, AfterViewInit {
   activeUserUco: string;
 
   constructor(private activatedRoute: ActivatedRoute,
-              private activeUserService: ActiveUserService,
+              private authService: Kypo2AuthService,
               private errorHandler: ErrorHandlerService,
               private trainingRunFacade: TrainingRunFacade) {
 }
@@ -70,7 +70,7 @@ export class TrainingRunResultsComponent implements OnInit, AfterViewInit {
   }
 
   private parseUcoFromUserLogin() {
-    return this.activeUserService.getActiveUser().login.split('@')[0]
+    return this.authService.getActiveUser().login.split('@')[0]
   }
 
   private setVisualizationSize(windowWidth: number, windowHeight: number) {

@@ -1,16 +1,11 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
-import {User} from "../../model/user/user";
 import {map} from "rxjs/operators";
 import {UserMapper} from "../mappers/user.mapper.service";
-import {UserInfoDTO} from "../../model/DTOs/user/user-info-dto";
-import {UserRoleEnum} from "../../model/enums/user-role.enum";
-import {RoleDTO} from "../../model/DTOs/user/role-dto";
-import {UserRefDTO} from '../../model/DTOs/user/user-ref-dto';
-import {UserInfo} from 'angular-oauth2-oidc';
 import {UserBasicDTO} from '../../model/DTOs/user/user-basic-dto';
+import {User} from 'kypo2-auth';
 
 @Injectable()
 /**
@@ -39,10 +34,5 @@ export class UserFacade {
   getDesigners(): Observable<User[]> {
     return this.http.get<UserBasicDTO[]>(this.trainingDefsEndpointUri + 'designers')
       .pipe(map(resp => this.userMapper.mapUserBasicDTOsToDesignerUsers(resp)));
-  }
-
-  getUserInfo(): Observable<User> {
-    return this.http.get<UserInfoDTO>(environment.userAndGroupRestBasePath + 'users/info')
-      .pipe(map(resp => this.userMapper.mapUserInfoDTOToUser(resp)))
   }
 }

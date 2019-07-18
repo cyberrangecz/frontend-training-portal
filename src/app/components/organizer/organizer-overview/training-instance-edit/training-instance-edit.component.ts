@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {TrainingDefinition} from "../../../../model/training/training-definition";
 import {AlertService} from "../../../../services/shared/alert.service";
 import { MatDialog } from "@angular/material/dialog";
@@ -8,11 +8,10 @@ import {TrainingInstance} from "../../../../model/training/training-instance";
 import {UserFacade} from "../../../../services/facades/user-facade.service";
 import {TrainingDefinitionFacade} from "../../../../services/facades/training-definition-facade.service";
 import {AlertTypeEnum} from "../../../../model/enums/alert-type.enum";
-import {ActiveUserService} from "../../../../services/shared/active-user.service";
 import {TrainingInstanceFacade} from "../../../../services/facades/training-instance-facade.service";
-import {User} from '../../../../model/user/user';
 import {interval, Subscription} from 'rxjs';
 import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
+import {Kypo2AuthService, User} from 'kypo2-auth';
 
 @Component({
   selector: 'training-instance-definition',
@@ -51,7 +50,7 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
     private alertService: AlertService,
     private errorHandler: ErrorHandlerService,
     private userFacade: UserFacade,
-    private activeUserService: ActiveUserService,
+    private authService: Kypo2AuthService,
     private trainingDefinitionFacade: TrainingDefinitionFacade,
     private trainingInstanceFacade: TrainingInstanceFacade,
     private dialog: MatDialog) {
@@ -61,7 +60,7 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
     this.resolveInitialInputValues();
     this.initCurrentTimePeriodicalUpdate();
     this.dirty = false;
-    this.loggedUserLogin = this.activeUserService.getActiveUser().login;
+    this.loggedUserLogin = this.authService.getActiveUser().login;
   }
 
   ngOnDestroy(): void {
@@ -245,7 +244,7 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
     this.startTime = new Date();
     this.startTime.setMinutes(this.startTime.getMinutes() + 5);
     this.setUpPeriodicTimeStartTimeUpdate();
-    this.organizers = [this.activeUserService.getActiveUser()];
+    this.organizers = [this.authService.getActiveUser()];
   }
 
   private setUpPeriodicTimeStartTimeUpdate() {

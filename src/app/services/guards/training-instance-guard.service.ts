@@ -12,7 +12,7 @@ export class TrainingInstanceGuardService implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     if (route.paramMap.has('id')) {
       const id = Number(route.paramMap.get('id'));
-      return this.trainingInstanceFacade.getTrainingInstanceExists(id)
+      return this.trainingInstanceFacade.exists(id)
     }
     return false;
   }

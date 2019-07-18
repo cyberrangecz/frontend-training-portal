@@ -15,7 +15,7 @@ export class TrainingDefinitionAccessGuardService implements CanActivate {
       return true;
     } else if (route.paramMap.has('id')) {
       const id = Number(route.paramMap.get('id'));
-      return this.trainingDefinitionFacade.getTrainingDefinitionExists(id)
+      return this.trainingDefinitionFacade.exists(id)
     }
     return false;
   }

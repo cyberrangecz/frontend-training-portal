@@ -5,7 +5,6 @@ import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import {TrainingInstance} from "../../../../model/training/training-instance";
 import {AlertService} from "../../../../services/shared/alert.service";
-import {ActiveUserService} from "../../../../services/shared/active-user.service";
 import {TrainingInstanceFacade} from "../../../../services/facades/training-instance-facade.service";
 import {TrainingEditPopupComponent} from "./training-edit-popup/training-edit-popup.component";
 import {interval, merge, Observable, of, Subscription} from 'rxjs';
@@ -21,6 +20,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {TrainingInstanceSandboxAllocationState} from '../../../../model/training/training-instance-sandbox-allocation-state';
 import {ErrorHandlerService} from "../../../../services/shared/error-handler.service";
 import {ActionConfirmationDialog} from "../../../shared/delete-dialog/action-confirmation-dialog.component";
+import {Kypo2AuthService} from 'kypo2-auth';
 
 @Component({
   selector: 'training-instances-table',
@@ -60,7 +60,7 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
     private alertService: AlertService,
     private errorHandler: ErrorHandlerService,
     private allocationService: SandboxAllocationService,
-    private activeUserService: ActiveUserService,
+    private authService: Kypo2AuthService,
     private trainingInstanceFacade: TrainingInstanceFacade,
     private sandboxInstanceFacade: SandboxInstanceFacade) {
   }

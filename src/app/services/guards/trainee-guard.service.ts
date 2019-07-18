@@ -1,8 +1,9 @@
 import {Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
 import {Observable} from "rxjs/internal/Observable";
-import {ActiveUserService} from "../shared/active-user.service";
-import {AuthGuard} from "./auth-guard.service";
+import {Kypo2AuthGuardWithLogin, Kypo2AuthService} from 'kypo2-auth';
+import {CanActivateToObservable} from "./can-activate-to-observable";
+import {map} from "rxjs/operators";
 
 @Injectable()
 /**
@@ -10,21 +11,24 @@ import {AuthGuard} from "./auth-guard.service";
  */
 export class TraineeGuard implements CanActivate {
 
-  constructor(
-    private router: Router,
-    private authGuard: AuthGuard,
-    private userService: ActiveUserService) {
+  constructor(private router: Router,
+              private authGuard: Kypo2AuthGuardWithLogin,
+              private authService: Kypo2AuthService) {
+
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    const authResultPromise = this.authGuard.canActivate(route, state) as Promise<boolean>;
-    return authResultPromise
-      .then(authenticated => {
-        if (authenticated && this.userService.isTrainee()) {
-          return true;
-        }
-        this.router.navigate(['home']);
-        return false;
-      });
+    return CanActivateToObservable.convert(this.authGuard.canActivate(route, state))
+      .pipe(
+        map(canActivate => canActivate ? this.isTrainee() : false)
+      );
+  }
+
+  private isTrainee(): boolean {
+    if (this.authService.isTrainingTrainee()) {
+      return true;
+    }
+    this.router.navigate(['home']);
+    return false;
   }
 }

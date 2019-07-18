@@ -4,7 +4,6 @@ import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import {SandboxDefinition} from "../../../../model/sandbox/sandbox-definition";
-import {ActiveUserService} from "../../../../services/shared/active-user.service";
 import {SandboxDefinitionFacade} from "../../../../services/facades/sandbox-definition-facade.service";
 import {TrainingDefinitionFacade} from "../../../../services/facades/training-definition-facade.service";
 import {AlertService} from "../../../../services/shared/alert.service";
@@ -46,7 +45,6 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
     private dialog: MatDialog,
     private alertService: AlertService,
     private errorHandler: ErrorHandlerService,
-    private activeUserService: ActiveUserService,
     private trainingDefinitionFacade: TrainingDefinitionFacade,
     private sandboxDefinitionFacade: SandboxDefinitionFacade,
   ) {

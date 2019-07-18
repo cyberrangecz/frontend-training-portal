@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {TrainingDefinition} from '../../../../model/training/training-definition';
-import {TrainingDefinitionStateEnum} from '../../../../model/enums/training-definition-state.enum';
 import {AlertService} from '../../../../services/shared/alert.service';
 import {AlertTypeEnum} from '../../../../model/enums/alert-type.enum';
 import {SandboxDefinitionPickerComponent} from './sandbox-definition-picker/sandbox-definition-picker.component';
@@ -8,12 +7,11 @@ import { MatDialog } from '@angular/material/dialog';
 import {AuthorsPickerComponent} from './authors-picker/authors-picker.component';
 import {UserFacade} from '../../../../services/facades/user-facade.service';
 import {Router} from '@angular/router';
-import {ActiveUserService} from '../../../../services/shared/active-user.service';
 import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
 import {TrainingDefinitionFacade} from "../../../../services/facades/training-definition-facade.service";
-import {BetaTestingGroup} from "../../../../model/user/beta-testing-group";
 import {EditBetaTestingGroupComponent} from "./edit-beta-testing-group/edit-beta-testing-group.component";
-import {User} from '../../../../model/user/user';
+import {Kypo2AuthService, User} from 'kypo2-auth';
+import {BetaTestingGroup} from '../../../../model/training/beta-testing-group';
 
 /**
  * Component for creating new or editing already existing training definition
@@ -50,13 +48,13 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     private errorHandler: ErrorHandlerService,
     private alertService: AlertService,
     private userFacade: UserFacade,
-    private activeUserService: ActiveUserService,
+    private authService: Kypo2AuthService,
     private trainingDefinitionFacade: TrainingDefinitionFacade) {
 
   }
 
   ngOnInit() {
-    this.loggedUserLogin = this.activeUserService.getActiveUser().login;
+    this.loggedUserLogin = this.authService.getActiveUser().login;
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -200,7 +198,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     this.prerequisites = [''];
     this.outcomes = [''];
     this.betaTestingGroup = null;
-    this.authors = [this.activeUserService.getActiveUser()];
+    this.authors = [this.authService.getActiveUser()];
   }
 
   /**
