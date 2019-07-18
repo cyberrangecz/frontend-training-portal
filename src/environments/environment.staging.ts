@@ -39,10 +39,10 @@ export const environment = {
         tokenRefreshTime: 30000,
         issuer: 'https://oidc.muni.cz/oidc/',
         clientId: 'b53f2660-8fa0-4d32-94e4-23a59d7e7077',
-        redirectUri: window.location.origin,
+        redirectUri: 'https://147.251.124.129',
         scope: 'openid email profile',
         logoutUrl: 'https://oidc.muni.cz/oidc/endsession',
-        postLogoutRedirectUri: window.location.origin + '/login',
+        postLogoutRedirectUri: 'https://147.251.124.129/login',
         clearHashAfterLogin: true
       },
     ]
