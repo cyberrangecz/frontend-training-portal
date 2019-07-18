@@ -22,7 +22,7 @@ import {Hint} from "../../model/level/hint";
 import {AccessTrainingRunInfo} from "../../model/training/access-training-run-info";
 import {AccessTrainingRunDTO} from "../../model/DTOs/training-run/access-training-run-dto";
 import {LevelMapper} from "../mappers/level-mapper.service";
-import {ActiveUserService} from "../shared/active-user.service";
+import {Kypo2AuthService} from 'kypo2-auth';
 
 /**
  * Service abstracting the training run endpoint.
@@ -36,7 +36,6 @@ export class TrainingRunFacade {
   readonly trainingRunsEndpointUri = environment.trainingRestBasePath + this.trainingRunsUriExtension;
 
   constructor(private http: HttpClient,
-              private activeUserService: ActiveUserService,
               private levelMapper: LevelMapper,
               private trainingRunMapper: TrainingRunMapper) {
   }
@@ -138,8 +137,7 @@ export class TrainingRunFacade {
    * @param trainingRunId id of a training run
    */
   nextLevel(trainingRunId: number): Observable<GameLevel | AssessmentLevel | InfoLevel> {
-    const  headers = new  HttpHeaders().set("Authorization", this.activeUserService.getActiveUserAuthorizationHeader());
-    return this.http.get<AbstractLevelDTO>(this.trainingRunsEndpointUri + trainingRunId + '/next-levels', { headers: headers})
+    return this.http.get<AbstractLevelDTO>(this.trainingRunsEndpointUri + trainingRunId + '/next-levels')
       .pipe(map(response => this.levelMapper.mapLevelDTOToLevel(response)));
   }
 

@@ -1,7 +1,7 @@
 import {TrainingDefinitionStateEnum} from "../enums/training-definition-state.enum";
 import {AbstractLevel} from "../level/abstract-level";
-import {User} from "../user/user";
-import {BetaTestingGroup} from "../user/beta-testing-group";
+import {User} from 'kypo2-auth';
+import {BetaTestingGroup} from './beta-testing-group';
 
 /**
  * Class representing training definition in a system.

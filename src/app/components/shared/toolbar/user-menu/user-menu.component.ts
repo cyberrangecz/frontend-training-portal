@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActiveUserService} from "../../../../services/shared/active-user.service";
-import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
+import {Kypo2AuthService} from 'kypo2-auth';
 
 @Component({
   selector: 'toolbar-user-menu',
@@ -16,13 +15,12 @@ export class UserMenuComponent implements OnInit, OnDestroy {
   activeUserSubscription: Subscription;
   isUserLoggedIn;
 
-  constructor(private activeUserService: ActiveUserService,
-              private router: Router) {
+  constructor(private authService: Kypo2AuthService) {
     this.subscribeToActiveUserChanges();
   }
 
   ngOnInit() {
-    this.isUserLoggedIn = this.activeUserService.isAuthenticated();
+    this.isUserLoggedIn = this.authService.isLoggedIn();
   }
 
   ngOnDestroy() {
@@ -32,15 +30,15 @@ export class UserMenuComponent implements OnInit, OnDestroy {
   }
 
   login() {
-    this.activeUserService.login();
+    this.authService.login();
   }
 
   logout() {
-    this.activeUserService.logout();
+    this.authService.logout();
   }
 
   private subscribeToActiveUserChanges() {
-    this.activeUserSubscription = this.activeUserService.onActiveUserChanged
+    this.activeUserSubscription = this.authService.activeUser$
       .subscribe(user => {
         this.isUserLoggedIn = user !== null && user !== undefined;
       })

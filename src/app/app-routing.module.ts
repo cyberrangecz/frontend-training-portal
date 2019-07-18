@@ -1,16 +1,21 @@
 import {NgModule} from "@angular/core";
 import {ExtraOptions, RouterModule, Routes} from '@angular/router';
-import {AuthGuard} from "./services/guards/auth-guard.service";
 import {DesignerGuard} from "./services/guards/designer-guard.service";
 import {OrganizerGuard} from "./services/guards/organizer-guard.service";
 import {TraineeGuard} from "./services/guards/trainee-guard.service";
 import {AdminGuard} from './services/guards/admin-guard.service';
+import {
+  Kypo2AuthGuardWithLogin,
+  Kypo2AuthProviderPickerComponent,
+  Kypo2NotAuthGuardService
+} from 'kypo2-auth';
+import {NotOnlyTraineeGuard} from "./services/guards/only-trainee.guard.service";
 
 const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('app/components/portal/portal.module').then(m => m.PortalModule),
-    canActivate: [AuthGuard]
+    canActivate: [NotOnlyTraineeGuard]
   },
   {
     path: 'designer',
@@ -33,9 +38,9 @@ const routes: Routes = [
     canActivate: [AdminGuard]
   },
   {
-    path: 'logout-confirmed',
-    redirectTo: 'home',
-    pathMatch: 'full',
+    path: 'login',
+    component: Kypo2AuthProviderPickerComponent,
+    canActivate: [Kypo2NotAuthGuardService]
   },
  {
     path: '',

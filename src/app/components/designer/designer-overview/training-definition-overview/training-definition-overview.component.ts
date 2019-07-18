@@ -1,6 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {TrainingDefinitionFacade} from '../../../../services/facades/training-definition-facade.service';
-import {ActiveUserService} from '../../../../services/shared/active-user.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -23,6 +22,7 @@ import {TrainingDefinition} from "../../../../model/training/training-definition
 import {AuthorsListDialogComponent} from './authors-list-dialog/authors-list-dialog.component';
 import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
 import {CloneDialogComponent} from "./clone-dialog/clone-dialog.component";
+import {Kypo2AuthService} from 'kypo2-auth';
 
 @Component({
   selector: 'designer-overview-training-definition',
@@ -53,7 +53,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private dialog: MatDialog,
-    private activeUserService: ActiveUserService,
+    private authService: Kypo2AuthService,
     private alertService: AlertService,
     private errorHandler: ErrorHandlerService,
     private trainingInstanceFacade: TrainingInstanceFacade,
@@ -62,7 +62,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
 
   ngOnInit() {
     this.initTableDataSource();
-    this.loggedUserLogin = this.activeUserService.getActiveUser().login
+    this.loggedUserLogin = this.authService.getActiveUser().login
   }
 
   /**

@@ -1,9 +1,6 @@
-import {User} from "../../model/user/user";
-import {UserRoleEnum} from "../../model/enums/user-role.enum";
-import {RoleDTO} from "../../model/DTOs/user/role-dto";
-import {UserInfoDTO} from "../../model/DTOs/user/user-info-dto";
 import {UserRefDTO} from '../../model/DTOs/user/user-ref-dto';
 import {UserBasicDTO} from '../../model/DTOs/user/user-basic-dto';
+import {User, UserRole} from 'kypo2-auth';
 
 export class UserMapper {
 
@@ -30,7 +27,7 @@ export class UserMapper {
     const user = new User();
     user.login = userDTO.login;
     user.name = `${userDTO.given_name} ${userDTO.family_name}`;
-    user.roles.add(UserRoleEnum.Organizer);
+    user.roles.add(UserRole.TRAINING_ORGANIZER);
     return user;
   }
 
@@ -43,29 +40,7 @@ export class UserMapper {
     const user = new User();
     user.login = userDTO.login;
     user.name = `${userDTO.given_name} ${userDTO.family_name}`;
-    user.roles.add(UserRoleEnum.Designer);
-    return user;
-  }
-
-  mapRoleDTOsToRoles(roles: RoleDTO[]): UserRoleEnum[] {
-    return roles.map(roleDTO => this.mapStringToRole(roleDTO.role_type));
-  }
-
-  mapStringToRole(role: string): UserRoleEnum {
-    switch (role.toUpperCase()) {
-      case 'ROLE_TRAINING_DESIGNER': return UserRoleEnum.Designer;
-      case 'ROLE_TRAINING_ORGANIZER': return UserRoleEnum.Organizer;
-      case 'ROLE_TRAINING_TRAINEE': return UserRoleEnum.Trainee;
-      case 'ROLE_USER_AND_GROUP_ADMINISTRATOR': return UserRoleEnum.Admin;
-    }
-  }
-
-  mapUserInfoDTOToUser(userInfoDTO: UserInfoDTO): User {
-    const user = new User(this.mapRoleDTOsToRoles(userInfoDTO.roles));
-    user.id = userInfoDTO.id;
-    user.login = userInfoDTO.login;
-    user.mail = userInfoDTO.mail;
-    user.name = `${userInfoDTO.given_name} ${userInfoDTO.family_name}`;
+    user.roles.add(UserRole.TRAINING_DESIGNER);
     return user;
   }
 }

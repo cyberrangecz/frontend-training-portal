@@ -2,11 +2,10 @@ import {Component, Inject, OnInit, Optional} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import {UserFacade} from "../../../../../services/facades/user-facade.service";
 import {map} from "rxjs/operators";
-import {BetaTestingGroup} from "../../../../../model/user/beta-testing-group";
 import {AlertTypeEnum} from "../../../../../model/enums/alert-type.enum";
 import {AlertService} from "../../../../../services/shared/alert.service";
-import {ActiveUserService} from "../../../../../services/shared/active-user.service";
-import {User} from '../../../../../model/user/user';
+import {Kypo2AuthService, User} from 'kypo2-auth';
+import {BetaTestingGroup} from '../../../../../model/training/beta-testing-group';
 
 @Component({
   selector: 'app-edit-beta-testing-group',
@@ -24,7 +23,7 @@ export class EditBetaTestingGroupComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<EditBetaTestingGroupComponent>,
               @Optional() @Inject(MAT_DIALOG_DATA) public betaTestingGroup: BetaTestingGroup,
-              private activeUserService: ActiveUserService,
+              private authService: Kypo2AuthService,
               private alertService: AlertService,
               private userFacade: UserFacade) {
   }
@@ -86,8 +85,8 @@ export class EditBetaTestingGroupComponent implements OnInit {
   }
 
   private initializeActiveUser() {
-    this.activeUser = this.activeUserService.getActiveUser();
-    this.activeUserIsOrganizer = this.activeUserService.isOrganizer();
+    this.activeUser = this.authService.getActiveUser();
+    this.activeUserIsOrganizer = this.authService.isTrainingOrganizer();
   }
 
   private initializeOrganizers() {

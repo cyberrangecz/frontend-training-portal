@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {User} from '../model/user/user';
+import {User} from 'kypo2-auth';
 
 @Pipe({
   name: 'shorterAuthorsFormat'

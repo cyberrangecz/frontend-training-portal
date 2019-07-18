@@ -1,24 +1,22 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppComponent } from './app.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {AppRoutingModule} from "./app-routing.module";
-import {ActiveUserService} from "./services/shared/active-user.service";
-import {AuthGuard} from "./services/guards/auth-guard.service";
 import {DesignerGuard} from "./services/guards/designer-guard.service";
 import {OrganizerGuard} from "./services/guards/organizer-guard.service";
 import {TraineeGuard} from "./services/guards/trainee-guard.service";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {SharedModule} from "./components/shared/shared.module";
 import {TrainingDistractionFreeModeService} from "./services/shared/training-distraction-free-mode.service";
-import {AuthInterceptor} from "./services/http-interceptors/auth-interceptor";
-import {OAuthModule, OAuthStorage} from "angular-oauth2-oidc";
 import {UserFacadeModule} from "./services/facades/modules/user-facade.module";
 import {AdminGuard} from './services/guards/admin-guard.service';
 import {SandboxAllocationBarService} from './services/organizer/sandbox-allocation/sandbox-allocation-bar.service';
 import {ErrorLogInterceptor} from './services/http-interceptors/error-log-interceptor';
 import {NgxHotjarModule} from 'ngx-hotjar';
+import {Kypo2AuthInterceptor, Kypo2AuthModule} from 'kypo2-auth';
+import {environment} from '../environments/environment';
+import {NotOnlyTraineeGuard} from "./services/guards/only-trainee.guard.service";
 
 @NgModule({
   declarations: [
@@ -31,6 +29,7 @@ import {NgxHotjarModule} from 'ngx-hotjar';
     AppRoutingModule,
     SharedModule,
     UserFacadeModule,
+    Kypo2AuthModule.forRoot(environment.kypo2AuthConfig),
     NgxHotjarModule.forRoot('<script>\n' +
       '    (function(h,o,t,j,a,r){\n' +
       '        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};\n' +
@@ -41,25 +40,16 @@ import {NgxHotjarModule} from 'ngx-hotjar';
       '        a.appendChild(r);\n' +
       '    })(window,document,\'https://static.hotjar.com/c/hotjar-\',\'.js?sv=\');\n' +
       '</script>'),
-    OAuthModule.forRoot(
-      {
-        resourceServer: {
-          allowedUrls: [],
-          sendAccessToken: true
-        }
-      })
   ],
   providers: [
-    AuthGuard,
     DesignerGuard,
     OrganizerGuard,
     AdminGuard,
     TraineeGuard,
-    ActiveUserService,
+    NotOnlyTraineeGuard,
     TrainingDistractionFreeModeService,
     SandboxAllocationBarService,
-    { provide: OAuthStorage, useValue: localStorage },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: Kypo2AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorLogInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]

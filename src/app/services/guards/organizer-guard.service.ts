@@ -1,8 +1,9 @@
 import {Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
 import {Observable} from "rxjs/internal/Observable";
-import {ActiveUserService} from "../shared/active-user.service";
-import {AuthGuard} from "./auth-guard.service";
+import {Kypo2AuthGuardWithLogin, Kypo2AuthService} from 'kypo2-auth';
+import {CanActivateToObservable} from "./can-activate-to-observable";
+import {map} from "rxjs/operators";
 
 @Injectable()
 /**
@@ -10,23 +11,24 @@ import {AuthGuard} from "./auth-guard.service";
  */
 export class OrganizerGuard implements CanActivate {
 
+  constructor(private router: Router,
+    private authGuard: Kypo2AuthGuardWithLogin,
+    private authService: Kypo2AuthService) {
 
-  constructor(
-    private router: Router,
-    private authGuard: AuthGuard,
-    private userService: ActiveUserService
-  ) {}
-
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    const authResultPromise = this.authGuard.canActivate(route, state) as Promise<boolean>;
-    return authResultPromise
-      .then(authenticated => {
-        if (authenticated && this.userService.isOrganizer()) {
-          return true;
-        }
-        this.router.navigate(['home']);
-        return false;
-      });
   }
 
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+    return CanActivateToObservable.convert(this.authGuard.canActivate(route, state))
+      .pipe(
+        map(canActivate => canActivate ? this.isOrganizer() : false)
+      );
+  }
+
+  private isOrganizer(): boolean {
+    if (this.authService.isTrainingOrganizer()) {
+      return true;
+    }
+    this.router.navigate(['home']);
+    return false;
+  }
 }

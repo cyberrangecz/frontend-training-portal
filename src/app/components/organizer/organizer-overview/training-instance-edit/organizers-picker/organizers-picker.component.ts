@@ -1,9 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {UserFacade} from "../../../../../services/facades/user-facade.service";
-import {User} from "../../../../../model/user/user";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import {ActiveUserService} from "../../../../../services/shared/active-user.service";
 import {map} from "rxjs/operators";
+import {Kypo2AuthService, User} from 'kypo2-auth';
 
 @Component({
   selector: 'organizers-picker',
@@ -24,8 +23,8 @@ export class OrganizersPickerComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data,
     public dialogRef: MatDialogRef<OrganizersPickerComponent>,
     private userFacade: UserFacade,
-    private activeUserService: ActiveUserService) {
-    this.activeUser = this.activeUserService.getActiveUser();
+    private authService: Kypo2AuthService) {
+    this.activeUser = this.authService.getActiveUser();
     this.selectedOrganizers.push(this.activeUser);
   }
 

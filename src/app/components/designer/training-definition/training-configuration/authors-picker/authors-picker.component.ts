@@ -1,9 +1,8 @@
 import {Component, Inject, OnInit, Optional} from '@angular/core';
-import {User} from "../../../../../model/user/user";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import {UserFacade} from "../../../../../services/facades/user-facade.service";
-import {ActiveUserService} from "../../../../../services/shared/active-user.service";
 import {map} from "rxjs/operators";
+import {Kypo2AuthService, User} from 'kypo2-auth';
 
 @Component({
   selector: 'training-authors-picker',
@@ -24,12 +23,12 @@ export class AuthorsPickerComponent implements OnInit {
     @Optional() @Inject(MAT_DIALOG_DATA) public preselectedUsers: User[],
     public dialogRef: MatDialogRef<AuthorsPickerComponent>,
     private userFacade: UserFacade,
-    private activeUserService: ActiveUserService) {
+    private authService: Kypo2AuthService) {
 
   }
 
   ngOnInit() {
-    this.activeUser = this.activeUserService.getActiveUser();
+    this.activeUser = this.authService.getActiveUser();
     this.selectedAuthors.push(this.activeUser);
     this.getAuthors();
   }

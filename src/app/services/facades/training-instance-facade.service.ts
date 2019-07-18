@@ -75,7 +75,7 @@ export class TrainingInstanceFacade {
   }
 
 
-  getTrainingInstanceExists(id: number): Observable<boolean> {
+  exists(id: number): Observable<boolean> {
     return this.http.get(this.trainingInstancesEndpointUri + id)
       .pipe(
         map(response => true),

@@ -2,7 +2,7 @@
  * Class representing training instance of a definition.
  */
 import {TrainingDefinition} from './training-definition';
-import {User} from '../user/user';
+import {User} from 'kypo2-auth';
 
 export class TrainingInstance {
 
