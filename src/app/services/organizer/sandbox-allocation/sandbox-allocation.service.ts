@@ -7,7 +7,6 @@ import {InstanceAllocationObservablesPoolService} from "./instance-allocation-ob
 import {SandboxInstanceFacade} from "../../facades/sandbox-instance-facade.service";
 import {flatMap, map, shareReplay} from "rxjs/operators";
 import {Injectable} from "@angular/core";
-import {SandboxAllocationBarService} from "./sandbox-allocation-bar.service";
 
 
 @Injectable()
@@ -39,7 +38,6 @@ export class SandboxAllocationService {
   private _periodicalCheckSubscription: Subscription;
 
   constructor(private sandboxAllocationPoolService: InstanceAllocationObservablesPoolService,
-              private sandboxAllocationBarService: SandboxAllocationBarService,
               private sandboxInstanceFacade: SandboxInstanceFacade) {
   }
 
@@ -175,7 +173,6 @@ export class SandboxAllocationService {
       sandboxAllocation.requestedPoolSize = totalSandboxCount;
     }
     this.addAllocation(sandboxAllocation);
-    //this.sandboxAllocationBarService.open(); TODO fix
     this.emitAllocationStateChange(SandboxAllocationState.RUNNING);
   }
 
@@ -185,7 +182,6 @@ export class SandboxAllocationService {
     const sandboxAllocation = new TrainingInstanceSandboxAllocationState(trainingInstance);
     sandboxAllocation.requestedPoolSize = totalSandboxCount;
     this.addAllocation(sandboxAllocation);
-    //this.sandboxAllocationBarService.open(); TODO fix
     this.emitAllocationStateChange(SandboxAllocationState.RUNNING);
   }
 

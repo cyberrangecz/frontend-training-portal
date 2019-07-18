@@ -11,14 +11,10 @@ import {FormsModule} from "@angular/forms";
 import {UploadService} from "../../services/shared/upload.service";
 import { AlertSnackbarComponent } from './alert/alert-snackbar/alert-snackbar.component';
 import {ErrorHandlerService} from "../../services/shared/error-handler.service";
-import { SandboxAllocationWindowComponent } from './sandbox-allocation/sandbox-allocation-window.component';
 import {SandboxAllocationService} from "../../services/organizer/sandbox-allocation/sandbox-allocation.service";
 import {TrainingInstanceFacadeModule} from '../../services/facades/modules/training-instance-facade.module';
-import { SandboxAllocationPanelComponent } from './sandbox-allocation/sandbox-allocation-panel/sandbox-allocation-panel.component';
-import { SandboxAllocationContentMinimizedComponent } from './sandbox-allocation/sandbox-allocation-content-minimized/sandbox-allocation-content-minimized.component';
 import {InstanceAllocationObservablesPoolService} from "../../services/organizer/sandbox-allocation/instance-allocation-observables-pool.service";
 import {SandboxInstanceFacadeModule} from "../../services/facades/modules/sandbox-instance-facade.module";
-import {SandboxAllocationContentMaximizedComponent} from './sandbox-allocation/sandbox-allocation-content-maximized/sandbox-allocation-content-maximized.component';
 import {ActionConfirmationDialog} from "./delete-dialog/action-confirmation-dialog.component";
 
 @NgModule({
@@ -36,10 +32,6 @@ import {ActionConfirmationDialog} from "./delete-dialog/action-confirmation-dial
     AlertComponent,
     AlertSnackbarComponent,
     ActionConfirmationDialog,
-    SandboxAllocationWindowComponent,
-    SandboxAllocationPanelComponent,
-    SandboxAllocationContentMinimizedComponent,
-    SandboxAllocationContentMaximizedComponent,
   ],
   exports: [
     ToolbarComponent,
@@ -48,7 +40,6 @@ import {ActionConfirmationDialog} from "./delete-dialog/action-confirmation-dial
     AlertComponent,
     SharedMaterialModule,
     ActionConfirmationDialog,
-    SandboxAllocationWindowComponent
   ],
   providers: [
     AlertService,

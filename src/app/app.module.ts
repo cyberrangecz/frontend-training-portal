@@ -11,7 +11,6 @@ import {SharedModule} from "./components/shared/shared.module";
 import {TrainingDistractionFreeModeService} from "./services/shared/training-distraction-free-mode.service";
 import {UserFacadeModule} from "./services/facades/modules/user-facade.module";
 import {AdminGuard} from './services/guards/admin-guard.service';
-import {SandboxAllocationBarService} from './services/organizer/sandbox-allocation/sandbox-allocation-bar.service';
 import {ErrorLogInterceptor} from './services/http-interceptors/error-log-interceptor';
 import {NgxHotjarModule} from 'ngx-hotjar';
 import {Kypo2AuthInterceptor, Kypo2AuthModule} from 'kypo2-auth';
@@ -48,7 +47,6 @@ import {NotOnlyTraineeGuard} from "./services/guards/only-trainee.guard.service"
     TraineeGuard,
     NotOnlyTraineeGuard,
     TrainingDistractionFreeModeService,
-    SandboxAllocationBarService,
     { provide: HTTP_INTERCEPTORS, useClass: Kypo2AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorLogInterceptor, multi: true },
   ],
