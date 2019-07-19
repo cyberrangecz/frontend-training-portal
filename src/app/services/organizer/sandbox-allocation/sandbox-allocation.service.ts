@@ -108,7 +108,7 @@ export class SandboxAllocationService {
   }
 
   private startPeriodicalStateCheck() {
-    const periodicalCheck = interval(5000)
+    const periodicalCheck = interval(30000)
       .pipe(map(() => this.checkStateOfRunningAllocations()));
 
     this._periodicalCheckSubscription = periodicalCheck.subscribe(responses => // TODO: Combine to one result and subscribe just once
