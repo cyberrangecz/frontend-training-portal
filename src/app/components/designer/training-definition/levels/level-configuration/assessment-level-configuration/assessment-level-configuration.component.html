@@ -36,7 +36,7 @@
 
         <!-- INSTRUCTIONS field -->
         <h3>Instructions</h3>
-        <kypo2-markdown-editor class="mrkdwn-content" (contentChange)="contentChanged()" [(content)]="instructions"></kypo2-markdown-editor>
+        <kypo2-markdown-editor class="mrkdwn-content" [kypo2-markdown-file-upload]="false" (contentChange)="contentChanged()" [(content)]="instructions"></kypo2-markdown-editor>
 
       </div>
       <div class="right-panel">

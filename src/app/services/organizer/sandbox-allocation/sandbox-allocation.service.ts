@@ -7,6 +7,7 @@ import {InstanceAllocationObservablesPoolService} from "./instance-allocation-ob
 import {SandboxInstanceFacade} from "../../facades/sandbox-instance-facade.service";
 import {flatMap, map, shareReplay} from "rxjs/operators";
 import {Injectable} from "@angular/core";
+import {environment} from '../../../../environments/environment';
 
 
 @Injectable()
@@ -108,7 +109,8 @@ export class SandboxAllocationService {
   }
 
   private startPeriodicalStateCheck() {
-    const periodicalCheck = interval(30000)
+    this.checkStateOfRunningAllocations();
+    const periodicalCheck = interval(environment.sandboxAllocationStateRefreshRate)
       .pipe(map(() => this.checkStateOfRunningAllocations()));
 
     this._periodicalCheckSubscription = periodicalCheck.subscribe(responses => // TODO: Combine to one result and subscribe just once

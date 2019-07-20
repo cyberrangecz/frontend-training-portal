@@ -4,14 +4,14 @@ import { TrainingProgressComponent } from './training-progress.component';
 import {TrainingProgressMaterialModule} from "./training-progress-material.module";
 import {TrainingProgressRoutingModule} from "./training-progress-routing.module";
 import {Kypo2TrainingsHurdlingVizLibModule} from "kypo2-trainings-hurdling-viz-lib";
-import {VisualizationHurdlingConfig} from '../../../../model/config/visualization-hurdling-config';
+import {environment} from '../../../../../environments/environment';
 
 @NgModule({
   imports: [
     CommonModule,
     TrainingProgressMaterialModule,
     TrainingProgressRoutingModule,
-    Kypo2TrainingsHurdlingVizLibModule.forRoot(VisualizationHurdlingConfig)
+    Kypo2TrainingsHurdlingVizLibModule.forRoot({restBaseUrl: environment.trainingRestBasePath})
   ],
   declarations: [
   TrainingProgressComponent

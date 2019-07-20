@@ -4,14 +4,14 @@ import { ScoreDevelopmentViewComponent } from './score-development-view.componen
 import {ScoreDevelopmentViewRoutingModule} from "./score-development-view-routing.module";
 import {ScoreDevelopmentViewMaterialModule} from "./score-development-view-material.module";
 import {Kypo2TrainingsVisualizationOverviewLibModule} from "kypo2-trainings-visualization-overview-lib";
-import {VisualizationOverviewConfig} from "../../../../../model/config/visualization-overview-config";
+import {environment} from '../../../../../../environments/environment';
 
 @NgModule({
   imports: [
     CommonModule,
     ScoreDevelopmentViewRoutingModule,
     ScoreDevelopmentViewMaterialModule,
-    Kypo2TrainingsVisualizationOverviewLibModule.forRoot(VisualizationOverviewConfig)
+    Kypo2TrainingsVisualizationOverviewLibModule.forRoot({kypo2TrainingsVisualizationRestBasePath: environment.trainingRestBasePath})
   ],
   declarations: [
   ScoreDevelopmentViewComponent

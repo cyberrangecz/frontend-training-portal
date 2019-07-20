@@ -2,8 +2,8 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {UserAndGroupManagementModule} from 'kypo2-user-and-group-management'
 import { AdminOverviewComponent } from './admin-overview/admin-overview.component';
-import {UserAndGroupConfig} from "../../model/config/user-and-group-config";
 import {AdminRoutingModule} from "./admin-routing.module";
+import {environment} from '../../../environments/environment';
 
 @NgModule({
   declarations: [
@@ -12,7 +12,7 @@ import {AdminRoutingModule} from "./admin-routing.module";
   imports: [
     CommonModule,
     AdminRoutingModule,
-    UserAndGroupManagementModule.forRoot(UserAndGroupConfig)
+    UserAndGroupManagementModule.forRoot(environment.kypo2UserAndGroupConfig)
   ]
 })
 export class AdminModule {
