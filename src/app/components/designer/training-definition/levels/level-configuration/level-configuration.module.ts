@@ -14,15 +14,15 @@ import { QuestionConfigurationComponent } from './questions/question-configurati
 import { FreeFormQuestionComponent } from './questions/free-form-question/free-form-question.component';
 import { MultipleChoiceQuestionComponent } from './questions/multiple-choice-question/multiple-choice-question.component';
 import { ExtendedMatchingItemsComponent } from './questions/extended-matching-items/extended-matching-items.component'
-import {MarkdownConfig} from "../../../../../model/config/markdown-config";
 import {MarkdownEditorModule} from "kypo2-markdown-editor";
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import {environment} from '../../../../../../environments/environment';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    MarkdownEditorModule.forRoot(MarkdownConfig),
+    MarkdownEditorModule.forRoot(environment.markdownConfig),
     LevelConfigurationMaterialModule,
     SharedModule,
     MatSlideToggleModule,

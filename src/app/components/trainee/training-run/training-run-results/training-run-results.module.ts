@@ -4,14 +4,14 @@ import {TrainingRunResultsMaterialModule} from "./training-run-results-material.
 import {TrainingRunResultsRoutingModule} from "./training-run-results-routing.module";
 import { TrainingRunResultsComponent } from './training-run-results.component';
 import { Kypo2TrainingsVisualizationOverviewLibModule } from "kypo2-trainings-visualization-overview-lib";
-import {VisualizationOverviewConfig} from '../../../../model/config/visualization-overview-config';
+import {environment} from '../../../../../environments/environment';
 
 @NgModule({
   imports: [
     CommonModule,
     TrainingRunResultsMaterialModule,
     TrainingRunResultsRoutingModule,
-    Kypo2TrainingsVisualizationOverviewLibModule.forRoot(VisualizationOverviewConfig)
+    Kypo2TrainingsVisualizationOverviewLibModule.forRoot({kypo2TrainingsVisualizationRestBasePath: environment.trainingRestBasePath})
   ],
   declarations: [TrainingRunResultsComponent],
   providers: []
