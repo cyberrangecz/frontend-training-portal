@@ -2,6 +2,8 @@ import {Component, Inject, OnInit} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import {TrainingDefinitionFacade} from "../../../../../services/facades/training-definition-facade.service";
 import {AlertTypeEnum} from "../../../../../model/enums/alert-type.enum";
+import {BaseComponent} from "../../../../base.component";
+import {takeWhile} from "rxjs/operators";
 @Component({
   selector: 'designer-training-upload-dialog',
   templateUrl: './training-definition-upload-dialog.component.html',
@@ -10,7 +12,7 @@ import {AlertTypeEnum} from "../../../../../model/enums/alert-type.enum";
 /**
  * Component of training definition upload dialog window
  */
-export class TrainingDefinitionUploadDialogComponent implements OnInit {
+export class TrainingDefinitionUploadDialogComponent extends BaseComponent implements OnInit {
 
   selectedFile: File;
   uploadInProgress = false;
@@ -18,6 +20,7 @@ export class TrainingDefinitionUploadDialogComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<TrainingDefinitionUploadDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data,
               private trainingDefinitionFacade: TrainingDefinitionFacade) {
+    super();
   }
 
   ngOnInit() {
@@ -49,6 +52,7 @@ export class TrainingDefinitionUploadDialogComponent implements OnInit {
   private uploadTrainingDefinition() {
     this.uploadInProgress = true;
     this.trainingDefinitionFacade.uploadTrainingDefinition(this.selectedFile)
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         resp => this.uploadSuccess('Training definition was successfully uploaded.'),
         err => this.uploadFailure(err));

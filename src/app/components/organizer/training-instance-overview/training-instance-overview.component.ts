@@ -2,6 +2,8 @@
 import {ActivatedRoute} from "@angular/router";
 import {TrainingInstanceFacade} from "../../../services/facades/training-instance-facade.service";
 import {ActiveTrainingInstanceService} from "../../../services/organizer/active-training-instance.service";
+ import {BaseComponent} from "../../base.component";
+ import {takeWhile} from "rxjs/operators";
 @Component({
   selector: 'training-instance-overview',
   templateUrl: './training-instance-overview.component.html',
@@ -10,7 +12,7 @@ import {ActiveTrainingInstanceService} from "../../../services/organizer/active-
 /**
  * Main component of training instance overview. Tab with navigation to child components
  */
-export class TrainingInstanceOverviewComponent implements OnInit {
+export class TrainingInstanceOverviewComponent extends BaseComponent implements OnInit {
 
   navLinks = [
     {
@@ -36,7 +38,9 @@ export class TrainingInstanceOverviewComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private activeTrainingService: ActiveTrainingInstanceService,
-              private trainingInstanceFacade: TrainingInstanceFacade) { }
+              private trainingInstanceFacade: TrainingInstanceFacade) {
+    super();
+  }
 
   ngOnInit() {
     this.setActiveTrainingInstanceFromUrl()
@@ -50,6 +54,7 @@ export class TrainingInstanceOverviewComponent implements OnInit {
     const id = +snapshot.paramMap.get('id');
     if (!isNaN(id)) {
       this.trainingInstanceFacade.getTrainingInstanceById(id)
+        .pipe(takeWhile(() => this.isAlive))
         .subscribe(training => this.activeTrainingService.setActiveTrainingInstance(training)
         );
     } else {

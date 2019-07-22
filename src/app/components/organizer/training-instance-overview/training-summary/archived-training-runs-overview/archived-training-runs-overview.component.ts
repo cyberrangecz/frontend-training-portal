@@ -10,7 +10,7 @@ import {ActiveTrainingInstanceService} from "../../../../../services/organizer/a
 import {TrainingInstanceFacade} from "../../../../../services/facades/training-instance-facade.service";
 import {environment} from "../../../../../../environments/environment";
 import {merge, of} from "rxjs";
-import {catchError, map, startWith, switchMap} from "rxjs/operators";
+import {catchError, map, startWith, switchMap, takeWhile} from "rxjs/operators";
 import {PaginatedTable} from "../../../../../model/table-adapters/paginated-table";
 import {TrainingRunFacade} from "../../../../../services/facades/training-run-facade.service";
 import {MatDialog} from "@angular/material";
@@ -21,7 +21,7 @@ import {ActionConfirmationDialog} from "../../../../shared/delete-dialog/action-
   templateUrl: './archived-training-runs-overview.component.html',
   styleUrls: ['./archived-training-runs-overview.component.css']
 })
-export class ArchivedTrainingRunsOverviewComponent extends BaseTrainingRunsOverview implements OnInit, OnDestroy {
+export class ArchivedTrainingRunsOverviewComponent extends BaseTrainingRunsOverview implements OnInit {
 
   displayedColumns: string[] = ['player', 'state', 'actions'];
   archivedTrainingRunsDataSource: MatTableDataSource<TrainingRunTableAdapter>;
@@ -45,10 +45,6 @@ export class ArchivedTrainingRunsOverviewComponent extends BaseTrainingRunsOverv
 
   ngOnInit() {
     super.ngOnInit();
-  }
-
-  ngOnDestroy() {
-    super.ngOnDestroy();
   }
 
   deleteArchivedTrainingRuns() {
@@ -84,7 +80,9 @@ export class ArchivedTrainingRunsOverviewComponent extends BaseTrainingRunsOverv
    * Creates table data source from training runs retrieved from a server.
    */
   protected initDataSource() {
-    this.activeTrainingRunSort.sortChange.subscribe(() => this.activeTrainingRunsPaginator.pageIndex = 0);
+    this.activeTrainingRunSort.sortChange
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(() => this.activeTrainingRunsPaginator.pageIndex = 0);
     this.activeTrainingRunsPaginator.pageSize = environment.defaultPaginationSize;
     this.activeTrainingRunSort.active = 'id';
     this.activeTrainingRunSort.direction = 'desc';
@@ -98,6 +96,7 @@ export class ArchivedTrainingRunsOverviewComponent extends BaseTrainingRunsOverv
     let timeoutHandle = 0;
     merge(this.activeTrainingRunSort.sortChange, this.activeTrainingRunsPaginator.page)
       .pipe(
+        takeWhile(() => this.isAlive),
         startWith({}),
         switchMap(() => {
           timeoutHandle = window.setTimeout(() => this.isLoadingResults = true, environment.defaultDelayToDisplayLoading);
@@ -126,6 +125,7 @@ export class ArchivedTrainingRunsOverviewComponent extends BaseTrainingRunsOverv
   private sendRequestToDeleteArchivedTrainingRuns() {
     const idsToDelete: number[] = this.archivedTrainingRunsDataSource.data.map(row => row.trainingRun.id);
     this.trainingRunFacade.deleteTrainingRuns(idsToDelete)
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         deleted => this.fetchData(),
         err => this.errorHandler.displayInAlert(err, 'Deleting training runs'))
@@ -133,6 +133,7 @@ export class ArchivedTrainingRunsOverviewComponent extends BaseTrainingRunsOverv
 
   private sendRequestToDeleteArchivedTrainingRun(id: number) {
     this.trainingRunFacade.deleteTrainingRun(id)
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         deleted => this.fetchData(),
         err => this.errorHandler.displayInAlert(err, 'Deleting training run'))

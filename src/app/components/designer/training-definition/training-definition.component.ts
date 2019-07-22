@@ -9,6 +9,7 @@ import {TrainingLevelStepperComponent} from "./levels/training-level-stepper/tra
 import { MatDialog } from "@angular/material/dialog";
 import {UnsavedChangesDialogComponent} from "./unsaved-changes-dialog/unsaved-changes-dialog.component";
 import {of} from "rxjs/internal/observable/of";
+import {BaseComponent} from "../../base.component";
 
 
 @Component({
@@ -20,7 +21,7 @@ import {of} from "rxjs/internal/observable/of";
  * Main component of training definition. Servers mainly as a wrapper and resolves id of a training specified in the URL.
  * Training definition with provided id is retrieved from the server and passed to child component
  */
-export class TrainingDefinitionComponent implements OnInit {
+export class TrainingDefinitionComponent extends BaseComponent implements OnInit {
 
   @ViewChild(TrainingConfigurationComponent, { static: true }) trainingConfigurationComponent;
   @ViewChild(TrainingLevelStepperComponent, { static: true }) trainingLevelStepperComponent;
@@ -30,12 +31,11 @@ export class TrainingDefinitionComponent implements OnInit {
   isTrainingSaved: boolean;
   isSidenavOpen: boolean = true;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private dialog: MatDialog,
-    private trainingDefinitionFacade: TrainingDefinitionFacade) {
-
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private dialog: MatDialog,
+              private trainingDefinitionFacade: TrainingDefinitionFacade) {
+    super();
   }
 
   ngOnInit() {

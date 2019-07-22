@@ -5,13 +5,14 @@ import { MatTableDataSource } from "@angular/material/table";
 import {TrainingRunFacade} from "../../../../services/facades/training-run-facade.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {merge, of} from "rxjs";
-import {catchError, map, startWith, switchMap} from "rxjs/operators";
+import {catchError, map, startWith, switchMap, takeWhile} from "rxjs/operators";
 import {environment} from "../../../../../environments/environment";
 import {AccessedTrainingRunsTableAdapter} from "../../../../model/table-adapters/accessed-training-runs-table-adapter";
 import {TraineeAccessTrainingRunActionEnum} from "../../../../model/enums/trainee-access-training-run-actions.enum";
 import {PaginatedTable} from "../../../../model/table-adapters/paginated-table";
 import {ErrorHandlerService} from "../../../../services/shared/error-handler.service";
 import {ActiveTrainingRunService} from "../../../../services/trainee/active-training-run.service";
+import {BaseComponent} from "../../../base.component";
 
 @Component({
   selector: 'trainee-trainings-table',
@@ -21,7 +22,7 @@ import {ActiveTrainingRunService} from "../../../../services/trainee/active-trai
 /**
  * Component to display available trainings for trainee in form of a material table
  */
-export class TraineeTrainingsTableComponent implements OnInit {
+export class TraineeTrainingsTableComponent extends BaseComponent implements OnInit {
 
   displayedColumns: string[] = ['title', 'date', 'completedLevels', 'actions'];
   dataSource: MatTableDataSource<AccessedTrainingRunsTableAdapter>;
@@ -35,12 +36,13 @@ export class TraineeTrainingsTableComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(
-    private router: Router,
-    private activeRoute: ActivatedRoute,
-    private activeTrainingRunLevelsService: ActiveTrainingRunService,
-    private errorHandler: ErrorHandlerService,
-    private trainingRunFacade: TrainingRunFacade) { }
+  constructor(private router: Router,
+              private activeRoute: ActivatedRoute,
+              private activeTrainingRunLevelsService: ActiveTrainingRunService,
+              private errorHandler: ErrorHandlerService,
+              private trainingRunFacade: TrainingRunFacade) {
+    super();
+  }
 
   ngOnInit() {
     this.initDataSource();
@@ -58,6 +60,7 @@ export class TraineeTrainingsTableComponent implements OnInit {
   resume(trainingRunId: number) {
     this.isLoading = true;
     this.trainingRunFacade.resume(trainingRunId)
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(trainingRunInfo => {
           this.activeTrainingRunLevelsService.setUpFromTrainingRun(trainingRunInfo);
           this.isLoading = false;
@@ -84,7 +87,9 @@ export class TraineeTrainingsTableComponent implements OnInit {
    */
   private initDataSource() {
     this.isLoading = true;
-    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    this.sort.sortChange
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(() => this.paginator.pageIndex = 0);
     this.paginator.pageSize = environment.defaultPaginationSize;
     this.sort.active = 'date';
     this.sort.direction = 'desc';
@@ -95,6 +100,7 @@ export class TraineeTrainingsTableComponent implements OnInit {
     let timeoutHandle = 0;
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(
+        takeWhile(() => this.isAlive),
         startWith({}),
         switchMap(() => {
           timeoutHandle =  window.setTimeout(() => this.isLoading = true, environment.defaultDelayToDisplayLoading);

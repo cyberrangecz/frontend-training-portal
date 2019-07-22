@@ -5,6 +5,8 @@ import {TrainingDefinition} from "../../../../../model/training/training-definit
 import {TrainingDefinitionFacade} from "../../../../../services/facades/training-definition-facade.service";
 import {TrainingDefinitionInfo} from "../../../../../model/training/training-definition-info";
 import {TrainingDefinitionStateEnum} from "../../../../../model/enums/training-definition-state.enum";
+import {takeWhile} from "rxjs/operators";
+import {BaseComponent} from "../../../../base.component";
 
 @Component({
   selector: 'training-definition-picker',
@@ -14,18 +16,17 @@ import {TrainingDefinitionStateEnum} from "../../../../../model/enums/training-d
 /**
  * Popup dialog to choose from training definition which will be associated with the training instance
  */
-export class TrainingDefinitionPickerComponent implements OnInit {
+export class TrainingDefinitionPickerComponent extends BaseComponent implements OnInit {
 
   releasedTrainingDefs: TrainingDefinitionInfo[] = [];
   unreleasedTrainingDefs: TrainingDefinitionInfo[] = [];
   selectedTrainingDef: TrainingDefinitionInfo;
   isLoading = true;
 
-  constructor(
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: TrainingDefinition,
-    public dialogRef: MatDialogRef<SandboxDefinitionPickerComponent>,
-    private trainingDefinitionFacade: TrainingDefinitionFacade) {
-
+  constructor(@Optional() @Inject(MAT_DIALOG_DATA) public data: TrainingDefinition,
+              public dialogRef: MatDialogRef<SandboxDefinitionPickerComponent>,
+              private trainingDefinitionFacade: TrainingDefinitionFacade) {
+    super()
   }
 
   ngOnInit() {
@@ -56,6 +57,7 @@ export class TrainingDefinitionPickerComponent implements OnInit {
 
   private loadTrainingDefinitions() {
     this.trainingDefinitionFacade.getTrainingDefinitionsForOrganizers()
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(trainings => {
         if (this.hasPreselection()) {
           this.preselectTrainingDef(trainings);

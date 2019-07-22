@@ -7,6 +7,8 @@ import {HintStepperComponent} from "../hints/hint-stepper/hint-stepper.component
 import {ErrorHandlerService} from "../../../../../../services/shared/error-handler.service";
 import {TrainingDefinitionFacade} from "../../../../../../services/facades/training-definition-facade.service";
 import {LevelsDefinitionService} from "../../../../../../services/designer/levels-definition.service";
+import {BaseComponent} from "../../../../../base.component";
+import {takeWhile} from "rxjs/operators";
 
 @Component({
   selector: 'game-level-configuration',
@@ -16,7 +18,7 @@ import {LevelsDefinitionService} from "../../../../../../services/designer/level
 /**
  * Component for configuration of new or existing game level
  */
-export class GameLevelConfigurationComponent implements OnInit, OnChanges {
+export class GameLevelConfigurationComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input('level') level: GameLevel;
   @Input('trainingDefinitionId') trainingDefinitionId: number;
@@ -41,7 +43,9 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
   constructor(private alertService: AlertService,
               private levelService: LevelsDefinitionService,
               private errorHandler: ErrorHandlerService,
-              private trainingDefinitionFacade: TrainingDefinitionFacade) { }
+              private trainingDefinitionFacade: TrainingDefinitionFacade) {
+    super();
+  }
 
   ngOnInit() {
   }
@@ -76,6 +80,7 @@ export class GameLevelConfigurationComponent implements OnInit, OnChanges {
       this.setInputValuesToLevel();
       this.childComponent.saveChanges();
       this.trainingDefinitionFacade.updateGameLevel(this.trainingDefinitionId, this.level)
+        .pipe(takeWhile(() => this.isAlive))
         .subscribe(resp => {
           this.dirty = false;
           this.isLoading = false;

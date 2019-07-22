@@ -6,6 +6,7 @@ import {ExtendedMatchingItems} from "../../../../../../../model/questions/extend
 import {FreeFormQuestion} from "../../../../../../../model/questions/free-form-question";
 import {MultipleChoiceQuestion} from "../../../../../../../model/questions/multiple-choice-question";
 import {AbstractQuestion} from "../../../../../../../model/questions/abstract-question";
+import {BaseComponent} from "../../../../../../base.component";
 
 @Component({
   selector: 'question-configuration',
@@ -15,7 +16,7 @@ import {AbstractQuestion} from "../../../../../../../model/questions/abstract-qu
 /**
  * Wrapper component of a specific question type. Resolves type of the question and creates sub component accordingly
  */
-export class QuestionConfigurationComponent implements OnInit, OnChanges {
+export class QuestionConfigurationComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input('question') question: AbstractQuestion;
   @Input('isTest') isTest: boolean;
@@ -30,8 +31,6 @@ export class QuestionConfigurationComponent implements OnInit, OnChanges {
   @ViewChild(FreeFormQuestionComponent, { static: false }) ffqChild: FreeFormQuestionComponent;
   @ViewChild(MultipleChoiceQuestionComponent, { static: false }) mcqChild: MultipleChoiceQuestionComponent;
   @ViewChild(ExtendedMatchingItemsComponent, { static: false }) emiChild: ExtendedMatchingItemsComponent;
-
-  constructor() { }
 
   ngOnInit() {
   }

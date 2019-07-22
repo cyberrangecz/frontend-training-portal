@@ -4,6 +4,7 @@ import {GameLevelConfigurationComponent} from "./game-level-configuration/game-l
 import {AssessmentLevelConfigurationComponent} from "./assessment-level-configuration/assessment-level-configuration.component";
 import {InfoLevelConfigurationComponent} from "./info-level-configuration/info-level-configuration.component";
 import {AbstractLevelTypeEnum} from "../../../../../model/enums/abstract-level-type.enum";
+import {BaseComponent} from "../../../../base.component";
 
 @Component({
   selector: 'level-configuration',
@@ -13,7 +14,7 @@ import {AbstractLevelTypeEnum} from "../../../../../model/enums/abstract-level-t
 /**
  * Main component of level configuration. Serves as a wrapper and resolver of level type and displays specific component accordingly
  */
-export class LevelConfigurationComponent implements OnInit {
+export class LevelConfigurationComponent extends BaseComponent implements OnInit {
 
   @ViewChild(GameLevelConfigurationComponent, { static: false }) gameLevelComponent;
   @ViewChild(AssessmentLevelConfigurationComponent, { static: false }) assessmentLevelComponent;

@@ -5,7 +5,6 @@ import {RouterModule} from "@angular/router";
 import {SidenavComponent} from "./sidenav/sidenav.component";
 import {UserMenuComponent} from "./toolbar/user-menu/user-menu.component";
 import {ToolbarComponent} from "./toolbar/toolbar.component";
-import {AlertComponent} from "./alert/alert.component";
 import {AlertService} from "../../services/shared/alert.service";
 import {FormsModule} from "@angular/forms";
 import {UploadService} from "../../services/shared/upload.service";
@@ -29,7 +28,6 @@ import {ActionConfirmationDialog} from "./delete-dialog/action-confirmation-dial
     ToolbarComponent,
     UserMenuComponent,
     SidenavComponent,
-    AlertComponent,
     AlertSnackbarComponent,
     ActionConfirmationDialog,
   ],
@@ -37,7 +35,6 @@ import {ActionConfirmationDialog} from "./delete-dialog/action-confirmation-dial
     ToolbarComponent,
     UserMenuComponent,
     SidenavComponent,
-    AlertComponent,
     SharedMaterialModule,
     ActionConfirmationDialog,
   ],

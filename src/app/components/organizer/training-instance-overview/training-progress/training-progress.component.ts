@@ -1,32 +1,26 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActiveTrainingInstanceService} from '../../../../services/organizer/active-training-instance.service';
-import {Subscription} from "rxjs";
+import {BaseComponent} from "../../../base.component";
+import {takeWhile} from "rxjs/operators";
 
 @Component({
   selector: 'training-progress',
   templateUrl: './training-progress.component.html',
   styleUrls: ['./training-progress.component.css']
 })
-export class TrainingProgressComponent implements OnInit, OnDestroy {
+export class TrainingProgressComponent extends BaseComponent implements OnInit {
 
   isLoading = true;
   trainingDefinitionId: number;
   trainingInstanceId: number;
 
-  instanceSubscription: Subscription;
-
   constructor(private activeTrainingInstanceService: ActiveTrainingInstanceService) {
+    super();
   }
 
   ngOnInit() {
     this.subscribeForInstanceChanges();
     this.getIdsForVisualization();
-  }
-
-  ngOnDestroy(): void {
-    if (this.instanceSubscription) {
-      this.instanceSubscription.unsubscribe();
-    }
   }
 
   private getIdsForVisualization() {
@@ -39,7 +33,8 @@ export class TrainingProgressComponent implements OnInit, OnDestroy {
   }
 
   private subscribeForInstanceChanges() {
-    this.instanceSubscription = this.activeTrainingInstanceService.onActiveTrainingChanged
+    this.activeTrainingInstanceService.onActiveTrainingChanged
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(newInstanceId => this.getIdsForVisualization());
   }
 }

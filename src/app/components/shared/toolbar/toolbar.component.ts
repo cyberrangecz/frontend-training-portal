@@ -1,7 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { Location } from '@angular/common';
-import {SubscriptionLike} from "rxjs";
+import {Subscription, SubscriptionLike} from "rxjs";
 import {Router} from "@angular/router";
+import {takeWhile} from "rxjs/operators";
+import {BaseComponent} from "../../base.component";
 
 @Component({
   selector: 'shared-toolbar',
@@ -11,27 +13,31 @@ import {Router} from "@angular/router";
 /**
  * Main toolbar of the application. Shows logo and a user menu component
  */
-export class ToolbarComponent implements OnInit, OnDestroy {
+export class ToolbarComponent extends BaseComponent implements OnInit, OnDestroy {
 
   isHome: boolean;
 
-  private _locationChangeSubscription: SubscriptionLike;
+  private locationChangeSubscription: SubscriptionLike;
 
   constructor(private location: Location,
-              private router: Router) { }
+              private router: Router) {
+    super();
+  }
 
   ngOnInit() {
     this.resolveIsHome();
-    this._locationChangeSubscription = this.location.subscribe(locationChange => {
+    this.locationChangeSubscription = this.location.subscribe(locationChange => {
       this.resolveIsHome();
     });
 
-    this.router.events.subscribe(routerEvent => this.resolveIsHome());
+    this.router.events
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(routerEvent => this.resolveIsHome());
   }
 
   ngOnDestroy(): void {
-    if (this._locationChangeSubscription && !this._locationChangeSubscription.closed)
-      this._locationChangeSubscription.unsubscribe()
+    if (this.locationChangeSubscription && !this.locationChangeSubscription.closed)
+      this.locationChangeSubscription.unsubscribe()
   }
 
   goToParentLocation() {

@@ -1,6 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import {TrainingInstance} from "../../../../../model/training/training-instance";
+import {BaseComponent} from "../../../../base.component";
 
 @Component({
   selector: 'training-edit-popup',
@@ -10,12 +11,12 @@ import {TrainingInstance} from "../../../../../model/training/training-instance"
 /**
  * Popup dialog with component for training instance editing.
  */
-export class TrainingEditPopupComponent implements OnInit {
+export class TrainingEditPopupComponent extends BaseComponent implements OnInit {
 
-  constructor(
-    public dialogRef: MatDialogRef<TrainingEditPopupComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: TrainingInstance
-  ) { }
+  constructor(public dialogRef: MatDialogRef<TrainingEditPopupComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: TrainingInstance) {
+    super();
+  }
 
   ngOnInit() {
   }

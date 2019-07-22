@@ -3,20 +3,21 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import {TrainingDefinition} from "../../../../../model/training/training-definition";
 import {AlertService} from "../../../../../services/shared/alert.service";
 import {AlertTypeEnum} from "../../../../../model/enums/alert-type.enum";
+import {BaseComponent} from "../../../../base.component";
 
 @Component({
   selector: 'app-clone-dialog',
   templateUrl: './clone-dialog.component.html',
   styleUrls: ['./clone-dialog.component.css']
 })
-export class CloneDialogComponent implements OnInit {
+export class CloneDialogComponent extends BaseComponent implements OnInit {
 
   clonedDefinitionTitle: string;
 
-  constructor(
-    public dialogRef: MatDialogRef<CloneDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: TrainingDefinition,
-    private alertService: AlertService) {
+  constructor(public dialogRef: MatDialogRef<CloneDialogComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: TrainingDefinition,
+              private alertService: AlertService) {
+    super();
   }
 
   ngOnInit() {

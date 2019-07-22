@@ -5,7 +5,7 @@ import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import {ActiveTrainingInstanceService} from "../../../../../services/organizer/active-training-instance.service";
 import {interval, merge, of, Subscription} from "rxjs";
-import {catchError, map, startWith, switchMap} from "rxjs/operators";
+import {catchError, map, startWith, switchMap, takeWhile} from "rxjs/operators";
 import {AlertService} from "../../../../../services/shared/alert.service";
 import {AlertTypeEnum} from "../../../../../model/enums/alert-type.enum";
 import {TrainingInstanceFacade} from "../../../../../services/facades/training-instance-facade.service";
@@ -16,7 +16,6 @@ import {environment} from "../../../../../../environments/environment";
 import {BaseTrainingRunsOverview} from "../base-training-runs-overview";
 import {ActionConfirmationDialog} from "../../../../shared/delete-dialog/action-confirmation-dialog.component";
 import {SandboxInstanceFacade} from "../../../../../services/facades/sandbox-instance-facade.service";
-import {TrainingRunFacade} from "../../../../../services/facades/training-run-facade.service";
 
 @Component({
   selector: 'active-training-runs-overview',
@@ -26,7 +25,7 @@ import {TrainingRunFacade} from "../../../../../services/facades/training-run-fa
 /**
  * Component for displaying summary of training in form of a material table
  */
-export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOverview implements OnInit, OnDestroy {
+export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOverview implements OnInit {
 
   displayedColumns: string[] = ['sandboxInstanceId', 'sandboxInstanceState', 'player', 'state', 'actions'];
   activeTrainingRunsDataSource: MatTableDataSource<TrainingRunTableAdapter>;
@@ -45,9 +44,6 @@ export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOvervie
   sandboxAvailableCount: number;
   sandboxCanBeAllocatedCount: number;
 
-
-  private _currentTimeUpdateSubscription: Subscription;
-
   @ViewChild(MatPaginator, { static: true }) activeTrainingRunsPaginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) activeTrainingRunSort: MatSort;
 
@@ -64,12 +60,8 @@ export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOvervie
 
   ngOnInit() {
     super.ngOnInit();
-    this.initCurrentTimePeriodicalUpdate();
+    this.startCurrentTimePeriodicalUpdate();
 
-  }
-
-  ngOnDestroy() {
-    super.ngOnDestroy();
   }
 
   /**
@@ -99,7 +91,9 @@ export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOvervie
    * Creates table data source from training runs retrieved from a server.
    */
    protected initDataSource() {
-    this.activeTrainingRunSort.sortChange.subscribe(() => this.activeTrainingRunsPaginator.pageIndex = 0);
+    this.activeTrainingRunSort.sortChange
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(() => this.activeTrainingRunsPaginator.pageIndex = 0);
     this.activeTrainingRunsPaginator.pageSize = environment.defaultPaginationSize;
     this.activeTrainingRunSort.active = 'state';
     this.activeTrainingRunSort.direction = 'desc';
@@ -117,6 +111,7 @@ export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOvervie
   private fetchInfoForSandboxes() {
     let timeoutHandle = window.setTimeout(() => this.isLoadingSandboxResults = true, environment.defaultDelayToDisplayLoading);
     this.sandboxInstanceFacade.getSandboxesInPool(this.trainingInstance.poolId)
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         sandboxes => {
             window.clearTimeout(timeoutHandle);
@@ -143,6 +138,7 @@ export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOvervie
     let timeoutHandle = 0;
     merge(this.activeTrainingRunSort.sortChange, this.activeTrainingRunsPaginator.page)
       .pipe(
+        takeWhile(() => this.isAlive),
         startWith({}),
         switchMap(() => {
           timeoutHandle = window.setTimeout(() => this.isLoadingTrainingRunResults = true, environment.defaultDelayToDisplayLoading);
@@ -186,7 +182,9 @@ export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOvervie
         action: 'delete'
       }
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed()
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(result => {
       if (result && result.type === 'confirm') {
         this.sendRequestToDeleteSandbox(row)
       }
@@ -195,6 +193,7 @@ export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOvervie
 
   private sendRequestToAllocateSandboxes(count: number) {
     this.sandboxInstanceFacade.allocateSandbox(this.trainingInstance.id, count)
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         response => {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Allocation of sandboxes has begun');
@@ -209,6 +208,7 @@ export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOvervie
   private sendRequestToDeleteSandbox(row: TrainingRunTableAdapter) {
     row.deletionRequested = true;
     this.sandboxInstanceFacade.deleteSandbox(this.trainingInstance.id, row.trainingRun.sandboxInstanceId)
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(
       response => {
         this.alertService.emitAlert(AlertTypeEnum.Success, 'Deletion of sandbox instance has started');
@@ -221,9 +221,11 @@ export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOvervie
     )
   }
 
-  private initCurrentTimePeriodicalUpdate() {
+  private startCurrentTimePeriodicalUpdate() {
     this.now = Date.now();
-    this._currentTimeUpdateSubscription = interval(60000).subscribe(value =>
+    interval(60000)
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(value =>
       this.now = Date.now()
     );
   }

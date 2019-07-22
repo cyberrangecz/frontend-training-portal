@@ -1,7 +1,9 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActiveTrainingInstanceService} from "../../../../../services/organizer/active-training-instance.service";
 import {TrainingInstance} from "../../../../../model/training/training-instance";
 import {TrainingDefinition} from "../../../../../model/training/training-definition";
+import {BaseComponent} from "../../../../base.component";
+import {takeWhile} from "rxjs/operators";
 
 @Component({
   selector: 'training-info',
@@ -11,14 +13,14 @@ import {TrainingDefinition} from "../../../../../model/training/training-definit
 /**
  * Displays info about currently active training instance
  */
-export class TrainingInfoComponent implements OnInit, OnDestroy {
+export class TrainingInfoComponent extends BaseComponent implements OnInit {
 
   trainingInstance: TrainingInstance;
   trainingDefinition: TrainingDefinition;
 
-  trainingChangesSubscription;
-
-  constructor(private activeTrainingInstanceService: ActiveTrainingInstanceService) { }
+  constructor(private activeTrainingInstanceService: ActiveTrainingInstanceService) {
+    super();
+  }
 
   ngOnInit() {
     this.loadData();
@@ -39,13 +41,9 @@ export class TrainingInfoComponent implements OnInit, OnDestroy {
    * Subscribes to changes of active training, reloads data if active training is changed
    */
   private subscribeActiveTrainingChanges() {
-    this.trainingChangesSubscription = this.activeTrainingInstanceService.onActiveTrainingChanged
+    this.activeTrainingInstanceService.onActiveTrainingChanged
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(change => this.loadData());
   }
 
-  ngOnDestroy() {
-    if (this.trainingChangesSubscription) {
-      this.trainingChangesSubscription.unsubscribe();
-    }
-  }
 }

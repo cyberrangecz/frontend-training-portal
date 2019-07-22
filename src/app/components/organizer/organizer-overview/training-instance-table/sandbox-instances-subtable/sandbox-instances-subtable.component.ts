@@ -3,7 +3,6 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  OnDestroy,
   OnInit,
   Output,
   SimpleChanges,
@@ -19,11 +18,13 @@ import {SandboxAllocationService} from '../../../../../services/organizer/sandbo
 import {SandboxInstanceFacade} from '../../../../../services/facades/sandbox-instance-facade.service';
 import {SandboxInstanceTableAdapter} from '../../../../../model/table-adapters/sandbox-instance-table-adapter';
 import {environment} from '../../../../../../environments/environment';
-import {Observable, Subscription} from 'rxjs';
+import {Observable} from 'rxjs';
 import {TrainingInstanceSandboxAllocationState} from '../../../../../model/training/training-instance-sandbox-allocation-state';
 import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
 import {ActionConfirmationDialog} from '../../../../shared/delete-dialog/action-confirmation-dialog.component';
 import {AllocationErrorDialogComponent} from "../allocation-error-dialog/allocation-error-dialog.component";
+import {BaseComponent} from "../../../../base.component";
+import {takeWhile} from "rxjs/operators";
 
 
 @Component({
@@ -31,7 +32,7 @@ import {AllocationErrorDialogComponent} from "../allocation-error-dialog/allocat
   templateUrl: './sandbox-instances-subtable.component.html',
   styleUrls: ['./sandbox-instances-subtable.component.css']
 })
-export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnDestroy {
+export class SandboxInstancesSubtableComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input() trainingInstance: TrainingInstance;
   @Input() allocation$: Observable<TrainingInstanceSandboxAllocationState>;
@@ -40,8 +41,6 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
   displayedColumns: string[] = ['id', 'state', 'actions'];
 
   dataSource: MatTableDataSource<SandboxInstanceTableAdapter>;
-
-  globalAllocationSubscription: Subscription;
 
   resultsLength = 0;
   isInErrorState = false;
@@ -61,6 +60,7 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
     private errorHandler: ErrorHandlerService,
     private allocationService: SandboxAllocationService,
     private sandboxInstanceFacade: SandboxInstanceFacade) {
+    super();
   }
 
   ngOnInit() {
@@ -82,20 +82,6 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
       this.displayData();
     }
   }
-
-  ngOnDestroy(): void {
-    if (this.globalAllocationSubscription) {
-      this.globalAllocationSubscription.unsubscribe();
-    }
-    if (this.dataSource && this.dataSource.data) {
-      this.dataSource.data.forEach(sandboxRow => {
-        if (sandboxRow.allocationSubscription) {
-          sandboxRow.allocationSubscription.unsubscribe();
-        }
-      })
-    }
-  }
-
 
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -126,7 +112,9 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed()
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(result => {
       if (result && result.type === 'confirm') {
         this.sendRequestToDeleteSandbox(sandboxRow);
       }
@@ -137,7 +125,9 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
     const sandboxCount = this.getSandboxCount() - 1;
     this.isDisabled = true;
     const sandboxDeletion$ = this.allocationService.deleteSandbox(this.trainingInstance, sandboxRow.sandboxInstance, sandboxCount);
-    sandboxRow.allocationSubscription = sandboxDeletion$.subscribe(
+    sandboxDeletion$
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(
       allocationState =>  {
         this.isDisabled = false;
         this.displayData(allocationState);
@@ -154,7 +144,8 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
     this.isDisabled = true;
     const sandboxCount = this.getSandboxCount() + 1;
     const sandboxAllocation$ = this.allocationService.allocateSandbox(this.trainingInstance, sandboxCount);
-    sandboxRow.allocationSubscription = sandboxAllocation$
+    sandboxAllocation$
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         allocationState =>  {
           this.isDisabled = false;
@@ -169,7 +160,9 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
   }
 
   private initTableDataSource() {
-    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    this.sort.sortChange
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(() => this.paginator.pageIndex = 0);
     this.paginator.pageSize = environment.defaultPaginationSize;
     this.sort.active = 'status';
     this.sort.direction = 'desc';
@@ -192,7 +185,9 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
   }
 
   private createDataSourceFromAllocationObservable(activeAllocation$: Observable<TrainingInstanceSandboxAllocationState>) {
-    activeAllocation$.subscribe(
+    activeAllocation$
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(
       allocationState => {
         this.createDataSourceFromAllocationState(allocationState);
         this.isLoadingResults = false;
@@ -205,7 +200,9 @@ export class SandboxInstancesSubtableComponent implements OnInit, OnChanges, OnD
   }
 
   private fetchDataFromServer() {
-    this.sandboxInstanceFacade.getSandboxesInPool(this.trainingInstance.poolId).subscribe(
+    this.sandboxInstanceFacade.getSandboxesInPool(this.trainingInstance.poolId)
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(
       sandboxes => {
         this.dataSource = new MatTableDataSource(this.mapSandboxesToTableData(sandboxes));
         this.dataSource.filterPredicate = this.filterByStatusFn;

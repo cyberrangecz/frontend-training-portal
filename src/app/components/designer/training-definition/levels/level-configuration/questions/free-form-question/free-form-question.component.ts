@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 import {FreeFormQuestion} from "../../../../../../../model/questions/free-form-question";
 import {AlertService} from "../../../../../../../services/shared/alert.service";
 import {AlertTypeEnum} from "../../../../../../../model/enums/alert-type.enum";
+import {BaseComponent} from "../../../../../../base.component";
 
 @Component({
   selector: 'free-form-question',
@@ -11,7 +12,7 @@ import {AlertTypeEnum} from "../../../../../../../model/enums/alert-type.enum";
 /**
  * Component of a question of type Free Form
  */
-export class FreeFormQuestionComponent implements OnInit, OnChanges {
+export class FreeFormQuestionComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input('question') question: FreeFormQuestion;
   @Input('isTest') isTest: boolean;
@@ -29,7 +30,9 @@ export class FreeFormQuestionComponent implements OnInit, OnChanges {
 
   dirty = false;
 
-  constructor(private alertService: AlertService) { }
+  constructor(private alertService: AlertService) {
+    super();
+  }
 
   ngOnInit() {
   }

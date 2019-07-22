@@ -4,6 +4,8 @@ import {ActiveTrainingRunService} from "../../../../services/trainee/active-trai
 import {AbstractLevel} from "../../../../model/level/abstract-level";
 import { MatDialog } from "@angular/material/dialog";
 import {AbstractLevelTypeEnum} from "../../../../model/enums/abstract-level-type.enum";
+import {BaseComponent} from "../../../base.component";
+import {takeWhile} from "rxjs/operators";
 
 @Component({
   selector: 'training-run-level',
@@ -14,26 +16,20 @@ import {AbstractLevelTypeEnum} from "../../../../model/enums/abstract-level-type
  * Component to display one level in a training run. Serves mainly as a wrapper which determines the type of the training
  * and displays child component accordingly
  */
-export class TrainingRunLevelComponent implements OnInit, OnDestroy {
+export class TrainingRunLevelComponent extends BaseComponent implements OnInit {
 
   level: AbstractLevel;
-  activeLevelsChangeSubscription;
   levelTypes = AbstractLevelTypeEnum;
 
-  constructor(
-    private dialog: MatDialog,
-    private activeRoute: ActivatedRoute,
-    private activeLevelsService: ActiveTrainingRunService) { }
+  constructor(private dialog: MatDialog,
+              private activeRoute: ActivatedRoute,
+              private activeLevelsService: ActiveTrainingRunService) {
+    super();
+  }
 
   ngOnInit() {
     this.initLevel();
     this.subscribeForActiveLevelChanges();
-  }
-
-  ngOnDestroy() {
-    if (this.activeLevelsChangeSubscription) {
-      this.activeLevelsChangeSubscription.unsubscribe();
-    }
   }
 
   /**
@@ -64,9 +60,8 @@ export class TrainingRunLevelComponent implements OnInit, OnDestroy {
    * different child component if its type is changed
    */
   private subscribeForActiveLevelChanges() {
-    this.activeLevelsChangeSubscription = this.activeLevelsService.onActiveLevelChanged
-      .subscribe(activeLevel => {
-        this.level = activeLevel;
-      })
+    this.activeLevelsService.onActiveLevelChanged
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(activeLevel => this.level = activeLevel)
   }
 }

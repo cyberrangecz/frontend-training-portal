@@ -2,6 +2,8 @@ import {Component, Inject, OnInit, Optional} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import {SandboxDefinition} from "../../../../../model/sandbox/sandbox-definition";
 import {SandboxDefinitionFacade} from "../../../../../services/facades/sandbox-definition-facade.service";
+import {BaseComponent} from "../../../../base.component";
+import {takeWhile} from "rxjs/operators";
 
 @Component({
   selector: 'app-sandbox-definition-picker',
@@ -11,21 +13,21 @@ import {SandboxDefinitionFacade} from "../../../../../services/facades/sandbox-d
 /**
  * Component of sandbox definition picker dialog window. Lets the user to choose from list of sandbox definitions which will be associated with the training definition
  */
-export class SandboxDefinitionPickerComponent implements OnInit {
+export class SandboxDefinitionPickerComponent extends BaseComponent implements OnInit {
 
   sandboxDefs: SandboxDefinition[];
   selectedSandboxDef: SandboxDefinition;
   isLoading = true;
 
-  constructor(
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: number,
-    public dialogRef: MatDialogRef<SandboxDefinitionPickerComponent>,
-    private sandboxDefinitionFacade: SandboxDefinitionFacade) {
-
+  constructor(@Optional() @Inject(MAT_DIALOG_DATA) public data: number,
+              public dialogRef: MatDialogRef<SandboxDefinitionPickerComponent>,
+              private sandboxDefinitionFacade: SandboxDefinitionFacade) {
+    super();
   }
 
   ngOnInit() {
     this.sandboxDefinitionFacade.getSandboxDefs()
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(sandboxes => {
         this.sandboxDefs = sandboxes;
         if (this.hasInitialSandbox()) {

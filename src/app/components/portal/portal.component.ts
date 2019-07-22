@@ -1,6 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {Kypo2AuthService} from 'kypo2-auth';
+import {BaseComponent} from "../base.component";
+import {takeWhile} from "rxjs/operators";
 
 @Component({
   selector: 'overview',
@@ -11,28 +13,21 @@ import {Kypo2AuthService} from 'kypo2-auth';
  * Main component of portal page. Portal page is a main crossroad of possible sub pages. Only those matching with user
  * role are accessible.
  */
-export class PortalComponent implements OnInit, OnDestroy {
+export class PortalComponent extends BaseComponent implements OnInit {
 
   trainingRoles;
   cyberExerciseRoles;
   otherAgendaRoles;
 
-  userChangeSubscription;
-
   constructor(
     private authService: Kypo2AuthService,
     private router: Router) {
+    super();
   }
 
   ngOnInit() {
     this.initRoutes();
     this.subscribeUserChange();
-  }
-
-  ngOnDestroy() {
-    if (this.userChangeSubscription) {
-      this.userChangeSubscription.unsubscribe();
-    }
   }
 
   /**
@@ -115,8 +110,9 @@ export class PortalComponent implements OnInit, OnDestroy {
    * Subscribes to changes in active user (logged out/in) and recalculates source objects and visibility based on roles of new user.
    */
   private subscribeUserChange() {
-    this.userChangeSubscription = this.authService.activeUser$.
-      subscribe(user => {
+    this.authService.activeUser$
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(user => {
       this.initRoutes();
     });
   }

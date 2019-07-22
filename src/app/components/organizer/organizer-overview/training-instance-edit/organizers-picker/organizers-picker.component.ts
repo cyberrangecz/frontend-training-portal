@@ -1,8 +1,9 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {UserFacade} from "../../../../../services/facades/user-facade.service";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import {map} from "rxjs/operators";
+import {map, takeWhile} from "rxjs/operators";
 import {Kypo2AuthService, User} from 'kypo2-auth';
+import {BaseComponent} from "../../../../base.component";
 
 @Component({
   selector: 'organizers-picker',
@@ -12,26 +13,29 @@ import {Kypo2AuthService, User} from 'kypo2-auth';
 /**
  * Component of popup dialog to choose from a list of possible organizers of the training instance
  */
-export class OrganizersPickerComponent implements OnInit {
+export class OrganizersPickerComponent extends BaseComponent implements OnInit {
 
   organizers: User[];
   selectedOrganizers: User[] = [];
   activeUser: User;
   isLoading = true;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data,
-    public dialogRef: MatDialogRef<OrganizersPickerComponent>,
-    private userFacade: UserFacade,
-    private authService: Kypo2AuthService) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data,
+              public dialogRef: MatDialogRef<OrganizersPickerComponent>,
+              private userFacade: UserFacade,
+              private authService: Kypo2AuthService) {
+    super();
     this.activeUser = this.authService.getActiveUser();
     this.selectedOrganizers.push(this.activeUser);
   }
 
   ngOnInit() {
     this.userFacade.getOrganizers()
-      .pipe(map(organizers =>
-        organizers.filter(organizer => organizer.login !== this.activeUser.login)))
+      .pipe(
+        takeWhile(() => this.isAlive),
+        map(organizers =>
+          organizers.filter(organizer => organizer.login !== this.activeUser.login))
+      )
       .subscribe(organizers => {
         this.organizers = organizers;
         this.preselectOrganizers();

@@ -1,18 +1,19 @@
 import {Component, Inject, OnInit, Optional} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import {UserFacade} from "../../../../../services/facades/user-facade.service";
-import {map} from "rxjs/operators";
+import {map, takeWhile} from "rxjs/operators";
 import {AlertTypeEnum} from "../../../../../model/enums/alert-type.enum";
 import {AlertService} from "../../../../../services/shared/alert.service";
 import {Kypo2AuthService, User} from 'kypo2-auth';
 import {BetaTestingGroup} from '../../../../../model/training/beta-testing-group';
+import {BaseComponent} from "../../../../base.component";
 
 @Component({
   selector: 'app-edit-beta-testing-group',
   templateUrl: './edit-beta-testing-group.component.html',
   styleUrls: ['./edit-beta-testing-group.component.css']
 })
-export class EditBetaTestingGroupComponent implements OnInit {
+export class EditBetaTestingGroupComponent extends BaseComponent implements OnInit {
 
   organizers: User[];
   activeUser: User;
@@ -26,6 +27,7 @@ export class EditBetaTestingGroupComponent implements OnInit {
               private authService: Kypo2AuthService,
               private alertService: AlertService,
               private userFacade: UserFacade) {
+    super();
   }
 
   ngOnInit() {
@@ -91,13 +93,16 @@ export class EditBetaTestingGroupComponent implements OnInit {
 
   private initializeOrganizers() {
     this.userFacade.getOrganizers()
-      .pipe(map(users => {
-        const filteredUsers = users.filter(user => user.login !== this.activeUser.login);
-        if (this.editMode) {
-          this.preselectOrganizers(this.findInitiallyPreselectedUsers(filteredUsers))
-        }
-        return filteredUsers;
-      }))
+      .pipe(
+        takeWhile(() => this.isAlive),
+        map(users => {
+          const filteredUsers = users.filter(user => user.login !== this.activeUser.login);
+          if (this.editMode) {
+            this.preselectOrganizers(this.findInitiallyPreselectedUsers(filteredUsers))
+          }
+          return filteredUsers;
+        })
+      )
       .subscribe(users => {
         this.organizers = users;
         this.isLoading = false;

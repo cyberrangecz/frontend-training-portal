@@ -9,7 +9,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {TrainingDefinitionUploadDialogComponent} from './training-definition-upload-dialog/training-definition-upload-dialog.component';
 import {AlertService} from '../../../../services/shared/alert.service';
 import {TrainingInstanceFacade} from '../../../../services/facades/training-instance-facade.service';
-import {catchError, map, startWith, switchMap} from 'rxjs/operators';
+import {catchError, map, startWith, switchMap, takeWhile} from 'rxjs/operators';
 import {merge, of} from 'rxjs';
 import {environment} from '../../../../../environments/environment';
 import {AlertTypeEnum} from '../../../../model/enums/alert-type.enum';
@@ -23,6 +23,7 @@ import {AuthorsListDialogComponent} from './authors-list-dialog/authors-list-dia
 import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
 import {CloneDialogComponent} from "./clone-dialog/clone-dialog.component";
 import {Kypo2AuthService} from 'kypo2-auth';
+import {BaseComponent} from "../../../base.component";
 
 @Component({
   selector: 'designer-overview-training-definition',
@@ -33,7 +34,7 @@ import {Kypo2AuthService} from 'kypo2-auth';
  * Component displaying overview of training definitions. Contains buttons for upload and creating new training definitions,
  * table with all training definitions associated with currently logged in user and possible actions for each training definition.
  */
-export class TrainingDefinitionOverviewComponent implements OnInit {
+export class TrainingDefinitionOverviewComponent extends BaseComponent implements OnInit {
 
   // needed to compare values against enums in a template
   trainingStateEnum = TrainingDefinitionStateEnum;
@@ -49,15 +50,15 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private dialog: MatDialog,
-    private authService: Kypo2AuthService,
-    private alertService: AlertService,
-    private errorHandler: ErrorHandlerService,
-    private trainingInstanceFacade: TrainingInstanceFacade,
-    private trainingDefinitionFacade: TrainingDefinitionFacade) {
+  constructor(private router: Router,
+              private activatedRoute: ActivatedRoute,
+              private dialog: MatDialog,
+              private authService: Kypo2AuthService,
+              private alertService: AlertService,
+              private errorHandler: ErrorHandlerService,
+              private trainingInstanceFacade: TrainingInstanceFacade,
+              private trainingDefinitionFacade: TrainingDefinitionFacade) {
+    super();
   }
 
   ngOnInit() {
@@ -93,7 +94,9 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
         type: 'training'
       }
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed()
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(result => {
       if (result) {
         this.alertService.emitAlert(result.type, result.message);
       }
@@ -122,6 +125,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    */
   downloadTrainingDefinition(id: number) {
     this.trainingDefinitionFacade.downloadTrainingDefinition(id)
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(resp => {},
         err => {
         if (err.status === 406) {
@@ -145,6 +149,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
       }
     });
     dialogRef.afterClosed()
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(result => {
         if (result && result.type === 'confirm')
           this.sendRequestToDeleteTrainingDefinition(trainingDefinition.id)
@@ -157,6 +162,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
       data: trainingDefinition
     });
     dialogRef.afterClosed()
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(result => {
         if (result.type === 'confirm') {
           this.sendRequestToCloneTrainingDefinition(trainingDefinition.id, result.title);
@@ -174,7 +180,9 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => this.onChangeTrainingStateDialogC(row, result));
+    dialogRef.afterClosed()
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(result => this.onChangeTrainingStateDialogC(row, result));
   }
 
   showAuthorsList(trainingDefinition: TrainingDefinition) {
@@ -194,6 +202,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
     let timeoutHandle = 0;
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(
+        takeWhile(() => this.isAlive),
         startWith({}),
         switchMap(() => {
           timeoutHandle =  window.setTimeout(() => this.isLoadingResults = true, environment.defaultDelayToDisplayLoading);
@@ -227,6 +236,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
   private sendChangeTrainingDefinitionStateRequest(row: TrainingDefinitionTableAdapter) {
     row.isLoadingStateChange = true;
     this.trainingDefinitionFacade.changeTrainingDefinitionState(row.selectedState, row.trainingDefinition.id)
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         resp => this.onTrainingDefinitionStateChangeConfirmedByServer(row),
         err => this.onTrainingDefinitionStateChangeDeniedByServer(row, err)
@@ -247,6 +257,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
 
   private sendRequestToCloneTrainingDefinition(id: number, title: string) {
     this.trainingDefinitionFacade.cloneTrainingDefinition(id, title)
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(response => {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully cloned.');
           this.fetchData();
@@ -259,7 +270,9 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
    * active user is listed as an author are shown
    */
   private initTableDataSource() {
-    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    this.sort.sortChange
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(() => this.paginator.pageIndex = 0);
     this.paginator.pageSize = environment.defaultPaginationSize;
     this.sort.active = 'lastEdited';
     this.sort.direction = 'desc';
@@ -268,6 +281,7 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
 
   private sendRequestToDeleteTrainingDefinition(id: number) {
     this.trainingDefinitionFacade.deleteTrainingDefinition(id)
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(resp => {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Training definition was successfully deleted');
           this.fetchData();
@@ -288,6 +302,4 @@ export class TrainingDefinitionOverviewComponent implements OnInit {
         data.trainingDefinition.title.toLowerCase().indexOf(filter) !== -1
         || data.trainingDefinition.state.toLowerCase().indexOf(filter) !== -1;
   }
-
-
 }
