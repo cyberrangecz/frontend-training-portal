@@ -1,8 +1,9 @@
 import {Component, Inject, OnInit, Optional} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import {UserFacade} from "../../../../../services/facades/user-facade.service";
-import {map} from "rxjs/operators";
+import {map, takeWhile} from "rxjs/operators";
 import {Kypo2AuthService, User} from 'kypo2-auth';
+import {BaseComponent} from "../../../../base.component";
 
 @Component({
   selector: 'training-authors-picker',
@@ -12,19 +13,18 @@ import {Kypo2AuthService, User} from 'kypo2-auth';
 /**
  * Component of authors picker dialog window. Lets the user to choose from list of authors which will be associated with the training definition
  */
-export class AuthorsPickerComponent implements OnInit {
+export class AuthorsPickerComponent extends BaseComponent implements OnInit {
 
   authors: User[];
   selectedAuthors: User[] = [];
   activeUser: User;
   isLoading = true;
 
-  constructor(
-    @Optional() @Inject(MAT_DIALOG_DATA) public preselectedUsers: User[],
-    public dialogRef: MatDialogRef<AuthorsPickerComponent>,
-    private userFacade: UserFacade,
-    private authService: Kypo2AuthService) {
-
+  constructor(@Optional() @Inject(MAT_DIALOG_DATA) public preselectedUsers: User[],
+              public dialogRef: MatDialogRef<AuthorsPickerComponent>,
+              private userFacade: UserFacade,
+              private authService: Kypo2AuthService) {
+    super();
   }
 
   ngOnInit() {
@@ -61,8 +61,10 @@ export class AuthorsPickerComponent implements OnInit {
 
   private getAuthors() {
     this.userFacade.getDesigners()
-      .pipe(map(authors => authors
-        .filter(author => author.login !== this.activeUser.login)))
+      .pipe(
+        takeWhile(() => this.isAlive),
+        map(authors => authors.filter(author => author.login !== this.activeUser.login))
+      )
       .subscribe(result => {
         this.authors = result;
         this.initializeSelectedUsers();

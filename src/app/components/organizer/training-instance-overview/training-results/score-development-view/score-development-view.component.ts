@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActiveTrainingInstanceService} from "../../../../../services/organizer/active-training-instance.service";
-import {Subscription} from "rxjs";
+import {BaseComponent} from "../../../../base.component";
+import {takeWhile} from "rxjs/operators";
 
 @Component({
   selector: 'score-development-view',
@@ -10,26 +11,20 @@ import {Subscription} from "rxjs";
     '(window:resize)': 'onResize($event)'
   }
 })
-export class ScoreDevelopmentViewComponent implements OnInit {
+export class ScoreDevelopmentViewComponent extends BaseComponent implements OnInit {
   isLoading = true;
   trainingDefinitionId: number;
   trainingInstanceId: number;
   vizSize: {width: number, height: number};
-  instanceSubscription: Subscription;
 
   constructor(private activeTrainingInstanceService: ActiveTrainingInstanceService) {
+    super();
   }
 
   ngOnInit() {
     this.setVisualizationSize(window.innerWidth, innerHeight);
     this.subscribeForInstanceChanges();
     this.getIdsForVisualization();
-  }
-
-  ngOnDestroy(): void {
-    if (this.instanceSubscription) {
-      this.instanceSubscription.unsubscribe();
-    }
   }
 
   onResize(event) {
@@ -46,7 +41,8 @@ export class ScoreDevelopmentViewComponent implements OnInit {
   }
 
   private subscribeForInstanceChanges() {
-    this.instanceSubscription = this.activeTrainingInstanceService.onActiveTrainingChanged
+    this.activeTrainingInstanceService.onActiveTrainingChanged
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(newInstanceId => this.getIdsForVisualization());
   }
 

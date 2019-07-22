@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {BaseComponent} from "../../../base.component";
 
 @Component({
   selector: 'training-summary',
@@ -8,9 +9,7 @@ import { Component, OnInit } from '@angular/core';
 /**
  * Component for training summary. Wrapper for child components
  */
-export class TrainingSummaryComponent implements OnInit {
-
-  constructor() { }
+export class TrainingSummaryComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
   }

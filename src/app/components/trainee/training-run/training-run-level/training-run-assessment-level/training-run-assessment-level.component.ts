@@ -7,6 +7,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ErrorHandlerService} from "../../../../../services/shared/error-handler.service";
 import {TrainingRunAssessmentLevelService} from "../../../../../services/trainee/training-run-assessment-level.service";
 import {AssessmentTypeEnum} from "../../../../../model/enums/assessment-type.enum";
+import {BaseComponent} from "../../../../base.component";
+import {takeWhile} from "rxjs/operators";
 
 @Component({
   selector: 'training-run-assessment-level',
@@ -16,7 +18,7 @@ import {AssessmentTypeEnum} from "../../../../../model/enums/assessment-type.enu
 /**
  * Component for displaying assessment level in a trainees training run
  */
-export class TrainingRunAssessmentLevelComponent implements OnInit, OnChanges {
+export class TrainingRunAssessmentLevelComponent extends BaseComponent implements OnInit, OnChanges {
 
   @ViewChildren(TraineeQuestionComponent) questionComponents: QueryList<TraineeQuestionComponent>;
   @Input('level') level: AssessmentLevel;
@@ -30,6 +32,7 @@ export class TrainingRunAssessmentLevelComponent implements OnInit, OnChanges {
               private router: Router,
               private activeRoute: ActivatedRoute,
               private errorHandler: ErrorHandlerService) {
+    super();
   }
 
   ngOnInit() {
@@ -67,6 +70,7 @@ export class TrainingRunAssessmentLevelComponent implements OnInit, OnChanges {
 
   nextLevel() {
     this.activeLevelService.nextLevel()
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         resp => {},
         err => this.errorHandler.displayInAlert(err, 'Moving to next level')
@@ -75,6 +79,7 @@ export class TrainingRunAssessmentLevelComponent implements OnInit, OnChanges {
 
   finish() {
     this.activeLevelService.finish()
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         resp => {},
         err => this.errorHandler.displayInAlert(err, 'Finishing training')
@@ -83,6 +88,7 @@ export class TrainingRunAssessmentLevelComponent implements OnInit, OnChanges {
 
   private sendSubmitRequest(answers: AbstractQuestion[]) {
     this.assessmentLevelService.submit(this.activeLevelService.trainingRunId, answers)
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         resp => this.onSubmitted(),
         err => this.onSubmittedError(err))

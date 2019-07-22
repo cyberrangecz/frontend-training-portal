@@ -11,6 +11,5 @@ export class TrainingInstanceTableAdapter implements TableAdapter {
   failedSandboxesCount: number;
   areSandboxDataLoaded: boolean;
   trainingInstance: TrainingInstance;
-  allocationSubscription: Subscription;
   allocation$: Observable<TrainingInstanceSandboxAllocationState>
 }

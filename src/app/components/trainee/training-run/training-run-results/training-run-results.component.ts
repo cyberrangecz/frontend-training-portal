@@ -3,6 +3,8 @@ import {ActivatedRoute} from "@angular/router";
 import {TrainingRunFacade} from "../../../../services/facades/training-run-facade.service";
 import {ErrorHandlerService} from "../../../../services/shared/error-handler.service";
 import {Kypo2AuthService} from 'kypo2-auth';
+import {BaseComponent} from "../../../base.component";
+import {takeWhile} from "rxjs/operators";
 
 @Component({
   selector: 'training-run-results',
@@ -15,7 +17,7 @@ import {Kypo2AuthService} from 'kypo2-auth';
 /**
  * Component displaying various visualization of training run results
  */
-export class TrainingRunResultsComponent implements OnInit, AfterViewInit {
+export class TrainingRunResultsComponent extends BaseComponent implements OnInit, AfterViewInit {
   display = false;
   vizSize: {width: number, height: number};
 
@@ -29,6 +31,7 @@ export class TrainingRunResultsComponent implements OnInit, AfterViewInit {
               private authService: Kypo2AuthService,
               private errorHandler: ErrorHandlerService,
               private trainingRunFacade: TrainingRunFacade) {
+    super();
 }
 
   ngOnInit() {
@@ -52,6 +55,7 @@ export class TrainingRunResultsComponent implements OnInit, AfterViewInit {
       const trainingRunId = Number(routeSnapshot.paramMap.get('id'));
       this.isLoading = true;
       this.trainingRunFacade.getTrainingRunById(trainingRunId)
+        .pipe(takeWhile(() => this.isAlive))
         .subscribe(
           trainingRun => {
           this.trainingInstanceId = trainingRun.trainingInstanceId;

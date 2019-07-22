@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 import {Hint} from "../../../../../../../model/level/hint";
 import {AlertTypeEnum} from "../../../../../../../model/enums/alert-type.enum";
 import {AlertService} from "../../../../../../../services/shared/alert.service";
+import {BaseComponent} from "../../../../../../base.component";
 
 @Component({
   selector: 'hint-configuration',
@@ -11,7 +12,7 @@ import {AlertService} from "../../../../../../../services/shared/alert.service";
 /**
  * Component for configuration of new or existing game level hint
  */
-export class HintConfigurationComponent implements OnInit, OnChanges {
+export class HintConfigurationComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input('hint') hint: Hint;
   @Input('levelMaxScore') levelMaxScore: number;
@@ -29,7 +30,9 @@ export class HintConfigurationComponent implements OnInit, OnChanges {
   maxHintPenalty: number;
   dirty = false;
 
-  constructor(private alertService: AlertService) { }
+  constructor(private alertService: AlertService) {
+    super();
+  }
 
   ngOnInit() {
   }

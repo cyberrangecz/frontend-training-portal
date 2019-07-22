@@ -12,6 +12,8 @@ import {Hint} from "../../../../../../../model/level/hint";
 import {HintConfigurationComponent} from "../hint-configuration/hint-configuration.component";
 import { MatDialog } from "@angular/material/dialog";
 import {ActionConfirmationDialog} from "../../../../../../shared/delete-dialog/action-confirmation-dialog.component";
+import {BaseComponent} from "../../../../../../base.component";
+import {takeWhile} from "rxjs/operators";
 
 @Component({
   selector: 'hint-stepper',
@@ -21,7 +23,7 @@ import {ActionConfirmationDialog} from "../../../../../../shared/delete-dialog/a
 /**
  * Hint stepper component, to navigate through existing hints and creating new hints
  */
-export class HintStepperComponent implements OnInit, OnChanges {
+export class HintStepperComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input('hints') hints: Hint[];
   @Input('levelMaxScore') levelMaxScore: number;
@@ -35,7 +37,9 @@ export class HintStepperComponent implements OnInit, OnChanges {
   initialPenaltySum: number;
   selectedStep: number;
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog) {
+    super();
+  }
 
   ngOnInit() {
     this.selectedStep = 0;
@@ -93,7 +97,9 @@ export class HintStepperComponent implements OnInit, OnChanges {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed()
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(result => {
       if (result && result.type === 'confirm') {
         const index = this.hints.indexOf(hint);
         if (index > - 1) {

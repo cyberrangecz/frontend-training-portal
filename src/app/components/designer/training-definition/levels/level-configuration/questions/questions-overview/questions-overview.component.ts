@@ -17,6 +17,8 @@ import {MultipleChoiceQuestion} from "../../../../../../../model/questions/multi
 import {ExtendedMatchingItems} from "../../../../../../../model/questions/extended-matching-items";
 import {ActionConfirmationDialog} from "../../../../../../shared/delete-dialog/action-confirmation-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
+import {BaseComponent} from "../../../../../../base.component";
+import {takeWhile} from "rxjs/operators";
 
 @Component({
   selector: 'question-overview',
@@ -26,7 +28,7 @@ import { MatDialog } from "@angular/material/dialog";
 /**
  * Wrapper component for questions inside the assessment level. Creates child question components.
  */
-export class QuestionsOverviewComponent implements OnInit, OnChanges, AfterViewInit {
+export class QuestionsOverviewComponent extends BaseComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Input('questions') questions: AbstractQuestion[];
   @Input('isTest') isTest: boolean;
@@ -40,6 +42,7 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges, AfterViewI
 
   constructor(public dialog: MatDialog,
               private cdRef:ChangeDetectorRef) {
+    super();
   }
 
   ngOnInit() {
@@ -123,7 +126,9 @@ export class QuestionsOverviewComponent implements OnInit, OnChanges, AfterViewI
         }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed()
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(result => {
       if (result && result.type === 'confirm') {
         this.questions.splice(index, 1);
         this.questionChanged();

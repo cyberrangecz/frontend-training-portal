@@ -3,6 +3,8 @@ import {InfoLevel} from "../../../../../model/level/info-level";
 import {ActiveTrainingRunService} from "../../../../../services/trainee/active-training-run.service";
 import {ErrorHandlerService} from "../../../../../services/shared/error-handler.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {BaseComponent} from "../../../../base.component";
+import {takeWhile} from "rxjs/operators";
 
 @Component({
   selector: 'training-run-info-level',
@@ -10,7 +12,7 @@ import {ActivatedRoute, Router} from "@angular/router";
   styleUrls: ['./training-run-info-level.component.css']
 })
 
-export class TrainingRunInfoLevelComponent implements OnInit, OnChanges {
+export class TrainingRunInfoLevelComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input('level') level: InfoLevel;
   hasNextLevel: boolean;
@@ -18,7 +20,9 @@ export class TrainingRunInfoLevelComponent implements OnInit, OnChanges {
   constructor(private activeLevelService: ActiveTrainingRunService,
               private router: Router,
               private activeRoute: ActivatedRoute,
-              private errorHandler: ErrorHandlerService) { }
+              private errorHandler: ErrorHandlerService) {
+    super();
+  }
 
   ngOnInit() {
     this.hasNextLevel = this.activeLevelService.hasNextLevel();
@@ -32,6 +36,7 @@ export class TrainingRunInfoLevelComponent implements OnInit, OnChanges {
 
   nextLevel() {
     this.activeLevelService.nextLevel()
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         resp => {},
         err => this.errorHandler.displayInAlert(err, 'Moving to next level')
@@ -40,6 +45,7 @@ export class TrainingRunInfoLevelComponent implements OnInit, OnChanges {
 
   finish() {
     this.activeLevelService.finish()
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         resp => {},
         err => this.errorHandler.displayInAlert(err, 'Finishing training')

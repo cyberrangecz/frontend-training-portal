@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {TrainingDefinition} from "../../../../model/training/training-definition";
 import {AlertService} from "../../../../services/shared/alert.service";
 import { MatDialog } from "@angular/material/dialog";
@@ -9,9 +9,11 @@ import {UserFacade} from "../../../../services/facades/user-facade.service";
 import {TrainingDefinitionFacade} from "../../../../services/facades/training-definition-facade.service";
 import {AlertTypeEnum} from "../../../../model/enums/alert-type.enum";
 import {TrainingInstanceFacade} from "../../../../services/facades/training-instance-facade.service";
-import {interval, Subscription} from 'rxjs';
+import {interval} from 'rxjs';
 import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
 import {Kypo2AuthService, User} from 'kypo2-auth';
+import {BaseComponent} from "../../../base.component";
+import {takeWhile} from "rxjs/operators";
 
 @Component({
   selector: 'training-instance-definition',
@@ -21,7 +23,7 @@ import {Kypo2AuthService, User} from 'kypo2-auth';
 /**
  * Component for creating new or editing existing training instance
  */
-export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
+export class TrainingInstanceEditComponent extends BaseComponent implements OnInit {
 
   @Input('trainingInstance') trainingInstance: TrainingInstance;
   @Output('trainingChange') trainingChange = new EventEmitter<TrainingInstance>();
@@ -37,13 +39,8 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
   organizers: User[];
   trainingDefinition: TrainingDefinition;
   accessToken: string;
-
-  startTimeUpdateSubscription: Subscription;
   userChangedStartTime = false;
-
   loggedUserLogin: string;
-
-  private _currentTimeUpdateSubscription: Subscription;
 
 
   constructor(
@@ -54,6 +51,7 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
     private trainingDefinitionFacade: TrainingDefinitionFacade,
     private trainingInstanceFacade: TrainingInstanceFacade,
     private dialog: MatDialog) {
+    super()
   }
 
   ngOnInit() {
@@ -62,23 +60,15 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
     this.dirty = false;
     this.loggedUserLogin = this.authService.getActiveUser().login;
   }
-
-  ngOnDestroy(): void {
-    if (this.startTimeUpdateSubscription) {
-      this.startTimeUpdateSubscription.unsubscribe();
-    }
-    if (this._currentTimeUpdateSubscription) {
-      this._currentTimeUpdateSubscription.unsubscribe();
-    }
-  }
-
   /**
    * Opens popup dialog to choose organizers from a list
    */
   chooseOrganizers() {
     const dialogRef = this.dialog.open(OrganizersPickerComponent, { data: this.organizers });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed()
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(result => {
       if (result && result.type === 'confirm') {
         this.organizers = result.organizers;
         this.contentChanged();
@@ -92,7 +82,9 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
   chooseTrainingDefinition() {
     const dialogRef = this.dialog.open(TrainingDefinitionPickerComponent, { data: this.trainingDefinition });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed()
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(result => {
       if (result && result.type === 'confirm') {
         this.trainingDefinition = result.trainingDef;
         this.contentChanged();
@@ -125,6 +117,7 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
 
   private updateTrainingInstance() {
     this.trainingInstanceFacade.updateTrainingInstance(this.trainingInstance)
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         newAccessToken => {
           this.alertService.emitAlert(AlertTypeEnum.Success,
@@ -138,6 +131,7 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
 
   private createTrainingInstance() {
     this.trainingInstanceFacade.createTrainingInstance(this.trainingInstance)
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         createdInstance => {
           this.alertService.emitAlert(AlertTypeEnum.Success,
@@ -248,8 +242,9 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
   }
 
   private setUpPeriodicTimeStartTimeUpdate() {
-    const source = interval(60000);
-    this.startTimeUpdateSubscription = source.subscribe(() => {
+    interval(60000)
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(() => {
       if (!this.userChangedStartTime) {
         this.startTime.setMinutes(this.startTime.getMinutes() + 1);
       }
@@ -258,7 +253,9 @@ export class TrainingInstanceEditComponent implements OnInit, OnDestroy {
 
   private initCurrentTimePeriodicalUpdate() {
     this.now = new Date();
-    this._currentTimeUpdateSubscription = interval(60000).subscribe(value =>
+    interval(60000)
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(value =>
       this.now = new Date()
     );
   }

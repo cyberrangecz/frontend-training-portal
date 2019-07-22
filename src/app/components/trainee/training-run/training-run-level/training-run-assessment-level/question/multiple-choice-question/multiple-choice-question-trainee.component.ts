@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MultipleChoiceQuestion} from "../../../../../../../model/questions/multiple-choice-question";
 import { MatCheckboxChange } from "@angular/material/checkbox";
 import {AbstractQuestion} from '../../../../../../../model/questions/abstract-question';
+import {BaseComponent} from "../../../../../../base.component";
 
 @Component({
   selector: 'trainee-multiple-choice-question',
@@ -11,7 +12,7 @@ import {AbstractQuestion} from '../../../../../../../model/questions/abstract-qu
 /**
  * Component displaying MCQ type of question in the assessment level of a trainees training run
  */
-export class MultipleChoiceQuestionTraineeComponent implements OnInit {
+export class MultipleChoiceQuestionTraineeComponent extends BaseComponent implements OnInit {
 
   @Input('question') question: MultipleChoiceQuestion;
   @Input('index') index: number;
@@ -19,8 +20,6 @@ export class MultipleChoiceQuestionTraineeComponent implements OnInit {
   @Output('contentChanged') contentChanged: EventEmitter<{index: number, question: AbstractQuestion}> = new EventEmitter();
 
   userAnswersIndexes: number[] = [];
-
-  constructor() { }
 
   ngOnInit() {
   }

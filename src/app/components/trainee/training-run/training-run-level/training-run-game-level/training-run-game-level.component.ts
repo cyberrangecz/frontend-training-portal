@@ -13,6 +13,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {TrainingRunGameLevelService} from "../../../../../services/trainee/training-run-game-level.service";
 import {Hint} from "../../../../../model/level/hint";
 import {FlagCheck} from "../../../../../model/level/flag-check";
+import {BaseComponent} from "../../../../base.component";
+import {takeWhile} from "rxjs/operators";
 
 @Component({
   selector: 'training-run-game-level',
@@ -23,7 +25,7 @@ import {FlagCheck} from "../../../../../model/level/flag-check";
  * Component of a game level in a training run. Users needs to find out correct solution (flag) and submit it
  * before he can continue to the next level.
  */
-export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
+export class TrainingRunGameLevelComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input('level') level: GameLevel;
 
@@ -48,13 +50,14 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
   solutionShown: boolean;
   hintButtons = [];
 
-  constructor(
-    private dialog: MatDialog,
-    private errorHandler: ErrorHandlerService,
-    private router: Router,
-    private activeRoute: ActivatedRoute,
-    private gameLevelService: TrainingRunGameLevelService,
-    private activeLevelService: ActiveTrainingRunService) { }
+  constructor(private dialog: MatDialog,
+              private errorHandler: ErrorHandlerService,
+            private router: Router,
+            private activeRoute: ActivatedRoute,
+            private gameLevelService: TrainingRunGameLevelService,
+            private activeLevelService: ActiveTrainingRunService) {
+    super();
+  }
 
   ngOnInit() {
     this.init();
@@ -85,7 +88,9 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed()
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(result => {
       if (result && result.type === 'confirm') {
         this.sendRequestToShowHint(hintButton, index);
       }
@@ -104,7 +109,9 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed()
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(result => {
       if (result && result.type === 'confirm') {
         this.sendRequestToRevealSolution();
       }
@@ -116,6 +123,7 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
    */
   submitFlag() {
     this.gameLevelService.isCorrectFlag(this.activeLevelService.trainingRunId, this.flag)
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         resp => {
             if (resp.isCorrect) {
@@ -130,6 +138,7 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
 
   nextLevel() {
     this.activeLevelService.nextLevel()
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         resp => {},
         err => this.errorHandler.displayInAlert(err, 'Moving to next level')
@@ -138,6 +147,7 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
 
   finish() {
     this.activeLevelService.finish()
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         resp => {},
         err => this.errorHandler.displayInAlert(err, 'Finishing training')
@@ -206,6 +216,7 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
   private sendRequestToRevealSolution() {
     this.isGameDataLoaded = false;
     this.gameLevelService.takeSolution(this.activeLevelService.trainingRunId)
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(resp => {
         this.showSolution(resp);
         this.isGameDataLoaded = true;
@@ -218,6 +229,7 @@ export class TrainingRunGameLevelComponent implements OnInit, OnChanges {
 
   private sendRequestToShowHint(hintButton, index: number) {
     this.gameLevelService.takeHint(this.activeLevelService.trainingRunId, hintButton.hint.id)
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(resp => {
           hintButton.displayed = true;
           this.addHintToTextField(resp, index);

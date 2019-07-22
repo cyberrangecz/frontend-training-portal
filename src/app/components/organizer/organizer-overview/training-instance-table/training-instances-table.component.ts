@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
@@ -8,7 +8,7 @@ import {AlertService} from "../../../../services/shared/alert.service";
 import {TrainingInstanceFacade} from "../../../../services/facades/training-instance-facade.service";
 import {TrainingEditPopupComponent} from "./training-edit-popup/training-edit-popup.component";
 import {interval, merge, Observable, of, Subscription} from 'rxjs';
-import {catchError, map, startWith, switchMap} from "rxjs/operators";
+import {catchError, map, startWith, switchMap, takeWhile} from "rxjs/operators";
 import {environment} from "../../../../../environments/environment";
 import {AlertTypeEnum} from "../../../../model/enums/alert-type.enum";
 import {TrainingInstanceTableAdapter} from "../../../../model/table-adapters/training-instance-table-adapter";
@@ -21,6 +21,7 @@ import {TrainingInstanceSandboxAllocationState} from '../../../../model/training
 import {ErrorHandlerService} from "../../../../services/shared/error-handler.service";
 import {ActionConfirmationDialog} from "../../../shared/delete-dialog/action-confirmation-dialog.component";
 import {Kypo2AuthService} from 'kypo2-auth';
+import {BaseComponent} from "../../../base.component";
 
 @Component({
   selector: 'training-instances-table',
@@ -38,7 +39,7 @@ import {Kypo2AuthService} from 'kypo2-auth';
 /**
  * Component for list of training instance displayed in form of a table. Only training instances where the active user is listed as an organizer is shown
  */
-export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
+export class TrainingInstancesTableComponent extends BaseComponent implements OnInit {
 
   displayedColumns: string[] = ['title', 'date', 'trainingDefinition', 'poolSize', 'accessToken', 'actions'];
 
@@ -53,8 +54,6 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  private _currentTimeUpdateSubscription: Subscription;
-
   constructor(
     private dialog: MatDialog,
     private alertService: AlertService,
@@ -63,23 +62,12 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
     private authService: Kypo2AuthService,
     private trainingInstanceFacade: TrainingInstanceFacade,
     private sandboxInstanceFacade: SandboxInstanceFacade) {
+    super();
   }
 
   ngOnInit() {
     this.initCurrentTimePeriodicalUpdate();
     this.initTableDataSource();
-  }
-
-  ngOnDestroy(): void {
-    if (this._currentTimeUpdateSubscription) {
-      this._currentTimeUpdateSubscription.unsubscribe();
-    }
-
-    this.dataSource.data.forEach(row => {
-      if (row.allocationSubscription) {
-        row.allocationSubscription.unsubscribe();
-      }
-    })
   }
 
   /**
@@ -99,7 +87,9 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
       data: training
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed()
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(result => {
       if (result && result.type === 'confirm') {
         this.refreshData();
       }
@@ -122,7 +112,9 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed()
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(result => {
       if (result && result.type === 'confirm') {
         this.sendRequestToDeleteTrainingInstance(training.trainingInstance.id);
       }
@@ -134,7 +126,9 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
    * @param {number} id
    */
   archiveTraining(id: number) {
-    this.trainingInstanceFacade.downloadTrainingInstance(id).subscribe(
+    this.trainingInstanceFacade.downloadTrainingInstance(id)
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(
         resp => {
       },
       err => {
@@ -145,7 +139,8 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
   allocateTrainingInstanceSandboxes(row: TrainingInstanceTableAdapter) {
     row.isAllocationInProgress = true;
     row.allocation$ = this.allocationService.allocateSandboxes(row.trainingInstance);
-    row.allocationSubscription = row.allocation$
+    row.allocation$
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         allocationState => this.onAllocationUpdate(allocationState, row),
         err => this.onAllocationUpdateError(err, row)
@@ -154,7 +149,9 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
 
 
   onAllocationEvent(allocation$: Observable<TrainingInstanceSandboxAllocationState>, instanceRow: TrainingInstanceTableAdapter) {
-    instanceRow.allocationSubscription = allocation$.subscribe(
+    allocation$
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(
       allocationState => this.onAllocationUpdate(allocationState, instanceRow),
       err => this.onAllocationUpdateError(err, instanceRow)
     )
@@ -176,7 +173,9 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
    * active user is listed as an organizer are shown
    */
   private initTableDataSource() {
-    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    this.sort.sortChange
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(() => this.paginator.pageIndex = 0);
     this.paginator.pageSize = environment.defaultPaginationSize;
     this.sort.active = 'title';
     this.sort.direction = 'desc';
@@ -190,6 +189,7 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
     let timeoutHandle = 0;
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(
+        takeWhile(() => this.isAlive),
         startWith({}),
         switchMap(() => {
           timeoutHandle =  window.setTimeout(() => this.isLoadingResults = true, environment.defaultDelayToDisplayLoading);
@@ -236,7 +236,8 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
 
   private resolveAllocationStateForRow(instanceTableRow: TrainingInstanceTableAdapter) {
     if (instanceTableRow.trainingInstance.hasPoolId()) {
-      instanceTableRow.allocationSubscription = this.sandboxInstanceFacade.getSandboxesInPool( instanceTableRow.trainingInstance.poolId)
+      this.sandboxInstanceFacade.getSandboxesInPool( instanceTableRow.trainingInstance.poolId)
+        .pipe(takeWhile(() => this.isAlive))
         .subscribe(sandboxes => {
           instanceTableRow.allocatedSandboxesCount = this.calculateAllocatedSandboxesCount(sandboxes);
           instanceTableRow.failedSandboxesCount = this.calculateFailedSandboxesCount(sandboxes);
@@ -290,7 +291,9 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
   private subscribeForAllocationIfAvailable(row: TrainingInstanceTableAdapter) {
     const allocationState$ = this.allocationService.getRunningAllocationStateObservable(row.trainingInstance);
     if (allocationState$) {
-      row.allocationSubscription = allocationState$.subscribe(
+      allocationState$
+        .pipe(takeWhile(() => this.isAlive))
+        .subscribe(
         allocationState => this.onAllocationUpdate(allocationState, row),
         err => this.onAllocationUpdateError(err, row)
       )
@@ -299,6 +302,7 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
 
   private sendRequestToDeleteTrainingInstance(trainingInstanceId: number) {
     this.trainingInstanceFacade.deleteTrainingInstance(trainingInstanceId)
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(response => {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Training instance was successfully deleted.');
           this.fetchData();
@@ -309,8 +313,8 @@ export class TrainingInstancesTableComponent implements OnInit, OnDestroy {
 
   private initCurrentTimePeriodicalUpdate() {
     this.now = Date.now();
-    this._currentTimeUpdateSubscription = interval(60000).subscribe(value =>
-      this.now = Date.now()
-    );
+    interval(60000)
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(value => this.now = Date.now());
   }
 }

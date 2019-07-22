@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ExtendedMatchingItems} from "../../../../../../../model/questions/extended-matching-items";
 import {AbstractQuestion} from '../../../../../../../model/questions/abstract-question';
+import {BaseComponent} from "../../../../../../base.component";
 
 @Component({
   selector: 'trainee-extended-matching-items',
@@ -10,7 +11,7 @@ import {AbstractQuestion} from '../../../../../../../model/questions/abstract-qu
 /**
  * Component displaying EMI type of question in the assessment level of a trainees training run
  */
-export class ExtendedMatchingItemsTraineeComponent implements OnInit {
+export class ExtendedMatchingItemsTraineeComponent extends BaseComponent implements OnInit {
 
   @Input('question') question: ExtendedMatchingItems;
   @Input('index') index: number;
@@ -18,8 +19,6 @@ export class ExtendedMatchingItemsTraineeComponent implements OnInit {
   @Output('contentChanged') contentChanged: EventEmitter<{index: number, question: AbstractQuestion}> = new EventEmitter();
 
   usersAnswers: {x: number, y: number}[] = [];
-
-  constructor() { }
 
   ngOnInit() {
   }

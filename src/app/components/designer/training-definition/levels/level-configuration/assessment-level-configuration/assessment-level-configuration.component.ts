@@ -8,6 +8,8 @@ import {AssessmentTypeEnum} from "../../../../../../model/enums/assessment-type.
 import {ErrorHandlerService} from "../../../../../../services/shared/error-handler.service";
 import {TrainingDefinitionFacade} from "../../../../../../services/facades/training-definition-facade.service";
 import {LevelsDefinitionService} from "../../../../../../services/designer/levels-definition.service";
+import {BaseComponent} from "../../../../../base.component";
+import {takeWhile} from "rxjs/operators";
 
 @Component({
   selector: 'assessment-level-configuration',
@@ -17,7 +19,7 @@ import {LevelsDefinitionService} from "../../../../../../services/designer/level
 /**
  * Component for configuration of new or existing assessment levels
  */
-export class AssessmentLevelConfigurationComponent implements OnInit {
+export class AssessmentLevelConfigurationComponent extends BaseComponent implements OnInit {
 
   @ViewChild(QuestionsOverviewComponent, { static: false }) childComponent: QuestionsOverviewComponent;
 
@@ -38,7 +40,9 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
   constructor(private trainingDefinitionFacade: TrainingDefinitionFacade,
               private levelService: LevelsDefinitionService,
               private alertService: AlertService,
-              private errorHandler: ErrorHandlerService) { }
+              private errorHandler: ErrorHandlerService) {
+    super();
+  }
 
   ngOnInit() {
   }
@@ -67,6 +71,7 @@ export class AssessmentLevelConfigurationComponent implements OnInit {
       this.level.questions = this.childComponent.questions;
       this.isLoading = true;
       this.trainingDefinitionFacade.updateAssessmentLevel(this.trainingDefinitionId, this.level)
+        .pipe(takeWhile(() => this.isAlive))
         .subscribe(resp => {
             this.dirty = false;
             this.isLoading = false;

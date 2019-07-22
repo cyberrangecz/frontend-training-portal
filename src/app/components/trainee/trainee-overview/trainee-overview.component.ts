@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActiveTrainingRunService} from "../../../services/trainee/active-training-run.service";
+import {BaseComponent} from "../../base.component";
 
 @Component({
   selector: 'trainee-overview',
@@ -9,9 +10,11 @@ import {ActiveTrainingRunService} from "../../../services/trainee/active-trainin
 /**
  * Main component of the trainee overview. Wrapper for child components (table and training access)
  */
-export class TraineeOverviewComponent implements OnInit {
+export class TraineeOverviewComponent extends BaseComponent implements OnInit {
 
-  constructor(private activeLevelsService: ActiveTrainingRunService) { }
+  constructor(private activeLevelsService: ActiveTrainingRunService) {
+    super();
+  }
 
   ngOnInit() {
     this.activeLevelsService.clear();

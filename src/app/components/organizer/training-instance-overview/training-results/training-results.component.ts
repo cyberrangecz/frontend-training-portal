@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
+import {BaseComponent} from "../../../base.component";
 
 @Component({
   selector: 'training-results',
@@ -9,11 +10,13 @@ import {ActivatedRoute, Router} from "@angular/router";
 /**
  * Wrapper for training results menu and navigation between selected visualizations
  */
-export class TrainingResultsComponent implements OnInit {
+export class TrainingResultsComponent extends BaseComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private activeRoute: ActivatedRoute) { }
+    private activeRoute: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit() {
     if (this.router.routerState.snapshot.url.endsWith('visualization)')) {

@@ -8,7 +8,7 @@ import {SandboxDefinitionFacade} from "../../../../services/facades/sandbox-defi
 import {TrainingDefinitionFacade} from "../../../../services/facades/training-definition-facade.service";
 import {AlertService} from "../../../../services/shared/alert.service";
 import {merge, of} from "rxjs";
-import {catchError, map, startWith, switchMap} from "rxjs/operators";
+import {catchError, map, startWith, switchMap, takeWhile} from "rxjs/operators";
 import {environment} from "../../../../../environments/environment";
 import {AlertTypeEnum} from "../../../../model/enums/alert-type.enum";
 import {ErrorHandlerService} from "../../../../services/shared/error-handler.service";
@@ -17,6 +17,7 @@ import {AssociatedTrainingDefinitionsDialogComponent} from './associated-trainin
 import {TrainingDefinitionInfo} from '../../../../model/training/training-definition-info';
 import {AddSandboxDefinitionDialogComponent} from "./add-sandbox-definition-dialog/add-sandbox-definition-dialog.component";
 import {ActionConfirmationDialog} from "../../../shared/delete-dialog/action-confirmation-dialog.component";
+import {BaseComponent} from "../../../base.component";
 
 @Component({
   selector: 'designer-overview-sandbox-definition',
@@ -28,7 +29,7 @@ import {ActionConfirmationDialog} from "../../../shared/delete-dialog/action-con
  * Component displaying overview of sandbox definitions. Contains button for upload sandbox definitions,
  * table with all sandbox definitions associated with currently logged in user and possible actions for sandbox definition.
  */
-export class SandboxDefinitionOverviewComponent implements OnInit {
+export class SandboxDefinitionOverviewComponent extends BaseComponent implements OnInit {
 
   displayedColumns: string[] = ['title', 'associatedTrainingDefs', 'authors', 'actions'];
 
@@ -41,13 +42,12 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
   isInErrorState = false;
   resultsLength: number;
 
-  constructor(
-    private dialog: MatDialog,
-    private alertService: AlertService,
-    private errorHandler: ErrorHandlerService,
-    private trainingDefinitionFacade: TrainingDefinitionFacade,
-    private sandboxDefinitionFacade: SandboxDefinitionFacade,
-  ) {
+  constructor(private dialog: MatDialog,
+              private alertService: AlertService,
+              private errorHandler: ErrorHandlerService,
+              private trainingDefinitionFacade: TrainingDefinitionFacade,
+              private sandboxDefinitionFacade: SandboxDefinitionFacade) {
+    super();
   }
 
   ngOnInit() {
@@ -70,7 +70,9 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
    */
   addSandboxDefinition() {
     const dialogRef = this.dialog.open(AddSandboxDefinitionDialogComponent);
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed()
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(result => {
       if (result && result.type === 'success') {
         this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox definition was successfully uploaded');
         this.fetchData();
@@ -90,6 +92,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
       }
     });
     dialogRef.afterClosed()
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(result => {
         if (result && result.type === 'confirm')
           this.sendRequestToDeleteSandboxDefinition(sandboxRow.sandbox.id)
@@ -110,7 +113,9 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
    * active user is listed as an author are shown
    */
   private initDataSource() {
-    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    this.sort.sortChange
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(() => this.paginator.pageIndex = 0);
     this.paginator.pageSize = environment.defaultPaginationSize;
     this.sort.active = 'title';
     this.sort.direction = 'desc';
@@ -121,6 +126,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
     let timeoutHandle = 0;
     merge(this.sort.sortChange, this.paginator.page, this.paginator.pageSize)
       .pipe(
+        takeWhile(() => this.isAlive),
         startWith({}),
         switchMap(() => {
           timeoutHandle =  window.setTimeout(() => this.isLoadingResults = true, environment.defaultDelayToDisplayLoading);
@@ -152,6 +158,7 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
       const tableDataObject = new SandboxDefinitionTableAdapter();
       tableDataObject.sandbox = sandbox;
       this.trainingDefinitionFacade.getTrainingDefinitionsAssociatedWithSandboxDefinition(sandbox.id)
+        .pipe(takeWhile(() => this.isAlive))
         .subscribe(result => {
           tableDataObject.associatedTrainingDefinitions = result;
           tableDataObject.canBeRemoved = this.canSandboxBeRemoved(tableDataObject.sandbox, tableDataObject.associatedTrainingDefinitions);
@@ -184,11 +191,11 @@ export class SandboxDefinitionOverviewComponent implements OnInit {
    */
   private canSandboxBeRemoved(sandbox: SandboxDefinition, assocTrainings: TrainingDefinitionInfo[]): boolean {
         return assocTrainings.length === 0;
-          //|| assocTrainings.every(training => training.state === TrainingDefinitionStateEnum.Archived);
   }
 
   private sendRequestToDeleteSandboxDefinition(sandboxId: number) {
     this.sandboxDefinitionFacade.deleteSandboxDefinition(sandboxId)
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(resp => {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox was successfully deleted.');
           this.fetchData();

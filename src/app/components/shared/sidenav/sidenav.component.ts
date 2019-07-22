@@ -2,6 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UserMenuSection} from "../../../model/menu/user-menu-section.model";
 import {Agenda} from "../../../model/menu/agenda.model";
 import {Kypo2AuthService} from 'kypo2-auth';
+import {BaseComponent} from "../../base.component";
+import {takeWhile} from "rxjs/operators";
 
 @Component({
   selector: 'shared-sidenav',
@@ -11,24 +13,17 @@ import {Kypo2AuthService} from 'kypo2-auth';
 /**
  * Component of sidebar navigation. Changes dynamically based on roles of a user
  */
-export class SidenavComponent implements OnInit, OnDestroy {
+export class SidenavComponent extends BaseComponent  implements OnInit, OnDestroy {
 
   menuSections: UserMenuSection[];
-  private userChangeSubscription;
 
   constructor(private authService: Kypo2AuthService) {
-
+    super();
   }
 
   ngOnInit() {
     this.initUserMenu();
     this.subscribeUserChange();
-  }
-
-  ngOnDestroy() {
-    if (this.userChangeSubscription) {
-      this.userChangeSubscription.unsubscribe();
-    }
   }
 
   private initUserMenu() {
@@ -100,7 +95,8 @@ export class SidenavComponent implements OnInit, OnDestroy {
    * Subscribes for changes of active (logged in) user and in case of changes recalculates visibility of trainings based on his roles.
    */
   private subscribeUserChange() {
-    this.userChangeSubscription = this.authService.activeUser$
+    this.authService.activeUser$
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(user => {
         this.initUserMenu();
       })

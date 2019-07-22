@@ -13,6 +13,7 @@ import {ExtendedMatchingItems} from "../../../../../../../model/questions/extend
 import {AlertService} from "../../../../../../../services/shared/alert.service";
 import {AlertTypeEnum} from "../../../../../../../model/enums/alert-type.enum";
 import { MatRadioButton } from "@angular/material/radio";
+import {BaseComponent} from "../../../../../../base.component";
 
 @Component({
   selector: 'extended-matching-items',
@@ -22,7 +23,7 @@ import { MatRadioButton } from "@angular/material/radio";
 /**
  * Component of a question of type Extended Matching Items
  */
-export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterViewInit {
+export class ExtendedMatchingItemsComponent extends BaseComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Input('question') question: ExtendedMatchingItems;
   @Input('isTest') isTest: boolean;
@@ -45,7 +46,9 @@ export class ExtendedMatchingItemsComponent implements OnInit, OnChanges, AfterV
   @ViewChildren(MatRadioButton) radioButtons: QueryList<MatRadioButton>;
 
   constructor(private cdRef:ChangeDetectorRef,
-              private alertService: AlertService) { }
+              private alertService: AlertService) {
+    super();
+  }
 
   ngOnInit() {
   }

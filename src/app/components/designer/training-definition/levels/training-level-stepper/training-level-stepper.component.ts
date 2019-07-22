@@ -19,7 +19,8 @@ import {TrainingDefinitionFacade} from "../../../../../services/facades/training
 import {TrainingDefinition} from "../../../../../model/training/training-definition";
 import {Subscription} from "rxjs";
 import {LevelsDefinitionService} from "../../../../../services/designer/levels-definition.service";
-import {map, switchMap} from "rxjs/operators";
+import {switchMap, takeWhile} from "rxjs/operators";
+import {BaseComponent} from "../../../../base.component";
 
 @Component({
   selector: 'training-level-stepper',
@@ -29,7 +30,7 @@ import {map, switchMap} from "rxjs/operators";
 /**
  * Component of training level stepper which is used to create new or edit existing levels in training definition.
  */
-export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestroy {
+export class TrainingLevelStepperComponent extends BaseComponent implements OnInit, OnChanges {
 
   @ViewChildren(LevelConfigurationComponent) levelConfigurationComponents: QueryList<LevelConfigurationComponent>;
 
@@ -41,13 +42,13 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
   isWaitingOnServerResponse = true;
   selectedStep: number = 0;
 
-  private _levelUpdateSubscription: Subscription;
-
   constructor(public dialog: MatDialog,
               private levelService: LevelsDefinitionService,
               private alertService: AlertService,
               private errorHandler: ErrorHandlerService,
-              private trainingDefinitionFacade: TrainingDefinitionFacade) { }
+              private trainingDefinitionFacade: TrainingDefinitionFacade) {
+    super();
+  }
 
   ngOnInit() {
     this.subscribeLevelUpdates();
@@ -61,11 +62,6 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
     }
   }
 
-  ngOnDestroy(): void {
-    if (this._levelUpdateSubscription) {
-      this._levelUpdateSubscription.unsubscribe();
-    }
-  }
 
 
   /**
@@ -93,6 +89,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
     this.isWaitingOnServerResponse = true;
     this.trainingDefinitionFacade.createInfoLevel(this.trainingDefinition.id)
       .pipe(
+        takeWhile(() => this.isAlive),
         switchMap(basicLevelInfo => this.trainingDefinitionFacade.getLevelById(basicLevelInfo.id))
       )
       .subscribe(
@@ -110,6 +107,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
     this.isWaitingOnServerResponse = true;
     this.trainingDefinitionFacade.createGameLevel(this.trainingDefinition.id)
       .pipe(
+        takeWhile(() => this.isAlive),
         switchMap(basicLevelInfo => this.trainingDefinitionFacade.getLevelById(basicLevelInfo.id))
       )
       .subscribe(
@@ -127,6 +125,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
     this.isWaitingOnServerResponse = true;
     this.trainingDefinitionFacade.createAssessmentLevel(this.trainingDefinition.id)
       .pipe(
+        takeWhile(() => this.isAlive),
         switchMap(basicLevelInfo => this.trainingDefinitionFacade.getLevelById(basicLevelInfo.id))
       )
       .subscribe(
@@ -145,6 +144,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
     const from = this.levels[this.selectedStep];
     const to = this.levels[this.selectedStep - 1];
     this.trainingDefinitionFacade.swap(this.trainingDefinition.id, from.id, to.id)
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(swappedLevelsInfo => {
           this.isLoading = false;
           this.swapLevelsLocally(this.selectedStep, this.selectedStep - 1);
@@ -166,6 +166,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
     const from = this.levels[this.selectedStep];
     const to = this.levels[this.selectedStep + 1];
     this.trainingDefinitionFacade.swap(this.trainingDefinition.id, from.id, to.id)
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(swappedLevelsInfo => {
           this.isLoading = false;
           this.swapLevelsLocally(this.selectedStep, this.selectedStep + 1);
@@ -193,7 +194,9 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
           title: levelToDelete.title
         }
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed()
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(result => {
       if (result && result.type === 'confirm') {
         this.sendDeleteLevelRequest(levelToDelete)
       }
@@ -203,6 +206,7 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
   private sendDeleteLevelRequest(levelToDelete: AbstractLevel) {
     this.isWaitingOnServerResponse = true;
     this.trainingDefinitionFacade.deleteLevel(this.trainingDefinition.id, levelToDelete.id)
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(updatedLevels => {
           this.alertService.emitAlert(AlertTypeEnum.Success ,'Level "' + levelToDelete.title + '" was successfully deleted');
           this.levels = this.levels.filter(level => level.id != levelToDelete.id);
@@ -255,7 +259,8 @@ export class TrainingLevelStepperComponent implements OnInit, OnChanges, OnDestr
     setTimeout( () => this.changeSelectedStep(previousStep), 1);
   }
   private subscribeLevelUpdates() {
-    this._levelUpdateSubscription = this.levelService.onLevelUpdated
+    this.levelService.onLevelUpdated
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(level => this.updateLevelTitle(level))
   }
 

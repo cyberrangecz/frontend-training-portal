@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit} from '@angular/core';
 import {AbstractLevel} from "../../../model/level/abstract-level";
 import {ActiveTrainingRunService} from "../../../services/trainee/active-training-run.service";
+import {BaseComponent} from "../../base.component";
+import {takeWhile} from "rxjs/operators";
 
 @Component({
   selector: 'training-run',
@@ -11,7 +13,7 @@ import {ActiveTrainingRunService} from "../../../services/trainee/active-trainin
  * Main component of players (trainee) training. Displays window with current level of a training and navigation to the next.
  * Optionally displays stepper with progress of the training and timer counting time from the start of a training.
  */
-export class TrainingRunComponent implements OnInit, OnDestroy {
+export class TrainingRunComponent extends BaseComponent implements OnInit {
 
   levels: AbstractLevel[];
 
@@ -21,21 +23,14 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
   startTime: Date;
   isLoading = false;
 
-  activeLevelChangeSubscription;
-
   constructor(private activeTrainingRunService: ActiveTrainingRunService) {
+    super();
   }
 
   ngOnInit() {
     this.initData();
     this.subscribeToActiveLevelChange();
     this.isTimerDisplayed = true;
-  }
-
-  ngOnDestroy() {
-    if (this.activeLevelChangeSubscription) {
-      this.activeLevelChangeSubscription.unsubscribe();
-    }
   }
 
   private initData() {
@@ -47,7 +42,9 @@ export class TrainingRunComponent implements OnInit, OnDestroy {
 
 
   private subscribeToActiveLevelChange() {
-    this.activeTrainingRunService.onActiveLevelChanged.subscribe(
+    this.activeTrainingRunService.onActiveLevelChanged
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(
       activeLevel => this.selectedStep += 1
     );
   }

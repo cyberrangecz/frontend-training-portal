@@ -1,6 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subscription} from "rxjs";
+import {Component, OnInit} from '@angular/core';
 import {Kypo2AuthService} from 'kypo2-auth';
+import {BaseComponent} from "../../../base.component";
+import {takeWhile} from "rxjs/operators";
 
 @Component({
   selector: 'toolbar-user-menu',
@@ -10,12 +11,12 @@ import {Kypo2AuthService} from 'kypo2-auth';
 /**
  * Component of user menu. Used to access pages of user profile, homepage, etc.
  */
-export class UserMenuComponent implements OnInit, OnDestroy {
+export class UserMenuComponent extends BaseComponent implements OnInit {
 
-  activeUserSubscription: Subscription;
   isUserLoggedIn;
 
   constructor(private authService: Kypo2AuthService) {
+    super();
     this.subscribeToActiveUserChanges();
   }
 
@@ -23,11 +24,6 @@ export class UserMenuComponent implements OnInit, OnDestroy {
     this.isUserLoggedIn = this.authService.isLoggedIn();
   }
 
-  ngOnDestroy() {
-    if (this.activeUserSubscription) {
-      this.activeUserSubscription.unsubscribe();
-    }
-  }
 
   login() {
     this.authService.login();
@@ -38,7 +34,8 @@ export class UserMenuComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToActiveUserChanges() {
-    this.activeUserSubscription = this.authService.activeUser$
+    this.authService.activeUser$
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(user => {
         this.isUserLoggedIn = user !== null && user !== undefined;
       })

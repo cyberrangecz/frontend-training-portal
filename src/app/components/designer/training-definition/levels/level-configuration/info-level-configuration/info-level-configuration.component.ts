@@ -5,6 +5,8 @@ import {AlertService} from "../../../../../../services/shared/alert.service";
 import {ErrorHandlerService} from "../../../../../../services/shared/error-handler.service";
 import {TrainingDefinitionFacade} from "../../../../../../services/facades/training-definition-facade.service";
 import {LevelsDefinitionService} from "../../../../../../services/designer/levels-definition.service";
+import {BaseComponent} from "../../../../../base.component";
+import {takeWhile} from "rxjs/operators";
 
 @Component({
   selector: 'info-level-configuration',
@@ -14,7 +16,7 @@ import {LevelsDefinitionService} from "../../../../../../services/designer/level
 /**
  * Component for configuration of new or existing info level
  */
-export class InfoLevelConfigurationComponent implements OnInit, OnChanges {
+export class InfoLevelConfigurationComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input('level') level: InfoLevel;
   @Input('trainingDefinitionId') trainingDefinitionId: number;
@@ -30,7 +32,9 @@ export class InfoLevelConfigurationComponent implements OnInit, OnChanges {
   constructor(private trainingDefinitionFacade: TrainingDefinitionFacade,
               private levelService: LevelsDefinitionService,
               private alertService: AlertService,
-              private errorHandler: ErrorHandlerService) {}
+              private errorHandler: ErrorHandlerService) {
+    super();
+  }
 
 
   ngOnInit() {
@@ -65,6 +69,7 @@ export class InfoLevelConfigurationComponent implements OnInit, OnChanges {
       this.isLoading = true;
       this.setInputValuesToLevel();
       this.trainingDefinitionFacade.updateInfoLevel(this.trainingDefinitionId, this.level)
+        .pipe(takeWhile(() => this.isAlive))
         .subscribe(resp => {
           this.isLoading = false;
           this.dirty = false;

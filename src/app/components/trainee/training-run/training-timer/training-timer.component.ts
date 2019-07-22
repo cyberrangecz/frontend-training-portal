@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {BaseComponent} from "../../../base.component";
 
 @Component({
   selector: 'training-timer',
@@ -8,11 +9,9 @@ import {Component, Input, OnInit} from '@angular/core';
 /**
  * Component of training timer displaying time passed from start of the training
  */
-export class TrainingTimerComponent implements OnInit {
+export class TrainingTimerComponent extends BaseComponent implements OnInit {
 
   @Input('startTime') startTime: Date;
-  constructor() { }
-
   ngOnInit() {
   }
 

@@ -3,6 +3,7 @@ import {MultipleChoiceQuestion} from "../../../../../../../model/questions/multi
 import {AlertService} from "../../../../../../../services/shared/alert.service";
 import {AlertTypeEnum} from "../../../../../../../model/enums/alert-type.enum";
 import { MatCheckboxChange } from "@angular/material/checkbox";
+import {BaseComponent} from "../../../../../../base.component";
 
 @Component({
   selector: 'multiple-choice-question',
@@ -12,7 +13,7 @@ import { MatCheckboxChange } from "@angular/material/checkbox";
 /**
  * Component of a question of type Multiple Choice Question
  */
-export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
+export class MultipleChoiceQuestionComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input('question') question: MultipleChoiceQuestion;
   @Input('isTest') isTest: boolean;
@@ -30,7 +31,9 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnChanges {
 
   dirty = false;
 
-  constructor(private alertService: AlertService) { }
+  constructor(private alertService: AlertService) {
+    super();
+  }
 
   ngOnInit() {
   }

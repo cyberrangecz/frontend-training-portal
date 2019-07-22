@@ -4,13 +4,15 @@ import {AlertService} from "../../../../../services/shared/alert.service";
 import {ErrorHandlerService} from "../../../../../services/shared/error-handler.service";
 import {SandboxDefinitionFacade} from "../../../../../services/facades/sandbox-definition-facade.service";
 import {AlertTypeEnum} from "../../../../../model/enums/alert-type.enum";
+import {BaseComponent} from "../../../../base.component";
+import {takeWhile} from "rxjs/operators";
 
 @Component({
   selector: 'app-add-sandbox-definition-dialog',
   templateUrl: './add-sandbox-definition-dialog.component.html',
   styleUrls: ['./add-sandbox-definition-dialog.component.css']
 })
-export class AddSandboxDefinitionDialogComponent implements OnInit {
+export class AddSandboxDefinitionDialogComponent extends BaseComponent implements OnInit {
 
   gitlabUrl: string;
   revision: string;
@@ -18,7 +20,9 @@ export class AddSandboxDefinitionDialogComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<AddSandboxDefinitionDialogComponent>,
               private errorHandler: ErrorHandlerService,
               private alertService: AlertService,
-              private sandboxDefinitionFacade: SandboxDefinitionFacade) { }
+              private sandboxDefinitionFacade: SandboxDefinitionFacade) {
+    super();
+  }
 
   ngOnInit() {
   }
@@ -26,6 +30,7 @@ export class AddSandboxDefinitionDialogComponent implements OnInit {
   add() {
     if (this.validateInput()) {
       this.sandboxDefinitionFacade.addSandboxDefinition(this.gitlabUrl, this.revision)
+        .pipe(takeWhile(() => this.isAlive))
         .subscribe(
           result => this.dialogRef.close({ type: 'success' }),
           err => this.errorHandler.displayInAlert(err, 'Uploading sandbox definition')

@@ -12,6 +12,8 @@ import {TrainingDefinitionFacade} from "../../../../services/facades/training-de
 import {EditBetaTestingGroupComponent} from "./edit-beta-testing-group/edit-beta-testing-group.component";
 import {Kypo2AuthService, User} from 'kypo2-auth';
 import {BetaTestingGroup} from '../../../../model/training/beta-testing-group';
+import {BaseComponent} from "../../../base.component";
+import {takeWhile} from "rxjs/operators";
 
 /**
  * Component for creating new or editing already existing training definition
@@ -21,7 +23,7 @@ import {BetaTestingGroup} from '../../../../model/training/beta-testing-group';
   templateUrl: './training-configuration.component.html',
   styleUrls: ['./training-configuration.component.css']
 })
-export class TrainingConfigurationComponent implements OnInit, OnChanges {
+export class TrainingConfigurationComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input('trainingDefinition') trainingDefinition: TrainingDefinition;
   @Output('isTrainingSaved') savedTrainingChange = new EventEmitter<boolean>();
@@ -39,18 +41,16 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
   betaTestingGroup: BetaTestingGroup;
 
   dirty = false;
-
   loggedUserLogin: string;
 
-  constructor(
-    private router: Router,
-    private dialog: MatDialog,
-    private errorHandler: ErrorHandlerService,
-    private alertService: AlertService,
-    private userFacade: UserFacade,
-    private authService: Kypo2AuthService,
-    private trainingDefinitionFacade: TrainingDefinitionFacade) {
-
+  constructor(private router: Router,
+              private dialog: MatDialog,
+              private errorHandler: ErrorHandlerService,
+              private alertService: AlertService,
+              private userFacade: UserFacade,
+              private authService: Kypo2AuthService,
+              private trainingDefinitionFacade: TrainingDefinitionFacade) {
+    super();
   }
 
   ngOnInit() {
@@ -77,7 +77,9 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
   chooseAuthors() {
     const dialogRef = this.dialog.open(AuthorsPickerComponent, { data: this.trainingDefinition.authors });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed()
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(result => {
       if (result && result.type === 'confirm') {
         this.authors = result.authors;
         this.dirty = true;
@@ -89,7 +91,9 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
     const dialogRef = this.dialog.open(EditBetaTestingGroupComponent, {
       data: this.betaTestingGroup
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed()
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(result => {
       if (result && result.type === 'confirm') {
         this.betaTestingGroup = result.betaTestingGroup;
         this.dirty = true;
@@ -102,7 +106,9 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
    */
   chooseSandboxDefs() {
     const dialogRef = this.dialog.open(SandboxDefinitionPickerComponent, { data : this.sandboxDefId});
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed()
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(result => {
       if (result && result.type === 'confirm') {
         this.sandboxDefId = result.sandboxDef.id;
         this.dirty = true;
@@ -156,6 +162,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
 
   private updateTrainingDefinition() {
     this.trainingDefinitionFacade.updateTrainingDefinition(this.trainingDefinition)
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(response => {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Changes were successfully saved.');
           this.performActionsAfterSuccessfulSave(response);
@@ -166,6 +173,7 @@ export class TrainingConfigurationComponent implements OnInit, OnChanges {
 
   private createTrainingDefinition() {
     this.trainingDefinitionFacade.createTrainingDefinition(this.trainingDefinition)
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(response => {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully saved.');
           this.performActionsAfterSuccessfulSave(response);

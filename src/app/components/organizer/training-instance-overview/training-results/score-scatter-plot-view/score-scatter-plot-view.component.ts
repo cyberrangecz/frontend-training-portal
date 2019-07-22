@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActiveTrainingInstanceService} from "../../../../../services/organizer/active-training-instance.service";
-import {Subscription} from "rxjs";
+import {BaseComponent} from "../../../../base.component";
+import {takeWhile} from "rxjs/operators";
 
 @Component({
   selector: 'score-scatter-plot-view',
@@ -10,26 +11,20 @@ import {Subscription} from "rxjs";
     '(window:resize)': 'onResize($event)'
   }
 })
-export class ScoreScatterPlotViewComponent implements OnInit {
+export class ScoreScatterPlotViewComponent extends BaseComponent implements OnInit {
   isLoading = true;
   trainingDefinitionId: number;
   trainingInstanceId: number;
   vizSize: {width: number, height: number};
-  instanceSubscription: Subscription;
 
   constructor(private activeTrainingInstanceService: ActiveTrainingInstanceService) {
+    super();
   }
 
   ngOnInit() {
     this.setVisualizationSize(window.innerWidth, innerHeight);
     this.subscribeForInstanceChanges();
     this.getIdsForVisualization();
-  }
-
-  ngOnDestroy(): void {
-    if (this.instanceSubscription) {
-      this.instanceSubscription.unsubscribe();
-    }
   }
 
   onResize(event) {
@@ -46,8 +41,9 @@ export class ScoreScatterPlotViewComponent implements OnInit {
   }
 
   private subscribeForInstanceChanges() {
-    this.instanceSubscription = this.activeTrainingInstanceService.onActiveTrainingChanged
-      .subscribe(newInstanceId => this.getIdsForVisualization());
+  this.activeTrainingInstanceService.onActiveTrainingChanged
+    .pipe(takeWhile(() => this.isAlive))
+    .subscribe(newInstanceId => this.getIdsForVisualization());
   }
 
   private setVisualizationSize(windowWidth: number, windowHeight: number) {
