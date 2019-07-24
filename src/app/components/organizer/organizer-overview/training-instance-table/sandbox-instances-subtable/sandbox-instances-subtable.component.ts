@@ -24,7 +24,7 @@ import {ErrorHandlerService} from '../../../../../services/shared/error-handler.
 import {ActionConfirmationDialog} from '../../../../shared/delete-dialog/action-confirmation-dialog.component';
 import {AllocationErrorDialogComponent} from "../allocation-error-dialog/allocation-error-dialog.component";
 import {BaseComponent} from "../../../../base.component";
-import {takeWhile} from "rxjs/operators";
+import {map, skipWhile, takeWhile} from 'rxjs/operators';
 
 
 @Component({
@@ -126,7 +126,10 @@ export class SandboxInstancesSubtableComponent extends BaseComponent implements 
     this.isDisabled = true;
     const sandboxDeletion$ = this.allocationService.deleteSandbox(this.trainingInstance, sandboxRow.sandboxInstance, sandboxCount);
     sandboxDeletion$
-      .pipe(takeWhile(() => this.isAlive))
+      .pipe(
+        takeWhile(() => this.isAlive),
+        skipWhile(allocationState => !allocationState.wasUpdated)
+        )
       .subscribe(
       allocationState =>  {
         this.isDisabled = false;
@@ -145,7 +148,10 @@ export class SandboxInstancesSubtableComponent extends BaseComponent implements 
     const sandboxCount = this.getSandboxCount() + 1;
     const sandboxAllocation$ = this.allocationService.allocateSandbox(this.trainingInstance, sandboxCount);
     sandboxAllocation$
-      .pipe(takeWhile(() => this.isAlive))
+      .pipe(
+        takeWhile(() => this.isAlive),
+        skipWhile(allocationState => !allocationState.wasUpdated)
+      )
       .subscribe(
         allocationState =>  {
           this.isDisabled = false;

@@ -12,7 +12,7 @@ import { AlertSnackbarComponent } from './alert/alert-snackbar/alert-snackbar.co
 import {ErrorHandlerService} from "../../services/shared/error-handler.service";
 import {SandboxAllocationService} from "../../services/organizer/sandbox-allocation/sandbox-allocation.service";
 import {TrainingInstanceFacadeModule} from '../../services/facades/modules/training-instance-facade.module';
-import {InstanceAllocationObservablesPoolService} from "../../services/organizer/sandbox-allocation/instance-allocation-observables-pool.service";
+import {SandboxInstanceObservablesPoolService} from "../../services/organizer/sandbox-allocation/sandbox-instance-observables-pool.service";
 import {SandboxInstanceFacadeModule} from "../../services/facades/modules/sandbox-instance-facade.module";
 import {ActionConfirmationDialog} from "./delete-dialog/action-confirmation-dialog.component";
 
@@ -41,10 +41,7 @@ import {ActionConfirmationDialog} from "./delete-dialog/action-confirmation-dial
   providers: [
     AlertService,
     ErrorHandlerService,
-    UploadService,
-    TrainingInstanceFacadeModule,
-    InstanceAllocationObservablesPoolService,
-    SandboxAllocationService,
+    UploadService
   ],
   entryComponents: [
     AlertSnackbarComponent,

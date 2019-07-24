@@ -26,7 +26,10 @@ export const environment = {
     maxRetryAttempts: 3,
     guardMainPageRedirect: 'home',
     guardLoginPageRedirect: 'login',
-    userInfoRestUri: 'https://147.251.124.129:8084/kypo2-rest-user-and-group/api/v1/',
+    userInfoRestUri: 'https://147.251.124.178:8084/kypo2-rest-user-and-group/api/v1/',
+    tokenInterceptorAllowedUrls: [
+      'https://147.251.124.178'
+    ],
     providers: [
       {
         label: 'Login with MUNI',

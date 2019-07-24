@@ -24,7 +24,7 @@ export class SandboxInstance {
 
   isInProgress(): boolean {
     return this.state === SandboxInstanceState.IN_PROGRESS
-
+      || this.state === SandboxInstanceState.DELETE_IN_PROGRESS;
   }
 
   isBeingDeleted(): boolean {

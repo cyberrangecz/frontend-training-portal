@@ -54,7 +54,7 @@
               <div class="action-buttons">
 
                 <!-- DELETE button-->
-                <button *ngIf="data.isCreated || data.isFailed"
+                <button *ngIf="data.isCreated || data.isFailed || data.isInProgress"
                         mat-icon-button color="warn"
                         matTooltip="Remove sandbox instance"
                         [disabled]="isDisabled"

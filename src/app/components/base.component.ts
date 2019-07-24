@@ -9,5 +9,4 @@ export class BaseComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.isAlive = false;
   }
-
 }

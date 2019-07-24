@@ -16,6 +16,9 @@ import {NgxHotjarModule} from 'ngx-hotjar';
 import {Kypo2AuthInterceptor, Kypo2AuthModule} from 'kypo2-auth';
 import {environment} from '../environments/environment';
 import {NotOnlyTraineeGuard} from "./services/guards/only-trainee.guard.service";
+import {TrainingInstanceFacadeModule} from "./services/facades/modules/training-instance-facade.module";
+import {SandboxInstanceObservablesPoolService} from "./services/organizer/sandbox-allocation/sandbox-instance-observables-pool.service";
+import {SandboxAllocationService} from "./services/organizer/sandbox-allocation/sandbox-allocation.service";
 
 @NgModule({
   declarations: [
@@ -29,16 +32,7 @@ import {NotOnlyTraineeGuard} from "./services/guards/only-trainee.guard.service"
     SharedModule,
     UserFacadeModule,
     Kypo2AuthModule.forRoot(environment.kypo2AuthConfig),
-    NgxHotjarModule.forRoot('<script>\n' +
-      '    (function(h,o,t,j,a,r){\n' +
-      '        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};\n' +
-      '        h._hjSettings={hjid:1315402,hjsv:6};\n' +
-      '        a=o.getElementsByTagName(\'head\')[0];\n' +
-      '        r=o.createElement(\'script\');r.async=1;\n' +
-      '        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;\n' +
-      '        a.appendChild(r);\n' +
-      '    })(window,document,\'https://static.hotjar.com/c/hotjar-\',\'.js?sv=\');\n' +
-      '</script>'),
+    NgxHotjarModule.forRoot(environment.hotjarTrackingCode)
   ],
   providers: [
     DesignerGuard,
@@ -47,6 +41,7 @@ import {NotOnlyTraineeGuard} from "./services/guards/only-trainee.guard.service"
     TraineeGuard,
     NotOnlyTraineeGuard,
     TrainingDistractionFreeModeService,
+    TrainingInstanceFacadeModule,
     { provide: HTTP_INTERCEPTORS, useClass: Kypo2AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorLogInterceptor, multi: true },
   ],

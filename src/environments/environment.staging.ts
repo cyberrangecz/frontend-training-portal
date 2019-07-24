@@ -26,6 +26,9 @@ export const environment = {
     maxRetryAttempts: 3,
     guardMainPageRedirect: 'home',
     guardLoginPageRedirect: 'login',
+    tokenInterceptorAllowedUrls: [
+      'https://147.251.124.129'
+    ],
     userInfoRestUri: 'https://147.251.124.129:8084/kypo2-rest-user-and-group/api/v1/',
     providers: [
       {

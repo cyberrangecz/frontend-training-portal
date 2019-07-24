@@ -15,7 +15,7 @@ export const environment = {
   delayToDisplayLoading: 500,
   defaultDelayToDisplayLoading: 500,
   defaultOrganizerTROverviewRefreshRate: 5000,
-  sandboxAllocationStateRefreshRate: 30000,
+  sandboxAllocationStateRefreshRate: 5000,
   kypo2TopologyConfig: {
     topologyRestUrl: 'https://147.251.124.129:8085/kypo2-rest-topology/api/v1/',
     decoratorsRestUrl: '',
@@ -32,6 +32,9 @@ export const environment = {
     guardMainPageRedirect: 'home',
     guardLoginPageRedirect: 'login',
     userInfoRestUri: 'https://147.251.124.129:8084/kypo2-rest-user-and-group/api/v1/',
+    tokenInterceptorAllowedUrls: [
+      'https://147.251.124.129'
+    ],
     providers: [
       {
         label: 'Login with MUNI',

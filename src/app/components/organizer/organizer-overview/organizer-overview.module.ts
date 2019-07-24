@@ -18,6 +18,8 @@ import {SandboxInstanceFacadeModule} from "../../../services/facades/modules/san
 import {SandboxInstancesSubtableComponent} from './training-instance-table/sandbox-instances-subtable/sandbox-instances-subtable.component';
 import { AllocationErrorDialogComponent } from './training-instance-table/allocation-error-dialog/allocation-error-dialog.component';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@busacca/ng-pick-datetime'
+import {SandboxAllocationService} from '../../../services/organizer/sandbox-allocation/sandbox-allocation.service';
+import {SandboxInstanceObservablesPoolService} from '../../../services/organizer/sandbox-allocation/sandbox-instance-observables-pool.service';
 
 @NgModule({
   imports: [
@@ -46,6 +48,8 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@busacca/ng-pick-dat
   ],
   providers: [
     ActiveTrainingInstanceService,
+    SandboxInstanceObservablesPoolService,
+    SandboxAllocationService,
   ],
   entryComponents: [
     OrganizersPickerComponent,
