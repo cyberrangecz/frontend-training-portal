@@ -2,7 +2,7 @@ import {TrainingInstance} from './training-instance';
 import {SandboxInstance} from '../sandbox/sandbox-instance';
 import {Observable, Subject} from "rxjs";
 
-export class TrainingInstanceSandboxAllocationState {
+export class SandboxInstanceAllocationState {
   training: TrainingInstance;
   requestedPoolSize: number;
   hasAllocationFinished;
@@ -30,8 +30,8 @@ export class TrainingInstanceSandboxAllocationState {
       this.attemptsUntilStopped--;
     }
     this._sandboxes = value;
-    this.updateHasAllocationFinished();
     this.update();
+    this.updateHasAllocationFinished();
   }
 
   private update() {
@@ -43,13 +43,10 @@ export class TrainingInstanceSandboxAllocationState {
   }
 
   private updateHasAllocationFinished() {
-    if (this.attemptsUntilStopped > 0) {
+    if (this.attemptsUntilStopped > 0 || this.isInProgress) {
       this.hasAllocationFinished = false;
     } else {
-      this.hasAllocationFinished = this._sandboxes.every(sandbox => sandbox.isCreated() || sandbox.isFailed());
-      if (this.hasAllocationFinished) {
-        this.update();
-      }
+      this.hasAllocationFinished = this.isInProgress;
     }
   }
 

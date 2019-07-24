@@ -19,7 +19,7 @@ import {SandboxInstanceFacade} from '../../../../../services/facades/sandbox-ins
 import {SandboxInstanceTableAdapter} from '../../../../../model/table-adapters/sandbox-instance-table-adapter';
 import {environment} from '../../../../../../environments/environment';
 import {Observable} from 'rxjs';
-import {TrainingInstanceSandboxAllocationState} from '../../../../../model/training/training-instance-sandbox-allocation-state';
+import {SandboxInstanceAllocationState} from '../../../../../model/training/sandbox-instance-allocation-state';
 import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
 import {ActionConfirmationDialog} from '../../../../shared/delete-dialog/action-confirmation-dialog.component';
 import {AllocationErrorDialogComponent} from "../allocation-error-dialog/allocation-error-dialog.component";
@@ -35,8 +35,8 @@ import {map, skipWhile, takeWhile} from 'rxjs/operators';
 export class SandboxInstancesSubtableComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input() trainingInstance: TrainingInstance;
-  @Input() allocation$: Observable<TrainingInstanceSandboxAllocationState>;
-  @Output() allocationEvent: EventEmitter<Observable<TrainingInstanceSandboxAllocationState>> = new EventEmitter();
+  @Input() allocation$: Observable<SandboxInstanceAllocationState>;
+  @Output() allocationEvent: EventEmitter<Observable<SandboxInstanceAllocationState>> = new EventEmitter();
 
   displayedColumns: string[] = ['id', 'state', 'actions'];
 
@@ -175,7 +175,7 @@ export class SandboxInstancesSubtableComponent extends BaseComponent implements 
     this.displayData();
   }
 
-  private displayData(allocationState: TrainingInstanceSandboxAllocationState = null) {
+  private displayData(allocationState: SandboxInstanceAllocationState = null) {
     this.isLoadingResults = true;
     if (allocationState) {
       this.createDataSourceFromAllocationState(allocationState);
@@ -190,7 +190,7 @@ export class SandboxInstancesSubtableComponent extends BaseComponent implements 
     }
   }
 
-  private createDataSourceFromAllocationObservable(activeAllocation$: Observable<TrainingInstanceSandboxAllocationState>) {
+  private createDataSourceFromAllocationObservable(activeAllocation$: Observable<SandboxInstanceAllocationState>) {
     activeAllocation$
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
@@ -240,7 +240,7 @@ export class SandboxInstancesSubtableComponent extends BaseComponent implements 
     return result;
   }
 
-  private createDataSourceFromAllocationState(allocationState: TrainingInstanceSandboxAllocationState) {
+  private createDataSourceFromAllocationState(allocationState: SandboxInstanceAllocationState) {
     this.dataSource = new MatTableDataSource(this.mapSandboxesToTableData(allocationState.sandboxes));
     this.dataSource.filterPredicate = this.filterByStatusFn;
     this.isLoadingResults = false;

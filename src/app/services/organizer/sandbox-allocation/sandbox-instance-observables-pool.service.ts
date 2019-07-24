@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {Dictionary} from 'typescript-collections'
 import {BehaviorSubject, Observable, Subject} from "rxjs";
-import {TrainingInstanceSandboxAllocationState} from "../../../model/training/training-instance-sandbox-allocation-state";
+import {SandboxInstanceAllocationState} from "../../../model/training/sandbox-instance-allocation-state";
 import {shareReplay} from "rxjs/operators";
 import {TrainingInstance} from "../../../model/training/training-instance";
 
@@ -9,13 +9,13 @@ import {TrainingInstance} from "../../../model/training/training-instance";
 export class SandboxInstanceObservablesPoolService {
 
   private _sandboxAllocationPool: Dictionary<number, {
-    subject: BehaviorSubject<TrainingInstanceSandboxAllocationState>,
-    observable: Observable<TrainingInstanceSandboxAllocationState>
+    subject: BehaviorSubject<SandboxInstanceAllocationState>,
+    observable: Observable<SandboxInstanceAllocationState>
   }> = new Dictionary();
 
-  addObservable(trainingInstance: TrainingInstance, initState: TrainingInstanceSandboxAllocationState): Observable<TrainingInstanceSandboxAllocationState> {
-    const subject: BehaviorSubject<TrainingInstanceSandboxAllocationState> = new BehaviorSubject(initState);
-    const observable: Observable<TrainingInstanceSandboxAllocationState> = subject.asObservable();
+  addObservable(trainingInstance: TrainingInstance, initState: SandboxInstanceAllocationState): Observable<SandboxInstanceAllocationState> {
+    const subject: BehaviorSubject<SandboxInstanceAllocationState> = new BehaviorSubject(initState);
+    const observable: Observable<SandboxInstanceAllocationState> = subject.asObservable();
 
     if (this.getObservable(trainingInstance.id)) {
       this.removeObservable(trainingInstance.id);
@@ -31,19 +31,18 @@ export class SandboxInstanceObservablesPoolService {
   }
 
   removeObservable(trainingInstanceId: number) {
-    console.log('removing' + trainingInstanceId);
     const removed = this._sandboxAllocationPool.remove(trainingInstanceId);
     if (removed) {
       removed.subject.complete();
     }
   }
 
-  getObservable(trainingInstanceId: number): Observable<TrainingInstanceSandboxAllocationState> | undefined {
+  getObservable(trainingInstanceId: number): Observable<SandboxInstanceAllocationState> | undefined {
     const allocation = this._sandboxAllocationPool.getValue(trainingInstanceId);
     return allocation ? allocation.observable : undefined;
   }
 
-  updateState(allocationState: TrainingInstanceSandboxAllocationState) {
+  updateState(allocationState: SandboxInstanceAllocationState) {
     const allocation = this._sandboxAllocationPool.getValue(allocationState.training.id);
     if (allocation) {
       allocation.subject.next(allocationState);

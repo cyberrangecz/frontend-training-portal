@@ -8,7 +8,7 @@ import {AlertService} from "../../../../services/shared/alert.service";
 import {TrainingInstanceFacade} from "../../../../services/facades/training-instance-facade.service";
 import {TrainingEditPopupComponent} from "./training-edit-popup/training-edit-popup.component";
 import {interval, merge, Observable, of, Subscription} from 'rxjs';
-import {catchError, map, startWith, switchMap, takeWhile, tap} from "rxjs/operators";
+import {catchError, map, skipWhile, startWith, switchMap, takeWhile, tap} from "rxjs/operators";
 import {environment} from "../../../../../environments/environment";
 import {AlertTypeEnum} from "../../../../model/enums/alert-type.enum";
 import {TrainingInstanceTableAdapter} from "../../../../model/table-adapters/training-instance-table-adapter";
@@ -16,7 +16,7 @@ import {PaginatedTable} from "../../../../model/table-adapters/paginated-table";
 import {SandboxInstanceFacade} from "../../../../services/facades/sandbox-instance-facade.service";
 import {SandboxAllocationService} from "../../../../services/organizer/sandbox-allocation/sandbox-allocation.service";
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {TrainingInstanceSandboxAllocationState} from '../../../../model/training/training-instance-sandbox-allocation-state';
+import {SandboxInstanceAllocationState} from '../../../../model/training/sandbox-instance-allocation-state';
 import {ErrorHandlerService} from "../../../../services/shared/error-handler.service";
 import {ActionConfirmationDialog} from "../../../shared/delete-dialog/action-confirmation-dialog.component";
 import {Kypo2AuthService} from 'kypo2-auth';
@@ -143,15 +143,16 @@ export class TrainingInstancesTableComponent extends BaseComponent implements On
     row.isAllocationInProgress = true;
     row.allocation$ = this.allocationService.allocateSandboxes(row.trainingInstance);
     row.allocation$
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(
+      .pipe(takeWhile(() => this.isAlive),
+        skipWhile(state => !state.wasUpdated))
+        .subscribe(
         allocationState => this.onAllocationUpdate(allocationState, row),
         err => this.onAllocationUpdateError(err, row)
       );
   }
 
 
-  onAllocationEvent(allocation$: Observable<TrainingInstanceSandboxAllocationState>, instanceRow: TrainingInstanceTableAdapter) {
+  onAllocationEvent(allocation$: Observable<SandboxInstanceAllocationState>, instanceRow: TrainingInstanceTableAdapter) {
     allocation$
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
@@ -252,7 +253,7 @@ export class TrainingInstancesTableComponent extends BaseComponent implements On
   }
 
 
-  private onAllocationUpdate(allocationState: TrainingInstanceSandboxAllocationState, row: TrainingInstanceTableAdapter) {
+  private onAllocationUpdate(allocationState: SandboxInstanceAllocationState, row: TrainingInstanceTableAdapter) {
     row.isAllocationInProgress = allocationState.isInProgress;
     row.allocatedSandboxesCount = allocationState.allocatedCount;
     row.failedSandboxesCount = allocationState.failedCount;
