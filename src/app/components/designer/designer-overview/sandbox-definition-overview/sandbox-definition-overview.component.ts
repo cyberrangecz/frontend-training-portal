@@ -31,7 +31,7 @@ import {BaseComponent} from "../../../base.component";
  */
 export class SandboxDefinitionOverviewComponent extends BaseComponent implements OnInit {
 
-  displayedColumns: string[] = ['title', 'associatedTrainingDefs', 'authors', 'actions'];
+  displayedColumns: string[] = ['id', 'title', 'associatedTrainingDefs', 'url', 'actions'];
 
   dataSource: MatTableDataSource<SandboxDefinitionTableAdapter>;
 
@@ -54,6 +54,7 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
     this.initDataSource();
   }
 
+
   /**
    * Applies filter data source
    * @param {string} filterValue value by which the data should be filtered. Inserted by user
@@ -63,6 +64,10 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  changeSandboxUrlState(row: SandboxDefinitionTableAdapter) {
+    row.urlShortened = !row.urlShortened;
   }
 
   /**
@@ -202,5 +207,4 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
         },
         err => this.errorHandler.displayInAlert(err, 'Removing sandbox definition'));
   }
-
 }

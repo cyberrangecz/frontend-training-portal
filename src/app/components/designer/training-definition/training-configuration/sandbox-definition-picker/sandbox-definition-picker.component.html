@@ -10,9 +10,8 @@
     <mat-list-item role="listitem" *ngFor="let sandbox of sandboxDefs">
       <mat-radio-button [checked]="sandbox === selectedSandboxDef"
                         [value]="sandbox"
-
                         (change)="selectedSandboxDef = $event.value">
-        {{ sandbox.title }}
+        {{ sandbox.title }} ID: {{sandbox.id }}
       </mat-radio-button>
     </mat-list-item>
   </mat-list>

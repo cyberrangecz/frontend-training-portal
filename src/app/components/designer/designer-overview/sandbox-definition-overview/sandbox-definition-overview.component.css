@@ -61,16 +61,20 @@ table {
   width: 100%;
 }
 
+td.id, th.id {
+  width: 5%;
+}
+
 td.title, th.title {
   width: 25%;
 }
 
 td.associatedTrainingDefs, th.associatedTrainingDefs {
-  width: 45%;
+  width: 30%;
 }
 
-td.authors, th.authors {
-  width: 20%;
+td.url, th.url {
+  width: 30%;
 }
 
 td.actions, th.actions {
@@ -78,6 +82,12 @@ td.actions, th.actions {
 }
 
 .multiple-associated-td {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+.url-content {
   display: flex;
   flex-direction: row;
   align-items: baseline;
