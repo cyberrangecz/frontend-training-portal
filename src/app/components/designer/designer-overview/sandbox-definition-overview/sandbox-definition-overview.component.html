@@ -28,6 +28,12 @@
 
         <table mat-table [dataSource]="dataSource" matSort>
 
+          <!-- ID Column -->
+          <ng-container matColumnDef="id">
+            <th [disabled]="isInErrorState" class="id" mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+            <td class="id" mat-cell *matCellDef="let data"> {{ data.sandbox?.id }}</td>
+          </ng-container>
+
           <!-- TITLE Column -->
           <ng-container matColumnDef="title">
             <th [disabled]="isInErrorState" class="title" mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
@@ -48,10 +54,16 @@
             </td>
           </ng-container>
 
-          <!-- AUTHORS Column -->
-          <ng-container matColumnDef="authors">
-            <th class="authors" mat-header-cell *matHeaderCellDef>Authors</th>
-            <td class="authors" mat-cell *matCellDef="let data"> {{ data.sandbox?.authorIds }}</td>
+          <!-- TITLE Column -->
+          <ng-container matColumnDef="url">
+            <th [disabled]="isInErrorState" class="url" mat-header-cell *matHeaderCellDef mat-sort-header>URL</th>
+            <td class="url" mat-cell *matCellDef="let data">
+              <div class="url-content">
+                <div *ngIf="data?.urlShortened">{{ data.sandbox?.url | shortString:20}}</div>
+                <div *ngIf="!data?.urlShortened">{{ data.sandbox?.url}}</div>
+                <button mat-button color="accent" (click)="changeSandboxUrlState(data)">{{ data?.urlShortened ? 'Show' : 'Hide' }}</button>
+              </div>
+            </td>
           </ng-container>
 
           <!-- ACTIONS Column -->

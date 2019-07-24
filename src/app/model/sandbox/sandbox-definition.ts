@@ -7,6 +7,7 @@ import {User} from 'kypo2-auth';
 export class SandboxDefinition {
   id: number;
   title: string;
+  url: string;
   asocciatedTrainingDefs: TrainingDefinition[];
   authors: User[];
 

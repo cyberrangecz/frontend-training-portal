@@ -3,7 +3,7 @@
   <!-- URL field-->
   <mat-form-field appearance="outline">
     <mat-label>Gitlab URL</mat-label>
-    <input matInput placeholder="Gitlab URL" [(ngModel)]="gitlabUrl" required>
+    <input matInput placeholder="login@machine.tld:path/to/sandbox-definitions/sandbox_name.git" [(ngModel)]="gitlabUrl" required>
     <button mat-button *ngIf="gitlabUrl" matSuffix mat-icon-button aria-label="Clear" (click)="gitlabUrl='';">
       <mat-icon>close</mat-icon>
     </button>

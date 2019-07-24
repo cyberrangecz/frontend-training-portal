@@ -11,6 +11,7 @@ export class SandboxDefinitionMapperService {
     const result = new SandboxDefinition();
     result.id = sandboxDTO.id;
     result.title = sandboxDTO.name;
+    result.url = sandboxDTO.url;
     return result;
   }
 }

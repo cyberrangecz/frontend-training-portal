@@ -6,4 +6,5 @@ export class SandboxDefinitionTableAdapter implements TableAdapter {
   sandbox: SandboxDefinition;
   associatedTrainingDefinitions: TrainingDefinitionInfo[];
   canBeRemoved: boolean;
+  urlShortened = true;
 }
