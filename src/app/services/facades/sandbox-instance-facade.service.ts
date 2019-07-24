@@ -4,8 +4,9 @@ import {environment} from "../../../environments/environment";
 import {Observable} from "rxjs";
 import {SandboxInstance} from "../../model/sandbox/sandbox-instance";
 import {SandboxInstanceDTO} from "../../model/DTOs/sandbox-instance/sandbox-instance-dto";
-import {map} from "rxjs/operators";
+import {concatMap, flatMap, map} from "rxjs/operators";
 import {SandboxInstanceMapper} from "../mappers/sandbox-instance-mapper.service";
+import {TrainingInstance} from "../../model/training/training-instance";
 
 @Injectable()
 export class SandboxInstanceFacade {
@@ -44,6 +45,16 @@ export class SandboxInstanceFacade {
     return this.http.post(
       `${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.sandboxInstancesUriExtension}`,
       null);
+  }
+
+  createPoolAndAllocate(trainingInstance: TrainingInstance): Observable<number> {
+    return this.createPool(trainingInstance.id)
+      .pipe(
+        concatMap(poolId => {
+          trainingInstance.poolId = poolId;
+          return this.allocateSandboxes(trainingInstance.id);
+        }),
+        map(resp => trainingInstance.poolId));
   }
 
   deleteSandbox(trainingInstanceId: number, sandboxId: number): Observable<any> {

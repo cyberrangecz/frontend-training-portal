@@ -1,11 +1,22 @@
-import {interval, Observable, Subject, Subscription} from "rxjs";
+import {from, interval, Observable, Subject, Subscription, throwError, timer} from 'rxjs';
 import {TrainingInstance} from '../../../model/training/training-instance';
 import {TrainingInstanceSandboxAllocationState} from '../../../model/training/training-instance-sandbox-allocation-state';
 import {SandboxInstance} from '../../../model/sandbox/sandbox-instance';
 import {SandboxAllocationState} from '../../../model/enums/sandbox-allocation-state';
-import {InstanceAllocationObservablesPoolService} from "./instance-allocation-observables-pool.service";
+import {SandboxInstanceObservablesPoolService} from "./sandbox-instance-observables-pool.service";
 import {SandboxInstanceFacade} from "../../facades/sandbox-instance-facade.service";
-import {flatMap, map, shareReplay} from "rxjs/operators";
+import {
+  catchError,
+  concatMap,
+  flatMap,
+  map,
+  mergeMap,
+  shareReplay,
+  switchMap,
+  take,
+  takeWhile,
+  tap
+} from "rxjs/operators";
 import {Injectable} from "@angular/core";
 import {environment} from '../../../../environments/environment';
 
@@ -13,18 +24,18 @@ import {environment} from '../../../../environments/environment';
 @Injectable()
 export class SandboxAllocationService {
 
-  private _isRunning: boolean = false;
+  private running: boolean = false;
 
-  private _runningTrainingInstances: TrainingInstanceSandboxAllocationState[] = [];
-  private _trainingInstances: TrainingInstanceSandboxAllocationState[] = [];
+  private runningAllocations: TrainingInstanceSandboxAllocationState[] = [];
+  private allocations: TrainingInstanceSandboxAllocationState[] = [];
 
 
   /**
    * Subscribe if you want to be notified about every updates in every running allocations.
-   * If you care about specified use methods to get observable by training instance id
+   * If you care about specific instances use methods to get observable by training instance id
    */
-  private _instancesStateChangeSubject: Subject<TrainingInstanceSandboxAllocationState[]> = new Subject();
-  public instancesStateChange: Observable<TrainingInstanceSandboxAllocationState[]> = this._instancesStateChangeSubject.asObservable();
+  private instancesStateChangeSubject: Subject<TrainingInstanceSandboxAllocationState[]> = new Subject();
+  public instancesStateChange: Observable<TrainingInstanceSandboxAllocationState[]> = this.instancesStateChangeSubject.asObservable();
 
 
   /**
@@ -33,48 +44,50 @@ export class SandboxAllocationService {
    * - Some allocation failed
    * - All allocations finished
    */
-  private _allocationStateChangeSubject: Subject<SandboxAllocationState> = new Subject();
-  public allocationStateChange: Observable<SandboxAllocationState> = this._allocationStateChangeSubject.asObservable();
+  private allocationStateChangeSubject: Subject<SandboxAllocationState> = new Subject();
+  public allocationStateChange: Observable<SandboxAllocationState> = this.allocationStateChangeSubject.asObservable();
 
-  private _periodicalCheckSubscription: Subscription;
+  private periodicalCheckSubscription: Subscription;
 
-  constructor(private sandboxAllocationPoolService: InstanceAllocationObservablesPoolService,
+  constructor(private sandboxObservablesPool: SandboxInstanceObservablesPoolService,
               private sandboxInstanceFacade: SandboxInstanceFacade) {
   }
 
   getCurrentStateOfAllocation(): TrainingInstanceSandboxAllocationState[] {
-    return this._trainingInstances;
+    return this.allocations;
   }
 
-  getRunningAllocationStateObservable(trainingInstance: TrainingInstance): Observable<TrainingInstanceSandboxAllocationState> {
-    return this.sandboxAllocationPoolService.getAllocationObservable(trainingInstance.id);
+  isRunning(): boolean {
+    return this.running;
+  }
+
+  dispose() {
+    this.running = false;
+    if (this.periodicalCheckSubscription) {
+      this.periodicalCheckSubscription.unsubscribe();
+    }
+  }
+
+  getRunningAllocationState(trainingInstance: TrainingInstance): Observable<TrainingInstanceSandboxAllocationState> {
+    let allocation$ = this.sandboxObservablesPool.getObservable(trainingInstance.id);
+    if (allocation$ === undefined) {
+      allocation$ = this.createAllocation(trainingInstance);
+    }
+    return allocation$.pipe(shareReplay(Number.POSITIVE_INFINITY));
   }
 
   allocateSandboxes(trainingInstance: TrainingInstance): Observable<TrainingInstanceSandboxAllocationState> {
-    let allocationRequest: Observable<any>;
-    if (trainingInstance.hasPoolId()) {
-      allocationRequest = this.sandboxInstanceFacade.allocateSandboxes(trainingInstance.id);
-    } else {
-      allocationRequest = this.createPoolAndAllocate(trainingInstance);
-    }
-    return allocationRequest
+    return this.initAllocation(trainingInstance)
       .pipe(
-        flatMap(allocationResponse => {
-        this.onAllocationRequestSuccessful(trainingInstance);
-        return this.sandboxAllocationPoolService.addAllocation(trainingInstance.id)
-        }),
+        concatMap(allocation => this.createAllocation(trainingInstance)),
         shareReplay(Number.POSITIVE_INFINITY)
       );
   }
 
-
   deleteSandbox(trainingInstance: TrainingInstance, sandbox: SandboxInstance, requestedPoolSize: number): Observable<TrainingInstanceSandboxAllocationState>{
     return this.sandboxInstanceFacade.deleteSandbox(trainingInstance.id, sandbox.id)
       .pipe(
-        flatMap( deleteResponse => {
-        this.onDeleteRequestSuccessful(trainingInstance, requestedPoolSize);
-        return this.sandboxAllocationPoolService.addAllocation(trainingInstance.id)
-      }),
+        concatMap( deleteResponse => this.createAllocation(trainingInstance, requestedPoolSize)),
         shareReplay(Number.POSITIVE_INFINITY),
       );
   }
@@ -82,131 +95,141 @@ export class SandboxAllocationService {
   allocateSandbox(trainingInstance: TrainingInstance, requestedPoolSize: number): Observable<TrainingInstanceSandboxAllocationState> {
     return this.sandboxInstanceFacade.allocateSandbox(trainingInstance.id)
       .pipe(
-        flatMap( allocationResponse => {
-          this.onAllocationRequestSuccessful(trainingInstance, requestedPoolSize);
-          return this.sandboxAllocationPoolService.addAllocation(trainingInstance.id)
-      }),
+        concatMap( allocationResponse => this.createAllocation(trainingInstance, requestedPoolSize)),
         shareReplay(Number.POSITIVE_INFINITY)
       );
   }
 
-  isRunning(): boolean {
-    return this._isRunning;
-  }
-
-  dispose() {
-    if (this._periodicalCheckSubscription) {
-      this._periodicalCheckSubscription.unsubscribe();
-    }
-  }
-
   private emitSandboxStateChange() {
-    this._instancesStateChangeSubject.next(this._trainingInstances);
+    this.instancesStateChangeSubject.next(this.allocations);
   }
 
   private emitAllocationStateChange(state: SandboxAllocationState) {
-    this._allocationStateChangeSubject.next(state);
+    this.allocationStateChangeSubject.next(state);
   }
 
-  private startPeriodicalStateCheck() {
-    this.checkStateOfRunningAllocations();
-    const periodicalCheck = interval(environment.sandboxAllocationStateRefreshRate)
-      .pipe(map(() => this.checkStateOfRunningAllocations()));
-
-    this._periodicalCheckSubscription = periodicalCheck.subscribe(responses => // TODO: Combine to one result and subscribe just once
-      responses.forEach(response =>
-        response.subscribe(runningAllocationState => {
-          if (runningAllocationState.hasAllocationFinished()) {
-            this.finishAllocation(runningAllocationState);
-          }
-          this.emitSandboxStateChange()
-        })
-      )
-    );
-  }
-
-  private checkStateOfRunningAllocations(): Observable<TrainingInstanceSandboxAllocationState>[] {
-    return this._runningTrainingInstances.map(runningInstanceState =>
-      this.sandboxInstanceFacade.getSandboxesInPool(runningInstanceState.training.poolId)
-        .pipe(
-          map(sandboxes => {
-            runningInstanceState.sandboxes = sandboxes;
-            this.sandboxAllocationPoolService.updateStateOfAllocation(runningInstanceState);
-            if (runningInstanceState.hasFailedSandboxes()) {
-              this.emitAllocationStateChange(SandboxAllocationState.FAILED);
-            }
-            return runningInstanceState;
-          }),
-        )
-    )
-  }
-
-  private finishAllocation(trainingAllocationToRemove: TrainingInstanceSandboxAllocationState) {
-    const indexToRemove = this._runningTrainingInstances
-      .findIndex(trainingAllocation =>
-        trainingAllocation.training.id === trainingAllocationToRemove.training.id);
-    if (indexToRemove !== -1) {
-      this._runningTrainingInstances.splice(indexToRemove);
-      this.sandboxAllocationPoolService.removeAllocation(trainingAllocationToRemove.training.id);
-      this.checkIfFinished();
+  private initAllocation(trainingInstance: TrainingInstance): Observable<any> {
+    if (trainingInstance.hasPoolId()) {
+      return this.sandboxInstanceFacade.allocateSandboxes(trainingInstance.id);
+    } else {
+      return this.sandboxInstanceFacade.createPoolAndAllocate(trainingInstance)
+        .pipe(tap(poolId => trainingInstance.poolId = poolId));
     }
   }
 
-  private checkIfFinished() {
-    this._isRunning = this._runningTrainingInstances.length > 0;
-    if (!this._isRunning) {
+
+  private startPeriodicalStateCheck() {
+    this.periodicalCheckSubscription = timer(0, environment.sandboxAllocationStateRefreshRate)
+      .pipe(
+        takeWhile(() => this.running),
+        switchMap(() => this.checkStateOfRunningAllocations())
+      ).subscribe(
+        allocationState => this.updateRunningAllocations(allocationState),
+        err => console.error(err)
+      );
+  }
+
+  private updateRunningAllocations(allocationState: TrainingInstanceSandboxAllocationState) {
+    if (allocationState.hasAllocationFinished) {
+      this.finishAllocation(allocationState);
+    }
+    this.emitSandboxStateChange();
+  }
+
+  private checkStateOfRunningAllocations(): Observable<TrainingInstanceSandboxAllocationState> {
+    const poolIds = this.runningAllocations.map(runningInstanceState => runningInstanceState.training.poolId);
+    return from(poolIds)
+      .pipe(
+        mergeMap(poolId => this.getSandboxesInPoolWithPoolId(poolId)),
+        takeWhile(resp => this.getRunningAllocationStateByPoolId(resp.poolId) !== undefined),
+        map((resp) => this.updateAllocationState(resp.poolId, resp.sandboxes)),
+        tap( (allocationState: TrainingInstanceSandboxAllocationState) => {
+            this.sandboxObservablesPool.updateState(allocationState);
+            if (allocationState.hasFailedSandboxes) {
+              this.emitAllocationStateChange(SandboxAllocationState.FAILED);
+            }
+        })
+      )
+  }
+
+  private updateAllocationState(poolId: number, sandboxes): TrainingInstanceSandboxAllocationState {
+    const allocationState = this.getRunningAllocationStateByPoolId(poolId);
+    allocationState.sandboxes = sandboxes;
+    return allocationState;
+  }
+
+  private getSandboxesInPoolWithPoolId(poolId: number): Observable<{poolId: number, sandboxes: SandboxInstance[]}> {
+    return this.sandboxInstanceFacade.getSandboxesInPool(poolId)
+      .pipe(map(sandboxes => {
+        return {
+          poolId: poolId,
+          sandboxes: sandboxes
+        }
+      }))
+  }
+
+  private finishAllocation(trainingAllocationToRemove: TrainingInstanceSandboxAllocationState) {
+    const indexToRemove = this.runningAllocations
+      .findIndex(trainingAllocation =>
+        trainingAllocation.training.id === trainingAllocationToRemove.training.id);
+    if (indexToRemove !== -1) {
+      this.runningAllocations.splice(indexToRemove);
+      this.sandboxObservablesPool.removeObservable(trainingAllocationToRemove.training.id);
+      this.checkIfEveryAllocationFinished();
+    }
+  }
+
+  private checkIfEveryAllocationFinished() {
+    this.running = this.runningAllocations.length > 0;
+    if (!this.running) {
       this.emitAllocationStateChange(SandboxAllocationState.FINISHED);
     }
   }
 
-  private createPoolAndAllocate(trainingInstance: TrainingInstance): Observable<any> {
-    return this.sandboxInstanceFacade.createPool(trainingInstance.id)
-      .pipe(flatMap(poolId => {
-        trainingInstance.poolId = poolId;
-        return this.sandboxInstanceFacade.allocateSandboxes(trainingInstance.id);
-      }))
-  }
-
-  private onAllocationRequestSuccessful(trainingInstance: TrainingInstance, totalSandboxCount: number = -1) {
+  private createAllocation(trainingInstance: TrainingInstance, totalSandboxCount: number = -1): Observable<TrainingInstanceSandboxAllocationState> {
     this.startPeriodicalCheckIfNotRunning();
-    this._isRunning = true;
-    const sandboxAllocation = new TrainingInstanceSandboxAllocationState(trainingInstance);
+    this.running = true;
+    const initAllocationState = new TrainingInstanceSandboxAllocationState(trainingInstance);
     if (totalSandboxCount !== -1) {
-      sandboxAllocation.requestedPoolSize = totalSandboxCount;
+      initAllocationState.requestedPoolSize = totalSandboxCount;
     }
-    this.addAllocation(sandboxAllocation);
+    const state$ = this.sandboxObservablesPool.addObservable(trainingInstance, initAllocationState);
+    this.addAllocation(initAllocationState);
     this.emitAllocationStateChange(SandboxAllocationState.RUNNING);
-  }
-
-  private onDeleteRequestSuccessful(trainingInstance: TrainingInstance, totalSandboxCount: number) {
-    this.startPeriodicalCheckIfNotRunning();
-    this._isRunning = true;
-    const sandboxAllocation = new TrainingInstanceSandboxAllocationState(trainingInstance);
-    sandboxAllocation.requestedPoolSize = totalSandboxCount;
-    this.addAllocation(sandboxAllocation);
-    this.emitAllocationStateChange(SandboxAllocationState.RUNNING);
+    return state$
   }
 
   private addAllocation(allocationToAdd: TrainingInstanceSandboxAllocationState) {
-    const allocationStateIndex = this._trainingInstances.findIndex(allocation => allocation.training.id === allocationToAdd.training.id);
-    if (allocationStateIndex === -1) {
-      this._trainingInstances.push(allocationToAdd);
-    }
-    else {
-      this._trainingInstances[allocationStateIndex] = allocationToAdd;
-    }
+    this.addToAllocations(allocationToAdd);
+    this.addToRunningAllocations(allocationToAdd);
+  }
 
-    const runningAllocationStateIndex = this._runningTrainingInstances.findIndex(allocation => allocation.training.id === allocationToAdd.training.id);
-    if (runningAllocationStateIndex === -1) {
-      this._runningTrainingInstances.push(allocationToAdd);
+  private addToAllocations(allocationToAdd: TrainingInstanceSandboxAllocationState) {
+    const allocationStateIndex = this.allocations.findIndex(allocation => allocation.training.id === allocationToAdd.training.id);
+    if (allocationStateIndex === -1) {
+      this.allocations.push(allocationToAdd);
     }
     else {
-      this._runningTrainingInstances[runningAllocationStateIndex] = allocationToAdd;
+      this.allocations[allocationStateIndex] = allocationToAdd;
     }
   }
 
+  private addToRunningAllocations(allocationToAdd: TrainingInstanceSandboxAllocationState) {
+    const runningAllocationStateIndex = this.runningAllocations.findIndex(allocation => allocation.training.id === allocationToAdd.training.id);
+    if (runningAllocationStateIndex === -1) {
+      this.runningAllocations.push(allocationToAdd);
+    }
+    else {
+      this.runningAllocations[runningAllocationStateIndex] = allocationToAdd;
+    }
+  }
+
+  private getRunningAllocationStateByPoolId(poolId: number): TrainingInstanceSandboxAllocationState {
+    return this.runningAllocations.find(allocation => allocation.training.poolId === poolId);
+  }
+
   private startPeriodicalCheckIfNotRunning() {
-    if (!this._isRunning) {
+    if (!this.running) {
       this.startPeriodicalStateCheck();
     }
   }

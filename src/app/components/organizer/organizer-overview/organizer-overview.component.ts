@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {TrainingInstancesTableComponent} from "./training-instance-table/training-instances-table.component";
 import {BaseComponent} from "../../base.component";
 
@@ -10,13 +10,9 @@ import {BaseComponent} from "../../base.component";
 /**
  * Main component of organizer overview. Wrapper for child components (definition of new training instance and overivew of  existing training instances)
  */
-export class OrganizerOverviewComponent extends BaseComponent implements OnInit {
+export class OrganizerOverviewComponent extends BaseComponent implements OnInit, OnDestroy {
 
   @ViewChild(TrainingInstancesTableComponent, { static: true }) trainingInstancesListComponent: TrainingInstancesTableComponent;
-
-  constructor() {
-    super();
-  }
 
   ngOnInit() {
   }
