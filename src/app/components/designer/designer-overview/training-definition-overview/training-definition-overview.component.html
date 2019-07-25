@@ -65,7 +65,7 @@
             <th class="authors" mat-header-cell *matHeaderCellDef>Authors</th>
             <td class="authors" mat-cell
                 *matCellDef="let data">
-                {{ data.trainingDefinition?.authors | shorterAuthorsFormat: loggedUserLogin }}
+                {{ data.trainingDefinition?.authors | shorterAuthorsFormat: activeUser }}
               <button *ngIf="data.trainingDefinition?.authors?.length > 1" mat-button color="accent" (click)="showAuthorsList(data?.trainingDefinition)">Show</button>
             </td>
           </ng-container>

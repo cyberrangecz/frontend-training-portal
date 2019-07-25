@@ -13,7 +13,7 @@
 
     <!-- AUTHORS field-->
     <div class="line-with-button">
-      <p *ngIf="authors" style="color: black">Authors: {{ authors | shorterAuthorsFormat: loggedUserLogin }}</p>
+      <p *ngIf="authors" style="color: black">Authors: {{ authors | shorterAuthorsFormat: activeUser }}</p>
       <p *ngIf="!authors">Authors*</p>
       <span class="spacer"></span>
       <button (click)="chooseAuthors()"
@@ -65,7 +65,7 @@
 
     <!-- BETA TESTING GROUP field-->
     <div  class="line-with-button">
-      <p *ngIf="betaTestingGroup" style="color: black"> Beta Testing Group: {{ betaTestingGroup?.organizers | shorterAuthorsFormat: loggedUserLogin }}</p>
+      <p *ngIf="betaTestingGroup" style="color: black"> Beta Testing Group: {{ betaTestingGroup?.organizers | shorterAuthorsFormat: activeUser }}</p>
       <p *ngIf="!betaTestingGroup">Beta Testing Group</p>
       <button
         *ngIf="!betaTestingGroup"

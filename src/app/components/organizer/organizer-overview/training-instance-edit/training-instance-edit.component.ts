@@ -40,7 +40,7 @@ export class TrainingInstanceEditComponent extends BaseComponent implements OnIn
   trainingDefinition: TrainingDefinition;
   accessToken: string;
   userChangedStartTime = false;
-  loggedUserLogin: string;
+  activeUser: User;
 
 
   constructor(
@@ -58,7 +58,7 @@ export class TrainingInstanceEditComponent extends BaseComponent implements OnIn
     this.resolveInitialInputValues();
     this.initCurrentTimePeriodicalUpdate();
     this.dirty = false;
-    this.loggedUserLogin = this.authService.getActiveUser().login;
+    this.activeUser = this.authService.getActiveUser();
   }
   /**
    * Opens popup dialog to choose organizers from a list

@@ -14,6 +14,7 @@ import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatTooltipModule } from "@angular/material/tooltip";
+import {MatCheckboxModule, MatInputModule, MatPaginatorModule, MatTableModule} from '@angular/material';
 
 @NgModule({
   imports: [
@@ -31,7 +32,11 @@ import { MatTooltipModule } from "@angular/material/tooltip";
     MatBadgeModule,
     MatRippleModule,
     MatTooltipModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTableModule,
+    MatCheckboxModule,
+    MatPaginatorModule,
+    MatInputModule
   ],
   exports: [
     MatToolbarModule,
@@ -48,7 +53,11 @@ import { MatTooltipModule } from "@angular/material/tooltip";
     MatBadgeModule,
     MatRippleModule,
     MatTooltipModule,
-    MatDialogModule
+    MatDialogModule,
+    MatCheckboxModule,
+    MatPaginatorModule,
+    MatInputModule,
+    MatTableModule
   ]
 })
 

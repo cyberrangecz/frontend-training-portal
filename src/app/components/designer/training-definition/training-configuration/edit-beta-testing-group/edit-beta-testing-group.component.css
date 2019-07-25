@@ -1,34 +1,11 @@
-.spacer {
-  flex: 1 1 auto;
-}
-
 .content {
-  display: flex;
-  flex-direction: column;
+  min-width: 600px;
 }
 
-div {
-  max-height: 600px;
+user-selection-table {
+  margin: 10px;
 }
 
-.loading {
-  position: relative;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-mat-spinner {
-  height: 50px;
-  width: 50px;
-}
-
-.empty-content {
-  color: darkgray;
-  text-align: center;
-  margin-top: 10px;
+.spacer {
+  flex: 1 1 0;
 }

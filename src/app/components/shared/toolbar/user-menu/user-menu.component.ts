@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Kypo2AuthService} from 'kypo2-auth';
 import {BaseComponent} from "../../../base.component";
 import {takeWhile} from "rxjs/operators";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'toolbar-user-menu',
@@ -15,7 +16,8 @@ export class UserMenuComponent extends BaseComponent implements OnInit {
 
   isUserLoggedIn;
 
-  constructor(private authService: Kypo2AuthService) {
+  constructor(private authService: Kypo2AuthService,
+              private router: Router) {
     super();
     this.subscribeToActiveUserChanges();
   }
@@ -26,7 +28,7 @@ export class UserMenuComponent extends BaseComponent implements OnInit {
 
 
   login() {
-    this.authService.login();
+    this.router.navigate(['login']);
   }
 
   logout() {

@@ -13,8 +13,10 @@ export class UserMapper {
 
   mapUserRefDTOToUser(userDTO: UserRefDTO): User {
     const user = new User();
-    user.login = userDTO.user_ref_login;
-    user.name = `${userDTO.user_ref_given_name} ${userDTO.user_ref_family_name}`;
+    user.login = userDTO.login;
+    user.id = userDTO.user_ref_id;
+    user.issuer = userDTO.iss;
+    user.name = `${userDTO.given_name} ${userDTO.family_name}`;
     return user;
   }
 
@@ -26,6 +28,8 @@ export class UserMapper {
   mapUserBasicDTOToOrganizerUser(userDTO: UserBasicDTO): User {
     const user = new User();
     user.login = userDTO.login;
+    user.id = userDTO.user_ref_id;
+    user.issuer = userDTO.iss;
     user.name = `${userDTO.given_name} ${userDTO.family_name}`;
     user.roles.add(UserRole.TRAINING_ORGANIZER);
     return user;
@@ -39,6 +43,8 @@ export class UserMapper {
   mapUserInfoDTOToDesignerUser(userDTO: UserBasicDTO): User {
     const user = new User();
     user.login = userDTO.login;
+    user.id = userDTO.user_ref_id;
+    user.issuer = userDTO.iss;
     user.name = `${userDTO.given_name} ${userDTO.family_name}`;
     user.roles.add(UserRole.TRAINING_DESIGNER);
     return user;

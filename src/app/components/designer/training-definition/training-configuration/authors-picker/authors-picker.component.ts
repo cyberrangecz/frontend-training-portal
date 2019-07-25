@@ -1,9 +1,11 @@
 import {Component, Inject, OnInit, Optional} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import {UserFacade} from "../../../../../services/facades/user-facade.service";
-import {map, takeWhile} from "rxjs/operators";
+import {map, takeWhile, tap} from "rxjs/operators";
 import {Kypo2AuthService, User} from 'kypo2-auth';
 import {BaseComponent} from "../../../../base.component";
+import {Observable} from "rxjs";
+import {UserSelectionTableAdapter} from "../../../../../model/table-adapters/user-selection-table-adapter";
 
 @Component({
   selector: 'training-authors-picker',
@@ -15,11 +17,9 @@ import {BaseComponent} from "../../../../base.component";
  */
 export class AuthorsPickerComponent extends BaseComponent implements OnInit {
 
-  authors: User[];
-  selectedAuthors: User[] = [];
+  users$: Observable<UserSelectionTableAdapter[]>;
+  selectedUsers: User[] = [];
   activeUser: User;
-  isLoading = true;
-
   constructor(@Optional() @Inject(MAT_DIALOG_DATA) public preselectedUsers: User[],
               public dialogRef: MatDialogRef<AuthorsPickerComponent>,
               private userFacade: UserFacade,
@@ -29,8 +29,12 @@ export class AuthorsPickerComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.activeUser = this.authService.getActiveUser();
-    this.selectedAuthors.push(this.activeUser);
-    this.getAuthors();
+    this.initSelectedUsers();
+    this.users$ = this.loadUsers();
+  }
+
+  onSelectionChange(users: User[]) {
+    this.selectedUsers = users;
   }
 
   /**
@@ -39,7 +43,7 @@ export class AuthorsPickerComponent extends BaseComponent implements OnInit {
   confirm() {
     const result = {
       type: 'confirm',
-      authors: this.selectedAuthors
+      authors: this.selectedUsers
     };
     this.dialogRef.close(result);
   }
@@ -55,28 +59,28 @@ export class AuthorsPickerComponent extends BaseComponent implements OnInit {
     this.dialogRef.close(result);
   }
 
-  selectionEquality(a: User, b: User): boolean {
-    return a.login == b.login;
-  }
-
-  private getAuthors() {
-    this.userFacade.getDesigners()
+  private loadUsers(): Observable<UserSelectionTableAdapter[]> {
+    return this.userFacade.getDesigners()
       .pipe(
         takeWhile(() => this.isAlive),
-        map(authors => authors.filter(author => author.login !== this.activeUser.login))
+        map((users: User[]) => users.map(user => this.mapUserToTableAdapter(user)))
       )
-      .subscribe(result => {
-        this.authors = result;
-        this.initializeSelectedUsers();
-        this.isLoading = false;
-      });
   }
 
-  private initializeSelectedUsers() {
-    if (this.preselectedUsers && this.preselectedUsers.length > 0) {
-      const preselectedLogins = this.preselectedUsers.map(user => user.login);
-      const toSelect = this.authors.filter(author => preselectedLogins.includes(author.login));
-      this.selectedAuthors.push(...toSelect);
+  private mapUserToTableAdapter(user: User): UserSelectionTableAdapter {
+    const isActiveUser =  user.equals(this.activeUser);
+    const isPreselected = isActiveUser || this.isPreselected(user);
+    return new UserSelectionTableAdapter(user, isPreselected, isActiveUser, isActiveUser);
+  }
+
+  private isPreselected(user: User): boolean {
+    return this.preselectedUsers.find(preselectedUser => user.equals(preselectedUser)) !== undefined;
+  }
+
+  private initSelectedUsers() {
+    this.selectedUsers = Array.from(this.preselectedUsers);
+    if (!this.selectedUsers.find(user => user.equals(this.activeUser))) {
+      this.selectedUsers.push(this.activeUser);
     }
   }
 }

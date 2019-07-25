@@ -1,33 +1,16 @@
-<h2 *ngIf="editMode" mat-dialog-title>Edit Beta Testing Group</h2>
-<h2 *ngIf="!editMode" mat-dialog-title>Create Beta Testing Group</h2>
-<mat-divider></mat-divider>
-<div class="content" mat-dialog-content>
-
-  <div class="loading" *ngIf="isLoading">
-    <mat-spinner></mat-spinner>
+<div class="content">
+  <h1 *ngIf="editMode" mat-dialog-title>Edit Beta Testing Group</h1>
+  <h1 *ngIf="!editMode" mat-dialog-title>Create Beta Testing Group</h1>
+  <mat-divider></mat-divider>
+  <div mat-dialog-content>
+    <user-selection-table (selectionChange)="onSelectionChange($event)" [users]="users$ | async" [selectedUsers]="selectedUsers"></user-selection-table>
   </div>
-
-  <div *ngIf="!isLoading">
-    <mat-selection-list #organizersList [(ngModel)]="selectedOrganizers" [compareWith]="selectionEquality">
-      <mat-list-option *ngIf="activeUser && activeUserIsOrganizer" [value]="activeUser">
-        {{ activeUser.name }} (You)
-      </mat-list-option>
-      <mat-list-option *ngFor="let organizer of organizers"
-                       [value]="organizer">
-        {{ organizer.name}}
-      </mat-list-option>
-    </mat-selection-list>
-    <div class="empty-content" *ngIf="organizers.length === 0">
-      <p class="mat-typography">No more organizers found.</p>
-    </div>
+  <div mat-dialog-actions>
+    <button (click)="cancel()"
+            mat-button color="warn">Cancel</button>
+    <span class="spacer"></span>
+    <button (click)="confirm()"
+            [disabled]="!selectedUsers || selectedUsers.length === 0"
+            mat-button color="primary">Confirm</button>
   </div>
-</div>
-
-<div mat-dialog-actions>
-  <button (click)="cancel()"
-          mat-button color="warn">Cancel</button>
-  <span class="spacer"></span>
-  <button (click)="confirm()"
-          [disabled]="!selectedOrganizers || selectedOrganizers.length === 0"
-          mat-button color="primary">Confirm</button>
 </div>

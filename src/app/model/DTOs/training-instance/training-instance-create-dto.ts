@@ -23,7 +23,7 @@ import {UserBasicDTO} from "../user/user-basic-dto";
 export class TrainingInstanceCreateDTO {
     end_time?: string;
     access_token?: string;
-    organizers_login?: string[];
+    organizers_ref_ids?: number[];
     pool_size?: number;
     start_time?: string;
     title?: string;

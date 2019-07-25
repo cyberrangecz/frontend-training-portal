@@ -36,13 +36,15 @@ export const environment = {
         textColor: 'white',
         backgroundColor: '#002776',
         tokenRefreshTime: 30000,
-        issuer: 'https://oidc.muni.cz/oidc/',
-        clientId: '4fbfa660-88e9-4560-98ee-c858610e7946',
-        redirectUri: 'https://147.251.124.178',
-        scope: 'openid email profile',
-        logoutUrl: 'https://oidc.muni.cz/oidc/endsession',
-        postLogoutRedirectUri: 'https://147.251.124.178/login',
-        clearHashAfterLogin: true
+        oidcConfig: {
+          issuer: 'https://oidc.muni.cz/oidc/',
+          clientId: '4fbfa660-88e9-4560-98ee-c858610e7946',
+          redirectUri: 'https://147.251.124.178',
+          scope: 'openid email profile',
+          logoutUrl: 'https://oidc.muni.cz/oidc/endsession',
+          postLogoutRedirectUri: 'https://147.251.124.178/login',
+          clearHashAfterLogin: true
+        }
       },
     ]
   },
