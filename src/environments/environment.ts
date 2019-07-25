@@ -47,7 +47,7 @@ export const environment = {
           redirectUri: window.location.origin,
           scope: 'openid email profile',
           logoutUrl: 'https://oidc.muni.cz/oidc/endsession',
-          postLogoutRedirectUri: window.location.origin + '/login',
+          postLogoutRedirectUri: window.location.origin,
           clearHashAfterLogin: true
         }
       },
@@ -62,7 +62,7 @@ export const environment = {
           redirectUri: window.location.origin,
           scope: 'openid email profile',
           logoutUrl: 'http://147.251.124.129:8080/openid-connect-server-webapp/endsession',
-          postLogoutRedirectUri: window.location.origin + '/login',
+          postLogoutRedirectUri: window.location.origin,
           clearHashAfterLogin: true,
           requireHttps: false
         }
