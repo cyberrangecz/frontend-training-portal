@@ -1,0 +1,21 @@
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+table {
+  width: 100%;
+}
+
+td.select, th.select {
+  width: 10%;
+}
+
+
+td.name, th.name {
+  width: 50%;
+}
+
+td.issuer, th.issuer {
+  width: 40%;
+}

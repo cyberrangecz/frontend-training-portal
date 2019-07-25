@@ -22,7 +22,7 @@ import {TrainingDefinition} from "../../../../model/training/training-definition
 import {AuthorsListDialogComponent} from './authors-list-dialog/authors-list-dialog.component';
 import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
 import {CloneDialogComponent} from "./clone-dialog/clone-dialog.component";
-import {Kypo2AuthService} from 'kypo2-auth';
+import {Kypo2AuthService, User} from 'kypo2-auth';
 import {BaseComponent} from "../../../base.component";
 
 @Component({
@@ -38,7 +38,7 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent implement
 
   // needed to compare values against enums in a template
   trainingStateEnum = TrainingDefinitionStateEnum;
-  loggedUserLogin: string;
+  activeUser: User;
   displayedColumns: string[] = ['title', 'description', 'state', 'authors', 'estimated-duration', 'last-edit', 'actions'];
 
   dataSource: MatTableDataSource<TrainingDefinitionTableAdapter>;
@@ -63,7 +63,7 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent implement
 
   ngOnInit() {
     this.initTableDataSource();
-    this.loggedUserLogin = this.authService.getActiveUser().login
+    this.activeUser = this.authService.getActiveUser()
   }
 
   /**

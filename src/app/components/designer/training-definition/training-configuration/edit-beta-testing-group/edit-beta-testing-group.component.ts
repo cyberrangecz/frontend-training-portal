@@ -7,6 +7,8 @@ import {AlertService} from "../../../../../services/shared/alert.service";
 import {Kypo2AuthService, User} from 'kypo2-auth';
 import {BetaTestingGroup} from '../../../../../model/training/beta-testing-group';
 import {BaseComponent} from "../../../../base.component";
+import {Observable} from "rxjs";
+import {UserSelectionTableAdapter} from "../../../../../model/table-adapters/user-selection-table-adapter";
 
 @Component({
   selector: 'app-edit-beta-testing-group',
@@ -15,12 +17,10 @@ import {BaseComponent} from "../../../../base.component";
 })
 export class EditBetaTestingGroupComponent extends BaseComponent implements OnInit {
 
-  organizers: User[];
+  users$: Observable<UserSelectionTableAdapter[]>;
   activeUser: User;
-  selectedOrganizers: User[] = [];
-  activeUserIsOrganizer: boolean;
+  selectedUsers: User[] = [];
   editMode: boolean;
-  isLoading = true;
 
   constructor(public dialogRef: MatDialogRef<EditBetaTestingGroupComponent>,
               @Optional() @Inject(MAT_DIALOG_DATA) public betaTestingGroup: BetaTestingGroup,
@@ -32,14 +32,18 @@ export class EditBetaTestingGroupComponent extends BaseComponent implements OnIn
 
   ngOnInit() {
     this.resolveMode();
-    this.initializeOrganizers();
-    this.initializeActiveUser();
-    this.initializeInputs();
+    this.activeUser = this.authService.isTrainingOrganizer() ? this.authService.getActiveUser() : undefined;
+    this.initBetaTestingGroup();
+    this.users$ = this.loadUsers();
+  }
+
+  onSelectionChange(users: User[]) {
+    this.selectedUsers = users;
   }
 
   confirm() {
     if (this.validateInput()) {
-      this.setInputValuesToViewGroup();
+      this.setInputValuesToBetaTestingGroup();
       const result = {
         type: 'confirm',
         betaTestingGroup: this.betaTestingGroup
@@ -56,25 +60,18 @@ export class EditBetaTestingGroupComponent extends BaseComponent implements OnIn
     this.dialogRef.close(result);
   }
 
-  selectionEquality(a: User, b: User): boolean {
-    return a.login == b.login;
-  }
-
-  private initializeInputs() {
-    if (this.editMode) {
-      this.selectedOrganizers = this.betaTestingGroup.organizers;
-    } else {
+  private initBetaTestingGroup() {
+    if (!this.editMode) {
       this.betaTestingGroup = new BetaTestingGroup();
     }
+    this.selectedUsers = Array.from(this.betaTestingGroup.organizers);
   }
 
   private validateInput(): boolean {
     let errorMessage: string = '';
-
-    if (!this.selectedOrganizers || this.selectedOrganizers.length === 0) {
+    if (!this.selectedUsers || this.selectedUsers.length === 0) {
       errorMessage += 'Organizers cannot be empty\n';
     }
-
     if (errorMessage !== '') {
       this.alertService.emitAlert(AlertTypeEnum.Error, errorMessage);
       return false;
@@ -82,47 +79,29 @@ export class EditBetaTestingGroupComponent extends BaseComponent implements OnIn
     return true;
   }
 
-  private setInputValuesToViewGroup() {
-    this.betaTestingGroup.organizers = this.selectedOrganizers;
+  private setInputValuesToBetaTestingGroup() {
+    this.betaTestingGroup.organizers = Array.from(this.selectedUsers);
   }
 
-  private initializeActiveUser() {
-    this.activeUser = this.authService.getActiveUser();
-    this.activeUserIsOrganizer = this.authService.isTrainingOrganizer();
-  }
-
-  private initializeOrganizers() {
-    this.userFacade.getOrganizers()
+  private loadUsers(): Observable<UserSelectionTableAdapter[]> {
+    return this.userFacade.getDesigners()
       .pipe(
         takeWhile(() => this.isAlive),
-        map(users => {
-          const filteredUsers = users.filter(user => user.login !== this.activeUser.login);
-          if (this.editMode) {
-            this.preselectOrganizers(this.findInitiallyPreselectedUsers(filteredUsers))
-          }
-          return filteredUsers;
-        })
+        map((users: User[]) => users.map(user => this.mapUserToTableAdapter(user))),
       )
-      .subscribe(users => {
-        this.organizers = users;
-        this.isLoading = false;
-      });
+  }
+
+  private mapUserToTableAdapter(user: User): UserSelectionTableAdapter {
+    const isActiveUser =  user.equals(this.activeUser);
+    const isPreselected = this.isPreselected(user);
+    return new UserSelectionTableAdapter(user, isPreselected, isActiveUser, false);
+  }
+
+  private isPreselected(user: User): boolean {
+    return this.betaTestingGroup.organizers.find(preselectedUser => user.equals(preselectedUser)) !== undefined;
   }
 
   private resolveMode() {
     this.editMode = this.betaTestingGroup !== null && this.betaTestingGroup !== undefined;
-  }
-
-  private findInitiallyPreselectedUsers(organizers: User[]): User[] {
-    const userLoginsInEditedBetaTestingGroup = this.betaTestingGroup.organizers.map(organizer => organizer.login);
-    const result = organizers.filter(user => userLoginsInEditedBetaTestingGroup.includes(user.login));
-    if (userLoginsInEditedBetaTestingGroup.includes(this.activeUser.login)) {
-      result.push(this.activeUser);
-    }
-    return result;
-  }
-
-  private preselectOrganizers(users: User[]) {
-      this.selectedOrganizers.push(...users);
   }
 }

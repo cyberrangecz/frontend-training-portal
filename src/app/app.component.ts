@@ -42,7 +42,6 @@ export class AppComponent extends BaseComponent implements OnInit, OnDestroy {
     this.isSidenavOpen = !this.isSidenavOpen;
   }
 
-
   private subscribeDistractionFreeModeChanges() {
     this.distractionFreeModeService.modeChanged
       .pipe(takeWhile(() => this.isAlive))

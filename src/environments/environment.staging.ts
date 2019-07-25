@@ -4,7 +4,7 @@ import {MarkedOptions} from 'ngx-markdown';
 export const environment = {
   production: true,
   trainingRestBasePath: 'https://147.251.124.129:8083/kypo2-rest-training/api/v1/',
-  sandboxRestBasePath: 'https://147.251.124.129:8080/kypo2-django-openstack/api/v1/',
+  sandboxRestBasePath: 'https://147.251.124.129:8081/kypo2-django-openstack/api/v1/',
   // BEHAVIOUR SETTINGS
   defaultAlertDuration: 5000, // 0 to display until user dismisses it
   defaultPaginationSize: 5,
@@ -36,14 +36,32 @@ export const environment = {
         textColor: 'white',
         backgroundColor: '#002776',
         tokenRefreshTime: 30000,
-        issuer: 'https://oidc.muni.cz/oidc/',
-        clientId: 'b53f2660-8fa0-4d32-94e4-23a59d7e7077',
-        redirectUri: 'https://147.251.124.129',
-        scope: 'openid email profile',
-        logoutUrl: 'https://oidc.muni.cz/oidc/endsession',
-        postLogoutRedirectUri: 'https://147.251.124.129/login',
-        clearHashAfterLogin: true
+        oidcConfig: {
+          issuer: 'https://oidc.muni.cz/oidc/',
+          clientId: 'b53f2660-8fa0-4d32-94e4-23a59d7e7077',
+          redirectUri: 'https://147.251.124.129',
+          scope: 'openid email profile',
+          logoutUrl: 'https://oidc.muni.cz/oidc/endsession',
+          postLogoutRedirectUri: 'https://147.251.124.129/login',
+          clearHashAfterLogin: true
+        },
       },
+      {
+        label: 'Login with KYPO',
+        textColor: 'white',
+        backgroundColor: 'red',
+        tokenRefreshTime: 30000,
+        oidcConfig: {
+          issuer: 'http://147.251.124.129:8080/openid-connect-server-webapp/',
+          clientId: '63c83f53-d747-4b1e-916f-90e9497c8b60',
+          redirectUri: window.location.origin,
+          scope: 'openid email profile',
+          logoutUrl: 'http://147.251.124.129:8080/openid-connect-server-webapp/endsession',
+          postLogoutRedirectUri: window.location.origin + '/login',
+          clearHashAfterLogin: true,
+          requireHttps: false
+        }
+      }
     ]
   },
   markdownConfig: {

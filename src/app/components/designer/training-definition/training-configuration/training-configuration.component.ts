@@ -41,7 +41,7 @@ export class TrainingConfigurationComponent extends BaseComponent implements OnI
   betaTestingGroup: BetaTestingGroup;
 
   dirty = false;
-  loggedUserLogin: string;
+  activeUser: User;
 
   constructor(private router: Router,
               private dialog: MatDialog,
@@ -54,7 +54,7 @@ export class TrainingConfigurationComponent extends BaseComponent implements OnI
   }
 
   ngOnInit() {
-    this.loggedUserLogin = this.authService.getActiveUser().login;
+    this.activeUser = this.authService.getActiveUser();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -75,7 +75,7 @@ export class TrainingConfigurationComponent extends BaseComponent implements OnI
    * Displays dialog window with list of authors and assigns selected authors to the training definition
    */
   chooseAuthors() {
-    const dialogRef = this.dialog.open(AuthorsPickerComponent, { data: this.trainingDefinition.authors });
+    const dialogRef = this.dialog.open(AuthorsPickerComponent, { data: this.authors });
 
     dialogRef.afterClosed()
       .pipe(takeWhile(() => this.isAlive))

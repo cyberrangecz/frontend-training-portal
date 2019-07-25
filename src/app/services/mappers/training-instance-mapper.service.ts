@@ -84,7 +84,7 @@ export class TrainingInstanceMapper {
     result.start_time = trainingInstance.startTime.toISOString();
     result.end_time = trainingInstance.endTime.toISOString();
     result.access_token = trainingInstance.accessToken;
-    result.organizers_login =  trainingInstance.organizers.map(organizer => organizer.login);
+    result.organizers_ref_ids =  trainingInstance.organizers.map(organizer => organizer.id);
     result.training_definition_id = trainingInstance.trainingDefinition.id;
     return result;
   }
@@ -101,7 +101,7 @@ export class TrainingInstanceMapper {
     result.start_time = trainingInstance.startTime.toISOString();
     result.end_time = trainingInstance.endTime.toISOString();
     result.access_token = trainingInstance.accessToken;
-    result.organizers_login =  trainingInstance.organizers.map(organizer => organizer.login);
+    result.organizers_ref_ids =  trainingInstance.organizers.map(organizer => organizer.id);
     result.training_definition_id = trainingInstance.trainingDefinition.id;
     return result;
   }

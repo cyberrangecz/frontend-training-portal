@@ -12,8 +12,10 @@
 
 
 export class UserRefDTO {
-    user_ref_full_name: string;
-    user_ref_login?: string;
-    user_ref_given_name: string;
-    user_ref_family_name: string;
+    full_name: string;
+    login?: string;
+    user_ref_id: number;
+    given_name: string;
+    family_name: string;
+    iss: string;
 }
