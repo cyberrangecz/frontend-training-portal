@@ -42,7 +42,7 @@ export const environment = {
           redirectUri: 'https://147.251.124.129',
           scope: 'openid email profile',
           logoutUrl: 'https://oidc.muni.cz/oidc/endsession',
-          postLogoutRedirectUri: 'https://147.251.124.129/login',
+          postLogoutRedirectUri: 'https://147.251.124.129',
           clearHashAfterLogin: true
         },
       },
@@ -54,10 +54,10 @@ export const environment = {
         oidcConfig: {
           issuer: 'http://147.251.124.129:8080/openid-connect-server-webapp/',
           clientId: '63c83f53-d747-4b1e-916f-90e9497c8b60',
-          redirectUri: window.location.origin,
+          redirectUri: 'https://147.251.124.129',
           scope: 'openid email profile',
           logoutUrl: 'http://147.251.124.129:8080/openid-connect-server-webapp/endsession',
-          postLogoutRedirectUri: window.location.origin + '/login',
+          postLogoutRedirectUri: 'https://147.251.124.129',
           clearHashAfterLogin: true,
           requireHttps: false
         }
