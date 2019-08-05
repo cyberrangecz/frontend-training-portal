@@ -12,7 +12,7 @@
       <mat-radio-button [checked]="training === selectedTrainingDef"
                         [value]="training"
                         (change)="selectedTrainingDef = $event.value">
-        {{ training.title }}
+        {{ training.title | shortString: 50 }}
       </mat-radio-button>
     </mat-list-item>
     <div class="empty-content" *ngIf="releasedTrainingDefs.length === 0">
@@ -23,7 +23,7 @@
       <mat-radio-button [checked]="training === selectedTrainingDef"
                         [value]="training"
                         (change)="selectedTrainingDef = $event.value">
-        {{ training.title }}
+        {{ training.title | shortString: 50 }}
       </mat-radio-button>
     </mat-list-item>
     <div class="empty-content" *ngIf="unreleasedTrainingDefs.length === 0">

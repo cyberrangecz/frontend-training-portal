@@ -1,7 +1,7 @@
 <div class="content"
     *ngIf="trainingInstance && trainingDefinition">
   <h2> {{ trainingInstance.title }}</h2>
-  <h3>{{ trainingDefinition.title }}</h3>
+  <h3>{{ trainingDefinition.title | shortString: 50 }}</h3>
   <p>{{ trainingDefinition.description }}</p>
   <div class="ver-spacer"></div>
   <h2>Access token: {{ trainingInstance.accessToken }}</h2>
