@@ -39,6 +39,7 @@ export class ActiveTrainingRunService {
     this.trainingRunId = trainingRunInfo.trainingRunId;
     this.sandboxInstanceId = trainingRunInfo.sandboxInstanceId;
     this._isStepperDisplayed = trainingRunInfo.isStepperDisplayed;
+    this._startTime = trainingRunInfo.startTime;
     this.initLevels(trainingRunInfo.levels);
     this.setActiveLevel(trainingRunInfo.currentLevel);
   }
