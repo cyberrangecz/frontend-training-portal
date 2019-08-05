@@ -16,6 +16,7 @@ import {SandboxInstanceObservablesPoolService} from "../../services/organizer/sa
 import {SandboxInstanceFacadeModule} from "../../services/facades/modules/sandbox-instance-facade.module";
 import {ActionConfirmationDialog} from "./delete-dialog/action-confirmation-dialog.component";
 import { UserSelectionTableComponent } from './user-selection-table/user-selection-table.component';
+import { UserIdComponent } from './user-id/user-id.component';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { UserSelectionTableComponent } from './user-selection-table/user-selecti
     AlertSnackbarComponent,
     ActionConfirmationDialog,
     UserSelectionTableComponent,
+    UserIdComponent,
   ],
   exports: [
     ToolbarComponent,
@@ -40,6 +42,7 @@ import { UserSelectionTableComponent } from './user-selection-table/user-selecti
     SharedMaterialModule,
     ActionConfirmationDialog,
     UserSelectionTableComponent,
+    UserIdComponent,
   ],
   providers: [
     AlertService,

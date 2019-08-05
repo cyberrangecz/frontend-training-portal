@@ -1,0 +1,9 @@
+<div *ngIf="user" class="user">
+  <img [alt]="user.name" src="data:image/png;base64,{{ avatar }}">
+  <div class="mat-typography">
+    <div class="user-details">
+      <p class="mat-title">{{ user?.name }}</p>
+      <p class="mat-caption">{{ user?.login }}</p>
+    </div>
+  </div>
+</div>

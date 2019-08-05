@@ -2,10 +2,8 @@
   <mat-icon>person</mat-icon>
 </button>
 <mat-menu #menu="matMenu">
-  <a mat-menu-item routerLink="/home">Home</a>
-<!--
-  <a mat-menu-item *ngIf="isUserLoggedIn" routerLink="/user">Profile Details</a>
--->
+  <app-user-id></app-user-id>
+  <mat-divider></mat-divider>
   <a mat-menu-item *ngIf="!isUserLoggedIn" (click)="login()">Login</a>
   <a mat-menu-item *ngIf="isUserLoggedIn" (click)="logout()">Logout</a>
 </mat-menu>
