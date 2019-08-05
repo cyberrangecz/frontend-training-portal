@@ -3,8 +3,8 @@ import {MarkedOptions} from 'ngx-markdown';
 
 export const environment = {
   production: true,
-  trainingRestBasePath: 'https://147.251.124.129:8083/kypo2-rest-training/api/v1/',
-  sandboxRestBasePath: 'https://147.251.124.129:8081/kypo2-django-openstack/api/v1/',
+  trainingRestBasePath: 'https://kypo-devel.ics.muni.cz:8083/kypo2-rest-training/api/v1/',
+  sandboxRestBasePath: 'https://kypo-devel.ics.muni.cz:8081/kypo2-django-openstack/api/v1/',
   // BEHAVIOUR SETTINGS
   defaultAlertDuration: 5000, // 0 to display until user dismisses it
   defaultPaginationSize: 5,
@@ -12,14 +12,14 @@ export const environment = {
   defaultOrganizerTROverviewRefreshRate: 5000,
   sandboxAllocationStateRefreshRate: 30000,
   kypo2TopologyConfig: {
-    topologyRestUrl: 'https://147.251.124.129:8085/kypo2-rest-topology/api/v1/',
+    topologyRestUrl: 'https://kypo-devel.ics.muni.cz:8085/kypo2-rest-topology/api/v1/',
     decoratorsRestUrl: '',
     defaultDecoratorRefreshPeriodInSeconds: 3,
     useRealTime: false,
     useDecorators: false,
   },
   kypo2UserAndGroupConfig: {
-    userAndGroupRestBasePath: 'https://147.251.124.129:8084/kypo2-rest-user-and-group/api/v1/',
+    userAndGroupRestBasePath: 'https://kypo-devel.ics.muni.cz:8084/kypo2-rest-user-and-group/api/v1/',
     defaultPaginationSize: 20,
   },
   kypo2AuthConfig: {
@@ -29,7 +29,7 @@ export const environment = {
     tokenInterceptorAllowedUrls: [
       'https://147.251.124.129'
     ],
-    userInfoRestUri: 'https://147.251.124.129:8084/kypo2-rest-user-and-group/api/v1/',
+    userInfoRestUri: 'https://kypo-devel.ics.muni.cz:8084/kypo2-rest-user-and-group/api/v1/',
     providers: [
       {
         label: 'Login with MUNI',
@@ -39,29 +39,13 @@ export const environment = {
         oidcConfig: {
           issuer: 'https://oidc.muni.cz/oidc/',
           clientId: 'b53f2660-8fa0-4d32-94e4-23a59d7e7077',
-          redirectUri: 'https://147.251.124.129',
+          redirectUri: 'https://kypo-devel.ics.muni.cz',
           scope: 'openid email profile',
           logoutUrl: 'https://oidc.muni.cz/oidc/endsession',
-          postLogoutRedirectUri: 'https://147.251.124.129',
+          postLogoutRedirectUri: 'https://kypo-devel.ics.muni.cz/login',
           clearHashAfterLogin: true
         },
       },
-      {
-        label: 'Login with KYPO',
-        textColor: 'white',
-        backgroundColor: 'red',
-        tokenRefreshTime: 30000,
-        oidcConfig: {
-          issuer: 'http://147.251.124.129:8080/openid-connect-server-webapp/',
-          clientId: '63c83f53-d747-4b1e-916f-90e9497c8b60',
-          redirectUri: 'https://147.251.124.129',
-          scope: 'openid email profile',
-          logoutUrl: 'http://147.251.124.129:8080/openid-connect-server-webapp/endsession',
-          postLogoutRedirectUri: 'https://147.251.124.129',
-          clearHashAfterLogin: true,
-          requireHttps: false
-        }
-      }
     ]
   },
   markdownConfig: {
