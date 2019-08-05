@@ -64,8 +64,8 @@ button.main {
 	flex: 1 1 auto;
 }
 
-.fix-form-hint-spacing {
-	margin-bottom: 13px;
+.multi-line-hint {
+	margin-bottom: 15px;
 }
 
 @media screen and (max-width: 800px) {
