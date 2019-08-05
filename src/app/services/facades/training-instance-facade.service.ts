@@ -84,10 +84,16 @@ export class TrainingInstanceFacade {
   }
 
   getTrainingRunsByTrainingInstanceId(trainingInstanceId: number, isActive = true): Observable<TrainingRun[]> {
-    let params =     new HttpParams().set("isActive", isActive.toString());
+    let params = new HttpParams().set("isActive", isActive.toString());
     return this.http.get<TrainingRunRestResource>(`${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.trainingRunsUriExtension}`)
       .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
   }
+
+  hasTrainingRuns(trainingInstanceId: number): Observable<boolean> {
+    return this.http.get<TrainingRunRestResource>(`${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.trainingRunsUriExtension}`)
+      .pipe(map(response => response.content && response.content.length > 0));
+  }
+
 
   getTrainingRunsByTrainingInstanceIdWithPagination(trainingInstanceId: number, page: number, size: number, sort: string, sortDir: string, isActive = true)
       : Observable<PaginatedTable<TrainingRunTableAdapter[]>> {
