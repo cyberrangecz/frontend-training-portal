@@ -3,7 +3,7 @@
 <div mat-dialog-content class="content">
   <mat-list>
     <mat-list-item *ngFor="let trainingDefinition of data.trainingDefinitions">
-      {{ trainingDefinition.title }}
+      {{ trainingDefinition.title | shortString: 50 }}
     </mat-list-item>
   </mat-list>
 </div>

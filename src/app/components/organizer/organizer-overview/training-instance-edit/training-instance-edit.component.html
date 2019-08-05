@@ -83,7 +83,7 @@
 
         <!-- TRAINING DEFINITION field-->
         <div class="line-with-button">
-          <p *ngIf="trainingDefinition" style="color: black">Training Definition: {{ trainingDefinition.title }}</p>
+          <p *ngIf="trainingDefinition" style="color: black">Training Definition: {{ trainingDefinition.title | shortString: 30 }}</p>
           <p *ngIf="!trainingDefinition">Training Definition*</p>
           <span class="spacer"></span>
           <button (click)="chooseTrainingDefinition()"

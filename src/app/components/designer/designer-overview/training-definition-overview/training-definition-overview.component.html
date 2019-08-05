@@ -32,7 +32,7 @@
           <ng-container matColumnDef="title">
             <th class="title" mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="isInErrorState">Title</th>
             <td class="title" mat-cell *matCellDef="let data">
-              {{ data.trainingDefinition?.title }}
+              {{ data.trainingDefinition?.title | shortString: 50 }}
             </td>
           </ng-container>
 

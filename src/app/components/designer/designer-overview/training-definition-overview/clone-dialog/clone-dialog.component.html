@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Clone {{ data.title | titlecase}}</h1>
+<h1 mat-dialog-title>Clone {{ data.title | titlecase | shortString: 30 }}</h1>
 <div mat-dialog-content>
   <!-- TITLE field-->
   <mat-form-field appearance="outline">
