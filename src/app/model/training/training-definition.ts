@@ -21,7 +21,6 @@ export class TrainingDefinition {
   authors: User[];
   levels: AbstractLevel[];
 
-
   lastEditTime: Date;
 
   constructor() {

@@ -17,6 +17,8 @@
       <div class="left-panel">
         <!-- START TIME field -->
         <mat-form-field
+          class="multi-line-hint"
+          hintLabel="When trainees can access training runs"
           [owlDateTimeTrigger]="startTimePicker"
           appearance="outline">
           <mat-label>Start Time</mat-label>
@@ -34,13 +36,13 @@
         </mat-form-field>
 
         <!-- POOL SIZE filed -->
-        <mat-form-field appearance="outline" hintLabel="Pool of sandboxes that can be allocated" class="fix-form-hint-spacing">
+        <mat-form-field appearance="outline" hintLabel="Pool of sandboxes that can be allocated" class="multi-line-hint">
           <mat-label>Sandbox pool size</mat-label>
           <input matInput placeholder="Sandbox pool size" (ngModelChange)="contentChanged()" type="number" max="100" min="1" [(ngModel)]="poolSize" required>
         </mat-form-field>
 
         <!-- ACCESS TOKEN filed -->
-        <mat-form-field appearance="outline"  hintLabel="Generated PIN code will be added to your token" class="fix-form-hint-spacing">
+        <mat-form-field appearance="outline"  hintLabel="Generated PIN code will be added to your token" class="multi-line-hint">
           <mat-label>Access Token Prefix</mat-label>
           <input matInput placeholder="Access Token" (ngModelChange)="contentChanged()" [(ngModel)]="accessToken" required>
           <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="accessToken=''; contentChanged()">
@@ -52,6 +54,8 @@
       <div class="right-panel">
         <!-- END TIME field -->
         <mat-form-field
+          class="multi-line-hint"
+          hintLabel="Trainees cannot access training runs after end time expires"
           [owlDateTimeTrigger]="endTimePicker"
           appearance="outline">
           <mat-label>End Time</mat-label>
@@ -91,7 +95,6 @@
             Choose
           </button>
         </div>
-
         <div class="save-button">
           <span class="spacer"></span>
           <button mat-raised-button class="main" color="primary" [disabled]="!dirty" (click)="save()">
