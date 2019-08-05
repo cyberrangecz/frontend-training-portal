@@ -76,20 +76,20 @@
                     color="warn">error</mat-icon>
                 </div>
 
+                <!-- RUNNING ALLOCATION PROGRESS -->
+                <div  *ngIf="training.isAllocationInProgress"
+                      class="pool-allocation-progress">
+                  <mat-progress-bar mode="indeterminate"
+                                    color="accent">
+                  </mat-progress-bar>
+                </div>
+
                 <div class="pool-size-count" *ngIf="training.areSandboxDataLoaded">
                   {{ training.allocatedSandboxesCount }} / {{ training.failedSandboxesCount }} / {{ training.trainingInstance?.poolSize }}
                 </div>
                 <div class="pool-size-count" *ngIf="!training.areSandboxDataLoaded">
                   <mat-progress-spinner mode="indeterminate" color="accent" diameter="20">
                   </mat-progress-spinner>
-                </div>
-
-                <!-- RUNNING ALLOCATION PROGRESS -->
-                <div  *ngIf="training.isAllocationInProgress"
-                  class="pool-allocation-progress">
-                  <mat-progress-bar mode="indeterminate"
-                                    color="accent">
-                  </mat-progress-bar>
                 </div>
               </div>
             </td>

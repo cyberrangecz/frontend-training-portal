@@ -96,25 +96,29 @@ td.pool-size, th.pool-size {
   padding: 0 10px;
   display: flex;
   flex-direction: row;
-  align-content: space-evenly;
-  align-items: baseline;
+  justify-content: center;
+  align-items: center;
 }
 
 .action-buttons {
   display: flex;
   flex-direction: row;
-  align-items: baseline;
+  align-items: center;
 }
+
 .allocation-failure {
   flex-grow: 1;
+  max-width: 50px;
 }
 
 .pool-size-count {
   flex-grow: 1;
+  max-width: 100px;
 }
 
 .pool-allocation-progress {
-  flex-grow: 2;
+  flex-grow: 1;
+  max-width: 50px;
 }
 
 td.password, th.password {
@@ -122,14 +126,8 @@ td.password, th.password {
   width: 15%;
 }
 
-th.actions {
-  text-align: center;
+td.actions, th.actions {
   width: 15%;
-}
-
-td.actions {
-  display: flex;
-  justify-content: center;
 }
 
 .loading {
