@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {Subject} from "rxjs/internal/Subject";
 import {Observable} from "rxjs/internal/Observable";
 import {TrainingInstance} from "../../model/training/training-instance";
+import {now} from "moment";
 
 /**
  * Service maintaining active training instance for sub component of organizers training overview
@@ -29,5 +30,9 @@ export class ActiveTrainingInstanceService {
   setActiveTrainingInstance(training: TrainingInstance) {
     this._activeInstance = training;
     this._onActiveTrainingChangedSubject.next(training.id);
+  }
+
+  hasStarted(): boolean {
+    return this._activeInstance && now() > this._activeInstance.startTime.valueOf();
   }
 }

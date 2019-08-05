@@ -5,6 +5,7 @@
          *ngFor="let link of navLinks"
          [routerLink]="[ { outlets: { display: [link.path] } }]"
          routerLinkActive #rla="routerLinkActive"
+         [disabled]="link.disabled | async"
          [active]="rla.isActive">
         <mat-icon>{{ link.icon }}</mat-icon>
         {{ link.label }}
@@ -13,6 +14,7 @@
          *ngFor="let link of nestedNavLinks"
          [routerLink]="[ { outlets: { display: [link.path, link.secondaryPath] } }]"
          routerLinkActive #rla="routerLinkActive"
+         [disabled]="link.disabled | async"
          [active]="rla.isActive">
         <mat-icon>{{ link.icon }}</mat-icon>
         {{ link.label }}
