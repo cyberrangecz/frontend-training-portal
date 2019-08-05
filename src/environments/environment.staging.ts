@@ -4,7 +4,7 @@ import {MarkedOptions} from 'ngx-markdown';
 export const environment = {
   production: true,
   trainingRestBasePath: 'https://kypo-devel.ics.muni.cz:8083/kypo2-rest-training/api/v1/',
-  sandboxRestBasePath: 'https://kypo-devel.ics.muni.cz:8081/kypo2-django-openstack/api/v1/',
+  sandboxRestBasePath: 'https://kypo-devel.ics.muni.cz:8080/kypo2-django-openstack/api/v1/',
   // BEHAVIOUR SETTINGS
   defaultAlertDuration: 5000, // 0 to display until user dismisses it
   defaultPaginationSize: 5,
