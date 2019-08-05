@@ -27,7 +27,7 @@ export const environment = {
     guardMainPageRedirect: 'home',
     guardLoginPageRedirect: 'login',
     tokenInterceptorAllowedUrls: [
-      'https://147.251.124.129'
+      'https://kypo-devel.ics.muni.cz'
     ],
     userInfoRestUri: 'https://kypo-devel.ics.muni.cz:8084/kypo2-rest-user-and-group/api/v1/',
     providers: [
