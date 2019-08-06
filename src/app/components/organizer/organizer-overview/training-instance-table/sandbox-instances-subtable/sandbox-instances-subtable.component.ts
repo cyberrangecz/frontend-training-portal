@@ -6,25 +6,21 @@ import {
   OnInit,
   Output,
   SimpleChanges,
-  ViewChild
 } from '@angular/core';
 import {TrainingInstance} from '../../../../../model/training/training-instance';
 import {SandboxInstance} from '../../../../../model/sandbox/sandbox-instance';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import {SandboxAllocationService} from '../../../../../services/organizer/sandbox-allocation/sandbox-allocation.service';
 import {SandboxInstanceFacade} from '../../../../../services/facades/sandbox-instance-facade.service';
-import {SandboxInstanceTableAdapter} from '../../../../../model/table-adapters/sandbox-instance-table-adapter';
-import {environment} from '../../../../../../environments/environment';
+import {SandboxInstanceTableRow} from '../../../../../model/table-adapters/sandbox-instance-table-row';
 import {Observable} from 'rxjs';
 import {SandboxInstanceAllocationState} from '../../../../../model/training/sandbox-instance-allocation-state';
 import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
 import {ActionConfirmationDialog} from '../../../../shared/delete-dialog/action-confirmation-dialog.component';
 import {AllocationErrorDialogComponent} from "../allocation-error-dialog/allocation-error-dialog.component";
 import {BaseComponent} from "../../../../base.component";
-import {map, skipWhile, takeWhile} from 'rxjs/operators';
+import {skipWhile, takeWhile} from 'rxjs/operators';
 
 
 @Component({
@@ -40,7 +36,7 @@ export class SandboxInstancesSubtableComponent extends BaseComponent implements 
 
   displayedColumns: string[] = ['id', 'state', 'actions'];
 
-  dataSource: MatTableDataSource<SandboxInstanceTableAdapter>;
+  dataSource: MatTableDataSource<SandboxInstanceTableRow>;
 
   resultsLength = 0;
   isInErrorState = false;
@@ -49,10 +45,7 @@ export class SandboxInstancesSubtableComponent extends BaseComponent implements 
   isLoadingResults = false;
   isDisabled = false;
 
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
-
-  filterByStatusFn = (data: SandboxInstanceTableAdapter, filter: string) =>
+  filterByStatusFn = (data: SandboxInstanceTableRow, filter: string) =>
     data.sandboxInstance.state.toString().toLowerCase().indexOf(filter) !== -1;
 
   constructor(
@@ -90,7 +83,7 @@ export class SandboxInstancesSubtableComponent extends BaseComponent implements 
     }
   }
 
-  deleteSandbox(sandboxRow: SandboxInstanceTableAdapter) {
+  deleteSandbox(sandboxRow: SandboxInstanceTableRow) {
     if (this.trainingInstance.hasTrainingRunConnectedWithSandbox(sandboxRow.sandboxInstance.id)) {
       this.askForConfirmation(sandboxRow);
     } else {
@@ -98,11 +91,11 @@ export class SandboxInstancesSubtableComponent extends BaseComponent implements 
     }
   }
 
-  showSandboxErrorMessage(sandboxRow: SandboxInstanceTableAdapter) {
+  showSandboxErrorMessage(sandboxRow: SandboxInstanceTableRow) {
     this.dialog.open(AllocationErrorDialogComponent, { data: sandboxRow.sandboxInstance });
   }
 
-  private askForConfirmation(sandboxRow: SandboxInstanceTableAdapter) {
+  private askForConfirmation(sandboxRow: SandboxInstanceTableRow) {
     const dialogRef = this.dialog.open(ActionConfirmationDialog, {
       data: {
         type: 'Sandbox Instance',
@@ -121,7 +114,7 @@ export class SandboxInstancesSubtableComponent extends BaseComponent implements 
     });
   }
 
-  private sendRequestToDeleteSandbox(sandboxRow: SandboxInstanceTableAdapter) {
+  private sendRequestToDeleteSandbox(sandboxRow: SandboxInstanceTableRow) {
     const sandboxCount = this.getSandboxCount() - 1;
     this.isDisabled = true;
     const sandboxDeletion$ = this.allocationService.deleteSandbox(this.trainingInstance, sandboxRow.sandboxInstance, sandboxCount);
@@ -143,7 +136,7 @@ export class SandboxInstancesSubtableComponent extends BaseComponent implements 
     this.allocationEvent.emit(sandboxDeletion$);
   }
 
-  allocateSandbox(sandboxRow: SandboxInstanceTableAdapter) {
+  allocateSandbox(sandboxRow: SandboxInstanceTableRow) {
     this.isDisabled = true;
     const sandboxCount = this.getSandboxCount() + 1;
     const sandboxAllocation$ = this.allocationService.allocateSandbox(this.trainingInstance, sandboxCount);
@@ -166,12 +159,6 @@ export class SandboxInstancesSubtableComponent extends BaseComponent implements 
   }
 
   private initTableDataSource() {
-    this.sort.sortChange
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(() => this.paginator.pageIndex = 0);
-    this.paginator.pageSize = environment.defaultPaginationSize;
-    this.sort.active = 'status';
-    this.sort.direction = 'desc';
     this.displayData();
   }
 
@@ -221,16 +208,16 @@ export class SandboxInstancesSubtableComponent extends BaseComponent implements 
     )
   }
 
-  private mapSandboxesToTableData(sandboxes: SandboxInstance[]): SandboxInstanceTableAdapter[] {
-    const result: SandboxInstanceTableAdapter[] = [];
+  private mapSandboxesToTableData(sandboxes: SandboxInstance[]): SandboxInstanceTableRow[] {
+    const result: SandboxInstanceTableRow[] = [];
 
     for (let i = 0; i < this.trainingInstance.poolSize - sandboxes.length; i++) {
-      const emptyRow = new SandboxInstanceTableAdapter();
+      const emptyRow = new SandboxInstanceTableRow();
       result.push(emptyRow);
     }
 
     sandboxes.forEach(sandbox => {
-      const sandboxRow = new SandboxInstanceTableAdapter();
+      const sandboxRow = new SandboxInstanceTableRow();
       sandboxRow.sandboxInstance = sandbox;
       sandboxRow.isCreated = sandbox.isCreated();
       sandboxRow.isFailed = sandbox.isFailed();

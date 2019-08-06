@@ -1,8 +1,8 @@
 import {TrainingDefinition} from '../training/training-definition';
-import {TableAdapter} from './table-adapter';
+import {TableRowAdapter} from './table-row-adapter';
 import {TrainingDefinitionStateEnum} from '../enums/training-definition-state.enum';
 
-export class TrainingDefinitionTableAdapter implements TableAdapter {
+export class TrainingDefinitionTableRow implements TableRowAdapter {
   trainingDefinition: TrainingDefinition;
   possibleStates: string[];
   selectedState: TrainingDefinitionStateEnum;

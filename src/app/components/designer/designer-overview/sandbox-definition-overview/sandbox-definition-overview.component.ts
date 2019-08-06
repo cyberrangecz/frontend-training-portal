@@ -12,7 +12,7 @@ import {catchError, map, startWith, switchMap, takeWhile} from "rxjs/operators";
 import {environment} from "../../../../../environments/environment";
 import {AlertTypeEnum} from "../../../../model/enums/alert-type.enum";
 import {ErrorHandlerService} from "../../../../services/shared/error-handler.service";
-import {SandboxDefinitionTableAdapter} from "../../../../model/table-adapters/sandbox-definition-table-adapter";
+import {SandboxDefinitionTableRow} from "../../../../model/table-adapters/sandbox-definition-table-row";
 import {AssociatedTrainingDefinitionsDialogComponent} from './associated-training-definitions-dialog/associated-training-definitions-dialog.component';
 import {TrainingDefinitionInfo} from '../../../../model/training/training-definition-info';
 import {AddSandboxDefinitionDialogComponent} from "./add-sandbox-definition-dialog/add-sandbox-definition-dialog.component";
@@ -33,7 +33,7 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
 
   displayedColumns: string[] = ['id', 'title', 'associatedTrainingDefs', 'url', 'actions'];
 
-  dataSource: MatTableDataSource<SandboxDefinitionTableAdapter>;
+  dataSource: MatTableDataSource<SandboxDefinitionTableRow>;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -66,7 +66,7 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
     }
   }
 
-  changeSandboxUrlState(row: SandboxDefinitionTableAdapter) {
+  changeSandboxUrlState(row: SandboxDefinitionTableRow) {
     row.urlShortened = !row.urlShortened;
   }
 
@@ -86,9 +86,9 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
   }
   /**
    * Removes sandbox definition data object from data source and sends request to delete the sandbox in database
-   * @param {SandboxDefinitionTableAdapter} sandboxRow sandbox definition data row which should be deleted
+   * @param {SandboxDefinitionTableRow} sandboxRow sandbox definition data row which should be deleted
    */
-  deleteSandboxDefinition(sandboxRow: SandboxDefinitionTableAdapter) {
+  deleteSandboxDefinition(sandboxRow: SandboxDefinitionTableRow) {
     const dialogRef = this.dialog.open(ActionConfirmationDialog, {
       data: {
         type: 'Sandbox Definition',
@@ -104,7 +104,7 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
       });
   }
 
-  showAssociatedTrainingDefinitions(row: SandboxDefinitionTableAdapter) {
+  showAssociatedTrainingDefinitions(row: SandboxDefinitionTableRow) {
     this.dialog.open(AssociatedTrainingDefinitionsDialogComponent, {
       data: {
         sandboxDefinition: row.sandbox,
@@ -135,7 +135,7 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
         startWith({}),
         switchMap(() => {
           timeoutHandle =  window.setTimeout(() => this.isLoadingResults = true, environment.defaultDelayToDisplayLoading);
-          return this.sandboxDefinitionFacade.getSandboxDefs();
+          return this.sandboxDefinitionFacade.getSandboxDefinitions();
         }),
         map(data => {
           window.clearTimeout(timeoutHandle);
@@ -157,10 +157,10 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
    * Maps sandbox definitions to table data objects
    * @param data sandbox definitions
    */
-  private mapSandboxDefsToTableObjects(data: SandboxDefinition[]): SandboxDefinitionTableAdapter[] {
-    const result: SandboxDefinitionTableAdapter[] = [];
+  private mapSandboxDefsToTableObjects(data: SandboxDefinition[]): SandboxDefinitionTableRow[] {
+    const result: SandboxDefinitionTableRow[] = [];
     data.forEach(sandbox => {
-      const tableDataObject = new SandboxDefinitionTableAdapter();
+      const tableDataObject = new SandboxDefinitionTableRow();
       tableDataObject.sandbox = sandbox;
       this.trainingDefinitionFacade.getTrainingDefinitionsAssociatedWithSandboxDefinition(sandbox.id)
         .pipe(takeWhile(() => this.isAlive))
@@ -178,22 +178,15 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
    * Creates data source from sandbox definiton table data objects
    * @param data
    */
-  private createDataSource(data: SandboxDefinitionTableAdapter[]) {
+  private createDataSource(data: SandboxDefinitionTableRow[]) {
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort;
 
     this.dataSource.filterPredicate =
-      (data: SandboxDefinitionTableAdapter, filter: string) =>
+      (data: SandboxDefinitionTableRow, filter: string) =>
         data.sandbox.title.toLowerCase().indexOf(filter) !== -1
   }
 
-  /**
-   * Determines if sandbox definition can be removed (if sandbox is not associated with any training definition or all
-   * associated training definitions are archived.
-   * @param {SandboxDefinition} sandbox definition to determine if can be removed
-   * @param {TrainingDefinitionInfo[]} assocTrainings training definitions associated with the sandbox definitions
-   * @returns {boolean} true if sandbox definition can be removed, false otherwise
-   */
   private canSandboxBeRemoved(sandbox: SandboxDefinition, assocTrainings: TrainingDefinitionInfo[]): boolean {
         return assocTrainings.length === 0;
   }

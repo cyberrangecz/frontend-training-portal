@@ -7,7 +7,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {merge, of} from "rxjs";
 import {catchError, map, startWith, switchMap, takeWhile} from "rxjs/operators";
 import {environment} from "../../../../../environments/environment";
-import {AccessedTrainingRunsTableAdapter} from "../../../../model/table-adapters/accessed-training-runs-table-adapter";
+import {AccessedTrainingRunsTableRow} from "../../../../model/table-adapters/accessed-training-runs-table-row";
 import {TraineeAccessTrainingRunActionEnum} from "../../../../model/enums/trainee-access-training-run-actions.enum";
 import {PaginatedTable} from "../../../../model/table-adapters/paginated-table";
 import {ErrorHandlerService} from "../../../../services/shared/error-handler.service";
@@ -25,7 +25,7 @@ import {BaseComponent} from "../../../base.component";
 export class TraineeTrainingsTableComponent extends BaseComponent implements OnInit {
 
   displayedColumns: string[] = ['title', 'date', 'completedLevels', 'actions'];
-  dataSource: MatTableDataSource<AccessedTrainingRunsTableAdapter>;
+  dataSource: MatTableDataSource<AccessedTrainingRunsTableRow>;
 
   actionType = TraineeAccessTrainingRunActionEnum;
   resultsLength = 0;
@@ -104,8 +104,12 @@ export class TraineeTrainingsTableComponent extends BaseComponent implements OnI
         startWith({}),
         switchMap(() => {
           timeoutHandle =  window.setTimeout(() => this.isLoading = true, environment.defaultDelayToDisplayLoading);
-          return this.trainingRunFacade.getAccessedTrainingRunsWithPagination(this.paginator.pageIndex, this.paginator.pageSize,
-            this.resolveSortParam(this.sort.active), this.sort.direction);
+          return this.trainingRunFacade.getAccessedTrainingRunsPaginated({
+            page: this.paginator.pageIndex,
+            size: this.paginator.pageSize,
+            sort: this.resolveSortParam(this.sort.active),
+            sortDir: this.sort.direction
+          });
         }),
         map(data => {
           window.clearTimeout(timeoutHandle);
@@ -120,7 +124,7 @@ export class TraineeTrainingsTableComponent extends BaseComponent implements OnI
           this.isInErrorState = true;
           return of([]);
         })
-      ).subscribe((data: PaginatedTable<AccessedTrainingRunsTableAdapter[]>) =>
+      ).subscribe((data: PaginatedTable<AccessedTrainingRunsTableRow[]>) =>
       this.createDataSource(data.tableData));
   }
 
@@ -128,12 +132,12 @@ export class TraineeTrainingsTableComponent extends BaseComponent implements OnI
     return tableHeader === 'date' ? 'startTime' : tableHeader;
   }
 
-  private createDataSource(data: AccessedTrainingRunsTableAdapter[]) {
+  private createDataSource(data: AccessedTrainingRunsTableRow[]) {
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort;
 
     this.dataSource.filterPredicate =
-      (data: AccessedTrainingRunsTableAdapter, filter: string) =>
+      (data: AccessedTrainingRunsTableRow, filter: string) =>
         data.trainingInstanceTitle.toLowerCase().indexOf(filter) !== -1
   }
 }

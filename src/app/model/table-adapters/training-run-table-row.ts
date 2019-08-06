@@ -1,7 +1,7 @@
 import {TrainingRun} from "../training/training-run";
-import {TableAdapter} from "./table-adapter";
+import {TableRowAdapter} from "./table-row-adapter";
 
-export class TrainingRunTableAdapter implements TableAdapter {
+export class TrainingRunTableRow implements TableRowAdapter {
   trainingRun: TrainingRun;
   deletionRequested: boolean;
 }

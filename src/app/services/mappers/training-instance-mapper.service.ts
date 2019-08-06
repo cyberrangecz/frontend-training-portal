@@ -6,8 +6,8 @@ import {TrainingInstanceUpdateDTO} from "../../model/DTOs/training-instance/trai
 import {TrainingInstanceRestResource} from "../../model/DTOs/training-instance/training-instance-rest-resource";
 import {TrainingDefinitionMapper} from './training-definition-mapper.service';
 import {PaginatedTable} from "../../model/table-adapters/paginated-table";
-import {TrainingInstanceTableAdapter} from "../../model/table-adapters/training-instance-table-adapter";
-import {TablePagination} from "../../model/table-adapters/table-pagination";
+import {TrainingInstanceTableRow} from "../../model/table-adapters/training-instance-table-row";
+import {TableAdapterPagination} from "../../model/table-adapters/table-adapter-pagination";
 import {UserMapper} from './user.mapper.service';
 
 @Injectable()
@@ -32,10 +32,10 @@ export class TrainingInstanceMapper {
    * Maps training instance dtos received from remote server to training instance objects
    * @param resource array of training instance dtos received from remote server with pagination
    */
-  mapTrainingInstanceDTOsToTrainingInstancesWithPagination(resource: TrainingInstanceRestResource): PaginatedTable<TrainingInstanceTableAdapter[]> {
-    const tableDataList: TrainingInstanceTableAdapter[] = [];
+  mapTrainingInstanceDTOsToTrainingInstancesWithPagination(resource: TrainingInstanceRestResource): PaginatedTable<TrainingInstanceTableRow[]> {
+    const tableDataList: TrainingInstanceTableRow[] = [];
     resource.content.forEach(dto => {
-      const tableRow = new TrainingInstanceTableAdapter();
+      const tableRow = new TrainingInstanceTableRow();
       tableRow.trainingInstance = this.mapTrainingInstanceDTOToTrainingInstance(dto);
       tableRow.trainingDefinitionTitle = tableRow.trainingInstance.trainingDefinition.title;
       tableRow.isAllocationInProgress = false;
@@ -43,7 +43,7 @@ export class TrainingInstanceMapper {
       tableRow.failedSandboxesCount = 0;
       tableDataList.push(tableRow);
     });
-    const tablePagination = new TablePagination(resource.pagination.number,
+    const tablePagination = new TableAdapterPagination(resource.pagination.number,
       resource.pagination.number_of_elements,
       resource.pagination.size,
       resource.pagination.total_elements,

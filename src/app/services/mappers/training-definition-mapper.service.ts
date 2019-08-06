@@ -7,8 +7,8 @@ import {TrainingDefinitionUpdateDTO} from '../../model/DTOs/training-definition/
 import {TrainingDefinitionRestResource} from '../../model/DTOs/training-definition/training-definition-rest-resource';
 import {TrainingDefinitionDTO} from '../../model/DTOs/training-definition/training-definition-dto';
 import {PaginatedTable} from '../../model/table-adapters/paginated-table';
-import {TrainingDefinitionTableAdapter} from '../../model/table-adapters/training-definition-table-adapter';
-import {TablePagination} from '../../model/table-adapters/table-pagination';
+import {TrainingDefinitionTableRow} from '../../model/table-adapters/training-definition-table-row';
+import {TableAdapterPagination} from '../../model/table-adapters/table-adapter-pagination';
 import {LevelMapper} from './level-mapper.service';
 import {BetaTestingGroupDTO} from '../../model/DTOs/training-definition/beta-testing-group-dto';
 import {BetaTestingGroupCreateDTO} from '../../model/DTOs/training-definition/beta-testing-group-create-dto';
@@ -31,23 +31,19 @@ export class TrainingDefinitionMapper {
    * @param resource training definition DTOs retrieved from server
    */
   mapTrainingDefinitionDTOsToTrainingDefinitions(resource: TrainingDefinitionRestResource): TrainingDefinition[] {
-    const result: TrainingDefinition[] = [];
-    resource.content.forEach((trainingDTO: TrainingDefinitionDTO) => {
-      result.push(this.mapTrainingDefinitionDTOToTrainingDefinition(trainingDTO, false));
-    });
-    return result;
+    return resource.content.map(trainingDTO => this.mapTrainingDefinitionDTOToTrainingDefinition(trainingDTO, false));
   }
 
-  mapTrainingDefinitionDTOsToTrainingDefinitionsWithPagination(resource: TrainingDefinitionRestResource): PaginatedTable<TrainingDefinitionTableAdapter[]> {
-    const tableData: TrainingDefinitionTableAdapter[] = [];
+  mapTrainingDefinitionDTOsToTrainingDefinitionsPaginated(resource: TrainingDefinitionRestResource): PaginatedTable<TrainingDefinitionTableRow[]> {
+    const tableData: TrainingDefinitionTableRow[] = [];
     resource.content.forEach((trainingDTO: TrainingDefinitionDTO) => {
-      const rowData = new TrainingDefinitionTableAdapter();
+      const rowData = new TrainingDefinitionTableRow();
       rowData.trainingDefinition = this.mapTrainingDefinitionDTOToTrainingDefinition(trainingDTO, false);
       rowData.selectedState = rowData.trainingDefinition.state;
       rowData.createPossibleStates();
       tableData.push(rowData);
     });
-    const tablePagination = new TablePagination(resource.pagination.number,
+    const tablePagination = new TableAdapterPagination(resource.pagination.number,
       resource.pagination.number_of_elements,
       resource.pagination.size,
       resource.pagination.total_elements,

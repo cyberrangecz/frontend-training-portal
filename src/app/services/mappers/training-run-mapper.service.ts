@@ -6,11 +6,11 @@ import {TrainingRunStateEnum} from '../../model/enums/training-run-state.enum';
 import {TrainingInstanceMapper} from './training-instance-mapper.service';
 import {TrainingRunRestResource} from '../../model/DTOs/training-run/training-run-rest-resource';
 import {AccessedTrainingRunDTO} from '../../model/DTOs/training-run/accessed-training-run-dto';
-import {AccessedTrainingRunsTableAdapter} from '../../model/table-adapters/accessed-training-runs-table-adapter';
+import {AccessedTrainingRunsTableRow} from '../../model/table-adapters/accessed-training-runs-table-row';
 import {TraineeAccessTrainingRunActionEnum} from '../../model/enums/trainee-access-training-run-actions.enum';
 import {PaginatedTable} from '../../model/table-adapters/paginated-table';
-import {TrainingRunTableAdapter} from '../../model/table-adapters/training-run-table-adapter';
-import {TablePagination} from '../../model/table-adapters/table-pagination';
+import {TrainingRunTableRow} from '../../model/table-adapters/training-run-table-row';
+import {TableAdapterPagination} from '../../model/table-adapters/table-adapter-pagination';
 import {AccessTrainingRunDTO} from '../../model/DTOs/training-run/access-training-run-dto';
 import {AccessTrainingRunInfo} from '../../model/training/access-training-run-info';
 import {IsCorrectFlagDTO} from '../../model/DTOs/level/game/is-correct-flag-dto';
@@ -53,15 +53,15 @@ export class TrainingRunMapper {
    * Maps training run DTOs retrieved from remote server to training run objects with pagination
    * @param resource training run DTOs retrieved from remote server
    */
-  mapTrainingRunDTOsToTrainingRunsWithPagination(resource: TrainingRunRestResource): PaginatedTable<TrainingRunTableAdapter[]> {
-    const tableData: TrainingRunTableAdapter[] = [];
+  mapTrainingRunDTOsToTrainingRunsWithPagination(resource: TrainingRunRestResource): PaginatedTable<TrainingRunTableRow[]> {
+    const tableData: TrainingRunTableRow[] = [];
     resource.content.forEach(trainingRunDTO => {
-      const tableRow = new TrainingRunTableAdapter();
+      const tableRow = new TrainingRunTableRow();
       tableRow.trainingRun = this.mapTrainingRunDTOToTrainingRun(trainingRunDTO);
       tableData.push(tableRow);
     });
 
-    const tablePagination = new TablePagination(resource.pagination.number,
+    const tablePagination = new TableAdapterPagination(resource.pagination.number,
       resource.pagination.number_of_elements,
       resource.pagination.size,
       resource.pagination.total_elements,
@@ -118,11 +118,11 @@ export class TrainingRunMapper {
   }
 
   mapAccessedTrainingRunDTOsToTrainingRunTableObjects(resource: TrainingRunRestResource)
-    : PaginatedTable<AccessedTrainingRunsTableAdapter[]> {
-    const tableData: AccessedTrainingRunsTableAdapter[] = [];
+    : PaginatedTable<AccessedTrainingRunsTableRow[]> {
+    const tableData: AccessedTrainingRunsTableRow[] = [];
     resource.content.forEach(accessedTrainingRunDTO =>
       tableData.push(this.mapAccessedTrainingRunDTOToTrainingRunTableObject(accessedTrainingRunDTO)));
-    const tablePagination = new TablePagination(resource.pagination.number,
+    const tablePagination = new TableAdapterPagination(resource.pagination.number,
       resource.pagination.number_of_elements,
       resource.pagination.size,
       resource.pagination.total_elements,
@@ -131,8 +131,8 @@ export class TrainingRunMapper {
   }
 
 
-  mapAccessedTrainingRunDTOToTrainingRunTableObject(accessedTrainingRunDTO: AccessedTrainingRunDTO): AccessedTrainingRunsTableAdapter {
-    const result = new AccessedTrainingRunsTableAdapter();
+  mapAccessedTrainingRunDTOToTrainingRunTableObject(accessedTrainingRunDTO: AccessedTrainingRunDTO): AccessedTrainingRunsTableRow {
+    const result = new AccessedTrainingRunsTableRow();
     result.currentLevel = accessedTrainingRunDTO.current_level_order;
     result.totalLevels = accessedTrainingRunDTO.number_of_levels;
     result.trainingInstanceTitle = accessedTrainingRunDTO.title;

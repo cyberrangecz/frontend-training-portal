@@ -1,12 +1,18 @@
 import {HttpParams} from "@angular/common/http";
+import {TablePagination} from "../../DTOs/other/table-pagination";
 
 export class PaginationParams {
 
-  static createPaginationParams(page: number, size: number, sort: string, sortDir: string): HttpParams {
+  static createTrainingsPaginationParams(pagination: TablePagination): HttpParams {
     return new HttpParams()
-      .set("page", page.toString())
-      .set("size", size.toString())
-      .set("sort", sort + ',' + sortDir);
+      .set("page", pagination.page.toString())
+      .set("size", pagination.size.toString())
+      .set("sort", pagination.sort + ',' + pagination.sortDir);
   }
 
+  static createSandboxPaginationParams(pagination: TablePagination): HttpParams {
+    return new HttpParams()
+      .set("page", pagination.page.toString())
+      .set("page_size", pagination.size.toString());
+  }
 }

@@ -4,11 +4,14 @@ import {Observable} from "rxjs/internal/Observable";
 import {SandboxDefinition} from "../../model/sandbox/sandbox-definition";
 import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
-import {SandboxDefinitionCreateDTO} from "../../model/DTOs/sandbox-definition/sandbox-definition-create-dto";
-import {UploadService} from "../shared/upload.service";
 import {SandboxDefinitionMapperService} from "../mappers/sandbox-definition-mapper.service";
 import {SandboxDefinitionDTO} from "../../model/DTOs/sandbox-definition/sandbox-definition-dto";
-import {of} from "rxjs";
+import {TablePagination} from "../../model/DTOs/other/table-pagination";
+import {PaginationHttpParams} from "kypo2-user-and-group-management/lib/model/other/pagination-http-params";
+import {PaginationParams} from "../../model/http/params/pagination-params";
+import {PaginatedTable} from "../../model/table-adapters/paginated-table";
+import {SandboxDefinitionTableRow} from "../../model/table-adapters/sandbox-definition-table-row";
+import {SandboxPaginated} from "../../model/DTOs/other/sandbox-paginated";
 
 /**
  * Service to abstract from sandbox definition endpoint.
@@ -28,13 +31,21 @@ export class SandboxDefinitionFacade {
    * Retrieves all sandbox definitions
    * @returns {Observable<SandboxDefinition[]>} Observable of sandbox definitions list
    */
-  getSandboxDefs(): Observable<SandboxDefinition[]> {
-    const  headers = new  HttpHeaders().set("Accept", "application/json");
-    return this.http.get<SandboxDefinitionDTO[]>(this.sandboxDefsEndpoint, { headers: headers })
+  getSandboxDefinitions(): Observable<SandboxDefinition[]> {
+    return this.http.get<SandboxDefinitionDTO[]>(this.sandboxDefsEndpoint, { headers: this.createDefaultHeaders() })
       .pipe(map(response =>
       this.sandboxDefinitionMapper.mapSandboxDefinitionsDTOToSandboxDefinitions(response)));
   }
 
+  getSandboxDefinitionsPaginated(pagination: TablePagination): Observable<PaginatedTable<SandboxDefinitionTableRow[]>> {
+    return this.http.get<SandboxPaginated<SandboxDefinitionDTO>>(this.sandboxDefsEndpoint,
+      {
+        headers: this.createDefaultHeaders(),
+        params: PaginationParams.createSandboxPaginationParams(pagination)
+      })
+      .pipe(map(response =>
+        this.sandboxDefinitionMapper.mapSandboxDefinitionDTOToSandboxDefinitionPaginated(response)));
+  }
 
   /**
    * Retrieves sandbox by its id
@@ -42,8 +53,7 @@ export class SandboxDefinitionFacade {
    * @returns {Observable<SandboxDefinition>} Observable of retrieved sandbox definition, null if no sandbox definition with such id is found
    */
   getSandboxDefById(id: number): Observable<SandboxDefinition> {
-    const  headers = new  HttpHeaders().set("Accept", "application/json");
-    return this.http.get<SandboxDefinitionDTO>(this.sandboxDefsEndpoint + id, { headers: headers })
+    return this.http.get<SandboxDefinitionDTO>(this.sandboxDefsEndpoint + id, { headers: this.createDefaultHeaders() })
       .pipe(map(response => this.sandboxDefinitionMapper.mapSandboxDefinitionDTOToSandboxDefinition(response)));
   }
 
@@ -62,6 +72,4 @@ export class SandboxDefinitionFacade {
   private createDefaultHeaders() {
     return new HttpHeaders({'Accept': 'application/json'});
   }
-
-
 }
