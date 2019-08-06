@@ -1,8 +1,8 @@
 import {SandboxDefinition} from "../sandbox/sandbox-definition";
-import {TableAdapter} from "./table-adapter";
+import {TableRowAdapter} from "./table-row-adapter";
 import {TrainingDefinitionInfo} from '../training/training-definition-info';
 
-export class SandboxDefinitionTableAdapter implements TableAdapter {
+export class SandboxDefinitionTableRow implements TableRowAdapter {
   sandbox: SandboxDefinition;
   associatedTrainingDefinitions: TrainingDefinitionInfo[];
   canBeRemoved: boolean;

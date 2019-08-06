@@ -10,12 +10,13 @@ import {AlertService} from "../../../../../services/shared/alert.service";
 import {AlertTypeEnum} from "../../../../../model/enums/alert-type.enum";
 import {TrainingInstanceFacade} from "../../../../../services/facades/training-instance-facade.service";
 import {ErrorHandlerService} from "../../../../../services/shared/error-handler.service";
-import {TrainingRunTableAdapter} from "../../../../../model/table-adapters/training-run-table-adapter";
+import {TrainingRunTableRow} from "../../../../../model/table-adapters/training-run-table-row";
 import {PaginatedTable} from "../../../../../model/table-adapters/paginated-table";
 import {environment} from "../../../../../../environments/environment";
 import {BaseTrainingRunsOverview} from "../base-training-runs-overview";
 import {ActionConfirmationDialog} from "../../../../shared/delete-dialog/action-confirmation-dialog.component";
 import {SandboxInstanceFacade} from "../../../../../services/facades/sandbox-instance-facade.service";
+import {TablePagination} from "../../../../../model/DTOs/other/table-pagination";
 
 @Component({
   selector: 'active-training-runs-overview',
@@ -28,7 +29,7 @@ import {SandboxInstanceFacade} from "../../../../../services/facades/sandbox-ins
 export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOverview implements OnInit {
 
   displayedColumns: string[] = ['sandboxInstanceId', 'sandboxInstanceState', 'player', 'state', 'actions'];
-  activeTrainingRunsDataSource: MatTableDataSource<TrainingRunTableAdapter>;
+  activeTrainingRunsDataSource: MatTableDataSource<TrainingRunTableRow>;
 
   resultsLength = 0;
   isLoadingTrainingRunResults = true;
@@ -68,7 +69,7 @@ export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOvervie
    * Reverts selected training run
    * @param row table object of training run
    */
-  deleteSandboxOfTrainingRun(row: TrainingRunTableAdapter) {
+  deleteSandboxOfTrainingRun(row: TrainingRunTableRow) {
     if (row.trainingRun.hasPlayer() && row.trainingRun.isRunning()) {
       this.askForDeleteSandboxConfirmation(row);
     } else {
@@ -136,14 +137,18 @@ export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOvervie
 
   private fetchTrainingRuns() {
     let timeoutHandle = 0;
+    const pagination = new TablePagination(this.activeTrainingRunsPaginator.pageIndex,
+      this.activeTrainingRunsPaginator.pageSize,
+      this.activeTrainingRunSort.active,
+      this.activeTrainingRunSort.direction);
+
     merge(this.activeTrainingRunSort.sortChange, this.activeTrainingRunsPaginator.page)
       .pipe(
         takeWhile(() => this.isAlive),
         startWith({}),
         switchMap(() => {
           timeoutHandle = window.setTimeout(() => this.isLoadingTrainingRunResults = true, environment.defaultDelayToDisplayLoading);
-          return this.trainingInstanceFacade.getTrainingRunsByTrainingInstanceIdWithPagination(this.trainingInstance.id,
-            this.activeTrainingRunsPaginator.pageIndex, this.activeTrainingRunsPaginator.pageSize, this.activeTrainingRunSort.active, this.activeTrainingRunSort.direction)
+          return this.trainingInstanceFacade.getTrainingRunsByTrainingInstanceIdPaginated(this.trainingInstance.id, pagination);
         }),
         map(data => {
           window.clearTimeout(timeoutHandle);
@@ -158,22 +163,22 @@ export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOvervie
           this.isInErrorState = true;
           return of([]);
         })
-      ).subscribe((data: PaginatedTable<TrainingRunTableAdapter[]>) => this.createDataSource(data.tableData));
+      ).subscribe((data: PaginatedTable<TrainingRunTableRow[]>) => this.createDataSource(data.tableData));
   }
 
   /**
    * Creates data source from fetched data
    * @param data fetched training runs
    */
-  private createDataSource(data: TrainingRunTableAdapter[]) {
+  private createDataSource(data: TrainingRunTableRow[]) {
     this.activeTrainingRunsDataSource = new MatTableDataSource(data);
     this.activeTrainingRunsDataSource.filterPredicate =
-      (data: TrainingRunTableAdapter, filter: string) =>
+      (data: TrainingRunTableRow, filter: string) =>
         data.trainingRun.state.toLowerCase().indexOf(filter) !== -1
   }
 
 
-  private askForDeleteSandboxConfirmation(row: TrainingRunTableAdapter) {
+  private askForDeleteSandboxConfirmation(row: TrainingRunTableRow) {
     const sandboxId: string = row.trainingRun.sandboxInstanceId ? row.trainingRun.sandboxInstanceId.toString() : '';
     const dialogRef = this.dialog.open(ActionConfirmationDialog, {
       data: {
@@ -205,7 +210,7 @@ export class ActiveTrainingRunsOverviewComponent extends BaseTrainingRunsOvervie
       )
   }
 
-  private sendRequestToDeleteSandbox(row: TrainingRunTableAdapter) {
+  private sendRequestToDeleteSandbox(row: TrainingRunTableRow) {
     row.deletionRequested = true;
     this.sandboxInstanceFacade.deleteSandbox(this.trainingInstance.id, row.trainingRun.sandboxInstanceId)
       .pipe(takeWhile(() => this.isAlive))

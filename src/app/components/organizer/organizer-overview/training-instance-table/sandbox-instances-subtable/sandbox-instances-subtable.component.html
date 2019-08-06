@@ -16,7 +16,7 @@
           </div>
         </div>
 
-        <table mat-table [dataSource]="dataSource" matSort>
+        <table mat-table [dataSource]="dataSource">
 
           <!-- ID Column -->
           <ng-container matColumnDef="id">
@@ -28,7 +28,7 @@
 
           <!-- STATE Column -->
           <ng-container matColumnDef="state">
-            <th class="state" mat-header-cell *matHeaderCellDef mat-sort-header>State</th>
+            <th class="state" mat-header-cell *matHeaderCellDef>State</th>
             <td class="state" mat-cell *matCellDef="let data">
               <div class="allocation-state">
                 <mat-icon *ngIf="data.isCreated" class="sandbox-created" matTooltip="Sandbox is allocated">done</mat-icon>
@@ -77,7 +77,6 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="row"></tr>
         </table>
-        <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
       </div>
     </div>
   </div>

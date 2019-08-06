@@ -1,7 +1,7 @@
 import {TraineeAccessTrainingRunActionEnum} from "../enums/trainee-access-training-run-actions.enum";
-import {TableAdapter} from "./table-adapter";
+import {TableRowAdapter} from "./table-row-adapter";
 
-export class AccessedTrainingRunsTableAdapter implements TableAdapter {
+export class AccessedTrainingRunsTableRow implements TableRowAdapter {
   totalLevels: number;
   currentLevel: number;
   trainingRunId: number;

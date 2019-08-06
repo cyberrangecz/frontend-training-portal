@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
-import {TrainingRunTableAdapter} from "../../../../../model/table-adapters/training-run-table-adapter";
+import {TrainingRunTableRow} from "../../../../../model/table-adapters/training-run-table-row";
 import {BaseTrainingRunsOverview} from "../base-training-runs-overview";
 import {AlertService} from "../../../../../services/shared/alert.service";
 import {ErrorHandlerService} from "../../../../../services/shared/error-handler.service";
@@ -15,6 +15,7 @@ import {PaginatedTable} from "../../../../../model/table-adapters/paginated-tabl
 import {TrainingRunFacade} from "../../../../../services/facades/training-run-facade.service";
 import {MatDialog} from "@angular/material";
 import {ActionConfirmationDialog} from "../../../../shared/delete-dialog/action-confirmation-dialog.component";
+import {TablePagination} from "../../../../../model/DTOs/other/table-pagination";
 
 @Component({
   selector: 'archived-training-runs-overview',
@@ -24,14 +25,14 @@ import {ActionConfirmationDialog} from "../../../../shared/delete-dialog/action-
 export class ArchivedTrainingRunsOverviewComponent extends BaseTrainingRunsOverview implements OnInit {
 
   displayedColumns: string[] = ['player', 'state', 'actions'];
-  archivedTrainingRunsDataSource: MatTableDataSource<TrainingRunTableAdapter>;
+  archivedTrainingRunsDataSource: MatTableDataSource<TrainingRunTableRow>;
 
   resultsLength = 0;
   isLoadingResults = true;
   isInErrorState = false;
 
-  @ViewChild(MatPaginator, { static: true }) activeTrainingRunsPaginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) activeTrainingRunSort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) archivedTrainingRunsPaginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) archivedTrainingRunSort: MatSort;
 
   constructor(
     activeTrainingInstanceService: ActiveTrainingInstanceService,
@@ -80,12 +81,12 @@ export class ArchivedTrainingRunsOverviewComponent extends BaseTrainingRunsOverv
    * Creates table data source from training runs retrieved from a server.
    */
   protected initDataSource() {
-    this.activeTrainingRunSort.sortChange
+    this.archivedTrainingRunSort.sortChange
       .pipe(takeWhile(() => this.isAlive))
-      .subscribe(() => this.activeTrainingRunsPaginator.pageIndex = 0);
-    this.activeTrainingRunsPaginator.pageSize = environment.defaultPaginationSize;
-    this.activeTrainingRunSort.active = 'id';
-    this.activeTrainingRunSort.direction = 'desc';
+      .subscribe(() => this.archivedTrainingRunsPaginator.pageIndex = 0);
+    this.archivedTrainingRunsPaginator.pageSize = environment.defaultPaginationSize;
+    this.archivedTrainingRunSort.active = 'id';
+    this.archivedTrainingRunSort.direction = 'desc';
     this.fetchData();
   }
 
@@ -94,14 +95,18 @@ export class ArchivedTrainingRunsOverviewComponent extends BaseTrainingRunsOverv
    */
   protected fetchData() {
     let timeoutHandle = 0;
-    merge(this.activeTrainingRunSort.sortChange, this.activeTrainingRunsPaginator.page)
+    const pagination = new TablePagination(this.archivedTrainingRunsPaginator.pageIndex,
+      this.archivedTrainingRunsPaginator.pageSize,
+      this.archivedTrainingRunSort.active,
+      this.archivedTrainingRunSort.direction);
+
+    merge(this.archivedTrainingRunSort.sortChange, this.archivedTrainingRunsPaginator.page)
       .pipe(
         takeWhile(() => this.isAlive),
         startWith({}),
         switchMap(() => {
           timeoutHandle = window.setTimeout(() => this.isLoadingResults = true, environment.defaultDelayToDisplayLoading);
-          return this.trainingInstanceFacade.getTrainingRunsByTrainingInstanceIdWithPagination(this.trainingInstance.id,
-            this.activeTrainingRunsPaginator.pageIndex, this.activeTrainingRunsPaginator.pageSize, this.activeTrainingRunSort.active, this.activeTrainingRunSort.direction, false)
+          return this.trainingInstanceFacade.getTrainingRunsByTrainingInstanceIdPaginated(this.trainingInstance.id, pagination, false)
         }),
         map(data => {
           window.clearTimeout(timeoutHandle);
@@ -117,7 +122,7 @@ export class ArchivedTrainingRunsOverviewComponent extends BaseTrainingRunsOverv
           return of([]);
         })
       ).subscribe(
-        (data: PaginatedTable<TrainingRunTableAdapter[]>) =>
+        (data: PaginatedTable<TrainingRunTableRow[]>) =>
           this.archivedTrainingRunsDataSource = new MatTableDataSource(data.tableData)
     );
   }

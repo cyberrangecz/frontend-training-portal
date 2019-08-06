@@ -8,7 +8,7 @@ import {PaginationParams} from "../../model/http/params/pagination-params";
 import {TrainingRunDTO} from "../../model/DTOs/training-run/training-run-dto";
 import {TrainingRunMapper} from "../mappers/training-run-mapper.service";
 import {TrainingRunRestResource} from '../../model/DTOs/training-run/training-run-rest-resource';
-import {AccessedTrainingRunsTableAdapter} from "../../model/table-adapters/accessed-training-runs-table-adapter";
+import {AccessedTrainingRunsTableRow} from "../../model/table-adapters/accessed-training-runs-table-row";
 import {PaginatedTable} from "../../model/table-adapters/paginated-table";
 import {AbstractQuestion} from "../../model/questions/abstract-question";
 import {HintDTO} from "../../model/DTOs/level/game/hint-dto";
@@ -23,6 +23,7 @@ import {AccessTrainingRunInfo} from "../../model/training/access-training-run-in
 import {AccessTrainingRunDTO} from "../../model/DTOs/training-run/access-training-run-dto";
 import {LevelMapper} from "../mappers/level-mapper.service";
 import {Kypo2AuthService} from 'kypo2-auth';
+import {TablePagination} from "../../model/DTOs/other/table-pagination";
 
 /**
  * Service abstracting the training run endpoint.
@@ -69,36 +70,29 @@ export class TrainingRunFacade {
       .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
   }
 
-  /**
-   * Retrieves all training run on current page of pagination component
-   * @param page current page
-   * @param size current size of the page
-   * @param sort by which parameter should the result be sorted
-   * @param sortDir sort direction (asc, desc)
-   */
-  getTrainingRunsWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<TrainingRun[]> {
-    let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
-    return this.http.get<TrainingRunRestResource>(this.trainingRunsEndpointUri, { params: params })
+  getTrainingRunsWithPaginated(pagination: TablePagination): Observable<TrainingRun[]> {
+    return this.http.get<TrainingRunRestResource>(this.trainingRunsEndpointUri,
+      { params: PaginationParams.createTrainingsPaginationParams(pagination) })
       .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
 
   }
 
   /**
    * Retrieves all training runs which are still active (can be accessed and "played")
-   * @returns {Observable<AccessedTrainingRunsTableAdapter[]>} observable of list of active training runs to be displayed in table
+   * @returns {Observable<AccessedTrainingRunsTableRow[]>} observable of list of active training runs to be displayed in table
    */
-  getAccessedTrainingRuns(): Observable<PaginatedTable<AccessedTrainingRunsTableAdapter[]>> {
+  getAccessedTrainingRuns(): Observable<PaginatedTable<AccessedTrainingRunsTableRow[]>> {
     return this.http.get<TrainingRunRestResource>(this.trainingRunsEndpointUri + 'accessible/')
       .pipe(map(response => this.trainingRunMapper.mapAccessedTrainingRunDTOsToTrainingRunTableObjects(response)));
   }
 
-  getAccessedTrainingRunsWithPagination(page: number, size: number, sort: string, sortDir: string):
-    Observable<PaginatedTable<AccessedTrainingRunsTableAdapter[]>> {
+  getAccessedTrainingRunsPaginated(pagination: TablePagination):
+    Observable<PaginatedTable<AccessedTrainingRunsTableRow[]>> {
     let params;
-    if (sort === 'title') {
-      params = this.createPaginationParamsForTRTitle(page, size, sortDir);
+    if (pagination.sort === 'title') {
+      params = this.createPaginationParamsForTRTitle(pagination);
     } else {
-      params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
+      params = PaginationParams.createTrainingsPaginationParams(pagination);
     }
     return this.http.get<TrainingRunRestResource>(this.trainingRunsEndpointUri + 'accessible/', {params: params})
       .pipe(map(response => this.trainingRunMapper.mapAccessedTrainingRunDTOsToTrainingRunTableObjects(response)));
@@ -183,11 +177,11 @@ export class TrainingRunFacade {
     return this.http.put(this.trainingRunsEndpointUri + trainingRunId, null);
   }
 
-  private createPaginationParamsForTRTitle(page: number, size: number, sortDir: string): HttpParams {
+  private createPaginationParamsForTRTitle(pagination: TablePagination): HttpParams {
     return new HttpParams()
-      .set("page", page.toString())
-      .set("size", size.toString())
-      .set("sortByTitle", sortDir);
+      .set("page", pagination.page.toString())
+      .set("size", pagination.size.toString())
+      .set("sortByTitle", pagination.sortDir);
   }
 }
 

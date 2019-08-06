@@ -18,7 +18,7 @@ import {AssessmentLevel} from "../../model/level/assessment-level";
 import {TrainingDefinitionRestResource} from "../../model/DTOs/training-definition/training-definition-rest-resource";
 import {TrainingDefinitionDTO} from "../../model/DTOs/training-definition/training-definition-dto";
 import {PaginatedTable} from "../../model/table-adapters/paginated-table";
-import {TrainingDefinitionTableAdapter} from "../../model/table-adapters/training-definition-table-adapter";
+import {TrainingDefinitionTableRow} from "../../model/table-adapters/training-definition-table-row";
 import {BasicLevelInfoDTO} from "../../model/DTOs/level/basic-level-info-dto";
 import {DownloadService} from '../shared/download.service';
 import {UploadService} from '../shared/upload.service';
@@ -27,6 +27,7 @@ import {TrainingDefinitionStateEnum} from '../../model/enums/training-definition
 import {TrainingDefinitionInfo} from '../../model/training/training-definition-info';
 import {TrainingDefinitionInfoRestResource} from '../../model/DTOs/training-definition/training-definition-info-rest-resource';
 import {of} from "rxjs";
+import {TablePagination} from "../../model/DTOs/other/table-pagination";
 
 @Injectable()
 /**
@@ -64,16 +65,12 @@ export class TrainingDefinitionFacade {
 
   /**
    * Retrieves all training definition on specified page of a pagination
-   * @param page page of pagination
-   * @param size size of a page
-   * @param sort attribute by which will result be sorted
-   * @param sortDir sort direction (asc, desc)
    */
-  getTrainingDefinitionsWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<PaginatedTable<TrainingDefinitionTableAdapter[]>> {
-    let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
-    return this.http.get<TrainingDefinitionRestResource>(this.trainingDefsEndpointUri, { params: params })
+  getTrainingDefinitionsPaginated(pagination: TablePagination): Observable<PaginatedTable<TrainingDefinitionTableRow[]>> {
+    return this.http.get<TrainingDefinitionRestResource>(this.trainingDefsEndpointUri,
+      { params: PaginationParams.createTrainingsPaginationParams(pagination) })
       .pipe(map(response =>
-        this.trainingDefinitionMapper.mapTrainingDefinitionDTOsToTrainingDefinitionsWithPagination(response)));
+        this.trainingDefinitionMapper.mapTrainingDefinitionDTOsToTrainingDefinitionsPaginated(response)));
   }
 
   getTrainingDefinitionsForOrganizers(): Observable<TrainingDefinitionInfo[]> {
@@ -299,8 +296,6 @@ export class TrainingDefinitionFacade {
         map(resp => this.levelMapper.mapBasicInfoDTOsToAbstractLevels(resp)),
       );
   }
-
-
 
   private createDefaultHeaders() {
     let httpHeaderAccepts: string[] = [

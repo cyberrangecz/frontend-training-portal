@@ -1,4 +1,4 @@
-export class TablePagination {
+export class TableAdapterPagination {
   page: number;
   numberOfElements: number;
   size: number;

@@ -1,7 +1,26 @@
 import {SandboxDefinition} from "../../model/sandbox/sandbox-definition";
 import {SandboxDefinitionDTO} from "../../model/DTOs/sandbox-definition/sandbox-definition-dto";
+import {SandboxPaginated} from "../../model/DTOs/other/sandbox-paginated";
+import {SandboxDefinitionTableRow} from "../../model/table-adapters/sandbox-definition-table-row";
+import {PaginatedTable} from "../../model/table-adapters/paginated-table";
+import {TableAdapterPagination} from "../../model/table-adapters/table-adapter-pagination";
 
 export class SandboxDefinitionMapperService {
+
+  mapSandboxDefinitionDTOToSandboxDefinitionPaginated(paginatedDTO: SandboxPaginated<SandboxDefinitionDTO>): PaginatedTable<SandboxDefinitionTableRow[]> {
+    const tableData = paginatedDTO.results.map(sandboxDTO => {
+      const tableRow = new SandboxDefinitionTableRow();
+      tableRow.sandbox = this.mapSandboxDefinitionDTOToSandboxDefinition(sandboxDTO);
+      return tableRow;
+    });
+    const tablePagination = new TableAdapterPagination(
+      paginatedDTO.page,
+      paginatedDTO.results.length,
+      paginatedDTO.page_size,
+      paginatedDTO.count,
+      paginatedDTO.page_count);
+    return new PaginatedTable(tableData, tablePagination);
+  }
 
   mapSandboxDefinitionsDTOToSandboxDefinitions(sandboxDTOs: SandboxDefinitionDTO[]): SandboxDefinition[] {
     return sandboxDTOs.map(sandboxDTO => this.mapSandboxDefinitionDTOToSandboxDefinition(sandboxDTO));

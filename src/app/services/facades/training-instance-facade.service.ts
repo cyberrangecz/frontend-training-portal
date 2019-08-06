@@ -12,11 +12,12 @@ import {TrainingRun} from "../../model/training/training-run";
 import {TrainingRunMapper} from "../mappers/training-run-mapper.service";
 import {TrainingRunRestResource} from "../../model/DTOs/training-run/training-run-rest-resource";
 import {PaginatedTable} from "../../model/table-adapters/paginated-table";
-import {TrainingInstanceTableAdapter} from "../../model/table-adapters/training-instance-table-adapter";
-import {TrainingRunTableAdapter} from "../../model/table-adapters/training-run-table-adapter";
+import {TrainingInstanceTableRow} from "../../model/table-adapters/training-instance-table-row";
+import {TrainingRunTableRow} from "../../model/table-adapters/training-run-table-row";
 import {DownloadService} from "../shared/download.service";
 import {ResponseHeaderContentDispositionReader} from '../../model/http/response-headers/response-header-content-disposition-reader';
 import {of} from "rxjs";
+import {TablePagination} from "../../model/DTOs/other/table-pagination";
 
 @Injectable()
 /**
@@ -51,14 +52,10 @@ export class TrainingInstanceFacade {
 
   /**
    * Retrieves all training instance on specified page of a pagination
-   * @param page page of pagination
-   * @param size size of a page
-   * @param sort attribute by which will result be sorted
-   * @param sortDir sort direction (asc, desc)
    */
-  getTrainingInstancesWithPagination(page: number, size: number, sort: string, sortDir: string): Observable<PaginatedTable<TrainingInstanceTableAdapter[]>> {
-    let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
-    return this.http.get<TrainingInstanceRestResource>(this.trainingInstancesEndpointUri, { params: params })
+  getTrainingInstancesPaginated(pagination: TablePagination): Observable<PaginatedTable<TrainingInstanceTableRow[]>> {
+    return this.http.get<TrainingInstanceRestResource>(this.trainingInstancesEndpointUri,
+      { params: PaginationParams.createTrainingsPaginationParams(pagination) })
       .pipe(map(response =>
         this.trainingInstanceMapper.mapTrainingInstanceDTOsToTrainingInstancesWithPagination(response)));
   }
@@ -95,9 +92,9 @@ export class TrainingInstanceFacade {
   }
 
 
-  getTrainingRunsByTrainingInstanceIdWithPagination(trainingInstanceId: number, page: number, size: number, sort: string, sortDir: string, isActive = true)
-      : Observable<PaginatedTable<TrainingRunTableAdapter[]>> {
-      let params = PaginationParams.createPaginationParams(page, size, sort, sortDir);
+  getTrainingRunsByTrainingInstanceIdPaginated(trainingInstanceId: number, pagination: TablePagination, isActive = true)
+      : Observable<PaginatedTable<TrainingRunTableRow[]>> {
+      let params = PaginationParams.createTrainingsPaginationParams(pagination);
       params = params.append("isActive", isActive.toString());
         return this.http.get<TrainingRunRestResource>(
           this.trainingInstancesEndpointUri + trainingInstanceId + '/' + this.trainingRunsUriExtension,

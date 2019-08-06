@@ -11,7 +11,7 @@ import {interval, merge, Observable, of, Subscription} from 'rxjs';
 import {catchError, map, skipWhile, startWith, switchMap, takeWhile, tap} from "rxjs/operators";
 import {environment} from "../../../../../environments/environment";
 import {AlertTypeEnum} from "../../../../model/enums/alert-type.enum";
-import {TrainingInstanceTableAdapter} from "../../../../model/table-adapters/training-instance-table-adapter";
+import {TrainingInstanceTableRow} from "../../../../model/table-adapters/training-instance-table-row";
 import {PaginatedTable} from "../../../../model/table-adapters/paginated-table";
 import {SandboxInstanceFacade} from "../../../../services/facades/sandbox-instance-facade.service";
 import {SandboxAllocationService} from "../../../../services/organizer/sandbox-allocation/sandbox-allocation.service";
@@ -42,12 +42,12 @@ export class TrainingInstancesTableComponent extends BaseComponent implements On
 
   displayedColumns: string[] = ['title', 'date', 'trainingDefinition', 'poolSize', 'accessToken', 'actions'];
 
-  dataSource: MatTableDataSource<TrainingInstanceTableAdapter>;
+  dataSource: MatTableDataSource<TrainingInstanceTableRow>;
 
   resultsLength = 0;
   isLoadingResults = true;
   isInErrorState = false;
-  expandedRow: TrainingInstanceTableAdapter;
+  expandedRow: TrainingInstanceTableRow;
   now: number;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -102,9 +102,9 @@ export class TrainingInstancesTableComponent extends BaseComponent implements On
   /**
    * Opens popup dialog to confirm if the user really wants to delete the training instance. If the action is
    * confirmed, training instance is removed and REST API called to remove training from endpoint
-   * @param {TrainingInstanceTableAdapter} training training instance which should be removed
+   * @param {TrainingInstanceTableRow} training training instance which should be removed
    */
-  deleteTraining(training: TrainingInstanceTableAdapter) {
+  deleteTraining(training: TrainingInstanceTableRow) {
 
     const dialogRef = this.dialog.open(ActionConfirmationDialog, {
       data: {
@@ -139,7 +139,7 @@ export class TrainingInstancesTableComponent extends BaseComponent implements On
       });
   }
 
-  allocateTrainingInstanceSandboxes(row: TrainingInstanceTableAdapter) {
+  allocateTrainingInstanceSandboxes(row: TrainingInstanceTableRow) {
     row.isAllocationInProgress = true;
     row.allocation$ = this.allocationService.allocateSandboxes(row.trainingInstance);
     row.allocation$
@@ -152,7 +152,7 @@ export class TrainingInstancesTableComponent extends BaseComponent implements On
   }
 
 
-  onAllocationEvent(allocation$: Observable<SandboxInstanceAllocationState>, instanceRow: TrainingInstanceTableAdapter) {
+  onAllocationEvent(allocation$: Observable<SandboxInstanceAllocationState>, instanceRow: TrainingInstanceTableRow) {
     allocation$
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
@@ -197,7 +197,12 @@ export class TrainingInstancesTableComponent extends BaseComponent implements On
         startWith({}),
         switchMap(() => {
           timeoutHandle =  window.setTimeout(() => this.isLoadingResults = true, environment.defaultDelayToDisplayLoading);
-          return this.trainingInstanceFacade.getTrainingInstancesWithPagination(this.paginator.pageIndex, this.paginator.pageSize, this.sort.active, this.sort.direction);
+          return this.trainingInstanceFacade.getTrainingInstancesPaginated({
+            page: this.paginator.pageIndex,
+            size: this.paginator.pageSize,
+            sort: this.sort.active,
+            sortDir: this.sort.direction
+          });
         }),
         map( trainingInstancesData => {
           this.resolveAllocationStateForTable(trainingInstancesData);
@@ -217,25 +222,25 @@ export class TrainingInstancesTableComponent extends BaseComponent implements On
           this.errorHandler.displayInAlert(err, 'Loading training definitions');
           return of([]);
         })
-      ).subscribe((data: PaginatedTable<TrainingInstanceTableAdapter[]>) => this.createDataSource(data));
+      ).subscribe((data: PaginatedTable<TrainingInstanceTableRow[]>) => this.createDataSource(data));
   }
   /**
    * Creates data source from fetched data
    * @param data fetched data
    */
-  private createDataSource(data: PaginatedTable<TrainingInstanceTableAdapter[]>) {
+  private createDataSource(data: PaginatedTable<TrainingInstanceTableRow[]>) {
     this.dataSource = new MatTableDataSource(data.tableData);
     this.dataSource.filterPredicate =
-      (data: TrainingInstanceTableAdapter, filter: string) =>
+      (data: TrainingInstanceTableRow, filter: string) =>
         data.trainingInstance.title.toLowerCase().indexOf(filter) !== -1;
   }
 
 
-  private resolveAllocationStateForTable(data: PaginatedTable<TrainingInstanceTableAdapter[]>) {
+  private resolveAllocationStateForTable(data: PaginatedTable<TrainingInstanceTableRow[]>) {
     data.tableData.forEach(row => this.getAllocationState(row))
   }
 
-  private getAllocationState(row: TrainingInstanceTableAdapter) {
+  private getAllocationState(row: TrainingInstanceTableRow) {
     if (row.trainingInstance.hasPoolId()) {
       this.allocationService.getRunningAllocationState(row.trainingInstance)
         .pipe(takeWhile(() => this.isAlive))
@@ -253,7 +258,7 @@ export class TrainingInstancesTableComponent extends BaseComponent implements On
   }
 
 
-  private onAllocationUpdate(allocationState: SandboxInstanceAllocationState, row: TrainingInstanceTableAdapter) {
+  private onAllocationUpdate(allocationState: SandboxInstanceAllocationState, row: TrainingInstanceTableRow) {
     row.isAllocationInProgress = allocationState.isInProgress;
     row.allocatedSandboxesCount = allocationState.allocatedCount;
     row.failedSandboxesCount = allocationState.failedCount;
@@ -261,7 +266,7 @@ export class TrainingInstancesTableComponent extends BaseComponent implements On
     row.areSandboxDataLoaded = allocationState.wasUpdated;
   }
 
-  private onAllocationUpdateError(err, row: TrainingInstanceTableAdapter) {
+  private onAllocationUpdateError(err, row: TrainingInstanceTableRow) {
     row.isAllocationInProgress = false;
     row.areSandboxDataLoaded = true;
     this.errorHandler.displayInAlert(err, 'Allocation of sandboxes');

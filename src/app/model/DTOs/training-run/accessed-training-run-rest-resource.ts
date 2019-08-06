@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 import { AccessedTrainingRunDTO } from './accessed-training-run-dto';
-import { Pagination } from '../other/pagination';
+import { Paginated } from '../other/paginated';
 
 
 export interface AccessedTrainingRunRestResource {
@@ -19,7 +19,7 @@ export interface AccessedTrainingRunRestResource {
      */
     content?: Array<AccessedTrainingRunDTO>;
     /**
-     * Pagination including: page number, number of elements in page, size, total elements and total pages.
+     * Paginated including: page number, number of elements in page, size, total elements and total pages.
      */
-    pagination?: Pagination;
+    pagination?: Paginated;
 }
