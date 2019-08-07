@@ -4,9 +4,6 @@
   flex-direction: column;
 }
 
-.header {
-}
-
-.content {
-  display: flex;
+kypo2-assessment-results-viz {
+  margin: 10px;
 }

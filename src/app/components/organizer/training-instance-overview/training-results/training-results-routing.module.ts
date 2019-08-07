@@ -29,6 +29,11 @@ const routes: Routes = [
             path: 'progress',
             loadChildren: () => import('app/components/organizer/training-instance-overview/training-results/training-progress-view/training-progress-view.module').then(m => m.TrainingProgressViewModule),
             outlet: 'view',
+          },
+          {
+            path: 'assessments',
+            loadChildren: () => import('app/components/organizer/training-instance-overview/training-results/assessments-view/assessments-view.module').then(m => m.AssessmentsViewModule),
+            outlet: 'view',
           }
         ]
       }
