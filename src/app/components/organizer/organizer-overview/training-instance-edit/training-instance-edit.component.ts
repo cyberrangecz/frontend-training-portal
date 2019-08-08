@@ -93,6 +93,10 @@ export class TrainingInstanceEditComponent extends BaseComponent implements OnIn
   }
 
   onStartTimeNgModelChanged() {
+    this.contentChanged();
+  }
+
+  onStartTimeChanged() {
     this.userChangedStartTime = true;
     this.contentChanged();
   }
@@ -246,7 +250,7 @@ export class TrainingInstanceEditComponent extends BaseComponent implements OnIn
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(() => {
       if (!this.userChangedStartTime) {
-        this.startTime.setMinutes(this.startTime.getMinutes() + 1);
+        this.startTime = new Date(this.startTime.setMinutes(this.startTime.getMinutes() + 1));
       }
     });
   }

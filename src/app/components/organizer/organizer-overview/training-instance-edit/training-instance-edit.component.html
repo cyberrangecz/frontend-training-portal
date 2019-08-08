@@ -29,6 +29,7 @@
                    [min]="now"
                    [max]="endTime"
                    [(ngModel)]="startTime"
+                   (dateTimeChange)="onStartTimeChanged()"
                    (ngModelChange)="onStartTimeNgModelChanged()"
                    [owlDateTime]="startTimePicker">
             <owl-date-time #startTimePicker [startAt]="startTime"></owl-date-time>
