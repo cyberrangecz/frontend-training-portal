@@ -21,6 +21,7 @@ import {ErrorHandlerService} from "../../../../services/shared/error-handler.ser
 import {ActionConfirmationDialog} from "../../../shared/delete-dialog/action-confirmation-dialog.component";
 import {Kypo2AuthService} from 'kypo2-auth';
 import {BaseComponent} from "../../../base.component";
+import {StringNormalizer} from "../../../../model/utils/ignore-diacritics-filter";
 
 @Component({
   selector: 'training-instances-table',
@@ -166,7 +167,7 @@ export class TrainingInstancesTableComponent extends BaseComponent implements On
    * @param {string} filterValue value by which the data should be filtered. Inserted by user
    */
   applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSource.filter = StringNormalizer.normalizeDiacritics(filterValue.trim().toLowerCase());
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
@@ -232,7 +233,7 @@ export class TrainingInstancesTableComponent extends BaseComponent implements On
     this.dataSource = new MatTableDataSource(data.tableData);
     this.dataSource.filterPredicate =
       (data: TrainingInstanceTableRow, filter: string) =>
-        data.trainingInstance.title.toLowerCase().indexOf(filter) !== -1;
+        data.normalizedTitle.indexOf(filter) !== -1;
   }
 
 

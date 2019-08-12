@@ -18,6 +18,7 @@ import {TrainingDefinitionInfo} from '../../../../model/training/training-defini
 import {AddSandboxDefinitionDialogComponent} from "./add-sandbox-definition-dialog/add-sandbox-definition-dialog.component";
 import {ActionConfirmationDialog} from "../../../shared/delete-dialog/action-confirmation-dialog.component";
 import {BaseComponent} from "../../../base.component";
+import {StringNormalizer} from "../../../../model/utils/ignore-diacritics-filter";
 
 @Component({
   selector: 'designer-overview-sandbox-definition',
@@ -60,7 +61,7 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
    * @param {string} filterValue value by which the data should be filtered. Inserted by user
    */
   applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSource.filter = StringNormalizer.normalizeDiacritics(filterValue.trim().toLowerCase());
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
@@ -160,8 +161,7 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
   private mapSandboxDefsToTableObjects(data: SandboxDefinition[]): SandboxDefinitionTableRow[] {
     const result: SandboxDefinitionTableRow[] = [];
     data.forEach(sandbox => {
-      const tableDataObject = new SandboxDefinitionTableRow();
-      tableDataObject.sandbox = sandbox;
+      const tableDataObject = new SandboxDefinitionTableRow(sandbox);
       this.trainingDefinitionFacade.getTrainingDefinitionsAssociatedWithSandboxDefinition(sandbox.id)
         .pipe(takeWhile(() => this.isAlive))
         .subscribe(result => {
@@ -184,7 +184,7 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
 
     this.dataSource.filterPredicate =
       (data: SandboxDefinitionTableRow, filter: string) =>
-        data.sandbox.title.toLowerCase().indexOf(filter) !== -1
+        data.normalizedTitle.indexOf(filter) !== -1
   }
 
   private canSandboxBeRemoved(sandbox: SandboxDefinition, assocTrainings: TrainingDefinitionInfo[]): boolean {

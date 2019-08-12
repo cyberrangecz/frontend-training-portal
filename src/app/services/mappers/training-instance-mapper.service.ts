@@ -33,16 +33,7 @@ export class TrainingInstanceMapper {
    * @param resource array of training instance dtos received from remote server with pagination
    */
   mapTrainingInstanceDTOsToTrainingInstancesWithPagination(resource: TrainingInstanceRestResource): PaginatedTable<TrainingInstanceTableRow[]> {
-    const tableDataList: TrainingInstanceTableRow[] = [];
-    resource.content.forEach(dto => {
-      const tableRow = new TrainingInstanceTableRow();
-      tableRow.trainingInstance = this.mapTrainingInstanceDTOToTrainingInstance(dto);
-      tableRow.trainingDefinitionTitle = tableRow.trainingInstance.trainingDefinition.title;
-      tableRow.isAllocationInProgress = false;
-      tableRow.allocatedSandboxesCount = 0;
-      tableRow.failedSandboxesCount = 0;
-      tableDataList.push(tableRow);
-    });
+    const tableDataList = resource.content.map(dto => new TrainingInstanceTableRow(this.mapTrainingInstanceDTOToTrainingInstance(dto)));
     const tablePagination = new TableAdapterPagination(resource.pagination.number,
       resource.pagination.number_of_elements,
       resource.pagination.size,

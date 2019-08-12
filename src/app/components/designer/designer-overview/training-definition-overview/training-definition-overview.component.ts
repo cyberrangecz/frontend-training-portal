@@ -24,6 +24,7 @@ import {ErrorHandlerService} from '../../../../services/shared/error-handler.ser
 import {CloneDialogComponent} from "./clone-dialog/clone-dialog.component";
 import {Kypo2AuthService, User} from 'kypo2-auth';
 import {BaseComponent} from "../../../base.component";
+import {StringNormalizer} from "../../../../model/utils/ignore-diacritics-filter";
 
 @Component({
   selector: 'designer-overview-training-definition',
@@ -71,7 +72,7 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent implement
    * @param {string} filterValue value by which the data should be filtered. Inserted by user
    */
   applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSource.filter = StringNormalizer.normalizeDiacritics(filterValue.trim().toLowerCase());
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
@@ -304,7 +305,7 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent implement
     this.dataSource = new MatTableDataSource(data.tableData);
     this.dataSource.filterPredicate =
       (data: TrainingDefinitionTableRow, filter: string) =>
-        data.trainingDefinition.title.toLowerCase().indexOf(filter) !== -1
-        || data.trainingDefinition.state.toLowerCase().indexOf(filter) !== -1;
+        data.normalizedTitle.indexOf(filter) !== -1
+        || data.normalizedState.indexOf(filter) !== -1;
   }
 }

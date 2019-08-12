@@ -132,15 +132,7 @@ export class TrainingRunMapper {
 
 
   mapAccessedTrainingRunDTOToTrainingRunTableObject(accessedTrainingRunDTO: AccessedTrainingRunDTO): AccessedTrainingRunsTableRow {
-    const result = new AccessedTrainingRunsTableRow();
-    result.currentLevel = accessedTrainingRunDTO.current_level_order;
-    result.totalLevels = accessedTrainingRunDTO.number_of_levels;
-    result.trainingInstanceTitle = accessedTrainingRunDTO.title;
-    result.trainingRunId = accessedTrainingRunDTO.id;
-    result.trainingInstanceStartTime = new Date(accessedTrainingRunDTO.training_instance_start_date);
-    result.trainingInstanceEndTime = new Date(accessedTrainingRunDTO.training_instance_end_date);
-    result.action = this.mapActionEnumFromDTOToTableDataModel(accessedTrainingRunDTO.possible_action);
-    return result;
+    return new AccessedTrainingRunsTableRow(accessedTrainingRunDTO);
   }
 
   mapQuestionsToUserAnswerJSON(questions: AbstractQuestion[]): string {
@@ -196,14 +188,6 @@ export class TrainingRunMapper {
     result.remainingAttempts = flagResponse.remaining_attempts;
     result.solution = flagResponse.solution;
     return result
-  }
-
-  private mapActionEnumFromDTOToTableDataModel(action: PossibleActionEnum): TraineeAccessTrainingRunActionEnum {
-    switch (action) {
-      case PossibleActionEnum.RESULTS: return TraineeAccessTrainingRunActionEnum.Results;
-      case null: return null;
-      default: console.error('Could not map attribute "action" of "AccessedTrainingRunDTO to any known action');
-    }
   }
 
   private mapTrainigRunDTOStateToEnum(state: TrainingRunDTO.StateEnum): TrainingRunStateEnum {

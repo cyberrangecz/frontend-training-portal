@@ -13,6 +13,7 @@ import {PaginatedTable} from "../../../../model/table-adapters/paginated-table";
 import {ErrorHandlerService} from "../../../../services/shared/error-handler.service";
 import {ActiveTrainingRunService} from "../../../../services/trainee/active-training-run.service";
 import {BaseComponent} from "../../../base.component";
+import {StringNormalizer} from "../../../../model/utils/ignore-diacritics-filter";
 
 @Component({
   selector: 'trainee-trainings-table',
@@ -76,7 +77,7 @@ export class TraineeTrainingsTableComponent extends BaseComponent implements OnI
    * @param {string} filterValue value by which the data should be filtered. Inserted by user
    */
   applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSource.filter = StringNormalizer.normalizeDiacritics(filterValue.trim().toLowerCase());
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
@@ -138,6 +139,6 @@ export class TraineeTrainingsTableComponent extends BaseComponent implements OnI
 
     this.dataSource.filterPredicate =
       (data: AccessedTrainingRunsTableRow, filter: string) =>
-        data.trainingInstanceTitle.toLowerCase().indexOf(filter) !== -1
+        data.normalizedTrainingInstanceTitle.indexOf(filter) !== -1
   }
 }

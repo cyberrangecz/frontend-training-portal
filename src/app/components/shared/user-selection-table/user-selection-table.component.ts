@@ -3,6 +3,7 @@ import {User} from 'kypo2-auth';
 import {PaginatedTable} from '../../../model/table-adapters/paginated-table';
 import {UserSelectionTableAdapter} from '../../../model/table-adapters/user-selection-table-adapter';
 import {MatPaginator, MatTableDataSource, PageEvent} from '@angular/material';
+import {StringNormalizer} from "../../../model/utils/ignore-diacritics-filter";
 
 @Component({
   selector: 'user-selection-table',
@@ -59,10 +60,10 @@ export class UserSelectionTableComponent implements OnInit, OnChanges {
     }
     this.dataSource.filterPredicate =
       (data: UserSelectionTableAdapter, filter: string) =>
-        data.user.name.toLowerCase().indexOf(filter) !== -1;
+        data.normalizedName.indexOf(filter) !== -1;
   }
 
   applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSource.filter = StringNormalizer.normalizeDiacritics(filterValue.trim().toLowerCase());
   }
 }
