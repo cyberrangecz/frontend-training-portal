@@ -33,7 +33,7 @@ table {
 }
 
 td.title, th.title {
-  width: 40%;
+  width: 35%;
 }
 
 td.date, th.date {
@@ -46,7 +46,7 @@ td.completedLevels, th.completedLevels {
 }
 
 td.actions, th.actions {
-  width: 10%;
+  width: 15%;
 }
 
 .loading {

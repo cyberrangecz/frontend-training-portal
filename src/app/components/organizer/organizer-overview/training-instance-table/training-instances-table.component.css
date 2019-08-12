@@ -89,7 +89,7 @@ td.trainingDefinition, th.trainingDefinition {
 
 td.pool-size, th.pool-size {
   text-align: center;
-  width: 15%;
+  width: 10%;
 }
 
 .pool-size-content {
@@ -103,7 +103,6 @@ td.pool-size, th.pool-size {
 .action-buttons {
   display: flex;
   flex-direction: row;
-  align-items: center;
 }
 
 .allocation-failure {
@@ -123,11 +122,11 @@ td.pool-size, th.pool-size {
 
 td.password, th.password {
   text-align: center;
-  width: 15%;
+  width: 10%;
 }
 
 td.actions, th.actions {
-  width: 15%;
+  width: 20%;
 }
 
 .loading {

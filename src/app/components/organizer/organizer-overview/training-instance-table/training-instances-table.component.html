@@ -111,7 +111,7 @@
               <div class="action-buttons">
 
                 <!-- EDIT button-->
-                <button *ngIf="training.trainingInstance?.startTime.valueOf() > now"
+                <button [disabled]="training.trainingInstance?.startTime.valueOf() <= now"
                         mat-icon-button color="primary"
                         matTooltip="Edit training instance"
                         (click)="editTraining(training.trainingInstance);$event.stopPropagation()">
@@ -120,31 +120,12 @@
                     edit</mat-icon>
                 </button>
 
-                <!-- REMOVE button-->
-                <button mat-icon-button color="warn"
-                        matTooltip="Delete training instance"
-                        (click)="deleteTraining(training);$event.stopPropagation()">
-                  <mat-icon
-                    aria-label="Delete training instance button">
-                    delete</mat-icon>
-                </button>
-
-                <!-- ARCHIVE button-->
-                <button *ngIf="training.trainingInstance?.endTime.valueOf() < now"
-                        mat-icon-button color="primary"
-                        matTooltip="Archive training instance"
-                        (click)="archiveTraining(training.trainingInstance?.id);$event.stopPropagation()">
-                  <mat-icon
-                    aria-label="Archive training instance button">
-                    archive</mat-icon>
-                </button>
-
                 <!-- ALLOCATE button-->
-                <button *ngIf="training.areSandboxDataLoaded
-                              && !training.isAllocationInProgress
-                              && training.trainingInstance?.endTime.valueOf() > now
-                              && !training.isAllocationInProgress
-                              && training.trainingInstance?.poolSize > training.allocatedSandboxesCount + training.failedSandboxesCount"
+                <button [disabled]="!training.areSandboxDataLoaded
+                              || training.isAllocationInProgress
+                              || training.trainingInstance?.endTime.valueOf() <= now
+                              || training.isAllocationInProgress
+                              || training.trainingInstance?.poolSize <= training.allocatedSandboxesCount + training.failedSandboxesCount"
                         mat-icon-button color="primary"
                         matTooltip="Allocate resources for training instance"
                         (click)="allocateTrainingInstanceSandboxes(training);$event.stopPropagation()">
@@ -155,7 +136,28 @@
 
                 <mat-progress-spinner *ngIf="!training.areSandboxDataLoaded" mode="indeterminate" color="accent" diameter="20">
                 </mat-progress-spinner>
+
+                <!-- ARCHIVE button-->
+                <button [disabled]="training.trainingInstance?.endTime.valueOf() >= now"
+                        mat-icon-button color="primary"
+                        matTooltip="Archive training instance"
+                        (click)="archiveTraining(training.trainingInstance?.id);$event.stopPropagation()">
+                  <mat-icon
+                    aria-label="Archive training instance button">
+                    archive</mat-icon>
+                </button>
+
+                <!-- REMOVE button-->
+                <button mat-icon-button color="warn"
+                        matTooltip="Delete training instance"
+                        (click)="deleteTraining(training);$event.stopPropagation()">
+                  <mat-icon
+                    aria-label="Delete training instance button">
+                    delete</mat-icon>
+                </button>
               </div>
+
+
             </td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
