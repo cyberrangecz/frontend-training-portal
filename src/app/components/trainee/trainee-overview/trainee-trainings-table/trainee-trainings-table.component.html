@@ -60,11 +60,10 @@
 
               <div class="action-buttons">
                 <!-- TRY AGAIN button-->
-                <button *ngIf="training.currentLevel < training.totalLevels
-                          && training.trainingInstanceStartTime.valueOf() < now
-                           && training.trainingInstanceEndTime.valueOf() > now"
+                <button [disabled]="training.currentLevel >= training.totalLevels
+                          || training.trainingInstanceStartTime.valueOf() >= now
+                           || training.trainingInstanceEndTime.valueOf() <= now"
                         mat-icon-button color="primary"
-                        [disabled]="isLoading"
                         (click)="resume(training.trainingRunId)">
                   <mat-icon
                     matTooltip="Resume"
@@ -72,9 +71,8 @@
                     open_in_new</mat-icon>
                 </button>
                 <!-- RESULTS button-->
-                <button *ngIf="training.action === actionType.Results"
+                <button [disabled]="training.action !== actionType.Results"
                         mat-icon-button color="primary"
-                        [disabled]="isLoading"
                         (click)="accessResults(training.trainingRunId)">
                   <mat-icon
                     matTooltip="Access results"

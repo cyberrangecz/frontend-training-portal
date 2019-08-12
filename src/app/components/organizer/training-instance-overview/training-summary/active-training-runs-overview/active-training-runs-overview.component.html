@@ -92,7 +92,7 @@
 
               <div class="action-buttons">
                 <!-- DELETE button-->
-                <button *ngIf="!data.deletionRequested"
+                <button [disabled]="data.deletionRequested"
                         mat-icon-button
                         color="warn"
                         matTooltip="Delete sandbox of training run"

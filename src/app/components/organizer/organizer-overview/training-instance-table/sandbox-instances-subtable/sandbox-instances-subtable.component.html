@@ -51,26 +51,24 @@
           <ng-container matColumnDef="actions">
             <th class="actions" mat-header-cell *matHeaderCellDef>Actions</th>
             <td class="actions" mat-cell *matCellDef="let data">
-              <!-- DELETE button-->
-              <button *ngIf="data.isCreated || data.isFailed || data.isInProgress"
-                      mat-icon-button color="warn"
-                      matTooltip="Remove sandbox instance"
-                      [disabled]="isDisabled"
-                      (click)="deleteSandbox(data)">
-                <mat-icon
-                  aria-label="Remove sandbox instance button">
-                  delete</mat-icon>
-              </button>
-
               <!-- ALLOCATE button-->
-              <button *ngIf="canAllocate && !data.sandboxInstance"
-                      mat-icon-button color="primary"
+              <button mat-icon-button color="primary"
                       matTooltip="Allocate sandbox instance"
-                      [disabled]="isDisabled"
+                      [disabled]="isDisabled || !canAllocate || data.sandboxInstance"
                       (click)="allocateSandbox(data)">
                 <mat-icon
                   aria-label="Allocate sandbox instance button">
                   subscriptions</mat-icon>
+              </button>
+
+              <!-- DELETE button-->
+              <button mat-icon-button color="warn"
+                      matTooltip="Remove sandbox instance"
+                      [disabled]="isDisabled || !data.sandboxInstance"
+                      (click)="deleteSandbox(data)">
+                <mat-icon
+                  aria-label="Remove sandbox instance button">
+                  delete</mat-icon>
               </button>
             </td>
           </ng-container>

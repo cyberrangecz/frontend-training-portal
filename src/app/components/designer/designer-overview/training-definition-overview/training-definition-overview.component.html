@@ -92,16 +92,6 @@
             <td class="actions" mat-cell *matCellDef="let data">
 
               <div class="action-buttons">
-                <!-- EDIT button -->
-                <button *ngIf="data.trainingDefinition?.state === trainingStateEnum.Unreleased"
-                        mat-icon-button color="primary"
-                        matTooltip="Edit training definition"
-                        (click)="editTrainingDefinition(data.trainingDefinition?.id)">
-                  <mat-icon
-                    aria-label="Edit training definition button">
-                    create</mat-icon>
-                </button>
-
                 <!-- CLONE button -->
                 <button mat-icon-button color="primary"
                         matTooltip="Clone training definition"
@@ -109,17 +99,6 @@
                   <mat-icon
                     aria-label="Clone training definition button">
                     file_copy</mat-icon>
-                </button>
-
-                <!-- REMOVE button -->
-                <button *ngIf="data.trainingDefinition?.state === trainingStateEnum.Unreleased ||
-                             data.trainingDefinition?.state === trainingStateEnum.Archived"
-                        mat-icon-button color="warn"
-                        matTooltip="Delete training definition"
-                        (click)="deleteTrainingDefinition(data.trainingDefinition)">
-                  <mat-icon
-                    aria-label="Delete training definition button"
-                  >delete</mat-icon>
                 </button>
 
                 <!-- DOWNLOAD button -->
@@ -139,9 +118,31 @@
                     aria-label="Preview training definition button">
                     remove_red_eye</mat-icon>
                 </button>
+
+                <!-- EDIT button -->
+                <button [disabled]="data.trainingDefinition?.state !== trainingStateEnum.Unreleased"
+                        mat-icon-button color="primary"
+                        matTooltip="Edit training definition"
+                        (click)="editTrainingDefinition(data.trainingDefinition?.id)">
+                  <mat-icon
+                    aria-label="Edit training definition button">
+                    create</mat-icon>
+                </button>
+
+                <!-- REMOVE button -->
+                <button [disabled]="data.trainingDefinition?.state !== trainingStateEnum.Unreleased
+                         && data.trainingDefinition?.state !== trainingStateEnum.Archived"
+                        mat-icon-button color="warn"
+                        matTooltip="Delete training definition"
+                        (click)="deleteTrainingDefinition(data.trainingDefinition)">
+                  <mat-icon
+                    aria-label="Delete training definition button"
+                  >delete</mat-icon>
+                </button>
               </div>
             </td>
           </ng-container>
+
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

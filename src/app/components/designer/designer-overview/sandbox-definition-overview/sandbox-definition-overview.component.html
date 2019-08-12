@@ -73,7 +73,7 @@
 
               <div class="action-buttons">
                 <!-- REMOVE button-->
-                <button *ngIf="data.canBeRemoved"
+                <button [disabled]="!data.canBeRemoved"
                         mat-icon-button color="warn"
                         matTooltip="Delete sandbox definition"
                         (click)="deleteSandboxDefinition(data)">
