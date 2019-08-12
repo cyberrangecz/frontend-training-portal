@@ -37,11 +37,8 @@ export class TrainingDefinitionMapper {
   mapTrainingDefinitionDTOsToTrainingDefinitionsPaginated(resource: TrainingDefinitionRestResource): PaginatedTable<TrainingDefinitionTableRow[]> {
     const tableData: TrainingDefinitionTableRow[] = [];
     resource.content.forEach((trainingDTO: TrainingDefinitionDTO) => {
-      const rowData = new TrainingDefinitionTableRow();
-      rowData.trainingDefinition = this.mapTrainingDefinitionDTOToTrainingDefinition(trainingDTO, false);
-      rowData.selectedState = rowData.trainingDefinition.state;
-      rowData.createPossibleStates();
-      tableData.push(rowData);
+      const td = this.mapTrainingDefinitionDTOToTrainingDefinition(trainingDTO, false);
+      tableData.push(new TrainingDefinitionTableRow(td, td.state));
     });
     const tablePagination = new TableAdapterPagination(resource.pagination.number,
       resource.pagination.number_of_elements,

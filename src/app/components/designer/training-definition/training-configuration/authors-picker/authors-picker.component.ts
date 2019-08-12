@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit, Optional} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import {UserFacade} from "../../../../../services/facades/user-facade.service";
-import {map, takeWhile, tap} from "rxjs/operators";
+import {map, takeWhile} from "rxjs/operators";
 import {Kypo2AuthService, User} from 'kypo2-auth';
 import {BaseComponent} from "../../../../base.component";
 import {Observable} from "rxjs";

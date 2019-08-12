@@ -8,11 +8,7 @@ import {TableAdapterPagination} from "../../model/table-adapters/table-adapter-p
 export class SandboxDefinitionMapperService {
 
   mapSandboxDefinitionDTOToSandboxDefinitionPaginated(paginatedDTO: SandboxPaginated<SandboxDefinitionDTO>): PaginatedTable<SandboxDefinitionTableRow[]> {
-    const tableData = paginatedDTO.results.map(sandboxDTO => {
-      const tableRow = new SandboxDefinitionTableRow();
-      tableRow.sandbox = this.mapSandboxDefinitionDTOToSandboxDefinition(sandboxDTO);
-      return tableRow;
-    });
+    const tableData = paginatedDTO.results.map(sandboxDTO => new SandboxDefinitionTableRow(this.mapSandboxDefinitionDTOToSandboxDefinition(sandboxDTO)));
     const tablePagination = new TableAdapterPagination(
       paginatedDTO.page,
       paginatedDTO.results.length,
