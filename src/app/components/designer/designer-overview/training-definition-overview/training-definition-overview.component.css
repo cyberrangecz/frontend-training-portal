@@ -6,19 +6,18 @@ h2 {
 .train-def {
   padding: 20px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .train-def-buttons {
-  padding: 20px;
+  width: 90%;
+  margin: auto auto;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  justify-items: center;
+  flex-direction: row;
 }
 
 .train-def-buttons button {
-  margin-top: 20px;
+  margin-right: 20px;
   max-width: 200px;
 }
 
