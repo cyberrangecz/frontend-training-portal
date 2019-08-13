@@ -17,6 +17,8 @@ import {Kypo2AuthInterceptor, Kypo2AuthModule} from 'kypo2-auth';
 import {environment} from '../environments/environment';
 import {NotOnlyTraineeGuard} from "./services/guards/only-trainee.guard.service";
 import {TrainingInstanceFacadeModule} from "./services/facades/modules/training-instance-facade.module";
+import {LayoutModule} from "./components/shared/layout.module";
+import {MatButtonModule, MatIconModule} from "@angular/material";
 
 @NgModule({
   declarations: [
@@ -28,9 +30,12 @@ import {TrainingInstanceFacadeModule} from "./services/facades/modules/training-
     HttpClientModule,
     AppRoutingModule,
     SharedModule,
+    LayoutModule,
     UserFacadeModule,
     Kypo2AuthModule.forRoot(environment.kypo2AuthConfig),
-    NgxHotjarModule.forRoot(environment.hotjarTrackingCode)
+    NgxHotjarModule.forRoot(environment.hotjarTrackingCode),
+    MatIconModule,
+    MatButtonModule
   ],
   providers: [
     DesignerGuard,

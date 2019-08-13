@@ -14,6 +14,7 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatSortModule } from "@angular/material/sort";
 import { MatTableModule } from "@angular/material/table";
 import { MatTooltipModule } from "@angular/material/tooltip";
+import {MatProgressBar, MatProgressBarModule} from "@angular/material";
 
 
 
@@ -33,6 +34,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
     MatPaginatorModule,
     MatSortModule,
     MatProgressSpinnerModule,
+    MatProgressBarModule,
     MatRadioModule
   ],
   exports: [
@@ -50,6 +52,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
     MatPaginatorModule,
     MatSortModule,
     MatProgressSpinnerModule,
+    MatProgressBarModule,
     MatRadioModule
   ]
 })

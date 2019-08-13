@@ -42,7 +42,7 @@
             <td class="title" mat-cell *matCellDef="let training">
               <a class="training-link"
                  mat-button color="primary"
-                 [routerLink]="['training', training.trainingInstance?.id, 'overview', { outlets: { display: ['summary'] }}]"
+                 [routerLink]="['training', training.trainingInstance?.id]"
                  (click)="$event.stopPropagation()">
                 {{ training.trainingInstance?.title }}</a>
             </td>
@@ -121,7 +121,8 @@
                 </button>
 
                 <!-- ALLOCATE button-->
-                <button [disabled]="!training.areSandboxDataLoaded
+                <button *ngIf="training.areSandboxDataLoaded"
+                  [disabled]="!training.areSandboxDataLoaded
                               || training.isAllocationInProgress
                               || training.trainingInstance?.endTime.valueOf() <= now
                               || training.isAllocationInProgress

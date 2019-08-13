@@ -3,16 +3,7 @@
     <nav mat-tab-nav-bar color="accent">
       <a mat-tab-link
          *ngFor="let link of navLinks"
-         [routerLink]="[ { outlets: { display: [link.path] } }]"
-         routerLinkActive #rla="routerLinkActive"
-         [disabled]="link.disabled | async"
-         [active]="rla.isActive">
-        <mat-icon>{{ link.icon }}</mat-icon>
-        {{ link.label }}
-      </a>
-      <a mat-tab-link
-         *ngFor="let link of nestedNavLinks"
-         [routerLink]="[ { outlets: { display: [link.path, link.secondaryPath] } }]"
+         [routerLink]="[ { outlets: { tab: [link.path] } }]"
          routerLinkActive #rla="routerLinkActive"
          [disabled]="link.disabled | async"
          [active]="rla.isActive">
@@ -20,7 +11,7 @@
         {{ link.label }}
       </a>
     </nav>
-    <router-outlet name="display"></router-outlet>
+    <router-outlet name="tab"></router-outlet>
   </div>
 
 </div>

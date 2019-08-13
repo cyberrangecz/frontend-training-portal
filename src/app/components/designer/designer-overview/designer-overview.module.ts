@@ -6,7 +6,6 @@ import {DesignerOverviewMaterialModule} from "./designer-overview-material.modul
 import { TrainingDefinitionOverviewComponent } from './training-definition-overview/training-definition-overview.component';
 import { SandboxDefinitionOverviewComponent } from './sandbox-definition-overview/sandbox-definition-overview.component';
 import { TrainingDefinitionUploadDialogComponent } from './training-definition-overview/training-definition-upload-dialog/training-definition-upload-dialog.component';
-import {SharedModule} from "../../shared/shared.module";
 import {TrainingDefinitionFacadeModule} from '../../../services/facades/modules/training-definition-facade.module';
 import {TrainingInstanceFacadeModule} from '../../../services/facades/modules/training-instance-facade.module';
 import {PipesModule} from "../../../pipes/pipes.module";
@@ -24,7 +23,6 @@ import { AddSandboxDefinitionDialogComponent } from './sandbox-definition-overvi
     CommonModule,
     FormsModule,
     ngfModule,
-    SharedModule,
     PipesModule,
     DesignerOverviewRoutingModule,
     DesignerOverviewMaterialModule,
