@@ -52,16 +52,6 @@ export class TrainingInstanceOverviewComponent extends BaseComponent implements 
     } else {
       isDisabled = of(true);
     }
-    this.nestedNavLinks = [
-      {
-        path: 'results',
-        secondaryPath: 'visualization',
-        icon: 'assessment',
-        label: 'Results',
-        disabled: isDisabled
-      }
-    ];
-
     this.navLinks = [
       {
         path: 'summary',
@@ -73,6 +63,12 @@ export class TrainingInstanceOverviewComponent extends BaseComponent implements 
         path: 'progress',
         icon: 'timeline',
         label: 'Progress',
+        disabled: isDisabled
+      },
+      {
+        path: 'results',
+        icon: 'assessment',
+        label: 'Results',
         disabled: isDisabled
       }
     ]

@@ -6,7 +6,6 @@ import {TraineeOverviewMaterialModule} from "./trainee-overview-material.module"
 import { TraineeAccessTrainingComponent } from './trainee-access-training/trainee-access-training.component';
 import { TraineeTrainingsTableComponent } from './trainee-trainings-table/trainee-trainings-table.component';
 import {FormsModule} from "@angular/forms";
-import {SharedModule} from "../../shared/shared.module";
 import {PipesModule} from "../../../pipes/pipes.module";
 import {ActiveTrainingRunService} from "../../../services/trainee/active-training-run.service";
 import {TrainingInstanceFacadeModule} from '../../../services/facades/modules/training-instance-facade.module';
@@ -17,7 +16,6 @@ import {TrainingDefinitionFacadeModule} from '../../../services/facades/modules/
   imports: [
     CommonModule,
     FormsModule,
-    SharedModule,
     TraineeOverviewRoutingModule,
     TraineeOverviewMaterialModule,
     PipesModule,

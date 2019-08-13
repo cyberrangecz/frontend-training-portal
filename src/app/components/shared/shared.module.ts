@@ -21,33 +21,22 @@ import { UserIdComponent } from './user-id/user-id.component';
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule,
     FormsModule,
     SharedMaterialModule,
-    SandboxInstanceFacadeModule
   ],
   declarations: [
-    ToolbarComponent,
-    UserMenuComponent,
-    SidenavComponent,
     AlertSnackbarComponent,
     ActionConfirmationDialog,
     UserSelectionTableComponent,
-    UserIdComponent,
+
   ],
   exports: [
-    ToolbarComponent,
-    UserMenuComponent,
-    SidenavComponent,
-    SharedMaterialModule,
     ActionConfirmationDialog,
     UserSelectionTableComponent,
-    UserIdComponent,
   ],
   providers: [
     AlertService,
     ErrorHandlerService,
-    UploadService
   ],
   entryComponents: [
     AlertSnackbarComponent,

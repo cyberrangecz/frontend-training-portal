@@ -7,12 +7,12 @@ import {PipesModule} from "../../../pipes/pipes.module";
 import {TrainingRunLevelComponentModule} from "./training-run-level/training-run-level-component.module";
 import {CountdownTimerModule} from "ngx-countdown-timer";
 import {RouterModule} from '@angular/router';
-import {SharedModule} from "../../shared/shared.module";
+import {UserIdModule} from "../../shared/user-id.module";
 
 @NgModule({
   imports: [
     CommonModule,
-    SharedModule,
+    UserIdModule,
     CountdownTimerModule,
     TrainingRunMaterialModule,
     RouterModule,

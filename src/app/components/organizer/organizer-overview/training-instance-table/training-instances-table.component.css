@@ -103,6 +103,7 @@ td.pool-size, th.pool-size {
 .action-buttons {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .allocation-failure {

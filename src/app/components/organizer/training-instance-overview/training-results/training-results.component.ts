@@ -19,9 +19,6 @@ export class TrainingResultsComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.router.routerState.snapshot.url.endsWith('visualization)')) {
-      this.router.navigate([{ outlets: { view: 'score-development' } }], {relativeTo: this.activeRoute});
-    }
   }
 
   /**

@@ -14,6 +14,7 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatStepperModule } from "@angular/material/stepper";
 import { MatTooltipModule } from "@angular/material/tooltip";
+import {MatProgressSpinnerModule} from "@angular/material";
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
     MatSidenavModule,
     MatRadioModule,
     MatCardModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     MatFormFieldModule,
@@ -48,7 +50,8 @@ import { MatTooltipModule } from "@angular/material/tooltip";
     MatCheckboxModule,
     MatSidenavModule,
     MatRadioModule,
-    MatCardModule
+    MatCardModule,
+    MatProgressSpinnerModule
   ]
 })
 
