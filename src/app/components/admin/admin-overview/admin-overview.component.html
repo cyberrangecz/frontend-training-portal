@@ -1,4 +1,18 @@
-<h1>Administration</h1>
-<div class="content">
-  <kypo2-user-and-group-management></kypo2-user-and-group-management>
+<div class="container">
+  <div class="header">
+    <h1>User & Group Administration</h1>
+  </div>
+  <div class="content">
+    <nav mat-tab-nav-bar color="accent">
+      <a mat-tab-link
+         *ngFor="let link of navLinks"
+         [routerLink]="[ { outlets: { tab: [link.path] } }]"
+         routerLinkActive #rla="routerLinkActive"
+         [active]="rla.isActive">
+        {{ link.label }}
+      </a>
+    </nav>
+    <router-outlet name="tab"></router-outlet>
+  </div>
 </div>
+
