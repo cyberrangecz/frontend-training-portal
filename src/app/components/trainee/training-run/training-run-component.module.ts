@@ -5,7 +5,6 @@ import {TrainingRunComponent} from "./training-run.component";
 import {TrainingTimerComponent} from "./training-timer/training-timer.component";
 import {PipesModule} from "../../../pipes/pipes.module";
 import {TrainingRunLevelComponentModule} from "./training-run-level/training-run-level-component.module";
-import {CountdownTimerModule} from "ngx-countdown-timer";
 import {RouterModule} from '@angular/router';
 import {UserIdModule} from "../../shared/user-id.module";
 
@@ -13,7 +12,6 @@ import {UserIdModule} from "../../shared/user-id.module";
   imports: [
     CommonModule,
     UserIdModule,
-    CountdownTimerModule,
     TrainingRunMaterialModule,
     RouterModule,
     TrainingRunLevelComponentModule,
