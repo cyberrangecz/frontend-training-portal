@@ -64,6 +64,11 @@ table {
 }
 
 td.title, th.title {
+  width: 5%;
+}
+
+
+td.title, th.title {
   width: 10%;
 }
 
@@ -73,7 +78,7 @@ td.description, th.description {
 
 td.authors, th.authors {
   text-align: center;
-  width: 20%;
+  width: 15%;
 }
 
 td.last-edit, th.last-edit {
