@@ -36,6 +36,12 @@
             </td>
           </ng-container>
 
+          <!-- ID Column -->
+          <ng-container matColumnDef="id">
+            <th class="id" mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+            <td class="id" mat-cell *matCellDef="let training"> {{ training.trainingInstance?.id }} </td>
+          </ng-container>
+
           <!-- TITLE Column -->
           <ng-container matColumnDef="title">
             <th class="title" mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
@@ -93,7 +99,12 @@
                 </div>
               </div>
             </td>
+          </ng-container>
 
+          <!-- ID Column -->
+          <ng-container matColumnDef="pool-id">
+            <th class="pool-id" mat-header-cell *matHeaderCellDef>Pool ID</th>
+            <td class="pool-id" mat-cell *matCellDef="let training"> {{ training.trainingInstance?.poolId }} </td>
           </ng-container>
 
           <!-- PASSWORD Column -->

@@ -40,7 +40,7 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent implement
   // needed to compare values against enums in a template
   trainingStateEnum = TrainingDefinitionStateEnum;
   activeUser: User;
-  displayedColumns: string[] = ['title', 'description', 'state', 'authors', 'estimated-duration', 'last-edit', 'actions'];
+  displayedColumns: string[] = ['id', 'title', 'description', 'state', 'authors', 'estimated-duration', 'last-edit', 'actions'];
 
   dataSource: MatTableDataSource<TrainingDefinitionTableRow>;
 

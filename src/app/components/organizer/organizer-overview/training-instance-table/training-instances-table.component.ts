@@ -41,7 +41,7 @@ import {StringNormalizer} from "../../../../model/utils/ignore-diacritics-filter
  */
 export class TrainingInstancesTableComponent extends BaseComponent implements OnInit, OnDestroy {
 
-  displayedColumns: string[] = ['title', 'date', 'trainingDefinition', 'poolSize', 'accessToken', 'actions'];
+  displayedColumns: string[] = ['id', 'title', 'date', 'trainingDefinition', 'poolSize', 'pool-id', 'accessToken', 'actions'];
 
   dataSource: MatTableDataSource<TrainingInstanceTableRow>;
 

@@ -67,6 +67,11 @@ table {
   width: 100%;
 }
 
+td.id, th.id {
+  text-align: center;
+  width: 5%;
+}
+
 td.title, th.title {
   text-align: center;
   width: 15%;
@@ -84,7 +89,7 @@ td.date, th.date {
 
 td.trainingDefinition, th.trainingDefinition {
   text-align: center;
-  width: 15%;
+  width: 10%;
 }
 
 td.pool-size, th.pool-size {
@@ -124,6 +129,11 @@ td.pool-size, th.pool-size {
 td.password, th.password {
   text-align: center;
   width: 10%;
+}
+
+td.pool-id, th.pool-id {
+  text-align: center;
+  width: 5%;
 }
 
 td.actions, th.actions {
