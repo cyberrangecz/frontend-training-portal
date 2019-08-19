@@ -1,1 +1,1 @@
-  <countdown-timer [start]="startTime"></countdown-timer>
+<h1>{{ timeElapsed | async | date: 'HH:mm:ss' : '+00' }}</h1> <!-- Default system timezone overwritten because it is a timer, we always want to start from zero -->

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import {AbstractLevel} from "../../../model/level/abstract-level";
 import {ActiveTrainingRunService} from "../../../services/trainee/active-training-run.service";
 import {BaseComponent} from "../../base.component";
