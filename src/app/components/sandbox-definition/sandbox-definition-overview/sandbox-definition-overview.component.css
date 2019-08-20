@@ -1,0 +1,113 @@
+h1 {
+  text-align: center;
+  margin: 20px auto;
+}
+.sandbox-def {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sandbox-def-buttons {
+  width: 90%;
+  margin: auto auto;
+  display: flex;
+  flex-direction: row;
+}
+
+.sandbox-def-buttons button {
+  margin-top: 20px;
+  max-width: 200px;
+}
+
+.sandbox-def-table-wrapper {
+  flex-grow: 10;
+}
+
+.sandbox-def-table {
+  width: 90%;
+  margin: auto auto;
+  justify-items: center;
+  justify-content: center;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.mat-sort-header-container {
+  align-items: center;
+}
+
+.loading {
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-error {
+  color: #980000;
+  text-align: center;
+}
+
+table {
+  width: 100%;
+}
+
+td.id, th.id {
+  width: 5%;
+}
+
+td.title, th.title {
+  width: 25%;
+}
+
+td.associatedTrainingDefs, th.associatedTrainingDefs {
+  width: 30%;
+}
+
+td.url, th.url {
+  width: 30%;
+}
+
+td.actions, th.actions {
+  width: 10%;
+}
+
+.multiple-associated-td {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+.url-content {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+@media screen and (max-width: 800px) {
+  .sandbox-def {
+    flex-direction: column;
+  }
+
+  .sandbox-def-buttons {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+  }
+
+  .sandbox-def-table {
+    width: 100%;
+  }
+}

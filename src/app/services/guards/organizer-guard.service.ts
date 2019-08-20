@@ -4,6 +4,7 @@ import {Observable} from "rxjs/internal/Observable";
 import {Kypo2AuthGuardWithLogin, Kypo2AuthService} from 'kypo2-auth';
 import {CanActivateToObservable} from "./can-activate-to-observable";
 import {map} from "rxjs/operators";
+import {HOME_PATH} from "../../paths";
 
 @Injectable()
 /**
@@ -28,7 +29,7 @@ export class OrganizerGuard implements CanActivate {
     if (this.authService.isTrainingOrganizer()) {
       return true;
     }
-    this.router.navigate(['home']);
+    this.router.navigate([HOME_PATH]);
     return false;
   }
 }

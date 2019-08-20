@@ -1,0 +1,73 @@
+import { Component, OnInit } from '@angular/core';
+import { AlertService } from '../../../../services/shared/alert.service';
+import { AlertTypeEnum } from '../../../../model/enums/alert-type.enum';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ErrorHandlerService } from '../../../../services/shared/error-handler.service';
+import { ActiveTrainingRunService } from '../../../../services/training-run/active-training-run.service';
+import { TrainingRunFacade } from '../../../../services/facades/training-run-facade.service';
+import {BaseComponent} from '../../../base.component';
+import {takeWhile} from 'rxjs/operators';
+import {TRAINING_RUN_GAME_PATH} from "../paths";
+
+@Component({
+  selector: 'kypo2-access-training-run',
+  templateUrl: './access-training-run.component.html',
+  styleUrls: ['./access-training-run.component.css']
+})
+/**
+ * Components where user can access active training run by inserting correct accessToken
+ */
+export class AccessTrainingRunComponent extends BaseComponent implements OnInit {
+
+  accessTokenPrefix: string;
+  accessTokenPin: string;
+  isLoading: boolean;
+
+  constructor(private router: Router,
+              private activeRoute: ActivatedRoute,
+              private alertService: AlertService,
+              private errorHandler: ErrorHandlerService,
+              private activeTrainingRunLevelsService: ActiveTrainingRunService,
+              private trainingRunFacade: TrainingRunFacade) {
+    super();
+  }
+
+  ngOnInit() {
+  }
+
+  /**
+   * Finds active training run with matching accessToken and allocates resources for the trainee.
+   * If resources are allocated, navigates user to the first level of the training
+   */
+  access() {
+    if (this.hasValidInput()) {
+      this.sendRequestToAccessTrainingRun();
+    }
+  }
+
+  private sendRequestToAccessTrainingRun() {
+    this.isLoading = true;
+    const accessToken = this.accessTokenPrefix + '-' + this.accessTokenPin;
+    this.trainingRunFacade.accessTrainingRun(accessToken)
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(trainingRunInfo => {
+          this.isLoading = false;
+          this.activeTrainingRunLevelsService.setUpFromTrainingRun(trainingRunInfo);
+          this.router.navigate([trainingRunInfo.trainingRunId, TRAINING_RUN_GAME_PATH], { relativeTo: this.activeRoute });
+        },
+        err => {
+          this.isLoading = false;
+          this.errorHandler.displayInAlert(err, 'Connecting to training run');
+        });
+}
+
+  private hasValidInput(): boolean {
+    if (this.accessTokenPrefix && this.accessTokenPrefix.replace(/\s/g, '') !== ''
+      && this.accessTokenPin && this.accessTokenPin.replace(/\s/g, '') !== ''
+      && !isNaN(this.accessTokenPin as any) && this.accessTokenPin.length === 4) {
+      return true;
+    } else {
+      this.alertService.emitAlert(AlertTypeEnum.Error, 'Password cannot be empty and must have correct format');
+    }
+  }
+}

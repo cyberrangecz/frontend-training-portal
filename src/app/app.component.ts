@@ -1,27 +1,24 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {TrainingDistractionFreeModeService} from "./services/shared/training-distraction-free-mode.service";
-import {Router} from "@angular/router";
+import {TrainingDistractionFreeModeService} from './services/shared/training-distraction-free-mode.service';
 import {Kypo2AuthService} from 'kypo2-auth';
-import {AlertService} from "./services/shared/alert.service";
-import {takeWhile} from "rxjs/operators";
-import {AlertTypeEnum} from "./model/enums/alert-type.enum";
-import {BaseComponent} from "./components/base.component";
-import {SandboxAllocationService} from "./services/organizer/sandbox-allocation/sandbox-allocation.service";
+import {AlertService} from './services/shared/alert.service';
+import {takeWhile} from 'rxjs/operators';
+import {AlertTypeEnum} from './model/enums/alert-type.enum';
+import {BaseComponent} from './components/base.component';
 
 /**
  * Main component serving as wrapper for sidenav, toolbar and inner routed views
  */
 @Component({
-  selector: 'app-root',
+  selector: 'kypo2-app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent extends BaseComponent implements OnInit, OnDestroy {
-  isSidenavOpen: boolean = false;
-  distractionFreeMode: boolean = true;
+  isSidenavOpen = false;
+  distractionFreeMode = true;
 
-  constructor(private router: Router,
-              private authService: Kypo2AuthService,
+  constructor(private authService: Kypo2AuthService,
               private alertService: AlertService,
               private distractionFreeModeService: TrainingDistractionFreeModeService) {
     super();

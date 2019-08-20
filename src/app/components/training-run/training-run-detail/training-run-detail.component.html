@@ -1,0 +1,45 @@
+<div class="loading" *ngIf="isLoading">
+  <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+</div>
+<div class="content">
+  <div class="header">
+    <a routerLink="/home">
+      <img id="training-run-logo" alt="KYPO" src="./assets/images/kypo-logo-blue.svg"/>
+    </a>
+    <div class="training-run-stepper">
+      <!-- LEVEL STEPPER -->
+      <mat-horizontal-stepper
+        *ngIf="isStepperDisplayed && levels"
+        [selectedIndex]="selectedStep"
+        [linear]="true"
+        #stepper>
+        <ng-template matStepperIcon="edit" let-index="index">
+          <mat-icon *ngIf="levels[index].type === 'game'">videogame_asset</mat-icon>
+          <mat-icon *ngIf="levels[index].type === 'assessment'">assignment</mat-icon>
+          <mat-icon *ngIf="levels[index].type === 'info'">info</mat-icon>
+        </ng-template>
+        <ng-template matStepperIcon="number" let-index="index">
+          <mat-icon *ngIf="levels[index].type === 'game'">videogame_asset</mat-icon>
+          <mat-icon *ngIf="levels[index].type === 'assessment'">assignment</mat-icon>
+          <mat-icon *ngIf="levels[index].type === 'info'">info</mat-icon>
+        </ng-template>
+
+        <mat-step *ngFor="let level of levels; index as i"
+                  [editable]="false"
+                  [completed]="i <= selectedStep">
+          <ng-template matStepLabel>{{ level.title | levelStepperLabel: i + 1: levels.length }}</ng-template>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </div>
+
+    <div class="spacer"></div>
+    <div class="right-panel">
+      <app-user-id></app-user-id>
+      <kypo2-training-timer *ngIf="isTimerDisplayed && startTime" [startTime]="startTime"></kypo2-training-timer>
+    </div>
+
+  </div>
+  <!-- CONTENT OF ACTIVE LEVEL -->
+  <kypo2-abstract-level></kypo2-abstract-level>
+</div>
+

@@ -1,0 +1,36 @@
+ <mat-drawer-container class="container" autosize>
+    <mat-drawer #drawer class="sidenav" mode="side" [opened]="isSidenavOpen">
+
+      <div class="training-config">
+        <kypo2-training-definition-edit
+          (isTrainingSaved)="trainingSavedChange($event)"
+          (trainingDefId)="trainingDefIdChange($event)"
+          [trainingDefinition]="trainingDefinition$ | async">
+        </kypo2-training-definition-edit>
+      </div>
+
+    </mat-drawer>
+    <div class="sidenav-content">
+      <button
+        class="sidenav-button"
+        type="button"
+        mat-icon-button
+        (click)="drawer.toggle(); toggleSidenav()">
+        <mat-icon *ngIf="!isSidenavOpen">edit</mat-icon>
+        <mat-icon *ngIf="isSidenavOpen">chevron_left</mat-icon>
+      </button>
+      <div class="content">
+        <div class="level">
+          <training-level-stepper
+            [isTrainingSaved]="isTrainingSaved"
+            [trainingDefinition]="trainingDefinition$ | async">
+          </training-level-stepper>
+        </div>
+      </div>
+
+    </div>
+ </mat-drawer-container>
+
+
+
+

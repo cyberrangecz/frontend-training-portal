@@ -4,6 +4,7 @@ import {Observable} from "rxjs/internal/Observable";
 import { Kypo2AuthGuardWithLogin, Kypo2AuthService} from 'kypo2-auth';
 import {map} from "rxjs/operators";
 import {CanActivateToObservable} from "./can-activate-to-observable";
+import {HOME_PATH} from "../../paths";
 @Injectable()
 /**
  * Guard which determines if user is signed in and has role of designer.
@@ -27,7 +28,7 @@ export class DesignerGuard implements CanActivate {
     if (this.authService.isTrainingDesigner()) {
       return true;
     }
-    this.router.navigate(['home']);
+    this.router.navigate([HOME_PATH]);
     return false;
   }
 }

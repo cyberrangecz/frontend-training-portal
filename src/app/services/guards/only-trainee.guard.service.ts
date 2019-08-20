@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import { Kypo2AuthGuardWithLogin, Kypo2AuthService} from "kypo2-auth";
 import {map} from "rxjs/operators";
 import {CanActivateToObservable} from "./can-activate-to-observable";
+import {TRAINING_RUN_PATH} from "../../paths";
 
 /**
  * If user has only trainee role it is desired to navigate him directly to his agenda instead of homepage
@@ -25,7 +26,7 @@ export class NotOnlyTraineeGuard implements CanActivate {
 
   private isTraineeOnly(): boolean {
     if (this.authService.isTrainingTrainee() && !this.authService.isTrainingOrganizer() && !this.authService.isTrainingDesigner() && !this.authService.isUserAndGroupAdmin()) {
-      this.router.navigate(['trainee']);
+      this.router.navigate([TRAINING_RUN_PATH]);
       return false;
     }
     return true;
