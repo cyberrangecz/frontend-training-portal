@@ -4,6 +4,7 @@ import {Injectable} from '@angular/core';
 import {Kypo2AuthGuardWithLogin, Kypo2AuthService} from 'kypo2-auth';
 import {CanActivateToObservable} from "./can-activate-to-observable";
 import {map} from "rxjs/operators";
+import {HOME_PATH} from "../../paths";
 
 @Injectable()
 export class AdminGuard implements CanActivate {
@@ -24,7 +25,7 @@ export class AdminGuard implements CanActivate {
     if (this.authService.isUserAndGroupAdmin()) {
       return true;
     }
-    this.router.navigate(['home']);
+    this.router.navigate([HOME_PATH]);
     return false;
   }
 }

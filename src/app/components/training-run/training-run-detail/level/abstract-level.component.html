@@ -1,0 +1,6 @@
+<ng-container [ngSwitch]="level.type">
+  <kypo2-assessment-level *ngSwitchCase="levelTypes.Assessment" [level]="level"></kypo2-assessment-level>
+  <kypo2-game-level *ngSwitchCase="levelTypes.Game" [level]="level"></kypo2-game-level>
+  <kypo2-info-level *ngSwitchCase="levelTypes.Info" [level]="level"></kypo2-info-level>
+</ng-container>
+

@@ -1,0 +1,29 @@
+.container {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+}
+
+kypo2-training-instance-info {
+  flex-grow: 1;
+}
+
+.training-run-overview {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 2;
+}
+
+@media screen and (max-width: 800px) {
+  .content {
+    flex-direction: column;
+  }
+}

@@ -1,6 +1,6 @@
-import {Injectable} from "@angular/core";
-import {Subject} from "rxjs/internal/Subject";
-import {Observable} from "rxjs/internal/Observable";
+import {Injectable} from '@angular/core';
+import {Subject} from 'rxjs/internal/Subject';
+import {Observable} from 'rxjs/internal/Observable';
 
 @Injectable()
 /**
@@ -8,7 +8,7 @@ import {Observable} from "rxjs/internal/Observable";
  */
 export class TrainingDistractionFreeModeService {
 
-  private _distractionFreeMode: boolean = false;
+  private _distractionFreeMode = false;
 
   private _modeChangedSubject: Subject<boolean> = new Subject();
   modeChanged: Observable<boolean> = this._modeChangedSubject.asObservable();

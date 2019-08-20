@@ -1,0 +1,186 @@
+<h2>List of Training Instances</h2>
+<div class="training">
+  <div class="training-table-wrapper">
+    <div class="training-table">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter by title">
+      </mat-form-field>
+
+      <div class="mat-elevation-z8">
+
+        <div class="loading"
+             *ngIf="isLoadingResults || isInErrorState">
+          <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+          <div class="loading-error" *ngIf="isInErrorState">
+            We have some trouble loading the data. Please try again later.
+            <button mat-icon-button (click)="fetchData()" color="primary"><mat-icon>refresh</mat-icon></button>
+          </div>
+        </div>
+
+        <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows>
+
+          <!-- EXPANDED DETAIL COLUMN -->
+          <ng-container matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let data" [attr.colspan]="displayedColumns.length">
+              <div class="row-detail"
+                   [@detailExpand]="data == expandedRow ? 'expanded' : 'collapsed'">
+                <div class="row-detail-content">
+                  <app-sandbox-instances-subtable
+                    *ngIf="data == expandedRow && data.trainingInstance?.hasPoolId()"
+                    [trainingInstance]="data.trainingInstance"
+                    [allocation$]="data.allocation$"
+                    (allocationEvent)="onAllocationEvent($event, data)">
+                  </app-sandbox-instances-subtable>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="id">
+            <th class="id" mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+            <td class="id" mat-cell *matCellDef="let training"> {{ training.trainingInstance?.id }} </td>
+          </ng-container>
+
+          <!-- TITLE Column -->
+          <ng-container matColumnDef="title">
+            <th class="title" mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+            <td class="title" mat-cell *matCellDef="let training">
+              <a class="training-link"
+                 mat-button color="primary"
+                 [routerLink]="[training.trainingInstance?.id]"
+                 (click)="$event.stopPropagation()">
+                {{ training.trainingInstance?.title }}</a>
+            </td>
+          </ng-container>
+
+          <!-- DATE Column -->
+          <ng-container matColumnDef="date">
+            <th class="date" mat-header-cell *matHeaderCellDef mat-sort-header="startTime">Date</th>
+            <td class="date" mat-cell *matCellDef="let training">
+              {{ training.trainingInstance?.startTime | dateTimeFormat}} - {{ training.trainingInstance?.endTime | dateTimeFormat }}</td>
+          </ng-container>
+
+          <!-- TRAINING DEFINITION TITLE Column -->
+          <ng-container matColumnDef="trainingDefinition">
+            <th class="trainingDefinition" mat-header-cell *matHeaderCellDef>Training Definition</th>
+            <td class="trainingDefinition" mat-cell *matCellDef="let training">
+              {{ training.trainingDefinitionTitle }}
+            </td>
+          </ng-container>
+
+          <!-- POOLSIZE Column -->
+          <ng-container matColumnDef="poolSize">
+            <th class="pool-size" mat-header-cell *matHeaderCellDef>Allocated / Failed / Pool Size</th>
+            <td class="pool-size" mat-cell *matCellDef="let training">
+              <div class="pool-size-content">
+                <!-- HAS FAILED SANDBOXES -->
+                <div  *ngIf="training.isAllocationFailed"
+                      class="allocation-failure">
+                  <mat-icon
+                    matTooltip="Allocation of some sandboxes failed"
+                    color="warn">error</mat-icon>
+                </div>
+
+                <!-- RUNNING ALLOCATION PROGRESS -->
+                <div  *ngIf="training.isAllocationInProgress"
+                      class="pool-allocation-progress">
+                  <mat-progress-bar mode="indeterminate"
+                                    color="accent">
+                  </mat-progress-bar>
+                </div>
+
+                <div class="pool-size-count" *ngIf="training.areSandboxDataLoaded">
+                  {{ training.allocatedSandboxesCount }} / {{ training.failedSandboxesCount }} / {{ training.trainingInstance?.poolSize }}
+                </div>
+                <div class="pool-size-count" *ngIf="!training.areSandboxDataLoaded">
+                  <mat-progress-spinner mode="indeterminate" color="accent" diameter="20">
+                  </mat-progress-spinner>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="pool-id">
+            <th class="pool-id" mat-header-cell *matHeaderCellDef>Pool ID</th>
+            <td class="pool-id" mat-cell *matCellDef="let training"> {{ training.trainingInstance?.poolId }} </td>
+          </ng-container>
+
+          <!-- PASSWORD Column -->
+          <ng-container matColumnDef="accessToken">
+            <th class="password" mat-header-cell *matHeaderCellDef>Access Token</th>
+            <td class="password" mat-cell *matCellDef="let training">
+              <span (click)="$event.stopPropagation()"> {{ training.trainingInstance?.accessToken }} </span>
+            </td>
+          </ng-container>
+
+          <!-- ACTIONS Column -->
+          <ng-container matColumnDef="actions">
+            <th class="actions" mat-header-cell *matHeaderCellDef>Actions</th>
+            <td class="actions" mat-cell *matCellDef="let training">
+              <div class="action-buttons">
+
+                <!-- EDIT button-->
+                <button [disabled]="training.trainingInstance?.startTime.valueOf() <= now"
+                        mat-icon-button color="primary"
+                        matTooltip="Edit training instance"
+                        (click)="editTraining(training.trainingInstance);$event.stopPropagation()">
+                  <mat-icon
+                    aria-label="Edit training instance">
+                    edit</mat-icon>
+                </button>
+
+                <!-- ALLOCATE button-->
+                <button *ngIf="training.areSandboxDataLoaded"
+                  [disabled]="!training.areSandboxDataLoaded
+                              || training.isAllocationInProgress
+                              || training.trainingInstance?.endTime.valueOf() <= now
+                              || training.isAllocationInProgress
+                              || training.trainingInstance?.poolSize <= training.allocatedSandboxesCount + training.failedSandboxesCount"
+                        mat-icon-button color="primary"
+                        matTooltip="Allocate resources for training instance"
+                        (click)="allocateTrainingInstanceSandboxes(training);$event.stopPropagation()">
+                  <mat-icon
+                    aria-label="Allocate resources for training instance button">
+                    subscriptions</mat-icon>
+                </button>
+
+                <mat-progress-spinner *ngIf="!training.areSandboxDataLoaded" mode="indeterminate" color="accent" diameter="20">
+                </mat-progress-spinner>
+
+                <!-- ARCHIVE button-->
+                <button [disabled]="training.trainingInstance?.endTime.valueOf() >= now"
+                        mat-icon-button color="primary"
+                        matTooltip="Archive training instance"
+                        (click)="archiveTraining(training.trainingInstance?.id);$event.stopPropagation()">
+                  <mat-icon
+                    aria-label="Archive training instance button">
+                    archive</mat-icon>
+                </button>
+
+                <!-- REMOVE button-->
+                <button mat-icon-button color="warn"
+                        matTooltip="Delete training instance"
+                        (click)="deleteTraining(training);$event.stopPropagation()">
+                  <mat-icon
+                    aria-label="Delete training instance button">
+                    delete</mat-icon>
+                </button>
+              </div>
+
+
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+              class="row"
+              [class.expanded-row]="expandedRow === row"
+              (click)="expandedRow = expandedRow === row ? null : row"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+        </table>
+        <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>

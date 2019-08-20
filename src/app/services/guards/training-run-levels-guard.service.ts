@@ -2,13 +2,14 @@ import {ActivatedRouteSnapshot, CanActivate, CanDeactivate, Router, RouterStateS
 import {TrainingDistractionFreeModeService} from "../shared/training-distraction-free-mode.service";
 import {Observable} from "rxjs/internal/Observable";
 import {Injectable} from "@angular/core";
-import {TrainingRunLevelComponent} from "../../components/trainee/training-run/training-run-level/training-run-level.component";
-import {ActiveTrainingRunService} from "../trainee/active-training-run.service";
+import {AbstractLevelComponent} from "../../components/training-run/training-run-detail/level/abstract-level.component";
+import {ActiveTrainingRunService} from "../training-run/active-training-run.service";
+import {TRAINING_RUN_PATH} from "../../paths";
 @Injectable()
 /**
  * Guard triggered when accessing training run level. Turns on and off the distraction free mode
  */
-export class TrainingRunLevelsGuard implements CanActivate, CanDeactivate<TrainingRunLevelComponent> {
+export class TrainingRunLevelsGuard implements CanActivate, CanDeactivate<AbstractLevelComponent> {
 
   constructor(private activeTrainingRunLevelService: ActiveTrainingRunService,
               private distractionFreeModeService: TrainingDistractionFreeModeService,
@@ -22,11 +23,11 @@ export class TrainingRunLevelsGuard implements CanActivate, CanDeactivate<Traini
       this.distractionFreeModeService.setDistractionFreeMode(true);
       return true;
     } else {
-      this.router.navigate(['/trainee']);
+      this.router.navigate([TRAINING_RUN_PATH]);
     }
   }
 
-  canDeactivate(component: TrainingRunLevelComponent, currentRoute: ActivatedRouteSnapshot, currentState: RouterStateSnapshot, nextState?: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+  canDeactivate(component: AbstractLevelComponent, currentRoute: ActivatedRouteSnapshot, currentState: RouterStateSnapshot, nextState?: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     this.distractionFreeModeService.setDistractionFreeMode(false);
     this.activeTrainingRunLevelService.clear();
     return true;

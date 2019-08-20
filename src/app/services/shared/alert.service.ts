@@ -1,6 +1,6 @@
-import {AlertEvent} from "../../model/events/alert-event";
-import {AlertTypeEnum} from "../../model/enums/alert-type.enum";
-import {environment} from "../../../environments/environment";
+import {AlertEvent} from '../../model/events/alert-event';
+import {AlertTypeEnum} from '../../model/enums/alert-type.enum';
+import {environment} from '../../../environments/environment';
 import Queue from 'typescript-collections/dist/lib/Queue';
 import {AlertSnackbarComponent} from '../../components/shared/alert/alert-snackbar/alert-snackbar.component';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -42,7 +42,7 @@ export class AlertService {
       case 'warning': return AlertTypeEnum.Warning;
       case 'error': return AlertTypeEnum.Error;
       case 'success': return AlertTypeEnum.Success;
-      default: return AlertTypeEnum.Info
+      default: return AlertTypeEnum.Info;
     }
   }
 

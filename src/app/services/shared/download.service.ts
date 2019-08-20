@@ -10,7 +10,7 @@ export class DownloadService {
   }
 
   downloadJSONFileFromBlobResponse(response: HttpResponse<Blob>, filename: string) {
-    let blob = new Blob([response.body], { type: 'text/json' });
+    const blob = new Blob([response.body], { type: 'text/json' });
     saveAs(blob, filename);
   }
 }

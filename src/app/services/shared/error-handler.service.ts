@@ -1,7 +1,7 @@
-import {Injectable} from "@angular/core";
-import {AlertService} from "./alert.service";
-import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
-import {AlertTypeEnum} from "../../model/enums/alert-type.enum";
+import {Injectable} from '@angular/core';
+import {AlertService} from './alert.service';
+import {HttpErrorResponse} from '@angular/common/http';
+import {AlertTypeEnum} from '../../model/enums/alert-type.enum';
 
 @Injectable()
 export class ErrorHandlerService {
