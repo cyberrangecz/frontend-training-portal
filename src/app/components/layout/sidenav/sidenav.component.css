@@ -1,13 +1,6 @@
-a {
-  display: block;
-  text-align: left;
+img {
+  width: 200px;
+  height: 60px;
 }
 
-a.main-nav {
-  padding-left: 0;
-}
 
-p {
-  margin-top: 10px;
-  margin-left: 5px;
-}

@@ -1,21 +1,18 @@
-<kypo2-shared-toolbar *ngIf="!distractionFreeMode"></kypo2-shared-toolbar>
-<mat-drawer-container *ngIf="!distractionFreeMode" class="container" autosize>
-  <mat-drawer #drawer class="sidenav" mode="side">
-    <kypo2-shared-sidenav></kypo2-shared-sidenav>
-  </mat-drawer>
+<div *ngIf="(distractionFreeMode$ | async) else withLayout">
+  <router-outlet></router-outlet>
+</div>
 
-  <div class="sidenav-content">
-    <button
-      class="sidenav-button"
-      type="button"
-      mat-icon-button
-      (click)="drawer.toggle(); toggleSidenav()">
-      <mat-icon *ngIf="!isSidenavOpen">menu</mat-icon>
-      <mat-icon *ngIf="isSidenavOpen">chevron_left</mat-icon>
-    </button>
-    <router-outlet *ngIf="!distractionFreeMode"></router-outlet>
-  </div>
-</mat-drawer-container>
-<router-outlet *ngIf="distractionFreeMode"></router-outlet>
+<ng-template #withLayout>
+  <mat-drawer-container autosize>
+    <mat-drawer #drawer mode="side" opened="true">
+      <kypo2-sidenav [user]="activeUser$ | async"></kypo2-sidenav>
+    </mat-drawer>
+    <mat-drawer-content>
+      <kypo2-toolbar [user]="activeUser$ | async"></kypo2-toolbar>
+      <mat-progress-bar *ngIf="isLoading$ | async"  mode="indeterminate" color="accent"></mat-progress-bar>
+      <router-outlet></router-outlet>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</ng-template>
 
 

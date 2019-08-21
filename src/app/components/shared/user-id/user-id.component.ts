@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {Kypo2AuthService, User} from "kypo2-auth";
+import {Kypo2AuthService, User} from 'kypo2-auth';
 import * as Identicon  from 'identicon.js';
 import { sha256 } from 'js-sha256';
-import {BaseComponent} from "../../base.component";
-import {tap} from "rxjs/operators";
+import {BaseComponent} from '../../base.component';
+import {tap} from 'rxjs/operators';
 
 @Component({
-  selector: 'app-user-id',
+  selector: 'kypo2-user-id',
   templateUrl: './user-id.component.html',
   styleUrls: ['./user-id.component.css']
 })

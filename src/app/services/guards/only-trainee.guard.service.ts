@@ -1,10 +1,11 @@
-import {Injectable} from "@angular/core";
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
-import {Observable} from "rxjs";
-import { Kypo2AuthGuardWithLogin, Kypo2AuthService} from "kypo2-auth";
-import {map} from "rxjs/operators";
-import {CanActivateToObservable} from "./can-activate-to-observable";
-import {TRAINING_RUN_PATH} from "../../paths";
+import {Injectable} from '@angular/core';
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
+import {Observable} from 'rxjs';
+import { Kypo2AuthGuardWithLogin, Kypo2AuthService} from 'kypo2-auth';
+import {map, tap} from 'rxjs/operators';
+import {CanActivateToObservable} from './can-activate-to-observable';
+import {TRAINING_RUN_PATH} from '../../paths';
+import {LoadingService} from '../shared/loading.service';
 
 /**
  * If user has only trainee role it is desired to navigate him directly to his agenda instead of homepage
@@ -14,13 +15,14 @@ export class NotOnlyTraineeGuard implements CanActivate {
 
   constructor(private router: Router,
               private authGuard: Kypo2AuthGuardWithLogin,
+              private loadingService: LoadingService,
               private authService: Kypo2AuthService) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     return CanActivateToObservable.convert(this.authGuard.canActivate(route, state))
       .pipe(
-        map(canActivate => canActivate ? this.isTraineeOnly() : false)
+        map(canActivate => canActivate ? this.isTraineeOnly() : false),
       );
   }
 

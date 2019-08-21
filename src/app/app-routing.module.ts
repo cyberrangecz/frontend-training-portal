@@ -17,7 +17,7 @@ import {
   SANDBOX_POOL_PATH, TRAINING_DEFINITION_PATH,
   TRAINING_INSTANCE_PATH,
   TRAINING_RUN_PATH
-} from "./paths";
+} from './paths';
 
 const routes: Routes = [
   {

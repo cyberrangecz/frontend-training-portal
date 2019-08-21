@@ -1,18 +1,5 @@
-<a routerLink="/home"
-   class="main-nav"
-  mat-button color="primary">
-  1. HOME PAGE
+<a [routerLink]="HOME_PATH">
+  <img id="logo" alt="KYPO" src="./assets/images/kypo-logo-blue.svg"/>
 </a>
+<kypo2-tree-navigation [user]="user"></kypo2-tree-navigation>
 
-<div *ngFor="let menuSection of menuSections; let menuSectionOrder = index">
-  <p class="main-nav">
-     {{ menuSectionOrder + 2}} {{ menuSection.name }}
-  </p>
-
-  <a *ngFor="let agenda of menuSection.agendas; let agendaOrder = index"
-     class="sub-nav"
-     routerLink="{{agenda.route}}"
-     mat-button color="primary">
-    {{ menuSectionOrder + 2 }}.{{ agendaOrder + 1 }} {{ agenda.title }}
-  </a>
-</div>

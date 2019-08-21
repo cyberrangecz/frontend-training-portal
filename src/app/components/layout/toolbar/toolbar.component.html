@@ -1,14 +1,8 @@
-<mat-toolbar  color="primary">
-  <a [routerLink]="HOME_PATH">
-    <img id="logo" alt="KYPO" src="./assets/images/kypo-logo.svg"/>
-  </a>
-  <button
-    *ngIf="!isHome"
-    mat-icon-button
-    matTooltip="Go to parent location"
-    (click)="goToParentLocation()">
-    <mat-icon>arrow_upward</mat-icon>
-  </button>
-  <span class="spacer"></span>
-  <kypo2-toolbar-user-menu></kypo2-toolbar-user-menu>
+<mat-toolbar color="primary">
+  <mat-toolbar-row class="first">
+    <span class="spacer"></span>
+    <kypo2-user-menu *ngIf="user" [user]="user"></kypo2-user-menu>
+  </mat-toolbar-row>
+  <mat-toolbar-row class="second">
+  </mat-toolbar-row>
 </mat-toolbar>
