@@ -1,24 +1,24 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {AppRoutingModule} from "./app-routing.module";
-import {DesignerGuard} from "./services/guards/designer-guard.service";
-import {OrganizerGuard} from "./services/guards/organizer-guard.service";
-import {TraineeGuard} from "./services/guards/trainee-guard.service";
-import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {SharedModule} from "./components/shared/shared.module";
-import {TrainingDistractionFreeModeService} from "./services/shared/training-distraction-free-mode.service";
-import {UserFacadeModule} from "./services/facades/modules/user-facade.module";
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {AppRoutingModule} from './app-routing.module';
+import {DesignerGuard} from './services/guards/designer-guard.service';
+import {OrganizerGuard} from './services/guards/organizer-guard.service';
+import {TraineeGuard} from './services/guards/trainee-guard.service';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {SharedModule} from './components/shared/shared.module';
+import {DistractionFreeModeService} from './services/shared/distraction-free-mode.service';
+import {UserFacadeModule} from './services/facades/modules/user-facade.module';
 import {AdminGuard} from './services/guards/admin-guard.service';
 import {ErrorLogInterceptor} from './services/http-interceptors/error-log-interceptor';
 import {NgxHotjarModule} from 'ngx-hotjar';
 import {Kypo2AuthInterceptor, Kypo2AuthModule} from 'kypo2-auth';
 import {environment} from '../environments/environment';
-import {NotOnlyTraineeGuard} from "./services/guards/only-trainee.guard.service";
-import {TrainingInstanceFacadeModule} from "./services/facades/modules/training-instance-facade.module";
-import {LayoutModule} from "./components/layout/layout.module";
-import {MatButtonModule, MatIconModule} from "@angular/material";
+import {NotOnlyTraineeGuard} from './services/guards/only-trainee.guard.service';
+import {LayoutModule} from './components/layout/layout.module';
+import {MatButtonModule, MatIconModule, MatProgressBarModule} from '@angular/material';
+import {LoadingService} from './services/shared/loading.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +35,8 @@ import {MatButtonModule, MatIconModule} from "@angular/material";
     Kypo2AuthModule.forRoot(environment.kypo2AuthConfig),
     NgxHotjarModule.forRoot(environment.hotjarTrackingCode),
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatProgressBarModule
   ],
   providers: [
     DesignerGuard,
@@ -43,8 +44,8 @@ import {MatButtonModule, MatIconModule} from "@angular/material";
     AdminGuard,
     TraineeGuard,
     NotOnlyTraineeGuard,
-    TrainingDistractionFreeModeService,
-    TrainingInstanceFacadeModule,
+    DistractionFreeModeService,
+    LoadingService,
     { provide: HTTP_INTERCEPTORS, useClass: Kypo2AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorLogInterceptor, multi: true },
   ],

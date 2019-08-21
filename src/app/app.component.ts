@@ -1,10 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {TrainingDistractionFreeModeService} from './services/shared/training-distraction-free-mode.service';
-import {Kypo2AuthService} from 'kypo2-auth';
+import {DistractionFreeModeService} from './services/shared/distraction-free-mode.service';
+import {Kypo2AuthService, User} from 'kypo2-auth';
 import {AlertService} from './services/shared/alert.service';
 import {takeWhile} from 'rxjs/operators';
 import {AlertTypeEnum} from './model/enums/alert-type.enum';
 import {BaseComponent} from './components/base.component';
+import {Observable} from 'rxjs';
+import {LoadingService} from './services/shared/loading.service';
 
 /**
  * Main component serving as wrapper for sidenav, toolbar and inner routed views
@@ -15,34 +17,27 @@ import {BaseComponent} from './components/base.component';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent extends BaseComponent implements OnInit, OnDestroy {
-  isSidenavOpen = false;
-  distractionFreeMode = true;
+  isLoading$: Observable<boolean>;
+  distractionFreeMode$: Observable<boolean>;
+  activeUser$: Observable<User>;
 
   constructor(private authService: Kypo2AuthService,
               private alertService: AlertService,
-              private distractionFreeModeService: TrainingDistractionFreeModeService) {
+              private loadingService: LoadingService,
+              private distractionFreeMode: DistractionFreeModeService) {
     super();
+    this.activeUser$ = this.authService.activeUser$;
+    this.distractionFreeMode$ = this.distractionFreeMode.isActive;
+    this.isLoading$ = this.loadingService.isLoading$;
+    this.subscribeAuthErrors();
   }
 
   ngOnInit() {
-    this.distractionFreeMode = this.distractionFreeModeService.getDistractionFreeMode();
-    this.subscribeDistractionFreeModeChanges();
-    this.subscribeAuthErrors();
   }
 
   ngOnDestroy() {
     super.ngOnDestroy();
     this.authService.dispose();
-  }
-
-  toggleSidenav() {
-    this.isSidenavOpen = !this.isSidenavOpen;
-  }
-
-  private subscribeDistractionFreeModeChanges() {
-    this.distractionFreeModeService.modeChanged
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(change => this.distractionFreeMode = change);
   }
 
   private subscribeAuthErrors() {

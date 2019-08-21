@@ -45,7 +45,6 @@ tr.row:not(.expanded-row):active {
   padding: 20px;
   display: flex;
   flex-direction: row;
-  width: 90vw;
 }
 
 .training-table-wrapper {

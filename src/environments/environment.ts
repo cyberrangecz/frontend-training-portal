@@ -2,7 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {MarkedOptions} from 'ngx-markdown';
 
 export const environment = {
-  production: true,
+  production: false,
   trainingRestBasePath: 'https://kypo-devel.ics.muni.cz:8083/kypo2-rest-training/api/v1/',
   sandboxRestBasePath: 'https://kypo-devel.ics.muni.cz:8080/kypo2-django-openstack/api/v1/',
   // BEHAVIOUR SETTINGS
