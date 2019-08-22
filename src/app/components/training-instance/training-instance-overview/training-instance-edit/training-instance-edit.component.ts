@@ -14,6 +14,7 @@ import {ErrorHandlerService} from '../../../../services/shared/error-handler.ser
 import {Kypo2AuthService, User} from 'kypo2-auth';
 import {BaseComponent} from "../../../base.component";
 import {takeWhile} from "rxjs/operators";
+import { TrainingInstanceFormGroup } from './training-instance-form-group';
 
 @Component({
   selector: 'kypo2-training-instance-edit',
@@ -31,14 +32,9 @@ export class TrainingInstanceEditComponent extends BaseComponent implements OnIn
   isEditMode: boolean;
   dirty: boolean;
   now: Date;
-
-  title: string;
-  startTime: Date;
-  endTime: Date;
-  poolSize: number;
-  organizers: User[];
-  trainingDefinition: TrainingDefinition;
-  accessToken: string;
+  
+  trainingInstanceFormGroup: TrainingInstanceFormGroup;
+  
   userChangedStartTime = false;
   activeUser: User;
 
@@ -55,23 +51,31 @@ export class TrainingInstanceEditComponent extends BaseComponent implements OnIn
   }
 
   ngOnInit() {
+    this. trainingInstanceFormGroup = new TrainingInstanceFormGroup();
     this.resolveInitialInputValues();
     this.initCurrentTimePeriodicalUpdate();
     this.dirty = false;
     this.activeUser = this.authService.getActiveUser();
   }
+
+  get startTime() {return this.trainingInstanceFormGroup.startTime};
+  get endTime() {return this.trainingInstanceFormGroup.endTime};
+  get title() {return this.trainingInstanceFormGroup.title};
+  get poolSize() {return this.trainingInstanceFormGroup.poolSize};
+  get organizers() {return this.trainingInstanceFormGroup.organizers};
+  get trainingDefinition() {return this.trainingInstanceFormGroup.trainingDefinition};
+  get accessToken() {return this.trainingInstanceFormGroup.accessToken};
+
   /**
    * Opens popup dialog to choose organizers from a list
    */
   chooseOrganizers() {
-    const dialogRef = this.dialog.open(OrganizersPickerComponent, { data: this.organizers });
-
+    const dialogRef = this.dialog.open(OrganizersPickerComponent, { data: this.organizers.value });
     dialogRef.afterClosed()
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(result => {
       if (result && result.type === 'confirm') {
-        this.organizers = result.organizers;
-        this.contentChanged();
+        this.organizers.setValue(result.organizers);
       }
     });
   }
@@ -80,43 +84,33 @@ export class TrainingInstanceEditComponent extends BaseComponent implements OnIn
    * Opens popup dialog to choose training definition from a list
    */
   chooseTrainingDefinition() {
-    const dialogRef = this.dialog.open(TrainingDefinitionPickerComponent, { data: this.trainingDefinition });
+    const dialogRef = this.dialog.open(TrainingDefinitionPickerComponent, { data: this.trainingDefinition.value });
 
     dialogRef.afterClosed()
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(result => {
       if (result && result.type === 'confirm') {
-        this.trainingDefinition = result.trainingDef;
-        this.contentChanged();
+        this.trainingDefinition.setValue(result.trainingDef);
       }
     });
   }
-
-  onStartTimeNgModelChanged() {
-    this.contentChanged();
-  }
-
+  
   onStartTimeChanged() {
     this.userChangedStartTime = true;
-    this.contentChanged();
   }
 
   /**
    * Validates user input, sets input values to training instance object and calls REST API to save the changes in an endpoint
    */
   save() {
-    if (this.validateInputValues()) {
-      this.setInputValuesToTraining();
+    if (this.trainingInstanceFormGroup.formGroup.valid) {
+      this.trainingInstanceFormGroup.setInputValuesToTraining(this.trainingInstance);
       if (this.isEditMode) {
         this.updateTrainingInstance();
       } else {
         this.createTrainingInstance();
       }
     }
-  }
-
-  contentChanged() {
-    this.dirty = true;
   }
 
   private updateTrainingInstance() {
@@ -160,89 +154,19 @@ export class TrainingInstanceEditComponent extends BaseComponent implements OnIn
   private resolveInitialInputValues() {
     if (this.trainingInstance) {
       this.isEditMode = true;
-      this.setInputValuesFromTraining();
+      this.trainingInstanceFormGroup.setInputValuesFromTraining(this.trainingInstance);
     } else {
       this.isEditMode = false;
       this.setInputValueForNewInstance();
     }
   }
 
-  /**
-   * Validates user input. Displays error message if errors are found
-   * @returns {boolean} true if user input passes the validation, false otherwise
-   */
-  private validateInputValues(): boolean {
-    let errorMessage = '';
-
-    if (!this.title || this.title.replace(/\s/g, '') === '') {
-      errorMessage += 'Title cannot be empty\n';
-    }
-
-    if (!this.poolSize || this.poolSize < 1 || this.poolSize > 100) {
-      errorMessage += 'Pool size must be number in range from 1 to 100\n';
-    }
-
-    if (!this.accessToken || this.accessToken.replace(/\s/g, '') === '') {
-      errorMessage += 'Access token cannot be empty\n';
-    }
-
-    if (!this.organizers || this.organizers.length <= 0) {
-      errorMessage += 'Organizers must not be empty\n';
-    }
-
-    if (!this.trainingDefinition) {
-      errorMessage += 'Training definition must not be empty\n';
-    }
-
-    if (!this.startTime) {
-      errorMessage += 'Start time must not be empty\n';
-    } else if (this.startTime > this.endTime) {
-      errorMessage += 'Start time must be before end time\n';
-    }
-
-    if (!this.endTime) {
-      errorMessage += 'End time must not be empty\n';
-    } else if (this.startTime.valueOf() < Date.now() || this.endTime.valueOf() < Date.now()) {
-      errorMessage += 'Start time and end time cannot be in the past\n';
-    }
-
-    if (errorMessage !== '') {
-      this.alertService.emitAlert(AlertTypeEnum.Error, errorMessage);
-      return false;
-    }
-    return true;
-  }
-
-  private setInputValuesToTraining() {
-    this.trainingInstance.startTime = this.startTime;
-    this.trainingInstance.endTime = this.endTime;
-    this.trainingInstance.title = this.title;
-    this.trainingInstance.poolSize = this.poolSize;
-    this.trainingInstance.organizers = this.organizers;
-    this.trainingInstance.trainingDefinition = this.trainingDefinition;
-    this.trainingInstance.accessToken = this.accessToken;
-  }
-
-  /**
-   * Sets initial input values from passed training instance object (edit mode)
-   */
-  private setInputValuesFromTraining() {
-    this.startTime = this.trainingInstance.startTime;
-    this.endTime = this.trainingInstance.endTime;
-    this.title = this.trainingInstance.title;
-    this.poolSize = this.trainingInstance.poolSize;
-    this.organizers = this.trainingInstance.organizers;
-    this.trainingDefinition = this.trainingInstance.trainingDefinition;
-    this.accessToken = this.trainingInstance.accessToken;
-
-  }
-
   private setInputValueForNewInstance() {
     this.trainingInstance = new TrainingInstance();
-    this.startTime = new Date();
-    this.startTime.setMinutes(this.startTime.getMinutes() + 5);
+    this.startTime.setValue(new Date());
+    this.startTime.value.setMinutes(this.startTime.value.getMinutes() + 5);
     this.setUpPeriodicTimeStartTimeUpdate();
-    this.organizers = [this.authService.getActiveUser()];
+    this.organizers.setValue([this.authService.getActiveUser()]);
   }
 
   private setUpPeriodicTimeStartTimeUpdate() {
@@ -250,7 +174,7 @@ export class TrainingInstanceEditComponent extends BaseComponent implements OnIn
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(() => {
       if (!this.userChangedStartTime) {
-        this.startTime = new Date(this.startTime.setMinutes(this.startTime.getMinutes() + 1));
+        this.startTime.setValue(new Date(this.startTime.value.setMinutes(this.startTime.value.getMinutes() + 1)));
       }
     });
   }

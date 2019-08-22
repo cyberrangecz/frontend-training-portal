@@ -6,7 +6,7 @@ import {TrainingDefinitionDetailRoutingModule} from './training-definition-detai
 import { TrainingDefinitionEditComponent } from './training-definition-edit/training-definition-edit.component';
 import { TrainingLevelStepperComponent } from './level/training-level-stepper/training-level-stepper.component';
 import {SharedModule} from '../../shared/shared.module';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AuthorsPickerComponent } from './training-definition-edit/authors-picker/authors-picker.component';
 import { SandboxDefinitionPickerComponent } from './training-definition-edit/sandbox-definition-picker/sandbox-definition-picker.component';
 import {LevelEditModule} from './level/level-edit/level-edit.module';
@@ -26,7 +26,8 @@ import {SandboxDefinitionFacadeModule} from '../../../services/facades/modules/s
     TrainingDefinitionDetailMaterialModule,
     SandboxDefinitionFacadeModule,
     LevelEditModule,
-    PipesModule
+    PipesModule,
+    ReactiveFormsModule
   ],
   declarations: [
     TrainingDefinitionDetailComponent,

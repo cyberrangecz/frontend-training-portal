@@ -1,10 +1,12 @@
 import {
   AfterViewInit,
   ChangeDetectorRef,
-  Component, EventEmitter,
+  Component,
+  EventEmitter,
   Input,
   OnChanges,
-  OnInit, Output,
+  OnInit,
+  Output,
   QueryList,
   SimpleChanges,
   ViewChildren
@@ -14,56 +16,86 @@ import {AlertService} from "../../../../../../../../services/shared/alert.servic
 import {AlertTypeEnum} from "../../../../../../../../model/enums/alert-type.enum";
 import { MatRadioButton } from "@angular/material/radio";
 import {BaseComponent} from "../../../../../../../base.component";
+import { Validators, FormControl, FormArray } from '@angular/forms';
+import { ExtendedMatchingItemsFormGroup } from './extended-matching-items-form-group';
 
 @Component({
-  selector: 'extended-matching-items',
-  templateUrl: './extended-matching-items.component.html',
-  styleUrls: ['./extended-matching-items.component.css']
+  selector: "extended-matching-items",
+  templateUrl: "./extended-matching-items.component.html",
+  styleUrls: ["./extended-matching-items.component.css"]
 })
 /**
  * Component of a question of type Extended Matching Items
  */
-export class ExtendedMatchingItemsComponent extends BaseComponent implements OnInit, OnChanges, AfterViewInit {
+export class ExtendedMatchingItemsComponent extends BaseComponent
+  implements OnInit, OnChanges, AfterViewInit {
+  @Input("question") question: ExtendedMatchingItems;
+  @Input("isTest") isTest: boolean;
+  @Input("required") required: boolean;
 
-  @Input('question') question: ExtendedMatchingItems;
-  @Input('isTest') isTest: boolean;
-  @Input('required') required: boolean;
+  @Output("question") questionChange = new EventEmitter();
 
-  @Output('question') questionChange = new EventEmitter();
-
-  title: string;
-  rows: string[];
-  cols: string[];
-  correctAnswers: { x: number, y:number }[];
-  score: number;
-  penalty: number;
+  extendedMatchingQuestionFormGroup: ExtendedMatchingItemsFormGroup;
 
   maxQuestionScore: number = 100;
   maxQuestionPenalty: number = 100;
 
-  dirty = false;
-
   @ViewChildren(MatRadioButton) radioButtons: QueryList<MatRadioButton>;
 
-  constructor(private cdRef:ChangeDetectorRef,
-              private alertService: AlertService) {
+  constructor(
+    private cdRef: ChangeDetectorRef,
+    private alertService: AlertService
+  ) {
     super();
   }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  get title() {
+    return this.extendedMatchingQuestionFormGroup.formGroup.get("title");
+  }
+  get rows() {
+    return <FormArray>(
+      this.extendedMatchingQuestionFormGroup.formGroup.get("rows")
+    );
+  }
+  get cols() {
+    return <FormArray>(
+      this.extendedMatchingQuestionFormGroup.formGroup.get("cols")
+    );
+  }
+  get correctAnswers() {
+    return <FormArray>(
+      this.extendedMatchingQuestionFormGroup.formGroup.get("correctAnswers")
+    );
+  }
+  get score() {
+    return this.extendedMatchingQuestionFormGroup.formGroup.get("score");
+  }
+  get penalty() {
+    return this.extendedMatchingQuestionFormGroup.formGroup.get("penalty");
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if ('question' in changes) {
+    if (!this.extendedMatchingQuestionFormGroup) {
+      this.extendedMatchingQuestionFormGroup = new ExtendedMatchingItemsFormGroup(
+        this.maxQuestionScore,
+        this.maxQuestionPenalty
+      );
+      this.checkState();
+    }
+    if ("question" in changes) {
       this.setInitialValues();
     }
-    if ('isTest' in changes && !changes['isTest'].isFirstChange()) {
+    if ("isTest" in changes && !changes["isTest"].isFirstChange()) {
+      this.checkState();
       if (!this.isTest) {
-        this.penalty = 0;
+        this.penalty.setValue(0);
         this.clearAnswers();
       }
     }
-    if ('required' in changes && !changes['required'].isFirstChange()) {
+    if ("required" in changes && !changes["required"].isFirstChange()) {
+      this.checkState();
       this.requiredChanged();
     }
   }
@@ -86,13 +118,14 @@ export class ExtendedMatchingItemsComponent extends BaseComponent implements OnI
    * User made a change in the input
    */
   contentChanged() {
-    this.dirty = true;
+    this.extendedMatchingQuestionFormGroup.formGroup.updateValueAndValidity();
+    this.extendedMatchingQuestionFormGroup.formGroup.markAsDirty();
     this.questionChange.emit();
   }
 
   requiredChanged() {
     if (!this.required) {
-      this.score = 0;
+      this.score.setValue(0);
     }
   }
 
@@ -101,16 +134,16 @@ export class ExtendedMatchingItemsComponent extends BaseComponent implements OnI
    * @returns {boolean} true if does not have any unsaved changes, false otherwise
    */
   canDeactivate(): boolean {
-    return !this.dirty;
+    return !this.extendedMatchingQuestionFormGroup.formGroup.dirty;
   }
 
   /**
    * Validates input and saved data through REST
    */
   saveChanges() {
-    if (this.validateInput()) {
+    if (this.extendedMatchingQuestionFormGroup.formGroup.valid) {
       this.setInputValues();
-      this.dirty = false;
+      this.extendedMatchingQuestionFormGroup.formGroup.markAsPristine();
     }
   }
 
@@ -118,13 +151,12 @@ export class ExtendedMatchingItemsComponent extends BaseComponent implements OnI
    * Clears all correct answers
    */
   clearAnswers() {
-    this.correctAnswers = [];
+    this.correctAnswers.clear();
     if (this.radioButtons) {
-      this.radioButtons.forEach(button => button.checked = false);
+      this.radioButtons.forEach(button => (button.checked = false));
     }
     this.contentChanged();
   }
-
 
   /**
    * Adds answer chosen by a user as a correct answer
@@ -133,7 +165,7 @@ export class ExtendedMatchingItemsComponent extends BaseComponent implements OnI
    */
   onAnswerChanged(i: number, j: number) {
     this.deleteAnswerByRow(i);
-    this.correctAnswers.push({x: i, y: j});
+    this.correctAnswers.push(new FormControl({ x: i, y: j }));
     this.contentChanged();
   }
 
@@ -142,7 +174,7 @@ export class ExtendedMatchingItemsComponent extends BaseComponent implements OnI
    * @param index row coordinate in the matrix representing the EMI table
    */
   deleteRow(index: number) {
-    this.rows.splice(index, 1);
+    this.rows.removeAt(index);
     this.deleteAnswerByRow(index);
     this.contentChanged();
   }
@@ -151,7 +183,7 @@ export class ExtendedMatchingItemsComponent extends BaseComponent implements OnI
    * Adds new row to the EMI table
    */
   addRow() {
-    this.rows.push("");
+    this.rows.push(new FormControl("", Validators.required));
     this.contentChanged();
   }
 
@@ -160,7 +192,7 @@ export class ExtendedMatchingItemsComponent extends BaseComponent implements OnI
    * @param index column coordinate in the matrix representing the EMI table
    */
   deleteColumn(index: number) {
-    this.cols.splice(index, 1);
+    this.cols.removeAt(index);
     this.deleteAnswersByCol(index);
     this.contentChanged();
   }
@@ -169,7 +201,7 @@ export class ExtendedMatchingItemsComponent extends BaseComponent implements OnI
    * Adds new column to the EMI table
    */
   addColumn() {
-    this.cols.push("");
+    this.cols.push(new FormControl("", Validators.required));
     this.contentChanged();
   }
 
@@ -178,12 +210,16 @@ export class ExtendedMatchingItemsComponent extends BaseComponent implements OnI
    * @param colIndex index of a column in a matrix representing the EMI table
    */
   private deleteAnswersByCol(colIndex: number) {
-    const answersToDelete = this.correctAnswers.filter(answer => answer.y === colIndex);
+    const answersToDelete = this.correctAnswers.controls.filter(
+      answer => answer.value.y === colIndex
+    );
     if (answersToDelete.length > 0) {
       answersToDelete.forEach(answerToDelete => {
-        const indexOfAnswerToDelete = this.correctAnswers.indexOf(answerToDelete);
+        const indexOfAnswerToDelete = this.correctAnswers.controls.indexOf(
+          answerToDelete
+        );
         if (indexOfAnswerToDelete > -1) {
-          this.correctAnswers.splice(indexOfAnswerToDelete, 1);
+          this.correctAnswers.removeAt(indexOfAnswerToDelete);
         }
       });
     }
@@ -194,11 +230,15 @@ export class ExtendedMatchingItemsComponent extends BaseComponent implements OnI
    * @param rowIndex index of a row in a matrix representing the EMI table
    */
   private deleteAnswerByRow(rowIndex: number) {
-    const answerToDelete = this.correctAnswers.find(answer => answer.x === rowIndex);
+    const answerToDelete = this.correctAnswers.controls.find(
+      answer => answer.value.x === rowIndex
+    );
     if (answerToDelete) {
-      const indexOfAnswerToDelete = this.correctAnswers.indexOf(answerToDelete);
+      const indexOfAnswerToDelete = this.correctAnswers.controls.indexOf(
+        answerToDelete
+      );
       if (indexOfAnswerToDelete > -1) {
-        this.correctAnswers.splice(indexOfAnswerToDelete, 1);
+        this.correctAnswers.removeAt(indexOfAnswerToDelete);
       }
     }
   }
@@ -207,32 +247,40 @@ export class ExtendedMatchingItemsComponent extends BaseComponent implements OnI
    * Sets initial values from passed question object to user input components
    */
   private setInitialValues() {
-    this.title = this.question.title;
-    this.rows = this.question.rows;
-    this.cols = this.question.cols;
-    this.correctAnswers = this.question.correctAnswers;
-    this.score = this.question.score;
-    this.penalty = this.question.penalty;
+    this.title.setValue(this.question.title);
+    this.question.rows.forEach(element => {
+      this.rows.push(new FormControl(element, Validators.required));
+    });
+    this.question.cols.forEach(element => {
+      this.cols.push(new FormControl(element, Validators.required));
+    });
+    this.question.correctAnswers.forEach(element => {
+      this.correctAnswers.push(new FormControl(element));
+    });
+    this.score.setValue(this.question.score);
+    this.penalty.setValue(this.question.penalty);
     this.required = this.question.required;
-    }
+    this.rows.markAllAsTouched();
+    this.cols.markAllAsTouched();
+  }
 
   /**
    * Sets values from user input components to the question object
    */
   private setInputValues() {
-    this.question.title = this.title;
-    this.question.rows = this.rows;
-    this.question.cols = this.cols;
-    this.question.correctAnswers = this.correctAnswers;
+    this.question.title = this.title.value;
+    this.question.rows = this.rows.value;
+    this.question.cols = this.cols.value;
+    this.question.correctAnswers = this.correctAnswers.value;
     this.question.required = this.required;
 
     if (this.question.required) {
-      this.question.score = this.score;
+      this.question.score = this.score.value;
     } else {
       this.question.score = 0;
     }
     if (this.isTest) {
-      this.question.penalty = this.penalty;
+      this.question.penalty = this.penalty.value;
     } else {
       this.question.penalty = 0;
     }
@@ -248,63 +296,35 @@ export class ExtendedMatchingItemsComponent extends BaseComponent implements OnI
         y: button.value.y
       };
 
-      if (this.correctAnswers.find(answer => answer.x === buttonValue.x && answer.y === buttonValue.y)) {
+      if (
+        this.correctAnswers.value.find(
+          answer => answer.x === buttonValue.x && answer.y === buttonValue.y
+        )
+      ) {
         button.checked = true;
       }
     });
   }
 
   /**
-   * Validates user input and calls alert service if there are any errors
+   * Changes extendedMatchingQuestionFormGroup based on required and isTest inputs
    */
-  validateInput(): boolean {
-    let errorTitle = 'Question: ' + this.question.title + '\n';
-    let errorMessage: string = '';
-
-    if (!this.title || this.title.replace(/\s/g, '') === '') {
-      errorMessage += 'Title cannot be empty\n'
+  checkState() {
+    if (this.required) {
+      this.score.enable();
+    } else {
+      this.score.disable();
     }
-
-    if (Number.isNaN(this.penalty) || this.penalty < 0 || this.penalty > this.maxQuestionPenalty) {
-      errorMessage += 'Question penalty must be a number in range from 0 to ' + this.maxQuestionPenalty + '\n'
+    if (this.isTest) {
+      this.extendedMatchingQuestionFormGroup.addAnswersValidator();
+    } else {
+      this.extendedMatchingQuestionFormGroup.removeAnswersValidator();
     }
-
-    if (Number.isNaN(this.score) || this.score < 0 || this.score > this.maxQuestionScore) {
-      errorMessage += 'Question score must be a number in range from 0 to ' + this.maxQuestionScore + '\n'
+    if (this.required && this.isTest) {
+      this.penalty.enable();
+    } else {
+      this.penalty.disable();
     }
-
-    if (this.rows.length === 0) {
-      errorMessage += 'Rows cannot be empty\n'
-    }
-
-    if (this.cols.length === 0) {
-      errorMessage += 'Columns cannot be empty\n'
-    }
-
-    for (let i = 0; i < this.rows.length; i++) {
-      if (!this.rows[i] || this.rows[i].replace(/\s/g, '') === '') {
-        errorMessage += (i + 1) + '. row title cannot be empty\n'
-      }
-    }
-
-    for (let i = 0; i < this.cols.length; i++) {
-      if (!this.cols[i] || this.cols[i].replace(/\s/g, '') === '') {
-        errorMessage += (i + 1) + '. column title cannot be empty\n'
-      }
-    }
-
-    if (this.isTest && !this.hasSelectedAnswers()) {
-      errorMessage += "Test question must have selected correct answers"
-    }
-
-    if (errorMessage !== '') {
-      this.alertService.emitAlert(AlertTypeEnum.Error, errorTitle + errorMessage);
-      return false;
-    }
-    return true;
-  }
-
-  private hasSelectedAnswers() {
-    return this.rows.length === this.correctAnswers.length;
+    this.extendedMatchingQuestionFormGroup.formGroup.updateValueAndValidity();
   }
 }

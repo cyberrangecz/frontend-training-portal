@@ -10,6 +10,7 @@ import {TrainingDefinitionFacade} from "../../../../../../services/facades/train
 import {LevelsDefinitionService} from "../../../../../../services/training-definition/levels-definition.service";
 import {BaseComponent} from "../../../../../base.component";
 import {takeWhile} from "rxjs/operators";
+import { AssessmentLevelConfigurationFormGroup } from './assessment-level-configuration-form-group';
 
 @Component({
   selector: 'assessment-level-configuration',
@@ -28,13 +29,8 @@ export class AssessmentLevelEditComponent extends BaseComponent implements OnIni
 
   @Output('deleteLevel') deleteLevel: EventEmitter<number> = new EventEmitter();
 
-  title: string;
-  instructions: string;
-  isTest: boolean;
-  estimatedDuration: number;
-  questions: AbstractQuestion[];
+  assessmentFormGroup: AssessmentLevelConfigurationFormGroup;
 
-  dirty = false;
   isLoading = false;
 
   constructor(private trainingDefinitionFacade: TrainingDefinitionFacade,
@@ -47,7 +43,16 @@ export class AssessmentLevelEditComponent extends BaseComponent implements OnIni
   ngOnInit() {
   }
 
+  get title() {return this.assessmentFormGroup.formGroup.get('title');}
+  get instructions() {return this.assessmentFormGroup.formGroup.get('instructions');}
+  get isTest() {return this.assessmentFormGroup.formGroup.get('isTest');}
+  get estimatedDuration() {return this.assessmentFormGroup.formGroup.get('estimatedDuration');}
+  get questions() {return this.assessmentFormGroup.formGroup.get('questions');}
+
   ngOnChanges(changes: SimpleChanges) {
+    if (!this.assessmentFormGroup) {
+      this.assessmentFormGroup = new AssessmentLevelConfigurationFormGroup();
+    }
     if ('level' in changes) {
       this.setInitialValues();
     }
@@ -58,38 +63,45 @@ export class AssessmentLevelEditComponent extends BaseComponent implements OnIni
    * @returns {boolean} true does not have any unsaved changes, false otherwise
    */
   canDeactivate(): boolean {
-    return !this.dirty && this.childComponent.canDeactivate();
+    return !this.assessmentFormGroup.formGroup.dirty && this.childComponent.canDeactivate();
   }
 
   /**
    * Validates input, sets values to the level object and calls REST API to save changes
    */
   saveChanges() {
-    if (this.validateInput() && this.childComponent.validateInput()) {
+    if (this.assessmentFormGroup.formGroup.valid && this.childComponent.validateInput()) {
       this.setInputValuesToLevel();
       this.childComponent.save();
       this.level.questions = this.childComponent.questions;
       this.isLoading = true;
+      this.assessmentFormGroup.formGroup.disable();
       this.trainingDefinitionFacade.updateAssessmentLevel(this.trainingDefinitionId, this.level)
         .pipe(takeWhile(() => this.isAlive))
         .subscribe(resp => {
-            this.dirty = false;
             this.isLoading = false;
+            this.assessmentFormGroup.formGroup.enable();
+            this.assessmentFormGroup.formGroup.markAsPristine();
             this.levelService.emitLevelUpdated(this.level);
             this.alertService.emitAlert(AlertTypeEnum.Success, 'Assessment level was successfully saved');
           },
           err => {
             this.isLoading = false;
+            this.assessmentFormGroup.formGroup.enable();
             this.errorHandler.displayInAlert(err, 'Saving assessment level "' + this.level.title + '"');
           });
     }
   }
 
-  /**
+   /**
    * Reacts on change in inputs. Sets dirty to true
    */
   contentChanged() {
-    this.dirty = true;
+    this.assessmentFormGroup.formGroup.markAsDirty();
+  } 
+
+  setInstructionsValue(event) {
+    this.instructions.setValue(event);
   }
 
   /**
@@ -100,42 +112,19 @@ export class AssessmentLevelEditComponent extends BaseComponent implements OnIni
   }
 
   /**
-   * Validates user input, displays error message if error is found
-   * @returns {boolean} true if input passes the validation, false otherwise
-   */
-  private validateInput(): boolean {
-    let errorMessage: string = '';
-
-    if (!this.title || this.title.replace(/\s/g, '') === '') {
-      errorMessage += 'Title cannot be empty\n'
-    }
-
-    if (!this.estimatedDuration && this.estimatedDuration !== 0) {
-      this.estimatedDuration = 60;
-    } else if (this.estimatedDuration < 1 || this.estimatedDuration > 60) {
-      errorMessage += 'Estimated duration must be a number in range from 1 to 60\n'
-    }
-
-    if (errorMessage !== '') {
-      this.alertService.emitAlert(AlertTypeEnum.Error, errorMessage);
-      return false;
-    }
-    return true;
-  }
-
-  /**
    * Sets user input values to the level object
    */
   private setInputValuesToLevel() {
-    this.level.title = this.title;
-    this.level.instructions = this.instructions;
-    this.level.questions = this.questions;
-    if (this.isTest) {
+    this.level.title = this.title.value;
+    this.level.instructions = this.instructions.value;
+    this.level.questions = this.questions.value;
+    if (this.isTest.value) {
       this.level.assessmentType = AssessmentTypeEnum.Test
     } else {
       this.level.assessmentType = AssessmentTypeEnum.Questionnaire;
     }
-    this.level.estimatedDuration = this.estimatedDuration;
+    this.level.estimatedDuration = this.estimatedDuration.value ? this.estimatedDuration.value : 60;
+    this.estimatedDuration.setValue(this.level.estimatedDuration);
   }
 
   /**
@@ -143,11 +132,11 @@ export class AssessmentLevelEditComponent extends BaseComponent implements OnIni
    */
   private setInitialValues() {
     if (this.level) {
-      this.title = this.level.title;
-      this.questions = this.level.questions;
-      this.instructions = this.level.instructions;
-      this.isTest = this.level.assessmentType === AssessmentTypeEnum.Test;
-      this.estimatedDuration = this.level.estimatedDuration;
+      this.title.setValue(this.level.title);
+      this.questions.setValue(this.level.questions);
+      this.instructions.setValue(this.level.instructions);
+      this.isTest.setValue(this.level.assessmentType === AssessmentTypeEnum.Test);
+      this.estimatedDuration.setValue(this.level.estimatedDuration);
     }
   }
 

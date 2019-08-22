@@ -6,6 +6,7 @@ import {SandboxDefinitionFacade} from "../../../../services/facades/sandbox-defi
 import {AlertTypeEnum} from "../../../../model/enums/alert-type.enum";
 import {BaseComponent} from "../../../base.component";
 import {takeWhile} from "rxjs/operators";
+import { SandboxDefinitionFormGroup } from './add-sandbox-definition-dialog-form-group';
 
 @Component({
   selector: 'app-add-sandbox-definition-dialog',
@@ -14,8 +15,7 @@ import {takeWhile} from "rxjs/operators";
 })
 export class AddSandboxDefinitionDialogComponent extends BaseComponent implements OnInit {
 
-  gitlabUrl: string;
-  revision: string;
+  sandboxDefinitionFormGroup: SandboxDefinitionFormGroup;
 
   constructor(public dialogRef: MatDialogRef<AddSandboxDefinitionDialogComponent>,
               private errorHandler: ErrorHandlerService,
@@ -25,35 +25,21 @@ export class AddSandboxDefinitionDialogComponent extends BaseComponent implement
   }
 
   ngOnInit() {
+    this.sandboxDefinitionFormGroup = new SandboxDefinitionFormGroup();
   }
 
+  get gitlabUrl(){return this.sandboxDefinitionFormGroup.gitlabUrl}
+  get revision(){return this.sandboxDefinitionFormGroup.revision}
+
   add() {
-    if (this.validateInput()) {
-      this.sandboxDefinitionFacade.addSandboxDefinition(this.gitlabUrl, this.revision)
+    if (this.sandboxDefinitionFormGroup.gitlabUrl.valid) {
+      this.sandboxDefinitionFacade.addSandboxDefinition(this.gitlabUrl.value, this.revision.value)
         .pipe(takeWhile(() => this.isAlive))
         .subscribe(
           result => this.dialogRef.close({ type: 'success' }),
           err => this.errorHandler.displayInAlert(err, 'Uploading sandbox definition')
         )
     }
-  }
-
-  private validateInput(): boolean {
-    let errorMessage: string = '';
-
-    if (!this.gitlabUrl || this.gitlabUrl.replace(/\s/g, '') === '') {
-      errorMessage += 'Gitlab URL cannot be empty\n'
-    }
-
-    if (!this.revision || this.revision.replace(/\s/g, '') === '') {
-      errorMessage += 'Revision cannot be empty\n'
-    }
-
-    if (errorMessage !== '') {
-      this.alertService.emitAlert(AlertTypeEnum.Error, errorMessage);
-      return false;
-    }
-    return true;
   }
 
   cancel() {

@@ -14,6 +14,7 @@ import {Kypo2AuthService, User} from 'kypo2-auth';
 import {BetaTestingGroup} from '../../../../model/training/beta-testing-group';
 import {BaseComponent} from '../../../base.component';
 import {takeWhile} from 'rxjs/operators';
+import { TrainingConfigurationFormGroup } from './training-configuration-form-group';
 
 /**
  * Component for creating new or editing already existing training definition
@@ -31,14 +32,7 @@ export class TrainingDefinitionEditComponent extends BaseComponent implements On
 
   editMode: boolean;
 
-  title: string;
-  description: string;
-  prerequisites: string[];
-  outcomes: string[];
-  authors: User[];
-  sandboxDefId: number;
-  showProgress: boolean;
-  betaTestingGroup: BetaTestingGroup;
+  trainingConfigurationFormGroup: TrainingConfigurationFormGroup;
 
   dirty = false;
   activeUser: User;
@@ -58,8 +52,38 @@ export class TrainingDefinitionEditComponent extends BaseComponent implements On
     this.activeUser = this.authService.getActiveUser();
   }
 
+  get title() {
+    return this.trainingConfigurationFormGroup.formGroup.get("title");
+  }
+  get description() {
+    return this.trainingConfigurationFormGroup.formGroup.get("description");
+  }
+  get prerequisites() {
+    return this.trainingConfigurationFormGroup.formGroup.get("prerequisites");
+  }
+  get outcomes() {
+    return this.trainingConfigurationFormGroup.formGroup.get("outcomes");
+  }
+  get authors() {
+    return this.trainingConfigurationFormGroup.formGroup.get("authors");
+  }
+  get sandboxDefId() {
+    return this.trainingConfigurationFormGroup.formGroup.get("sandboxDefId");
+  }
+  get showProgress() {
+    return this.trainingConfigurationFormGroup.formGroup.get("showProgress");
+  }
+  get betaTestingGroup() {
+    return this.trainingConfigurationFormGroup.formGroup.get(
+      "betaTestingGroup"
+    );
+  }
+
   ngOnChanges(changes: SimpleChanges) {
-    if ('trainingDefinition' in changes) {
+    if (!this.trainingConfigurationFormGroup) {
+      this.trainingConfigurationFormGroup = new TrainingConfigurationFormGroup();
+    }
+    if ("trainingDefinition" in changes) {
       this.resolveInitialTraining();
     }
   }
@@ -76,27 +100,31 @@ export class TrainingDefinitionEditComponent extends BaseComponent implements On
    * Displays dialog window with list of authors and assigns selected authors to the training definition
    */
   chooseAuthors() {
-    const dialogRef = this.dialog.open(AuthorsPickerComponent, { data: this.authors });
+    const dialogRef = this.dialog.open(AuthorsPickerComponent, {
+      data: this.authors.value
+    });
 
-    dialogRef.afterClosed()
+    dialogRef
+      .afterClosed()
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(result => {
-      if (result && result.type === 'confirm') {
-        this.authors = result.authors;
-        this.dirty = true;
-      }
-    });
+        if (result && result.type === "confirm") {
+          this.authors.setValue(result.authors);
+          this.dirty = true;
+        }
+      });
   }
 
   chooseBetaTestingGroup() {
     const dialogRef = this.dialog.open(EditBetaTestingGroupComponent, {
-      data: this.betaTestingGroup
+      data: this.betaTestingGroup.value
     });
-    dialogRef.afterClosed()
+    dialogRef
+      .afterClosed()
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(result => {
       if (result && result.type === 'confirm') {
-        this.betaTestingGroup = result.betaTestingGroup;
+        this.betaTestingGroup.setValue(result.betaTestingGroup);
         this.dirty = true;
       }
     });
@@ -106,33 +134,35 @@ export class TrainingDefinitionEditComponent extends BaseComponent implements On
    * Displays dialog window with list of sandbox definitions and assigns selected sandbox definition to the training definition
    */
   chooseSandboxDefs() {
-    const dialogRef = this.dialog.open(SandboxDefinitionPickerComponent, { data : this.sandboxDefId});
-    dialogRef.afterClosed()
+    const dialogRef = this.dialog.open(SandboxDefinitionPickerComponent, {
+      data: this.sandboxDefId.value
+    });
+    dialogRef
+      .afterClosed()
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(result => {
-      if (result && result.type === 'confirm') {
-        this.sandboxDefId = result.sandboxDef.id;
-        this.dirty = true;
-      }
-    });
+        if (result && result.type === "confirm") {
+          this.sandboxDefId.setValue(result.sandboxDef.id);
+          this.dirty = true;
+        }
+      });
   }
 
   /**
    * Saves created or edited training definition, validates the input and send request to save the training definition in database
    */
   saveTrainingDef() {
-    if (this.validateInput()) {
+    if (this.trainingConfigurationFormGroup.formGroup.valid) {
       this.setInputValuesToTrainingDef();
       this.sendRequestToSaveChanges();
     }
   }
 
-  contentChanged() {
-    this.dirty = true;
-  }
-
   private performActionsAfterSuccessfulSave(id: number) {
-    if (this.trainingDefinition.id === undefined || this.trainingDefinition.id == null) {
+    if (
+      this.trainingDefinition.id === undefined ||
+      this.trainingDefinition.id == null
+    ) {
       this.trainingDefinition.id = id;
       this.idChange.emit(id);
     }
@@ -162,21 +192,32 @@ export class TrainingDefinitionEditComponent extends BaseComponent implements On
   }
 
   private updateTrainingDefinition() {
-    this.trainingDefinitionFacade.updateTrainingDefinition(this.trainingDefinition)
+    this.trainingDefinitionFacade
+      .updateTrainingDefinition(this.trainingDefinition)
       .pipe(takeWhile(() => this.isAlive))
-      .subscribe(response => {
-          this.alertService.emitAlert(AlertTypeEnum.Success, 'Changes were successfully saved.');
+      .subscribe(
+        response => {
+          this.alertService.emitAlert(
+            AlertTypeEnum.Success,
+            "Changes were successfully saved."
+          );
           this.performActionsAfterSuccessfulSave(response);
         },
-        err => this.errorHandler.displayInAlert(err, 'Editing training definition')
+        err =>
+          this.errorHandler.displayInAlert(err, "Editing training definition")
       );
   }
 
   private createTrainingDefinition() {
-    this.trainingDefinitionFacade.createTrainingDefinition(this.trainingDefinition)
+    this.trainingDefinitionFacade
+      .createTrainingDefinition(this.trainingDefinition)
       .pipe(takeWhile(() => this.isAlive))
-      .subscribe(response => {
-          this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully saved.');
+      .subscribe(
+        response => {
+          this.alertService.emitAlert(
+            AlertTypeEnum.Success,
+            "Training was successfully saved."
+          );
           this.performActionsAfterSuccessfulSave(response);
         },
         err => this.errorHandler.displayInAlert(err, 'Creating new training definition')
@@ -191,7 +232,7 @@ export class TrainingDefinitionEditComponent extends BaseComponent implements On
       this.editMode = false;
       this.initValuesForNewTraining();
       this.trainingDefinition = new TrainingDefinition();
-      this.showProgress = true;
+      this.showProgress.setValue(true);
     } else {
       this.editMode = true;
       this.initValuesForEdit();
@@ -202,66 +243,42 @@ export class TrainingDefinitionEditComponent extends BaseComponent implements On
    * Sets initial values of input elements if new training definition is created
    */
   private initValuesForNewTraining() {
-    this.title = '';
-    this.description = '';
-    this.prerequisites = [''];
-    this.outcomes = [''];
-    this.betaTestingGroup = null;
-    this.authors = [this.authService.getActiveUser()];
+    this.title.setValue("");
+    this.description.setValue("");
+    this.prerequisites.setValue([""]);
+    this.outcomes.setValue([""]);
+    this.betaTestingGroup.setValue(null);
+    this.authors.setValue([this.authService.getActiveUser()]);
   }
 
   /**
    * Sets initial values of input elements if existing training definition is edited
    */
   private initValuesForEdit() {
-    this.title = this.trainingDefinition.title;
-    this.description = this.trainingDefinition.description;
-    this.prerequisites = this.trainingDefinition.prerequisites;
-    this.outcomes = this.trainingDefinition.outcomes;
-    this.showProgress = this.trainingDefinition.showStepperBar;
-    this.betaTestingGroup = this.trainingDefinition.betaTestingGroup;
-    if (!this.prerequisites) { this.prerequisites = ['']; }
-    if (!this.outcomes) { this.outcomes = ['']; }
-    this.authors = this.trainingDefinition.authors;
-    this.sandboxDefId = this.trainingDefinition.sandboxDefinitionId;
+    this.title.setValue(this.trainingDefinition.title);
+    this.description.setValue(this.trainingDefinition.description);
+    this.prerequisites.setValue(this.trainingDefinition.prerequisites);
+    this.outcomes.setValue(this.trainingDefinition.outcomes);
+    this.showProgress.setValue(this.trainingDefinition.showStepperBar);
+    this.betaTestingGroup.setValue(this.trainingDefinition.betaTestingGroup);
+    if (!this.prerequisites) { this.prerequisites.setValue(['']); }
+    if (!this.outcomes) { this.outcomes.setValue(['']); }
+    this.authors.setValue(this.trainingDefinition.authors);
+    this.sandboxDefId.setValue(this.trainingDefinition.sandboxDefinitionId);
   }
-
 
   /**
    * Sets validated values from user input to the training definition object
    */
   private setInputValuesToTrainingDef() {
-    this.trainingDefinition.sandboxDefinitionId = this.sandboxDefId;
-    this.trainingDefinition.title = this.title;
-    this.trainingDefinition.authors = this.authors;
-    this.trainingDefinition.description = this.description;
-    this.trainingDefinition.prerequisites = this.prerequisites;
-    this.trainingDefinition.outcomes = this.outcomes;
-    this.trainingDefinition.showStepperBar = this.showProgress;
-    this.trainingDefinition.betaTestingGroup = this.betaTestingGroup;
+    this.trainingDefinition.sandboxDefinitionId = this.sandboxDefId.value;
+    this.trainingDefinition.title = this.title.value;
+    this.trainingDefinition.authors = this.authors.value;
+    this.trainingDefinition.description = this.description.value;
+    this.trainingDefinition.prerequisites = this.prerequisites.value;
+    this.trainingDefinition.outcomes = this.outcomes.value;
+    this.trainingDefinition.showStepperBar = this.showProgress.value;
+    this.trainingDefinition.betaTestingGroup = this.betaTestingGroup.value;
   }
 
-  /**
-   * Validates user input for the training definition
-   * @returns {boolean} return true if input passes the validation, false otherwise
-   */
-  private validateInput(): boolean {
-    let errorMessage = '';
-    if (!this.title || this.title.replace(/\s/g, '') === '') {
-      errorMessage += 'Title cannot be empty\n';
-    }
-
-    if (!this.authors || this.authors.length === 0) {
-      errorMessage += 'Authors cannot be empty\n';
-    }
-
-    if (this.sandboxDefId === null || this.sandboxDefId === undefined) {
-      errorMessage += 'No sandbox definiton specified. Training definition requires one sandbox definition.\n';
-    }
-    if (errorMessage !== '') {
-      this.alertService.emitAlert(AlertTypeEnum.Error, errorMessage);
-      return false;
-    }
-    return true;
-  }
 }

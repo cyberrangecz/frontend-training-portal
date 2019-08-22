@@ -4,7 +4,8 @@ import {
   Input,
   OnChanges,
   OnInit,
-  Output, QueryList,
+  Output,
+  QueryList,
   SimpleChanges,
   ViewChildren
 } from '@angular/core';
@@ -14,28 +15,40 @@ import { MatDialog } from "@angular/material/dialog";
 import {ActionConfirmationDialog} from "../../../../../../../shared/delete-dialog/action-confirmation-dialog.component";
 import {BaseComponent} from "../../../../../../../base.component";
 import {takeWhile} from "rxjs/operators";
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { HintStepperFormGroup } from './hint-stepper-form-group';
+import { FormArray, FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'hint-stepper',
-  templateUrl: './hint-stepper.component.html',
-  styleUrls: ['./hint-stepper.component.css']
+  selector: "hint-stepper",
+  templateUrl: "./hint-stepper.component.html",
+  styleUrls: ["./hint-stepper.component.css"],
+  providers: [
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { showError: true }
+    }
+  ]
 })
 /**
  * Hint stepper component, to navigate through existing hints and creating new hints
  */
-export class HintStepperComponent extends BaseComponent implements OnInit, OnChanges {
+export class HintStepperComponent extends BaseComponent
+  implements OnInit, OnChanges {
+  @Input("hints") hints: Hint[];
+  @Input("levelMaxScore") levelMaxScore: number;
+  @Input("disabled") disabled: boolean;
 
-  @Input('hints') hints: Hint[];
-  @Input('levelMaxScore') levelMaxScore: number;
-  @Input('disabled') disabled: boolean;
-
-  @Output('hints') hintsChange = new EventEmitter();
+  @Output("hints") hintsChange = new EventEmitter();
 
   @ViewChildren(HintDetailEditComponent) hintConfigurationChildren: QueryList<HintDetailEditComponent>;
 
   dirty = false;
+  valid: boolean;
   initialPenaltySum: number;
   selectedStep: number;
+
+  hintStepperFormGroup: HintStepperFormGroup;
 
   constructor(public dialog: MatDialog) {
     super();
@@ -45,8 +58,15 @@ export class HintStepperComponent extends BaseComponent implements OnInit, OnCha
     this.selectedStep = 0;
   }
 
+  get hintsArray() {
+    return <FormArray>this.hintStepperFormGroup.formGroup.get("hints");
+  }
   ngOnChanges(changes: SimpleChanges) {
-    if ('hints' in changes) {
+    if (!this.hintStepperFormGroup) {
+      this.hintStepperFormGroup = new HintStepperFormGroup();
+      this.validityChanged();
+    }
+    if ("hints" in changes) {
       this.resolveInitialHints();
       this.setInitialHintPenaltySum();
     }
@@ -57,7 +77,12 @@ export class HintStepperComponent extends BaseComponent implements OnInit, OnCha
    * @returns {boolean} true does not have any unsaved changes, false otherwise
    */
   canDeactivate(): boolean {
-    return !this.dirty && this.hintConfigurationChildren.toArray().every(child => child.canDeactivate());
+    return (
+      !this.hintStepperFormGroup.formGroup.dirty &&
+      this.hintConfigurationChildren
+        .toArray()
+        .every(child => child.canDeactivate())
+    );
   }
 
   /**
@@ -65,14 +90,17 @@ export class HintStepperComponent extends BaseComponent implements OnInit, OnCha
    */
   addHint() {
     const hint = new Hint();
-    hint.title = 'New hint';
-    hint.content = '';
+    hint.title = "New hint";
+    hint.content = "";
     hint.hintPenalty = 0;
+    this.hintsArray.push(new FormControl(hint));
     this.hints.push(hint);
-    this.dirty = true;
+    this.hintStepperFormGroup.formGroup.markAsDirty();
     this.hintsChanged();
+    this.validityChanged();
     // hack to workaround bug in cdkStepper library
-    setTimeout(() => this.selectedStep = this.hints.length - 1, 1);
+    setTimeout(() => {this.selectedStep = this.hintsArray.length - 1;
+                      this.validityChanged();}, 1);
   }
 
   /**
@@ -80,7 +108,7 @@ export class HintStepperComponent extends BaseComponent implements OnInit, OnCha
    */
   saveChanges() {
     this.hintConfigurationChildren.forEach(child => child.saveChanges());
-    this.dirty = false;
+    this.hintStepperFormGroup.formGroup.markAsPristine();
   }
 
   /**
@@ -89,26 +117,28 @@ export class HintStepperComponent extends BaseComponent implements OnInit, OnCha
    */
   deleteHint(hint: Hint) {
     const dialogRef = this.dialog.open(ActionConfirmationDialog, {
-    data:
-      {
-      type: 'hint',
-      action: 'delete',
-      title: hint.title
+      data: {
+        type: "hint",
+        action: "delete",
+        title: hint.title
       }
     });
 
-    dialogRef.afterClosed()
+    dialogRef
+      .afterClosed()
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(result => {
-      if (result && result.type === 'confirm') {
-        const index = this.hints.indexOf(hint);
-        if (index > - 1) {
-          this.hints.splice(index, 1);
+        if (result && result.type === "confirm") {
+          const index = this.hintsArray.value.indexOf(hint);
+          if (index > -1) {
+            this.hintsArray.removeAt(index);
+            this.hints.splice(index, 1);
+          }
+          this.changeSelectedStepAfterRemoving(index);
+          this.hintStepperFormGroup.formGroup.markAsDirty();
+          this.hintsChanged();
         }
-        this.changeSelectedStepAfterRemoving(index);
-        this.hintsChanged();
-      }
-    });
+      });
   }
 
   /**
@@ -135,8 +165,11 @@ export class HintStepperComponent extends BaseComponent implements OnInit, OnCha
    * Initializes hints if no hints are passed from parents component
    */
   private resolveInitialHints() {
-    if (!this.hints) {
-      this.hints = [];
+    if (this.hints) {
+      this.hints.forEach(hint => {
+        this.hintsArray.push(new FormControl(hint));
+      });
+      
     }
   }
 
@@ -144,7 +177,23 @@ export class HintStepperComponent extends BaseComponent implements OnInit, OnCha
    * Emits event if new hint is added or saved
    */
   private hintsChanged() {
-    this.hintsChange.emit(this.hints);
+    this.hintsChange.emit(this.hintsArray.value);
+  }
+
+    /**
+   * Emits event if new hint validity is changed
+   */
+  validityChanged() {
+    if (this.hintConfigurationChildren && this.hintConfigurationChildren.length != 0) {
+      this.hintConfigurationChildren.forEach((child, index) => {
+        child.valid
+          ? this.hintsArray.at(index).setErrors(null)
+          : this.hintsArray.at(index).setErrors({ required: true });
+      });
+      this.valid = this.hintConfigurationChildren
+        .map(child => child.valid)
+        .reduce((accumulator, hint) => accumulator && hint, true);
+    }
   }
 
   /**
@@ -152,10 +201,11 @@ export class HintStepperComponent extends BaseComponent implements OnInit, OnCha
    * Should be used only to calculate the sum BEFORE hint components are initialized
    */
   private setInitialHintPenaltySum() {
-    if (this.hints.length === 0) {
+    if (this.hintsArray.length === 0) {
       this.initialPenaltySum = 0;
     } else {
-      this.initialPenaltySum = this.hints.map(hint => hint.hintPenalty)
+      this.initialPenaltySum = this.hintsArray.value
+        .map(hint => hint.hintPenalty)
         .reduce((sum, currentPenalty) => sum + currentPenalty);
     }
   }
@@ -165,10 +215,12 @@ export class HintStepperComponent extends BaseComponent implements OnInit, OnCha
    * Should be used only to calculate the sum AFTER hint components are initialized
    */
   private calculateHintPenaltySum() {
-    const hintsPenaltySum = this.hintConfigurationChildren.map(child => child.hintPenalty)
+    const hintsPenaltySum = this.hintConfigurationChildren
+      .map(child => child.hintPenalty.value)
       .reduce((sum, currentPenalty) => sum + currentPenalty);
     this.initialPenaltySum = hintsPenaltySum;
-    this.hintConfigurationChildren.forEach(child => child.calculateMaxHintPenalty(hintsPenaltySum));
+    this.hintConfigurationChildren.forEach(child =>
+      child.calculateMaxHintPenalty(hintsPenaltySum)
+    );
   }
-
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AlertService } from '../../../../services/shared/alert.service';
 import { AlertTypeEnum } from '../../../../model/enums/alert-type.enum';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,6 +8,7 @@ import { TrainingRunFacade } from '../../../../services/facades/training-run-fac
 import {BaseComponent} from '../../../base.component';
 import {takeWhile} from 'rxjs/operators';
 import {TRAINING_RUN_GAME_PATH} from "../paths";
+import { TraineeAccessTrainingFormGroup } from './trainee-access-training-form-group';
 
 @Component({
   selector: 'kypo2-access-training-run',
@@ -18,9 +19,11 @@ import {TRAINING_RUN_GAME_PATH} from "../paths";
  * Components where user can access active training run by inserting correct accessToken
  */
 export class AccessTrainingRunComponent extends BaseComponent implements OnInit {
+  
+  @ViewChild('pin', {static: false}) accessTokenPinInput: ElementRef;
 
-  accessTokenPrefix: string;
-  accessTokenPin: string;
+  traineeAccessTrainingFormGroup: TraineeAccessTrainingFormGroup;
+
   isLoading: boolean;
 
   constructor(private router: Router,
@@ -33,21 +36,25 @@ export class AccessTrainingRunComponent extends BaseComponent implements OnInit 
   }
 
   ngOnInit() {
+    this.traineeAccessTrainingFormGroup = new TraineeAccessTrainingFormGroup();
   }
+
+  get accessTokenPrefix() {return this.traineeAccessTrainingFormGroup.formGroup.get('accessTokenPrefix');}
+  get accessTokenPin() {return this.traineeAccessTrainingFormGroup.formGroup.get('accessTokenPin');}
 
   /**
    * Finds active training run with matching accessToken and allocates resources for the trainee.
    * If resources are allocated, navigates user to the first level of the training
    */
   access() {
-    if (this.hasValidInput()) {
+    if (this.traineeAccessTrainingFormGroup.formGroup.valid) {
       this.sendRequestToAccessTrainingRun();
     }
   }
 
   private sendRequestToAccessTrainingRun() {
     this.isLoading = true;
-    const accessToken = this.accessTokenPrefix + '-' + this.accessTokenPin;
+    const accessToken = this.accessTokenPrefix.value + '-' + this.accessTokenPin.value;
     this.trainingRunFacade.accessTrainingRun(accessToken)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(trainingRunInfo => {
@@ -61,13 +68,25 @@ export class AccessTrainingRunComponent extends BaseComponent implements OnInit 
         });
 }
 
-  private hasValidInput(): boolean {
-    if (this.accessTokenPrefix && this.accessTokenPrefix.replace(/\s/g, '') !== ''
-      && this.accessTokenPin && this.accessTokenPin.replace(/\s/g, '') !== ''
-      && !isNaN(this.accessTokenPin as any) && this.accessTokenPin.length === 4) {
-      return true;
-    } else {
-      this.alertService.emitAlert(AlertTypeEnum.Error, 'Password cannot be empty and must have correct format');
+  onPaste(event: ClipboardEvent) {
+    
+    let pastedText = event.clipboardData.getData('text');
+    if (pastedText.includes('-')) {
+      event.preventDefault();
+      this.accessTokenPrefix.setValue(pastedText.slice(0,pastedText.indexOf('-')));
+      this.accessTokenPin.setValue(pastedText.slice(pastedText.indexOf('-') + 1,pastedText.length));
+      this.traineeAccessTrainingFormGroup.formGroup.updateValueAndValidity();
+      this.accessTokenPin.markAsTouched();
+      this.accessTokenPrefix.markAsTouched();
     }
   }
+
+  onKeyup(event) {
+    if (event.key === '-') {
+      this.accessTokenPinInput.nativeElement.focus();
+      this.accessTokenPrefix.setValue(this.accessTokenPrefix.value.slice(0, -1))   ;
+    
+    }
+  }
+ 
 }

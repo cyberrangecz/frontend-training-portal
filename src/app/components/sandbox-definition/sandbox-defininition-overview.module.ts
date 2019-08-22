@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {PipesModule} from '../../pipes/pipes.module';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SandboxDefinitionOverviewRoutingModule} from './sandbox-definition-overview-routing.module';
 import {SandboxDefinitionOverviewMaterialModule} from './sandbox-definition-overview-material.module';
 import {SandboxDefinitionFacadeModule} from '../../services/facades/modules/sandbox-definition-facade.module';
@@ -19,7 +19,7 @@ import {TrainingDefinitionFacadeModule} from '../../services/facades/modules/tra
     SandboxDefinitionOverviewMaterialModule,
     SandboxDefinitionFacadeModule,
     TrainingDefinitionFacadeModule,
-
+    ReactiveFormsModule
   ],
   declarations: [
     SandboxDefinitionOverviewComponent,

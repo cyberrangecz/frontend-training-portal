@@ -7,6 +7,7 @@ import {TrainingDefinitionFacade} from "../../../../../../services/facades/train
 import {LevelsDefinitionService} from "../../../../../../services/training-definition/levels-definition.service";
 import {BaseComponent} from "../../../../../base.component";
 import {takeWhile} from "rxjs/operators";
+import { InfoLevelConfigFormGroup } from './info-level-configuration-form-group';
 
 @Component({
   selector: 'info-level-configuration',
@@ -23,11 +24,9 @@ export class InfoLevelConfigurationComponent extends BaseComponent implements On
 
   @Output('deleteLevel') deleteLevel: EventEmitter<number> = new EventEmitter();
 
-  title: string;
-  content: string;
+  infoLevelConfigFormGroup: InfoLevelConfigFormGroup;
 
   isLoading = false;
-  dirty = false;
 
   constructor(private trainingDefinitionFacade: TrainingDefinitionFacade,
               private levelService: LevelsDefinitionService,
@@ -40,7 +39,15 @@ export class InfoLevelConfigurationComponent extends BaseComponent implements On
   ngOnInit() {
   }
 
+  
+  get title() {return this.infoLevelConfigFormGroup.formGroup.get('title');}
+  get content() {return this.infoLevelConfigFormGroup.formGroup.get('content');}
+
+
   ngOnChanges(changes: SimpleChanges) {
+    if (!this.infoLevelConfigFormGroup) {
+      this.infoLevelConfigFormGroup = new InfoLevelConfigFormGroup();
+    }
     if ('level' in changes) {
       this.setInitialValues();
     }
@@ -58,26 +65,29 @@ export class InfoLevelConfigurationComponent extends BaseComponent implements On
    * @returns {boolean} true does not have any unsaved changes, false otherwise
    */
   canDeactivate(): boolean {
-    return !this.dirty;
+    return !this.infoLevelConfigFormGroup.formGroup.dirty;
   }
 
   /**
    * Validates and saves input values to the level object and calls REST API of server to save changes
    */
   saveChanges() {
-    if (this.validateChanges()) {
+    if (this.infoLevelConfigFormGroup.formGroup.valid) {
       this.isLoading = true;
+      this.infoLevelConfigFormGroup.formGroup.disable();
       this.setInputValuesToLevel();
       this.trainingDefinitionFacade.updateInfoLevel(this.trainingDefinitionId, this.level)
         .pipe(takeWhile(() => this.isAlive))
         .subscribe(resp => {
           this.isLoading = false;
-          this.dirty = false;
+          this.infoLevelConfigFormGroup.formGroup.enable();
+          this.infoLevelConfigFormGroup.formGroup.markAsPristine();
           this.levelService.emitLevelUpdated(this.level);
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Info level was successfully saved');
         },
   err => {
           this.isLoading =false;
+          this.infoLevelConfigFormGroup.formGroup.enable();
           this.errorHandler.displayInAlert(err, 'Updating info level "' + this.level.title + '"');
             });
     }
@@ -87,37 +97,19 @@ export class InfoLevelConfigurationComponent extends BaseComponent implements On
    * Reacts on change in inputs. Sets dirty to true
    */
   contentChanged() {
-    this.dirty = true;
+    this.infoLevelConfigFormGroup.formGroup.markAsDirty();
   }
 
-  /**
-   * Validates user input and displays error messages if errors are found
-   * @returns {boolean} true if input passes the validation, false otherwise
-   */
-  private validateChanges(): boolean {
-    let errorMessage: string = '';
-
-    if (!this.title || this.title.replace(/\s/g, '') === '') {
-      errorMessage += 'Title cannot be empty\n'
-    }
-
-    if (!this.content || this.title.replace(/\s/g, '') === '') {
-      errorMessage += 'Content cannot be empty\n'
-    }
-
-    if (errorMessage !== '') {
-      this.alertService.emitAlert(AlertTypeEnum.Error, errorMessage);
-      return false;
-    }
-    return true;
+  setContentValue(event) {
+    this.content.setValue(event);
   }
 
   /**
    * Sets input values to the info level object
    */
   private setInputValuesToLevel() {
-    this.level.title = this.title;
-    this.level.content = this.content;
+    this.level.title = this.title.value;
+    this.level.content = this.content.value;
   }
 
   /**
@@ -125,8 +117,9 @@ export class InfoLevelConfigurationComponent extends BaseComponent implements On
    */
   private setInitialValues() {
     if (this.level) {
-      this.title = this.level.title;
-      this.content = this.level.content;
+      this.title.setValue(this.level.title);
+      this.content.setValue(this.level.content);
     }
   }
+
 }

@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import { GameLevelConfigurationComponent } from './game-level-edit/game-level-configuration.component';
 import {LevelEditMaterialModule} from './level-edit-material.module';
@@ -24,6 +24,7 @@ import {environment} from '../../../../../../environments/environment';
     MarkdownEditorModule.forRoot(environment.markdownConfig),
     LevelEditMaterialModule,
     MatSlideToggleModule,
+    ReactiveFormsModule
   ],
   exports: [
     AbstractLevelEditComponent

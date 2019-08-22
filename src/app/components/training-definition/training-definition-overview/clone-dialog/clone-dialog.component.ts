@@ -4,6 +4,7 @@ import {TrainingDefinition} from "../../../../model/training/training-definition
 import {AlertService} from "../../../../services/shared/alert.service";
 import {AlertTypeEnum} from "../../../../model/enums/alert-type.enum";
 import {BaseComponent} from "../../../base.component";
+import { CloneDialogFormGroup } from './clone-dialog-form-group';
 
 @Component({
   selector: 'app-clone-dialog',
@@ -12,7 +13,7 @@ import {BaseComponent} from "../../../base.component";
 })
 export class CloneDialogComponent extends BaseComponent implements OnInit {
 
-  clonedDefinitionTitle: string;
+  cloneDialogFormGroup: CloneDialogFormGroup;
 
   constructor(public dialogRef: MatDialogRef<CloneDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: TrainingDefinition,
@@ -21,27 +22,22 @@ export class CloneDialogComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.clonedDefinitionTitle = 'Clone of ' + this.data.title;
+    this.cloneDialogFormGroup = new CloneDialogFormGroup();
+    this.clonedDefinitionTitle.setValue( 'Clone of ' + this.data.title);
   }
 
+  get clonedDefinitionTitle(){return this.cloneDialogFormGroup.formGroup.get('clonedDefinitionTitle');}
+
   confirm() {
-    if (this.validateInput())
+    if (this.cloneDialogFormGroup.formGroup.valid)
     this.dialogRef.close({
       type: 'confirm',
-      title: this.clonedDefinitionTitle
+      title: this.clonedDefinitionTitle.value
     });
   }
 
   cancel() {
     this.dialogRef.close();
-  }
-
-  private validateInput(): boolean {
-    if (!this.clonedDefinitionTitle || this.clonedDefinitionTitle.replace(/\s/g, '') === '') {
-      this.alertService.emitAlert(AlertTypeEnum.Error,'Title cannot be empty');
-      return false;
-    }
-    return true;
   }
 
 }
