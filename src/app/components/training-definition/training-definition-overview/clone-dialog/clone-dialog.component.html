@@ -1,13 +1,16 @@
 <h1 mat-dialog-title>Clone {{ data.title | titlecase | shortString: 30 }}</h1>
 <div mat-dialog-content>
-  <!-- TITLE field-->
-  <mat-form-field appearance="outline">
-    <mat-label>Title</mat-label>
-    <input matInput placeholder="Title" [(ngModel)]="clonedDefinitionTitle" required>
-    <button mat-button *ngIf="clonedDefinitionTitle" matSuffix mat-icon-button aria-label="Clear" (click)="clonedDefinitionTitle=''">
-      <mat-icon>close</mat-icon>
-    </button>
-  </mat-form-field>
+  <form [formGroup]="cloneDialogFormGroup.formGroup">
+    <!-- TITLE field-->
+    <mat-form-field appearance="outline">
+      <mat-label>Title</mat-label>
+      <input matInput placeholder="Title" formControlName="clonedDefinitionTitle" required>
+      <button mat-button *ngIf="clonedDefinitionTitle.value" matSuffix mat-icon-button aria-label="Clear" (click)="clonedDefinitionTitle.setValue('')">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-error *ngIf="clonedDefinitionTitle.hasError('required')">Title cannot be empty</mat-error>
+    </mat-form-field>
+  </form>
 </div>
 <div mat-dialog-actions>
   <button mat-button  color="warn" cdkFocusInitial (click)="cancel()">Cancel</button>

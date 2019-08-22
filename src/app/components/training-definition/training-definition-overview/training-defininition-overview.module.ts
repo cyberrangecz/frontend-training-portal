@@ -6,7 +6,7 @@ import {TrainingDefinitionFacadeModule} from '../../../services/facades/modules/
 import {TrainingInstanceFacadeModule} from '../../../services/facades/modules/training-instance-facade.module';
 import {PipesModule} from '../../../pipes/pipes.module';
 import {ngfModule} from 'angular-file';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {StateChangeDialogComponent} from './state-change-dialog/state-change-dialog.component';
 import { AuthorsListDialogComponent } from './authors-list-dialog/authors-list-dialog.component';
 import { CloneDialogComponent } from './clone-dialog/clone-dialog.component';
@@ -24,6 +24,7 @@ import {TrainingDefinitionOverviewComponent} from './training-definition-overvie
     TrainingDefinitionOverviewMaterialModule,
     TrainingDefinitionFacadeModule,
     TrainingInstanceFacadeModule,
+    ReactiveFormsModule
   ],
   declarations: [
     TrainingDefinitionOverviewComponent,

@@ -9,49 +9,72 @@ import {TrainingDefinitionFacade} from '../../../../../../services/facades/train
 import {LevelsDefinitionService} from '../../../../../../services/training-definition/levels-definition.service';
 import {BaseComponent} from '../../../../../base.component';
 import {takeWhile} from 'rxjs/operators';
+import { GameLevelConfigFormGroup } from './game-level-configuration-form-group';
 
 @Component({
-  selector: 'game-level-configuration',
-  templateUrl: './game-level-configuration.component.html',
-  styleUrls: ['./game-level-configuration.component.css']
+  selector: "game-level-configuration",
+  templateUrl: "./game-level-configuration.component.html",
+  styleUrls: ["./game-level-configuration.component.css"]
 })
 /**
  * Component for configuration of new or existing game level
  */
-export class GameLevelConfigurationComponent extends BaseComponent implements OnInit, OnChanges {
+export class GameLevelConfigurationComponent extends BaseComponent
+  implements OnInit, OnChanges {
+  @Input("level") level: GameLevel;
+  @Input("trainingDefinitionId") trainingDefinitionId: number;
+  @Output("deleteLevel") deleteLevel: EventEmitter<number> = new EventEmitter();
 
-  @Input('level') level: GameLevel;
-  @Input('trainingDefinitionId') trainingDefinitionId: number;
-  @Output('deleteLevel') deleteLevel: EventEmitter<number> = new EventEmitter();
+  @ViewChild(HintStepperComponent, { static: false })
+  childComponent: HintStepperComponent;
 
-  @ViewChild(HintStepperComponent, { static: false }) childComponent: HintStepperComponent;
-
-
-  title: string;
-  content: string;
-  solution: string;
-  maxScore: number;
-  solutionPenalized: boolean;
-  incorrectFlagLimit: number;
-  flag: string;
-  estimatedDuration: number;
-  hints: Hint[];
-
-  dirty = false;
+  gameLevelConfigFormGroup: GameLevelConfigFormGroup;
   isLoading = false;
 
-  constructor(private alertService: AlertService,
-              private levelService: LevelsDefinitionService,
-              private errorHandler: ErrorHandlerService,
-              private trainingDefinitionFacade: TrainingDefinitionFacade) {
+  constructor(
+    private alertService: AlertService,
+    private levelService: LevelsDefinitionService,
+    private errorHandler: ErrorHandlerService,
+    private trainingDefinitionFacade: TrainingDefinitionFacade
+  ) {
     super();
   }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  get title() {
+    return this.gameLevelConfigFormGroup.formGroup.get("title");
+  }
+  get content() {
+    return this.gameLevelConfigFormGroup.formGroup.get("content");
+  }
+  get solution() {
+    return this.gameLevelConfigFormGroup.formGroup.get("solution");
+  }
+  get maxScore() {
+    return this.gameLevelConfigFormGroup.formGroup.get("maxScore");
+  }
+  get solutionPenalized() {
+    return this.gameLevelConfigFormGroup.formGroup.get("solutionPenalized");
+  }
+  get incorrectFlagLimit() {
+    return this.gameLevelConfigFormGroup.formGroup.get("incorrectFlagLimit");
+  }
+  get flag() {
+    return this.gameLevelConfigFormGroup.formGroup.get("flag");
+  }
+  get estimatedDuration() {
+    return this.gameLevelConfigFormGroup.formGroup.get("estimatedDuration");
+  }
+  get hints() {
+    return this.gameLevelConfigFormGroup.formGroup.get("hints");
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if ('level' in changes) {
+    if (!this.gameLevelConfigFormGroup) {
+      this.gameLevelConfigFormGroup = new GameLevelConfigFormGroup();
+    }
+    if ("level" in changes) {
       this.setInitialValues();
     }
   }
@@ -61,36 +84,59 @@ export class GameLevelConfigurationComponent extends BaseComponent implements On
    * @returns {boolean} true does not have any unsaved changes, false otherwise
    */
   canDeactivate(): boolean {
-    return !this.dirty && this.childComponent.canDeactivate();
+    return (
+      !this.gameLevelConfigFormGroup.formGroup.dirty &&
+      this.childComponent.canDeactivate()
+    );
   }
 
   /**
    * Reacts on change in inputs, sets dirty to true
    */
   onContentChanged() {
-    this.dirty = true;
+    this.gameLevelConfigFormGroup.formGroup.markAsDirty();
+  }
+
+  setContentValue(event){
+    this.content.setValue(event);
+  }
+
+  setSolutionValue(event){
+    this.solution.setValue(event);
   }
 
   /**
    * Validates users input, sets input values to the game level object and calls REST API to save changes
    */
   saveChanges() {
-    if (this.validateChanges()) {
+    if (this.gameLevelConfigFormGroup.formGroup.valid) {
       this.isLoading = true;
+      this.gameLevelConfigFormGroup.formGroup.disable();
       this.setInputValuesToLevel();
       this.childComponent.saveChanges();
-      this.trainingDefinitionFacade.updateGameLevel(this.trainingDefinitionId, this.level)
+      this.trainingDefinitionFacade
+        .updateGameLevel(this.trainingDefinitionId, this.level)
         .pipe(takeWhile(() => this.isAlive))
-        .subscribe(resp => {
-          this.dirty = false;
-          this.isLoading = false;
-          this.levelService.emitLevelUpdated(this.level);
-          this.alertService.emitAlert(AlertTypeEnum.Success, 'Game level was successfully saved');
-        },
+        .subscribe(
+          resp => {
+            this.gameLevelConfigFormGroup.formGroup.markAsPristine();
+            this.isLoading = false;
+            this.gameLevelConfigFormGroup.formGroup.enable();
+            this.levelService.emitLevelUpdated(this.level);
+            this.alertService.emitAlert(
+              AlertTypeEnum.Success,
+              "Game level was successfully saved"
+            );
+          },
           err => {
             this.isLoading = false;
-            this.errorHandler.displayInAlert(err, 'Saving game level "' + this.level.title + '"');
-          });
+            this.gameLevelConfigFormGroup.formGroup.enable();
+            this.errorHandler.displayInAlert(
+              err,
+              'Saving game level "' + this.level.title + '"'
+            );
+          }
+        );
     }
   }
 
@@ -102,57 +148,21 @@ export class GameLevelConfigurationComponent extends BaseComponent implements On
   }
 
   /**
-   * Validates user input, displays error message if errors are found
-   * @returns {boolean} true if user input passes the validation, false otherwise
-   */
-  private validateChanges(): boolean {
-    let errorMessage = '';
-
-    if (!this.title || this.title.replace(/\s/g, '') === '') {
-      errorMessage += 'Title cannot be empty\n';
-    }
-    if (!this.content || this.content.replace(/\s/g, '') === '') {
-      errorMessage += 'Content cannot be empty\n';
-    }
-    if (!this.solution || this.solution.replace(/\s/g, '') === '') {
-      errorMessage += 'Solution cannot be empty\n';
-    }
-    if (!this.flag || this.flag.replace(/\s/g, '') === '' || this.flag.length > 50) {
-      errorMessage += 'Flag cannot be empty or larger than 50 characters\n';
-    }
-    if (Number.isNaN(this.incorrectFlagLimit) || this.incorrectFlagLimit < 1 || this.incorrectFlagLimit > 100) {
-      errorMessage += 'Incorrect flag limit must be in range of 1 to 100\n';
-    }
-    if (Number.isNaN(this.maxScore) || this.maxScore < 0 || this.maxScore > 100) {
-      errorMessage += 'Maximal score must be a number in range from 0 to 100\n';
-    }
-
-    if (!this.estimatedDuration && this.estimatedDuration !== 0) {
-      this.estimatedDuration = 60;
-    } else if (this.estimatedDuration < 1 || this.estimatedDuration > 60) {
-      errorMessage += 'Estimated duration must be a number in range from 1 to 60\n';
-    }
-
-    if (errorMessage !== '') {
-      this.alertService.emitAlert(AlertTypeEnum.Error, errorMessage);
-      return false;
-    }
-    return true;
-  }
-
-  /**
    * Sets user input values to the game level object
    */
   private setInputValuesToLevel() {
-    this.level.title = this.title;
-    this.level.content = this.content;
-    this.level.solution  = this.solution;
-    this.level.maxScore = this.maxScore;
-    this.level.flag = this.flag;
-    this.level.solutionPenalized = this.solutionPenalized;
-    this.level.incorrectFlagLimit = this.incorrectFlagLimit;
-    this.level.estimatedDuration = this.estimatedDuration;
-    this.level.hints = this.hints;
+    this.level.title = this.title.value;
+    this.level.content = this.content.value;
+    this.level.solution = this.solution.value;
+    this.level.maxScore = this.maxScore.value;
+    this.level.flag = this.flag.value;
+    this.level.solutionPenalized = this.solutionPenalized.value;
+    this.level.incorrectFlagLimit = this.incorrectFlagLimit.value;
+    this.level.estimatedDuration = this.estimatedDuration.value
+      ? this.estimatedDuration.value
+      : 60;
+    this.estimatedDuration.setValue(this.level.estimatedDuration);
+    this.level.hints = this.hints.value;
   }
 
   /**
@@ -160,16 +170,22 @@ export class GameLevelConfigurationComponent extends BaseComponent implements On
    */
   private setInitialValues() {
     if (this.level) {
-      this.title = this.level.title;
-      this.content = this.level.content;
-      this.solution = this.level.solution;
-      this.maxScore = this.level.maxScore;
-      this.flag = this.level.flag;
-      this.solutionPenalized = this.level.solutionPenalized;
-      this.incorrectFlagLimit = this.level.incorrectFlagLimit;
-      this.estimatedDuration = this.level.estimatedDuration;
-      this.hints = this.level.hints;
+      this.title.setValue(this.level.title);
+      this.content.setValue(this.level.content);
+      this.solution.setValue(this.level.solution);
+      this.maxScore.setValue(this.level.maxScore);
+      this.flag.setValue(this.level.flag);
+      this.solutionPenalized.setValue(this.level.solutionPenalized);
+      this.incorrectFlagLimit.setValue(this.level.incorrectFlagLimit);
+      this.estimatedDuration.setValue(this.level.estimatedDuration);
+      this.hints.setValue(this.level.hints);
     }
   }
 
+  private childIsValid() {
+    if (this.childComponent && this.childComponent.valid !== undefined) {
+      return this.childComponent.valid;
+    }
+    return true;
+  }
 }

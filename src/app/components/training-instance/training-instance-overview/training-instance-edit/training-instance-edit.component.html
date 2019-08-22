@@ -2,15 +2,17 @@
   <div class="header">
     <h3 *ngIf="!isEditMode">New Training Instance</h3>
   </div>
+  <form [formGroup]="trainingInstanceFormGroup.formGroup">
   <div class="content">
 
     <!--TITLE field-->
-    <mat-form-field appearance="outline" >
+    <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>
-      <input matInput placeholder="Title" (ngModelChange)="contentChanged()" [(ngModel)]="title" required>
-      <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title=''; contentChanged()">
+      <input matInput placeholder="Title" formControlName="title" required>
+      <button mat-button *ngIf="title.value" matSuffix mat-icon-button aria-label="Clear" (click)="title.setValue('');">
         <mat-icon>close</mat-icon>
       </button>
+      <mat-error *ngIf="title.hasError('required')">This field is required</mat-error>
     </mat-form-field>
 
     <div class="panel-wrapper">
@@ -28,27 +30,32 @@
                    required
                    [min]="now"
                    [max]="endTime"
-                   [(ngModel)]="startTime"
+                   formControlName="startTime"
                    (dateTimeChange)="onStartTimeChanged()"
-                   (ngModelChange)="onStartTimeNgModelChanged()"
                    [owlDateTime]="startTimePicker">
-            <owl-date-time #startTimePicker [startAt]="startTime"></owl-date-time>
+            <owl-date-time #startTimePicker [startAt]="startTime.value"></owl-date-time>
           </div>
+          <mat-error *ngIf="trainingInstanceFormGroup.formGroup.hasError('startTimeAfterEndTime')">Start time must be before end time</mat-error>
+          <mat-error *ngIf="startTime.hasError('dateInPast')">Start time cannot be in the past</mat-error>
+          <mat-error *ngIf="startTime.hasError('required')">This field is required</mat-error>
         </mat-form-field>
 
         <!-- POOL SIZE filed -->
         <mat-form-field appearance="outline" hintLabel="Pool of sandboxes that can be allocated" class="multi-line-hint">
           <mat-label>Sandbox pool size</mat-label>
-          <input matInput placeholder="Sandbox pool size" (ngModelChange)="contentChanged()" type="number" max="100" min="1" [(ngModel)]="poolSize" required>
+          <input matInput placeholder="Sandbox pool size" type="number" max="100" min="1" formControlName="poolSize" required>
+          <mat-error *ngIf="poolSize.hasError('max') || poolSize.hasError('min')">Pool size must be number in range from 1 to 100</mat-error>
+          <mat-error *ngIf="poolSize.hasError('required')">This field is required</mat-error>
         </mat-form-field>
 
         <!-- ACCESS TOKEN filed -->
         <mat-form-field appearance="outline"  hintLabel="Generated PIN code will be added to your token" class="multi-line-hint">
           <mat-label>Access Token Prefix</mat-label>
-          <input matInput placeholder="Access Token" (ngModelChange)="contentChanged()" [(ngModel)]="accessToken" required>
-          <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="accessToken=''; contentChanged()">
+          <input matInput placeholder="Access Token" formControlName="accessToken" required>
+          <button mat-button *ngIf="accessToken.value" matSuffix mat-icon-button aria-label="Clear" (click)="accessToken.setValue('');">
             <mat-icon>close</mat-icon>
           </button>
+          <mat-error *ngIf="accessToken.hasError('required')">This field is required</mat-error>
         </mat-form-field>
       </div>
 
@@ -65,20 +72,22 @@
               matInput
               placeholder="End Time"
               required
-              [min]="startTime"
-              (ngModelChange)="contentChanged()"
-              [(ngModel)]="endTime"
+              [min]="startTime.value"
+              formControlName="endTime"
               [owlDateTime]="endTimePicker">
             <owl-date-time #endTimePicker></owl-date-time>
           </div>
+          <mat-error *ngIf="trainingInstanceFormGroup.formGroup.hasError('startTimeAfterEndTime')">Start time must be before end time</mat-error>
+          <mat-error *ngIf="endTime.hasError('dateInPast')">End time cannot be in the past</mat-error>
+          <mat-error *ngIf="endTime.hasError('required')">This field is required</mat-error>
         </mat-form-field>
 
           <!-- ORGANIZERS field-->
           <div class="line-with-button">
-            <p *ngIf="organizers && organizers.length > 0"
-               [matTooltip]="organizers"
-               style="color: black">Organizers: {{ organizers | shorterAuthorsFormat: activeUser }}</p>
-            <p *ngIf="!organizers || organizers.length === 0">Organizers*</p>
+            <p *ngIf="organizers.value && organizers.value.length > 0"
+               [matTooltip]="organizers.value"
+               style="color: black">Organizers: {{ organizers.value | shorterAuthorsFormat: activeUser }}</p>
+            <p *ngIf="!organizers.value || organizers.value.length === 0">Organizers*</p>
             <span class="spacer"></span>
             <button (click)="chooseOrganizers()"
                     mat-button color="accent">
@@ -88,8 +97,8 @@
 
         <!-- TRAINING DEFINITION field-->
         <div class="line-with-button">
-          <p *ngIf="trainingDefinition" style="color: black">Training Definition: {{ trainingDefinition.title | shortString: 30 }}</p>
-          <p *ngIf="!trainingDefinition">Training Definition*</p>
+          <p *ngIf="trainingDefinition.value" style="color: black">Training Definition: {{ trainingDefinition.value.title | shortString: 30 }}</p>
+          <p *ngIf="!trainingDefinition.value">Training Definition*</p>
           <span class="spacer"></span>
           <button (click)="chooseTrainingDefinition()"
                   mat-button color="accent">
@@ -98,11 +107,12 @@
         </div>
         <div class="save-button">
           <span class="spacer"></span>
-          <button mat-raised-button class="main" color="primary" [disabled]="!dirty" (click)="save()">
+          <button mat-raised-button class="main" color="primary" [disabled]="!trainingInstanceFormGroup.formGroup.dirty || !trainingInstanceFormGroup.formGroup.valid" (click)="save()">
             Save
           </button>
         </div>
       </div>
     </div>
   </div>
+  </form>
 </div>

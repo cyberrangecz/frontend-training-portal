@@ -1,44 +1,55 @@
-<div class="content">
-  <!-- TITLE field-->
-  <mat-form-field appearance="outline">
-    <mat-label>Title</mat-label>
-    <input (ngModelChange)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
-    <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title=''; contentChanged()">
-      <mat-icon>close</mat-icon>
-    </button>
-  </mat-form-field>
-
-  <div class="inline-input">
-    <!-- SCORE field -->
-    <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionScore }}">
-      <mat-label>Points</mat-label>
-      <input [disabled]="!required" (ngModelChange)="contentChanged()" matInput placeholder="Points" type="number" [max]="maxQuestionScore" min="0" [(ngModel)]="score" [required]="required">
-    </mat-form-field>
-
-    <!-- PENALTY field -->
-    <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionPenalty }}">
-      <mat-label>Penalty points</mat-label>
-      <input [disabled]="!required || !isTest" (ngModelChange)="contentChanged()" matInput placeholder="Question Penalty points" type="number" [max]="maxQuestionPenalty" min="0" [(ngModel)]="penalty" [required]="required">
-    </mat-form-field>
-  </div>
-
-
-  <button *ngIf="answers.length > 0" mat-button color="warn" (click)="clearAnswers()" class="clear-answers">Clear Answers</button>
-  <!-- CORRECT ANSWERS field -->
-  <div class="answer" *ngFor="let answer of answers; index as i; trackBy: trackByFn;">
+<form [formGroup]="freeFormQuestionFormGroup.formGroup">
+  <div class="content">
+    <!-- TITLE field-->
     <mat-form-field appearance="outline">
-      <mat-label>Answer {{ i + 1}}</mat-label>
-      <input (ngModelChange)="contentChanged()" matInput placeholder="Answer" [(ngModel)]="answers[i]">
-      <button mat-button *ngIf="answers[i]" matSuffix mat-icon-button aria-label="Clear" (click)="answers[i]=''; contentChanged()">
+      <mat-label>Title</mat-label>
+      <input (ngModelChange)="contentChanged()" matInput placeholder="Title" formControlName="title" required>
+      <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title.setValue(); contentChanged()">
         <mat-icon>close</mat-icon>
       </button>
+      <mat-error *ngIf="title.hasError('required')">Title cannot be empty</mat-error>
     </mat-form-field>
-    <button mat-icon-button>
-      <mat-icon aria-label="Remove correct answer" color="warn" (click)="removeAnswer(i)">remove_circle</mat-icon>
-    </button>
-  </div>
 
-  <button *ngIf="required && isTest" mat-icon-button>
-    <mat-icon aria-label="Add correct answer" color="primary" (click)="addAnswer()">add_circle</mat-icon>
-  </button>
-</div>
+    <div class="inline-input">
+      <!-- SCORE field -->
+      <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionScore }}">
+        <mat-label>Points</mat-label>
+        <input (ngModelChange)="contentChanged()" matInput placeholder="Points" type="number" [max]="maxQuestionScore" min="0" formControlName="score" [required]="required">
+        <mat-error *ngIf="score.hasError('required')">Question score cannot be empty</mat-error>
+        <mat-error *ngIf="score.hasError('pattern') || score.hasError('min') || score.hasError('max')">Question score must be a number in range from 0 to {{this.maxQuestionScore}}</mat-error>
+      </mat-form-field>
+
+      <!-- PENALTY field -->
+      <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionPenalty }}">
+        <mat-label>Penalty points</mat-label>
+        <input (ngModelChange)="contentChanged()" matInput placeholder="Question Penalty points" type="number" [max]="maxQuestionPenalty" min="0" formControlName="penalty" [required]="required">
+        <mat-error *ngIf="penalty.hasError('required')">Question penalty cannot be empty</mat-error>
+        <mat-error *ngIf="penalty.hasError('pattern') || penalty.hasError('min') || penalty.hasError('max')">Question penalty must be a number in range from 0 to this.{{maxQuestionPenalty}}</mat-error>
+      </mat-form-field>
+    </div>
+
+
+    <button *ngIf="answers.value.length > 0" mat-button color="warn" (click)="clearAnswers()" class="clear-answers">Clear Answers</button>
+    <!-- CORRECT ANSWERS field -->
+    <div  formArrayName="answers">
+      <div class="answer" *ngFor="let answer of answers.controls; index as i; trackBy: trackByFn;">
+        <mat-form-field appearance="outline">
+          <mat-label>Answer {{ i + 1}}</mat-label>
+          <input (ngModelChange)="contentChanged()" matInput placeholder="Answer" [formControl]="answer">
+          <button mat-button *ngIf="answer.value" matSuffix mat-icon-button aria-label="Clear" (click)="answer.setValue(); contentChanged()">
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-error *ngIf="answer.hasError('required')">Answer cannot be empty</mat-error>
+        </mat-form-field>
+        <button mat-icon-button>
+          <mat-icon aria-label="Remove correct answer" color="warn" (click)="removeAnswer(i)">remove_circle</mat-icon>
+        </button>
+      </div>
+    </div>
+    
+    <button *ngIf="required && isTest" mat-icon-button>
+      <mat-icon aria-label="Add correct answer" color="primary" (click)="addAnswer()">add_circle</mat-icon>
+    </button>
+    <mat-error *ngIf="isTest && freeFormQuestionFormGroup.formGroup.hasError('noSelectedAnswers')">Test question must have selected correct answers</mat-error>
+  </div>
+</form>

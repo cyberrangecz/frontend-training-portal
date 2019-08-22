@@ -2,14 +2,14 @@
   <div class="header">
     <h2>Assessment Level Detail</h2>
     <div class="save-info">
-      <div *ngIf="dirty" class="save-info-content">
+      <div *ngIf="this.assessmentFormGroup.formGroup.dirty" class="save-info-content">
         <mat-icon color="warn">close</mat-icon>
         <span class="left-margin">Not Saved</span>
-        <button mat-button color="accent" [disabled]="isLoading" (click)="saveChanges()">
+        <button mat-button color="accent" [disabled]="isLoading || !assessmentFormGroup.formGroup.dirty || !assessmentFormGroup.formGroup.valid || !childComponent.validateInput()" (click)="saveChanges()">
           Save
         </button>
       </div>
-      <div *ngIf="!dirty" class="save-info-content">
+      <div *ngIf="!this.assessmentFormGroup.formGroup.dirty" class="save-info-content">
         <mat-icon class="green-icon">done</mat-icon>
         <span class="left-margin">Saved</span>
       </div>
@@ -17,26 +17,29 @@
   </div>
 
   <div class="content">
+    <form [formGroup]="assessmentFormGroup.formGroup">
     <div class="panel-wrapper">
       <div class="left-panel">
         <!-- TITLE field -->
         <mat-form-field appearance="outline">
           <mat-label>Title</mat-label>
-          <input [disabled]="isLoading" (ngModelChange)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
-          <button mat-button *ngIf="title && !isLoading" matSuffix mat-icon-button aria-label="Clear" (click)="title=''; contentChanged()">
+          <input (contentChange)="contentChanged()" matInput placeholder="Title" formControlName="title" required>
+          <button mat-button *ngIf="title.value && !isLoading" matSuffix mat-icon-button aria-label="Clear" (click)="title.setValue('');">
             <mat-icon>close</mat-icon>
           </button>
+          <mat-error *ngIf="title.hasError('required')">Title cannot be empty</mat-error>
         </mat-form-field>
 
         <!-- ESTIMATED DURATION field -->
         <mat-form-field appearance="outline" hintLabel="Number in minutes. Range from 1 to 60">
           <mat-label>Estimated Duration in minutes</mat-label>
-          <input matInput [disabled]="isLoading" (ngModelChange)="contentChanged()" placeholder="Estimated Duration in Minutes" type="number" max="60" min="1" [(ngModel)]="estimatedDuration">
+          <input matInput (contentChange)="contentChanged()" placeholder="Estimated Duration in Minutes" type="number" max="60" min="1" formControlName="estimatedDuration">
+          <mat-error *ngIf="estimatedDuration.hasError('min') || estimatedDuration.hasError('max')">Estimated duration must be a number in range from 1 to 60</mat-error>
         </mat-form-field>
 
         <!-- INSTRUCTIONS field -->
         <h3>Instructions</h3>
-        <kypo2-markdown-editor class="mrkdwn-content" [kypo2-markdown-file-upload]="false" (contentChange)="contentChanged()" [(content)]="instructions"></kypo2-markdown-editor>
+        <kypo2-markdown-editor class="mrkdwn-content" [kypo2-markdown-file-upload]="false" (contentChange)="setInstructionsValue($event); contentChanged();" [content]="instructions.value"></kypo2-markdown-editor>
 
       </div>
       <div class="right-panel">
@@ -44,16 +47,17 @@
           <span class="test-toggle-right-margin">Questionnaire</span>
           <mat-slide-toggle
             matTooltip="Switching to questionnaire wil delete your answers"
-            [disabled]="isLoading"
-            (ngModelChange)="contentChanged()"
-            [(ngModel)]="isTest">
+            
+            formControlName="isTest">
           </mat-slide-toggle>
           <span class="test-toggle-left-margin">Test</span>
         </div>
       </div>
     </div>
     <!-- QUESTIONS component -->
-    <question-overview (questions)="contentChanged()" [questions]="questions" [isTest]="isTest" [disabled]="isLoading"></question-overview>
+    <question-overview (questions)="contentChanged()" [questions]="questions.value" [isTest]="isTest.value" [disabled]="isLoading"></question-overview>
+    <mat-error *ngIf="!childComponent?.validateInput()">There are errors in questions</mat-error>
+    </form>
   </div>
 
   <div class="footer">
@@ -61,7 +65,7 @@
     <button mat-raised-button color="warn" [disabled]="isLoading" (click)="onDeleteLevel()">
       Delete level
     </button>
-    <button mat-raised-button color="primary" [disabled]="isLoading || !dirty" (click)="saveChanges()">
+    <button mat-raised-button color="primary" [disabled]="isLoading || !assessmentFormGroup.formGroup.dirty || !assessmentFormGroup.formGroup.valid || !childComponent.validateInput()" (click)="saveChanges()">
       Save level
     </button>
   </div>

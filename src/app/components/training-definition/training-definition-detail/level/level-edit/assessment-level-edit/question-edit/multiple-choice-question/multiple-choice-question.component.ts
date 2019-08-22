@@ -4,52 +4,70 @@ import {AlertService} from "../../../../../../../../services/shared/alert.servic
 import {AlertTypeEnum} from "../../../../../../../../model/enums/alert-type.enum";
 import { MatCheckboxChange } from "@angular/material/checkbox";
 import {BaseComponent} from "../../../../../../../base.component";
+import { MultipleChoiceFormGroup } from './multiple-choice-question-form-group';
+import { FormArray, FormControl, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'multiple-choice-question',
-  templateUrl: './multiple-choice-question.component.html',
-  styleUrls: ['./multiple-choice-question.component.css']
+  selector: "multiple-choice-question",
+  templateUrl: "./multiple-choice-question.component.html",
+  styleUrls: ["./multiple-choice-question.component.css"]
 })
 /**
  * Component of a question of type Multiple Choice Question
  */
-export class MultipleChoiceQuestionComponent extends BaseComponent implements OnInit, OnChanges {
+export class MultipleChoiceQuestionComponent extends BaseComponent
+  implements OnInit, OnChanges {
+  @Input("question") question: MultipleChoiceQuestion;
+  @Input("isTest") isTest: boolean;
+  @Input("required") required: boolean;
+  @Output("question") questionChange = new EventEmitter();
 
-  @Input('question') question: MultipleChoiceQuestion;
-  @Input('isTest') isTest: boolean;
-  @Input('required') required: boolean;
-  @Output('question') questionChange = new EventEmitter();
-
-  title: string;
-  options: string[];
-  correctAnswersIndices: number[];
-  score: number;
-  penalty: number;
-
+  multipleChoicesFormGroup: MultipleChoiceFormGroup;
   maxQuestionScore: number = 100;
   maxQuestionPenalty: number = 100;
-
-  dirty = false;
 
   constructor(private alertService: AlertService) {
     super();
   }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  get title() {
+    return this.multipleChoicesFormGroup.formGroup.get("title");
+  }
+  get options() {
+    return <FormArray>this.multipleChoicesFormGroup.formGroup.get("options");
+  }
+  get correctAnswersIndices() {
+    return this.multipleChoicesFormGroup.formGroup.get("correctAnswersIndices");
+  }
+  get score() {
+    return this.multipleChoicesFormGroup.formGroup.get("score");
+  }
+  get penalty() {
+    return this.multipleChoicesFormGroup.formGroup.get("penalty");
   }
 
-
   ngOnChanges(changes: SimpleChanges): void {
-    if ('question' in changes) {
+    if (!this.multipleChoicesFormGroup) {
+      this.multipleChoicesFormGroup = new MultipleChoiceFormGroup(
+        this.maxQuestionScore,
+        this.maxQuestionPenalty
+      );
+      this.checkState();
+    }
+    if ("question" in changes) {
       this.setInitialValues();
     }
-    if ('isTest' in changes && !changes['isTest'].isFirstChange()) {
+    if ("isTest" in changes && !changes["isTest"].isFirstChange()) {
+      this.checkState();
       if (!this.isTest) {
-        this.penalty = 0;
+        this.penalty.setValue(0);
         this.clearAnswers();
       }
     }
-    if ('required' in changes && !changes['required'].isFirstChange()) {
+    if ("required" in changes && !changes["required"].isFirstChange()) {
+      this.checkState();
       this.requiredChanged();
     }
   }
@@ -67,14 +85,15 @@ export class MultipleChoiceQuestionComponent extends BaseComponent implements On
    * User made a change in the input
    */
   contentChanged() {
-    this.dirty = true;
+    this.multipleChoicesFormGroup.formGroup.updateValueAndValidity();
+    this.multipleChoicesFormGroup.formGroup.markAsDirty();
     this.questionChange.emit();
   }
   /**
    * Deletes all answers selected by user
    */
   clearAnswers() {
-    this.correctAnswersIndices = [];
+    this.correctAnswersIndices.setValue([]);
     this.contentChanged();
   }
 
@@ -83,16 +102,16 @@ export class MultipleChoiceQuestionComponent extends BaseComponent implements On
    * @returns {boolean} true if does not have any unsaved changes, false otherwise
    */
   canDeactivate(): boolean {
-    return !this.dirty;
+    return !this.multipleChoicesFormGroup.formGroup.dirty;
   }
 
   /**
    * Validates input and saved data through REST
    */
   saveChanges() {
-    if (this.validateInput()) {
+    if (this.multipleChoicesFormGroup.formGroup.valid) {
       this.setInputValues();
-      this.dirty = false;
+      this.multipleChoicesFormGroup.formGroup.markAsPristine();
     }
   }
 
@@ -114,7 +133,7 @@ export class MultipleChoiceQuestionComponent extends BaseComponent implements On
    * @param index index of the option which should be deleted
    */
   deleteOption(index: number) {
-    this.options.splice(index, 1);
+    this.options.removeAt(index);
     this.removeCorrectAnswer(index);
     this.contentChanged();
   }
@@ -123,14 +142,13 @@ export class MultipleChoiceQuestionComponent extends BaseComponent implements On
    * Adds new option
    */
   addOption() {
-    this.options.push('');
+    (this.options as FormArray).push(new FormControl("", Validators.required));
     this.contentChanged();
-
   }
 
   requiredChanged() {
     if (!this.required) {
-      this.score = 0;
+      this.score.setValue(0);
     }
   }
 
@@ -139,9 +157,9 @@ export class MultipleChoiceQuestionComponent extends BaseComponent implements On
    * @param index index of the answer which should be marked as correct
    */
   private addCorrectAnswer(index: number) {
-    this.correctAnswersIndices.push(index);
+    this.correctAnswersIndices.value.push(index);
     this.contentChanged();
-
+    this.correctAnswersIndices.updateValueAndValidity();
   }
 
   /**
@@ -149,10 +167,11 @@ export class MultipleChoiceQuestionComponent extends BaseComponent implements On
    * @param index index of the answer which should be deleted
    */
   private removeCorrectAnswer(index: number) {
-    const indexToRemove = this.correctAnswersIndices.indexOf(index);
+    const indexToRemove = this.correctAnswersIndices.value.indexOf(index);
     if (indexToRemove != -1) {
-      this.correctAnswersIndices.splice(indexToRemove, 1);
+      this.correctAnswersIndices.value.splice(indexToRemove, 1);
       this.contentChanged();
+      this.correctAnswersIndices.updateValueAndValidity();
     }
   }
 
@@ -160,11 +179,15 @@ export class MultipleChoiceQuestionComponent extends BaseComponent implements On
    * Sets initial values from passed question object to user inputs
    */
   private setInitialValues() {
-    this.title = this.question.title;
-    this.options = this.question.options;
-    this.correctAnswersIndices = this.question.correctAnswersIndices;
-    this.score = this.question.score;
-    this.penalty = this.question.penalty;
+    this.title.setValue(this.question.title);
+    this.question.options.forEach(element => {
+      let option = new FormControl(element, Validators.required);
+      option.markAsTouched();
+      (this.options as FormArray).push(option);
+    });
+    this.correctAnswersIndices.setValue(this.question.correctAnswersIndices);
+    this.score.setValue(this.question.score);
+    this.penalty.setValue(this.question.penalty);
     this.required = this.question.required;
   }
 
@@ -172,63 +195,42 @@ export class MultipleChoiceQuestionComponent extends BaseComponent implements On
    * Sets values from user input to the question object
    */
   private setInputValues() {
-    this.question.title = this.title;
-    this.question.options = this.options;
-    this.question.correctAnswersIndices = this.correctAnswersIndices;
+    this.question.title = this.title.value;
+    this.question.options = this.options.value;
+    this.question.correctAnswersIndices = this.correctAnswersIndices.value;
     this.question.required = this.required;
 
     if (this.question.required) {
-      this.question.score = this.score;
+      this.question.score = this.score.value;
     } else {
       this.question.score = 0;
     }
     if (this.isTest) {
-      this.question.penalty = this.penalty;
+      this.question.penalty = this.penalty.value;
     } else {
       this.question.penalty = 0;
     }
   }
 
   /**
-   * Validates user input and calls alert service if there is an error
+   * Enables/disables score and penalty form field based on required and isTest inputs
    */
-  validateInput(): boolean {
-    let errorTitle = 'Question: ' + this.question.title + '\n';
-    let errorMessage: string = '';
-
-    if (!this.title || this.title.replace(/\s/g, '') === '') {
-      errorMessage += 'Title cannot be empty\n'
+  checkState() {
+    if (this.required) {
+      this.score.enable();
+    } else {
+      this.score.disable();
     }
-
-    if (Number.isNaN(this.penalty) || this.penalty < 0 || this.penalty > this.maxQuestionPenalty) {
-      errorMessage += 'Question penalty must be a number in range from 0 to ' + this.maxQuestionPenalty + '\n'
+    if (this.isTest) {
+      this.multipleChoicesFormGroup.addAnswersValidator();
+    } else {
+      this.multipleChoicesFormGroup.removeAnswersValidator();
     }
-
-    if (Number.isNaN(this.score) || this.score < 0 || this.score > this.maxQuestionScore) {
-      errorMessage += 'Question score must be a number in range from 0 to ' + this.maxQuestionScore + '\n'
+    if (this.required && this.isTest) {
+      this.penalty.enable();
+    } else {
+      this.penalty.disable();
     }
-
-    if (this.options.length === 0) {
-      errorMessage += 'Options cannot be empty\n'
-    }
-
-    for (let i = 0; i < this.options.length; i++) {
-      if (!this.options[i] || this.options[i].replace(/\s/g, '') === '') {
-        errorMessage += (i + 1) + '. option cannot be empty\n'
-      }
-    }
-
-    if (this.isTest && !this.hasSelectedAnswers()) {
-      errorMessage += "Test question must have selected correct answers"
-    }
-    if (errorMessage !== '') {
-      this.alertService.emitAlert(AlertTypeEnum.Error, errorTitle + errorMessage);
-      return false;
-    }
-    return true;
-  }
-
-  private hasSelectedAnswers(): boolean {
-    return this.correctAnswersIndices && this.correctAnswersIndices.length >= 1;
+    this.multipleChoicesFormGroup.formGroup.updateValueAndValidity();
   }
 }

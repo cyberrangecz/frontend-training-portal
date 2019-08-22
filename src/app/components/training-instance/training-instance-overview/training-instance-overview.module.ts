@@ -5,7 +5,7 @@ import {TrainingInstanceOverviewComponent} from "./training-instance-overview.co
 import { TrainingInstanceEditComponent } from './training-instance-edit/training-instance-edit.component';
 import { TrainingInstanceTableComponent } from './training-instance-table/training-instance-table.component';
 import {SharedModule} from "../../shared/shared.module";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {TrainingInstanceOverviewMaterialModule} from "./training-instance-overview-material.module";
 import { OrganizersPickerComponent } from './training-instance-edit/organizers-picker/organizers-picker.component';
 import { TrainingDefinitionPickerComponent } from './training-instance-edit/training-definition-picker/training-definition-picker.component';
@@ -33,7 +33,8 @@ import {SandboxInstanceObservablesPoolService} from '../../../services/training-
     TrainingInstanceOverviewRoutingModule,
     TrainingDefinitionFacadeModule,
     TrainingInstanceFacadeModule,
-    SandboxInstanceFacadeModule
+    SandboxInstanceFacadeModule,
+    ReactiveFormsModule
 
   ],
   declarations: [

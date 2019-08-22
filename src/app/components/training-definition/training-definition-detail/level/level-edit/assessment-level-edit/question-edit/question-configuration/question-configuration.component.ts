@@ -60,11 +60,11 @@ export class QuestionConfigurationComponent extends BaseComponent implements OnI
 
   validateInput(): boolean {
     if (this.isFfq) {
-      return this.ffqChild.validateInput();
+      return this.ffqChild.freeFormQuestionFormGroup.formGroup.valid;
     } else if (this.isMcq) {
-      return this.mcqChild.validateInput();
+      return this.mcqChild.multipleChoicesFormGroup.formGroup.valid;
     } else {
-      return this.emiChild.validateInput();
+      return this.emiChild.extendedMatchingQuestionFormGroup.formGroup.valid;
     }
   }
 

@@ -2,34 +2,37 @@
   <div class="header">
     <h2>Info Level Detail</h2>
     <div class="save-info">
-      <div *ngIf="dirty" class="save-info-content">
+      <div *ngIf="infoLevelConfigFormGroup.formGroup.dirty" class="save-info-content">
         <mat-icon color="warn">close</mat-icon>
         <span class="left-margin">Not Saved</span>
-        <button mat-button color="accent" [disabled]="isLoading" (click)="saveChanges()">
+        <button mat-button color="accent" [disabled]="isLoading || !infoLevelConfigFormGroup.formGroup.dirty || !infoLevelConfigFormGroup.formGroup.valid" (click)="saveChanges()">
           Save
         </button>
       </div>
-      <div *ngIf="!dirty" class="save-info-content">
+      <div *ngIf="!infoLevelConfigFormGroup.formGroup.dirty" class="save-info-content">
         <mat-icon class="green-icon">done</mat-icon>
         <span class="left-margin">Saved</span>
       </div>
     </div>
   </div>
 
-  <div class="content">
-    <!-- TITLE filed -->
-    <mat-form-field appearance="outline">
-      <mat-label>Title</mat-label>
-      <input [disabled]="isLoading" (ngModelChange)="contentChanged()" matInput placeholder="Title" [(ngModel)]="title" required>
-      <button mat-button *ngIf="title && !isLoading" matSuffix mat-icon-button aria-label="Clear" (click)="title=''; contentChanged()">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
+  <div>
+    <form [formGroup]="infoLevelConfigFormGroup.formGroup" class="content">
+      <!-- TITLE filed -->
+      <mat-form-field appearance="outline">
+        <mat-label>Title</mat-label>
+        <input matInput placeholder="Title" formControlName="title" required>
+        <button mat-button *ngIf="title && !isLoading" matSuffix mat-icon-button aria-label="Clear" (click)="title.setValue(''); contentChanged();">
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-error>Title cannot be empty</mat-error>
+      </mat-form-field>
 
-    <!-- CONTENT filed -->
-    <h3>Content</h3>
-    <kypo2-markdown-editor [kypo2-markdown-file-upload]="false" (contentChange)="contentChanged()" [(content)]="content"></kypo2-markdown-editor>
-
+      <!-- CONTENT filed -->
+      <h3>Content</h3>
+      <kypo2-markdown-editor [kypo2-markdown-file-upload]="false" (contentChange)="setContentValue($event); contentChanged();" [content]="content.value"></kypo2-markdown-editor>
+      <mat-error *ngIf="content.hasError('required')">Content cannot be empty</mat-error>
+    </form>
   </div>
 
   <div class="footer">
@@ -38,7 +41,7 @@
       Delete level
     </button>
 
-    <button mat-raised-button color="primary" [disabled]="isLoading || !dirty" (click)="saveChanges()">
+    <button mat-raised-button color="primary" [disabled]="isLoading || !infoLevelConfigFormGroup.formGroup.dirty || !infoLevelConfigFormGroup.formGroup.valid" (click)="saveChanges()">
       Save level
     </button>
   </div>
