@@ -8,6 +8,8 @@ import {TrainingRunAssessmentLevelService} from '../../../../../services/trainin
 import {AssessmentTypeEnum} from '../../../../../model/enums/assessment-type.enum';
 import {BaseComponent} from '../../../../base.component';
 import {takeWhile} from 'rxjs/operators';
+import {TRAINING_RUN_RESULTS_PATH} from '../../../training-run-overview/paths';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'kypo2-assessment-level',

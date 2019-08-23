@@ -23,10 +23,7 @@
           <ng-container matColumnDef="title">
             <th class="title" mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="isInErrorState">Title</th>
             <td class="title" mat-cell *matCellDef="let training">
-            <div *ngIf="training.currentLevel < training.totalLevels
-               && training.trainingInstanceStartTime.valueOf() < now
-               && training.trainingInstanceEndTime.valueOf() > now
-              then clickableTitle else nonClickableTitle"></div>
+            <div *ngIf="training.action === actionType.Resume then clickableTitle else nonClickableTitle"></div>
               <ng-template #clickableTitle>
                 <button [disabled]="isLoading" class="training-link" mat-button color="primary"
                         (click)="resume(training.trainingRunId)">
@@ -60,9 +57,7 @@
 
               <div class="action-buttons">
                 <!-- TRY AGAIN button-->
-                <button [disabled]="training.currentLevel >= training.totalLevels
-                          || training.trainingInstanceStartTime.valueOf() >= now
-                           || training.trainingInstanceEndTime.valueOf() <= now"
+                <button [disabled]="training.action !== actionType.Resume"
                         mat-icon-button color="primary"
                         (click)="resume(training.trainingRunId)">
                   <mat-icon

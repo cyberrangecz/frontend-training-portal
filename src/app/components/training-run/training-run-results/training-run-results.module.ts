@@ -4,7 +4,7 @@ import {TrainingRunResultsMaterialModule} from "./training-run-results-material.
 import {TrainingRunResultsRoutingModule} from "./training-run-results-routing.module";
 import { TrainingRunResultsComponent } from './training-run-results.component';
 import { Kypo2TrainingsVisualizationOverviewLibModule } from "kypo2-trainings-visualization-overview-lib";
-import {environment} from '../../../../../environments/environment';
+import {environment} from '../../../../environments/environment';
 
 @NgModule({
   imports: [

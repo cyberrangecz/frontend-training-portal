@@ -1,4 +1,6 @@
 
 export enum TraineeAccessTrainingRunActionEnum {
-  Results = 'Results'
+  Results = 'Results',
+  Resume = 'Resume',
+  None = 'None'
 }

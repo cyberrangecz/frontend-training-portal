@@ -1,10 +1,10 @@
 import {AfterViewInit, Component, OnInit, } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {TrainingRunFacade} from "../../../../services/facades/training-run-facade.service";
-import {ErrorHandlerService} from "../../../../services/shared/error-handler.service";
 import {Kypo2AuthService} from 'kypo2-auth';
-import {BaseComponent} from "../../../base.component";
 import {takeWhile} from "rxjs/operators";
+import {BaseComponent} from '../../base.component';
+import {ErrorHandlerService} from '../../../services/shared/error-handler.service';
+import {TrainingRunFacade} from '../../../services/facades/training-run-facade.service';
 
 @Component({
   selector: 'training-run-results',

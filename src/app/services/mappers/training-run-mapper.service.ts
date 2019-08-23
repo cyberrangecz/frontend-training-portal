@@ -3,11 +3,9 @@ import {TrainingRun} from '../../model/training/training-run';
 import {TrainingRunDTO} from '../../model/DTOs/training-run/training-run-dto';
 import {LevelMapper} from './level-mapper.service';
 import {TrainingRunStateEnum} from '../../model/enums/training-run-state.enum';
-import {TrainingInstanceMapper} from './training-instance-mapper.service';
 import {TrainingRunRestResource} from '../../model/DTOs/training-run/training-run-rest-resource';
 import {AccessedTrainingRunDTO} from '../../model/DTOs/training-run/accessed-training-run-dto';
 import {AccessedTrainingRunsTableRow} from '../../model/table-adapters/accessed-training-runs-table-row';
-import {TraineeAccessTrainingRunActionEnum} from '../../model/enums/trainee-access-training-run-actions.enum';
 import {PaginatedTable} from '../../model/table-adapters/paginated-table';
 import {TrainingRunTableRow} from '../../model/table-adapters/training-run-table-row';
 import {TableAdapterPagination} from '../../model/table-adapters/table-adapter-pagination';
@@ -25,7 +23,6 @@ import {MultipleChoiceQuestionAnswerDTO} from '../../model/DTOs/level/assessment
 import {ExtendedMatchingItemsAnswerDTO} from '../../model/DTOs/level/assessment/extended-matching-items-answer-dto';
 import {UserMapper} from './user.mapper.service';
 import {EmiChoiceDTO} from '../../model/DTOs/level/assessment/emi-choice-dto';
-import PossibleActionEnum = AccessedTrainingRunDTO.PossibleActionEnum;
 import {BasicLevelInfoDTO} from "../../model/DTOs/level/basic-level-info-dto";
 import LevelTypeEnum = BasicLevelInfoDTO.LevelTypeEnum;
 import {GameLevel} from "../../model/level/game-level";
@@ -34,8 +31,7 @@ import {GameLevel} from "../../model/level/game-level";
 export class TrainingRunMapper {
 
   constructor(private levelMapper: LevelMapper,
-              private userMapper: UserMapper,
-              private trainingInstanceMapper: TrainingInstanceMapper) {
+              private userMapper: UserMapper) {
   }
 
   /**

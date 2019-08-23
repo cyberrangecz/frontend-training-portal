@@ -1,5 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {ActiveTrainingRunService} from '../../../../services/training-run/active-training-run.service';
 import {AbstractLevel} from '../../../../model/level/abstract-level';
 import { MatDialog } from '@angular/material/dialog';
@@ -22,7 +21,6 @@ export class AbstractLevelComponent extends BaseComponent implements OnInit {
   levelTypes = AbstractLevelTypeEnum;
 
   constructor(private dialog: MatDialog,
-              private activeRoute: ActivatedRoute,
               private activeLevelsService: ActiveTrainingRunService) {
     super();
   }
@@ -31,7 +29,6 @@ export class AbstractLevelComponent extends BaseComponent implements OnInit {
     this.initLevel();
     this.subscribeForActiveLevelChanges();
   }
-
   /**
    * Shows dialog asking the user if he really wants to leave the page after clicking on back button
    */
