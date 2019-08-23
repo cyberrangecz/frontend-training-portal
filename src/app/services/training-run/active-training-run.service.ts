@@ -10,6 +10,7 @@ import {TrainingRunFacade} from '../facades/training-run-facade.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AccessTrainingRunInfo} from '../../model/training/access-training-run-info';
 import {TRAINING_RUN_RESULTS_PATH} from '../../components/training-run/training-run-overview/paths';
+import {TRAINING_RUN_PATH} from '../../paths';
 
 /**
  * Service maintaining levels of training and active level instance for sub component of trainee training run
@@ -85,7 +86,7 @@ export class ActiveTrainingRunService {
     return this.trainingRunFacade.finishTrainingRun(this.trainingRunId)
       .pipe(map(resp => {
         this.clear();
-        this.router.navigate( ['./..', TRAINING_RUN_RESULTS_PATH], { relativeTo: this.activeRoute});
+        this.router.navigate( ['/' + TRAINING_RUN_PATH, this.trainingRunId, TRAINING_RUN_RESULTS_PATH], { relativeTo: this.activeRoute});
       }));
   }
 

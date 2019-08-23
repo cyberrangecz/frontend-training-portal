@@ -1,8 +1,8 @@
-import {TraineeAccessTrainingRunActionEnum} from "../enums/trainee-access-training-run-actions.enum";
-import {TableRowAdapter} from "./table-row-adapter";
-import {AccessedTrainingRunDTO} from "../DTOs/training-run/accessed-training-run-dto";
+import {TraineeAccessTrainingRunActionEnum} from '../enums/trainee-access-training-run-actions.enum';
+import {TableRowAdapter} from './table-row-adapter';
+import {AccessedTrainingRunDTO} from '../DTOs/training-run/accessed-training-run-dto';
+import {StringNormalizer} from '../utils/ignore-diacritics-filter';
 import PossibleActionEnum = AccessedTrainingRunDTO.PossibleActionEnum;
-import {StringNormalizer} from "../utils/ignore-diacritics-filter";
 
 export class AccessedTrainingRunsTableRow implements TableRowAdapter {
   totalLevels: number;
@@ -29,7 +29,8 @@ export class AccessedTrainingRunsTableRow implements TableRowAdapter {
   private getPossibleActionFromDTO(action: PossibleActionEnum): TraineeAccessTrainingRunActionEnum {
     switch (action) {
       case PossibleActionEnum.RESULTS: return TraineeAccessTrainingRunActionEnum.Results;
-      case null: return null;
+      case PossibleActionEnum.RESUME: return  TraineeAccessTrainingRunActionEnum.Resume;
+      case PossibleActionEnum.NONE: return TraineeAccessTrainingRunActionEnum.None;
       default: console.error('Could not map attribute "action" of "AccessedTrainingRunDTO to any known action');
     }
   }

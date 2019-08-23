@@ -14,7 +14,7 @@ const routes: Routes = [
   },
   {
     path: ':id/' + TRAINING_RUN_RESULTS_PATH,
-    loadChildren: () => import('app/components/training-run/training-run-detail/results/training-run-results.module').then(m => m.TrainingRunResultsModule),
+    loadChildren: () => import('app/components/training-run/training-run-results/training-run-results.module').then(m => m.TrainingRunResultsModule),
   }
 ];
 
