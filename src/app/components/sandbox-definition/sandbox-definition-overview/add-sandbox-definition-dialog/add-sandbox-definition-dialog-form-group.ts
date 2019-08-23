@@ -10,7 +10,4 @@ export class SandboxDefinitionFormGroup{
             'revision': new FormControl('',Validators.required)
         })
     }
-
-    get gitlabUrl(){return this.formGroup.get('gitlabUrl')}
-    get revision(){return this.formGroup.get('revision')}
 }

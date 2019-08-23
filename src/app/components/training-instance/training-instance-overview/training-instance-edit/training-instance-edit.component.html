@@ -29,7 +29,7 @@
                    placeholder="Start Time"
                    required
                    [min]="now"
-                   [max]="endTime"
+                   [max]="endTime.value"
                    formControlName="startTime"
                    (dateTimeChange)="onStartTimeChanged()"
                    [owlDateTime]="startTimePicker">

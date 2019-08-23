@@ -34,7 +34,6 @@ export class TrainingDefinitionEditComponent extends BaseComponent implements On
 
   trainingConfigurationFormGroup: TrainingConfigurationFormGroup;
 
-  dirty = false;
   activeUser: User;
 
   constructor(private router: Router,
@@ -93,7 +92,7 @@ export class TrainingDefinitionEditComponent extends BaseComponent implements On
    * @returns {boolean} true if all changes are saved, false otherwise
    */
   canDeactivate(): boolean {
-    return !this.dirty;
+    return !this.trainingConfigurationFormGroup.formGroup.dirty;
   }
 
   /**
@@ -110,7 +109,7 @@ export class TrainingDefinitionEditComponent extends BaseComponent implements On
       .subscribe(result => {
         if (result && result.type === "confirm") {
           this.authors.setValue(result.authors);
-          this.dirty = true;
+          this.trainingConfigurationFormGroup.formGroup.markAsDirty();
         }
       });
   }
@@ -125,7 +124,7 @@ export class TrainingDefinitionEditComponent extends BaseComponent implements On
       .subscribe(result => {
       if (result && result.type === 'confirm') {
         this.betaTestingGroup.setValue(result.betaTestingGroup);
-        this.dirty = true;
+        this.trainingConfigurationFormGroup.formGroup.markAsDirty();
       }
     });
   }
@@ -143,7 +142,7 @@ export class TrainingDefinitionEditComponent extends BaseComponent implements On
       .subscribe(result => {
         if (result && result.type === "confirm") {
           this.sandboxDefId.setValue(result.sandboxDef.id);
-          this.dirty = true;
+          this.trainingConfigurationFormGroup.formGroup.markAsDirty();
         }
       });
   }
@@ -167,7 +166,7 @@ export class TrainingDefinitionEditComponent extends BaseComponent implements On
       this.idChange.emit(id);
     }
     this.savedTrainingChange.emit(true);
-    this.dirty = false;
+    this.trainingConfigurationFormGroup.formGroup.markAsPristine();
     this.resolveModeAfterSuccessfulSave();
   }
 

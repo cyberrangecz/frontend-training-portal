@@ -30,7 +30,6 @@ export class TrainingInstanceEditComponent extends BaseComponent implements OnIn
   @Output('trainingChange') trainingChange = new EventEmitter<TrainingInstance>();
 
   isEditMode: boolean;
-  dirty: boolean;
   now: Date;
   
   trainingInstanceFormGroup: TrainingInstanceFormGroup;
@@ -54,7 +53,6 @@ export class TrainingInstanceEditComponent extends BaseComponent implements OnIn
     this. trainingInstanceFormGroup = new TrainingInstanceFormGroup();
     this.resolveInitialInputValues();
     this.initCurrentTimePeriodicalUpdate();
-    this.dirty = false;
     this.activeUser = this.authService.getActiveUser();
   }
 
@@ -120,7 +118,7 @@ export class TrainingInstanceEditComponent extends BaseComponent implements OnIn
         newAccessToken => {
           this.alertService.emitAlert(AlertTypeEnum.Success,
             'Changes were successfully saved. Access token is ' + newAccessToken);
-          this.dirty = false;
+          this.trainingInstanceFormGroup.formGroup.markAsPristine();
           this.trainingChanged();
         },
         err => this.errorHandler.displayInAlert(err, 'Updating Training Instance')
@@ -134,7 +132,7 @@ export class TrainingInstanceEditComponent extends BaseComponent implements OnIn
         createdInstance => {
           this.alertService.emitAlert(AlertTypeEnum.Success,
             'Changes were successfully saved.\n Access token is: ' + createdInstance.accessToken);
-          this.dirty = false;
+            this.trainingInstanceFormGroup.formGroup.markAsPristine();
           this.trainingChanged();
         },
         err => this.errorHandler.displayInAlert(err, 'Saving Training Instance')

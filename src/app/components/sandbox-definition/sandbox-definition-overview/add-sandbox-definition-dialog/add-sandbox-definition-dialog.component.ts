@@ -28,11 +28,11 @@ export class AddSandboxDefinitionDialogComponent extends BaseComponent implement
     this.sandboxDefinitionFormGroup = new SandboxDefinitionFormGroup();
   }
 
-  get gitlabUrl(){return this.sandboxDefinitionFormGroup.gitlabUrl}
-  get revision(){return this.sandboxDefinitionFormGroup.revision}
+  get gitlabUrl(){return this.sandboxDefinitionFormGroup.formGroup.get('gitlabUrl');}
+  get revision(){return this.sandboxDefinitionFormGroup.formGroup.get('revision');}
 
   add() {
-    if (this.sandboxDefinitionFormGroup.gitlabUrl.valid) {
+    if (this.sandboxDefinitionFormGroup.formGroup.valid) {
       this.sandboxDefinitionFacade.addSandboxDefinition(this.gitlabUrl.value, this.revision.value)
         .pipe(takeWhile(() => this.isAlive))
         .subscribe(
