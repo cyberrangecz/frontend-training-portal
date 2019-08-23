@@ -29,11 +29,9 @@ export class TrainingInstanceFormGroup{
       let error = null;
       const startTime = control.get('startTime').value;
       const endTime = control.get('endTime').value;
-  
       if (startTime && endTime && startTime.valueOf() > endTime.valueOf()) {
-        error = { startTimeafterEndTime: true };
+        error = { startTimeAfterEndTime: true };
       }
-  
       return error ? error : null;
     }
   

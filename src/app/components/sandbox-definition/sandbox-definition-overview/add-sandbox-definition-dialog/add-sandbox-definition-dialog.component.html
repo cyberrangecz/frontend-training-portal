@@ -25,5 +25,5 @@
 <div mat-dialog-actions>
   <button mat-button cdkFocusInitial color="warn" (click)="cancel()">Cancel</button>
   <span class="spacer"></span>
-  <button mat-button color="primary" [disabled]="!sandboxDefinitionFormGroup.gitlabUrl.valid" (click)="add()">Add</button>
+  <button mat-button color="primary" [disabled]="!sandboxDefinitionFormGroup.formGroup.valid" (click)="add()">Add</button>
 </div>
