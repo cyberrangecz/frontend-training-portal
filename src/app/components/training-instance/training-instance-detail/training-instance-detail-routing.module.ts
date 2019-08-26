@@ -9,12 +9,17 @@ import {
   TRAINING_INSTANCE_DETAIL_OUTLET,
   TRAINING_INSTANCE_DETAIL_PATH
 } from './paths';
-
+import {ACCESS_TOKEN_ROUTE} from '../training-instance-overview/paths';
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
     redirectTo: TRAINING_INSTANCE_DETAIL_PATH,
+  },
+  {
+    path: ACCESS_TOKEN_ROUTE,
+    loadChildren: () => import('app/components/training-instance/access-token-detail/access-token-detail.module').then(m => m.AccessTokenDetailModule),
+    data: {breadcrumb: 'Access Token'}
   },
   {
     path: TRAINING_INSTANCE_DETAIL_PATH,

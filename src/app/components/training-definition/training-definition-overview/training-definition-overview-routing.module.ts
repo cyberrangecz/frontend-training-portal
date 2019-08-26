@@ -11,14 +11,19 @@ const routes: Routes = [
   {
     path: TRAINING_DEFINITION_NEW_PATH,
     loadChildren: () => import('app/components/training-definition/training-definition-detail/training-definition-detail.module').then(m => m.TrainingDefinitionDetailModule),
+    data: {breadcrumb: 'New'}
+
   },
   {
     path: ':id',
     loadChildren: () => import('app/components/training-definition/training-definition-detail/training-definition-detail.module').then(m => m.TrainingDefinitionDetailModule),
+    data: {breadcrumb: 'Edit'}
+
   },
   {
     path: ':id/' + TRAINING_DEFINITION_PREVIEW_PATH,
     loadChildren: () => import('app/components/training-definition/training-preview/training-preview.module').then(m => m.TrainingPreviewModule),
+    data: {breadcrumb: 'Preview'}
   }
 ];
 

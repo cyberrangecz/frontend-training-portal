@@ -10,6 +10,8 @@ import {MatSidenavModule} from '@angular/material';
 import {UserIdModule} from '../shared/user-id.module';
 import { TreeNavigationComponent } from './tree-navigation/tree-navigation.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
+import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
+import {PipesModule} from '../../pipes/pipes.module';
 
 @NgModule({
   imports: [
@@ -17,7 +19,7 @@ import { UserMenuComponent } from './user-menu/user-menu.component';
     RouterModule,
     FormsModule,
     LayoutMaterialModule,
-    UserIdModule
+    UserIdModule,
   ],
   declarations: [
     ToolbarComponent,
@@ -25,6 +27,7 @@ import { UserMenuComponent } from './user-menu/user-menu.component';
     SidenavComponent,
     TreeNavigationComponent,
     UserMenuComponent,
+    BreadcrumbsComponent,
   ],
   exports: [
     ToolbarComponent,

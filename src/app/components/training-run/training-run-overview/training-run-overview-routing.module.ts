@@ -11,10 +11,14 @@ const routes: Routes = [
   {
     path: ':id/' + TRAINING_RUN_GAME_PATH,
     loadChildren: () => import('app/components/training-run/training-run-detail/training-run-detail.module').then(m => m.TrainingRunDetailModule),
+    data: {breadcrumb: 'Game'}
+
   },
   {
     path: ':id/' + TRAINING_RUN_RESULTS_PATH,
     loadChildren: () => import('app/components/training-run/training-run-results/training-run-results.module').then(m => m.TrainingRunResultsModule),
+    data: {breadcrumb: 'Results'}
+
   }
 ];
 
