@@ -18,6 +18,10 @@ export class ErrorHandlerService {
     if (err.status === 403) {
       this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} You may not have access rights to requested resource. Contact system administrator.`);
     }
-    this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} failed with following message: ${err.error.message}`);
+    if (err.error.message) { // JAVA API
+      this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} failed with following message: ${err.error.message}`);
+    } else { // PYTHON API
+      this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} failed with following message: ${err.error.detail}`);
+    }
   }
 }
