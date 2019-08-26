@@ -28,37 +28,45 @@ const routes: Routes = [
   {
     path: TRAINING_DEFINITION_PATH,
     loadChildren: () => import('app/components/training-definition/training-definition-overview/training-defininition-overview.module').then(m => m.TrainingDefininitionOverviewModule),
-    canActivate: [DesignerGuard]
+    canActivate: [DesignerGuard],
+    data: {breadcrumb: 'Training Definitions'}
   },
   {
     path: SANDBOX_DEFINITION_PATH,
     loadChildren: () => import('app/components/sandbox-definition/sandbox-defininition-overview.module').then(m => m.SandboxDefininitionOverviewModule),
-    canActivate: [DesignerGuard]
+    canActivate: [DesignerGuard],
+    data: { breadcrumb: 'Sandbox Definitions'}
   },
   {
     path: TRAINING_INSTANCE_PATH,
     loadChildren: () => import('app/components/training-instance/training-instance-overview/training-instance-overview.module').then(m => m.TrainingInstanceOverviewModule),
-    canActivate: [OrganizerGuard]
+    canActivate: [OrganizerGuard],
+    data: { breadcrumb: 'Training Instances'}
+
   },
   {
     path: SANDBOX_POOL_PATH,
     loadChildren: () => import('app/components/sandbox-instance/sandbox-pool-overview/sandbox-pool-overview.module').then(m => m.SandboxPoolOverviewModuleModule),
-    canActivate: [OrganizerGuard]
+    canActivate: [OrganizerGuard],
+    data: { breadcrumb: 'Sandbox Pools'}
   },
   {
     path: TRAINING_RUN_PATH,
     loadChildren: () => import('app/components/training-run/training-run-overview/training-run-overview.module').then(m => m.TrainingRunOverviewModule),
-    canActivate: [TraineeGuard]
+    canActivate: [TraineeGuard],
+    data: { breadcrumb: 'Training Runs'}
   },
   {
     path: ADMIN_USER_PATH,
     loadChildren: () => import('app/components/admin-user/admin-user.module').then(m => m.AdminUserModule),
-    canActivate: [AdminGuard]
+    canActivate: [AdminGuard],
+    data: { breadcrumb: 'Users'}
   },
   {
     path: ADMIN_GROUP_PATH,
     loadChildren: () => import('app/components/admin-group/admin-group.module').then(m => m.AdminGroupModule),
-    canActivate: [AdminGuard]
+    canActivate: [AdminGuard],
+    data: { breadcrumb: 'Groups'}
   },
   {
     path: LOGIN_PATH,

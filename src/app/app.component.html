@@ -1,7 +1,6 @@
 <div *ngIf="(distractionFreeMode$ | async) else withLayout">
   <router-outlet></router-outlet>
 </div>
-
 <ng-template #withLayout>
   <mat-drawer-container autosize>
     <mat-drawer #drawer mode="side" opened="true">

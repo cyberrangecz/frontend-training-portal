@@ -1,10 +1,10 @@
-import {NgModule} from "@angular/core";
-import {LevelStepperLabelPipe} from "./level-stepper-label.pipe";
+import {NgModule} from '@angular/core';
+import {LevelStepperLabelPipe} from './level-stepper-label.pipe';
 import {DateTimeFormatPipe} from './date-time-format.pipe';
-import {CommonModule} from "@angular/common";
+import {CommonModule} from '@angular/common';
 import {ShorterAuthorsFormatPipe} from './shorter-authors-format.pipe';
 import {TrainingDefinitionsTableFormatPipe} from './shorter-training-definitions-format.pipe';
-import {ShortStringPipe} from "./short-string.pipe";
+import {ShortStringPipe} from './short-string.pipe';
 
 @NgModule({
   imports: [
@@ -15,14 +15,14 @@ import {ShortStringPipe} from "./short-string.pipe";
     DateTimeFormatPipe,
     ShorterAuthorsFormatPipe,
     TrainingDefinitionsTableFormatPipe,
-    ShortStringPipe
+    ShortStringPipe,
   ],
   exports: [
     LevelStepperLabelPipe,
     DateTimeFormatPipe,
     ShorterAuthorsFormatPipe,
     TrainingDefinitionsTableFormatPipe,
-    ShortStringPipe
+    ShortStringPipe,
   ]
 })
 
