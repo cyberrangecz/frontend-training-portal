@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import {TrainingInstance} from "../../../../../model/training/training-instance";
-import {BaseComponent} from "../../../../base.component";
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {TrainingInstance} from '../../../../../model/training/training-instance';
+import {BaseComponent} from '../../../../base.component';
 
 @Component({
   selector: 'training-edit-popup',

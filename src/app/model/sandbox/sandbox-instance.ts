@@ -19,7 +19,7 @@ export class SandboxInstance {
   }
 
   isFailed(): boolean {
-    return this.state === SandboxInstanceState.FAILED
+    return this.state === SandboxInstanceState.FAILED;
   }
 
   isInProgress(): boolean {

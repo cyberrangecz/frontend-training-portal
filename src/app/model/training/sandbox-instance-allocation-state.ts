@@ -1,18 +1,17 @@
 import {TrainingInstance} from './training-instance';
 import {SandboxInstance} from '../sandbox/sandbox-instance';
-import {Observable, Subject} from "rxjs";
 
 export class SandboxInstanceAllocationState {
   training: TrainingInstance;
   requestedPoolSize: number;
-  hasAllocationFinished;
+  hasAllocationFinished: boolean;
   hasFailedSandboxes = false;
   isInProgress = false;
   wasUpdated = false;
   allocatedCount = 0;
   failedCount = 0;
 
-  private attemptsUntilStopped = 3;
+  private attemptsUntilStopped = 5;
   private _sandboxes: SandboxInstance[];
 
   constructor(training: TrainingInstance) {
@@ -46,7 +45,7 @@ export class SandboxInstanceAllocationState {
     if (this.attemptsUntilStopped > 0 || this.isInProgress) {
       this.hasAllocationFinished = false;
     } else {
-      this.hasAllocationFinished = this.isInProgress;
+      this.hasAllocationFinished = !this.isInProgress;
     }
   }
 
@@ -59,18 +58,19 @@ export class SandboxInstanceAllocationState {
   }
 
   private updateAllocated() {
-    this.allocatedCount = this._sandboxes.filter(sandbox => sandbox.isCreated()).length
+    this.allocatedCount = this._sandboxes.filter(sandbox => sandbox.isCreated()).length;
   }
 
   private updateFailed() {
-    this.failedCount = this._sandboxes.filter(sandbox => sandbox.isFailed()).length
+    this.failedCount = this._sandboxes.filter(sandbox => sandbox.isFailed()).length;
   }
 
   private updateIsInProgress() {
     if (this._sandboxes.length === 0) {
       this.isInProgress = false;
     } else {
-      this.isInProgress = this._sandboxes.some(sandbox => sandbox.isInProgress())
+      this.isInProgress = this._sandboxes.some(sandbox => sandbox.isInProgress());
+
     }
   }
 }

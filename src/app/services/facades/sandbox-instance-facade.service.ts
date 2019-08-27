@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
-import {Observable} from "rxjs";
+import {Observable, of} from 'rxjs';
 import {SandboxInstance} from "../../model/sandbox/sandbox-instance";
 import {SandboxInstanceDTO} from "../../model/DTOs/sandbox-instance/sandbox-instance-dto";
 import {concatMap, map} from "rxjs/operators";
@@ -39,19 +39,23 @@ export class SandboxInstanceFacade {
   /**
    * Sends request to allocate all sandboxes for selected training instance
    * @param trainingInstanceId
+   * @param count
    */
-  allocateSandboxes(trainingInstanceId: number ): Observable<any> {
-    return this.http.post(
-      `${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.sandboxInstancesUriExtension}`,
-      null);
+  allocateSandboxes(trainingInstanceId: number, count: number = 0): Observable<any> {
+    let params = new HttpParams();
+    if (count > 0) {
+      params = new HttpParams().set('count', count.toString());
+    }
+    return this.http.post(`${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.sandboxInstancesUriExtension}`, null,
+      {params: params});
   }
 
-  createPoolAndAllocate(trainingInstance: TrainingInstance): Observable<number> {
+  createPoolAndAllocate(trainingInstance: TrainingInstance, count: number = 0): Observable<number> {
     return this.createPool(trainingInstance.id)
       .pipe(
         concatMap(poolId => {
           trainingInstance.poolId = poolId;
-          return this.allocateSandboxes(trainingInstance.id);
+          return this.allocateSandboxes(trainingInstance.id, count);
         }),
         map(resp => trainingInstance.poolId));
   }
