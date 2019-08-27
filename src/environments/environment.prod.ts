@@ -10,7 +10,7 @@ export const environment = {
   defaultPaginationSize: 5,
   defaultDelayToDisplayLoading: 500,
   defaultOrganizerTROverviewRefreshRate: 5000,
-  sandboxAllocationStateRefreshRate: 30000,
+  sandboxAllocationStateRefreshRate: 5000,
   kypo2TopologyConfig: {
     topologyRestUrl: 'https://147.251.124.178:8085/kypo2-rest-topology/api/v1/',
     decoratorsRestUrl: '',

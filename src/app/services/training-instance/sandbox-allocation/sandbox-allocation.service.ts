@@ -3,8 +3,8 @@ import {TrainingInstance} from '../../../model/training/training-instance';
 import {SandboxInstanceAllocationState} from '../../../model/training/sandbox-instance-allocation-state';
 import {SandboxInstance} from '../../../model/sandbox/sandbox-instance';
 import {SandboxAllocationState} from '../../../model/enums/sandbox-allocation-state';
-import {SandboxInstanceObservablesPoolService} from "./sandbox-instance-observables-pool.service";
-import {SandboxInstanceFacade} from "../../facades/sandbox-instance-facade.service";
+import {SandboxInstanceObservablesPoolService} from './sandbox-instance-observables-pool.service';
+import {SandboxInstanceFacade} from '../../facades/sandbox-instance-facade.service';
 import {
   catchError,
   concatMap,
@@ -16,15 +16,15 @@ import {
   take,
   takeWhile,
   tap
-} from "rxjs/operators";
-import {Injectable} from "@angular/core";
+} from 'rxjs/operators';
+import {Injectable} from '@angular/core';
 import {environment} from '../../../../environments/environment';
 
 
 @Injectable()
 export class SandboxAllocationService {
 
-  private running: boolean = false;
+  private running = false;
 
   private runningAllocations: SandboxInstanceAllocationState[] = [];
   private allocations: SandboxInstanceAllocationState[] = [];
@@ -76,15 +76,15 @@ export class SandboxAllocationService {
     return allocation$.pipe(shareReplay(Number.POSITIVE_INFINITY));
   }
 
-  allocateSandboxes(trainingInstance: TrainingInstance): Observable<SandboxInstanceAllocationState> {
-    return this.initAllocation(trainingInstance)
+  allocateSandboxes(trainingInstance: TrainingInstance, count: number = 0): Observable<SandboxInstanceAllocationState> {
+    return this.initAllocation(trainingInstance, count)
       .pipe(
-        concatMap(allocation => this.createAllocation(trainingInstance)),
+        concatMap(allocation => this.createAllocation(trainingInstance, count)),
         shareReplay(Number.POSITIVE_INFINITY)
       );
   }
 
-  deleteSandbox(trainingInstance: TrainingInstance, sandbox: SandboxInstance, requestedPoolSize: number): Observable<SandboxInstanceAllocationState>{
+  deleteSandbox(trainingInstance: TrainingInstance, sandbox: SandboxInstance, requestedPoolSize: number): Observable<SandboxInstanceAllocationState> {
     return this.sandboxInstanceFacade.deleteSandbox(trainingInstance.id, sandbox.id)
       .pipe(
         concatMap( deleteResponse => this.createAllocation(trainingInstance, requestedPoolSize)),
@@ -108,11 +108,11 @@ export class SandboxAllocationService {
     this.allocationStateChangeSubject.next(state);
   }
 
-  private initAllocation(trainingInstance: TrainingInstance): Observable<any> {
+  private initAllocation(trainingInstance: TrainingInstance, count: number = 0): Observable<any> {
     if (trainingInstance.hasPoolId()) {
-      return this.sandboxInstanceFacade.allocateSandboxes(trainingInstance.id);
+      return this.sandboxInstanceFacade.allocateSandboxes(trainingInstance.id, count);
     } else {
-      return this.sandboxInstanceFacade.createPoolAndAllocate(trainingInstance)
+      return this.sandboxInstanceFacade.createPoolAndAllocate(trainingInstance, count)
         .pipe(tap(poolId => trainingInstance.poolId = poolId));
     }
   }
@@ -149,7 +149,7 @@ export class SandboxAllocationService {
               this.emitAllocationStateChange(SandboxAllocationState.FAILED);
             }
         })
-      )
+      );
   }
 
   private updateAllocationState(poolId: number, sandboxes): SandboxInstanceAllocationState {
@@ -164,8 +164,8 @@ export class SandboxAllocationService {
         return {
           poolId: poolId,
           sandboxes: sandboxes
-        }
-      }))
+        };
+      }));
   }
 
   private finishAllocation(trainingAllocationToRemove: SandboxInstanceAllocationState) {
@@ -196,7 +196,7 @@ export class SandboxAllocationService {
     const state$ = this.sandboxObservablesPool.addObservable(trainingInstance, initAllocationState);
     this.addAllocation(initAllocationState);
     this.emitAllocationStateChange(SandboxAllocationState.RUNNING);
-    return state$
+    return state$;
   }
 
   private addAllocation(allocationToAdd: SandboxInstanceAllocationState) {
@@ -208,8 +208,7 @@ export class SandboxAllocationService {
     const allocationStateIndex = this.allocations.findIndex(allocation => allocation.training.id === allocationToAdd.training.id);
     if (allocationStateIndex === -1) {
       this.allocations.push(allocationToAdd);
-    }
-    else {
+    } else {
       this.allocations[allocationStateIndex] = allocationToAdd;
     }
   }
@@ -218,8 +217,7 @@ export class SandboxAllocationService {
     const runningAllocationStateIndex = this.runningAllocations.findIndex(allocation => allocation.training.id === allocationToAdd.training.id);
     if (runningAllocationStateIndex === -1) {
       this.runningAllocations.push(allocationToAdd);
-    }
-    else {
+    } else {
       this.runningAllocations[runningAllocationStateIndex] = allocationToAdd;
     }
   }

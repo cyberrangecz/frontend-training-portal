@@ -20,6 +20,7 @@ import { AllocationErrorDialogComponent } from './training-instance-table/alloca
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@busacca/ng-pick-datetime';
 import {SandboxAllocationService} from '../../../services/training-instance/sandbox-allocation/sandbox-allocation.service';
 import {SandboxInstanceObservablesPoolService} from '../../../services/training-instance/sandbox-allocation/sandbox-instance-observables-pool.service';
+import { AllocationModalComponent } from './training-instance-table/allocation-modal/allocation-modal.component';
 
 @NgModule({
   imports: [
@@ -45,7 +46,8 @@ import {SandboxInstanceObservablesPoolService} from '../../../services/training-
     TrainingDefinitionPickerComponent,
     TrainingEditModalComponent,
     SandboxInstancesSubtableComponent,
-    AllocationErrorDialogComponent
+    AllocationErrorDialogComponent,
+    AllocationModalComponent
   ],
   providers: [
     ActiveTrainingInstanceService,
@@ -56,6 +58,7 @@ import {SandboxInstanceObservablesPoolService} from '../../../services/training-
     OrganizersPickerComponent,
     TrainingDefinitionPickerComponent,
     TrainingEditModalComponent,
+    AllocationModalComponent,
     AllocationErrorDialogComponent
   ]
 })

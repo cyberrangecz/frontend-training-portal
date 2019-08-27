@@ -22,6 +22,7 @@ import {ActionConfirmationDialog} from '../../../shared/delete-dialog/action-con
 import {Kypo2AuthService} from 'kypo2-auth';
 import {BaseComponent} from '../../../base.component';
 import {StringNormalizer} from '../../../../model/utils/ignore-diacritics-filter';
+import {AllocationModalComponent} from './allocation-modal/allocation-modal.component';
 
 @Component({
   selector: 'kypo2-training-instance-table',
@@ -141,12 +142,28 @@ export class TrainingInstanceTableComponent extends BaseComponent implements OnI
   }
 
   allocateTrainingInstanceSandboxes(row: TrainingInstanceTableRow) {
+    const dialogRef = this.dialog.open(AllocationModalComponent, {
+      data: row.trainingInstance.poolSize - row.allocatedSandboxesCount
+    });
+
+    dialogRef.afterClosed()
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe(result => {
+        if (result && result.type === 'confirm') {
+          this.startAllocation(row, result.payload);
+        }
+      });
+  }
+
+  private startAllocation(row: TrainingInstanceTableRow, count: number) {
     row.isAllocationInProgress = true;
-    row.allocation$ = this.allocationService.allocateSandboxes(row.trainingInstance);
+    row.allocation$ = this.allocationService.allocateSandboxes(row.trainingInstance, count);
     row.allocation$
-      .pipe(takeWhile(() => this.isAlive),
-        skipWhile(state => !state.wasUpdated))
-        .subscribe(
+      .pipe(
+        takeWhile(() => this.isAlive),
+        skipWhile(state => !state.wasUpdated || state.sandboxes.length === 0)
+      )
+      .subscribe(
         allocationState => this.onAllocationUpdate(allocationState, row),
         err => this.onAllocationUpdateError(err, row)
       );
