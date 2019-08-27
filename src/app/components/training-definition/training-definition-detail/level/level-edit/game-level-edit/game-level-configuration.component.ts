@@ -2,7 +2,6 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 import {GameLevel} from '../../../../../../model/level/game-level';
 import {AlertTypeEnum} from '../../../../../../model/enums/alert-type.enum';
 import {AlertService} from '../../../../../../services/shared/alert.service';
-import {Hint} from '../../../../../../model/level/hint';
 import {HintStepperComponent} from './hint-edit/hint-stepper/hint-stepper.component';
 import {ErrorHandlerService} from '../../../../../../services/shared/error-handler.service';
 import {TrainingDefinitionFacade} from '../../../../../../services/facades/training-definition-facade.service';
@@ -12,18 +11,18 @@ import {takeWhile} from 'rxjs/operators';
 import { GameLevelConfigFormGroup } from './game-level-configuration-form-group';
 
 @Component({
-  selector: "game-level-configuration",
-  templateUrl: "./game-level-configuration.component.html",
-  styleUrls: ["./game-level-configuration.component.css"]
+  selector: 'game-level-configuration',
+  templateUrl: './game-level-configuration.component.html',
+  styleUrls: ['./game-level-configuration.component.css']
 })
 /**
  * Component for configuration of new or existing game level
  */
 export class GameLevelConfigurationComponent extends BaseComponent
   implements OnInit, OnChanges {
-  @Input("level") level: GameLevel;
-  @Input("trainingDefinitionId") trainingDefinitionId: number;
-  @Output("deleteLevel") deleteLevel: EventEmitter<number> = new EventEmitter();
+  @Input('level') level: GameLevel;
+  @Input('trainingDefinitionId') trainingDefinitionId: number;
+  @Output('deleteLevel') deleteLevel: EventEmitter<number> = new EventEmitter();
 
   @ViewChild(HintStepperComponent, { static: false })
   childComponent: HintStepperComponent;
@@ -43,38 +42,38 @@ export class GameLevelConfigurationComponent extends BaseComponent
   ngOnInit() {}
 
   get title() {
-    return this.gameLevelConfigFormGroup.formGroup.get("title");
+    return this.gameLevelConfigFormGroup.formGroup.get('title');
   }
   get content() {
-    return this.gameLevelConfigFormGroup.formGroup.get("content");
+    return this.gameLevelConfigFormGroup.formGroup.get('content');
   }
   get solution() {
-    return this.gameLevelConfigFormGroup.formGroup.get("solution");
+    return this.gameLevelConfigFormGroup.formGroup.get('solution');
   }
   get maxScore() {
-    return this.gameLevelConfigFormGroup.formGroup.get("maxScore");
+    return this.gameLevelConfigFormGroup.formGroup.get('maxScore');
   }
   get solutionPenalized() {
-    return this.gameLevelConfigFormGroup.formGroup.get("solutionPenalized");
+    return this.gameLevelConfigFormGroup.formGroup.get('solutionPenalized');
   }
   get incorrectFlagLimit() {
-    return this.gameLevelConfigFormGroup.formGroup.get("incorrectFlagLimit");
+    return this.gameLevelConfigFormGroup.formGroup.get('incorrectFlagLimit');
   }
   get flag() {
-    return this.gameLevelConfigFormGroup.formGroup.get("flag");
+    return this.gameLevelConfigFormGroup.formGroup.get('flag');
   }
   get estimatedDuration() {
-    return this.gameLevelConfigFormGroup.formGroup.get("estimatedDuration");
+    return this.gameLevelConfigFormGroup.formGroup.get('estimatedDuration');
   }
   get hints() {
-    return this.gameLevelConfigFormGroup.formGroup.get("hints");
+    return this.gameLevelConfigFormGroup.formGroup.get('hints');
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (!this.gameLevelConfigFormGroup) {
       this.gameLevelConfigFormGroup = new GameLevelConfigFormGroup();
     }
-    if ("level" in changes) {
+    if ('level' in changes) {
       this.setInitialValues();
     }
   }
@@ -97,11 +96,11 @@ export class GameLevelConfigurationComponent extends BaseComponent
     this.gameLevelConfigFormGroup.formGroup.markAsDirty();
   }
 
-  setContentValue(event){
+  setContentValue(event) {
     this.content.setValue(event);
   }
 
-  setSolutionValue(event){
+  setSolutionValue(event) {
     this.solution.setValue(event);
   }
 
@@ -125,7 +124,7 @@ export class GameLevelConfigurationComponent extends BaseComponent
             this.levelService.emitLevelUpdated(this.level);
             this.alertService.emitAlert(
               AlertTypeEnum.Success,
-              "Game level was successfully saved"
+              'Game level was successfully saved'
             );
           },
           err => {
@@ -162,6 +161,7 @@ export class GameLevelConfigurationComponent extends BaseComponent
       ? this.estimatedDuration.value
       : 60;
     this.estimatedDuration.setValue(this.level.estimatedDuration);
+    this.hints.value.forEach((hint, index) => hint.order = index);
     this.level.hints = this.hints.value;
   }
 

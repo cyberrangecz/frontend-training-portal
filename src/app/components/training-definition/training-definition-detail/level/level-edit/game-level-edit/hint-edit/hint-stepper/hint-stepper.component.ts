@@ -9,20 +9,20 @@ import {
   SimpleChanges,
   ViewChildren
 } from '@angular/core';
-import {Hint} from "../../../../../../../../model/level/hint";
-import {HintDetailEditComponent} from "../hint-detail-edit/hint-detail-edit.component";
-import { MatDialog } from "@angular/material/dialog";
-import {ActionConfirmationDialog} from "../../../../../../../shared/delete-dialog/action-confirmation-dialog.component";
-import {BaseComponent} from "../../../../../../../base.component";
-import {takeWhile} from "rxjs/operators";
+import {Hint} from '../../../../../../../../model/level/hint';
+import {HintDetailEditComponent} from '../hint-detail-edit/hint-detail-edit.component';
+import { MatDialog } from '@angular/material/dialog';
+import {ActionConfirmationDialog} from '../../../../../../../shared/delete-dialog/action-confirmation-dialog.component';
+import {BaseComponent} from '../../../../../../../base.component';
+import {takeWhile} from 'rxjs/operators';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { HintStepperFormGroup } from './hint-stepper-form-group';
 import { FormArray, FormControl } from '@angular/forms';
 
 @Component({
-  selector: "hint-stepper",
-  templateUrl: "./hint-stepper.component.html",
-  styleUrls: ["./hint-stepper.component.css"],
+  selector: 'hint-stepper',
+  templateUrl: './hint-stepper.component.html',
+  styleUrls: ['./hint-stepper.component.css'],
   providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,
@@ -35,11 +35,11 @@ import { FormArray, FormControl } from '@angular/forms';
  */
 export class HintStepperComponent extends BaseComponent
   implements OnInit, OnChanges {
-  @Input("hints") hints: Hint[];
-  @Input("levelMaxScore") levelMaxScore: number;
-  @Input("disabled") disabled: boolean;
+  @Input('hints') hints: Hint[];
+  @Input('levelMaxScore') levelMaxScore: number;
+  @Input('disabled') disabled: boolean;
 
-  @Output("hints") hintsChange = new EventEmitter();
+  @Output('hints') hintsChange = new EventEmitter();
 
   @ViewChildren(HintDetailEditComponent) hintConfigurationChildren: QueryList<HintDetailEditComponent>;
 
@@ -59,14 +59,14 @@ export class HintStepperComponent extends BaseComponent
   }
 
   get hintsArray() {
-    return <FormArray>this.hintStepperFormGroup.formGroup.get("hints");
+    return <FormArray>this.hintStepperFormGroup.formGroup.get('hints');
   }
   ngOnChanges(changes: SimpleChanges) {
     if (!this.hintStepperFormGroup) {
       this.hintStepperFormGroup = new HintStepperFormGroup();
       this.validityChanged();
     }
-    if ("hints" in changes) {
+    if ('hints' in changes) {
       this.resolveInitialHints();
       this.setInitialHintPenaltySum();
     }
@@ -90,8 +90,8 @@ export class HintStepperComponent extends BaseComponent
    */
   addHint() {
     const hint = new Hint();
-    hint.title = "New hint";
-    hint.content = "";
+    hint.title = 'New hint';
+    hint.content = '';
     hint.hintPenalty = 0;
     this.hintsArray.push(new FormControl(hint));
     this.hints.push(hint);
@@ -100,7 +100,7 @@ export class HintStepperComponent extends BaseComponent
     this.validityChanged();
     // hack to workaround bug in cdkStepper library
     setTimeout(() => {this.selectedStep = this.hintsArray.length - 1;
-                      this.validityChanged();}, 1);
+                      this.validityChanged(); }, 1);
   }
 
   /**
@@ -118,8 +118,8 @@ export class HintStepperComponent extends BaseComponent
   deleteHint(hint: Hint) {
     const dialogRef = this.dialog.open(ActionConfirmationDialog, {
       data: {
-        type: "hint",
-        action: "delete",
+        type: 'hint',
+        action: 'delete',
         title: hint.title
       }
     });
@@ -128,7 +128,7 @@ export class HintStepperComponent extends BaseComponent
       .afterClosed()
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(result => {
-        if (result && result.type === "confirm") {
+        if (result && result.type === 'confirm') {
           const index = this.hintsArray.value.indexOf(hint);
           if (index > -1) {
             this.hintsArray.removeAt(index);
@@ -169,7 +169,7 @@ export class HintStepperComponent extends BaseComponent
       this.hints.forEach(hint => {
         this.hintsArray.push(new FormControl(hint));
       });
-      
+
     }
   }
 
