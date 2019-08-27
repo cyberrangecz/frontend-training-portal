@@ -35,7 +35,7 @@
             Choose
           </button>  
         </div>
-        <mat-error *ngIf="sandboxDefId.hasError('required')">No sandbox definiton specified. Training definition requires one sandbox definition</mat-error>
+        <mat-error *ngIf="sandboxDefId.hasError('required') && sandboxDefId.dirty">No sandbox definiton specified. Training definition requires one sandbox definition</mat-error>
       </div>
       
       <!-- DESCRIPTION field-->

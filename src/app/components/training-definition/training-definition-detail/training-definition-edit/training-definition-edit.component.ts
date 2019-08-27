@@ -109,8 +109,8 @@ export class TrainingDefinitionEditComponent extends BaseComponent implements On
       .subscribe(result => {
         if (result && result.type === "confirm") {
           this.authors.setValue(result.authors);
-          this.trainingConfigurationFormGroup.formGroup.markAsDirty();
         }
+        this.authors.markAsDirty();
       });
   }
 
@@ -124,8 +124,8 @@ export class TrainingDefinitionEditComponent extends BaseComponent implements On
       .subscribe(result => {
       if (result && result.type === 'confirm') {
         this.betaTestingGroup.setValue(result.betaTestingGroup);
-        this.trainingConfigurationFormGroup.formGroup.markAsDirty();
       }
+      this.betaTestingGroup.markAsDirty();
     });
   }
 
@@ -142,8 +142,8 @@ export class TrainingDefinitionEditComponent extends BaseComponent implements On
       .subscribe(result => {
         if (result && result.type === "confirm") {
           this.sandboxDefId.setValue(result.sandboxDef.id);
-          this.trainingConfigurationFormGroup.formGroup.markAsDirty();
         }
+        this.sandboxDefId.markAsDirty();
       });
   }
 
