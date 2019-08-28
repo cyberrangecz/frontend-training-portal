@@ -31,6 +31,7 @@ export class TreeNavigationComponent extends BaseComponent implements OnInit, On
   ngOnChanges(changes: SimpleChanges): void {
     if ('user' in changes && this.user) {
       this.dataSource.data = TreeMenu.create(this.user);
+      console.log(this.dataSource.data);
       this.expandByUrl(this.dataSource.data, this.router.url);
     }
   }

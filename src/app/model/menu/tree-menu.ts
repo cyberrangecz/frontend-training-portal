@@ -15,9 +15,9 @@ const ADMIN_LABEL = 'Administration';
 
 export class TreeMenu {
   static create(user: User): MenuNode[] {
-    const tree = TreeMenu.createTopLevelNodes();
+    let tree = TreeMenu.createTopLevelNodes();
     TreeMenu.addLowerLevelNodes(user.roles, tree);
-    TreeMenu.removeEmptyNodes(tree);
+    tree = TreeMenu.removeEmptyNodes(tree);
     TreeMenu.sortTree(tree);
     return tree;
   }
@@ -101,8 +101,8 @@ export class TreeMenu {
     found.children.push(trainingRun);
   }
 
-  private static removeEmptyNodes(tree: MenuNode[]) {
-    tree.filter(node => node.expandable ? node.children.length > 0 : true);
+  private static removeEmptyNodes(tree: MenuNode[]): MenuNode[] {
+    return tree.filter(node => node.expandable && node.children.length > 0);
   }
 
   private static sortTree(tree: MenuNode[]) {
