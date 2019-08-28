@@ -6,30 +6,11 @@
     <a routerLink="/home">
       <img id="training-run-logo" alt="KYPO" src="./assets/images/kypo-logo-blue.svg"/>
     </a>
+    <!-- LEVEL STEPPER -->
     <div class="training-run-stepper">
-      <!-- LEVEL STEPPER -->
-      <mat-horizontal-stepper
-        *ngIf="isStepperDisplayed && levels"
-        [selectedIndex]="selectedStep"
-        [linear]="true"
-        #stepper>
-        <ng-template matStepperIcon="edit" let-index="index">
-          <mat-icon *ngIf="levels[index].type === 'game'">videogame_asset</mat-icon>
-          <mat-icon *ngIf="levels[index].type === 'assessment'">assignment</mat-icon>
-          <mat-icon *ngIf="levels[index].type === 'info'">info</mat-icon>
-        </ng-template>
-        <ng-template matStepperIcon="number" let-index="index">
-          <mat-icon *ngIf="levels[index].type === 'game'">videogame_asset</mat-icon>
-          <mat-icon *ngIf="levels[index].type === 'assessment'">assignment</mat-icon>
-          <mat-icon *ngIf="levels[index].type === 'info'">info</mat-icon>
-        </ng-template>
-
-        <mat-step *ngFor="let level of levels; index as i"
-                  [editable]="false"
-                  [completed]="i <= selectedStep">
-          <ng-template matStepLabel>{{ level.title | levelStepperLabel: i + 1: levels.length }}</ng-template>
-        </mat-step>
-      </mat-horizontal-stepper>
+      <div *ngIf="isStepperDisplayed && levels">
+        <kypo2-stepper [selectable]="false" [stepperItems]="stepper.levels" [activeIndex]="selectedStep"></kypo2-stepper>
+      </div>
     </div>
 
     <div class="spacer"></div>
