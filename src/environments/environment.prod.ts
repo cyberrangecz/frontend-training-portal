@@ -45,10 +45,10 @@ export const environment = {
         oidcConfig: {
           issuer: 'https://oidc.muni.cz/oidc/',
           clientId: '4fbfa660-88e9-4560-98ee-c858610e7946',
-          redirectUri: 'https://147.251.124.178',
+          redirectUri: homeURL,
           scope: 'openid email profile',
           logoutUrl: 'https://oidc.muni.cz/oidc/endsession',
-          postLogoutRedirectUri: 'https://147.251.124.178/login',
+          postLogoutRedirectUri: homeURL + '/login',
           clearHashAfterLogin: true
         }
       },
