@@ -1,9 +1,10 @@
 /**
  * Parent class of all level types. Can't be instantiated
  */
-import {AbstractLevelTypeEnum} from "../enums/abstract-level-type.enum";
+import {AbstractLevelTypeEnum} from '../enums/abstract-level-type.enum';
+import {AbstractStepItem} from 'kypo2-stepper';
 
-export abstract class AbstractLevel {
+export abstract class AbstractLevel extends AbstractStepItem {
   id: number;
   title: string;
   order: number;

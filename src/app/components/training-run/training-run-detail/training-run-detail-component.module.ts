@@ -7,6 +7,7 @@ import {PipesModule} from "../../../pipes/pipes.module";
 import {LevelComponentModule} from "./level/level-component.module";
 import {RouterModule} from '@angular/router';
 import {UserIdModule} from "../../shared/user-id.module";
+import {Kypo2StepperModule} from 'kypo2-stepper';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import {UserIdModule} from "../../shared/user-id.module";
     RouterModule,
     LevelComponentModule,
     PipesModule,
+    Kypo2StepperModule,
   ],
   declarations: [
     TrainingRunDetailComponent,

@@ -6,6 +6,7 @@ import {TrainingRunLevelsGuard} from '../../../services/guards/training-run-leve
 import {TrainingDefinitionFacadeModule} from '../../../services/facades/modules/training-definition-facade.module';
 import {TrainingRunFacadeModule} from '../../../services/facades/modules/training-run-facade.module';
 import {TrainingRunDetailComponentModule} from './training-run-detail-component.module';
+import {Kypo2StepperModule} from 'kypo2-stepper';
 
 @NgModule({
   imports: [
@@ -14,12 +15,13 @@ import {TrainingRunDetailComponentModule} from './training-run-detail-component.
     TrainingRunDetailComponentModule,
     TrainingDefinitionFacadeModule,
     TrainingRunFacadeModule,
+    Kypo2StepperModule,
     TrainingRunDetailRoutingModule,
   ],
   declarations: [
   ],
   providers: [
-    TrainingRunLevelsGuard,
+    TrainingRunLevelsGuard
   ]
 })
 export class TrainingRunDetailModule { }
