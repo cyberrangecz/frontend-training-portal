@@ -1,10 +1,15 @@
 import {HttpClient} from '@angular/common/http';
 import {MarkedOptions} from 'ngx-markdown';
-
+export const baseURL = 'https://kypo.ics.muni.cz';
+export const homeURL = baseURL;
+export const trainingsURL = baseURL + ':8083/kypo2-rest-training/api/v1/';
+export const sandboxesURL = baseURL + '8080/kypo2-django-openstack/api/v1/';
+export const topologyURL =  baseURL + ':8085/kypo2-rest-topology/api/v1/';
+export const userAngGroupURL = baseURL + ':8084/kypo2-rest-user-and-group/api/v1/';
 export const environment = {
   production: true,
-  trainingRestBasePath: 'https://147.251.124.178:8083/kypo2-rest-training/api/v1/',
-  sandboxRestBasePath: 'https://147.251.124.178:8080/kypo2-django-openstack/api/v1/',
+  trainingRestBasePath: trainingsURL,
+  sandboxRestBasePath: sandboxesURL,
   // BEHAVIOUR SETTINGS
   defaultAlertDuration: 5000, // 0 to display until user dismisses it
   defaultPaginationSize: 5,
@@ -12,23 +17,24 @@ export const environment = {
   defaultOrganizerTROverviewRefreshRate: 5000,
   sandboxAllocationStateRefreshRate: 5000,
   kypo2TopologyConfig: {
-    topologyRestUrl: 'https://147.251.124.178:8085/kypo2-rest-topology/api/v1/',
+    topologyRestUrl: topologyURL,
+    sandboxRestUrl: sandboxesURL,
     decoratorsRestUrl: '',
     defaultDecoratorRefreshPeriodInSeconds: 3,
     useRealTime: false,
     useDecorators: false,
   },
   kypo2UserAndGroupConfig: {
-    userAndGroupRestBasePath: 'https://147.251.124.178:8084/kypo2-rest-user-and-group/api/v1/',
+    userAndGroupRestBasePath: userAngGroupURL,
     defaultPaginationSize: 20,
   },
   kypo2AuthConfig: {
     maxRetryAttempts: 3,
     guardMainPageRedirect: 'home',
     guardLoginPageRedirect: 'login',
-    userInfoRestUri: 'https://147.251.124.178:8084/kypo2-rest-user-and-group/api/v1/',
+    userInfoRestUri: userAngGroupURL,
     tokenInterceptorAllowedUrls: [
-      'https://147.251.124.178'
+      baseURL
     ],
     providers: [
       {

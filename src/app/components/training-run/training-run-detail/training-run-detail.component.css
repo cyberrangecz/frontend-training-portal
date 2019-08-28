@@ -50,6 +50,7 @@ button {
 
 .training-run-stepper {
   max-width: 70%;
+  min-width: 70%;
   pointer-events: none !important;
 }
 

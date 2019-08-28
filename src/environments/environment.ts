@@ -1,10 +1,17 @@
 import {HttpClient} from '@angular/common/http';
 import {MarkedOptions} from 'ngx-markdown';
 
+export const baseURL = 'https://kypo-devel.ics.muni.cz';
+export const homeURL = 'https://localhost:4200';
+export const trainingsURL = baseURL + ':8083/kypo2-rest-training/api/v1/';
+export const sandboxesURL = baseURL + '8080/kypo2-django-openstack/api/v1/';
+export const topologyURL =  baseURL + ':8085/kypo2-rest-topology/api/v1/';
+export const userAngGroupURL = baseURL + ':8084/kypo2-rest-user-and-group/api/v1/';
+
 export const environment = {
   production: false,
-  trainingRestBasePath: 'https://kypo-devel.ics.muni.cz:8083/kypo2-rest-training/api/v1/',
-  sandboxRestBasePath: 'https://kypo-devel.ics.muni.cz:8080/kypo2-django-openstack/api/v1/',
+  trainingRestBasePath: trainingsURL,
+  sandboxRestBasePath: sandboxesURL,
   // BEHAVIOUR SETTINGS
   defaultAlertDuration: 5000, // 0 to display until user dismisses it
   defaultPaginationSize: 5,
@@ -12,14 +19,15 @@ export const environment = {
   defaultOrganizerTROverviewRefreshRate: 5000,
   sandboxAllocationStateRefreshRate: 5000,
   kypo2TopologyConfig: {
-    topologyRestUrl: 'https://kypo-devel.ics.muni.cz:8085/kypo2-rest-topology/api/v1/',
+    topologyRestUrl: topologyURL,
+    sandboxRestUrl: sandboxesURL,
     decoratorsRestUrl: '',
     defaultDecoratorRefreshPeriodInSeconds: 3,
     useRealTime: false,
     useDecorators: false,
   },
   kypo2UserAndGroupConfig: {
-    userAndGroupRestBasePath: 'https://kypo-devel.ics.muni.cz:8084/kypo2-rest-user-and-group/api/v1/',
+    userAndGroupRestBasePath: userAngGroupURL,
     defaultPaginationSize: 20,
   },
   kypo2AuthConfig: {
@@ -27,9 +35,9 @@ export const environment = {
     guardMainPageRedirect: 'home',
     guardLoginPageRedirect: 'login',
     tokenInterceptorAllowedUrls: [
-      'https://kypo-devel.ics.muni.cz'
+      baseURL
     ],
-    userInfoRestUri: 'https://kypo-devel.ics.muni.cz:8084/kypo2-rest-user-and-group/api/v1/',
+    userInfoRestUri: userAngGroupURL,
     providers: [
       {
         label: 'Login with MUNI',

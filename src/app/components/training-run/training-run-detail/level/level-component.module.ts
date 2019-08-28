@@ -21,10 +21,7 @@ import {environment} from '../../../../../environments/environment';
 @NgModule({
   imports: [
     CommonModule,
-    Kypo2TopologyGraphModule.forRoot({
-      sandboxRestUrl: environment.sandboxRestBasePath,
-      ...environment.kypo2TopologyConfig
-    }),
+    Kypo2TopologyGraphModule.forRoot(environment.kypo2TopologyConfig),
     MarkdownModule.forRoot(environment.markdownConfig.markdownParser),
     FormsModule,
     LevelMaterialModule,
