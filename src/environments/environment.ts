@@ -4,7 +4,7 @@ import {MarkedOptions} from 'ngx-markdown';
 export const baseURL = 'https://kypo-devel.ics.muni.cz';
 export const homeURL = 'https://localhost:4200';
 export const trainingsURL = baseURL + ':8083/kypo2-rest-training/api/v1/';
-export const sandboxesURL = baseURL + '8080/kypo2-django-openstack/api/v1/';
+export const sandboxesURL = baseURL + ':8080/kypo2-django-openstack/api/v1/';
 export const topologyURL =  baseURL + ':8085/kypo2-rest-topology/api/v1/';
 export const userAngGroupURL = baseURL + ':8084/kypo2-rest-user-and-group/api/v1/';
 
