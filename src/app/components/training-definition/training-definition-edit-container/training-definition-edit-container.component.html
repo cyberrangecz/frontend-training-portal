@@ -1,0 +1,12 @@
+<h1 *ngIf="trainingDefinition$ | async; else createNew">Edit Training Definition</h1>
+<ng-template #createNew>
+  <h1>Create Training Definition</h1>
+</ng-template>
+<mat-card>
+  <mat-card-content><kypo2-training-definition-edit
+    (trainingDefinitionSaved)="onSaved($event)"
+    [trainingDefinition]="trainingDefinition$ | async">
+  </kypo2-training-definition-edit>
+  </mat-card-content>
+</mat-card>
+

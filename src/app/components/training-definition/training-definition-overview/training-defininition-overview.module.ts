@@ -13,6 +13,9 @@ import { CloneDialogComponent } from './clone-dialog/clone-dialog.component';
 import {TrainingDefinitionOverviewRoutingModule} from './training-definition-overview-routing.module';
 import {TrainingDefinitionOverviewMaterialModule} from './training-definition-overview-material.module';
 import {TrainingDefinitionOverviewComponent} from './training-definition-overview.component';
+import { TrainingDefinitionDetailComponent } from './training-definition-table/training-definition-detail/training-definition-detail.component';
+import { TrainingDefinitionDetailPresentationComponent } from './training-definition-table/training-definition-detail/training-definition-detail-presentation/training-definition-detail-presentation.component';
+import { TrainingDefinitionDetailLevelsPresentationComponent } from './training-definition-table/training-definition-detail/training-definition-detail-levels-presentation/training-definition-detail-levels-presentation.component';
 
 @NgModule({
   imports: [
@@ -33,6 +36,9 @@ import {TrainingDefinitionOverviewComponent} from './training-definition-overvie
     StateChangeDialogComponent,
     AuthorsListDialogComponent,
     CloneDialogComponent,
+    TrainingDefinitionDetailComponent,
+    TrainingDefinitionDetailPresentationComponent,
+    TrainingDefinitionDetailLevelsPresentationComponent,
   ],
   providers: [
   ],

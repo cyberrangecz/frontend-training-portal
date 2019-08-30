@@ -26,7 +26,17 @@
           </div>
         </div>
 
-        <table mat-table [dataSource]="dataSource" matSort>
+        <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows>
+
+          <!-- EXPANDED TD TETAIL-->
+          <ng-container matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length">
+              <div class="training-detail"
+                   [@detailExpand]="row == expandedTraining ? 'expanded' : 'collapsed'">
+                <kypo2-training-definition-detail [trainingDefinition]="row.trainingDefinition"></kypo2-training-definition-detail>
+              </div>
+            </td>
+          </ng-container>
 
           <!-- TITLE Column -->
           <ng-container matColumnDef="id">
@@ -44,17 +54,12 @@
             </td>
           </ng-container>
 
-          <!-- DESCRIPTION Column -->
-          <ng-container matColumnDef="description">
-            <th class="description" mat-header-cell *matHeaderCellDef>Description</th>
-            <td class="description" mat-cell *matCellDef="let data"> {{ data.trainingDefinition?.description }}</td>
-          </ng-container>
-
           <!-- STATUS Column -->
           <ng-container matColumnDef="state">
             <th class="status" mat-header-cell mat-sort-header *matHeaderCellDef>State</th>
             <td class="status" mat-cell *matCellDef="let data">
                 <mat-select (selectionChange)="changeTrainingDefinitionState(data)"
+                            (click)="$event.stopPropagation();"
                             *ngIf="!data.isLoadingStateChange"
                             [disabled]="data.possibleStates.length <= 1"
                             [(ngModel)]="data.selectedState">
@@ -74,7 +79,6 @@
             <td class="authors" mat-cell
                 *matCellDef="let data">
                 {{ data.trainingDefinition?.authors | shorterAuthorsFormat: activeUser }}
-              <button *ngIf="data.trainingDefinition?.authors?.length > 1" mat-button color="accent" (click)="showAuthorsList(data?.trainingDefinition)">Show</button>
             </td>
           </ng-container>
 
@@ -103,7 +107,7 @@
                 <!-- CLONE button -->
                 <button mat-icon-button color="primary"
                         matTooltip="Clone training definition"
-                        (click)="cloneTrainingDefinition(data.trainingDefinition)">
+                        (click)="cloneTrainingDefinition(data.trainingDefinition);$event.stopPropagation();">
                   <mat-icon
                     aria-label="Clone training definition button">
                     file_copy</mat-icon>
@@ -112,7 +116,7 @@
                 <!-- DOWNLOAD button -->
                 <button mat-icon-button color="primary"
                         matTooltip="Download training definition"
-                        (click)="downloadTrainingDefinition(data.trainingDefinition?.id)">
+                        (click)="downloadTrainingDefinition(data.trainingDefinition?.id);$event.stopPropagation();">
                   <mat-icon
                     aria-label="Download training definition button">
                     cloud_download</mat-icon>
@@ -121,7 +125,7 @@
                 <!-- PREVIEW button -->
                 <button mat-icon-button color="primary"
                         matTooltip="Preview training run"
-                        (click)="previewTrainingDefinition(data.trainingDefinition?.id)">
+                        (click)="previewTrainingDefinition(data.trainingDefinition?.id);$event.stopPropagation();">
                   <mat-icon
                     aria-label="Preview training definition button">
                     remove_red_eye</mat-icon>
@@ -131,7 +135,7 @@
                 <button [disabled]="data.trainingDefinition?.state !== trainingStateEnum.Unreleased"
                         mat-icon-button color="primary"
                         matTooltip="Edit training definition"
-                        (click)="editTrainingDefinition(data.trainingDefinition?.id)">
+                        (click)="editTrainingDefinition(data.trainingDefinition?.id);$event.stopPropagation();">
                   <mat-icon
                     aria-label="Edit training definition button">
                     create</mat-icon>
@@ -142,7 +146,7 @@
                          && data.trainingDefinition?.state !== trainingStateEnum.Archived"
                         mat-icon-button color="warn"
                         matTooltip="Delete training definition"
-                        (click)="deleteTrainingDefinition(data.trainingDefinition)">
+                        (click)="deleteTrainingDefinition(data.trainingDefinition);$event.stopPropagation();">
                   <mat-icon
                     aria-label="Delete training definition button"
                   >delete</mat-icon>
@@ -150,10 +154,13 @@
               </div>
             </td>
           </ng-container>
-
-
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <tr mat-row *matRowDef="let element; columns: displayedColumns;"
+              class="training-row"
+              [class.example-expanded-row]="expandedTraining === element"
+              (click)="expandedTraining = expandedTraining === element ? null : element">
+          </tr>
+          <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
         </table>
         <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
       </div>

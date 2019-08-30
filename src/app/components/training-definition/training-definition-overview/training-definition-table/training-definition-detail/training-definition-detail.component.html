@@ -1,0 +1,12 @@
+<div class="content">
+  <mat-card>
+    <mat-card-content>
+      <kypo2-training-definition-detail-presentation [trainingDefinition]="trainingDefinition"></kypo2-training-definition-detail-presentation>
+    </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-content>
+      <kypo2-training-definition-detail-levels-presentation [levels]="levels$ | async"></kypo2-training-definition-detail-levels-presentation>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -3,6 +3,33 @@ h2 {
   margin: 20px auto;
 }
 
+tr.detail-row {
+  height: 0;
+  background: #f5f5f5;
+}
+
+kypo2-training-definition-detail {
+  width: 100%;
+  padding: 10px;
+}
+
+tr.training-row:not(.example-expanded-row):hover {
+  background: gainsboro;
+}
+
+tr.training-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.training-row td {
+  border-bottom-width: 0;
+}
+
+.training-detail {
+  overflow: hidden;
+  display: flex;
+}
+
 .train-def {
   padding: 20px;
   display: flex;
@@ -63,40 +90,10 @@ table {
   width: 100%;
 }
 
-td.title, th.title {
-  width: 5%;
-}
-
-
-td.title, th.title {
-  width: 10%;
-}
-
-td.description, th.description {
-  width: 20%;
-}
-
-td.authors, th.authors {
-  text-align: center;
-  width: 15%;
-}
-
-td.last-edit, th.last-edit {
-  width: 10%;
-}
-
-td.actions, th.actions {
-  text-align: center;
-  width: 20%;
-}
-
-td.estimated-duration, th.estimated-duration {
-  width: 10%;
-}
-
-td.state, th.state {
-  text-align: center;
-  width: 10%;
+td.status, th.status {
+  width: 100px;
+  max-width: 200px;
+  padding: 10px;
 }
 
 @media screen and (max-width: 800px) {

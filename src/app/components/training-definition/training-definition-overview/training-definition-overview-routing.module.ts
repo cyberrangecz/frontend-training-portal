@@ -1,7 +1,12 @@
 import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {TrainingDefinitionOverviewComponent} from './training-definition-overview.component';
-import {TRAINING_DEFINITION_NEW_PATH, TRAINING_DEFINITION_PREVIEW_PATH} from './paths';
+import {
+  LEVELS_PATH,
+  TRAINING_DEFINITION_EDIT_PATH,
+  TRAINING_DEFINITION_NEW_PATH,
+  TRAINING_DEFINITION_PREVIEW_PATH
+} from './paths';
 
 const routes: Routes = [
   {
@@ -10,15 +15,13 @@ const routes: Routes = [
   },
   {
     path: TRAINING_DEFINITION_NEW_PATH,
-    loadChildren: () => import('app/components/training-definition/training-definition-detail/training-definition-detail.module').then(m => m.TrainingDefinitionDetailModule),
+    loadChildren: () => import('app/components/training-definition/training-definition-edit-container/training-definition-edit.module').then(m => m.TrainingDefinitionEditModule),
     data: {breadcrumb: 'New'}
-
   },
   {
-    path: ':id',
-    loadChildren: () => import('app/components/training-definition/training-definition-detail/training-definition-detail.module').then(m => m.TrainingDefinitionDetailModule),
+    path: ':id/' + TRAINING_DEFINITION_EDIT_PATH,
+    loadChildren: () => import('app/components/training-definition/training-definition-edit-container/training-definition-edit.module').then(m => m.TrainingDefinitionEditModule),
     data: {breadcrumb: 'Edit'}
-
   },
   {
     path: ':id/' + TRAINING_DEFINITION_PREVIEW_PATH,

@@ -109,8 +109,8 @@ export class TrainingDefinitionMapper {
     result.description = trainingDefinition.description;
     result.sandbox_definition_ref_id = trainingDefinition.sandboxDefinitionId;
     result.show_stepper_bar = trainingDefinition.showStepperBar;
-    trainingDefinition.outcomes.forEach(outcome => result.outcomes.push(outcome));
-    trainingDefinition.prerequisites.forEach(prerequisite => result.prerequisities.push(prerequisite));
+    trainingDefinition.outcomes = result.outcomes;
+    trainingDefinition.prerequisites = result.prerequisities;
     result.authors_ref_ids = trainingDefinition.authors.map(author => author.id);
     result.outcomes = trainingDefinition.outcomes;
     result.prerequisities = trainingDefinition.prerequisites;

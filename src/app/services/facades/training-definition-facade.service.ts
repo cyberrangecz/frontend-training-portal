@@ -188,7 +188,7 @@ export class TrainingDefinitionFacade {
   updateTrainingDefinition(trainingDef: TrainingDefinition): Observable<number> {
     return this.http.put<number>(this.trainingDefsEndpointUri,
       this.trainingDefinitionMapper.mapTrainingDefinitionToTrainingDefinitionUpdateDTO(trainingDef),
-      { headers: this.createDefaultHeaders()})
+      { headers: this.createDefaultHeaders()});
   }
 
   /**
@@ -199,7 +199,7 @@ export class TrainingDefinitionFacade {
     return this.http.post<TrainingDefinitionDTO>(this.trainingDefsEndpointUri,
       this.trainingDefinitionMapper.mapTrainingDefinitionToTrainingDefinitionCreateDTO(trainingDef),
       { headers: this.createDefaultHeaders()})
-      .pipe(map(trainingDef => trainingDef.id));
+      .pipe(map(resp => resp.id));
   }
 
   /**

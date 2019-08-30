@@ -7,6 +7,7 @@ import { AlertSnackbarComponent } from './alert/alert-snackbar/alert-snackbar.co
 import {ErrorHandlerService} from '../../services/shared/error-handler.service';
 import {ActionConfirmationDialog} from './delete-dialog/action-confirmation-dialog.component';
 import { UserSelectionTableComponent } from './user-selection-table/user-selection-table.component';
+import {UnsavedChangesDialogComponent} from './unsaved-changes-dialog/unsaved-changes-dialog.component';
 
 @NgModule({
   imports: [
@@ -18,11 +19,13 @@ import { UserSelectionTableComponent } from './user-selection-table/user-selecti
     AlertSnackbarComponent,
     ActionConfirmationDialog,
     UserSelectionTableComponent,
+    UnsavedChangesDialogComponent
 
   ],
   exports: [
     ActionConfirmationDialog,
     UserSelectionTableComponent,
+    UnsavedChangesDialogComponent
   ],
   providers: [
     AlertService,
