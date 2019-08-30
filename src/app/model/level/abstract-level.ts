@@ -10,7 +10,7 @@ export abstract class AbstractLevel extends AbstractStepItem {
   order: number;
   estimatedDuration: number;
   maxScore: number;
-
+  icon: string;
   // custom attribute for displaying icons customized to level type
   type: AbstractLevelTypeEnum;
 

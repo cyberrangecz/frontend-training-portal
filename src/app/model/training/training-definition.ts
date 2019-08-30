@@ -26,6 +26,10 @@ export class TrainingDefinition {
   constructor() {
   }
 
+  hasLevels(): boolean {
+    return this.levels.length > 0;
+  }
+
   toString() {
     return this.id;
   }

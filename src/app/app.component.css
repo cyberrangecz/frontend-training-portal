@@ -3,6 +3,6 @@ mat-drawer-container {
   width: 100%;
 }
 
-router-outlet {
+.content {
   padding: 40px;
 }

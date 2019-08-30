@@ -25,12 +25,20 @@ import {CloneDialogComponent} from '../clone-dialog/clone-dialog.component';
 import {Kypo2AuthService, User} from 'kypo2-auth';
 import {BaseComponent} from '../../../base.component';
 import {StringNormalizer} from '../../../../model/utils/ignore-diacritics-filter';
-import {TRAINING_DEFINITION_NEW_PATH, TRAINING_DEFINITION_PREVIEW_PATH} from "../paths";
+import {TRAINING_DEFINITION_EDIT_PATH, TRAINING_DEFINITION_NEW_PATH, TRAINING_DEFINITION_PREVIEW_PATH} from '../paths';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'kypo2-training-definition-table',
   templateUrl: './training-definition-table.component.html',
-  styleUrls: ['./training-definition-table.component.css']
+  styleUrls: ['./training-definition-table.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 /**
  * Component displaying overview of training definitions. Contains buttons for upload and creating new training definitions,
@@ -41,7 +49,7 @@ export class TrainingDefinitionTableComponent extends BaseComponent implements O
   // needed to compare values against enums in a template
   trainingStateEnum = TrainingDefinitionStateEnum;
   activeUser: User;
-  displayedColumns: string[] = ['id', 'title', 'description', 'state', 'authors', 'estimated-duration', 'last-edit', 'actions'];
+  displayedColumns: string[] = ['id', 'title', 'state', 'authors', 'estimated-duration', 'last-edit', 'actions'];
 
   dataSource: MatTableDataSource<TrainingDefinitionTableRow>;
 
@@ -51,6 +59,7 @@ export class TrainingDefinitionTableComponent extends BaseComponent implements O
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+  expandedTraining: TrainingDefinitionTableRow;
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
@@ -110,10 +119,10 @@ export class TrainingDefinitionTableComponent extends BaseComponent implements O
 
   /**
    * Navigates to training sub route with parameters indicating editing of an existing training definition
-   * @param {number} trainingDefId id of a training definition which should be edited
+   * @param {number} id id of a training definition which should be edited
    */
-  editTrainingDefinition(trainingDefId: number) {
-    this.router.navigate([trainingDefId], {relativeTo: this.activatedRoute});
+  editTrainingDefinition(id: number) {
+    this.router.navigate([id, TRAINING_DEFINITION_EDIT_PATH], {relativeTo: this.activatedRoute});
   }
 
 
@@ -187,16 +196,6 @@ export class TrainingDefinitionTableComponent extends BaseComponent implements O
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(result => this.onChangeTrainingStateDialogC(row, result));
   }
-
-  showAuthorsList(trainingDefinition: TrainingDefinition) {
-    this.dialog.open(AuthorsListDialogComponent, {
-      data: {
-        authors: trainingDefinition.authors,
-        trainingDefinition: trainingDefinition
-      }
-    });
-  }
-
   /**
    * Fetches data from the server and maps them to table data objects
    */

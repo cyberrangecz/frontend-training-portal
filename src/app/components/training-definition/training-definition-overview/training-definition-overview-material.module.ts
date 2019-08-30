@@ -30,6 +30,7 @@ import {MatProgressBarModule} from "@angular/material";
     MatProgressSpinnerModule,
     MatProgressBarModule,
     MatListModule,
+    MatCardModule,
     MatSelectModule
   ],
   exports: [
@@ -46,7 +47,8 @@ import {MatProgressBarModule} from "@angular/material";
     MatProgressSpinnerModule,
     MatProgressBarModule,
     MatSelectModule,
-    MatListModule
+    MatListModule,
+    MatCardModule
   ]
 })
 

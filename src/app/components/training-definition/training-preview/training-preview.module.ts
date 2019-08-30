@@ -9,7 +9,7 @@ import {TrainingRunAssessmentLevelService} from '../../../services/training-run/
 import {PreviewAssessmentLevelService} from '../../../services/training-definition/preview-assessment-level.service';
 import {PreviewGameLevelService} from '../../../services/training-definition/preview-game-level.service';
 import {TrainingPreviewRoutingModule} from './training-preview-routing.module';
-import {TrainingDefinitionAccessGuardService} from '../../../services/guards/training-definition-access-guard.service';
+import {TrainingDefinitionAccessGuard} from '../../../services/guards/training-definition-access-guard.service';
 
 
 @NgModule({
@@ -22,7 +22,7 @@ import {TrainingDefinitionAccessGuardService} from '../../../services/guards/tra
     TrainingPreviewComponent,
   ],
   providers: [
-    TrainingDefinitionAccessGuardService,
+    TrainingDefinitionAccessGuard,
     { provide: TrainingRunGameLevelService, useClass: PreviewGameLevelService },
     { provide: TrainingRunAssessmentLevelService, useClass: PreviewAssessmentLevelService },
     { provide: ActiveTrainingRunService, useClass: PreviewTrainingRunService }

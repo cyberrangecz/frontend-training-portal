@@ -40,19 +40,19 @@ div .right-panel {
 	display: flex;
 }
 
-.line-with-button {
+.form-line {
 	display: flex;
 	flex-direction: row;
 	align-items: baseline;
 	margin: 20px 0;
 }
 
-.line-with-button p {
+.form-line p {
 	color: grey;
 	width: 100%;
 }
 
-.line-with-button button {
+.form-line button {
 	margin-left: 10px;
 }
 

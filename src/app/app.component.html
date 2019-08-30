@@ -9,7 +9,9 @@
     <mat-drawer-content>
       <kypo2-toolbar [user]="activeUser$ | async"></kypo2-toolbar>
       <mat-progress-bar *ngIf="isLoading$ | async"  mode="indeterminate" color="accent"></mat-progress-bar>
-      <router-outlet></router-outlet>
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
     </mat-drawer-content>
   </mat-drawer-container>
 </ng-template>
