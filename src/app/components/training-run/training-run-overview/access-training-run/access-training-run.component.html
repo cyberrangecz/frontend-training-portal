@@ -25,7 +25,7 @@
       </mat-form-field>
     </form>
     <span class="spacer"></span>
-    <button mat-raised-button color="primary" [disabled]="isLoading || !traineeAccessTrainingFormGroup.formGroup.valid" (click)="access()">Access</button>
+    <button #accessButton mat-raised-button color="primary" [disabled]="isLoading || !traineeAccessTrainingFormGroup.formGroup.valid" (click)="access()">Access</button>
   </div>
   <mat-spinner *ngIf="isLoading" mode="indeterminate"></mat-spinner>
 </div>

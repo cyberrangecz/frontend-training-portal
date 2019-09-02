@@ -8,6 +8,7 @@ import {BaseComponent} from '../../../base.component';
 import {takeWhile} from 'rxjs/operators';
 import {TRAINING_RUN_GAME_PATH} from '../paths';
 import { TraineeAccessTrainingFormGroup } from './trainee-access-training-form-group';
+import { MatButton } from '@angular/material';
 
 @Component({
   selector: 'kypo2-access-training-run',
@@ -20,6 +21,7 @@ import { TraineeAccessTrainingFormGroup } from './trainee-access-training-form-g
 export class AccessTrainingRunComponent extends BaseComponent implements OnInit {
 
   @ViewChild('pin', {static: false}) accessTokenPinInput: ElementRef;
+  @ViewChild('accessButton', {static: false}) accessButton: MatButton;
 
   traineeAccessTrainingFormGroup: TraineeAccessTrainingFormGroup;
 
@@ -68,15 +70,15 @@ export class AccessTrainingRunComponent extends BaseComponent implements OnInit 
 }
 
   onPaste(event: ClipboardEvent) {
-
-    const pastedText = event.clipboardData.getData('text');
+    let pastedText = event.clipboardData.getData('text');
     if (pastedText.includes('-')) {
       event.preventDefault();
-      this.accessTokenPrefix.setValue(pastedText.slice(0, pastedText.indexOf('-')));
-      this.accessTokenPin.setValue(pastedText.slice(pastedText.indexOf('-') + 1, pastedText.length));
+      this.accessTokenPrefix.setValue(pastedText.slice(0,pastedText.indexOf('-')).trim());
+      this.accessTokenPin.setValue(pastedText.slice(pastedText.indexOf('-') + 1,pastedText.length).trim());
       this.traineeAccessTrainingFormGroup.formGroup.updateValueAndValidity();
       this.accessTokenPin.markAsTouched();
       this.accessTokenPrefix.markAsTouched();
+      setTimeout(() => this.accessButton.focus());
     }
   }
 
