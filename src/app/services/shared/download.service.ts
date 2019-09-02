@@ -2,6 +2,9 @@ import {Injectable} from '@angular/core';
 import {saveAs} from 'file-saver';
 import {HttpResponse} from '@angular/common/http';
 @Injectable()
+/**
+ * Downloads files
+ */
 export class DownloadService {
 
   downloadJSONFileFromJSONResponse(data: any, filename: string) {

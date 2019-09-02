@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {BaseComponent} from "../../../base.component";
+import {ActivatedRoute, Router} from '@angular/router';
+import {BaseComponent} from '../../../base.component';
 import {
   VIZ_ASSESSMENTS_PATH,
   VIZ_COMBINED_PATH, VIZ_PROGRESS_PATH,
   VIZ_SCORE_DEVELOPMENT_PATH,
   VIZ_SCORE_SCATTER_PLOT_PATH
-} from "./paths";
+} from './paths';
 
 @Component({
   selector: 'kypo2-training-instance-results',

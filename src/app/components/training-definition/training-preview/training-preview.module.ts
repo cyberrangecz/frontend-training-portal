@@ -11,7 +11,10 @@ import {PreviewGameLevelService} from '../../../services/training-definition/pre
 import {TrainingPreviewRoutingModule} from './training-preview-routing.module';
 import {TrainingDefinitionAccessGuard} from '../../../services/guards/training-definition-access-guard.service';
 
-
+/**
+ * Module with components and providers for previewing training run (without allocating sandbox and backend communication)
+ *
+ */
 @NgModule({
   imports: [
     CommonModule,

@@ -2,12 +2,12 @@ import {AlertEvent} from '../../model/events/alert-event';
 import {AlertTypeEnum} from '../../model/enums/alert-type.enum';
 import {environment} from '../../../environments/environment';
 import Queue from 'typescript-collections/dist/lib/Queue';
-import {AlertSnackbarComponent} from '../../components/shared/alert/alert-snackbar/alert-snackbar.component';
+import {AlertSnackbarComponent} from '../../components/shared/alert/alert-snackbar.component';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Injectable} from '@angular/core';
 
 /**
- * Service for emitting and subscribing to alert events. Usually used to display result of some user action.
+ * Service emitting alert events.
  */
 @Injectable()
 export class AlertService {
@@ -15,7 +15,6 @@ export class AlertService {
   private alertQueue: Queue<AlertEvent> = new Queue();
 
   constructor(public snackBar: MatSnackBar) {
-
   }
 
   /**

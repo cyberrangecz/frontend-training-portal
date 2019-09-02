@@ -3,9 +3,7 @@ import {
   FormControl,
   FormArray,
   Validators,
-  ValidatorFn,
-  ValidationErrors
-} from "@angular/forms";
+} from '@angular/forms';
 
 export class MultipleChoiceFormGroup {
   formGroup: FormGroup;
@@ -16,18 +14,18 @@ export class MultipleChoiceFormGroup {
     this.maxQuestionPenalty = maxQuestionPenalty;
     this.maxQuestionScore = maxQuestionScore;
     this.formGroup = new FormGroup({
-      title: new FormControl("", Validators.required),
+      title: new FormControl('', Validators.required),
       options: new FormArray([], Validators.required),
       correctAnswersIndices: new FormControl([], Validators.required),
-      score: new FormControl("", [
+      score: new FormControl('', [
         Validators.required,
-        Validators.pattern("^[0-9]*$"),
+        Validators.pattern('^[0-9]*$'),
         Validators.min(0),
         Validators.max(this.maxQuestionScore)
       ]),
-      penalty: new FormControl("", [
+      penalty: new FormControl('', [
         Validators.required,
-        Validators.pattern("^[0-9]*$"),
+        Validators.pattern('^[0-9]*$'),
         Validators.min(0),
         Validators.max(this.maxQuestionPenalty)
       ])
@@ -36,13 +34,13 @@ export class MultipleChoiceFormGroup {
 
   addAnswersValidator() {
     this.formGroup
-      .get("correctAnswersIndices")
+      .get('correctAnswersIndices')
       .setValidators(Validators.required);
-    this.formGroup.get("correctAnswersIndices").updateValueAndValidity();
+    this.formGroup.get('correctAnswersIndices').updateValueAndValidity();
   }
 
   removeAnswersValidator() {
-    this.formGroup.get("correctAnswersIndices").clearValidators();
-    this.formGroup.get("correctAnswersIndices").updateValueAndValidity();
+    this.formGroup.get('correctAnswersIndices').clearValidators();
+    this.formGroup.get('correctAnswersIndices').updateValueAndValidity();
   }
 }

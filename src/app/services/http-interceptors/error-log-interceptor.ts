@@ -4,17 +4,15 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
-  HttpResponse
-} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {tap} from "rxjs/operators";
-import {Injectable} from "@angular/core";
-import {AlertService} from '../shared/alert.service';
+} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {tap} from 'rxjs/operators';
+import {Injectable} from '@angular/core';
 
 @Injectable()
 export class ErrorLogInterceptor implements HttpInterceptor {
 
-  constructor(private alertService: AlertService) {
+  constructor() {
   }
 
 

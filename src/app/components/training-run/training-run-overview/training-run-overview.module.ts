@@ -12,6 +12,9 @@ import {TrainingInstanceFacadeModule} from '../../../services/facades/modules/tr
 import {TrainingRunFacadeModule} from '../../../services/facades/modules/training-run-facade.module';
 import {TrainingDefinitionFacadeModule} from '../../../services/facades/modules/training-definition-facade.module';
 
+/**
+ * Main module for trainee agenda. Contains components and top level routing
+ */
 @NgModule({
   imports: [
     CommonModule,

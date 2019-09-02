@@ -6,9 +6,13 @@ import {environment} from '../../../environments/environment';
 import {AdminUserMaterialModule} from './admin-user-material.module';
 import { AdminUserOverviewComponent } from './admin-user-overview/admin-user-overview.component';
 
+/**
+ * Administration of users module
+ */
 @NgModule({
   declarations: [
-  AdminUserOverviewComponent],
+  AdminUserOverviewComponent]
+  ,
   imports: [
     CommonModule,
     UserAndGroupManagementModule.forRoot(environment.kypo2UserAndGroupConfig),

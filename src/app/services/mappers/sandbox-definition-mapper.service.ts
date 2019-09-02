@@ -1,10 +1,13 @@
-import {SandboxDefinition} from "../../model/sandbox/sandbox-definition";
-import {SandboxDefinitionDTO} from "../../model/DTOs/sandbox-definition/sandbox-definition-dto";
-import {SandboxPaginated} from "../../model/DTOs/other/sandbox-paginated";
-import {SandboxDefinitionTableRow} from "../../model/table-adapters/sandbox-definition-table-row";
-import {PaginatedTable} from "../../model/table-adapters/paginated-table";
-import {TableAdapterPagination} from "../../model/table-adapters/table-adapter-pagination";
+import {SandboxDefinition} from '../../model/sandbox/sandbox-definition';
+import {SandboxDefinitionDTO} from '../../model/DTOs/sandbox-definition/sandbox-definition-dto';
+import {SandboxPaginated} from '../../model/DTOs/other/sandbox-paginated';
+import {SandboxDefinitionTableRow} from '../../model/table-adapters/sandbox-definition-table-row';
+import {PaginatedTable} from '../../model/table-adapters/paginated-table';
+import {TableAdapterPagination} from '../../model/table-adapters/table-adapter-pagination';
 
+/**
+ * Maps DTOs of sandbox definitions to model
+ */
 export class SandboxDefinitionMapperService {
 
   mapSandboxDefinitionDTOToSandboxDefinitionPaginated(paginatedDTO: SandboxPaginated<SandboxDefinitionDTO>): PaginatedTable<SandboxDefinitionTableRow[]> {

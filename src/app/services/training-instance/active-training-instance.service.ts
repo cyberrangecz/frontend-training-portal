@@ -1,11 +1,11 @@
-import {Injectable} from "@angular/core";
-import {Subject} from "rxjs/internal/Subject";
-import {Observable} from "rxjs/internal/Observable";
-import {TrainingInstance} from "../../model/training/training-instance";
-import {now} from "moment";
+import {Injectable} from '@angular/core';
+import {Subject} from 'rxjs/internal/Subject';
+import {Observable} from 'rxjs/internal/Observable';
+import {TrainingInstance} from '../../model/training/training-instance';
+import {now} from 'moment';
 
 /**
- * Service maintaining active training instance for sub component of organizers training overview
+ * Service holding active training instance for sub component of organizers training overview
  */
 @Injectable()
 export class ActiveTrainingInstanceService {

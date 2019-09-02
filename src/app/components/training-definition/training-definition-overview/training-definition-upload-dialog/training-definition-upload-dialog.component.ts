@@ -1,11 +1,11 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import {TrainingDefinitionFacade} from "../../../../services/facades/training-definition-facade.service";
-import {AlertTypeEnum} from "../../../../model/enums/alert-type.enum";
-import {BaseComponent} from "../../../base.component";
-import {takeWhile} from "rxjs/operators";
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {TrainingDefinitionFacade} from '../../../../services/facades/training-definition-facade.service';
+import {AlertTypeEnum} from '../../../../model/enums/alert-type.enum';
+import {BaseComponent} from '../../../base.component';
+import {takeWhile} from 'rxjs/operators';
 @Component({
-  selector: 'designer-training-upload-dialog',
+  selector: 'kypo2-training-upload-dialog',
   templateUrl: './training-definition-upload-dialog.component.html',
   styleUrls: ['./training-definition-upload-dialog.component.css']
 })
@@ -38,7 +38,7 @@ export class TrainingDefinitionUploadDialogComponent extends BaseComponent imple
    */
   upload() {
     if (this.data.type == 'training') {
-      this.uploadTrainingDefinition()
+      this.uploadTrainingDefinition();
     }
   }
 

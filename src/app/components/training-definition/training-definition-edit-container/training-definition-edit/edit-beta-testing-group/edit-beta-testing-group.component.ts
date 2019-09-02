@@ -8,7 +8,7 @@ import {Kypo2AuthService, User} from 'kypo2-auth';
 import {BetaTestingGroup} from '../../../../../model/training/beta-testing-group';
 import {BaseComponent} from "../../../../base.component";
 import {Observable} from "rxjs";
-import {UserSelectionTableAdapter} from "../../../../../model/table-adapters/user-selection-table-adapter";
+import {UserSelectionTableRowAdapter} from "../../../../../model/table-adapters/user-selection-table-row-adapter";
 
 @Component({
   selector: 'app-edit-beta-testing-group',
@@ -17,7 +17,7 @@ import {UserSelectionTableAdapter} from "../../../../../model/table-adapters/use
 })
 export class EditBetaTestingGroupComponent extends BaseComponent implements OnInit {
 
-  users$: Observable<UserSelectionTableAdapter[]>;
+  users$: Observable<UserSelectionTableRowAdapter[]>;
   activeUser: User;
   selectedUsers: User[] = [];
   editMode: boolean;
@@ -83,7 +83,7 @@ export class EditBetaTestingGroupComponent extends BaseComponent implements OnIn
     this.betaTestingGroup.organizers = Array.from(this.selectedUsers);
   }
 
-  private loadUsers(): Observable<UserSelectionTableAdapter[]> {
+  private loadUsers(): Observable<UserSelectionTableRowAdapter[]> {
     return this.userFacade.getDesigners()
       .pipe(
         takeWhile(() => this.isAlive),
@@ -91,10 +91,10 @@ export class EditBetaTestingGroupComponent extends BaseComponent implements OnIn
       )
   }
 
-  private mapUserToTableAdapter(user: User): UserSelectionTableAdapter {
+  private mapUserToTableAdapter(user: User): UserSelectionTableRowAdapter {
     const isActiveUser =  user.equals(this.activeUser);
     const isPreselected = this.isPreselected(user);
-    return new UserSelectionTableAdapter(user, isPreselected, isActiveUser, false);
+    return new UserSelectionTableRowAdapter(user, isPreselected, isActiveUser, false);
   }
 
   private isPreselected(user: User): boolean {

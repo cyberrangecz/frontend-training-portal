@@ -1,16 +1,15 @@
-import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {environment} from "../../../environments/environment";
-import {map} from "rxjs/operators";
-import {UserMapper} from "../mappers/user.mapper.service";
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {environment} from '../../../environments/environment';
+import {map} from 'rxjs/operators';
+import {UserMapper} from '../mappers/user.mapper.service';
 import {UserBasicDTO} from '../../model/DTOs/user/user-basic-dto';
 import {User} from 'kypo2-auth';
 
 @Injectable()
 /**
  * Service to abstract communication with User endpoint.
- * Can retrieve users based on various parameters.
  */
 export class UserFacade {
   readonly trainingDefinitionUriExtension = 'training-definitions/';

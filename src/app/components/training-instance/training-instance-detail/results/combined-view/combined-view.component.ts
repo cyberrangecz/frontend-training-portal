@@ -1,18 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 
-import {ActiveTrainingInstanceService} from "../../../../../services/training-instance/active-training-instance.service";
-import {Subscription} from "rxjs";
-import {BaseComponent} from "../../../../base.component";
-import {takeWhile} from "rxjs/operators";
+import {ActiveTrainingInstanceService} from '../../../../../services/training-instance/active-training-instance.service';
+import {BaseComponent} from '../../../../base.component';
+import {takeWhile} from 'rxjs/operators';
 
 @Component({
   selector: 'kypo2-combined-view',
   templateUrl: './combined-view.component.html',
   styleUrls: ['./combined-view.component.css'],
-  host: {
-    '(window:resize)': 'onResize($event)'
-  }
 })
+/**
+ * Wrapper for visualizations of training run
+ */
 export class CombinedViewComponent extends BaseComponent implements OnInit {
   isLoading = true;
   trainingDefinitionId: number;
@@ -29,6 +28,7 @@ export class CombinedViewComponent extends BaseComponent implements OnInit {
     this.getIdsForVisualization();
   }
 
+  @HostListener('window:resize')
   onResize(event) {
     this.setVisualizationSize(event.target.innerWidth, event.target.innerHeight);
   }
@@ -51,7 +51,7 @@ export class CombinedViewComponent extends BaseComponent implements OnInit {
   private setVisualizationSize(windowWidth: number, windowHeight: number) {
     const width = windowWidth / 2;
     const height = windowHeight / 2;
-    this.vizSize = { width: width, height: height }
+    this.vizSize = { width: width, height: height };
   }
 
 }

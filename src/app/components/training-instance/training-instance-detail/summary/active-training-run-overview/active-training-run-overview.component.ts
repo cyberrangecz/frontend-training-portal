@@ -1,22 +1,22 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import { MatDialog } from "@angular/material/dialog";
-import { MatPaginator } from "@angular/material/paginator";
-import { MatSort } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
-import {ActiveTrainingInstanceService} from "../../../../../services/training-instance/active-training-instance.service";
-import {interval, merge, of, Subscription} from "rxjs";
-import {catchError, map, startWith, switchMap, takeWhile} from "rxjs/operators";
-import {AlertService} from "../../../../../services/shared/alert.service";
-import {AlertTypeEnum} from "../../../../../model/enums/alert-type.enum";
-import {TrainingInstanceFacade} from "../../../../../services/facades/training-instance-facade.service";
-import {ErrorHandlerService} from "../../../../../services/shared/error-handler.service";
-import {TrainingRunTableRow} from "../../../../../model/table-adapters/training-run-table-row";
-import {PaginatedTable} from "../../../../../model/table-adapters/paginated-table";
-import {environment} from "../../../../../../environments/environment";
-import {BaseTrainingRunOverview} from "../base-training-run-overview";
-import {ActionConfirmationDialog} from "../../../../shared/delete-dialog/action-confirmation-dialog.component";
-import {SandboxInstanceFacade} from "../../../../../services/facades/sandbox-instance-facade.service";
-import {TablePagination} from "../../../../../model/DTOs/other/table-pagination";
+import {Component, OnInit, ViewChild} from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import {ActiveTrainingInstanceService} from '../../../../../services/training-instance/active-training-instance.service';
+import {interval, merge, of} from 'rxjs';
+import {catchError, map, startWith, switchMap, takeWhile} from 'rxjs/operators';
+import {AlertService} from '../../../../../services/shared/alert.service';
+import {AlertTypeEnum} from '../../../../../model/enums/alert-type.enum';
+import {TrainingInstanceFacade} from '../../../../../services/facades/training-instance-facade.service';
+import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
+import {TrainingRunTableRow} from '../../../../../model/table-adapters/training-run-table-row';
+import {PaginatedTable} from '../../../../../model/table-adapters/paginated-table';
+import {environment} from '../../../../../../environments/environment';
+import {BaseTrainingRunOverview} from '../base-training-run-overview';
+import {ActionConfirmationDialogComponent} from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
+import {SandboxInstanceFacade} from '../../../../../services/facades/sandbox-instance-facade.service';
+import {TablePagination} from '../../../../../model/DTOs/other/table-pagination';
 
 @Component({
   selector: 'kypo2-active-training-run-overview',
@@ -24,7 +24,8 @@ import {TablePagination} from "../../../../../model/DTOs/other/table-pagination"
   styleUrls: ['./active-training-run-overview.component.css']
 })
 /**
- * Component for displaying summary of training in form of a material table
+ * Component displaying training runs and its state in real time. Allows organizer to easily archive training runs
+ * by removing theirs sandboxes
  */
 export class ActiveTrainingRunOverviewComponent extends BaseTrainingRunOverview implements OnInit {
 
@@ -56,7 +57,7 @@ export class ActiveTrainingRunOverviewComponent extends BaseTrainingRunOverview 
     private errorHandler: ErrorHandlerService,
     private sandboxInstanceFacade: SandboxInstanceFacade,
     private trainingInstanceFacade: TrainingInstanceFacade) {
-    super(activeTrainingInstanceService)
+    super(activeTrainingInstanceService);
   }
 
   ngOnInit() {
@@ -110,7 +111,7 @@ export class ActiveTrainingRunOverviewComponent extends BaseTrainingRunOverview 
   }
 
   private fetchInfoForSandboxes() {
-    let timeoutHandle = window.setTimeout(() => this.isLoadingSandboxResults = true, environment.defaultDelayToDisplayLoading);
+    const timeoutHandle = window.setTimeout(() => this.isLoadingSandboxResults = true, environment.defaultDelayToDisplayLoading);
     this.sandboxInstanceFacade.getSandboxesInPool(this.trainingInstance.poolId)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
@@ -132,7 +133,7 @@ export class ActiveTrainingRunOverviewComponent extends BaseTrainingRunOverview 
           this.isLoadingSandboxResults = false;
           this.hasSandboxesInfoError = true;
         }
-      )
+      );
   }
 
   private fetchTrainingRuns() {
@@ -174,13 +175,13 @@ export class ActiveTrainingRunOverviewComponent extends BaseTrainingRunOverview 
     this.activeTrainingRunsDataSource = new MatTableDataSource(data);
     this.activeTrainingRunsDataSource.filterPredicate =
       (data: TrainingRunTableRow, filter: string) =>
-        data.trainingRun.state.toLowerCase().indexOf(filter) !== -1
+        data.trainingRun.state.toLowerCase().indexOf(filter) !== -1;
   }
 
 
   private askForDeleteSandboxConfirmation(row: TrainingRunTableRow) {
     const sandboxId: string = row.trainingRun.sandboxInstanceId ? row.trainingRun.sandboxInstanceId.toString() : '';
-    const dialogRef = this.dialog.open(ActionConfirmationDialog, {
+    const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
       data: {
         type: 'sandbox instance',
         title: sandboxId,
@@ -191,7 +192,7 @@ export class ActiveTrainingRunOverviewComponent extends BaseTrainingRunOverview 
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(result => {
       if (result && result.type === 'confirm') {
-        this.sendRequestToDeleteSandbox(row)
+        this.sendRequestToDeleteSandbox(row);
       }
     });
   }
@@ -207,7 +208,7 @@ export class ActiveTrainingRunOverviewComponent extends BaseTrainingRunOverview 
         err => {
           this.errorHandler.displayInAlert(err, 'Allocation of sandboxes');
         }
-      )
+      );
   }
 
   private sendRequestToDeleteSandbox(row: TrainingRunTableRow) {
@@ -223,7 +224,7 @@ export class ActiveTrainingRunOverviewComponent extends BaseTrainingRunOverview 
         row.deletionRequested = false;
         this.errorHandler.displayInAlert(err, 'Deletion sandbox instance');
       }
-    )
+    );
   }
 
   private startCurrentTimePeriodicalUpdate() {

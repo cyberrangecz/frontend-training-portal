@@ -1,21 +1,19 @@
-import {Injectable} from "@angular/core";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs/internal/Observable";
-import {SandboxDefinition} from "../../model/sandbox/sandbox-definition";
-import {environment} from "../../../environments/environment";
-import {map} from "rxjs/operators";
-import {SandboxDefinitionMapperService} from "../mappers/sandbox-definition-mapper.service";
-import {SandboxDefinitionDTO} from "../../model/DTOs/sandbox-definition/sandbox-definition-dto";
-import {TablePagination} from "../../model/DTOs/other/table-pagination";
-import {PaginationHttpParams} from "kypo2-user-and-group-management/lib/model/other/pagination-http-params";
-import {PaginationParams} from "../../model/http/params/pagination-params";
-import {PaginatedTable} from "../../model/table-adapters/paginated-table";
-import {SandboxDefinitionTableRow} from "../../model/table-adapters/sandbox-definition-table-row";
-import {SandboxPaginated} from "../../model/DTOs/other/sandbox-paginated";
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable} from 'rxjs/internal/Observable';
+import {SandboxDefinition} from '../../model/sandbox/sandbox-definition';
+import {environment} from '../../../environments/environment';
+import {map} from 'rxjs/operators';
+import {SandboxDefinitionMapperService} from '../mappers/sandbox-definition-mapper.service';
+import {SandboxDefinitionDTO} from '../../model/DTOs/sandbox-definition/sandbox-definition-dto';
+import {TablePagination} from '../../model/DTOs/other/table-pagination';
+import {PaginationParams} from '../../model/http/params/pagination-params';
+import {PaginatedTable} from '../../model/table-adapters/paginated-table';
+import {SandboxDefinitionTableRow} from '../../model/table-adapters/sandbox-definition-table-row';
+import {SandboxPaginated} from '../../model/DTOs/other/sandbox-paginated';
 
 /**
  * Service to abstract from sandbox definition endpoint.
- * Can retrieve sandbox definition based on several parameters
  */
 @Injectable()
 export class SandboxDefinitionFacade {

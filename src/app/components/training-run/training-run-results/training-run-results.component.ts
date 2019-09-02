@@ -1,28 +1,26 @@
-import {AfterViewInit, Component, OnInit, } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {AfterViewInit, Component, HostListener, OnInit, } from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 import {Kypo2AuthService} from 'kypo2-auth';
-import {takeWhile} from "rxjs/operators";
+import {takeWhile} from 'rxjs/operators';
 import {BaseComponent} from '../../base.component';
 import {ErrorHandlerService} from '../../../services/shared/error-handler.service';
 import {TrainingRunFacade} from '../../../services/facades/training-run-facade.service';
 
 @Component({
-  selector: 'training-run-results',
+  selector: 'kypo2-training-run-results',
   templateUrl: './training-run-results.component.html',
   styleUrls: ['./training-run-results.component.css'],
-  host: {
-    '(window:resize)': 'onResize($event)'
-  }
 })
 /**
- * Component displaying various visualization of training run results
+ * Component displaying visualization of training run results
  */
 export class TrainingRunResultsComponent extends BaseComponent implements OnInit, AfterViewInit {
+
   display = false;
   vizSize: {width: number, height: number};
 
-  isLoading: boolean = true;
-  isInErrorState: boolean = false;
+  isLoading = true;
+  isInErrorState = false;
   trainingDefinitionId: number;
   trainingInstanceId: number;
   activeUserUco: string;
@@ -36,14 +34,16 @@ export class TrainingRunResultsComponent extends BaseComponent implements OnInit
 
   ngOnInit() {
     this.setVisualizationSize(window.innerWidth, innerHeight);
-    this.loadData()
+    this.loadData();
   }
+
   ngAfterViewInit() {
     // hack because visualization components won't render properly
     // (probably because changing the setting of distraction free mode when leaving last level)
     setTimeout(x => this.display = true, 1);
   }
 
+  @HostListener('window:resize')
   onResize(event) {
     this.setVisualizationSize(event.target.innerWidth, event.target.innerHeight);
   }
@@ -67,19 +67,19 @@ export class TrainingRunResultsComponent extends BaseComponent implements OnInit
             this.isInErrorState = true;
             this.isLoading = false;
           }
-          )
+          );
     } else {
       this.isInErrorState = true;
     }
   }
 
   private parseUcoFromUserLogin() {
-    return this.authService.getActiveUser().login.split('@')[0]
+    return this.authService.getActiveUser().login.split('@')[0];
   }
 
   private setVisualizationSize(windowWidth: number, windowHeight: number) {
       const width = windowWidth / 2;
       const height = windowHeight / 2;
-      this.vizSize = { width: width, height: height }
+      this.vizSize = { width: width, height: height };
   }
 }

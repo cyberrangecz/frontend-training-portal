@@ -1,19 +1,18 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {TrainingDefinition} from "../../../../model/training/training-definition";
-import {AlertService} from "../../../../services/shared/alert.service";
-import { MatDialog } from "@angular/material/dialog";
-import {OrganizersPickerComponent} from "./organizers-picker/organizers-picker.component";
-import {TrainingDefinitionPickerComponent} from "./training-definition-picker/training-definition-picker.component";
-import {TrainingInstance} from "../../../../model/training/training-instance";
-import {UserFacade} from "../../../../services/facades/user-facade.service";
-import {TrainingDefinitionFacade} from "../../../../services/facades/training-definition-facade.service";
-import {AlertTypeEnum} from "../../../../model/enums/alert-type.enum";
-import {TrainingInstanceFacade} from "../../../../services/facades/training-instance-facade.service";
+import {AlertService} from '../../../../services/shared/alert.service';
+import { MatDialog } from '@angular/material/dialog';
+import {OrganizersPickerComponent} from './organizers-picker/organizers-picker.component';
+import {TrainingDefinitionPickerComponent} from './training-definition-picker/training-definition-picker.component';
+import {TrainingInstance} from '../../../../model/training/training-instance';
+import {UserFacade} from '../../../../services/facades/user-facade.service';
+import {TrainingDefinitionFacade} from '../../../../services/facades/training-definition-facade.service';
+import {AlertTypeEnum} from '../../../../model/enums/alert-type.enum';
+import {TrainingInstanceFacade} from '../../../../services/facades/training-instance-facade.service';
 import {interval} from 'rxjs';
 import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
 import {Kypo2AuthService, User} from 'kypo2-auth';
-import {BaseComponent} from "../../../base.component";
-import {takeWhile} from "rxjs/operators";
+import {BaseComponent} from '../../../base.component';
+import {takeWhile} from 'rxjs/operators';
 import { TrainingInstanceFormGroup } from './training-instance-form-group';
 
 @Component({
@@ -26,14 +25,14 @@ import { TrainingInstanceFormGroup } from './training-instance-form-group';
  */
 export class TrainingInstanceEditComponent extends BaseComponent implements OnInit {
 
-  @Input('trainingInstance') trainingInstance: TrainingInstance;
-  @Output('trainingChange') trainingChange = new EventEmitter<TrainingInstance>();
+  @Input() trainingInstance: TrainingInstance;
+  @Output() trainingChange = new EventEmitter<TrainingInstance>();
 
   isEditMode: boolean;
   now: Date;
-  
+
   trainingInstanceFormGroup: TrainingInstanceFormGroup;
-  
+
   userChangedStartTime = false;
   activeUser: User;
 
@@ -46,7 +45,7 @@ export class TrainingInstanceEditComponent extends BaseComponent implements OnIn
     private trainingDefinitionFacade: TrainingDefinitionFacade,
     private trainingInstanceFacade: TrainingInstanceFacade,
     private dialog: MatDialog) {
-    super()
+    super();
   }
 
   ngOnInit() {
@@ -56,13 +55,13 @@ export class TrainingInstanceEditComponent extends BaseComponent implements OnIn
     this.activeUser = this.authService.getActiveUser();
   }
 
-  get startTime() {return this.trainingInstanceFormGroup.startTime};
-  get endTime() {return this.trainingInstanceFormGroup.endTime};
-  get title() {return this.trainingInstanceFormGroup.title};
-  get poolSize() {return this.trainingInstanceFormGroup.poolSize};
-  get organizers() {return this.trainingInstanceFormGroup.organizers};
-  get trainingDefinition() {return this.trainingInstanceFormGroup.trainingDefinition};
-  get accessToken() {return this.trainingInstanceFormGroup.accessToken};
+  get startTime() {return this.trainingInstanceFormGroup.startTime;}
+  get endTime() {return this.trainingInstanceFormGroup.endTime;}
+  get title() {return this.trainingInstanceFormGroup.title;}
+  get poolSize() {return this.trainingInstanceFormGroup.poolSize;}
+  get organizers() {return this.trainingInstanceFormGroup.organizers;}
+  get trainingDefinition() {return this.trainingInstanceFormGroup.trainingDefinition;}
+  get accessToken() {return this.trainingInstanceFormGroup.accessToken;}
 
   /**
    * Opens popup dialog to choose organizers from a list
@@ -92,7 +91,7 @@ export class TrainingInstanceEditComponent extends BaseComponent implements OnIn
       }
     });
   }
-  
+
   onStartTimeChanged() {
     this.userChangedStartTime = true;
   }

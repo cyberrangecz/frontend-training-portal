@@ -9,7 +9,7 @@ import {Observable} from 'rxjs';
 import {LoadingService} from './services/shared/loading.service';
 
 /**
- * Main component serving as wrapper for sidenav, toolbar and inner routed views
+ * Main component serving as wrapper for layout and router outlet
  */
 @Component({
   selector: 'kypo2-app-root',

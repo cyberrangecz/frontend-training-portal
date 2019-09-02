@@ -1,22 +1,22 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
-import {ExtendedMatchingItemsComponent} from "../extended-matching-items/extended-matching-items.component";
-import {MultipleChoiceQuestionComponent} from "../multiple-choice-question/multiple-choice-question.component";
-import {FreeFormQuestionComponent} from "../free-form-question/free-form-question.component";
-import {ExtendedMatchingItems} from "../../../../../../../model/questions/extended-matching-items";
-import {FreeFormQuestion} from "../../../../../../../model/questions/free-form-question";
-import {MultipleChoiceQuestion} from "../../../../../../../model/questions/multiple-choice-question";
-import {AbstractQuestion} from "../../../../../../../model/questions/abstract-question";
-import {BaseComponent} from "../../../../../../base.component";
+import {ExtendedMatchingItemsEditComponent} from '../extended-matching-items-edit/extended-matching-items-edit.component';
+import {MultipleChoiceQuestionEditComponent} from '../multiple-choice-question-edit/multiple-choice-question-edit.component';
+import {FreeFormQuestionEditComponent} from '../free-form-question-edit/free-form-question-edit.component';
+import {ExtendedMatchingItems} from '../../../../../../../model/questions/extended-matching-items';
+import {FreeFormQuestion} from '../../../../../../../model/questions/free-form-question';
+import {MultipleChoiceQuestion} from '../../../../../../../model/questions/multiple-choice-question';
+import {AbstractQuestion} from '../../../../../../../model/questions/abstract-question';
+import {BaseComponent} from '../../../../../../base.component';
 
 @Component({
-  selector: 'question-configuration',
-  templateUrl: './question-configuration.component.html',
-  styleUrls: ['./question-configuration.component.css']
+  selector: 'kypo2-question-edit',
+  templateUrl: './question-edit.component.html',
+  styleUrls: ['./question-edit.component.css']
 })
 /**
- * Wrapper component of a specific question type. Resolves type of the question and creates sub component accordingly
+ * Wrapper component of a specific question type edit component. Resolves type of the question and creates sub component accordingly
  */
-export class QuestionConfigurationComponent extends BaseComponent implements OnInit, OnChanges {
+export class QuestionEditComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input('question') question: AbstractQuestion;
   @Input('isTest') isTest: boolean;
@@ -24,13 +24,13 @@ export class QuestionConfigurationComponent extends BaseComponent implements OnI
 
   @Output('question') questionChange = new EventEmitter();
 
-  isFfq: boolean = false;
-  isMcq: boolean = false;
-  isEmi: boolean = false;
+  isFfq = false;
+  isMcq = false;
+  isEmi = false;
 
-  @ViewChild(FreeFormQuestionComponent, { static: false }) ffqChild: FreeFormQuestionComponent;
-  @ViewChild(MultipleChoiceQuestionComponent, { static: false }) mcqChild: MultipleChoiceQuestionComponent;
-  @ViewChild(ExtendedMatchingItemsComponent, { static: false }) emiChild: ExtendedMatchingItemsComponent;
+  @ViewChild(FreeFormQuestionEditComponent, { static: false }) ffqChild: FreeFormQuestionEditComponent;
+  @ViewChild(MultipleChoiceQuestionEditComponent, { static: false }) mcqChild: MultipleChoiceQuestionEditComponent;
+  @ViewChild(ExtendedMatchingItemsEditComponent, { static: false }) emiChild: ExtendedMatchingItemsEditComponent;
 
   ngOnInit() {
   }

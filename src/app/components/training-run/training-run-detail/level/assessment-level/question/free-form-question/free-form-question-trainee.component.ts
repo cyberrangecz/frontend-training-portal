@@ -1,22 +1,23 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FreeFormQuestion} from "../../../../../../../model/questions/free-form-question";
+import {FreeFormQuestion} from '../../../../../../../model/questions/free-form-question';
 import {AbstractQuestion} from '../../../../../../../model/questions/abstract-question';
-import {BaseComponent} from "../../../../../../base.component";
+import {BaseComponent} from '../../../../../../base.component';
 
 @Component({
-  selector: 'trainee-free-form-question',
+  selector: 'kypo2-trainee-free-form-question',
   templateUrl: './free-form-question-trainee.component.html',
   styleUrls: ['./free-form-question-trainee.component.css']
 })
 /**
- * Component displaying FFQ type of question in the assessment level of a trainees training run
+ * Component displaying FFQ type of question in the assessment level of a trainees training run.
+ * If assessment is type of test or question is required, user needs to answer it, otherwise it is optional.
  */
 export class FreeFormQuestionTraineeComponent extends BaseComponent implements OnInit {
 
-  @Input('question') question: FreeFormQuestion;
-  @Input('index') index: number;
+  @Input() question: FreeFormQuestion;
+  @Input() index: number;
 
-  @Output('contentChanged') contentChanged: EventEmitter<{index: number, question: AbstractQuestion}> = new EventEmitter();
+  @Output() contentChanged: EventEmitter<{index: number, question: AbstractQuestion}> = new EventEmitter();
   answer: string;
 
   ngOnInit() {

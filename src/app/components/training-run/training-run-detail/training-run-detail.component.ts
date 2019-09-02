@@ -1,10 +1,10 @@
 import { Component, OnInit} from '@angular/core';
-import {AbstractLevel} from "../../../model/level/abstract-level";
-import {ActiveTrainingRunService} from "../../../services/training-run/active-training-run.service";
-import {BaseComponent} from "../../base.component";
-import {takeWhile} from "rxjs/operators";
+import {AbstractLevel} from '../../../model/level/abstract-level';
+import {ActiveTrainingRunService} from '../../../services/training-run/active-training-run.service';
+import {BaseComponent} from '../../base.component';
 import {AbstractStepItem} from 'kypo2-stepper';
 import {TrainingRunStepper} from './training-run-stepper';
+import {takeWhile} from 'rxjs/operators';
 
 @Component({
   selector: 'kypo2-training-run-detail',
@@ -12,7 +12,7 @@ import {TrainingRunStepper} from './training-run-stepper';
   styleUrls: ['./training-run-detail.component.css']
 })
 /**
- * Main component of players (trainee) training. Displays window with current level of a training and navigation to the next.
+ * Main component of trainees training. Displays window with current level of a training and navigation to the next.
  * Optionally displays stepper with progress of the training and timer counting time from the start of a training.
  */
 export class TrainingRunDetailComponent extends BaseComponent implements OnInit {
@@ -48,16 +48,22 @@ export class TrainingRunDetailComponent extends BaseComponent implements OnInit 
   }
 
   private updateStepperActiveLevel() {
-    this.stepper.items[this.selectedStep - 1].icon = 'done';
-    this.stepper.items[this.selectedStep].isActive = true;
+    const prev = this.stepper.items[this.selectedStep - 1];
+    if (prev) {
+      prev.icon = 'done';
+    }
+    const current =  this.stepper.items[this.selectedStep];
+    if (current) {
+    current.isActive = true;
+    }
   }
 
   private subscribeToActiveLevelChange() {
-    this.activeTrainingRunService.onActiveLevelChanged
+    this.activeTrainingRunService.activeLevel$
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
       activeLevel => {
-        this.selectedStep += 1;
+        this.selectedStep = this.activeTrainingRunService.getActiveLevelPosition();
         this.updateStepperActiveLevel();
       }
     );

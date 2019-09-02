@@ -1,28 +1,27 @@
-import {Injectable} from "@angular/core";
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {Observable} from "rxjs/internal/Observable";
-import {TrainingInstance} from "../../model/training/training-instance";
-import {environment} from "../../../environments/environment";
-import {catchError, map} from "rxjs/operators";
-import {PaginationParams} from "../../model/http/params/pagination-params";
-import {TrainingInstanceMapper} from "../mappers/training-instance-mapper.service";
-import {TrainingInstanceDTO} from "../../model/DTOs/training-instance/training-instance-dto";
+import {Observable} from 'rxjs/internal/Observable';
+import {TrainingInstance} from '../../model/training/training-instance';
+import {environment} from '../../../environments/environment';
+import {catchError, map} from 'rxjs/operators';
+import {PaginationParams} from '../../model/http/params/pagination-params';
+import {TrainingInstanceMapper} from '../mappers/training-instance-mapper.service';
+import {TrainingInstanceDTO} from '../../model/DTOs/training-instance/training-instance-dto';
 import {TrainingInstanceRestResource} from '../../model/DTOs/training-instance/training-instance-rest-resource';
-import {TrainingRun} from "../../model/training/training-run";
-import {TrainingRunMapper} from "../mappers/training-run-mapper.service";
-import {TrainingRunRestResource} from "../../model/DTOs/training-run/training-run-rest-resource";
-import {PaginatedTable} from "../../model/table-adapters/paginated-table";
-import {TrainingInstanceTableRow} from "../../model/table-adapters/training-instance-table-row";
-import {TrainingRunTableRow} from "../../model/table-adapters/training-run-table-row";
-import {DownloadService} from "../shared/download.service";
+import {TrainingRun} from '../../model/training/training-run';
+import {TrainingRunMapper} from '../mappers/training-run-mapper.service';
+import {TrainingRunRestResource} from '../../model/DTOs/training-run/training-run-rest-resource';
+import {PaginatedTable} from '../../model/table-adapters/paginated-table';
+import {TrainingInstanceTableRow} from '../../model/table-adapters/training-instance-table-row';
+import {TrainingRunTableRow} from '../../model/table-adapters/training-run-table-row';
+import {DownloadService} from '../shared/download.service';
 import {ResponseHeaderContentDispositionReader} from '../../model/http/response-headers/response-header-content-disposition-reader';
-import {of} from "rxjs";
-import {TablePagination} from "../../model/DTOs/other/table-pagination";
+import {of} from 'rxjs';
+import {TablePagination} from '../../model/DTOs/other/table-pagination';
 
 @Injectable()
 /**
  * Service to abstract communication with training instance endpoint.
- * Can retrieve training instances based on various parameters
  */
 export class TrainingInstanceFacade {
 
@@ -77,11 +76,11 @@ export class TrainingInstanceFacade {
       .pipe(
         map(response => true),
         catchError(err => of(false))
-      )
+      );
   }
 
   getTrainingRunsByTrainingInstanceId(trainingInstanceId: number, isActive = true): Observable<TrainingRun[]> {
-    let params = new HttpParams().set("isActive", isActive.toString());
+    const params = new HttpParams().set('isActive', isActive.toString());
     return this.http.get<TrainingRunRestResource>(`${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.trainingRunsUriExtension}`)
       .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
   }
@@ -95,7 +94,7 @@ export class TrainingInstanceFacade {
   getTrainingRunsByTrainingInstanceIdPaginated(trainingInstanceId: number, pagination: TablePagination, isActive = true)
       : Observable<PaginatedTable<TrainingRunTableRow[]>> {
       let params = PaginationParams.createTrainingsPaginationParams(pagination);
-      params = params.append("isActive", isActive.toString());
+      params = params.append('isActive', isActive.toString());
         return this.http.get<TrainingRunRestResource>(
           this.trainingInstancesEndpointUri + trainingInstanceId + '/' + this.trainingRunsUriExtension,
           { params: params })

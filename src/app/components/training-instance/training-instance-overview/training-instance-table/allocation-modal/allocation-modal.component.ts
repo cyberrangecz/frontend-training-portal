@@ -8,6 +8,9 @@ import {AllocationModalFormGroup} from './allocation-modal-form-group';
   templateUrl: './allocation-modal.component.html',
   styleUrls: ['./allocation-modal.component.css']
 })
+/**
+ * Modal dialog to set how many sandbox instance from available pool should be allocated.
+ */
 export class AllocationModalComponent extends BaseComponent implements OnInit {
 
   allocationSizeForm: AllocationModalFormGroup;

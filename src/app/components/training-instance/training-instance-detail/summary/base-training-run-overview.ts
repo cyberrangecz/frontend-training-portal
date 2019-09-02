@@ -6,6 +6,9 @@ import {environment} from '../../../../../environments/environment';
 import {BaseComponent} from '../../../base.component';
 import {takeWhile} from 'rxjs/operators';
 
+/**
+ * Abstract class containing common flow for tables displaying real-time training run tables for organizer
+ */
 export abstract class BaseTrainingRunOverview extends BaseComponent implements OnInit {
   trainingInstance: TrainingInstance;
 

@@ -17,9 +17,8 @@ import {TrainingDefinitionTableRow} from '../../../../model/table-adapters/train
 import {PaginatedTable} from '../../../../model/table-adapters/paginated-table';
 import {HttpErrorResponse} from '@angular/common/http';
 import {StateChangeDialogComponent} from '../state-change-dialog/state-change-dialog.component';
-import {ActionConfirmationDialog} from '../../../shared/delete-dialog/action-confirmation-dialog.component';
+import {ActionConfirmationDialogComponent} from '../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import {TrainingDefinition} from '../../../../model/training/training-definition';
-import {AuthorsListDialogComponent} from '../authors-list-dialog/authors-list-dialog.component';
 import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
 import {CloneDialogComponent} from '../clone-dialog/clone-dialog.component';
 import {Kypo2AuthService, User} from 'kypo2-auth';
@@ -41,8 +40,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
   ],
 })
 /**
- * Component displaying overview of training definitions. Contains buttons for upload and creating new training definitions,
- * table with all training definitions associated with currently logged in user and possible actions for each training definition.
+ * Component displaying overview of training definitions in table. Contains actions for each TD and expandable detail.
  */
 export class TrainingDefinitionTableComponent extends BaseComponent implements OnInit {
 
@@ -152,7 +150,7 @@ export class TrainingDefinitionTableComponent extends BaseComponent implements O
    * @param {TrainingDefinition} trainingDefinition training definition which should be deleted
    */
   deleteTrainingDefinition(trainingDefinition: TrainingDefinition) {
-    const dialogRef = this.dialog.open(ActionConfirmationDialog, {
+    const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
       data: {
         type: 'Training Definition',
         action: 'delete',

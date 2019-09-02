@@ -1,13 +1,16 @@
-import {Injectable} from "@angular/core";
-import {HttpClient, HttpParams} from "@angular/common/http";
-import {environment} from "../../../environments/environment";
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {environment} from '../../../environments/environment';
 import {Observable, of} from 'rxjs';
-import {SandboxInstance} from "../../model/sandbox/sandbox-instance";
-import {SandboxInstanceDTO} from "../../model/DTOs/sandbox-instance/sandbox-instance-dto";
-import {concatMap, map} from "rxjs/operators";
-import {SandboxInstanceMapper} from "../mappers/sandbox-instance-mapper.service";
-import {TrainingInstance} from "../../model/training/training-instance";
+import {SandboxInstance} from '../../model/sandbox/sandbox-instance';
+import {SandboxInstanceDTO} from '../../model/DTOs/sandbox-instance/sandbox-instance-dto';
+import {concatMap, map} from 'rxjs/operators';
+import {SandboxInstanceMapper} from '../mappers/sandbox-instance-mapper.service';
+import {TrainingInstance} from '../../model/training/training-instance';
 @Injectable()
+/**
+ * Service to abstract communication with sandbox instance endpoint
+ */
 export class SandboxInstanceFacade {
 
   private readonly trainingInstancesUriExtension = 'training-instances/';

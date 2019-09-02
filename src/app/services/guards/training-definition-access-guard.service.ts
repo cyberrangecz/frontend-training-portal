@@ -5,6 +5,9 @@ import {TrainingDefinitionFacade} from '../facades/training-definition-facade.se
 import {TRAINING_DEFINITION_NEW_PATH} from '../../components/training-definition/training-definition-overview/paths';
 
 @Injectable()
+/**
+ * Guard to detail/edit of training definition. Checks if such TD exists and user has access rights.
+ */
 export class TrainingDefinitionAccessGuard implements CanActivate {
 
   constructor(private trainingDefinitionFacade: TrainingDefinitionFacade) {

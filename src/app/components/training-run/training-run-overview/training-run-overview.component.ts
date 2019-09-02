@@ -11,6 +11,7 @@ import {BaseComponent} from '../../base.component';
  * Main component of the trainee overview. Wrapper for child components (table and training access)
  */
 export class TrainingRunOverviewComponent extends BaseComponent implements OnInit {
+  // TODO make it smart and children dumb
 
   constructor(private activeLevelsService: ActiveTrainingRunService) {
     super();

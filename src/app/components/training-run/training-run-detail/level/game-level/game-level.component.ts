@@ -22,7 +22,7 @@ import {takeWhile} from 'rxjs/operators';
 })
 /**
  * Component of a game level in a training run. Users needs to find out correct solution (flag) and submit it
- * before he can continue to the next level.
+ * before he can continue to the next level. User can optionally take hints.
  */
 export class GameLevelComponent extends BaseComponent implements OnInit, OnChanges {
 

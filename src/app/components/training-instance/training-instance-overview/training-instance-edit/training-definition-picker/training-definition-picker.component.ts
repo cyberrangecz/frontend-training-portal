@@ -1,15 +1,15 @@
 import {Component, Inject, OnInit, Optional} from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import {SandboxDefinitionPickerComponent} from "../../../../training-definition/training-definition-edit-container/training-definition-edit/sandbox-definition-picker/sandbox-definition-picker.component";
-import {TrainingDefinition} from "../../../../../model/training/training-definition";
-import {TrainingDefinitionFacade} from "../../../../../services/facades/training-definition-facade.service";
-import {TrainingDefinitionInfo} from "../../../../../model/training/training-definition-info";
-import {TrainingDefinitionStateEnum} from "../../../../../model/enums/training-definition-state.enum";
-import {takeWhile} from "rxjs/operators";
-import {BaseComponent} from "../../../../base.component";
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {SandboxDefinitionPickerComponent} from '../../../../training-definition/training-definition-edit-container/training-definition-edit/sandbox-definition-picker/sandbox-definition-picker.component';
+import {TrainingDefinition} from '../../../../../model/training/training-definition';
+import {TrainingDefinitionFacade} from '../../../../../services/facades/training-definition-facade.service';
+import {TrainingDefinitionInfo} from '../../../../../model/training/training-definition-info';
+import {TrainingDefinitionStateEnum} from '../../../../../model/enums/training-definition-state.enum';
+import {takeWhile} from 'rxjs/operators';
+import {BaseComponent} from '../../../../base.component';
 
 @Component({
-  selector: 'training-definition-picker',
+  selector: 'kypo2-training-definition-picker',
   templateUrl: './training-definition-picker.component.html',
   styleUrls: ['./training-definition-picker.component.css']
 })
@@ -26,7 +26,7 @@ export class TrainingDefinitionPickerComponent extends BaseComponent implements 
   constructor(@Optional() @Inject(MAT_DIALOG_DATA) public data: TrainingDefinition,
               public dialogRef: MatDialogRef<SandboxDefinitionPickerComponent>,
               private trainingDefinitionFacade: TrainingDefinitionFacade) {
-    super()
+    super();
   }
 
   ngOnInit() {

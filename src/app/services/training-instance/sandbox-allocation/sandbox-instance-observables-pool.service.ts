@@ -1,11 +1,14 @@
-import {Injectable} from "@angular/core";
-import {Dictionary} from 'typescript-collections'
-import {BehaviorSubject, Observable, Subject} from "rxjs";
-import {SandboxInstanceAllocationState} from "../../../model/training/sandbox-instance-allocation-state";
-import {shareReplay} from "rxjs/operators";
-import {TrainingInstance} from "../../../model/training/training-instance";
+import {Injectable} from '@angular/core';
+import {Dictionary} from 'typescript-collections';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {SandboxInstanceAllocationState} from '../../../model/training/sandbox-instance-allocation-state';
+import {shareReplay} from 'rxjs/operators';
+import {TrainingInstance} from '../../../model/training/training-instance';
 
 @Injectable()
+/**
+ * Holds map of sandbox instance allocation observables
+ */
 export class SandboxInstanceObservablesPoolService {
 
   private _sandboxAllocationPool: Dictionary<number, {

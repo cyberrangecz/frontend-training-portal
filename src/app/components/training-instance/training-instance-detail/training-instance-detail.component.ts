@@ -5,14 +5,14 @@ import {ActiveTrainingInstanceService} from '../../../services/training-instance
  import {BaseComponent} from '../../base.component';
  import {map, takeWhile, tap} from 'rxjs/operators';
  import {of} from 'rxjs';
- import {PROGRESS_PATH, RESULTS_PATH, SUMMARY_PATH} from "./paths";
+ import {PROGRESS_PATH, RESULTS_PATH, SUMMARY_PATH} from './paths';
 @Component({
   selector: 'kypo2-training-instance-detail',
   templateUrl: './training-instance-detail.component.html',
   styleUrls: ['./training-instance-detail.component.css']
 })
 /**
- * Main component of training instance overview. Tab with navigation to child components
+ * Main component of training instance detail. Tab with navigation to views on selected training instance
  */
 export class TrainingInstanceDetailComponent extends BaseComponent implements OnInit {
 

@@ -12,7 +12,7 @@ import {ACCESS_TOKEN_ROUTE} from '../../../training-instance-overview/paths';
   styleUrls: ['./training-instance-info.component.css']
 })
 /**
- * Displays info about currently active training instance
+ * Displays info about selected training instance.
  */
 export class TrainingInstanceInfoComponent extends BaseComponent implements OnInit {
 

@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Kypo2AuthService, User} from 'kypo2-auth';
 import {BaseComponent} from '../../base.component';
 import {Router} from '@angular/router';
@@ -9,11 +9,14 @@ import {LOGIN_PATH} from '../../../paths';
   templateUrl: './active-user.component.html',
   styleUrls: ['./active-user.component.css']
 })
-/**
- * Component of user menu. Used to access pages of user profile, homepage, etc.
+/** PRESENTATIONAL with global services
+ * Logged in user info component
  */
 export class ActiveUserComponent extends BaseComponent implements OnInit {
 
+  /**
+   * Logged in user
+   */
   @Input() user: User;
 
   constructor(private authService: Kypo2AuthService,

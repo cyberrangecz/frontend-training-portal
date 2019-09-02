@@ -1,13 +1,13 @@
-import { FormGroup, Validators, FormControl } from "@angular/forms";
+import { FormGroup, Validators, FormControl } from '@angular/forms';
 
-export class SandboxDefinitionFormGroup{
+export class SandboxDefinitionFormGroup {
 
     formGroup: FormGroup;
 
-    constructor(){
+    constructor() {
         this.formGroup = new FormGroup({
             'gitlabUrl': new FormControl('', Validators.required),
-            'revision': new FormControl('',Validators.required)
-        })
+            'revision': new FormControl('', Validators.required)
+        });
     }
 }

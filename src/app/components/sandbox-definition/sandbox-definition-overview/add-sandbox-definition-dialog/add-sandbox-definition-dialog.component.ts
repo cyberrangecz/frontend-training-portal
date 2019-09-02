@@ -1,18 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import {MatDialogRef} from "@angular/material";
-import {AlertService} from "../../../../services/shared/alert.service";
-import {ErrorHandlerService} from "../../../../services/shared/error-handler.service";
-import {SandboxDefinitionFacade} from "../../../../services/facades/sandbox-definition-facade.service";
-import {AlertTypeEnum} from "../../../../model/enums/alert-type.enum";
-import {BaseComponent} from "../../../base.component";
-import {takeWhile} from "rxjs/operators";
+import {MatDialogRef} from '@angular/material';
+import {AlertService} from '../../../../services/shared/alert.service';
+import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
+import {SandboxDefinitionFacade} from '../../../../services/facades/sandbox-definition-facade.service';
+import {BaseComponent} from '../../../base.component';
+import {takeWhile} from 'rxjs/operators';
 import { SandboxDefinitionFormGroup } from './add-sandbox-definition-dialog-form-group';
 
 @Component({
-  selector: 'app-add-sandbox-definition-dialog',
+  selector: 'kypo2-add-sandbox-definition-dialog',
   templateUrl: './add-sandbox-definition-dialog.component.html',
   styleUrls: ['./add-sandbox-definition-dialog.component.css']
 })
+/**
+ * Displays form for creating new sandbox definition in modal
+ */
 export class AddSandboxDefinitionDialogComponent extends BaseComponent implements OnInit {
 
   sandboxDefinitionFormGroup: SandboxDefinitionFormGroup;
@@ -28,8 +30,8 @@ export class AddSandboxDefinitionDialogComponent extends BaseComponent implement
     this.sandboxDefinitionFormGroup = new SandboxDefinitionFormGroup();
   }
 
-  get gitlabUrl(){return this.sandboxDefinitionFormGroup.formGroup.get('gitlabUrl');}
-  get revision(){return this.sandboxDefinitionFormGroup.formGroup.get('revision');}
+  get gitlabUrl() {return this.sandboxDefinitionFormGroup.formGroup.get('gitlabUrl'); }
+  get revision() {return this.sandboxDefinitionFormGroup.formGroup.get('revision'); }
 
   add() {
     if (this.sandboxDefinitionFormGroup.formGroup.valid) {
@@ -38,7 +40,7 @@ export class AddSandboxDefinitionDialogComponent extends BaseComponent implement
         .subscribe(
           result => this.dialogRef.close({ type: 'success' }),
           err => this.errorHandler.displayInAlert(err, 'Uploading sandbox definition')
-        )
+        );
     }
   }
 

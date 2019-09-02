@@ -1,10 +1,10 @@
-import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 export class AssessmentLevelConfigurationFormGroup {
 
     formGroup: FormGroup;
 
-    constructor(){
+    constructor() {
         this.formGroup = new FormGroup({
             'title': new FormControl('', Validators.required),
             'instructions': new FormControl(''),
@@ -12,6 +12,6 @@ export class AssessmentLevelConfigurationFormGroup {
             'estimatedDuration': new FormControl('', [Validators.max(60), Validators.min(1)]),
             'questions': new FormControl(''),
 
-        })
+        });
     }
 }

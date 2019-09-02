@@ -10,18 +10,18 @@ import {
   SimpleChanges,
   ViewChildren
 } from '@angular/core';
-import {QuestionConfigurationComponent} from "../question-configuration/question-configuration.component";
-import {AbstractQuestion} from "../../../../../../../model/questions/abstract-question";
-import {FreeFormQuestion} from "../../../../../../../model/questions/free-form-question";
-import {MultipleChoiceQuestion} from "../../../../../../../model/questions/multiple-choice-question";
-import {ExtendedMatchingItems} from "../../../../../../../model/questions/extended-matching-items";
-import {ActionConfirmationDialog} from "../../../../../../shared/delete-dialog/action-confirmation-dialog.component";
-import { MatDialog } from "@angular/material/dialog";
-import {BaseComponent} from "../../../../../../base.component";
-import {takeWhile} from "rxjs/operators";
+import {QuestionEditComponent} from '../question-edit/question-edit.component';
+import {AbstractQuestion} from '../../../../../../../model/questions/abstract-question';
+import {FreeFormQuestion} from '../../../../../../../model/questions/free-form-question';
+import {MultipleChoiceQuestion} from '../../../../../../../model/questions/multiple-choice-question';
+import {ExtendedMatchingItems} from '../../../../../../../model/questions/extended-matching-items';
+import {ActionConfirmationDialogComponent} from '../../../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import {BaseComponent} from '../../../../../../base.component';
+import {takeWhile} from 'rxjs/operators';
 
 @Component({
-  selector: 'question-overview',
+  selector: 'kypo2-question-overview',
   templateUrl: './questions-overview.component.html',
   styleUrls: ['./questions-overview.component.css']
 })
@@ -36,12 +36,12 @@ export class QuestionsOverviewComponent extends BaseComponent implements OnInit,
 
   @Output('questions') questionChange = new EventEmitter();
 
-  @ViewChildren(QuestionConfigurationComponent) questionConfigurationChildren: QueryList<QuestionConfigurationComponent>;
+  @ViewChildren(QuestionEditComponent) questionConfigurationChildren: QueryList<QuestionEditComponent>;
 
   dirty = false;
 
   constructor(public dialog: MatDialog,
-              private cdRef:ChangeDetectorRef) {
+              private cdRef: ChangeDetectorRef) {
     super();
   }
 
@@ -86,8 +86,8 @@ export class QuestionsOverviewComponent extends BaseComponent implements OnInit,
    */
   addMCQ() {
     const newMcq = new MultipleChoiceQuestion('New Multiple Choice Question');
-    newMcq.options.push("");
-    newMcq.options.push("");
+    newMcq.options.push('');
+    newMcq.options.push('');
     newMcq.required = this.isTest;
     this.questions.push(newMcq);
     this.questionChanged();
@@ -99,17 +99,17 @@ export class QuestionsOverviewComponent extends BaseComponent implements OnInit,
   addEMI() {
     const newEmi = new ExtendedMatchingItems('New Extended Matching Items');
     newEmi.required = this.isTest;
-    newEmi.cols.push("");
-    newEmi.cols.push("");
-    newEmi.rows.push("");
-    newEmi.rows.push("");
+    newEmi.cols.push('');
+    newEmi.cols.push('');
+    newEmi.rows.push('');
+    newEmi.rows.push('');
     this.questions.push(newEmi);
     this.questionChanged();
   }
 
   questionChanged() {
     this.dirty = true;
-    this.questionChange.emit()
+    this.questionChange.emit();
   }
 
   /**
@@ -117,7 +117,7 @@ export class QuestionsOverviewComponent extends BaseComponent implements OnInit,
    * @param index index of question which should be deleted
    */
   deleteQuestion(index: number) {
-    const dialogRef = this.dialog.open(ActionConfirmationDialog, {
+    const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
       data:
         {
           type: 'question',
@@ -144,7 +144,7 @@ export class QuestionsOverviewComponent extends BaseComponent implements OnInit,
     const savedQuestion: AbstractQuestion[] = [];
     this.questionConfigurationChildren.forEach(child => savedQuestion.push(child.question));
     this.questions = savedQuestion;
-    this.dirty = false
+    this.dirty = false;
   }
 
   validateInput(): boolean {

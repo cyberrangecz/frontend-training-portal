@@ -23,7 +23,7 @@ import {TrainingDefinitionSaveEvent} from '../../../model/events/training-defini
   styleUrls: ['./training-definition-edit-container.component.css']
 })
 /**
- * Main component of training definition. Servers mainly as a wrapper and resolves id of a training specified in the URL.
+ * Main component of training definition. Servers mainly as a smart component wrapper and resolves id of a training specified in the URL.
  * Training definition with provided id is retrieved from the server and passed to child component
  */
 export class TrainingDefinitionEditContainerComponent extends BaseComponent implements OnInit {

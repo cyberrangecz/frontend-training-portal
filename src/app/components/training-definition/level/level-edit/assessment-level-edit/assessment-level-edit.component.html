@@ -47,7 +47,7 @@
           <span class="test-toggle-right-margin">Questionnaire</span>
           <mat-slide-toggle
             matTooltip="Switching to questionnaire wil delete your answers"
-            
+
             formControlName="isTest">
           </mat-slide-toggle>
           <span class="test-toggle-left-margin">Test</span>
@@ -55,7 +55,7 @@
       </div>
     </div>
     <!-- QUESTIONS component -->
-    <question-overview (questions)="contentChanged()" [questions]="questions.value" [isTest]="isTest.value" [disabled]="isLoading"></question-overview>
+    <kypo2-question-overview (questions)="contentChanged()" [questions]="questions.value" [isTest]="isTest.value" [disabled]="isLoading"></kypo2-question-overview>
     <mat-error *ngIf="!childComponent?.validateInput()">There are errors in questions</mat-error>
     </form>
   </div>

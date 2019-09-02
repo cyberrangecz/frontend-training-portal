@@ -10,7 +10,8 @@ import {
   TRAINING_DEFINITION_PATH,
   TRAINING_INSTANCE_PATH,
   TRAINING_RUN_PATH
-} from "../../paths";
+} from '../../paths';
+
 
 @Component({
   selector: 'kypo2-home',
@@ -103,9 +104,6 @@ export class HomeComponent extends BaseComponent implements OnInit {
     ];
   }
 
-  /**
-   * Subscribes to changes in active user (logged out/in) and recalculates source objects and visibility based on roles of new user.
-   */
   private subscribeUserChange() {
     this.authService.activeUser$
       .pipe(takeWhile(() => this.isAlive))

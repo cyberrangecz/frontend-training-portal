@@ -5,7 +5,7 @@ import {BehaviorSubject} from 'rxjs';
 
 @Injectable()
 /**
- * Service to hide toolbar and sidebar in certain parts of the webapp
+ * Service to hide toolbar and sidebar in certain parts of app
  */
 export class DistractionFreeModeService {
 

@@ -2,11 +2,14 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '
 import {Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {Kypo2AuthGuardWithLogin, Kypo2AuthService} from 'kypo2-auth';
-import {CanActivateToObservable} from "./can-activate-to-observable";
-import {map} from "rxjs/operators";
-import {HOME_PATH} from "../../paths";
+import {CanActivateToObservable} from './can-activate-to-observable';
+import {map} from 'rxjs/operators';
+import {HOME_PATH} from '../../paths';
 
 @Injectable()
+/**
+ * Guard which determines if user is signed in and has role of designer.
+ */
 export class AdminGuard implements CanActivate {
 
   constructor(private router: Router,

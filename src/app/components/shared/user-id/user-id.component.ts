@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Kypo2AuthService, User} from 'kypo2-auth';
-import * as Identicon  from 'identicon.js';
+import * as Identicon from 'identicon.js';
 import { sha256 } from 'js-sha256';
 import {BaseComponent} from '../../base.component';
 import {tap} from 'rxjs/operators';
@@ -10,6 +10,9 @@ import {tap} from 'rxjs/operators';
   templateUrl: './user-id.component.html',
   styleUrls: ['./user-id.component.css']
 })
+/**
+ * Generates and displays icon and basic info about logged in user
+ */
 export class UserIdComponent extends BaseComponent implements OnInit {
 
   user: User;

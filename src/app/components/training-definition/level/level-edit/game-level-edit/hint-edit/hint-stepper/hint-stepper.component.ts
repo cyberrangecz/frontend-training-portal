@@ -17,10 +17,10 @@ import { HintStepperFormGroup } from './hint-stepper-form-group';
 import { FormArray, FormControl } from '@angular/forms';
 import {BaseComponent} from '../../../../../../base.component';
 import {Hint} from '../../../../../../../model/level/hint';
-import {ActionConfirmationDialog} from '../../../../../../shared/delete-dialog/action-confirmation-dialog.component';
+import {ActionConfirmationDialogComponent} from '../../../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 
 @Component({
-  selector: 'hint-stepper',
+  selector: 'kypo2-hint-stepper',
   templateUrl: './hint-stepper.component.html',
   styleUrls: ['./hint-stepper.component.css'],
   providers: [
@@ -116,7 +116,7 @@ export class HintStepperComponent extends BaseComponent
    * @param {Hint} hint hint which should be deleted
    */
   deleteHint(hint: Hint) {
-    const dialogRef = this.dialog.open(ActionConfirmationDialog, {
+    const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
       data: {
         type: 'hint',
         action: 'delete',

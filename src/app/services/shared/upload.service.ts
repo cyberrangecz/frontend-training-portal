@@ -1,19 +1,21 @@
-import {Injectable} from "@angular/core";
+import {Injectable} from '@angular/core';
 import {fromEvent, Observable} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {TrainingDefinitionDTO} from '../../model/DTOs/training-definition/training-definition-dto';
 import {mergeMap} from 'rxjs/operators';
-import {SandboxDefinitionCreateDTO} from "../../model/DTOs/sandbox-definition/sandbox-definition-create-dto";
+import {SandboxDefinitionCreateDTO} from '../../model/DTOs/sandbox-definition/sandbox-definition-create-dto';
 
 @Injectable()
+/**
+ * Service parsing file and uploading it to endpoint
+ */
 export class UploadService {
-
 
   constructor(private http: HttpClient) {
   }
 
   public uploadTrainingDefinition(url: string, file: File): Observable<TrainingDefinitionDTO> {
-    let fileReader = new FileReader();
+    const fileReader = new FileReader();
     const fileRead$ = fromEvent(fileReader, 'load')
       .pipe(mergeMap(e => {
         const jsonBody = JSON.parse(fileReader.result as string);
@@ -24,7 +26,7 @@ export class UploadService {
   }
 
   public uploadSandboxDefinition(url: string, file: File): Observable<SandboxDefinitionCreateDTO> {
-    let fileReader = new FileReader();
+    const fileReader = new FileReader();
     const fileRead$ = fromEvent(fileReader, 'load')
       .pipe(mergeMap(e => {
         return this.http.post<SandboxDefinitionCreateDTO>(url,
@@ -36,6 +38,6 @@ export class UploadService {
   }
 
   private createYamlContentHeader(): HttpHeaders {
-    return new HttpHeaders().append('Content-Type', 'application/yaml' )
+    return new HttpHeaders().append('Content-Type', 'application/yaml' );
   }
 }

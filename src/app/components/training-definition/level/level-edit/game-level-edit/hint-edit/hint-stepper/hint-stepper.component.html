@@ -36,15 +36,15 @@
           <mat-divider *ngIf="hintsArray && hintsArray.length > 0"></mat-divider>
           <ng-template matStepLabel>Hint {{ i + 1 }}</ng-template>
           <div class="step-content">
-            <hint-edit [(hint)]="hints[i]"
-                       (hint)="hintsChanged()"
-                       (validity)="validityChanged()"
-                       (deleteHint)="deleteHint($event)"
-                       (penaltyChange)="calculateHintPenaltySum()"
-                       [levelMaxScore]="levelMaxScore"
-                       [initHintPenaltySum]="initialPenaltySum"
-                       [disabled]="disabled"
-                       [order]="i"></hint-edit>
+            <kypo2-hint-edit [(hint)]="hints[i]"
+                             (hint)="hintsChanged()"
+                             (validity)="validityChanged()"
+                             (deleteHint)="deleteHint($event)"
+                             (penaltyChange)="calculateHintPenaltySum()"
+                             [levelMaxScore]="levelMaxScore"
+                             [initHintPenaltySum]="initialPenaltySum"
+                             [disabled]="disabled"
+                             [order]="i"></kypo2-hint-edit>
           </div>
         </mat-step>
       </mat-horizontal-stepper>

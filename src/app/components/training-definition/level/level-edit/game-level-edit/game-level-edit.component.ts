@@ -8,17 +8,17 @@ import {TrainingDefinitionFacade} from '../../../../../services/facades/training
 import {LevelEditService} from '../../../../../services/training-definition/level-edit.service';
 import {BaseComponent} from '../../../../base.component';
 import {takeWhile} from 'rxjs/operators';
-import { GameLevelConfigFormGroup } from './game-level-configuration-form-group';
+import { GameLevelEditFormGroup } from './game-level-edit-form-group';
 
 @Component({
-  selector: 'game-level-configuration',
-  templateUrl: './game-level-configuration.component.html',
-  styleUrls: ['./game-level-configuration.component.css']
+  selector: 'kypo2-game-level-edit',
+  templateUrl: './game-level-edit.component.html',
+  styleUrls: ['./game-level-edit.component.css']
 })
 /**
- * Component for configuration of new or existing game level
+ * Component for editing new or existing game level
  */
-export class GameLevelConfigurationComponent extends BaseComponent
+export class GameLevelEditComponent extends BaseComponent
   implements OnInit, OnChanges {
   @Input('level') level: GameLevel;
   @Input('trainingDefinitionId') trainingDefinitionId: number;
@@ -27,7 +27,7 @@ export class GameLevelConfigurationComponent extends BaseComponent
   @ViewChild(HintStepperComponent, { static: false })
   childComponent: HintStepperComponent;
 
-  gameLevelConfigFormGroup: GameLevelConfigFormGroup;
+  gameLevelConfigFormGroup: GameLevelEditFormGroup;
   isLoading = false;
 
   constructor(
@@ -71,7 +71,7 @@ export class GameLevelConfigurationComponent extends BaseComponent
 
   ngOnChanges(changes: SimpleChanges) {
     if (!this.gameLevelConfigFormGroup) {
-      this.gameLevelConfigFormGroup = new GameLevelConfigFormGroup();
+      this.gameLevelConfigFormGroup = new GameLevelEditFormGroup();
     }
     if ('level' in changes) {
       this.setInitialValues();
