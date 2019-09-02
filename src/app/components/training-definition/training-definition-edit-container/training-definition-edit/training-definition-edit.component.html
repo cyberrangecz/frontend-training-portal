@@ -6,7 +6,7 @@
         <mat-form-field appearance="outline">
           <mat-label>Title</mat-label>
           <input matInput placeholder="Title" formControlName="title" required>
-          <button mat-button *ngIf="title.value" matSuffix mat-icon-button aria-label="Clear" (click)="title.setValue('');">
+          <button mat-button *ngIf="title.value" matSuffix mat-icon-button aria-label="Clear" (click)="title.setValue(''); title.markAsDirty();">
             <mat-icon>close</mat-icon>
           </button>
           <mat-error>Title cannot be empty</mat-error>
@@ -17,7 +17,7 @@
         <mat-form-field appearance="outline">
           <mat-label>Description</mat-label>
           <textarea  matInput placeholder="Description" formControlName="description"></textarea>
-          <button mat-button *ngIf="description.value" matSuffix mat-icon-button aria-label="Clear" (click)="description.setValue('');">
+          <button mat-button *ngIf="description.value" matSuffix mat-icon-button aria-label="Clear" (click)="description.setValue(''); description.markAsDirty();">
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
@@ -26,7 +26,7 @@
         <mat-form-field appearance="outline">
           <mat-label>Notes for instructors</mat-label>
           <textarea  matInput placeholder="Notes for instructors" formControlName="prerequisites"></textarea>
-          <button mat-button *ngIf="prerequisites.value" matSuffix mat-icon-button aria-label="Clear" (click)="prerequisites.setValue(['']);">
+          <button mat-button *ngIf="prerequisites.value" matSuffix mat-icon-button aria-label="Clear" (click)="prerequisites.setValue(['']); prerequisites.markAsDirty();">
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
@@ -35,7 +35,7 @@
         <mat-form-field appearance="outline">
           <mat-label>Learning outcomes</mat-label>
           <textarea  matInput placeholder="Learning outcomes" formControlName="outcomes"></textarea>
-          <button mat-button *ngIf="outcomes.value" matSuffix mat-icon-button aria-label="Clear" (click)="outcomes.setValue(['']);">
+          <button mat-button *ngIf="outcomes.value" matSuffix mat-icon-button aria-label="Clear" (click)="outcomes.setValue(['']); outcomes.markAsDirty();">
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
