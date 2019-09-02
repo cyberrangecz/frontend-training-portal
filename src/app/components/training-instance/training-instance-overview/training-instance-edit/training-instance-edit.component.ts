@@ -72,6 +72,7 @@ export class TrainingInstanceEditComponent extends BaseComponent implements OnIn
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(result => {
       if (result && result.type === 'confirm') {
+        this.trainingInstanceFormGroup.formGroup.markAsDirty();
         this.organizers.setValue(result.organizers);
       }
     });
@@ -87,6 +88,7 @@ export class TrainingInstanceEditComponent extends BaseComponent implements OnIn
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(result => {
       if (result && result.type === 'confirm') {
+        this.trainingInstanceFormGroup.formGroup.markAsDirty();
         this.trainingDefinition.setValue(result.trainingDef);
       }
     });
