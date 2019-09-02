@@ -1,10 +1,11 @@
-import {Injectable} from "@angular/core";
-import {AbstractQuestion} from "../../model/questions/abstract-question";
-import {Observable, of} from "rxjs";
-import {PreviewTrainingRunService} from "./preview-training-run.service";
-import {ActiveTrainingRunService} from "../training-run/active-training-run.service";
+import {Injectable} from '@angular/core';
+import {AbstractQuestion} from '../../model/questions/abstract-question';
+import {Observable, of} from 'rxjs';
 
 @Injectable()
+/**
+ * Mocks behavior of training run assessment level service connected to backend for preview/testing purposes
+ */
 export class PreviewAssessmentLevelService {
 
   submit(trainingRunId: number, answers: AbstractQuestion[]): Observable<any> {

@@ -11,8 +11,10 @@ import {UserIdModule} from '../shared/user-id.module';
 import { TreeNavigationComponent } from './tree-navigation/tree-navigation.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
-import {PipesModule} from '../../pipes/pipes.module';
 
+/**
+ * Module container for all layout related components
+ */
 @NgModule({
   imports: [
     CommonModule,

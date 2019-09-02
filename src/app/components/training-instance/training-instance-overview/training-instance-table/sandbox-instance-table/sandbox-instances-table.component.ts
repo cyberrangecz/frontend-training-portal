@@ -17,18 +17,22 @@ import {SandboxInstanceTableRow} from '../../../../../model/table-adapters/sandb
 import {Observable} from 'rxjs';
 import {SandboxInstanceAllocationState} from '../../../../../model/training/sandbox-instance-allocation-state';
 import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
-import {ActionConfirmationDialog} from '../../../../shared/delete-dialog/action-confirmation-dialog.component';
-import {AllocationErrorDialogComponent} from "../allocation-error-dialog/allocation-error-dialog.component";
-import {BaseComponent} from "../../../../base.component";
+import {ActionConfirmationDialogComponent} from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
+import {AllocationErrorReasonComponent} from '../allocation-error-reason-dialog/allocation-error-reason.component';
+import {BaseComponent} from '../../../../base.component';
 import {skipWhile, takeWhile} from 'rxjs/operators';
 
 
 @Component({
-  selector: 'app-sandbox-instances-subtable',
-  templateUrl: './sandbox-instances-subtable.component.html',
-  styleUrls: ['./sandbox-instances-subtable.component.css']
+  selector: 'kypo2-sandbox-instances-table',
+  templateUrl: './sandbox-instances-table.component.html',
+  styleUrls: ['./sandbox-instances-table.component.css']
 })
-export class SandboxInstancesSubtableComponent extends BaseComponent implements OnInit, OnChanges {
+/**
+ * Table of sandbox instance coupled with some training instance. Either refreshes data periodically or displays
+ * statical data (if no allocation is running).
+ */
+export class SandboxInstancesTableComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input() trainingInstance: TrainingInstance;
   @Input() allocation$: Observable<SandboxInstanceAllocationState>;
@@ -46,7 +50,7 @@ export class SandboxInstancesSubtableComponent extends BaseComponent implements 
   isDisabled = false;
 
   filterByStatusFn = (data: SandboxInstanceTableRow, filter: string) =>
-    data.sandboxInstance.state.toString().toLowerCase().indexOf(filter) !== -1;
+    data.sandboxInstance.state.toString().toLowerCase().indexOf(filter) !== -1
 
   constructor(
     private dialog: MatDialog,
@@ -64,8 +68,7 @@ export class SandboxInstancesSubtableComponent extends BaseComponent implements 
       if (this.trainingInstance && this.trainingInstance.poolId === null || this.trainingInstance.poolId === undefined) {
         this.hasPoolId = false;
         this.canAllocate = false;
-      }
-      else {
+      } else {
         this.hasPoolId = true;
         this.canAllocate = this.trainingInstance.endTime.valueOf() > Date.now();
         this.initTableDataSource();
@@ -92,11 +95,11 @@ export class SandboxInstancesSubtableComponent extends BaseComponent implements 
   }
 
   showSandboxErrorMessage(sandboxRow: SandboxInstanceTableRow) {
-    this.dialog.open(AllocationErrorDialogComponent, { data: sandboxRow.sandboxInstance });
+    this.dialog.open(AllocationErrorReasonComponent, { data: sandboxRow.sandboxInstance });
   }
 
   private askForConfirmation(sandboxRow: SandboxInstanceTableRow) {
-    const dialogRef = this.dialog.open(ActionConfirmationDialog, {
+    const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
       data: {
         type: 'Sandbox Instance',
         action: 'delete',
@@ -148,7 +151,7 @@ export class SandboxInstancesSubtableComponent extends BaseComponent implements 
       .subscribe(
         allocationState =>  {
           this.isDisabled = false;
-          this.displayData(allocationState)
+          this.displayData(allocationState);
         },
         err =>  {
           this.isDisabled = false;
@@ -166,12 +169,10 @@ export class SandboxInstancesSubtableComponent extends BaseComponent implements 
     this.isLoadingResults = true;
     if (allocationState) {
       this.createDataSourceFromAllocationState(allocationState);
-    }
-    else {
+    } else {
       if (this.allocation$) {
         this.createDataSourceFromAllocationObservable(this.allocation$);
-      }
-      else {
+      } else {
         this.fetchDataFromServer();
       }
     }
@@ -189,7 +190,7 @@ export class SandboxInstancesSubtableComponent extends BaseComponent implements 
         this.isLoadingResults = false;
         this.isInErrorState = true;
       }
-    )
+    );
   }
 
   private fetchDataFromServer() {
@@ -205,7 +206,7 @@ export class SandboxInstancesSubtableComponent extends BaseComponent implements 
         this.isLoadingResults = false;
         this.isInErrorState = true;
       }
-    )
+    );
   }
 
   private mapSandboxesToTableData(sandboxes: SandboxInstance[]): SandboxInstanceTableRow[] {
@@ -234,6 +235,6 @@ export class SandboxInstancesSubtableComponent extends BaseComponent implements 
   }
 
   private getSandboxCount(): number {
-    return this.dataSource.data.filter(row => !row.sandboxInstance || !row.sandboxInstance.isBeingDeleted()).length
+    return this.dataSource.data.filter(row => !row.sandboxInstance || !row.sandboxInstance.isBeingDeleted()).length;
   }
 }

@@ -1,16 +1,19 @@
-import {Injectable} from "@angular/core";
-import {TrainingInstanceDTO} from "../../model/DTOs/training-instance/training-instance-dto";
-import {TrainingInstance} from "../../model/training/training-instance";
-import {TrainingInstanceCreateDTO} from "../../model/DTOs/training-instance/training-instance-create-dto";
-import {TrainingInstanceUpdateDTO} from "../../model/DTOs/training-instance/training-instance-update-dto";
-import {TrainingInstanceRestResource} from "../../model/DTOs/training-instance/training-instance-rest-resource";
+import {Injectable} from '@angular/core';
+import {TrainingInstanceDTO} from '../../model/DTOs/training-instance/training-instance-dto';
+import {TrainingInstance} from '../../model/training/training-instance';
+import {TrainingInstanceCreateDTO} from '../../model/DTOs/training-instance/training-instance-create-dto';
+import {TrainingInstanceUpdateDTO} from '../../model/DTOs/training-instance/training-instance-update-dto';
+import {TrainingInstanceRestResource} from '../../model/DTOs/training-instance/training-instance-rest-resource';
 import {TrainingDefinitionMapper} from './training-definition-mapper.service';
-import {PaginatedTable} from "../../model/table-adapters/paginated-table";
-import {TrainingInstanceTableRow} from "../../model/table-adapters/training-instance-table-row";
-import {TableAdapterPagination} from "../../model/table-adapters/table-adapter-pagination";
+import {PaginatedTable} from '../../model/table-adapters/paginated-table';
+import {TrainingInstanceTableRow} from '../../model/table-adapters/training-instance-table-row';
+import {TableAdapterPagination} from '../../model/table-adapters/table-adapter-pagination';
 import {UserMapper} from './user.mapper.service';
 
 @Injectable()
+/**
+ * Maps DTOs to training instance model
+ */
 export class TrainingInstanceMapper {
 
   constructor(private trainingDefinitionMapper: TrainingDefinitionMapper,

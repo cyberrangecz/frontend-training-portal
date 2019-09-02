@@ -1,4 +1,4 @@
-import { FormGroup, Validators, FormControl } from "@angular/forms";
+import { FormGroup, Validators, FormControl } from '@angular/forms';
 
 export class CloneDialogFormGroup {
 
@@ -7,6 +7,6 @@ export class CloneDialogFormGroup {
     constructor() {
         this.formGroup = new FormGroup({
             'clonedDefinitionTitle': new FormControl('', Validators.required)
-        })
+        });
     }
 }

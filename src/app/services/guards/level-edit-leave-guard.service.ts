@@ -5,6 +5,9 @@ import {LevelOverviewComponent} from '../../components/training-definition/level
 import {LEVELS_PATH} from '../../components/training-definition/training-definition-overview/paths';
 
 @Injectable()
+/**
+ * Guard checking if all changes in levels were saved
+ */
 export class LevelEditLeaveGuard implements CanDeactivate<LevelOverviewComponent> {
 
   canDeactivate(component: LevelOverviewComponent, currentRoute: ActivatedRouteSnapshot, currentState: RouterStateSnapshot, nextState?: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {

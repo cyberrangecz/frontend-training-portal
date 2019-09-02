@@ -1,9 +1,12 @@
-import {Injectable} from "@angular/core";
-import {SandboxInstanceDTO} from "../../model/DTOs/sandbox-instance/sandbox-instance-dto";
-import {SandboxInstance} from "../../model/sandbox/sandbox-instance";
-import {SandboxInstanceState} from "../../model/enums/sandbox-instance-state";
+import {Injectable} from '@angular/core';
+import {SandboxInstanceDTO} from '../../model/DTOs/sandbox-instance/sandbox-instance-dto';
+import {SandboxInstance} from '../../model/sandbox/sandbox-instance';
+import {SandboxInstanceState} from '../../model/enums/sandbox-instance-state';
 
 @Injectable()
+/**
+ * Maps DTOs os sandbox instances to model
+ */
 export class SandboxInstanceMapper {
 
   mapSandboxInstanceDTOsToSandboxInstances(sandboxDTOs: SandboxInstanceDTO[]): SandboxInstance[] {
@@ -33,8 +36,7 @@ export class SandboxInstanceMapper {
     }
     if (state.toLowerCase().includes('complete')) {
       return SandboxInstanceState.COMPLETE;
-    }
-    else {
+    } else {
       return undefined;
     }
   }

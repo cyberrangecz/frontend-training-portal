@@ -25,12 +25,12 @@
               <div class="row-detail"
                    [@detailExpand]="data == expandedRow ? 'expanded' : 'collapsed'">
                 <div class="row-detail-content">
-                  <app-sandbox-instances-subtable
+                  <kypo2-sandbox-instances-table
                     *ngIf="data == expandedRow && data.trainingInstance?.hasPoolId()"
                     [trainingInstance]="data.trainingInstance"
                     [allocation$]="data.allocation$"
                     (allocationEvent)="onAllocationEvent($event, data)">
-                  </app-sandbox-instances-subtable>
+                  </kypo2-sandbox-instances-table>
                 </div>
               </div>
             </td>

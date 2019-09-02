@@ -1,13 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AlertService } from '../../../../services/shared/alert.service';
-import { AlertTypeEnum } from '../../../../model/enums/alert-type.enum';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ErrorHandlerService } from '../../../../services/shared/error-handler.service';
 import { ActiveTrainingRunService } from '../../../../services/training-run/active-training-run.service';
 import { TrainingRunFacade } from '../../../../services/facades/training-run-facade.service';
 import {BaseComponent} from '../../../base.component';
 import {takeWhile} from 'rxjs/operators';
-import {TRAINING_RUN_GAME_PATH} from "../paths";
+import {TRAINING_RUN_GAME_PATH} from '../paths';
 import { TraineeAccessTrainingFormGroup } from './trainee-access-training-form-group';
 
 @Component({
@@ -16,10 +15,10 @@ import { TraineeAccessTrainingFormGroup } from './trainee-access-training-form-g
   styleUrls: ['./access-training-run.component.css']
 })
 /**
- * Components where user can access active training run by inserting correct accessToken
+ * Components for trainee access to training run by inserting token
  */
 export class AccessTrainingRunComponent extends BaseComponent implements OnInit {
-  
+
   @ViewChild('pin', {static: false}) accessTokenPinInput: ElementRef;
 
   traineeAccessTrainingFormGroup: TraineeAccessTrainingFormGroup;
@@ -39,8 +38,8 @@ export class AccessTrainingRunComponent extends BaseComponent implements OnInit 
     this.traineeAccessTrainingFormGroup = new TraineeAccessTrainingFormGroup();
   }
 
-  get accessTokenPrefix() {return this.traineeAccessTrainingFormGroup.formGroup.get('accessTokenPrefix');}
-  get accessTokenPin() {return this.traineeAccessTrainingFormGroup.formGroup.get('accessTokenPin');}
+  get accessTokenPrefix() {return this.traineeAccessTrainingFormGroup.formGroup.get('accessTokenPrefix'); }
+  get accessTokenPin() {return this.traineeAccessTrainingFormGroup.formGroup.get('accessTokenPin'); }
 
   /**
    * Finds active training run with matching accessToken and allocates resources for the trainee.
@@ -69,12 +68,12 @@ export class AccessTrainingRunComponent extends BaseComponent implements OnInit 
 }
 
   onPaste(event: ClipboardEvent) {
-    
-    let pastedText = event.clipboardData.getData('text');
+
+    const pastedText = event.clipboardData.getData('text');
     if (pastedText.includes('-')) {
       event.preventDefault();
-      this.accessTokenPrefix.setValue(pastedText.slice(0,pastedText.indexOf('-')));
-      this.accessTokenPin.setValue(pastedText.slice(pastedText.indexOf('-') + 1,pastedText.length));
+      this.accessTokenPrefix.setValue(pastedText.slice(0, pastedText.indexOf('-')));
+      this.accessTokenPin.setValue(pastedText.slice(pastedText.indexOf('-') + 1, pastedText.length));
       this.traineeAccessTrainingFormGroup.formGroup.updateValueAndValidity();
       this.accessTokenPin.markAsTouched();
       this.accessTokenPrefix.markAsTouched();
@@ -85,8 +84,8 @@ export class AccessTrainingRunComponent extends BaseComponent implements OnInit 
     if (event.key === '-') {
       this.accessTokenPinInput.nativeElement.focus();
       this.accessTokenPrefix.setValue(this.accessTokenPrefix.value.slice(0, -1))   ;
-    
+
     }
   }
- 
+
 }

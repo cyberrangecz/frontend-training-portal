@@ -5,7 +5,7 @@ import {map, takeWhile} from "rxjs/operators";
 import {Kypo2AuthService, User} from 'kypo2-auth';
 import {BaseComponent} from "../../../../base.component";
 import {Observable} from "rxjs";
-import {UserSelectionTableAdapter} from "../../../../../model/table-adapters/user-selection-table-adapter";
+import {UserSelectionTableRowAdapter} from "../../../../../model/table-adapters/user-selection-table-row-adapter";
 
 @Component({
   selector: 'training-authors-picker',
@@ -17,7 +17,7 @@ import {UserSelectionTableAdapter} from "../../../../../model/table-adapters/use
  */
 export class AuthorsPickerComponent extends BaseComponent implements OnInit {
 
-  users$: Observable<UserSelectionTableAdapter[]>;
+  users$: Observable<UserSelectionTableRowAdapter[]>;
   selectedUsers: User[] = [];
   activeUser: User;
   constructor(@Optional() @Inject(MAT_DIALOG_DATA) public preselectedUsers: User[],
@@ -59,7 +59,7 @@ export class AuthorsPickerComponent extends BaseComponent implements OnInit {
     this.dialogRef.close(result);
   }
 
-  private loadUsers(): Observable<UserSelectionTableAdapter[]> {
+  private loadUsers(): Observable<UserSelectionTableRowAdapter[]> {
     return this.userFacade.getDesigners()
       .pipe(
         takeWhile(() => this.isAlive),
@@ -67,10 +67,10 @@ export class AuthorsPickerComponent extends BaseComponent implements OnInit {
       )
   }
 
-  private mapUserToTableAdapter(user: User): UserSelectionTableAdapter {
+  private mapUserToTableAdapter(user: User): UserSelectionTableRowAdapter {
     const isActiveUser =  user.equals(this.activeUser);
     const isPreselected = isActiveUser || this.isPreselected(user);
-    return new UserSelectionTableAdapter(user, isPreselected, isActiveUser, isActiveUser);
+    return new UserSelectionTableRowAdapter(user, isPreselected, isActiveUser, isActiveUser);
   }
 
   private isPreselected(user: User): boolean {

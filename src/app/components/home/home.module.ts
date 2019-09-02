@@ -4,6 +4,9 @@ import {HomeComponent} from './home.component';
 import {HomelRoutingModule} from './homel-routing.module';
 import {HomeMaterialModule} from './home-material.module';
 
+/**
+ * Portal main page module
+ */
 @NgModule({
   imports: [
     CommonModule,

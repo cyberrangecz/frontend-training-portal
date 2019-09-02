@@ -23,11 +23,14 @@ import {MultipleChoiceQuestionAnswerDTO} from '../../model/DTOs/level/assessment
 import {ExtendedMatchingItemsAnswerDTO} from '../../model/DTOs/level/assessment/extended-matching-items-answer-dto';
 import {UserMapper} from './user.mapper.service';
 import {EmiChoiceDTO} from '../../model/DTOs/level/assessment/emi-choice-dto';
-import {BasicLevelInfoDTO} from "../../model/DTOs/level/basic-level-info-dto";
+import {BasicLevelInfoDTO} from '../../model/DTOs/level/basic-level-info-dto';
 import LevelTypeEnum = BasicLevelInfoDTO.LevelTypeEnum;
-import {GameLevel} from "../../model/level/game-level";
+import {GameLevel} from '../../model/level/game-level';
 
 @Injectable()
+/**
+ *  Maps DTOs to training run model
+ */
 export class TrainingRunMapper {
 
   constructor(private levelMapper: LevelMapper,
@@ -183,7 +186,7 @@ export class TrainingRunMapper {
     result.isCorrect = flagResponse.correct;
     result.remainingAttempts = flagResponse.remaining_attempts;
     result.solution = flagResponse.solution;
-    return result
+    return result;
   }
 
   private mapTrainigRunDTOStateToEnum(state: TrainingRunDTO.StateEnum): TrainingRunStateEnum {

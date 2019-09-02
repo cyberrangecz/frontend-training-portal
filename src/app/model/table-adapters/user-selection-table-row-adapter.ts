@@ -1,7 +1,10 @@
 import {User} from 'kypo2-auth';
-import {StringNormalizer} from "../utils/ignore-diacritics-filter";
+import {StringNormalizer} from '../utils/ignore-diacritics-filter';
 
-export class UserSelectionTableAdapter {
+/**
+ * Adapter between user and selection table row
+ */
+export class UserSelectionTableRowAdapter {
   user: User;
   selected: boolean;
   isActiveUser: boolean;

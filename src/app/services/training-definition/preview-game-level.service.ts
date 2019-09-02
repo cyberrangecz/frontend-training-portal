@@ -1,15 +1,17 @@
-import {Injectable} from "@angular/core";
-import {Observable, of} from "rxjs";
-import {FlagCheck} from "../../model/level/flag-check";
-import {Hint} from "../../model/level/hint";
-import {ActiveTrainingRunService} from "../training-run/active-training-run.service";
-import {GameLevel} from "../../model/level/game-level";
+import {Injectable} from '@angular/core';
+import {Observable, of} from 'rxjs';
+import {FlagCheck} from '../../model/level/flag-check';
+import {Hint} from '../../model/level/hint';
+import {GameLevel} from '../../model/level/game-level';
 
 @Injectable()
+/**
+ * Mocks behavior of training run game level service connected to backend for preview/testing purposes
+ */
 export class PreviewGameLevelService {
 
   private _currentLevel: GameLevel;
-  private _remainingAttempts: number =  -1;
+  private _remainingAttempts =  -1;
 
   init(level: GameLevel) {
     this._currentLevel = level;
@@ -25,7 +27,7 @@ export class PreviewGameLevelService {
       result.isCorrect = false;
       this._remainingAttempts--;
       result.remainingAttempts = this._remainingAttempts;
-      result.solution = this._currentLevel.solution
+      result.solution = this._currentLevel.solution;
     }
     return of(result);
 

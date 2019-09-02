@@ -1,38 +1,37 @@
-import {Injectable} from "@angular/core";
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {environment} from "../../../environments/environment";
-import {catchError, map} from "rxjs/operators";
-import {TrainingDefinition} from "../../model/training/training-definition";
-import {Observable} from "rxjs/internal/Observable";
-import {PaginationParams} from "../../model/http/params/pagination-params";
-import {TrainingDefinitionMapper} from "../mappers/training-definition-mapper.service";
-import {AbstractLevel} from "../../model/level/abstract-level";
-import {AbstractLevelDTO} from "../../model/DTOs/level/abstract-level-dto";
-import {GameLevelDTO} from "../../model/DTOs/level/game/game-level-dto";
-import {InfoLevelDTO} from "../../model/DTOs/level/info/info-level-dto";
-import {AssessmentLevelDTO} from "../../model/DTOs/level/assessment/assessment-level-dto";
-import {LevelMapper} from "../mappers/level-mapper.service";
-import {GameLevel} from "../../model/level/game-level";
-import {InfoLevel} from "../../model/level/info-level";
-import {AssessmentLevel} from "../../model/level/assessment-level";
-import {TrainingDefinitionRestResource} from "../../model/DTOs/training-definition/training-definition-rest-resource";
-import {TrainingDefinitionDTO} from "../../model/DTOs/training-definition/training-definition-dto";
-import {PaginatedTable} from "../../model/table-adapters/paginated-table";
-import {TrainingDefinitionTableRow} from "../../model/table-adapters/training-definition-table-row";
-import {BasicLevelInfoDTO} from "../../model/DTOs/level/basic-level-info-dto";
+import {environment} from '../../../environments/environment';
+import {catchError, map} from 'rxjs/operators';
+import {TrainingDefinition} from '../../model/training/training-definition';
+import {Observable} from 'rxjs/internal/Observable';
+import {PaginationParams} from '../../model/http/params/pagination-params';
+import {TrainingDefinitionMapper} from '../mappers/training-definition-mapper.service';
+import {AbstractLevel} from '../../model/level/abstract-level';
+import {AbstractLevelDTO} from '../../model/DTOs/level/abstract-level-dto';
+import {GameLevelDTO} from '../../model/DTOs/level/game/game-level-dto';
+import {InfoLevelDTO} from '../../model/DTOs/level/info/info-level-dto';
+import {AssessmentLevelDTO} from '../../model/DTOs/level/assessment/assessment-level-dto';
+import {LevelMapper} from '../mappers/level-mapper.service';
+import {GameLevel} from '../../model/level/game-level';
+import {InfoLevel} from '../../model/level/info-level';
+import {AssessmentLevel} from '../../model/level/assessment-level';
+import {TrainingDefinitionRestResource} from '../../model/DTOs/training-definition/training-definition-rest-resource';
+import {TrainingDefinitionDTO} from '../../model/DTOs/training-definition/training-definition-dto';
+import {PaginatedTable} from '../../model/table-adapters/paginated-table';
+import {TrainingDefinitionTableRow} from '../../model/table-adapters/training-definition-table-row';
+import {BasicLevelInfoDTO} from '../../model/DTOs/level/basic-level-info-dto';
 import {DownloadService} from '../shared/download.service';
 import {UploadService} from '../shared/upload.service';
 import {ResponseHeaderContentDispositionReader} from '../../model/http/response-headers/response-header-content-disposition-reader';
 import {TrainingDefinitionStateEnum} from '../../model/enums/training-definition-state.enum';
 import {TrainingDefinitionInfo} from '../../model/training/training-definition-info';
 import {TrainingDefinitionInfoRestResource} from '../../model/DTOs/training-definition/training-definition-info-rest-resource';
-import {of} from "rxjs";
-import {TablePagination} from "../../model/DTOs/other/table-pagination";
+import {of} from 'rxjs';
+import {TablePagination} from '../../model/DTOs/other/table-pagination';
 
 @Injectable()
 /**
  * Service to abstract communication with training definition endpoint.
- * Can retrieve training definition based on several parameters
  */
 export class TrainingDefinitionFacade {
   readonly trainingDefinitionUriExtension = 'training-definitions/';
@@ -97,7 +96,7 @@ export class TrainingDefinitionFacade {
       .pipe(
         map(response => true),
         catchError(err => of(false))
-      )
+      );
   }
 
   /**
@@ -130,7 +129,7 @@ export class TrainingDefinitionFacade {
    * Downloads Training Definition file. Returns observable of boolean. True is returned when the data are received correctly
    * @param id id of training definition which should be downloaded
    */
-  downloadTrainingDefinition(id: number) : Observable<boolean> {
+  downloadTrainingDefinition(id: number): Observable<boolean> {
     const headers = new HttpHeaders();
     headers.set('Accept', [
       'application/octet-stream'
@@ -298,7 +297,7 @@ export class TrainingDefinitionFacade {
   }
 
   private createDefaultHeaders() {
-    let httpHeaderAccepts: string[] = [
+    const httpHeaderAccepts: string[] = [
       '*/*',
       'application/json'
     ];

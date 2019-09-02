@@ -15,13 +15,17 @@ import {TrainingDefinitionFacadeModule} from '../../../services/facades/modules/
 import {TrainingInstanceFacadeModule} from '../../../services/facades/modules/training-instance-facade.module';
 import {ActiveTrainingInstanceService} from '../../../services/training-instance/active-training-instance.service';
 import {SandboxInstanceFacadeModule} from '../../../services/facades/modules/sandbox-instance-facade.module';
-import {SandboxInstancesSubtableComponent} from './training-instance-table/sandbox-instance-subtable/sandbox-instances-subtable.component';
-import { AllocationErrorDialogComponent } from './training-instance-table/allocation-error-dialog/allocation-error-dialog.component';
+import {SandboxInstancesTableComponent} from './training-instance-table/sandbox-instance-table/sandbox-instances-table.component';
+import { AllocationErrorReasonComponent } from './training-instance-table/allocation-error-reason-dialog/allocation-error-reason.component';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@busacca/ng-pick-datetime';
 import {SandboxAllocationService} from '../../../services/training-instance/sandbox-allocation/sandbox-allocation.service';
 import {SandboxInstanceObservablesPoolService} from '../../../services/training-instance/sandbox-allocation/sandbox-instance-observables-pool.service';
 import { AllocationModalComponent } from './training-instance-table/allocation-modal/allocation-modal.component';
 
+/**
+ * Main module of training instance agenda. Contains components and providers for displaying table of training instance
+ * and CRUD operations on them. It contains routing to more feature modules (detail atc.)
+ */
 @NgModule({
   imports: [
     CommonModule,
@@ -45,8 +49,8 @@ import { AllocationModalComponent } from './training-instance-table/allocation-m
     OrganizersPickerComponent,
     TrainingDefinitionPickerComponent,
     TrainingEditModalComponent,
-    SandboxInstancesSubtableComponent,
-    AllocationErrorDialogComponent,
+    SandboxInstancesTableComponent,
+    AllocationErrorReasonComponent,
     AllocationModalComponent
   ],
   providers: [
@@ -59,7 +63,7 @@ import { AllocationModalComponent } from './training-instance-table/allocation-m
     TrainingDefinitionPickerComponent,
     TrainingEditModalComponent,
     AllocationModalComponent,
-    AllocationErrorDialogComponent
+    AllocationErrorReasonComponent
   ]
 })
 

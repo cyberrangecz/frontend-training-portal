@@ -14,6 +14,10 @@ import { EditBetaTestingGroupComponent } from './training-definition-edit/edit-b
 import {TrainingDefinitionLeaveGuard} from '../../../services/guards/training-definition-leave-guard.service';
 import {TrainingDefinitionAccessGuard} from '../../../services/guards/training-definition-access-guard.service';
 import {SandboxDefinitionFacadeModule} from '../../../services/facades/modules/sandbox-definition-facade.module';
+
+/**
+ * Module containing components and services of training definition detial/edt/new actions. Contains routing to level modules
+ */
 @NgModule({
   imports: [
     CommonModule,

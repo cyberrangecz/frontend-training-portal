@@ -13,10 +13,18 @@ import {takeWhile} from 'rxjs/operators';
   templateUrl: './tree-navigation.component.html',
   styleUrls: ['./tree-navigation.component.css']
 })
+/**
+ * Tree navigation menu dynamically expanding and collapsing tree branches based on current location in the app.
+ * If user manually expands some branches they will remain expanded even after navigation state changes.
+ */
 export class TreeNavigationComponent extends BaseComponent implements OnInit, OnChanges {
+  /**
+   * Logged in user
+   */
+  @Input() user: User;
+
   treeControl = new NestedTreeControl<MenuNode>(node => node.children);
   dataSource = new MatTreeNestedDataSource<MenuNode>();
-  @Input() user: User;
 
   constructor(private router: Router) {
     super();

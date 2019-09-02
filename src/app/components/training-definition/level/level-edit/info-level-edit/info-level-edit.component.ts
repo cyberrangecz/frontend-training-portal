@@ -1,23 +1,23 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {InfoLevel} from "../../../../../model/level/info-level";
-import {AlertTypeEnum} from "../../../../../model/enums/alert-type.enum";
-import {AlertService} from "../../../../../services/shared/alert.service";
-import {ErrorHandlerService} from "../../../../../services/shared/error-handler.service";
-import {TrainingDefinitionFacade} from "../../../../../services/facades/training-definition-facade.service";
-import {LevelEditService} from "../../../../../services/training-definition/level-edit.service";
-import {BaseComponent} from "../../../../base.component";
-import {takeWhile} from "rxjs/operators";
-import { InfoLevelConfigFormGroup } from './info-level-configuration-form-group';
+import {InfoLevel} from '../../../../../model/level/info-level';
+import {AlertTypeEnum} from '../../../../../model/enums/alert-type.enum';
+import {AlertService} from '../../../../../services/shared/alert.service';
+import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
+import {TrainingDefinitionFacade} from '../../../../../services/facades/training-definition-facade.service';
+import {LevelEditService} from '../../../../../services/training-definition/level-edit.service';
+import {BaseComponent} from '../../../../base.component';
+import {takeWhile} from 'rxjs/operators';
+import { InfoLevelConfigFormGroup } from './info-level-edit-form-group';
 
 @Component({
-  selector: 'info-level-configuration',
-  templateUrl: './info-level-configuration.component.html',
-  styleUrls: ['./info-level-configuration.component.css']
+  selector: 'kypo2-info-level-configuration',
+  templateUrl: './info-level-edit.component.html',
+  styleUrls: ['./info-level-edit.component.css']
 })
 /**
- * Component for configuration of new or existing info level
+ * Component for editing of new or existing info level
  */
-export class InfoLevelConfigurationComponent extends BaseComponent implements OnInit, OnChanges {
+export class InfoLevelEditComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input('level') level: InfoLevel;
   @Input('trainingDefinitionId') trainingDefinitionId: number;
@@ -40,8 +40,8 @@ export class InfoLevelConfigurationComponent extends BaseComponent implements On
   }
 
 
-  get title() {return this.infoLevelConfigFormGroup.formGroup.get('title');}
-  get content() {return this.infoLevelConfigFormGroup.formGroup.get('content');}
+  get title() {return this.infoLevelConfigFormGroup.formGroup.get('title'); }
+  get content() {return this.infoLevelConfigFormGroup.formGroup.get('content'); }
 
 
   ngOnChanges(changes: SimpleChanges) {
@@ -86,7 +86,7 @@ export class InfoLevelConfigurationComponent extends BaseComponent implements On
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Info level was successfully saved');
         },
   err => {
-          this.isLoading =false;
+          this.isLoading = false;
           this.infoLevelConfigFormGroup.formGroup.enable();
           this.errorHandler.displayInAlert(err, 'Updating info level "' + this.level.title + '"');
             });

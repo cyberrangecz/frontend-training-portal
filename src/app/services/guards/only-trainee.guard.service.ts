@@ -8,7 +8,7 @@ import {TRAINING_RUN_PATH} from '../../paths';
 import {LoadingService} from '../shared/loading.service';
 
 /**
- * If user has only trainee role it is desired to navigate him directly to his agenda instead of homepage
+ * If user has only trainee role, redirects him directly to training run agenda
  */
 @Injectable()
 export class NotOnlyTraineeGuard implements CanActivate {

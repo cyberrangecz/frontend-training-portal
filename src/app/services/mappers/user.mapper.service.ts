@@ -1,7 +1,12 @@
 import {UserRefDTO} from '../../model/DTOs/user/user-ref-dto';
 import {UserBasicDTO} from '../../model/DTOs/user/user-basic-dto';
 import {User} from 'kypo2-auth';
+import {Injectable} from '@angular/core';
 
+@Injectable()
+/**
+ * Maps user DTOs to user model
+ */
 export class UserMapper {
 
   mapUserRefDTOsToUsers(users: UserRefDTO[]): User[] {

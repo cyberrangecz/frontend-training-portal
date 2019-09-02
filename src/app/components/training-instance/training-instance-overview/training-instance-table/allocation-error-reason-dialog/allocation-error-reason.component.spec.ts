@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AllocationErrorDialogComponent } from './allocation-error-dialog.component';
+import { AllocationErrorReasonComponent } from './allocation-error-reason.component';
 
 describe('AllocationFailedReasonComponent', () => {
-  let component: AllocationErrorDialogComponent;
-  let fixture: ComponentFixture<AllocationErrorDialogComponent>;
+  let component: AllocationErrorReasonComponent;
+  let fixture: ComponentFixture<AllocationErrorReasonComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AllocationErrorDialogComponent ]
+      declarations: [ AllocationErrorReasonComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AllocationErrorDialogComponent);
+    fixture = TestBed.createComponent(AllocationErrorReasonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

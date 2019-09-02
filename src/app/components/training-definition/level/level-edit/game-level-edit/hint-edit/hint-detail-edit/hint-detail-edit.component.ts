@@ -1,13 +1,13 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {Hint} from "../../../../../../../model/level/hint";
-import {AlertTypeEnum} from "../../../../../../../model/enums/alert-type.enum";
-import {AlertService} from "../../../../../../../services/shared/alert.service";
-import {BaseComponent} from "../../../../../../base.component";
+import {Hint} from '../../../../../../../model/level/hint';
+import {AlertTypeEnum} from '../../../../../../../model/enums/alert-type.enum';
+import {AlertService} from '../../../../../../../services/shared/alert.service';
+import {BaseComponent} from '../../../../../../base.component';
 import { HintConfigurationFormGroup } from './hint-configuration-form-group';
 import { Validators } from '@angular/forms';
 
 @Component({
-  selector: 'hint-edit',
+  selector: 'kypo2-hint-edit',
   templateUrl: './hint-detail-edit.component.html',
   styleUrls: ['./hint-detail-edit.component.css']
 })
@@ -36,15 +36,15 @@ export class HintDetailEditComponent extends BaseComponent implements OnInit, On
 
   ngOnInit() {}
 
-  get title() {return this.hintConfigurationFormGroup.formGroup.get('title')};
-  get content() {return this.hintConfigurationFormGroup.formGroup.get('content')};
-  get hintPenalty() {return this.hintConfigurationFormGroup.formGroup.get('hintPenalty')};
+  get title() {return this.hintConfigurationFormGroup.formGroup.get('title');}
+  get content() {return this.hintConfigurationFormGroup.formGroup.get('content');}
+  get hintPenalty() {return this.hintConfigurationFormGroup.formGroup.get('hintPenalty');}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!this.hintConfigurationFormGroup) {
       this.hintConfigurationFormGroup = new HintConfigurationFormGroup();
     }
-    if ("hint" in changes) {
+    if ('hint' in changes) {
       this.setInitialValues();
     }
   }
@@ -95,7 +95,7 @@ export class HintDetailEditComponent extends BaseComponent implements OnInit, On
     this.updateValidity();
   }
 
-  setContentValue(event){
+  setContentValue(event) {
     this.content.setValue(event);
   }
 

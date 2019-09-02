@@ -7,8 +7,14 @@ import {BaseComponent} from '../../base.component';
   templateUrl: './user-menu.component.html',
   styleUrls: ['./user-menu.component.css']
 })
+/**
+ * Displays icon and expandable detail of logged user.
+ */
 export class UserMenuComponent extends BaseComponent implements OnInit {
 
+  /**
+   * Logged in user
+   */
   @Input() user: User;
 
   ngOnInit() {

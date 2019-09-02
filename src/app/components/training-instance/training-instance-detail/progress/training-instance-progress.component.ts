@@ -1,13 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import {ActiveTrainingInstanceService} from '../../../../services/training-instance/active-training-instance.service';
-import {BaseComponent} from "../../../base.component";
-import {takeWhile} from "rxjs/operators";
+import {BaseComponent} from '../../../base.component';
+import {takeWhile} from 'rxjs/operators';
 
 @Component({
   selector: 'kypo2-training-instance-progress',
   templateUrl: './training-instance-progress.component.html',
   styleUrls: ['./training-instance-progress.component.css']
 })
+/**
+ * Wrapper for progress visualization
+ */
 export class TrainingInstanceProgressComponent extends BaseComponent implements OnInit {
 
   isLoading = true;

@@ -1,16 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import {ActiveTrainingInstanceService} from "../../../../../services/training-instance/active-training-instance.service";
-import {BaseComponent} from "../../../../base.component";
-import {takeWhile} from "rxjs/operators";
+import {Component, HostListener, OnInit} from '@angular/core';
+import {ActiveTrainingInstanceService} from '../../../../../services/training-instance/active-training-instance.service';
+import {BaseComponent} from '../../../../base.component';
+import {takeWhile} from 'rxjs/operators';
 
 @Component({
   selector: 'kypo2-score-scatter-plot-view',
   templateUrl: './score-scatter-plot-view.component.html',
   styleUrls: ['./score-scatter-plot-view.component.css'],
-  host: {
-    '(window:resize)': 'onResize($event)'
-  }
 })
+/**
+ * Wrapper for score scatter plot visualization
+ */
 export class ScoreScatterPlotViewComponent extends BaseComponent implements OnInit {
   isLoading = true;
   trainingDefinitionId: number;
@@ -27,6 +27,7 @@ export class ScoreScatterPlotViewComponent extends BaseComponent implements OnIn
     this.getIdsForVisualization();
   }
 
+  @HostListener('window:resize')
   onResize(event) {
     this.setVisualizationSize(event.target.innerWidth, event.target.innerHeight);
   }
@@ -49,7 +50,7 @@ export class ScoreScatterPlotViewComponent extends BaseComponent implements OnIn
   private setVisualizationSize(windowWidth: number, windowHeight: number) {
     const width = windowWidth / 2;
     const height = windowHeight / 2;
-    this.vizSize = { width: width, height: height }
+    this.vizSize = { width: width, height: height };
   }
 
 }

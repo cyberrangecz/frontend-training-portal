@@ -18,7 +18,7 @@ import {SandboxAllocationService} from '../../../../services/training-instance/s
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {SandboxInstanceAllocationState} from '../../../../model/training/sandbox-instance-allocation-state';
 import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
-import {ActionConfirmationDialog} from '../../../shared/delete-dialog/action-confirmation-dialog.component';
+import {ActionConfirmationDialogComponent} from '../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import {Kypo2AuthService} from 'kypo2-auth';
 import {BaseComponent} from '../../../base.component';
 import {StringNormalizer} from '../../../../model/utils/ignore-diacritics-filter';
@@ -38,7 +38,8 @@ import {AllocationModalComponent} from './allocation-modal/allocation-modal.comp
 })
 
 /**
- * Component for list of training instance displayed in form of a table. Only training instances where the active user is listed as an organizer is shown
+ * Component for list of training instance displayed in form of an expandable table. Organizer can allocate sandboxes through table
+ * or expanded detail.
  */
 export class TrainingInstanceTableComponent extends BaseComponent implements OnInit, OnDestroy {
 
@@ -108,7 +109,7 @@ export class TrainingInstanceTableComponent extends BaseComponent implements OnI
    */
   deleteTraining(training: TrainingInstanceTableRow) {
 
-    const dialogRef = this.dialog.open(ActionConfirmationDialog, {
+    const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
       data: {
         type: 'Training Instance',
         action: 'delete',

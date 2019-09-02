@@ -1,4 +1,4 @@
-import {from, interval, Observable, Subject, Subscription, throwError, timer} from 'rxjs';
+import {from, Observable, Subject, Subscription, timer} from 'rxjs';
 import {TrainingInstance} from '../../../model/training/training-instance';
 import {SandboxInstanceAllocationState} from '../../../model/training/sandbox-instance-allocation-state';
 import {SandboxInstance} from '../../../model/sandbox/sandbox-instance';
@@ -6,14 +6,11 @@ import {SandboxAllocationState} from '../../../model/enums/sandbox-allocation-st
 import {SandboxInstanceObservablesPoolService} from './sandbox-instance-observables-pool.service';
 import {SandboxInstanceFacade} from '../../facades/sandbox-instance-facade.service';
 import {
-  catchError,
   concatMap,
-  flatMap,
   map,
   mergeMap,
   shareReplay,
   switchMap,
-  take,
   takeWhile,
   tap
 } from 'rxjs/operators';
@@ -22,6 +19,10 @@ import {environment} from '../../../../environments/environment';
 
 
 @Injectable()
+/**
+ * Service adding new sandbox instance actions (allocate or delete) and periodically refreshing its state.
+ * Automatically ends polling if all allocations are finished.
+ */
 export class SandboxAllocationService {
 
   private running = false;

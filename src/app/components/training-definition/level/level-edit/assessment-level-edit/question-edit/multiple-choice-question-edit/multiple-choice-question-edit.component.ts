@@ -1,30 +1,29 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {MultipleChoiceQuestion} from "../../../../../../../model/questions/multiple-choice-question";
-import {AlertService} from "../../../../../../../services/shared/alert.service";
-import {AlertTypeEnum} from "../../../../../../../model/enums/alert-type.enum";
-import { MatCheckboxChange } from "@angular/material/checkbox";
-import {BaseComponent} from "../../../../../../base.component";
-import { MultipleChoiceFormGroup } from './multiple-choice-question-form-group';
+import {MultipleChoiceQuestion} from '../../../../../../../model/questions/multiple-choice-question';
+import {AlertService} from '../../../../../../../services/shared/alert.service';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import {BaseComponent} from '../../../../../../base.component';
+import { MultipleChoiceFormGroup } from './multiple-choice-question-edit-form-group';
 import { FormArray, FormControl, Validators } from '@angular/forms';
 
 @Component({
-  selector: "multiple-choice-question",
-  templateUrl: "./multiple-choice-question.component.html",
-  styleUrls: ["./multiple-choice-question.component.css"]
+  selector: 'kypo2-multiple-choice-question-edit',
+  templateUrl: './multiple-choice-question-edit.component.html',
+  styleUrls: ['./multiple-choice-question-edit.component.css']
 })
 /**
- * Component of a question of type Multiple Choice Question
+ * Component for editing a question of type Multiple Choice Question
  */
-export class MultipleChoiceQuestionComponent extends BaseComponent
+export class MultipleChoiceQuestionEditComponent extends BaseComponent
   implements OnInit, OnChanges {
-  @Input("question") question: MultipleChoiceQuestion;
-  @Input("isTest") isTest: boolean;
-  @Input("required") required: boolean;
-  @Output("question") questionChange = new EventEmitter();
+  @Input('question') question: MultipleChoiceQuestion;
+  @Input('isTest') isTest: boolean;
+  @Input('required') required: boolean;
+  @Output('question') questionChange = new EventEmitter();
 
   multipleChoicesFormGroup: MultipleChoiceFormGroup;
-  maxQuestionScore: number = 100;
-  maxQuestionPenalty: number = 100;
+  maxQuestionScore = 100;
+  maxQuestionPenalty = 100;
 
   constructor(private alertService: AlertService) {
     super();
@@ -33,19 +32,19 @@ export class MultipleChoiceQuestionComponent extends BaseComponent
   ngOnInit() {}
 
   get title() {
-    return this.multipleChoicesFormGroup.formGroup.get("title");
+    return this.multipleChoicesFormGroup.formGroup.get('title');
   }
   get options() {
-    return <FormArray>this.multipleChoicesFormGroup.formGroup.get("options");
+    return <FormArray>this.multipleChoicesFormGroup.formGroup.get('options');
   }
   get correctAnswersIndices() {
-    return this.multipleChoicesFormGroup.formGroup.get("correctAnswersIndices");
+    return this.multipleChoicesFormGroup.formGroup.get('correctAnswersIndices');
   }
   get score() {
-    return this.multipleChoicesFormGroup.formGroup.get("score");
+    return this.multipleChoicesFormGroup.formGroup.get('score');
   }
   get penalty() {
-    return this.multipleChoicesFormGroup.formGroup.get("penalty");
+    return this.multipleChoicesFormGroup.formGroup.get('penalty');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -56,17 +55,17 @@ export class MultipleChoiceQuestionComponent extends BaseComponent
       );
       this.checkState();
     }
-    if ("question" in changes) {
+    if ('question' in changes) {
       this.setInitialValues();
     }
-    if ("isTest" in changes && !changes["isTest"].isFirstChange()) {
+    if ('isTest' in changes && !changes['isTest'].isFirstChange()) {
       this.checkState();
       if (!this.isTest) {
         this.penalty.setValue(0);
         this.clearAnswers();
       }
     }
-    if ("required" in changes && !changes["required"].isFirstChange()) {
+    if ('required' in changes && !changes['required'].isFirstChange()) {
       this.checkState();
       this.requiredChanged();
     }
@@ -142,7 +141,7 @@ export class MultipleChoiceQuestionComponent extends BaseComponent
    * Adds new option
    */
   addOption() {
-    (this.options as FormArray).push(new FormControl("", Validators.required));
+    (this.options as FormArray).push(new FormControl('', Validators.required));
     this.contentChanged();
   }
 
@@ -181,7 +180,7 @@ export class MultipleChoiceQuestionComponent extends BaseComponent
   private setInitialValues() {
     this.title.setValue(this.question.title);
     this.question.options.forEach(element => {
-      let option = new FormControl(element, Validators.required);
+      const option = new FormControl(element, Validators.required);
       option.markAsTouched();
       (this.options as FormArray).push(option);
     });

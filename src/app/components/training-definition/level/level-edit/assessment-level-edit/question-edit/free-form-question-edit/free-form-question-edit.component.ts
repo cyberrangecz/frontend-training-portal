@@ -1,31 +1,30 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {FreeFormQuestion} from "../../../../../../../model/questions/free-form-question";
-import {AlertService} from "../../../../../../../services/shared/alert.service";
-import {AlertTypeEnum} from "../../../../../../../model/enums/alert-type.enum";
-import {BaseComponent} from "../../../../../../base.component";
+import {FreeFormQuestion} from '../../../../../../../model/questions/free-form-question';
+import {AlertService} from '../../../../../../../services/shared/alert.service';
+import {BaseComponent} from '../../../../../../base.component';
 import { FreeFormQuestionFormGroup } from './free-form-question-form-group';
 import { FormArray, FormControl, Validators } from '@angular/forms';
 
 @Component({
-  selector: "free-form-question",
-  templateUrl: "./free-form-question.component.html",
-  styleUrls: ["./free-form-question.component.css"]
+  selector: 'kypo2-free-form-question-edit',
+  templateUrl: './free-form-question-edit.component.html',
+  styleUrls: ['./free-form-question-edit.component.css']
 })
 /**
- * Component of a question of type Free Form
+ * Component for editing a question of type Free Form
  */
-export class FreeFormQuestionComponent extends BaseComponent
+export class FreeFormQuestionEditComponent extends BaseComponent
   implements OnInit, OnChanges {
-  @Input("question") question: FreeFormQuestion;
-  @Input("isTest") isTest: boolean;
-  @Input("required") required: boolean;
+  @Input('question') question: FreeFormQuestion;
+  @Input('isTest') isTest: boolean;
+  @Input('required') required: boolean;
 
-  @Output("question") questionChange = new EventEmitter();
+  @Output('question') questionChange = new EventEmitter();
 
   freeFormQuestionFormGroup: FreeFormQuestionFormGroup;
 
-  maxQuestionScore: number = 100;
-  maxQuestionPenalty: number = 100;
+  maxQuestionScore = 100;
+  maxQuestionPenalty = 100;
 
   constructor(private alertService: AlertService) {
     super();
@@ -34,16 +33,16 @@ export class FreeFormQuestionComponent extends BaseComponent
   ngOnInit() {}
 
   get title() {
-    return this.freeFormQuestionFormGroup.formGroup.get("title");
+    return this.freeFormQuestionFormGroup.formGroup.get('title');
   }
   get answers() {
-    return <FormArray>this.freeFormQuestionFormGroup.formGroup.get("answers");
+    return <FormArray>this.freeFormQuestionFormGroup.formGroup.get('answers');
   }
   get score() {
-    return this.freeFormQuestionFormGroup.formGroup.get("score");
+    return this.freeFormQuestionFormGroup.formGroup.get('score');
   }
   get penalty() {
-    return this.freeFormQuestionFormGroup.formGroup.get("penalty");
+    return this.freeFormQuestionFormGroup.formGroup.get('penalty');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -54,17 +53,17 @@ export class FreeFormQuestionComponent extends BaseComponent
       );
       this.checkState();
     }
-    if ("question" in changes) {
+    if ('question' in changes) {
       this.setInitialValues();
     }
-    if ("isTest" in changes && !changes["isTest"].isFirstChange()) {
+    if ('isTest' in changes && !changes['isTest'].isFirstChange()) {
       this.checkState();
       if (!this.isTest) {
         this.penalty.setValue(0);
         this.clearAnswers();
       }
     }
-    if ("required" in changes && !changes["required"].isFirstChange()) {
+    if ('required' in changes && !changes['required'].isFirstChange()) {
       this.checkState();
       this.requiredChanged();
     }
@@ -103,7 +102,7 @@ export class FreeFormQuestionComponent extends BaseComponent
   }
 
   addAnswer() {
-    (this.answers as FormArray).push(new FormControl("", Validators.required));
+    (this.answers as FormArray).push(new FormControl('', Validators.required));
     this.contentChanged();
   }
 

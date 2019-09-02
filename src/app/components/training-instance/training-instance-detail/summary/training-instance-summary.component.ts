@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {BaseComponent} from "../../../base.component";
+import {BaseComponent} from '../../../base.component';
 
 @Component({
   selector: 'kypo2-training-instance-summary',

@@ -1,22 +1,23 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ExtendedMatchingItems} from "../../../../../../../model/questions/extended-matching-items";
+import {ExtendedMatchingItems} from '../../../../../../../model/questions/extended-matching-items';
 import {AbstractQuestion} from '../../../../../../../model/questions/abstract-question';
-import {BaseComponent} from "../../../../../../base.component";
+import {BaseComponent} from '../../../../../../base.component';
 
 @Component({
-  selector: 'trainee-extended-matching-items',
+  selector: 'kypo2-trainee-extended-matching-items',
   templateUrl: './extended-matching-items-trainee.component.html',
   styleUrls: ['./extended-matching-items-trainee.component.css']
 })
 /**
- * Component displaying EMI type of question in the assessment level of a trainees training run
+ * Component displaying EMI type of question in the assessment level of a trainees training run.
+ * If assessment is type of test or question is required, user needs to answer it, otherwise it is optional.
  */
 export class ExtendedMatchingItemsTraineeComponent extends BaseComponent implements OnInit {
 
-  @Input('question') question: ExtendedMatchingItems;
-  @Input('index') index: number;
+  @Input() question: ExtendedMatchingItems;
+  @Input() index: number;
 
-  @Output('contentChanged') contentChanged: EventEmitter<{index: number, question: AbstractQuestion}> = new EventEmitter();
+  @Output() contentChanged: EventEmitter<{index: number, question: AbstractQuestion}> = new EventEmitter();
 
   usersAnswers: {x: number, y: number}[] = [];
 

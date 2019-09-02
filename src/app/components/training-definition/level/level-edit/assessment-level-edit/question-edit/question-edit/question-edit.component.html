@@ -1,0 +1,3 @@
+<kypo2-multiple-choice-question-edit *ngIf="isMcq" (question)="questionChanged()" [(question)]="question" [required]="required" [isTest]="isTest"></kypo2-multiple-choice-question-edit>
+<kypo2-free-form-question-edit *ngIf="isFfq" (question)="questionChanged()" [(question)]="question" [required]="required" [isTest]="isTest"></kypo2-free-form-question-edit>
+<extended-matching-items *ngIf="isEmi" (question)="questionChanged()" [(question)]="question" [required]="required" [isTest]="isTest"></extended-matching-items>

@@ -14,6 +14,9 @@ import {MatDialog} from '@angular/material/dialog';
   templateUrl: './level-overview.component.html',
   styleUrls: ['./level-overview.component.css']
 })
+/**
+ * Smart wrapper component for level stepper and level edit components
+ */
 export class LevelOverviewComponent implements OnInit {
 
   @ViewChild(TrainingLevelStepperComponent, { static: true }) levelStepperComponent;

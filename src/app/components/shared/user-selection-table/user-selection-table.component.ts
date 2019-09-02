@@ -1,28 +1,49 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {User} from 'kypo2-auth';
 import {PaginatedTable} from '../../../model/table-adapters/paginated-table';
-import {UserSelectionTableAdapter} from '../../../model/table-adapters/user-selection-table-adapter';
+import {UserSelectionTableRowAdapter} from '../../../model/table-adapters/user-selection-table-row-adapter';
 import {MatPaginator, MatTableDataSource, PageEvent} from '@angular/material';
-import {StringNormalizer} from "../../../model/utils/ignore-diacritics-filter";
+import {StringNormalizer} from '../../../model/utils/ignore-diacritics-filter';
+import {BaseComponent} from '../../base.component';
 
 @Component({
-  selector: 'user-selection-table',
+  selector: 'kypo2-user-selection-table',
   templateUrl: './user-selection-table.component.html',
   styleUrls: ['./user-selection-table.component.css']
 })
-export class UserSelectionTableComponent implements OnInit, OnChanges {
+/**
+ * PRESENTATIONAL
+ * Selectable table displaying user info
+ */
+export class UserSelectionTableComponent extends BaseComponent implements OnInit, OnChanges {
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
-  @Input() users: UserSelectionTableAdapter[] | PaginatedTable<UserSelectionTableAdapter[]>;
+  /**
+   * Users to display
+   */
+  @Input() users: UserSelectionTableRowAdapter[] | PaginatedTable<UserSelectionTableRowAdapter[]>;
+  /**
+   * Users that should be checked as selected on initialization
+   */
+  @Input() preselectedUsers: User[];
+
+  /**
+   * Triggered on pagination change. Emits Material table page event
+   */
   @Output() paginationChange: EventEmitter<PageEvent> = new EventEmitter();
+  /**
+   * Triggered on selection change. Emits seelcted users
+   */
   @Output() selectionChange: EventEmitter<User[]> = new EventEmitter();
 
   displayedColumns = ['select', 'name', 'issuer'];
-  @Input() selectedUsers: User[];
-  dataSource: MatTableDataSource<UserSelectionTableAdapter>;
+  dataSource: MatTableDataSource<UserSelectionTableRowAdapter>;
   paginated = false;
-  constructor() { }
+
+  constructor() {
+    super();
+  }
 
   ngOnInit() {
   }
@@ -33,20 +54,20 @@ export class UserSelectionTableComponent implements OnInit, OnChanges {
     }
   }
 
-  onSelectChange(row: UserSelectionTableAdapter) {
+  onSelectChange(row: UserSelectionTableRowAdapter) {
     row.selected ? this.unselect(row) : this.select(row);
-    this.selectionChange.emit(this.selectedUsers);
+    this.selectionChange.emit(this.preselectedUsers);
   }
 
-  private select(row: UserSelectionTableAdapter) {
+  private select(row: UserSelectionTableRowAdapter) {
     row.selected = true;
-    this.selectedUsers.push(row.user);
+    this.preselectedUsers.push(row.user);
   }
 
-  private unselect(row: UserSelectionTableAdapter) {
+  private unselect(row: UserSelectionTableRowAdapter) {
     row.selected = false;
-    const indexToRemove = this.selectedUsers.findIndex(user => user.equals(row.user));
-    this.selectedUsers.splice(indexToRemove, 1);
+    const indexToRemove = this.preselectedUsers.findIndex(user => user.equals(row.user));
+    this.preselectedUsers.splice(indexToRemove, 1);
   }
 
   private initDataSource() {
@@ -59,7 +80,7 @@ export class UserSelectionTableComponent implements OnInit, OnChanges {
       this.dataSource = new MatTableDataSource(this.users);
     }
     this.dataSource.filterPredicate =
-      (data: UserSelectionTableAdapter, filter: string) =>
+      (data: UserSelectionTableRowAdapter, filter: string) =>
         data.normalizedName.indexOf(filter) !== -1;
   }
 

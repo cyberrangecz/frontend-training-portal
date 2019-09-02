@@ -1,14 +1,14 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {UserFacade} from "../../../../../services/facades/user-facade.service";
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import {map, takeWhile} from "rxjs/operators";
+import {UserFacade} from '../../../../../services/facades/user-facade.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {map, takeWhile} from 'rxjs/operators';
 import {Kypo2AuthService, User} from 'kypo2-auth';
-import {BaseComponent} from "../../../../base.component";
-import {Observable} from "rxjs";
-import {UserSelectionTableAdapter} from "../../../../../model/table-adapters/user-selection-table-adapter";
+import {BaseComponent} from '../../../../base.component';
+import {Observable} from 'rxjs';
+import {UserSelectionTableRowAdapter} from '../../../../../model/table-adapters/user-selection-table-row-adapter';
 
 @Component({
-  selector: 'organizers-picker',
+  selector: 'kypo2-organizers-picker',
   templateUrl: './organizers-picker.component.html',
   styleUrls: ['./organizers-picker.component.css']
 })
@@ -17,7 +17,7 @@ import {UserSelectionTableAdapter} from "../../../../../model/table-adapters/use
  */
 export class OrganizersPickerComponent extends BaseComponent implements OnInit {
 
-  users$: Observable<UserSelectionTableAdapter[]>;
+  users$: Observable<UserSelectionTableRowAdapter[]>;
   selectedUsers: User[] = [];
   activeUser: User;
   isLoading = true;
@@ -61,18 +61,18 @@ export class OrganizersPickerComponent extends BaseComponent implements OnInit {
     this.dialogRef.close(result);
   }
 
-  private loadUsers(): Observable<UserSelectionTableAdapter[]> {
+  private loadUsers(): Observable<UserSelectionTableRowAdapter[]> {
     return this.userFacade.getOrganizers()
       .pipe(
         takeWhile(() => this.isAlive),
         map((users: User[]) => users.map(user => this.mapUserToTableAdapter(user))),
-      )
+      );
   }
 
-  private mapUserToTableAdapter(user: User): UserSelectionTableAdapter {
+  private mapUserToTableAdapter(user: User): UserSelectionTableRowAdapter {
     const isActiveUser =  user.equals(this.activeUser);
     const isPreselected = isActiveUser || this.isPreselected(user);
-    return new UserSelectionTableAdapter(user, isPreselected, isActiveUser, isActiveUser);
+    return new UserSelectionTableRowAdapter(user, isPreselected, isActiveUser, isActiveUser);
   }
 
   private isPreselected(user: User): boolean {

@@ -4,6 +4,9 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {AlertTypeEnum} from '../../model/enums/alert-type.enum';
 
 @Injectable()
+/**
+ * Checks type of error and emits alert with appropriate message
+ */
 export class ErrorHandlerService {
   constructor(private alertService: AlertService) {
   }

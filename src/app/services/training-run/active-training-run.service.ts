@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs/internal/Subject';
 import {Observable} from 'rxjs/internal/Observable';
 import {AbstractLevel} from '../../model/level/abstract-level';
 import {GameLevel} from '../../model/level/game-level';
@@ -11,9 +10,10 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AccessTrainingRunInfo} from '../../model/training/access-training-run-info';
 import {TRAINING_RUN_RESULTS_PATH} from '../../components/training-run/training-run-overview/paths';
 import {TRAINING_RUN_PATH} from '../../paths';
+import {ReplaySubject} from 'rxjs';
 
 /**
- * Service maintaining levels of training and active level instance for sub component of trainee training run
+ * Main service for running training game. Holds levels and its state. Handles user general training run user actions and events
  */
 @Injectable()
 export class ActiveTrainingRunService {
@@ -23,48 +23,44 @@ export class ActiveTrainingRunService {
               private router: Router) {
   }
 
-  private _activeLevels: AbstractLevel[];
-  private _activeLevel: GameLevel | AssessmentLevel | InfoLevel;
-  private _startTime: Date;
-  private _isStepperDisplayed: boolean;
+  private activeLevels: AbstractLevel[];
+  private activeLevel: GameLevel | AssessmentLevel | InfoLevel;
+  private startTime: Date;
+  private isStepperDisplayed: boolean;
 
   sandboxInstanceId: number;
   trainingRunId: number;
 
-  private _onActiveLevelChangedSubject: Subject<AbstractLevel> = new Subject<AbstractLevel>();
-  /**
-   * Observable of active level changes
-   * @type {Observable<AbstractLevel[]>}
-   */
-  onActiveLevelChanged: Observable<AbstractLevel> = this._onActiveLevelChangedSubject.asObservable();
+  private activeLevelSubject: ReplaySubject<AbstractLevel> = new ReplaySubject<AbstractLevel>(1);
+  activeLevel$: Observable<AbstractLevel> = this.activeLevelSubject.asObservable();
 
   setUpFromTrainingRun(trainingRunInfo: AccessTrainingRunInfo) {
     this.trainingRunId = trainingRunInfo.trainingRunId;
     this.sandboxInstanceId = trainingRunInfo.sandboxInstanceId;
-    this._isStepperDisplayed = trainingRunInfo.isStepperDisplayed;
-    this._startTime = trainingRunInfo.startTime;
-    this.initLevels(trainingRunInfo.levels);
+    this.isStepperDisplayed = trainingRunInfo.isStepperDisplayed;
+    this.startTime = trainingRunInfo.startTime;
+    this.activeLevels = trainingRunInfo.levels;
     this.setActiveLevel(trainingRunInfo.currentLevel);
   }
 
   getLevels(): AbstractLevel[] {
-    return this._activeLevels;
+    return this.activeLevels;
   }
 
   getActiveLevel(): AbstractLevel {
-    return this._activeLevel;
+    return this.activeLevel;
   }
 
   getActiveLevelPosition(): number {
-    return this._activeLevels.findIndex(level => level.id === this._activeLevel.id);
+    return this.activeLevels.findIndex(level => level.id === this.activeLevel.id);
   }
 
   getStartTime(): Date {
-    return this._startTime;
+    return this.startTime;
   }
 
   getIsStepperDisplayed(): boolean {
-    return this._isStepperDisplayed;
+    return this.isStepperDisplayed;
   }
 
   /**
@@ -79,7 +75,7 @@ export class ActiveTrainingRunService {
   }
 
   hasNextLevel(): boolean {
-    return this._activeLevel.id !== this._activeLevels[this._activeLevels.length - 1].id;
+    return this.activeLevel.id !== this.activeLevels[this.activeLevels.length - 1].id;
   }
 
   finish(): Observable<any> {
@@ -91,16 +87,12 @@ export class ActiveTrainingRunService {
   }
 
   clear() {
-    this._activeLevel = null;
-    this._activeLevels = [];
-  }
-
-  private initLevels(levels: AbstractLevel[]) {
-    this._activeLevels = levels;
+    this.activeLevel = null;
+    this.activeLevels = [];
   }
 
   private setActiveLevel(level: GameLevel | InfoLevel | AssessmentLevel) {
-    this._activeLevel = level;
-    this._onActiveLevelChangedSubject.next(this._activeLevel);
+    this.activeLevel = level;
+    this.activeLevelSubject.next(this.activeLevel);
   }
 }

@@ -10,6 +10,9 @@ import {AssociatedTrainingDefinitionsDialogComponent} from './sandbox-definition
 import {SandboxDefinitionOverviewComponent} from './sandbox-definition-overview/sandbox-definition-overview.component';
 import {TrainingDefinitionFacadeModule} from '../../services/facades/modules/training-definition-facade.module';
 
+/**
+ * Module containing components and routing for sandbox definition agenda
+ */
 @NgModule({
   imports: [
     CommonModule,

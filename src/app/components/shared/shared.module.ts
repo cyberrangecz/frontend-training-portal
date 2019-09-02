@@ -3,12 +3,15 @@ import {SharedMaterialModule} from './shared-material.module';
 import {CommonModule} from '@angular/common';
 import {AlertService} from '../../services/shared/alert.service';
 import {FormsModule} from '@angular/forms';
-import { AlertSnackbarComponent } from './alert/alert-snackbar/alert-snackbar.component';
+import { AlertSnackbarComponent } from './alert/alert-snackbar.component';
 import {ErrorHandlerService} from '../../services/shared/error-handler.service';
-import {ActionConfirmationDialog} from './delete-dialog/action-confirmation-dialog.component';
+import {ActionConfirmationDialogComponent} from './action-confirmation-dialog/action-confirmation-dialog.component';
 import { UserSelectionTableComponent } from './user-selection-table/user-selection-table.component';
 import {UnsavedChangesDialogComponent} from './unsaved-changes-dialog/unsaved-changes-dialog.component';
 
+/**
+ * Module wrapping collection of services and components shared across the application
+ */
 @NgModule({
   imports: [
     CommonModule,
@@ -17,13 +20,13 @@ import {UnsavedChangesDialogComponent} from './unsaved-changes-dialog/unsaved-ch
   ],
   declarations: [
     AlertSnackbarComponent,
-    ActionConfirmationDialog,
+    ActionConfirmationDialogComponent,
     UserSelectionTableComponent,
     UnsavedChangesDialogComponent
 
   ],
   exports: [
-    ActionConfirmationDialog,
+    ActionConfirmationDialogComponent,
     UserSelectionTableComponent,
     UnsavedChangesDialogComponent
   ],
@@ -33,7 +36,7 @@ import {UnsavedChangesDialogComponent} from './unsaved-changes-dialog/unsaved-ch
   ],
   entryComponents: [
     AlertSnackbarComponent,
-    ActionConfirmationDialog,
+    ActionConfirmationDialogComponent,
   ]
 })
 

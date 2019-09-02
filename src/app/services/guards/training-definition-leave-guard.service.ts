@@ -4,6 +4,9 @@ import {TrainingDefinitionEditContainerComponent} from '../../components/trainin
 import {Observable} from 'rxjs';
 
 @Injectable()
+/**
+ * Checks if form for editing/creating TD is saved
+ */
 export class TrainingDefinitionLeaveGuard implements CanDeactivate<TrainingDefinitionEditContainerComponent> {
 
   canDeactivate(component: TrainingDefinitionEditContainerComponent, currentRoute: ActivatedRouteSnapshot, currentState: RouterStateSnapshot, nextState?: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {

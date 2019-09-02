@@ -11,34 +11,33 @@ import {
   SimpleChanges,
   ViewChildren
 } from '@angular/core';
-import {ExtendedMatchingItems} from "../../../../../../../model/questions/extended-matching-items";
-import {AlertService} from "../../../../../../../services/shared/alert.service";
-import {AlertTypeEnum} from "../../../../../../../model/enums/alert-type.enum";
-import { MatRadioButton } from "@angular/material/radio";
-import {BaseComponent} from "../../../../../../base.component";
+import {ExtendedMatchingItems} from '../../../../../../../model/questions/extended-matching-items';
+import {AlertService} from '../../../../../../../services/shared/alert.service';
+import { MatRadioButton } from '@angular/material/radio';
+import {BaseComponent} from '../../../../../../base.component';
 import { Validators, FormControl, FormArray } from '@angular/forms';
 import { ExtendedMatchingItemsFormGroup } from './extended-matching-items-form-group';
 
 @Component({
-  selector: "extended-matching-items",
-  templateUrl: "./extended-matching-items.component.html",
-  styleUrls: ["./extended-matching-items.component.css"]
+  selector: 'extended-matching-items',
+  templateUrl: './extended-matching-items-edit.component.html',
+  styleUrls: ['./extended-matching-items-edit.component.css']
 })
 /**
- * Component of a question of type Extended Matching Items
+ * Component for editing a question of type Extended Matching Items
  */
-export class ExtendedMatchingItemsComponent extends BaseComponent
+export class ExtendedMatchingItemsEditComponent extends BaseComponent
   implements OnInit, OnChanges, AfterViewInit {
-  @Input("question") question: ExtendedMatchingItems;
-  @Input("isTest") isTest: boolean;
-  @Input("required") required: boolean;
+  @Input('question') question: ExtendedMatchingItems;
+  @Input('isTest') isTest: boolean;
+  @Input('required') required: boolean;
 
-  @Output("question") questionChange = new EventEmitter();
+  @Output('question') questionChange = new EventEmitter();
 
   extendedMatchingQuestionFormGroup: ExtendedMatchingItemsFormGroup;
 
-  maxQuestionScore: number = 100;
-  maxQuestionPenalty: number = 100;
+  maxQuestionScore = 100;
+  maxQuestionPenalty = 100;
 
   @ViewChildren(MatRadioButton) radioButtons: QueryList<MatRadioButton>;
 
@@ -52,28 +51,28 @@ export class ExtendedMatchingItemsComponent extends BaseComponent
   ngOnInit() {}
 
   get title() {
-    return this.extendedMatchingQuestionFormGroup.formGroup.get("title");
+    return this.extendedMatchingQuestionFormGroup.formGroup.get('title');
   }
   get rows() {
     return <FormArray>(
-      this.extendedMatchingQuestionFormGroup.formGroup.get("rows")
+      this.extendedMatchingQuestionFormGroup.formGroup.get('rows')
     );
   }
   get cols() {
     return <FormArray>(
-      this.extendedMatchingQuestionFormGroup.formGroup.get("cols")
+      this.extendedMatchingQuestionFormGroup.formGroup.get('cols')
     );
   }
   get correctAnswers() {
     return <FormArray>(
-      this.extendedMatchingQuestionFormGroup.formGroup.get("correctAnswers")
+      this.extendedMatchingQuestionFormGroup.formGroup.get('correctAnswers')
     );
   }
   get score() {
-    return this.extendedMatchingQuestionFormGroup.formGroup.get("score");
+    return this.extendedMatchingQuestionFormGroup.formGroup.get('score');
   }
   get penalty() {
-    return this.extendedMatchingQuestionFormGroup.formGroup.get("penalty");
+    return this.extendedMatchingQuestionFormGroup.formGroup.get('penalty');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -84,17 +83,17 @@ export class ExtendedMatchingItemsComponent extends BaseComponent
       );
       this.checkState();
     }
-    if ("question" in changes) {
+    if ('question' in changes) {
       this.setInitialValues();
     }
-    if ("isTest" in changes && !changes["isTest"].isFirstChange()) {
+    if ('isTest' in changes && !changes['isTest'].isFirstChange()) {
       this.checkState();
       if (!this.isTest) {
         this.penalty.setValue(0);
         this.clearAnswers();
       }
     }
-    if ("required" in changes && !changes["required"].isFirstChange()) {
+    if ('required' in changes && !changes['required'].isFirstChange()) {
       this.checkState();
       this.requiredChanged();
     }
@@ -183,7 +182,7 @@ export class ExtendedMatchingItemsComponent extends BaseComponent
    * Adds new row to the EMI table
    */
   addRow() {
-    this.rows.push(new FormControl("", Validators.required));
+    this.rows.push(new FormControl('', Validators.required));
     this.contentChanged();
   }
 
@@ -201,7 +200,7 @@ export class ExtendedMatchingItemsComponent extends BaseComponent
    * Adds new column to the EMI table
    */
   addColumn() {
-    this.cols.push(new FormControl("", Validators.required));
+    this.cols.push(new FormControl('', Validators.required));
     this.contentChanged();
   }
 

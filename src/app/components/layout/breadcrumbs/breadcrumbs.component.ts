@@ -10,6 +10,16 @@ import {Breadcrumb} from '../../../model/breadcrumb/breadcrumb';
   templateUrl: './breadcrumbs.component.html',
   styleUrls: ['./breadcrumbs.component.css']
 })
+/**
+ *  Displays breadcrumbs built from routes data
+ *  Only routes with data containing breadcrumb attribute are taken into considerations
+ *  EXAMPLE:
+ *    {
+ *   path:
+ *   loadChildren:
+ *   data: { breadcrumb: 'My page' }
+ *  },
+ */
 export class BreadcrumbsComponent extends BaseComponent implements OnInit {
   breadcrumbs: Breadcrumb[] = [];
   HOME_PATH = HOME_PATH;

@@ -4,7 +4,9 @@ import {FormsModule} from '@angular/forms';
 import {TrainingRunGameLevelService} from '../../../../services/training-run/training-run-game-level.service';
 import {TrainingRunAssessmentLevelService} from '../../../../services/training-run/training-run-assessment-level.service';
 
-
+/**
+ * Module containing components and service for training run levels
+ */
 @NgModule({
   imports: [
     CommonModule,

@@ -1,8 +1,11 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Subject} from 'rxjs';
-import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router} from "@angular/router";
+import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router} from '@angular/router';
 
 @Injectable()
+/**
+ * Emits events if some global loading starts or ends
+ */
 export class LoadingService {
   private _isLoadingSubject: Subject<boolean> = new BehaviorSubject(false);
   isLoading$ = this._isLoadingSubject.asObservable();

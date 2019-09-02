@@ -8,10 +8,14 @@ import {User} from 'kypo2-auth';
   styleUrls: ['./toolbar.component.css']
 })
 /**
- * Main toolbar of the application. Shows logo and a user menu component
+ * PRESENTATIONAL COMPONENT
+ * Main toolbar of the application containing user menu and breadcrumbs
  */
 export class ToolbarComponent extends BaseComponent implements OnInit {
 
+  /**
+   * Logged in user
+   */
   @Input() user: User;
 
   ngOnInit() {

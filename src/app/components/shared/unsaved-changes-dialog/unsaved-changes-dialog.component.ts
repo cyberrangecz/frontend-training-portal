@@ -1,13 +1,14 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import {BaseComponent} from "../../base.component";
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {BaseComponent} from '../../base.component';
 
 @Component({
-  selector: 'unsaved-changes-dialog',
+  selector: 'kypo2-unsaved-changes-dialog',
   templateUrl: './unsaved-changes-dialog.component.html',
   styleUrls: ['./unsaved-changes-dialog.component.css']
 })
 /**
+ * PRESENTATIONAL
  * Popup dialog component to confirm if user wants to leave without saving changes
  */
 export class UnsavedChangesDialogComponent extends BaseComponent implements OnInit {

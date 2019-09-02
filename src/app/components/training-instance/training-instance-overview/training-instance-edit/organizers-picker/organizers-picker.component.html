@@ -2,7 +2,8 @@
   <h1 mat-dialog-title>Choose Authors</h1>
   <mat-divider></mat-divider>
   <div mat-dialog-content>
-    <user-selection-table (selectionChange)="onSelectionChange($event)" [users]="users$ | async" [selectedUsers]="selectedUsers"></user-selection-table>
+    <kypo2-user-selection-table (selectionChange)="onSelectionChange($event)" [users]="users$ | async"
+                                [preselectedUsers]="selectedUsers"></kypo2-user-selection-table>
   </div>
   <div mat-dialog-actions>
     <button (click)="cancel()"

@@ -1,7 +1,7 @@
 import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {TrainingInstanceDetailComponent} from './training-instance-detail.component';
-import {TrainingInstanceGuardService} from '../../../services/guards/training-instance-guard.service';
+import {TrainingInstanceGuard} from '../../../services/guards/training-instance-guard.service';
 import {
   PROGRESS_PATH,
   RESULTS_PATH,
@@ -23,7 +23,7 @@ const routes: Routes = [
   },
   {
     path: TRAINING_INSTANCE_DETAIL_PATH,
-    canActivate: [TrainingInstanceGuardService],
+    canActivate: [TrainingInstanceGuard],
     component: TrainingInstanceDetailComponent,
     children: [
       {

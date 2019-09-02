@@ -4,7 +4,7 @@ import {TrainingInstance} from '../../../../../model/training/training-instance'
 import {BaseComponent} from '../../../../base.component';
 
 @Component({
-  selector: 'training-edit-popup',
+  selector: 'kypo2-training-edit-popup',
   templateUrl: './training-edit-modal.component.html',
   styleUrls: ['./training-edit-modal.component.css']
 })

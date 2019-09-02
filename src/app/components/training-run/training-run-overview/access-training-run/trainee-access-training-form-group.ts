@@ -1,4 +1,4 @@
-import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 export class TraineeAccessTrainingFormGroup {
 
@@ -7,7 +7,11 @@ export class TraineeAccessTrainingFormGroup {
     constructor() {
         this.formGroup = new FormGroup({
             'accessTokenPrefix': new FormControl('', Validators.required),
-            'accessTokenPin': new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(4), Validators.maxLength(4)])
-        })
+            'accessTokenPin': new FormControl('',
+              [Validators.required,
+                Validators.pattern('^[0-9]*$'),
+                Validators.minLength(4),
+                Validators.maxLength(4)])
+        });
     }
 }

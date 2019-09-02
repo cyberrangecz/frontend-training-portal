@@ -2,7 +2,11 @@ import {AbstractLevelTypeEnum} from '../../../model/enums/abstract-level-type.en
 import {AbstractLevel} from '../../../model/level/abstract-level';
 import {AbstractStepItem, StepperInterface} from 'kypo2-stepper';
 
+/**
+ * Training run levels adapter to kypo stepper component
+ */
 export class TrainingRunStepper {
+// TODO: refactor
 
   activeLevel: number;
   isLoading: boolean;

@@ -1,4 +1,4 @@
-import { FormGroup, FormArray } from "@angular/forms";
+import { FormGroup, FormArray } from '@angular/forms';
 
 export class HintStepperFormGroup {
   formGroup: FormGroup;

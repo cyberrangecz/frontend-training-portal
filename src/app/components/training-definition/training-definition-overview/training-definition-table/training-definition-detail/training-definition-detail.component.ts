@@ -1,6 +1,5 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {TrainingDefinition} from '../../../../../model/training/training-definition';
-import {ActivatedRoute, Router} from '@angular/router';
 import {BaseComponent} from '../../../../base.component';
 import {LevelDetailAdapter} from '../../../../../model/level/level-detail-adapter';
 import {RouteFactory} from '../../../../../model/routes/route-factory';
@@ -13,6 +12,9 @@ import {map} from 'rxjs/operators';
   templateUrl: './training-definition-detail.component.html',
   styleUrls: ['./training-definition-detail.component.css']
 })
+/**
+ * Detail of training definition. Loads info about levels
+ */
 export class TrainingDefinitionDetailComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input() trainingDefinition: TrainingDefinition;

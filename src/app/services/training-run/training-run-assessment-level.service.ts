@@ -1,9 +1,12 @@
-import {Injectable} from "@angular/core";
-import {TrainingRunFacade} from "../facades/training-run-facade.service";
-import {Observable} from "rxjs";
-import {AbstractQuestion} from "../../model/questions/abstract-question";
+import {Injectable} from '@angular/core';
+import {TrainingRunFacade} from '../facades/training-run-facade.service';
+import {Observable} from 'rxjs';
+import {AbstractQuestion} from '../../model/questions/abstract-question';
 
 @Injectable()
+/**
+ * Handles events and actions specific for assessment level in training run
+ */
 export class TrainingRunAssessmentLevelService {
 
   constructor(private trainingRunFacade: TrainingRunFacade) {

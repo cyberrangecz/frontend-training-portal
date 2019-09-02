@@ -49,12 +49,12 @@
           </div>
         </mat-card-header>
         <mat-card-content>
-          <question-configuration
+          <kypo2-question-edit
             (question)="questionChanged()"
             [(question)]="questions[i]"
             [required]="question.required"
             [isTest]="isTest">
-          </question-configuration>
+          </kypo2-question-edit>
         </mat-card-content>
         <mat-card-actions>
           <button mat-button color="warn" (click)="deleteQuestion(i)">Delete Question</button>

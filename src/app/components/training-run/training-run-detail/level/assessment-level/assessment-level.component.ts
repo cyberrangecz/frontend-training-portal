@@ -8,16 +8,15 @@ import {TrainingRunAssessmentLevelService} from '../../../../../services/trainin
 import {AssessmentTypeEnum} from '../../../../../model/enums/assessment-type.enum';
 import {BaseComponent} from '../../../../base.component';
 import {takeWhile} from 'rxjs/operators';
-import {TRAINING_RUN_RESULTS_PATH} from '../../../training-run-overview/paths';
-import {ActivatedRoute, Router} from '@angular/router';
-
 @Component({
   selector: 'kypo2-assessment-level',
   templateUrl: './assessment-level.component.html',
   styleUrls: ['./assessment-level.component.css']
 })
 /**
- * Component for displaying assessment level in a trainees training run
+ * Component that displays assessment level in a trainees training run. If the questions are type of test, trainee needs
+ * to answer all of the questions before he can continue to the next level. If it questionnaire type, trainee can skip
+ * answering the questions.
  */
 export class AssessmentLevelComponent extends BaseComponent implements OnInit, OnChanges {
 

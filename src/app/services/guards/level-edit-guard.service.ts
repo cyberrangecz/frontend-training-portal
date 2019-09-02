@@ -12,6 +12,12 @@ import {TrainingDefinitionFacade} from '../facades/training-definition-facade.se
 import {ADD_LEVEL_PATH, LEVELS_PATH} from '../../components/training-definition/training-definition-overview/paths';
 import {TrainingDefinition} from '../../model/training/training-definition';
 
+/**
+ * Guard which determines if id of level that user is trying to access is valid.
+ * POSSIBLE REDIRECTS:
+ * No level id, TD has levels -> id of first level
+ * No level id, TD has no levels -> add new level
+ */
 @Injectable()
 export class LevelEditGuard implements CanActivate {
   constructor(private trainingDefinitionFacade: TrainingDefinitionFacade,

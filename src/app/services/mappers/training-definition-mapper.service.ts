@@ -20,6 +20,9 @@ import {TrainingDefinitionInfoRestResource} from '../../model/DTOs/training-defi
 import {BetaTestingGroup} from '../../model/training/beta-testing-group';
 
 @Injectable()
+/**
+ * Maps DTOs to Training Definition model
+ */
 export class TrainingDefinitionMapper {
 
   constructor(private levelMapper: LevelMapper,

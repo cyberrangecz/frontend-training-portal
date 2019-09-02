@@ -17,6 +17,9 @@ import { TrainingDefinitionDetailComponent } from './training-definition-table/t
 import { TrainingDefinitionDetailPresentationComponent } from './training-definition-table/training-definition-detail/training-definition-detail-presentation/training-definition-detail-presentation.component';
 import { TrainingDefinitionDetailLevelsPresentationComponent } from './training-definition-table/training-definition-detail/training-definition-detail-levels-presentation/training-definition-detail-levels-presentation.component';
 
+/**
+ * Module containing components and services for training definition overview with routing to inner feature modules.
+ */
 @NgModule({
   imports: [
     CommonModule,

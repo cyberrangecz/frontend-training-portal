@@ -4,6 +4,9 @@ import { TrainingInstanceResultsComponent } from './training-instance-results.co
 import {TrainingInstanceResultsRoutingModule} from './training-instance-results-routing.module';
 import {TrainingInstanceResultsMaterialModule} from './training-instance-results-material.module';
 
+/**
+ * Module containing components and routing for training instance results (mainly visualuzations)
+ */
 @NgModule({
   imports: [
     CommonModule,

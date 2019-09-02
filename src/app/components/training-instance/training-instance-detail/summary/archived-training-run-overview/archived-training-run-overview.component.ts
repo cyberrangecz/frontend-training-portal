@@ -1,27 +1,30 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import { MatPaginator } from "@angular/material/paginator";
-import { MatSort } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
-import {TrainingRunTableRow} from "../../../../../model/table-adapters/training-run-table-row";
-import {BaseTrainingRunOverview} from "../base-training-run-overview";
-import {AlertService} from "../../../../../services/shared/alert.service";
-import {ErrorHandlerService} from "../../../../../services/shared/error-handler.service";
-import {ActiveTrainingInstanceService} from "../../../../../services/training-instance/active-training-instance.service";
-import {TrainingInstanceFacade} from "../../../../../services/facades/training-instance-facade.service";
-import {environment} from "../../../../../../environments/environment";
-import {merge, of} from "rxjs";
-import {catchError, map, startWith, switchMap, takeWhile} from "rxjs/operators";
-import {PaginatedTable} from "../../../../../model/table-adapters/paginated-table";
-import {TrainingRunFacade} from "../../../../../services/facades/training-run-facade.service";
-import {MatDialog} from "@angular/material";
-import {ActionConfirmationDialog} from "../../../../shared/delete-dialog/action-confirmation-dialog.component";
-import {TablePagination} from "../../../../../model/DTOs/other/table-pagination";
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import {TrainingRunTableRow} from '../../../../../model/table-adapters/training-run-table-row';
+import {BaseTrainingRunOverview} from '../base-training-run-overview';
+import {AlertService} from '../../../../../services/shared/alert.service';
+import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
+import {ActiveTrainingInstanceService} from '../../../../../services/training-instance/active-training-instance.service';
+import {TrainingInstanceFacade} from '../../../../../services/facades/training-instance-facade.service';
+import {environment} from '../../../../../../environments/environment';
+import {merge, of} from 'rxjs';
+import {catchError, map, startWith, switchMap, takeWhile} from 'rxjs/operators';
+import {PaginatedTable} from '../../../../../model/table-adapters/paginated-table';
+import {TrainingRunFacade} from '../../../../../services/facades/training-run-facade.service';
+import {MatDialog} from '@angular/material';
+import {ActionConfirmationDialogComponent} from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
+import {TablePagination} from '../../../../../model/DTOs/other/table-pagination';
 
 @Component({
   selector: 'kypo2-archived-training-run-overview',
   templateUrl: './archived-training-run-overview.component.html',
   styleUrls: ['./archived-training-run-overview.component.css']
 })
+/**
+ * Component displaying real time archived (accessed by trainee and with sandbox removed) training runs for organizer.
+ */
 export class ArchivedTrainingRunOverviewComponent extends BaseTrainingRunOverview implements OnInit {
 
   displayedColumns: string[] = ['player', 'state', 'actions'];
@@ -41,7 +44,7 @@ export class ArchivedTrainingRunOverviewComponent extends BaseTrainingRunOvervie
     private errorHandler: ErrorHandlerService,
     private trainingRunFacade: TrainingRunFacade,
     private trainingInstanceFacade: TrainingInstanceFacade) {
-    super(activeTrainingInstanceService)
+    super(activeTrainingInstanceService);
   }
 
   ngOnInit() {
@@ -49,7 +52,7 @@ export class ArchivedTrainingRunOverviewComponent extends BaseTrainingRunOvervie
   }
 
   deleteArchivedTrainingRuns() {
-    const dialogRef = this.dialog.open(ActionConfirmationDialog, {
+    const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
       data: {
         type: 'archived training runs',
         action: 'delete'
@@ -57,13 +60,13 @@ export class ArchivedTrainingRunOverviewComponent extends BaseTrainingRunOvervie
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
-        this.sendRequestToDeleteArchivedTrainingRuns()
+        this.sendRequestToDeleteArchivedTrainingRuns();
       }
     });
   }
 
   deleteTrainingRun(id: number) {
-    const dialogRef = this.dialog.open(ActionConfirmationDialog, {
+    const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
       data: {
         type: 'archived training run',
         action: 'delete'
@@ -71,7 +74,7 @@ export class ArchivedTrainingRunOverviewComponent extends BaseTrainingRunOvervie
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.type === 'confirm') {
-        this.sendRequestToDeleteArchivedTrainingRun(id)
+        this.sendRequestToDeleteArchivedTrainingRun(id);
       }
     });
   }
@@ -106,7 +109,7 @@ export class ArchivedTrainingRunOverviewComponent extends BaseTrainingRunOvervie
         startWith({}),
         switchMap(() => {
           timeoutHandle = window.setTimeout(() => this.isLoadingResults = true, environment.defaultDelayToDisplayLoading);
-          return this.trainingInstanceFacade.getTrainingRunsByTrainingInstanceIdPaginated(this.trainingInstance.id, pagination, false)
+          return this.trainingInstanceFacade.getTrainingRunsByTrainingInstanceIdPaginated(this.trainingInstance.id, pagination, false);
         }),
         map(data => {
           window.clearTimeout(timeoutHandle);
@@ -133,7 +136,7 @@ export class ArchivedTrainingRunOverviewComponent extends BaseTrainingRunOvervie
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         deleted => this.fetchData(),
-        err => this.errorHandler.displayInAlert(err, 'Deleting training runs'))
+        err => this.errorHandler.displayInAlert(err, 'Deleting training runs'));
   }
 
   private sendRequestToDeleteArchivedTrainingRun(id: number) {
@@ -141,6 +144,6 @@ export class ArchivedTrainingRunOverviewComponent extends BaseTrainingRunOvervie
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         deleted => this.fetchData(),
-        err => this.errorHandler.displayInAlert(err, 'Deleting training run'))
+        err => this.errorHandler.displayInAlert(err, 'Deleting training run'));
   }
 }

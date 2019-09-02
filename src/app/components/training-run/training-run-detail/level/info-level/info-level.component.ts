@@ -10,7 +10,9 @@ import {takeWhile} from 'rxjs/operators';
   templateUrl: './info-level.component.html',
   styleUrls: ['./info-level.component.css']
 })
-
+/**
+ * Component to display training run's level of type INFO. Only displays markdown and allows user to continue immediately.
+ */
 export class InfoLevelComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input('level') level: InfoLevel;

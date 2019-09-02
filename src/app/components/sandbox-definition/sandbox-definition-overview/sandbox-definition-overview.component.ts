@@ -1,24 +1,24 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import { MatDialog } from "@angular/material/dialog";
-import { MatPaginator } from "@angular/material/paginator";
-import { MatSort } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
-import {SandboxDefinition} from "../../../model/sandbox/sandbox-definition";
-import {SandboxDefinitionFacade} from "../../../services/facades/sandbox-definition-facade.service";
-import {TrainingDefinitionFacade} from "../../../services/facades/training-definition-facade.service";
-import {AlertService} from "../../../services/shared/alert.service";
-import {merge, of} from "rxjs";
-import {catchError, map, startWith, switchMap, takeWhile} from "rxjs/operators";
-import {environment} from "../../../../environments/environment";
-import {AlertTypeEnum} from "../../../model/enums/alert-type.enum";
-import {ErrorHandlerService} from "../../../services/shared/error-handler.service";
-import {SandboxDefinitionTableRow} from "../../../model/table-adapters/sandbox-definition-table-row";
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import {SandboxDefinition} from '../../../model/sandbox/sandbox-definition';
+import {SandboxDefinitionFacade} from '../../../services/facades/sandbox-definition-facade.service';
+import {TrainingDefinitionFacade} from '../../../services/facades/training-definition-facade.service';
+import {AlertService} from '../../../services/shared/alert.service';
+import {merge, of} from 'rxjs';
+import {catchError, map, startWith, switchMap, takeWhile} from 'rxjs/operators';
+import {environment} from '../../../../environments/environment';
+import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
+import {ErrorHandlerService} from '../../../services/shared/error-handler.service';
+import {SandboxDefinitionTableRow} from '../../../model/table-adapters/sandbox-definition-table-row';
 import {AssociatedTrainingDefinitionsDialogComponent} from './associated-training-definitions-dialog/associated-training-definitions-dialog.component';
 import {TrainingDefinitionInfo} from '../../../model/training/training-definition-info';
-import {AddSandboxDefinitionDialogComponent} from "./add-sandbox-definition-dialog/add-sandbox-definition-dialog.component";
-import {ActionConfirmationDialog} from "../../shared/delete-dialog/action-confirmation-dialog.component";
-import {BaseComponent} from "../../base.component";
-import {StringNormalizer} from "../../../model/utils/ignore-diacritics-filter";
+import {AddSandboxDefinitionDialogComponent} from './add-sandbox-definition-dialog/add-sandbox-definition-dialog.component';
+import {ActionConfirmationDialogComponent} from '../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
+import {BaseComponent} from '../../base.component';
+import {StringNormalizer} from '../../../model/utils/ignore-diacritics-filter';
 
 @Component({
   selector: 'kypo2-sandbox-definition-table',
@@ -84,13 +84,14 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
         this.fetchData();
       }
     });
+
   }
   /**
    * Removes sandbox definition data object from data source and sends request to delete the sandbox in database
    * @param {SandboxDefinitionTableRow} sandboxRow sandbox definition data row which should be deleted
    */
   deleteSandboxDefinition(sandboxRow: SandboxDefinitionTableRow) {
-    const dialogRef = this.dialog.open(ActionConfirmationDialog, {
+    const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
       data: {
         type: 'Sandbox Definition',
         action: 'delete',
@@ -100,8 +101,9 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
     dialogRef.afterClosed()
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(result => {
-        if (result && result.type === 'confirm')
-          this.sendRequestToDeleteSandboxDefinition(sandboxRow.sandbox.id)
+        if (result && result.type === 'confirm') {
+          this.sendRequestToDeleteSandboxDefinition(sandboxRow.sandbox.id);
+        }
       });
   }
 
@@ -184,7 +186,7 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
 
     this.dataSource.filterPredicate =
       (data: SandboxDefinitionTableRow, filter: string) =>
-        data.normalizedTitle.indexOf(filter) !== -1
+        data.normalizedTitle.indexOf(filter) !== -1;
   }
 
   private canSandboxBeRemoved(sandbox: SandboxDefinition, assocTrainings: TrainingDefinitionInfo[]): boolean {

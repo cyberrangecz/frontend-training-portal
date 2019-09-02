@@ -5,7 +5,7 @@ import {RouterModule} from "@angular/router";
 import {TrainingInstanceFacadeModule} from "../../../services/facades/modules/training-instance-facade.module";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import {AccessTokenDetailRoutingModule} from './access-token-detail-routing.module';
-import {TrainingInstanceGuardService} from '../../../services/guards/training-instance-guard.service';
+import {TrainingInstanceGuard} from '../../../services/guards/training-instance-guard.service';
 
 @NgModule({
   imports: [
@@ -19,7 +19,7 @@ import {TrainingInstanceGuardService} from '../../../services/guards/training-in
   AccessTokenDetailComponent
   ],
   providers: [
-    TrainingInstanceGuardService
+    TrainingInstanceGuard
   ]
 })
 

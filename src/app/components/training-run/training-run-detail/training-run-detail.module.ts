@@ -8,6 +8,9 @@ import {TrainingRunFacadeModule} from '../../../services/facades/modules/trainin
 import {TrainingRunDetailComponentModule} from './training-run-detail-component.module';
 import {Kypo2StepperModule} from 'kypo2-stepper';
 
+/**
+ * Module containing components and routes for training run detail (game)
+ */
 @NgModule({
   imports: [
     CommonModule,
