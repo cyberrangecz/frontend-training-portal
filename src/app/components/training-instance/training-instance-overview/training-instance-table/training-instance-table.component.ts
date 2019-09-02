@@ -61,8 +61,7 @@ export class TrainingInstanceTableComponent extends BaseComponent implements OnI
     private errorHandler: ErrorHandlerService,
     private allocationService: SandboxAllocationService,
     private authService: Kypo2AuthService,
-    private trainingInstanceFacade: TrainingInstanceFacade,
-    private sandboxInstanceFacade: SandboxInstanceFacade) {
+    private trainingInstanceFacade: TrainingInstanceFacade) {
     super();
   }
 

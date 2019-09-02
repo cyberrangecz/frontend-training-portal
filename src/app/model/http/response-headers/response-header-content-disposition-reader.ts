@@ -6,8 +6,7 @@ export class ResponseHeaderContentDispositionReader {
         .split('filename')[1]
         .split('=')[1]
         .trim();
-    }
-    catch (error) {
+    } catch (error) {
       return defaultFilename;
     }
   }
