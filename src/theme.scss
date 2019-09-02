@@ -1,0 +1,6 @@
+@import '~@angular/material/theming';
+@import "variables.scss";
+
+@include mat-core();
+$kypo2-theme: mat-light-theme($kypo2-primary-palette, $kypo2-accent-palette, $kypo2-warn-palette);
+@include angular-material-theme($kypo2-theme);

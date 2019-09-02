@@ -12,6 +12,11 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
+          "stylePreprocessorOptions": {
+            "includePaths": [
+              "src/variables.scss"
+            ]
+          },
           "options": {
             "outputPath": "dist/trainings",
             "index": "src/index.html",
@@ -23,12 +28,14 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css",
+              "src/theme.scss",
+              "src/variables.scss",
+              "src/styles.scss",
               "node_modules/kypo2-trainings-visualization-overview-lib/styles.scss"
             ],
             "scripts": [
               "node_modules/marked/lib/marked.js"
-          ]
+            ]
           },
           "configurations": {
             "production": {
@@ -146,5 +153,10 @@
       }
     }
   },
-  "defaultProject": "trainings"
+  "defaultProject": "trainings",
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
+  }
 }

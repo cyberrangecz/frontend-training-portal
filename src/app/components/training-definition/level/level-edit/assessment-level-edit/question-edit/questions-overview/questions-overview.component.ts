@@ -23,7 +23,7 @@ import {takeWhile} from 'rxjs/operators';
 @Component({
   selector: 'kypo2-question-overview',
   templateUrl: './questions-overview.component.html',
-  styleUrls: ['./questions-overview.component.css']
+  styleUrls: ['./questions-overview.component.scss']
 })
 /**
  * Wrapper component for questions inside the assessment level. Creates child question components.
