@@ -147,7 +147,7 @@ export class TrainingInstanceFacade {
       })
       .pipe(map(resp =>  {
         this.downloadService.downloadJSONFileFromBlobResponse(resp,
-          ResponseHeaderContentDispositionReader.getFilenameFromResponse(resp, 'training-instance.json'));
+          ResponseHeaderContentDispositionReader.getFilenameFromResponse(resp, 'archived-training-instance.zip'));
         return true;
       }));
   }
