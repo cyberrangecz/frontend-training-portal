@@ -75,7 +75,7 @@
               [min]="startTime.value"
               formControlName="endTime"
               [owlDateTime]="endTimePicker">
-            <owl-date-time #endTimePicker></owl-date-time>
+            <owl-date-time #endTimePicker [startAt]="endTime.value ? endTime.value : startTime.value"></owl-date-time>
           </div>
           <mat-error *ngIf="trainingInstanceFormGroup.formGroup.hasError('startTimeAfterEndTime')">Start time must be before end time</mat-error>
           <mat-error *ngIf="endTime.hasError('dateInPast')">End time cannot be in the past</mat-error>
