@@ -29,13 +29,13 @@ export class SandboxDefinitionFacade {
    * Retrieves all sandbox definitions
    * @returns {Observable<SandboxDefinition[]>} Observable of sandbox definitions list
    */
-  getSandboxDefinitions(): Observable<SandboxDefinition[]> {
+  getAll(): Observable<SandboxDefinition[]> {
     return this.http.get<SandboxDefinitionDTO[]>(this.sandboxDefsEndpoint, { headers: this.createDefaultHeaders() })
       .pipe(map(response =>
       this.sandboxDefinitionMapper.mapSandboxDefinitionsDTOToSandboxDefinitions(response)));
   }
 
-  getSandboxDefinitionsPaginated(pagination: TablePagination): Observable<PaginatedTable<SandboxDefinitionTableRow[]>> {
+  getAllPaginated(pagination: TablePagination): Observable<PaginatedTable<SandboxDefinitionTableRow[]>> {
     return this.http.get<SandboxPaginated<SandboxDefinitionDTO>>(this.sandboxDefsEndpoint,
       {
         headers: this.createDefaultHeaders(),
@@ -50,7 +50,7 @@ export class SandboxDefinitionFacade {
    * @param {number} id id of sandbox which should be retrieved
    * @returns {Observable<SandboxDefinition>} Observable of retrieved sandbox definition, null if no sandbox definition with such id is found
    */
-  getSandboxDefById(id: number): Observable<SandboxDefinition> {
+  getById(id: number): Observable<SandboxDefinition> {
     return this.http.get<SandboxDefinitionDTO>(this.sandboxDefsEndpoint + id, { headers: this.createDefaultHeaders() })
       .pipe(map(response => this.sandboxDefinitionMapper.mapSandboxDefinitionDTOToSandboxDefinition(response)));
   }
@@ -59,11 +59,11 @@ export class SandboxDefinitionFacade {
    * Sends request to remove sandbox definition with provided id
    * @param {number} id id of sandbox definition which should be removed
    */
-  deleteSandboxDefinition(id: number): Observable<any> {
+  delete(id: number): Observable<any> {
     return this.http.delete(this.sandboxDefsEndpoint + id);
   }
 
-  addSandboxDefinition(gitlabUrl: string, revision: string): Observable<any> {
+  add(gitlabUrl: string, revision: string): Observable<any> {
     return this.http.post(this.sandboxDefsEndpoint, { url: gitlabUrl, rev: revision});
   }
 

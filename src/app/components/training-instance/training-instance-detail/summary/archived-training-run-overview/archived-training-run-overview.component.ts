@@ -109,7 +109,7 @@ export class ArchivedTrainingRunOverviewComponent extends BaseTrainingRunOvervie
         startWith({}),
         switchMap(() => {
           timeoutHandle = window.setTimeout(() => this.isLoadingResults = true, environment.defaultDelayToDisplayLoading);
-          return this.trainingInstanceFacade.getTrainingRunsByTrainingInstanceIdPaginated(this.trainingInstance.id, pagination, false);
+          return this.trainingInstanceFacade.getAssociatedTrainingRunsPaginated(this.trainingInstance.id, pagination, false);
         }),
         map(data => {
           window.clearTimeout(timeoutHandle);
@@ -132,7 +132,7 @@ export class ArchivedTrainingRunOverviewComponent extends BaseTrainingRunOvervie
 
   private sendRequestToDeleteArchivedTrainingRuns() {
     const idsToDelete: number[] = this.archivedTrainingRunsDataSource.data.map(row => row.trainingRun.id);
-    this.trainingRunFacade.deleteTrainingRuns(idsToDelete)
+    this.trainingRunFacade.deleteMultiple(idsToDelete)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         deleted => this.fetchData(),
@@ -140,7 +140,7 @@ export class ArchivedTrainingRunOverviewComponent extends BaseTrainingRunOvervie
   }
 
   private sendRequestToDeleteArchivedTrainingRun(id: number) {
-    this.trainingRunFacade.deleteTrainingRun(id)
+    this.trainingRunFacade.delete(id)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         deleted => this.fetchData(),

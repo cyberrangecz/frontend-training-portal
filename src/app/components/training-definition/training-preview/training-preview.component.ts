@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {switchMap, takeWhile} from 'rxjs/operators';
+import {map, switchMap, takeWhile} from 'rxjs/operators';
 import {TrainingDefinitionFacade} from '../../../services/facades/training-definition-facade.service';
 import {ActiveTrainingRunService} from '../../../services/training-run/active-training-run.service';
 import {TrainingDefinition} from '../../../model/training/training-definition';
@@ -31,11 +31,10 @@ export class TrainingPreviewComponent extends BaseComponent implements OnInit {
   }
 
   private initializeGame() {
-    this.activeRoute.paramMap
-      .pipe(takeWhile(() => this.isAlive),
-        switchMap(paramMap =>
-          this.trainingDefinitionFacade.getTrainingDefinitionById(Number(paramMap.get('id')), true)))
-      .subscribe(training => {
+    this.activeRoute.data
+      .pipe(
+        map(data => data.trainingDefinition)
+      ).subscribe(training => {
         this.previewService.setUpFromTrainingRun(this.createMockTrainingRun(training));
         this.isLoaded = true;
     });

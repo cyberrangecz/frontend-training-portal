@@ -1,11 +1,12 @@
-import {NgModule} from "@angular/core";
-import {RouterModule, Routes} from "@angular/router";
-import {TrainingRunResultsComponent} from "./training-run-results.component";
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {TrainingRunResultsComponent} from './training-run-results.component';
 
 const routes: Routes = [
   {
     path: '',
     component: TrainingRunResultsComponent,
+    data: {breadcrumb: null}
   },
 ];
 

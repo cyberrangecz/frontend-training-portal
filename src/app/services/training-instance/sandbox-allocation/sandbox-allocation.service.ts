@@ -86,7 +86,7 @@ export class SandboxAllocationService {
   }
 
   deleteSandbox(trainingInstance: TrainingInstance, sandbox: SandboxInstance, requestedPoolSize: number): Observable<SandboxInstanceAllocationState> {
-    return this.sandboxInstanceFacade.deleteSandbox(trainingInstance.id, sandbox.id)
+    return this.sandboxInstanceFacade.delete(trainingInstance.id, sandbox.id)
       .pipe(
         concatMap( deleteResponse => this.createAllocation(trainingInstance, requestedPoolSize)),
         shareReplay(Number.POSITIVE_INFINITY),
@@ -111,7 +111,7 @@ export class SandboxAllocationService {
 
   private initAllocation(trainingInstance: TrainingInstance, count: number = 0): Observable<any> {
     if (trainingInstance.hasPoolId()) {
-      return this.sandboxInstanceFacade.allocateSandboxes(trainingInstance.id, count);
+      return this.sandboxInstanceFacade.allocate(trainingInstance.id, count);
     } else {
       return this.sandboxInstanceFacade.createPoolAndAllocate(trainingInstance, count)
         .pipe(tap(poolId => trainingInstance.poolId = poolId));

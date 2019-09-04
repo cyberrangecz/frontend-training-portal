@@ -12,11 +12,12 @@ import {PipesModule} from '../../../pipes/pipes.module';
 import { UnsavedChangesDialogComponent } from '../../shared/unsaved-changes-dialog/unsaved-changes-dialog.component';
 import { EditBetaTestingGroupComponent } from './training-definition-edit/edit-beta-testing-group/edit-beta-testing-group.component';
 import {TrainingDefinitionLeaveGuard} from '../../../services/guards/training-definition-leave-guard.service';
-import {TrainingDefinitionAccessGuard} from '../../../services/guards/training-definition-access-guard.service';
 import {SandboxDefinitionFacadeModule} from '../../../services/facades/modules/sandbox-definition-facade.module';
+import {TrainingDefinitionResolver} from '../../../services/resolvers/training-definition-resolver.service';
+import {TrainingDefinitionBreadcrumbResolver} from '../../../services/resolvers/training-definition-breadcrumb-resolver.service';
 
 /**
- * Module containing components and services of training definition detial/edt/new actions. Contains routing to level modules
+ * Module containing components and services of training definition detail/edt/new actions. Contains routing to level modules
  */
 @NgModule({
   imports: [
@@ -39,7 +40,8 @@ import {SandboxDefinitionFacadeModule} from '../../../services/facades/modules/s
   ],
   providers: [
     TrainingDefinitionLeaveGuard,
-    TrainingDefinitionAccessGuard,
+    TrainingDefinitionResolver,
+    TrainingDefinitionBreadcrumbResolver
   ],
   entryComponents: [
     SandboxDefinitionPickerComponent,

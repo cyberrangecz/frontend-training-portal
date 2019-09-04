@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {TrainingInstanceTableComponent} from "./training-instance-table/training-instance-table.component";
-import {BaseComponent} from "../../base.component";
+import {TrainingInstanceTableComponent} from './training-instance-table/training-instance-table.component';
+import {BaseComponent} from '../../base.component';
 
 @Component({
   selector: 'kypo2-training-instance-overview',

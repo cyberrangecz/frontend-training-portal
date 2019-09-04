@@ -149,7 +149,7 @@ export class ActiveTrainingRunOverviewComponent extends BaseTrainingRunOverview 
         startWith({}),
         switchMap(() => {
           timeoutHandle = window.setTimeout(() => this.isLoadingTrainingRunResults = true, environment.defaultDelayToDisplayLoading);
-          return this.trainingInstanceFacade.getTrainingRunsByTrainingInstanceIdPaginated(this.trainingInstance.id, pagination);
+          return this.trainingInstanceFacade.getAssociatedTrainingRunsPaginated(this.trainingInstance.id, pagination);
         }),
         map(data => {
           window.clearTimeout(timeoutHandle);
@@ -213,7 +213,7 @@ export class ActiveTrainingRunOverviewComponent extends BaseTrainingRunOverview 
 
   private sendRequestToDeleteSandbox(row: TrainingRunTableRow) {
     row.deletionRequested = true;
-    this.sandboxInstanceFacade.deleteSandbox(this.trainingInstance.id, row.trainingRun.sandboxInstanceId)
+    this.sandboxInstanceFacade.delete(this.trainingInstance.id, row.trainingRun.sandboxInstanceId)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
       response => {

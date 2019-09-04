@@ -19,12 +19,13 @@ const routes: Routes = [
   {
     path: ACCESS_TOKEN_ROUTE,
     loadChildren: () => import('app/components/training-instance/access-token-detail/access-token-detail.module').then(m => m.AccessTokenDetailModule),
-    data: {breadcrumb: 'Access Token'}
+    data: {breadcrumb: null}
   },
   {
     path: TRAINING_INSTANCE_DETAIL_PATH,
     canActivate: [TrainingInstanceGuard],
     component: TrainingInstanceDetailComponent,
+    data: {breadcrumb: null},
     children: [
       {
         path: SUMMARY_PATH,

@@ -34,11 +34,9 @@ export class TrainingDefinitionEditContainerComponent extends BaseComponent impl
 
   constructor(private router: Router,
               private activeRoute: ActivatedRoute,
-              private dialog: MatDialog,
-              private trainingDefinitionFacade: TrainingDefinitionFacade) {
+              private dialog: MatDialog) {
     super();
-    this.trainingDefinition$ = this.fetchTrainingDefinition();
-
+    this.trainingDefinition$ = this.activeRoute.data.pipe(map(data => data.trainingDefinition));
   }
 
   ngOnInit() {
@@ -81,14 +79,5 @@ export class TrainingDefinitionEditContainerComponent extends BaseComponent impl
         );
     }
     return of(true);
-  }
-
-
-  private fetchTrainingDefinition(): Observable<TrainingDefinition> {
-    if (this.router.routerState.snapshot.url.endsWith(TRAINING_DEFINITION_NEW_PATH)) {
-      return of(null);
-    }
-    const trainingDefId = Number(this.activeRoute.snapshot.paramMap.get('id'));
-    return this.trainingDefinitionFacade.getTrainingDefinitionById(trainingDefId);
   }
 }

@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {TrainingDefinitionFacade} from '../../../../services/facades/training-definition-facade.service';
 import {Observable, of, zip} from 'rxjs';
 import {TrainingDefinition} from '../../../../model/training/training-definition';
-import {map, switchMap } from 'rxjs/operators';
+import {map, switchMap, tap} from 'rxjs/operators';
 import {ADD_LEVEL_PATH} from '../../training-definition-overview/paths';
 import {UnsavedChangesDialogComponent} from '../../../shared/unsaved-changes-dialog/unsaved-changes-dialog.component';
 import {TrainingLevelStepperComponent} from '../training-level-stepper/training-level-stepper.component';
@@ -26,12 +26,15 @@ export class LevelOverviewComponent implements OnInit {
 
   constructor(private activeRoute: ActivatedRoute,
               private router: Router,
-              private dialog: MatDialog,
-              private trainingDefinitionFacade: TrainingDefinitionFacade) {
+              private dialog: MatDialog) {
   }
 
   ngOnInit() {
-    this.trainingDefinition$ = this.resolveTrainingDefinition();
+    this.trainingDefinition$ = this.activeRoute.data
+      .pipe(
+        map(data =>
+          data.trainingDefinition)
+      );
     this.activeStep$ = this.resolveActiveStep();
   }
 
@@ -71,21 +74,23 @@ export class LevelOverviewComponent implements OnInit {
     return of(true);
   }
 
-
-  private resolveTrainingDefinition(): Observable<TrainingDefinition> {
-    const id = Number(this.activeRoute.snapshot.paramMap.get('id'));
-    return this.trainingDefinitionFacade.getTrainingDefinitionById(id, true);
-  }
-
   private resolveActiveStep(): Observable<number> {
     return this.resolveActiveLevelId()
       .pipe(
-        switchMap(levelId => this.trainingDefinition$.pipe(map(td => td.levels.findIndex(level => level.id === levelId))))
+        switchMap(levelId => this.trainingDefinition$
+          .pipe(
+            map(td =>
+              td.levels.findIndex(level => level.id === levelId))
+          )
+        )
       );
   }
 
   private resolveActiveLevelId(): Observable<number> {
-    const firstLevelId = this.trainingDefinition$.pipe(map(td => td.levels.length > 0 ? td.levels[0].id : -1));
+    const firstLevelId = this.trainingDefinition$
+      .pipe(
+        map(td => td.levels.length > 0 ? td.levels[0].id : -1));
+
     const routeId = this.activeRoute.paramMap
       .pipe(
         map(params => {
@@ -96,6 +101,7 @@ export class LevelOverviewComponent implements OnInit {
           return -1;
         })
       );
+
     return zip(firstLevelId, routeId)
       .pipe(
         map(result => {

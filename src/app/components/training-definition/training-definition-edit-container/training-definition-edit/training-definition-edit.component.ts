@@ -170,7 +170,7 @@ export class TrainingDefinitionEditComponent extends BaseComponent implements On
 
   private updateTrainingDefinition(continueToLevels = false) {
     this.trainingDefinitionFacade
-      .updateTrainingDefinition(this.trainingDefinition)
+      .update(this.trainingDefinition)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         id => {
@@ -187,7 +187,7 @@ export class TrainingDefinitionEditComponent extends BaseComponent implements On
 
   private createTrainingDefinition() {
     this.trainingDefinitionFacade
-      .createTrainingDefinition(this.trainingDefinition)
+      .create(this.trainingDefinition)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         id => {

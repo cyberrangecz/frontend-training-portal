@@ -106,7 +106,7 @@ export class TrainingRunTableComponent extends BaseComponent implements OnInit {
         startWith({}),
         switchMap(() => {
           timeoutHandle =  window.setTimeout(() => this.isLoading = true, environment.defaultDelayToDisplayLoading);
-          return this.trainingRunFacade.getAccessedTrainingRunsPaginated({
+          return this.trainingRunFacade.getAccessedPaginated({
             page: this.paginator.pageIndex,
             size: this.paginator.pageSize,
             sort: this.resolveSortParam(this.sort.active),

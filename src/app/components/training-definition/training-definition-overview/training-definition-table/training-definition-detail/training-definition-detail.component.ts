@@ -29,7 +29,7 @@ export class TrainingDefinitionDetailComponent extends BaseComponent implements 
 
   ngOnChanges(changes: SimpleChanges): void {
     if ('trainingDefinition' in changes && this.trainingDefinition) {
-      this.levels$ = this.trainingDefinitionFacade.getTrainingDefinitionById(this.trainingDefinition.id, true)
+      this.levels$ = this.trainingDefinitionFacade.getById(this.trainingDefinition.id, true)
         .pipe(
           map(td => td.levels
             .map(level => new LevelDetailAdapter(level, RouteFactory.levelDetail(this.trainingDefinition.id, level.id)))

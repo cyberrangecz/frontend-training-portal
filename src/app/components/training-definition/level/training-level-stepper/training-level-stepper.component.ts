@@ -147,7 +147,7 @@ export class TrainingLevelStepperComponent extends BaseComponent implements OnIn
     this.isLoading = true;
     const from = this.levels[this.selectedStep];
     const to = this.levels[this.selectedStep - 1];
-    this.trainingDefinitionFacade.swap(this.trainingDefinition.id, from.id, to.id)
+    this.trainingDefinitionFacade.swapLevels(this.trainingDefinition.id, from.id, to.id)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(swappedLevelsInfo => {
           this.isLoading = false;
@@ -169,7 +169,7 @@ export class TrainingLevelStepperComponent extends BaseComponent implements OnIn
     this.isLoading = true;
     const from = this.levels[this.selectedStep];
     const to = this.levels[this.selectedStep + 1];
-    this.trainingDefinitionFacade.swap(this.trainingDefinition.id, from.id, to.id)
+    this.trainingDefinitionFacade.swapLevels(this.trainingDefinition.id, from.id, to.id)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(swappedLevelsInfo => {
           this.isLoading = false;

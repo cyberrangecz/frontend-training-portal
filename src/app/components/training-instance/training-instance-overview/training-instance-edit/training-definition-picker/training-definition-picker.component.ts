@@ -56,7 +56,7 @@ export class TrainingDefinitionPickerComponent extends BaseComponent implements 
   }
 
   private loadTrainingDefinitions() {
-    this.trainingDefinitionFacade.getTrainingDefinitionsForOrganizers()
+    this.trainingDefinitionFacade.getAllForOrganizer()
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(trainings => {
         if (this.hasPreselection()) {

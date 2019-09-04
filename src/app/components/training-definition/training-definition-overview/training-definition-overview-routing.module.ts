@@ -11,22 +11,31 @@ import {
 const routes: Routes = [
   {
     path: '',
-    component: TrainingDefinitionOverviewComponent
+    component: TrainingDefinitionOverviewComponent,
+    data: {
+      breadcrumb: null
+    }
   },
   {
     path: TRAINING_DEFINITION_NEW_PATH,
     loadChildren: () => import('app/components/training-definition/training-definition-edit-container/training-definition-edit.module').then(m => m.TrainingDefinitionEditModule),
-    data: {breadcrumb: 'New'}
+    data: {
+      breadcrumb: null
+    }
   },
   {
     path: ':id/' + TRAINING_DEFINITION_EDIT_PATH,
     loadChildren: () => import('app/components/training-definition/training-definition-edit-container/training-definition-edit.module').then(m => m.TrainingDefinitionEditModule),
-    data: {breadcrumb: 'Edit'}
+    data: {
+      breadcrumb: null
+    }
   },
   {
     path: ':id/' + TRAINING_DEFINITION_PREVIEW_PATH,
     loadChildren: () => import('app/components/training-definition/training-preview/training-preview.module').then(m => m.TrainingPreviewModule),
-    data: {breadcrumb: 'Preview'}
+    data: {
+      breadcrumb: null
+    }
   }
 ];
 

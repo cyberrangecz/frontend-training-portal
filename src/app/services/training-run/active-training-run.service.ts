@@ -79,7 +79,7 @@ export class ActiveTrainingRunService {
   }
 
   finish(): Observable<any> {
-    return this.trainingRunFacade.finishTrainingRun(this.trainingRunId)
+    return this.trainingRunFacade.finish(this.trainingRunId)
       .pipe(map(resp => {
         this.clear();
         this.router.navigate( ['/' + TRAINING_RUN_PATH, this.trainingRunId, TRAINING_RUN_RESULTS_PATH], { relativeTo: this.activeRoute});

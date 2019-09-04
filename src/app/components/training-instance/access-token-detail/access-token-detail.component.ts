@@ -26,7 +26,7 @@ export class AccessTokenDetailComponent extends BaseComponent implements OnInit 
   ngOnInit() {
     const instanceId = Number(this.activeRoute.snapshot.paramMap.get('id'));
     if (instanceId) {
-      this.trainingInstanceFacade.getTrainingInstanceById(instanceId)
+      this.trainingInstanceFacade.getById(instanceId)
         .pipe(takeWhile(() => this.isAlive))
         .subscribe(trainingInstance => {
           this.trainingInstance = trainingInstance;

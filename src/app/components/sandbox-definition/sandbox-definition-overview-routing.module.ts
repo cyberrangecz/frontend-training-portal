@@ -6,7 +6,8 @@ import {SandboxDefinitionOverviewComponent} from './sandbox-definition-overview/
 const routes: Routes = [
   {
     path: '',
-    component: SandboxDefinitionOverviewComponent
+    component: SandboxDefinitionOverviewComponent,
+    data: {breadcrumb: null}
   },
 ];
 

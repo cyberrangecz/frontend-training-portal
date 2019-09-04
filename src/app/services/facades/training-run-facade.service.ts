@@ -44,9 +44,16 @@ export class TrainingRunFacade {
    * Retrieves all training runs from the endpoint
    * @returns {Observable<TrainingRun[]>} observable of list of training runs
    */
-  getTrainingRuns(): Observable<TrainingRun[]> {
+  getAll(): Observable<TrainingRun[]> {
     return this.http.get<TrainingRunRestResource>(this.trainingRunsEndpointUri)
       .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
+  }
+
+  getPaginated(pagination: TablePagination): Observable<TrainingRun[]> {
+    return this.http.get<TrainingRunRestResource>(this.trainingRunsEndpointUri,
+      { params: PaginationParams.createTrainingsPaginationParams(pagination) })
+      .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
+
   }
 
   /**
@@ -54,7 +61,7 @@ export class TrainingRunFacade {
    * @param {number} id id of training run which should be retrieved
    * @returns {Observable<TrainingRun>} observable of training run
    */
-  getTrainingRunById(id: number): Observable<TrainingRun> {
+  getById(id: number): Observable<TrainingRun> {
     return this.http.get<TrainingRunDTO>(this.trainingRunsEndpointUri + id)
       .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOToTrainingRun(response)));
   }
@@ -64,28 +71,23 @@ export class TrainingRunFacade {
    * @param {number} id id of training instance associated with training runs which should be retrieved
    * @returns {Observable<TrainingRun[]>} observable of training runs
    */
-  getTrainingRunsByTrainingInstanceId(id: number): Observable<TrainingRun[]> {
+  getByTrainingInstance(id: number): Observable<TrainingRun[]> {
     return this.http.get<TrainingRunRestResource>(this.trainingRunsEndpointUri + id)
       .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
   }
 
-  getTrainingRunsWithPaginated(pagination: TablePagination): Observable<TrainingRun[]> {
-    return this.http.get<TrainingRunRestResource>(this.trainingRunsEndpointUri,
-      { params: PaginationParams.createTrainingsPaginationParams(pagination) })
-      .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
 
-  }
 
   /**
    * Retrieves all training runs which are still active (can be accessed and "played")
    * @returns {Observable<AccessedTrainingRunsTableRow[]>} observable of list of active training runs to be displayed in table
    */
-  getAccessedTrainingRuns(): Observable<PaginatedTable<AccessedTrainingRunsTableRow[]>> {
+  getAccessed(): Observable<PaginatedTable<AccessedTrainingRunsTableRow[]>> {
     return this.http.get<TrainingRunRestResource>(this.trainingRunsEndpointUri + 'accessible/')
       .pipe(map(response => this.trainingRunMapper.mapAccessedTrainingRunDTOsToTrainingRunTableObjects(response)));
   }
 
-  getAccessedTrainingRunsPaginated(pagination: TablePagination):
+  getAccessedPaginated(pagination: TablePagination):
     Observable<PaginatedTable<AccessedTrainingRunsTableRow[]>> {
     let params;
     if (pagination.sort === 'title') {
@@ -97,21 +99,21 @@ export class TrainingRunFacade {
       .pipe(map(response => this.trainingRunMapper.mapAccessedTrainingRunDTOsToTrainingRunTableObjects(response)));
   }
 
-  deleteTrainingRun(trainingRunId: number) {
+  delete(trainingRunId: number) {
     return this.http.delete(this.trainingRunsEndpointUri + trainingRunId);
   }
 
-  deleteTrainingRuns(trainingRunIds: number[]) {
+  deleteMultiple(trainingRunIds: number[]) {
     const params = new HttpParams().append('trainingRunIds', trainingRunIds.toString());
     return this.http.delete(this.trainingRunsEndpointUri, { params: params});
   }
 
   /**
    * Tries to access training run with accessToken. Returns training run if the accessToken is correct
-   * @param password accessToken to access the training run
+   * @param token accessToken to access the training run
    */
-  accessTrainingRun(password: string): Observable<AccessTrainingRunInfo> {
-    return this.http.post<AccessTrainingRunDTO>(this.trainingRunsEndpointUri + '?accessToken=' + password, {})
+  access(token: string): Observable<AccessTrainingRunInfo> {
+    return this.http.post<AccessTrainingRunDTO>(this.trainingRunsEndpointUri + '?accessToken=' + token, {})
       .pipe(
         map(response => this.trainingRunMapper.mapAccessTrainingRunDTOToAccessTrainingRun(response)),
       );
@@ -172,7 +174,7 @@ export class TrainingRunFacade {
        this.trainingRunMapper.mapQuestionsToUserAnswerJSON(questions));
   }
 
-  finishTrainingRun(trainingRunId: number): Observable<any> {
+  finish(trainingRunId: number): Observable<any> {
     return this.http.put(this.trainingRunsEndpointUri + trainingRunId, null);
   }
 
