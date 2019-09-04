@@ -5,7 +5,7 @@ import {EMPTY, Observable, of} from 'rxjs';
 import {TRAINING_DEFINITION_NEW_PATH} from '../../components/training-definition/training-definition-overview/paths';
 import {TrainingDefinitionFacade} from '../facades/training-definition-facade.service';
 import {TRAINING_DEFINITION_PATH} from '../../paths';
-import {mergeMap, take} from 'rxjs/operators';
+import {mergeMap, take, tap} from 'rxjs/operators';
 
 @Injectable()
 export class TrainingDefinitionResolver implements Resolve<TrainingDefinition> {
@@ -15,14 +15,14 @@ export class TrainingDefinitionResolver implements Resolve<TrainingDefinition> {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<TrainingDefinition> | Promise<TrainingDefinition> | TrainingDefinition {
-    if (state.url.endsWith(TRAINING_DEFINITION_NEW_PATH)) {
+/*    if (state.url.endsWith(TRAINING_DEFINITION_NEW_PATH)) {
       return null;
-    } else if (route.paramMap.has('id')) {
+    } else*/ if (route.paramMap.has('id')) {
       const id = Number(route.paramMap.get('id'));
       return this.trainingDefinitionFacade.getById(id, true)
         .pipe(
           take(1),
-          mergeMap(td => td ? of(td) : this.navigateToNew())
+          mergeMap(td => td ? of(td) : this.navigateToNew()),
         );
     }
     return this.navigateToNew();

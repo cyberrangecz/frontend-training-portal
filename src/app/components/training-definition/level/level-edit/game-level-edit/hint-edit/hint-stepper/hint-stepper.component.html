@@ -18,36 +18,25 @@
       </button>
     </div>
 
-    <!-- HINT stepper -->
-    <div *ngIf="hintsArray && hintsArray.length > 0" class="hint-stepper">
-      <mat-horizontal-stepper
-        [(selectedIndex)]="selectedStep"
-        (selectionChange)="selectionChanged($event)"
-        #hintStepper>
-
-        <ng-template matStepperIcon="edit" let-index="index">
-          <mat-icon>help_outline</mat-icon>
-        </ng-template>
-        <ng-template matStepperIcon="number" let-index="index">
-          <mat-icon>help_outline</mat-icon>
-        </ng-template>
-
-        <mat-step [stepControl]="hint" *ngFor="let hint of hintsArray.controls; index as i">
-          <mat-divider *ngIf="hintsArray && hintsArray.length > 0"></mat-divider>
-          <ng-template matStepLabel>Hint {{ i + 1 }}</ng-template>
-          <div class="step-content">
-            <kypo2-hint-edit [(hint)]="hints[i]"
-                             (hint)="hintsChanged()"
-                             (validity)="validityChanged()"
-                             (deleteHint)="deleteHint($event)"
-                             (penaltyChange)="calculateHintPenaltySum()"
-                             [levelMaxScore]="levelMaxScore"
-                             [initHintPenaltySum]="initialPenaltySum"
-                             [disabled]="disabled"
-                             [order]="i"></kypo2-hint-edit>
-          </div>
-        </mat-step>
-      </mat-horizontal-stepper>
+<!--     HINT stepper-->
+    <div *ngIf="stepperHints.items && stepperHints.items.length > 0" class="hint-stepper">
+      <kypo2-stepper [selectable]="true" [stepperItems]="stepperHints" [activeIndex]="selectedStep" (stepSwapped)="orderUpdate()" (indexSelected)="selectionChanged($event)" (selectedStepSwapped)="selectionChanged($event)"></kypo2-stepper>
+      <div>
+        <mat-divider *ngIf="stepperHints.items && stepperHints.items.length > 0"></mat-divider>
+        <ng-template matStepLabel>Hint {{ selectedStep + 1 }}</ng-template>
+        <div class="step-content">
+          <kypo2-hint-edit [hint]="stepperHints.items[selectedStep]"
+                     (hintChange)="hintsChanged($event)"
+                     (validityChange)="validityChanged()"
+                     (deleteHint)="deleteHint($event)"
+                     (penaltyChange)="calculateHintPenaltySum()"
+                     [levelMaxScore]="levelMaxScore"
+                     [initHintPenaltySum]="initialPenaltySum"
+                     [disabled]="disabled"
+                     [order]="selectedStep">
+          </kypo2-hint-edit>
+        </div>
+      </div>
     </div>
   </mat-expansion-panel>
 </mat-accordion>

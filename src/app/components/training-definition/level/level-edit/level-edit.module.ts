@@ -15,6 +15,7 @@ import { MultipleChoiceQuestionEditComponent } from './assessment-level-edit/que
 import { ExtendedMatchingItemsEditComponent } from './assessment-level-edit/question-edit/extended-matching-items-edit/extended-matching-items-edit.component';
 import {MarkdownEditorModule} from 'kypo2-markdown-editor';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import {Kypo2StepperModule} from 'kypo2-stepper';
 import {environment} from '../../../../../environments/environment';
 
 /**
@@ -25,6 +26,7 @@ import {environment} from '../../../../../environments/environment';
     CommonModule,
     FormsModule,
     MarkdownEditorModule.forRoot(environment.markdownConfig),
+    Kypo2StepperModule,
     LevelEditMaterialModule,
     MatSlideToggleModule,
     ReactiveFormsModule
