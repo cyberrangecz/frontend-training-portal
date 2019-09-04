@@ -1,11 +1,8 @@
 import {AfterViewInit, Component, HostListener, OnInit, } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Kypo2AuthService} from 'kypo2-auth';
-import {takeWhile} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {BaseComponent} from '../../base.component';
-import {ErrorHandlerService} from '../../../services/shared/error-handler.service';
-import {TrainingRunFacade} from '../../../services/facades/training-run-facade.service';
-
 @Component({
   selector: 'kypo2-training-run-results',
   templateUrl: './training-run-results.component.html',
@@ -19,16 +16,12 @@ export class TrainingRunResultsComponent extends BaseComponent implements OnInit
   display = false;
   vizSize: {width: number, height: number};
 
-  isLoading = true;
-  isInErrorState = false;
   trainingDefinitionId: number;
   trainingInstanceId: number;
   activeUserUco: string;
 
   constructor(private activatedRoute: ActivatedRoute,
-              private authService: Kypo2AuthService,
-              private errorHandler: ErrorHandlerService,
-              private trainingRunFacade: TrainingRunFacade) {
+              private authService: Kypo2AuthService) {
     super();
 }
 
@@ -50,27 +43,14 @@ export class TrainingRunResultsComponent extends BaseComponent implements OnInit
 
   loadData() {
     this.activeUserUco = this.parseUcoFromUserLogin();
-    const routeSnapshot = this.activatedRoute.snapshot;
-    if (routeSnapshot.paramMap.has('id')) {
-      const trainingRunId = Number(routeSnapshot.paramMap.get('id'));
-      this.isLoading = true;
-      this.trainingRunFacade.getTrainingRunById(trainingRunId)
-        .pipe(takeWhile(() => this.isAlive))
-        .subscribe(
-          trainingRun => {
-          this.trainingInstanceId = trainingRun.trainingInstanceId;
-          this.trainingDefinitionId = trainingRun.trainingDefinitionId;
-            this.isLoading = false;
-        },
-          err => {
-            this.errorHandler.displayInAlert(err, 'Loading results of training run');
-            this.isInErrorState = true;
-            this.isLoading = false;
-          }
-          );
-    } else {
-      this.isInErrorState = true;
-    }
+    this.activatedRoute.data
+      .pipe(
+        map(data => data.trainingRun)
+      )
+      .subscribe(tr => {
+        this.trainingInstanceId = tr.trainingInstanceId;
+        this.trainingDefinitionId = tr.trainingDefinitionId;
+      });
   }
 
   private parseUcoFromUserLogin() {

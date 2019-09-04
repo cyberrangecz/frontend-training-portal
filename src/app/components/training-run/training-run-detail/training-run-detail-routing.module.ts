@@ -7,7 +7,8 @@ const routes: Routes = [
     path: '',
     component: TrainingRunDetailComponent,
     canActivate: [TrainingRunLevelsGuard],
-    canDeactivate: [TrainingRunLevelsGuard]
+    canDeactivate: [TrainingRunLevelsGuard],
+    data: {breadcrumb: null}
   }
 ];
 

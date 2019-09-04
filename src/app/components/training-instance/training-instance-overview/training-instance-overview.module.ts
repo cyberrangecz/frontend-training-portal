@@ -21,6 +21,8 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@busacca/ng-pick-dat
 import {SandboxAllocationService} from '../../../services/training-instance/sandbox-allocation/sandbox-allocation.service';
 import {SandboxInstanceObservablesPoolService} from '../../../services/training-instance/sandbox-allocation/sandbox-instance-observables-pool.service';
 import { AllocationModalComponent } from './training-instance-table/allocation-modal/allocation-modal.component';
+import {TrainingInstanceResolver} from '../../../services/resolvers/training-instance-resolver.service';
+import {TrainingInstanceBreadcrumbResolver} from '../../../services/resolvers/training-instance-breadcrumb-resolver.service';
 
 /**
  * Main module of training instance agenda. Contains components and providers for displaying table of training instance
@@ -57,6 +59,8 @@ import { AllocationModalComponent } from './training-instance-table/allocation-m
     ActiveTrainingInstanceService,
     SandboxInstanceObservablesPoolService,
     SandboxAllocationService,
+    TrainingInstanceResolver,
+    TrainingInstanceBreadcrumbResolver
   ],
   entryComponents: [
     OrganizersPickerComponent,

@@ -33,7 +33,7 @@ export class TrainingInstanceInfoComponent extends BaseComponent implements OnIn
    * Loads all required data from endpoints
    */
   private loadData() {
-    this.trainingInstance = this.activeTrainingInstanceService.getActiveTrainingInstance();
+    this.trainingInstance = this.activeTrainingInstanceService.get();
     if (this.trainingInstance) {
       this.trainingDefinition = this.trainingInstance.trainingDefinition;
     }

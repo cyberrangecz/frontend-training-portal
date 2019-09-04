@@ -113,7 +113,7 @@ export class TrainingInstanceEditComponent extends BaseComponent implements OnIn
   }
 
   private updateTrainingInstance() {
-    this.trainingInstanceFacade.updateTrainingInstance(this.trainingInstance)
+    this.trainingInstanceFacade.update(this.trainingInstance)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         newAccessToken => {
@@ -127,7 +127,7 @@ export class TrainingInstanceEditComponent extends BaseComponent implements OnIn
   }
 
   private createTrainingInstance() {
-    this.trainingInstanceFacade.createTrainingInstance(this.trainingInstance)
+    this.trainingInstanceFacade.create(this.trainingInstance)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         createdInstance => {

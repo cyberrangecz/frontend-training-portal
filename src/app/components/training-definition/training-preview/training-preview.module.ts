@@ -9,7 +9,8 @@ import {TrainingRunAssessmentLevelService} from '../../../services/training-run/
 import {PreviewAssessmentLevelService} from '../../../services/training-definition/preview-assessment-level.service';
 import {PreviewGameLevelService} from '../../../services/training-definition/preview-game-level.service';
 import {TrainingPreviewRoutingModule} from './training-preview-routing.module';
-import {TrainingDefinitionAccessGuard} from '../../../services/guards/training-definition-access-guard.service';
+import {TrainingDefinitionResolver} from '../../../services/resolvers/training-definition-resolver.service';
+import {TrainingDefinitionBreadcrumbResolver} from '../../../services/resolvers/training-definition-breadcrumb-resolver.service';
 
 /**
  * Module with components and providers for previewing training run (without allocating sandbox and backend communication)
@@ -25,7 +26,8 @@ import {TrainingDefinitionAccessGuard} from '../../../services/guards/training-d
     TrainingPreviewComponent,
   ],
   providers: [
-    TrainingDefinitionAccessGuard,
+    TrainingDefinitionResolver,
+    TrainingDefinitionBreadcrumbResolver,
     { provide: TrainingRunGameLevelService, useClass: PreviewGameLevelService },
     { provide: TrainingRunAssessmentLevelService, useClass: PreviewAssessmentLevelService },
     { provide: ActiveTrainingRunService, useClass: PreviewTrainingRunService }

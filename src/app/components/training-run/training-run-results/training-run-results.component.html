@@ -3,12 +3,8 @@
     <h1>Training Results</h1>
   </div>
   <div  class="content">
-    <mat-progress-spinner *ngIf="isLoading && !isInErrorState" mode="indeterminate"></mat-progress-spinner>
-    <div *ngIf="!isLoading && isInErrorState" class="failed">
-      <h3>Loading data for visualizations failed.</h3>
-      <button mat-button color="primary" (click)="loadData()">Try again</button>
-    </div>
-    <div *ngIf="!isLoading && !isInErrorState" class="left-panel">
+
+    <div class="left-panel">
       <kypo2-viz-overview-table
         [trainingDefinitionId]="trainingDefinitionId"
         [standalone]="true"
@@ -24,7 +20,7 @@
 
       </kypo2-viz-overview-timeline>
     </div>
-    <div *ngIf="!isLoading && !isInErrorState" class="middle-panel">
+    <div class="middle-panel">
       <kypo2-viz-overview-clustering
         [size]="vizSize"
         [feedbackLearnerId]="activeUserUco"
@@ -32,7 +28,7 @@
         [trainingInstanceId]="trainingInstanceId">
       </kypo2-viz-overview-clustering>
     </div>
-    <div *ngIf="!isLoading && !isInErrorState" class="right-panel">
+    <div class="right-panel">
     </div>
   </div>
 </div>

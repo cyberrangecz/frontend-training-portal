@@ -43,7 +43,7 @@ export class TrainingInstanceFacade {
    * Retrieves all training instances
    * @returns {Observable<TrainingInstance[]>} Observable of training instances list
    */
-  getTrainingInstances(): Observable<TrainingInstance[]> {
+  getAll(): Observable<TrainingInstance[]> {
     return this.http.get<TrainingInstanceRestResource>(this.trainingInstancesEndpointUri)
       .pipe(map(response =>
         this.trainingInstanceMapper.mapTrainingInstanceDTOsToTrainingInstances(response)));
@@ -52,7 +52,7 @@ export class TrainingInstanceFacade {
   /**
    * Retrieves all training instance on specified page of a pagination
    */
-  getTrainingInstancesPaginated(pagination: TablePagination): Observable<PaginatedTable<TrainingInstanceTableRow[]>> {
+  getPaginated(pagination: TablePagination): Observable<PaginatedTable<TrainingInstanceTableRow[]>> {
     return this.http.get<TrainingInstanceRestResource>(this.trainingInstancesEndpointUri,
       { params: PaginationParams.createTrainingsPaginationParams(pagination) })
       .pipe(map(response =>
@@ -64,22 +64,13 @@ export class TrainingInstanceFacade {
    * @param {number} id of the training distance
    * @returns {Observable<TrainingInstance>} Observable of training instance, null if no such training instance is found
    */
-  getTrainingInstanceById(id: number): Observable<TrainingInstance> {
+  getById(id: number): Observable<TrainingInstance> {
     return this.http.get<TrainingInstanceDTO>(this.trainingInstancesEndpointUri + id)
       .pipe(map(response =>
         this.trainingInstanceMapper.mapTrainingInstanceDTOToTrainingInstance(response)));
   }
 
-
-  exists(id: number): Observable<boolean> {
-    return this.http.get(this.trainingInstancesEndpointUri + id)
-      .pipe(
-        map(response => true),
-        catchError(err => of(false))
-      );
-  }
-
-  getTrainingRunsByTrainingInstanceId(trainingInstanceId: number, isActive = true): Observable<TrainingRun[]> {
+  getAssociatedTrainingRuns(trainingInstanceId: number, isActive = true): Observable<TrainingRun[]> {
     const params = new HttpParams().set('isActive', isActive.toString());
     return this.http.get<TrainingRunRestResource>(`${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.trainingRunsUriExtension}`)
       .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
@@ -91,7 +82,7 @@ export class TrainingInstanceFacade {
   }
 
 
-  getTrainingRunsByTrainingInstanceIdPaginated(trainingInstanceId: number, pagination: TablePagination, isActive = true)
+  getAssociatedTrainingRunsPaginated(trainingInstanceId: number, pagination: TablePagination, isActive = true)
       : Observable<PaginatedTable<TrainingRunTableRow[]>> {
       let params = PaginationParams.createTrainingsPaginationParams(pagination);
       params = params.append('isActive', isActive.toString());
@@ -105,7 +96,7 @@ export class TrainingInstanceFacade {
    * Sends request to create new training instance in DB and returns id of the created training instance
    * @param {TrainingInstance} trainingInstance training instance which should be created
    */
-  createTrainingInstance(trainingInstance: TrainingInstance): Observable<TrainingInstance> {
+  create(trainingInstance: TrainingInstance): Observable<TrainingInstance> {
     return this.http.post<TrainingInstanceDTO>(this.trainingInstancesEndpointUri,
       this.trainingInstanceMapper.mapTrainingInstanceToTrainingInstanceCreateDTO(trainingInstance))
       .pipe(map(trainingInstanceDTO =>
@@ -116,7 +107,7 @@ export class TrainingInstanceFacade {
    * Sends request to update training instance in DB
    * @param trainingInstance training instance which should be updated
    */
-  updateTrainingInstance(trainingInstance: TrainingInstance): Observable<string> {
+  update(trainingInstance: TrainingInstance): Observable<string> {
     return this.http.put(this.trainingInstancesEndpointUri,
       this.trainingInstanceMapper.mapTrainingInstanceToTrainingInstanceUpdateDTO(trainingInstance),
       { responseType: 'text'});
@@ -126,7 +117,7 @@ export class TrainingInstanceFacade {
    * Sends request to delete training instance from DB
    * @param trainingInstanceId id of training instance which should be deleted
    */
-  deleteTrainingInstance(trainingInstanceId: number): Observable<any> {
+  delete(trainingInstanceId: number): Observable<any> {
     return this.http.delete<any>(this.trainingInstancesEndpointUri + trainingInstanceId);
   }
 
@@ -134,7 +125,7 @@ export class TrainingInstanceFacade {
    * Downloads training instance
    * @param id id of training instance which should be downloaded
    */
-  downloadTrainingInstance(id: number): Observable<boolean> {
+  download(id: number): Observable<boolean> {
     const headers = new HttpHeaders();
     headers.set('Accept', [
       'application/octet-stream'

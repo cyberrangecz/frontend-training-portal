@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {HomeComponent} from './home.component';
-import {HomelRoutingModule} from './homel-routing.module';
+import {HomeRoutingModule} from './home-routing.module';
 import {HomeMaterialModule} from './home-material.module';
 
 /**
@@ -10,7 +10,7 @@ import {HomeMaterialModule} from './home-material.module';
 @NgModule({
   imports: [
     CommonModule,
-    HomelRoutingModule,
+    HomeRoutingModule,
     HomeMaterialModule
   ],
   declarations: [

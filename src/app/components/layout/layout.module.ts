@@ -11,6 +11,8 @@ import {UserIdModule} from '../shared/user-id.module';
 import { TreeNavigationComponent } from './tree-navigation/tree-navigation.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
+import { BreadcrumbsPresentationalComponent } from './breadcrumbs/breadcrumbs-presentational/breadcrumbs-presentational.component';
+import {BreadcrumbBuilderService} from '../../services/breadcrumbs/breadcrumb-builder.service';
 
 /**
  * Module container for all layout related components
@@ -30,6 +32,7 @@ import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
     TreeNavigationComponent,
     UserMenuComponent,
     BreadcrumbsComponent,
+    BreadcrumbsPresentationalComponent,
   ],
   exports: [
     ToolbarComponent,
@@ -37,6 +40,9 @@ import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
     SidenavComponent,
     MatSidenavModule,
   ],
+  providers: [
+    BreadcrumbBuilderService
+  ]
 })
 
 export class LayoutModule {

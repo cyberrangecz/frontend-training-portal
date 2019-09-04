@@ -6,6 +6,7 @@ const routes: Routes = [
   {
     path: 'sandbox-instance',
     component: SandboxInstanceOverviewComponent,
+    data: {breadcrumb: null}
   },
   {
     path: 'sandbox-instance/:id',

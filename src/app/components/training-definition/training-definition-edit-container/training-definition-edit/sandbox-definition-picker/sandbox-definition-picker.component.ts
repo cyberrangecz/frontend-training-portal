@@ -26,7 +26,7 @@ export class SandboxDefinitionPickerComponent extends BaseComponent implements O
   }
 
   ngOnInit() {
-    this.sandboxDefinitionFacade.getSandboxDefinitions()
+    this.sandboxDefinitionFacade.getAll()
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(sandboxes => {
         this.sandboxDefs = sandboxes;

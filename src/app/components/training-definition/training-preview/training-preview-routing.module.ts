@@ -1,13 +1,17 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {TrainingPreviewComponent} from './training-preview.component';
-import {TrainingDefinitionAccessGuard} from '../../../services/guards/training-definition-access-guard.service';
+import {TrainingDefinitionResolver} from '../../../services/resolvers/training-definition-resolver.service';
+import {TrainingDefinitionBreadcrumbResolver} from '../../../services/resolvers/training-definition-breadcrumb-resolver.service';
 
 const routes: Routes = [
   {
     path: '',
     component: TrainingPreviewComponent,
-    canActivate: [TrainingDefinitionAccessGuard]
+    resolve: {
+      trainingDefinition: TrainingDefinitionResolver,
+      breadcrumb: TrainingDefinitionBreadcrumbResolver
+    }
   }
 ];
 

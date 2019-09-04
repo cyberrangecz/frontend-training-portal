@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {BREADCRUMB_PARAM_SELECTOR, HOME_PATH} from '../../../paths';
-import {ActivatedRoute, NavigationEnd, PRIMARY_OUTLET, Router} from '@angular/router';
-import {takeWhile} from 'rxjs/operators';
+import {ActivatedRoute, Data, NavigationEnd, PRIMARY_OUTLET, Router} from '@angular/router';
+import {filter, map, switchMap, take, takeWhile, tap} from 'rxjs/operators';
 import {BaseComponent} from '../../base.component';
 import {Breadcrumb} from '../../../model/breadcrumb/breadcrumb';
+import { Observable, of} from 'rxjs';
+import {BreadcrumbBuilderService} from '../../../services/breadcrumbs/breadcrumb-builder.service';
 
 @Component({
   selector: 'kypo2-breadcrumbs',
@@ -11,64 +13,22 @@ import {Breadcrumb} from '../../../model/breadcrumb/breadcrumb';
   styleUrls: ['./breadcrumbs.component.css']
 })
 /**
- *  Displays breadcrumbs built from routes data
- *  Only routes with data containing breadcrumb attribute are taken into considerations
- *  EXAMPLE:
- *    {
- *   path:
- *   loadChildren:
- *   data: { breadcrumb: 'My page' }
- *  },
+ * Builds and displays breadcrumbs on every change of navigation
  */
 export class BreadcrumbsComponent extends BaseComponent implements OnInit {
-  breadcrumbs: Breadcrumb[] = [];
-  HOME_PATH = HOME_PATH;
+  breadcrumbs$: Observable<Breadcrumb[]> = of([]);
 
   constructor(private router: Router,
-              private activeRoute: ActivatedRoute) {
+              private activeRoute: ActivatedRoute,
+              private breadcrumbBuilder: BreadcrumbBuilderService ) {
     super();
-    this.subscribeNavigationEvents();
   }
 
   ngOnInit() {
-  }
-
-  private subscribeNavigationEvents() {
-    this.router.events
+    this.breadcrumbs$ = this.router.events
       .pipe(
-        takeWhile(_ => this.isAlive)
-      )
-      .subscribe(event => {
-        if (event instanceof NavigationEnd) {
-          this.buildBreadcrumbs();
-        }
-      });
-  }
-
-  private buildBreadcrumbs() {
-    this.breadcrumbs = [];
-    let currentRoute = this.activeRoute.root;
-    let url = '';
-    while (currentRoute.children.length > 0) {
-      currentRoute.children.forEach(route => {
-        currentRoute = route;
-        if (route.outlet !== PRIMARY_OUTLET) {
-          return;
-        }
-        if (this.hasLabel(route)) {
-          const routeURL: string = route.snapshot.url.map(segment => segment.path).join('/');
-          url += `/${routeURL}`;
-
-          this.breadcrumbs.push(new Breadcrumb(
-            route.routeConfig.data[BREADCRUMB_PARAM_SELECTOR],
-            url
-          ));
-        }
-      });
-    }
-  }
-
-  private hasLabel(route: ActivatedRoute): boolean {
-    return route.routeConfig && route.routeConfig.data && route.routeConfig.data[BREADCRUMB_PARAM_SELECTOR];
+        filter(event => event instanceof NavigationEnd),
+        switchMap(_ => this.breadcrumbBuilder.build(this.activeRoute)),
+      );
   }
 }

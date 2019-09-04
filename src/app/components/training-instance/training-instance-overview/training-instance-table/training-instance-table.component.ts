@@ -131,7 +131,7 @@ export class TrainingInstanceTableComponent extends BaseComponent implements OnI
    * @param {number} id
    */
   archiveTraining(id: number) {
-    this.trainingInstanceFacade.downloadTrainingInstance(id)
+    this.trainingInstanceFacade.download(id)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         resp => {
@@ -215,7 +215,7 @@ export class TrainingInstanceTableComponent extends BaseComponent implements OnI
         startWith({}),
         switchMap(() => {
           timeoutHandle =  window.setTimeout(() => this.isLoadingResults = true, environment.defaultDelayToDisplayLoading);
-          return this.trainingInstanceFacade.getTrainingInstancesPaginated({
+          return this.trainingInstanceFacade.getPaginated({
             page: this.paginator.pageIndex,
             size: this.paginator.pageSize,
             sort: this.sort.active,
@@ -292,7 +292,7 @@ export class TrainingInstanceTableComponent extends BaseComponent implements OnI
 
 
   private sendRequestToDeleteTrainingInstance(trainingInstanceId: number) {
-    this.trainingInstanceFacade.deleteTrainingInstance(trainingInstanceId)
+    this.trainingInstanceFacade.delete(trainingInstanceId)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(response => {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Training instance was successfully deleted.');

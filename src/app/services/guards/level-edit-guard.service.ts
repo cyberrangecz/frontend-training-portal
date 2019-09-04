@@ -25,7 +25,7 @@ export class LevelEditGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.trainingDefinitionFacade.getTrainingDefinitionById(Number(route.paramMap.get('id')), true)
+    return this.trainingDefinitionFacade.getById(Number(route.paramMap.get('id')), true)
       .pipe(
         map(td => {
           if (state.url.endsWith(ADD_LEVEL_PATH) && td.hasLevels()) {

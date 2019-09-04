@@ -138,7 +138,7 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
         startWith({}),
         switchMap(() => {
           timeoutHandle =  window.setTimeout(() => this.isLoadingResults = true, environment.defaultDelayToDisplayLoading);
-          return this.sandboxDefinitionFacade.getSandboxDefinitions();
+          return this.sandboxDefinitionFacade.getAll();
         }),
         map(data => {
           window.clearTimeout(timeoutHandle);
@@ -164,7 +164,7 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
     const result: SandboxDefinitionTableRow[] = [];
     data.forEach(sandbox => {
       const tableDataObject = new SandboxDefinitionTableRow(sandbox);
-      this.trainingDefinitionFacade.getTrainingDefinitionsAssociatedWithSandboxDefinition(sandbox.id)
+      this.trainingDefinitionFacade.getByAssociatedSandboxDefinition(sandbox.id)
         .pipe(takeWhile(() => this.isAlive))
         .subscribe(result => {
           tableDataObject.associatedTrainingDefinitions = result;
@@ -194,7 +194,7 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
   }
 
   private sendRequestToDeleteSandboxDefinition(sandboxId: number) {
-    this.sandboxDefinitionFacade.deleteSandboxDefinition(sandboxId)
+    this.sandboxDefinitionFacade.delete(sandboxId)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(resp => {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox was successfully deleted.');

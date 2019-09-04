@@ -44,7 +44,7 @@ export class SandboxInstanceFacade {
    * @param trainingInstanceId
    * @param count
    */
-  allocateSandboxes(trainingInstanceId: number, count: number = 0): Observable<any> {
+  allocate(trainingInstanceId: number, count: number = 0): Observable<any> {
     let params = new HttpParams();
     if (count > 0) {
       params = new HttpParams().set('count', count.toString());
@@ -58,12 +58,12 @@ export class SandboxInstanceFacade {
       .pipe(
         concatMap(poolId => {
           trainingInstance.poolId = poolId;
-          return this.allocateSandboxes(trainingInstance.id, count);
+          return this.allocate(trainingInstance.id, count);
         }),
         map(resp => trainingInstance.poolId));
   }
 
-  deleteSandbox(trainingInstanceId: number, sandboxId: number): Observable<any> {
+  delete(trainingInstanceId: number, sandboxId: number): Observable<any> {
     return this.http.delete(`${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.sandboxInstancesUriExtension}`,
       {
         params: {sandboxIds: sandboxId.toString()}
@@ -71,7 +71,7 @@ export class SandboxInstanceFacade {
     );
   }
 
-  deleteSandboxes(trainingInstanceId: number, sandboxIds: [number]): Observable<any> {
+  deleteMultiple(trainingInstanceId: number, sandboxIds: [number]): Observable<any> {
     return this.http.delete(`${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.sandboxInstancesUriExtension}`,
       {
         params: {sandboxIds: sandboxIds.toString()}

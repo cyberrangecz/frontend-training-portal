@@ -133,7 +133,7 @@ export class TrainingDefinitionTableComponent extends BaseComponent implements O
    * @param {number} id id of training definition which should be downloaded
    */
   downloadTrainingDefinition(id: number) {
-    this.trainingDefinitionFacade.downloadTrainingDefinition(id)
+    this.trainingDefinitionFacade.download(id)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(resp => {},
         err => {
@@ -206,7 +206,7 @@ export class TrainingDefinitionTableComponent extends BaseComponent implements O
         startWith({}),
         switchMap(() => {
           timeoutHandle =  window.setTimeout(() => this.isLoadingResults = true, environment.defaultDelayToDisplayLoading);
-          return this.trainingDefinitionFacade.getTrainingDefinitionsPaginated({
+          return this.trainingDefinitionFacade.getAllPaginated({
             page: this.paginator.pageIndex,
             size: this.paginator.pageSize,
             sort: this.sort.active,
@@ -239,7 +239,7 @@ export class TrainingDefinitionTableComponent extends BaseComponent implements O
 
   private sendChangeTrainingDefinitionStateRequest(row: TrainingDefinitionTableRow) {
     row.isLoadingStateChange = true;
-    this.trainingDefinitionFacade.changeTrainingDefinitionState(row.selectedState, row.trainingDefinition.id)
+    this.trainingDefinitionFacade.changeState(row.selectedState, row.trainingDefinition.id)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         resp => this.onTrainingDefinitionStateChangeConfirmedByServer(row),
@@ -260,7 +260,7 @@ export class TrainingDefinitionTableComponent extends BaseComponent implements O
   }
 
   private sendRequestToCloneTrainingDefinition(id: number, title: string) {
-    this.trainingDefinitionFacade.cloneTrainingDefinition(id, title)
+    this.trainingDefinitionFacade.clone(id, title)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(response => {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully cloned.');
@@ -284,7 +284,7 @@ export class TrainingDefinitionTableComponent extends BaseComponent implements O
   }
 
   private sendRequestToDeleteTrainingDefinition(id: number) {
-    this.trainingDefinitionFacade.deleteTrainingDefinition(id)
+    this.trainingDefinitionFacade.delete(id)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(resp => {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Training definition was successfully deleted');

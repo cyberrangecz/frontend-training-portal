@@ -1,0 +1,12 @@
+<div class="content">
+  <div class="home-breadcrumb">
+    <a mat-icon-button [routerLink]="HOME_PATH"><mat-icon>home</mat-icon></a>
+    <button *ngIf="breadcrumbs?.length > 0" disableRipple="true" mat-icon-button><mat-icon>chevron_right</mat-icon></button>
+  </div>
+  <div *ngFor="let breadcrumb of breadcrumbs; index as i">
+    <div class="breadcrumb">
+      <a mat-button [routerLink]="breadcrumb?.url">{{ breadcrumb?.label }}</a>
+      <button mat-icon-button *ngIf="i < breadcrumbs?.length - 1" disableRipple="true"><mat-icon>chevron_right</mat-icon></button>
+    </div>
+  </div>
+</div>

@@ -56,7 +56,7 @@ export class AccessTrainingRunComponent extends BaseComponent implements OnInit 
   private sendRequestToAccessTrainingRun() {
     this.isLoading = true;
     const accessToken = this.accessTokenPrefix.value + '-' + this.accessTokenPin.value;
-    this.trainingRunFacade.accessTrainingRun(accessToken)
+    this.trainingRunFacade.access(accessToken)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(trainingRunInfo => {
           this.isLoading = false;
@@ -70,11 +70,11 @@ export class AccessTrainingRunComponent extends BaseComponent implements OnInit 
 }
 
   onPaste(event: ClipboardEvent) {
-    let pastedText = event.clipboardData.getData('text');
+    const pastedText = event.clipboardData.getData('text');
     if (pastedText.includes('-')) {
       event.preventDefault();
-      this.accessTokenPrefix.setValue(pastedText.slice(0,pastedText.indexOf('-')).trim());
-      this.accessTokenPin.setValue(pastedText.slice(pastedText.indexOf('-') + 1,pastedText.length).trim());
+      this.accessTokenPrefix.setValue(pastedText.slice(0, pastedText.indexOf('-')).trim());
+      this.accessTokenPin.setValue(pastedText.slice(pastedText.indexOf('-') + 1, pastedText.length).trim());
       this.traineeAccessTrainingFormGroup.formGroup.updateValueAndValidity();
       this.accessTokenPin.markAsTouched();
       this.accessTokenPrefix.markAsTouched();

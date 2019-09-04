@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
-import {TrainingInstanceFacade} from '../facades/training-instance-facade.service';
 import {Observable} from 'rxjs';
 
 @Injectable()
@@ -9,13 +8,13 @@ import {Observable} from 'rxjs';
  */
 export class TrainingInstanceGuard implements CanActivate {
 
-  constructor(private trainingInstanceFacade: TrainingInstanceFacade) {
+  constructor() {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     if (route.paramMap.has('id')) {
       const id = Number(route.paramMap.get('id'));
-      return this.trainingInstanceFacade.exists(id);
+      return !isNaN(id);
     }
     return false;
   }

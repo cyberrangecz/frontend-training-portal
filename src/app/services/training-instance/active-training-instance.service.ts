@@ -19,7 +19,7 @@ export class ActiveTrainingInstanceService {
    */
   onActiveTrainingChanged: Observable<number> = this._onActiveTrainingChangedSubject.asObservable();
 
-  getActiveTrainingInstance(): TrainingInstance {
+  get(): TrainingInstance {
     return this._activeInstance;
   }
 

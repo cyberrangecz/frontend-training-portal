@@ -3,12 +3,9 @@
   display: flex;
   flex-direction: column;
   text-align: center;
-  height: 90%;
 }
 
 .content {
-  width: 100%;
-  height: 60%;
   display: flex;
   flex-direction: column;
   align-self: center;
@@ -28,7 +25,6 @@ h2 {
 }
 
 h1.access-token {
-  margin: auto auto;
   font-weight: bolder;
   color: #3f51b5;
   font-size: 8vw;

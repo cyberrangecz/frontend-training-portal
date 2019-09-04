@@ -5,7 +5,8 @@ import {AdminUserOverviewComponent} from './admin-user-overview/admin-user-overv
 export const ADMIN_ROUTES: Routes = [
   {
     path: '',
-    component: AdminUserOverviewComponent
+    component: AdminUserOverviewComponent,
+    data: {breadcrumb: null}
   }
 ];
 @NgModule({

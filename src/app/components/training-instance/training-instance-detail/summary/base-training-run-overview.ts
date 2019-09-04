@@ -52,6 +52,6 @@ export abstract class BaseTrainingRunOverview extends BaseComponent implements O
     }
   }
   private loadActiveTraining() {
-    this.trainingInstance = this.activeTrainingInstanceService.getActiveTrainingInstance();
+    this.trainingInstance = this.activeTrainingInstanceService.get();
   }
 }

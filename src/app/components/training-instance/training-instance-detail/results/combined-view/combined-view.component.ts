@@ -34,7 +34,7 @@ export class CombinedViewComponent extends BaseComponent implements OnInit {
   }
 
   private getIdsForVisualization() {
-    const activeTrainingInstance = this.activeTrainingInstanceService.getActiveTrainingInstance();
+    const activeTrainingInstance = this.activeTrainingInstanceService.get();
     if (activeTrainingInstance) {
       this.trainingInstanceId = activeTrainingInstance.id;
       this.trainingDefinitionId = activeTrainingInstance.trainingDefinition.id;

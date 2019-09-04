@@ -6,8 +6,6 @@ import {LevelOverviewRoutingModule} from './level-overview-routing.module';
 import {LevelEditModule} from './level-edit/level-edit.module';
 import {TrainingLevelStepperComponent} from './training-level-stepper/training-level-stepper.component';
 import {UnsavedChangesDialogComponent} from '../../shared/unsaved-changes-dialog/unsaved-changes-dialog.component';
-import {TrainingDefinitionLeaveGuard} from '../../../services/guards/training-definition-leave-guard.service';
-import {TrainingDefinitionAccessGuard} from '../../../services/guards/training-definition-access-guard.service';
 import {LevelEditService} from '../../../services/training-definition/level-edit.service';
 import {SharedModule} from '../../shared/shared.module';
 import { LevelOverviewComponent } from './level-overview/level-overview.component';
@@ -33,8 +31,6 @@ import {LevelEditLeaveGuard} from '../../../services/guards/level-edit-leave-gua
     LevelControlsComponent,
   ],
   providers: [
-    TrainingDefinitionLeaveGuard,
-    TrainingDefinitionAccessGuard,
     LevelEditService,
     LevelEditGuard,
     LevelEditLeaveGuard

@@ -51,7 +51,7 @@ export class TrainingDefinitionUploadDialogComponent extends BaseComponent imple
 
   private uploadTrainingDefinition() {
     this.uploadInProgress = true;
-    this.trainingDefinitionFacade.uploadTrainingDefinition(this.selectedFile)
+    this.trainingDefinitionFacade.upload(this.selectedFile)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         resp => this.uploadSuccess('Training definition was successfully uploaded.'),

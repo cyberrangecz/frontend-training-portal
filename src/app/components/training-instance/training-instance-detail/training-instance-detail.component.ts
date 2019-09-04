@@ -19,8 +19,8 @@ export class TrainingInstanceDetailComponent extends BaseComponent implements On
   navLinks = [];
 
   constructor(private route: ActivatedRoute,
-              private activeTrainingService: ActiveTrainingInstanceService,
-              private trainingInstanceFacade: TrainingInstanceFacade) {
+              private trainingInstanceFacade: TrainingInstanceFacade,
+              private activeTrainingService: ActiveTrainingInstanceService) {
     super();
   }
 
@@ -32,23 +32,18 @@ export class TrainingInstanceDetailComponent extends BaseComponent implements On
    * Gets id of training instance from url and sets it as active for child components
    */
   private setActiveTrainingInstanceFromUrl() {
-    const snapshot = this.route.snapshot;
-    const id = +snapshot.paramMap.get('id');
-    if (!isNaN(id)) {
-      this.trainingInstanceFacade.getTrainingInstanceById(id)
-        .pipe(
-          takeWhile(() => this.isAlive),
-          tap(training => this.activeTrainingService.setActiveTrainingInstance(training))
-        )
-        .subscribe(training => this.createTabs());
-    }
+    this.route.data.pipe(
+      map(data => data.trainingInstance),
+      takeWhile(() => this.isAlive),
+      )
+      .subscribe(training => this.createTabs());
   }
 
   private createTabs() {
     const hasStarted = this.activeTrainingService.hasStarted();
     let isDisabled;
     if (hasStarted) {
-      isDisabled = this.trainingInstanceFacade.hasTrainingRuns(this.activeTrainingService.getActiveTrainingInstance().id).pipe(map(res => !res));
+      isDisabled = this.trainingInstanceFacade.hasTrainingRuns(this.activeTrainingService.get().id).pipe(map(res => !res));
     } else {
       isDisabled = of(true);
     }

@@ -35,7 +35,7 @@ export class AddSandboxDefinitionDialogComponent extends BaseComponent implement
 
   add() {
     if (this.sandboxDefinitionFormGroup.formGroup.valid) {
-      this.sandboxDefinitionFacade.addSandboxDefinition(this.gitlabUrl.value, this.revision.value)
+      this.sandboxDefinitionFacade.add(this.gitlabUrl.value, this.revision.value)
         .pipe(takeWhile(() => this.isAlive))
         .subscribe(
           result => this.dialogRef.close({ type: 'success' }),
