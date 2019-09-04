@@ -1,10 +1,8 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {Hint} from '../../../../../../../model/level/hint';
-import {AlertTypeEnum} from '../../../../../../../model/enums/alert-type.enum';
-import {AlertService} from '../../../../../../../services/shared/alert.service';
-import {BaseComponent} from '../../../../../../base.component';
 import { HintConfigurationFormGroup } from './hint-configuration-form-group';
 import { Validators } from '@angular/forms';
+import {BaseComponent} from '../../../../../../base.component';
+import {Hint} from '../../../../../../../model/level/hint';
 
 @Component({
   selector: 'kypo2-hint-edit',
@@ -16,29 +14,29 @@ import { Validators } from '@angular/forms';
  */
 export class HintDetailEditComponent extends BaseComponent implements OnInit, OnChanges {
 
-  @Input('hint') hint: Hint;
-  @Input('levelMaxScore') levelMaxScore: number;
-  @Input('initHintPenaltySum') initHintPenaltySum: number;
-  @Input('order') order: number;
-  @Input('disabled') disabled: boolean;
+  @Input() hint: Hint;
+  @Input() levelMaxScore: number;
+  @Input() initHintPenaltySum: number;
+  @Input() order: number;
+  @Input() disabled: boolean;
 
-  @Output('hint') hintChange = new EventEmitter();
-  @Output('penaltyChange') penaltyChange = new EventEmitter<number>();
-  @Output('validity') validityChange = new EventEmitter();
-  @Output('deleteHint') deleteHint = new EventEmitter<Hint>();
+  @Output() hintChange = new EventEmitter();
+  @Output() penaltyChange = new EventEmitter<number>();
+  @Output() validityChange = new EventEmitter();
+  @Output() deleteHint = new EventEmitter<Hint>();
 
   maxHintPenalty: number;
   valid: boolean;
   hintConfigurationFormGroup: HintConfigurationFormGroup;
-  constructor(private alertService: AlertService) {
+  constructor() {
     super();
   }
 
   ngOnInit() {}
 
-  get title() {return this.hintConfigurationFormGroup.formGroup.get('title');}
-  get content() {return this.hintConfigurationFormGroup.formGroup.get('content');}
-  get hintPenalty() {return this.hintConfigurationFormGroup.formGroup.get('hintPenalty');}
+  get title() {return this.hintConfigurationFormGroup.formGroup.get('title'); }
+  get content() {return this.hintConfigurationFormGroup.formGroup.get('content'); }
+  get hintPenalty() {return this.hintConfigurationFormGroup.formGroup.get('hintPenalty'); }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!this.hintConfigurationFormGroup) {
@@ -71,6 +69,7 @@ export class HintDetailEditComponent extends BaseComponent implements OnInit, On
    * Reacts on changes in hint penalty input
    */
   onPenaltyChanged() {
+    this.hint.hintPenalty = this.hintPenalty.value;
     this.penaltyChange.emit();
   }
 
@@ -78,8 +77,7 @@ export class HintDetailEditComponent extends BaseComponent implements OnInit, On
    * Calculates maximal value of hint penalty (sum of all hint penalties must be lower then level max score)
    */
   calculateMaxHintPenalty(hintsPenaltySum: number) {
-    this.maxHintPenalty =
-      this.levelMaxScore - (hintsPenaltySum - this.hintPenalty.value);
+    this.maxHintPenalty = this.levelMaxScore - (hintsPenaltySum - this.hint.hintPenalty);
   }
 
   /**
@@ -90,13 +88,16 @@ export class HintDetailEditComponent extends BaseComponent implements OnInit, On
   }
 
   hintChanged() {
+    this.hint.title = this.title.value;
     this.hintConfigurationFormGroup.formGroup.markAsDirty();
-    this.hintChange.emit(this.hint);
     this.updateValidity();
+    this.calculateInitialMaxHintPenalty();
+    this.hintChange.emit(this.hint);
   }
 
   setContentValue(event) {
     this.content.setValue(event);
+    this.hint.content = event;
   }
 
   /**
@@ -121,12 +122,13 @@ export class HintDetailEditComponent extends BaseComponent implements OnInit, On
 
   private calculateInitialMaxHintPenalty() {
     this.maxHintPenalty =
-      this.levelMaxScore - (this.initHintPenaltySum - this.hintPenalty.value);
+      this.levelMaxScore - (this.initHintPenaltySum - this.hint.hintPenalty);
     this.hintPenalty.setValidators([Validators.required, Validators.min(0), Validators.max(this.maxHintPenalty)]);
   }
 
   updateValidity() {
     this.valid = this.hintConfigurationFormGroup.formGroup.valid;
+    this.hint.isValid = this.valid;
     this.validityChange.emit();
   }
 

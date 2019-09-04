@@ -32,8 +32,8 @@ export class LevelOverviewComponent implements OnInit {
   ngOnInit() {
     this.trainingDefinition$ = this.activeRoute.data
       .pipe(
-        map(data =>
-          data.trainingDefinition)
+        tap(data => console.log(data)),
+        map(data => data.trainingDefinition)
       );
     this.activeStep$ = this.resolveActiveStep();
   }
@@ -80,7 +80,8 @@ export class LevelOverviewComponent implements OnInit {
         switchMap(levelId => this.trainingDefinition$
           .pipe(
             map(td =>
-              td.levels.findIndex(level => level.id === levelId))
+             td ? td.levels.findIndex(level => level.id === levelId) : -1
+            )
           )
         )
       );
@@ -89,7 +90,7 @@ export class LevelOverviewComponent implements OnInit {
   private resolveActiveLevelId(): Observable<number> {
     const firstLevelId = this.trainingDefinition$
       .pipe(
-        map(td => td.levels.length > 0 ? td.levels[0].id : -1));
+        map(td => td && td.levels.length > 0 ? td.levels[0].id : -1));
 
     const routeId = this.activeRoute.paramMap
       .pipe(

@@ -1,12 +1,7 @@
-/deep/.mat-horizontal-stepper-header-container {
-  max-width: 100%;
-  overflow-x: auto;
-}
-
-mat-horizontal-stepper {
+.hint-stepper {
   border: 1px solid gainsboro;
+  padding: 5px 20px 40px;
 }
-
 .step-content {
   padding-top: 20px;
 }
@@ -21,7 +16,6 @@ mat-horizontal-stepper {
 mat-divider {
   position: relative!important;
 }
-
 
 h3 {
   margin: 0;

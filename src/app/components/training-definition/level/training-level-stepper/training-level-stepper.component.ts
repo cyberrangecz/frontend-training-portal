@@ -38,8 +38,7 @@ export class TrainingLevelStepperComponent extends BaseComponent implements OnIn
   @Output() activeLevelChanged: EventEmitter<number> = new EventEmitter();
 
   levels: AbstractLevel[];
-  isLoading = true;
-  isWaitingOnServerResponse = true;
+  isLoading = false;
   selectedStep = 0;
 
   constructor(public dialog: MatDialog,
@@ -90,7 +89,6 @@ export class TrainingLevelStepperComponent extends BaseComponent implements OnIn
    * Creates new info level with default values
    */
   addInfoLevel() {
-    this.isWaitingOnServerResponse = true;
     this.trainingDefinitionFacade.createInfoLevel(this.trainingDefinition.id)
       .pipe(
         takeWhile(() => this.isAlive),
@@ -108,7 +106,6 @@ export class TrainingLevelStepperComponent extends BaseComponent implements OnIn
    * Creates new game level with default values
    */
   addGameLevel() {
-    this.isWaitingOnServerResponse = true;
     this.trainingDefinitionFacade.createGameLevel(this.trainingDefinition.id)
       .pipe(
         takeWhile(() => this.isAlive),
@@ -126,7 +123,6 @@ export class TrainingLevelStepperComponent extends BaseComponent implements OnIn
    * Creates new assessment level with default values
    */
   addAssessmentLevel() {
-    this.isWaitingOnServerResponse = true;
     this.trainingDefinitionFacade.createAssessmentLevel(this.trainingDefinition.id)
       .pipe(
         takeWhile(() => this.isAlive),
@@ -208,20 +204,15 @@ export class TrainingLevelStepperComponent extends BaseComponent implements OnIn
   }
 
   private sendDeleteLevelRequest(levelToDelete: AbstractLevel) {
-    this.isWaitingOnServerResponse = true;
     this.trainingDefinitionFacade.deleteLevel(this.trainingDefinition.id, levelToDelete.id)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(updatedLevels => {
           this.alertService.emitAlert(AlertTypeEnum.Success , 'Level "' + levelToDelete.title + '" was successfully deleted');
           this.levels = this.levels.filter(level => level.id !== levelToDelete.id);
           this.navigateToPreviousLevel();
-          this.isWaitingOnServerResponse = false;
-
         },
         err => {
           this.errorHandler.displayInAlert(err, 'Deleting level "' + levelToDelete.title + '"');
-          this.isWaitingOnServerResponse = false;
-
         });
   }
 
@@ -242,7 +233,6 @@ export class TrainingLevelStepperComponent extends BaseComponent implements OnIn
       this.levels = [];
     }
     this.isLoading = false;
-    this.isWaitingOnServerResponse = false;
   }
 
   private findLevel(levels: AbstractLevel[], levelId): AbstractLevel {
@@ -250,7 +240,6 @@ export class TrainingLevelStepperComponent extends BaseComponent implements OnIn
   }
 
   private onLevelAdded(level: AbstractLevel) {
-    this.isWaitingOnServerResponse = false;
     this.levels.push(level);
     this.navigateToLastLevel();
   }

@@ -20,9 +20,9 @@ import { GameLevelEditFormGroup } from './game-level-edit-form-group';
  */
 export class GameLevelEditComponent extends BaseComponent
   implements OnInit, OnChanges {
-  @Input('level') level: GameLevel;
-  @Input('trainingDefinitionId') trainingDefinitionId: number;
-  @Output('deleteLevel') deleteLevel: EventEmitter<number> = new EventEmitter();
+  @Input() level: GameLevel;
+  @Input() trainingDefinitionId: number;
+  @Output() deleteLevel: EventEmitter<number> = new EventEmitter();
 
   @ViewChild(HintStepperComponent, { static: false })
   childComponent: HintStepperComponent;
@@ -94,6 +94,10 @@ export class GameLevelEditComponent extends BaseComponent
    */
   onContentChanged() {
     this.gameLevelConfigFormGroup.formGroup.markAsDirty();
+  }
+  hintChanged(hints) {
+    this.level.hints = hints;
+    this.onContentChanged();
   }
 
   setContentValue(event) {

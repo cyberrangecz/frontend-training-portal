@@ -18,6 +18,7 @@ import { FormArray, FormControl } from '@angular/forms';
 import {BaseComponent} from '../../../../../../base.component';
 import {Hint} from '../../../../../../../model/level/hint';
 import {ActionConfirmationDialogComponent} from '../../../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
+import {AbstractStepItem, StepperInterface} from 'kypo2-stepper';
 
 @Component({
   selector: 'kypo2-hint-stepper',
@@ -35,11 +36,11 @@ import {ActionConfirmationDialogComponent} from '../../../../../../shared/action
  */
 export class HintStepperComponent extends BaseComponent
   implements OnInit, OnChanges {
-  @Input('hints') hints: Hint[];
-  @Input('levelMaxScore') levelMaxScore: number;
-  @Input('disabled') disabled: boolean;
+  @Input() hints: Hint[];
+  @Input() levelMaxScore: number;
+  @Input() disabled: boolean;
 
-  @Output('hints') hintsChange = new EventEmitter();
+  @Output() hintsChange: EventEmitter<Hint[]> = new EventEmitter();
 
   @ViewChildren(HintDetailEditComponent) hintConfigurationChildren: QueryList<HintDetailEditComponent>;
 
@@ -47,6 +48,10 @@ export class HintStepperComponent extends BaseComponent
   valid: boolean;
   initialPenaltySum: number;
   selectedStep: number;
+  isLoading = false;
+
+  items: AbstractStepItem[] = [];
+  stepperHints: StepperInterface<Hint> = {items: this.items as Hint[], isLocalChange: true, isLoading: this.isLoading};
 
   hintStepperFormGroup: HintStepperFormGroup;
 
@@ -89,18 +94,26 @@ export class HintStepperComponent extends BaseComponent
    * Creates new hint with default values
    */
   addHint() {
+    if (this.stepperHints.items.length >= 1) {
+      this.stepperHints.items[this.selectedStep].isActive = false;
+    }
+
     const hint = new Hint();
     hint.title = 'New hint';
     hint.content = '';
     hint.hintPenalty = 0;
+    hint.isSaved = false;
+    hint.icon = 'help_outline';
+    hint.isActive = true;
+    hint.isValid = false;
+    hint.order = this.stepperHints.items.length;
     this.hintsArray.push(new FormControl(hint));
-    this.hints.push(hint);
+    this.items.push(hint);
+    this.selectedStep = this.stepperHints.items.length - 1;
+
     this.hintStepperFormGroup.formGroup.markAsDirty();
     this.hintsChanged();
     this.validityChanged();
-    // hack to workaround bug in cdkStepper library
-    setTimeout(() => {this.selectedStep = this.hintsArray.length - 1;
-                      this.validityChanged(); }, 1);
   }
 
   /**
@@ -132,10 +145,11 @@ export class HintStepperComponent extends BaseComponent
           const index = this.hintsArray.value.indexOf(hint);
           if (index > -1) {
             this.hintsArray.removeAt(index);
-            this.hints.splice(index, 1);
+            this.stepperHints.items.splice(index, 1);
           }
           this.changeSelectedStepAfterRemoving(index);
           this.hintStepperFormGroup.formGroup.markAsDirty();
+          this.orderUpdate();
           this.hintsChanged();
         }
       });
@@ -146,7 +160,17 @@ export class HintStepperComponent extends BaseComponent
    * @param event event of active level change
    */
   selectionChanged(event) {
-    this.selectedStep = event.selectedIndex;
+    if (event !== this.selectedStep) {
+      this.validityChanged();
+      this.stepperHints.items[this.selectedStep].isActive = false;
+      this.selectedStep = event;
+    }
+  }
+  orderUpdate() {
+    this.stepperHints.items.forEach((hint, index) => {
+      this.stepperHints.items[index].order = index;
+    });
+    this.hintsChanged();
   }
 
   /**
@@ -159,39 +183,70 @@ export class HintStepperComponent extends BaseComponent
     } else {
       this.selectedStep--;
     }
+
+    this.selectionChanged(this.stepperHints.items.length - 1);
+    this.stepperHints.items[this.stepperHints.items.length - 1].isActive = true;
   }
 
+  /**
+   * Actualizes stepper content if any hints are inserted from saved hints
+   */
+  private pushHintsToStepper() {
+    if (this.hints.length > 0) {
+
+      this.hints.forEach(hint => {
+        hint.icon = 'help_outline';
+        hint.isSaved = false;
+        hint.isValid = this.resolveInitialValidity(hint);
+        this.hintsArray.push(new FormControl(hint));
+      });
+
+      this.items = this.hints;
+      this.stepperHints.items = this.items as Hint[];
+      this.stepperHints.items[0].isActive = true;
+      this.selectedStep = 0;
+    }
+  }
   /**
    * Initializes hints if no hints are passed from parents component
    */
   private resolveInitialHints() {
-    if (this.hints) {
-      this.hints.forEach(hint => {
-        this.hintsArray.push(new FormControl(hint));
-      });
+    if (!this.stepperHints.items) {
+      this.stepperHints.items = [];
+    } else {
+      this.pushHintsToStepper();
     }
+  }
+  private resolveInitialValidity(hint: Hint): boolean {
+    return hint.hintPenalty !== null && hint.content !== '' && hint.title !== null;
   }
 
   /**
    * Emits event if new hint is added or saved
    */
-  private hintsChanged() {
-    this.hintsChange.emit(this.hintsArray.value);
+  private hintsChanged(hint: Hint = null) {
+    if (hint) {
+      this.stepperHints.items[this.selectedStep] = hint;
+    }
+    this.validityChanged();
+    this.hintsChange.emit(this.stepperHints.items);
   }
 
-    /**
+  /**
    * Emits event if new hint validity is changed
    */
   validityChanged() {
-    if (this.hintConfigurationChildren && this.hintConfigurationChildren.length != 0) {
-      this.hintConfigurationChildren.forEach((child, index) => {
-        child.valid
-          ? this.hintsArray.at(index).setErrors(null)
-          : this.hintsArray.at(index).setErrors({ required: true });
+    if (this.stepperHints.items && this.stepperHints.items.length !== 0) {
+
+      this.stepperHints.items.forEach((hint, index) => {
+        if (hint.isValid) {
+          this.hintsArray.at(index).setErrors(null);
+          this.stepperHints.items[index].isSaved = true;
+        } else {
+          this.hintsArray.at(index).setErrors({ required: true });
+          this.stepperHints.items[index].isSaved = false;
+        }
       });
-      this.valid = this.hintConfigurationChildren
-        .map(child => child.valid)
-        .reduce((accumulator, hint) => accumulator && hint, true);
     }
   }
 
@@ -214,9 +269,10 @@ export class HintStepperComponent extends BaseComponent
    * Should be used only to calculate the sum AFTER hint components are initialized
    */
   private calculateHintPenaltySum() {
-    const hintsPenaltySum = this.hintConfigurationChildren
-      .map(child => child.hintPenalty.value)
-      .reduce((sum, currentPenalty) => sum + currentPenalty);
+    let hintsPenaltySum = 0;
+    this.stepperHints.items.forEach(hint => {
+      hintsPenaltySum += hint.hintPenalty;
+    });
     this.initialPenaltySum = hintsPenaltySum;
     this.hintConfigurationChildren.forEach(child =>
       child.calculateMaxHintPenalty(hintsPenaltySum)

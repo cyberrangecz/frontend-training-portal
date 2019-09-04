@@ -5,6 +5,7 @@ import {LevelEditGuard} from '../../../services/guards/level-edit-guard.service'
 import {LevelEditLeaveGuard} from '../../../services/guards/level-edit-leave-guard.service';
 import {ADD_LEVEL_PATH} from '../training-definition-overview/paths';
 import {TrainingDefinitionBreadcrumbResolver} from '../../../services/resolvers/training-definition-breadcrumb-resolver.service';
+import {TrainingDefinitionResolver} from '../../../services/resolvers/training-definition-resolver.service';
 
 
 const routes: Routes = [
@@ -14,7 +15,8 @@ const routes: Routes = [
     canActivate: [LevelEditGuard],
     canDeactivate: [LevelEditLeaveGuard],
     resolve: {
-      breadcrumb: TrainingDefinitionBreadcrumbResolver
+      breadcrumb: TrainingDefinitionBreadcrumbResolver,
+      trainingDefinition: TrainingDefinitionResolver
     }
   },
   {
@@ -23,7 +25,8 @@ const routes: Routes = [
     canActivate: [LevelEditGuard],
     canDeactivate: [LevelEditLeaveGuard],
     resolve: {
-      breadcrumb: TrainingDefinitionBreadcrumbResolver
+      breadcrumb: TrainingDefinitionBreadcrumbResolver,
+      trainingDefinition: TrainingDefinitionResolver
     }
   },
   {
