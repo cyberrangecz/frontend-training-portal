@@ -16,6 +16,7 @@ import {TrainingDefinitionOverviewComponent} from './training-definition-overvie
 import { TrainingDefinitionDetailComponent } from './training-definition-table/training-definition-detail/training-definition-detail.component';
 import { TrainingDefinitionDetailPresentationComponent } from './training-definition-table/training-definition-detail/training-definition-detail-presentation/training-definition-detail-presentation.component';
 import { TrainingDefinitionDetailLevelsPresentationComponent } from './training-definition-table/training-definition-detail/training-definition-detail-levels-presentation/training-definition-detail-levels-presentation.component';
+import {SharedDirectivesModule} from '../../../directives/shared-directives.module';
 
 /**
  * Module containing components and services for training definition overview with routing to inner feature modules.
@@ -26,6 +27,7 @@ import { TrainingDefinitionDetailLevelsPresentationComponent } from './training-
     FormsModule,
     ngfModule,
     PipesModule,
+    SharedDirectivesModule,
     TrainingDefinitionOverviewRoutingModule,
     TrainingDefinitionOverviewMaterialModule,
     TrainingDefinitionFacadeModule,
