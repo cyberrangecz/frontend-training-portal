@@ -116,7 +116,8 @@
                 <!-- DOWNLOAD button -->
                 <button mat-icon-button color="primary"
                         matTooltip="Download training definition"
-                        (click)="downloadTrainingDefinition(data.trainingDefinition?.id);$event.stopPropagation();">
+                        throttleClick
+                        (throttledClick)="downloadTrainingDefinition(data.trainingDefinition?.id);$event.stopPropagation();">
                   <mat-icon
                     aria-label="Download training definition button">
                     cloud_download</mat-icon>
