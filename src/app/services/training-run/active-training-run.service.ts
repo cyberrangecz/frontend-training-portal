@@ -4,11 +4,14 @@ import {AbstractLevel} from '../../model/level/abstract-level';
 import {GameLevel} from '../../model/level/game-level';
 import {AssessmentLevel} from '../../model/level/assessment-level';
 import {InfoLevel} from '../../model/level/info-level';
-import {map} from 'rxjs/operators';
+import {map, takeWhile, tap} from 'rxjs/operators';
 import {TrainingRunFacade} from '../facades/training-run-facade.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AccessTrainingRunInfo} from '../../model/training/access-training-run-info';
-import {TRAINING_RUN_RESULTS_PATH} from '../../components/training-run/training-run-overview/paths';
+import {
+  TRAINING_RUN_GAME_PATH,
+  TRAINING_RUN_RESULTS_PATH
+} from '../../components/training-run/training-run-overview/paths';
 import {TRAINING_RUN_PATH} from '../../paths';
 import {ReplaySubject} from 'rxjs';
 
@@ -41,6 +44,14 @@ export class ActiveTrainingRunService {
     this.startTime = trainingRunInfo.startTime;
     this.activeLevels = trainingRunInfo.levels;
     this.setActiveLevel(trainingRunInfo.currentLevel);
+  }
+
+  access(accessToken: string): Observable<number> {
+    return this.trainingRunFacade.access(accessToken)
+      .pipe(
+        tap(trainingRunInfo => this.setUpFromTrainingRun(trainingRunInfo)),
+        map(trainingRunInfo => trainingRunInfo.trainingRunId)
+      );
   }
 
   getLevels(): AbstractLevel[] {

@@ -52,7 +52,7 @@ h1 {
   justify-content: center;
 }
 
-.loading-error {
+.error {
   color: #980000;
   text-align: center;
 }

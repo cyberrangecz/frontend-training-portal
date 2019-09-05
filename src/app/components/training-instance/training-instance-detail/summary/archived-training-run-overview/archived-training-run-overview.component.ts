@@ -15,7 +15,7 @@ import {PaginatedTable} from '../../../../../model/table-adapters/paginated-tabl
 import {TrainingRunFacade} from '../../../../../services/facades/training-run-facade.service';
 import {MatDialog} from '@angular/material';
 import {ActionConfirmationDialogComponent} from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
-import {TablePagination} from '../../../../../model/DTOs/other/table-pagination';
+import {RequestedPagination} from '../../../../../model/DTOs/other/requested-pagination';
 
 @Component({
   selector: 'kypo2-archived-training-run-overview',
@@ -98,7 +98,7 @@ export class ArchivedTrainingRunOverviewComponent extends BaseTrainingRunOvervie
    */
   protected fetchData() {
     let timeoutHandle = 0;
-    const pagination = new TablePagination(this.archivedTrainingRunsPaginator.pageIndex,
+    const pagination = new RequestedPagination(this.archivedTrainingRunsPaginator.pageIndex,
       this.archivedTrainingRunsPaginator.pageSize,
       this.archivedTrainingRunSort.active,
       this.archivedTrainingRunSort.direction);
@@ -115,7 +115,7 @@ export class ArchivedTrainingRunOverviewComponent extends BaseTrainingRunOvervie
           window.clearTimeout(timeoutHandle);
           this.isLoadingResults = false;
           this.isInErrorState = false;
-          this.resultsLength = data.tablePagination.totalElements;
+          this.resultsLength = data.pagination.totalElements;
           return data;
         }),
         catchError(() => {
@@ -126,7 +126,7 @@ export class ArchivedTrainingRunOverviewComponent extends BaseTrainingRunOvervie
         })
       ).subscribe(
         (data: PaginatedTable<TrainingRunTableRow[]>) =>
-          this.archivedTrainingRunsDataSource = new MatTableDataSource(data.tableData)
+          this.archivedTrainingRunsDataSource = new MatTableDataSource(data.rows)
     );
   }
 

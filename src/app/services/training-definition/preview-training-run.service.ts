@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import { Location } from '@angular/common';
-import {Observable, of, ReplaySubject} from 'rxjs';
+import {observable, Observable, of, ReplaySubject} from 'rxjs';
 import {AbstractLevel} from '../../model/level/abstract-level';
 import {AccessTrainingRunInfo} from '../../model/training/access-training-run-info';
 import {GameLevel} from '../../model/level/game-level';
@@ -32,6 +32,11 @@ export class PreviewTrainingRunService {
     if (firstLevel instanceof GameLevel && this.gameService instanceof PreviewGameLevelService) {
       this.gameService.init(firstLevel);
     }
+  }
+
+  access(accessToken: string): Observable<number> {
+    console.error('It seems like you tried to use access token method to start training run in preview mode. Please you setUpFromTrainingRun() method to setup preview');
+    return of(-1);
   }
 
   getLevels(): AbstractLevel[] {

@@ -72,7 +72,7 @@ export class UserSelectionTableComponent extends BaseComponent implements OnInit
 
   private initDataSource() {
     if (this.users instanceof PaginatedTable) {
-      this.dataSource = new MatTableDataSource(this.users.tableData);
+      this.dataSource = new MatTableDataSource(this.users.rows);
       this.paginated = true;
       this.dataSource.paginator = this.paginator;
       this.paginationChange = this.paginator.page;

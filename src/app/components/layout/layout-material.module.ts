@@ -7,6 +7,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import {MatTreeModule} from '@angular/material/tree';
     MatButtonModule,
     MatTooltipModule,
     MatDividerModule,
-    MatTreeModule
+    MatTreeModule,
+    MatProgressBarModule
   ],
   exports: [
     MatToolbarModule,
@@ -27,7 +29,8 @@ import {MatTreeModule} from '@angular/material/tree';
     MatButtonModule,
     MatTooltipModule,
     MatDividerModule,
-    MatTreeModule
+    MatTreeModule,
+    MatProgressBarModule
   ]
 })
 

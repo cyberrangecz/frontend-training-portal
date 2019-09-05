@@ -1,33 +1,15 @@
-.container {
-	display: flex;
-	padding: 25px;
-	flex-direction: column;
-	align-items: center;
-	align-content: center;
-	border: 1px solid gainsboro;
-	border-radius: 5px;
-}
-
-.content {
+mat-card-content {
 	display: flex;
 	flex-direction: row;
 	align-items: baseline;
 }
 
 .pin-form  {
-  width: 140px;
+  width: 150px;
 }
 
 .prefix-form  {
-  min-width: 300px;
-}
-
-button {
-	margin-left: 20px;
-}
-
-.spacer {
-	flex: 1 1 auto;
+  min-width: 250px;
 }
 
 .divider {

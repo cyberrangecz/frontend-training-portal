@@ -216,7 +216,7 @@ export class TrainingDefinitionTableComponent extends BaseComponent implements O
         map(data => {
           window.clearTimeout(timeoutHandle);
           this.isLoadingResults = false;
-          this.resultsLength = data.tablePagination.totalElements;
+          this.resultsLength = data.pagination.totalElements;
           return data;
         }),
         catchError((err) => {
@@ -300,7 +300,7 @@ export class TrainingDefinitionTableComponent extends BaseComponent implements O
    * @param data Training Definitions fetched from server
    */
   private createDataSource(data: PaginatedTable<TrainingDefinitionTableRow[]>) {
-    this.dataSource = new MatTableDataSource(data.tableData);
+    this.dataSource = new MatTableDataSource(data.rows);
     this.dataSource.filterPredicate =
       (data: TrainingDefinitionTableRow, filter: string) =>
         data.normalizedTitle.indexOf(filter) !== -1

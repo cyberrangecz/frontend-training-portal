@@ -1,11 +1,11 @@
 import {TableAdapterPagination} from "./table-adapter-pagination";
 
 export class PaginatedTable<T> {
-  tableData: T;
-  tablePagination: TableAdapterPagination;
+  rows: T;
+  pagination: TableAdapterPagination;
 
-  constructor(tableData: T, tablePagination: TableAdapterPagination) {
-    this.tableData = tableData;
-    this.tablePagination = tablePagination;
+  constructor(rows: T, pagination: TableAdapterPagination) {
+    this.rows = rows;
+    this.pagination = pagination;
   }
 }

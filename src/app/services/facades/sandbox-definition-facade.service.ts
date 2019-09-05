@@ -6,7 +6,7 @@ import {environment} from '../../../environments/environment';
 import {map} from 'rxjs/operators';
 import {SandboxDefinitionMapperService} from '../mappers/sandbox-definition-mapper.service';
 import {SandboxDefinitionDTO} from '../../model/DTOs/sandbox-definition/sandbox-definition-dto';
-import {TablePagination} from '../../model/DTOs/other/table-pagination';
+import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
 import {PaginationParams} from '../../model/http/params/pagination-params';
 import {PaginatedTable} from '../../model/table-adapters/paginated-table';
 import {SandboxDefinitionTableRow} from '../../model/table-adapters/sandbox-definition-table-row';
@@ -35,7 +35,7 @@ export class SandboxDefinitionFacade {
       this.sandboxDefinitionMapper.mapSandboxDefinitionsDTOToSandboxDefinitions(response)));
   }
 
-  getAllPaginated(pagination: TablePagination): Observable<PaginatedTable<SandboxDefinitionTableRow[]>> {
+  getAllPaginated(pagination: RequestedPagination): Observable<PaginatedTable<SandboxDefinitionTableRow[]>> {
     return this.http.get<SandboxPaginated<SandboxDefinitionDTO>>(this.sandboxDefsEndpoint,
       {
         headers: this.createDefaultHeaders(),

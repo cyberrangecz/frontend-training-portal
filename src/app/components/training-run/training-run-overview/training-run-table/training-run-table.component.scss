@@ -1,0 +1,15 @@
+@import "~variables.scss";
+
+mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+table {
+  width: 100%;
+}
+
+.error {
+  color: $warn;
+  text-align: center;
+}

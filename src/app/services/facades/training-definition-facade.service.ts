@@ -27,7 +27,7 @@ import {TrainingDefinitionStateEnum} from '../../model/enums/training-definition
 import {TrainingDefinitionInfo} from '../../model/training/training-definition-info';
 import {TrainingDefinitionInfoRestResource} from '../../model/DTOs/training-definition/training-definition-info-rest-resource';
 import {of} from 'rxjs';
-import {TablePagination} from '../../model/DTOs/other/table-pagination';
+import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
 
 @Injectable()
 /**
@@ -65,7 +65,7 @@ export class TrainingDefinitionFacade {
   /**
    * Retrieves all training definition on specified page of a pagination
    */
-  getAllPaginated(pagination: TablePagination): Observable<PaginatedTable<TrainingDefinitionTableRow[]>> {
+  getAllPaginated(pagination: RequestedPagination): Observable<PaginatedTable<TrainingDefinitionTableRow[]>> {
     return this.http.get<TrainingDefinitionRestResource>(this.trainingDefsEndpointUri,
       { params: PaginationParams.createTrainingsPaginationParams(pagination) })
       .pipe(map(response =>

@@ -43,7 +43,8 @@ export class TrainingDefinitionMapper {
       const td = this.mapTrainingDefinitionDTOToTrainingDefinition(trainingDTO, false);
       tableData.push(new TrainingDefinitionTableRow(td, td.state));
     });
-    const tablePagination = new TableAdapterPagination(resource.pagination.number,
+    const tablePagination = new TableAdapterPagination(
+      resource.pagination.number,
       resource.pagination.number_of_elements,
       resource.pagination.size,
       resource.pagination.total_elements,

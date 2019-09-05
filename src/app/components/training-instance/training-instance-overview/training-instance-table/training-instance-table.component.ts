@@ -13,7 +13,6 @@ import {environment} from '../../../../../environments/environment';
 import {AlertTypeEnum} from '../../../../model/enums/alert-type.enum';
 import {TrainingInstanceTableRow} from '../../../../model/table-adapters/training-instance-table-row';
 import {PaginatedTable} from '../../../../model/table-adapters/paginated-table';
-import {SandboxInstanceFacade} from '../../../../services/facades/sandbox-instance-facade.service';
 import {SandboxAllocationService} from '../../../../services/training-instance/sandbox-allocation/sandbox-allocation.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {SandboxInstanceAllocationState} from '../../../../model/training/sandbox-instance-allocation-state';
@@ -230,7 +229,7 @@ export class TrainingInstanceTableComponent extends BaseComponent implements OnI
           window.clearTimeout(timeoutHandle);
           this.isLoadingResults = false;
           this.isInErrorState = false;
-          this.resultsLength = data.tablePagination.totalElements;
+          this.resultsLength = data.pagination.totalElements;
           return data;
         }),
         catchError((err) => {
@@ -247,7 +246,7 @@ export class TrainingInstanceTableComponent extends BaseComponent implements OnI
    * @param data fetched data
    */
   private createDataSource(data: PaginatedTable<TrainingInstanceTableRow[]>) {
-    this.dataSource = new MatTableDataSource(data.tableData);
+    this.dataSource = new MatTableDataSource(data.rows);
     this.dataSource.filterPredicate =
       (data: TrainingInstanceTableRow, filter: string) =>
         data.normalizedTitle.indexOf(filter) !== -1;
@@ -255,7 +254,7 @@ export class TrainingInstanceTableComponent extends BaseComponent implements OnI
 
 
   private resolveAllocationStateForTable(data: PaginatedTable<TrainingInstanceTableRow[]>) {
-    data.tableData.forEach(row => this.getAllocationState(row));
+    data.rows.forEach(row => this.getAllocationState(row));
   }
 
   private getAllocationState(row: TrainingInstanceTableRow) {
