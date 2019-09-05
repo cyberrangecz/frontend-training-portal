@@ -81,7 +81,7 @@ tr.training-row:not(.example-expanded-row):active {
   justify-content: center;
 }
 
-.loading-error {
+.error {
   color: #980000;
   text-align: center;
 }

@@ -1,10 +1,11 @@
-<div class="container">
-  <div class="header">
-    <h2>Access Training Run</h2>
-  </div>
-  <div class="content">
+<mat-card>
+  <mat-card-title>Access Training</mat-card-title>
+  <mat-card-subtitle>Fill in access token provided by the organizer to start the training</mat-card-subtitle>
+  <mat-card-content>
     <form [formGroup]="traineeAccessTrainingFormGroup.formGroup">
+
       <mat-form-field appearance="outline" class="prefix-form">
+
         <mat-label>Access Token Prefix</mat-label>
         <input matInput (paste)="onPaste($event)" (keyup)="onKeyup($event)" placeholder="Access Token Prefix" formControlName="accessTokenPrefix" required>
         <button mat-button *ngIf="accessTokenPrefix.value" matSuffix mat-icon-button aria-label="Clear" (click)="accessTokenPrefix.setValue('')">
@@ -12,8 +13,11 @@
         </button>
         <mat-error *ngIf="accessTokenPrefix.hasError('required')">Prefix cannot be empty</mat-error>
       </mat-form-field>
+
       <span class="divider">-</span>
+
       <mat-form-field appearance="outline" class="pin-form">
+
         <mat-label>Access Token PIN</mat-label>
         <input #pin matInput (paste)="onPaste($event)" placeholder="Access Token PIN" pattern="[0-9]*" maxlength="4" minlength="4" formControlName="accessTokenPin" required>
         <button mat-button *ngIf="accessTokenPin.value" matSuffix mat-icon-button aria-label="Clear" (click)="accessTokenPin.setValue('')">
@@ -24,9 +28,12 @@
         <mat-error *ngIf="accessTokenPin.hasError('required')">PIN cannot be empty</mat-error>
       </mat-form-field>
     </form>
+
     <span class="spacer"></span>
-    <button #accessButton mat-raised-button color="primary" [disabled]="isLoading || !traineeAccessTrainingFormGroup.formGroup.valid" (click)="access()">Access</button>
-  </div>
-  <mat-spinner *ngIf="isLoading" mode="indeterminate"></mat-spinner>
-</div>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button #accessButton mat-raised-button color="primary" [disabled]="!traineeAccessTrainingFormGroup.formGroup.valid" (click)="access()">Access</button>
+  </mat-card-actions>
+</mat-card>
+
 

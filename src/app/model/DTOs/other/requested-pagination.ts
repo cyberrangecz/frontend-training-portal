@@ -1,4 +1,4 @@
-export class TablePagination {
+export class RequestedPagination {
   page: number;
   size: number;
   sort: string;

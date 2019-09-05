@@ -17,7 +17,7 @@ import {TrainingRunTableRow} from '../../model/table-adapters/training-run-table
 import {DownloadService} from '../shared/download.service';
 import {ResponseHeaderContentDispositionReader} from '../../model/http/response-headers/response-header-content-disposition-reader';
 import {of} from 'rxjs';
-import {TablePagination} from '../../model/DTOs/other/table-pagination';
+import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
 
 @Injectable()
 /**
@@ -52,7 +52,7 @@ export class TrainingInstanceFacade {
   /**
    * Retrieves all training instance on specified page of a pagination
    */
-  getPaginated(pagination: TablePagination): Observable<PaginatedTable<TrainingInstanceTableRow[]>> {
+  getPaginated(pagination: RequestedPagination): Observable<PaginatedTable<TrainingInstanceTableRow[]>> {
     return this.http.get<TrainingInstanceRestResource>(this.trainingInstancesEndpointUri,
       { params: PaginationParams.createTrainingsPaginationParams(pagination) })
       .pipe(map(response =>
@@ -82,7 +82,7 @@ export class TrainingInstanceFacade {
   }
 
 
-  getAssociatedTrainingRunsPaginated(trainingInstanceId: number, pagination: TablePagination, isActive = true)
+  getAssociatedTrainingRunsPaginated(trainingInstanceId: number, pagination: RequestedPagination, isActive = true)
       : Observable<PaginatedTable<TrainingRunTableRow[]>> {
       let params = PaginationParams.createTrainingsPaginationParams(pagination);
       params = params.append('isActive', isActive.toString());

@@ -19,6 +19,7 @@ import {NotOnlyTraineeGuard} from './services/guards/only-trainee.guard.service'
 import {LayoutModule} from './components/layout/layout.module';
 import {MatButtonModule, MatIconModule, MatProgressBarModule} from '@angular/material';
 import {LoadingService} from './services/shared/loading.service';
+import {LoadingInterceptor} from './services/http-interceptors/loading-interceptor';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,6 @@ import {LoadingService} from './services/shared/loading.service';
     NgxHotjarModule.forRoot(environment.hotjarTrackingCode),
     MatIconModule,
     MatButtonModule,
-    MatProgressBarModule
   ],
   providers: [
     DesignerGuard,
@@ -47,6 +47,7 @@ import {LoadingService} from './services/shared/loading.service';
     DistractionFreeModeService,
     LoadingService,
     { provide: HTTP_INTERCEPTORS, useClass: Kypo2AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorLogInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]

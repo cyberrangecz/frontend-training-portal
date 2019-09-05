@@ -13,14 +13,14 @@ export class LoadingService {
   constructor(private router: Router) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
-        this.setIsLoading(true);
+        this.set(true);
       } else if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
-        this.setIsLoading(false);
+        this.set(false);
       }
     });
   }
 
-  setIsLoading(value: boolean) {
+  set(value: boolean) {
     this._isLoadingSubject.next(value);
   }
 }

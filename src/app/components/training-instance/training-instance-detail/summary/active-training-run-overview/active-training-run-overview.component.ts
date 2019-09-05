@@ -16,7 +16,7 @@ import {environment} from '../../../../../../environments/environment';
 import {BaseTrainingRunOverview} from '../base-training-run-overview';
 import {ActionConfirmationDialogComponent} from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import {SandboxInstanceFacade} from '../../../../../services/facades/sandbox-instance-facade.service';
-import {TablePagination} from '../../../../../model/DTOs/other/table-pagination';
+import {RequestedPagination} from '../../../../../model/DTOs/other/requested-pagination';
 
 @Component({
   selector: 'kypo2-active-training-run-overview',
@@ -138,7 +138,7 @@ export class ActiveTrainingRunOverviewComponent extends BaseTrainingRunOverview 
 
   private fetchTrainingRuns() {
     let timeoutHandle = 0;
-    const pagination = new TablePagination(this.activeTrainingRunsPaginator.pageIndex,
+    const pagination = new RequestedPagination(this.activeTrainingRunsPaginator.pageIndex,
       this.activeTrainingRunsPaginator.pageSize,
       this.activeTrainingRunSort.active,
       this.activeTrainingRunSort.direction);
@@ -155,7 +155,7 @@ export class ActiveTrainingRunOverviewComponent extends BaseTrainingRunOverview 
           window.clearTimeout(timeoutHandle);
           this.isLoadingTrainingRunResults = false;
           this.isInErrorState = false;
-          this.resultsLength = data.tablePagination.totalElements;
+          this.resultsLength = data.pagination.totalElements;
           return data;
         }),
         catchError(() => {
@@ -164,7 +164,7 @@ export class ActiveTrainingRunOverviewComponent extends BaseTrainingRunOverview 
           this.isInErrorState = true;
           return of([]);
         })
-      ).subscribe((data: PaginatedTable<TrainingRunTableRow[]>) => this.createDataSource(data.tableData));
+      ).subscribe((data: PaginatedTable<TrainingRunTableRow[]>) => this.createDataSource(data.rows));
   }
 
   /**

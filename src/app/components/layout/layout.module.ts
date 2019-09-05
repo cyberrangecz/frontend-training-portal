@@ -13,6 +13,7 @@ import { UserMenuComponent } from './user-menu/user-menu.component';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { BreadcrumbsPresentationalComponent } from './breadcrumbs/breadcrumbs-presentational/breadcrumbs-presentational.component';
 import {BreadcrumbBuilderService} from '../../services/breadcrumbs/breadcrumb-builder.service';
+import { LoadingComponent } from './loading/loading.component';
 
 /**
  * Module container for all layout related components
@@ -33,12 +34,14 @@ import {BreadcrumbBuilderService} from '../../services/breadcrumbs/breadcrumb-bu
     UserMenuComponent,
     BreadcrumbsComponent,
     BreadcrumbsPresentationalComponent,
+    LoadingComponent,
   ],
   exports: [
     ToolbarComponent,
     ActiveUserComponent,
     SidenavComponent,
     MatSidenavModule,
+    LoadingComponent,
   ],
   providers: [
     BreadcrumbBuilderService

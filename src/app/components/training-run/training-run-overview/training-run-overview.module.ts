@@ -12,6 +12,7 @@ import {TrainingInstanceFacadeModule} from '../../../services/facades/modules/tr
 import {TrainingRunFacadeModule} from '../../../services/facades/modules/training-run-facade.module';
 import {TrainingDefinitionFacadeModule} from '../../../services/facades/modules/training-definition-facade.module';
 import {TrainingRunResolver} from '../../../services/resolvers/training-run-resolver.service';
+import {MatCardModule} from '@angular/material/card';
 
 /**
  * Main module for trainee agenda. Contains components and top level routing
@@ -26,7 +27,8 @@ import {TrainingRunResolver} from '../../../services/resolvers/training-run-reso
     TrainingInstanceFacadeModule,
     TrainingRunFacadeModule,
     TrainingDefinitionFacadeModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatCardModule
   ],
   declarations: [
     TrainingRunOverviewComponent,

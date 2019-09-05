@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs/internal/Observable';
 import {TrainingRun} from '../../model/training/training-run';
 import {environment} from '../../../environments/environment';
-import {map} from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 import {PaginationParams} from '../../model/http/params/pagination-params';
 import {TrainingRunDTO} from '../../model/DTOs/training-run/training-run-dto';
 import {TrainingRunMapper} from '../mappers/training-run-mapper.service';
@@ -23,7 +23,8 @@ import {AccessTrainingRunInfo} from '../../model/training/access-training-run-in
 import {AccessTrainingRunDTO} from '../../model/DTOs/training-run/access-training-run-dto';
 import {LevelMapper} from '../mappers/level-mapper.service';
 import {Kypo2AuthService} from 'kypo2-auth';
-import {TablePagination} from '../../model/DTOs/other/table-pagination';
+import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
+import {LoadingService} from '../shared/loading.service';
 
 /**
  * Service abstracting the training run endpoint.
@@ -49,7 +50,7 @@ export class TrainingRunFacade {
       .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
   }
 
-  getPaginated(pagination: TablePagination): Observable<TrainingRun[]> {
+  getPaginated(pagination: RequestedPagination): Observable<TrainingRun[]> {
     return this.http.get<TrainingRunRestResource>(this.trainingRunsEndpointUri,
       { params: PaginationParams.createTrainingsPaginationParams(pagination) })
       .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
@@ -87,7 +88,7 @@ export class TrainingRunFacade {
       .pipe(map(response => this.trainingRunMapper.mapAccessedTrainingRunDTOsToTrainingRunTableObjects(response)));
   }
 
-  getAccessedPaginated(pagination: TablePagination):
+  getAccessedPaginated(pagination: RequestedPagination):
     Observable<PaginatedTable<AccessedTrainingRunsTableRow[]>> {
     let params;
     if (pagination.sort === 'title') {
@@ -133,7 +134,9 @@ export class TrainingRunFacade {
    */
   nextLevel(trainingRunId: number): Observable<GameLevel | AssessmentLevel | InfoLevel> {
     return this.http.get<AbstractLevelDTO>(this.trainingRunsEndpointUri + trainingRunId + '/next-levels')
-      .pipe(map(response => this.levelMapper.mapLevelDTOToLevel(response)));
+      .pipe(
+        map(response => this.levelMapper.mapLevelDTOToLevel(response)),
+      );
   }
 
   /**
@@ -178,7 +181,7 @@ export class TrainingRunFacade {
     return this.http.put(this.trainingRunsEndpointUri + trainingRunId, null);
   }
 
-  private createPaginationParamsForTRTitle(pagination: TablePagination): HttpParams {
+  private createPaginationParamsForTRTitle(pagination: RequestedPagination): HttpParams {
     return new HttpParams()
       .set('page', pagination.page.toString())
       .set('size', pagination.size.toString())

@@ -15,9 +15,9 @@ export class TrainingDefinitionResolver implements Resolve<TrainingDefinition> {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<TrainingDefinition> | Promise<TrainingDefinition> | TrainingDefinition {
-/*    if (state.url.endsWith(TRAINING_DEFINITION_NEW_PATH)) {
+    if (state.url.endsWith(`${TRAINING_DEFINITION_PATH}/${TRAINING_DEFINITION_NEW_PATH}`)) {
       return null;
-    } else*/ if (route.paramMap.has('id')) {
+    } else if (route.paramMap.has('id')) {
       const id = Number(route.paramMap.get('id'));
       return this.trainingDefinitionFacade.getById(id, true)
         .pipe(
@@ -29,7 +29,7 @@ export class TrainingDefinitionResolver implements Resolve<TrainingDefinition> {
   }
 
   private navigateToNew(): Observable<never> {
-    this.router.navigate([TRAINING_DEFINITION_PATH]);
+    this.router.navigate([TRAINING_DEFINITION_NEW_PATH]);
     return EMPTY;
   }
 }
