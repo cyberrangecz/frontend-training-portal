@@ -44,7 +44,7 @@ export class TrainingRunDetailComponent extends BaseComponent implements OnInit 
     this.isStepperDisplayed = this.activeTrainingRunService.getIsStepperDisplayed();
     this.selectedStep = this.activeTrainingRunService.getActiveLevelPosition();
 
-    this.stepper = new TrainingRunStepper(this.levels, this.isLoading);
+    this.stepper = new TrainingRunStepper(this.levels, this.isLoading, this.selectedStep);
   }
 
   private updateStepperActiveLevel() {

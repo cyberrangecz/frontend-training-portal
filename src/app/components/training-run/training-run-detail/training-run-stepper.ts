@@ -15,7 +15,7 @@ export class TrainingRunStepper {
   items: AbstractStepItem[] = [];
   levels: StepperInterface<AbstractLevel> = {items: this.items as AbstractLevel[], isLocalChange: true, isLoading: this.isLoading};
 
-  constructor(levels: AbstractLevel[], isLoading: boolean, activeLevel = 0) {
+  constructor(levels: AbstractLevel[], isLoading: boolean, activeLevel: number) {
     this.abstractLevels = levels;
     this.isLoading = isLoading;
     if (activeLevel || activeLevel === 0) {
