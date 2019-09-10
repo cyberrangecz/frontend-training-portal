@@ -26,17 +26,17 @@
           </div>
         </div>
 
-        <table mat-table [dataSource]="dataSource" matSort>
+        <table mat-table [dataSource]="dataSource">
 
           <!-- ID Column -->
           <ng-container matColumnDef="id">
-            <th [disabled]="isInErrorState" class="id" mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+            <th class="id" mat-header-cell *matHeaderCellDef>ID</th>
             <td class="id" mat-cell *matCellDef="let data"> {{ data.sandbox?.id }}</td>
           </ng-container>
 
           <!-- TITLE Column -->
           <ng-container matColumnDef="title">
-            <th [disabled]="isInErrorState" class="title" mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+            <th class="title" mat-header-cell *matHeaderCellDef>Title</th>
             <td class="title" mat-cell *matCellDef="let data"> {{ data.sandbox?.title }}</td>
           </ng-container>
 
@@ -56,7 +56,7 @@
 
           <!-- URL Column -->
           <ng-container matColumnDef="url">
-            <th [disabled]="isInErrorState" class="url" mat-header-cell *matHeaderCellDef mat-sort-header>URL</th>
+            <th class="url" mat-header-cell *matHeaderCellDef>URL</th>
             <td class="url" mat-cell *matCellDef="let data">
               <div class="url-content">
                 <div *ngIf="data?.urlShortened">{{ data.sandbox?.url | shortString:20}}</div>
@@ -87,7 +87,7 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+        <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
       </div>
     </div>
   </div>
