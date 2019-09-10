@@ -12,7 +12,7 @@ export class PaginationParams {
 
   static createSandboxPaginationParams(pagination: RequestedPagination): HttpParams {
     return new HttpParams()
-      .set('page', pagination.page.toString())
+      .set('page', (pagination.page + 1).toString()) // + 1 because PythonAPI pages starts with 1 instead of 0
       .set('page_size', pagination.size.toString());
   }
 }

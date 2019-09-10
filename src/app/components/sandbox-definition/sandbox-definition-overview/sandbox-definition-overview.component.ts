@@ -38,7 +38,6 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
   dataSource: MatTableDataSource<SandboxDefinitionTableRow>;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   isLoadingResults = true;
   isInErrorState = false;
@@ -122,18 +121,13 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
    * active user is listed as an author are shown
    */
   private initDataSource() {
-    this.sort.sortChange
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(() => this.paginator.pageIndex = 0);
     this.paginator.pageSize = environment.defaultPaginationSize;
-    this.sort.active = 'title';
-    this.sort.direction = 'desc';
     this.fetchData();
   }
 
   private fetchData() {
     let timeoutHandle = 0;
-    merge(this.sort.sortChange, this.paginator.page, this.paginator.pageSize)
+    merge(this.paginator.page, this.paginator.pageSize)
       .pipe(
         takeWhile(() => this.isAlive),
         startWith({}),
@@ -143,8 +137,8 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
             new RequestedPagination(
               this.paginator.pageIndex,
               this.paginator.pageSize,
-              this.sort.active,
-              this.sort.direction
+              '',
+              ''
             )
           );
         }),
@@ -182,7 +176,6 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
    */
   private createDataSource(data: SandboxDefinitionTableRow[]) {
     this.dataSource = new MatTableDataSource(data);
-    this.dataSource.sort = this.sort;
 
     this.dataSource.filterPredicate =
       (data: SandboxDefinitionTableRow, filter: string) =>
