@@ -10,7 +10,7 @@ import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
 import {PaginationParams} from '../../model/http/params/pagination-params';
 import {PaginatedTable} from '../../model/table-adapters/paginated-table';
 import {SandboxDefinitionTableRow} from '../../model/table-adapters/sandbox-definition-table-row';
-import {SandboxPaginated} from '../../model/DTOs/other/sandbox-paginated';
+import {DjangoResourceDTO} from '../../model/DTOs/other/django-resource-dto';
 
 /**
  * Service to abstract from sandbox definition endpoint.
@@ -30,13 +30,13 @@ export class SandboxDefinitionFacade {
    * @returns {Observable<SandboxDefinition[]>} Observable of sandbox definitions list
    */
   getAll(): Observable<SandboxDefinition[]> {
-    return this.http.get<SandboxDefinitionDTO[]>(this.sandboxDefsEndpoint, { headers: this.createDefaultHeaders() })
+    return this.http.get<DjangoResourceDTO<SandboxDefinitionDTO>>(this.sandboxDefsEndpoint, { headers: this.createDefaultHeaders() })
       .pipe(map(response =>
-      this.sandboxDefinitionMapper.mapSandboxDefinitionsDTOToSandboxDefinitions(response)));
+      this.sandboxDefinitionMapper.mapSandboxDefinitionsDTOToSandboxDefinitions(response.results)));
   }
 
   getAllPaginated(pagination: RequestedPagination): Observable<PaginatedTable<SandboxDefinitionTableRow[]>> {
-    return this.http.get<SandboxPaginated<SandboxDefinitionDTO>>(this.sandboxDefsEndpoint,
+    return this.http.get<DjangoResourceDTO<SandboxDefinitionDTO>>(this.sandboxDefsEndpoint,
       {
         headers: this.createDefaultHeaders(),
         params: PaginationParams.createSandboxPaginationParams(pagination)
