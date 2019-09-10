@@ -11,7 +11,7 @@ import {takeWhile} from 'rxjs/operators';
 @Component({
   selector: 'kypo2-tree-navigation',
   templateUrl: './tree-navigation.component.html',
-  styleUrls: ['./tree-navigation.component.css']
+  styleUrls: ['./tree-navigation.component.scss']
 })
 /**
  * Tree navigation menu dynamically expanding and collapsing tree branches based on current location in the app.

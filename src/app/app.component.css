@@ -2,6 +2,9 @@ mat-drawer-container {
   height: 100vh;
   width: 100%;
 }
+mat-drawer {
+  background-color: #1A1717;
+}
 
 .content {
   padding: 40px;

@@ -4,3 +4,9 @@
 @include mat-core();
 $kypo2-theme: mat-light-theme($kypo2-primary-palette, $kypo2-accent-palette, $kypo2-warn-palette);
 @include angular-material-theme($kypo2-theme);
+
+$kypo2-white-theme: mat-light-theme($kypo2-white-primary-palette, $kypo2-white-primary-palette, $kypo2-white-primary-palette);
+
+.white-navigation-theme {
+  @include angular-material-theme($kypo2-white-theme);
+}
