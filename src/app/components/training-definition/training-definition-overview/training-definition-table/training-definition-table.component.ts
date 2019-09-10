@@ -26,6 +26,7 @@ import {BaseComponent} from '../../../base.component';
 import {StringNormalizer} from '../../../../model/utils/ignore-diacritics-filter';
 import {TRAINING_DEFINITION_EDIT_PATH, TRAINING_DEFINITION_NEW_PATH, TRAINING_DEFINITION_PREVIEW_PATH} from '../paths';
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import {RequestedPagination} from '../../../../model/DTOs/other/requested-pagination';
 
 @Component({
   selector: 'kypo2-training-definition-table',
@@ -206,12 +207,13 @@ export class TrainingDefinitionTableComponent extends BaseComponent implements O
         startWith({}),
         switchMap(() => {
           timeoutHandle =  window.setTimeout(() => this.isLoadingResults = true, environment.defaultDelayToDisplayLoading);
-          return this.trainingDefinitionFacade.getAllPaginated({
-            page: this.paginator.pageIndex,
-            size: this.paginator.pageSize,
-            sort: this.sort.active,
-            sortDir: this.sort.direction
-          });
+          return this.trainingDefinitionFacade.getAllPaginated(
+            new RequestedPagination(
+            this.paginator.pageIndex,
+            this.paginator.pageSize,
+            this.sort.active,
+            this.sort.direction
+          ));
         }),
         map(data => {
           window.clearTimeout(timeoutHandle);

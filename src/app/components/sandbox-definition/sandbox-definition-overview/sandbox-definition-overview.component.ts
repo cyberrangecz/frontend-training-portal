@@ -19,6 +19,7 @@ import {AddSandboxDefinitionDialogComponent} from './add-sandbox-definition-dial
 import {ActionConfirmationDialogComponent} from '../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import {BaseComponent} from '../../base.component';
 import {StringNormalizer} from '../../../model/utils/ignore-diacritics-filter';
+import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
 
 @Component({
   selector: 'kypo2-sandbox-definition-table',
@@ -138,13 +139,21 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
         startWith({}),
         switchMap(() => {
           timeoutHandle =  window.setTimeout(() => this.isLoadingResults = true, environment.defaultDelayToDisplayLoading);
-          return this.sandboxDefinitionFacade.getAll();
+          return this.sandboxDefinitionFacade.getAllPaginated(
+            new RequestedPagination(
+              this.paginator.pageIndex,
+              this.paginator.pageSize,
+              this.sort.active,
+              this.sort.direction
+            )
+          );
         }),
         map(data => {
           window.clearTimeout(timeoutHandle);
           this.isLoadingResults = false;
-          this.resultsLength = data.length;
-          return this.mapSandboxDefsToTableObjects(data);
+          this.resultsLength = data.pagination.totalElements;
+          this.addAdditionalInfo(data.rows);
+          return data.rows;
         }),
         catchError((err) => {
           window.clearTimeout(timeoutHandle);
@@ -156,24 +165,15 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
       ).subscribe(data => this.createDataSource(data));
   }
 
-  /**
-   * Maps sandbox definitions to table data objects
-   * @param data sandbox definitions
-   */
-  private mapSandboxDefsToTableObjects(data: SandboxDefinition[]): SandboxDefinitionTableRow[] {
-    const result: SandboxDefinitionTableRow[] = [];
-    data.forEach(sandbox => {
-      const tableDataObject = new SandboxDefinitionTableRow(sandbox);
-      this.trainingDefinitionFacade.getByAssociatedSandboxDefinition(sandbox.id)
+  private addAdditionalInfo(rows: SandboxDefinitionTableRow[]) {
+    rows.forEach(row => {
+      this.trainingDefinitionFacade.getByAssociatedSandboxDefinition(row.sandbox.id)
         .pipe(takeWhile(() => this.isAlive))
         .subscribe(result => {
-          tableDataObject.associatedTrainingDefinitions = result;
-          tableDataObject.canBeRemoved = this.canSandboxBeRemoved(tableDataObject.sandbox, tableDataObject.associatedTrainingDefinitions);
+          row.associatedTrainingDefinitions = result;
+          row.canBeRemoved = this.canSandboxBeRemoved(row.sandbox, row.associatedTrainingDefinitions);
         });
-
-      result.push(tableDataObject);
     });
-    return result;
   }
 
   /**

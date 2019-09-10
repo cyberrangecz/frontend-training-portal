@@ -7,6 +7,7 @@ import {SandboxInstanceDTO} from '../../model/DTOs/sandbox-instance/sandbox-inst
 import {concatMap, map} from 'rxjs/operators';
 import {SandboxInstanceMapper} from '../mappers/sandbox-instance-mapper.service';
 import {TrainingInstance} from '../../model/training/training-instance';
+import {DjangoResourceDTO} from '../../model/DTOs/other/django-resource-dto';
 @Injectable()
 /**
  * Service to abstract communication with sandbox instance endpoint
@@ -25,8 +26,8 @@ export class SandboxInstanceFacade {
   }
 
   getSandboxesInPool(poolId: number): Observable<SandboxInstance[]> {
-    return this.http.get<SandboxInstanceDTO[]>(this.poolsEndpointUri + poolId + '/sandboxes/')
-      .pipe(map(sandboxDTOs => this.sandboxInstanceMapper.mapSandboxInstanceDTOsToSandboxInstances(sandboxDTOs)));
+    return this.http.get<DjangoResourceDTO<SandboxInstanceDTO>>(this.poolsEndpointUri + poolId + '/sandboxes/')
+      .pipe(map(response => this.sandboxInstanceMapper.mapSandboxInstanceDTOsToSandboxInstances(response.results)));
   }
 
   /**
