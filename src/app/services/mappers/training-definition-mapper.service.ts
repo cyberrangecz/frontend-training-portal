@@ -74,7 +74,7 @@ export class TrainingDefinitionMapper {
       result.betaTestingGroup = this.getBetaTestingGroupFromDTO(trainingDefinitionDTO.beta_testing_group);
     }
     if (withLevels) {
-      result.levels = this.getLevelsFromDTO(trainingDefinitionDTO);
+      result.levels = this.getLevelsFromDTO(trainingDefinitionDTO).sort((a, b) => a.order - b.order);
     }
     return result;
   }

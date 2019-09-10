@@ -13,6 +13,7 @@ import {PipesModule} from '../../../pipes/pipes.module';
 import {LevelEditGuard} from '../../../services/guards/level-edit-guard.service';
 import { LevelControlsComponent } from './level-controls/level-controls.component';
 import {LevelEditLeaveGuard} from '../../../services/guards/level-edit-leave-guard.service';
+import {Kypo2StepperModule} from 'kypo2-stepper';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import {LevelEditLeaveGuard} from '../../../services/guards/level-edit-leave-gua
     LevelOverviewMaterialModule,
     LevelEditModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    Kypo2StepperModule
   ],
   declarations: [
     TrainingLevelStepperComponent,

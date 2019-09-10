@@ -1,4 +1,15 @@
+<kypo2-level-controls [isLoading]="false"
+                      [isWaitingOnServerResponse]="isWaitingOnServerResponse"
+                      (assessmentLevelAdded)="addAssessmentLevel()"
+                      (gameLevelAdded)="addGameLevel()"
+                      (infoLevelAdded)="addInfoLevel()">
+
+</kypo2-level-controls>
 <kypo2-levels-stepper [trainingDefinition]="trainingDefinition$ | async"
                       [activeStep]="activeStep$ | async"
+                      [items]="levels"
+                      (onLevelSwap)="onLevelSwap($event)"
+                      (initialLevels)="updateTrainingDefinitionLevels($event)"
+                      (onLevelDelete)="onDeleteLevel($event)"
                       (activeLevelChanged)="onActiveLevelChange($event)">
 </kypo2-levels-stepper>
