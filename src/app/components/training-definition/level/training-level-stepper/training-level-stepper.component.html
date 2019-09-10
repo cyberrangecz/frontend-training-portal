@@ -1,65 +1,22 @@
-<mat-progress-spinner *ngIf="isLoading"></mat-progress-spinner>
-<div class="header">
-  <h1>Levels</h1>
-  <button class="add-level" mat-raised-button color="primary" [matMenuTriggerFor]="levelMenu">
-    Add new level
-  </button>
-  <mat-menu #levelMenu="matMenu">
-    <button mat-menu-item
-            (click)="addGameLevel()">
-      <mat-icon>videogame_asset</mat-icon>
-      <span>Game level</span>
-    </button>
-    <button mat-menu-item
-            (click)="addAssessmentLevel()">
-      <mat-icon>assignment</mat-icon>
-      <span>Assessment level</span>
-    </button>
-    <button mat-menu-item
-            (click)="addInfoLevel()">
-      <mat-icon>info</mat-icon>
-      <span>Info level</span>
-    </button>
-  </mat-menu>
-</div>
-
-<div class="stepper-control" *ngIf="!isLoading && levels && levels.length > 0">
-  <button mat-icon-button color="primary" (click)="swapLeft()" [disabled]="selectedStep === 0"
-          matTooltip="Swap selected level to left">
-    <mat-icon>arrow_back</mat-icon>
-  </button>
-  <button mat-icon-button color="primary" (click)="swapRight()" [disabled]="selectedStep === levels.length - 1"
-          matTooltip="Swap selected level to right">
-    <mat-icon>arrow_forward</mat-icon>
-  </button>
+<div class="stepper-control" *ngIf="levels && levels.items.length > 0">
   <span class="spacer"></span>
-  <h4>Training contains {{ levels.length }} level(s)</h4>
+  <h4>Training contains {{ levels.items.length }} level(s)</h4>
 </div>
 
 <div class="content"
-     *ngIf="!isLoading && levels && levels.length > 0">
+     *ngIf="!isLoading && levels.items && levels.items.length > 0">
   <mat-card>
-    <mat-horizontal-stepper
-      [(selectedIndex)]="selectedStep"
-      (selectionChange)="selectionChanged($event)"
-      #stepper>
-
-      <ng-template matStepperIcon="edit" let-index="index">
-        <mat-icon>{{ levels[index].icon }}</mat-icon>
-
-      </ng-template>
-      <ng-template matStepperIcon="number" let-index="index">
-        <mat-icon>{{ levels[index].icon }}</mat-icon>
-      </ng-template>
-
-      <mat-step [state]="level.type" *ngFor="let level of levels; index as i">
-        <ng-template matStepLabel>{{ level.title | levelStepperLabel: i + 1: levels.length }}</ng-template>
-        <mat-divider></mat-divider>
-        <div class="step-content">
-          <kypo2-level-configuration (deleteLevel)="onDeleteLevel($event)" [level]="level" [trainingDefinitionId]="trainingDefinition.id"></kypo2-level-configuration>
-        </div>
-      </mat-step>
-    </mat-horizontal-stepper>
+    <kypo2-stepper [selectable]="true"
+                   [isLoading]="isStepperUpdating"
+                   [stepperItems]="levels"
+                   [activeIndex]="selectedStep"
+                   (indexSelected)="selectionChanged($event)"
+                   (selectedStepSwapped)="selectionChanged($event)"
+                   (stepSwapped)="swapLevels($event)">
+    </kypo2-stepper>
+    <div class="step-content">
+      <kypo2-level-configuration (deleteLevel)="onDeleteLevel($event)" [level]="levels.items[selectedStep]" [trainingDefinitionId]="trainingDefinition.id"></kypo2-level-configuration>
+    </div>
   </mat-card>
 </div>
 

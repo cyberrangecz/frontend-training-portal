@@ -1,3 +1,23 @@
-<p>
-  level-controls works!
-</p>
+<div class="header">
+  <h1>Levels</h1>
+  <button class="add-level" mat-raised-button color="primary" [disabled]="isWaitingOnServerResponse" [matMenuTriggerFor]="levelMenu">
+    Add new level
+  </button>
+  <mat-menu #levelMenu="matMenu">
+    <button mat-menu-item
+            (click)="addGameLevel()">
+      <mat-icon>videogame_asset</mat-icon>
+      <span>Game level</span>
+    </button>
+    <button mat-menu-item
+            (click)="addAssessmentLevel()">
+      <mat-icon>assignment</mat-icon>
+      <span>Assessment level</span>
+    </button>
+    <button mat-menu-item
+            (click)="addInfoLevel()">
+      <mat-icon>info</mat-icon>
+      <span>Info level</span>
+    </button>
+  </mat-menu>
+</div>
