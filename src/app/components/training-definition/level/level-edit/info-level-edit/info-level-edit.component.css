@@ -1,35 +1,11 @@
-.save-info-content {
-  display: inline-flex;
-  vertical-align: middle;
-  align-items: center;
-}
-
-div .level {
+.content {
   display: flex;
   flex-direction: column;
   margin: 20px;
 }
 
-div .header {
-  display: flex;
-  align-items: baseline;
-  flex-direction: row;
-  margin-bottom: 25px;
-}
-
-div .spacer {
-  flex: 1 1 auto;
-}
-
-div .content {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-  width: 70%;
-}
-
-button {
-  margin-right: 15px;
+kypo2-markdown-editor {
+  height: 40vh;
 }
 
 @media screen and (max-width: 800px) {
@@ -37,26 +13,6 @@ button {
     width: 100%;
   }
 }
-kypo2-markdown-editor {
-  height: 40vh;
-}
 
-div .footer {
-  display: flex;
-  flex-direction: row;
-  align-items: baseline;
-}
-
-div .save-info {
-  margin-left: 10px;
-}
-
-.green-icon {
-  color: lawngreen;
-}
-
-.left-margin {
-  margin-left: 5px
-}
 
 

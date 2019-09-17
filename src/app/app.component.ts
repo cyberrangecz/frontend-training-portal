@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DistractionFreeModeService} from './services/shared/distraction-free-mode.service';
 import {Kypo2AuthService, User} from 'kypo2-auth';
 import {AlertService} from './services/shared/alert.service';
-import {takeWhile} from 'rxjs/operators';
+import {debounceTime, takeWhile} from 'rxjs/operators';
 import {AlertTypeEnum} from './model/enums/alert-type.enum';
 import {BaseComponent} from './components/base.component';
 import {Observable} from 'rxjs';
@@ -27,8 +27,8 @@ export class AppComponent extends BaseComponent implements OnInit, OnDestroy {
               private distractionFreeMode: DistractionFreeModeService) {
     super();
     this.activeUser$ = this.authService.activeUser$;
-    this.distractionFreeMode$ = this.distractionFreeMode.isActive;
-    this.isLoading$ = this.loadingService.isLoading$;
+    this.distractionFreeMode$ = this.distractionFreeMode.isActive$;
+    this.isLoading$ = this.loadingService.isLoading$.pipe(debounceTime(0));
     this.subscribeAuthErrors();
   }
 

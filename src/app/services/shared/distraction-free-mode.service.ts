@@ -10,7 +10,7 @@ import {BehaviorSubject} from 'rxjs';
 export class DistractionFreeModeService {
 
   private isActiveSubject: Subject<boolean> = new BehaviorSubject(false);
-  isActive: Observable<boolean> = this.isActiveSubject.asObservable();
+  isActive$: Observable<boolean> = this.isActiveSubject.asObservable();
 
   setDistractionFreeMode(value: boolean) {
     this.isActiveSubject.next(value);

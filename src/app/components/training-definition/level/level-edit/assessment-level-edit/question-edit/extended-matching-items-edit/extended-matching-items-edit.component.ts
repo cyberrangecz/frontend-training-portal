@@ -1,5 +1,5 @@
 import {
-  AfterViewInit,
+  AfterViewInit, ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   EventEmitter,
@@ -12,39 +12,38 @@ import {
   ViewChildren
 } from '@angular/core';
 import {ExtendedMatchingItems} from '../../../../../../../model/questions/extended-matching-items';
-import {AlertService} from '../../../../../../../services/shared/alert.service';
 import { MatRadioButton } from '@angular/material/radio';
 import {BaseComponent} from '../../../../../../base.component';
 import { Validators, FormControl, FormArray } from '@angular/forms';
 import { ExtendedMatchingItemsFormGroup } from './extended-matching-items-form-group';
+import {AbstractQuestion} from '../../../../../../../model/questions/abstract-question';
+import {MultipleChoiceFormGroup} from '../multiple-choice-question-edit/multiple-choice-question-edit-form-group';
+import {takeWhile} from 'rxjs/operators';
 
 @Component({
-  selector: 'extended-matching-items',
+  selector: 'kypo2-extended-matching-items',
   templateUrl: './extended-matching-items-edit.component.html',
-  styleUrls: ['./extended-matching-items-edit.component.css']
+  styleUrls: ['./extended-matching-items-edit.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 /**
  * Component for editing a question of type Extended Matching Items
  */
 export class ExtendedMatchingItemsEditComponent extends BaseComponent
   implements OnInit, OnChanges, AfterViewInit {
-  @Input('question') question: ExtendedMatchingItems;
-  @Input('isTest') isTest: boolean;
-  @Input('required') required: boolean;
-
-  @Output('question') questionChange = new EventEmitter();
+  @Input() question: ExtendedMatchingItems;
+  @Input() isTest: boolean;
+  @Input() required: boolean;
+  @Output() questionChange: EventEmitter<ExtendedMatchingItems> = new EventEmitter();
 
   extendedMatchingQuestionFormGroup: ExtendedMatchingItemsFormGroup;
+  maxQuestionScore = AbstractQuestion.MAX_QUESTION_SCORE;
+  maxQuestionPenalty = AbstractQuestion.MAX_QUESTION_PENALTY;
 
-  maxQuestionScore = 100;
-  maxQuestionPenalty = 100;
 
   @ViewChildren(MatRadioButton) radioButtons: QueryList<MatRadioButton>;
 
-  constructor(
-    private cdRef: ChangeDetectorRef,
-    private alertService: AlertService
-  ) {
+  constructor() {
     super();
   }
 
@@ -76,15 +75,13 @@ export class ExtendedMatchingItemsEditComponent extends BaseComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!this.extendedMatchingQuestionFormGroup) {
-      this.extendedMatchingQuestionFormGroup = new ExtendedMatchingItemsFormGroup(
-        this.maxQuestionScore,
-        this.maxQuestionPenalty
-      );
-      this.checkState();
-    }
     if ('question' in changes) {
-      this.setInitialValues();
+      this.extendedMatchingQuestionFormGroup = new ExtendedMatchingItemsFormGroup(this.question);
+      this.checkState();
+      this.extendedMatchingQuestionFormGroup.formGroup.valueChanges
+        .pipe(
+          takeWhile(_ => this.isAlive)
+        ).subscribe(_ => this.questionChanged());
     }
     if ('isTest' in changes && !changes['isTest'].isFirstChange()) {
       this.checkState();
@@ -101,7 +98,6 @@ export class ExtendedMatchingItemsEditComponent extends BaseComponent
 
   ngAfterViewInit() {
     this.setInitialStateOfRadioButtons();
-    this.cdRef.detectChanges();
   }
 
   /**
@@ -116,33 +112,15 @@ export class ExtendedMatchingItemsEditComponent extends BaseComponent
   /**
    * User made a change in the input
    */
-  contentChanged() {
-    this.extendedMatchingQuestionFormGroup.formGroup.updateValueAndValidity();
+  questionChanged() {
     this.extendedMatchingQuestionFormGroup.formGroup.markAsDirty();
-    this.questionChange.emit();
+    this.extendedMatchingQuestionFormGroup.setToEMI(this.question, this.isTest);
+    this.questionChange.emit(this.question);
   }
 
   requiredChanged() {
     if (!this.required) {
       this.score.setValue(0);
-    }
-  }
-
-  /**
-   * Determines whether the user has saved all his work and can leave the component
-   * @returns {boolean} true if does not have any unsaved changes, false otherwise
-   */
-  canDeactivate(): boolean {
-    return !this.extendedMatchingQuestionFormGroup.formGroup.dirty;
-  }
-
-  /**
-   * Validates input and saved data through REST
-   */
-  saveChanges() {
-    if (this.extendedMatchingQuestionFormGroup.formGroup.valid) {
-      this.setInputValues();
-      this.extendedMatchingQuestionFormGroup.formGroup.markAsPristine();
     }
   }
 
@@ -154,7 +132,7 @@ export class ExtendedMatchingItemsEditComponent extends BaseComponent
     if (this.radioButtons) {
       this.radioButtons.forEach(button => (button.checked = false));
     }
-    this.contentChanged();
+    this.questionChanged();
   }
 
   /**
@@ -165,7 +143,7 @@ export class ExtendedMatchingItemsEditComponent extends BaseComponent
   onAnswerChanged(i: number, j: number) {
     this.deleteAnswerByRow(i);
     this.correctAnswers.push(new FormControl({ x: i, y: j }));
-    this.contentChanged();
+    this.questionChanged();
   }
 
   /**
@@ -175,7 +153,7 @@ export class ExtendedMatchingItemsEditComponent extends BaseComponent
   deleteRow(index: number) {
     this.rows.removeAt(index);
     this.deleteAnswerByRow(index);
-    this.contentChanged();
+    this.questionChanged();
   }
 
   /**
@@ -183,7 +161,7 @@ export class ExtendedMatchingItemsEditComponent extends BaseComponent
    */
   addRow() {
     this.rows.push(new FormControl('', Validators.required));
-    this.contentChanged();
+    this.questionChanged();
   }
 
   /**
@@ -193,7 +171,7 @@ export class ExtendedMatchingItemsEditComponent extends BaseComponent
   deleteColumn(index: number) {
     this.cols.removeAt(index);
     this.deleteAnswersByCol(index);
-    this.contentChanged();
+    this.questionChanged();
   }
 
   /**
@@ -201,7 +179,7 @@ export class ExtendedMatchingItemsEditComponent extends BaseComponent
    */
   addColumn() {
     this.cols.push(new FormControl('', Validators.required));
-    this.contentChanged();
+    this.questionChanged();
   }
 
   /**
@@ -239,49 +217,6 @@ export class ExtendedMatchingItemsEditComponent extends BaseComponent
       if (indexOfAnswerToDelete > -1) {
         this.correctAnswers.removeAt(indexOfAnswerToDelete);
       }
-    }
-  }
-
-  /**
-   * Sets initial values from passed question object to user input components
-   */
-  private setInitialValues() {
-    this.title.setValue(this.question.title);
-    this.question.rows.forEach(element => {
-      this.rows.push(new FormControl(element, Validators.required));
-    });
-    this.question.cols.forEach(element => {
-      this.cols.push(new FormControl(element, Validators.required));
-    });
-    this.question.correctAnswers.forEach(element => {
-      this.correctAnswers.push(new FormControl(element));
-    });
-    this.score.setValue(this.question.score);
-    this.penalty.setValue(this.question.penalty);
-    this.required = this.question.required;
-    this.rows.markAllAsTouched();
-    this.cols.markAllAsTouched();
-  }
-
-  /**
-   * Sets values from user input components to the question object
-   */
-  private setInputValues() {
-    this.question.title = this.title.value;
-    this.question.rows = this.rows.value;
-    this.question.cols = this.cols.value;
-    this.question.correctAnswers = this.correctAnswers.value;
-    this.question.required = this.required;
-
-    if (this.question.required) {
-      this.question.score = this.score.value;
-    } else {
-      this.question.score = 0;
-    }
-    if (this.isTest) {
-      this.question.penalty = this.penalty.value;
-    } else {
-      this.question.penalty = 0;
     }
   }
 

@@ -1,6 +1,6 @@
-import {AssessmentTypeEnum} from "../enums/assessment-type.enum";
-import {AbstractLevel} from "./abstract-level";
-import {AbstractQuestion} from "../questions/abstract-question";
+import {AssessmentTypeEnum} from '../enums/assessment-type.enum';
+import {AbstractLevel} from './abstract-level';
+import {AbstractQuestion} from '../questions/abstract-question';
 
 /**
  * Class representing level in a game of type Assessment
@@ -11,6 +11,8 @@ export class AssessmentLevel extends AbstractLevel {
   assessmentType: AssessmentTypeEnum;
 
   constructor() {
-    super()
+    super();
+    this.questions = [];
+    this.icon = 'assignment';
   }
 }

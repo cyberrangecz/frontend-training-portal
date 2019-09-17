@@ -1,32 +1,33 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {AbstractLevelTypeEnum} from '../../../../model/enums/abstract-level-type.enum';
 
 @Component({
   selector: 'kypo2-level-controls',
   templateUrl: './level-controls.component.html',
-  styleUrls: ['./level-controls.component.css']
+  styleUrls: ['./level-controls.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LevelControlsComponent implements OnInit {
+  @Input() saveDisabled: boolean;
+  @Output() addLevel: EventEmitter<AbstractLevelTypeEnum> = new EventEmitter();
+  @Output() deleteLevel: EventEmitter<any> = new EventEmitter();
+  @Output() saveLevel: EventEmitter<any> = new EventEmitter();
 
-  @Input() isWaitingOnServerResponse: boolean;
-  @Input() isLoading: boolean;
-
-  @Output() gameLevelAdded: EventEmitter<boolean> = new EventEmitter();
-  @Output() assessmentLevelAdded: EventEmitter<boolean> = new EventEmitter();
-  @Output() infoLevelAdded: EventEmitter<boolean> = new EventEmitter();
-
-
+  levelTypes = AbstractLevelTypeEnum;
   constructor() { }
 
   ngOnInit() {
   }
 
-  addGameLevel() {
-    this.gameLevelAdded.emit();
+  onAdd(type: AbstractLevelTypeEnum) {
+    this.addLevel.emit(type);
   }
-  addAssessmentLevel() {
-    this.assessmentLevelAdded.emit();
+
+  onSave() {
+    this.saveLevel.emit();
   }
-  addInfoLevel() {
-    this.infoLevelAdded.emit();
+
+  onDelete() {
+    this.deleteLevel.emit();
   }
 }

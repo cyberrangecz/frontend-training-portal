@@ -22,7 +22,7 @@ export class TrainingRunOverviewComponent extends BaseComponent implements OnIni
 
   accessedTrainingRuns$: Observable<AccessedTrainingRunsTableRow[]>;
   totalTrainingRuns$: Observable<number>;
-  tableHasError = true;
+  tableHasError = false;
 
   constructor(private activeTrainingRun: ActiveTrainingRunService,
               private trainingRunFacade: TrainingRunFacade,
@@ -64,12 +64,11 @@ export class TrainingRunOverviewComponent extends BaseComponent implements OnIni
   }
 
   loadAccessedTrainingRuns(event: LoadTableEvent) {
-    this.tableHasError = false;
     const tableData$ = this.trainingRunFacade.getAccessedPaginated(event.pagination)
       .pipe(
-        tap({
-          error: () => this.tableHasError = true
-        })
+        tap(_ => this.tableHasError = false,
+          _ => this.tableHasError = true
+        )
       );
     this.accessedTrainingRuns$ = tableData$.pipe(map(table => table.rows));
     this.totalTrainingRuns$ = tableData$.pipe(map(table => table.pagination.totalElements));

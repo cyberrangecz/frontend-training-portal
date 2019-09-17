@@ -1,4 +1,4 @@
-import {AbstractQuestion} from "./abstract-question";
+import {AbstractQuestion} from './abstract-question';
 
 /**
  * One of the question types used in questionnaires. Has an ordered list of rows and columns and matching correct answers.

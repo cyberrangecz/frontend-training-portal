@@ -1,8 +1,0 @@
-  <mat-list>
-    <h3 mat-subheader>Levels</h3>
-    <mat-list-item *ngFor="let level of levels; index as i">
-        <mat-icon mat-list-icon color="primary">{{ level?.icon }}</mat-icon>
-        <a [routerLink]="level.detailRoute" mat-line> {{ i + 1 }}. {{ level?.title }} </a>
-        <p mat-line>{{ level.estimatedDuration }} min</p>
-    </mat-list-item>
-  </mat-list>

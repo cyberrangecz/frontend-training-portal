@@ -1,73 +1,41 @@
-<mat-accordion>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Questions
-      </mat-panel-title>
-      <mat-panel-description>
-        {{ questions.length }} questions currently added to this level
-      </mat-panel-description>
-    </mat-expansion-panel-header>
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Questions
+    </mat-panel-title>
+    <mat-panel-description>
+      <span *ngIf="questions && questions.length > 0 else noQuestionsLabel">
+        This level contains {{ questions?.length }} question(s)
+      </span>
+      <ng-template #noQuestionsLabel>
+        <span>This level contains no questions.</span>
+      </ng-template>
+      <div class="panel-description-error" *ngIf="questionsHasError">
+        <mat-icon color="warn">error_outline</mat-icon>
+        <mat-error>There are errors in some questions</mat-error>
+      </div>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
 
-    <!-- ADD QUESTION button -->
-    <div class="header">
-      <button class="add-question" mat-button color="primary" [matMenuTriggerFor]="questionsMenu"
-              matTooltip="Add new question">
-        Add Question
-      </button>
-    </div>
-
-    <mat-menu #questionsMenu="matMenu">
-      <button mat-menu-item
-              (click)="addFFQ()">
-        <mat-icon>help_outline</mat-icon>
-        <span>Free-form Question</span>
-      </button>
-      <button mat-menu-item
-              (click)="addMCQ()">
-        <mat-icon>check_circle</mat-icon>
-        <span>Multiple Choice Question</span>
-      </button>
-
-      <button mat-menu-item
-              (click)="addEMI()">
-        <mat-icon>list_alt</mat-icon>
-        <span>Extended Matching Items Questions</span>
-      </button>
-    </mat-menu>
-
+  <kypo2-question-controls
+    (addFFQ)="addFFQ()"
+    (addMCQ)="addMCQ()"
+    (addEMI)="addEMI()">
+    </kypo2-question-controls>
+  <div *ngIf="questions && questions.length > 0 else noQuestions">
+    <mat-divider></mat-divider>
     <!-- QUESTIONS -->
     <div *ngFor="let question of questions; index as i" class="question">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>
-            <h3>Question {{ i + 1 }}: {{ question.title }}</h3>
-          </mat-card-title>
-          <span class="spacer"></span>
-          <div class="required">
-            <mat-checkbox class="mat-typography" [disabled]="isTest" (change)="questionChanged()"  [(ngModel)]="question.required">Required</mat-checkbox>
-          </div>
-        </mat-card-header>
-        <mat-card-content>
-          <kypo2-question-edit
-            (question)="questionChanged()"
-            [(question)]="questions[i]"
-            [required]="question.required"
-            [isTest]="isTest">
-          </kypo2-question-edit>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-button color="warn" (click)="deleteQuestion(i)">Delete Question</button>
-        </mat-card-actions>
-      </mat-card>
+      <kypo2-question-edit
+        (questionChange)="questionChanged($event)"
+        (delete)="onDelete($event)"
+        [question]="questions[i]"
+        [index]="i"
+        [isTest]="isTest">
+      </kypo2-question-edit>
     </div>
-
-    <div *ngIf="questions && questions.length > 0" class="footer">
-      <!-- ADD QUESTION button -->
-      <button class="add-question" mat-button color="primary" [matMenuTriggerFor]="questionsMenu"
-              matTooltip="Add new question">
-        Add Question
-      </button>
-    </div>
-  </mat-expansion-panel>
-</mat-accordion>
+  </div>
+  <ng-template #noQuestions>
+    <h3>Start by clicking on Add button</h3>
+  </ng-template>
+</mat-expansion-panel>

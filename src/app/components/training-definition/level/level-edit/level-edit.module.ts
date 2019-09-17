@@ -6,7 +6,7 @@ import {LevelEditMaterialModule} from './level-edit-material.module';
 import { InfoLevelEditComponent } from './info-level-edit/info-level-edit.component';
 import { AssessmentLevelEditComponent } from './assessment-level-edit/assessment-level-edit.component';
 import { AbstractLevelEditComponent } from './abstract-level-edit.component';
-import { HintStepperComponent } from './game-level-edit/hint-edit/hint-stepper/hint-stepper.component';
+import { HintsOverviewComponent } from './game-level-edit/hint-edit/hints-overview/hints-overview.component';
 import { HintDetailEditComponent } from './game-level-edit/hint-edit/hint-detail-edit/hint-detail-edit.component';
 import { QuestionsOverviewComponent } from './assessment-level-edit/question-edit/questions-overview/questions-overview.component';
 import { QuestionEditComponent } from './assessment-level-edit/question-edit/question-edit/question-edit.component';
@@ -17,6 +17,8 @@ import {MarkdownEditorModule} from 'kypo2-markdown-editor';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {Kypo2StepperModule} from 'kypo2-stepper';
 import {environment} from '../../../../../environments/environment';
+import { QuestionControlsComponent } from './assessment-level-edit/question-edit/question-controls/question-controls.component';
+import { HintControlsComponent } from './game-level-edit/hint-edit/hint-controls/hint-controls.component';
 
 /**
  * Module containing components service and routing related to level edit/detail
@@ -39,13 +41,15 @@ import {environment} from '../../../../../environments/environment';
   InfoLevelEditComponent,
   AssessmentLevelEditComponent,
   AbstractLevelEditComponent,
-  HintStepperComponent,
+  HintsOverviewComponent,
   HintDetailEditComponent,
   QuestionsOverviewComponent,
   QuestionEditComponent,
   FreeFormQuestionEditComponent,
   MultipleChoiceQuestionEditComponent,
-  ExtendedMatchingItemsEditComponent
+  ExtendedMatchingItemsEditComponent,
+  QuestionControlsComponent,
+  HintControlsComponent
   ],
   providers: [
   ]

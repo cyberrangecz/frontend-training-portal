@@ -1,0 +1,25 @@
+<div class="content">
+  <button class="control-button" mat-flat-button color="primary" [matMenuTriggerFor]="questionsMenu"
+          matTooltip="Add new question">
+    Add
+  </button>
+</div>
+
+<mat-menu #questionsMenu="matMenu">
+  <button mat-menu-item
+          (click)="onAddFFQ()">
+    <mat-icon>help_outline</mat-icon>
+    <span>Free-form Question</span>
+  </button>
+  <button mat-menu-item
+          (click)="onAddMCQ()">
+    <mat-icon>check_circle</mat-icon>
+    <span>Multiple Choice Question</span>
+  </button>
+
+  <button mat-menu-item
+          (click)="onAddEMI()">
+    <mat-icon>list_alt</mat-icon>
+    <span>Extended Matching Items Questions</span>
+  </button>
+</mat-menu>

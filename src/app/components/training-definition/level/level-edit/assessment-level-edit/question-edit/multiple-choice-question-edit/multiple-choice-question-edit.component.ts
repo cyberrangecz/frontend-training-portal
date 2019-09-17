@@ -1,31 +1,44 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import {MultipleChoiceQuestion} from '../../../../../../../model/questions/multiple-choice-question';
 import {AlertService} from '../../../../../../../services/shared/alert.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import {BaseComponent} from '../../../../../../base.component';
 import { MultipleChoiceFormGroup } from './multiple-choice-question-edit-form-group';
 import { FormArray, FormControl, Validators } from '@angular/forms';
+import {AbstractQuestion} from '../../../../../../../model/questions/abstract-question';
+import {FreeFormQuestionFormGroup} from '../free-form-question-edit/free-form-question-form-group';
+import {takeWhile} from 'rxjs/operators';
 
 @Component({
   selector: 'kypo2-multiple-choice-question-edit',
   templateUrl: './multiple-choice-question-edit.component.html',
-  styleUrls: ['./multiple-choice-question-edit.component.css']
+  styleUrls: ['./multiple-choice-question-edit.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 /**
  * Component for editing a question of type Multiple Choice Question
  */
 export class MultipleChoiceQuestionEditComponent extends BaseComponent
   implements OnInit, OnChanges {
-  @Input('question') question: MultipleChoiceQuestion;
-  @Input('isTest') isTest: boolean;
-  @Input('required') required: boolean;
-  @Output('question') questionChange = new EventEmitter();
+  @Input() question: MultipleChoiceQuestion;
+  @Input() isTest: boolean;
+  @Input() required: boolean;
+  @Output() questionChange: EventEmitter<MultipleChoiceQuestion> = new EventEmitter();
 
   multipleChoicesFormGroup: MultipleChoiceFormGroup;
-  maxQuestionScore = 100;
-  maxQuestionPenalty = 100;
+  maxQuestionScore = AbstractQuestion.MAX_QUESTION_SCORE;
+  maxQuestionPenalty = AbstractQuestion.MAX_QUESTION_PENALTY;
 
-  constructor(private alertService: AlertService) {
+  constructor() {
     super();
   }
 
@@ -48,15 +61,13 @@ export class MultipleChoiceQuestionEditComponent extends BaseComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!this.multipleChoicesFormGroup) {
-      this.multipleChoicesFormGroup = new MultipleChoiceFormGroup(
-        this.maxQuestionScore,
-        this.maxQuestionPenalty
-      );
-      this.checkState();
-    }
     if ('question' in changes) {
-      this.setInitialValues();
+      this.multipleChoicesFormGroup = new MultipleChoiceFormGroup(this.question);
+      this.checkState();
+      this.multipleChoicesFormGroup.formGroup.valueChanges
+        .pipe(
+          takeWhile(_ => this.isAlive)
+        ).subscribe(_ => this.questionChanged());
     }
     if ('isTest' in changes && !changes['isTest'].isFirstChange()) {
       this.checkState();
@@ -83,35 +94,17 @@ export class MultipleChoiceQuestionEditComponent extends BaseComponent
   /**
    * User made a change in the input
    */
-  contentChanged() {
-    this.multipleChoicesFormGroup.formGroup.updateValueAndValidity();
+  questionChanged() {
     this.multipleChoicesFormGroup.formGroup.markAsDirty();
-    this.questionChange.emit();
+    this.multipleChoicesFormGroup.setToMCQ(this.question, this.isTest);
+    this.questionChange.emit(this.question);
   }
   /**
    * Deletes all answers selected by user
    */
   clearAnswers() {
     this.correctAnswersIndices.setValue([]);
-    this.contentChanged();
-  }
-
-  /**
-   * Determines whether the user has saved all his work and can leave the component
-   * @returns {boolean} true if does not have any unsaved changes, false otherwise
-   */
-  canDeactivate(): boolean {
-    return !this.multipleChoicesFormGroup.formGroup.dirty;
-  }
-
-  /**
-   * Validates input and saved data through REST
-   */
-  saveChanges() {
-    if (this.multipleChoicesFormGroup.formGroup.valid) {
-      this.setInputValues();
-      this.multipleChoicesFormGroup.formGroup.markAsPristine();
-    }
+    this.questionChanged();
   }
 
   /**
@@ -134,7 +127,7 @@ export class MultipleChoiceQuestionEditComponent extends BaseComponent
   deleteOption(index: number) {
     this.options.removeAt(index);
     this.removeCorrectAnswer(index);
-    this.contentChanged();
+    this.questionChanged();
   }
 
   /**
@@ -142,7 +135,7 @@ export class MultipleChoiceQuestionEditComponent extends BaseComponent
    */
   addOption() {
     (this.options as FormArray).push(new FormControl('', Validators.required));
-    this.contentChanged();
+    this.questionChanged();
   }
 
   requiredChanged() {
@@ -157,7 +150,7 @@ export class MultipleChoiceQuestionEditComponent extends BaseComponent
    */
   private addCorrectAnswer(index: number) {
     this.correctAnswersIndices.value.push(index);
-    this.contentChanged();
+    this.questionChanged();
     this.correctAnswersIndices.updateValueAndValidity();
   }
 
@@ -167,47 +160,10 @@ export class MultipleChoiceQuestionEditComponent extends BaseComponent
    */
   private removeCorrectAnswer(index: number) {
     const indexToRemove = this.correctAnswersIndices.value.indexOf(index);
-    if (indexToRemove != -1) {
+    if (indexToRemove !== -1) {
       this.correctAnswersIndices.value.splice(indexToRemove, 1);
-      this.contentChanged();
+      this.questionChanged();
       this.correctAnswersIndices.updateValueAndValidity();
-    }
-  }
-
-  /**
-   * Sets initial values from passed question object to user inputs
-   */
-  private setInitialValues() {
-    this.title.setValue(this.question.title);
-    this.question.options.forEach(element => {
-      const option = new FormControl(element, Validators.required);
-      option.markAsTouched();
-      (this.options as FormArray).push(option);
-    });
-    this.correctAnswersIndices.setValue(this.question.correctAnswersIndices);
-    this.score.setValue(this.question.score);
-    this.penalty.setValue(this.question.penalty);
-    this.required = this.question.required;
-  }
-
-  /**
-   * Sets values from user input to the question object
-   */
-  private setInputValues() {
-    this.question.title = this.title.value;
-    this.question.options = this.options.value;
-    this.question.correctAnswersIndices = this.correctAnswersIndices.value;
-    this.question.required = this.required;
-
-    if (this.question.required) {
-      this.question.score = this.score.value;
-    } else {
-      this.question.score = 0;
-    }
-    if (this.isTest) {
-      this.question.penalty = this.penalty.value;
-    } else {
-      this.question.penalty = 0;
     }
   }
 

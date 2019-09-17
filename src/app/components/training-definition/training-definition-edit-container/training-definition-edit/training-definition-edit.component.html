@@ -1,5 +1,5 @@
 <div class="content">
-  <form [formGroup]="trainingConfigurationFormGroup.formGroup">
+  <form [formGroup]="trainingDefinitionEditFormGroup.formGroup">
     <div class="form-container">
       <div class="left-col">
         <!-- TITLE field-->
@@ -102,26 +102,6 @@
           </div>
         </div>
       </div>
-    </div>
-
-
-
-    <!-- SAVE button-->
-    <div class="main-button">
-
-      <button (click)="saveTrainingDef()"
-              [disabled]="!this.trainingConfigurationFormGroup.formGroup.dirty || !this.trainingConfigurationFormGroup.formGroup.valid"
-              mat-raised-button color="primary">
-        <span *ngIf="editMode; else createButton">Save</span>
-        <ng-template #createButton>Create</ng-template>
-      </button>
-
-      <button *ngIf="this.editMode" (click)="saveTrainingDef(true)"
-              [disabled]="!this.trainingConfigurationFormGroup.formGroup.dirty || !this.trainingConfigurationFormGroup.formGroup.valid"
-              mat-raised-button color="accent">
-        Save and edit levels
-      </button>
-
     </div>
   </form>
 </div>

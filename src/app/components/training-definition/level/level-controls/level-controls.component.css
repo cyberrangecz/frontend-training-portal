@@ -1,9 +1,11 @@
-.header {
+.content {
   display: flex;
   flex-direction: row;
-  align-items: baseline;
-  margin-bottom: 20px;
+  justify-content: flex-end;
 }
-button.add-level {
-  margin-left: 20px;
+
+button.control-button {
+  margin: 0 5px;
 }
+
+

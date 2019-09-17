@@ -1,31 +1,12 @@
-.save-info-content {
-  display: inline-flex;
-  vertical-align: middle;
-  align-items: center;
-}
-
-div .level {
+.content {
   display: flex;
   flex-direction: column;
   margin: 20px;
 }
 
-div .header {
-  display: flex;
-  align-items: baseline;
-  flex-direction: row;
-  margin-bottom: 25px;
-}
 
 div .spacer {
   flex: 1 1 auto;
-}
-
-div .content {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-  width: 100%;
 }
 
 div .panel-wrapper {
@@ -61,16 +42,6 @@ kypo2-markdown-editor.mrkdwn-solution {
   height: 30vh;
 }
 
-div .footer {
-  display: flex;
-  flex-direction: row;
-  align-items: baseline;
-}
-
-button {
-  margin-right: 15px;
-}
-
 @media screen and (max-width: 800px) {
   div .panel-wrapper {
     flex-direction: column;
@@ -82,21 +53,4 @@ button {
   div .right-panel {
     margin-left: 0;
   }
-
-}
-
-div .save-info {
-  margin-left: 10px;
-}
-
-.green-icon {
-  color: lawngreen;
-}
-
-.bottom-align {
-  vertical-align:bottom
-}
-
-.left-margin {
-  left-margin: 5px
 }

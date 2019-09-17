@@ -1,31 +1,7 @@
-.save-info-content {
-	display: inline-flex;
-	vertical-align: middle;
-	align-items: center;
-}
-
-div .level {
+.content {
 	display: flex;
 	flex-direction: column;
 	margin: 20px;
-}
-
-div .header {
-	display: flex;
-	align-items: baseline;
-	flex-direction: row;
-	margin-bottom: 25px;
-}
-
-div .spacer {
-	flex: 1 1 auto;
-}
-
-div .content {
-	display: flex;
-	flex-direction: column;
-	margin-bottom: 20px;
-	width: 100%;
 }
 
 div .panel-wrapper {
@@ -51,16 +27,6 @@ div .right-panel mat-form-field {
 	margin-bottom: 20px;
 }
 
-div .footer {
-	display: flex;
-	flex-direction: row;
-	align-items: baseline;
-}
-
-button {
-	margin-right: 15px;
-}
-
 kypo2-markdown-editor.mrkdwn-content {
 	margin-bottom: 20px;
 	height: 30vh;
@@ -70,6 +36,7 @@ kypo2-markdown-editor.mrkdwn-solution {
 	margin-bottom: 20px;
 	height: 30vh;
 }
+
 .test-toggle-wrapper {
 	width: 180px;
 }
@@ -82,21 +49,6 @@ kypo2-markdown-editor.mrkdwn-solution {
 	margin-right: 15px;
 }
 
-div .save-info {
-	margin-left: 10px;
-}
-
-.green-icon {
-	color: lawngreen;
-}
-
-.bottom-align {
-	vertical-align: bottom;
-}
-
-.left-margin {
-	margin-left: 5px;
-}
 
 @media screen and (max-width: 800px) {
 	div .panel-wrapper {

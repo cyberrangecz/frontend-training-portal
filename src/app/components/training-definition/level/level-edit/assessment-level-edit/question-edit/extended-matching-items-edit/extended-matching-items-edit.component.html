@@ -4,8 +4,8 @@
       <!-- TITLE field-->
       <mat-form-field appearance="outline">
         <mat-label>Title</mat-label>
-        <input (ngModelChange)="contentChanged()" matInput placeholder="Title" formControlName="title" required>
-        <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title.setValue(''); contentChanged()">
+        <input matInput placeholder="Title" formControlName="title" required>
+        <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title.setValue('')">
           <mat-icon>close</mat-icon>
         </button>
         <mat-error *ngIf="title.hasError('required')">Title cannot be empty</mat-error>
@@ -15,7 +15,7 @@
       <div class="inline-input">
         <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionScore }}">
           <mat-label>Points</mat-label>
-          <input (ngModelChange)="contentChanged()" matInput placeholder="Points" type="number" [max]="maxQuestionScore" min="0" formControlName="score" [required]="required">
+          <input matInput placeholder="Points" type="number" [max]="maxQuestionScore" min="0" formControlName="score" [required]="required">
           <mat-error *ngIf="score.hasError('required')">Question score cannot be empty</mat-error>
           <mat-error *ngIf="score.hasError('pattern') || score.hasError('min') || score.hasError('max')">Question score must be a number in range from 0 to {{this.maxQuestionScore}}</mat-error>
         </mat-form-field>
@@ -23,88 +23,91 @@
         <!--PENALTY field -->
         <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionPenalty }}">
           <mat-label>Penalty points</mat-label>
-          <input (ngModelChange)="contentChanged()" matInput placeholder="Question Penalty points" type="number" [max]="maxQuestionPenalty" min="0" formControlName="penalty" [required]="required">
+          <input matInput placeholder="Question Penalty points" type="number" [max]="maxQuestionPenalty" min="0" formControlName="penalty" [required]="required">
           <mat-error *ngIf="penalty.hasError('required')">Question penalty cannot be empty</mat-error>
           <mat-error *ngIf="penalty.hasError('pattern') || penalty.hasError('min') || penalty.hasError('max')">Question penalty must be a number in range from 0 to this.{{maxQuestionPenalty}}</mat-error>
         </mat-form-field>
       </div>
     </div>
 
-    <button *ngIf="correctAnswers.value.length > 0" mat-button color="warn" (click)="clearAnswers()" class="clear-answers">Clear Answers</button>
+    <button *ngIf="isTest" [disabled]="correctAnswers.value.length <= 0" mat-button color="warn" (click)="clearAnswers()" class="clear-answers">Clear Answers</button>
     <!-- EMI -->
-    <table>
-      <!-- DELETE COL BUTTONS -->
-      <tr class="first-row">
-        <td></td>
-        <td *ngFor="let cols of cols.value; index as i;" class="delete-col-buttons">
-          <button mat-button matSuffix mat-icon-button aria-label="Delete column" color="warn" matTooltip="Delete column"
-                  (click)="deleteColumn(i)">
-            <mat-icon>remove_circle</mat-icon>
-          </button>
-        </td>
-      </tr>
-      <!-- COL HEADER -->
-      <tr class="inner">
-        <td></td>
-
-        <td formArrayName="cols" *ngFor="let col of cols.controls; index as i; trackBy: trackByFn" class="col-header">
-          <!-- COL NAME -->
-          <mat-form-field class="col-field" floatLabel="never">
-            <mat-label>Column {{ i + 1 }}</mat-label>
-            <input (ngModelChange)="contentChanged()" matInput placeholder="Column {{ i + 1 }}" [formControl]="col" required>
-            <button mat-button *ngIf="col.value" matSuffix mat-icon-button aria-label="Clear" (click)="col.setValue(''); contentChanged()">
-              <mat-icon>close</mat-icon>
+    <div class="emi-answers">
+      <table>
+        <!-- DELETE COL BUTTONS -->
+        <tr class="first-row">
+          <td></td>
+          <td *ngFor="let cols of cols.value; index as i;" class="delete-col-buttons">
+            <button mat-button matSuffix mat-icon-button aria-label="Delete column" color="warn" matTooltip="Delete column"
+                    (click)="deleteColumn(i)">
+              <mat-icon>remove_circle</mat-icon>
             </button>
-          </mat-form-field>
-        </td>
-
-        <!-- ADD COL BUTTON -->
-        <td class="last-col">
-          <button mat-button matSuffix mat-icon-button aria-label="Add column" color="primary" matTooltip="Add column"
-                  (click)="addColumn()">
-            <mat-icon>add_circle</mat-icon>
-          </button>
-        </td>
-      </tr>
-      <!-- ROWS WITH RADIO BUTTONS -->
-      <tr formArrayName="rows" *ngFor="let row of rows.controls; index as i; trackBy: trackByFn" class="inner">
-        <td>
-        <!-- ROW NAME -->
-          <mat-form-field class="row-field" floatLabel="never">
-            <mat-label>Row {{ i + 1 }}</mat-label>
-            <input (ngModelChange)="contentChanged()" matInput placeholder="Row {{ i + 1 }}" [formControl]="row" required>
-            <button mat-button *ngIf="row.value" matSuffix mat-icon-button aria-label="Clear" (click)="row.setValue(''); contentChanged()">
-              <mat-icon>close</mat-icon>
-            </button>
-          </mat-form-field>
-         
-        </td>
-
-        <!-- ROW OPTIONS -->
-        <mat-radio-group>
-          <td *ngFor="let col of cols.value; index as j;">
-              <mat-radio-button [disabled]="!isTest || !required" [value]="{ x: i, y: j }" (change)="onAnswerChanged(i, j)"></mat-radio-button>
           </td>
-        </mat-radio-group>
+        </tr>
+        <!-- COL HEADER -->
+        <tr class="inner">
+          <td></td>
 
-        <!-- DELETE ROW BUTTON -->
-        <td class="last-col">
-        <button mat-button matSuffix mat-icon-button aria-label="Delete row" color="warn" matTooltip="Delete row"
-                (click)="deleteRow(i)">
-          <mat-icon>remove_circle</mat-icon>
-        </button>
-        </td>
-      </tr>
-      <!-- ADD ROW BUTTON -->
-      <tr class="last-row">
-        <td>
-          <button mat-button matSuffix mat-icon-button aria-label="Add new row" color="primary" matTooltip="Add new row"
-                  (click)="addRow()">
-            <mat-icon>add_circle</mat-icon>
-          </button>
-        </td>
-      </tr>
-    </table>
+          <td formArrayName="cols" *ngFor="let col of cols.controls; index as i; trackBy: trackByFn" class="col-header">
+            <!-- COL NAME -->
+            <mat-form-field class="col-field" floatLabel="never">
+              <mat-label>Column {{ i + 1 }}</mat-label>
+              <input matInput placeholder="Column {{ i + 1 }}" [formControl]="col" required>
+              <button mat-button *ngIf="col.value" matSuffix mat-icon-button aria-label="Clear" (click)="col.setValue('')">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </td>
+
+          <!-- ADD COL BUTTON -->
+          <td class="last-col">
+            <button mat-button matSuffix mat-icon-button aria-label="Add column" color="primary" matTooltip="Add column"
+                    (click)="addColumn()">
+              <mat-icon>add_circle</mat-icon>
+            </button>
+          </td>
+        </tr>
+        <!-- ROWS WITH RADIO BUTTONS -->
+        <tr formArrayName="rows" *ngFor="let row of rows.controls; index as i; trackBy: trackByFn" class="inner">
+          <td>
+            <!-- ROW NAME -->
+            <mat-form-field class="row-field" floatLabel="never">
+              <mat-label>Row {{ i + 1 }}</mat-label>
+              <input matInput placeholder="Row {{ i + 1 }}" [formControl]="row" required>
+              <button mat-button *ngIf="row.value" matSuffix mat-icon-button aria-label="Clear" (click)="row.setValue('')">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+
+          </td>
+
+          <!-- ROW OPTIONS -->
+          <mat-radio-group>
+            <td *ngFor="let col of cols.value; index as j;">
+              <mat-radio-button [disabled]="!isTest || !required" [value]="{ x: i, y: j }" (change)="onAnswerChanged(i, j)"></mat-radio-button>
+            </td>
+          </mat-radio-group>
+
+          <!-- DELETE ROW BUTTON -->
+          <td class="last-col">
+            <button mat-button matSuffix mat-icon-button aria-label="Delete row" color="warn" matTooltip="Delete row"
+                    (click)="deleteRow(i)">
+              <mat-icon>remove_circle</mat-icon>
+            </button>
+          </td>
+        </tr>
+        <!-- ADD ROW BUTTON -->
+        <tr class="last-row">
+          <td>
+            <button mat-button matSuffix mat-icon-button aria-label="Add new row" color="primary" matTooltip="Add new row"
+                    (click)="addRow()">
+              <mat-icon>add_circle</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </table>
+    </div>
+
     <mat-error *ngIf="isTest && extendedMatchingQuestionFormGroup.formGroup.hasError('noSelectedAnswers')">Test question must have selected correct answers</mat-error>
     <mat-error *ngIf="rows.hasError('required')">Rows cannot be empty</mat-error>
     <mat-error *ngIf="cols.hasError('required')">Columns cannot be empty</mat-error>
