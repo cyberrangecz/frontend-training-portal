@@ -1,0 +1,72 @@
+<mat-form-field>
+  <input matInput [disabled]="isInErrorState"
+         (keyup)="applyFilter($event.target.value)"
+         placeholder="Filter by title">
+</mat-form-field>
+
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows>
+
+    <!-- EXPANDED TD TETAIL-->
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length">
+        <div class="sandbox-detail"
+             [@detailExpand]="row == expandedSandboxDefinition ? 'expanded' : 'collapsed'">
+          <kypo2-sandbox-definition-table-detail [sandboxDefinition]="expandedSandboxDefinition"></kypo2-sandbox-definition-table-detail>
+        </div>
+      </td>
+    </ng-container>
+
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+      <th class="id" mat-header-cell *matHeaderCellDef>ID</th>
+      <td class="id" mat-cell *matCellDef="let data"> {{ data.sandbox?.id }}</td>
+    </ng-container>
+
+    <!-- TITLE Column -->
+    <ng-container matColumnDef="title">
+      <th class="title" mat-header-cell *matHeaderCellDef>Title</th>
+      <td class="title" mat-cell *matCellDef="let data"> {{ data.sandbox?.title }}</td>
+    </ng-container>
+
+    <!-- ASSOCIATED TRAINING DEFS Column -->
+    <ng-container matColumnDef="associatedTrainingDefs">
+      <th class="assocTrainingDefs" mat-header-cell *matHeaderCellDef>Associated Training Definitions</th>
+      <td class="assocTrainingDefs" mat-cell *matCellDef="let data">
+        <div *ngIf="data?.associatedTrainingDefinitions?.length <= 1" class="single-associated-td">
+          {{ data?.associatedTrainingDefinitions | trainingDefinitionsTableFormat }}
+        </div>
+        <div *ngIf="data?.associatedTrainingDefinitions?.length > 1" class="multiple-associated-td">
+          {{ data?.associatedTrainingDefinitions | trainingDefinitionsTableFormat }}
+        </div>
+      </td>
+    </ng-container>
+
+    <!-- ACTIONS Column -->
+    <ng-container matColumnDef="actions">
+      <th class="actions" mat-header-cell *matHeaderCellDef>Actions</th>
+      <td class="actions" mat-cell *matCellDef="let data">
+
+        <div class="action-buttons">
+          <!-- REMOVE button-->
+          <button [disabled]="!data.canBeRemoved"
+                  mat-icon-button color="warn"
+                  matTooltip="Delete sandbox definition"
+                  (click)="deleteSandboxDefinition(data)">
+            <mat-icon
+              aria-label="Delete sandbox definition button">
+              delete</mat-icon>
+          </button>
+        </div>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let element; columns: displayedColumns;"
+        class="sandbox-def-row"
+        [class.example-expanded-row]="expandedSandboxDefinition === element"
+        (click)="expandedSandboxDefinition = expandedSandboxDefinition === element ? null : element">
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+  </table>
+  <mat-paginator [length]="totalElements" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>

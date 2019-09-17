@@ -1,0 +1,36 @@
+h1 {
+  text-align: center;
+  margin: 20px auto;
+}
+
+.sandbox-def {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sandbox-def-table-wrapper {
+  flex-grow: 10;
+}
+
+.sandbox-def-table {
+  width: 90%;
+  margin: auto auto;
+  justify-items: center;
+  justify-content: center;
+}
+
+//.mat-sort-header-container {
+//  align-items: center;
+//}
+//
+//.error {
+//  color: #980000;
+//  text-align: center;
+//}
+
+@media screen and (max-width: 800px) {
+  .sandbox-def {
+    flex-direction: column;
+  }
+}

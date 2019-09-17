@@ -1,0 +1,59 @@
+tr.sandbox-def-row:not(.example-expanded-row):hover {
+  background: gainsboro;
+}
+
+tr.sandbox-def-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+.sandbox-def-row td {
+  border-bottom-width: 0;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.sandbox-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+kypo2-sandbox-definition-table-detail {
+  width: 100%;
+  padding: 10px;
+}
+
+table {
+  width: 100%;
+}
+
+td.id, th.id {
+  width: 5%;
+}
+
+td.title, th.title {
+  width: 25%;
+}
+
+td.associatedTrainingDefs, th.associatedTrainingDefs {
+  width: 30%;
+}
+
+td.url, th.url {
+  width: 30%;
+}
+tr.detail-row {
+  height: 0;
+  background: #f5f5f5;
+}
+
+td.actions, th.actions {
+  width: 10%;
+}
+
+.multiple-associated-td {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}

@@ -1,6 +1,6 @@
 import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
-import {SandboxDefinitionOverviewComponent} from './sandbox-definition-overview/sandbox-definition-overview.component';
+import {SandboxDefinitionOverviewComponent} from './sandbox-definition-overview.component';
 
 
 const routes: Routes = [
