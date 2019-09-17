@@ -1,0 +1,23 @@
+.sandbox-def-buttons {
+  width: 90%;
+  margin: auto auto;
+  display: flex;
+  flex-direction: row;
+}
+
+.sandbox-def-buttons button {
+  margin-top: 20px;
+  max-width: 200px;
+}
+
+@media screen and (max-width: 800px) {
+  .sandbox-def-buttons {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+  }
+}
+

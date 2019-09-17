@@ -33,6 +33,7 @@ export class SandboxDefinitionMapperService {
     result.id = sandboxDTO.id;
     result.title = sandboxDTO.name;
     result.url = sandboxDTO.url;
+    result.rev = sandboxDTO.rev;
     return result;
   }
 }

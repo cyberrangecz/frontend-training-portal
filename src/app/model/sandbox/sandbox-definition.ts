@@ -8,6 +8,7 @@ export class SandboxDefinition {
   id: number;
   title: string;
   url: string;
+  rev: string;
   asocciatedTrainingDefs: TrainingDefinition[];
   authors: User[];
 
