@@ -1,15 +1,22 @@
-<kypo2-level-controls [isLoading]="false"
-                      [isWaitingOnServerResponse]="isWaitingOnServerResponse"
-                      (assessmentLevelAdded)="addAssessmentLevel()"
-                      (gameLevelAdded)="addGameLevel()"
-                      (infoLevelAdded)="addInfoLevel()">
-
+<kypo2-level-controls [saveDisabled]="!(this.activeLevelCanBeSaved$ | async)"
+                      (addLevel)="addLevel($event)"
+                      (deleteLevel)="onDeleteLevel()"
+                      (saveLevel)="onSave()">
 </kypo2-level-controls>
-<kypo2-levels-stepper [trainingDefinition]="trainingDefinition$ | async"
-                      [activeStep]="activeStep$ | async"
-                      [items]="levels"
-                      (onLevelSwap)="onLevelSwap($event)"
-                      (initialLevels)="updateTrainingDefinitionLevels($event)"
-                      (onLevelDelete)="onDeleteLevel($event)"
-                      (activeLevelChanged)="onActiveLevelChange($event)">
-</kypo2-levels-stepper>
+<mat-divider></mat-divider>
+<div *ngIf="(levels$ | async).length > 0 else noLevels">
+ <kypo2-levels-stepper [activeStep]="activeStep$ | async"
+                       [levels]="levels$ | async"
+                       [swappingInProgress]="swappingInProgress"
+                       (levelSwap)="onLevelSwap($event)"
+                       (activeStepChange)="onActiveLevelChange($event)">
+ </kypo2-levels-stepper>
+ <mat-divider></mat-divider>
+ <kypo2-level-edit [level]="(levels$ | async)[activeStep$ | async]" (levelChange)="onActiveLevelChanged($event)"></kypo2-level-edit>
+</div>
+
+<ng-template #noLevels>
+ <h3>Start by clicking on Add button</h3>
+</ng-template>
+
+

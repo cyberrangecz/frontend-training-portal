@@ -1,5 +1,5 @@
-import {AbstractLevel} from "./abstract-level";
-import {Hint} from "./hint";
+import {AbstractLevel} from './abstract-level';
+import {Hint} from './hint';
 
 /**
  * Class representing level in a training of type Game
@@ -7,15 +7,17 @@ import {Hint} from "./hint";
 export class GameLevel extends AbstractLevel {
 
   flag: string;
-  hints: Hint[] = [];
+  hints: Hint[];
   content: string;
   solution: string;
-  incorrectFlagLimit: number = 5;
-  solutionPenalized: boolean = true;
+  incorrectFlagLimit = 5;
+  solutionPenalized = true;
   attachments: string[] = [];
 
   constructor() {
     super();
+    this.icon = 'videogame_asset';
+    this.hints = [];
   }
 
   hasSolution(): boolean {

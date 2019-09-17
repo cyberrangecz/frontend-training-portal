@@ -36,17 +36,6 @@
   flex: 1 1 0;
 }
 
-.main-button {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-}
-
-.main-button button {
-  margin-top: 20px;
-  margin-left: 10px;
-}
-
 @media screen and (max-width: 900px) {
   .form-container {
     display: flex;

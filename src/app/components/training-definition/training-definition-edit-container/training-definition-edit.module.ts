@@ -15,6 +15,10 @@ import {TrainingDefinitionLeaveGuard} from '../../../services/guards/training-de
 import {SandboxDefinitionFacadeModule} from '../../../services/facades/modules/sandbox-definition-facade.module';
 import {TrainingDefinitionResolver} from '../../../services/resolvers/training-definition-resolver.service';
 import {TrainingDefinitionBreadcrumbResolver} from '../../../services/resolvers/training-definition-breadcrumb-resolver.service';
+import {LevelOverviewModule} from '../level/level-overview.module';
+import { TrainingDefinitionEditControlsComponent } from './training-definition-edit-controls/training-definition-edit-controls.component';
+import {TrainingDefinitionEditService} from '../../../services/training-definition/training-definition-edit.service';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 /**
  * Module containing components and services of training definition detail/edt/new actions. Contains routing to level modules
@@ -26,19 +30,23 @@ import {TrainingDefinitionBreadcrumbResolver} from '../../../services/resolvers/
     SharedModule,
     TrainingDefinitionEditRoutingModule,
     TrainingDefinitionEditMaterialModule,
+    LevelOverviewModule,
     SandboxDefinitionFacadeModule,
     PipesModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    MatExpansionModule
   ],
   declarations: [
     TrainingDefinitionEditContainerComponent,
     TrainingDefinitionEditComponent,
     AuthorsPickerComponent,
     SandboxDefinitionPickerComponent,
-    EditBetaTestingGroupComponent
+    EditBetaTestingGroupComponent,
+    TrainingDefinitionEditControlsComponent
   ],
   providers: [
+    TrainingDefinitionEditService,
     TrainingDefinitionLeaveGuard,
     TrainingDefinitionResolver,
     TrainingDefinitionBreadcrumbResolver

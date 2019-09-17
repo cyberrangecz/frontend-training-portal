@@ -14,8 +14,6 @@ import {TrainingDefinitionOverviewRoutingModule} from './training-definition-ove
 import {TrainingDefinitionOverviewMaterialModule} from './training-definition-overview-material.module';
 import {TrainingDefinitionOverviewComponent} from './training-definition-overview.component';
 import { TrainingDefinitionDetailComponent } from './training-definition-table/training-definition-detail/training-definition-detail.component';
-import { TrainingDefinitionDetailPresentationComponent } from './training-definition-table/training-definition-detail/training-definition-detail-presentation/training-definition-detail-presentation.component';
-import { TrainingDefinitionDetailLevelsPresentationComponent } from './training-definition-table/training-definition-detail/training-definition-detail-levels-presentation/training-definition-detail-levels-presentation.component';
 import {SharedDirectivesModule} from '../../../directives/shared-directives.module';
 
 /**
@@ -42,8 +40,6 @@ import {SharedDirectivesModule} from '../../../directives/shared-directives.modu
     AuthorsListDialogComponent,
     CloneDialogComponent,
     TrainingDefinitionDetailComponent,
-    TrainingDefinitionDetailPresentationComponent,
-    TrainingDefinitionDetailLevelsPresentationComponent,
   ],
   providers: [
   ],
@@ -55,6 +51,6 @@ import {SharedDirectivesModule} from '../../../directives/shared-directives.modu
   ]
 })
 
-export class TrainingDefininitionOverviewModule {
+export class TrainingDefinitionOverviewModule {
 
 }

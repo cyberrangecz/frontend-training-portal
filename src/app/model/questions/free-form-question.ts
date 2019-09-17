@@ -1,4 +1,4 @@
-import {AbstractQuestion} from "./abstract-question";
+import {AbstractQuestion} from './abstract-question';
 
 /**
  * One of types of questions. Has question and answer
@@ -10,5 +10,6 @@ export class FreeFormQuestion extends AbstractQuestion {
 
   constructor(title: string) {
     super(title);
+    this.correctAnswers = [];
   }
 }

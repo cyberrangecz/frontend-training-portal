@@ -1,6 +1,3 @@
 .content {
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  place-content: space-evenly;
 }

@@ -1,4 +1,4 @@
-import {AbstractQuestion} from "./abstract-question";
+import {AbstractQuestion} from './abstract-question';
 
 /**
  * One of types of questions in questionnaire. Traditional multiple-choice

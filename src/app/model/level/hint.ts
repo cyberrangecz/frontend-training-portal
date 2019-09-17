@@ -8,11 +8,15 @@ export class Hint extends AbstractStepItem {
   title: string;
   content: string;
   order: number;
-  isValid: boolean;
-  hintPenalty: number = 0;
+  valid: boolean;
+  penalty = 0;
 
   constructor() {
     super();
+    this.valid = true;
+    this.isSaved = true; // TODO: REMOVE as hint should not be saved separatedly of level
+    this.icon = 'help_outline';
+
   }
 
   hasContent(): boolean {

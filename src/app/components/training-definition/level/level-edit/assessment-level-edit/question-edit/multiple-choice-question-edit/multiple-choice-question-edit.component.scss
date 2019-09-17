@@ -1,6 +1,7 @@
 mat-checkbox {
   margin: 0 10px;
 }
+@import "~variables.scss";
 
 .option mat-form-field {
   width: 30%;
@@ -23,8 +24,13 @@ mat-checkbox {
   margin-right: 10px;
 }
 
+
+.answer mat-form-field {
+  width: 70%;
+}
+
 .warn {
-  color: #f44336;
+  color: $warn;
 }
 
 .right-panel mat-form-field {
@@ -64,10 +70,4 @@ p.note {
   mat-form-field {
     width: 80%;
   }
-}
-
-.main-button {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
 }

@@ -1,7 +1,17 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
 import {merge} from 'rxjs';
 import {startWith, takeWhile} from 'rxjs/operators';
 import {environment} from '../../../../../environments/environment';
@@ -14,7 +24,8 @@ import {LoadTableEvent} from '../../../../model/table-adapters/load-table-event'
 @Component({
   selector: 'kypo2-training-run-table',
   templateUrl: './training-run-table.component.html',
-  styleUrls: ['./training-run-table.component.scss']
+  styleUrls: ['./training-run-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 /**
  * Presentational table component to display accessed training runs

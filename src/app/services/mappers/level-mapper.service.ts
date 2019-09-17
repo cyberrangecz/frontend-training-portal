@@ -129,7 +129,7 @@ export class LevelMapper {
     result.id = hint.id;
     result.content = hint.content;
     result.title = hint.title;
-    result.hintPenalty = hint.hint_penalty;
+    result.penalty = hint.hint_penalty;
     result.order = hint.order;
     return result;
   }
@@ -248,7 +248,7 @@ export class LevelMapper {
     result.id = hint.id;
     result.content = hint.content;
     result.title = hint.title;
-    result.hint_penalty = hint.hintPenalty;
+    result.hint_penalty = hint.penalty;
     result.order = hint.order;
     return result;
   }

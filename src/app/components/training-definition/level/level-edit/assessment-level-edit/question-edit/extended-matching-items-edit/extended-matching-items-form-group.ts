@@ -6,36 +6,43 @@ import {
   ValidatorFn,
   ValidationErrors
 } from '@angular/forms';
+import {ExtendedMatchingItems} from '../../../../../../../model/questions/extended-matching-items';
+import {AbstractQuestion} from '../../../../../../../model/questions/abstract-question';
 
 export class ExtendedMatchingItemsFormGroup {
   formGroup: FormGroup;
-  private maxQuestionScore: number;
-  private maxQuestionPenalty: number;
 
-  constructor(maxQuestionScore: number, maxQuestionPenalty: number) {
-    this.maxQuestionPenalty = maxQuestionPenalty;
-    this.maxQuestionScore = maxQuestionScore;
+  constructor(emi: ExtendedMatchingItems) {
     this.formGroup = new FormGroup(
       {
-        title: new FormControl('', Validators.required),
-        rows: new FormArray([], Validators.required),
-        cols: new FormArray([], Validators.required),
-        correctAnswers: new FormArray([]),
-        score: new FormControl('', [
+        title: new FormControl(emi.title, Validators.required),
+        rows: new FormArray(emi.rows.map(row => new FormControl(row, Validators.required))),
+        cols: new FormArray(emi.cols.map(col => new FormControl(col, Validators.required))),
+        correctAnswers: new FormArray(emi.correctAnswers.map(answer => new FormControl(answer))),
+        score: new FormControl(emi.score, [
           Validators.required,
           Validators.pattern('^[0-9]*$'),
           Validators.min(0),
-          Validators.max(this.maxQuestionScore)
+          Validators.max(AbstractQuestion.MAX_QUESTION_SCORE)
         ]),
-        penalty: new FormControl('', [
+        penalty: new FormControl(emi.penalty, [
           Validators.required,
           Validators.pattern('^[0-9]*$'),
           Validators.min(0),
-          Validators.max(this.maxQuestionPenalty)
-        ])
+          Validators.max(AbstractQuestion.MAX_QUESTION_PENALTY)
+        ]),
       },
-      { validators: this.noSelectedAnswers }
-    );
+    this.noSelectedAnswers);
+  }
+
+  setToEMI(emi: ExtendedMatchingItems, isTest: boolean) {
+    emi.title = this.formGroup.get('title').value;
+    emi.rows = this.formGroup.get('rows').value;
+    emi.cols = this.formGroup.get('cols').value;
+    emi.correctAnswers = this.formGroup.get('correctAnswers').value;
+    emi.score = emi.required ? this.formGroup.get('score').value : 0;
+    emi.penalty = isTest ? this.formGroup.get('penalty').value : 0;
+    emi.valid = this.formGroup.valid;
   }
 
   private noSelectedAnswers: ValidatorFn = (
@@ -44,10 +51,9 @@ export class ExtendedMatchingItemsFormGroup {
     let error = null;
     const correctAnswers = control.get('correctAnswers');
     const rows = control.get('rows');
-    if (correctAnswers.value.length != rows.value.length) {
+    if (correctAnswers.value.length !== rows.value.length) {
       error = { noSelectedAnswers: true };
     }
-
     return error ? error : null;
   }
 
@@ -57,5 +63,6 @@ export class ExtendedMatchingItemsFormGroup {
 
   removeAnswersValidator() {
     this.formGroup.clearValidators();
+    this.formGroup.updateValueAndValidity();
   }
 }

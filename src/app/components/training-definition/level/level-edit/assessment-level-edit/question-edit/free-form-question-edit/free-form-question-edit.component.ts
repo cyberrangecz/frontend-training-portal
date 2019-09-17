@@ -1,34 +1,38 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import {FreeFormQuestion} from '../../../../../../../model/questions/free-form-question';
-import {AlertService} from '../../../../../../../services/shared/alert.service';
 import {BaseComponent} from '../../../../../../base.component';
 import { FreeFormQuestionFormGroup } from './free-form-question-form-group';
 import { FormArray, FormControl, Validators } from '@angular/forms';
+import {takeWhile, tap} from 'rxjs/operators';
+import {AbstractQuestion} from '../../../../../../../model/questions/abstract-question';
 
 @Component({
   selector: 'kypo2-free-form-question-edit',
   templateUrl: './free-form-question-edit.component.html',
-  styleUrls: ['./free-form-question-edit.component.css']
+  styleUrls: ['./free-form-question-edit.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 /**
  * Component for editing a question of type Free Form
  */
-export class FreeFormQuestionEditComponent extends BaseComponent
-  implements OnInit, OnChanges {
-  @Input('question') question: FreeFormQuestion;
-  @Input('isTest') isTest: boolean;
-  @Input('required') required: boolean;
-
-  @Output('question') questionChange = new EventEmitter();
+export class FreeFormQuestionEditComponent extends BaseComponent implements OnInit, OnChanges {
+  @Input() question: FreeFormQuestion;
+  @Input() isTest: boolean;
+  @Input() required: boolean;
+  @Output() questionChange: EventEmitter<FreeFormQuestion> = new EventEmitter();
 
   freeFormQuestionFormGroup: FreeFormQuestionFormGroup;
-
-  maxQuestionScore = 100;
-  maxQuestionPenalty = 100;
-
-  constructor(private alertService: AlertService) {
-    super();
-  }
+  maxQuestionScore = AbstractQuestion.MAX_QUESTION_SCORE;
+  maxQuestionPenalty = AbstractQuestion.MAX_QUESTION_PENALTY;
 
   ngOnInit() {}
 
@@ -46,15 +50,13 @@ export class FreeFormQuestionEditComponent extends BaseComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!this.freeFormQuestionFormGroup) {
-      this.freeFormQuestionFormGroup = new FreeFormQuestionFormGroup(
-        this.maxQuestionScore,
-        this.maxQuestionPenalty
-      );
-      this.checkState();
-    }
     if ('question' in changes) {
-      this.setInitialValues();
+      this.freeFormQuestionFormGroup = new FreeFormQuestionFormGroup(this.question);
+      this.checkState();
+      this.freeFormQuestionFormGroup.formGroup.valueChanges
+        .pipe(
+          takeWhile(_ => this.isAlive),
+        ).subscribe(_ => this.questionChanged());
     }
     if ('isTest' in changes && !changes['isTest'].isFirstChange()) {
       this.checkState();
@@ -72,38 +74,20 @@ export class FreeFormQuestionEditComponent extends BaseComponent
   /**
    * Reacts when user changes an input
    */
-  contentChanged() {
-    this.freeFormQuestionFormGroup.formGroup.updateValueAndValidity();
+  questionChanged() {
     this.freeFormQuestionFormGroup.formGroup.markAsDirty();
-    this.questionChange.emit();
+    this.freeFormQuestionFormGroup.setToFFQ(this.question, this.isTest);
+    this.questionChange.emit(this.question);
   }
 
-  /**
-   * Determines whether the user has saved all his work and can leave the component
-   * @returns {boolean} true if does not have any unsaved changes, false otherwise
-   */
-  canDeactivate(): boolean {
-    return !this.freeFormQuestionFormGroup.formGroup.dirty;
-  }
-
-  /**
-   * Validates input and saves it through REST
-   */
-  saveChanges() {
-    if (this.freeFormQuestionFormGroup.formGroup.valid) {
-      this.setInputValues();
-      this.freeFormQuestionFormGroup.formGroup.markAsPristine();
-    }
-  }
-
-  removeAnswer(index: number) {
+  deleteAnswer(index: number) {
     this.answers.removeAt(index);
-    this.contentChanged();
+    this.questionChanged();
   }
 
   addAnswer() {
     (this.answers as FormArray).push(new FormControl('', Validators.required));
-    this.contentChanged();
+    this.questionChanged();
   }
 
   trackByFn(index: any, item: any) {
@@ -118,40 +102,7 @@ export class FreeFormQuestionEditComponent extends BaseComponent
 
   private clearAnswers() {
     this.answers.clear();
-    this.contentChanged();
-  }
-
-  /**
-   * Sets initial values from passed question to the user input components
-   */
-  private setInitialValues() {
-    this.title.setValue(this.question.title);
-    this.question.correctAnswers.forEach(element => {
-      this.answers.push(new FormControl(element, Validators.required));
-    });
-    this.score.setValue(this.question.score);
-    this.penalty.setValue(this.question.penalty);
-    this.required = this.question.required;
-  }
-
-  /**
-   * Sets values from user input to the question object
-   */
-  private setInputValues() {
-    this.question.title = this.title.value;
-    this.question.correctAnswers = this.answers.value;
-    this.question.required = this.required;
-
-    if (this.question.required) {
-      this.question.score = this.score.value;
-    } else {
-      this.question.score = 0;
-    }
-    if (this.isTest) {
-      this.question.penalty = this.penalty.value;
-    } else {
-      this.question.penalty = 0;
-    }
+    this.questionChanged();
   }
 
   /**

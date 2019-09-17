@@ -1,12 +1,17 @@
 <div class="content">
   <mat-card>
     <mat-card-content>
-      <kypo2-training-definition-detail-presentation [trainingDefinition]="trainingDefinition"></kypo2-training-definition-detail-presentation>
-    </mat-card-content>
-  </mat-card>
-  <mat-card>
-    <mat-card-content>
-      <kypo2-training-definition-detail-levels-presentation [levels]="levels$ | async"></kypo2-training-definition-detail-levels-presentation>
+      <p>Description: {{ trainingDefinition?.description }}</p>
+      <p>Authors: {{ trainingDefinition?.authors?.join(', ')}}</p>
+      <p>Learning Outcomes: {{ trainingDefinition?.outcomes }}</p>
+      <p>Prerequisites: {{ trainingDefinition?.prerequisites }}</p>
+      <p>Beta Testers: {{ trainingDefinition?.betaTestingGroup?.organizers?.join(', ') }}</p>
+      <div *ngIf="trainingDefinition?.showStepperBar else noStepperBar">
+        <p>Stepper bar will be displayed during the game.</p>
+      </div>
+      <ng-template #noStepperBar>
+        <p>Stepper bar will be hidden during the game.</p>
+      </ng-template>
     </mat-card-content>
   </mat-card>
 </div>

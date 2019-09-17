@@ -1,47 +1,42 @@
 import {
-  AfterViewInit, ChangeDetectorRef,
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
   OnChanges,
   OnInit,
   Output,
-  QueryList,
-  SimpleChanges,
-  ViewChildren
+  SimpleChanges
 } from '@angular/core';
-import {QuestionEditComponent} from '../question-edit/question-edit.component';
 import {AbstractQuestion} from '../../../../../../../model/questions/abstract-question';
 import {FreeFormQuestion} from '../../../../../../../model/questions/free-form-question';
 import {MultipleChoiceQuestion} from '../../../../../../../model/questions/multiple-choice-question';
 import {ExtendedMatchingItems} from '../../../../../../../model/questions/extended-matching-items';
 import {ActionConfirmationDialogComponent} from '../../../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
 import {BaseComponent} from '../../../../../../base.component';
 import {takeWhile} from 'rxjs/operators';
+import {QuestionChangeEvent} from '../../../../../../../model/events/question-change-event';
 
 @Component({
   selector: 'kypo2-question-overview',
   templateUrl: './questions-overview.component.html',
-  styleUrls: ['./questions-overview.component.scss']
+  styleUrls: ['./questions-overview.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 /**
  * Wrapper component for questions inside the assessment level. Creates child question components.
  */
-export class QuestionsOverviewComponent extends BaseComponent implements OnInit, OnChanges, AfterViewInit {
+export class QuestionsOverviewComponent extends BaseComponent implements OnInit, OnChanges {
 
-  @Input('questions') questions: AbstractQuestion[];
-  @Input('isTest') isTest: boolean;
-  @Input('disabled') disabled: boolean;
+  @Input() questions: AbstractQuestion[];
+  @Input() isTest: boolean;
+  @Input() disabled: boolean;
+  @Output() questionsChange: EventEmitter<AbstractQuestion[]> = new EventEmitter();
 
-  @Output('questions') questionChange = new EventEmitter();
+  questionsHasError: boolean;
 
-  @ViewChildren(QuestionEditComponent) questionConfigurationChildren: QueryList<QuestionEditComponent>;
-
-  dirty = false;
-
-  constructor(public dialog: MatDialog,
-              private cdRef: ChangeDetectorRef) {
+  constructor(public dialog: MatDialog) {
     super();
   }
 
@@ -49,26 +44,15 @@ export class QuestionsOverviewComponent extends BaseComponent implements OnInit,
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if ('questions' in changes) {
-      this.resolveInitialQuestions();
+    if ('questions' in changes && this.questions) {
+      this.calculateHasError();
     }
-    if ('isTest' in changes) {
+    if ('isTest' in changes && !changes['isTest'].isFirstChange()) {
       if (this.isTest && this.questions) {
         this.questions.forEach(question => question.required = true);
+        this.questionChanged();
       }
     }
-  }
-
-  ngAfterViewInit() {
-    this.cdRef.detectChanges();
-  }
-
-  /**
-   * Determines whether the user has saved all his work and can leave the component
-   * @returns {boolean} true does not have any unsaved changes, false otherwise
-   */
-  canDeactivate(): boolean {
-    return !this.dirty && this.questionConfigurationChildren.toArray().every(child => child.canDeactivate());
   }
 
   /**
@@ -86,8 +70,8 @@ export class QuestionsOverviewComponent extends BaseComponent implements OnInit,
    */
   addMCQ() {
     const newMcq = new MultipleChoiceQuestion('New Multiple Choice Question');
-    newMcq.options.push('');
-    newMcq.options.push('');
+    newMcq.options.push('Option 1');
+    newMcq.options.push('Option 2');
     newMcq.required = this.isTest;
     this.questions.push(newMcq);
     this.questionChanged();
@@ -99,24 +83,27 @@ export class QuestionsOverviewComponent extends BaseComponent implements OnInit,
   addEMI() {
     const newEmi = new ExtendedMatchingItems('New Extended Matching Items');
     newEmi.required = this.isTest;
-    newEmi.cols.push('');
-    newEmi.cols.push('');
-    newEmi.rows.push('');
-    newEmi.rows.push('');
+    newEmi.cols.push('Column 1');
+    newEmi.cols.push('Column 2');
+    newEmi.rows.push('Row 1');
+    newEmi.rows.push('Row 2');
     this.questions.push(newEmi);
     this.questionChanged();
   }
 
-  questionChanged() {
-    this.dirty = true;
-    this.questionChange.emit();
+  questionChanged(event: QuestionChangeEvent = null) {
+    this.calculateHasError();
+    if (event) {
+      this.questions[event.index] = event.question;
+    }
+    this.questionsChange.emit(this.questions);
   }
 
   /**
    * Deletes question on given index
    * @param index index of question which should be deleted
    */
-  deleteQuestion(index: number) {
+  onDelete(index: number) {
     const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
       data:
         {
@@ -136,24 +123,7 @@ export class QuestionsOverviewComponent extends BaseComponent implements OnInit,
     });
   }
 
-  /**
-   * Validates input of every child component and saves user input to REST
-   */
-  save() {
-    this.questionConfigurationChildren.forEach(child => child.saveChanges());
-    const savedQuestion: AbstractQuestion[] = [];
-    this.questionConfigurationChildren.forEach(child => savedQuestion.push(child.question));
-    this.questions = savedQuestion;
-    this.dirty = false;
-  }
-
-  validateInput(): boolean {
-    return this.questionConfigurationChildren.toArray().every(child => child.validateInput());
-  }
-
-  private resolveInitialQuestions() {
-    if (!this.questions) {
-      this.questions = [];
-    }
+  private calculateHasError() {
+    this.questionsHasError = this.questions.some(question => !question.valid);
   }
 }

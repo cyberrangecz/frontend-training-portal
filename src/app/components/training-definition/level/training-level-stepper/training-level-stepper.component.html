@@ -1,22 +1,8 @@
-<div class="stepper-control" *ngIf="levels && levels.items.length > 0">
-  <span class="spacer"></span>
-  <h4>Training contains {{ levels.items.length }} level(s)</h4>
-</div>
-
-<div class="content"
-     *ngIf="!isLoading && levels.items && levels.items.length > 0">
-  <mat-card>
-    <kypo2-stepper [selectable]="true"
-                   [isLoading]="isStepperUpdating"
-                   [stepperItems]="levels"
-                   [activeIndex]="selectedStep"
-                   (indexSelected)="selectionChanged($event)"
-                   (selectedStepSwapped)="selectionChanged($event)"
-                   (stepSwapped)="swapLevels($event)">
-    </kypo2-stepper>
-    <div class="step-content">
-      <kypo2-level-configuration (deleteLevel)="onDeleteLevel($event)" [level]="levels.items[selectedStep]" [trainingDefinitionId]="trainingDefinition.id"></kypo2-level-configuration>
-    </div>
-  </mat-card>
-</div>
-
+<kypo2-stepper [selectable]="true"
+               [isLoading]="swappingInProgress"
+               [stepperItems]="levelStepper"
+               [activeIndex]="activeStep"
+               (indexSelected)="selectionChanged($event)"
+               (selectedStepSwapped)="selectionChanged($event)"
+               (stepSwapped)="swapLevels($event)">
+</kypo2-stepper>

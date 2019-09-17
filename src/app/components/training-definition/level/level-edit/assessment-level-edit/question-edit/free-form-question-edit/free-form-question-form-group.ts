@@ -6,47 +6,49 @@ import {
   ValidationErrors,
   ValidatorFn
 } from '@angular/forms';
+import {FreeFormQuestion} from '../../../../../../../model/questions/free-form-question';
+import {AbstractQuestion} from '../../../../../../../model/questions/abstract-question';
 
 export class FreeFormQuestionFormGroup {
   formGroup: FormGroup;
-  private maxQuestionScore: number;
-  private maxQuestionPenalty: number;
 
-  constructor(maxQuestionScore: number, maxQuestionPenalty: number) {
-    this.maxQuestionPenalty = maxQuestionPenalty;
-    this.maxQuestionScore = maxQuestionScore;
+  constructor(ffq: FreeFormQuestion) {
     this.formGroup = new FormGroup(
       {
-        title: new FormControl('', Validators.required),
-        answers: new FormArray([]),
-        score: new FormControl('', [
+        title: new FormControl(ffq.title, Validators.required),
+        score: new FormControl(ffq.score, [
           Validators.required,
           Validators.pattern('^[0-9]*$'),
           Validators.min(0),
-          Validators.max(this.maxQuestionScore)
+          Validators.max(AbstractQuestion.MAX_QUESTION_SCORE)
         ]),
-        penalty: new FormControl('', [
+        penalty: new FormControl(ffq.penalty, [
           Validators.required,
           Validators.pattern('^[0-9]*$'),
           Validators.min(0),
-          Validators.max(this.maxQuestionPenalty)
-        ])
+          Validators.max(AbstractQuestion.MAX_QUESTION_PENALTY)
+        ]),
+        answers: new FormArray(ffq.correctAnswers.map(answer => new FormControl(answer, Validators.required)))
       },
-      { validators: this.noSelectedAnswers }
-    );
+      this.noSelectedAnswers);
   }
 
-  private noSelectedAnswers: ValidatorFn = (
-    control: FormGroup
-  ): ValidationErrors | null => {
+  setToFFQ(ffq: FreeFormQuestion, isTest: boolean) {
+    ffq.title = this.formGroup.get('title').value;
+    ffq.correctAnswers = this.formGroup.get('answers').value;
+    ffq.score = ffq.required ? this.formGroup.get('score').value : 0;
+    ffq.penalty = isTest ? this.formGroup.get('penalty').value : 0;
+    ffq.valid = this.formGroup.valid;
+  }
+
+  private noSelectedAnswers: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
     let error = null;
     const answers = control.get('answers');
-    if (answers && answers.value.length == 0) {
+    if (answers && answers.value.length === 0) {
       error = { noSelectedAnswers: true };
     }
-
     return error ? error : null;
-  }
+  };
 
   addAnswersValidator() {
     this.formGroup.setValidators(this.noSelectedAnswers);
@@ -54,5 +56,6 @@ export class FreeFormQuestionFormGroup {
 
   removeAnswersValidator() {
     this.formGroup.clearValidators();
+    this.formGroup.updateValueAndValidity();
   }
 }

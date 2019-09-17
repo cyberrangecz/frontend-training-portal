@@ -1,26 +1,23 @@
-import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, HostListener, OnInit} from '@angular/core';
 import {TrainingDefinition} from '../../../model/training/training-definition';
-import {map} from 'rxjs/operators';
+import {map, takeWhile} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
-import {TrainingDefinitionFacade} from '../../../services/facades/training-definition-facade.service';
 import {Observable} from 'rxjs/internal/Observable';
-import {TrainingDefinitionEditComponent} from './training-definition-edit/training-definition-edit.component';
-import { MatDialog } from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
 import {UnsavedChangesDialogComponent} from '../../shared/unsaved-changes-dialog/unsaved-changes-dialog.component';
 import {of} from 'rxjs/internal/observable/of';
 import {BaseComponent} from '../../base.component';
-import {
-  LEVELS_PATH,
-  TRAINING_DEFINITION_EDIT_PATH,
-  TRAINING_DEFINITION_NEW_PATH
-} from '../training-definition-overview/paths';
-import {TrainingDefinitionSaveEvent} from '../../../model/events/training-definition-save-event';
+import {TrainingDefinitionChangeEvent} from '../../../model/events/training-definition-change-event';
+import {TrainingDefinitionEditService} from '../../../services/training-definition/training-definition-edit.service';
+import {RouteFactory} from '../../../model/routes/route-factory';
+import {AbstractLevel} from '../../../model/level/abstract-level';
 
 
 @Component({
   selector: 'kypo2-training-definition-detail',
   templateUrl: './training-definition-edit-container.component.html',
-  styleUrls: ['./training-definition-edit-container.component.css']
+  styleUrls: ['./training-definition-edit-container.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 /**
  * Main component of training definition. Servers mainly as a smart component wrapper and resolves id of a training specified in the URL.
@@ -28,28 +25,31 @@ import {TrainingDefinitionSaveEvent} from '../../../model/events/training-defini
  */
 export class TrainingDefinitionEditContainerComponent extends BaseComponent implements OnInit {
 
-  @ViewChild(TrainingDefinitionEditComponent, { static: true }) trainingConfigurationComponent;
-
   trainingDefinition$: Observable<TrainingDefinition>;
+  editMode$: Observable<boolean>;
+  tdTitle$: Observable<string>;
+  levelsCount = -1;
+  saveDisabled$: Observable<boolean>;
+  unsavedLevels: AbstractLevel[] = [];
+
+  private canDeactivateTDEdit = true;
 
   constructor(private router: Router,
               private activeRoute: ActivatedRoute,
+              private editService: TrainingDefinitionEditService,
               private dialog: MatDialog) {
     super();
-    this.trainingDefinition$ = this.activeRoute.data.pipe(map(data => data.trainingDefinition));
+    this.trainingDefinition$ = this.editService.trainingDefinition$;
+    this.editMode$ = this.editService.editMode$;
+    this.tdTitle$ = this.editService.trainingDefinition$.pipe(map(td => td.title));
+    this.saveDisabled$ = this.editService.saveDisabled$;
+    this.activeRoute.data
+      .pipe(
+        takeWhile(_ => this.isAlive),
+      ).subscribe(data => this.editService.set(data.trainingDefinition));
   }
 
   ngOnInit() {
-  }
-
-  onSaved(event: TrainingDefinitionSaveEvent) {
-    if (event.editMode && event.continueToLevels) {
-      this.router.navigate([LEVELS_PATH], { relativeTo: this.activeRoute });
-    } else if (event.editMode) {
-      this.router.navigate(['./../../../'], { relativeTo: this.activeRoute });
-    } else {
-      this.router.navigate(['./../../', event.id, TRAINING_DEFINITION_EDIT_PATH, LEVELS_PATH], { relativeTo: this.activeRoute });
-    }
   }
 
   /**
@@ -57,7 +57,7 @@ export class TrainingDefinitionEditContainerComponent extends BaseComponent impl
    */
   @HostListener('window:beforeunload')
   canRefreshOrLeave(): boolean {
-    return this.trainingConfigurationComponent.canDeactivate();
+    return this.canDeactivateTDEdit && this.unsavedLevels.length === 0;
   }
 
   /**
@@ -65,11 +65,10 @@ export class TrainingDefinitionEditContainerComponent extends BaseComponent impl
    * @returns {Observable<boolean>} true if saved all his changes or agreed with leaving without saving them, false otherwise
    */
   canDeactivate(): Observable<boolean> {
-    const canDeactivate = this.trainingConfigurationComponent.canDeactivate();
-    if (!canDeactivate) {
+    if (!this.canDeactivateTDEdit || this.unsavedLevels.length > 0) {
       const dialogRef = this.dialog.open(UnsavedChangesDialogComponent, {
         data: {
-          payload: ['Training definition is not saved.'],
+          payload: ['Training definition or levels are not saved.'],
           saveOption: false
         },
       });
@@ -79,5 +78,40 @@ export class TrainingDefinitionEditContainerComponent extends BaseComponent impl
         );
     }
     return of(true);
+  }
+
+  onTrainingDefinitionChanged($event: TrainingDefinitionChangeEvent) {
+    this.editService.trainingDefinitionChange($event);
+    this.canDeactivateTDEdit = false;
+  }
+
+  onSave() {
+    this.editService.save()
+      .pipe(
+        takeWhile(_ => this.isAlive)
+      ).subscribe(event => {
+       this.canDeactivateTDEdit = true;
+      if (!event.editMode) {
+          this.router.navigate([RouteFactory.toTrainingDefinitionOverview()]);
+        }
+    });
+  }
+
+  onSaveAndEditLevels() {
+    this.editService.save()
+      .pipe(
+        takeWhile(_ => this.isAlive)
+      ).subscribe(event => {
+      this.canDeactivateTDEdit = true;
+      this.router.navigate([RouteFactory.toTrainingDefinitionEdit(event.id)]);
+    });
+  }
+
+  onUnsavedLevelsChanged(unsavedLevels: AbstractLevel[]) {
+    this.unsavedLevels = unsavedLevels;
+  }
+
+  onLevelsCountChanged($event: number) {
+    this.levelsCount = $event;
   }
 }

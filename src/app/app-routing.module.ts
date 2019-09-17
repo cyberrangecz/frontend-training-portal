@@ -27,7 +27,7 @@ const routes: Routes = [
   },
   {
     path: TRAINING_DEFINITION_PATH,
-    loadChildren: () => import('app/components/training-definition/training-definition-overview/training-defininition-overview.module').then(m => m.TrainingDefininitionOverviewModule),
+    loadChildren: () => import('app/components/training-definition/training-definition-overview/training-definition-overview.module').then(m => m.TrainingDefinitionOverviewModule),
     canActivate: [DesignerGuard],
     data: {breadcrumb: 'Training Definitions'}
   },
