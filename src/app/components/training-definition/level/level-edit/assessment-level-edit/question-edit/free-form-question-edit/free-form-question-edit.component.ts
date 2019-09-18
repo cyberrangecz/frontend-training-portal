@@ -12,7 +12,7 @@ import {FreeFormQuestion} from '../../../../../../../model/questions/free-form-q
 import {BaseComponent} from '../../../../../../base.component';
 import { FreeFormQuestionFormGroup } from './free-form-question-form-group';
 import { FormArray, FormControl, Validators } from '@angular/forms';
-import {takeWhile, tap} from 'rxjs/operators';
+import {takeWhile} from 'rxjs/operators';
 import {AbstractQuestion} from '../../../../../../../model/questions/abstract-question';
 
 @Component({
