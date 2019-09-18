@@ -9,8 +9,7 @@ export const homeURL = 'https://localhost:4200';
 export const trainingsURL = baseURL + ':8083/kypo2-rest-training/api/v1/';
 // sandboxes service url
 export const sandboxesURL = baseURL + ':8080/kypo2-django-openstack/api/v1/';
-// topology service url
-export const topologyURL =  baseURL + ':8085/kypo2-rest-topology/api/v1/';
+
 // user and gorup service url
 export const userAngGroupURL = baseURL + ':8084/kypo2-rest-user-and-group/api/v1/';
 
@@ -24,8 +23,7 @@ export const environment = {
   defaultOrganizerTROverviewRefreshRate: 5000, // api polling period in training instance detail page
   sandboxAllocationStateRefreshRate: 5000, // api polling during sandbox allocation
   kypo2TopologyConfig: {
-    topologyRestUrl: topologyURL,
-    sandboxRestUrl: sandboxesURL,
+    topologyRestUrl: sandboxesURL,
     decoratorsRestUrl: '', // OBSOLETE
     defaultDecoratorRefreshPeriodInSeconds: 3, // OBSOLETE
     useRealTime: false, // OBSOLETE
