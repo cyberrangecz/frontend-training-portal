@@ -1,19 +1,24 @@
 @import "../../../../theme.scss";
-.tree-invisible {
-  display: none;
+
+.container {
+  display: flex;
+  justify-content: center;
 }
 
-ul {
-  padding: 0;
+mat-divider {
+  background-color: white;
 }
 
-.tree ul,
-.tree li {
-  background-color: #1A1717;
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
+mat-list-item:first-child {
+  margin-top: unset;
 }
-.mat-icon-rtl-mirror {
-  color: white;
+mat-list-item {
+  margin-top: 30px;
+  font-weight: 500;
+  font-size: 14px !important;
+  color: #C3C5CB !important;
+}
+
+:host ::ng-deep .mat-list-item-content {
+  justify-content: center;
 }

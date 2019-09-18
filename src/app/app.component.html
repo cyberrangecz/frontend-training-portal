@@ -4,7 +4,9 @@
 <ng-template #withLayout>
   <mat-drawer-container autosize>
     <mat-drawer #drawer mode="side" opened="true">
-      <kypo2-sidenav [user]="activeUser$ | async"></kypo2-sidenav>
+      <div class="nav-content">
+        <kypo2-sidenav [user]="activeUser$ | async"></kypo2-sidenav>
+      </div>
     </mat-drawer>
     <mat-drawer-content>
       <kypo2-toolbar [user]="activeUser$ | async"></kypo2-toolbar>

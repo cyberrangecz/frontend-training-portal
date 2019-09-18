@@ -2,11 +2,8 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 import {BaseComponent} from '../../base.component';
 import {MatTreeNestedDataSource} from '@angular/material';
 import {MenuNode} from '../../../model/menu/menu-node';
-import {NestedTreeControl} from '@angular/cdk/tree';
 import {TreeMenu} from '../../../model/menu/tree-menu';
 import {User} from 'kypo2-auth';
-import {NavigationEnd, Router} from '@angular/router';
-import {takeWhile} from 'rxjs/operators';
 
 @Component({
   selector: 'kypo2-tree-navigation',
@@ -14,8 +11,7 @@ import {takeWhile} from 'rxjs/operators';
   styleUrls: ['./tree-navigation.component.scss']
 })
 /**
- * Tree navigation menu dynamically expanding and collapsing tree branches based on current location in the app.
- * If user manually expands some branches they will remain expanded even after navigation state changes.
+ * Tree navigation menu
  */
 export class TreeNavigationComponent extends BaseComponent implements OnInit, OnChanges {
   /**
@@ -23,15 +19,11 @@ export class TreeNavigationComponent extends BaseComponent implements OnInit, On
    */
   @Input() user: User;
 
-  treeControl = new NestedTreeControl<MenuNode>(node => node.children);
   dataSource = new MatTreeNestedDataSource<MenuNode>();
 
-  constructor(private router: Router) {
+  constructor() {
     super();
-    this.subscribeNavigationChanges();
   }
-
-  hasChild = (_: number, node: MenuNode) => node.hasChild();
 
   ngOnInit() {
   }
@@ -39,51 +31,6 @@ export class TreeNavigationComponent extends BaseComponent implements OnInit, On
   ngOnChanges(changes: SimpleChanges): void {
     if ('user' in changes && this.user) {
       this.dataSource.data = TreeMenu.create(this.user);
-      this.expandByUrl(this.dataSource.data, this.router.url);
     }
-  }
-
-  toggleManually(node: MenuNode) {
-    node.expandedManually = !node.expandedManually;
-  }
-
-  private subscribeNavigationChanges() {
-    this.router.events
-      .pipe(
-        takeWhile(_ => this.isAlive)
-      )
-      .subscribe(event => {
-        if (event instanceof NavigationEnd) {
-          this.expandByUrl(this.dataSource.data, this.router.url);
-        }
-      });
-  }
-
-  private expandByUrl(tree: MenuNode[], url: string) {
-    tree.forEach(node => {
-      if (node.hasChild()) {
-        this.expandByUrl(node.children, url);
-      }
-      if (url.includes(node.path)) {
-        this.collapseAllButExpandedByUser();
-        this.treeControl.expand(node.parent);
-      }
-    });
-  }
-
-  private collapseAllButExpandedByUser() {
-    this.treeControl.collapseAll();
-    this.expandAllExpandedByUser(this.dataSource.data);
-  }
-
-  private expandAllExpandedByUser(tree: MenuNode[]) {
-    tree.forEach(node => {
-      if (node.hasChild()) {
-        this.expandAllExpandedByUser(node.children);
-      }
-      if (node.expandedManually) {
-        this.treeControl.expand(node);
-      }
-    });
   }
 }

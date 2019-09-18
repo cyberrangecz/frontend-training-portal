@@ -1,32 +1,13 @@
-<mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="tree">
-  <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
-    <li class="mat-tree-node">
-      <button *ngIf="!node.icon" mat-icon-button disabled></button>
-      <button *ngIf="node.icon" mat-icon-button color="primary">
-      <mat-icon>{{ node.icon }}</mat-icon>
-      </button>
-      <a mat-button color="primary" [routerLink]="'/' + node.path">{{ node.label }}</a>
-    </li>
-  </mat-tree-node>
-  <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
-    <li>
-      <div class="mat-tree-node white-navigation-theme">
-        <button class="menu-button" color="primary" mat-icon-button matTreeNodeToggle (click)="toggleManually(node)"
-                [attr.aria-label]="'toggle ' + node.label">
-          <mat-icon class="mat-icon-rtl-mirror">
-            {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
-          </mat-icon>
-        </button>
-        <button class="menu-button" color="primary" mat-button matTreeNodeToggle  (click)="toggleManually(node)"
-                [attr.aria-label]="'toggle ' + node.label">
-          {{ node.label }}
-        </button>
-      </div>
-      <ul [class.tree-invisible]="!treeControl.isExpanded(node)" class="white-navigation-theme">
-        <ng-container matTreeNodeOutlet></ng-container>
-      </ul>
-    </li>
-  </mat-nested-tree-node>
-</mat-tree>
-
-
+<div class="container">
+  <mat-list>
+    <ng-container *ngFor="let item of dataSource.data; let i = index">
+      <mat-list-item>{{item.label}}</mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list>
+        <div class="white-navigation-theme" *ngFor="let child of item.children">
+          <button mat-button color="primary" [routerLink]="'/' + child.path">{{child.label}}</button>
+        </div>
+      </mat-list>
+    </ng-container>
+  </mat-list>
+</div>

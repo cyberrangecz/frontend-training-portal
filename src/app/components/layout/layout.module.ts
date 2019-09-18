@@ -6,7 +6,7 @@ import {ActiveUserComponent} from './active-user/active-user.component';
 import {ToolbarComponent} from './toolbar/toolbar.component';
 import {FormsModule} from '@angular/forms';
 import {LayoutMaterialModule} from './layout-material.module';
-import {MatSidenavModule} from '@angular/material';
+import {MatFormFieldModule, MatListModule, MatSidenavModule} from '@angular/material';
 import {UserIdModule} from '../shared/user-id.module';
 import { TreeNavigationComponent } from './tree-navigation/tree-navigation.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
@@ -25,6 +25,8 @@ import { LoadingComponent } from './loading/loading.component';
     FormsModule,
     LayoutMaterialModule,
     UserIdModule,
+    MatListModule,
+    MatFormFieldModule,
   ],
   declarations: [
     ToolbarComponent,
