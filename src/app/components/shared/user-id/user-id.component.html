@@ -1,5 +1,7 @@
 <div *ngIf="user" class="user">
-  <img [alt]="user.name" src="data:image/png;base64,{{ avatar }}">
+  <div class="user-picture-container">
+    <img [alt]="user.name" src="data:image/png;base64,{{ avatar }}">
+  </div>
   <div class="mat-typography">
     <div class="user-details">
       <p class="mat-title">{{ user?.name }}</p>

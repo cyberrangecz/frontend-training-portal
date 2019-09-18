@@ -1,5 +1,10 @@
 <button mat-button class="menu-trigger" [matMenuTriggerFor]="menu">
-  <mat-icon>person</mat-icon>
+  <div class="user-icon">
+    <div class="user-picture-container">
+      <img src="data:image/png;base64,{{user.picture}}">
+    </div>
+    <mat-icon >expand_more</mat-icon>
+  </div>
 </button>
 <mat-menu #menu="matMenu">
   <kypo2-active-user [user]="user"></kypo2-active-user>
