@@ -67,13 +67,13 @@ export class TreeMenu {
 
   private static AddDesignerNodes(tree: MenuNode[]) {
     let found = tree.find(node => node.label === TRAININGS_LABEL);
-    const trainingDef = new MenuNode(found, 'Training Definition');
+    const trainingDef = new MenuNode(found, 'Definition');
     trainingDef.path = TRAINING_DEFINITION_PATH;
     trainingDef.order = 10;
     found.children.push(trainingDef);
 
     found = tree.find(node => node.label === SANDBOXES_LABEL);
-    const sandboxDef = new MenuNode(found, 'Sandbox Definition');
+    const sandboxDef = new MenuNode(found, 'Definition');
     sandboxDef.path = SANDBOX_DEFINITION_PATH;
     sandboxDef.order = 20;
     found.children.push(sandboxDef);
@@ -81,7 +81,7 @@ export class TreeMenu {
 
   private static AddOrganizerNodes(tree: MenuNode[]) {
     let found = tree.find(node => node.label === TRAININGS_LABEL);
-    const trainingInstance = new MenuNode(found, 'Training Instance');
+    const trainingInstance = new MenuNode(found, 'Instance');
     trainingInstance.path = TRAINING_INSTANCE_PATH;
     trainingInstance.order = 20;
     found.children.push(trainingInstance);
@@ -95,7 +95,7 @@ export class TreeMenu {
 
   private static AddTraineeNodes(tree: MenuNode[]) {
     const found = tree.find(node => node.label === TRAININGS_LABEL);
-    const trainingRun = new MenuNode(found, 'Training Run');
+    const trainingRun = new MenuNode(found, 'Run');
     trainingRun.path = TRAINING_RUN_PATH;
     trainingRun.order = 30;
     found.children.push(trainingRun);
