@@ -1,4 +1,8 @@
 @import '~@angular/material/theming';
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap');
+
+$kypo2-base-font: 'Source Sans Pro', sans-serif;
+
 $kypo2-primary-palette: mat-palette($mat-indigo);
 $kypo2-accent-palette:  mat-palette($mat-pink, A200, A100, A400);
 $kypo2-warn-palette:    mat-palette($mat-red);
