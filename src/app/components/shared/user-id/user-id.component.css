@@ -4,11 +4,20 @@
   flex-direction: row;
 }
 
-img {
-  width: 75px;
-  height: 75px;
+.user-picture-container {
+  width: 70px;
+  height: 70px;
   border-radius: 40px;
   border: 1px solid gainsboro;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+img {
+  width: 45px;
+  height: 45px;
+  margin-bottom: 8px;
 }
 
 .user-details {
