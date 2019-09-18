@@ -10,3 +10,9 @@ $kypo2-white-theme: mat-light-theme($kypo2-white-primary-palette, $kypo2-white-p
 .white-navigation-theme {
   @include angular-material-theme($kypo2-white-theme);
 }
+
+$kypo2-typography: mat-typography-config(
+  $font-family: $kypo2-base-font
+);
+
+@include angular-material-typography($kypo2-typography);
