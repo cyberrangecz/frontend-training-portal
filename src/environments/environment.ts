@@ -57,6 +57,21 @@ export const environment = {
           clearHashAfterLogin: true // remove token and other info from url after login
         },
       },
+      {
+        label: 'Login with CSIRT-MU',
+        textColor: 'white',
+        backgroundColor: '#002776',
+        tokenRefreshTime: 30000,
+        oidcConfig: {
+          issuer: 'https://kypo-devel.ics.muni.cz:8443/csirtmu-dummy-issuer-server/',
+          clientId: '33a4ed17-d235-49f7-8ae5-e072e1dde2fc',
+          redirectUri: homeURL,
+          scope: 'openid email profile',
+          logoutUrl: 'https://kypo-devel.ics.muni.cz:8443/csirtmu-dummy-issuer-server/endsession',
+          postLogoutRedirectUri: 'https://kypo-devel.ics.muni.cz/',
+          clearHashAfterLogin: true
+        }
+      }
     ]
   },
   markdownConfig: {
