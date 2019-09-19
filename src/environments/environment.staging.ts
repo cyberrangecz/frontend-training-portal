@@ -4,7 +4,6 @@ export const baseURL = 'https://kypo-devel.ics.muni.cz';
 export const homeURL = baseURL;
 export const trainingsURL = baseURL + ':8083/kypo2-rest-training/api/v1/';
 export const sandboxesURL = baseURL + ':8080/kypo2-django-openstack/api/v1/';
-export const topologyURL =  baseURL + ':8085/kypo2-rest-topology/api/v1/';
 export const userAngGroupURL = baseURL + ':8084/kypo2-rest-user-and-group/api/v1/';
 export const environment = {
   production: true,
@@ -17,8 +16,7 @@ export const environment = {
   defaultOrganizerTROverviewRefreshRate: 5000,
   sandboxAllocationStateRefreshRate: 5000,
   kypo2TopologyConfig: {
-    topologyRestUrl: topologyURL,
-    sandboxRestUrl: sandboxesURL,
+    topologyRestUrl: sandboxesURL,
     decoratorsRestUrl: '',
     defaultDecoratorRefreshPeriodInSeconds: 3,
     useRealTime: false,
