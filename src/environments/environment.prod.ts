@@ -49,7 +49,7 @@ export const environment = {
           postLogoutRedirectUri: homeURL + '/login',
           clearHashAfterLogin: true
         }
-      },
+      }
     ]
   },
   markdownConfig: {
