@@ -8,7 +8,7 @@ import {SandboxInstanceFacade} from '../../facades/sandbox-instance-facade.servi
 import {
   concatMap,
   map,
-  mergeMap,
+  mergeMap, retry,
   shareReplay,
   switchMap,
   takeWhile,
@@ -16,6 +16,7 @@ import {
 } from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {environment} from '../../../../environments/environment';
+import {ShareReplayConfig} from 'rxjs/internal-compatibility';
 
 
 @Injectable()
@@ -27,6 +28,7 @@ export class SandboxAllocationService {
 
   private running = false;
 
+  private cacheConfig: ShareReplayConfig = { refCount: true, windowTime: environment.sandboxAllocationStateRefreshRate };
   private runningAllocations: SandboxInstanceAllocationState[] = [];
   private allocations: SandboxInstanceAllocationState[] = [];
 
@@ -72,16 +74,16 @@ export class SandboxAllocationService {
   getRunningAllocationState(trainingInstance: TrainingInstance): Observable<SandboxInstanceAllocationState> {
     let allocation$ = this.sandboxObservablesPool.getObservable(trainingInstance.id);
     if (allocation$ === undefined) {
-      allocation$ = this.createAllocation(trainingInstance);
+      allocation$ = this.createAllocation(trainingInstance).pipe(retry(3));
     }
-    return allocation$.pipe(shareReplay(Number.POSITIVE_INFINITY));
+    return allocation$.pipe(shareReplay(this.cacheConfig));
   }
 
   allocateSandboxes(trainingInstance: TrainingInstance, count: number = 0): Observable<SandboxInstanceAllocationState> {
     return this.initAllocation(trainingInstance, count)
       .pipe(
         concatMap(allocation => this.createAllocation(trainingInstance, count)),
-        shareReplay(Number.POSITIVE_INFINITY)
+        shareReplay(this.cacheConfig)
       );
   }
 
@@ -89,7 +91,7 @@ export class SandboxAllocationService {
     return this.sandboxInstanceFacade.delete(trainingInstance.id, sandbox.id)
       .pipe(
         concatMap( deleteResponse => this.createAllocation(trainingInstance, requestedPoolSize)),
-        shareReplay(Number.POSITIVE_INFINITY),
+        shareReplay(this.cacheConfig),
       );
   }
 
@@ -97,7 +99,7 @@ export class SandboxAllocationService {
     return this.sandboxInstanceFacade.allocateSandbox(trainingInstance.id)
       .pipe(
         concatMap( allocationResponse => this.createAllocation(trainingInstance, requestedPoolSize)),
-        shareReplay(Number.POSITIVE_INFINITY)
+        shareReplay(this.cacheConfig)
       );
   }
 
@@ -145,10 +147,10 @@ export class SandboxAllocationService {
         takeWhile(resp => this.getRunningAllocationStateByPoolId(resp.poolId) !== undefined),
         map((resp) => this.updateAllocationState(resp.poolId, resp.sandboxes)),
         tap( (allocationState: SandboxInstanceAllocationState) => {
-            this.sandboxObservablesPool.updateState(allocationState);
-            if (allocationState.hasFailedSandboxes) {
-              this.emitAllocationStateChange(SandboxAllocationState.FAILED);
-            }
+          this.sandboxObservablesPool.updateState(allocationState);
+          if (allocationState.hasFailedSandboxes) {
+            this.emitAllocationStateChange(SandboxAllocationState.FAILED);
+          }
         })
       );
   }
