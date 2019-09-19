@@ -10,7 +10,7 @@ export class TrainingInstanceFormGroup {
             'startTime': new FormControl('', [Validators.required, this.dateValidator]),
             'endTime': new FormControl('', [Validators.required, this.dateValidator]),
             'title': new FormControl('', [Validators.required]),
-            'poolSize': new FormControl('', [Validators.required, Validators.min(1), Validators.max(100)]),
+            'poolSize': new FormControl('', [Validators.required, Validators.min(1), Validators.max(64)]),
             'organizers': new FormControl('', [Validators.required]),
             'trainingDefinition': new FormControl('', [Validators.required]),
             'accessToken': new FormControl('', [Validators.required]),
@@ -66,7 +66,6 @@ export class TrainingInstanceFormGroup {
         this.organizers.setValue(trainingInstance.organizers);
         this.trainingDefinition.setValue(trainingInstance.trainingDefinition);
         this.accessToken.setValue(trainingInstance.accessToken);
-
       }
 }
 
