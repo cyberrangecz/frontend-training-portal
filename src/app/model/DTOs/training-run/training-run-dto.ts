@@ -10,9 +10,7 @@
  * Do not edit the class manually.
  */
 import { AbstractLevelDTO } from '../level/abstract-level-dto';
-import { SandboxInstanceRefDTO } from '../sandbox-instance/sandbox-instance-ref-dto';
-import { TrainingInstanceDTO } from '../training-instance/training-instance-dto';
-import {UserRefDTO} from "../user/user-ref-dto";
+import {UserRefDTO} from '../user/user-ref-dto';
 
 
 /**
@@ -23,7 +21,7 @@ export interface TrainingRunDTO {
     end_time?: Date;
     event_log_reference?: string;
     id?: number;
-    sandbox_instance_ref?: SandboxInstanceRefDTO;
+    sandbox_instance_ref_id?: number;
     participant_ref: UserRefDTO;
     start_time?: Date;
     state?: TrainingRunDTO.StateEnum;
