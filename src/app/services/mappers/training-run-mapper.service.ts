@@ -80,9 +80,8 @@ export class TrainingRunMapper {
     result.startTime = new Date(trainingRunDTO.start_time);
     result.endTime = new Date(trainingRunDTO.end_time);
     result.eventLogReference = trainingRunDTO.event_log_reference;
-    if (trainingRunDTO.sandbox_instance_ref) {
-      result.sandboxInstanceId = trainingRunDTO.sandbox_instance_ref.sandbox_instance_ref;
-    }
+    result.sandboxInstanceId = trainingRunDTO.sandbox_instance_ref_id;
+
 
     result.player = this.userMapper.mapUserRefDTOToUser(trainingRunDTO.participant_ref);
     result.state = this.mapTrainigRunDTOStateToEnum(trainingRunDTO.state);
@@ -96,7 +95,7 @@ export class TrainingRunMapper {
   mapAccessTrainingRunDTOToAccessTrainingRun(accessDTO: AccessTrainingRunDTO): AccessTrainingRunInfo {
     const result = new AccessTrainingRunInfo();
     result.trainingRunId = accessDTO.training_run_id;
-    result.sandboxInstanceId = accessDTO.sandbox_instance_id;
+    result.sandboxInstanceId = accessDTO.sandbox_instance_ref_id;
     result.startTime = new Date(accessDTO.start_time);
     result.isStepperDisplayed = accessDTO.show_stepper_bar;
     result.currentLevel = this.levelMapper.mapLevelDTOToLevel(accessDTO.abstract_level_dto);
