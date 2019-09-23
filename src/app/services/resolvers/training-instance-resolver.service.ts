@@ -3,15 +3,17 @@ import {TrainingInstance} from '../../model/training/training-instance';
 import {Injectable} from '@angular/core';
 import {EMPTY, Observable, of} from 'rxjs';
 import {TrainingInstanceFacade} from '../facades/training-instance-facade.service';
-import {mergeMap, take, tap} from 'rxjs/operators';
+import {catchError, mergeMap, take, tap} from 'rxjs/operators';
 import {TRAINING_DEFINITION_PATH, TRAINING_INSTANCE_PATH} from '../../paths';
 import {ActiveTrainingInstanceService} from '../training-instance/active-training-instance.service';
+import {ErrorHandlerService} from '../shared/error-handler.service';
 
 @Injectable()
 export class TrainingInstanceResolver implements Resolve<TrainingInstance> {
 
   constructor(private trainingInstanceFacade: TrainingInstanceFacade,
               private activeTrainingInstance: ActiveTrainingInstanceService,
+              private errorHandler: ErrorHandlerService,
               private router: Router) {
   }
 
@@ -27,7 +29,11 @@ export class TrainingInstanceResolver implements Resolve<TrainingInstance> {
             take(1),
             mergeMap(ti => ti ? of(ti) : this.navigateToOverview()
             ),
-            tap(ti => this.activeTrainingInstance.setActiveTrainingInstance(ti))
+            tap(ti => this.activeTrainingInstance.setActiveTrainingInstance(ti)),
+            catchError(err => {
+              this.errorHandler.displayInAlert(err, 'Training instance resolver');
+              return EMPTY;
+            })
           );
       }
     }

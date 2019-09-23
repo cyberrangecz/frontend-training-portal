@@ -5,12 +5,14 @@ import {EMPTY, Observable, of} from 'rxjs';
 import {TRAINING_DEFINITION_NEW_PATH} from '../../components/training-definition/training-definition-overview/paths';
 import {TrainingDefinitionFacade} from '../facades/training-definition-facade.service';
 import {TRAINING_DEFINITION_PATH} from '../../paths';
-import {mergeMap, take, tap} from 'rxjs/operators';
+import {catchError, mergeMap, take, tap} from 'rxjs/operators';
+import {ErrorHandlerService} from '../shared/error-handler.service';
 
 @Injectable()
 export class TrainingDefinitionResolver implements Resolve<TrainingDefinition> {
 
   constructor(private trainingDefinitionFacade: TrainingDefinitionFacade,
+              private errorHandler: ErrorHandlerService,
               private router: Router) {
   }
 
@@ -23,6 +25,10 @@ export class TrainingDefinitionResolver implements Resolve<TrainingDefinition> {
         .pipe(
           take(1),
           mergeMap(td => td ? of(td) : this.navigateToNew()),
+          catchError(err => {
+            this.errorHandler.displayInAlert(err, 'Training definition resolver');
+            return EMPTY;
+          })
         );
     }
     return this.navigateToNew();

@@ -118,10 +118,11 @@ export class ArchivedTrainingRunOverviewComponent extends BaseTrainingRunOvervie
           this.resultsLength = data.pagination.totalElements;
           return data;
         }),
-        catchError(() => {
+        catchError(err => {
           window.clearTimeout(timeoutHandle);
           this.isLoadingResults = false;
           this.isInErrorState = true;
+          this.errorHandler.displayInAlert(err, 'Obtaining training run data');
           return of([]);
         })
       ).subscribe(
