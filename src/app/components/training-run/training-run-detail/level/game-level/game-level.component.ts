@@ -33,7 +33,6 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
   sandboxId: number;
   topologyWidth: number;
   topologyHeight: number;
-  isGameDataLoaded: boolean;
   isTopologyLoaded: boolean;
   hasNextLevel: boolean;
   isPreviewMode: boolean;
@@ -43,6 +42,7 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
   flag: string;
   correctFlag: boolean;
   solutionShown: boolean;
+  waitingOnResponse: boolean;
   hintButtons = [];
 
   constructor(private dialog: MatDialog,
@@ -157,7 +157,6 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
     this.isPreviewMode = this.sandboxId === null || this.sandboxId === undefined;
     this.correctFlag = false;
     this.solutionShown = false;
-    this.isGameDataLoaded = true;
     this.isTopologyLoaded = false;
     this.displayedHints = '';
     this.calculateTopologySize();
@@ -212,28 +211,31 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
   }
 
   private sendRequestToRevealSolution() {
-    this.isGameDataLoaded = false;
+    this.waitingOnResponse = true;
     this.gameLevelService.takeSolution(this.activeLevelService.trainingRunId)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(resp => {
         this.showSolution(resp);
-        this.isGameDataLoaded = true;
+        this.waitingOnResponse = false;
       },
       err => {
-        this.isGameDataLoaded = true;
+        this.waitingOnResponse = false;
         this.errorHandler.displayInAlert(err, 'Loading solution');
       });
   }
 
   private sendRequestToShowHint(hintButton, index: number) {
+    this.waitingOnResponse = true;
     this.gameLevelService.takeHint(this.activeLevelService.trainingRunId, hintButton.hint.id)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(resp => {
           hintButton.displayed = true;
+          this.waitingOnResponse = false;
           this.addHintToTextField(resp, index);
         },
         err => {
           this.errorHandler.displayInAlert(err, 'Taking hint "' + hintButton.hint.title + '"');
+          this.waitingOnResponse = false;
         });
   }
 
