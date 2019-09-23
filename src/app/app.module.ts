@@ -20,6 +20,7 @@ import {LayoutModule} from './components/layout/layout.module';
 import {MatButtonModule, MatIconModule, MatProgressBarModule} from '@angular/material';
 import {LoadingService} from './services/shared/loading.service';
 import {LoadingInterceptor} from './services/http-interceptors/loading-interceptor';
+import {HomeModule} from './components/home/home.module';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import {LoadingInterceptor} from './services/http-interceptors/loading-intercept
     AppRoutingModule,
     SharedModule,
     LayoutModule,
+    HomeModule,
     UserFacadeModule,
     Kypo2AuthModule.forRoot(environment.kypo2AuthConfig),
     NgxHotjarModule.forRoot(environment.hotjarTrackingCode),

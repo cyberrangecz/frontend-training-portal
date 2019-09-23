@@ -18,11 +18,12 @@ import {
   TRAINING_INSTANCE_PATH,
   TRAINING_RUN_PATH
 } from './paths';
+import {HomeComponent} from './components/home/home.component';
 
 const routes: Routes = [
   {
     path: HOME_PATH,
-    loadChildren: () => import('app/components/home/home.module').then(m => m.HomeModule),
+    component: HomeComponent,
     canActivate: [NotOnlyTraineeGuard]
   },
   {
