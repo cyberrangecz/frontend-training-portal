@@ -3,13 +3,16 @@ import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/rou
 import {EMPTY, Observable, of} from 'rxjs';
 import {TrainingDefinitionFacade} from '../facades/training-definition-facade.service';
 import {TRAINING_DEFINITION_NEW_PATH} from '../../components/training-definition/training-definition-overview/paths';
-import {mergeMap, take} from 'rxjs/operators';
+import {catchError, mergeMap, take} from 'rxjs/operators';
+import {ErrorHandlerService} from '../shared/error-handler.service';
 
 
 @Injectable()
 export class TrainingDefinitionBreadcrumbResolver implements Resolve<string> {
 
-  constructor(private trainingDefinitionFacade: TrainingDefinitionFacade) {
+  constructor(
+    private trainingDefinitionFacade: TrainingDefinitionFacade,
+    private errorHandler: ErrorHandlerService) {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<string> | Promise<string> | string {
@@ -20,7 +23,11 @@ export class TrainingDefinitionBreadcrumbResolver implements Resolve<string> {
       return this.trainingDefinitionFacade.getById(id)
         .pipe(
           take(1),
-          mergeMap(td => td ? of(td.title) : EMPTY)
+          mergeMap(td => td ? of(td.title) : EMPTY),
+          catchError( (err) => {
+            this.errorHandler.displayInAlert(err, 'Training definition breadcrumbs resolver');
+            return EMPTY;
+          })
         );
     }
     return EMPTY;

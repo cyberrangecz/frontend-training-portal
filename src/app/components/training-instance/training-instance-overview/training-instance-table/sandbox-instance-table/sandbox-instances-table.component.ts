@@ -191,6 +191,7 @@ export class SandboxInstancesTableComponent extends BaseComponent implements OnI
       err => {
         this.isLoadingResults = false;
         this.isInErrorState = true;
+        this.errorHandler.displayInAlert(err, 'Displaying sandbox data');
       }
     );
   }
@@ -207,6 +208,7 @@ export class SandboxInstancesTableComponent extends BaseComponent implements OnI
       err => {
         this.isLoadingResults = false;
         this.isInErrorState = true;
+        this.errorHandler.displayInAlert(err, 'Obtaining sandbox data');
       }
     );
   }

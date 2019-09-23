@@ -2,15 +2,17 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
 import {TrainingInstanceFacade} from '../facades/training-instance-facade.service';
 import {EMPTY, Observable, of} from 'rxjs';
-import {mergeMap, take} from 'rxjs/operators';
+import {catchError, mergeMap, take} from 'rxjs/operators';
 import {TRAINING_INSTANCE_PATH} from '../../paths';
 import {ActiveTrainingInstanceService} from '../training-instance/active-training-instance.service';
+import {ErrorHandlerService} from '../shared/error-handler.service';
 
 @Injectable()
 export class TrainingInstanceBreadcrumbResolver implements Resolve<string> {
 
   constructor(private trainingInstanceFacade: TrainingInstanceFacade,
               private activeTrainingInstance: ActiveTrainingInstanceService,
+              private errorHandler: ErrorHandlerService,
               private router: Router) {
   }
 
@@ -24,7 +26,11 @@ export class TrainingInstanceBreadcrumbResolver implements Resolve<string> {
         return this.trainingInstanceFacade.getById(id)
           .pipe(
             take(1),
-            mergeMap(ti => ti ? of(ti.title) : this.navigateToOverview())
+            mergeMap(ti => ti ? of(ti.title) : this.navigateToOverview()),
+            catchError(err => {
+              this.errorHandler.displayInAlert(err, 'Training instance breadcrumbs resolver');
+              return EMPTY;
+            })
           );
       }
     }

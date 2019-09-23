@@ -158,10 +158,11 @@ export class ActiveTrainingRunOverviewComponent extends BaseTrainingRunOverview 
           this.resultsLength = data.pagination.totalElements;
           return data;
         }),
-        catchError(() => {
+        catchError(err => {
           window.clearTimeout(timeoutHandle);
           this.isLoadingTrainingRunResults = false;
           this.isInErrorState = true;
+          this.errorHandler.displayInAlert(err, 'Obtaining training runs');
           return of([]);
         })
       ).subscribe((data: PaginatedTable<TrainingRunTableRow[]>) => this.createDataSource(data.rows));
