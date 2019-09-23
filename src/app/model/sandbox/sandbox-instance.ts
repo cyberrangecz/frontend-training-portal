@@ -30,4 +30,8 @@ export class SandboxInstance {
   isBeingDeleted(): boolean {
     return this.state === SandboxInstanceState.DELETE_IN_PROGRESS;
   }
+
+  isDeleteFailed(): boolean {
+    return this.state === SandboxInstanceState.DELETE_FAILED;
+  }
 }

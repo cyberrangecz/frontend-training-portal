@@ -87,8 +87,8 @@ export class SandboxAllocationService {
       );
   }
 
-  deleteSandbox(trainingInstance: TrainingInstance, sandbox: SandboxInstance, requestedPoolSize: number): Observable<SandboxInstanceAllocationState> {
-    return this.sandboxInstanceFacade.delete(trainingInstance.id, sandbox.id)
+  deleteSandbox(trainingInstance: TrainingInstance, sandbox: SandboxInstance, requestedPoolSize: number, isHardDelete: boolean): Observable<SandboxInstanceAllocationState> {
+    return this.sandboxInstanceFacade.delete(trainingInstance.id, sandbox.id, isHardDelete)
       .pipe(
         concatMap( deleteResponse => this.createAllocation(trainingInstance, requestedPoolSize)),
         shareReplay(this.cacheConfig),

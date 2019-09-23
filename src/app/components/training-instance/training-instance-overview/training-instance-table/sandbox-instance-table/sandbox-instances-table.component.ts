@@ -43,6 +43,7 @@ export class SandboxInstancesTableComponent extends BaseComponent implements OnI
   dataSource: MatTableDataSource<SandboxInstanceTableRow>;
 
   resultsLength = 0;
+  isHardDelete = false;
   isInErrorState = false;
   hasPoolId: boolean;
   canAllocate: boolean;
@@ -86,7 +87,8 @@ export class SandboxInstancesTableComponent extends BaseComponent implements OnI
     }
   }
 
-  deleteSandbox(sandboxRow: SandboxInstanceTableRow) {
+  deleteSandbox(sandboxRow: SandboxInstanceTableRow, isHardDelete = false) {
+    this.isHardDelete = isHardDelete;
     if (this.trainingInstance.hasTrainingRunConnectedWithSandbox(sandboxRow.sandboxInstance.id)) {
       this.askForConfirmation(sandboxRow);
     } else {
@@ -120,7 +122,7 @@ export class SandboxInstancesTableComponent extends BaseComponent implements OnI
   private sendRequestToDeleteSandbox(sandboxRow: SandboxInstanceTableRow) {
     const sandboxCount = this.getSandboxCount() - 1;
     this.isDisabled = true;
-    const sandboxDeletion$ = this.allocationService.deleteSandbox(this.trainingInstance, sandboxRow.sandboxInstance, sandboxCount);
+    const sandboxDeletion$ = this.allocationService.deleteSandbox(this.trainingInstance, sandboxRow.sandboxInstance, sandboxCount, this.isHardDelete);
     sandboxDeletion$
       .pipe(
         takeWhile(() => this.isAlive),
@@ -222,6 +224,7 @@ export class SandboxInstancesTableComponent extends BaseComponent implements OnI
       sandboxRow.sandboxInstance = sandbox;
       sandboxRow.isCreated = sandbox.isCreated();
       sandboxRow.isFailed = sandbox.isFailed();
+      sandboxRow.isDeleteFailed = sandbox.isDeleteFailed();
       sandboxRow.isInProgress = sandbox.isInProgress();
       result.push(sandboxRow);
     });
