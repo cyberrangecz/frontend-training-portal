@@ -36,7 +36,7 @@
           <button
             *ngFor="let hintButton of hintButtons; index as i"
             mat-raised-button color="primary"
-            [disabled]="correctFlag || solutionShown || hintButton.displayed"
+            [disabled]="correctFlag || solutionShown || hintButton.displayed || waitingOnResponse"
             (click)="showHint(hintButton, i + 1);"
             matTooltip="{{ hintButton.hint.title }}">
             Hint {{ i + 1 }}
@@ -44,7 +44,7 @@
 
           <!-- SOLUTION BUTTON-->
           <button mat-raised-button color="warn"
-                  [disabled]="correctFlag || solutionShown"
+                  [disabled]="correctFlag || solutionShown || waitingOnResponse"
                   (click)="revealSolution()"
                   matTooltip="Display solution">
             Solution
