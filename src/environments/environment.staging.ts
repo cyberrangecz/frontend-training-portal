@@ -72,5 +72,6 @@ export const environment = {
       fileUploadRestUrl: ''
     }
   },
+  useHotjar: true,
   hotjarTrackingCode: '1435968'
 };
