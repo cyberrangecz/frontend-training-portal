@@ -288,6 +288,15 @@ export class TrainingDefinitionFacade {
       );
   }
 
+  moveLevels(trainingDefId: number, levelId: number, toPosition: number): Observable<AbstractLevel[]> {
+    return this.http.put<BasicLevelInfoDTO[]>(`${this.trainingDefsEndpointUri + trainingDefId}/${this.levelsUriExtension}${levelId}/move-to/${toPosition}`,
+      {},
+      { headers: this.createDefaultHeaders()})
+      .pipe(
+        map(resp => this.levelMapper.mapBasicInfoDTOsToAbstractLevels(resp)),
+      );
+  }
+
   private createDefaultHeaders() {
     const httpHeaderAccepts: string[] = [
       '*/*',

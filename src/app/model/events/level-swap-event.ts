@@ -1,6 +1,6 @@
 import {AbstractLevel} from '../level/abstract-level';
 
-export class LevelSwapEvent {
+export class LevelMoveEvent {
   indexes: any;
   levels: AbstractLevel[];
 

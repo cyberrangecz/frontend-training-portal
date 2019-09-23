@@ -10,7 +10,7 @@ import {AbstractLevel} from '../../../../model/level/abstract-level';
 import { MatDialog } from '@angular/material/dialog';
 import {BaseComponent} from '../../../base.component';
 import {StepperInterface} from 'kypo2-stepper';
-import {LevelSwapEvent} from '../../../../model/events/level-swap-event';
+import {LevelMoveEvent} from '../../../../model/events/level-swap-event';
 
 @Component({
   selector: 'kypo2-levels-stepper',
@@ -21,7 +21,7 @@ import {LevelSwapEvent} from '../../../../model/events/level-swap-event';
 export class TrainingLevelStepperComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input() levels: AbstractLevel[];
-  @Input() swappingInProgress: boolean;
+  @Input() movingInProgress: boolean;
   @Input() activeStep: number;
   @Output() activeStepChange: EventEmitter<number> = new EventEmitter();
   @Output() levelSwap: EventEmitter<object> = new EventEmitter();
@@ -51,7 +51,7 @@ export class TrainingLevelStepperComponent extends BaseComponent implements OnIn
   }
 
   swapLevels(event) {
-    this.levelSwap.emit(new LevelSwapEvent(event, this.levelStepper.items));
+    this.levelSwap.emit(new LevelMoveEvent(event, this.levelStepper.items));
   }
 
   private changeSelectedStep(index: number) {
