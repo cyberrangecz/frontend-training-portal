@@ -36,7 +36,7 @@ import {HomeModule} from './components/home/home.module';
     HomeModule,
     UserFacadeModule,
     Kypo2AuthModule.forRoot(environment.kypo2AuthConfig),
-    NgxHotjarModule.forRoot(environment.hotjarTrackingCode),
+    environment.useHotjar ? NgxHotjarModule.forRoot(environment.hotjarTrackingCode) : [],
     MatIconModule,
     MatButtonModule,
   ],
