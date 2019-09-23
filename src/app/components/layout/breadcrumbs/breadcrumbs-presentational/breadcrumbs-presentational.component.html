@@ -1,12 +1,12 @@
-<div class="content">
+<div class="content white-breadcrumbs-theme">
   <div class="home-breadcrumb">
-    <a mat-icon-button [routerLink]="HOME_PATH"><mat-icon>home</mat-icon></a>
-    <button *ngIf="breadcrumbs?.length > 0" disableRipple="true" mat-icon-button><mat-icon>chevron_right</mat-icon></button>
+    <a mat-icon-button color="primary" [routerLink]="HOME_PATH"><mat-icon>home</mat-icon></a>
+    <button color="primary" *ngIf="breadcrumbs?.length > 0" disableRipple="true" mat-icon-button><mat-icon>play_arrow</mat-icon></button>
   </div>
   <div *ngFor="let breadcrumb of breadcrumbs; index as i">
     <div class="breadcrumb">
-      <a mat-button [routerLink]="breadcrumb?.url">{{ breadcrumb?.label }}</a>
-      <button mat-icon-button *ngIf="i < breadcrumbs?.length - 1" disableRipple="true"><mat-icon>chevron_right</mat-icon></button>
+      <a class="breadcrumb-text" mat-button color="primary" [routerLink]="breadcrumb?.url">{{ breadcrumb?.label }}</a>
+      <button color="primary" mat-icon-button *ngIf="i < breadcrumbs?.length - 1" disableRipple="true"><mat-icon>play_arrow</mat-icon></button>
     </div>
   </div>
 </div>
