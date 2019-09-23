@@ -14,3 +14,6 @@ $kypo2-white-primary-palette: mat-palette($mat-gray, A100);
 $primary-inverted: mat-color($kypo2-white-primary-palette);
 $accent-inverted: mat-color($kypo2-white-primary-palette);
 $warn-inverted: mat-color($kypo2-white-primary-palette);
+
+$darker-white-primary-palette: mat-palette($mat-gray, 200);
+$primary: mat-color($darker-white-primary-palette);
