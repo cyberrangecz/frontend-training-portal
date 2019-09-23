@@ -7,8 +7,8 @@
 <div *ngIf="(levels$ | async).length > 0 else noLevels">
  <kypo2-levels-stepper [activeStep]="activeStep$ | async"
                        [levels]="levels$ | async"
-                       [swappingInProgress]="swappingInProgress"
-                       (levelSwap)="onLevelSwap($event)"
+                       [movingInProgress]="levelMovingInProgress"
+                       (levelSwap)="onLevelMoved($event)"
                        (activeStepChange)="onActiveLevelChange($event)">
  </kypo2-levels-stepper>
  <mat-divider></mat-divider>

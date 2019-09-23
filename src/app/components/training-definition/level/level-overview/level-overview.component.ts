@@ -17,7 +17,7 @@ import {BaseComponent} from '../../../base.component';
 import {ActionConfirmationDialogComponent} from '../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import {LevelEditService} from '../../../../services/training-definition/level-edit.service';
 import {AbstractLevelTypeEnum} from '../../../../model/enums/abstract-level-type.enum';
-import {LevelSwapEvent} from '../../../../model/events/level-swap-event';
+import {LevelMoveEvent} from '../../../../model/events/level-swap-event';
 import {TrainingDefinition} from '../../../../model/training/training-definition';
 
 @Component({
@@ -38,7 +38,7 @@ export class LevelOverviewComponent extends BaseComponent implements OnInit, OnC
   activeStep$: Observable<number>;
   levels$: Observable<AbstractLevel[]>;
   activeLevelCanBeSaved$: Observable<boolean>;
-  swappingInProgress: boolean;
+  levelMovingInProgress: boolean;
 
   constructor(private activeRoute: ActivatedRoute,
               private dialog: MatDialog,
@@ -71,19 +71,26 @@ export class LevelOverviewComponent extends BaseComponent implements OnInit, OnC
    */
   addLevel(levelType: AbstractLevelTypeEnum) {
     this.levelService.add(levelType)
-      .subscribe(_ => {
+      .pipe(
+        takeWhile(_ => this.isAlive)
+      ).subscribe(_ => {
         this.levelService.navigateToLastLevel();
         this.levelsCount.emit(this.levelService.getLevelsCount());
       }
    );
   }
 
-  onLevelSwap(event: LevelSwapEvent) {
-    this.swappingInProgress = true;
-    this.levelService.swap(event.indexes.previousIndex, event.indexes.currentIndex)
-      .subscribe(
-        _ => this.swappingInProgress = false,
-        _ => this.swappingInProgress = false
+  onLevelMoved(event: LevelMoveEvent) {
+    this.levelMovingInProgress = true;
+    this.levelService.move(event.indexes.previousIndex, event.indexes.currentIndex)
+      .pipe(
+        takeWhile(_ => this.isAlive)
+      ).subscribe(
+        _ => {
+          this.levelMovingInProgress = false;
+          this.levelService.setActiveStep(event.indexes.currentIndex);
+        },
+        _ => this.levelMovingInProgress = false
       );
   }
 
@@ -94,7 +101,9 @@ export class LevelOverviewComponent extends BaseComponent implements OnInit, OnC
   onSave() {
     const level = this.levelService.getSelected();
     this.levelService.save(level)
-      .subscribe(_ =>  this.unsavedLevels.emit(this.levelService.getUnsavedLevels()));
+      .pipe(
+        takeWhile(_ => this.isAlive)
+      ).subscribe(_ =>  this.unsavedLevels.emit(this.levelService.getUnsavedLevels()));
   }
 
   onActiveLevelChanged(level: AbstractLevel) {

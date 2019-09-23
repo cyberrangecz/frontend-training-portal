@@ -119,27 +119,28 @@ export class LevelEditService {
       );
   }
 
-  swap(fromIndex, toIndex): Observable<any> {
+  move(fromIndex, toIndex): Observable<any> {
     const levels = this.levelsSubject.getValue();
-    const from = levels[fromIndex];
-    const to = levels[toIndex];
-    return this.trainingDefinitionFacade.swapLevels(this.trainingDefinitionId, from.id, to.id)
+    const from = levels[toIndex]; // because it was already changed. It will be fixed when stepper supports snapshots
+    return this.trainingDefinitionFacade.moveLevels(this.trainingDefinitionId, from.id, toIndex)
       .pipe(
-        tap(_ =>
-        err => {
-          this.swapRollback(fromIndex, toIndex);
-          this.errorHandler.displayInAlert(err, `Swapping level ${from.title}`);
-        }
-      ));
+        tap({
+          error: (err) => {
+            this.moveRollback(fromIndex, toIndex);
+            this.errorHandler.displayInAlert(err, `Moving level "${from.title}"`);
+          }
+        })
+      );
   }
 
 
-  private swapRollback(fromIndex: number, toIndex: number) {
+  private moveRollback(fromIndex: number, toIndex: number) {
     const levels = this.levelsSubject.getValue();
     const tempLevel = levels[toIndex];
     levels[toIndex] = levels[fromIndex];
     levels[fromIndex] = tempLevel;
     this.levelsSubject.next(levels);
+    this.setActiveStep(fromIndex);
   }
 
   private addGameLevel(): Observable<GameLevel> {
