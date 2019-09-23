@@ -73,7 +73,6 @@ export class LevelMapper {
     result.content = level.content;
     result.estimated_duration = level.estimatedDuration;
     result.flag = level.flag;
-    result.attachments = level.attachments;
     result.incorrect_flag_limit = level.incorrectFlagLimit;
     result.solution = level.solution;
     result.solution_penalized = level.solutionPenalized;
@@ -173,7 +172,6 @@ export class LevelMapper {
     result.solution = gameLevelDTO.solution;
     result.incorrectFlagLimit = gameLevelDTO.incorrect_flag_limit;
     result.solutionPenalized = gameLevelDTO.solution_penalized;
-    result.attachments = gameLevelDTO.attachments;
     result.icon = 'videogame_asset';
     return result;
   }

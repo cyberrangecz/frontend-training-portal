@@ -1,10 +1,9 @@
-import {HintDTO} from "./hint-dto";
-import {AbstractLevelDTO} from "../abstract-level-dto";
+import {HintDTO} from './hint-dto';
+import {AbstractLevelDTO} from '../abstract-level-dto';
 
 export interface GameLevelUpdateDTO {
   id: number;
   max_score?: number;
-  attachments?: Array<string>;
   content?: string;
   estimated_duration?: number;
   flag?: string;
@@ -15,7 +14,6 @@ export interface GameLevelUpdateDTO {
 }
 
 export class GameLevelUpdateDTOClass implements GameLevelUpdateDTO {
-  attachments: Array<string>;
   content: string;
   estimated_duration: number;
   flag: string;
