@@ -12,7 +12,6 @@ export class GameLevel extends AbstractLevel {
   solution: string;
   incorrectFlagLimit = 5;
   solutionPenalized = true;
-  attachments: string[] = [];
 
   constructor() {
     super();
