@@ -64,12 +64,20 @@ export class SandboxInstanceFacade {
         map(resp => trainingInstance.poolId));
   }
 
-  delete(trainingInstanceId: number, sandboxId: number): Observable<any> {
-    return this.http.delete(`${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.sandboxInstancesUriExtension}`,
-      {
-        params: {sandboxIds: sandboxId.toString()}
-      }
-    );
+  delete(trainingInstanceId: number, sandboxId: number, isHardDeleted = false): Observable<any> {
+    if (!isHardDeleted) {
+      return this.http.delete(`${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.sandboxInstancesUriExtension}`,
+        {
+          params: {sandboxIds: sandboxId.toString()}
+        }
+      );
+    } else {
+      return this.http.delete(`${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.sandboxInstancesUriExtension}?hard`,
+        {
+          params: {sandboxIds: sandboxId.toString()}
+        }
+      );
+    }
   }
 
   deleteMultiple(trainingInstanceId: number, sandboxIds: [number]): Observable<any> {

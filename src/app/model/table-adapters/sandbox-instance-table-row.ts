@@ -6,4 +6,5 @@ export class SandboxInstanceTableRow implements TableRowAdapter {
   isInProgress: boolean;
   isCreated: boolean;
   isFailed: boolean;
+  isDeleteFailed: boolean;
 }

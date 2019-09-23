@@ -70,6 +70,16 @@
                   aria-label="Remove sandbox instance button">
                   delete</mat-icon>
               </button>
+
+              <!-- HARD DELETE button-->
+              <button mat-icon-button color="warn"
+                      matTooltip="Remove sandbox instance certainly by more time consuming action"
+                      [disabled]="!data.isDeleteFailed"
+                      (click)="deleteSandbox(data, true)">
+                <mat-icon
+                  aria-label="Hard remove sandbox instance button">
+                  delete_forever</mat-icon>
+              </button>
             </td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
