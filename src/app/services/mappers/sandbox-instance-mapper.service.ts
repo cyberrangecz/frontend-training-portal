@@ -24,7 +24,6 @@ export class SandboxInstanceMapper {
   }
 
   private getSandboxStateFromString(state: string): SandboxInstanceState {
-    return SandboxInstanceState.DELETE_FAILED;
     const lowercasedState = state.toLowerCase();
     if (lowercasedState.includes('delete') && lowercasedState.includes('fail')) {
       return SandboxInstanceState.DELETE_FAILED;
@@ -32,7 +31,7 @@ export class SandboxInstanceMapper {
     if (lowercasedState.includes('fail')) {
       return SandboxInstanceState.FAILED;
     }
-    if (lowercasedState.includes('delete') && !lowercasedState.includes('fail')) {
+    if (lowercasedState.includes('delete') && !lowercasedState.includes('progress')) {
       return SandboxInstanceState.DELETE_IN_PROGRESS;
     }
     if (lowercasedState.includes('progress')) {
