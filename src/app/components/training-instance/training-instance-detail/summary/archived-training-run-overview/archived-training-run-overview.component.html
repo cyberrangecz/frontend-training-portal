@@ -4,13 +4,9 @@
   <div class="training-table-wrapper">
     <div class="training-table">
       <div class="mat-elevation-z8">
-        <div class="loading"
-             *ngIf="isLoadingResults || isInErrorState">
-          <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
-          <div class="loading-error" *ngIf="isInErrorState">
-            We have some trouble loading the data. Please try again later.
-            <button mat-icon-button (click)="fetchData()" color="primary"><mat-icon>refresh</mat-icon></button>
-          </div>
+        <div class="error" *ngIf="isInErrorState">
+          We have some trouble loading the data. Please try again later.
+          <button mat-icon-button (click)="fetchData()" color="primary"><mat-icon>refresh</mat-icon></button>
         </div>
 
         <table mat-table [dataSource]="archivedTrainingRunsDataSource" matSort>

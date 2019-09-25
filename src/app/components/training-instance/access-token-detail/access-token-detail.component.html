@@ -1,10 +1,9 @@
 <div class="container">
-  <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
-  <div *ngIf="!isLoading" class="header">
-    <h1>{{ trainingInstance.title }}</h1>
+  <div class="header">
+    <h1>{{ trainingInstance?.title }}</h1>
     <h2>Fill in following access token to start the game:</h2>
   </div>
-  <div *ngIf="!isLoading" class="content">
-    <h1 class="access-token">{{ trainingInstance.accessToken }}</h1>
+  <div class="content">
+    <h1 class="access-token">{{ trainingInstance?.accessToken }}</h1>
   </div>
 </div>

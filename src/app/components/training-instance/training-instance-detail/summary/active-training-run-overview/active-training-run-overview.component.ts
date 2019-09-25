@@ -21,7 +21,7 @@ import {RequestedPagination} from '../../../../../model/DTOs/other/requested-pag
 @Component({
   selector: 'kypo2-active-training-run-overview',
   templateUrl: './active-training-run-overview.component.html',
-  styleUrls: ['./active-training-run-overview.component.css']
+  styleUrls: ['./active-training-run-overview.component.scss']
 })
 /**
  * Component displaying training runs and its state in real time. Allows organizer to easily archive training runs
@@ -33,8 +33,6 @@ export class ActiveTrainingRunOverviewComponent extends BaseTrainingRunOverview 
   activeTrainingRunsDataSource: MatTableDataSource<TrainingRunTableRow>;
 
   resultsLength = 0;
-  isLoadingTrainingRunResults = true;
-  isLoadingSandboxResults = true;
   isInErrorState = false;
   now: number;
 
@@ -111,13 +109,10 @@ export class ActiveTrainingRunOverviewComponent extends BaseTrainingRunOverview 
   }
 
   private fetchInfoForSandboxes() {
-    const timeoutHandle = window.setTimeout(() => this.isLoadingSandboxResults = true, environment.defaultDelayToDisplayLoading);
     this.sandboxInstanceFacade.getSandboxesInPool(this.trainingInstance.poolId)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         sandboxes => {
-            window.clearTimeout(timeoutHandle);
-            this.isLoadingSandboxResults = false;
             this.hasSandboxesInfoError = false;
             this.sandboxFailedCount = sandboxes.filter(sandbox => sandbox.isFailed()).length;
             this.sandboxDeletionRunningCount = sandboxes.filter(sandbox => sandbox.isBeingDeleted()).length;
@@ -129,15 +124,12 @@ export class ActiveTrainingRunOverviewComponent extends BaseTrainingRunOverview 
             }
           },
           err => {
-          window.clearTimeout(timeoutHandle);
-          this.isLoadingSandboxResults = false;
           this.hasSandboxesInfoError = true;
         }
       );
   }
 
   private fetchTrainingRuns() {
-    let timeoutHandle = 0;
     const pagination = new RequestedPagination(this.activeTrainingRunsPaginator.pageIndex,
       this.activeTrainingRunsPaginator.pageSize,
       this.activeTrainingRunSort.active,
@@ -148,19 +140,14 @@ export class ActiveTrainingRunOverviewComponent extends BaseTrainingRunOverview 
         takeWhile(() => this.isAlive),
         startWith({}),
         switchMap(() => {
-          timeoutHandle = window.setTimeout(() => this.isLoadingTrainingRunResults = true, environment.defaultDelayToDisplayLoading);
           return this.trainingInstanceFacade.getAssociatedTrainingRunsPaginated(this.trainingInstance.id, pagination);
         }),
         map(data => {
-          window.clearTimeout(timeoutHandle);
-          this.isLoadingTrainingRunResults = false;
           this.isInErrorState = false;
           this.resultsLength = data.pagination.totalElements;
           return data;
         }),
         catchError(err => {
-          window.clearTimeout(timeoutHandle);
-          this.isLoadingTrainingRunResults = false;
           this.isInErrorState = true;
           this.errorHandler.displayInAlert(err, 'Obtaining training runs');
           return of([]);

@@ -3,7 +3,7 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnChanges,
+  OnChanges, OnDestroy,
   OnInit,
   Output,
   SimpleChanges,
@@ -43,7 +43,6 @@ export class TrainingRunTableComponent extends BaseComponent implements OnInit, 
   displayedColumns: string[] = ['title', 'date', 'completedLevels', 'actions'];
   dataSource: MatTableDataSource<AccessedTrainingRunsTableRow>;
   actionType = TraineeAccessTrainingRunActionEnum;
-  now = Date.now();
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;

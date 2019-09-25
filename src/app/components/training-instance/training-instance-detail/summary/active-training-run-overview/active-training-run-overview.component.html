@@ -42,13 +42,9 @@
       </mat-form-field>
 
       <div class="mat-elevation-z8">
-        <div class="loading"
-             *ngIf="isLoadingTrainingRunResults || isInErrorState">
-          <mat-spinner *ngIf="isLoadingTrainingRunResults"></mat-spinner>
-          <div class="loading-error" *ngIf="isInErrorState">
-            We have some trouble loading the data. Please try again later.
-            <button mat-icon-button (click)="fetchData()" color="primary"><mat-icon>refresh</mat-icon></button>
-          </div>
+        <div class="error" *ngIf="isInErrorState">
+          We have some trouble loading the data. Please try again later.
+          <button mat-icon-button (click)="fetchData()" color="primary"><mat-icon>refresh</mat-icon></button>
         </div>
 
         <table mat-table [dataSource]="activeTrainingRunsDataSource" matSort>

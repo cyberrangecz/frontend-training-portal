@@ -17,13 +17,9 @@
                placeholder="Filter by title or state">
       </mat-form-field>
       <div class="mat-elevation-z8">
-        <div class="loading"
-             *ngIf="isLoadingResults || isInErrorState">
-          <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
-          <div class="loading-error" *ngIf="isInErrorState">
+        <div class="error" *ngIf="isInErrorState">
             We had some trouble loading the data.
             <button mat-icon-button (click)="fetchData()" color="primary"><mat-icon>refresh</mat-icon></button>
-          </div>
         </div>
 
         <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows>

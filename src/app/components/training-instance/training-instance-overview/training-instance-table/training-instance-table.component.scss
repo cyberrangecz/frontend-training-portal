@@ -1,3 +1,5 @@
+@import "~variables.scss";
+
 h2 {
   text-align: center;
   margin: 20px auto;
@@ -139,20 +141,8 @@ td.actions, th.actions {
   width: 20%;
 }
 
-.loading {
-  position: relative;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.15);
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .error {
-  color: #980000;
+  color: $warn;
   text-align: center;
 }
 

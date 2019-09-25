@@ -31,7 +31,7 @@ import {RequestedPagination} from '../../../../model/DTOs/other/requested-pagina
 @Component({
   selector: 'kypo2-training-definition-table',
   templateUrl: './training-definition-table.component.html',
-  styleUrls: ['./training-definition-table.component.css'],
+  styleUrls: ['./training-definition-table.component.scss'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({height: '0px', minHeight: '0'})),
@@ -53,7 +53,6 @@ export class TrainingDefinitionTableComponent extends BaseComponent implements O
   dataSource: MatTableDataSource<TrainingDefinitionTableRow>;
 
   resultsLength = 0;
-  isLoadingResults = true;
   isInErrorState = false;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -142,7 +141,6 @@ export class TrainingDefinitionTableComponent extends BaseComponent implements O
           this.alertService.emitAlert(AlertTypeEnum.Error, 'Training definition could not be downloaded');
         }
         this.errorHandler.displayInAlert(err, 'Downloading training definition');
-        this.isLoadingResults = false;
       });
   }
 
@@ -206,7 +204,6 @@ export class TrainingDefinitionTableComponent extends BaseComponent implements O
         takeWhile(() => this.isAlive),
         startWith({}),
         switchMap(() => {
-          timeoutHandle =  window.setTimeout(() => this.isLoadingResults = true, environment.defaultDelayToDisplayLoading);
           return this.trainingDefinitionFacade.getAllPaginated(
             new RequestedPagination(
             this.paginator.pageIndex,
@@ -216,14 +213,10 @@ export class TrainingDefinitionTableComponent extends BaseComponent implements O
           ));
         }),
         map(data => {
-          window.clearTimeout(timeoutHandle);
-          this.isLoadingResults = false;
           this.resultsLength = data.pagination.totalElements;
           return data;
         }),
         catchError((err) => {
-          window.clearTimeout(timeoutHandle);
-          this.isLoadingResults = false;
           this.isInErrorState = true;
           this.errorHandler.displayInAlert(err, 'Loading training definitions');
           return of([]);

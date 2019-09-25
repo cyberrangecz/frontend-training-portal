@@ -1,4 +1,5 @@
 <div *ngIf="(distractionFreeMode$ | async) else withLayout">
+  <kypo2-loading [isLoading]="isLoading$ | async"></kypo2-loading>
   <router-outlet></router-outlet>
 </div>
 <ng-template #withLayout>

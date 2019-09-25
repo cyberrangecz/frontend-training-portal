@@ -26,7 +26,7 @@ import {skipWhile, takeWhile} from 'rxjs/operators';
 @Component({
   selector: 'kypo2-sandbox-instances-table',
   templateUrl: './sandbox-instances-table.component.html',
-  styleUrls: ['./sandbox-instances-table.component.css']
+  styleUrls: ['./sandbox-instances-table.component.scss']
 })
 /**
  * Table of sandbox instance coupled with some training instance. Either refreshes data periodically or displays
@@ -47,7 +47,6 @@ export class SandboxInstancesTableComponent extends BaseComponent implements OnI
   isInErrorState = false;
   hasPoolId: boolean;
   canAllocate: boolean;
-  isLoadingResults = false;
   isDisabled = false;
 
   filterByStatusFn = (data: SandboxInstanceTableRow, filter: string) =>
@@ -168,7 +167,6 @@ export class SandboxInstancesTableComponent extends BaseComponent implements OnI
   }
 
   private displayData(allocationState: SandboxInstanceAllocationState = null) {
-    this.isLoadingResults = true;
     if (allocationState) {
       this.createDataSourceFromAllocationState(allocationState);
     } else {
@@ -186,10 +184,8 @@ export class SandboxInstancesTableComponent extends BaseComponent implements OnI
       .subscribe(
       allocationState => {
         this.createDataSourceFromAllocationState(allocationState);
-        this.isLoadingResults = false;
       },
       err => {
-        this.isLoadingResults = false;
         this.isInErrorState = true;
         this.errorHandler.displayInAlert(err, 'Displaying sandbox data');
       }
@@ -203,10 +199,8 @@ export class SandboxInstancesTableComponent extends BaseComponent implements OnI
       sandboxes => {
         this.dataSource = new MatTableDataSource(this.mapSandboxesToTableData(sandboxes));
         this.dataSource.filterPredicate = this.filterByStatusFn;
-        this.isLoadingResults = false;
       },
       err => {
-        this.isLoadingResults = false;
         this.isInErrorState = true;
         this.errorHandler.displayInAlert(err, 'Obtaining sandbox data');
       }
@@ -236,7 +230,6 @@ export class SandboxInstancesTableComponent extends BaseComponent implements OnI
   private createDataSourceFromAllocationState(allocationState: SandboxInstanceAllocationState) {
     this.dataSource = new MatTableDataSource(this.mapSandboxesToTableData(allocationState.sandboxes));
     this.dataSource.filterPredicate = this.filterByStatusFn;
-    this.isLoadingResults = false;
   }
 
   private getSandboxCount(): number {
