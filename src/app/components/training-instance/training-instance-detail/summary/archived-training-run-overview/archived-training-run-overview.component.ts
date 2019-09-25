@@ -20,7 +20,7 @@ import {RequestedPagination} from '../../../../../model/DTOs/other/requested-pag
 @Component({
   selector: 'kypo2-archived-training-run-overview',
   templateUrl: './archived-training-run-overview.component.html',
-  styleUrls: ['./archived-training-run-overview.component.css']
+  styleUrls: ['./archived-training-run-overview.component.scss']
 })
 /**
  * Component displaying real time archived (accessed by trainee and with sandbox removed) training runs for organizer.
@@ -31,7 +31,6 @@ export class ArchivedTrainingRunOverviewComponent extends BaseTrainingRunOvervie
   archivedTrainingRunsDataSource: MatTableDataSource<TrainingRunTableRow>;
 
   resultsLength = 0;
-  isLoadingResults = true;
   isInErrorState = false;
 
   @ViewChild(MatPaginator, { static: true }) archivedTrainingRunsPaginator: MatPaginator;
@@ -108,19 +107,15 @@ export class ArchivedTrainingRunOverviewComponent extends BaseTrainingRunOvervie
         takeWhile(() => this.isAlive),
         startWith({}),
         switchMap(() => {
-          timeoutHandle = window.setTimeout(() => this.isLoadingResults = true, environment.defaultDelayToDisplayLoading);
           return this.trainingInstanceFacade.getAssociatedTrainingRunsPaginated(this.trainingInstance.id, pagination, false);
         }),
         map(data => {
-          window.clearTimeout(timeoutHandle);
-          this.isLoadingResults = false;
+
           this.isInErrorState = false;
           this.resultsLength = data.pagination.totalElements;
           return data;
         }),
         catchError(err => {
-          window.clearTimeout(timeoutHandle);
-          this.isLoadingResults = false;
           this.isInErrorState = true;
           this.errorHandler.displayInAlert(err, 'Obtaining training run data');
           return of([]);

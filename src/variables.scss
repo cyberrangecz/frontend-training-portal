@@ -9,6 +9,7 @@ $kypo2-warn-palette:    mat-palette($mat-red);
 $primary: mat-color($kypo2-primary-palette);
 $accent: mat-color($kypo2-accent-palette);
 $warn: mat-color($kypo2-warn-palette);
+$success: #6DF000;
 
 $kypo2-white-primary-palette: mat-palette($mat-gray, A100);
 $primary-inverted: mat-color($kypo2-white-primary-palette);

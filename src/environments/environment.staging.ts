@@ -12,7 +12,6 @@ export const environment = {
   // BEHAVIOUR SETTINGS
   defaultAlertDuration: 5000, // 0 to display until user dismisses it
   defaultPaginationSize: 5,
-  defaultDelayToDisplayLoading: 500,
   defaultOrganizerTROverviewRefreshRate: 5000,
   sandboxAllocationStateRefreshRate: 5000,
   kypo2TopologyConfig: {

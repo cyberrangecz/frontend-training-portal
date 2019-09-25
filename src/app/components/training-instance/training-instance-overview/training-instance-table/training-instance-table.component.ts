@@ -26,7 +26,7 @@ import {AllocationModalComponent} from './allocation-modal/allocation-modal.comp
 @Component({
   selector: 'kypo2-training-instance-table',
   templateUrl: './training-instance-table.component.html',
-  styleUrls: ['./training-instance-table.component.css'],
+  styleUrls: ['./training-instance-table.component.scss'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({height: '0px', minHeight: '0', display: 'none'})),
@@ -47,7 +47,6 @@ export class TrainingInstanceTableComponent extends BaseComponent implements OnI
   dataSource: MatTableDataSource<TrainingInstanceTableRow>;
 
   resultsLength = 0;
-  isLoadingResults = true;
   isInErrorState = false;
   expandedRow: TrainingInstanceTableRow;
   now: number;
@@ -207,13 +206,11 @@ export class TrainingInstanceTableComponent extends BaseComponent implements OnI
    * Fetches data from the server
    */
   private fetchData() {
-    let timeoutHandle = 0;
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(
         takeWhile(() => this.isAlive),
         startWith({}),
         switchMap(() => {
-          timeoutHandle =  window.setTimeout(() => this.isLoadingResults = true, environment.defaultDelayToDisplayLoading);
           return this.trainingInstanceFacade.getPaginated({
             page: this.paginator.pageIndex,
             size: this.paginator.pageSize,
@@ -226,15 +223,11 @@ export class TrainingInstanceTableComponent extends BaseComponent implements OnI
           return trainingInstancesData;
         }),
         map(data => {
-          window.clearTimeout(timeoutHandle);
-          this.isLoadingResults = false;
           this.isInErrorState = false;
           this.resultsLength = data.pagination.totalElements;
           return data;
         }),
         catchError((err) => {
-          window.clearTimeout(timeoutHandle);
-          this.isLoadingResults = false;
           this.isInErrorState = true;
           this.errorHandler.displayInAlert(err, 'Loading training definitions');
           return of([]);

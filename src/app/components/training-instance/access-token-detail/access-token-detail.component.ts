@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
 import {TrainingInstance} from '../../../model/training/training-instance';
-import {TrainingInstanceFacade} from '../../../services/facades/training-instance-facade.service';
-import {takeWhile} from 'rxjs/operators';
 import {BaseComponent} from '../../base.component';
+import {ActiveTrainingInstanceService} from '../../../services/training-instance/active-training-instance.service';
 
 @Component({
   selector: 'kypo2-access-token-detail',
@@ -15,23 +13,13 @@ import {BaseComponent} from '../../base.component';
  */
 export class AccessTokenDetailComponent extends BaseComponent implements OnInit {
 
-  isLoading = true;
   trainingInstance: TrainingInstance;
 
-  constructor(private activeRoute: ActivatedRoute,
-              private trainingInstanceFacade: TrainingInstanceFacade) {
+  constructor(private activeTrainingInstance: ActiveTrainingInstanceService) {
     super();
   }
 
   ngOnInit() {
-    const instanceId = Number(this.activeRoute.snapshot.paramMap.get('id'));
-    if (instanceId) {
-      this.trainingInstanceFacade.getById(instanceId)
-        .pipe(takeWhile(() => this.isAlive))
-        .subscribe(trainingInstance => {
-          this.trainingInstance = trainingInstance;
-          this.isLoading = false;
-        });
-    }
+    this.trainingInstance = this.activeTrainingInstance.get();
   }
 }

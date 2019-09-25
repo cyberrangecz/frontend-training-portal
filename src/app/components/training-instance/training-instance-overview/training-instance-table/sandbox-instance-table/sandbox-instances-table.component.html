@@ -7,15 +7,10 @@
         <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter by status">
       </mat-form-field>
       <div class="mat-elevation-z8">
-        <div class="loading"
-             *ngIf="isLoadingResults || isInErrorState">
-          <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
-          <div class="loading-error" *ngIf="isInErrorState">
-            We have some trouble loading the data. Please try again later.
-            <button mat-icon-button (click)="fetchDataFromServer()" color="primary"><mat-icon>refresh</mat-icon></button>
-          </div>
+        <div class="error" *ngIf="isInErrorState">
+          We have some trouble loading the data. Please try again later.
+          <button mat-icon-button (click)="fetchDataFromServer()" color="primary"><mat-icon>refresh</mat-icon></button>
         </div>
-
         <table mat-table [dataSource]="dataSource">
 
           <!-- ID Column -->
