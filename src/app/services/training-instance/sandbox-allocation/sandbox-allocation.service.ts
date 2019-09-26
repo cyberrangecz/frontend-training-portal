@@ -80,7 +80,7 @@ export class SandboxAllocationService {
   }
 
   allocateSandboxes(trainingInstance: TrainingInstance, count: number = 0): Observable<SandboxInstanceAllocationState> {
-    return this.initAllocation(trainingInstance, count)
+    return this.sandboxInstanceFacade.allocate(trainingInstance.id, count)
       .pipe(
         concatMap(allocation => this.createAllocation(trainingInstance, count)),
         shareReplay(this.cacheConfig)
@@ -110,16 +110,6 @@ export class SandboxAllocationService {
   private emitAllocationStateChange(state: SandboxAllocationState) {
     this.allocationStateChangeSubject.next(state);
   }
-
-  private initAllocation(trainingInstance: TrainingInstance, count: number = 0): Observable<any> {
-    if (trainingInstance.hasPoolId()) {
-      return this.sandboxInstanceFacade.allocate(trainingInstance.id, count);
-    } else {
-      return this.sandboxInstanceFacade.createPoolAndAllocate(trainingInstance, count)
-        .pipe(tap(poolId => trainingInstance.poolId = poolId));
-    }
-  }
-
 
   private startPeriodicalStateCheck() {
     this.periodicalCheckSubscription = timer(0, environment.sandboxAllocationStateRefreshRate)

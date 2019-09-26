@@ -54,16 +54,6 @@ export class SandboxInstanceFacade {
       {params: params});
   }
 
-  createPoolAndAllocate(trainingInstance: TrainingInstance, count: number = 0): Observable<number> {
-    return this.createPool(trainingInstance.id)
-      .pipe(
-        concatMap(poolId => {
-          trainingInstance.poolId = poolId;
-          return this.allocate(trainingInstance.id, count);
-        }),
-        map(resp => trainingInstance.poolId));
-  }
-
   delete(trainingInstanceId: number, sandboxId: number, isHardDeleted = false): Observable<any> {
     if (!isHardDeleted) {
       return this.http.delete(`${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.sandboxInstancesUriExtension}`,
