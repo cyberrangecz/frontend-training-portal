@@ -16,7 +16,7 @@
       (click)="fetchUsers('')">
   </mat-chip-list>
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelected($event)">
-    <mat-option *ngFor="let user of users" [value]="user" (onSelectionChange)="selectUser($event, user)">
+    <mat-option *ngFor="let user of users" [value]="user"  [disabled]="alreadySelected(user)" (onSelectionChange)="selectUser($event, user)">
      <div class="user">
        <div class="user-picture-container">
          <img [alt]="user.name" src="data:image/png;base64,{{ user?.picture }}">
