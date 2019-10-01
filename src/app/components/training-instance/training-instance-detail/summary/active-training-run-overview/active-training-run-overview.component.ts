@@ -11,7 +11,7 @@ import {AlertTypeEnum} from '../../../../../model/enums/alert-type.enum';
 import {TrainingInstanceFacade} from '../../../../../services/facades/training-instance-facade.service';
 import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
 import {TrainingRunTableRow} from '../../../../../model/table-adapters/training-run-table-row';
-import {PaginatedTable} from '../../../../../model/table-adapters/paginated-table';
+import {PaginatedResource} from '../../../../../model/table-adapters/paginated-resource';
 import {environment} from '../../../../../../environments/environment';
 import {BaseTrainingRunOverview} from '../base-training-run-overview';
 import {ActionConfirmationDialogComponent} from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
@@ -149,10 +149,10 @@ export class ActiveTrainingRunOverviewComponent extends BaseTrainingRunOverview 
         }),
         catchError(err => {
           this.isInErrorState = true;
-          this.errorHandler.displayInAlert(err, 'Obtaining training runs');
+          this.errorHandler.display(err, 'Obtaining training runs');
           return of([]);
         })
-      ).subscribe((data: PaginatedTable<TrainingRunTableRow[]>) => this.createDataSource(data.rows));
+      ).subscribe((data: PaginatedResource<TrainingRunTableRow[]>) => this.createDataSource(data.elements));
   }
 
   /**
@@ -194,7 +194,7 @@ export class ActiveTrainingRunOverviewComponent extends BaseTrainingRunOverview 
           this.fetchInfoForSandboxes();
         },
         err => {
-          this.errorHandler.displayInAlert(err, 'Allocation of sandboxes');
+          this.errorHandler.display(err, 'Allocation of sandboxes');
         }
       );
   }
@@ -210,7 +210,7 @@ export class ActiveTrainingRunOverviewComponent extends BaseTrainingRunOverview 
       },
       err => {
         row.deletionRequested = false;
-        this.errorHandler.displayInAlert(err, 'Deletion sandbox instance');
+        this.errorHandler.display(err, 'Deletion sandbox instance');
       }
     );
   }
@@ -223,5 +223,4 @@ export class ActiveTrainingRunOverviewComponent extends BaseTrainingRunOverview 
       this.now = Date.now()
     );
   }
-
 }

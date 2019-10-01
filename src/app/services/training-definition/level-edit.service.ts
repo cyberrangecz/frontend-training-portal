@@ -105,7 +105,7 @@ export class LevelEditService {
         },
         err => {
           this.setLevelCanBeSaved(level);
-          this.errorHandler.displayInAlert(err, `Saving level ${level.title}`);
+          this.errorHandler.display(err, `Saving level ${level.title}`);
       })
     );
   }
@@ -114,7 +114,7 @@ export class LevelEditService {
     return this.trainingDefinitionFacade.deleteLevel(this.trainingDefinitionId, level.id)
       .pipe(
         tap(_ => this.onLevelDeleted(level.id),
-        err => this.errorHandler.displayInAlert(err, 'Deleting level "' + level.title + '"')
+        err => this.errorHandler.display(err, 'Deleting level "' + level.title + '"')
         )
       );
   }
@@ -127,7 +127,7 @@ export class LevelEditService {
         tap({
           error: (err) => {
             this.moveRollback(fromIndex, toIndex);
-            this.errorHandler.displayInAlert(err, `Moving level "${from.title}"`);
+            this.errorHandler.display(err, `Moving level "${from.title}"`);
           }
         })
       );
@@ -148,7 +148,7 @@ export class LevelEditService {
       .pipe(
         switchMap(basicLevelInfo => this.trainingDefinitionFacade.getLevelById(basicLevelInfo.id) as Observable<GameLevel>),
         tap(level => this.onLevelAdded(level),
-            err =>  this.errorHandler.displayInAlert(err, 'Adding game level')
+            err =>  this.errorHandler.display(err, 'Adding game level')
         )
       );
   }
@@ -158,7 +158,7 @@ export class LevelEditService {
       .pipe(
         switchMap(basicLevelInfo => this.trainingDefinitionFacade.getLevelById(basicLevelInfo.id) as Observable<InfoLevel>),
         tap(level => this.onLevelAdded(level),
-          err =>  this.errorHandler.displayInAlert(err, 'Adding info level')
+          err =>  this.errorHandler.display(err, 'Adding info level')
         )
       );
   }
@@ -168,7 +168,7 @@ export class LevelEditService {
       .pipe(
         switchMap(basicLevelInfo => this.trainingDefinitionFacade.getLevelById(basicLevelInfo.id) as Observable<AssessmentLevel>),
         tap(level => this.onLevelAdded(level),
-          err =>  this.errorHandler.displayInAlert(err, 'Adding assessment level')
+          err =>  this.errorHandler.display(err, 'Adding assessment level')
         )
       );
   }

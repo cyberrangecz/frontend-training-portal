@@ -7,7 +7,7 @@ import {ToolbarComponent} from './toolbar/toolbar.component';
 import {FormsModule} from '@angular/forms';
 import {LayoutMaterialModule} from './layout-material.module';
 import {MatFormFieldModule, MatListModule, MatSidenavModule} from '@angular/material';
-import {UserIdModule} from '../shared/user-id.module';
+import {UserIdModule} from '../shared/user-id/user-id.module';
 import { TreeNavigationComponent } from './tree-navigation/tree-navigation.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';

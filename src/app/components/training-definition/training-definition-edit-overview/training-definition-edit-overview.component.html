@@ -1,0 +1,54 @@
+<mat-expansion-panel  [expanded]="!(editMode$ | async)">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      <span *ngIf="(editMode$ | async) else newTrainingTitle">Edit Training Definition</span>
+      <ng-template #newTrainingTitle>Create Training Definition</ng-template>
+    </mat-panel-title>
+    <mat-panel-description>{{ tdTitle$ | async }}</mat-panel-description>
+  </mat-expansion-panel-header>
+  <kypo2-training-definition-edit-controls
+    [disabled]="saveDisabled$ | async"
+    [editMode]="editMode$ | async"
+    (save)="onSave($event)">
+  </kypo2-training-definition-edit-controls>
+  <mat-divider></mat-divider>
+  <kypo2-training-definition-edit
+    (edited)="onTrainingDefinitionChanged($event)"
+    [trainingDefinition]="trainingDefinition$ | async">
+  </kypo2-training-definition-edit>
+</mat-expansion-panel>
+
+<mat-expansion-panel [disabled]="!(editMode$ | async)" [expanded]="editMode$ | async">
+  <mat-expansion-panel-header>
+    <mat-panel-title>Edit Authors</mat-panel-title>
+    <mat-panel-description>
+      <div class="panel-description-error" *ngIf="!canDeactivateAuthors">
+        <mat-icon color="warn">warning</mat-icon>
+        <mat-error>Authors are not saved</mat-error>
+      </div>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <kypo2-user-assign *ngIf="editMode$ | async"
+                     [resource]="trainingDefinition$ | async"
+                     (hasUnsavedChanges)="onAuthorsChanged($event)"
+                    toAssignTitle="Designers"
+                    assigneesTitle="Authors">
+  </kypo2-user-assign>
+</mat-expansion-panel>
+
+<mat-expansion-panel [disabled]="!(editMode$ | async)" [expanded]="editMode$ | async">
+  <mat-expansion-panel-header>
+    <mat-panel-title>Edit Levels</mat-panel-title>
+    <mat-panel-description>
+      <span *ngIf="levelsCount >= 0 else levelCountFromTD">Training definition contains {{ levelsCount }} level(s)</span>
+      <ng-template #levelCountFromTD>
+        <span>Training definition contains {{ (trainingDefinition$ | async).levels.length}} level(s)</span>
+      </ng-template>
+      <div class="panel-description-error" *ngIf="unsavedLevels.length > 0">
+        <mat-icon color="warn">warning</mat-icon>
+        <mat-error>Some levels are not saved</mat-error>
+      </div>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <kypo2-level-overview *ngIf="editMode$ | async" (levelsCount)="onLevelsCountChanged($event)" (unsavedLevels)="onUnsavedLevelsChanged($event)" [trainingDefinition]="trainingDefinition$ | async"></kypo2-level-overview>
+</mat-expansion-panel>

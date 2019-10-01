@@ -2,14 +2,12 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {TrainingInstanceOverviewRoutingModule} from './training-instance-overview-routing.module';
 import {TrainingInstanceOverviewComponent} from './training-instance-overview.component';
-import { TrainingInstanceEditComponent } from './training-instance-edit/training-instance-edit.component';
+import { TrainingInstanceEditComponent } from '../training-instance-edit-overview/training-instance-edit/training-instance-edit.component';
 import { TrainingInstanceTableComponent } from './training-instance-table/training-instance-table.component';
 import {SharedModule} from '../../shared/shared.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TrainingInstanceOverviewMaterialModule} from './training-instance-overview-material.module';
-import { OrganizersPickerComponent } from './training-instance-edit/organizers-picker/organizers-picker.component';
-import { TrainingDefinitionPickerComponent } from './training-instance-edit/training-definition-picker/training-definition-picker.component';
-import { TrainingEditModalComponent } from './training-instance-table/training-edit-modal/training-edit-modal.component';
+import { TrainingDefinitionPickerComponent } from '../training-instance-edit-overview/training-definition-picker/training-definition-picker.component';
 import {PipesModule} from '../../../pipes/pipes.module';
 import {TrainingDefinitionFacadeModule} from '../../../services/facades/modules/training-definition-facade.module';
 import {TrainingInstanceFacadeModule} from '../../../services/facades/modules/training-instance-facade.module';
@@ -23,6 +21,7 @@ import {SandboxInstanceObservablesPoolService} from '../../../services/training-
 import { AllocationModalComponent } from './training-instance-table/allocation-modal/allocation-modal.component';
 import {TrainingInstanceResolver} from '../../../services/resolvers/training-instance-resolver.service';
 import {TrainingInstanceBreadcrumbResolver} from '../../../services/resolvers/training-instance-breadcrumb-resolver.service';
+import { TrainingInstanceControlsComponent } from './training-instance-controls/training-instance-controls.component';
 
 /**
  * Main module of training instance agenda. Contains components and providers for displaying table of training instance
@@ -33,27 +32,20 @@ import {TrainingInstanceBreadcrumbResolver} from '../../../services/resolvers/tr
     CommonModule,
     SharedModule,
     FormsModule,
+    ReactiveFormsModule,
     PipesModule,
-    OwlDateTimeModule,
-    OwlNativeDateTimeModule,
     TrainingInstanceOverviewMaterialModule,
     TrainingInstanceOverviewRoutingModule,
-    TrainingDefinitionFacadeModule,
     TrainingInstanceFacadeModule,
     SandboxInstanceFacadeModule,
-    ReactiveFormsModule
-
   ],
   declarations: [
     TrainingInstanceOverviewComponent,
-    TrainingInstanceEditComponent,
     TrainingInstanceTableComponent,
-    OrganizersPickerComponent,
-    TrainingDefinitionPickerComponent,
-    TrainingEditModalComponent,
     SandboxInstancesTableComponent,
     AllocationErrorReasonComponent,
-    AllocationModalComponent
+    AllocationModalComponent,
+    TrainingInstanceControlsComponent
   ],
   providers: [
     ActiveTrainingInstanceService,
@@ -63,9 +55,6 @@ import {TrainingInstanceBreadcrumbResolver} from '../../../services/resolvers/tr
     TrainingInstanceBreadcrumbResolver
   ],
   entryComponents: [
-    OrganizersPickerComponent,
-    TrainingDefinitionPickerComponent,
-    TrainingEditModalComponent,
     AllocationModalComponent,
     AllocationErrorReasonComponent
   ]

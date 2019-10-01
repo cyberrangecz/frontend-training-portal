@@ -3,8 +3,9 @@
  */
 import {TrainingDefinition} from './training-definition';
 import {User} from 'kypo2-auth';
+import {DisplayableResource} from './displayable-resource';
 
-export class TrainingInstance {
+export class TrainingInstance implements DisplayableResource {
 
   id: number;
   poolId: number;
@@ -14,9 +15,11 @@ export class TrainingInstance {
   endTime: Date;
   title: string;
   poolSize: number;
-  organizers: User[];
   accessToken: string;
+
   constructor() {
+    this.startTime = new Date();
+    this.startTime.setMinutes(this.startTime.getMinutes() + 5);
   }
 
   hasPoolId(): boolean {

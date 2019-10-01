@@ -1,11 +1,13 @@
 import {TrainingInstance} from "../training/training-instance";
-import {TableRowAdapter} from "./table-row-adapter";
+import {TableRowAdapter} from './table-row-adapter';
 import {Observable} from 'rxjs';
 import {SandboxInstanceAllocationState} from '../training/sandbox-instance-allocation-state';
 import {StringNormalizer} from "../utils/ignore-diacritics-filter";
+import {RouteFactory} from '../routes/route-factory';
 
 export class TrainingInstanceTableRow implements TableRowAdapter {
   trainingDefinitionTitle: string;
+  detailRouterLink: string;
   isAllocationInProgress: boolean;
   isAllocationFailed: boolean;
   allocatedSandboxesCount: number;
@@ -17,6 +19,7 @@ export class TrainingInstanceTableRow implements TableRowAdapter {
 
   constructor(trainingInstance: TrainingInstance) {
     this.trainingInstance = trainingInstance;
+    this.detailRouterLink = RouteFactory.toTrainingInstanceDetail(trainingInstance.id);
     this. trainingDefinitionTitle = this.trainingInstance.trainingDefinition.title;
     this.isAllocationInProgress = false;
     this.allocatedSandboxesCount = 0;

@@ -6,7 +6,6 @@ import {FormsModule} from '@angular/forms';
 import { AlertSnackbarComponent } from './alert/alert-snackbar.component';
 import {ErrorHandlerService} from '../../services/shared/error-handler.service';
 import {ActionConfirmationDialogComponent} from './action-confirmation-dialog/action-confirmation-dialog.component';
-import { UserSelectionTableComponent } from './user-selection-table/user-selection-table.component';
 import {UnsavedChangesDialogComponent} from './unsaved-changes-dialog/unsaved-changes-dialog.component';
 
 /**
@@ -21,13 +20,10 @@ import {UnsavedChangesDialogComponent} from './unsaved-changes-dialog/unsaved-ch
   declarations: [
     AlertSnackbarComponent,
     ActionConfirmationDialogComponent,
-    UserSelectionTableComponent,
-    UnsavedChangesDialogComponent
-
+    UnsavedChangesDialogComponent,
   ],
   exports: [
     ActionConfirmationDialogComponent,
-    UserSelectionTableComponent,
     UnsavedChangesDialogComponent
   ],
   providers: [

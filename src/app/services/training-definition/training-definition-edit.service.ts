@@ -9,18 +9,18 @@ import {AlertService} from '../shared/alert.service';
 import {filter, map, tap} from 'rxjs/operators';
 import {AlertTypeEnum} from '../../model/enums/alert-type.enum';
 import {TrainingDefinitionChangeEvent} from '../../model/events/training-definition-change-event';
-import {TrainingDefinitionSavedEvent} from '../../model/events/training-definition-saved-event';
+import {ResourceSavedEvent} from '../../model/events/resource-saved-event';
 
 @Injectable()
 export class TrainingDefinitionEditService {
-  private trainingDefinitionSubject: ReplaySubject<TrainingDefinition> = new ReplaySubject<TrainingDefinition>();
+  private trainingDefinitionSubject: ReplaySubject<TrainingDefinition> = new ReplaySubject();
   trainingDefinition$: Observable<TrainingDefinition> = this.trainingDefinitionSubject.asObservable()
     .pipe(filter(td => td !== undefined && td !== null));
 
-  private editModeSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private editModeSubject: BehaviorSubject<boolean> = new BehaviorSubject(false);
   editMode$ = this.editModeSubject.asObservable();
 
-  private saveDisabledSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  private saveDisabledSubject: BehaviorSubject<boolean> = new BehaviorSubject(true);
   saveDisabled$ = this.saveDisabledSubject.asObservable();
 
 
@@ -39,7 +39,6 @@ export class TrainingDefinitionEditService {
     this.setEditMode(td);
     if (td === null) {
       td = new TrainingDefinition();
-      td.authors = [this.authService.getActiveUser()];
     }
     this.trainingDefinitionSubject.next(td);
   }
@@ -51,17 +50,17 @@ export class TrainingDefinitionEditService {
   /**
    * Sends request to endpoint to save changes in edited training definition or to create a new one based on currently active mode
    */
-  save(): Observable<TrainingDefinitionSavedEvent> {
+  save(): Observable<ResourceSavedEvent> {
     if (this.editModeSubject.getValue()) {
       return this.updateTrainingDefinition()
-        .pipe(map(id => new TrainingDefinitionSavedEvent(id, true)));
+        .pipe(map(id => new ResourceSavedEvent(id, true)));
     } else {
       return this.createTrainingDefinition()
-        .pipe(map(id => new TrainingDefinitionSavedEvent(id, false)));
+        .pipe(map(id => new ResourceSavedEvent(id, false)));
     }
   }
 
-  trainingDefinitionChange(changeEvent: TrainingDefinitionChangeEvent) {
+  change(changeEvent: TrainingDefinitionChangeEvent) {
     this.saveDisabledSubject.next(!changeEvent.isValid);
     this.editedTrainingDefinition = changeEvent.trainingDefinition;
   }
@@ -73,7 +72,7 @@ export class TrainingDefinitionEditService {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Changes were successfully saved.');
           this.onSaved();
           },
-            err => this.errorHandler.displayInAlert(err, 'Editing training definition')
+            err => this.errorHandler.display(err, 'Editing training definition')
         )
       );
   }
@@ -86,7 +85,7 @@ export class TrainingDefinitionEditService {
             this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully saved.');
             this.onSaved();
             },
-            err => this.errorHandler.displayInAlert(err, 'Creating new training definition')
+            err => this.errorHandler.display(err, 'Creating new training definition')
         )
       );
   }

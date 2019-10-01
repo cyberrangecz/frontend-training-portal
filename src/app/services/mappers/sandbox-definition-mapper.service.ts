@@ -1,7 +1,7 @@
 import {SandboxDefinition} from '../../model/sandbox/sandbox-definition';
 import {SandboxDefinitionDTO} from '../../model/DTOs/sandbox-definition/sandbox-definition-dto';
 import {SandboxDefinitionTableRow} from '../../model/table-adapters/sandbox-definition-table-row';
-import {PaginatedTable} from '../../model/table-adapters/paginated-table';
+import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 import {TableAdapterPagination} from '../../model/table-adapters/table-adapter-pagination';
 import {DjangoResourceDTO} from '../../model/DTOs/other/django-resource-dto';
 
@@ -10,7 +10,7 @@ import {DjangoResourceDTO} from '../../model/DTOs/other/django-resource-dto';
  */
 export class SandboxDefinitionMapperService {
 
-  mapSandboxDefinitionDTOToSandboxDefinitionPaginated(paginatedDTO: DjangoResourceDTO<SandboxDefinitionDTO>): PaginatedTable<SandboxDefinitionTableRow[]> {
+  mapSandboxDefinitionDTOToSandboxDefinitionPaginated(paginatedDTO: DjangoResourceDTO<SandboxDefinitionDTO>): PaginatedResource<SandboxDefinitionTableRow[]> {
     const tableData = paginatedDTO.results
       .map(sandboxDTO =>
         new SandboxDefinitionTableRow(this.mapSandboxDefinitionDTOToSandboxDefinition(sandboxDTO)));
@@ -21,7 +21,7 @@ export class SandboxDefinitionMapperService {
       paginatedDTO.page_size,
       paginatedDTO.total_count,
       paginatedDTO.page_count);
-    return new PaginatedTable(tableData, tablePagination);
+    return new PaginatedResource(tableData, tablePagination);
   }
 
   mapSandboxDefinitionsDTOToSandboxDefinitions(sandboxDTOs: SandboxDefinitionDTO[]): SandboxDefinition[] {

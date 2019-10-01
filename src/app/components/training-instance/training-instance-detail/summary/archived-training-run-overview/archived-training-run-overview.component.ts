@@ -11,7 +11,7 @@ import {TrainingInstanceFacade} from '../../../../../services/facades/training-i
 import {environment} from '../../../../../../environments/environment';
 import {merge, of} from 'rxjs';
 import {catchError, map, startWith, switchMap, takeWhile} from 'rxjs/operators';
-import {PaginatedTable} from '../../../../../model/table-adapters/paginated-table';
+import {PaginatedResource} from '../../../../../model/table-adapters/paginated-resource';
 import {TrainingRunFacade} from '../../../../../services/facades/training-run-facade.service';
 import {MatDialog} from '@angular/material';
 import {ActionConfirmationDialogComponent} from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
@@ -88,6 +88,7 @@ export class ArchivedTrainingRunOverviewComponent extends BaseTrainingRunOvervie
       .subscribe(() => this.archivedTrainingRunsPaginator.pageIndex = 0);
     this.archivedTrainingRunsPaginator.pageSize = environment.defaultPaginationSize;
     this.archivedTrainingRunSort.active = 'id';
+    this.archivedTrainingRunSort.active = 'id';
     this.archivedTrainingRunSort.direction = 'desc';
     this.fetchData();
   }
@@ -96,7 +97,6 @@ export class ArchivedTrainingRunOverviewComponent extends BaseTrainingRunOvervie
    * Fetch data from server
    */
   protected fetchData() {
-    let timeoutHandle = 0;
     const pagination = new RequestedPagination(this.archivedTrainingRunsPaginator.pageIndex,
       this.archivedTrainingRunsPaginator.pageSize,
       this.archivedTrainingRunSort.active,
@@ -117,12 +117,12 @@ export class ArchivedTrainingRunOverviewComponent extends BaseTrainingRunOvervie
         }),
         catchError(err => {
           this.isInErrorState = true;
-          this.errorHandler.displayInAlert(err, 'Obtaining training run data');
+          this.errorHandler.display(err, 'Obtaining training run data');
           return of([]);
         })
       ).subscribe(
-        (data: PaginatedTable<TrainingRunTableRow[]>) =>
-          this.archivedTrainingRunsDataSource = new MatTableDataSource(data.rows)
+        (data: PaginatedResource<TrainingRunTableRow[]>) =>
+          this.archivedTrainingRunsDataSource = new MatTableDataSource(data.elements)
     );
   }
 
@@ -132,7 +132,7 @@ export class ArchivedTrainingRunOverviewComponent extends BaseTrainingRunOvervie
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         deleted => this.fetchData(),
-        err => this.errorHandler.displayInAlert(err, 'Deleting training runs'));
+        err => this.errorHandler.display(err, 'Deleting training runs'));
   }
 
   private sendRequestToDeleteArchivedTrainingRun(id: number) {
@@ -140,6 +140,6 @@ export class ArchivedTrainingRunOverviewComponent extends BaseTrainingRunOvervie
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         deleted => this.fetchData(),
-        err => this.errorHandler.displayInAlert(err, 'Deleting training run'));
+        err => this.errorHandler.display(err, 'Deleting training run'));
   }
 }

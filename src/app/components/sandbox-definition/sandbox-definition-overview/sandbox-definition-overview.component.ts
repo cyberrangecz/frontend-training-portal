@@ -61,17 +61,17 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
       ),
       catchError((err) => {
         this.isInErrorState = true;
-        this.errorHandler.displayInAlert(err, 'Loading sandbox definitions');
+        this.errorHandler.display(err, 'Loading sandbox definitions');
         return of(-1);
       }));
 
     this.totalSandboxdefinitions$ = tableData$.pipe(map( data => {
-        this.addAdditionalInfo(data.rows);
-        return data.rows;
+        this.addAdditionalInfo(data.elements);
+        return data.elements;
       }),
       catchError((err) => {
         this.isInErrorState = true;
-        this.errorHandler.displayInAlert(err, 'Loading sandbox definitions');
+        this.errorHandler.display(err, 'Loading sandbox definitions');
         return of([]);
       }));
   }
@@ -118,7 +118,7 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox was successfully deleted.');
           this.fetchData(this.dataSource);
         },
-        err => this.errorHandler.displayInAlert(err, 'Removing sandbox definition'));
+        err => this.errorHandler.display(err, 'Removing sandbox definition'));
   }
 
   /**
@@ -132,7 +132,7 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox definition was successfully uploaded');
           this.fetchData(this.dataSource);
         },
-        err => this.errorHandler.displayInAlert(err, 'Uploading sandbox definition')
+        err => this.errorHandler.display(err, 'Uploading sandbox definition')
       );
   }
 

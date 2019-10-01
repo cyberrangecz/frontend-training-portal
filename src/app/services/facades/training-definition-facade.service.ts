@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {catchError, map, shareReplay} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {TrainingDefinition} from '../../model/training/training-definition';
 import {Observable} from 'rxjs/internal/Observable';
 import {PaginationParams} from '../../model/http/params/pagination-params';
@@ -17,7 +17,7 @@ import {InfoLevel} from '../../model/level/info-level';
 import {AssessmentLevel} from '../../model/level/assessment-level';
 import {TrainingDefinitionRestResource} from '../../model/DTOs/training-definition/training-definition-rest-resource';
 import {TrainingDefinitionDTO} from '../../model/DTOs/training-definition/training-definition-dto';
-import {PaginatedTable} from '../../model/table-adapters/paginated-table';
+import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 import {TrainingDefinitionTableRow} from '../../model/table-adapters/training-definition-table-row';
 import {BasicLevelInfoDTO} from '../../model/DTOs/level/basic-level-info-dto';
 import {DownloadService} from '../shared/download.service';
@@ -28,6 +28,7 @@ import {TrainingDefinitionInfo} from '../../model/training/training-definition-i
 import {TrainingDefinitionInfoRestResource} from '../../model/DTOs/training-definition/training-definition-info-rest-resource';
 import {of} from 'rxjs';
 import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
+import {User, UserDTO} from 'kypo2-auth';
 
 @Injectable()
 /**
@@ -62,10 +63,24 @@ export class TrainingDefinitionFacade {
         this.trainingDefinitionMapper.mapTrainingDefinitionDTOsToTrainingDefinitions(response)));
   }
 
+  getBetaTesters(trainingDefinitionId: number): Observable<User> {
+    return this.http.get<UserDTO>(`${this.trainingDefsEndpointUri + trainingDefinitionId}/beta-testers`)
+      .pipe(
+        map(response => User.fromDTO(response))
+      );
+  }
+
+  getAuthors(trainingDefinitionId: number): Observable<User> {
+    return this.http.get<UserDTO>(`${this.trainingDefsEndpointUri + trainingDefinitionId}/authors`)
+      .pipe(
+        map(response => User.fromDTO(response))
+      );
+  }
+
   /**
    * Retrieves all training definition on specified page of a pagination
    */
-  getAllPaginated(pagination: RequestedPagination): Observable<PaginatedTable<TrainingDefinitionTableRow[]>> {
+  getAllPaginated(pagination: RequestedPagination): Observable<PaginatedResource<TrainingDefinitionTableRow[]>> {
     return this.http.get<TrainingDefinitionRestResource>(this.trainingDefsEndpointUri,
       { params: PaginationParams.createTrainingsPaginationParams(pagination) })
       .pipe(map(response =>

@@ -6,7 +6,7 @@ import {TrainingRunStateEnum} from '../../model/enums/training-run-state.enum';
 import {TrainingRunRestResource} from '../../model/DTOs/training-run/training-run-rest-resource';
 import {AccessedTrainingRunDTO} from '../../model/DTOs/training-run/accessed-training-run-dto';
 import {AccessedTrainingRunsTableRow} from '../../model/table-adapters/accessed-training-runs-table-row';
-import {PaginatedTable} from '../../model/table-adapters/paginated-table';
+import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 import {TrainingRunTableRow} from '../../model/table-adapters/training-run-table-row';
 import {TableAdapterPagination} from '../../model/table-adapters/table-adapter-pagination';
 import {AccessTrainingRunDTO} from '../../model/DTOs/training-run/access-training-run-dto';
@@ -26,6 +26,7 @@ import {EmiChoiceDTO} from '../../model/DTOs/level/assessment/emi-choice-dto';
 import {BasicLevelInfoDTO} from '../../model/DTOs/level/basic-level-info-dto';
 import LevelTypeEnum = BasicLevelInfoDTO.LevelTypeEnum;
 import {GameLevel} from '../../model/level/game-level';
+import {User} from 'kypo2-auth';
 
 @Injectable()
 /**
@@ -52,7 +53,7 @@ export class TrainingRunMapper {
    * Maps training run DTOs retrieved from remote server to training run objects with pagination
    * @param resource training run DTOs retrieved from remote server
    */
-  mapTrainingRunDTOsToTrainingRunsWithPagination(resource: TrainingRunRestResource): PaginatedTable<TrainingRunTableRow[]> {
+  mapTrainingRunDTOsToTrainingRunsWithPagination(resource: TrainingRunRestResource): PaginatedResource<TrainingRunTableRow[]> {
     const tableData: TrainingRunTableRow[] = [];
     resource.content.forEach(trainingRunDTO => {
       const tableRow = new TrainingRunTableRow();
@@ -65,7 +66,7 @@ export class TrainingRunMapper {
       resource.pagination.size,
       resource.pagination.total_elements,
       resource.pagination.total_pages);
-    return new PaginatedTable(tableData, tablePagination);
+    return new PaginatedResource(tableData, tablePagination);
   }
 
   /**
@@ -83,7 +84,7 @@ export class TrainingRunMapper {
     result.sandboxInstanceId = trainingRunDTO.sandbox_instance_ref_id;
 
 
-    result.player = this.userMapper.mapUserRefDTOToUser(trainingRunDTO.participant_ref);
+    result.player = User.fromDTO(trainingRunDTO.participant_ref);
     result.state = this.mapTrainigRunDTOStateToEnum(trainingRunDTO.state);
 
     if (result.currentLevel) {
@@ -116,7 +117,7 @@ export class TrainingRunMapper {
   }
 
   mapAccessedTrainingRunDTOsToTrainingRunTableObjects(resource: TrainingRunRestResource)
-    : PaginatedTable<AccessedTrainingRunsTableRow[]> {
+    : PaginatedResource<AccessedTrainingRunsTableRow[]> {
     const tableData: AccessedTrainingRunsTableRow[] = [];
     resource.content.forEach(accessedTrainingRunDTO =>
       tableData.push(this.mapAccessedTrainingRunDTOToTrainingRunTableObject(accessedTrainingRunDTO)));
@@ -125,7 +126,7 @@ export class TrainingRunMapper {
       resource.pagination.size,
       resource.pagination.total_elements,
       resource.pagination.total_pages);
-    return new PaginatedTable(tableData, tablePagination);
+    return new PaginatedResource(tableData, tablePagination);
   }
 
 

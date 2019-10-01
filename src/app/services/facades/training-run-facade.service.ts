@@ -9,7 +9,7 @@ import {TrainingRunDTO} from '../../model/DTOs/training-run/training-run-dto';
 import {TrainingRunMapper} from '../mappers/training-run-mapper.service';
 import {TrainingRunRestResource} from '../../model/DTOs/training-run/training-run-rest-resource';
 import {AccessedTrainingRunsTableRow} from '../../model/table-adapters/accessed-training-runs-table-row';
-import {PaginatedTable} from '../../model/table-adapters/paginated-table';
+import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 import {AbstractQuestion} from '../../model/questions/abstract-question';
 import {HintDTO} from '../../model/DTOs/level/game/hint-dto';
 import {IsCorrectFlagDTO} from '../../model/DTOs/level/game/is-correct-flag-dto';
@@ -83,13 +83,13 @@ export class TrainingRunFacade {
    * Retrieves all training runs which are still active (can be accessed and "played")
    * @returns {Observable<AccessedTrainingRunsTableRow[]>} observable of list of active training runs to be displayed in table
    */
-  getAccessed(): Observable<PaginatedTable<AccessedTrainingRunsTableRow[]>> {
+  getAccessed(): Observable<PaginatedResource<AccessedTrainingRunsTableRow[]>> {
     return this.http.get<TrainingRunRestResource>(this.trainingRunsEndpointUri + 'accessible/')
       .pipe(map(response => this.trainingRunMapper.mapAccessedTrainingRunDTOsToTrainingRunTableObjects(response)));
   }
 
   getAccessedPaginated(pagination: RequestedPagination):
-    Observable<PaginatedTable<AccessedTrainingRunsTableRow[]>> {
+    Observable<PaginatedResource<AccessedTrainingRunsTableRow[]>> {
     let params;
     if (pagination.sort === 'title') {
       params = this.createPaginationParamsForTRTitle(pagination);

@@ -1,11 +1,6 @@
 import {AbstractLevelDTO} from "../level/abstract-level-dto";
-import {BetaTestingGroupDTO} from "./beta-testing-group-dto";
-import {UserRefDTO} from '../user/user-ref-dto';
-
-
 
 export class TrainingDefinitionDTO {
-  authors?: Array<UserRefDTO>;
   levels?: Array<AbstractLevelDTO>;
   description?: string;
   id?: number;
@@ -15,10 +10,10 @@ export class TrainingDefinitionDTO {
   show_stepper_bar?: boolean;
   state?: TrainingDefinitionDTO.StateEnum;
   title?: string;
-  beta_testing_group?: BetaTestingGroupDTO;
   estimated_duration: number;
   last_edited?: Date;
 }
+
 export namespace TrainingDefinitionDTO {
     export type StateEnum = 'RELEASED' | 'ARCHIVED' | 'UNRELEASED';
     export const StateEnum = {

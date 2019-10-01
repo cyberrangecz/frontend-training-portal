@@ -25,7 +25,7 @@ export class TrainingDefinitionBreadcrumbResolver implements Resolve<string> {
           take(1),
           mergeMap(td => td ? of(td.title) : EMPTY),
           catchError( (err) => {
-            this.errorHandler.displayInAlert(err, 'Training definition breadcrumbs resolver');
+            this.errorHandler.display(err, 'Training definition breadcrumbs resolver');
             return EMPTY;
           })
         );

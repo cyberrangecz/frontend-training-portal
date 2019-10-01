@@ -1,7 +1,9 @@
-import {UserRefDTO} from '../../model/DTOs/user/user-ref-dto';
-import {UserBasicDTO} from '../../model/DTOs/user/user-basic-dto';
-import {User} from 'kypo2-auth';
 import {Injectable} from '@angular/core';
+import {UserRestResource} from '../../model/DTOs/other/user-rest-resource-dto';
+import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
+import {UserRow} from '../../model/table-adapters/user-table-row';
+import {TableAdapterPagination} from '../../model/table-adapters/table-adapter-pagination';
+import {User} from 'kypo2-auth';
 
 @Injectable()
 /**
@@ -9,47 +11,14 @@ import {Injectable} from '@angular/core';
  */
 export class UserMapper {
 
-  mapUserRefDTOsToUsers(users: UserRefDTO[]): User[] {
-    if (!users) {
-      return [];
-    }
-    return users.map(userDTO =>  this.mapUserRefDTOToUser(userDTO));
-  }
-
-  mapUserRefDTOToUser(userDTO: UserRefDTO): User {
-    const user = new User([]);
-    user.login = userDTO.login;
-    user.id = userDTO.user_ref_id;
-    user.issuer = userDTO.iss;
-    user.name = `${userDTO.given_name} ${userDTO.family_name}`;
-    return user;
-  }
-
-  mapUserBasicDTOsToOrganizerUsers(userDTOs: UserBasicDTO[]): User[] {
-    return userDTOs.map(userDTO =>
-      this.mapUserBasicDTOToOrganizerUser(userDTO));
-  }
-
-  mapUserBasicDTOToOrganizerUser(userDTO: UserBasicDTO): User {
-    const user = new User([]);
-    user.login = userDTO.login;
-    user.id = userDTO.user_ref_id;
-    user.issuer = userDTO.iss;
-    user.name = `${userDTO.given_name} ${userDTO.family_name}`;
-    return user;
-  }
-
-  mapUserBasicDTOsToDesignerUsers(userDTOs: UserBasicDTO[]): User[] {
-    return userDTOs.map(userDTO =>
-      this.mapUserInfoDTOToDesignerUser(userDTO));
-  }
-
-  mapUserInfoDTOToDesignerUser(userDTO: UserBasicDTO): User {
-    const user = new User([]);
-    user.login = userDTO.login;
-    user.id = userDTO.user_ref_id;
-    user.issuer = userDTO.iss;
-    user.name = `${userDTO.given_name} ${userDTO.family_name}`;
-    return user;
+  mapPaginatedDTOToUsersTable(resource: UserRestResource): PaginatedResource<User[]> {
+    const tableData = resource.content.map(userDTO => User.fromDTO(userDTO));
+    const tablePagination = new TableAdapterPagination(
+      resource.pagination.number,
+      resource.pagination.number_of_elements,
+      resource.pagination.size,
+      resource.pagination.total_elements,
+      resource.pagination.total_pages);
+    return new PaginatedResource(tableData, tablePagination);
   }
 }

@@ -17,14 +17,14 @@ const routes: Routes = [
   },
   {
     path: TRAINING_DEFINITION_NEW_PATH,
-    loadChildren: () => import('app/components/training-definition/training-definition-edit-container/training-definition-edit.module').then(m => m.TrainingDefinitionEditModule),
+    loadChildren: () => import('app/components/training-definition/training-definition-edit-overview/training-definition-edit-overview.module').then(m => m.TrainingDefinitionEditOverviewModule),
     data: {
       breadcrumb: null
     }
   },
   {
     path: ':id/' + TRAINING_DEFINITION_EDIT_PATH,
-    loadChildren: () => import('app/components/training-definition/training-definition-edit-container/training-definition-edit.module').then(m => m.TrainingDefinitionEditModule),
+    loadChildren: () => import('app/components/training-definition/training-definition-edit-overview/training-definition-edit-overview.module').then(m => m.TrainingDefinitionEditOverviewModule),
     data: {
       breadcrumb: null
     }

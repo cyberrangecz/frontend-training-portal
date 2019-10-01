@@ -1,5 +1,5 @@
+<h1>Training Instance Overview</h1>
 <div class="content">
-  <kypo2-training-instance-edit [trainingInstance]="null" (trainingChange)="refreshTrainingInstanceOverview()"></kypo2-training-instance-edit>
-  <kypo2-training-instance-table></kypo2-training-instance-table>
+  <kypo2-training-instance-controls (create)="onNavigateToEdit()"></kypo2-training-instance-controls>
+  <kypo2-training-instance-table (edit)="onNavigateToEdit($event)"></kypo2-training-instance-table>
 </div>
-

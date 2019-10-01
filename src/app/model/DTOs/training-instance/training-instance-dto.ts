@@ -10,9 +10,6 @@
  * Do not edit the class manually.
  */
 
-
-
-import {UserRefDTO} from "../user/user-ref-dto";
 import {TrainingDefinitionDTO} from "../training-definition/training-definition-dto";
 
 /**
@@ -21,12 +18,11 @@ import {TrainingDefinitionDTO} from "../training-definition/training-definition-
 export interface TrainingInstanceDTO {
     end_time?: Date;
     id?: number;
-    organizers?: Array<UserRefDTO>;
     sandboxes_with_training_run: number[];
     pool_size?: number;
     pool_id: number;
     start_time?: Date;
     title?: string;
     training_definition?: TrainingDefinitionDTO;
-    access_token: string
+    access_token: string;
 }

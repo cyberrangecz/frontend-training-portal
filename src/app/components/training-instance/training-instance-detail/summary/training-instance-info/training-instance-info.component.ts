@@ -4,7 +4,8 @@ import {TrainingInstance} from '../../../../../model/training/training-instance'
 import {TrainingDefinition} from '../../../../../model/training/training-definition';
 import {BaseComponent} from '../../../../base.component';
 import {takeWhile} from 'rxjs/operators';
-import {ACCESS_TOKEN_ROUTE} from '../../../training-instance-overview/paths';
+import {ACCESS_TOKEN_PATH} from '../../../training-instance-overview/paths';
+import {RouteFactory} from '../../../../../model/routes/route-factory';
 
 @Component({
   selector: 'kypo2-training-instance-info',
@@ -18,7 +19,7 @@ export class TrainingInstanceInfoComponent extends BaseComponent implements OnIn
 
   trainingInstance: TrainingInstance;
   trainingDefinition: TrainingDefinition;
-  ACCESS_TOKEN_ROUTE = ACCESS_TOKEN_ROUTE;
+  accessTokenRouterLink: string;
 
   constructor(private activeTrainingInstanceService: ActiveTrainingInstanceService) {
     super();
@@ -36,6 +37,7 @@ export class TrainingInstanceInfoComponent extends BaseComponent implements OnIn
     this.trainingInstance = this.activeTrainingInstanceService.get();
     if (this.trainingInstance) {
       this.trainingDefinition = this.trainingInstance.trainingDefinition;
+      this.accessTokenRouterLink = RouteFactory.toTrainingInstanceAccessToken(this.trainingInstance.id);
     }
   }
 

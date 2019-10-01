@@ -9,16 +9,10 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import {BetaTestingGroupCreateDTO} from "./beta-testing-group-create-dto";
-import {UserBasicDTO} from "../user/user-basic-dto";
-
-
 /**
  * Training Definition to create.
  */
 export class TrainingDefinitionCreateDTO {
-    authors_ref_ids?: number[];
-    beta_testing_group: BetaTestingGroupCreateDTO;
     description?: string;
     outcomes?: string[];
     prerequisities?: string[];

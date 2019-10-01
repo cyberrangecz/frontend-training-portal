@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -6,13 +6,12 @@ import { MatTableDataSource } from '@angular/material/table';
 import {TrainingInstance} from '../../../../model/training/training-instance';
 import {AlertService} from '../../../../services/shared/alert.service';
 import {TrainingInstanceFacade} from '../../../../services/facades/training-instance-facade.service';
-import {TrainingEditModalComponent} from './training-edit-modal/training-edit-modal.component';
 import {interval, merge, Observable, of} from 'rxjs';
 import {catchError, map, skipWhile, startWith, switchMap, takeWhile} from 'rxjs/operators';
 import {environment} from '../../../../../environments/environment';
 import {AlertTypeEnum} from '../../../../model/enums/alert-type.enum';
 import {TrainingInstanceTableRow} from '../../../../model/table-adapters/training-instance-table-row';
-import {PaginatedTable} from '../../../../model/table-adapters/paginated-table';
+import {PaginatedResource} from '../../../../model/table-adapters/paginated-resource';
 import {SandboxAllocationService} from '../../../../services/training-instance/sandbox-allocation/sandbox-allocation.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {SandboxInstanceAllocationState} from '../../../../model/training/sandbox-instance-allocation-state';
@@ -41,6 +40,8 @@ import {AllocationModalComponent} from './allocation-modal/allocation-modal.comp
  * or expanded detail.
  */
 export class TrainingInstanceTableComponent extends BaseComponent implements OnInit, OnDestroy {
+
+  @Output() edit: EventEmitter<TrainingInstance> = new EventEmitter();
 
   displayedColumns: string[] = ['id', 'title', 'date', 'trainingDefinition', 'poolSize', 'pool-id', 'accessToken', 'actions'];
 
@@ -73,30 +74,9 @@ export class TrainingInstanceTableComponent extends BaseComponent implements OnI
     super.ngOnDestroy();
     this.allocationService.dispose();
   }
-  /**
-   * Reloads data and creates new table data source
-   */
-  refreshData() {
-    this.now = Date.now();
-    this.fetchData();
-  }
 
-  /**
-   * Opens popup dialog with component for editing existing training instance
-   * @param {TrainingInstance} training training instance which should be edited
-   */
   editTraining(training: TrainingInstance) {
-    const dialogRef = this.dialog.open(TrainingEditModalComponent, {
-      data: training
-    });
-
-    dialogRef.afterClosed()
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(result => {
-      if (result && result.type === 'confirm') {
-        this.refreshData();
-      }
-    });
+    this.edit.emit(training);
   }
 
   /**
@@ -135,7 +115,7 @@ export class TrainingInstanceTableComponent extends BaseComponent implements OnI
         resp => {
       },
       err => {
-          this.errorHandler.displayInAlert(err, 'Downloading Training Instance archive');
+          this.errorHandler.display(err, 'Downloading Training Instance archive');
       });
   }
 
@@ -229,25 +209,25 @@ export class TrainingInstanceTableComponent extends BaseComponent implements OnI
         }),
         catchError((err) => {
           this.isInErrorState = true;
-          this.errorHandler.displayInAlert(err, 'Loading training definitions');
+          this.errorHandler.display(err, 'Loading training definitions');
           return of([]);
         })
-      ).subscribe((data: PaginatedTable<TrainingInstanceTableRow[]>) => this.createDataSource(data));
+      ).subscribe((data: PaginatedResource<TrainingInstanceTableRow[]>) => this.createDataSource(data));
   }
   /**
    * Creates data source from fetched data
    * @param data fetched data
    */
-  private createDataSource(data: PaginatedTable<TrainingInstanceTableRow[]>) {
-    this.dataSource = new MatTableDataSource(data.rows);
+  private createDataSource(data: PaginatedResource<TrainingInstanceTableRow[]>) {
+    this.dataSource = new MatTableDataSource(data.elements);
     this.dataSource.filterPredicate =
       (data: TrainingInstanceTableRow, filter: string) =>
         data.normalizedTitle.indexOf(filter) !== -1;
   }
 
 
-  private resolveAllocationStateForTable(data: PaginatedTable<TrainingInstanceTableRow[]>) {
-    data.rows.forEach(row => this.getAllocationState(row));
+  private resolveAllocationStateForTable(data: PaginatedResource<TrainingInstanceTableRow[]>) {
+    data.elements.forEach(row => this.getAllocationState(row));
   }
 
   private getAllocationState(row: TrainingInstanceTableRow) {
@@ -279,7 +259,7 @@ export class TrainingInstanceTableComponent extends BaseComponent implements OnI
   private onAllocationUpdateError(err, row: TrainingInstanceTableRow) {
     row.isAllocationInProgress = false;
     row.areSandboxDataLoaded = true;
-    this.errorHandler.displayInAlert(err, 'Allocation of sandboxes');
+    this.errorHandler.display(err, 'Allocation of sandboxes');
   }
 
 
@@ -290,7 +270,7 @@ export class TrainingInstanceTableComponent extends BaseComponent implements OnI
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Training instance was successfully deleted.');
           this.fetchData();
         },
-        err => this.errorHandler.displayInAlert(err, 'Deleting Training Instance')
+        err => this.errorHandler.display(err, 'Deleting Training Instance')
       );
   }
 

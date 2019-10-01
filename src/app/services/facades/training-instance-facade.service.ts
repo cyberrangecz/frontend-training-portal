@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs/internal/Observable';
 import {TrainingInstance} from '../../model/training/training-instance';
 import {environment} from '../../../environments/environment';
-import {catchError, map} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {PaginationParams} from '../../model/http/params/pagination-params';
 import {TrainingInstanceMapper} from '../mappers/training-instance-mapper.service';
 import {TrainingInstanceDTO} from '../../model/DTOs/training-instance/training-instance-dto';
@@ -11,13 +11,13 @@ import {TrainingInstanceRestResource} from '../../model/DTOs/training-instance/t
 import {TrainingRun} from '../../model/training/training-run';
 import {TrainingRunMapper} from '../mappers/training-run-mapper.service';
 import {TrainingRunRestResource} from '../../model/DTOs/training-run/training-run-rest-resource';
-import {PaginatedTable} from '../../model/table-adapters/paginated-table';
+import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 import {TrainingInstanceTableRow} from '../../model/table-adapters/training-instance-table-row';
 import {TrainingRunTableRow} from '../../model/table-adapters/training-run-table-row';
 import {DownloadService} from '../shared/download.service';
 import {ResponseHeaderContentDispositionReader} from '../../model/http/response-headers/response-header-content-disposition-reader';
-import {of} from 'rxjs';
 import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
+import {User, UserDTO} from 'kypo2-auth';
 
 @Injectable()
 /**
@@ -52,11 +52,18 @@ export class TrainingInstanceFacade {
   /**
    * Retrieves all training instance on specified page of a pagination
    */
-  getPaginated(pagination: RequestedPagination): Observable<PaginatedTable<TrainingInstanceTableRow[]>> {
+  getPaginated(pagination: RequestedPagination): Observable<PaginatedResource<TrainingInstanceTableRow[]>> {
     return this.http.get<TrainingInstanceRestResource>(this.trainingInstancesEndpointUri,
       { params: PaginationParams.createTrainingsPaginationParams(pagination) })
       .pipe(map(response =>
         this.trainingInstanceMapper.mapTrainingInstanceDTOsToTrainingInstancesWithPagination(response)));
+  }
+
+  getOrganizers(trainingInstanceId: number): Observable<User> {
+    return this.http.get<UserDTO>(`${this.trainingInstancesEndpointUri + trainingInstanceId}/organizers`)
+      .pipe(
+        map(response => User.fromDTO(response))
+      );
   }
 
   /**
@@ -83,7 +90,7 @@ export class TrainingInstanceFacade {
 
 
   getAssociatedTrainingRunsPaginated(trainingInstanceId: number, pagination: RequestedPagination, isActive = true)
-      : Observable<PaginatedTable<TrainingRunTableRow[]>> {
+      : Observable<PaginatedResource<TrainingRunTableRow[]>> {
       let params = PaginationParams.createTrainingsPaginationParams(pagination);
       params = params.append('isActive', isActive.toString());
         return this.http.get<TrainingRunRestResource>(

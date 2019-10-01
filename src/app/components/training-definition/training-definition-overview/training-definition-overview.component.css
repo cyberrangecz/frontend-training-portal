@@ -1,9 +1,6 @@
 .content {
   width: 100%;
-}
-
-mat-divider {
-  margin: 50px 0;
+  margin: 20px auto;
 }
 
 h1 {
