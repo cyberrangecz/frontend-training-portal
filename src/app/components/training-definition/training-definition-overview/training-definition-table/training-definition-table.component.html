@@ -69,15 +69,6 @@
             </td>
           </ng-container>
 
-          <!-- AUTHORS Column -->
-          <ng-container matColumnDef="authors">
-            <th class="authors" mat-header-cell *matHeaderCellDef>Authors</th>
-            <td class="authors" mat-cell
-                *matCellDef="let data">
-                {{ data.trainingDefinition?.authors | shorterAuthorsFormat: activeUser }}
-            </td>
-          </ng-container>
-
           <!--ESTIMATED DURATION COLUMN-->
           <ng-container matColumnDef="estimated-duration">
             <th class="estimated-duration" mat-header-cell *matHeaderCellDef mat-sort-header="estimatedDuration" [disabled]="isInErrorState">Estimated Duration</th>

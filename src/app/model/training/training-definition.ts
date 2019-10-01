@@ -1,12 +1,11 @@
 import {TrainingDefinitionStateEnum} from '../enums/training-definition-state.enum';
 import {AbstractLevel} from '../level/abstract-level';
-import {User} from 'kypo2-auth';
-import {BetaTestingGroup} from './beta-testing-group';
+import {DisplayableResource} from './displayable-resource';
 
 /**
  * Class representing training definition in a system.
  */
-export class TrainingDefinition {
+export class TrainingDefinition implements DisplayableResource {
 
   id: number;
   sandboxDefinitionId: number;
@@ -17,15 +16,12 @@ export class TrainingDefinition {
   prerequisites: string[];
   outcomes: string[];
   state: TrainingDefinitionStateEnum;
-  betaTestingGroup: BetaTestingGroup;
-  authors: User[];
   levels: AbstractLevel[];
 
   lastEditTime: Date;
 
   constructor() {
     this.showStepperBar = true;
-    this.betaTestingGroup = null;
     this.outcomes = [''];
     this.prerequisites = [''];
     this.levels = [];

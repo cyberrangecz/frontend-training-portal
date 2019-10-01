@@ -130,7 +130,7 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
               this.onWrongFlagSubmitted(resp);
             }
           },
-        err => this.errorHandler.displayInAlert(err, 'Submitting flag')
+        err => this.errorHandler.display(err, 'Submitting flag')
       );
   }
 
@@ -139,7 +139,7 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         resp => {},
-        err => this.errorHandler.displayInAlert(err, 'Moving to next level')
+        err => this.errorHandler.display(err, 'Moving to next level')
       );
   }
 
@@ -148,7 +148,7 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         resp => {},
-        err => this.errorHandler.displayInAlert(err, 'Finishing training')
+        err => this.errorHandler.display(err, 'Finishing training')
       );
   }
 
@@ -220,7 +220,7 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
       },
       err => {
         this.waitingOnResponse = false;
-        this.errorHandler.displayInAlert(err, 'Loading solution');
+        this.errorHandler.display(err, 'Loading solution');
       });
   }
 
@@ -234,7 +234,7 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
           this.addHintToTextField(resp, index);
         },
         err => {
-          this.errorHandler.displayInAlert(err, 'Taking hint "' + hintButton.hint.title + '"');
+          this.errorHandler.display(err, 'Taking hint "' + hintButton.hint.title + '"');
           this.waitingOnResponse = false;
         });
   }

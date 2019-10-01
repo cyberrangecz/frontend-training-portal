@@ -5,10 +5,9 @@ import {TrainingInstanceCreateDTO} from '../../model/DTOs/training-instance/trai
 import {TrainingInstanceUpdateDTO} from '../../model/DTOs/training-instance/training-instance-update-dto';
 import {TrainingInstanceRestResource} from '../../model/DTOs/training-instance/training-instance-rest-resource';
 import {TrainingDefinitionMapper} from './training-definition-mapper.service';
-import {PaginatedTable} from '../../model/table-adapters/paginated-table';
+import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 import {TrainingInstanceTableRow} from '../../model/table-adapters/training-instance-table-row';
 import {TableAdapterPagination} from '../../model/table-adapters/table-adapter-pagination';
-import {UserMapper} from './user.mapper.service';
 
 @Injectable()
 /**
@@ -16,9 +15,7 @@ import {UserMapper} from './user.mapper.service';
  */
 export class TrainingInstanceMapper {
 
-  constructor(private trainingDefinitionMapper: TrainingDefinitionMapper,
-              private userMapper: UserMapper) {
-
+  constructor(private trainingDefinitionMapper: TrainingDefinitionMapper) {
   }
 
   /**
@@ -35,14 +32,14 @@ export class TrainingInstanceMapper {
    * Maps training instance dtos received from remote server to training instance objects
    * @param resource array of training instance dtos received from remote server with pagination
    */
-  mapTrainingInstanceDTOsToTrainingInstancesWithPagination(resource: TrainingInstanceRestResource): PaginatedTable<TrainingInstanceTableRow[]> {
+  mapTrainingInstanceDTOsToTrainingInstancesWithPagination(resource: TrainingInstanceRestResource): PaginatedResource<TrainingInstanceTableRow[]> {
     const tableDataList = resource.content.map(dto => new TrainingInstanceTableRow(this.mapTrainingInstanceDTOToTrainingInstance(dto)));
     const tablePagination = new TableAdapterPagination(resource.pagination.number,
       resource.pagination.number_of_elements,
       resource.pagination.size,
       resource.pagination.total_elements,
       resource.pagination.total_pages);
-    return new PaginatedTable(tableDataList, tablePagination);
+    return new PaginatedResource(tableDataList, tablePagination);
   }
 
   /**
@@ -58,7 +55,6 @@ export class TrainingInstanceMapper {
     result.endTime = new Date(trainingInstanceDTO.end_time);
     result.title = trainingInstanceDTO.title;
     result.poolSize = trainingInstanceDTO.pool_size;
-    result.organizers = this.userMapper.mapUserRefDTOsToUsers(trainingInstanceDTO.organizers);
     result.accessToken = trainingInstanceDTO.access_token;
     result.poolId = trainingInstanceDTO.pool_id;
     if (trainingInstanceDTO.sandboxes_with_training_run) {
@@ -78,7 +74,6 @@ export class TrainingInstanceMapper {
     result.start_time = trainingInstance.startTime.toISOString();
     result.end_time = trainingInstance.endTime.toISOString();
     result.access_token = trainingInstance.accessToken;
-    result.organizers_ref_ids =  trainingInstance.organizers.map(organizer => organizer.id);
     result.training_definition_id = trainingInstance.trainingDefinition.id;
     return result;
   }
@@ -95,7 +90,6 @@ export class TrainingInstanceMapper {
     result.start_time = trainingInstance.startTime.toISOString();
     result.end_time = trainingInstance.endTime.toISOString();
     result.access_token = trainingInstance.accessToken;
-    result.organizers_ref_ids =  trainingInstance.organizers.map(organizer => organizer.id);
     result.training_definition_id = trainingInstance.trainingDefinition.id;
     return result;
   }

@@ -6,18 +6,14 @@ import {TrainingDefinitionCreateDTO} from '../../model/DTOs/training-definition/
 import {TrainingDefinitionUpdateDTO} from '../../model/DTOs/training-definition/training-definition-update-dto';
 import {TrainingDefinitionRestResource} from '../../model/DTOs/training-definition/training-definition-rest-resource';
 import {TrainingDefinitionDTO} from '../../model/DTOs/training-definition/training-definition-dto';
-import {PaginatedTable} from '../../model/table-adapters/paginated-table';
+import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 import {TrainingDefinitionTableRow} from '../../model/table-adapters/training-definition-table-row';
 import {TableAdapterPagination} from '../../model/table-adapters/table-adapter-pagination';
 import {LevelMapper} from './level-mapper.service';
-import {BetaTestingGroupDTO} from '../../model/DTOs/training-definition/beta-testing-group-dto';
-import {BetaTestingGroupCreateDTO} from '../../model/DTOs/training-definition/beta-testing-group-create-dto';
-import {BetaTestingGroupUpdateDTO} from '../../model/DTOs/training-definition/beta-testing-group-update-dto';
 import {UserMapper} from './user.mapper.service';
 import {TrainingDefinitionInfo} from '../../model/training/training-definition-info';
 import {TrainingDefinitionInfoDTO} from '../../model/DTOs/training-definition/training-definition-info-dto';
 import {TrainingDefinitionInfoRestResource} from '../../model/DTOs/training-definition/training-definition-info-rest-resource';
-import {BetaTestingGroup} from '../../model/training/beta-testing-group';
 
 @Injectable()
 /**
@@ -37,7 +33,7 @@ export class TrainingDefinitionMapper {
     return resource.content.map(trainingDTO => this.mapTrainingDefinitionDTOToTrainingDefinition(trainingDTO, false));
   }
 
-  mapTrainingDefinitionDTOsToTrainingDefinitionsPaginated(resource: TrainingDefinitionRestResource): PaginatedTable<TrainingDefinitionTableRow[]> {
+  mapTrainingDefinitionDTOsToTrainingDefinitionsPaginated(resource: TrainingDefinitionRestResource): PaginatedResource<TrainingDefinitionTableRow[]> {
     const tableData: TrainingDefinitionTableRow[] = [];
     resource.content.forEach((trainingDTO: TrainingDefinitionDTO) => {
       const td = this.mapTrainingDefinitionDTOToTrainingDefinition(trainingDTO, false);
@@ -49,7 +45,7 @@ export class TrainingDefinitionMapper {
       resource.pagination.size,
       resource.pagination.total_elements,
       resource.pagination.total_pages);
-    return new PaginatedTable(tableData, tablePagination);
+    return new PaginatedResource(tableData, tablePagination);
   }
 
   /**
@@ -63,16 +59,12 @@ export class TrainingDefinitionMapper {
     result.sandboxDefinitionId = trainingDefinitionDTO.sandbox_definition_ref_id;
     result.title = trainingDefinitionDTO.title;
     result.description = trainingDefinitionDTO.description;
-    result.authors = this.userMapper.mapUserRefDTOsToUsers(trainingDefinitionDTO.authors);
     result.prerequisites =  trainingDefinitionDTO.prerequisities;
     result.outcomes = trainingDefinitionDTO.outcomes;
     result.state = this.mapTrainingDefDTOStateToEnum(trainingDefinitionDTO.state);
     result.lastEditTime = trainingDefinitionDTO.last_edited;
     result.estimatedDuration = trainingDefinitionDTO.estimated_duration;
     result.showStepperBar = trainingDefinitionDTO.show_stepper_bar;
-    if (trainingDefinitionDTO.beta_testing_group) {
-      result.betaTestingGroup = this.getBetaTestingGroupFromDTO(trainingDefinitionDTO.beta_testing_group);
-    }
     if (withLevels) {
       result.levels = this.getLevelsFromDTO(trainingDefinitionDTO).sort((a, b) => a.order - b.order);
     }
@@ -95,8 +87,6 @@ export class TrainingDefinitionMapper {
     result.title = trainingDefinition.title;
     result.sandbox_definition_ref_id = trainingDefinition.sandboxDefinitionId;
     result.show_stepper_bar = trainingDefinition.showStepperBar;
-    result.authors_ref_ids = trainingDefinition.authors.map(author => author.id);
-    result.beta_testing_group = this.createBetaTestingGroupCreateDTO(trainingDefinition.betaTestingGroup);
     return result;
   }
 
@@ -115,12 +105,10 @@ export class TrainingDefinitionMapper {
     result.show_stepper_bar = trainingDefinition.showStepperBar;
     trainingDefinition.outcomes = result.outcomes;
     trainingDefinition.prerequisites = result.prerequisities;
-    result.authors_ref_ids = trainingDefinition.authors.map(author => author.id);
     result.outcomes = trainingDefinition.outcomes;
     result.prerequisities = trainingDefinition.prerequisites;
     result.state = this.mapTrainingDefStateToDTOEnum(trainingDefinition.state);
     result.title = trainingDefinition.title;
-    result.beta_testing_group = this.createBetaTestingGroupUpdateDTO(trainingDefinition.betaTestingGroup);
     return result;
   }
 
@@ -142,32 +130,6 @@ export class TrainingDefinitionMapper {
       levels = this.levelMapper.mapLevelDTOsToLevels(trainingDefinitionDTO.levels);
     }
     return levels;
-  }
-
-
-  private getBetaTestingGroupFromDTO(betaTestingGroupDTO: BetaTestingGroupDTO): BetaTestingGroup {
-    const result = new BetaTestingGroup();
-    result.organizers = this.userMapper.mapUserRefDTOsToUsers(betaTestingGroupDTO.organizers);
-    return result;
-  }
-
-
-  private createBetaTestingGroupCreateDTO(betaTestingGroup: BetaTestingGroup): BetaTestingGroupCreateDTO {
-    if (betaTestingGroup) {
-      const result = new BetaTestingGroupCreateDTO();
-      result.organizers_ref_ids = betaTestingGroup.organizers.map(organizer => organizer.id);
-      return result;
-    }
-    return null;
-  }
-
-  private createBetaTestingGroupUpdateDTO(betaTestingGroup: BetaTestingGroup): BetaTestingGroupUpdateDTO {
-    if (betaTestingGroup) {
-      const result = new BetaTestingGroupUpdateDTO();
-      result.organizers_ref_ids =  betaTestingGroup.organizers.map(organizer => organizer.id);
-      return result;
-    }
-    return null;
   }
 
   mapTrainingDefDTOStateToEnum(stateDTO: TrainingDefinitionDTO.StateEnum): TrainingDefinitionStateEnum {

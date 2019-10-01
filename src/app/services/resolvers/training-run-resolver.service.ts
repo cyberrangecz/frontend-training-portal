@@ -23,7 +23,7 @@ export class TrainingRunResolver implements Resolve<TrainingRun> {
           take(1),
           mergeMap(tr => tr ? of(tr) : this.navigateToOverview()),
           catchError(err => {
-            this.errorHandler.displayInAlert(err, 'Training run resolver');
+            this.errorHandler.display(err, 'Training run resolver');
             return EMPTY;
           })
         );

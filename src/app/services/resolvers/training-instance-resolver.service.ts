@@ -4,9 +4,10 @@ import {Injectable} from '@angular/core';
 import {EMPTY, Observable, of} from 'rxjs';
 import {TrainingInstanceFacade} from '../facades/training-instance-facade.service';
 import {catchError, mergeMap, take, tap} from 'rxjs/operators';
-import {TRAINING_DEFINITION_PATH, TRAINING_INSTANCE_PATH} from '../../paths';
+import {TRAINING_INSTANCE_PATH} from '../../paths';
 import {ActiveTrainingInstanceService} from '../training-instance/active-training-instance.service';
 import {ErrorHandlerService} from '../shared/error-handler.service';
+import {TRAINING_INSTANCE_NEW_PATH} from '../../components/training-instance/training-instance-overview/paths';
 
 @Injectable()
 export class TrainingInstanceResolver implements Resolve<TrainingInstance> {
@@ -18,7 +19,9 @@ export class TrainingInstanceResolver implements Resolve<TrainingInstance> {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<TrainingInstance> | Promise<TrainingInstance> | TrainingInstance {
-    if (route.paramMap.has('id')) {
+    if (state.url.endsWith(`${TRAINING_INSTANCE_PATH}/${TRAINING_INSTANCE_NEW_PATH}`)) {
+      return null;
+    } else if (route.paramMap.has('id')) {
       const id = Number(route.paramMap.get('id'));
       const activeTI = this.activeTrainingInstance.get();
       if (activeTI && activeTI.id === id) {
@@ -27,21 +30,21 @@ export class TrainingInstanceResolver implements Resolve<TrainingInstance> {
         return this.trainingInstanceFacade.getById(id)
           .pipe(
             take(1),
-            mergeMap(ti => ti ? of(ti) : this.navigateToOverview()
+            mergeMap(ti => ti ? of(ti) : this.navigateToNew()
             ),
             tap(ti => this.activeTrainingInstance.setActiveTrainingInstance(ti)),
             catchError(err => {
-              this.errorHandler.displayInAlert(err, 'Training instance resolver');
+              this.errorHandler.display(err, 'Training instance resolver');
               return EMPTY;
             })
           );
       }
     }
-    return this.navigateToOverview();
+    return this.navigateToNew();
   }
 
-  private navigateToOverview(): Observable<never> {
-    this.router.navigate([TRAINING_INSTANCE_PATH]);
+  private navigateToNew(): Observable<never> {
+    this.router.navigate([TRAINING_INSTANCE_NEW_PATH]);
     return EMPTY;
   }
 }

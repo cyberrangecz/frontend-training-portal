@@ -6,7 +6,7 @@ import {TrainingTimerComponent} from "./training-timer/training-timer.component"
 import {PipesModule} from "../../../pipes/pipes.module";
 import {LevelComponentModule} from "./level/level-component.module";
 import {RouterModule} from '@angular/router';
-import {UserIdModule} from "../../shared/user-id.module";
+import {UserIdModule} from "../../shared/user-id/user-id.module";
 import {Kypo2StepperModule} from 'kypo2-stepper';
 
 @NgModule({

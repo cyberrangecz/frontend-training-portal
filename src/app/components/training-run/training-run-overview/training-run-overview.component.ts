@@ -43,7 +43,7 @@ export class TrainingRunOverviewComponent extends BaseComponent implements OnIni
       )
       .subscribe(
         id => this.router.navigate([id, TRAINING_RUN_GAME_PATH], { relativeTo: this.activeRoute }),
-        err => this.errorHandler.displayInAlert(err, 'Connecting to training run')
+        err => this.errorHandler.display(err, 'Connecting to training run')
       );
   }
 
@@ -55,7 +55,7 @@ export class TrainingRunOverviewComponent extends BaseComponent implements OnIni
         this.router.navigate([trainingRunInfo.trainingRunId, TRAINING_RUN_GAME_PATH], {relativeTo: this.activeRoute});
         },
         err => {
-        this.errorHandler.displayInAlert(err, 'Resuming training run');
+        this.errorHandler.display(err, 'Resuming training run');
       });
   }
 
@@ -70,7 +70,7 @@ export class TrainingRunOverviewComponent extends BaseComponent implements OnIni
           _ => this.tableHasError = true
         )
       );
-    this.accessedTrainingRuns$ = tableData$.pipe(map(table => table.rows));
+    this.accessedTrainingRuns$ = tableData$.pipe(map(table => table.elements));
     this.totalTrainingRuns$ = tableData$.pipe(map(table => table.pagination.totalElements));
   }
 

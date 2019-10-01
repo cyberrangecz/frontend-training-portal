@@ -8,7 +8,7 @@ import {SandboxDefinitionMapperService} from '../mappers/sandbox-definition-mapp
 import {SandboxDefinitionDTO} from '../../model/DTOs/sandbox-definition/sandbox-definition-dto';
 import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
 import {PaginationParams} from '../../model/http/params/pagination-params';
-import {PaginatedTable} from '../../model/table-adapters/paginated-table';
+import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 import {SandboxDefinitionTableRow} from '../../model/table-adapters/sandbox-definition-table-row';
 import {DjangoResourceDTO} from '../../model/DTOs/other/django-resource-dto';
 
@@ -35,7 +35,7 @@ export class SandboxDefinitionFacade {
       this.sandboxDefinitionMapper.mapSandboxDefinitionsDTOToSandboxDefinitions(response.results)));
   }
 
-  getAllPaginated(pagination: RequestedPagination): Observable<PaginatedTable<SandboxDefinitionTableRow[]>> {
+  getAllPaginated(pagination: RequestedPagination): Observable<PaginatedResource<SandboxDefinitionTableRow[]>> {
     return this.http.get<DjangoResourceDTO<SandboxDefinitionDTO>>(this.sandboxDefsEndpoint,
       {
         headers: this.createDefaultHeaders(),

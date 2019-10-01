@@ -8,7 +8,7 @@ const routes: Routes = [
     path: '',
     canActivate: [TrainingInstanceGuard],
     component: AccessTokenDetailComponent,
-    data: {breadcrumb: 'Access Token'}
+    data: { breadcrumb: null }
   }
 ];
 

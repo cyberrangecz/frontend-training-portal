@@ -134,7 +134,7 @@ export class SandboxInstancesTableComponent extends BaseComponent implements OnI
       },
       err =>  {
         this.isDisabled = false;
-        this.errorHandler.displayInAlert(err, 'Removing sandbox with id: ' +  sandboxRow.sandboxInstance.id);
+        this.errorHandler.display(err, 'Removing sandbox with id: ' +  sandboxRow.sandboxInstance.id);
       }
     );
     this.allocationEvent.emit(sandboxDeletion$);
@@ -156,7 +156,7 @@ export class SandboxInstancesTableComponent extends BaseComponent implements OnI
         },
         err =>  {
           this.isDisabled = false;
-          this.errorHandler.displayInAlert(err, 'Allocating sandbox');
+          this.errorHandler.display(err, 'Allocating sandbox');
         }
       );
     this.allocationEvent.emit(sandboxAllocation$);
@@ -187,7 +187,7 @@ export class SandboxInstancesTableComponent extends BaseComponent implements OnI
       },
       err => {
         this.isInErrorState = true;
-        this.errorHandler.displayInAlert(err, 'Displaying sandbox data');
+        this.errorHandler.display(err, 'Displaying sandbox data');
       }
     );
   }
@@ -202,7 +202,7 @@ export class SandboxInstancesTableComponent extends BaseComponent implements OnI
       },
       err => {
         this.isInErrorState = true;
-        this.errorHandler.displayInAlert(err, 'Obtaining sandbox data');
+        this.errorHandler.display(err, 'Obtaining sandbox data');
       }
     );
   }

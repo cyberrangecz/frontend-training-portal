@@ -14,7 +14,7 @@ import {merge, of} from 'rxjs';
 import {environment} from '../../../../../environments/environment';
 import {AlertTypeEnum} from '../../../../model/enums/alert-type.enum';
 import {TrainingDefinitionTableRow} from '../../../../model/table-adapters/training-definition-table-row';
-import {PaginatedTable} from '../../../../model/table-adapters/paginated-table';
+import {PaginatedResource} from '../../../../model/table-adapters/paginated-resource';
 import {HttpErrorResponse} from '@angular/common/http';
 import {StateChangeDialogComponent} from '../state-change-dialog/state-change-dialog.component';
 import {ActionConfirmationDialogComponent} from '../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
@@ -48,7 +48,7 @@ export class TrainingDefinitionTableComponent extends BaseComponent implements O
   // needed to compare values against enums in a template
   trainingStateEnum = TrainingDefinitionStateEnum;
   activeUser: User;
-  displayedColumns: string[] = ['id', 'title', 'state', 'authors', 'estimated-duration', 'last-edit', 'actions'];
+  displayedColumns: string[] = ['id', 'title', 'state', 'estimated-duration', 'last-edit', 'actions'];
 
   dataSource: MatTableDataSource<TrainingDefinitionTableRow>;
 
@@ -140,7 +140,7 @@ export class TrainingDefinitionTableComponent extends BaseComponent implements O
         if (err.status === 406) {
           this.alertService.emitAlert(AlertTypeEnum.Error, 'Training definition could not be downloaded');
         }
-        this.errorHandler.displayInAlert(err, 'Downloading training definition');
+        this.errorHandler.display(err, 'Downloading training definition');
       });
   }
 
@@ -198,7 +198,6 @@ export class TrainingDefinitionTableComponent extends BaseComponent implements O
    */
   fetchData() {
     this.isInErrorState = false;
-    let timeoutHandle = 0;
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(
         takeWhile(() => this.isAlive),
@@ -218,10 +217,10 @@ export class TrainingDefinitionTableComponent extends BaseComponent implements O
         }),
         catchError((err) => {
           this.isInErrorState = true;
-          this.errorHandler.displayInAlert(err, 'Loading training definitions');
+          this.errorHandler.display(err, 'Loading training definitions');
           return of([]);
         })
-      ).subscribe((data: PaginatedTable<TrainingDefinitionTableRow[]>) => this.createDataSource(data));
+      ).subscribe((data: PaginatedResource<TrainingDefinitionTableRow[]>) => this.createDataSource(data));
   }
 
   private onChangeTrainingStateDialogC(row: TrainingDefinitionTableRow, result) {
@@ -251,7 +250,7 @@ export class TrainingDefinitionTableComponent extends BaseComponent implements O
   private onTrainingDefinitionStateChangeDeniedByServer(row: TrainingDefinitionTableRow, err: HttpErrorResponse) {
     row.isLoadingStateChange = false;
     row.selectedState = row.trainingDefinition.state;
-    this.errorHandler.displayInAlert(err, 'Changing state of training definition');
+    this.errorHandler.display(err, 'Changing state of training definition');
   }
 
   private sendRequestToCloneTrainingDefinition(id: number, title: string) {
@@ -261,7 +260,7 @@ export class TrainingDefinitionTableComponent extends BaseComponent implements O
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully cloned.');
           this.fetchData();
         },
-        err => this.errorHandler.displayInAlert(err, 'Cloning training definition'));
+        err => this.errorHandler.display(err, 'Cloning training definition'));
   }
 
   /**
@@ -286,7 +285,7 @@ export class TrainingDefinitionTableComponent extends BaseComponent implements O
           this.fetchData();
         },
         err => {
-          this.errorHandler.displayInAlert(err, 'Removing training definition');
+          this.errorHandler.display(err, 'Removing training definition');
         });
   }
 
@@ -294,8 +293,8 @@ export class TrainingDefinitionTableComponent extends BaseComponent implements O
    * Creates table data source from fetched data
    * @param data Training Definitions fetched from server
    */
-  private createDataSource(data: PaginatedTable<TrainingDefinitionTableRow[]>) {
-    this.dataSource = new MatTableDataSource(data.rows);
+  private createDataSource(data: PaginatedResource<TrainingDefinitionTableRow[]>) {
+    this.dataSource = new MatTableDataSource(data.elements);
     this.dataSource.filterPredicate =
       (data: TrainingDefinitionTableRow, filter: string) =>
         data.normalizedTitle.indexOf(filter) !== -1

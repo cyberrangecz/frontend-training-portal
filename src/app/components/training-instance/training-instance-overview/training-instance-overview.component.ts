@@ -1,6 +1,8 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {TrainingInstanceTableComponent} from './training-instance-table/training-instance-table.component';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {BaseComponent} from '../../base.component';
+import {TrainingInstance} from '../../../model/training/training-instance';
+import { Router} from '@angular/router';
+import {RouteFactory} from '../../../model/routes/route-factory';
 
 @Component({
   selector: 'kypo2-training-instance-overview',
@@ -12,13 +14,18 @@ import {BaseComponent} from '../../base.component';
  */
 export class TrainingInstanceOverviewComponent extends BaseComponent implements OnInit, OnDestroy {
 
-  @ViewChild(TrainingInstanceTableComponent, { static: true }) trainingInstancesListComponent: TrainingInstanceTableComponent;
+  constructor(private router: Router) {
+    super();
+  }
 
   ngOnInit() {
   }
 
-  refreshTrainingInstanceOverview() {
-    this.trainingInstancesListComponent.refreshData();
+  onNavigateToEdit(trainingInstance: TrainingInstance = null) {
+    if (trainingInstance) {
+      this.router.navigate([RouteFactory.toTrainingInstanceEdit(trainingInstance.id)]);
+    } else {
+      this.router.navigate([RouteFactory.toNewTrainingInstance()]);
+    }
   }
-
 }

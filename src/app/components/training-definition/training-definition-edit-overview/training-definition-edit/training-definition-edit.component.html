@@ -1,0 +1,74 @@
+<div class="content">
+  <form [formGroup]="trainingDefinitionEditFormGroup.formGroup">
+    <div class="form-container">
+      <div class="left-col">
+        <!-- TITLE field-->
+        <mat-form-field appearance="outline">
+          <mat-label>Title</mat-label>
+          <input matInput placeholder="Title" formControlName="title" required>
+          <button mat-button *ngIf="title.value" matSuffix mat-icon-button aria-label="Clear" (click)="title.setValue(''); title.markAsDirty();">
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-error>Title cannot be empty</mat-error>
+        </mat-form-field>
+
+
+        <!-- DESCRIPTION field-->
+        <mat-form-field appearance="outline">
+          <mat-label>Description</mat-label>
+          <textarea  matInput placeholder="Description" formControlName="description"></textarea>
+          <button mat-button *ngIf="description.value" matSuffix mat-icon-button aria-label="Clear" (click)="description.setValue(''); description.markAsDirty();">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <!-- PREREQUISITES field-->
+        <mat-form-field appearance="outline">
+          <mat-label>Notes for instructors</mat-label>
+          <textarea  matInput placeholder="Notes for instructors" formControlName="prerequisites"></textarea>
+          <button mat-button *ngIf="prerequisites.value" matSuffix mat-icon-button aria-label="Clear" (click)="prerequisites.setValue(['']); prerequisites.markAsDirty();">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <!-- OUTCOMES field-->
+        <mat-form-field appearance="outline">
+          <mat-label>Learning outcomes</mat-label>
+          <textarea  matInput placeholder="Learning outcomes" formControlName="outcomes"></textarea>
+          <button mat-button *ngIf="outcomes.value" matSuffix mat-icon-button aria-label="Clear" (click)="outcomes.setValue(['']); outcomes.markAsDirty();">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+
+      <div class="right-col">
+
+        <!-- SANDBOX DEFINITION field-->
+        <div class="form-line">
+          <div class="form-line-content">
+            <p *ngIf="!sandboxDefId.value">Sandbox Definition Id*</p>
+            <p *ngIf="sandboxDefId.value" style="color: black"> Sandbox Definition Id: {{ sandboxDefId.value }}</p>
+            <button (click)="chooseSandboxDefs()"
+                    mat-button color="accent">
+              Choose
+            </button>
+          </div>
+          <mat-error *ngIf="sandboxDefId.hasError('required')">No sandbox definiton specified. Training definition requires one sandbox definition</mat-error>
+        </div>
+
+        <!-- SHOW STEPPER BAR checkbox-->
+        <div class="form-line">
+          <div class="form-line-content">
+            <span class="spacer"></span>
+            <mat-checkbox matTooltip="When active, trainee can see which level he is playing and how many there are until the end"
+                          labelPosition="before"
+                          formControlName="showProgress">
+              Show Stepper Bar
+            </mat-checkbox>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+

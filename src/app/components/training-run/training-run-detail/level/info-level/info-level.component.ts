@@ -38,7 +38,7 @@ export class InfoLevelComponent extends BaseComponent implements OnInit, OnChang
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         resp => {},
-        err => this.errorHandler.displayInAlert(err, 'Moving to next level')
+        err => this.errorHandler.display(err, 'Moving to next level')
       );
   }
 
@@ -47,7 +47,7 @@ export class InfoLevelComponent extends BaseComponent implements OnInit, OnChang
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         resp => {},
-        err => this.errorHandler.displayInAlert(err, 'Finishing training')
+        err => this.errorHandler.display(err, 'Finishing training')
       );
   }
 }

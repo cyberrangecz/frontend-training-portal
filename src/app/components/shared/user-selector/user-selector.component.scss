@@ -1,0 +1,61 @@
+@import "~variables.scss";
+
+.full-width {
+  width: 100%;
+}
+
+.user-chip {
+  color: white;
+  background-color:$accent !important
+}
+
+.user {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-size: 16px;
+  height: 30px;
+}
+
+mat-progress-spinner {
+  margin: 0 auto;
+}
+
+.user-login {
+  font-size: 14px;
+  height: 18px;
+  color: $non-accent;
+}
+
+.mat-select-panel mat-option.mat-option {
+  height: unset;
+}
+
+.mat-option-text.mat-option-text {
+  white-space: normal;
+}
+
+.user-picture-container {
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+  border: 1px solid gainsboro;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+}
+
+img {
+  width: 20px;
+  height: 20px;
+}
+

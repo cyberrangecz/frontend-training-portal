@@ -10,7 +10,8 @@
  * Do not edit the class manually.
  */
 import { AbstractLevelDTO } from '../level/abstract-level-dto';
-import {UserRefDTO} from '../user/user-ref-dto';
+
+import {UserDTO} from 'kypo2-auth';
 
 
 /**
@@ -22,7 +23,7 @@ export interface TrainingRunDTO {
     event_log_reference?: string;
     id?: number;
     sandbox_instance_ref_id?: number;
-    participant_ref: UserRefDTO;
+    participant_ref: UserDTO;
     start_time?: Date;
     state?: TrainingRunDTO.StateEnum;
     definition_id: number;

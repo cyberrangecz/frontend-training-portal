@@ -3,10 +3,13 @@ import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@ang
 import {TrainingInstanceFacade} from '../facades/training-instance-facade.service';
 import {EMPTY, Observable, of} from 'rxjs';
 import {catchError, mergeMap, take} from 'rxjs/operators';
-import {TRAINING_INSTANCE_PATH} from '../../paths';
 import {ActiveTrainingInstanceService} from '../training-instance/active-training-instance.service';
 import {ErrorHandlerService} from '../shared/error-handler.service';
-
+import {
+  ACCESS_TOKEN_PATH,
+  TRAINING_INSTANCE_NEW_PATH
+} from '../../components/training-instance/training-instance-overview/paths';
+import {RouteFactory} from '../../model/routes/route-factory';
 @Injectable()
 export class TrainingInstanceBreadcrumbResolver implements Resolve<string> {
 
@@ -17,7 +20,11 @@ export class TrainingInstanceBreadcrumbResolver implements Resolve<string> {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<string> | Promise<string> | string {
-    if (route.paramMap.has('id')) {
+    if (state.url.endsWith(TRAINING_INSTANCE_NEW_PATH)) {
+      return 'Add';
+    } else if (state.url.endsWith(ACCESS_TOKEN_PATH)) {
+      return 'Access token';
+    } else if (route.paramMap.has('id')) {
       const id = Number(route.paramMap.get('id'));
       const activeTI = this.activeTrainingInstance.get();
       if (activeTI && activeTI.id === id) {
@@ -28,17 +35,17 @@ export class TrainingInstanceBreadcrumbResolver implements Resolve<string> {
             take(1),
             mergeMap(ti => ti ? of(ti.title) : this.navigateToOverview()),
             catchError(err => {
-              this.errorHandler.displayInAlert(err, 'Training instance breadcrumbs resolver');
+              this.errorHandler.display(err, 'Training instance breadcrumbs resolver');
               return EMPTY;
-            })
+            }),
           );
       }
     }
-    return this.navigateToOverview();
+    return EMPTY;
   }
 
-  private navigateToOverview(): Observable<never> {
-    this.router.navigate([TRAINING_INSTANCE_PATH]);
+  private navigateToOverview() {
+    this.router.navigate([RouteFactory.toTrainingInstanceOverview()]);
     return EMPTY;
   }
 }
