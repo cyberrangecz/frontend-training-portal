@@ -58,7 +58,7 @@ export class UserFacade {
 
   getOrganizers(trainingInstanceId: number, pagination: RequestedPagination, filters: Filter[] = []): Observable<PaginatedResource<User[]>> {
     const params = ParamsMerger.merge([PaginationParams.createTrainingsPaginationParams(pagination), FilterParams.create(filters)]);
-    return this.http.get<UserRestResource>(`${this.trainingDefsEndpointUri + trainingInstanceId}/organizers`,
+    return this.http.get<UserRestResource>(`${this.trainingInstancesEndpointUri + trainingInstanceId}/organizers`,
       { params: params})
       .pipe(
         map(resp => this.userMapper.mapPaginatedDTOToUsersTable(resp))

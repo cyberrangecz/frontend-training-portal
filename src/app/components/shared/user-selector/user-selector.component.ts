@@ -79,4 +79,8 @@ export class UserSelectorComponent extends BaseComponent implements OnInit, OnCh
     this.selectedUsers.splice(index, 1);
     this.selectionChange.emit(this.selectedUsers);
   }
+
+  alreadySelected(user: User): boolean {
+    return this.selectedUsers.find(selected => selected.equals(user)) !== undefined;
+  }
 }

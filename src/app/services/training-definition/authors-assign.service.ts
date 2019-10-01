@@ -50,14 +50,18 @@ export class AuthorsAssignService extends UserAssignService {
       new RequestedPagination(0, 25, 'familyName', 'asc'),
       UserNameFilters.create(filter))
       .pipe(
-        tap({error: err => this.errorHandler.display(err, 'Fetching designers')})
+        tap(_ => _,
+          err => this.errorHandler.display(err, 'Fetching designers')
+        )
       );
   }
 
   update(resourceId: number, additions: User[], removals: User[]): Observable<any> {
     return this.userFacade.updateAuthors(resourceId, additions.map(user => user.id), removals.map(user => user.id))
       .pipe(
-        tap({error: err => this.errorHandler.display(err, 'Updating authors')})
+        tap(_ => _,
+            err => this.errorHandler.display(err, 'Updating authors')
+        )
       );
   }
 }

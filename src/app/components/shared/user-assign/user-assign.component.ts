@@ -42,7 +42,7 @@ export class UserAssignComponent extends BaseComponent implements OnInit {
   getToAssign(filterValue: string) {
     this.toAssign = this.usersService.getAvailableToAssign(this.resource.id, filterValue)
       .pipe(
-        map(resource => resource.elements)
+        map(resource => resource.elements),
       );
   }
 
