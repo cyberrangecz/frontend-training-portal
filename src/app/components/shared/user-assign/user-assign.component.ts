@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {User} from 'kypo2-auth';
 import {map, takeWhile} from 'rxjs/operators';
 import {BaseComponent} from '../../base.component';
@@ -26,6 +26,9 @@ export class UserAssignComponent extends BaseComponent implements OnInit {
   assigneesTableHasError = false;
   selectedToAssign: User[] = [];
   selectedAssignees: User[] = [];
+
+  private isLoadingAssigneesSubject = new BehaviorSubject<boolean>(false);
+  isLoadingAssignees$: Observable<boolean> = this.isLoadingAssigneesSubject.asObservable();
 
   private lastLoadEvent: LoadTableEvent;
 
@@ -75,6 +78,7 @@ export class UserAssignComponent extends BaseComponent implements OnInit {
   }
 
   deleteAssignee(author: User) {
+    this.isLoadingAssigneesSubject.next(true);
     this.usersService.unassign(this.resource.id, [author])
       .pipe(
         takeWhile(_ => this.isAlive)
@@ -82,6 +86,7 @@ export class UserAssignComponent extends BaseComponent implements OnInit {
   }
 
   deleteSelectedAssignees() {
+    this.isLoadingAssigneesSubject.next(true);
     this.usersService.unassign(this.resource.id, this.selectedAssignees)
       .pipe(
         takeWhile(_ => this.isAlive)
@@ -114,6 +119,7 @@ export class UserAssignComponent extends BaseComponent implements OnInit {
   private onAssigneesDeleted() {
     this.selectedAssignees = [];
     this.onAssigneesLoadEvent();
+    this.isLoadingAssigneesSubject.next(false);
     this.hasUnsavedChanges.emit(this.calculateHasUnsavedChanges());
   }
 }
