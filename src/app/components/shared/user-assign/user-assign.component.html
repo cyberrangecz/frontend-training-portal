@@ -19,6 +19,7 @@
 <h2> {{ assigneesTitle }} of {{ resource.title }}</h2>
 <kypo2-table [hasError]="assigneesTableHasError"
              [data]="assignees | async"
+             [isLoading]="isLoadingAssignees$ | async"
              [totalElements]="assigneesTotalLength"
              (rowAction)="onAssigneesTableAction($event)"
              (rowSelection)="onAssigneesSelection($event)"
