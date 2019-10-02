@@ -33,7 +33,6 @@ tr.training-row:not(.example-expanded-row):active {
 }
 
 .train-def {
-  padding: 20px;
   display: flex;
   flex-direction: column;
 }
@@ -43,11 +42,15 @@ tr.training-row:not(.example-expanded-row):active {
   margin: auto auto;
   display: flex;
   flex-direction: row;
+  justify-content: flex-end;
 }
 
 .train-def-buttons button {
-  margin-right: 20px;
   max-width: 200px;
+}
+
+.train-def-buttons button:first-child {
+  margin-right: 20px;
 }
 
 .train-def-table-wrapper {
