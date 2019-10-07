@@ -8,7 +8,7 @@ import {AccessedTrainingRunDTO} from '../../model/DTOs/training-run/accessed-tra
 import {AccessedTrainingRunsTableRow} from '../../model/table-adapters/accessed-training-runs-table-row';
 import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 import {TrainingRunTableRow} from '../../model/table-adapters/training-run-table-row';
-import {TableAdapterPagination} from '../../model/table-adapters/table-adapter-pagination';
+import {Kypo2Pagination} from '../../model/table-adapters/kypo2-pagination';
 import {AccessTrainingRunDTO} from '../../model/DTOs/training-run/access-training-run-dto';
 import {AccessTrainingRunInfo} from '../../model/training/access-training-run-info';
 import {IsCorrectFlagDTO} from '../../model/DTOs/level/game/is-correct-flag-dto';
@@ -61,7 +61,7 @@ export class TrainingRunMapper {
       tableData.push(tableRow);
     });
 
-    const tablePagination = new TableAdapterPagination(resource.pagination.number,
+    const tablePagination = new Kypo2Pagination(resource.pagination.number,
       resource.pagination.number_of_elements,
       resource.pagination.size,
       resource.pagination.total_elements,
@@ -121,7 +121,7 @@ export class TrainingRunMapper {
     const tableData: AccessedTrainingRunsTableRow[] = [];
     resource.content.forEach(accessedTrainingRunDTO =>
       tableData.push(this.mapAccessedTrainingRunDTOToTrainingRunTableObject(accessedTrainingRunDTO)));
-    const tablePagination = new TableAdapterPagination(resource.pagination.number,
+    const tablePagination = new Kypo2Pagination(resource.pagination.number,
       resource.pagination.number_of_elements,
       resource.pagination.size,
       resource.pagination.total_elements,

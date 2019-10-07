@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {SandboxPoolOverviewComponent} from "./sandbox-pool-overview.component";
+import {SandboxPoolOverviewComponent} from './sandbox-pool-overview.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: SandboxPoolOverviewComponent
+    component: SandboxPoolOverviewComponent,
+    data: {
+      breadcrumb: null
+    }
   },
   {
     path: ':id',

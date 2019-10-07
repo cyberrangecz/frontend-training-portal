@@ -8,7 +8,7 @@ import {TrainingDefinitionRestResource} from '../../model/DTOs/training-definiti
 import {TrainingDefinitionDTO} from '../../model/DTOs/training-definition/training-definition-dto';
 import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 import {TrainingDefinitionTableRow} from '../../model/table-adapters/training-definition-table-row';
-import {TableAdapterPagination} from '../../model/table-adapters/table-adapter-pagination';
+import {Kypo2Pagination} from '../../model/table-adapters/kypo2-pagination';
 import {LevelMapper} from './level-mapper.service';
 import {UserMapper} from './user.mapper.service';
 import {TrainingDefinitionInfo} from '../../model/training/training-definition-info';
@@ -39,7 +39,7 @@ export class TrainingDefinitionMapper {
       const td = this.mapTrainingDefinitionDTOToTrainingDefinition(trainingDTO, false);
       tableData.push(new TrainingDefinitionTableRow(td, td.state));
     });
-    const tablePagination = new TableAdapterPagination(
+    const tablePagination = new Kypo2Pagination(
       resource.pagination.number,
       resource.pagination.number_of_elements,
       resource.pagination.size,

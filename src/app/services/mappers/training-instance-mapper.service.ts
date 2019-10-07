@@ -7,7 +7,7 @@ import {TrainingInstanceRestResource} from '../../model/DTOs/training-instance/t
 import {TrainingDefinitionMapper} from './training-definition-mapper.service';
 import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 import {TrainingInstanceTableRow} from '../../model/table-adapters/training-instance-table-row';
-import {TableAdapterPagination} from '../../model/table-adapters/table-adapter-pagination';
+import {Kypo2Pagination} from '../../model/table-adapters/kypo2-pagination';
 
 @Injectable()
 /**
@@ -34,7 +34,7 @@ export class TrainingInstanceMapper {
    */
   mapTrainingInstanceDTOsToTrainingInstancesWithPagination(resource: TrainingInstanceRestResource): PaginatedResource<TrainingInstanceTableRow[]> {
     const tableDataList = resource.content.map(dto => new TrainingInstanceTableRow(this.mapTrainingInstanceDTOToTrainingInstance(dto)));
-    const tablePagination = new TableAdapterPagination(resource.pagination.number,
+    const tablePagination = new Kypo2Pagination(resource.pagination.number,
       resource.pagination.number_of_elements,
       resource.pagination.size,
       resource.pagination.total_elements,

@@ -17,6 +17,7 @@ import {
 import {Injectable} from '@angular/core';
 import {environment} from '../../../../environments/environment';
 import {ShareReplayConfig} from 'rxjs/internal-compatibility';
+import {RequestedPagination} from 'kypo2-table';
 
 
 @Injectable()
@@ -130,10 +131,15 @@ export class SandboxAllocationService {
   }
 
   private checkStateOfRunningAllocations(): Observable<SandboxInstanceAllocationState> {
-    const poolIds = this.runningAllocations.map(runningInstanceState => runningInstanceState.training.poolId);
-    return from(poolIds)
+    const pools: {id: number, maxSize: number}[] = this.runningAllocations.map(runningInstanceState => {
+      return {
+        id: runningInstanceState.training.poolId,
+        maxSize: runningInstanceState.training.poolSize
+      };
+    });
+    return from(pools)
       .pipe(
-        mergeMap(poolId => this.getSandboxesInPoolWithPoolId(poolId)),
+        mergeMap(pool => this.getSandboxesInPoolWithPoolId(pool.id, pool.maxSize)),
         takeWhile(resp => this.getRunningAllocationStateByPoolId(resp.poolId) !== undefined),
         map((resp) => this.updateAllocationState(resp.poolId, resp.sandboxes)),
         tap( (allocationState: SandboxInstanceAllocationState) => {
@@ -151,12 +157,12 @@ export class SandboxAllocationService {
     return allocationState;
   }
 
-  private getSandboxesInPoolWithPoolId(poolId: number): Observable<{poolId: number, sandboxes: SandboxInstance[]}> {
-    return this.sandboxInstanceFacade.getSandboxesInPool(poolId)
-      .pipe(map(sandboxes => {
+  private getSandboxesInPoolWithPoolId(poolId: number, poolSize): Observable<{poolId: number, sandboxes: SandboxInstance[]}> {
+    return this.sandboxInstanceFacade.getSandboxes(poolId, new RequestedPagination(0, poolSize, '', ''))
+      .pipe(map(response => {
         return {
           poolId: poolId,
-          sandboxes: sandboxes
+          sandboxes: response.elements
         };
       }));
   }

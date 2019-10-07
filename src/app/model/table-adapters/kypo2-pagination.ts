@@ -1,4 +1,4 @@
-export class TableAdapterPagination {
+export class Kypo2Pagination {
   page: number;
   numberOfElements: number;
   size: number;

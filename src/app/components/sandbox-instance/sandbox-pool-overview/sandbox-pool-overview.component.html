@@ -1,3 +1,10 @@
-<p>
-  sandbox-instance-select-pool works!
-</p>
+<div class="content">
+  <h1>Sandbox Pools Overview</h1>
+  <kypo2-table
+    [data]="pools$ | async"
+    [totalElements]="poolsTotalLength"
+    [hasError]="poolsTableHasError"
+    (refresh)="onPoolsLoadEvent($event)">
+  </kypo2-table>
+</div>
+
