@@ -5,6 +5,10 @@
   flex-direction: column;
 }
 
+.content kypo2-free-form {
+  width: 80%;
+}
+
 .warn {
   color: $warn;
 }
@@ -21,20 +25,15 @@
   margin-right: 10px;
 }
 
+.form-container {
+  width: 50%;
+}
+
 .right-panel mat-form-field {
   width: 100%;
 }
 
-.answer mat-form-field {
-  width: 70%;
-}
-
 .right-panel > * {
-  margin-bottom: 10px;
-}
-
-button.clear-answers {
-  width: 120px;
   margin-bottom: 10px;
 }
 

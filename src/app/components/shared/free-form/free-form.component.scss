@@ -1,0 +1,30 @@
+@import '~theme.scss';
+@import '~variables.scss';
+
+@media screen and (max-width: 900px) {
+  .form-container {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.item {
+  display: flex;
+}
+.item mat-form-field {
+  width: 100%;
+}
+
+.remove-btn {
+  height: 60px;
+  width: 20px;
+}
+
+mat-divider {
+  padding-bottom: 10px;
+}
+h4 {
+  text-align: center;
+  color: rgba(0, 0, 0, 0.26);
+}
+

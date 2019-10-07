@@ -202,6 +202,7 @@ export class LevelMapper {
     result.assessmentType = this.mapAssessmentTypeFromDTO(assessmentLevelDTO.assessment_type);
     if (assessmentLevelDTO.questions && assessmentLevelDTO.questions != '[]') {
       result.questions = this.mapQuestionsFromDTO(JSON.parse(assessmentLevelDTO.questions));
+      result.questions = result.questions ? result.questions : [];
     }
     return result;
   }

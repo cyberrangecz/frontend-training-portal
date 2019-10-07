@@ -10,7 +10,7 @@
       <ng-template #noQuestionsLabel>
         <span>This level contains no questions.</span>
       </ng-template>
-      <div class="panel-description-error" *ngIf="questionsHasError">
+      <div class="panel-description-error" *ngIf="questionsHasError && isTest">
         <mat-icon color="warn">error_outline</mat-icon>
         <mat-error>There are errors in some questions</mat-error>
       </div>

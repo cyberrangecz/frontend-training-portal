@@ -7,6 +7,8 @@ import {BaseComponent} from '../../../base.component';
 import {takeWhile} from 'rxjs/operators';
 import { TrainingDefinitionEditFormGroup } from './training-definition-edit-form-group';
 import {TrainingDefinitionChangeEvent} from '../../../../model/events/training-definition-change-event';
+import {FreeFormItems} from '../../../shared/free-form/free-form-items';
+import {FormArray, FormControl} from '@angular/forms';
 
 /**
  * Component for creating new or editing already existing training definition
@@ -23,6 +25,7 @@ export class TrainingDefinitionEditComponent extends BaseComponent implements On
   @Output() edited: EventEmitter<TrainingDefinitionChangeEvent> = new EventEmitter();
 
   trainingDefinitionEditFormGroup: TrainingDefinitionEditFormGroup;
+  freeFormValid = true;
 
   constructor(private dialog: MatDialog) {
     super();
@@ -37,23 +40,51 @@ export class TrainingDefinitionEditComponent extends BaseComponent implements On
   get description() {
     return this.trainingDefinitionEditFormGroup.formGroup.get('description');
   }
-  get prerequisites() {
-    return this.trainingDefinitionEditFormGroup.formGroup.get('prerequisites');
-  }
-  get outcomes() {
-    return this.trainingDefinitionEditFormGroup.formGroup.get('outcomes');
-  }
   get sandboxDefId() {
     return this.trainingDefinitionEditFormGroup.formGroup.get('sandboxDefId');
   }
   get showProgress() {
     return this.trainingDefinitionEditFormGroup.formGroup.get('showProgress');
   }
+  get outcomes() {
+    return <FormArray>this.trainingDefinitionEditFormGroup.formGroup.get('outcomes');
+  }
+  get prerequisites() {
+    return <FormArray>this.trainingDefinitionEditFormGroup.formGroup.get('prerequisites');
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if ('trainingDefinition' in changes) {
       this.trainingDefinitionEditFormGroup = new TrainingDefinitionEditFormGroup(this.trainingDefinition);
       this.setupOnFormChangedEvent();
+    }
+  }
+
+  prerequisitesChange(event: FreeFormItems) {
+    this.freeFormValid = event.validity;
+    if (event.isAdded) {
+      (this.prerequisites as FormArray).push(new FormControl(''));
+    } else if (event.isDeleted) {
+      this.prerequisites.removeAt(event.index);
+    } else if (event.cleared) {
+      this.prerequisites.clear();
+      this.prerequisites.setValue(this.prerequisites.value);
+    } else {
+      this.prerequisites.at(event.index).setValue(event.items[event.index]);
+    }
+  }
+
+  outcomesChange(event: FreeFormItems) {
+    this.freeFormValid = event.validity;
+    if (event.isAdded) {
+      (this.outcomes as FormArray).push(new FormControl(''));
+    } else if (event.isDeleted) {
+      this.outcomes.removeAt(event.index);
+    } else if (event.cleared) {
+      this.outcomes.clear();
+      this.outcomes.setValue(this.outcomes.value);
+    } else {
+      this.outcomes.at(event.index).setValue(event.items[event.index]);
     }
   }
 
@@ -86,7 +117,7 @@ export class TrainingDefinitionEditComponent extends BaseComponent implements On
     this.trainingDefinitionEditFormGroup.setValuesToTrainingDefinition(this.trainingDefinition);
     this.edited.emit(new TrainingDefinitionChangeEvent(
       this.trainingDefinition,
-      this.trainingDefinitionEditFormGroup.formGroup.valid)
+      this.trainingDefinitionEditFormGroup.formGroup.valid && this.freeFormValid)
     );
   }
 }

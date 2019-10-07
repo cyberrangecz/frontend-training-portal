@@ -23,22 +23,11 @@
         </mat-form-field>
 
         <!-- PREREQUISITES field-->
-        <mat-form-field appearance="outline">
-          <mat-label>Notes for instructors</mat-label>
-          <textarea  matInput placeholder="Notes for instructors" formControlName="prerequisites"></textarea>
-          <button mat-button *ngIf="prerequisites.value" matSuffix mat-icon-button aria-label="Clear" (click)="prerequisites.setValue(['']); prerequisites.markAsDirty();">
-            <mat-icon>close</mat-icon>
-          </button>
-        </mat-form-field>
+        <kypo2-free-form (itemsChange)="prerequisitesChange($event)" [required]="false" [hasHeader]="true" [formPlaceholder]="'Note'" [formName]="'Notes for instructors'" [formData]="trainingDefinition.prerequisites"></kypo2-free-form>
 
         <!-- OUTCOMES field-->
-        <mat-form-field appearance="outline">
-          <mat-label>Learning outcomes</mat-label>
-          <textarea  matInput placeholder="Learning outcomes" formControlName="outcomes"></textarea>
-          <button mat-button *ngIf="outcomes.value" matSuffix mat-icon-button aria-label="Clear" (click)="outcomes.setValue(['']); outcomes.markAsDirty();">
-            <mat-icon>close</mat-icon>
-          </button>
-        </mat-form-field>
+        <kypo2-free-form (itemsChange)="outcomesChange($event)" [required]="false" [hasHeader]="true" [formPlaceholder]="'Outcome'" [formName]="'Learning outcomes'" [formData]="trainingDefinition.outcomes"></kypo2-free-form>
+
       </div>
 
       <div class="right-col">

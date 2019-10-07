@@ -14,6 +14,7 @@ import { FreeFormQuestionFormGroup } from './free-form-question-form-group';
 import { FormArray, FormControl, Validators } from '@angular/forms';
 import {takeWhile} from 'rxjs/operators';
 import {AbstractQuestion} from '../../../../../../../../model/questions/abstract-question';
+import {FreeFormItems} from '../../../../../../../shared/free-form/free-form-items';
 
 @Component({
   selector: 'kypo2-free-form-question-edit',
@@ -30,6 +31,7 @@ export class FreeFormQuestionEditComponent extends BaseComponent implements OnIn
   @Input() required: boolean;
   @Output() questionChange: EventEmitter<FreeFormQuestion> = new EventEmitter();
 
+  freeFormValid: boolean;
   freeFormQuestionFormGroup: FreeFormQuestionFormGroup;
   maxQuestionScore = AbstractQuestion.MAX_QUESTION_SCORE;
   maxQuestionPenalty = AbstractQuestion.MAX_QUESTION_PENALTY;
@@ -51,12 +53,14 @@ export class FreeFormQuestionEditComponent extends BaseComponent implements OnIn
 
   ngOnChanges(changes: SimpleChanges): void {
     if ('question' in changes) {
-      this.freeFormQuestionFormGroup = new FreeFormQuestionFormGroup(this.question);
-      this.checkState();
-      this.freeFormQuestionFormGroup.formGroup.valueChanges
-        .pipe(
-          takeWhile(_ => this.isAlive),
-        ).subscribe(_ => this.questionChanged());
+      if (!this.freeFormQuestionFormGroup) {
+        this.freeFormQuestionFormGroup = new FreeFormQuestionFormGroup(this.question);
+        this.checkState();
+        this.freeFormQuestionFormGroup.formGroup.valueChanges
+          .pipe(
+            takeWhile(_ => this.isAlive),
+          ).subscribe(_ => this.questionChanged());
+      }
     }
     if ('isTest' in changes && !changes['isTest'].isFirstChange()) {
       this.checkState();
@@ -76,33 +80,28 @@ export class FreeFormQuestionEditComponent extends BaseComponent implements OnIn
    */
   questionChanged() {
     this.freeFormQuestionFormGroup.formGroup.markAsDirty();
-    this.freeFormQuestionFormGroup.setToFFQ(this.question, this.isTest);
+    this.freeFormQuestionFormGroup.setToFFQ(this.question, this.freeFormValid, this.isTest);
     this.questionChange.emit(this.question);
   }
 
-  deleteAnswer(index: number) {
-    this.answers.removeAt(index);
-    this.questionChanged();
-  }
-
-  addAnswer() {
-    (this.answers as FormArray).push(new FormControl('', Validators.required));
-    this.questionChanged();
-  }
-
-  trackByFn(index: any, item: any) {
-    return index;
+  answerChanged(event: FreeFormItems) {
+    this.freeFormValid = event.validity;
+    if (event.isAdded) {
+      (this.answers as FormArray).push(new FormControl('', this.required ? Validators.required : undefined));
+    } else if (event.isDeleted) {
+      this.answers.removeAt(event.index);
+    } else if (event.cleared) {
+      this.answers.clear();
+      this.answers.setValue(this.answers.value);
+    } else {
+     this.answers.at(event.index).setValue(event.items[event.index]);
+    }
   }
 
   requiredChanged() {
     if (!this.required) {
       this.score.setValue(0);
     }
-  }
-
-  private clearAnswers() {
-    this.answers.clear();
-    this.questionChanged();
   }
 
   /**
@@ -125,5 +124,10 @@ export class FreeFormQuestionEditComponent extends BaseComponent implements OnIn
       this.penalty.disable();
     }
     this.freeFormQuestionFormGroup.formGroup.updateValueAndValidity();
+  }
+
+  private clearAnswers() {
+    this.answers.clear();
+    this.questionChanged();
   }
 }
