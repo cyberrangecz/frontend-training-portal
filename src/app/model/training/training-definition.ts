@@ -22,8 +22,8 @@ export class TrainingDefinition implements DisplayableResource {
 
   constructor() {
     this.showStepperBar = true;
-    this.outcomes = [''];
-    this.prerequisites = [''];
+    this.outcomes = [];
+    this.prerequisites = [];
     this.levels = [];
   }
 

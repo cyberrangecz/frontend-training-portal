@@ -19,6 +19,7 @@ import {Kypo2StepperModule} from 'kypo2-stepper';
 import {environment} from '../../../../../../environments/environment';
 import { QuestionControlsComponent } from './assessment-level-edit/question-edit/question-controls/question-controls.component';
 import { HintControlsComponent } from './game-level-edit/hint-edit/hint-controls/hint-controls.component';
+import {SharedModule} from '../../../../shared/shared.module';
 
 /**
  * Module containing components service and routing related to level edit/detail
@@ -31,7 +32,8 @@ import { HintControlsComponent } from './game-level-edit/hint-edit/hint-controls
     Kypo2StepperModule,
     LevelEditMaterialModule,
     MatSlideToggleModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
   exports: [
     AbstractLevelEditComponent

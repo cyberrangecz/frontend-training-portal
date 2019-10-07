@@ -59,8 +59,8 @@ export class TrainingDefinitionMapper {
     result.sandboxDefinitionId = trainingDefinitionDTO.sandbox_definition_ref_id;
     result.title = trainingDefinitionDTO.title;
     result.description = trainingDefinitionDTO.description;
-    result.prerequisites =  trainingDefinitionDTO.prerequisities;
-    result.outcomes = trainingDefinitionDTO.outcomes;
+    result.prerequisites =  trainingDefinitionDTO.prerequisities ? trainingDefinitionDTO.prerequisities : [];
+    result.outcomes = trainingDefinitionDTO.outcomes ? trainingDefinitionDTO.outcomes : [];
     result.state = this.mapTrainingDefDTOStateToEnum(trainingDefinitionDTO.state);
     result.lastEditTime = trainingDefinitionDTO.last_edited;
     result.estimatedDuration = trainingDefinitionDTO.estimated_duration;
@@ -77,12 +77,10 @@ export class TrainingDefinitionMapper {
    */
   mapTrainingDefinitionToTrainingDefinitionCreateDTO(trainingDefinition: TrainingDefinition): TrainingDefinitionCreateDTO {
     const result = new TrainingDefinitionCreateDTO();
-    result.outcomes = [];
-    result.prerequisities = [];
 
+    result.prerequisities = trainingDefinition.prerequisites.filter(prerequisite => prerequisite.length > 1);
+    result.outcomes = trainingDefinition.outcomes.filter( outcome => outcome.length > 1);
     result.description = trainingDefinition.description;
-    trainingDefinition.outcomes.forEach(outcome => result.outcomes.push(outcome));
-    trainingDefinition.prerequisites.forEach(prerequisite => result.prerequisities.push(prerequisite));
     result.state = TrainingDefinitionDTO.StateEnum.UNRELEASED;
     result.title = trainingDefinition.title;
     result.sandbox_definition_ref_id = trainingDefinition.sandboxDefinitionId;
@@ -96,19 +94,16 @@ export class TrainingDefinitionMapper {
    */
   mapTrainingDefinitionToTrainingDefinitionUpdateDTO(trainingDefinition: TrainingDefinition): TrainingDefinitionUpdateDTO {
     const result = new TrainingDefinitionUpdateDTO();
-    result.outcomes = [];
-    result.prerequisities = [];
 
     result.id = trainingDefinition.id;
     result.description = trainingDefinition.description;
     result.sandbox_definition_ref_id = trainingDefinition.sandboxDefinitionId;
     result.show_stepper_bar = trainingDefinition.showStepperBar;
-    trainingDefinition.outcomes = result.outcomes;
-    trainingDefinition.prerequisites = result.prerequisities;
-    result.outcomes = trainingDefinition.outcomes;
-    result.prerequisities = trainingDefinition.prerequisites;
+    result.prerequisities = trainingDefinition.prerequisites.filter(prerequisite => prerequisite.length > 1);
+    result.outcomes = trainingDefinition.outcomes.filter( outcome => outcome.length > 1);
     result.state = this.mapTrainingDefStateToDTOEnum(trainingDefinition.state);
     result.title = trainingDefinition.title;
+
     return result;
   }
 
@@ -145,7 +140,7 @@ export class TrainingDefinitionMapper {
   }
 
   mapTrainingDefStateToDTOEnum(state: TrainingDefinitionStateEnum): TrainingDefinitionDTO.StateEnum {
-    switch(state) {
+    switch (state) {
       case TrainingDefinitionStateEnum.Unreleased: return TrainingDefinitionDTO.StateEnum.UNRELEASED;
       case TrainingDefinitionStateEnum.Released: return TrainingDefinitionDTO.StateEnum.RELEASED;
       case TrainingDefinitionStateEnum.Archived: return TrainingDefinitionDTO.StateEnum.ARCHIVED;

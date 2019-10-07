@@ -45,7 +45,7 @@ export class QuestionsOverviewComponent extends BaseComponent implements OnInit,
 
   ngOnChanges(changes: SimpleChanges) {
     if ('questions' in changes && this.questions) {
-      this.calculateHasError();
+        this.calculateHasError();
     }
     if ('isTest' in changes && !changes['isTest'].isFirstChange()) {
       if (this.isTest && this.questions) {

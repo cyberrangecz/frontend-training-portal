@@ -33,12 +33,12 @@ export class FreeFormQuestionFormGroup {
       this.noSelectedAnswers);
   }
 
-  setToFFQ(ffq: FreeFormQuestion, isTest: boolean) {
+  setToFFQ(ffq: FreeFormQuestion, freeFromValid: boolean, isTest: boolean) {
     ffq.title = this.formGroup.get('title').value;
     ffq.correctAnswers = this.formGroup.get('answers').value;
     ffq.score = ffq.required ? this.formGroup.get('score').value : 0;
     ffq.penalty = isTest ? this.formGroup.get('penalty').value : 0;
-    ffq.valid = this.formGroup.valid;
+    ffq.valid = !isTest ? true : this.formGroup.valid && freeFromValid;
   }
 
   private noSelectedAnswers: ValidatorFn = (control: FormGroup): ValidationErrors | null => {

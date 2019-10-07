@@ -1,0 +1,37 @@
+<div *ngIf="hasHeader">
+  <!-- FORM label-->
+  <mat-label>{{formName}}</mat-label>
+  <mat-divider></mat-divider>
+</div>
+
+<!-- ADD button-->
+<button color="primary" mat-button (click)="addItem()">Add {{formPlaceholder}}</button>
+
+<!-- DELETE button-->
+<button [disabled]="items.controls.length < 1" color="warn" mat-button (click)="removeItems()">Delete all</button>
+
+<!-- ITEM field-->
+<form [formGroup]="freeFormItemFormGroup.formGroup">
+  <div class="form-container">
+    <div *ngIf="items.controls && items.controls.length > 0 else noItems" formArrayName="items">
+      <div class="item" *ngFor="let item of items.controls; index as i; ">
+        <mat-form-field appearance="outline">
+          <mat-label>{{formPlaceholder}}</mat-label>
+          <input matInput placeholder="{{formPlaceholder}}" [formControl]="item" (input)="onChanged(i)">
+          <button mat-button *ngIf="item.value" matSuffix mat-icon-button aria-label="Clear" (click)="item.setValue(''); onChanged(i)">
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-error *ngIf="item.hasError('required')">{{formName}} cannot be empty</mat-error>
+        </mat-form-field>
+
+        <!-- REMOVE button-->
+        <button class="remove-btn" mat-button color="warn" (click)="removeItem(i)"><mat-icon>remove_circle</mat-icon></button>
+      </div>
+    </div>
+    <ng-template #noItems>
+      <h4>No items added</h4>
+    </ng-template>
+  </div>
+</form>
+
+
