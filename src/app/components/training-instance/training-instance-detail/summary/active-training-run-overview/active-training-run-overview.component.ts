@@ -109,16 +109,16 @@ export class ActiveTrainingRunOverviewComponent extends BaseTrainingRunOverview 
   }
 
   private fetchInfoForSandboxes() {
-    this.sandboxInstanceFacade.getSandboxesInPool(this.trainingInstance.poolId)
+    this.sandboxInstanceFacade.getSandboxes(this.trainingInstance.poolId)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
-        sandboxes => {
+        resource => {
             this.hasSandboxesInfoError = false;
-            this.sandboxFailedCount = sandboxes.filter(sandbox => sandbox.isFailed()).length;
-            this.sandboxDeletionRunningCount = sandboxes.filter(sandbox => sandbox.isBeingDeleted()).length;
-            this.sandboxAllocationRunningCount = sandboxes.filter(sandbox => sandbox.isInProgress()).length - this.sandboxDeletionRunningCount;
-            this.sandboxAvailableCount = sandboxes.filter(sandbox => sandbox.isCreated()).length - this.resultsLength;
-            this.sandboxCanBeAllocatedCount = Math.max(0, this.trainingInstance.poolSize - sandboxes.length - this.sandboxFailedCount);
+            this.sandboxFailedCount = resource.elements.filter(sandbox => sandbox.isFailed()).length;
+            this.sandboxDeletionRunningCount = resource.elements.filter(sandbox => sandbox.isBeingDeleted()).length;
+            this.sandboxAllocationRunningCount = resource.elements.filter(sandbox => sandbox.isInProgress()).length - this.sandboxDeletionRunningCount;
+            this.sandboxAvailableCount = resource.elements.filter(sandbox => sandbox.isCreated()).length - this.resultsLength;
+            this.sandboxCanBeAllocatedCount = Math.max(0, this.trainingInstance.poolSize - resource.elements.length - this.sandboxFailedCount);
             if (this.toAllocateInput === undefined) {
               this.toAllocateInput = this.sandboxCanBeAllocatedCount;
             }

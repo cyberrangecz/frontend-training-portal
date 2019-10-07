@@ -3,4 +3,5 @@ export class SandboxInstanceDTO {
   status: string;
   status_reason: string;
   pool: number;
+  locked: boolean;
 }

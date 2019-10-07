@@ -1,7 +1,11 @@
 import {Injectable} from '@angular/core';
 import {SandboxInstanceDTO} from '../../model/DTOs/sandbox-instance/sandbox-instance-dto';
 import {SandboxInstance} from '../../model/sandbox/sandbox-instance';
-import {SandboxInstanceState} from '../../model/enums/sandbox-instance-state';
+import {DjangoResourceDTO} from '../../model/DTOs/other/django-resource-dto';
+import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
+import {Kypo2Pagination} from '../../model/table-adapters/kypo2-pagination';
+import {SandboxPool} from '../../model/sandbox/sandbox-pool';
+import {SandboxPoolDTO} from '../../model/DTOs/sandbox-instance/sandbox-pool-dto';
 
 @Injectable()
 /**
@@ -9,38 +13,27 @@ import {SandboxInstanceState} from '../../model/enums/sandbox-instance-state';
  */
 export class SandboxInstanceMapper {
 
-  mapSandboxInstanceDTOsToSandboxInstances(sandboxDTOs: SandboxInstanceDTO[]): SandboxInstance[] {
-    return sandboxDTOs.map(sandboxDTO => this.mapSandboxInstanceDTOToSandboxInstance(sandboxDTO));
+  mapPoolsDTOsToPools(paginatedDTO: DjangoResourceDTO<SandboxPoolDTO>): PaginatedResource<SandboxPool[]> {
+    const elements = paginatedDTO.results
+      .map(poolDTO => SandboxPool.fromDTO(poolDTO));
+    const pagination = new Kypo2Pagination(
+      paginatedDTO.page,
+      paginatedDTO.page_count,
+      paginatedDTO.page_size,
+      paginatedDTO.total_count,
+      paginatedDTO.page_count);
+    return new PaginatedResource(elements, pagination);
   }
 
-  mapSandboxInstanceDTOToSandboxInstance(sandboxDTO: SandboxInstanceDTO): SandboxInstance {
-    const result = new SandboxInstance();
-    result.id = sandboxDTO.id;
-    result.poolId = sandboxDTO.pool;
-    result.state = this.getSandboxStateFromString(sandboxDTO.status);
-    result.stateLabel = sandboxDTO.status.replace(new RegExp('_', 'g'), ' ');
-    result.stateErrorMessage = sandboxDTO.status_reason;
-    return result;
-  }
-
-  private getSandboxStateFromString(state: string): SandboxInstanceState {
-    const lowercasedState = state.toLowerCase();
-    if (lowercasedState.includes('delete') && lowercasedState.includes('fail')) {
-      return SandboxInstanceState.DELETE_FAILED;
-    }
-    if (lowercasedState.includes('fail')) {
-      return SandboxInstanceState.FAILED;
-    }
-    if (lowercasedState.includes('delete') && !lowercasedState.includes('progress')) {
-      return SandboxInstanceState.DELETE_IN_PROGRESS;
-    }
-    if (lowercasedState.includes('progress')) {
-      return SandboxInstanceState.IN_PROGRESS;
-    }
-    if (state.toLowerCase().includes('complete')) {
-      return SandboxInstanceState.COMPLETE;
-    } else {
-      return undefined;
-    }
+  mapSandboxInstanceDTOsToSandboxInstances(paginatedDTO: DjangoResourceDTO<SandboxInstanceDTO>): PaginatedResource<SandboxInstance[]> {
+    const elements = paginatedDTO.results
+      .map(sandboxDTO => SandboxInstance.fromDTO(sandboxDTO));
+    const pagination = new Kypo2Pagination(
+      paginatedDTO.page,
+      paginatedDTO.page_count,
+      paginatedDTO.page_size,
+      paginatedDTO.total_count,
+      paginatedDTO.page_count);
+    return new PaginatedResource(elements, pagination);
   }
 }

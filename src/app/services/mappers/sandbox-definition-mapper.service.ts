@@ -2,7 +2,7 @@ import {SandboxDefinition} from '../../model/sandbox/sandbox-definition';
 import {SandboxDefinitionDTO} from '../../model/DTOs/sandbox-definition/sandbox-definition-dto';
 import {SandboxDefinitionTableRow} from '../../model/table-adapters/sandbox-definition-table-row';
 import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
-import {TableAdapterPagination} from '../../model/table-adapters/table-adapter-pagination';
+import {Kypo2Pagination} from '../../model/table-adapters/kypo2-pagination';
 import {DjangoResourceDTO} from '../../model/DTOs/other/django-resource-dto';
 
 /**
@@ -15,7 +15,7 @@ export class SandboxDefinitionMapperService {
       .map(sandboxDTO =>
         new SandboxDefinitionTableRow(this.mapSandboxDefinitionDTOToSandboxDefinition(sandboxDTO)));
 
-    const tablePagination = new TableAdapterPagination(
+    const tablePagination = new Kypo2Pagination(
       paginatedDTO.page,
       paginatedDTO.page_count,
       paginatedDTO.page_size,

@@ -193,11 +193,11 @@ export class SandboxInstancesTableComponent extends BaseComponent implements OnI
   }
 
   private fetchDataFromServer() {
-    this.sandboxInstanceFacade.getSandboxesInPool(this.trainingInstance.poolId)
+    this.sandboxInstanceFacade.getSandboxes(this.trainingInstance.poolId)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
-      sandboxes => {
-        this.dataSource = new MatTableDataSource(this.mapSandboxesToTableData(sandboxes));
+      response => {
+        this.dataSource = new MatTableDataSource(this.mapSandboxesToTableData(response.elements));
         this.dataSource.filterPredicate = this.filterByStatusFn;
       },
       err => {
