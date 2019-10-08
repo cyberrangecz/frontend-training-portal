@@ -186,7 +186,7 @@ export class ActiveTrainingRunOverviewComponent extends BaseTrainingRunOverview 
   }
 
   private sendRequestToAllocateSandboxes(count: number) {
-    this.sandboxInstanceFacade.allocateSandbox(this.trainingInstance.id, count)
+    this.sandboxInstanceFacade.allocateSandboxByTrainingInstance(this.trainingInstance.id, count)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         response => {
@@ -201,7 +201,7 @@ export class ActiveTrainingRunOverviewComponent extends BaseTrainingRunOverview 
 
   private sendRequestToDeleteSandbox(row: TrainingRunTableRow) {
     row.deletionRequested = true;
-    this.sandboxInstanceFacade.delete(this.trainingInstance.id, row.trainingRun.sandboxInstanceId)
+    this.sandboxInstanceFacade.deleteByTrainingInstance(this.trainingInstance.id, row.trainingRun.sandboxInstanceId)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
       response => {

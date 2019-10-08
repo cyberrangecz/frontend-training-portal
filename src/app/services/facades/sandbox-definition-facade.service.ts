@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/internal/Observable';
-import {SandboxDefinition} from '../../model/sandbox/sandbox-definition';
+import {SandboxDefinition} from '../../model/sandbox/definition/sandbox-definition';
 import {environment} from '../../../environments/environment';
 import {map} from 'rxjs/operators';
 import {SandboxDefinitionMapperService} from '../mappers/sandbox-definition-mapper.service';

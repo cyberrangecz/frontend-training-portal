@@ -1,5 +1,5 @@
 import {TrainingInstance} from './training-instance';
-import {SandboxInstance} from '../sandbox/sandbox-instance';
+import {SandboxInstance} from '../sandbox/pool/sandbox-instance';
 
 export class SandboxInstanceAllocationState {
   training: TrainingInstance;

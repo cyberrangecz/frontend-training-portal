@@ -1,6 +1,4 @@
 {
-  "/training-definitions/:id/authors?page:page&size:size": "/users",
-  "/training-definitions/:id/designers-not-in-training-definition?page:page&size:size": "/users",
-  "/training-instances/:id/organizers?page:page&size:size": "/users",
-  "/training-instances/:id/organizers-not-in-training-instance?page:page&size:size": "/users"
+  "/pools/:poolId/requests/?page=1&page_size=5": "/requests",
+  "/pools/:poolId/requests/:requestId/": "/requestById"
 }

@@ -9,7 +9,7 @@ import {
   TRAINING_INSTANCE_EDIT_PATH,
   TRAINING_INSTANCE_NEW_PATH
 } from '../../components/training-instance/training-instance-overview/paths';
-import {SANDBOX_INSTANCE_PATH} from '../../components/sandbox-instance/sandbox-instance-overview/paths';
+import {POOL_REQUEST_PATH, SANDBOX_INSTANCE_PATH} from '../../components/sandbox-instance/sandbox-pool-detail/paths';
 
 export class RouteFactory {
 
@@ -58,6 +58,10 @@ export class RouteFactory {
   }
 
   static toSandboxInstance(poolId: number | string, sandboxId: number | string): string {
-    return `${SANDBOX_POOL_PATH}/${poolId}${SANDBOX_INSTANCE_PATH}/${sandboxId}`;
+    return `${SANDBOX_POOL_PATH}/${poolId}/${SANDBOX_INSTANCE_PATH}/${sandboxId}`;
+  }
+
+  static toPoolRequest(poolId: number | string, requestId: number | string): string {
+    return `${SANDBOX_POOL_PATH}/${poolId}/${POOL_REQUEST_PATH}/${requestId}`;
   }
 }

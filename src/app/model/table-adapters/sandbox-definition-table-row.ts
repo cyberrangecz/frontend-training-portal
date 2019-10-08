@@ -1,4 +1,4 @@
-import {SandboxDefinition} from '../sandbox/sandbox-definition';
+import {SandboxDefinition} from '../sandbox/definition/sandbox-definition';
 import {TableRowAdapter} from './table-row-adapter';
 import {TrainingDefinitionInfo} from '../training/training-definition-info';
 import {StringNormalizer} from '../utils/ignore-diacritics-filter';

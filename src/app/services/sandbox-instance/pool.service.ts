@@ -1,9 +1,9 @@
 import {Observable} from 'rxjs';
 import {Kypo2Table, RequestedPagination} from 'kypo2-table';
-import {SandboxPool} from '../../model/sandbox/sandbox-pool';
+import {SandboxPool} from '../../model/sandbox/pool/sandbox-pool';
+import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 
 export abstract class PoolService {
-  pools$: Observable<Kypo2Table<SandboxPool>>;
-
-  abstract get(pagination: RequestedPagination);
+  abstract pools$: Observable<Kypo2Table<SandboxPool>>;
+  abstract getAll(pagination: RequestedPagination): Observable<PaginatedResource<SandboxPool[]>>;
 }

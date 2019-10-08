@@ -35,6 +35,7 @@ export class TrainingInstanceResolver implements Resolve<TrainingInstance> {
             tap(ti => this.activeTrainingInstance.setActiveTrainingInstance(ti)),
             catchError(err => {
               this.errorHandler.display(err, 'Training instance resolver');
+              this.navigateToNew();
               return EMPTY;
             })
           );

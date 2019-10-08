@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import {SandboxDefinition} from '../../../model/sandbox/sandbox-definition';
+import {SandboxDefinition} from '../../../model/sandbox/definition/sandbox-definition';
 import {SandboxDefinitionFacade} from '../../../services/facades/sandbox-definition-facade.service';
 import {TrainingDefinitionFacade} from '../../../services/facades/training-definition-facade.service';
 import {AlertService} from '../../../services/shared/alert.service';

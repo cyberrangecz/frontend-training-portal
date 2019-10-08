@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit, Optional} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import {SandboxDefinition} from "../../../../../model/sandbox/sandbox-definition";
+import {SandboxDefinition} from "../../../../../model/sandbox/definition/sandbox-definition";
 import {SandboxDefinitionFacade} from "../../../../../services/facades/sandbox-definition-facade.service";
 import {BaseComponent} from "../../../../base.component";
 import {takeWhile} from "rxjs/operators";
