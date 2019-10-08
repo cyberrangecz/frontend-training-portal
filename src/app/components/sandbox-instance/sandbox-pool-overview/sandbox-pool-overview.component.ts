@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Kypo2Table, LoadTableEvent, RequestedPagination} from 'kypo2-table';
 import {Observable} from 'rxjs';
-import {SandboxPool} from '../../../model/sandbox/sandbox-pool';
+import {SandboxPool} from '../../../model/sandbox/pool/sandbox-pool';
 import {PoolService} from '../../../services/sandbox-instance/pool.service';
 import {takeWhile} from 'rxjs/operators';
 import {BaseComponent} from '../../base.component';
@@ -9,7 +9,8 @@ import {BaseComponent} from '../../base.component';
 @Component({
   selector: 'kypo2-sandbox-pool-overview',
   templateUrl: './sandbox-pool-overview.component.html',
-  styleUrls: ['./sandbox-pool-overview.component.css']
+  styleUrls: ['./sandbox-pool-overview.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SandboxPoolOverviewComponent extends BaseComponent implements OnInit {
 
@@ -40,7 +41,7 @@ export class SandboxPoolOverviewComponent extends BaseComponent implements OnIni
 
   private getPools(pagination: RequestedPagination) {
     this.poolsTableHasError = false;
-    this.poolService.get(pagination)
+    this.poolService.getAll(pagination)
       .pipe(
         takeWhile(_ => this.isAlive),
       )

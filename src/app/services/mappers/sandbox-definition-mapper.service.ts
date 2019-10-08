@@ -1,4 +1,4 @@
-import {SandboxDefinition} from '../../model/sandbox/sandbox-definition';
+import {SandboxDefinition} from '../../model/sandbox/definition/sandbox-definition';
 import {SandboxDefinitionDTO} from '../../model/DTOs/sandbox-definition/sandbox-definition-dto';
 import {SandboxDefinitionTableRow} from '../../model/table-adapters/sandbox-definition-table-row';
 import {PaginatedResource} from '../../model/table-adapters/paginated-resource';

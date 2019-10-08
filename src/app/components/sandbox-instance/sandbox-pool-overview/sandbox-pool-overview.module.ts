@@ -8,6 +8,8 @@ import {Kypo2TableModule} from 'kypo2-table';
 import {SandboxInstanceFacadeModule} from '../../../services/facades/modules/sandbox-instance-facade.module';
 import {PoolService} from '../../../services/sandbox-instance/pool.service';
 import {PoolConcreteService} from '../../../services/sandbox-instance/pool-concrete.service';
+import {PoolBreadcrumbResolver} from '../../../services/resolvers/pool-breadcrumb-resolver.service';
+import {PoolResolver} from '../../../services/resolvers/pool-resolver.service';
 
 @NgModule({
   declarations: [SandboxPoolOverviewComponent],
@@ -19,6 +21,8 @@ import {PoolConcreteService} from '../../../services/sandbox-instance/pool-concr
     Kypo2TableModule
   ],
   providers: [
+    PoolResolver,
+    PoolBreadcrumbResolver,
     { provide: PoolService, useClass: PoolConcreteService }
   ]
 })

@@ -24,6 +24,7 @@ export class TrainingRunResolver implements Resolve<TrainingRun> {
           mergeMap(tr => tr ? of(tr) : this.navigateToOverview()),
           catchError(err => {
             this.errorHandler.display(err, 'Training run resolver');
+            this.navigateToOverview();
             return EMPTY;
           })
         );

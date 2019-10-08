@@ -1,7 +1,7 @@
 import {from, Observable, Subject, Subscription, timer} from 'rxjs';
 import {TrainingInstance} from '../../../model/training/training-instance';
 import {SandboxInstanceAllocationState} from '../../../model/training/sandbox-instance-allocation-state';
-import {SandboxInstance} from '../../../model/sandbox/sandbox-instance';
+import {SandboxInstance} from '../../../model/sandbox/pool/sandbox-instance';
 import {SandboxAllocationState} from '../../../model/enums/sandbox-allocation-state';
 import {SandboxInstanceObservablesPoolService} from './sandbox-instance-observables-pool.service';
 import {SandboxInstanceFacade} from '../../facades/sandbox-instance-facade.service';
@@ -81,7 +81,7 @@ export class SandboxAllocationService {
   }
 
   allocateSandboxes(trainingInstance: TrainingInstance, count: number = 0): Observable<SandboxInstanceAllocationState> {
-    return this.sandboxInstanceFacade.allocate(trainingInstance.id, count)
+    return this.sandboxInstanceFacade.allocateSandboxByTrainingInstance(trainingInstance.id, count)
       .pipe(
         concatMap(allocation => this.createAllocation(trainingInstance, count)),
         shareReplay(this.cacheConfig)
@@ -89,7 +89,7 @@ export class SandboxAllocationService {
   }
 
   deleteSandbox(trainingInstance: TrainingInstance, sandbox: SandboxInstance, requestedPoolSize: number, isHardDelete: boolean): Observable<SandboxInstanceAllocationState> {
-    return this.sandboxInstanceFacade.delete(trainingInstance.id, sandbox.id, isHardDelete)
+    return this.sandboxInstanceFacade.deleteByTrainingInstance(trainingInstance.id, sandbox.id, isHardDelete)
       .pipe(
         concatMap( deleteResponse => this.createAllocation(trainingInstance, requestedPoolSize)),
         shareReplay(this.cacheConfig),
@@ -97,7 +97,7 @@ export class SandboxAllocationService {
   }
 
   allocateSandbox(trainingInstance: TrainingInstance, requestedPoolSize: number): Observable<SandboxInstanceAllocationState> {
-    return this.sandboxInstanceFacade.allocateSandbox(trainingInstance.id)
+    return this.sandboxInstanceFacade.allocateSandboxByTrainingInstance(trainingInstance.id)
       .pipe(
         concatMap( allocationResponse => this.createAllocation(trainingInstance, requestedPoolSize)),
         shareReplay(this.cacheConfig)

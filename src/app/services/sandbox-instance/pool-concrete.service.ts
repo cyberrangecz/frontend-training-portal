@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {SandboxInstanceFacade} from '../facades/sandbox-instance-facade.service';
 import {Kypo2Table, RequestedPagination} from 'kypo2-table';
 import {Observable, Subject} from 'rxjs';
-import {SandboxPool} from '../../model/sandbox/sandbox-pool';
+import {SandboxPool} from '../../model/sandbox/pool/sandbox-pool';
 import {tap} from 'rxjs/operators';
 import {PoolTableCreator} from '../../model/table-adapters/pool-table-creator';
 import {ErrorHandlerService} from '../shared/error-handler.service';
@@ -20,11 +20,13 @@ export class PoolConcreteService extends PoolService {
     super();
   }
 
-  get(pagination: RequestedPagination): Observable<PaginatedResource<SandboxPool[]>> {
+  getAll(pagination: RequestedPagination): Observable<PaginatedResource<SandboxPool[]>> {
     return this.sandboxInstanceFacade.getPools(pagination)
       .pipe(
-        tap(paginatedPools => this.poolsSubject.next(PoolTableCreator.create(paginatedPools))),
-        tap({error: err => this.errorHandler.display(err, 'Fetching pools')})
+        tap(
+          paginatedPools => this.poolsSubject.next(PoolTableCreator.create(paginatedPools)),
+          err => this.errorHandler.display(err, 'Fetching pools')
+        ),
       );
   }
 }

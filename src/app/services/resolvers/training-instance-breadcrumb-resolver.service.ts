@@ -36,6 +36,7 @@ export class TrainingInstanceBreadcrumbResolver implements Resolve<string> {
             mergeMap(ti => ti ? of(ti.title) : this.navigateToOverview()),
             catchError(err => {
               this.errorHandler.display(err, 'Training instance breadcrumbs resolver');
+              this.navigateToOverview();
               return EMPTY;
             }),
           );

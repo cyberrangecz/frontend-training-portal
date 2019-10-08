@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {SandboxPoolOverviewComponent} from './sandbox-pool-overview.component';
+import {POOL_ID_SELECTOR} from './paths';
+import {PoolBreadcrumbResolver} from '../../../services/resolvers/pool-breadcrumb-resolver.service';
 
 const routes: Routes = [
   {
@@ -11,8 +13,11 @@ const routes: Routes = [
     }
   },
   {
-    path: ':id',
-    loadChildren: () => import('app/components/sandbox-instance/sandbox-instance-overview/sandbox-instance-overview.module').then(m => m.SandboxInstanceOverviewModule),
+    path: `:${POOL_ID_SELECTOR}`,
+    loadChildren: () => import('app/components/sandbox-instance/sandbox-pool-detail/sandbox-pool-detail.module').then(m => m.SandboxInstanceOverviewModule),
+    resolve: {
+      breadcrumb: PoolBreadcrumbResolver,
+    }
   }
 ];
 

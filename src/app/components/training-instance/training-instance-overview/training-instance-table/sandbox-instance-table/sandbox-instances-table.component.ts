@@ -8,7 +8,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import {TrainingInstance} from '../../../../../model/training/training-instance';
-import {SandboxInstance} from '../../../../../model/sandbox/sandbox-instance';
+import {SandboxInstance} from '../../../../../model/sandbox/pool/sandbox-instance';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import {SandboxAllocationService} from '../../../../../services/training-instance/sandbox-allocation/sandbox-allocation.service';
