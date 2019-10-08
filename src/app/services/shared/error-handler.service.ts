@@ -12,8 +12,8 @@ export class ErrorHandlerService {
   }
 
   display(err: HttpErrorResponse, operation: string) {
-    if (err.status === 0 && err.error.message === '') {
-      this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} No response. Report the issue to developers`);
+    if (err === null || err === undefined || err.status === 0) {
+      this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} Unknown error. Please check your internet connection or report the issue to developers`);
       return;
     }
     if (err.status === 404) {
