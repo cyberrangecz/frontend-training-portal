@@ -35,7 +35,7 @@ export class SandboxDefinitionFacade {
       this.sandboxDefinitionMapper.mapSandboxDefinitionsDTOToSandboxDefinitions(response.results)));
   }
 
-  getAllPaginated(pagination: RequestedPagination): Observable<PaginatedResource<SandboxDefinitionTableRow[]>> {
+  getAllPaginated(pagination?: RequestedPagination): Observable<PaginatedResource<SandboxDefinitionTableRow[]>> {
     return this.http.get<DjangoResourceDTO<SandboxDefinitionDTO>>(this.sandboxDefsEndpoint,
       {
         headers: this.createDefaultHeaders(),
