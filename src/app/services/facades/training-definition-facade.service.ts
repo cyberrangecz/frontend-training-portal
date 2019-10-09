@@ -1,7 +1,6 @@
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {User, UserDTO} from 'kypo2-auth';
-import {of} from 'rxjs';
 import {Observable} from 'rxjs/internal/Observable';
 import {map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
@@ -104,17 +103,6 @@ export class TrainingDefinitionFacade {
       .pipe(
         map(response => this.trainingDefinitionMapper.mapTrainingDefinitionDTOToTrainingDefinition(response, withLevels)),
         );
-  }
-
-  /**
-   * Retrieves training definition by id of associated sandbox definition
-   * @param {number} sandboxId id of sandbox definition associated with training definition
-   * @returns {Observable<TrainingDefinition[]>} Observable of list of training definitions matching sandbox definition id
-   */
-  getByAssociatedSandboxDefinition(sandboxId: number): Observable<TrainingDefinitionInfo[]> {
-    return this.http.get<TrainingDefinitionInfoRestResource>(this.trainingDefsEndpointUri + this.sandboxDefinitionUriExtension + sandboxId)
-      .pipe(map(response =>
-        this.trainingDefinitionMapper.mapTrainingDefinitionsInfoDTOsToTrainingDefinitionsInfo(response)));
   }
 
   changeState(newState: TrainingDefinitionStateEnum, trainingDefinitionId: number): Observable<any> {

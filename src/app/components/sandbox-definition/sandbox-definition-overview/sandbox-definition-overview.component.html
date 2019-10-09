@@ -3,14 +3,13 @@
     <kypo2-sandbox-definition-controls (dialogSandboxDefinition)="openSandboxDefinitionDialog()"></kypo2-sandbox-definition-controls>
   <div class="sandbox-def-table-wrapper">
     <div class="sandbox-def-table">
-      <kypo2-sandbox-definition-table
-        [displayedColumns]="displayedColumns"
-        [totalElements]="resultsLength$ | async"
-        [sandboxDefinitions]="totalSandboxdefinitions$ | async"
-        [isInErrorState]="isInErrorState"
+      <kypo2-table
+        [data] ="sandboxDefinitions$ | async"
+        [hasError]="sandboxDefinitionTableHasError"
         (refresh)="fetchData($event)"
-        (sandboxDefinitionDelete)="deleteSandboxDefinition($event)">
-      </kypo2-sandbox-definition-table>
+        (rowAction)="onSandboxDefinitionTableAction($event)"
+        [totalElements]="sandboxDefinitionsTotalLength">
+      </kypo2-table>
     </div>
   </div>
 </div>

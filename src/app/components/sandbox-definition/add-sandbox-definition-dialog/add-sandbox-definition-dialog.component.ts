@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
 import {BaseComponent} from '../../base.component';
 import { SandboxDefinitionFormGroup } from './add-sandbox-definition-dialog-form-group';
+import {SandboxDefinitionInfo} from './sandbox-definition-info';
 
 @Component({
   selector: 'kypo2-add-sandbox-definition-dialog',
@@ -31,7 +32,7 @@ export class AddSandboxDefinitionDialogComponent extends BaseComponent implement
    */
   add() {
     if (this.sandboxDefinitionFormGroup.formGroup.valid) {
-      this.dialogRef.close({type: 'confirm', data: {sandboxGitlabUrl: this.gitlabUrl.value, sandboxRevision: this.revision.value}});
+      this.dialogRef.close({type: 'confirm', data: new SandboxDefinitionInfo(this.gitlabUrl.value, this.revision.value)});
     }
   }
 

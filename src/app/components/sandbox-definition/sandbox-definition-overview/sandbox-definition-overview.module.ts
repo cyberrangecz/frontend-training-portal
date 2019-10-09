@@ -1,17 +1,18 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatCardModule} from '@angular/material';
 import {PipesModule} from '../../../pipes/pipes.module';
 import {SandboxDefinitionFacadeModule} from '../../../services/facades/modules/sandbox-definition-facade.module';
 import {TrainingDefinitionFacadeModule} from '../../../services/facades/modules/training-definition-facade.module';
 import {AddSandboxDefinitionDialogComponent} from '../add-sandbox-definition-dialog/add-sandbox-definition-dialog.component';
 import { SandboxDefinitionControlsComponent } from './sandbox-definition-controls/sandbox-definition-controls.component';
-import {SandboxDefinitionOverviewMaterialModule} from './sandbox-definition-overview-material.module';
+import {Kypo2TableModule} from 'kypo2-table';
+import {SandboxDefinitionService} from '../../../services/shared/sandbox-definition.service';
+import {SandboxDefinitionConcreteService} from '../../../services/sandbox-definition/sandbox-definition.concrete.service';
+import {SandboxDefinitionDetailComponent} from './sandbox-definition-detail/sandbox-definition-detail.component';
 import {SandboxDefinitionOverviewRoutingModule} from './sandbox-definition-overview-routing.module';
+import {SandboxDefinitionOverviewMaterialModule} from './sandbox-definition-overview-material.module';
 import {SandboxDefinitionOverviewComponent} from './sandbox-definition-overview.component';
-import { SandboxDefinitionTableDetailComponent } from './sandbox-definition-table/sandbox-definition-table-detail/sandbox-definition-table-detail.component';
-import { SandboxDefinitionTableComponent } from './sandbox-definition-table/sandbox-definition-table.component';
 
 /**
  * Module containing components and routing for sandbox definition agenda
@@ -26,23 +27,23 @@ import { SandboxDefinitionTableComponent } from './sandbox-definition-table/sand
     SandboxDefinitionFacadeModule,
     TrainingDefinitionFacadeModule,
     ReactiveFormsModule,
-    MatCardModule
+    Kypo2TableModule,
   ],
   declarations: [
     SandboxDefinitionOverviewComponent,
     AddSandboxDefinitionDialogComponent,
     SandboxDefinitionControlsComponent,
-    SandboxDefinitionTableComponent,
-    SandboxDefinitionTableDetailComponent
+    SandboxDefinitionDetailComponent
   ],
   providers: [
-
+    {provide: SandboxDefinitionService, useClass: SandboxDefinitionConcreteService}
   ],
   entryComponents: [
     AddSandboxDefinitionDialogComponent,
+    SandboxDefinitionDetailComponent
   ]
 })
 
-export class SandboxDefininitionOverviewModule {
+export class SandboxDefinitionOverviewModule {
 
 }
