@@ -2,6 +2,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {RequestedPagination} from 'kypo2-table';
 import {Observable} from 'rxjs';
+import {SandboxInstance} from '../../model/sandbox/pool/sandbox-instance/sandbox-instance';
 import {map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {DjangoResourceDTO} from '../../model/DTOs/other/django-resource-dto';
@@ -10,7 +11,8 @@ import {SandboxInstanceDTO} from '../../model/DTOs/sandbox-instance/sandbox-inst
 import {SandboxPoolDTO} from '../../model/DTOs/sandbox-instance/sandbox-pool-dto';
 import {PaginationParams} from '../../model/http/params/pagination-params';
 import {PoolRequest} from '../../model/sandbox/pool/request/pool-request';
-import {SandboxInstance} from '../../model/sandbox/pool/sandbox-instance';
+import {SandboxInstanceResource} from '../../model/sandbox/pool/sandbox-instance/sandbox-instance-resource/sandbox-instance-resource';
+import {SandboxInstanceResourceDTO} from '../../model/DTOs/sandbox-instance/sandbox-instance-resource-dto';
 import {SandboxPool} from '../../model/sandbox/pool/sandbox-pool';
 import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 import {SandboxInstanceMapper} from '../mappers/sandbox-instance-mapper.service';
@@ -24,8 +26,9 @@ export class SandboxInstanceFacade {
   private readonly javaSandboxInstancesUriExtension = 'sandbox-instances/';
 
   private readonly pythonSandboxInstancesUriExtension = 'sandboxes/';
-  private readonly  poolsUriExtension = 'pools/';
-  private readonly  poolRequestUriExtension = 'requests/';
+  private readonly poolsUriExtension = 'pools/';
+  private readonly poolRequestUriExtension = 'requests/';
+  private readonly sandboxResourceExtension = 'resources';
 
   private readonly MOCKENDOPOINT = 'http://localhost:3000/pools/'; // TODO: DELETE
   private readonly poolsEndpointUri = environment.sandboxRestBasePath + this.poolsUriExtension;
@@ -81,6 +84,23 @@ export class SandboxInstanceFacade {
   getRequest(poolId: number, requestId: number): Observable<PoolRequest> {
     return this.http.get<PoolRequestDTO>(`${this.MOCKENDOPOINT + poolId}/${this.poolRequestUriExtension}${requestId}`)
       .pipe(map(response => this.sandboxInstanceMapper.mapRequestDTOToRequest(response)));
+  }
+
+  getResources(sandboxId: number): Observable<SandboxInstanceResource[]> {
+    return this.http.get<SandboxInstanceResourceDTO[]>(
+      `${this.sandboxEndpointUri + sandboxId}/${this.sandboxResourceExtension}`
+    ).pipe(
+      map(resourcesDTO => this.sandboxInstanceMapper.mapResourceDTOsToResources(resourcesDTO))
+    );
+  }
+
+  getResource(sandboxId: number, resourceId: string): Observable<SandboxInstanceResource> {
+    // TODO: Endpoint is currently only for vms, not all resources. Needs to be updated either here or on backend
+    return this.http.get<SandboxInstanceResourceDTO>(
+      `${this.sandboxEndpointUri + sandboxId}/vms/${resourceId}/`
+    ).pipe(
+      map(resourceDTO => this.sandboxInstanceMapper.mapResourceDTOToResource(resourceDTO))
+    );
   }
 
 

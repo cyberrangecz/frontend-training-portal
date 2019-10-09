@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {SandboxInstance} from '../../../../../model/sandbox/pool/sandbox-instance';
+import {SandboxInstance} from '../../../../../model/sandbox/pool/sandbox-instance/sandbox-instance';
 import {BaseComponent} from '../../../../base.component';
 
 @Component({

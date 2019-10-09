@@ -13,11 +13,11 @@ import {
 } from 'rxjs/operators';
 import {environment} from '../../../../environments/environment';
 import {SandboxAllocationState} from '../../../model/enums/sandbox-allocation-state';
-import {SandboxInstance} from '../../../model/sandbox/pool/sandbox-instance';
 import {SandboxInstanceAllocationState} from '../../../model/training/sandbox-instance-allocation-state';
 import {TrainingInstance} from '../../../model/training/training-instance';
 import {SandboxInstanceFacade} from '../../facades/sandbox-instance-facade.service';
 import {SandboxInstanceObservablesPoolService} from './sandbox-instance-observables-pool.service';
+import {SandboxInstance} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance';
 
 
 @Injectable()

@@ -8,14 +8,6 @@
       "interface-over-type-literal": true,
       "no-require-imports": true,
       "no-any": true,
-      "ordered-imports": [
-        true,
-        {
-          "import-sources-order": "case-insensitive",
-          "named-imports-order": "case-insensitive",
-          "grouped-imports": false
-        }
-      ],
       "cyclomatic-complexity": [true, 10],
       "directive-selector": [
             true,
