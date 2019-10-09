@@ -1,7 +1,7 @@
-import {Component, OnInit, ViewChild, ElementRef, Output, EventEmitter} from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import { MatButton } from '@angular/material';
 import {BaseComponent} from '../../../base.component';
 import { TraineeAccessTrainingFormGroup } from './trainee-access-training-form-group';
-import { MatButton } from '@angular/material';
 
 @Component({
   selector: 'kypo2-access-training-run',

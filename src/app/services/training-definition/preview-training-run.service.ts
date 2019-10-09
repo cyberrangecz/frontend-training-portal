@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
 import { Location } from '@angular/common';
+import {Injectable} from '@angular/core';
 import {observable, Observable, of, ReplaySubject} from 'rxjs';
 import {AbstractLevel} from '../../model/level/abstract-level';
-import {AccessTrainingRunInfo} from '../../model/training/access-training-run-info';
 import {GameLevel} from '../../model/level/game-level';
+import {AccessTrainingRunInfo} from '../../model/training/access-training-run-info';
 import {TrainingRunGameLevelService} from '../training-run/training-run-game-level.service';
 import {PreviewGameLevelService} from './preview-game-level.service';
 

@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
-import {PoolRequest} from '../../model/sandbox/pool/request/pool-request';
 import {EMPTY, Observable, of} from 'rxjs';
+import {catchError, mergeMap, take} from 'rxjs/operators';
+import {POOL_REQUEST_ID_SELECTOR} from '../../components/sandbox-instance/sandbox-pool-detail/paths';
+import {POOL_ID_SELECTOR} from '../../components/sandbox-instance/sandbox-pool-overview/paths';
+import {RouteFactory} from '../../model/routes/route-factory';
+import {PoolRequest} from '../../model/sandbox/pool/request/pool-request';
 import {SandboxInstanceFacade} from '../facades/sandbox-instance-facade.service';
 import {ErrorHandlerService} from '../shared/error-handler.service';
-import {POOL_ID_SELECTOR} from '../../components/sandbox-instance/sandbox-pool-overview/paths';
-import {catchError, mergeMap, take} from 'rxjs/operators';
-import {RouteFactory} from '../../model/routes/route-factory';
-import {POOL_REQUEST_ID_SELECTOR} from '../../components/sandbox-instance/sandbox-pool-detail/paths';
 
 @Injectable()
 export class PoolRequestResolver implements Resolve<PoolRequest> {

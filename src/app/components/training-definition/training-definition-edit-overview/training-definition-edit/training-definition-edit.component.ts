@@ -1,14 +1,14 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {TrainingDefinition} from '../../../../model/training/training-definition';
-import {SandboxDefinitionPickerComponent} from './sandbox-definition-picker/sandbox-definition-picker.component';
+import {FormArray, FormControl} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { User} from 'kypo2-auth';
-import {BaseComponent} from '../../../base.component';
 import {takeWhile} from 'rxjs/operators';
-import { TrainingDefinitionEditFormGroup } from './training-definition-edit-form-group';
 import {TrainingDefinitionChangeEvent} from '../../../../model/events/training-definition-change-event';
+import {TrainingDefinition} from '../../../../model/training/training-definition';
+import {BaseComponent} from '../../../base.component';
 import {FreeFormItems} from '../../../shared/free-form/free-form-items';
-import {FormArray, FormControl} from '@angular/forms';
+import {SandboxDefinitionPickerComponent} from './sandbox-definition-picker/sandbox-definition-picker.component';
+import { TrainingDefinitionEditFormGroup } from './training-definition-edit-form-group';
 
 /**
  * Component for creating new or editing already existing training definition

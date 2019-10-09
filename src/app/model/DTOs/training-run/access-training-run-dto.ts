@@ -11,7 +11,7 @@
  */
 import { AbstractLevelDTO } from '../level/abstract-level-dto';
 import { BasicLevelInfoDTO } from '../level/basic-level-info-dto';
-import {HintDTO} from "../level/game/hint-dto";
+import {HintDTO} from '../level/game/hint-dto';
 
 
 /**

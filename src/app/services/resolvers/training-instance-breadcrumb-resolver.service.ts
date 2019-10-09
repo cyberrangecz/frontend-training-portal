@@ -1,15 +1,15 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
-import {TrainingInstanceFacade} from '../facades/training-instance-facade.service';
 import {EMPTY, Observable, of} from 'rxjs';
 import {catchError, mergeMap, take} from 'rxjs/operators';
-import {ActiveTrainingInstanceService} from '../training-instance/active-training-instance.service';
-import {ErrorHandlerService} from '../shared/error-handler.service';
 import {
   ACCESS_TOKEN_PATH,
   TRAINING_INSTANCE_NEW_PATH
 } from '../../components/training-instance/training-instance-overview/paths';
 import {RouteFactory} from '../../model/routes/route-factory';
+import {TrainingInstanceFacade} from '../facades/training-instance-facade.service';
+import {ErrorHandlerService} from '../shared/error-handler.service';
+import {ActiveTrainingInstanceService} from '../training-instance/active-training-instance.service';
 @Injectable()
 export class TrainingInstanceBreadcrumbResolver implements Resolve<string> {
 

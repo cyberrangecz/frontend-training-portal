@@ -1,14 +1,10 @@
 import {NgModule} from '@angular/core';
 import {ExtraOptions, RouterModule, Routes} from '@angular/router';
-import {DesignerGuard} from './services/guards/designer-guard.service';
-import {OrganizerGuard} from './services/guards/organizer-guard.service';
-import {TraineeGuard} from './services/guards/trainee-guard.service';
-import {AdminGuard} from './services/guards/admin-guard.service';
 import {
   Kypo2AuthProviderPickerComponent,
   Kypo2NotAuthGuardService
 } from 'kypo2-auth';
-import {NotOnlyTraineeGuard} from './services/guards/only-trainee.guard.service';
+import {HomeComponent} from './components/home/home.component';
 import {
   ADMIN_GROUP_PATH,
   ADMIN_USER_PATH,
@@ -18,7 +14,11 @@ import {
   TRAINING_INSTANCE_PATH,
   TRAINING_RUN_PATH
 } from './paths';
-import {HomeComponent} from './components/home/home.component';
+import {AdminGuard} from './services/guards/admin-guard.service';
+import {DesignerGuard} from './services/guards/designer-guard.service';
+import {NotOnlyTraineeGuard} from './services/guards/only-trainee.guard.service';
+import {OrganizerGuard} from './services/guards/organizer-guard.service';
+import {TraineeGuard} from './services/guards/trainee-guard.service';
 
 const routes: Routes = [
   {

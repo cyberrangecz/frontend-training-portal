@@ -15,5 +15,5 @@ export namespace AbstractLevelDTO {
     INFO: 'INFO_LEVEL' as LevelTypeEnum,
     ASSESSMENT: 'ASSESSMENT_LEVEL' as LevelTypeEnum,
     GAME: 'GAME_LEVEL' as LevelTypeEnum
-  }
+  };
 }

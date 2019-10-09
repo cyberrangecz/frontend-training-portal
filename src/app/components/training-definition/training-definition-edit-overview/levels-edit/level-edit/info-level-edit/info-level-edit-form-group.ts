@@ -1,4 +1,4 @@
-import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {InfoLevel} from '../../../../../../model/level/info-level';
 
 export class InfoLevelConfigFormGroup {

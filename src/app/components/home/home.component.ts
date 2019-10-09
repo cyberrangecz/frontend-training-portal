@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {Kypo2AuthService} from 'kypo2-auth';
-import {BaseComponent} from '../base.component';
 import {takeWhile} from 'rxjs/operators';
 import {
   ADMIN_GROUP_PATH,
@@ -11,6 +10,7 @@ import {
   TRAINING_INSTANCE_PATH,
   TRAINING_RUN_PATH
 } from '../../paths';
+import {BaseComponent} from '../base.component';
 
 
 @Component({

@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Observable} from 'rxjs';
+import {map, takeWhile, tap} from 'rxjs/operators';
+import {AccessedTrainingRunsTableRow} from '../../../model/table-adapters/accessed-training-runs-table-row';
+import {LoadTableEvent} from '../../../model/table-adapters/load-table-event';
+import {TrainingRunFacade} from '../../../services/facades/training-run-facade.service';
+import {ErrorHandlerService} from '../../../services/shared/error-handler.service';
 import {ActiveTrainingRunService} from '../../../services/training-run/active-training-run.service';
 import {BaseComponent} from '../../base.component';
-import {map, takeWhile, tap} from 'rxjs/operators';
 import {TRAINING_RUN_GAME_PATH, TRAINING_RUN_RESULTS_PATH} from './paths';
-import {TrainingRunFacade} from '../../../services/facades/training-run-facade.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ErrorHandlerService} from '../../../services/shared/error-handler.service';
-import {LoadTableEvent} from '../../../model/table-adapters/load-table-event';
-import {Observable} from 'rxjs';
-import {AccessedTrainingRunsTableRow} from '../../../model/table-adapters/accessed-training-runs-table-row';
 
 @Component({
   selector: 'kypo2-trainee-overview',

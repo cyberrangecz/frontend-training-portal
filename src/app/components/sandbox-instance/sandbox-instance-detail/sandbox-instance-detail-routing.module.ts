@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import {SandboxInstanceDetailComponent} from './sandbox-instance-detail.component';
+import { RouterModule, Routes } from '@angular/router';
 import {SandboxInstanceResolver} from '../../../services/resolvers/sandbox-instance-resolver.service';
+import {SandboxInstanceDetailComponent} from './sandbox-instance-detail.component';
 
 const routes: Routes = [
   {

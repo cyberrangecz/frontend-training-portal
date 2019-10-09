@@ -1,9 +1,9 @@
-import {SandboxDefinition} from '../../model/sandbox/definition/sandbox-definition';
-import {SandboxDefinitionDTO} from '../../model/DTOs/sandbox-definition/sandbox-definition-dto';
-import {SandboxDefinitionTableRow} from '../../model/table-adapters/sandbox-definition-table-row';
-import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
-import {Kypo2Pagination} from '../../model/table-adapters/kypo2-pagination';
 import {DjangoResourceDTO} from '../../model/DTOs/other/django-resource-dto';
+import {SandboxDefinitionDTO} from '../../model/DTOs/sandbox-definition/sandbox-definition-dto';
+import {SandboxDefinition} from '../../model/sandbox/definition/sandbox-definition';
+import {Kypo2Pagination} from '../../model/table-adapters/kypo2-pagination';
+import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
+import {SandboxDefinitionTableRow} from '../../model/table-adapters/sandbox-definition-table-row';
 
 /**
  * Maps DTOs of sandbox definitions to model

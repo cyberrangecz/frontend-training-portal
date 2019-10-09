@@ -1,15 +1,15 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {AlertService} from '../../../../services/shared/alert.service';
 import { MatDialog } from '@angular/material/dialog';
-import {TrainingDefinitionPickerComponent} from '../training-definition-picker/training-definition-picker.component';
+import {interval} from 'rxjs';
+import {takeWhile} from 'rxjs/operators';
+import {TrainingInstanceChangeEvent} from '../../../../model/events/training-instance-change-event';
 import {TrainingInstance} from '../../../../model/training/training-instance';
 import {TrainingInstanceFacade} from '../../../../services/facades/training-instance-facade.service';
-import {interval} from 'rxjs';
+import {AlertService} from '../../../../services/shared/alert.service';
 import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
 import {BaseComponent} from '../../../base.component';
-import {takeWhile} from 'rxjs/operators';
+import {TrainingDefinitionPickerComponent} from '../training-definition-picker/training-definition-picker.component';
 import { TrainingInstanceFormGroup } from './training-instance-form-group';
-import {TrainingInstanceChangeEvent} from '../../../../model/events/training-instance-change-event';
 
 @Component({
   selector: 'kypo2-training-instance-edit',

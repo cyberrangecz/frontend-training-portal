@@ -1,8 +1,8 @@
-import {PaginatedResource} from './paginated-resource';
 import {Column, Kypo2Table, Row, RowAction} from 'kypo2-table';
-import {SandboxPool} from '../sandbox/pool/sandbox-pool';
-import {RouteFactory} from '../routes/route-factory';
 import {of} from 'rxjs';
+import {RouteFactory} from '../routes/route-factory';
+import {SandboxPool} from '../sandbox/pool/sandbox-pool';
+import {PaginatedResource} from './paginated-resource';
 
 export class PoolTableCreator {
   static create(resource: PaginatedResource<SandboxPool[]>): Kypo2Table<SandboxPool> {

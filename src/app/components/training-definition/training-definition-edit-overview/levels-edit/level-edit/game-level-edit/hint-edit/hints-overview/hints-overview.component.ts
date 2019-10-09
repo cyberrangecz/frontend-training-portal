@@ -1,3 +1,4 @@
+import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -9,12 +10,11 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
-import {takeWhile} from 'rxjs/operators';
-import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
-import {BaseComponent} from '../../../../../../../base.component';
-import {Hint} from '../../../../../../../../model/level/hint';
-import {ActionConfirmationDialogComponent} from '../../../../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import {StepperInterface} from 'kypo2-stepper';
+import {takeWhile} from 'rxjs/operators';
+import {Hint} from '../../../../../../../../model/level/hint';
+import {BaseComponent} from '../../../../../../../base.component';
+import {ActionConfirmationDialogComponent} from '../../../../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 
 @Component({
   selector: 'kypo2-hints-overview',

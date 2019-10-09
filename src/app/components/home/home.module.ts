@@ -1,8 +1,8 @@
-import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {HomeComponent} from './home.component';
-import {HomeRoutingModule} from './home-routing.module';
+import {NgModule} from '@angular/core';
 import {HomeMaterialModule} from './home-material.module';
+import {HomeRoutingModule} from './home-routing.module';
+import {HomeComponent} from './home.component';
 
 /**
  * Portal main page module

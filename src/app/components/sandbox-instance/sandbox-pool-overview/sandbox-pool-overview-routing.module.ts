@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import {SandboxPoolOverviewComponent} from './sandbox-pool-overview.component';
-import {POOL_ID_SELECTOR} from './paths';
+import { RouterModule, Routes } from '@angular/router';
 import {PoolBreadcrumbResolver} from '../../../services/resolvers/pool-breadcrumb-resolver.service';
+import {POOL_ID_SELECTOR} from './paths';
+import {SandboxPoolOverviewComponent} from './sandbox-pool-overview.component';
 
 const routes: Routes = [
   {

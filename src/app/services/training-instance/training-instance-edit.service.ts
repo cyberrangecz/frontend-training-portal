@@ -1,7 +1,7 @@
 import {Observable} from 'rxjs';
-import {TrainingInstance} from '../../model/training/training-instance';
 import {ResourceSavedEvent} from '../../model/events/resource-saved-event';
 import {TrainingInstanceChangeEvent} from '../../model/events/training-instance-change-event';
+import {TrainingInstance} from '../../model/training/training-instance';
 
 export abstract class TrainingInstanceEditService {
 

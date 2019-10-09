@@ -1,15 +1,15 @@
-import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
-import {UserNameFilters} from '../../model/utils/user-name-filters';
+import {Injectable} from '@angular/core';
+import { User} from 'kypo2-auth';
+import {Kypo2Table} from 'kypo2-table';
+import {Observable, Subject} from 'rxjs';
 import {tap} from 'rxjs/operators';
+import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
+import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
+import {UsersTableCreator} from '../../model/table-adapters/users-table-creator';
+import {UserNameFilters} from '../../model/utils/user-name-filters';
 import {UserFacade} from '../facades/user-facade.service';
 import {ErrorHandlerService} from '../shared/error-handler.service';
-import {Observable, Subject} from 'rxjs';
-import { User} from 'kypo2-auth';
 import {UserAssignService} from '../shared/user-assign.service';
-import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
-import {Injectable} from '@angular/core';
-import {Kypo2Table} from 'kypo2-table';
-import {UsersTableCreator} from '../../model/table-adapters/users-table-creator';
 
 @Injectable()
 export class AuthorsAssignService extends UserAssignService {

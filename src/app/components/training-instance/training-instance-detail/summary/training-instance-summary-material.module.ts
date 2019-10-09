@@ -1,4 +1,5 @@
-import {NgModule} from "@angular/core";
+import {NgModule} from '@angular/core';
+import {MatProgressBarModule} from '@angular/material';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
@@ -10,7 +11,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import {MatProgressBarModule} from "@angular/material";
 
 @NgModule({
   imports: [

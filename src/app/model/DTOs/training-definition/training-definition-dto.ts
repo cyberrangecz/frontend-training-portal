@@ -1,4 +1,4 @@
-import {AbstractLevelDTO} from "../level/abstract-level-dto";
+import {AbstractLevelDTO} from '../level/abstract-level-dto';
 
 export class TrainingDefinitionDTO {
   levels?: Array<AbstractLevelDTO>;
@@ -20,5 +20,5 @@ export namespace TrainingDefinitionDTO {
         RELEASED: 'RELEASED' as StateEnum,
         ARCHIVED: 'ARCHIVED' as StateEnum,
         UNRELEASED: 'UNRELEASED' as StateEnum
-    }
+    };
 }

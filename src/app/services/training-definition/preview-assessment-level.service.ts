@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {AbstractQuestion} from '../../model/questions/abstract-question';
 import {Observable, of} from 'rxjs';
+import {AbstractQuestion} from '../../model/questions/abstract-question';
 
 @Injectable()
 /**

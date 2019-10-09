@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs/internal/Subject';
-import {Observable} from 'rxjs/internal/Observable';
 import {BehaviorSubject} from 'rxjs';
+import {Observable} from 'rxjs/internal/Observable';
+import {Subject} from 'rxjs/internal/Subject';
 
 @Injectable()
 /**

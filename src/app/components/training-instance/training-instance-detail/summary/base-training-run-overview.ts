@@ -1,10 +1,10 @@
-import {TrainingInstance} from '../../../../model/training/training-instance';
-import {interval} from 'rxjs';
 import {OnInit} from '@angular/core';
-import {ActiveTrainingInstanceService} from '../../../../services/training-instance/active-training-instance.service';
-import {environment} from '../../../../../environments/environment';
-import {BaseComponent} from '../../../base.component';
+import {interval} from 'rxjs';
 import {takeWhile} from 'rxjs/operators';
+import {environment} from '../../../../../environments/environment';
+import {TrainingInstance} from '../../../../model/training/training-instance';
+import {ActiveTrainingInstanceService} from '../../../../services/training-instance/active-training-instance.service';
+import {BaseComponent} from '../../../base.component';
 
 /**
  * Abstract class containing common flow for tables displaying real-time training run tables for organizer

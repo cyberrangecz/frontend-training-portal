@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 
-import {TrainingDefinitionDTO} from "../training-definition/training-definition-dto";
+import {TrainingDefinitionDTO} from '../training-definition/training-definition-dto';
 
 /**
  * Training Instance.

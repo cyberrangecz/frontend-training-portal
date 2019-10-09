@@ -1,10 +1,7 @@
+import {Injectable} from '@angular/core';
+import {RequestedPagination} from 'kypo2-table';
 import {from, Observable, Subject, Subscription, timer} from 'rxjs';
-import {TrainingInstance} from '../../../model/training/training-instance';
-import {SandboxInstanceAllocationState} from '../../../model/training/sandbox-instance-allocation-state';
-import {SandboxInstance} from '../../../model/sandbox/pool/sandbox-instance';
-import {SandboxAllocationState} from '../../../model/enums/sandbox-allocation-state';
-import {SandboxInstanceObservablesPoolService} from './sandbox-instance-observables-pool.service';
-import {SandboxInstanceFacade} from '../../facades/sandbox-instance-facade.service';
+import {ShareReplayConfig} from 'rxjs/internal-compatibility';
 import {
   concatMap,
   map,
@@ -14,10 +11,13 @@ import {
   takeWhile,
   tap
 } from 'rxjs/operators';
-import {Injectable} from '@angular/core';
 import {environment} from '../../../../environments/environment';
-import {ShareReplayConfig} from 'rxjs/internal-compatibility';
-import {RequestedPagination} from 'kypo2-table';
+import {SandboxAllocationState} from '../../../model/enums/sandbox-allocation-state';
+import {SandboxInstance} from '../../../model/sandbox/pool/sandbox-instance';
+import {SandboxInstanceAllocationState} from '../../../model/training/sandbox-instance-allocation-state';
+import {TrainingInstance} from '../../../model/training/training-instance';
+import {SandboxInstanceFacade} from '../../facades/sandbox-instance-facade.service';
+import {SandboxInstanceObservablesPoolService} from './sandbox-instance-observables-pool.service';
 
 
 @Injectable()

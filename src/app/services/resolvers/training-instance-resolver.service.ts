@@ -1,13 +1,13 @@
-import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
-import {TrainingInstance} from '../../model/training/training-instance';
 import {Injectable} from '@angular/core';
+import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
 import {EMPTY, Observable, of} from 'rxjs';
-import {TrainingInstanceFacade} from '../facades/training-instance-facade.service';
 import {catchError, mergeMap, take, tap} from 'rxjs/operators';
-import {TRAINING_INSTANCE_PATH} from '../../paths';
-import {ActiveTrainingInstanceService} from '../training-instance/active-training-instance.service';
-import {ErrorHandlerService} from '../shared/error-handler.service';
 import {TRAINING_INSTANCE_NEW_PATH} from '../../components/training-instance/training-instance-overview/paths';
+import {TrainingInstance} from '../../model/training/training-instance';
+import {TRAINING_INSTANCE_PATH} from '../../paths';
+import {TrainingInstanceFacade} from '../facades/training-instance-facade.service';
+import {ErrorHandlerService} from '../shared/error-handler.service';
+import {ActiveTrainingInstanceService} from '../training-instance/active-training-instance.service';
 
 @Injectable()
 export class TrainingInstanceResolver implements Resolve<TrainingInstance> {

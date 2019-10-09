@@ -1,9 +1,9 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {InfoLevel} from '../../../../../model/level/info-level';
-import {ActiveTrainingRunService} from '../../../../../services/training-run/active-training-run.service';
-import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
-import {BaseComponent} from '../../../../base.component';
 import {takeWhile} from 'rxjs/operators';
+import {InfoLevel} from '../../../../../model/level/info-level';
+import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
+import {ActiveTrainingRunService} from '../../../../../services/training-run/active-training-run.service';
+import {BaseComponent} from '../../../../base.component';
 
 @Component({
   selector: 'kypo2-info-level',

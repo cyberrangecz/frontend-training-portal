@@ -1,10 +1,10 @@
 import { Component, OnInit} from '@angular/core';
+import {AbstractStepItem} from 'kypo2-stepper';
+import {takeWhile} from 'rxjs/operators';
 import {AbstractLevel} from '../../../model/level/abstract-level';
 import {ActiveTrainingRunService} from '../../../services/training-run/active-training-run.service';
 import {BaseComponent} from '../../base.component';
-import {AbstractStepItem} from 'kypo2-stepper';
 import {TrainingRunStepper} from './training-run-stepper';
-import {takeWhile} from 'rxjs/operators';
 
 @Component({
   selector: 'kypo2-training-run-detail',

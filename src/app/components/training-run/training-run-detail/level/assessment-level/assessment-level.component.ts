@@ -1,13 +1,13 @@
 import {Component, Input, OnChanges, OnInit, QueryList, SimpleChanges, ViewChildren} from '@angular/core';
+import {takeWhile} from 'rxjs/operators';
+import {AssessmentTypeEnum} from '../../../../../model/enums/assessment-type.enum';
 import {AssessmentLevel} from '../../../../../model/level/assessment-level';
-import {ActiveTrainingRunService} from '../../../../../services/training-run/active-training-run.service';
-import {TraineeQuestionComponent} from './question/trainee-question.component';
 import {AbstractQuestion} from '../../../../../model/questions/abstract-question';
 import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
+import {ActiveTrainingRunService} from '../../../../../services/training-run/active-training-run.service';
 import {TrainingRunAssessmentLevelService} from '../../../../../services/training-run/training-run-assessment-level.service';
-import {AssessmentTypeEnum} from '../../../../../model/enums/assessment-type.enum';
 import {BaseComponent} from '../../../../base.component';
-import {takeWhile} from 'rxjs/operators';
+import {TraineeQuestionComponent} from './question/trainee-question.component';
 @Component({
   selector: 'kypo2-assessment-level',
   templateUrl: './assessment-level.component.html',

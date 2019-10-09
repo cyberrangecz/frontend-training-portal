@@ -8,10 +8,10 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
+import {takeWhile} from 'rxjs/operators';
 import {InfoLevel} from '../../../../../../model/level/info-level';
 import {BaseComponent} from '../../../../../base.component';
 import { InfoLevelConfigFormGroup } from './info-level-edit-form-group';
-import {takeWhile} from 'rxjs/operators';
 
 @Component({
   selector: 'kypo2-info-level-configuration',

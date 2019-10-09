@@ -1,19 +1,19 @@
 import {Component, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import {Observable, of} from 'rxjs';
+import {catchError, map, takeWhile} from 'rxjs/operators';
+import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
+import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
 import {SandboxDefinition} from '../../../model/sandbox/definition/sandbox-definition';
+import {SandboxDefinitionTableRow} from '../../../model/table-adapters/sandbox-definition-table-row';
+import {TrainingDefinitionInfo} from '../../../model/training/training-definition-info';
 import {SandboxDefinitionFacade} from '../../../services/facades/sandbox-definition-facade.service';
 import {TrainingDefinitionFacade} from '../../../services/facades/training-definition-facade.service';
 import {AlertService} from '../../../services/shared/alert.service';
-import {Observable, of} from 'rxjs';
-import {catchError, map, takeWhile} from 'rxjs/operators';
-import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
 import {ErrorHandlerService} from '../../../services/shared/error-handler.service';
-import {SandboxDefinitionTableRow} from '../../../model/table-adapters/sandbox-definition-table-row';
-import {TrainingDefinitionInfo} from '../../../model/training/training-definition-info';
-import {ActionConfirmationDialogComponent} from '../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import {BaseComponent} from '../../base.component';
-import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
+import {ActionConfirmationDialogComponent} from '../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import {AddSandboxDefinitionDialogComponent} from '../add-sandbox-definition-dialog/add-sandbox-definition-dialog.component';
 
 @Component({

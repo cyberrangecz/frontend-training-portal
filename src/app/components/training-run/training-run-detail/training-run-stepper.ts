@@ -1,6 +1,6 @@
+import {AbstractStepItem, StepperInterface} from 'kypo2-stepper';
 import {AbstractLevelTypeEnum} from '../../../model/enums/abstract-level-type.enum';
 import {AbstractLevel} from '../../../model/level/abstract-level';
-import {AbstractStepItem, StepperInterface} from 'kypo2-stepper';
 
 /**
  * Training run levels adapter to kypo stepper component

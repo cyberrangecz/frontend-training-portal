@@ -1,9 +1,9 @@
-import {TrainingInstance} from "../training/training-instance";
-import {TableRowAdapter} from './table-row-adapter';
 import {Observable} from 'rxjs';
-import {SandboxInstanceAllocationState} from '../training/sandbox-instance-allocation-state';
-import {StringNormalizer} from "../utils/ignore-diacritics-filter";
 import {RouteFactory} from '../routes/route-factory';
+import {SandboxInstanceAllocationState} from '../training/sandbox-instance-allocation-state';
+import {TrainingInstance} from '../training/training-instance';
+import {StringNormalizer} from '../utils/ignore-diacritics-filter';
+import {TableRowAdapter} from './table-row-adapter';
 
 export class TrainingInstanceTableRow implements TableRowAdapter {
   trainingDefinitionTitle: string;

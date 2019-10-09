@@ -1,9 +1,9 @@
+import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs';
-import {Injectable} from '@angular/core';
-import {PoolResolver} from './pool-resolver.service';
-import {SandboxPool} from '../../model/sandbox/pool/sandbox-pool';
 import {map} from 'rxjs/operators';
+import {SandboxPool} from '../../model/sandbox/pool/sandbox-pool';
+import {PoolResolver} from './pool-resolver.service';
 
 @Injectable()
 export class PoolBreadcrumbResolver implements Resolve<string> {

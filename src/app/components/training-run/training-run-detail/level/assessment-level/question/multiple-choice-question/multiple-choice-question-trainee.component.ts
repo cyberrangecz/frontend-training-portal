@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {MultipleChoiceQuestion} from '../../../../../../../model/questions/multiple-choice-question';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import {AbstractQuestion} from '../../../../../../../model/questions/abstract-question';
+import {MultipleChoiceQuestion} from '../../../../../../../model/questions/multiple-choice-question';
 import {BaseComponent} from '../../../../../../base.component';
 
 @Component({

@@ -1,7 +1,7 @@
-import {PaginatedResource} from './paginated-resource';
 import {User} from 'kypo2-auth';
 import {Column, Kypo2Table, Row} from 'kypo2-table';
 import {of} from 'rxjs';
+import {PaginatedResource} from './paginated-resource';
 
 export class UsersTableCreator {
   static create(resource: PaginatedResource<User[]>): Kypo2Table<User> {

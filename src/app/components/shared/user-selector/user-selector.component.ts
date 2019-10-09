@@ -9,11 +9,11 @@ import {
   ViewChild
 } from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {User} from 'kypo2-auth';
-import {BaseComponent} from '../../base.component';
-import {debounceTime, map, takeWhile} from 'rxjs/operators';
 import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {MatOptionSelectionChange} from '@angular/material/core';
+import {User} from 'kypo2-auth';
+import {debounceTime, map, takeWhile} from 'rxjs/operators';
+import {BaseComponent} from '../../base.component';
 
 @Component({
   selector: 'kypo2-user-selector',

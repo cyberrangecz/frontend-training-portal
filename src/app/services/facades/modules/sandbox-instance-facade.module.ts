@@ -1,7 +1,7 @@
-import {NgModule} from "@angular/core";
-import {CommonModule} from "@angular/common";
-import {SandboxInstanceFacade} from "../sandbox-instance-facade.service";
-import {SandboxInstanceMapper} from "../../mappers/sandbox-instance-mapper.service";
+import {CommonModule} from '@angular/common';
+import {NgModule} from '@angular/core';
+import {SandboxInstanceMapper} from '../../mappers/sandbox-instance-mapper.service';
+import {SandboxInstanceFacade} from '../sandbox-instance-facade.service';
 
 @NgModule({
   imports: [

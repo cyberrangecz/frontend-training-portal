@@ -1,6 +1,6 @@
-import {NgModule} from "@angular/core";
-import {RouterModule, Routes} from "@angular/router";
-import {CombinedViewComponent} from "./combined-view.component";
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {CombinedViewComponent} from './combined-view.component';
 
 const routes: Routes = [
   {

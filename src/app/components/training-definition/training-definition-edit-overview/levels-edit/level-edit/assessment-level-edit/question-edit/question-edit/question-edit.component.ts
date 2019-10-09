@@ -8,12 +8,12 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
+import {QuestionChangeEvent} from '../../../../../../../../model/events/question-change-event';
+import {AbstractQuestion} from '../../../../../../../../model/questions/abstract-question';
 import {ExtendedMatchingItems} from '../../../../../../../../model/questions/extended-matching-items';
 import {FreeFormQuestion} from '../../../../../../../../model/questions/free-form-question';
 import {MultipleChoiceQuestion} from '../../../../../../../../model/questions/multiple-choice-question';
-import {AbstractQuestion} from '../../../../../../../../model/questions/abstract-question';
 import {BaseComponent} from '../../../../../../../base.component';
-import {QuestionChangeEvent} from '../../../../../../../../model/events/question-change-event';
 
 @Component({
   selector: 'kypo2-question-edit',

@@ -1,9 +1,9 @@
-import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {TrainingRunFacade} from '../training-run-facade.service';
-import {TrainingRunMapper} from '../../mappers/training-run-mapper.service';
+import {NgModule} from '@angular/core';
 import {LevelMapper} from '../../mappers/level-mapper.service';
+import {TrainingRunMapper} from '../../mappers/training-run-mapper.service';
 import {UserMapper} from '../../mappers/user.mapper.service';
+import {TrainingRunFacade} from '../training-run-facade.service';
 
 @NgModule({
   imports: [

@@ -8,16 +8,16 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
 import {ActivatedRoute} from '@angular/router';
 import {Observable, of} from 'rxjs';
 import {debounceTime, switchMap, takeWhile, tap} from 'rxjs/operators';
-import {MatDialog} from '@angular/material/dialog';
-import {BaseComponent} from '../../../../base.component';
+import {AbstractLevelTypeEnum} from '../../../../../model/enums/abstract-level-type.enum';
+import {LevelMoveEvent} from '../../../../../model/events/level-move-event';
 import {AbstractLevel} from '../../../../../model/level/abstract-level';
 import {TrainingDefinition} from '../../../../../model/training/training-definition';
 import {LevelEditService} from '../../../../../services/training-definition/level-edit.service';
-import {AbstractLevelTypeEnum} from '../../../../../model/enums/abstract-level-type.enum';
-import {LevelMoveEvent} from '../../../../../model/events/level-move-event';
+import {BaseComponent} from '../../../../base.component';
 import {ActionConfirmationDialogComponent} from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 
 @Component({

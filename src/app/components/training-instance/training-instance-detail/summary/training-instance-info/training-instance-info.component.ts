@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {ActiveTrainingInstanceService} from '../../../../../services/training-instance/active-training-instance.service';
-import {TrainingInstance} from '../../../../../model/training/training-instance';
-import {TrainingDefinition} from '../../../../../model/training/training-definition';
-import {BaseComponent} from '../../../../base.component';
 import {takeWhile} from 'rxjs/operators';
-import {ACCESS_TOKEN_PATH} from '../../../training-instance-overview/paths';
 import {RouteFactory} from '../../../../../model/routes/route-factory';
+import {TrainingDefinition} from '../../../../../model/training/training-definition';
+import {TrainingInstance} from '../../../../../model/training/training-instance';
+import {ActiveTrainingInstanceService} from '../../../../../services/training-instance/active-training-instance.service';
+import {BaseComponent} from '../../../../base.component';
+import {ACCESS_TOKEN_PATH} from '../../../training-instance-overview/paths';
 
 @Component({
   selector: 'kypo2-training-instance-info',

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Kypo2AuthService, User} from 'kypo2-auth';
-import {BaseComponent} from '../../base.component';
 import {tap} from 'rxjs/operators';
+import {BaseComponent} from '../../base.component';
 
 @Component({
   selector: 'kypo2-user-id',

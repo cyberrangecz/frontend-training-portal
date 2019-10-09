@@ -1,13 +1,13 @@
 import {
-  FormGroup,
-  FormControl,
   FormArray,
-  Validators,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
   ValidatorFn,
-  ValidationErrors
+  Validators
 } from '@angular/forms';
-import {ExtendedMatchingItems} from '../../../../../../../../model/questions/extended-matching-items';
 import {AbstractQuestion} from '../../../../../../../../model/questions/abstract-question';
+import {ExtendedMatchingItems} from '../../../../../../../../model/questions/extended-matching-items';
 
 export class ExtendedMatchingItemsFormGroup {
   formGroup: FormGroup;

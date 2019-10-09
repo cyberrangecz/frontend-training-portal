@@ -1,9 +1,9 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {BaseComponent} from '../../base.component';
 import {MatTreeNestedDataSource} from '@angular/material';
+import {User} from 'kypo2-auth';
 import {MenuNode} from '../../../model/menu/menu-node';
 import {TreeMenu} from '../../../model/menu/tree-menu';
-import {User} from 'kypo2-auth';
+import {BaseComponent} from '../../base.component';
 
 @Component({
   selector: 'kypo2-tree-navigation',

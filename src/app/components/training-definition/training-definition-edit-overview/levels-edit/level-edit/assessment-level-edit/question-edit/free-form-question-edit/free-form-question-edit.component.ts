@@ -8,13 +8,13 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
-import {FreeFormQuestion} from '../../../../../../../../model/questions/free-form-question';
-import {BaseComponent} from '../../../../../../../base.component';
-import { FreeFormQuestionFormGroup } from './free-form-question-form-group';
 import { FormArray, FormControl, Validators } from '@angular/forms';
 import {takeWhile} from 'rxjs/operators';
 import {AbstractQuestion} from '../../../../../../../../model/questions/abstract-question';
+import {FreeFormQuestion} from '../../../../../../../../model/questions/free-form-question';
+import {BaseComponent} from '../../../../../../../base.component';
 import {FreeFormItems} from '../../../../../../../shared/free-form/free-form-items';
+import { FreeFormQuestionFormGroup } from './free-form-question-form-group';
 
 @Component({
   selector: 'kypo2-free-form-question-edit',

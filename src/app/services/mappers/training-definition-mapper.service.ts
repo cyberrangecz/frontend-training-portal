@@ -1,19 +1,19 @@
 import {Injectable} from '@angular/core';
-import {TrainingDefinition} from '../../model/training/training-definition';
-import {TrainingDefinitionStateEnum} from '../../model/enums/training-definition-state.enum';
-import {AbstractLevel} from '../../model/level/abstract-level';
 import {TrainingDefinitionCreateDTO} from '../../model/DTOs/training-definition/training-definition-create-dto';
-import {TrainingDefinitionUpdateDTO} from '../../model/DTOs/training-definition/training-definition-update-dto';
-import {TrainingDefinitionRestResource} from '../../model/DTOs/training-definition/training-definition-rest-resource';
 import {TrainingDefinitionDTO} from '../../model/DTOs/training-definition/training-definition-dto';
-import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
-import {TrainingDefinitionTableRow} from '../../model/table-adapters/training-definition-table-row';
-import {Kypo2Pagination} from '../../model/table-adapters/kypo2-pagination';
-import {LevelMapper} from './level-mapper.service';
-import {UserMapper} from './user.mapper.service';
-import {TrainingDefinitionInfo} from '../../model/training/training-definition-info';
 import {TrainingDefinitionInfoDTO} from '../../model/DTOs/training-definition/training-definition-info-dto';
 import {TrainingDefinitionInfoRestResource} from '../../model/DTOs/training-definition/training-definition-info-rest-resource';
+import {TrainingDefinitionRestResource} from '../../model/DTOs/training-definition/training-definition-rest-resource';
+import {TrainingDefinitionUpdateDTO} from '../../model/DTOs/training-definition/training-definition-update-dto';
+import {TrainingDefinitionStateEnum} from '../../model/enums/training-definition-state.enum';
+import {AbstractLevel} from '../../model/level/abstract-level';
+import {Kypo2Pagination} from '../../model/table-adapters/kypo2-pagination';
+import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
+import {TrainingDefinitionTableRow} from '../../model/table-adapters/training-definition-table-row';
+import {TrainingDefinition} from '../../model/training/training-definition';
+import {TrainingDefinitionInfo} from '../../model/training/training-definition-info';
+import {LevelMapper} from './level-mapper.service';
+import {UserMapper} from './user.mapper.service';
 
 @Injectable()
 /**

@@ -1,10 +1,10 @@
  import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+ import {of} from 'rxjs';
+ import {map, takeWhile, tap} from 'rxjs/operators';
 import {TrainingInstanceFacade} from '../../../services/facades/training-instance-facade.service';
 import {ActiveTrainingInstanceService} from '../../../services/training-instance/active-training-instance.service';
  import {BaseComponent} from '../../base.component';
- import {map, takeWhile, tap} from 'rxjs/operators';
- import {of} from 'rxjs';
  import {PROGRESS_PATH, RESULTS_PATH, SUMMARY_PATH} from './paths';
 @Component({
   selector: 'kypo2-training-instance-detail',

@@ -13,5 +13,5 @@ export namespace AbstractQuestionDTO {
     FFQ: 'FFQ' as QuestionTypeEnum,
     MCQ: 'MCQ' as QuestionTypeEnum,
     EMI: 'EMI' as QuestionTypeEnum
-  }
+  };
 }

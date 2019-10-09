@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {TrainingRunFacade} from '../facades/training-run-facade.service';
 import {Observable} from 'rxjs';
 import {FlagCheck} from '../../model/level/flag-check';
 import {Hint} from '../../model/level/hint';
+import {TrainingRunFacade} from '../facades/training-run-facade.service';
 
 @Injectable()
 /**

@@ -1,9 +1,9 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import {TrainingDefinitionFacade} from '../../../../services/facades/training-definition-facade.service';
-import {AlertTypeEnum} from '../../../../model/enums/alert-type.enum';
-import {BaseComponent} from '../../../base.component';
 import {takeWhile} from 'rxjs/operators';
+import {AlertTypeEnum} from '../../../../model/enums/alert-type.enum';
+import {TrainingDefinitionFacade} from '../../../../services/facades/training-definition-facade.service';
+import {BaseComponent} from '../../../base.component';
 @Component({
   selector: 'kypo2-training-upload-dialog',
   templateUrl: './training-definition-upload-dialog.component.html',

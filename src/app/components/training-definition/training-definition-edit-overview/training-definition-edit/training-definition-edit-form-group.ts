@@ -1,4 +1,4 @@
-import {FormGroup, Validators, FormControl, FormArray} from '@angular/forms';
+import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {TrainingDefinition} from '../../../../model/training/training-definition';
 
 export class TrainingDefinitionEditFormGroup {

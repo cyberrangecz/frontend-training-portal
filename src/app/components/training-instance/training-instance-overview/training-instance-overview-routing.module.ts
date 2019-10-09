@@ -1,6 +1,5 @@
-import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
-import {TrainingInstanceOverviewComponent} from './training-instance-overview.component';
+import {RouterModule, Routes} from '@angular/router';
 import {TrainingInstanceBreadcrumbResolver} from '../../../services/resolvers/training-instance-breadcrumb-resolver.service';
 import {TrainingInstanceResolver} from '../../../services/resolvers/training-instance-resolver.service';
 import {
@@ -9,6 +8,7 @@ import {
   TRAINING_INSTANCE_EDIT_PATH,
   TRAINING_INSTANCE_NEW_PATH
 } from './paths';
+import {TrainingInstanceOverviewComponent} from './training-instance-overview.component';
 
 
 const routes: Routes = [

@@ -1,6 +1,6 @@
-import {NgModule} from "@angular/core";
-import {RouterModule, Routes} from "@angular/router";
-import {ScoreScatterPlotViewComponent} from "./score-scatter-plot-view.component";
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {ScoreScatterPlotViewComponent} from './score-scatter-plot-view.component';
 
 const routes: Routes = [
   {

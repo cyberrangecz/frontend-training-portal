@@ -1,4 +1,5 @@
-import {NgModule} from "@angular/core";
+import {NgModule} from '@angular/core';
+import {MatProgressBarModule} from '@angular/material';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -13,7 +14,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import {MatProgressBarModule} from "@angular/material";
 
 @NgModule({
   imports: [

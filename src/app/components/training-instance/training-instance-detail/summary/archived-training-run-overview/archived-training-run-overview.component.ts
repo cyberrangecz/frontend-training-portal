@@ -1,21 +1,21 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {MatDialog} from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import {merge, of} from 'rxjs';
+import {catchError, map, startWith, switchMap, takeWhile} from 'rxjs/operators';
+import {environment} from '../../../../../../environments/environment';
+import {RequestedPagination} from '../../../../../model/DTOs/other/requested-pagination';
+import {PaginatedResource} from '../../../../../model/table-adapters/paginated-resource';
 import {TrainingRunTableRow} from '../../../../../model/table-adapters/training-run-table-row';
-import {BaseTrainingRunOverview} from '../base-training-run-overview';
+import {TrainingInstanceFacade} from '../../../../../services/facades/training-instance-facade.service';
+import {TrainingRunFacade} from '../../../../../services/facades/training-run-facade.service';
 import {AlertService} from '../../../../../services/shared/alert.service';
 import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
 import {ActiveTrainingInstanceService} from '../../../../../services/training-instance/active-training-instance.service';
-import {TrainingInstanceFacade} from '../../../../../services/facades/training-instance-facade.service';
-import {environment} from '../../../../../../environments/environment';
-import {merge, of} from 'rxjs';
-import {catchError, map, startWith, switchMap, takeWhile} from 'rxjs/operators';
-import {PaginatedResource} from '../../../../../model/table-adapters/paginated-resource';
-import {TrainingRunFacade} from '../../../../../services/facades/training-run-facade.service';
-import {MatDialog} from '@angular/material';
 import {ActionConfirmationDialogComponent} from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
-import {RequestedPagination} from '../../../../../model/DTOs/other/requested-pagination';
+import {BaseTrainingRunOverview} from '../base-training-run-overview';
 
 @Component({
   selector: 'kypo2-archived-training-run-overview',

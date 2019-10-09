@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs/internal/Subject';
-import {Observable} from 'rxjs/internal/Observable';
-import {TrainingInstance} from '../../model/training/training-instance';
 import {now} from 'moment';
+import {Observable} from 'rxjs/internal/Observable';
+import {Subject} from 'rxjs/internal/Subject';
+import {TrainingInstance} from '../../model/training/training-instance';
 
 /**
  * Service holding active training instance for sub component of organizers training overview

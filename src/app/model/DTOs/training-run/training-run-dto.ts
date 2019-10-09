@@ -35,5 +35,5 @@ export namespace TrainingRunDTO {
         RUNNING: 'RUNNING' as StateEnum,
         FINISHED: 'FINISHED' as StateEnum,
         ARCHIVED: 'ARCHIVED' as StateEnum,
-    }
+    };
 }

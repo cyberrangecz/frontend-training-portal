@@ -1,17 +1,17 @@
 import {ChangeDetectionStrategy, Component, HostListener, OnInit} from '@angular/core';
-import {TrainingDefinition} from '../../../model/training/training-definition';
-import {map, takeWhile} from 'rxjs/operators';
+import {MatDialog} from '@angular/material/dialog';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs/internal/Observable';
-import {MatDialog} from '@angular/material/dialog';
-import {UnsavedChangesDialogComponent} from '../../shared/unsaved-changes-dialog/unsaved-changes-dialog.component';
 import {of} from 'rxjs/internal/observable/of';
-import {BaseComponent} from '../../base.component';
-import {TrainingDefinitionChangeEvent} from '../../../model/events/training-definition-change-event';
-import {TrainingDefinitionEditService} from '../../../services/training-definition/training-definition-edit.service';
-import {RouteFactory} from '../../../model/routes/route-factory';
-import {AbstractLevel} from '../../../model/level/abstract-level';
+import {map, takeWhile} from 'rxjs/operators';
 import {ResourceSavedEvent} from '../../../model/events/resource-saved-event';
+import {TrainingDefinitionChangeEvent} from '../../../model/events/training-definition-change-event';
+import {AbstractLevel} from '../../../model/level/abstract-level';
+import {RouteFactory} from '../../../model/routes/route-factory';
+import {TrainingDefinition} from '../../../model/training/training-definition';
+import {TrainingDefinitionEditService} from '../../../services/training-definition/training-definition-edit.service';
+import {BaseComponent} from '../../base.component';
+import {UnsavedChangesDialogComponent} from '../../shared/unsaved-changes-dialog/unsaved-changes-dialog.component';
 
 
 @Component({

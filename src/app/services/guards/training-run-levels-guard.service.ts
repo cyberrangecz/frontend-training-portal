@@ -1,10 +1,10 @@
-import {ActivatedRouteSnapshot, CanActivate, CanDeactivate, Router, RouterStateSnapshot} from '@angular/router';
-import {DistractionFreeModeService} from '../shared/distraction-free-mode.service';
-import {Observable} from 'rxjs/internal/Observable';
 import {Injectable} from '@angular/core';
+import {ActivatedRouteSnapshot, CanActivate, CanDeactivate, Router, RouterStateSnapshot} from '@angular/router';
+import {Observable} from 'rxjs/internal/Observable';
 import {AbstractLevelComponent} from '../../components/training-run/training-run-detail/level/abstract-level.component';
-import {ActiveTrainingRunService} from '../training-run/active-training-run.service';
 import {TRAINING_RUN_PATH} from '../../paths';
+import {DistractionFreeModeService} from '../shared/distraction-free-mode.service';
+import {ActiveTrainingRunService} from '../training-run/active-training-run.service';
 @Injectable()
 /**
  * Guard triggered when accessing training run level. Turns on and off the distraction free mode

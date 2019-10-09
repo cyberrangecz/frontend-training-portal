@@ -1,8 +1,8 @@
 /**
  * Class representing sandbox definition in a system
  */
-import {TrainingDefinition} from '../../training/training-definition';
 import {User} from 'kypo2-auth';
+import {TrainingDefinition} from '../../training/training-definition';
 
 export class SandboxDefinition {
   id: number;

@@ -1,4 +1,4 @@
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {GameLevel} from '../../../../../../model/level/game-level';
 
 export class GameLevelEditFormGroup {

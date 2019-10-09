@@ -2,18 +2,18 @@ import {
   Component, ElementRef, HostListener, Input, OnChanges,
   OnInit, SimpleChanges, ViewChild,
 } from '@angular/core';
-import {GameLevel} from '../../../../../model/level/game-level';
-import {ActiveTrainingRunService} from '../../../../../services/training-run/active-training-run.service';
 import { MatDialog } from '@angular/material/dialog';
+import {takeWhile} from 'rxjs/operators';
+import {FlagCheck} from '../../../../../model/level/flag-check';
+import {GameLevel} from '../../../../../model/level/game-level';
+import {Hint} from '../../../../../model/level/hint';
+import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
+import {ActiveTrainingRunService} from '../../../../../services/training-run/active-training-run.service';
+import {TrainingRunGameLevelService} from '../../../../../services/training-run/training-run-game-level.service';
+import {BaseComponent} from '../../../../base.component';
 import {RevealHintDialogComponent} from './user-action-dialogs/reveal-hint-dialog/reveal-hint-dialog.component';
 import {RevealSolutionDialogComponent} from './user-action-dialogs/reveal-solution-dialog/reveal-solution-dialog.component';
 import {WrongFlagDialogComponent} from './user-action-dialogs/wrong-flag-dialog/wrong-flag-dialog.component';
-import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
-import {TrainingRunGameLevelService} from '../../../../../services/training-run/training-run-game-level.service';
-import {Hint} from '../../../../../model/level/hint';
-import {FlagCheck} from '../../../../../model/level/flag-check';
-import {BaseComponent} from '../../../../base.component';
-import {takeWhile} from 'rxjs/operators';
 
 @Component({
   selector: 'kypo2-game-level',

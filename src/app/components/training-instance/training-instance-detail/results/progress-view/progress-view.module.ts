@@ -1,10 +1,10 @@
-import {NgModule} from "@angular/core";
-import {CommonModule} from "@angular/common";
-import { ProgressViewComponent } from './progress-view.component';
-import {ProgressViewRoutingModule} from "./progress-view-routing.module";
-import {ProgressViewMaterialModule} from "./progress-view-material.module";
-import {Kypo2TrainingsHurdlingVizLibModule} from "kypo2-trainings-hurdling-viz-lib";
+import {CommonModule} from '@angular/common';
+import {NgModule} from '@angular/core';
+import {Kypo2TrainingsHurdlingVizLibModule} from 'kypo2-trainings-hurdling-viz-lib';
 import {environment} from '../../../../../../environments/environment';
+import {ProgressViewMaterialModule} from './progress-view-material.module';
+import {ProgressViewRoutingModule} from './progress-view-routing.module';
+import { ProgressViewComponent } from './progress-view.component';
 
 @NgModule({
   imports: [

@@ -1,4 +1,4 @@
-import { FormGroup, FormControl, ValidatorFn, ValidationErrors, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import {TrainingInstance} from '../../../../model/training/training-instance';
 
 export class TrainingInstanceFormGroup {
@@ -24,7 +24,7 @@ export class TrainingInstanceFormGroup {
       error = { startTimeAfterEndTime: true };
     }
     return error ? error : null;
-  };
+  }
 
   private dateValidator: ValidatorFn = (control: FormControl): ValidationErrors | null => {
     let error = null;

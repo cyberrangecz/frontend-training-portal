@@ -1,11 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {DistractionFreeModeService} from './services/shared/distraction-free-mode.service';
 import {Kypo2AuthService, User} from 'kypo2-auth';
-import {AlertService} from './services/shared/alert.service';
-import {debounceTime, takeWhile} from 'rxjs/operators';
-import {AlertTypeEnum} from './model/enums/alert-type.enum';
-import {BaseComponent} from './components/base.component';
 import {Observable} from 'rxjs';
+import {debounceTime, takeWhile} from 'rxjs/operators';
+import {BaseComponent} from './components/base.component';
+import {AlertTypeEnum} from './model/enums/alert-type.enum';
+import {AlertService} from './services/shared/alert.service';
+import {DistractionFreeModeService} from './services/shared/distraction-free-mode.service';
 import {LoadingService} from './services/shared/loading.service';
 
 /**

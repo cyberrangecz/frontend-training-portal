@@ -11,14 +11,14 @@ import {
   SimpleChanges,
   ViewChildren
 } from '@angular/core';
-import {ExtendedMatchingItems} from '../../../../../../../../model/questions/extended-matching-items';
+import { FormArray, FormControl, Validators } from '@angular/forms';
 import { MatRadioButton } from '@angular/material/radio';
-import {BaseComponent} from '../../../../../../../base.component';
-import { Validators, FormControl, FormArray } from '@angular/forms';
-import { ExtendedMatchingItemsFormGroup } from './extended-matching-items-form-group';
-import {AbstractQuestion} from '../../../../../../../../model/questions/abstract-question';
-import {MultipleChoiceFormGroup} from '../multiple-choice-question-edit/multiple-choice-question-edit-form-group';
 import {takeWhile} from 'rxjs/operators';
+import {AbstractQuestion} from '../../../../../../../../model/questions/abstract-question';
+import {ExtendedMatchingItems} from '../../../../../../../../model/questions/extended-matching-items';
+import {BaseComponent} from '../../../../../../../base.component';
+import {MultipleChoiceFormGroup} from '../multiple-choice-question-edit/multiple-choice-question-edit-form-group';
+import { ExtendedMatchingItemsFormGroup } from './extended-matching-items-form-group';
 
 @Component({
   selector: 'kypo2-extended-matching-items',

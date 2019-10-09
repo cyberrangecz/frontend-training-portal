@@ -1,4 +1,5 @@
 import {NgModule} from '@angular/core';
+import {MatProgressSpinnerModule} from '@angular/material';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -14,7 +15,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import {MatProgressSpinnerModule} from '@angular/material';
 
 @NgModule({
   imports: [

@@ -1,6 +1,6 @@
 import {HttpParams} from '@angular/common/http';
-import {RequestedPagination} from '../../DTOs/other/requested-pagination';
 import {environment} from '../../../../environments/environment';
+import {RequestedPagination} from '../../DTOs/other/requested-pagination';
 
 export class PaginationParams {
 

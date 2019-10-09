@@ -1,16 +1,16 @@
-import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/internal/Observable';
-import {SandboxDefinition} from '../../model/sandbox/definition/sandbox-definition';
-import {environment} from '../../../environments/environment';
 import {map} from 'rxjs/operators';
-import {SandboxDefinitionMapperService} from '../mappers/sandbox-definition-mapper.service';
-import {SandboxDefinitionDTO} from '../../model/DTOs/sandbox-definition/sandbox-definition-dto';
+import {environment} from '../../../environments/environment';
+import {DjangoResourceDTO} from '../../model/DTOs/other/django-resource-dto';
 import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
+import {SandboxDefinitionDTO} from '../../model/DTOs/sandbox-definition/sandbox-definition-dto';
 import {PaginationParams} from '../../model/http/params/pagination-params';
+import {SandboxDefinition} from '../../model/sandbox/definition/sandbox-definition';
 import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 import {SandboxDefinitionTableRow} from '../../model/table-adapters/sandbox-definition-table-row';
-import {DjangoResourceDTO} from '../../model/DTOs/other/django-resource-dto';
+import {SandboxDefinitionMapperService} from '../mappers/sandbox-definition-mapper.service';
 
 /**
  * Service to abstract from sandbox definition endpoint.

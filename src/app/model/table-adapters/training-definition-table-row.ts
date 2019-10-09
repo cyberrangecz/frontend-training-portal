@@ -1,7 +1,7 @@
-import {TrainingDefinition} from '../training/training-definition';
-import {TableRowAdapter} from './table-row-adapter';
 import {TrainingDefinitionStateEnum} from '../enums/training-definition-state.enum';
-import {StringNormalizer} from "../utils/ignore-diacritics-filter";
+import {TrainingDefinition} from '../training/training-definition';
+import {StringNormalizer} from '../utils/ignore-diacritics-filter';
+import {TableRowAdapter} from './table-row-adapter';
 
 export class TrainingDefinitionTableRow implements TableRowAdapter {
   trainingDefinition: TrainingDefinition;
@@ -26,7 +26,7 @@ export class TrainingDefinitionTableRow implements TableRowAdapter {
      this.possibleStates = this.possibleStates.filter(state => state !== TrainingDefinitionStateEnum.Archived);
     }
     if (this.selectedState === TrainingDefinitionStateEnum.Archived) {
-      this.possibleStates = this.possibleStates.filter(state => state == TrainingDefinitionStateEnum.Archived)
+      this.possibleStates = this.possibleStates.filter(state => state == TrainingDefinitionStateEnum.Archived);
     }
   }
 }

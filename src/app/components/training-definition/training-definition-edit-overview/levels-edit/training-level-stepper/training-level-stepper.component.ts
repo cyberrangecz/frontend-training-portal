@@ -6,11 +6,11 @@ import {
   OnInit, Output,
   SimpleChanges,
 } from '@angular/core';
-import {AbstractLevel} from '../../../../../model/level/abstract-level';
 import { MatDialog } from '@angular/material/dialog';
-import {BaseComponent} from '../../../../base.component';
 import {StepperInterface} from 'kypo2-stepper';
 import {LevelMoveEvent} from '../../../../../model/events/level-move-event';
+import {AbstractLevel} from '../../../../../model/level/abstract-level';
+import {BaseComponent} from '../../../../base.component';
 
 @Component({
   selector: 'kypo2-levels-stepper',

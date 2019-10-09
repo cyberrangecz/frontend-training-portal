@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
-import {TrainingDefinition} from '../../model/training/training-definition';
 import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
 import {EMPTY, Observable, of} from 'rxjs';
-import {TRAINING_DEFINITION_NEW_PATH} from '../../components/training-definition/training-definition-overview/paths';
-import {TrainingDefinitionFacade} from '../facades/training-definition-facade.service';
-import {TRAINING_DEFINITION_PATH} from '../../paths';
 import {catchError, mergeMap, take, tap} from 'rxjs/operators';
+import {TRAINING_DEFINITION_NEW_PATH} from '../../components/training-definition/training-definition-overview/paths';
+import {TrainingDefinition} from '../../model/training/training-definition';
+import {TRAINING_DEFINITION_PATH} from '../../paths';
+import {TrainingDefinitionFacade} from '../facades/training-definition-facade.service';
 import {ErrorHandlerService} from '../shared/error-handler.service';
 
 @Injectable()

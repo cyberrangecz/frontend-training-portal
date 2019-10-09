@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {BaseComponent} from '../../../../base.component';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {BaseComponent} from '../../../../base.component';
 import {AllocationModalFormGroup} from './allocation-modal-form-group';
 
 @Component({

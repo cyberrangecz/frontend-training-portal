@@ -1,8 +1,8 @@
-import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
-import {TrainingRunOverviewComponent} from './training-run-overview.component';
-import {TRAINING_RUN_GAME_PATH, TRAINING_RUN_RESULTS_PATH} from './paths';
+import {RouterModule, Routes} from '@angular/router';
 import {TrainingRunResolver} from '../../../services/resolvers/training-run-resolver.service';
+import {TRAINING_RUN_GAME_PATH, TRAINING_RUN_RESULTS_PATH} from './paths';
+import {TrainingRunOverviewComponent} from './training-run-overview.component';
 
 const routes: Routes = [
   {

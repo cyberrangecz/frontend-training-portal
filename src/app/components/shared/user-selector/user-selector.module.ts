@@ -1,14 +1,14 @@
-import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {UserSelectorComponent} from './user-selector.component';
-import {MatButtonModule} from '@angular/material/button';
-import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
 import {MatChipsModule} from '@angular/material/chips';
+import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {UserSelectorComponent} from './user-selector.component';
 
 /**
  * Module wrapping collection of services and components shared across the application

@@ -1,8 +1,8 @@
-import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {AssessmentsViewRoutingModule} from './assessments-view-routing.module';
+import {NgModule} from '@angular/core';
 import {Kypo2AssessmentsResultsVisualizationModule} from 'kypo2-assessments-results-visualization';
 import {environment} from '../../../../../../environments/environment';
+import {AssessmentsViewRoutingModule} from './assessments-view-routing.module';
 import {AssessmentsViewComponent} from './assessments-view.component';
 
 @NgModule({

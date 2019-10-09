@@ -1,8 +1,8 @@
 /**
  * Class representing sandbox instance of a definition
  */
-import {SandboxInstanceState} from '../../enums/sandbox-instance-state';
 import {SandboxInstanceDTO} from '../../DTOs/sandbox-instance/sandbox-instance-dto';
+import {SandboxInstanceState} from '../../enums/sandbox-instance-state';
 
 export class SandboxInstance {
   id: number;

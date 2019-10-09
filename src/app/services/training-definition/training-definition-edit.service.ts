@@ -1,15 +1,15 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, ReplaySubject} from 'rxjs';
-import {TrainingDefinition} from '../../model/training/training-definition';
 import {ActivatedRoute, Router} from '@angular/router';
-import {TrainingDefinitionFacade} from '../facades/training-definition-facade.service';
 import {Kypo2AuthService} from 'kypo2-auth';
-import {ErrorHandlerService} from '../shared/error-handler.service';
-import {AlertService} from '../shared/alert.service';
+import {BehaviorSubject, Observable, ReplaySubject} from 'rxjs';
 import {filter, map, tap} from 'rxjs/operators';
 import {AlertTypeEnum} from '../../model/enums/alert-type.enum';
-import {TrainingDefinitionChangeEvent} from '../../model/events/training-definition-change-event';
 import {ResourceSavedEvent} from '../../model/events/resource-saved-event';
+import {TrainingDefinitionChangeEvent} from '../../model/events/training-definition-change-event';
+import {TrainingDefinition} from '../../model/training/training-definition';
+import {TrainingDefinitionFacade} from '../facades/training-definition-facade.service';
+import {AlertService} from '../shared/alert.service';
+import {ErrorHandlerService} from '../shared/error-handler.service';
 
 @Injectable()
 export class TrainingDefinitionEditService {

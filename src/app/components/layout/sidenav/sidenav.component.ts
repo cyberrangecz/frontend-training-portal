@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {BaseComponent} from '../../base.component';
-import {HOME_PATH} from '../../../paths';
 import {User} from 'kypo2-auth';
+import {HOME_PATH} from '../../../paths';
+import {BaseComponent} from '../../base.component';
 
 @Component({
   selector: 'kypo2-sidenav',

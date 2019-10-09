@@ -1,8 +1,8 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {TrainingPreviewComponent} from './training-preview.component';
-import {TrainingDefinitionResolver} from '../../../services/resolvers/training-definition-resolver.service';
 import {TrainingDefinitionBreadcrumbResolver} from '../../../services/resolvers/training-definition-breadcrumb-resolver.service';
+import {TrainingDefinitionResolver} from '../../../services/resolvers/training-definition-resolver.service';
+import {TrainingPreviewComponent} from './training-preview.component';
 
 const routes: Routes = [
   {
