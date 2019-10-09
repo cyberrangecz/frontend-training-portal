@@ -7,9 +7,9 @@ import {
 } from '../../components/sandbox-instance/sandbox-pool-detail/paths';
 import {POOL_ID_SELECTOR} from '../../components/sandbox-instance/sandbox-pool-overview/paths';
 import {RouteFactory} from '../../model/routes/route-factory';
-import {SandboxInstance} from '../../model/sandbox/pool/sandbox-instance';
 import {SandboxInstanceFacade} from '../facades/sandbox-instance-facade.service';
 import {ErrorHandlerService} from '../shared/error-handler.service';
+import {SandboxInstance} from '../../model/sandbox/pool/sandbox-instance/sandbox-instance';
 
 @Injectable()
 export class SandboxInstanceResolver implements Resolve<SandboxInstance> {
@@ -48,5 +48,4 @@ export class SandboxInstanceResolver implements Resolve<SandboxInstance> {
     this.router.navigate([RouteFactory.toPoolOverview()]);
     return EMPTY;
   }
-
 }

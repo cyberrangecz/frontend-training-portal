@@ -7,14 +7,14 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import {TrainingInstance} from '../../../../../model/training/training-instance';
+import {SandboxInstance} from '../../../../../model/sandbox/pool/sandbox-instance/sandbox-instance';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import {Observable} from 'rxjs';
 import {skipWhile, takeWhile} from 'rxjs/operators';
-import {SandboxInstance} from '../../../../../model/sandbox/pool/sandbox-instance';
 import {SandboxInstanceTableRow} from '../../../../../model/table-adapters/sandbox-instance-table-row';
 import {SandboxInstanceAllocationState} from '../../../../../model/training/sandbox-instance-allocation-state';
-import {TrainingInstance} from '../../../../../model/training/training-instance';
 import {SandboxInstanceFacade} from '../../../../../services/facades/sandbox-instance-facade.service';
 import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
 import {SandboxAllocationService} from '../../../../../services/training-instance/sandbox-allocation/sandbox-allocation.service';
@@ -121,7 +121,8 @@ export class SandboxInstancesTableComponent extends BaseComponent implements OnI
   private sendRequestToDeleteSandbox(sandboxRow: SandboxInstanceTableRow) {
     const sandboxCount = this.getSandboxCount() - 1;
     this.isDisabled = true;
-    const sandboxDeletion$ = this.allocationService.deleteSandbox(this.trainingInstance, sandboxRow.sandboxInstance, sandboxCount, this.isHardDelete);
+    const sandboxDeletion$ = this.allocationService
+      .deleteSandbox(this.trainingInstance, sandboxRow.sandboxInstance, sandboxCount, this.isHardDelete);
     sandboxDeletion$
       .pipe(
         takeWhile(() => this.isAlive),

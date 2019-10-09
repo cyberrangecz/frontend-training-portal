@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {SandboxInstance} from '../../model/sandbox/pool/sandbox-instance';
 import {SandboxInstanceResolver} from './sandbox-instance-resolver.service';
+import {SandboxInstance} from '../../model/sandbox/pool/sandbox-instance/sandbox-instance';
 
 @Injectable()
 export class SandboxInstanceBreadcrumbResolver implements Resolve<string> {

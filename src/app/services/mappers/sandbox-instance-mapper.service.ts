@@ -4,16 +4,18 @@ import {PoolRequestDTO} from '../../model/DTOs/sandbox-instance/pool-request-dto
 import {RequestStageDTO} from '../../model/DTOs/sandbox-instance/request-stage-dto';
 import {SandboxInstanceDTO} from '../../model/DTOs/sandbox-instance/sandbox-instance-dto';
 import {SandboxPoolDTO} from '../../model/DTOs/sandbox-instance/sandbox-pool-dto';
-import {SandboxInstanceState} from '../../model/enums/sandbox-instance-state';
 import {PoolCreationRequest} from '../../model/sandbox/pool/request/pool-creation-request';
 import {PoolRequest} from '../../model/sandbox/pool/request/pool-request';
 import {AnsibleRunStage} from '../../model/sandbox/pool/request/stage/ansible-run-stage';
 import {OpenStackStage} from '../../model/sandbox/pool/request/stage/open-stack-stage';
 import {RequestStage} from '../../model/sandbox/pool/request/stage/request-stage';
-import {SandboxInstance} from '../../model/sandbox/pool/sandbox-instance';
 import {SandboxPool} from '../../model/sandbox/pool/sandbox-pool';
 import {Kypo2Pagination} from '../../model/table-adapters/kypo2-pagination';
 import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
+import {SandboxInstanceState} from '../../model/enums/sandbox-instance-state';
+import {SandboxInstanceResourceDTO} from '../../model/DTOs/sandbox-instance/sandbox-instance-resource-dto';
+import {SandboxInstanceResource} from '../../model/sandbox/pool/sandbox-instance/sandbox-instance-resource/sandbox-instance-resource';
+import {SandboxInstance} from '../../model/sandbox/pool/sandbox-instance/sandbox-instance';
 
 @Injectable()
 /**
@@ -89,6 +91,18 @@ export class SandboxInstanceMapper {
     request.id = requestDTO.id;
     request.stages = requestDTO.stages.map(stageDTO => this.mapRequestStageDTOToRequestStage(stageDTO));
     return request;
+  }
+
+  mapResourceDTOsToResources(resourcesDTO: SandboxInstanceResourceDTO[]): SandboxInstanceResource[] {
+    return resourcesDTO.map(resourceDTO => this.mapResourceDTOToResource(resourceDTO));
+  }
+
+  mapResourceDTOToResource(resourceDTO: SandboxInstanceResourceDTO): SandboxInstanceResource {
+    const resource = new SandboxInstanceResource();
+    resource.name = resourceDTO.name;
+    resource.status = resourceDTO.status;
+    resource.type = resourceDTO.type;
+    return resource;
   }
 
   private mapRequestStageDTOToRequestStage(stageDTO: RequestStageDTO): RequestStage {

@@ -1,4 +1,3 @@
-import {POOL_REQUEST_PATH, SANDBOX_INSTANCE_PATH} from '../../components/sandbox-instance/sandbox-pool-detail/paths';
 import {
   TRAINING_DEFINITION_EDIT_PATH,
   TRAINING_DEFINITION_NEW_PATH, TRAINING_DEFINITION_PREVIEW_PATH
@@ -9,6 +8,8 @@ import {
   TRAINING_INSTANCE_EDIT_PATH,
   TRAINING_INSTANCE_NEW_PATH
 } from '../../components/training-instance/training-instance-overview/paths';
+import {POOL_REQUEST_PATH, SANDBOX_INSTANCE_PATH} from '../../components/sandbox-instance/sandbox-pool-detail/paths';
+import {SANDBOX_INSTANCE_RESOURCE_PATH} from '../../components/sandbox-instance/sandbox-instance-resource-detail/paths';
 import {SANDBOX_POOL_PATH, TRAINING_DEFINITION_PATH, TRAINING_INSTANCE_PATH} from '../../paths';
 
 export class RouteFactory {
@@ -59,6 +60,10 @@ export class RouteFactory {
 
   static toSandboxInstance(poolId: number | string, sandboxId: number | string): string {
     return `${SANDBOX_POOL_PATH}/${poolId}/${SANDBOX_INSTANCE_PATH}/${sandboxId}`;
+  }
+
+  static toSandboxInstanceResource(poolId: number | string, sandboxId: number | string, resourceName: number | string): string {
+    return `${SANDBOX_POOL_PATH}/${poolId}/${SANDBOX_INSTANCE_PATH}/${sandboxId}/${SANDBOX_INSTANCE_RESOURCE_PATH}/${resourceName}`;
   }
 
   static toPoolRequest(poolId: number | string, requestId: number | string): string {

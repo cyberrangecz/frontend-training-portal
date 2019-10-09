@@ -1,5 +1,5 @@
-import {SandboxInstance} from '../sandbox/pool/sandbox-instance';
 import {TableRowAdapter} from './table-row-adapter';
+import {SandboxInstance} from '../sandbox/pool/sandbox-instance/sandbox-instance';
 
 export class SandboxInstanceTableRow implements TableRowAdapter {
   sandboxInstance: SandboxInstance;
