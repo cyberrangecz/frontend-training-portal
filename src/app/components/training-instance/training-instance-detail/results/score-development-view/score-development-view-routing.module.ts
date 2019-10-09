@@ -1,6 +1,6 @@
-import {NgModule} from "@angular/core";
-import {RouterModule, Routes} from "@angular/router";
-import {ScoreDevelopmentViewComponent} from "./score-development-view.component";
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {ScoreDevelopmentViewComponent} from './score-development-view.component';
 
 const routes: Routes = [
   {

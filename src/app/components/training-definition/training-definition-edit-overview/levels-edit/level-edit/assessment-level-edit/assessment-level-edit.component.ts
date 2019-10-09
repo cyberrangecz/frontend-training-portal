@@ -8,11 +8,11 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
+import {takeWhile} from 'rxjs/operators';
 import {AssessmentLevel} from '../../../../../../model/level/assessment-level';
+import {AbstractQuestion} from '../../../../../../model/questions/abstract-question';
 import {BaseComponent} from '../../../../../base.component';
 import { AssessmentLevelEditFormGroup } from './assessment-level-edit-form-group';
-import {takeWhile} from 'rxjs/operators';
-import {AbstractQuestion} from '../../../../../../model/questions/abstract-question';
 
 @Component({
   selector: 'kypo2-assessment-level-configuration',

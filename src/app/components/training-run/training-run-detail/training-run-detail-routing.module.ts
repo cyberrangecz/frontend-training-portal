@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {TrainingRunDetailComponent} from './training-run-detail.component';
 import {TrainingRunLevelsGuard} from '../../../services/guards/training-run-levels-guard.service';
+import {TrainingRunDetailComponent} from './training-run-detail.component';
 const routes: Routes = [
   {
     path: '',

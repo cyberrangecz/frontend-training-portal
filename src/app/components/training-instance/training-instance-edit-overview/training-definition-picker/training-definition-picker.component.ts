@@ -1,12 +1,12 @@
 import {Component, Inject, OnInit, Optional} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import {SandboxDefinitionPickerComponent} from '../../../training-definition/training-definition-edit-overview/training-definition-edit/sandbox-definition-picker/sandbox-definition-picker.component';
-import {TrainingDefinition} from '../../../../model/training/training-definition';
-import {TrainingDefinitionFacade} from '../../../../services/facades/training-definition-facade.service';
-import {TrainingDefinitionInfo} from '../../../../model/training/training-definition-info';
-import {TrainingDefinitionStateEnum} from '../../../../model/enums/training-definition-state.enum';
 import {takeWhile} from 'rxjs/operators';
+import {TrainingDefinitionStateEnum} from '../../../../model/enums/training-definition-state.enum';
+import {TrainingDefinition} from '../../../../model/training/training-definition';
+import {TrainingDefinitionInfo} from '../../../../model/training/training-definition-info';
+import {TrainingDefinitionFacade} from '../../../../services/facades/training-definition-facade.service';
 import {BaseComponent} from '../../../base.component';
+import {SandboxDefinitionPickerComponent} from '../../../training-definition/training-definition-edit-overview/training-definition-edit/sandbox-definition-picker/sandbox-definition-picker.component';
 
 @Component({
   selector: 'kypo2-training-definition-picker',

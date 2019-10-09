@@ -1,11 +1,11 @@
-import {NgModule} from "@angular/core";
-import {CommonModule} from "@angular/common";
-import { CombinedViewComponent } from './combined-view.component';
-import {CombinedViewMaterialModule} from "./combined-view-material.module";
-import {CombinedViewRoutingModule} from "./combined-view-routing.module";
-import { Kypo2TrainingsVisualizationOverviewLibModule } from "kypo2-trainings-visualization-overview-lib";
-import {Kypo2TrainingsHurdlingVizLibModule} from "kypo2-trainings-hurdling-viz-lib";
+import {CommonModule} from '@angular/common';
+import {NgModule} from '@angular/core';
+import {Kypo2TrainingsHurdlingVizLibModule} from 'kypo2-trainings-hurdling-viz-lib';
+import { Kypo2TrainingsVisualizationOverviewLibModule } from 'kypo2-trainings-visualization-overview-lib';
 import {environment} from '../../../../../../environments/environment';
+import {CombinedViewMaterialModule} from './combined-view-material.module';
+import {CombinedViewRoutingModule} from './combined-view-routing.module';
+import { CombinedViewComponent } from './combined-view.component';
 
 @NgModule({
   imports: [

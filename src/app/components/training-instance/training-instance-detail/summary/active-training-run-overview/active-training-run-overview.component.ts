@@ -3,20 +3,20 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import {ActiveTrainingInstanceService} from '../../../../../services/training-instance/active-training-instance.service';
 import {interval, merge, of} from 'rxjs';
 import {catchError, map, startWith, switchMap, takeWhile} from 'rxjs/operators';
-import {AlertService} from '../../../../../services/shared/alert.service';
-import {AlertTypeEnum} from '../../../../../model/enums/alert-type.enum';
-import {TrainingInstanceFacade} from '../../../../../services/facades/training-instance-facade.service';
-import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
-import {TrainingRunTableRow} from '../../../../../model/table-adapters/training-run-table-row';
-import {PaginatedResource} from '../../../../../model/table-adapters/paginated-resource';
 import {environment} from '../../../../../../environments/environment';
-import {BaseTrainingRunOverview} from '../base-training-run-overview';
-import {ActionConfirmationDialogComponent} from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
-import {SandboxInstanceFacade} from '../../../../../services/facades/sandbox-instance-facade.service';
 import {RequestedPagination} from '../../../../../model/DTOs/other/requested-pagination';
+import {AlertTypeEnum} from '../../../../../model/enums/alert-type.enum';
+import {PaginatedResource} from '../../../../../model/table-adapters/paginated-resource';
+import {TrainingRunTableRow} from '../../../../../model/table-adapters/training-run-table-row';
+import {SandboxInstanceFacade} from '../../../../../services/facades/sandbox-instance-facade.service';
+import {TrainingInstanceFacade} from '../../../../../services/facades/training-instance-facade.service';
+import {AlertService} from '../../../../../services/shared/alert.service';
+import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
+import {ActiveTrainingInstanceService} from '../../../../../services/training-instance/active-training-instance.service';
+import {ActionConfirmationDialogComponent} from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
+import {BaseTrainingRunOverview} from '../base-training-run-overview';
 
 @Component({
   selector: 'kypo2-active-training-run-overview',

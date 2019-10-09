@@ -1,4 +1,4 @@
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {Hint} from '../../../../../../../../model/level/hint';
 
 export class HintConfigurationFormGroup {

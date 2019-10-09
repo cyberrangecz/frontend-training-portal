@@ -1,19 +1,19 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/internal/Observable';
-import {AbstractLevel} from '../../model/level/abstract-level';
-import {GameLevel} from '../../model/level/game-level';
-import {AssessmentLevel} from '../../model/level/assessment-level';
-import {InfoLevel} from '../../model/level/info-level';
-import {map, takeWhile, tap} from 'rxjs/operators';
-import {TrainingRunFacade} from '../facades/training-run-facade.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AccessTrainingRunInfo} from '../../model/training/access-training-run-info';
+import {ReplaySubject} from 'rxjs';
+import {Observable} from 'rxjs/internal/Observable';
+import {map, takeWhile, tap} from 'rxjs/operators';
 import {
   TRAINING_RUN_GAME_PATH,
   TRAINING_RUN_RESULTS_PATH
 } from '../../components/training-run/training-run-overview/paths';
+import {AbstractLevel} from '../../model/level/abstract-level';
+import {AssessmentLevel} from '../../model/level/assessment-level';
+import {GameLevel} from '../../model/level/game-level';
+import {InfoLevel} from '../../model/level/info-level';
+import {AccessTrainingRunInfo} from '../../model/training/access-training-run-info';
 import {TRAINING_RUN_PATH} from '../../paths';
-import {ReplaySubject} from 'rxjs';
+import {TrainingRunFacade} from '../facades/training-run-facade.service';
 
 /**
  * Main service for running training game. Holds levels and its state. Handles user general training run user actions and events

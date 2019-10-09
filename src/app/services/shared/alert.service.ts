@@ -1,10 +1,10 @@
-import {AlertEvent} from '../../model/events/alert-event';
-import {AlertTypeEnum} from '../../model/enums/alert-type.enum';
-import {environment} from '../../../environments/environment';
-import Queue from 'typescript-collections/dist/lib/Queue';
-import {AlertSnackbarComponent} from '../../components/shared/alert/alert-snackbar.component';
-import {MatSnackBar} from '@angular/material/snack-bar';
 import {Injectable} from '@angular/core';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import Queue from 'typescript-collections/dist/lib/Queue';
+import {environment} from '../../../environments/environment';
+import {AlertSnackbarComponent} from '../../components/shared/alert/alert-snackbar.component';
+import {AlertTypeEnum} from '../../model/enums/alert-type.enum';
+import {AlertEvent} from '../../model/events/alert-event';
 
 /**
  * Service emitting alert events.

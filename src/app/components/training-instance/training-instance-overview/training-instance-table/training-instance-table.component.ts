@@ -1,25 +1,25 @@
+import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import {TrainingInstance} from '../../../../model/training/training-instance';
-import {AlertService} from '../../../../services/shared/alert.service';
-import {TrainingInstanceFacade} from '../../../../services/facades/training-instance-facade.service';
+import {Kypo2AuthService} from 'kypo2-auth';
 import {interval, merge, Observable, of} from 'rxjs';
 import {catchError, map, skipWhile, startWith, switchMap, takeWhile} from 'rxjs/operators';
 import {environment} from '../../../../../environments/environment';
 import {AlertTypeEnum} from '../../../../model/enums/alert-type.enum';
-import {TrainingInstanceTableRow} from '../../../../model/table-adapters/training-instance-table-row';
 import {PaginatedResource} from '../../../../model/table-adapters/paginated-resource';
-import {SandboxAllocationService} from '../../../../services/training-instance/sandbox-allocation/sandbox-allocation.service';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import {TrainingInstanceTableRow} from '../../../../model/table-adapters/training-instance-table-row';
 import {SandboxInstanceAllocationState} from '../../../../model/training/sandbox-instance-allocation-state';
-import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
-import {ActionConfirmationDialogComponent} from '../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
-import {Kypo2AuthService} from 'kypo2-auth';
-import {BaseComponent} from '../../../base.component';
+import {TrainingInstance} from '../../../../model/training/training-instance';
 import {StringNormalizer} from '../../../../model/utils/ignore-diacritics-filter';
+import {TrainingInstanceFacade} from '../../../../services/facades/training-instance-facade.service';
+import {AlertService} from '../../../../services/shared/alert.service';
+import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
+import {SandboxAllocationService} from '../../../../services/training-instance/sandbox-allocation/sandbox-allocation.service';
+import {BaseComponent} from '../../../base.component';
+import {ActionConfirmationDialogComponent} from '../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import {AllocationModalComponent} from './allocation-modal/allocation-modal.component';
 
 @Component({

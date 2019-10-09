@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'reveal-hint-dialog',
@@ -23,7 +23,7 @@ export class RevealHintDialogComponent implements OnInit {
   confirm() {
     this.dialogRef.close({
       type: 'confirm'
-    })
+    });
   }
 
   cancel() {

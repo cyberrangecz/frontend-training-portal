@@ -23,5 +23,5 @@ export namespace BasicLevelInfoDTO {
         ASSESSMENT: 'ASSESSMENT_LEVEL' as LevelTypeEnum,
         INFO: 'INFO_LEVEL' as LevelTypeEnum,
         GAME: 'GAME_LEVEL' as LevelTypeEnum
-    }
+    };
 }

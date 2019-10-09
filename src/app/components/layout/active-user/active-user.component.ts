@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Kypo2AuthService, User} from 'kypo2-auth';
-import {BaseComponent} from '../../base.component';
 import {Router} from '@angular/router';
+import {Kypo2AuthService, User} from 'kypo2-auth';
 import {LOGIN_PATH} from '../../../paths';
+import {BaseComponent} from '../../base.component';
 
 @Component({
   selector: 'kypo2-active-user',

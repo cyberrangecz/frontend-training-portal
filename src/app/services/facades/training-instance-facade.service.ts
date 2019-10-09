@@ -1,23 +1,23 @@
-import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {User, UserDTO} from 'kypo2-auth';
 import {Observable} from 'rxjs/internal/Observable';
-import {TrainingInstance} from '../../model/training/training-instance';
-import {environment} from '../../../environments/environment';
 import {map} from 'rxjs/operators';
-import {PaginationParams} from '../../model/http/params/pagination-params';
-import {TrainingInstanceMapper} from '../mappers/training-instance-mapper.service';
+import {environment} from '../../../environments/environment';
+import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
 import {TrainingInstanceDTO} from '../../model/DTOs/training-instance/training-instance-dto';
 import {TrainingInstanceRestResource} from '../../model/DTOs/training-instance/training-instance-rest-resource';
-import {TrainingRun} from '../../model/training/training-run';
-import {TrainingRunMapper} from '../mappers/training-run-mapper.service';
 import {TrainingRunRestResource} from '../../model/DTOs/training-run/training-run-rest-resource';
+import {PaginationParams} from '../../model/http/params/pagination-params';
+import {ResponseHeaderContentDispositionReader} from '../../model/http/response-headers/response-header-content-disposition-reader';
 import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 import {TrainingInstanceTableRow} from '../../model/table-adapters/training-instance-table-row';
 import {TrainingRunTableRow} from '../../model/table-adapters/training-run-table-row';
+import {TrainingInstance} from '../../model/training/training-instance';
+import {TrainingRun} from '../../model/training/training-run';
+import {TrainingInstanceMapper} from '../mappers/training-instance-mapper.service';
+import {TrainingRunMapper} from '../mappers/training-run-mapper.service';
 import {DownloadService} from '../shared/download.service';
-import {ResponseHeaderContentDispositionReader} from '../../model/http/response-headers/response-header-content-disposition-reader';
-import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
-import {User, UserDTO} from 'kypo2-auth';
 
 @Injectable()
 /**

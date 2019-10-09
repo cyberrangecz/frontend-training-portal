@@ -1,7 +1,7 @@
-import {PaginatedResource} from './paginated-resource';
 import {Column, Kypo2Table, Row} from 'kypo2-table';
-import {PoolRequest} from '../sandbox/pool/request/pool-request';
 import {RouteFactory} from '../routes/route-factory';
+import {PoolRequest} from '../sandbox/pool/request/pool-request';
+import {PaginatedResource} from './paginated-resource';
 
 export class PoolRequestTableCreator {
   static create(resource: PaginatedResource<PoolRequest[]>, poolId: number): Kypo2Table<PoolRequest> {

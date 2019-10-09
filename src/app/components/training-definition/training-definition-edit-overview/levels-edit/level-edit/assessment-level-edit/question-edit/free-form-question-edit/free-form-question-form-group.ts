@@ -1,13 +1,13 @@
 import {
-  FormGroup,
-  FormControl,
   FormArray,
-  Validators,
+  FormControl,
+  FormGroup,
   ValidationErrors,
-  ValidatorFn
+  ValidatorFn,
+  Validators
 } from '@angular/forms';
-import {FreeFormQuestion} from '../../../../../../../../model/questions/free-form-question';
 import {AbstractQuestion} from '../../../../../../../../model/questions/abstract-question';
+import {FreeFormQuestion} from '../../../../../../../../model/questions/free-form-question';
 
 export class FreeFormQuestionFormGroup {
   formGroup: FormGroup;
@@ -48,7 +48,7 @@ export class FreeFormQuestionFormGroup {
       error = { noSelectedAnswers: true };
     }
     return error ? error : null;
-  };
+  }
 
   addAnswersValidator() {
     this.formGroup.setValidators(this.noSelectedAnswers);

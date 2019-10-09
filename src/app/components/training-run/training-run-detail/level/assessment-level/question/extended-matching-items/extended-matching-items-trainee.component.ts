@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ExtendedMatchingItems} from '../../../../../../../model/questions/extended-matching-items';
 import {AbstractQuestion} from '../../../../../../../model/questions/abstract-question';
+import {ExtendedMatchingItems} from '../../../../../../../model/questions/extended-matching-items';
 import {BaseComponent} from '../../../../../../base.component';
 
 @Component({

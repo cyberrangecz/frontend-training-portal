@@ -3,10 +3,10 @@ import {AbstractQuestion} from '../../../../../../model/questions/abstract-quest
 import {ExtendedMatchingItems} from '../../../../../../model/questions/extended-matching-items';
 import {FreeFormQuestion} from '../../../../../../model/questions/free-form-question';
 import {MultipleChoiceQuestion} from '../../../../../../model/questions/multiple-choice-question';
-import {FreeFormQuestionTraineeComponent} from './free-form-question/free-form-question-trainee.component';
-import {ExtendedMatchingItemsTraineeComponent} from './extended-matching-items/extended-matching-items-trainee.component';
-import {MultipleChoiceQuestionTraineeComponent} from './multiple-choice-question/multiple-choice-question-trainee.component';
 import {BaseComponent} from '../../../../../base.component';
+import {ExtendedMatchingItemsTraineeComponent} from './extended-matching-items/extended-matching-items-trainee.component';
+import {FreeFormQuestionTraineeComponent} from './free-form-question/free-form-question-trainee.component';
+import {MultipleChoiceQuestionTraineeComponent} from './multiple-choice-question/multiple-choice-question-trainee.component';
 
 @Component({
   selector: 'kypo2-trainee-question',

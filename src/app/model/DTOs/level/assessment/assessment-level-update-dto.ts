@@ -17,7 +17,7 @@ export namespace AssessmentLevelUpdateDTO {
     export const TypeEnum = {
         TEST: 'TEST' as TypeEnum,
         QUESTIONNAIRE: 'QUESTIONNAIRE' as TypeEnum
-    }
+    };
 }
 
 export class AssessmentLevelUpdateDTOClass implements AssessmentLevelUpdateDTO {

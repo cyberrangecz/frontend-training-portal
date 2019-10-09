@@ -1,8 +1,8 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 
+import {takeWhile} from 'rxjs/operators';
 import {ActiveTrainingInstanceService} from '../../../../../services/training-instance/active-training-instance.service';
 import {BaseComponent} from '../../../../base.component';
-import {takeWhile} from 'rxjs/operators';
 
 @Component({
   selector: 'kypo2-combined-view',

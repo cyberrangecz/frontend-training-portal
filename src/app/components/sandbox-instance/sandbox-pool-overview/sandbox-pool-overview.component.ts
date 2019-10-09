@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Kypo2Table, LoadTableEvent, RequestedPagination} from 'kypo2-table';
 import {Observable} from 'rxjs';
+import {takeWhile} from 'rxjs/operators';
 import {SandboxPool} from '../../../model/sandbox/pool/sandbox-pool';
 import {PoolService} from '../../../services/sandbox-instance/pool.service';
-import {takeWhile} from 'rxjs/operators';
 import {BaseComponent} from '../../base.component';
 
 @Component({

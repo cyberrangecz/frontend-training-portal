@@ -8,15 +8,15 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
-import {AbstractQuestion} from '../../../../../../../../model/questions/abstract-question';
-import {FreeFormQuestion} from '../../../../../../../../model/questions/free-form-question';
-import {MultipleChoiceQuestion} from '../../../../../../../../model/questions/multiple-choice-question';
-import {ExtendedMatchingItems} from '../../../../../../../../model/questions/extended-matching-items';
-import {ActionConfirmationDialogComponent} from '../../../../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
-import {BaseComponent} from '../../../../../../../base.component';
 import {takeWhile} from 'rxjs/operators';
 import {QuestionChangeEvent} from '../../../../../../../../model/events/question-change-event';
+import {AbstractQuestion} from '../../../../../../../../model/questions/abstract-question';
+import {ExtendedMatchingItems} from '../../../../../../../../model/questions/extended-matching-items';
+import {FreeFormQuestion} from '../../../../../../../../model/questions/free-form-question';
+import {MultipleChoiceQuestion} from '../../../../../../../../model/questions/multiple-choice-question';
+import {BaseComponent} from '../../../../../../../base.component';
+import {ActionConfirmationDialogComponent} from '../../../../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 
 @Component({
   selector: 'kypo2-question-overview',

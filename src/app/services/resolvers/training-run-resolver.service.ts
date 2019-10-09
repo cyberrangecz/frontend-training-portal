@@ -1,10 +1,10 @@
-import {TrainingRun} from '../../model/training/training-run';
+import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
 import {EMPTY, Observable, of} from 'rxjs';
-import {TrainingRunFacade} from '../facades/training-run-facade.service';
 import {catchError, mergeMap, take} from 'rxjs/operators';
+import {TrainingRun} from '../../model/training/training-run';
 import {TRAINING_RUN_PATH} from '../../paths';
-import {Injectable} from '@angular/core';
+import {TrainingRunFacade} from '../facades/training-run-facade.service';
 import {ErrorHandlerService} from '../shared/error-handler.service';
 
 @Injectable()

@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {FlagCheck} from '../../model/level/flag-check';
-import {Hint} from '../../model/level/hint';
 import {GameLevel} from '../../model/level/game-level';
+import {Hint} from '../../model/level/hint';
 
 @Injectable()
 /**

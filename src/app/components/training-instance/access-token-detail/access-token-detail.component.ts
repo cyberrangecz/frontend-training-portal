@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {TrainingInstance} from '../../../model/training/training-instance';
-import {BaseComponent} from '../../base.component';
 import {ActiveTrainingInstanceService} from '../../../services/training-instance/active-training-instance.service';
+import {BaseComponent} from '../../base.component';
 
 @Component({
   selector: 'kypo2-access-token-detail',

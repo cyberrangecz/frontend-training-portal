@@ -1,7 +1,7 @@
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {LoadingService} from '../shared/loading.service';
 import {Observable} from 'rxjs';
+import {LoadingService} from '../shared/loading.service';
 
 @Injectable()
 export class LoadingInterceptor implements HttpInterceptor {

@@ -1,14 +1,14 @@
-import {BehaviorSubject, Observable, ReplaySubject} from 'rxjs';
-import {TrainingInstance} from '../../model/training/training-instance';
-import {TrainingInstanceEditService} from './training-instance-edit.service';
-import {TrainingInstanceChangeEvent} from '../../model/events/training-instance-change-event';
-import {ResourceSavedEvent} from '../../model/events/resource-saved-event';
-import {filter, map, tap} from 'rxjs/operators';
-import {TrainingInstanceFacade} from '../facades/training-instance-facade.service';
-import {ErrorHandlerService} from '../shared/error-handler.service';
-import {AlertService} from '../shared/alert.service';
-import {AlertTypeEnum} from '../../model/enums/alert-type.enum';
 import {Injectable} from '@angular/core';
+import {BehaviorSubject, Observable, ReplaySubject} from 'rxjs';
+import {filter, map, tap} from 'rxjs/operators';
+import {AlertTypeEnum} from '../../model/enums/alert-type.enum';
+import {ResourceSavedEvent} from '../../model/events/resource-saved-event';
+import {TrainingInstanceChangeEvent} from '../../model/events/training-instance-change-event';
+import {TrainingInstance} from '../../model/training/training-instance';
+import {TrainingInstanceFacade} from '../facades/training-instance-facade.service';
+import {AlertService} from '../shared/alert.service';
+import {ErrorHandlerService} from '../shared/error-handler.service';
+import {TrainingInstanceEditService} from './training-instance-edit.service';
 
 @Injectable()
 export class TrainingInstanceEditConcreteService extends TrainingInstanceEditService {

@@ -1,11 +1,11 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
 import {User} from 'kypo2-auth';
-import {map, takeWhile} from 'rxjs/operators';
-import {BaseComponent} from '../../base.component';
 import {Kypo2Table, LoadTableEvent, RequestedPagination, TableActionEvent} from 'kypo2-table';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {map, takeWhile} from 'rxjs/operators';
 import {DisplayableResource} from '../../../model/training/displayable-resource';
 import {UserAssignService} from '../../../services/shared/user-assign.service';
+import {BaseComponent} from '../../base.component';
 
 @Component({
   selector: 'kypo2-user-assign',

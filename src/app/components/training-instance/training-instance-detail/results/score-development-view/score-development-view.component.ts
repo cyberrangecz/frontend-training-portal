@@ -1,7 +1,7 @@
 import {Component, HostListener, OnInit} from '@angular/core';
-import {ActiveTrainingInstanceService} from "../../../../../services/training-instance/active-training-instance.service";
-import {BaseComponent} from "../../../../base.component";
-import {takeWhile} from "rxjs/operators";
+import {takeWhile} from 'rxjs/operators';
+import {ActiveTrainingInstanceService} from '../../../../../services/training-instance/active-training-instance.service';
+import {BaseComponent} from '../../../../base.component';
 
 @Component({
   selector: 'kypo2-score-development-view',
@@ -50,7 +50,7 @@ export class ScoreDevelopmentViewComponent extends BaseComponent implements OnIn
   private setVisualizationSize(windowWidth: number, windowHeight: number) {
     const width = windowWidth / 2;
     const height = windowHeight / 2;
-    this.vizSize = { width: width, height: height }
+    this.vizSize = { width: width, height: height };
   }
 
 }

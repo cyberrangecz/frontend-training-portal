@@ -1,4 +1,4 @@
-import {MenuNode} from './menu-node';
+import {User, UserRole} from 'kypo2-auth';
 import {
   ADMIN_GROUP_PATH,
   ADMIN_USER_PATH, HOME_PATH,
@@ -7,7 +7,7 @@ import {
   TRAINING_INSTANCE_PATH,
   TRAINING_RUN_PATH
 } from '../../paths';
-import {User, UserRole} from 'kypo2-auth';
+import {MenuNode} from './menu-node';
 
 const TRAININGS_LABEL = 'Trainings';
 const SANDBOXES_LABEL = 'Sandboxes';
@@ -80,7 +80,7 @@ export class TreeMenu {
   }
 
   private static AddOrganizerNodes(tree: MenuNode[]) {
-    let found = tree.find(node => node.label === TRAININGS_LABEL);
+    const found = tree.find(node => node.label === TRAININGS_LABEL);
     const trainingInstance = new MenuNode(found, 'Instance');
     trainingInstance.path = TRAINING_INSTANCE_PATH;
     trainingInstance.order = 20;

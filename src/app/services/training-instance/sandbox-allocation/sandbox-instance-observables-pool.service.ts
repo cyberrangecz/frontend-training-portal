@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Dictionary} from 'typescript-collections';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {SandboxInstanceAllocationState} from '../../../model/training/sandbox-instance-allocation-state';
 import {shareReplay} from 'rxjs/operators';
+import {Dictionary} from 'typescript-collections';
+import {SandboxInstanceAllocationState} from '../../../model/training/sandbox-instance-allocation-state';
 import {TrainingInstance} from '../../../model/training/training-instance';
 
 @Injectable()

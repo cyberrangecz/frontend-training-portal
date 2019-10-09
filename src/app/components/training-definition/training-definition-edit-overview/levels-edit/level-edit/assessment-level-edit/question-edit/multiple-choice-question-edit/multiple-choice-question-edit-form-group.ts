@@ -1,7 +1,7 @@
 import {
-  FormGroup,
-  FormControl,
   FormArray,
+  FormControl,
+  FormGroup,
   Validators,
 } from '@angular/forms';
 import {AbstractQuestion} from '../../../../../../../../model/questions/abstract-question';

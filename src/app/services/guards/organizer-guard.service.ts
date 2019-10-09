@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-import {Observable} from 'rxjs/internal/Observable';
 import {Kypo2AuthGuardWithLogin, Kypo2AuthService} from 'kypo2-auth';
-import {CanActivateToObservable} from './can-activate-to-observable';
+import {Observable} from 'rxjs/internal/Observable';
 import {map} from 'rxjs/operators';
 import {HOME_PATH} from '../../paths';
+import {CanActivateToObservable} from './can-activate-to-observable';
 
 @Injectable()
 /**

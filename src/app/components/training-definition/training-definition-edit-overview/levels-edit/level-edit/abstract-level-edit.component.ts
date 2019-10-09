@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AbstractLevel} from '../../../../../model/level/abstract-level';
 import {AbstractLevelTypeEnum} from '../../../../../model/enums/abstract-level-type.enum';
+import {AbstractLevel} from '../../../../../model/level/abstract-level';
 import {BaseComponent} from '../../../../base.component';
 
 @Component({

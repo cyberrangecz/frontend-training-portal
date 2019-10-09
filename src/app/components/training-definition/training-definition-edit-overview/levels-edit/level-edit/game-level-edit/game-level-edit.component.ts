@@ -8,11 +8,11 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
+import {takeWhile} from 'rxjs/operators';
 import {GameLevel} from '../../../../../../model/level/game-level';
+import {Hint} from '../../../../../../model/level/hint';
 import {BaseComponent} from '../../../../../base.component';
 import { GameLevelEditFormGroup } from './game-level-edit-form-group';
-import {takeWhile} from 'rxjs/operators';
-import {Hint} from '../../../../../../model/level/hint';
 
 @Component({
   selector: 'kypo2-game-level-edit',

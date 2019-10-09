@@ -8,15 +8,15 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
+import { FormArray, FormControl, Validators } from '@angular/forms';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import {takeWhile} from 'rxjs/operators';
+import {AbstractQuestion} from '../../../../../../../../model/questions/abstract-question';
 import {MultipleChoiceQuestion} from '../../../../../../../../model/questions/multiple-choice-question';
 import {AlertService} from '../../../../../../../../services/shared/alert.service';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import {BaseComponent} from '../../../../../../../base.component';
-import { MultipleChoiceFormGroup } from './multiple-choice-question-edit-form-group';
-import { FormArray, FormControl, Validators } from '@angular/forms';
-import {AbstractQuestion} from '../../../../../../../../model/questions/abstract-question';
 import {FreeFormQuestionFormGroup} from '../free-form-question-edit/free-form-question-form-group';
-import {takeWhile} from 'rxjs/operators';
+import { MultipleChoiceFormGroup } from './multiple-choice-question-edit-form-group';
 
 @Component({
   selector: 'kypo2-multiple-choice-question-edit',

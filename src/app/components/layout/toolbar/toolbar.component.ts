@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {BaseComponent} from '../../base.component';
 import {User} from 'kypo2-auth';
+import {BaseComponent} from '../../base.component';
 
 @Component({
   selector: 'kypo2-toolbar',

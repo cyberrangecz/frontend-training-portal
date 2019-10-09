@@ -1,14 +1,14 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
-import {Kypo2Table, LoadTableEvent, RequestedPagination} from 'kypo2-table';
-import {SandboxInstanceService} from '../../../services/sandbox-instance/sandbox-instance.service';
-import {SandboxInstance} from '../../../model/sandbox/pool/sandbox-instance';
-import {takeWhile} from 'rxjs/operators';
-import {BaseComponent} from '../../base.component';
 import {ActivatedRoute} from '@angular/router';
-import {SandboxPool} from '../../../model/sandbox/pool/sandbox-pool';
+import {Kypo2Table, LoadTableEvent, RequestedPagination} from 'kypo2-table';
+import {Observable} from 'rxjs';
+import {takeWhile} from 'rxjs/operators';
 import {PoolRequest} from '../../../model/sandbox/pool/request/pool-request';
+import {SandboxInstance} from '../../../model/sandbox/pool/sandbox-instance';
+import {SandboxPool} from '../../../model/sandbox/pool/sandbox-pool';
 import {PoolRequestsService} from '../../../services/sandbox-instance/pool-requests.service';
+import {SandboxInstanceService} from '../../../services/sandbox-instance/sandbox-instance.service';
+import {BaseComponent} from '../../base.component';
 
 @Component({
   selector: 'kypo2-sandbox-instance-overview',

@@ -1,19 +1,19 @@
 import {Injectable} from '@angular/core';
-import {SandboxInstanceDTO} from '../../model/DTOs/sandbox-instance/sandbox-instance-dto';
-import {SandboxInstance} from '../../model/sandbox/pool/sandbox-instance';
 import {DjangoResourceDTO} from '../../model/DTOs/other/django-resource-dto';
-import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
-import {Kypo2Pagination} from '../../model/table-adapters/kypo2-pagination';
-import {SandboxPool} from '../../model/sandbox/pool/sandbox-pool';
-import {SandboxPoolDTO} from '../../model/DTOs/sandbox-instance/sandbox-pool-dto';
 import {PoolRequestDTO} from '../../model/DTOs/sandbox-instance/pool-request-dto';
-import {PoolRequest} from '../../model/sandbox/pool/request/pool-request';
 import {RequestStageDTO} from '../../model/DTOs/sandbox-instance/request-stage-dto';
-import {RequestStage} from '../../model/sandbox/pool/request/stage/request-stage';
+import {SandboxInstanceDTO} from '../../model/DTOs/sandbox-instance/sandbox-instance-dto';
+import {SandboxPoolDTO} from '../../model/DTOs/sandbox-instance/sandbox-pool-dto';
+import {SandboxInstanceState} from '../../model/enums/sandbox-instance-state';
 import {PoolCreationRequest} from '../../model/sandbox/pool/request/pool-creation-request';
+import {PoolRequest} from '../../model/sandbox/pool/request/pool-request';
 import {AnsibleRunStage} from '../../model/sandbox/pool/request/stage/ansible-run-stage';
 import {OpenStackStage} from '../../model/sandbox/pool/request/stage/open-stack-stage';
-import {SandboxInstanceState} from '../../model/enums/sandbox-instance-state';
+import {RequestStage} from '../../model/sandbox/pool/request/stage/request-stage';
+import {SandboxInstance} from '../../model/sandbox/pool/sandbox-instance';
+import {SandboxPool} from '../../model/sandbox/pool/sandbox-pool';
+import {Kypo2Pagination} from '../../model/table-adapters/kypo2-pagination';
+import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 
 @Injectable()
 /**

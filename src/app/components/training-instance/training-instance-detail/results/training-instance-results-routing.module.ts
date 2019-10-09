@@ -1,14 +1,14 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {TrainingInstanceResultsComponent} from './training-instance-results.component';
 import {
-  VIZ_ASSESSMENTS_PATH,
-  VIZ_COMBINED_PATH, VIZ_PROGRESS_PATH,
-  VIZ_SCORE_DEVELOPMENT_PATH,
-  VIZ_SCORE_SCATTER_PLOT_PATH,
   TRAINING_INSTANCE_RESULTS_OUTLET,
-  TRAINING_INSTANCE_RESULTS_VISUALIZATION_PATH
+  TRAINING_INSTANCE_RESULTS_VISUALIZATION_PATH, VIZ_ASSESSMENTS_PATH,
+  VIZ_COMBINED_PATH,
+  VIZ_PROGRESS_PATH,
+  VIZ_SCORE_DEVELOPMENT_PATH,
+  VIZ_SCORE_SCATTER_PLOT_PATH
 } from './paths';
+import {TrainingInstanceResultsComponent} from './training-instance-results.component';
 
 const routes: Routes = [
   {

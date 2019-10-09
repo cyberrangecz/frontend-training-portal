@@ -29,5 +29,5 @@ export namespace AccessedTrainingRunDTO {
         RESULTS: 'RESULTS' as PossibleActionEnum,
         RESUME: 'RESUME' as PossibleActionEnum,
         NONE: 'NONE' as PossibleActionEnum
-    }
+    };
 }

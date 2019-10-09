@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {BaseComponent} from '../../base.component';
-import {TrainingInstance} from '../../../model/training/training-instance';
 import { Router} from '@angular/router';
 import {RouteFactory} from '../../../model/routes/route-factory';
+import {TrainingInstance} from '../../../model/training/training-instance';
+import {BaseComponent} from '../../base.component';
 
 @Component({
   selector: 'kypo2-training-instance-overview',

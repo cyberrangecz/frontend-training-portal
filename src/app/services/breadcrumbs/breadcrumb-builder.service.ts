@@ -1,7 +1,7 @@
-import {combineLatest, Observable, of} from 'rxjs';
-import {Breadcrumb} from '../../model/breadcrumb/breadcrumb';
-import {map, take} from 'rxjs/operators';
 import {ActivatedRoute, Data, PRIMARY_OUTLET} from '@angular/router';
+import {combineLatest, Observable, of} from 'rxjs';
+import {map, take} from 'rxjs/operators';
+import {Breadcrumb} from '../../model/breadcrumb/breadcrumb';
 import {BREADCRUMB_PARAM_SELECTOR} from '../../paths';
 /**
  *  Creates and displays breadcrumbs from static or dynamic (resolve) route data.

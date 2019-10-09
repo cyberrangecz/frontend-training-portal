@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FreeFormQuestion} from '../../../../../../../model/questions/free-form-question';
 import {AbstractQuestion} from '../../../../../../../model/questions/abstract-question';
+import {FreeFormQuestion} from '../../../../../../../model/questions/free-form-question';
 import {BaseComponent} from '../../../../../../base.component';
 
 @Component({

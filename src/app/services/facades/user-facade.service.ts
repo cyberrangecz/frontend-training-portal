@@ -1,18 +1,18 @@
-import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {User} from 'kypo2-auth';
 import {Observable} from 'rxjs';
-import {environment} from '../../../environments/environment';
 import {map} from 'rxjs/operators';
-import {UserMapper} from '../mappers/user.mapper.service';
-import {UserRestResource} from '../../model/DTOs/other/user-rest-resource-dto';
-import {PaginationParams} from '../../model/http/params/pagination-params';
+import {environment} from '../../../environments/environment';
 import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
+import {UserRestResource} from '../../model/DTOs/other/user-rest-resource-dto';
+import {FilterParams} from '../../model/http/params/filter-params';
+import {PaginationParams} from '../../model/http/params/pagination-params';
+import {ParamsMerger} from '../../model/http/params/params-merger';
 import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 import {UserRow} from '../../model/table-adapters/user-table-row';
 import {Filter} from '../../model/utils/filter';
-import {ParamsMerger} from '../../model/http/params/params-merger';
-import {FilterParams} from '../../model/http/params/filter-params';
-import {User} from 'kypo2-auth';
+import {UserMapper} from '../mappers/user.mapper.service';
 
 @Injectable()
 /**

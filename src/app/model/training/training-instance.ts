@@ -1,9 +1,9 @@
 /**
  * Class representing training instance of a definition.
  */
-import {TrainingDefinition} from './training-definition';
 import {User} from 'kypo2-auth';
 import {DisplayableResource} from './displayable-resource';
+import {TrainingDefinition} from './training-definition';
 
 export class TrainingInstance implements DisplayableResource {
 
@@ -31,6 +31,6 @@ export class TrainingInstance implements DisplayableResource {
   }
 
   isActive(timestamp: number): boolean {
-    return this.startTime.valueOf() < timestamp && this.endTime.valueOf() > timestamp
+    return this.startTime.valueOf() < timestamp && this.endTime.valueOf() > timestamp;
   }
 }

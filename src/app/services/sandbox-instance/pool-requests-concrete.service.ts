@@ -1,13 +1,13 @@
-import {PoolRequestsService} from './pool-requests.service';
 import {Injectable} from '@angular/core';
-import {PoolRequest} from '../../model/sandbox/pool/request/pool-request';
 import {Kypo2Table, RequestedPagination} from 'kypo2-table';
 import {Observable, Subject} from 'rxjs';
-import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 import {tap} from 'rxjs/operators';
+import {PoolRequest} from '../../model/sandbox/pool/request/pool-request';
+import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
+import {PoolRequestTableCreator} from '../../model/table-adapters/pool-request-table-creator';
 import {SandboxInstanceFacade} from '../facades/sandbox-instance-facade.service';
 import {ErrorHandlerService} from '../shared/error-handler.service';
-import {PoolRequestTableCreator} from '../../model/table-adapters/pool-request-table-creator';
+import {PoolRequestsService} from './pool-requests.service';
 
 @Injectable()
 export class PoolRequestsConcreteService extends  PoolRequestsService {

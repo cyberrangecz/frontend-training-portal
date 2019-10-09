@@ -32,5 +32,5 @@ export namespace TrainingDefinitionUpdateDTO {
         RELEASED: 'RELEASED' as StateEnum,
         ARCHIVED: 'ARCHIVED' as StateEnum,
         UNRELEASED: 'UNRELEASED' as StateEnum
-    }
+    };
 }

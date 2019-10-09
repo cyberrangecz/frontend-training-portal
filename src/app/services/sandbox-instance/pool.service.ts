@@ -1,5 +1,5 @@
-import {Observable} from 'rxjs';
 import {Kypo2Table, RequestedPagination} from 'kypo2-table';
+import {Observable} from 'rxjs';
 import {SandboxPool} from '../../model/sandbox/pool/sandbox-pool';
 import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 

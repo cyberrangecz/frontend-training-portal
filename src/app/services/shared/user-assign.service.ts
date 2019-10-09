@@ -1,8 +1,8 @@
-import {Observable} from 'rxjs';
 import {User} from 'kypo2-auth';
-import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
-import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
 import {Kypo2Table} from 'kypo2-table';
+import {Observable} from 'rxjs';
+import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
+import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 
 export abstract class UserAssignService {
   /**

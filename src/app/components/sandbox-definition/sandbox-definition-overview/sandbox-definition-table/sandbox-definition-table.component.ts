@@ -1,3 +1,4 @@
+import {animate, state, style, transition, trigger} from '@angular/animations';
 import {
   Component,
   EventEmitter,
@@ -8,15 +9,14 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import {SandboxDefinitionTableRow} from '../../../../model/table-adapters/sandbox-definition-table-row';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
-import {LoadTableEvent} from '../../../../model/table-adapters/load-table-event';
+import {merge} from 'rxjs';
 import {startWith, takeWhile} from 'rxjs/operators';
 import {environment} from '../../../../../environments/environment';
-import {BaseComponent} from '../../../base.component';
-import {merge} from 'rxjs';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import {LoadTableEvent} from '../../../../model/table-adapters/load-table-event';
+import {SandboxDefinitionTableRow} from '../../../../model/table-adapters/sandbox-definition-table-row';
 import {StringNormalizer} from '../../../../model/utils/ignore-diacritics-filter';
+import {BaseComponent} from '../../../base.component';
 
 @Component({
   selector: 'kypo2-sandbox-definition-table',

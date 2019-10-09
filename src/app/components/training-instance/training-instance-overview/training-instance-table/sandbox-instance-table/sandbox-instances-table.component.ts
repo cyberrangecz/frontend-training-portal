@@ -7,20 +7,20 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import {TrainingInstance} from '../../../../../model/training/training-instance';
-import {SandboxInstance} from '../../../../../model/sandbox/pool/sandbox-instance';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import {SandboxAllocationService} from '../../../../../services/training-instance/sandbox-allocation/sandbox-allocation.service';
-import {SandboxInstanceFacade} from '../../../../../services/facades/sandbox-instance-facade.service';
-import {SandboxInstanceTableRow} from '../../../../../model/table-adapters/sandbox-instance-table-row';
 import {Observable} from 'rxjs';
+import {skipWhile, takeWhile} from 'rxjs/operators';
+import {SandboxInstance} from '../../../../../model/sandbox/pool/sandbox-instance';
+import {SandboxInstanceTableRow} from '../../../../../model/table-adapters/sandbox-instance-table-row';
 import {SandboxInstanceAllocationState} from '../../../../../model/training/sandbox-instance-allocation-state';
+import {TrainingInstance} from '../../../../../model/training/training-instance';
+import {SandboxInstanceFacade} from '../../../../../services/facades/sandbox-instance-facade.service';
 import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
+import {SandboxAllocationService} from '../../../../../services/training-instance/sandbox-allocation/sandbox-allocation.service';
+import {BaseComponent} from '../../../../base.component';
 import {ActionConfirmationDialogComponent} from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import {AllocationErrorReasonComponent} from '../allocation-error-reason-dialog/allocation-error-reason.component';
-import {BaseComponent} from '../../../../base.component';
-import {skipWhile, takeWhile} from 'rxjs/operators';
 
 
 @Component({

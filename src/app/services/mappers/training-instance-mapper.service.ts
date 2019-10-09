@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
-import {TrainingInstanceDTO} from '../../model/DTOs/training-instance/training-instance-dto';
-import {TrainingInstance} from '../../model/training/training-instance';
 import {TrainingInstanceCreateDTO} from '../../model/DTOs/training-instance/training-instance-create-dto';
-import {TrainingInstanceUpdateDTO} from '../../model/DTOs/training-instance/training-instance-update-dto';
+import {TrainingInstanceDTO} from '../../model/DTOs/training-instance/training-instance-dto';
 import {TrainingInstanceRestResource} from '../../model/DTOs/training-instance/training-instance-rest-resource';
-import {TrainingDefinitionMapper} from './training-definition-mapper.service';
+import {TrainingInstanceUpdateDTO} from '../../model/DTOs/training-instance/training-instance-update-dto';
+import {Kypo2Pagination} from '../../model/table-adapters/kypo2-pagination';
 import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 import {TrainingInstanceTableRow} from '../../model/table-adapters/training-instance-table-row';
-import {Kypo2Pagination} from '../../model/table-adapters/kypo2-pagination';
+import {TrainingInstance} from '../../model/training/training-instance';
+import {TrainingDefinitionMapper} from './training-definition-mapper.service';
 
 @Injectable()
 /**

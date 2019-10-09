@@ -9,8 +9,8 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { AccessedTrainingRunDTO } from './accessed-training-run-dto';
 import { Paginated } from '../other/paginated';
+import { AccessedTrainingRunDTO } from './accessed-training-run-dto';
 
 
 export interface AccessedTrainingRunRestResource {

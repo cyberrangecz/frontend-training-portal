@@ -1,7 +1,7 @@
-import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
-import {TrainingInstanceDetailComponent} from './training-instance-detail.component';
+import {RouterModule, Routes} from '@angular/router';
 import {TrainingInstanceGuard} from '../../../services/guards/training-instance-guard.service';
+import {ACCESS_TOKEN_PATH} from '../training-instance-overview/paths';
 import {
   PROGRESS_PATH,
   RESULTS_PATH,
@@ -9,7 +9,7 @@ import {
   TRAINING_INSTANCE_DETAIL_OUTLET,
   TRAINING_INSTANCE_DETAIL_PATH
 } from './paths';
-import {ACCESS_TOKEN_PATH} from '../training-instance-overview/paths';
+import {TrainingInstanceDetailComponent} from './training-instance-detail.component';
 const routes: Routes = [
   {
     path: '',

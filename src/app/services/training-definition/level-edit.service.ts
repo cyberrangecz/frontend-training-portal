@@ -1,16 +1,16 @@
+import {moveItemInArray} from '@angular/cdk/drag-drop';
 import {Injectable} from '@angular/core';
-import {AbstractLevel} from '../../model/level/abstract-level';
 import {BehaviorSubject, Observable, of} from 'rxjs';
+import {switchMap, tap} from 'rxjs/operators';
 import {AbstractLevelTypeEnum} from '../../model/enums/abstract-level-type.enum';
+import {AlertTypeEnum} from '../../model/enums/alert-type.enum';
+import {AbstractLevel} from '../../model/level/abstract-level';
+import {AssessmentLevel} from '../../model/level/assessment-level';
 import {GameLevel} from '../../model/level/game-level';
 import {InfoLevel} from '../../model/level/info-level';
-import {AssessmentLevel} from '../../model/level/assessment-level';
-import {switchMap, tap} from 'rxjs/operators';
 import {TrainingDefinitionFacade} from '../facades/training-definition-facade.service';
-import {ErrorHandlerService} from '../shared/error-handler.service';
 import {AlertService} from '../shared/alert.service';
-import {AlertTypeEnum} from '../../model/enums/alert-type.enum';
-import {moveItemInArray} from '@angular/cdk/drag-drop';
+import {ErrorHandlerService} from '../shared/error-handler.service';
 
 @Injectable()
 export class LevelEditService {

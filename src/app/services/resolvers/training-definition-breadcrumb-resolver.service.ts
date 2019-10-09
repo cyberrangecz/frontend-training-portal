@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
 import {EMPTY, Observable, of} from 'rxjs';
-import {TrainingDefinitionFacade} from '../facades/training-definition-facade.service';
-import {TRAINING_DEFINITION_NEW_PATH} from '../../components/training-definition/training-definition-overview/paths';
 import {catchError, mergeMap, take} from 'rxjs/operators';
+import {TRAINING_DEFINITION_NEW_PATH} from '../../components/training-definition/training-definition-overview/paths';
+import {TrainingDefinitionFacade} from '../facades/training-definition-facade.service';
 import {ErrorHandlerService} from '../shared/error-handler.service';
 
 

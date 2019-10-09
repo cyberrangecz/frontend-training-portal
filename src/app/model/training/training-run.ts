@@ -1,7 +1,7 @@
+import {User} from 'kypo2-auth';
+import {SandboxInstanceState} from '../enums/sandbox-instance-state';
 import {TrainingRunStateEnum} from '../enums/training-run-state.enum';
 import {AbstractLevel} from '../level/abstract-level';
-import {SandboxInstanceState} from '../enums/sandbox-instance-state';
-import {User} from 'kypo2-auth';
 
 /**
  * Class representing training run of an instance

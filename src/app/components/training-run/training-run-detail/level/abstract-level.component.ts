@@ -1,10 +1,10 @@
 import {Component, HostListener, OnInit} from '@angular/core';
-import {ActiveTrainingRunService} from '../../../../services/training-run/active-training-run.service';
-import {AbstractLevel} from '../../../../model/level/abstract-level';
-import {AbstractLevelTypeEnum} from '../../../../model/enums/abstract-level-type.enum';
-import {BaseComponent} from '../../../base.component';
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
+import {AbstractLevelTypeEnum} from '../../../../model/enums/abstract-level-type.enum';
+import {AbstractLevel} from '../../../../model/level/abstract-level';
+import {ActiveTrainingRunService} from '../../../../services/training-run/active-training-run.service';
+import {BaseComponent} from '../../../base.component';
 
 @Component({
   selector: 'kypo2-abstract-level',

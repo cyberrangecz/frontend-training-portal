@@ -1,26 +1,26 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppComponent } from './app.component';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {AppRoutingModule} from './app-routing.module';
-import {DesignerGuard} from './services/guards/designer-guard.service';
-import {OrganizerGuard} from './services/guards/organizer-guard.service';
-import {TraineeGuard} from './services/guards/trainee-guard.service';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import {MatButtonModule, MatIconModule} from '@angular/material';
+import { BrowserModule } from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {Kypo2AuthInterceptor, Kypo2AuthModule} from 'kypo2-auth';
+import {NgxHotjarModule} from 'ngx-hotjar';
+import {environment} from '../environments/environment';
+import {AppRoutingModule} from './app-routing.module';
+import { AppComponent } from './app.component';
+import {HomeModule} from './components/home/home.module';
+import {LayoutModule} from './components/layout/layout.module';
 import {SharedModule} from './components/shared/shared.module';
-import {DistractionFreeModeService} from './services/shared/distraction-free-mode.service';
 import {UserFacadeModule} from './services/facades/modules/user-facade.module';
 import {AdminGuard} from './services/guards/admin-guard.service';
-import {ErrorLogInterceptor} from './services/http-interceptors/error-log-interceptor';
-import {NgxHotjarModule} from 'ngx-hotjar';
-import {Kypo2AuthInterceptor, Kypo2AuthModule} from 'kypo2-auth';
-import {environment} from '../environments/environment';
+import {DesignerGuard} from './services/guards/designer-guard.service';
 import {NotOnlyTraineeGuard} from './services/guards/only-trainee.guard.service';
-import {LayoutModule} from './components/layout/layout.module';
-import {MatButtonModule, MatIconModule} from '@angular/material';
-import {LoadingService} from './services/shared/loading.service';
+import {OrganizerGuard} from './services/guards/organizer-guard.service';
+import {TraineeGuard} from './services/guards/trainee-guard.service';
+import {ErrorLogInterceptor} from './services/http-interceptors/error-log-interceptor';
 import {LoadingInterceptor} from './services/http-interceptors/loading-interceptor';
-import {HomeModule} from './components/home/home.module';
+import {DistractionFreeModeService} from './services/shared/distraction-free-mode.service';
+import {LoadingService} from './services/shared/loading.service';
 
 @NgModule({
   declarations: [

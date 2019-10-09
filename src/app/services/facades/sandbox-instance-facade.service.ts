@@ -1,19 +1,19 @@
-import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {environment} from '../../../environments/environment';
-import {Observable} from 'rxjs';
-import {SandboxInstance} from '../../model/sandbox/pool/sandbox-instance';
-import {SandboxInstanceDTO} from '../../model/DTOs/sandbox-instance/sandbox-instance-dto';
-import {map} from 'rxjs/operators';
-import {SandboxInstanceMapper} from '../mappers/sandbox-instance-mapper.service';
-import {DjangoResourceDTO} from '../../model/DTOs/other/django-resource-dto';
+import {Injectable} from '@angular/core';
 import {RequestedPagination} from 'kypo2-table';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {environment} from '../../../environments/environment';
+import {DjangoResourceDTO} from '../../model/DTOs/other/django-resource-dto';
+import {PoolRequestDTO} from '../../model/DTOs/sandbox-instance/pool-request-dto';
+import {SandboxInstanceDTO} from '../../model/DTOs/sandbox-instance/sandbox-instance-dto';
 import {SandboxPoolDTO} from '../../model/DTOs/sandbox-instance/sandbox-pool-dto';
-import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
-import {SandboxPool} from '../../model/sandbox/pool/sandbox-pool';
 import {PaginationParams} from '../../model/http/params/pagination-params';
 import {PoolRequest} from '../../model/sandbox/pool/request/pool-request';
-import {PoolRequestDTO} from '../../model/DTOs/sandbox-instance/pool-request-dto';
+import {SandboxInstance} from '../../model/sandbox/pool/sandbox-instance';
+import {SandboxPool} from '../../model/sandbox/pool/sandbox-pool';
+import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
+import {SandboxInstanceMapper} from '../mappers/sandbox-instance-mapper.service';
 @Injectable()
 /**
  * Service to abstract communication with sandbox instance endpoint

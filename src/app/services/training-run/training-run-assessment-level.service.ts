@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {TrainingRunFacade} from '../facades/training-run-facade.service';
 import {Observable} from 'rxjs';
 import {AbstractQuestion} from '../../model/questions/abstract-question';
+import {TrainingRunFacade} from '../facades/training-run-facade.service';
 
 @Injectable()
 /**

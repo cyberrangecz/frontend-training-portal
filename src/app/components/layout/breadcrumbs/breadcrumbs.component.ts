@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {BREADCRUMB_PARAM_SELECTOR, HOME_PATH} from '../../../paths';
 import {ActivatedRoute, Data, NavigationEnd, PRIMARY_OUTLET, Router} from '@angular/router';
-import {filter, map, switchMap, take, takeWhile, tap} from 'rxjs/operators';
-import {BaseComponent} from '../../base.component';
-import {Breadcrumb} from '../../../model/breadcrumb/breadcrumb';
 import { Observable, of} from 'rxjs';
+import {filter, map, switchMap, take, takeWhile, tap} from 'rxjs/operators';
+import {Breadcrumb} from '../../../model/breadcrumb/breadcrumb';
+import {BREADCRUMB_PARAM_SELECTOR, HOME_PATH} from '../../../paths';
 import {BreadcrumbBuilderService} from '../../../services/breadcrumbs/breadcrumb-builder.service';
+import {BaseComponent} from '../../base.component';
 
 @Component({
   selector: 'kypo2-breadcrumbs',

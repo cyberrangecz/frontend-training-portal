@@ -1,5 +1,5 @@
-import {Paginated} from './paginated';
 import {UserDTO} from 'kypo2-auth';
+import {Paginated} from './paginated';
 
 export interface UserRestResource {
   /**

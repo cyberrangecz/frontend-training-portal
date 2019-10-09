@@ -15,11 +15,11 @@ import {MatTableDataSource} from '@angular/material/table';
 import {merge} from 'rxjs';
 import {startWith, takeWhile} from 'rxjs/operators';
 import {environment} from '../../../../../environments/environment';
-import {AccessedTrainingRunsTableRow} from '../../../../model/table-adapters/accessed-training-runs-table-row';
 import {TraineeAccessTrainingRunActionEnum} from '../../../../model/enums/trainee-access-training-run-actions.enum';
-import {BaseComponent} from '../../../base.component';
-import {StringNormalizer} from '../../../../model/utils/ignore-diacritics-filter';
+import {AccessedTrainingRunsTableRow} from '../../../../model/table-adapters/accessed-training-runs-table-row';
 import {LoadTableEvent} from '../../../../model/table-adapters/load-table-event';
+import {StringNormalizer} from '../../../../model/utils/ignore-diacritics-filter';
+import {BaseComponent} from '../../../base.component';
 
 @Component({
   selector: 'kypo2-training-run-table',

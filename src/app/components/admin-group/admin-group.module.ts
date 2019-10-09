@@ -1,10 +1,10 @@
-import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {NgModule} from '@angular/core';
 import {UserAndGroupManagementModule} from 'kypo2-user-and-group-management';
-import {AdminGroupRoutingModule} from './admin-group-routing.module';
 import {environment} from '../../../environments/environment';
 import {AdminGroupMaterialModule} from './admin-group-material.module';
 import { AdminGroupOverviewComponent } from './admin-group-overview/admin-group-overview.component';
+import {AdminGroupRoutingModule} from './admin-group-routing.module';
 
 /**
  * Administration of groups module

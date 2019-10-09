@@ -8,11 +8,11 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
-import {HintConfigurationFormGroup} from './hint-configuration-form-group';
 import {Validators} from '@angular/forms';
-import {BaseComponent} from '../../../../../../../base.component';
-import {Hint} from '../../../../../../../../model/level/hint';
 import {takeWhile} from 'rxjs/operators';
+import {Hint} from '../../../../../../../../model/level/hint';
+import {BaseComponent} from '../../../../../../../base.component';
+import {HintConfigurationFormGroup} from './hint-configuration-form-group';
 
 @Component({
   selector: 'kypo2-hint-edit',

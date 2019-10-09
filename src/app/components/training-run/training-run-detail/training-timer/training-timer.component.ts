@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {BaseComponent} from '../../../base.component';
 import {Observable, timer} from 'rxjs';
 import {map, takeWhile} from 'rxjs/operators';
+import {BaseComponent} from '../../../base.component';
 
 @Component({
   selector: 'kypo2-training-timer',

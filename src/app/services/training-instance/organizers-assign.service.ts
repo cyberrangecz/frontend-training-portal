@@ -1,14 +1,14 @@
-import {UserAssignService} from '../shared/user-assign.service';
+import {Injectable} from '@angular/core';
 import {User} from 'kypo2-auth';
-import {Observable, Subject} from 'rxjs';
 import {Kypo2Table, RequestedPagination} from 'kypo2-table';
+import {Observable, Subject} from 'rxjs';
+import {tap} from 'rxjs/operators';
 import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
+import {UsersTableCreator} from '../../model/table-adapters/users-table-creator';
+import {UserNameFilters} from '../../model/utils/user-name-filters';
 import {UserFacade} from '../facades/user-facade.service';
 import {ErrorHandlerService} from '../shared/error-handler.service';
-import {tap} from 'rxjs/operators';
-import {UserNameFilters} from '../../model/utils/user-name-filters';
-import {UsersTableCreator} from '../../model/table-adapters/users-table-creator';
-import {Injectable} from '@angular/core';
+import {UserAssignService} from '../shared/user-assign.service';
 
 @Injectable()
 export class OrganizersAssignService extends UserAssignService {

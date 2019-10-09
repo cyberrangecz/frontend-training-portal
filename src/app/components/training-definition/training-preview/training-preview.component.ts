@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {map, switchMap, takeWhile} from 'rxjs/operators';
+import {AccessTrainingRunInfo} from '../../../model/training/access-training-run-info';
+import {TrainingDefinition} from '../../../model/training/training-definition';
 import {TrainingDefinitionFacade} from '../../../services/facades/training-definition-facade.service';
 import {ActiveTrainingRunService} from '../../../services/training-run/active-training-run.service';
-import {TrainingDefinition} from '../../../model/training/training-definition';
-import {AccessTrainingRunInfo} from '../../../model/training/access-training-run-info';
 import {BaseComponent} from '../../base.component';
 
 @Component({
