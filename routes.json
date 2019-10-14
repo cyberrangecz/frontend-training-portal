@@ -1,4 +1,5 @@
 {
-  "/pools/:poolId/requests/?page=1&page_size=5": "/requests",
+  "/pools/:poolId/creation-requests/?page=1&page_size=5": "/creation_requests",
+  "/pools/:poolId/cleanup-requests/?page=1&page_size=5": "/cleanup_requests",
   "/pools/:poolId/requests/:requestId/": "/requestById"
 }

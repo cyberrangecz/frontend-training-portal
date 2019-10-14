@@ -1,0 +1,31 @@
+<mat-card>
+  <mat-card-header>
+      <img mat-card-avatar [src]="'assets/images/request-stages/' + logoSrc">
+      <mat-card-title>Stage {{ stage?.id }}</mat-card-title>
+      <mat-card-subtitle>{{ stage?.description }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="state">
+      <ng-container [ngSwitch]="stage?.state">
+        <mat-icon *ngSwitchCase="stageStates.IN_QUEUE" color="accent">hourglass_empty</mat-icon>
+        <mat-icon *ngSwitchCase="stageStates.FAILED" color="warn">error_outline</mat-icon>
+        <mat-icon *ngSwitchCase="stageStates.FINISHED" class="success">done</mat-icon>
+        <mat-icon *ngSwitchCase="stageStates.RUNNING" color="primary">play_arrow</mat-icon>
+      </ng-container>
+      <h3>{{ stage?.state }} ({{ stage?.percentFinished }}%)</h3>
+    </div>
+    <mat-progress-bar mode="determinate" [color]="stage?.state === stageStates.FAILED ? 'warn' : 'primary'" [value]="stage?.percentFinished"></mat-progress-bar>
+    <mat-expansion-panel  class="mat-elevation-z1" [disabled]="stage?.state === stageStates.IN_QUEUE">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Stage detail</mat-panel-title>
+      </mat-expansion-panel-header>
+      <kypo2-request-stage-detail *ngIf="stage.output && stage.output.length > 0 else noStageOutput" [stage]="stage" [totalLength]="stage?.output.length"></kypo2-request-stage-detail>
+      <ng-template #noStageOutput>
+        <h3>Stage has no output</h3>
+      </ng-template>
+    </mat-expansion-panel>
+  </mat-card-content>
+  <mat-card-actions align="end" *ngIf="isCleanup">
+    <button *ngIf="stage.state === stageStates.FAILED"  mat-button color="primary" (click)=onForceCleanup()>Force</button>
+  </mat-card-actions>
+</mat-card>

@@ -1,0 +1,25 @@
+@import "~variables.scss";
+
+mat-card {
+  margin: 10px;
+}
+
+.state {
+  display: flex;
+  flex-direction: row;
+  margin: 10px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.success {
+  color: $success;
+}
+
+.state h3 {
+  margin: 0 0 0 5px;
+}
+
+mat-expansion-panel {
+  margin: 10px;
+}

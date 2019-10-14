@@ -2,8 +2,7 @@ import {RequestStage} from './stage/request-stage';
 
 export abstract class PoolRequest {
   id: number;
-  stagesCount;
-  type: string;
+  stagesCount: number;
 
   private _stages: RequestStage[];
 
