@@ -15,8 +15,8 @@ export class PoolRequestsConcreteService extends  PoolRequestsService {
   private creationRequestsSubject: Subject<Kypo2Table<PoolRequest>> = new Subject();
   creationRequests$: Observable<Kypo2Table<PoolRequest>> = this.creationRequestsSubject.asObservable();
 
-  private deletionRequestsSubject: Subject<Kypo2Table<PoolRequest>> = new Subject();
-  deletionRequests$: Observable<Kypo2Table<PoolRequest>> = this.deletionRequestsSubject.asObservable();
+  private cleanupRequestsSubject: Subject<Kypo2Table<PoolRequest>> = new Subject();
+  cleanupRequests$: Observable<Kypo2Table<PoolRequest>> = this.cleanupRequestsSubject.asObservable();
 
   constructor(private sandboxInstanceFacade: SandboxInstanceFacade,
               private errorHandler: ErrorHandlerService) {
@@ -33,12 +33,12 @@ export class PoolRequestsConcreteService extends  PoolRequestsService {
       );
   }
 
-  getDeletionRequests(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<PoolRequest[]>> {
-    return this.sandboxInstanceFacade.getDeletionRequests(poolId, pagination)
+  getCleanupRequests(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<PoolRequest[]>> {
+    return this.sandboxInstanceFacade.getCleanupRequests(poolId, pagination)
       .pipe(
         tap(
-          paginatedRequests => this.deletionRequestsSubject.next(PoolRequestTableCreator.create(paginatedRequests, poolId)),
-          err => this.errorHandler.display(err, 'Fetching deletion requests')
+          paginatedRequests => this.cleanupRequestsSubject.next(PoolRequestTableCreator.create(paginatedRequests, poolId)),
+          err => this.errorHandler.display(err, 'Fetching cleanup requests')
         )
       );  }
 }

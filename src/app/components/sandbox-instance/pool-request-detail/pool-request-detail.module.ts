@@ -6,6 +6,8 @@ import {PoolRequestResolver} from '../../../services/resolvers/pool-request-reso
 import {PoolRequestDetailMaterialModule} from './pool-request-detail-material.module';
 import {PoolRequestDetailRoutingModule} from './pool-request-detail-routing.module';
 import {PoolRequestDetailComponent} from './pool-request-detail.component';
+import { RequestStageComponent } from './request-stage/request-stage.component';
+import { RequestStageDetailComponent } from './request-stage/request-stage-detail/request-stage-detail.component';
 
 @NgModule({
   imports: [
@@ -13,9 +15,13 @@ import {PoolRequestDetailComponent} from './pool-request-detail.component';
     PoolRequestDetailRoutingModule,
     PoolRequestDetailMaterialModule,
     SandboxInstanceFacadeModule,
-    Kypo2TableModule
+    Kypo2TableModule,
   ],
-  declarations: [PoolRequestDetailComponent],
+  declarations: [
+    PoolRequestDetailComponent,
+    RequestStageComponent,
+    RequestStageDetailComponent
+  ],
   providers: [
     PoolRequestResolver
   ]

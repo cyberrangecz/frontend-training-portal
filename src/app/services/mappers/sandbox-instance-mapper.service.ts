@@ -16,6 +16,8 @@ import {SandboxInstanceState} from '../../model/enums/sandbox-instance-state';
 import {SandboxInstanceResourceDTO} from '../../model/DTOs/sandbox-instance/sandbox-instance-resource-dto';
 import {SandboxInstanceResource} from '../../model/sandbox/pool/sandbox-instance/sandbox-instance-resource/sandbox-instance-resource';
 import {SandboxInstance} from '../../model/sandbox/pool/sandbox-instance/sandbox-instance';
+import {RequestStageState} from '../../model/enums/request-stage-state.enum';
+import {PoolCleanupRequest} from '../../model/sandbox/pool/request/pool-cleanup-request';
 
 @Injectable()
 /**
@@ -83,8 +85,8 @@ export class SandboxInstanceMapper {
     let request: PoolRequest;
     if (requestDTO.type === 'CREATION') {
       request = new PoolCreationRequest();
-    } else if (requestDTO.type === 'DELETION') {
-      request = new PoolCreationRequest();
+    } else if (requestDTO.type === 'CLEANUP') {
+      request = new PoolCleanupRequest();
     } else {
       console.error(`${requestDTO.type} does not match supported PoolRequest types.`);
     }
@@ -117,6 +119,11 @@ export class SandboxInstanceMapper {
     stage.id = stageDTO.id;
     stage.jobId = stageDTO.job_id;
     stage.description = stageDTO.description;
+    stage.percentFinished = stageDTO.percent;
+    stage.state = RequestStageState[stageDTO.state];
+    if (stageDTO.output && stageDTO.output.length > 0) {
+      stage.output = stageDTO.output.split('.');
+    }
     return stage;
   }
 

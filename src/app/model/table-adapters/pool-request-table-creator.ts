@@ -16,7 +16,6 @@ export class PoolRequestTableCreator {
       rows,
       [
         new Column('id', 'id', false),
-        new Column('type', 'Type', false),
         new Column('stagesCount', 'No. of stages', false)
       ]
     );

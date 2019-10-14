@@ -66,15 +66,15 @@ export class SandboxInstanceFacade {
   }
 
   getCreationRequests(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<PoolRequest[]>> {
-    return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(`${this.MOCKENDOPOINT + poolId}/${this.poolRequestUriExtension}`,
+    return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(`${this.MOCKENDOPOINT + poolId}/creation-${this.poolRequestUriExtension}`,
       {
         params: PaginationParams.createSandboxPaginationParams(pagination)
       })
       .pipe(map(response => this.sandboxInstanceMapper.mapRequestsDTOToRequests(response)));
   }
 
-  getDeletionRequests(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<PoolRequest[]>> {
-    return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(`${this.MOCKENDOPOINT + poolId}/${this.poolRequestUriExtension}`,
+  getCleanupRequests(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<PoolRequest[]>> {
+    return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(`${this.MOCKENDOPOINT + poolId}/cleanup-${this.poolRequestUriExtension}`,
       {
         params: PaginationParams.createSandboxPaginationParams(pagination)
       })

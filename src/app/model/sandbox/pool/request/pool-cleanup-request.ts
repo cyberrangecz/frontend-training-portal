@@ -1,9 +1,8 @@
 import {PoolRequest} from './pool-request';
 
-export class PoolDeletionRequest extends PoolRequest {
+export class PoolCleanupRequest extends PoolRequest {
 
   constructor() {
     super();
-    this.type = 'Deletion';
   }
 }

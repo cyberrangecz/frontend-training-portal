@@ -19,11 +19,11 @@
         </kypo2-table>
       </div>
       <div class="request">
-        <h3>Deletion Requests</h3>
-        <kypo2-table [data]="deletionRequests$ | async"
-                     [hasError]="deletionRequestsTableHasError"
-                     [totalElements]="deletionRequestsTotalLength"
-                     (refresh)="onDeletionRequestsLoadEvent($event)">
+        <h3>Cleanup Requests</h3>
+        <kypo2-table [data]="cleanupRequests$ | async"
+                     [hasError]="cleanupRequestsTableHasError"
+                     [totalElements]="cleanupRequestsTotalLength"
+                     (refresh)="onCleanupRequestsLoadEvent($event)">
         </kypo2-table>
       </div>
     </div>

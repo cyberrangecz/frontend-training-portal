@@ -4,6 +4,5 @@ export class PoolCreationRequest extends PoolRequest {
 
   constructor() {
     super();
-    this.type = 'Creation';
   }
 }

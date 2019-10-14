@@ -5,8 +5,8 @@ import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 
 export abstract class PoolRequestsService {
   abstract creationRequests$: Observable<Kypo2Table<PoolRequest>>;
-  abstract deletionRequests$: Observable<Kypo2Table<PoolRequest>>;
+  abstract cleanupRequests$: Observable<Kypo2Table<PoolRequest>>;
   abstract getCreationRequests(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<PoolRequest[]>>;
-  abstract getDeletionRequests(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<PoolRequest[]>>;
+  abstract getCleanupRequests(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<PoolRequest[]>>;
 
 }

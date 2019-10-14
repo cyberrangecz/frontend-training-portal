@@ -26,15 +26,15 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
   creationRequestsTotalLength: number;
   creationRequestsTableHasError = false;
 
-  deletionRequests$: Observable<Kypo2Table<PoolRequest>>;
-  deletionRequestsTotalLength: number;
-  deletionRequestsTableHasError = false;
+  cleanupRequests$: Observable<Kypo2Table<PoolRequest>>;
+  cleanupRequestsTotalLength: number;
+  cleanupRequestsTableHasError = false;
 
   pool: SandboxPool;
 
   private lastInstancesLoadEvent: LoadTableEvent;
   private lastCreationRequestsLoadEvent: LoadTableEvent;
-  private lastDeletionRequestsLoadEvent: LoadTableEvent;
+  private lastCleanupRequestsLoadEvent: LoadTableEvent;
 
   constructor(private instanceService: SandboxInstanceService,
               private requestsService: PoolRequestsService,
@@ -55,9 +55,9 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
     this.lastCreationRequestsLoadEvent = new LoadTableEvent(null, null);
     this.onCreationRequestsLoadEvent();
 
-    this.deletionRequests$ = this.requestsService.deletionRequests$;
-    this.lastDeletionRequestsLoadEvent = new LoadTableEvent(null, null);
-    this.onDeletionRequestsLoadEvent();
+    this.cleanupRequests$ = this.requestsService.cleanupRequests$;
+    this.lastCleanupRequestsLoadEvent = new LoadTableEvent(null, null);
+    this.onCleanupRequestsLoadEvent();
   }
 
   onInstanceLoadEvent(loadEvent: LoadTableEvent = null) {
@@ -78,12 +78,12 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
     }
   }
 
-  onDeletionRequestsLoadEvent(loadEvent: LoadTableEvent = null) {
+  onCleanupRequestsLoadEvent(loadEvent: LoadTableEvent = null) {
     if (loadEvent) {
-      this.lastCreationRequestsLoadEvent = loadEvent;
-      this.getDeletionRequests(loadEvent.pagination);
+      this.lastCleanupRequestsLoadEvent = loadEvent;
+      this.getCleanupRequests(loadEvent.pagination);
     } else {
-      this.getDeletionRequests(this.lastCreationRequestsLoadEvent.pagination);
+      this.getCleanupRequests(this.lastCleanupRequestsLoadEvent.pagination);
     }
   }
 
@@ -110,14 +110,14 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
         err => this.creationRequestsTableHasError = true);
   }
 
-  private getDeletionRequests(pagination: RequestedPagination) {
-    this.deletionRequestsTableHasError = false;
-    this.requestsService.getDeletionRequests(this.pool.id, pagination)
+  private getCleanupRequests(pagination: RequestedPagination) {
+    this.cleanupRequestsTableHasError = false;
+    this.requestsService.getCleanupRequests(this.pool.id, pagination)
       .pipe(
         takeWhile(_ => this.isAlive),
       )
       .subscribe(
-        paginatedRequests => this.deletionRequestsTotalLength = paginatedRequests.pagination.totalElements,
-        err => this.deletionRequestsTableHasError = true);
+        paginatedRequests => this.cleanupRequestsTotalLength = paginatedRequests.pagination.totalElements,
+        err => this.cleanupRequestsTableHasError = true);
   }
 }
