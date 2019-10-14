@@ -1,8 +1,2037 @@
-{
-  "requestById": {
+module.exports = function () {
+  return {
+    "info": {
+      "id": 1,
+      "full_name": "User Name",
+      "login": "login@mail.cz",
+      "mail": "mail@mail.cz",
+      "given_name": "User",
+      "family_name": "Name",
+      "roles": [
+        {
+          "id": 1,
+          "id_of_microservice": 4,
+          "name_of_microservice": "kypo2_django_openstack_project",
+          "description": null,
+          "role_type": "ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_TRAINEE"
+        },
+        {
+          "id": 2,
+          "id_of_microservice": 1,
+          "name_of_microservice": "kypo2-user-and-group",
+          "description": "",
+          "role_type": "ROLE_USER_AND_GROUP_USER"
+        },
+        {
+          "id": 3,
+          "id_of_microservice": 2,
+          "name_of_microservice": "kypo2-training",
+          "description": "This role will allow you to manage, test, import and export training definitions and assign organizers to beta testing group in KYPO Trainings.",
+          "role_type": "ROLE_TRAINING_DESIGNER"
+        },
+        {
+          "id": 4,
+          "id_of_microservice": 5,
+          "name_of_microservice": "kypo2-topology",
+          "description": null,
+          "role_type": "ROLE_TOPOLOGY_TRAINEE"
+        },
+        {
+          "id": 5,
+          "id_of_microservice": 3,
+          "name_of_microservice": "kypo2_django_openstack",
+          "description": null,
+          "role_type": "ROLE_KYPO2_DJANGO_OPENSTACK_TRAINEE"
+        },
+        {
+          "id": 6,
+          "id_of_microservice": 1,
+          "name_of_microservice": "kypo2-user-and-group",
+          "description": "This role will allow you to create, edit, delete and manage users, groups and roles in KYPO.",
+          "role_type": "ROLE_USER_AND_GROUP_ADMINISTRATOR"
+        },
+        {
+          "id": 7,
+          "id_of_microservice": 1,
+          "name_of_microservice": "kypo2-user-and-group",
+          "description": "This role is default role.",
+          "role_type": "ROLE_USER_AND_GROUP_GUEST"
+        },
+        {
+          "id": 8,
+          "id_of_microservice": 2,
+          "name_of_microservice": "kypo2-training",
+          "description": "This role is default and will allow you to access training run and play a game in KYPO Trainings.",
+          "role_type": "ROLE_TRAINING_TRAINEE"
+        },
+        {
+          "id": 9,
+          "id_of_microservice": 3,
+          "name_of_microservice": "kypo2_django_openstack",
+          "description": null,
+          "role_type": "ROLE_KYPO2_DJANGO_OPENSTACK_DESIGNER"
+        },
+        {
+          "id": 10,
+          "id_of_microservice": 2,
+          "name_of_microservice": "kypo2-training",
+          "description": "This role will allow you to prepare training instances from training definitions and manage them, restart sandbox instances and view situational awareness in KYPO Trainings.",
+          "role_type": "ROLE_TRAINING_ORGANIZER"
+        },
+        {
+          "id": 11,
+          "id_of_microservice": 3,
+          "name_of_microservice": "kypo2_django_openstack",
+          "description": null,
+          "role_type": "ROLE_KYPO2_DJANGO_OPENSTACK_ORGANIZER"
+        }
+      ],
+      "iss": "https://oidc.muni.cz/oidc/",
+      "picture": "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAB7ElEQVR4Xu3YIY4dQRAE0T3SSia+/8W+eYQahFdKAxd4JEFMq+B8fT6fr3/h+/evz99ia0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGlZ4gIKtFQ0rPEDB1oqGFR6gYGtFwwoPULC1omGFByjYWtGwwgMUbK1oWOEBCrZWNKzwAAVbKxpWeICCrRUNKzxAwdaKhhUeoGBrRcMKD1CwtaJhhQco2FrRsMIDFGytaFjhAQq2VjSs8AAFWysaVniAgq0VDSs8QMHWioYVHqBga0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGs6bhvOm4bxpOG8azpuG86bhvGk4bxrOm4bzpuG8aThvGs6bhvOm4bxpKPifqWCrYKtgq9BQ8CEFWwVbBVuFhoIPKdgq2CrYKjQUfEjBVsFWwVahoeBDCrYKtgq2Cg0FH1KwVbBVsFVoKPiQgq2CrYKtQkPBhxRsFWwVbBUaCj6kYKtgq2Cr0FDwIQVbBVsFW4WGgg8p2CrYKtgqNBR8SMFWwVbBVqGh4EMKtgq2CrYKDQUfUrBVsFWwVWgo+JCCrYKtgq3iRx/+39yxgjtWcMcK7ljBHSu4YwV3rOCOFdyxgjtWcMcK7ljBHSu4YwV/AHz9tCW4MSiLAAAAAElFTkSuQmCC"
+    },
+    "definitions_list": {
+      "content": [
+        {
+          "id": 1,
+          "title": "Dummy training definition 1",
+          "description": "Description of dummy training definition 1",
+          "prerequisities": [
+            ""
+          ],
+          "outcomes": [
+            ""
+          ],
+          "state": "UNRELEASED",
+          "authors": [
+            {
+              "iss": "https://oidc.muni.cz/oidc/",
+              "user_ref_id": 1,
+              "login": "mail@muni.cz",
+              "full_name": "User Name",
+              "given_name": "User",
+              "family_name": "Name"
+            }
+          ],
+          "beta_testing_group": null,
+          "sandbox_definition_ref_id": 1,
+          "show_stepper_bar": true,
+          "can_be_archived": true,
+          "estimated_duration": 100,
+          "last_edited": "2019-01-01T07:00:00.841937Z"
+        },
+        {
+          "id": 2,
+          "title": "Dummy training definition 2",
+          "description": "Description of dummy training definition 2",
+          "prerequisities": [
+            ""
+          ],
+          "outcomes": [
+            ""
+          ],
+          "state": "UNRELEASED",
+          "authors": [
+            {
+              "iss": "https://oidc.muni.cz/oidc/",
+              "user_ref_id": 1,
+              "login": "mail@muni.cz",
+              "full_name": "User Name",
+              "given_name": "User",
+              "family_name": "Name"
+            }
+          ],
+          "beta_testing_group": null,
+          "sandbox_definition_ref_id": 1,
+          "show_stepper_bar": true,
+          "can_be_archived": true,
+          "estimated_duration": 100,
+          "last_edited": "2019-01-01T07:00:00.841937Z"
+        },
+        {
+          "id": 3,
+          "title": "Dummy training definition 3",
+          "description": "Description of dummy training definition 3",
+          "prerequisities": [
+            ""
+          ],
+          "outcomes": [
+            ""
+          ],
+          "state": "UNRELEASED",
+          "authors": [
+            {
+              "iss": "https://oidc.muni.cz/oidc/",
+              "user_ref_id": 1,
+              "login": "mail@muni.cz",
+              "full_name": "User Name",
+              "given_name": "User",
+              "family_name": "Name"
+            }
+          ],
+          "beta_testing_group": null,
+          "sandbox_definition_ref_id": 1,
+          "show_stepper_bar": true,
+          "can_be_archived": true,
+          "estimated_duration": 100,
+          "last_edited": "2019-01-01T07:00:00.841937Z"
+        },
+        {
+          "id": 4,
+          "title": "Dummy training definition 4",
+          "description": "Description of dummy training definition 4",
+          "prerequisities": [
+            ""
+          ],
+          "outcomes": [
+            ""
+          ],
+          "state": "UNRELEASED",
+          "authors": [
+            {
+              "iss": "https://oidc.muni.cz/oidc/",
+              "user_ref_id": 1,
+              "login": "mail@muni.cz",
+              "full_name": "User Name",
+              "given_name": "User",
+              "family_name": "Name"
+            }
+          ],
+          "beta_testing_group": null,
+          "sandbox_definition_ref_id": 1,
+          "show_stepper_bar": true,
+          "can_be_archived": true,
+          "estimated_duration": 100,
+          "last_edited": "2019-01-01T07:00:00.841937Z"
+        },
+        {
+          "id": 5,
+          "title": "Dummy training definition 5",
+          "description": "Description of dummy training definition 5",
+          "prerequisities": [
+            ""
+          ],
+          "outcomes": [
+            ""
+          ],
+          "state": "UNRELEASED",
+          "authors": [
+            {
+              "iss": "https://oidc.muni.cz/oidc/",
+              "user_ref_id": 1,
+              "login": "mail@muni.cz",
+              "full_name": "User Name",
+              "given_name": "User",
+              "family_name": "Name"
+            }
+          ],
+          "beta_testing_group": null,
+          "sandbox_definition_ref_id": 1,
+          "show_stepper_bar": true,
+          "can_be_archived": true,
+          "estimated_duration": 100,
+          "last_edited": "2019-01-01T07:00:00.841937Z"
+        }
+      ],
+      "pagination": {
+        "number": 0,
+        "number_of_elements": 5,
+        "size": 5,
+        "total_elements": 5,
+        "total_pages": 1
+      }
+    },
+    "designers": [
+      {
+        "login": "mail@muni.cz",
+        "iss": "https://oidc.muni.cz/oidc/",
+        "picture": "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAB7ElEQVR4Xu3YIY4dQRAE0T3SSia+/8W+eYQahFdKAxd4JEFMq+B8fT6fr3/h+/evz99ia0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGlZ4gIKtFQ0rPEDB1oqGFR6gYGtFwwoPULC1omGFByjYWtGwwgMUbK1oWOEBCrZWNKzwAAVbKxpWeICCrRUNKzxAwdaKhhUeoGBrRcMKD1CwtaJhhQco2FrRsMIDFGytaFjhAQq2VjSs8AAFWysaVniAgq0VDSs8QMHWioYVHqBga0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGs6bhvOm4bxpOG8azpuG86bhvGk4bxrOm4bzpuG8aThvGs6bhvOm4bxpKPifqWCrYKtgq9BQ8CEFWwVbBVuFhoIPKdgq2CrYKjQUfEjBVsFWwVahoeBDCrYKtgq2Cg0FH1KwVbBVsFVoKPiQgq2CrYKtQkPBhxRsFWwVbBUaCj6kYKtgq2Cr0FDwIQVbBVsFW4WGgg8p2CrYKtgqNBR8SMFWwVbBVqGh4EMKtgq2CrYKDQUfUrBVsFWwVWgo+JCCrYKtgq3iRx/+39yxgjtWcMcK7ljBHSu4YwV3rOCOFdyxgjtWcMcK7ljBHSu4YwV/AHz9tCW4MSiLAAAAAElFTkSuQmCC",
+        "user_ref_id": 1,
+        "full_name": "User Name",
+        "given_name": "User",
+        "family_name": "Name"
+      },
+      {
+        "login": "mail@muni.cz",
+        "iss": "https://oidc.muni.cz/oidc/",
+        "picture": "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAB7ElEQVR4Xu3YIY4dQRAE0T3SSia+/8W+eYQahFdKAxd4JEFMq+B8fT6fr3/h+/evz99ia0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGlZ4gIKtFQ0rPEDB1oqGFR6gYGtFwwoPULC1omGFByjYWtGwwgMUbK1oWOEBCrZWNKzwAAVbKxpWeICCrRUNKzxAwdaKhhUeoGBrRcMKD1CwtaJhhQco2FrRsMIDFGytaFjhAQq2VjSs8AAFWysaVniAgq0VDSs8QMHWioYVHqBga0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGs6bhvOm4bxpOG8azpuG86bhvGk4bxrOm4bzpuG8aThvGs6bhvOm4bxpKPifqWCrYKtgq9BQ8CEFWwVbBVuFhoIPKdgq2CrYKjQUfEjBVsFWwVahoeBDCrYKtgq2Cg0FH1KwVbBVsFVoKPiQgq2CrYKtQkPBhxRsFWwVbBUaCj6kYKtgq2Cr0FDwIQVbBVsFW4WGgg8p2CrYKtgqNBR8SMFWwVbBVqGh4EMKtgq2CrYKDQUfUrBVsFWwVWgo+JCCrYKtgq3iRx/+39yxgjtWcMcK7ljBHSu4YwV3rOCOFdyxgjtWcMcK7ljBHSu4YwV/AHz9tCW4MSiLAAAAAElFTkSuQmCC",
+        "user_ref_id": 2,
+        "full_name": "User Name2",
+        "given_name": "User",
+        "family_name": "Name2"
+      },
+      {
+        "login": "mail@muni.cz",
+        "iss": "https://oidc.muni.cz/oidc/",
+        "picture": "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAB7ElEQVR4Xu3YIY4dQRAE0T3SSia+/8W+eYQahFdKAxd4JEFMq+B8fT6fr3/h+/evz99ia0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGlZ4gIKtFQ0rPEDB1oqGFR6gYGtFwwoPULC1omGFByjYWtGwwgMUbK1oWOEBCrZWNKzwAAVbKxpWeICCrRUNKzxAwdaKhhUeoGBrRcMKD1CwtaJhhQco2FrRsMIDFGytaFjhAQq2VjSs8AAFWysaVniAgq0VDSs8QMHWioYVHqBga0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGs6bhvOm4bxpOG8azpuG86bhvGk4bxrOm4bzpuG8aThvGs6bhvOm4bxpKPifqWCrYKtgq9BQ8CEFWwVbBVuFhoIPKdgq2CrYKjQUfEjBVsFWwVahoeBDCrYKtgq2Cg0FH1KwVbBVsFVoKPiQgq2CrYKtQkPBhxRsFWwVbBUaCj6kYKtgq2Cr0FDwIQVbBVsFW4WGgg8p2CrYKtgqNBR8SMFWwVbBVqGh4EMKtgq2CrYKDQUfUrBVsFWwVWgo+JCCrYKtgq3iRx/+39yxgjtWcMcK7ljBHSu4YwV3rOCOFdyxgjtWcMcK7ljBHSu4YwV/AHz9tCW4MSiLAAAAAElFTkSuQmCC",
+        "user_ref_id": 3,
+        "full_name": "User Name3",
+        "given_name": "User",
+        "family_name": "Name3"
+      }
+    ],
+    "sandboxes": {
+      "page": 1,
+      "page_size": 50,
+      "page_count": 1,
+      "count": 1,
+      "total_count": 1,
+      "results": [
+        {
+          "id": 1,
+          "name": "small-sandbox1",
+          "url": "",
+          "rev": "master"
+        },
+        {
+          "id": 2,
+          "name": "small-sandbox2",
+          "url": "",
+          "rev": "master"
+        },
+        {
+          "id": 3,
+          "name": "small-sandbox3",
+          "url": "",
+          "rev": "master"
+        }
+      ]
+    },
+    "training_definition": {
+      "id" : 1,
+      "title" : "Test",
+      "description" : null,
+      "prerequisities" : [ "" ],
+      "outcomes" : [ "" ],
+      "state" : "UNRELEASED",
+      "beta_testing_group_id" : null,
+      "sandbox_definition_ref_id" : 1,
+      "levels" : [ {
+        "id" : 1,
+        "title" : "Title of game level",
+        "max_score" : 100,
+        "snapshot_hook" : null,
+        "level_type" : "GAME_LEVEL",
+        "estimated_duration" : 1,
+        "training_definition" : {
+          "id" : 1,
+          "title" : "Test",
+          "description" : null,
+          "prerequisities" : [ "" ],
+          "outcomes" : [ "" ],
+          "state" : "UNRELEASED",
+          "beta_testing_group_id" : null,
+          "sandbox_definition_ref_id" : 1,
+          "show_stepper_bar" : true,
+          "can_be_archived" : false,
+          "estimated_duration" : 1,
+          "last_edited" : "2019-10-08T07:56:16.675162Z"
+        },
+        "order" : 0,
+        "flag" : "Secret flag",
+        "content" : "The test entry should be here",
+        "solution" : "Solution of the game should be here",
+        "solution_penalized" : true,
+        "hints" : [ ],
+        "incorrect_flag_limit" : 100
+      } ],
+      "show_stepper_bar" : true,
+      "can_be_archived" : false,
+      "estimated_duration" : 1,
+      "last_edited" : "2019-10-08T07:56:16.675162Z"
+    },
+    "game": {
+      "id" : 27,
+      "title" : "Title of game level",
+      "order" : 1,
+      "level_type" : "GAME_LEVEL"
+    },
+    "assessment": {
+      "id" : 31,
+      "title" : "Title of assessment level",
+      "order" : 5,
+      "level_type" : "ASSESSMENT_LEVEL"
+    },
+    "info_level": {
+      "id" : 33,
+      "title" : "Title of info level",
+      "order" : 7,
+      "level_type" : "INFO_LEVEL"
+    },
+    "levels": [
+      {
+        "id" : 31,
+        "title" : "Title of assessment level",
+        "order" : 0,
+        "level_type" : "ASSESSMENT_LEVEL"
+      }, {
+        "id" : 3,
+        "title" : "Title of info level",
+        "order" : 1,
+        "level_type" : "INFO_LEVEL"
+      }
+    ],
+    "level": {
+      "id": 1,
+      "title": "Title of game level",
+      "max_score": 100,
+      "snapshot_hook": null,
+      "level_type": "GAME_LEVEL",
+      "estimated_duration": 1,
+      "training_definition": {
+        "id": 1,
+        "title": "test",
+        "description": null,
+        "prerequisities": [
+          ""
+        ],
+        "outcomes": [
+          ""
+        ],
+        "state": "UNRELEASED",
+        "authors": [
+          {
+            "iss": "https://oidc.muni.cz/oidc/",
+            "user_ref_id": 1,
+            "login": "mail@muni.cz",
+            "full_name": "User Name",
+            "given_name": "User",
+            "family_name": "Name"
+          }
+        ],
+        "beta_testing_group": null,
+        "sandbox_definition_ref_id": 1,
+        "show_stepper_bar": true,
+        "can_be_archived": false,
+        "estimated_duration": 1,
+        "last_edited": "2019-01-1T11:17:31.843221Z"
+      },
+      "order": 0,
+      "flag": "Secret flag",
+      "content": "The test entry should be here",
+      "solution": "Solution of the game should be here",
+      "solution_penalized": true,
+      "hints": [],
+      "incorrect_flag_limit": 100
+    },
+    "organizers": [
+      {
+        "login": "mail@muni.cz",
+        "iss": "https://oidc.muni.cz/oidc/",
+        "picture": "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAB7ElEQVR4Xu3YIY4dQRAE0T3SSia+/8W+eYQahFdKAxd4JEFMq+B8fT6fr3/h+/evz99ia0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGlZ4gIKtFQ0rPEDB1oqGFR6gYGtFwwoPULC1omGFByjYWtGwwgMUbK1oWOEBCrZWNKzwAAVbKxpWeICCrRUNKzxAwdaKhhUeoGBrRcMKD1CwtaJhhQco2FrRsMIDFGytaFjhAQq2VjSs8AAFWysaVniAgq0VDSs8QMHWioYVHqBga0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGs6bhvOm4bxpOG8azpuG86bhvGk4bxrOm4bzpuG8aThvGs6bhvOm4bxpKPifqWCrYKtgq9BQ8CEFWwVbBVuFhoIPKdgq2CrYKjQUfEjBVsFWwVahoeBDCrYKtgq2Cg0FH1KwVbBVsFVoKPiQgq2CrYKtQkPBhxRsFWwVbBUaCj6kYKtgq2Cr0FDwIQVbBVsFW4WGgg8p2CrYKtgqNBR8SMFWwVbBVqGh4EMKtgq2CrYKDQUfUrBVsFWwVWgo+JCCrYKtgq3iRx/+39yxgjtWcMcK7ljBHSu4YwV3rOCOFdyxgjtWcMcK7ljBHSu4YwV/AHz9tCW4MSiLAAAAAElFTkSuQmCC",
+        "user_ref_id": 1,
+        "full_name": "User Name1",
+        "given_name": "User",
+        "family_name": "Name"
+      },
+      {
+        "login": "mail@muni.cz",
+        "iss": "https://oidc.muni.cz/oidc/",
+        "picture": "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAB7ElEQVR4Xu3YIY4dQRAE0T3SSia+/8W+eYQahFdKAxd4JEFMq+B8fT6fr3/h+/evz99ia0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGlZ4gIKtFQ0rPEDB1oqGFR6gYGtFwwoPULC1omGFByjYWtGwwgMUbK1oWOEBCrZWNKzwAAVbKxpWeICCrRUNKzxAwdaKhhUeoGBrRcMKD1CwtaJhhQco2FrRsMIDFGytaFjhAQq2VjSs8AAFWysaVniAgq0VDSs8QMHWioYVHqBga0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGs6bhvOm4bxpOG8azpuG86bhvGk4bxrOm4bzpuG8aThvGs6bhvOm4bxpKPifqWCrYKtgq9BQ8CEFWwVbBVuFhoIPKdgq2CrYKjQUfEjBVsFWwVahoeBDCrYKtgq2Cg0FH1KwVbBVsFVoKPiQgq2CrYKtQkPBhxRsFWwVbBUaCj6kYKtgq2Cr0FDwIQVbBVsFW4WGgg8p2CrYKtgqNBR8SMFWwVbBVqGh4EMKtgq2CrYKDQUfUrBVsFWwVWgo+JCCrYKtgq3iRx/+39yxgjtWcMcK7ljBHSu4YwV3rOCOFdyxgjtWcMcK7ljBHSu4YwV/AHz9tCW4MSiLAAAAAElFTkSuQmCC",
+        "user_ref_id": 2,
+        "full_name": "User Name2",
+        "given_name": "User",
+        "family_name": "Name"
+      },
+      {
+        "login": "mail@muni.cz",
+        "iss": "https://oidc.muni.cz/oidc/",
+        "picture": "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAB7ElEQVR4Xu3YIY4dQRAE0T3SSia+/8W+eYQahFdKAxd4JEFMq+B8fT6fr3/h+/evz99ia0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGlZ4gIKtFQ0rPEDB1oqGFR6gYGtFwwoPULC1omGFByjYWtGwwgMUbK1oWOEBCrZWNKzwAAVbKxpWeICCrRUNKzxAwdaKhhUeoGBrRcMKD1CwtaJhhQco2FrRsMIDFGytaFjhAQq2VjSs8AAFWysaVniAgq0VDSs8QMHWioYVHqBga0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGs6bhvOm4bxpOG8azpuG86bhvGk4bxrOm4bzpuG8aThvGs6bhvOm4bxpKPifqWCrYKtgq9BQ8CEFWwVbBVuFhoIPKdgq2CrYKjQUfEjBVsFWwVahoeBDCrYKtgq2Cg0FH1KwVbBVsFVoKPiQgq2CrYKtQkPBhxRsFWwVbBUaCj6kYKtgq2Cr0FDwIQVbBVsFW4WGgg8p2CrYKtgqNBR8SMFWwVbBVqGh4EMKtgq2CrYKDQUfUrBVsFWwVWgo+JCCrYKtgq3iRx/+39yxgjtWcMcK7ljBHSu4YwV3rOCOFdyxgjtWcMcK7ljBHSu4YwV/AHz9tCW4MSiLAAAAAElFTkSuQmCC",
+        "user_ref_id": 3,
+        "full_name": "User Name3",
+        "given_name": "User",
+        "family_name": "Name"
+      },
+      {
+        "login": "mail@muni.cz",
+        "iss": "https://oidc.muni.cz/oidc/",
+        "picture": "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAB7ElEQVR4Xu3YIY4dQRAE0T3SSia+/8W+eYQahFdKAxd4JEFMq+B8fT6fr3/h+/evz99ia0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGlZ4gIKtFQ0rPEDB1oqGFR6gYGtFwwoPULC1omGFByjYWtGwwgMUbK1oWOEBCrZWNKzwAAVbKxpWeICCrRUNKzxAwdaKhhUeoGBrRcMKD1CwtaJhhQco2FrRsMIDFGytaFjhAQq2VjSs8AAFWysaVniAgq0VDSs8QMHWioYVHqBga0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGs6bhvOm4bxpOG8azpuG86bhvGk4bxrOm4bzpuG8aThvGs6bhvOm4bxpKPifqWCrYKtgq9BQ8CEFWwVbBVuFhoIPKdgq2CrYKjQUfEjBVsFWwVahoeBDCrYKtgq2Cg0FH1KwVbBVsFVoKPiQgq2CrYKtQkPBhxRsFWwVbBUaCj6kYKtgq2Cr0FDwIQVbBVsFW4WGgg8p2CrYKtgqNBR8SMFWwVbBVqGh4EMKtgq2CrYKDQUfUrBVsFWwVWgo+JCCrYKtgq3iRx/+39yxgjtWcMcK7ljBHSu4YwV3rOCOFdyxgjtWcMcK7ljBHSu4YwV/AHz9tCW4MSiLAAAAAElFTkSuQmCC",
+        "user_ref_id": 4,
+        "full_name": "User Name4",
+        "given_name": "User",
+        "family_name": "Name"
+      },
+      {
+        "login": "mail@muni.cz",
+        "iss": "https://oidc.muni.cz/oidc/",
+        "picture": "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAB7ElEQVR4Xu3YIY4dQRAE0T3SSia+/8W+eYQahFdKAxd4JEFMq+B8fT6fr3/h+/evz99ia0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGlZ4gIKtFQ0rPEDB1oqGFR6gYGtFwwoPULC1omGFByjYWtGwwgMUbK1oWOEBCrZWNKzwAAVbKxpWeICCrRUNKzxAwdaKhhUeoGBrRcMKD1CwtaJhhQco2FrRsMIDFGytaFjhAQq2VjSs8AAFWysaVniAgq0VDSs8QMHWioYVHqBga0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGs6bhvOm4bxpOG8azpuG86bhvGk4bxrOm4bzpuG8aThvGs6bhvOm4bxpKPifqWCrYKtgq9BQ8CEFWwVbBVuFhoIPKdgq2CrYKjQUfEjBVsFWwVahoeBDCrYKtgq2Cg0FH1KwVbBVsFVoKPiQgq2CrYKtQkPBhxRsFWwVbBUaCj6kYKtgq2Cr0FDwIQVbBVsFW4WGgg8p2CrYKtgqNBR8SMFWwVbBVqGh4EMKtgq2CrYKDQUfUrBVsFWwVWgo+JCCrYKtgq3iRx/+39yxgjtWcMcK7ljBHSu4YwV3rOCOFdyxgjtWcMcK7ljBHSu4YwV/AHz9tCW4MSiLAAAAAElFTkSuQmCC",
+        "user_ref_id": 5,
+        "full_name": "User Name5",
+        "given_name": "User",
+        "family_name": "Name"
+      }
+    ],
+    "instances_list": {
+      "content": [
+        {
+          "id": 1,
+          "start_time": "2019-10-01T06:29:00.587Z",
+          "end_time": "2019-10-02T06:29:00Z",
+          "title": "Dummy Instance1",
+          "pool_size": 1,
+          "training_definition": {
+            "id": 1,
+            "title": "test",
+            "description": null,
+            "prerequisities": [
+              ""
+            ],
+            "outcomes": [
+              ""
+            ],
+            "state": "UNRELEASED",
+            "authors": [
+              {
+                "iss": "https://oidc.muni.cz/oidc/",
+                "user_ref_id": 1,
+                "login": "mail@muni.cz",
+                "full_name": "User Name",
+                "given_name": "User",
+                "family_name": "Name"
+              }
+            ],
+            "beta_testing_group": null,
+            "sandbox_definition_ref_id": 1,
+            "levels": [],
+            "show_stepper_bar": true,
+            "can_be_archived": false,
+            "estimated_duration": 0,
+            "last_edited": "2019-01-01T09:23:59.128531Z"
+          },
+          "organizers": [
+            {
+              "iss": "https://oidc.muni.cz/oidc/",
+              "user_ref_id": 1,
+              "login": "445559@muni.cz",
+              "full_name": "User Name",
+              "given_name": "User",
+              "family_name": "Name"
+            }
+          ],
+          "access_token": "token-1111",
+          "pool_id": 1,
+          "sandboxes_with_training_run": []
+        }
+      ],
+      "pagination": {
+        "number": 0,
+        "number_of_elements": 1,
+        "size": 5,
+        "total_elements": 1,
+        "total_pages": 1
+      }
+    },
+    "sandbox_instances": {
+      "page": 1,
+      "page_size": 50,
+      "page_count": 1,
+      "count": 5,
+      "total_count": 5,
+      "results": [
+        {
+          "id": 1,
+          "status": "FULL_BUILD_COMPLETE",
+          "pool": 35,
+          "status_reason": "Full build finished successfully",
+          "locked": false
+        },
+        {
+          "id": 2,
+          "status": "FULL_BUILD_COMPLETE",
+          "pool": 35,
+          "status_reason": "Full build finished successfully",
+          "locked": false
+        },
+        {
+          "id": 3,
+          "status": "FULL_BUILD_COMPLETE",
+          "pool": 35,
+          "status_reason": "Full build finished successfully",
+          "locked": false
+        },
+        {
+          "id": 4,
+          "status": "FULL_BUILD_COMPLETE",
+          "pool": 35,
+          "status_reason": "Full build finished successfully",
+          "locked": false
+        },
+        {
+          "id": 5,
+          "status": "FULL_BUILD_COMPLETE",
+          "pool": 35,
+          "status_reason": "Full build finished successfully",
+          "locked": false
+        }
+      ]
+    },
+    "for_organizers": {
+      "content": [
+        {
+          "id": 1,
+          "title": "Definition 1",
+          "state": "UNRELEASED"
+        },
+        {
+          "id": 2,
+          "title": "Definition 2",
+          "state": "UNRELEASED"
+        },
+        {
+          "id": 3,
+          "title": "Definition 3",
+          "state": "UNRELEASED"
+        },
+        {
+          "id": 4,
+          "title": "Definition 4",
+          "state": "UNRELEASED"
+        },
+        {
+          "id": 5,
+          "title": "Definition 5",
+          "state": "UNRELEASED"
+        }
+      ],
+      "pagination": {
+        "number": 0,
+        "number_of_elements": 5,
+        "size": 20,
+        "total_elements": 5,
+        "total_pages": 1
+      }
+    },
+    "training_instances": {
+      "id": 1,
+      "title": "Dummy training instance",
+      "pool_size": 1,
+      "start_time": "2020-01-01T07:19:18.245Z",
+      "end_time": "2020-01-03T07:19:18.000Z",
+      "access_token": "token-1111",
+      "organizers_ref_ids": [
+        1
+      ],
+      "training_definition_id": 1
+    },
+    "training_instance": {
+      "id" : 1,
+      "start_time" : "2019-10-07T10:18:39.434Z",
+      "end_time" : "2019-10-31T11:17:39Z",
+      "title" : "Dummy training instance",
+      "pool_size" : 1,
+      "training_definition" : {
+        "id" : 1,
+        "title" : "Dummy training definition",
+        "description" : "Description",
+        "prerequisities" : [ "" ],
+        "outcomes" : [ "" ],
+        "state" : "UNRELEASED",
+        "beta_testing_group_id" : null,
+        "sandbox_definition_ref_id" : 1,
+        "levels" : [ ],
+        "show_stepper_bar" : true,
+        "can_be_archived" : false,
+        "estimated_duration" : 0,
+        "last_edited" : "2019-10-07T10:13:48.850138Z"
+      },
+      "access_token" : "prefix-9719",
+      "pool_id" : 57,
+      "sandboxes_with_training_run" : [ ]
+    },
+    "runs": {
+      "content": [
+        {
+          "id": 1,
+          "title": "Dummy run",
+          "training_instance_start_date": "2020-01-01T07:19:18.245Z",
+          "training_instance_end_date": "2020-01-02T07:19:18Z",
+          "current_level_order": 1,
+          "number_of_levels": 1,
+          "possible_action": "RESUME",
+          "instance_id": 10
+        },
+        {
+          "id": 2,
+          "title": "Dummy run",
+          "training_instance_start_date": "2020-01-01T07:19:18.245Z",
+          "training_instance_end_date": "2020-01-02T07:19:18Z",
+          "current_level_order": 1,
+          "number_of_levels": 1,
+          "possible_action": "RESUME",
+          "instance_id": 10
+        },
+        {
+          "id": 3,
+          "title": "Dummy run",
+          "training_instance_start_date": "2020-01-01T07:19:18.245Z",
+          "training_instance_end_date": "2020-01-02T07:19:18Z",
+          "current_level_order": 1,
+          "number_of_levels": 1,
+          "possible_action": "RESUME",
+          "instance_id": 10
+        }
+      ],
+      "pagination": {
+        "number": 0,
+        "number_of_elements": 3,
+        "size": 5,
+        "total_elements": 3,
+        "total_pages": 1
+      }
+    },
+    "sandbox_definitions": {
+      "page": 1,
+      "page_size": 5,
+      "page_count": 1,
+      "count": 1,
+      "total_count": 1,
+      "results": [
+        {
+          "id": 1,
+          "name": "small-sandbox",
+          "url": "git@gitlab.ics.muni.cz:kypo2/openstack/sandbox-definitions/small-sandbox.git",
+          "rev": "master"
+        },
+        {
+          "id": 2,
+          "name": "small-sandbox2",
+          "url": "",
+          "rev": "master"
+        },
+        {
+          "id": 3,
+          "name": "small-sandbox3",
+          "url": "",
+          "rev": "master"
+        }
+      ]
+    },
+    "training_runs": {
+      "content": [
+        {
+          "id": 1,
+          "start_time": "2020-01-01T07:19:18.245Z",
+          "end_time": "2020-01-02T07:19:18Z",
+          "title": "Dummy training instance",
+          "pool_size": 1,
+          "training_definition": {
+            "id": 1,
+            "title": "Dummy",
+            "description": null,
+            "prerequisities": [
+              ""
+            ],
+            "outcomes": [
+              ""
+            ],
+            "state": "UNRELEASED",
+            "authors": [
+              {
+                "iss": "https://oidc.muni.cz/oidc/",
+                "user_ref_id": 1,
+                "login": "mail@muni.cz",
+                "full_name": "User Name",
+                "given_name": "User",
+                "family_name": "Name"
+              }
+            ],
+            "beta_testing_group": null,
+            "sandbox_definition_ref_id": 1,
+            "levels": [],
+            "show_stepper_bar": true,
+            "can_be_archived": false,
+            "estimated_duration": 1,
+            "last_edited": "2020-01-01T07:14:04.652831Z"
+          },
+          "organizers": [
+            {
+              "iss": "https://oidc.muni.cz/oidc/",
+              "user_ref_id": 1,
+              "login": "mail@muni.cz",
+              "full_name": "User Name",
+              "given_name": "User",
+              "family_name": "Name"
+            }
+          ],
+          "access_token": "token-1111",
+          "pool_id": 1,
+          "sandboxes_with_training_run": [
+            116
+          ]
+        }
+      ],
+      "pagination": {
+        "number": 0,
+        "number_of_elements": 1,
+        "size": 5,
+        "total_elements": 1,
+        "total_pages": 1
+      }
+    },
+    "run": {
+      "training_run_id" : 1,
+      "show_stepper_bar" : true,
+      "sandbox_instance_ref_id" : 1,
+      "abstract_level_dto" : {
+        "id" : 1,
+        "title" : "Title of game level",
+        "max_score" : 100,
+        "snapshot_hook" : null,
+        "level_type" : "GAME_LEVEL",
+        "estimated_duration" : 1,
+        "training_definition" : {
+          "id" : 1,
+          "title" : "Dummy training",
+          "description" : null,
+          "prerequisities" : [ "" ],
+          "outcomes" : [ "" ],
+          "state" : "UNRELEASED",
+          "authors" : [ {
+            "iss": "https://oidc.muni.cz/oidc/",
+            "user_ref_id": 1,
+            "login": "mail@muni.cz",
+            "full_name": "User Name",
+            "given_name": "User",
+            "family_name": "Name"
+          } ],
+          "beta_testing_group" : null,
+          "sandbox_definition_ref_id" : 1,
+          "show_stepper_bar" : true,
+          "can_be_archived" : false,
+          "estimated_duration" : 1,
+          "last_edited" : "2019-01-01T07:14:04.652831Z"
+        },
+        "order" : 0,
+        "content" : "The test entry should be here",
+        "solution_penalized" : true,
+        "incorrect_flag_limit" : 100,
+        "hints" : [ ]
+      },
+      "info_about_levels" : [ {
+        "id" : 1,
+        "title" : "Title of game level",
+        "order" : 0,
+        "level_type" : "GAME_LEVEL"
+      } ],
+      "instance_id" : 1,
+      "start_time" : "2019-01-01T07:27:23.814868Z",
+      "taken_solution" : null,
+      "taken_hints" : [ ]
+    },
+    "is_correct": {
+      "remaining_attempts": 99,
+      "solution": null,
+      "correct": false
+    },
+    "users" : {
+      "content" : [ {
+        "id" : 1,
+        "full_name" : "User Name",
+        "login" : "mail@muni.cz",
+        "mail" : "mail@mail.muni.cz",
+        "given_name" : "User",
+        "family_name" : "Name",
+        "roles" : [ {
+          "id" : 6,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role will allow you to manage, test, import and export training definitions and assign organizers to beta testing group in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_DESIGNER"
+        }, {
+          "id" : 2,
+          "id_of_microservice" : 1,
+          "name_of_microservice" : "kypo2-user-and-group",
+          "description" : "",
+          "role_type" : "ROLE_USER_AND_GROUP_USER"
+        }, {
+          "id" : 8,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_ADMIN"
+        }, {
+          "id" : 7,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role will allow you to do every operation in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_ADMINISTRATOR"
+        }, {
+          "id" : 11,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_TRAINEE"
+        }, {
+          "id" : 15,
+          "id_of_microservice" : 4,
+          "name_of_microservice" : "kypo2_django_openstack_project",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_DESIGNER"
+        }, {
+          "id" : 10,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_DESIGNER"
+        }, {
+          "id" : 12,
+          "id_of_microservice" : 4,
+          "name_of_microservice" : "kypo2_django_openstack_project",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_TRAINEE"
+        }, {
+          "id" : 17,
+          "id_of_microservice" : 5,
+          "name_of_microservice" : "kypo2-topology",
+          "description" : null,
+          "role_type" : "ROLE_TOPOLOGY_TRAINEE"
+        }, {
+          "id" : 13,
+          "id_of_microservice" : 4,
+          "name_of_microservice" : "kypo2_django_openstack_project",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_ORGANIZER"
+        }, {
+          "id" : 1,
+          "id_of_microservice" : 1,
+          "name_of_microservice" : "kypo2-user-and-group",
+          "description" : "This role will allow you to create, edit, delete and manage users, groups and roles in KYPO.",
+          "role_type" : "ROLE_USER_AND_GROUP_ADMINISTRATOR"
+        }, {
+          "id" : 3,
+          "id_of_microservice" : 1,
+          "name_of_microservice" : "kypo2-user-and-group",
+          "description" : "This role is default role.",
+          "role_type" : "ROLE_USER_AND_GROUP_GUEST"
+        }, {
+          "id" : 5,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role is default and will allow you to access training run and play a game in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_TRAINEE"
+        }, {
+          "id" : 4,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role will allow you to prepare training instances from training definitions and manage them, restart sandbox instances and view situational awareness in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_ORGANIZER"
+        }, {
+          "id" : 14,
+          "id_of_microservice" : 4,
+          "name_of_microservice" : "kypo2_django_openstack_project",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_ADMIN"
+        }, {
+          "id" : 9,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_ORGANIZER"
+        } ],
+        "iss" : "https://oidc.muni.cz/oidc/",
+        "picture" : "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAACiklEQVR4Xu3YsQ0cMQwAQRdlV+T+a7AdL6FgTOCU6IFJCHBFXPg/fv3++eeGf78f/6utr1x7uB9AtPWVaw/3A4i2vnLt4X4A0dZXrj3cDyDa+sq1h/sBRFtfufZwP4Bo6yvXHu4HEG195drD/QCira9ce7gfQLT1lWsP9wOItr5y7eF+ANHWV6493A8g2vrKtYf7AURbX7n2cD+AaOsr4xDRmGhLtCXaEmMgeohoS7Ql2hJjIHqIaEu0JdoSYyB6iGhLtCXaEmMgeohoS7Ql2hJjIHqIaEu0JdoSYyB6iGhLtCXaEmMgeohoS7Ql2hJjIHqIaEu0JdoSYyB6iGhLtCXaEmMgeohoS7Ql2hJjIHqIaEu0JdoSYyB6iGhLtCXaEmMgeohoS7Ql2hJjIHqIaEu0JdoS1x5uS7Ql2hKr5R4i2hJtibbEarmHiLZEW6ItsVruIaIt0ZZoS6yWe4hoS7Ql2hKr5R4i2hJtibbEarmHiLZEW6ItsVruIaIt0ZZoS6yWe4hoS7Ql2hKr5R4i2hJtibbEarmHiLZEW6ItsVruIaIt0ZZoS6yWe4hoS7Ql2hKr5R4i2hJtibbEarmHiLZEW6ItMWLP2Rg8Z2PwnI3BczYGz9kYPGdj8JyNwXM2Bs/ZGDxnY/CcjcFzNgbP2Rg8Z2PwnK3+32lMtCXaEm2J1XIPEW2JtkRbYrXcQ0Rboi3Rllgt9xDRlmhLtCVWyz1EtCXaEm2J1XIPEW2JtkRbYrXcQ0Rboi3Rllgt9xDRlmhLtCVWyz1EtCXaEm2J1XIPEW2JtkRbYrXcQ0Rboi3Rllgt9xDRlmhLtCVWyz1EtCXaEm2J1XIPEW2JtkRbYrXcQ0Rboi3RlvgLpgsQ2S3njNgAAAAASUVORK5CYII="
+      }, {
+        "id" : 2,
+        "full_name" : "User Name",
+        "login" : "mail@muni.cz",
+        "mail" : "mail@mail.muni.cz",
+        "given_name" : "User",
+        "family_name" : "Name",
+        "roles" : [ {
+          "id" : 2,
+          "id_of_microservice" : 1,
+          "name_of_microservice" : "kypo2-user-and-group",
+          "description" : "",
+          "role_type" : "ROLE_USER_AND_GROUP_USER"
+        }, {
+          "id" : 6,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role will allow you to manage, test, import and export training definitions and assign organizers to beta testing group in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_DESIGNER"
+        }, {
+          "id" : 8,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_ADMIN"
+        }, {
+          "id" : 7,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role will allow you to do every operation in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_ADMINISTRATOR"
+        }, {
+          "id" : 11,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_TRAINEE"
+        }, {
+          "id" : 15,
+          "id_of_microservice" : 4,
+          "name_of_microservice" : "kypo2_django_openstack_project",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_DESIGNER"
+        }, {
+          "id" : 10,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_DESIGNER"
+        }, {
+          "id" : 12,
+          "id_of_microservice" : 4,
+          "name_of_microservice" : "kypo2_django_openstack_project",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_TRAINEE"
+        }, {
+          "id" : 17,
+          "id_of_microservice" : 5,
+          "name_of_microservice" : "kypo2-topology",
+          "description" : null,
+          "role_type" : "ROLE_TOPOLOGY_TRAINEE"
+        }, {
+          "id" : 13,
+          "id_of_microservice" : 4,
+          "name_of_microservice" : "kypo2_django_openstack_project",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_ORGANIZER"
+        }, {
+          "id" : 1,
+          "id_of_microservice" : 1,
+          "name_of_microservice" : "kypo2-user-and-group",
+          "description" : "This role will allow you to create, edit, delete and manage users, groups and roles in KYPO.",
+          "role_type" : "ROLE_USER_AND_GROUP_ADMINISTRATOR"
+        }, {
+          "id" : 3,
+          "id_of_microservice" : 1,
+          "name_of_microservice" : "kypo2-user-and-group",
+          "description" : "This role is default role.",
+          "role_type" : "ROLE_USER_AND_GROUP_GUEST"
+        }, {
+          "id" : 5,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role is default and will allow you to access training run and play a game in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_TRAINEE"
+        }, {
+          "id" : 4,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role will allow you to prepare training instances from training definitions and manage them, restart sandbox instances and view situational awareness in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_ORGANIZER"
+        }, {
+          "id" : 14,
+          "id_of_microservice" : 4,
+          "name_of_microservice" : "kypo2_django_openstack_project",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_ADMIN"
+        }, {
+          "id" : 9,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_ORGANIZER"
+        } ],
+        "iss" : "https://oidc.muni.cz/oidc/",
+        "picture" : "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAACIUlEQVR4Xu3YsY0dSQxAQQUlpXT5Z3CS/YgxSrQa4gLlEOBb9pj/x6//fv7/t/78/XhN3yBWyz3kBX2DWC33kBf0DWK13ENe0DeI1XIPeUHfIFbLPeQFfYNYLfeQF/QNYrXcQ17QN4jVcg95Qd8gVss95AV9g1gt95AX9A1itdxDXtA3iNVyD3lB3yBWyz3kBX2DWC33kBf0DWLERGOiLdGWaEuMgeghoi3RlmhLjIHoIaIt0ZZoS4yB6CGiLdGWaEuMgeghoi3RlmhLjIHoIaIt0ZZoS4yB6CGiLdGWaEuMgeghoi3RlmhLjIHoIaIt0ZZoS4yB6CGiLdGWaEuMgeghoi3RlmhLjIHoIaIt0ZZoS4yB6CGiLdGWaEuMgeghoi3RlmhLjIHoIaIt0ZZoS6z+8b/mPha4jwXuY4H7WOA+FriPBe5jgftY4D4WuI8F7mOB+1jgPha4jwXGbzbn2xicb2Nwvo3B+TYG59sYnG9jcL6Nwfk2BufbGJxvY3C+jcH5Ngbn2xicb2Nwvq1+z2pMtCXaEm2J1XIPEW2JtkRbYrXcQ0Rboi3Rllgt9xDRlmhLtCVWyz1EtCXaEm2J1XIPEW2JtkRbYrXcQ0Rboi3Rllgt9xDRlmhLtCVWyz1EtCXaEm2J1XIPEW2JtkRbYrXcQ0Rboi3Rllgt9xDRlmhLtCVWyz1EtCXaEm2J1XIPEW2JtkRbYrXcQ0Rboi3RlvgNt34wfeJElG8AAAAASUVORK5CYII="
+      }, {
+        "id" : 3,
+        "full_name" : "User Name",
+        "login" : "mail@muni.cz",
+        "mail" : "mail@mail.muni.cz",
+        "given_name" : "User",
+        "family_name" : "Name",
+        "roles" : [ {
+          "id" : 12,
+          "id_of_microservice" : 4,
+          "name_of_microservice" : "kypo2_django_openstack_project",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_TRAINEE"
+        }, {
+          "id" : 2,
+          "id_of_microservice" : 1,
+          "name_of_microservice" : "kypo2-user-and-group",
+          "description" : "",
+          "role_type" : "ROLE_USER_AND_GROUP_USER"
+        }, {
+          "id" : 6,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role will allow you to manage, test, import and export training definitions and assign organizers to beta testing group in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_DESIGNER"
+        }, {
+          "id" : 17,
+          "id_of_microservice" : 5,
+          "name_of_microservice" : "kypo2-topology",
+          "description" : null,
+          "role_type" : "ROLE_TOPOLOGY_TRAINEE"
+        }, {
+          "id" : 11,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_TRAINEE"
+        }, {
+          "id" : 1,
+          "id_of_microservice" : 1,
+          "name_of_microservice" : "kypo2-user-and-group",
+          "description" : "This role will allow you to create, edit, delete and manage users, groups and roles in KYPO.",
+          "role_type" : "ROLE_USER_AND_GROUP_ADMINISTRATOR"
+        }, {
+          "id" : 3,
+          "id_of_microservice" : 1,
+          "name_of_microservice" : "kypo2-user-and-group",
+          "description" : "This role is default role.",
+          "role_type" : "ROLE_USER_AND_GROUP_GUEST"
+        }, {
+          "id" : 5,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role is default and will allow you to access training run and play a game in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_TRAINEE"
+        }, {
+          "id" : 10,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_DESIGNER"
+        }, {
+          "id" : 4,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role will allow you to prepare training instances from training definitions and manage them, restart sandbox instances and view situational awareness in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_ORGANIZER"
+        }, {
+          "id" : 9,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_ORGANIZER"
+        } ],
+        "iss" : "https://oidc.muni.cz/oidc/",
+        "picture" : "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAABJklEQVR4Xu3YMYrEUAwEUV/KzP1Ptrtxi4YtFIkpw0sEgq8K/Xze90f/8+RAnbEAYwHGAowFGAswFmAswFiAsQBjAcYCjAUYC1jF+vuea/IGYrWcD7kgbyBWy/mQC/IGYrWcD7kgbyBWy/mQC/IGYrWcD7kgbyBWy/mQC/IGYrWcD7kgbyBWy/mQC/IGYrWcD7kgbyBWy/mQC/IGYrWcD7kgbyBWy/mQC/IGYrWcD7kgbyBWy/mQC/IGYrX8bYwFGAswFmAswFiAsQBjAcYCjAUYCzAWYCzAWICxgPG/R90YqBsDdWOgbgzUjYG6MVA3BurGQN0YqBsDdWOgbgzUjYG6MVDn/yzAWICxAGMBxgKMBRgLMBZgLMBYgLEAYwHGAowFGAv4BebWTSzgcEayAAAAAElFTkSuQmCC"
+      }, {
+        "id" : 4,
+        "full_name" : "User Name",
+        "login" : "mail@muni.cz",
+        "mail" : "mail@mail.muni.cz",
+        "given_name" : "User",
+        "family_name" : "Name",
+        "roles" : [ {
+          "id" : 12,
+          "id_of_microservice" : 4,
+          "name_of_microservice" : "kypo2_django_openstack_project",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_TRAINEE"
+        }, {
+          "id" : 2,
+          "id_of_microservice" : 1,
+          "name_of_microservice" : "kypo2-user-and-group",
+          "description" : "",
+          "role_type" : "ROLE_USER_AND_GROUP_USER"
+        }, {
+          "id" : 6,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role will allow you to manage, test, import and export training definitions and assign organizers to beta testing group in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_DESIGNER"
+        }, {
+          "id" : 17,
+          "id_of_microservice" : 5,
+          "name_of_microservice" : "kypo2-topology",
+          "description" : null,
+          "role_type" : "ROLE_TOPOLOGY_TRAINEE"
+        }, {
+          "id" : 11,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_TRAINEE"
+        }, {
+          "id" : 1,
+          "id_of_microservice" : 1,
+          "name_of_microservice" : "kypo2-user-and-group",
+          "description" : "This role will allow you to create, edit, delete and manage users, groups and roles in KYPO.",
+          "role_type" : "ROLE_USER_AND_GROUP_ADMINISTRATOR"
+        }, {
+          "id" : 3,
+          "id_of_microservice" : 1,
+          "name_of_microservice" : "kypo2-user-and-group",
+          "description" : "This role is default role.",
+          "role_type" : "ROLE_USER_AND_GROUP_GUEST"
+        }, {
+          "id" : 5,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role is default and will allow you to access training run and play a game in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_TRAINEE"
+        }, {
+          "id" : 10,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_DESIGNER"
+        }, {
+          "id" : 4,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role will allow you to prepare training instances from training definitions and manage them, restart sandbox instances and view situational awareness in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_ORGANIZER"
+        }, {
+          "id" : 9,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_ORGANIZER"
+        } ],
+        "iss" : "https://oidc.muni.cz/oidc/",
+        "picture" : "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAB8ElEQVR4Xu3YIQ5DQQwD0R6qFyro/Y/wy8cymAZFCnjE0loO3dfzPK9/vT/fZxveYERgcMgGvMGIwOCQDXiDEYHBIRvwBiMCg0M24A1GBAaHbMAbjAgMDtmANxgRGByyAW8wIjA4ZAPeYERgcMgGvMGIwOCQDXiDEYHBIRvwBiMCg0M24A1GBAaHbMAbjAgMDtmANxgRnC6C00VwughOF8HpIjhdBKeL4HQRnC6C00VwughOF8HpIjhdBKcb/UmxzGCXwS6DXcboMYcY7DLYZbDLGD3mEINdBrsMdhmjxxxisMtgl8EuY/SYQwx2Gewy2GWMHnOIwS6DXQa7jNFjDjHYZbDLYJcxeswhBrsMdhnsMkaPOcRgl8Eug13G6DGHGOwy2GWwyxg95hCDXQa7DHYZo8ccYrDLYJfBLmP0mEMMdhnsMthljB5ziMEug10Gu4zRYw4x2GWwy2CXEWWni+B0EZwugtNFcLoIThfB6SI4XQSni+B0EZwugtNFcLoIThfB6Ub/OyzbgDcYo8ccsgFvMEaPOWQD3mCMHnPIBrzBGD3mkA14gzF6zCEb8AZj9JhDNuANxugxh2zAG4zRYw7ZgDcYo8ccsgFvMEaPOWQD3mCMHnPIBrzBGD3mkA14gzF6zCEb8AZj9JhDNuANxg9pN4hcwILIiAAAAABJRU5ErkJggg=="
+      }, {
+        "id" : 5,
+        "full_name" : "User Name",
+        "login" : "mail@muni.cz",
+        "mail" : "mail@mail.muni.cz",
+        "given_name" : "User",
+        "family_name" : "Name",
+        "roles" : [ {
+          "id" : 12,
+          "id_of_microservice" : 4,
+          "name_of_microservice" : "kypo2_django_openstack_project",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_TRAINEE"
+        }, {
+          "id" : 6,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role will allow you to manage, test, import and export training definitions and assign organizers to beta testing group in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_DESIGNER"
+        }, {
+          "id" : 17,
+          "id_of_microservice" : 5,
+          "name_of_microservice" : "kypo2-topology",
+          "description" : null,
+          "role_type" : "ROLE_TOPOLOGY_TRAINEE"
+        }, {
+          "id" : 11,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_TRAINEE"
+        }, {
+          "id" : 3,
+          "id_of_microservice" : 1,
+          "name_of_microservice" : "kypo2-user-and-group",
+          "description" : "This role is default role.",
+          "role_type" : "ROLE_USER_AND_GROUP_GUEST"
+        }, {
+          "id" : 5,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role is default and will allow you to access training run and play a game in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_TRAINEE"
+        }, {
+          "id" : 10,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_DESIGNER"
+        }, {
+          "id" : 4,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role will allow you to prepare training instances from training definitions and manage them, restart sandbox instances and view situational awareness in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_ORGANIZER"
+        }, {
+          "id" : 9,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_ORGANIZER"
+        } ],
+        "iss" : "https://oidc.muni.cz/oidc/",
+        "picture" : "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAABq0lEQVR4Xu3YsW1DQRADURWlkuz+S/jOh2AwFrAOzOAlDAaHDe/1PM/rL3y9v5/fYutKDFd4AIOtKzFc4QEMtq7EcIUHMNi6EsMVHsBg60oMV3gAg60rMVzhAQy2rsRwhQcw2LoSwxUewGDrSgxXeACDrSsxXOEBDLauxHCFBzDYuhLDFR7AYOtKDFd4AIOtKzFc4QEMtq7EMF0M08UwXQzTxTBdDNPFMF0M08UwXQzTxTBdDNPFMF0M08Uw3Uf/Sv/NjiXsWMKOJexYwo4l7FjCjiXsWMKOJexYwo4l7FjCjiXsWEL82UwXw3QxTBfDdDFMF8N0MUwXw3QxTBfDdDFMF8N0MUwXw3QxTBeDwf8egy2DLYMtIwaDDzHYMtgy2DJiMPgQgy2DLYMtIwaDDzHYMtgy2DJiMPgQgy2DLYMtIwaDDzHYMtgy2DJiMPgQgy2DLYMtIwaDDzHYMtgy2DJiMPgQgy2DLYMtIwaDDzHYMtgy2DJiMPgQgy2DLYMtIwaDDzHYMtgy2DJiMPgQgy2DLYMtIwaDDzHYMtgy2DJiMPgQgy2DLYMt4wfFgp10PBxOaQAAAABJRU5ErkJggg=="
+      }, {
+        "id" : 6,
+        "full_name" : "User Name",
+        "login" : "mail@muni.cz",
+        "mail" : "mail@mail.muni.cz",
+        "given_name" : "User",
+        "family_name" : "Name",
+        "roles" : [ {
+          "id" : 12,
+          "id_of_microservice" : 4,
+          "name_of_microservice" : "kypo2_django_openstack_project",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_TRAINEE"
+        }, {
+          "id" : 2,
+          "id_of_microservice" : 1,
+          "name_of_microservice" : "kypo2-user-and-group",
+          "description" : "",
+          "role_type" : "ROLE_USER_AND_GROUP_USER"
+        }, {
+          "id" : 6,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role will allow you to manage, test, import and export training definitions and assign organizers to beta testing group in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_DESIGNER"
+        }, {
+          "id" : 17,
+          "id_of_microservice" : 5,
+          "name_of_microservice" : "kypo2-topology",
+          "description" : null,
+          "role_type" : "ROLE_TOPOLOGY_TRAINEE"
+        }, {
+          "id" : 11,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_TRAINEE"
+        }, {
+          "id" : 1,
+          "id_of_microservice" : 1,
+          "name_of_microservice" : "kypo2-user-and-group",
+          "description" : "This role will allow you to create, edit, delete and manage users, groups and roles in KYPO.",
+          "role_type" : "ROLE_USER_AND_GROUP_ADMINISTRATOR"
+        }, {
+          "id" : 3,
+          "id_of_microservice" : 1,
+          "name_of_microservice" : "kypo2-user-and-group",
+          "description" : "This role is default role.",
+          "role_type" : "ROLE_USER_AND_GROUP_GUEST"
+        }, {
+          "id" : 5,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role is default and will allow you to access training run and play a game in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_TRAINEE"
+        }, {
+          "id" : 10,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_DESIGNER"
+        }, {
+          "id" : 4,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role will allow you to prepare training instances from training definitions and manage them, restart sandbox instances and view situational awareness in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_ORGANIZER"
+        }, {
+          "id" : 9,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_ORGANIZER"
+        } ],
+        "iss" : "https://oidc.muni.cz/oidc/",
+        "picture" : "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAB7ElEQVR4Xu3YIY4dQRAE0T3SSia+/8W+eYQahFdKAxd4JEFMq+B8fT6fr3/h+/evz99ia0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGlZ4gIKtFQ0rPEDB1oqGFR6gYGtFwwoPULC1omGFByjYWtGwwgMUbK1oWOEBCrZWNKzwAAVbKxpWeICCrRUNKzxAwdaKhhUeoGBrRcMKD1CwtaJhhQco2FrRsMIDFGytaFjhAQq2VjSs8AAFWysaVniAgq0VDSs8QMHWioYVHqBga0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGs6bhvOm4bxpOG8azpuG86bhvGk4bxrOm4bzpuG8aThvGs6bhvOm4bxpKPifqWCrYKtgq9BQ8CEFWwVbBVuFhoIPKdgq2CrYKjQUfEjBVsFWwVahoeBDCrYKtgq2Cg0FH1KwVbBVsFVoKPiQgq2CrYKtQkPBhxRsFWwVbBUaCj6kYKtgq2Cr0FDwIQVbBVsFW4WGgg8p2CrYKtgqNBR8SMFWwVbBVqGh4EMKtgq2CrYKDQUfUrBVsFWwVWgo+JCCrYKtgq3iRx/+39yxgjtWcMcK7ljBHSu4YwV3rOCOFdyxgjtWcMcK7ljBHSu4YwV/AHz9tCW4MSiLAAAAAElFTkSuQmCC"
+      }, {
+        "id" : 8,
+        "full_name" : "User Name",
+        "login" : "mail@muni.cz",
+        "mail" : "mail@mail.muni.cz",
+        "given_name" : "User",
+        "family_name" : "Name",
+        "roles" : [ {
+          "id" : 12,
+          "id_of_microservice" : 4,
+          "name_of_microservice" : "kypo2_django_openstack_project",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_TRAINEE"
+        }, {
+          "id" : 17,
+          "id_of_microservice" : 5,
+          "name_of_microservice" : "kypo2-topology",
+          "description" : null,
+          "role_type" : "ROLE_TOPOLOGY_TRAINEE"
+        }, {
+          "id" : 11,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_TRAINEE"
+        }, {
+          "id" : 3,
+          "id_of_microservice" : 1,
+          "name_of_microservice" : "kypo2-user-and-group",
+          "description" : "This role is default role.",
+          "role_type" : "ROLE_USER_AND_GROUP_GUEST"
+        }, {
+          "id" : 5,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role is default and will allow you to access training run and play a game in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_TRAINEE"
+        } ],
+        "iss" : "https://oidc.muni.cz/oidc/",
+        "picture" : "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAABrklEQVR4Xu3QMU4AMRBDUa4K3P8MQP0tF59ISeOVXmNpnNn5+P76/Pmvv+/jv9hlsMtgl3E0zEUMdhnsMthlHA1zEYNdBrsMdhlHw1zEYJfBLoNdxtEwFzHYZbDLYJdxNMxFDHYZ7DLYZRwNcxGDXQa7DHYZR8NcxGCXwS6DXcbRMBcx2GWwy2CXcTTMRQx2Gewy2GUcDXMRg10Guwx2GUfDXMRgl8Eug13G0TAXMdhlsMtgl3E0zEUMdhnsMthlHA1zEYNdBrsMdhlHwyf4Ewa7bnn2MA9gsOuWZw/zAAa7bnn2MA9gsOuWZw/zAAa7bnn2MA9gsOuWZw/zAAa7bnn2MA9gsOuWZw/zAAa7bnn2MA9gsOuWZw/zAAa7bnn2MA9gsOuWZw/zAAa7bnn2MA9gsOuWZw/zAAa7bolFpotgugimi2C6CKaLYLoIpotgugimi2C6CKaLYLoIpotgugimi2C6CKaLYLoIpotgugimi2C6CKaLYLoIpotgugimi2C6CKaLYLoIpotgugimi2C6CKaLYLoIpotgugimi2C6CKaLYLoIpotgugim+wWGsnuyIiH2ewAAAABJRU5ErkJggg=="
+      }, {
+        "id" : 9,
+        "full_name" : "User Name",
+        "login" : "mail@muni.cz",
+        "mail" : "mail@mail.muni.cz",
+        "given_name" : "User",
+        "family_name" : "Name",
+        "roles" : [ {
+          "id" : 12,
+          "id_of_microservice" : 4,
+          "name_of_microservice" : "kypo2_django_openstack_project",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_TRAINEE"
+        }, {
+          "id" : 6,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role will allow you to manage, test, import and export training definitions and assign organizers to beta testing group in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_DESIGNER"
+        }, {
+          "id" : 17,
+          "id_of_microservice" : 5,
+          "name_of_microservice" : "kypo2-topology",
+          "description" : null,
+          "role_type" : "ROLE_TOPOLOGY_TRAINEE"
+        }, {
+          "id" : 11,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_TRAINEE"
+        }, {
+          "id" : 3,
+          "id_of_microservice" : 1,
+          "name_of_microservice" : "kypo2-user-and-group",
+          "description" : "This role is default role.",
+          "role_type" : "ROLE_USER_AND_GROUP_GUEST"
+        }, {
+          "id" : 5,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role is default and will allow you to access training run and play a game in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_TRAINEE"
+        }, {
+          "id" : 10,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_DESIGNER"
+        }, {
+          "id" : 4,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role will allow you to prepare training instances from training definitions and manage them, restart sandbox instances and view situational awareness in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_ORGANIZER"
+        }, {
+          "id" : 9,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_ORGANIZER"
+        } ],
+        "iss" : "https://oidc.muni.cz/oidc/",
+        "picture" : "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAABfElEQVR4Xu3YoY0lMBAE0R/SgQ1p80/hL69SS9fElqUGjxSwZwz9+X6/n/k/CpMpTKYwmcJkCpMpTKYwmcJkCpMpTKYwmcJkCpMpTKYwmcJkCpMpTKYwmcJkCpMpTKYwmcJkCpMpTKYwmcJkCpN9fn/+fW/gIA2edcq1i/kADZ51yrWL+QANnnXKtYv5AA2edcq1i/kADZ51yrWL+QANnnXKtYv5AA2edcq1i/kADZ51yrWL+QANnnXKtYv5AA2edcq1i/kADZ51yrWL+QANnnXKtYv5AA2edcq1i/kADZ51yrWL+QANnnWKBplMYTKFyRQmU5hMYTKFyRQmU5hMYTKFyRQmU5hMYTKFyRQa/O95AXdoKDQ4yAu4Q0OhwUFewB0aCg0O8gLu0FBocJAXcIeGQoODvIA7NBQaHOQF3KGh0OAgL+AODYUGB3kBd2goNDjIC7hDQ6HBQV7AHRoKDQ7yAu7QUGhwkBdwh4ZCg4O8gDs0FBoc5AXcofEH9FU5QoYzgJcAAAAASUVORK5CYII="
+      }, {
+        "id" : 10,
+        "full_name" : "User Name",
+        "login" : "mail@muni.cz",
+        "mail" : "mail@mail.muni.cz",
+        "given_name" : "User",
+        "family_name" : "Name",
+        "roles" : [ {
+          "id" : 2,
+          "id_of_microservice" : 1,
+          "name_of_microservice" : "kypo2-user-and-group",
+          "description" : "",
+          "role_type" : "ROLE_USER_AND_GROUP_USER"
+        }, {
+          "id" : 6,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role will allow you to manage, test, import and export training definitions and assign organizers to beta testing group in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_DESIGNER"
+        }, {
+          "id" : 8,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_ADMIN"
+        }, {
+          "id" : 7,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role will allow you to do every operation in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_ADMINISTRATOR"
+        }, {
+          "id" : 11,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_TRAINEE"
+        }, {
+          "id" : 15,
+          "id_of_microservice" : 4,
+          "name_of_microservice" : "kypo2_django_openstack_project",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_DESIGNER"
+        }, {
+          "id" : 10,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_DESIGNER"
+        }, {
+          "id" : 12,
+          "id_of_microservice" : 4,
+          "name_of_microservice" : "kypo2_django_openstack_project",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_TRAINEE"
+        }, {
+          "id" : 17,
+          "id_of_microservice" : 5,
+          "name_of_microservice" : "kypo2-topology",
+          "description" : null,
+          "role_type" : "ROLE_TOPOLOGY_TRAINEE"
+        }, {
+          "id" : 13,
+          "id_of_microservice" : 4,
+          "name_of_microservice" : "kypo2_django_openstack_project",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_ORGANIZER"
+        }, {
+          "id" : 1,
+          "id_of_microservice" : 1,
+          "name_of_microservice" : "kypo2-user-and-group",
+          "description" : "This role will allow you to create, edit, delete and manage users, groups and roles in KYPO.",
+          "role_type" : "ROLE_USER_AND_GROUP_ADMINISTRATOR"
+        }, {
+          "id" : 3,
+          "id_of_microservice" : 1,
+          "name_of_microservice" : "kypo2-user-and-group",
+          "description" : "This role is default role.",
+          "role_type" : "ROLE_USER_AND_GROUP_GUEST"
+        }, {
+          "id" : 5,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role is default and will allow you to access training run and play a game in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_TRAINEE"
+        }, {
+          "id" : 4,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role will allow you to prepare training instances from training definitions and manage them, restart sandbox instances and view situational awareness in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_ORGANIZER"
+        }, {
+          "id" : 14,
+          "id_of_microservice" : 4,
+          "name_of_microservice" : "kypo2_django_openstack_project",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_ADMIN"
+        }, {
+          "id" : 9,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_ORGANIZER"
+        } ],
+        "iss" : "https://oidc.muni.cz/oidc/",
+        "picture" : "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAACYklEQVR4Xu3YsQ0QUQxEQVoiox/6rwGIx/rBw5GlO2mSlf5qnd6P379+/vlf/74f/8uuwq7CrmL12CGFXYVdhV3F6rFDCrsKuwq7itVjhxR2FXYVdhWrxw4p7CrsKuwqVo8dUthV2FXYVaweO6Swq7CrsKtYPXZIYVdhV2FXsXrskMKuwq7CrmL12CGFXYVdhV3F6rFDCrsKuwq7itVjhxR2FXYVdhWrxw4p7CrsKuwqVo8dUthV2FXYVaweO6Swq7CrsKtYPXbIBd5QrB475AJvKFaPHXKBNxSrxw65wBuK1WOHXOANxeqxQy7whmL12CEXeEOxeuyQC7yhWD12yAXeUKweO+QCbyhWjx1ygTcUq8cOucAbitVjh1zgDcXqsUMu8IZi9dghF3hDMco+byP4vI3g8zaCz9sIPm8j+LyN4PM2gs/bCD5vI/i8jeDzNoLP2wg+byP4vI3g8zaCwv89hV2FXYVdxQgKhxR2FXYVdhUjKBxS2FXYVdhVjKBwSGFXYVdhVzGCwiGFXYVdhV3FCAqHFHYVdhV2FSMoHFLYVdhV2FWMoHBIYVdhV2FXMYLCIYVdhV2FXcUICocUdhV2FXYVIygcUthV2FXYVYygcEhhV2FXYVcxgsIhhV2FXYVdxQgKhxR2FXYVdhUjKBxS2FXYVdhVjKBwyAXeUIygcMgF3lCMoHDIBd5QjKBwyAXeUIygcMgF3lCMoHDIBd5QjKBwyAXeUIygcMgF3lCMoHDIBd5QjKBwyAXeUIygcMgF3lCMoHDIBd5QjKBwyAXeUIygcMgF3lCMoHDIBd5Q/AV3dSrbwPs7iwAAAABJRU5ErkJggg=="
+      }, {
+        "id" : 11,
+        "full_name" : "User Name",
+        "login" : "mail@muni.cz",
+        "mail" : "mail@mail.muni.cz",
+        "given_name" : "User",
+        "family_name" : "Name",
+        "roles" : [ {
+          "id" : 2,
+          "id_of_microservice" : 1,
+          "name_of_microservice" : "kypo2-user-and-group",
+          "description" : "",
+          "role_type" : "ROLE_USER_AND_GROUP_USER"
+        }, {
+          "id" : 6,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role will allow you to manage, test, import and export training definitions and assign organizers to beta testing group in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_DESIGNER"
+        }, {
+          "id" : 8,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_ADMIN"
+        }, {
+          "id" : 7,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role will allow you to do every operation in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_ADMINISTRATOR"
+        }, {
+          "id" : 11,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_TRAINEE"
+        }, {
+          "id" : 15,
+          "id_of_microservice" : 4,
+          "name_of_microservice" : "kypo2_django_openstack_project",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_DESIGNER"
+        }, {
+          "id" : 10,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_DESIGNER"
+        }, {
+          "id" : 12,
+          "id_of_microservice" : 4,
+          "name_of_microservice" : "kypo2_django_openstack_project",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_TRAINEE"
+        }, {
+          "id" : 17,
+          "id_of_microservice" : 5,
+          "name_of_microservice" : "kypo2-topology",
+          "description" : null,
+          "role_type" : "ROLE_TOPOLOGY_TRAINEE"
+        }, {
+          "id" : 13,
+          "id_of_microservice" : 4,
+          "name_of_microservice" : "kypo2_django_openstack_project",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_ORGANIZER"
+        }, {
+          "id" : 1,
+          "id_of_microservice" : 1,
+          "name_of_microservice" : "kypo2-user-and-group",
+          "description" : "This role will allow you to create, edit, delete and manage users, groups and roles in KYPO.",
+          "role_type" : "ROLE_USER_AND_GROUP_ADMINISTRATOR"
+        }, {
+          "id" : 3,
+          "id_of_microservice" : 1,
+          "name_of_microservice" : "kypo2-user-and-group",
+          "description" : "This role is default role.",
+          "role_type" : "ROLE_USER_AND_GROUP_GUEST"
+        }, {
+          "id" : 5,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role is default and will allow you to access training run and play a game in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_TRAINEE"
+        }, {
+          "id" : 4,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role will allow you to prepare training instances from training definitions and manage them, restart sandbox instances and view situational awareness in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_ORGANIZER"
+        }, {
+          "id" : 14,
+          "id_of_microservice" : 4,
+          "name_of_microservice" : "kypo2_django_openstack_project",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_ADMIN"
+        }, {
+          "id" : 9,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_ORGANIZER"
+        } ],
+        "iss" : "https://oidc.muni.cz/oidc/",
+        "picture" : "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAB80lEQVR4Xu3QQWpEQQwD0blTyCL3P9jPvkQghUGDGS/extBqW6+f76/n/M+Lg/O3K0u4soQrS7iyhCtLuLKEK0u4soQrS7iyhCtLuLKEK0t4Pc97cBGDWS0xaGEBBrNaYtDCAgxmtcSghQUYzGqJQQsLMJjVEoMWFmAwqyUGLSzAYFZLDFpYgMGslhi0sACDWS0xaGEBBrNaYtDCAgxmtcSghQUYzGqJQQsLMJjVEoMWFmAwqyUGLSzAYFZLDAweYTDLYJbBLCMGBhcxmGUwy2CWEQODixjMMphlMMuIgcFFDGYZzDKYZcTA4CIGswxmGcwyYmBwEYNZBrMMZhkxMLiIwSyDWQazjBgYXMRglsEsg1lGDAwuYjDLYJbBLCMGBhcxmGUwy2CWEQODixjMMphlMMuIgcFFDGYZzDKYZcTA4CIGswxmGcwyYmBwEYNZBrMMZhkxMLiIwSyDWQazjLd9/C68wRg95iIb8AZj9JiLbMAbjNFjLrIBbzBGj7nIBrzBGD3mIhvwBmP0mItswBuM0WMusgFvMEaPucgGvMEYPeYiG/AGY/SYi2zAG4zRYy6yAW8wRo+5yAa8wRg95iIb8AZj9JiLbMAbjNHjT3NlCVeWcGUJV5ZwZQlXlnBlCVeWcGUJV5ZwZQlXlnBlCVeW8AuOwbLE3OzcNwAAAABJRU5ErkJggg=="
+      }, {
+        "id" : 12,
+        "full_name" : "User Name",
+        "login" : "mail@muni.cz",
+        "mail" : "mail@mail.muni.cz",
+        "given_name" : "User",
+        "family_name" : "Name",
+        "roles" : [ {
+          "id" : 12,
+          "id_of_microservice" : 4,
+          "name_of_microservice" : "kypo2_django_openstack_project",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_TRAINEE"
+        }, {
+          "id" : 2,
+          "id_of_microservice" : 1,
+          "name_of_microservice" : "kypo2-user-and-group",
+          "description" : "",
+          "role_type" : "ROLE_USER_AND_GROUP_USER"
+        }, {
+          "id" : 6,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role will allow you to manage, test, import and export training definitions and assign organizers to beta testing group in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_DESIGNER"
+        }, {
+          "id" : 17,
+          "id_of_microservice" : 5,
+          "name_of_microservice" : "kypo2-topology",
+          "description" : null,
+          "role_type" : "ROLE_TOPOLOGY_TRAINEE"
+        }, {
+          "id" : 11,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_TRAINEE"
+        }, {
+          "id" : 1,
+          "id_of_microservice" : 1,
+          "name_of_microservice" : "kypo2-user-and-group",
+          "description" : "This role will allow you to create, edit, delete and manage users, groups and roles in KYPO.",
+          "role_type" : "ROLE_USER_AND_GROUP_ADMINISTRATOR"
+        }, {
+          "id" : 3,
+          "id_of_microservice" : 1,
+          "name_of_microservice" : "kypo2-user-and-group",
+          "description" : "This role is default role.",
+          "role_type" : "ROLE_USER_AND_GROUP_GUEST"
+        }, {
+          "id" : 5,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role is default and will allow you to access training run and play a game in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_TRAINEE"
+        }, {
+          "id" : 10,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_DESIGNER"
+        }, {
+          "id" : 4,
+          "id_of_microservice" : 2,
+          "name_of_microservice" : "kypo2-training",
+          "description" : "This role will allow you to prepare training instances from training definitions and manage them, restart sandbox instances and view situational awareness in KYPO Trainings.",
+          "role_type" : "ROLE_TRAINING_ORGANIZER"
+        }, {
+          "id" : 9,
+          "id_of_microservice" : 3,
+          "name_of_microservice" : "kypo2_django_openstack",
+          "description" : null,
+          "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_ORGANIZER"
+        } ],
+        "iss" : "https://oidc.muni.cz/oidc/",
+        "picture" : "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAACC0lEQVR4Xu3YsW0FQAgEUTdl9+P+i/jOB10wRgKtRPASpAOW8L4+n8/Xf/18/37SMINRCgYXScAMRikYXCQBMxilYHCRBMxglILBRRIwg1EKBhdJwAxGKRhcJAEzGKVgcJEEzGCUgsFFEjCDUQoGF0nADEYpGFwkATMYpWBwkQTMYJSCwUUSMINRCgYXScAMRikYXCQBMxitwGyWgBmM1mMukoAZjNZjLpKAGYzWYy6SgBmM1mMukoAZjNZjLpKAGYzWYy6SgBmM1mMukoAZjNZjLpKAGYzWYy6SgBmM1mMukoAZjNZjLpKAGYzWYy6SgBmM1mMukoAZjNZjLpKAGYzW4w6GMNhrytpgHsBgrylrg3kAg72mrA3mAQz2mrI2mAcw2GvK2mAewGCvKWuDeQCDvaasDeYBDPaasjaYBzDYa8raYB7AYK8pa4N5AIO9pqwN5gEM9pqyNpgHMNhrytpgHsBgrylrg3kAg72mlEXOWymct1I4b6Vw3krhvJXCeSuF81YK560UzlspnLdSOG+lcN5K4byVwnkrhfO29jfERQz2mrI2mAcw2GvK2mAewGCvKWuDeQCDvaasDeYBDPaasjaYBzDYa8raYB7AYK8pa4N5AIO9pqwN5gEM9pqyNpgHMNhrytpgHsBgrylrg3kAg72mrA3mAQz2mrI2mAcw2GvK2mAewGCvKX8CYQPYW7B32AAAAABJRU5ErkJggg=="
+      } ],
+      "pagination" : {
+        "number" : 0,
+        "number_of_elements" : 11,
+        "size" : 20,
+        "total_elements" : 11,
+        "total_pages" : 1
+      }
+    },
+    "groups": {
+      "content" : [{
+        "id" : 1,
+        "name" : "GROUP-NAME",
+        "description" : "Dummy group",
+        "roles" : [ {
+          "id" : 1,
+          "id_of_microservice" : 1,
+          "name_of_microservice" : "kypo2-user-and-group",
+          "description" : "",
+          "role_type" : "ROLE_USER_AND_GROUP_USER"
+        } ],
+        "users" : [ {
+          "id" : 2,
+          "full_name" : "User Name",
+          "given_name" : "User",
+          "family_name" : "Name",
+          "login" : "mail@muni.cz",
+          "mail" : "mail@mail.muni.cz",
+          "iss" : "https://oidc.muni.cz/oidc/",
+          "picture" : "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAB7ElEQVR4Xu3YIY4dQRAE0T3SSia+/8W+eYQahFdKAxd4JEFMq+B8fT6fr3/h+/evz99ia0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGlZ4gIKtFQ0rPEDB1oqGFR6gYGtFwwoPULC1omGFByjYWtGwwgMUbK1oWOEBCrZWNKzwAAVbKxpWeICCrRUNKzxAwdaKhhUeoGBrRcMKD1CwtaJhhQco2FrRsMIDFGytaFjhAQq2VjSs8AAFWysaVniAgq0VDSs8QMHWioYVHqBga0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGs6bhvOm4bxpOG8azpuG86bhvGk4bxrOm4bzpuG8aThvGs6bhvOm4bxpKPifqWCrYKtgq9BQ8CEFWwVbBVuFhoIPKdgq2CrYKjQUfEjBVsFWwVahoeBDCrYKtgq2Cg0FH1KwVbBVsFVoKPiQgq2CrYKtQkPBhxRsFWwVbBUaCj6kYKtgq2Cr0FDwIQVbBVsFW4WGgg8p2CrYKtgqNBR8SMFWwVbBVqGh4EMKtgq2CrYKDQUfUrBVsFWwVWgo+JCCrYKtgq3iRx/+39yxgjtWcMcK7ljBHSu4YwV3rOCOFdyxgjtWcMcK7ljBHSu4YwV/AHz9tCW4MSiLAAAAAElFTkSuQmCC"
+        }, {
+          "id" : 3,
+          "full_name" : "User Name",
+          "given_name" : "User",
+          "family_name" : "Name",
+          "login" : "mail@muni.cz",
+          "mail" : "mail@mail.muni.cz",
+          "iss" : "https://oidc.muni.cz/oidc/",
+          "picture" : "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAB7ElEQVR4Xu3YIY4dQRAE0T3SSia+/8W+eYQahFdKAxd4JEFMq+B8fT6fr3/h+/evz99ia0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGlZ4gIKtFQ0rPEDB1oqGFR6gYGtFwwoPULC1omGFByjYWtGwwgMUbK1oWOEBCrZWNKzwAAVbKxpWeICCrRUNKzxAwdaKhhUeoGBrRcMKD1CwtaJhhQco2FrRsMIDFGytaFjhAQq2VjSs8AAFWysaVniAgq0VDSs8QMHWioYVHqBga0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGs6bhvOm4bxpOG8azpuG86bhvGk4bxrOm4bzpuG8aThvGs6bhvOm4bxpKPifqWCrYKtgq9BQ8CEFWwVbBVuFhoIPKdgq2CrYKjQUfEjBVsFWwVahoeBDCrYKtgq2Cg0FH1KwVbBVsFVoKPiQgq2CrYKtQkPBhxRsFWwVbBUaCj6kYKtgq2Cr0FDwIQVbBVsFW4WGgg8p2CrYKtgqNBR8SMFWwVbBVqGh4EMKtgq2CrYKDQUfUrBVsFWwVWgo+JCCrYKtgq3iRx/+39yxgjtWcMcK7ljBHSu4YwV3rOCOFdyxgjtWcMcK7ljBHSu4YwV/AHz9tCW4MSiLAAAAAElFTkSuQmCC"
+        }, {
+          "id" : 4,
+          "full_name" : "User Name",
+          "given_name" : "User",
+          "family_name" : "Name",
+          "login" : "mail@muni.cz",
+          "mail" : "mail@mail.muni.cz",
+          "iss" : "https://oidc.muni.cz/oidc/",
+          "picture" : "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAB7ElEQVR4Xu3YIY4dQRAE0T3SSia+/8W+eYQahFdKAxd4JEFMq+B8fT6fr3/h+/evz99ia0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGlZ4gIKtFQ0rPEDB1oqGFR6gYGtFwwoPULC1omGFByjYWtGwwgMUbK1oWOEBCrZWNKzwAAVbKxpWeICCrRUNKzxAwdaKhhUeoGBrRcMKD1CwtaJhhQco2FrRsMIDFGytaFjhAQq2VjSs8AAFWysaVniAgq0VDSs8QMHWioYVHqBga0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGs6bhvOm4bxpOG8azpuG86bhvGk4bxrOm4bzpuG8aThvGs6bhvOm4bxpKPifqWCrYKtgq9BQ8CEFWwVbBVuFhoIPKdgq2CrYKjQUfEjBVsFWwVahoeBDCrYKtgq2Cg0FH1KwVbBVsFVoKPiQgq2CrYKtQkPBhxRsFWwVbBUaCj6kYKtgq2Cr0FDwIQVbBVsFW4WGgg8p2CrYKtgqNBR8SMFWwVbBVqGh4EMKtgq2CrYKDQUfUrBVsFWwVWgo+JCCrYKtgq3iRx/+39yxgjtWcMcK7ljBHSu4YwV3rOCOFdyxgjtWcMcK7ljBHSu4YwV/AHz9tCW4MSiLAAAAAElFTkSuQmCC"
+        }],
+        "source" : null,
+        "can_be_deleted" : false,
+        "expiration_date" : null
+      },{
+        "id" : 1,
+        "name" : "GROUP-NAME",
+        "description" : "Dummy group",
+        "roles" : [ {
+          "id" : 1,
+          "id_of_microservice" : 1,
+          "name_of_microservice" : "kypo2-user-and-group",
+          "description" : "",
+          "role_type" : "ROLE_USER_AND_GROUP_USER"
+        } ],
+        "users" : [ {
+          "id" : 2,
+          "full_name" : "User Name",
+          "given_name" : "User",
+          "family_name" : "Name",
+          "login" : "mail@muni.cz",
+          "mail" : "mail@mail.muni.cz",
+          "iss" : "https://oidc.muni.cz/oidc/",
+          "picture" : "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAB7ElEQVR4Xu3YIY4dQRAE0T3SSia+/8W+eYQahFdKAxd4JEFMq+B8fT6fr3/h+/evz99ia0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGlZ4gIKtFQ0rPEDB1oqGFR6gYGtFwwoPULC1omGFByjYWtGwwgMUbK1oWOEBCrZWNKzwAAVbKxpWeICCrRUNKzxAwdaKhhUeoGBrRcMKD1CwtaJhhQco2FrRsMIDFGytaFjhAQq2VjSs8AAFWysaVniAgq0VDSs8QMHWioYVHqBga0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGs6bhvOm4bxpOG8azpuG86bhvGk4bxrOm4bzpuG8aThvGs6bhvOm4bxpKPifqWCrYKtgq9BQ8CEFWwVbBVuFhoIPKdgq2CrYKjQUfEjBVsFWwVahoeBDCrYKtgq2Cg0FH1KwVbBVsFVoKPiQgq2CrYKtQkPBhxRsFWwVbBUaCj6kYKtgq2Cr0FDwIQVbBVsFW4WGgg8p2CrYKtgqNBR8SMFWwVbBVqGh4EMKtgq2CrYKDQUfUrBVsFWwVWgo+JCCrYKtgq3iRx/+39yxgjtWcMcK7ljBHSu4YwV3rOCOFdyxgjtWcMcK7ljBHSu4YwV/AHz9tCW4MSiLAAAAAElFTkSuQmCC"
+        }, {
+          "id" : 3,
+          "full_name" : "User Name",
+          "given_name" : "User",
+          "family_name" : "Name",
+          "login" : "mail@muni.cz",
+          "mail" : "mail@mail.muni.cz",
+          "iss" : "https://oidc.muni.cz/oidc/",
+          "picture" : "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAB7ElEQVR4Xu3YIY4dQRAE0T3SSia+/8W+eYQahFdKAxd4JEFMq+B8fT6fr3/h+/evz99ia0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGlZ4gIKtFQ0rPEDB1oqGFR6gYGtFwwoPULC1omGFByjYWtGwwgMUbK1oWOEBCrZWNKzwAAVbKxpWeICCrRUNKzxAwdaKhhUeoGBrRcMKD1CwtaJhhQco2FrRsMIDFGytaFjhAQq2VjSs8AAFWysaVniAgq0VDSs8QMHWioYVHqBga0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGs6bhvOm4bxpOG8azpuG86bhvGk4bxrOm4bzpuG8aThvGs6bhvOm4bxpKPifqWCrYKtgq9BQ8CEFWwVbBVuFhoIPKdgq2CrYKjQUfEjBVsFWwVahoeBDCrYKtgq2Cg0FH1KwVbBVsFVoKPiQgq2CrYKtQkPBhxRsFWwVbBUaCj6kYKtgq2Cr0FDwIQVbBVsFW4WGgg8p2CrYKtgqNBR8SMFWwVbBVqGh4EMKtgq2CrYKDQUfUrBVsFWwVWgo+JCCrYKtgq3iRx/+39yxgjtWcMcK7ljBHSu4YwV3rOCOFdyxgjtWcMcK7ljBHSu4YwV/AHz9tCW4MSiLAAAAAElFTkSuQmCC"
+        }, {
+          "id" : 4,
+          "full_name" : "User Name",
+          "given_name" : "User",
+          "family_name" : "Name",
+          "login" : "mail@muni.cz",
+          "mail" : "mail@mail.muni.cz",
+          "iss" : "https://oidc.muni.cz/oidc/",
+          "picture" : "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAB7ElEQVR4Xu3YIY4dQRAE0T3SSia+/8W+eYQahFdKAxd4JEFMq+B8fT6fr3/h+/evz99ia0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGlZ4gIKtFQ0rPEDB1oqGFR6gYGtFwwoPULC1omGFByjYWtGwwgMUbK1oWOEBCrZWNKzwAAVbKxpWeICCrRUNKzxAwdaKhhUeoGBrRcMKD1CwtaJhhQco2FrRsMIDFGytaFjhAQq2VjSs8AAFWysaVniAgq0VDSs8QMHWioYVHqBga0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGs6bhvOm4bxpOG8azpuG86bhvGk4bxrOm4bzpuG8aThvGs6bhvOm4bxpKPifqWCrYKtgq9BQ8CEFWwVbBVuFhoIPKdgq2CrYKjQUfEjBVsFWwVahoeBDCrYKtgq2Cg0FH1KwVbBVsFVoKPiQgq2CrYKtQkPBhxRsFWwVbBUaCj6kYKtgq2Cr0FDwIQVbBVsFW4WGgg8p2CrYKtgqNBR8SMFWwVbBVqGh4EMKtgq2CrYKDQUfUrBVsFWwVWgo+JCCrYKtgq3iRx/+39yxgjtWcMcK7ljBHSu4YwV3rOCOFdyxgjtWcMcK7ljBHSu4YwV/AHz9tCW4MSiLAAAAAElFTkSuQmCC"
+        }],
+        "source" : null,
+        "can_be_deleted" : false,
+        "expiration_date" : null
+      },{
+        "id" : 1,
+        "name" : "GROUP-NAME",
+        "description" : "Dummy group",
+        "roles" : [ {
+          "id" : 1,
+          "id_of_microservice" : 1,
+          "name_of_microservice" : "kypo2-user-and-group",
+          "description" : "",
+          "role_type" : "ROLE_USER_AND_GROUP_USER"
+        } ],
+        "users" : [ {
+          "id" : 2,
+          "full_name" : "User Name",
+          "given_name" : "User",
+          "family_name" : "Name",
+          "login" : "mail@muni.cz",
+          "mail" : "mail@mail.muni.cz",
+          "iss" : "https://oidc.muni.cz/oidc/",
+          "picture" : "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAB7ElEQVR4Xu3YIY4dQRAE0T3SSia+/8W+eYQahFdKAxd4JEFMq+B8fT6fr3/h+/evz99ia0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGlZ4gIKtFQ0rPEDB1oqGFR6gYGtFwwoPULC1omGFByjYWtGwwgMUbK1oWOEBCrZWNKzwAAVbKxpWeICCrRUNKzxAwdaKhhUeoGBrRcMKD1CwtaJhhQco2FrRsMIDFGytaFjhAQq2VjSs8AAFWysaVniAgq0VDSs8QMHWioYVHqBga0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGs6bhvOm4bxpOG8azpuG86bhvGk4bxrOm4bzpuG8aThvGs6bhvOm4bxpKPifqWCrYKtgq9BQ8CEFWwVbBVuFhoIPKdgq2CrYKjQUfEjBVsFWwVahoeBDCrYKtgq2Cg0FH1KwVbBVsFVoKPiQgq2CrYKtQkPBhxRsFWwVbBUaCj6kYKtgq2Cr0FDwIQVbBVsFW4WGgg8p2CrYKtgqNBR8SMFWwVbBVqGh4EMKtgq2CrYKDQUfUrBVsFWwVWgo+JCCrYKtgq3iRx/+39yxgjtWcMcK7ljBHSu4YwV3rOCOFdyxgjtWcMcK7ljBHSu4YwV/AHz9tCW4MSiLAAAAAElFTkSuQmCC"
+        }, {
+          "id" : 1,
+          "full_name" : "User Name",
+          "given_name" : "User",
+          "family_name" : "Name",
+          "login" : "mail@muni.cz",
+          "mail" : "mail@mail.muni.cz",
+          "iss" : "https://oidc.muni.cz/oidc/",
+          "picture" : "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAB7ElEQVR4Xu3YIY4dQRAE0T3SSia+/8W+eYQahFdKAxd4JEFMq+B8fT6fr3/h+/evz99ia0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGlZ4gIKtFQ0rPEDB1oqGFR6gYGtFwwoPULC1omGFByjYWtGwwgMUbK1oWOEBCrZWNKzwAAVbKxpWeICCrRUNKzxAwdaKhhUeoGBrRcMKD1CwtaJhhQco2FrRsMIDFGytaFjhAQq2VjSs8AAFWysaVniAgq0VDSs8QMHWioYVHqBga0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGs6bhvOm4bxpOG8azpuG86bhvGk4bxrOm4bzpuG8aThvGs6bhvOm4bxpKPifqWCrYKtgq9BQ8CEFWwVbBVuFhoIPKdgq2CrYKjQUfEjBVsFWwVahoeBDCrYKtgq2Cg0FH1KwVbBVsFVoKPiQgq2CrYKtQkPBhxRsFWwVbBUaCj6kYKtgq2Cr0FDwIQVbBVsFW4WGgg8p2CrYKtgqNBR8SMFWwVbBVqGh4EMKtgq2CrYKDQUfUrBVsFWwVWgo+JCCrYKtgq3iRx/+39yxgjtWcMcK7ljBHSu4YwV3rOCOFdyxgjtWcMcK7ljBHSu4YwV/AHz9tCW4MSiLAAAAAElFTkSuQmCC"
+        }, {
+          "id" : 1,
+          "full_name" : "User Name",
+          "given_name" : "User",
+          "family_name" : "Name",
+          "login" : "mail@muni.cz",
+          "mail" : "mail@mail.muni.cz",
+          "iss" : "https://oidc.muni.cz/oidc/",
+          "picture" : "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAB7ElEQVR4Xu3YIY4dQRAE0T3SSia+/8W+eYQahFdKAxd4JEFMq+B8fT6fr3/h+/evz99ia0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGlZ4gIKtFQ0rPEDB1oqGFR6gYGtFwwoPULC1omGFByjYWtGwwgMUbK1oWOEBCrZWNKzwAAVbKxpWeICCrRUNKzxAwdaKhhUeoGBrRcMKD1CwtaJhhQco2FrRsMIDFGytaFjhAQq2VjSs8AAFWysaVniAgq0VDSs8QMHWioYVHqBga0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGs6bhvOm4bxpOG8azpuG86bhvGk4bxrOm4bzpuG8aThvGs6bhvOm4bxpKPifqWCrYKtgq9BQ8CEFWwVbBVuFhoIPKdgq2CrYKjQUfEjBVsFWwVahoeBDCrYKtgq2Cg0FH1KwVbBVsFVoKPiQgq2CrYKtQkPBhxRsFWwVbBUaCj6kYKtgq2Cr0FDwIQVbBVsFW4WGgg8p2CrYKtgqNBR8SMFWwVbBVqGh4EMKtgq2CrYKDQUfUrBVsFWwVWgo+JCCrYKtgq3iRx/+39yxgjtWcMcK7ljBHSu4YwV3rOCOFdyxgjtWcMcK7ljBHSu4YwV/AHz9tCW4MSiLAAAAAElFTkSuQmCC"
+        }],
+        "source" : null,
+        "can_be_deleted" : false,
+        "expiration_date" : null
+      } ],
+      "pagination" : {
+        "number" : 0,
+        "number_of_elements" : 6,
+        "size" : 20,
+        "total_elements" : 6,
+        "total_pages" : 1
+      }
+    },
+    "roles": {
+      "content" : [ {
+        "id" : 1,
+        "id_of_microservice" : 1,
+        "name_of_microservice" : "kypo2-user-and-group",
+        "description" : "This role will allow you to create, edit, delete and manage users, groups and roles in KYPO.",
+        "role_type" : "ROLE_USER_AND_GROUP_ADMINISTRATOR"
+      }, {
+        "id" : 2,
+        "id_of_microservice" : 1,
+        "name_of_microservice" : "kypo2-user-and-group",
+        "description" : "",
+        "role_type" : "ROLE_USER_AND_GROUP_USER"
+      }, {
+        "id" : 3,
+        "id_of_microservice" : 1,
+        "name_of_microservice" : "kypo2-user-and-group",
+        "description" : "This role is default role.",
+        "role_type" : "ROLE_USER_AND_GROUP_GUEST"
+      }, {
+        "id" : 4,
+        "id_of_microservice" : 2,
+        "name_of_microservice" : "kypo2-training",
+        "description" : "This role will allow you to prepare training instances from training definitions and manage them, restart sandbox instances and view situational awareness in KYPO Trainings.",
+        "role_type" : "ROLE_TRAINING_ORGANIZER"
+      }, {
+        "id" : 5,
+        "id_of_microservice" : 2,
+        "name_of_microservice" : "kypo2-training",
+        "description" : "This role is default and will allow you to access training run and play a game in KYPO Trainings.",
+        "role_type" : "ROLE_TRAINING_TRAINEE"
+      }, {
+        "id" : 6,
+        "id_of_microservice" : 2,
+        "name_of_microservice" : "kypo2-training",
+        "description" : "This role will allow you to manage, test, import and export training definitions and assign organizers to beta testing group in KYPO Trainings.",
+        "role_type" : "ROLE_TRAINING_DESIGNER"
+      }, {
+        "id" : 7,
+        "id_of_microservice" : 2,
+        "name_of_microservice" : "kypo2-training",
+        "description" : "This role will allow you to do every operation in KYPO Trainings.",
+        "role_type" : "ROLE_TRAINING_ADMINISTRATOR"
+      }, {
+        "id" : 8,
+        "id_of_microservice" : 3,
+        "name_of_microservice" : "kypo2_django_openstack",
+        "description" : null,
+        "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_ADMIN"
+      }, {
+        "id" : 9,
+        "id_of_microservice" : 3,
+        "name_of_microservice" : "kypo2_django_openstack",
+        "description" : null,
+        "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_ORGANIZER"
+      }, {
+        "id" : 10,
+        "id_of_microservice" : 3,
+        "name_of_microservice" : "kypo2_django_openstack",
+        "description" : null,
+        "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_DESIGNER"
+      }, {
+        "id" : 11,
+        "id_of_microservice" : 3,
+        "name_of_microservice" : "kypo2_django_openstack",
+        "description" : null,
+        "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_TRAINEE"
+      }, {
+        "id" : 12,
+        "id_of_microservice" : 4,
+        "name_of_microservice" : "kypo2_django_openstack_project",
+        "description" : null,
+        "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_TRAINEE"
+      }, {
+        "id" : 13,
+        "id_of_microservice" : 4,
+        "name_of_microservice" : "kypo2_django_openstack_project",
+        "description" : null,
+        "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_ORGANIZER"
+      }, {
+        "id" : 14,
+        "id_of_microservice" : 4,
+        "name_of_microservice" : "kypo2_django_openstack_project",
+        "description" : null,
+        "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_ADMIN"
+      }, {
+        "id" : 15,
+        "id_of_microservice" : 4,
+        "name_of_microservice" : "kypo2_django_openstack_project",
+        "description" : null,
+        "role_type" : "ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_DESIGNER"
+      }, {
+        "id" : 16,
+        "id_of_microservice" : 5,
+        "name_of_microservice" : "kypo2-topology",
+        "description" : null,
+        "role_type" : "ROLE_TOPOLOGY_ADMINISTRATOR"
+      }, {
+        "id" : 17,
+        "id_of_microservice" : 5,
+        "name_of_microservice" : "kypo2-topology",
+        "description" : null,
+        "role_type" : "ROLE_TOPOLOGY_TRAINEE"
+      } ],
+      "pagination" : null
+    },
+    "sandbox_definition":{
+      "content" : [ {
+        "id" : 1,
+        "title" : "Sandbox definition",
+        "state" : "UNRELEASED"
+      } ],
+      "pagination" : {
+        "number" : 0,
+        "size" : 20,
+        "number_of_elements" : 1,
+        "total_elements" : 1,
+        "total_pages" : 1
+      }
+    },
+    "topology":{},
+    "export": {
+      "title" : "test",
+      "description" : null,
+      "prerequisities" : [ "" ],
+      "outcomes" : [ "" ],
+      "state" : "UNRELEASED",
+      "show_stepper_bar" : true,
+      "levels" : [ {
+        "type" : "GameLevelImportDTO",
+        "title" : "Title of game level",
+        "max_score" : 100,
+        "level_type" : "GAME_LEVEL",
+        "order" : 0,
+        "estimated_duration" : 1,
+        "flag" : "Secret flag",
+        "content" : "The test entry should be here",
+        "solution" : "Solution of the game should be here",
+        "solution_penalized" : true,
+        "hints" : [ ],
+        "incorrect_flag_limit" : 100
+      }, {
+        "type" : "AssessmentLevelImportDTO",
+        "title" : "Title of assessment level",
+        "max_score" : 0,
+        "level_type" : "ASSESSMENT_LEVEL",
+        "order" : 1,
+        "estimated_duration" : 1,
+        "questions" : "[{\"answer_required\":false,\"order\":0,\"penalty\":0,\"points\":0,\"text\":\"Example Question\",\"question_type\":\"FFQ\",\"correct_choices\":[]}]",
+        "instructions" : "Instructions should be here",
+        "assessment_type" : "QUESTIONNAIRE"
+      }, {
+        "type" : "InfoLevelImportDTO",
+        "title" : "Title of info level",
+        "max_score" : 0,
+        "level_type" : "INFO_LEVEL",
+        "order" : 2,
+        "estimated_duration" : 0,
+        "content" : "Content of info level should be here."
+      } ],
+      "estimated_duration" : 2,
+      "sandbox_definition_ref_id" : 1
+    },
+    "empty": {},
+    "requestById": {
     "id": 1,
-    "type": "CLEANUP",
-    "stages": [
+      "type": "CLEANUP",
+      "stages": [
       {
         "id": 1,
         "job_id": 1,
@@ -39,14 +2068,14 @@
       }
     ]
   },
-  "cleanup_requests":
-  {
-    "page": 1,
-    "page_size": 5,
-    "page_count": 5,
-    "count": 5,
-    "total_count": 24,
-    "results": [
+    "cleanup_requests":
+    {
+      "page": 1,
+      "page_size": 5,
+      "page_count": 5,
+      "count": 5,
+      "total_count": 24,
+      "results": [
       {
         "id": 1,
         "type": "CLEANUP",
@@ -276,15 +2305,15 @@
         ]
       }
     ]
-  },
-  "creation_requests":
-  {
-    "page": 1,
-    "page_size": 5,
-    "page_count": 5,
-    "count": 5,
-    "total_count": 24,
-    "results": [
+    },
+    "creation_requests":
+    {
+      "page": 1,
+      "page_size": 5,
+      "page_count": 5,
+      "count": 5,
+      "total_count": 24,
+      "results": [
       {
         "id": 10,
         "type": "CREATION",
@@ -516,3 +2545,4 @@
     ]
   }
 }
+};
