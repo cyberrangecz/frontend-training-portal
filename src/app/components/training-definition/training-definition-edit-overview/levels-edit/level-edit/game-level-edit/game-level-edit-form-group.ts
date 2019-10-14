@@ -1,5 +1,6 @@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {GameLevel} from '../../../../../../model/level/game-level';
+import {INCORRECT_FLAG_LIMIT, MAX_ESTIMATED_DURATION, MAX_FLAG, MAX_SCORE} from './game-level-edit.contants';
 
 export class GameLevelEditFormGroup {
   formGroup: FormGroup;
@@ -13,23 +14,23 @@ export class GameLevelEditFormGroup {
         Validators.required,
         Validators.pattern('^[0-9]*$'),
         Validators.min(0),
-        Validators.max(100)
+        Validators.max(MAX_SCORE)
       ]),
       solutionPenalized: new FormControl(level.solutionPenalized),
       incorrectFlagLimit: new FormControl(level.incorrectFlagLimit, [
         Validators.required,
         Validators.pattern('^[0-9]*$'),
         Validators.min(1),
-        Validators.max(100)
+        Validators.max(INCORRECT_FLAG_LIMIT)
       ]),
       flag: new FormControl(level.flag, [
         Validators.required,
-        Validators.maxLength(50)
+        Validators.maxLength(MAX_FLAG)
       ]),
       estimatedDuration: new FormControl(level.estimatedDuration, [
         Validators.pattern('^[0-9]*$'),
         Validators.min(1),
-        Validators.max(60)
+        Validators.max(MAX_ESTIMATED_DURATION)
       ]),
     });
   }

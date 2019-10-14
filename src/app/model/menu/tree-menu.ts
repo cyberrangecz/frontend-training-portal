@@ -8,6 +8,13 @@ import {
   TRAINING_RUN_PATH
 } from '../../paths';
 import {MenuNode} from './menu-node';
+import {
+  ADMIN_NODES_GROUP_ORDER,
+  ADMIN_NODES_USER_ORDER,
+  DESIGNER_NODES_SD_ORDER,
+  DESIGNER_NODES_TD_ORDER,
+  ORGANIZER_NODES_TI_ORDER, TRAINEE_NODES_TR_ORDER
+} from './tree-menu.constants';
 
 const TRAININGS_LABEL = 'Trainings';
 const SANDBOXES_LABEL = 'Sandboxes';
@@ -58,10 +65,10 @@ export class TreeMenu {
     const found = tree.find(node => node.label === ADMIN_LABEL);
     const user = new MenuNode(found, 'User');
     user.path = ADMIN_USER_PATH;
-    user.order = 10;
+    user.order = ADMIN_NODES_USER_ORDER;
     const group = new MenuNode(found, 'Group');
     group.path = ADMIN_GROUP_PATH;
-    group.order = 20;
+    group.order = ADMIN_NODES_GROUP_ORDER;
     found.children.push(user, group);
   }
 
@@ -69,13 +76,13 @@ export class TreeMenu {
     let found = tree.find(node => node.label === TRAININGS_LABEL);
     const trainingDef = new MenuNode(found, 'Definition');
     trainingDef.path = TRAINING_DEFINITION_PATH;
-    trainingDef.order = 10;
+    trainingDef.order = DESIGNER_NODES_TD_ORDER;
     found.children.push(trainingDef);
 
     found = tree.find(node => node.label === SANDBOXES_LABEL);
     const sandboxDef = new MenuNode(found, 'Definition');
     sandboxDef.path = SANDBOX_DEFINITION_PATH;
-    sandboxDef.order = 20;
+    sandboxDef.order = DESIGNER_NODES_SD_ORDER;
     found.children.push(sandboxDef);
   }
 
@@ -83,7 +90,7 @@ export class TreeMenu {
     const found = tree.find(node => node.label === TRAININGS_LABEL);
     const trainingInstance = new MenuNode(found, 'Instance');
     trainingInstance.path = TRAINING_INSTANCE_PATH;
-    trainingInstance.order = 20;
+    trainingInstance.order = ORGANIZER_NODES_TI_ORDER;
     found.children.push(trainingInstance);
 // TODO: Add when sandbox instance components are ready
 /*    found = tree.find(node => node.label === SANDBOXES_LABEL);
@@ -97,7 +104,7 @@ export class TreeMenu {
     const found = tree.find(node => node.label === TRAININGS_LABEL);
     const trainingRun = new MenuNode(found, 'Run');
     trainingRun.path = TRAINING_RUN_PATH;
-    trainingRun.order = 30;
+    trainingRun.order = TRAINEE_NODES_TR_ORDER;
     found.children.push(trainingRun);
   }
 

@@ -2,6 +2,7 @@ import {Component, HostListener, OnInit} from '@angular/core';
 import {takeWhile} from 'rxjs/operators';
 import {ActiveTrainingInstanceService} from '../../../../../services/training-instance/active-training-instance.service';
 import {BaseComponent} from '../../../../base.component';
+import {DIVIDE_BY} from '../traning-instance-results.constants';
 
 @Component({
   selector: 'kypo2-score-scatter-plot-view',
@@ -48,8 +49,8 @@ export class ScoreScatterPlotViewComponent extends BaseComponent implements OnIn
   }
 
   private setVisualizationSize(windowWidth: number, windowHeight: number) {
-    const width = windowWidth / 2;
-    const height = windowHeight / 2;
+    const width = windowWidth / DIVIDE_BY;
+    const height = windowHeight / DIVIDE_BY;
     this.vizSize = { width: width, height: height };
   }
 

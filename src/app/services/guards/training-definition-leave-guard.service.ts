@@ -9,7 +9,10 @@ import {TrainingDefinitionEditOverviewComponent} from '../../components/training
  */
 export class TrainingDefinitionLeaveGuard implements CanDeactivate<TrainingDefinitionEditOverviewComponent> {
 
-  canDeactivate(component: TrainingDefinitionEditOverviewComponent, currentRoute: ActivatedRouteSnapshot, currentState: RouterStateSnapshot, nextState?: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+  canDeactivate(component: TrainingDefinitionEditOverviewComponent,
+                currentRoute: ActivatedRouteSnapshot,
+                currentState: RouterStateSnapshot,
+                nextState?: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     return component.canDeactivate();
   }
 }

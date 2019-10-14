@@ -133,11 +133,12 @@ export class TrainingDefinitionTableComponent extends BaseComponent implements O
    * @param {number} id id of training definition which should be downloaded
    */
   downloadTrainingDefinition(id: number) {
+    const errorStatus = 406;
     this.trainingDefinitionFacade.download(id)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(resp => {},
         err => {
-        if (err.status === 406) {
+        if (err.status === errorStatus) {
           this.alertService.emitAlert(AlertTypeEnum.Error, 'Training definition could not be downloaded');
         }
         this.errorHandler.display(err, 'Downloading training definition');

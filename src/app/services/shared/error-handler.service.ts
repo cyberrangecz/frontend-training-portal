@@ -2,6 +2,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {AlertTypeEnum} from '../../model/enums/alert-type.enum';
 import {AlertService} from './alert.service';
+import {HttpErrorCodesEnum} from '../../model/enums/http-error-codes.enum';
 
 @Injectable()
 /**
@@ -13,23 +14,29 @@ export class ErrorHandlerService {
 
   display(err: HttpErrorResponse, operation: string) {
     if (err === null || err === undefined || err.status === 0) {
-      this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} Unknown error. Please check your internet connection or report the issue to developers`);
+      this.alertService.emitAlert(
+        AlertTypeEnum.Error,
+        `${operation} Unknown error. Please check your internet connection or report the issue to developers`
+      );
       return;
     }
-    if (err.status === 404) {
+    if (err.status === HttpErrorCodesEnum.ERROR_404) {
       this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} 404 - Not found. Report the issue to developers`);
       return;
     }
-    if (err.status === 400) {
+    if (err.status === HttpErrorCodesEnum.ERROR_400) {
       this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} 400 - Bad request. Report the issue to developers`);
       return;
     }
-    if (err.status === 401) {
+    if (err.status === HttpErrorCodesEnum.ERROR_401) {
       this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} Unauthorized. Try to refresh page or login again`);
       return;
     }
-    if (err.status === 403) {
-      this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} You may not have access rights to requested resource. Contact system administrator.`);
+    if (err.status === HttpErrorCodesEnum.ERROR_403) {
+      this.alertService.emitAlert(
+        AlertTypeEnum.Error,
+        `${operation} You may not have access rights to requested resource. Contact system administrator.`
+      );
       return;
     }
     if (err.error.message) { // JAVA API

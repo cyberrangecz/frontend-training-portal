@@ -275,8 +275,9 @@ export class TrainingInstanceTableComponent extends BaseComponent implements OnI
   }
 
   private initCurrentTimePeriodicalUpdate() {
+    const period = 60000;
     this.now = Date.now();
-    interval(60000)
+    interval(period)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(value => this.now = Date.now());
   }

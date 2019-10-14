@@ -73,9 +73,10 @@ export class SandboxAllocationService {
   }
 
   getRunningAllocationState(trainingInstance: TrainingInstance): Observable<SandboxInstanceAllocationState> {
+    const count = 3;
     let allocation$ = this.sandboxObservablesPool.getObservable(trainingInstance.id);
     if (allocation$ === undefined) {
-      allocation$ = this.createAllocation(trainingInstance).pipe(retry(3));
+      allocation$ = this.createAllocation(trainingInstance).pipe(retry(count));
     }
     return allocation$.pipe(shareReplay(this.cacheConfig));
   }
@@ -88,7 +89,10 @@ export class SandboxAllocationService {
       );
   }
 
-  deleteSandbox(trainingInstance: TrainingInstance, sandbox: SandboxInstance, requestedPoolSize: number, isHardDelete: boolean): Observable<SandboxInstanceAllocationState> {
+  deleteSandbox(trainingInstance: TrainingInstance,
+                sandbox: SandboxInstance,
+                requestedPoolSize: number,
+                isHardDelete: boolean): Observable<SandboxInstanceAllocationState> {
     return this.sandboxInstanceFacade.deleteByTrainingInstance(trainingInstance.id, sandbox.id, isHardDelete)
       .pipe(
         concatMap( deleteResponse => this.createAllocation(trainingInstance, requestedPoolSize)),
@@ -213,7 +217,9 @@ export class SandboxAllocationService {
   }
 
   private addToRunningAllocations(allocationToAdd: SandboxInstanceAllocationState) {
-    const runningAllocationStateIndex = this.runningAllocations.findIndex(allocation => allocation.training.id === allocationToAdd.training.id);
+    const runningAllocationStateIndex = this.runningAllocations.findIndex(
+      allocation => allocation.training.id === allocationToAdd.training.id
+    );
     if (runningAllocationStateIndex === -1) {
       this.runningAllocations.push(allocationToAdd);
     } else {

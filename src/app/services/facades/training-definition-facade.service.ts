@@ -106,7 +106,11 @@ export class TrainingDefinitionFacade {
   }
 
   changeState(newState: TrainingDefinitionStateEnum, trainingDefinitionId: number): Observable<any> {
-    return this.http.put(`${this.trainingDefsEndpointUri + trainingDefinitionId}/states/${this.trainingDefinitionMapper.mapTrainingDefStateToDTOEnum(newState)}`,
+    return this.http.put(
+      `${
+        this.trainingDefsEndpointUri +
+        trainingDefinitionId}/states/${this.trainingDefinitionMapper.mapTrainingDefStateToDTOEnum(newState)
+      }`,
       {});
   }
 
@@ -283,7 +287,8 @@ export class TrainingDefinitionFacade {
    * @param toId id of second level which should be swapped
    */
   swapLevels(trainingDefId: number, fromId: number, toId: number): Observable<AbstractLevel[]> {
-    return this.http.put<BasicLevelInfoDTO[]>(`${this.trainingDefsEndpointUri + trainingDefId}/${this.levelsUriExtension}${fromId}/swap-with/${toId}`,
+    return this.http.put<BasicLevelInfoDTO[]>(
+      `${this.trainingDefsEndpointUri + trainingDefId}/${this.levelsUriExtension}${fromId}/swap-with/${toId}`,
       {},
       { headers: this.createDefaultHeaders()})
       .pipe(
@@ -292,7 +297,8 @@ export class TrainingDefinitionFacade {
   }
 
   moveLevels(trainingDefId: number, levelId: number, toPosition: number): Observable<AbstractLevel[]> {
-    return this.http.put<BasicLevelInfoDTO[]>(`${this.trainingDefsEndpointUri + trainingDefId}/${this.levelsUriExtension}${levelId}/move-to/${toPosition}`,
+    return this.http.put<BasicLevelInfoDTO[]>(
+      `${this.trainingDefsEndpointUri + trainingDefId}/${this.levelsUriExtension}${levelId}/move-to/${toPosition}`,
       {},
       { headers: this.createDefaultHeaders()})
       .pipe(

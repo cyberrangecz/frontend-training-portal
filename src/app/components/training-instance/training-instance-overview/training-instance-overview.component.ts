@@ -10,7 +10,8 @@ import {BaseComponent} from '../../base.component';
   styleUrls: ['./training-instance-overview.component.css']
 })
 /**
- * Main component of organizer overview. Wrapper for child components (definition of new training instance and overivew of  existing training instances)
+ * Main component of organizer overview.
+ * Wrapper for child components (definition of new training instance and overivew of  existing training instances)
  */
 export class TrainingInstanceOverviewComponent extends BaseComponent implements OnInit, OnDestroy {
 

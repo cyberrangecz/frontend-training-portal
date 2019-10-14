@@ -36,9 +36,10 @@ export class OrganizersAssignService extends UserAssignService {
   }
 
   getAvailableToAssign(resourceId: number, filter: string): Observable<PaginatedResource<User[]>> {
+    const paginationSize = 25;
     return this.userFacade.getOrganizersNotInTI(
       resourceId,
-      new RequestedPagination(0, 25, 'familyName', 'asc'),
+      new RequestedPagination(0, paginationSize, 'familyName', 'asc'),
       UserNameFilters.create(filter))
       .pipe(
         tap({error: err => this.errorHandler.display(err, 'Fetching organizers')})

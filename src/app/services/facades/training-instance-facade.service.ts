@@ -79,12 +79,14 @@ export class TrainingInstanceFacade {
 
   getAssociatedTrainingRuns(trainingInstanceId: number, isActive = true): Observable<TrainingRun[]> {
     const params = new HttpParams().set('isActive', isActive.toString());
-    return this.http.get<TrainingRunRestResource>(`${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.trainingRunsUriExtension}`)
+    return this.http.get<TrainingRunRestResource>(
+      `${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.trainingRunsUriExtension}`)
       .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
   }
 
   hasTrainingRuns(trainingInstanceId: number): Observable<boolean> {
-    return this.http.get<TrainingRunRestResource>(`${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.trainingRunsUriExtension}`)
+    return this.http.get<TrainingRunRestResource>(
+      `${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.trainingRunsUriExtension}`)
       .pipe(map(response => response.content && response.content.length > 0));
   }
 

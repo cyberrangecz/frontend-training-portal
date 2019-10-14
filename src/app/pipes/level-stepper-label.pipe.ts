@@ -8,6 +8,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({name: 'levelStepperLabel'})
 export class LevelStepperLabelPipe implements PipeTransform {
   transform(title: string, index: number , length: number): string {
-    return length <= 10 ? index + '. ' + title : index.toString();
+    const maxLen = 10;
+    return length <= maxLen ? index + '. ' + title : index.toString();
   }
 }

@@ -27,7 +27,11 @@ export class NotOnlyTraineeGuard implements CanActivate {
   }
 
   private isTraineeOnly(): boolean {
-    if (this.authService.isTrainingTrainee() && !this.authService.isTrainingOrganizer() && !this.authService.isTrainingDesigner() && !this.authService.isUserAndGroupAdmin()) {
+    if (
+      this.authService.isTrainingTrainee() &&
+      !this.authService.isTrainingOrganizer() &&
+      !this.authService.isTrainingDesigner() && !this.authService.isUserAndGroupAdmin()
+    ) {
       this.router.navigate([TRAINING_RUN_PATH]);
       return false;
     }

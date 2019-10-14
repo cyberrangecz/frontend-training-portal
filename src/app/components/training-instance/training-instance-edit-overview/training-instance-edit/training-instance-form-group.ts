@@ -6,11 +6,12 @@ export class TrainingInstanceFormGroup {
   formGroup: FormGroup;
 
   constructor(trainingInstance: TrainingInstance) {
+      const maxPoolSize = 64;
       this.formGroup = new FormGroup({
           'startTime': new FormControl(trainingInstance.startTime, [Validators.required, this.dateValidator]),
           'endTime': new FormControl(trainingInstance.endTime, [Validators.required, this.dateValidator]),
           'title': new FormControl(trainingInstance.title, [Validators.required]),
-          'poolSize': new FormControl(trainingInstance.poolSize, [Validators.required, Validators.min(1), Validators.max(64)]),
+          'poolSize': new FormControl(trainingInstance.poolSize, [Validators.required, Validators.min(1), Validators.max(maxPoolSize)]),
           'trainingDefinition': new FormControl(trainingInstance.trainingDefinition, [Validators.required]),
           'accessToken': new FormControl(trainingInstance.accessToken, [Validators.required]),
       },  { validators: this.dateSequenceValidator });

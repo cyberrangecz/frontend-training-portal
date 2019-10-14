@@ -18,7 +18,8 @@ export class SandboxInstanceResolver implements Resolve<SandboxInstance> {
               private errorHandler: ErrorHandlerService,
               private router: Router) {
   }
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<SandboxInstance> | Promise<SandboxInstance> | SandboxInstance {
+  resolve(route: ActivatedRouteSnapshot,
+          state: RouterStateSnapshot): Observable<SandboxInstance> | Promise<SandboxInstance> | SandboxInstance {
     if (!route.paramMap.has(POOL_ID_SELECTOR)) {
       return this.navigateToPoolOverview();
     }

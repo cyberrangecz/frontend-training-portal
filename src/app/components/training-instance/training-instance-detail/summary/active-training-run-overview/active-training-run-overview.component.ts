@@ -116,9 +116,14 @@ export class ActiveTrainingRunOverviewComponent extends BaseTrainingRunOverview 
             this.hasSandboxesInfoError = false;
             this.sandboxFailedCount = resource.elements.filter(sandbox => sandbox.isFailed()).length;
             this.sandboxDeletionRunningCount = resource.elements.filter(sandbox => sandbox.isBeingDeleted()).length;
-            this.sandboxAllocationRunningCount = resource.elements.filter(sandbox => sandbox.isInProgress()).length - this.sandboxDeletionRunningCount;
+            this.sandboxAllocationRunningCount = resource.elements
+                                                  .filter(sandbox => sandbox.isInProgress())
+                                                  .length - this.sandboxDeletionRunningCount;
             this.sandboxAvailableCount = resource.elements.filter(sandbox => sandbox.isCreated()).length - this.resultsLength;
-            this.sandboxCanBeAllocatedCount = Math.max(0, this.trainingInstance.poolSize - resource.elements.length - this.sandboxFailedCount);
+            this.sandboxCanBeAllocatedCount = Math.max(
+              0,
+              this.trainingInstance.poolSize - resource.elements.length - this.sandboxFailedCount
+            );
             if (this.toAllocateInput === undefined) {
               this.toAllocateInput = this.sandboxCanBeAllocatedCount;
             }
@@ -216,8 +221,9 @@ export class ActiveTrainingRunOverviewComponent extends BaseTrainingRunOverview 
   }
 
   private startCurrentTimePeriodicalUpdate() {
+    const period = 60000;
     this.now = Date.now();
-    interval(60000)
+    interval(period)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(value =>
       this.now = Date.now()

@@ -18,7 +18,8 @@ export class TrainingInstanceResolver implements Resolve<TrainingInstance> {
               private router: Router) {
   }
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<TrainingInstance> | Promise<TrainingInstance> | TrainingInstance {
+  resolve(route: ActivatedRouteSnapshot,
+          state: RouterStateSnapshot): Observable<TrainingInstance> | Promise<TrainingInstance> | TrainingInstance {
     if (state.url.endsWith(`${TRAINING_INSTANCE_PATH}/${TRAINING_INSTANCE_NEW_PATH}`)) {
       return null;
     } else if (route.paramMap.has('id')) {

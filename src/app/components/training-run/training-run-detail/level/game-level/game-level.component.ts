@@ -14,6 +14,7 @@ import {BaseComponent} from '../../../../base.component';
 import {RevealHintDialogComponent} from './user-action-dialogs/reveal-hint-dialog/reveal-hint-dialog.component';
 import {RevealSolutionDialogComponent} from './user-action-dialogs/reveal-solution-dialog/reveal-solution-dialog.component';
 import {WrongFlagDialogComponent} from './user-action-dialogs/wrong-flag-dialog/wrong-flag-dialog.component';
+import {ASCPECT_RATIO_Y, ASPECT_RATIO_X, DIVIDE_BY, WINDOW_WIDTH} from './game-level.constants';
 
 @Component({
   selector: 'kypo2-game-level',
@@ -182,7 +183,7 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
    * @param width
    */
   private calculateHeightWith43AspectRatio(width: number): number {
-      return (width / 4) * 3;
+      return (width / ASPECT_RATIO_X) * ASCPECT_RATIO_Y;
   }
 
   /**
@@ -261,7 +262,9 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
   }
 
   private calculateTopologySize() {
-    this.topologyWidth = window.innerWidth >= 1920 ? this.rightPanelDiv.nativeElement.getBoundingClientRect().width : (window.innerWidth / 2);
+    this.topologyWidth = window.innerWidth >= WINDOW_WIDTH ?
+      this.rightPanelDiv.nativeElement.getBoundingClientRect().width :
+      (window.innerWidth / DIVIDE_BY);
     this.topologyHeight = this.calculateHeightWith43AspectRatio(this.topologyWidth);
   }
 }

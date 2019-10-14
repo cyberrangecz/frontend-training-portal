@@ -40,11 +40,12 @@ export class UserSelectorComponent extends BaseComponent implements OnInit, OnCh
   }
 
   ngOnInit() {
+    const dueTime = 300;
     this.userControl.valueChanges
       .pipe(
         takeWhile(_ => this.isAlive),
         map(value => typeof value === 'string' ? value : value.name),
-        debounceTime(300)
+        debounceTime(dueTime)
       ).subscribe( value => this.fetchUsers(value)
     );
   }

@@ -32,7 +32,8 @@ export class TrainingInstanceMapper {
    * Maps training instance dtos received from remote server to training instance objects
    * @param resource array of training instance dtos received from remote server with pagination
    */
-  mapTrainingInstanceDTOsToTrainingInstancesWithPagination(resource: TrainingInstanceRestResource): PaginatedResource<TrainingInstanceTableRow[]> {
+  mapTrainingInstanceDTOsToTrainingInstancesWithPagination(resource: TrainingInstanceRestResource)
+    : PaginatedResource<TrainingInstanceTableRow[]> {
     const tableDataList = resource.content.map(dto => new TrainingInstanceTableRow(this.mapTrainingInstanceDTOToTrainingInstance(dto)));
     const tablePagination = new Kypo2Pagination(resource.pagination.number,
       resource.pagination.number_of_elements,

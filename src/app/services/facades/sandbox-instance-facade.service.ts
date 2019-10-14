@@ -53,7 +53,8 @@ export class SandboxInstanceFacade {
   }
 
   getSandboxes(poolId: number, pagination: RequestedPagination = null): Observable<PaginatedResource<SandboxInstance[]>> {
-    return this.http.get<DjangoResourceDTO<SandboxInstanceDTO>>(`${this.poolsEndpointUri + poolId}/${this.pythonSandboxInstancesUriExtension}`,
+    return this.http.get<DjangoResourceDTO<SandboxInstanceDTO>>(
+      `${this.poolsEndpointUri + poolId}/${this.pythonSandboxInstancesUriExtension}`,
       {
         params: PaginationParams.createSandboxPaginationParams(pagination)
       })

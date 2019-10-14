@@ -169,7 +169,8 @@ export class TrainingRunFacade {
 
   /**
    * Submits users answers for questions in assessment level
-   * @param trainingRun id of the training run in which, questions should be submitted (level is decided based on the current level property)
+   * @param trainingRun id of the training run in which, questions should be
+   *  submitted (level is decided based on the current level property)
    * @param questions questions which answers should be submitted
    */
   submitAnswers(trainingRun: number, questions: AbstractQuestion[]): Observable<any> {

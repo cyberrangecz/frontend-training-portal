@@ -27,7 +27,8 @@ export class TrainingRunLevelsGuard implements CanActivate, CanDeactivate<Abstra
     }
   }
 
-  canDeactivate(component: AbstractLevelComponent, currentRoute: ActivatedRouteSnapshot, currentState: RouterStateSnapshot, nextState?: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+  canDeactivate(component: AbstractLevelComponent, currentRoute: ActivatedRouteSnapshot,
+                currentState: RouterStateSnapshot, nextState?: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     this.distractionFreeModeService.setDistractionFreeMode(false);
     this.activeTrainingRunLevelService.clear();
     return true;

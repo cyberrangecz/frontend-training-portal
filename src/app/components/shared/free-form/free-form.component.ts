@@ -59,7 +59,12 @@ export class FreeFormComponent extends BaseComponent implements OnInit, OnChange
     (this.items as FormArray).push(new FormControl('', this.required ? Validators.required : undefined));
     this.freeFormItemFormGroup.formGroup.markAsDirty();
     this.freeFormItemFormGroup.formGroup.updateValueAndValidity();
-    this.itemsChange.emit({items: this.items.value, index: this.items.length, isAdded: true, validity: this.freeFormItemFormGroup.formGroup.valid});
+    this.itemsChange.emit({
+      items: this.items.value,
+      index: this.items.length,
+      isAdded: true,
+      validity: this.freeFormItemFormGroup.formGroup.valid
+    });
   }
 
   removeItem(event) {

@@ -33,7 +33,8 @@ export class TrainingDefinitionMapper {
     return resource.content.map(trainingDTO => this.mapTrainingDefinitionDTOToTrainingDefinition(trainingDTO, false));
   }
 
-  mapTrainingDefinitionDTOsToTrainingDefinitionsPaginated(resource: TrainingDefinitionRestResource): PaginatedResource<TrainingDefinitionTableRow[]> {
+  mapTrainingDefinitionDTOsToTrainingDefinitionsPaginated(resource: TrainingDefinitionRestResource)
+    : PaginatedResource<TrainingDefinitionTableRow[]> {
     const tableData: TrainingDefinitionTableRow[] = [];
     resource.content.forEach((trainingDTO: TrainingDefinitionDTO) => {
       const td = this.mapTrainingDefinitionDTOToTrainingDefinition(trainingDTO, false);
