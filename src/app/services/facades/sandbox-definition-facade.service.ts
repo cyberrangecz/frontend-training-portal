@@ -48,7 +48,8 @@ export class SandboxDefinitionFacade {
   /**
    * Retrieves sandbox by its id
    * @param {number} id id of sandbox which should be retrieved
-   * @returns {Observable<SandboxDefinition>} Observable of retrieved sandbox definition, null if no sandbox definition with such id is found
+   * @returns {Observable<SandboxDefinition>} Observable of retrieved sandbox definition, null if
+   *  no sandbox definition with such id is found
    */
   getById(id: number): Observable<SandboxDefinition> {
     return this.http.get<SandboxDefinitionDTO>(this.sandboxDefsEndpoint + id, { headers: this.createDefaultHeaders() })

@@ -11,7 +11,8 @@ import {BaseComponent} from '../../../../base.component';
   styleUrls: ['./sandbox-definition-picker.component.css']
 })
 /**
- * Component of sandbox definition picker dialog window. Lets the user to choose from list of sandbox definitions which will be associated with the training definition
+ * Component of sandbox definition picker dialog window.
+ * Lets the user to choose from list of sandbox definitions which will be associated with the training definition
  */
 export class SandboxDefinitionPickerComponent extends BaseComponent implements OnInit {
 

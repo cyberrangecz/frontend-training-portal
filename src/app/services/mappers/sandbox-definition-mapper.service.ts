@@ -10,7 +10,8 @@ import {SandboxDefinitionTableRow} from '../../model/table-adapters/sandbox-defi
  */
 export class SandboxDefinitionMapperService {
 
-  mapSandboxDefinitionDTOToSandboxDefinitionPaginated(paginatedDTO: DjangoResourceDTO<SandboxDefinitionDTO>): PaginatedResource<SandboxDefinitionTableRow[]> {
+  mapSandboxDefinitionDTOToSandboxDefinitionPaginated(paginatedDTO: DjangoResourceDTO<SandboxDefinitionDTO>)
+    : PaginatedResource<SandboxDefinitionTableRow[]> {
     const tableData = paginatedDTO.results
       .map(sandboxDTO =>
         new SandboxDefinitionTableRow(this.mapSandboxDefinitionDTOToSandboxDefinition(sandboxDTO)));

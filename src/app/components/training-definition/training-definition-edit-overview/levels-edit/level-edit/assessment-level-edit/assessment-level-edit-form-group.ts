@@ -7,12 +7,13 @@ export class AssessmentLevelEditFormGroup {
     formGroup: FormGroup;
 
     constructor(level: AssessmentLevel) {
+        const maxLevelDuration = 60;
         this.formGroup = new FormGroup({
           title: new FormControl(level.title, Validators.required),
           instructions: new FormControl(level.instructions),
           isTest: new FormControl(level.assessmentType === AssessmentTypeEnum.Test),
           estimatedDuration: new FormControl(level.estimatedDuration, [
-            Validators.max(60),
+            Validators.max(maxLevelDuration),
             Validators.min(1)
           ]),
         });

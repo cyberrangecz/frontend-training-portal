@@ -1,0 +1,6 @@
+export const ADMIN_NODES_USER_ORDER = 10;
+export const ADMIN_NODES_GROUP_ORDER = 20;
+export const DESIGNER_NODES_TD_ORDER = 10;
+export const DESIGNER_NODES_SD_ORDER = 20;
+export const ORGANIZER_NODES_TI_ORDER = 20;
+export const TRAINEE_NODES_TR_ORDER = 30;

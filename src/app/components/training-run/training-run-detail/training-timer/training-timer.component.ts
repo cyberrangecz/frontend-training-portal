@@ -27,7 +27,8 @@ export class TrainingTimerComponent extends BaseComponent implements OnInit, OnC
   }
 
   private startCounter() {
-    this.timeElapsed = timer(0, 1000)
+    const period = 1000;
+    this.timeElapsed = timer(0, period)
       .pipe(
         takeWhile(() => this.isAlive),
         map(() => this.calculateElapsedTime())

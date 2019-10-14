@@ -121,8 +121,12 @@ export class SandboxInstancesTableComponent extends BaseComponent implements OnI
   private sendRequestToDeleteSandbox(sandboxRow: SandboxInstanceTableRow) {
     const sandboxCount = this.getSandboxCount() - 1;
     this.isDisabled = true;
-    const sandboxDeletion$ = this.allocationService
-      .deleteSandbox(this.trainingInstance, sandboxRow.sandboxInstance, sandboxCount, this.isHardDelete);
+    const sandboxDeletion$ = this.allocationService.deleteSandbox(
+      this.trainingInstance,
+      sandboxRow.sandboxInstance,
+      sandboxCount,
+      this.isHardDelete
+    );
     sandboxDeletion$
       .pipe(
         takeWhile(() => this.isAlive),

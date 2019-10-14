@@ -29,7 +29,9 @@ export class UserFacade {
               private userMapper: UserMapper) {
   }
 
-  getOrganizersNotInTI(trainingInstanceId: number, pagination: RequestedPagination, filters: Filter[] = []): Observable<PaginatedResource<User[]>> {
+  getOrganizersNotInTI(trainingInstanceId: number,
+                       pagination: RequestedPagination,
+                       filters: Filter[] = []): Observable<PaginatedResource<User[]>> {
     const params = ParamsMerger.merge([PaginationParams.createTrainingsPaginationParams(pagination), FilterParams.create(filters)]);
     return this.http.get<UserRestResource>(`${this.trainingInstancesEndpointUri + trainingInstanceId}/organizers-not-in-training-instance`,
       { params: params})
@@ -38,7 +40,9 @@ export class UserFacade {
       );
   }
 
-  getDesignersNotInTD(trainingDefinitionId: number, pagination: RequestedPagination, filters: Filter[] = []): Observable<PaginatedResource<User[]>> {
+  getDesignersNotInTD(trainingDefinitionId: number,
+                      pagination: RequestedPagination,
+                      filters: Filter[] = []): Observable<PaginatedResource<User[]>> {
     const params = ParamsMerger.merge([PaginationParams.createTrainingsPaginationParams(pagination), FilterParams.create(filters)]);
     return this.http.get<UserRestResource>(`${this.trainingDefsEndpointUri + trainingDefinitionId}/designers-not-in-training-definition`,
       { params: params })
@@ -47,7 +51,9 @@ export class UserFacade {
       );
   }
 
-  getAuthors(trainingDefinitionId: number, pagination: RequestedPagination, filters: Filter[] = []): Observable<PaginatedResource<User[]>> {
+  getAuthors(trainingDefinitionId: number,
+             pagination: RequestedPagination,
+             filters: Filter[] = []): Observable<PaginatedResource<User[]>> {
     const params = ParamsMerger.merge([PaginationParams.createTrainingsPaginationParams(pagination), FilterParams.create(filters)]);
     return this.http.get<UserRestResource>(`${this.trainingDefsEndpointUri + trainingDefinitionId}/authors`,
       { params: params})
@@ -56,7 +62,9 @@ export class UserFacade {
       );
   }
 
-  getOrganizers(trainingInstanceId: number, pagination: RequestedPagination, filters: Filter[] = []): Observable<PaginatedResource<User[]>> {
+  getOrganizers(trainingInstanceId: number,
+                pagination: RequestedPagination,
+                filters: Filter[] = []): Observable<PaginatedResource<User[]>> {
     const params = ParamsMerger.merge([PaginationParams.createTrainingsPaginationParams(pagination), FilterParams.create(filters)]);
     return this.http.get<UserRestResource>(`${this.trainingInstancesEndpointUri + trainingInstanceId}/organizers`,
       { params: params})

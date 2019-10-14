@@ -27,6 +27,7 @@ export class TrainingInstanceEditComponent extends BaseComponent implements OnIn
   now: Date;
   trainingInstanceFormGroup: TrainingInstanceFormGroup;
   userChangedStartTime = false;
+  period = 60000;
 
   constructor(
     private alertService: AlertService,
@@ -88,7 +89,7 @@ export class TrainingInstanceEditComponent extends BaseComponent implements OnIn
   }
 
   private setUpPeriodicTimeStartTimeUpdate() {
-    interval(60000)
+    interval(this.period)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(() => {
       if (!this.userChangedStartTime) {
@@ -99,7 +100,7 @@ export class TrainingInstanceEditComponent extends BaseComponent implements OnIn
 
   private initCurrentTimePeriodicalUpdate() {
     this.now = new Date();
-    interval(60000)
+    interval(this.period)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(value =>
       this.now = new Date()

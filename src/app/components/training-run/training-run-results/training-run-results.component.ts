@@ -58,8 +58,9 @@ export class TrainingRunResultsComponent extends BaseComponent implements OnInit
   }
 
   private setVisualizationSize(windowWidth: number, windowHeight: number) {
-      const width = windowWidth / 2;
-      const height = windowHeight / 2;
+    const divideBy = 2;
+      const width = windowWidth / divideBy;
+      const height = windowHeight / divideBy;
       this.vizSize = { width: width, height: height };
   }
 }

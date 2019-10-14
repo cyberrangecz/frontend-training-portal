@@ -11,12 +11,13 @@ export class ShorterAuthorsFormatPipe implements PipeTransform {
   private isActiveUserInAuthors: boolean;
 
   transform(authors: User[], activeUser: User): string {
+    const maxLen = 2;
     if (!authors || authors.length === 0) {
       return '';
     }
     this.isActiveUserInAuthors = authors.some(author => author.equals(activeUser));
     this.firstAuthorMsg = this.isActiveUserInAuthors ? 'You' : authors[0].name;
-    this.plural = authors.length > 2 ? 's' : '';
+    this.plural = authors.length > maxLen ? 's' : '';
     if (authors.length === 1) {
       return this.firstAuthorMsg;
     }

@@ -35,7 +35,10 @@ export class PreviewTrainingRunService {
   }
 
   access(accessToken: string): Observable<number> {
-    console.error('It seems like you tried to use access token method to start training run in preview mode. Please you setUpFromTrainingRun() method to setup preview');
+    console.error(
+      'It seems like you tried to use access token method to start training run in preview mode.' +
+      ' Please you setUpFromTrainingRun() method to setup preview'
+    );
     return of(-1);
   }
 
