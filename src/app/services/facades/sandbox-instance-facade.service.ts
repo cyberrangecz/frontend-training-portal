@@ -30,7 +30,6 @@ export class SandboxInstanceFacade {
   private readonly poolRequestUriExtension = 'requests/';
   private readonly sandboxResourceExtension = 'resources';
 
-  private readonly MOCKENDOPOINT = 'http://localhost:3000/pools/'; // TODO: DELETE
   private readonly poolsEndpointUri = environment.sandboxRestBasePath + this.poolsUriExtension;
   private readonly sandboxEndpointUri = environment.sandboxRestBasePath + this.pythonSandboxInstancesUriExtension;
   private readonly  trainingInstancesEndpointUri = environment.trainingRestBasePath + this.trainingInstancesUriExtension;
@@ -67,7 +66,7 @@ export class SandboxInstanceFacade {
   }
 
   getCreationRequests(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<PoolRequest[]>> {
-    return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(`${this.MOCKENDOPOINT + poolId}/creation-${this.poolRequestUriExtension}`,
+    return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(`${this.poolsEndpointUri + poolId}/creation-${this.poolRequestUriExtension}`,
       {
         params: PaginationParams.createSandboxPaginationParams(pagination)
       })
@@ -75,7 +74,7 @@ export class SandboxInstanceFacade {
   }
 
   getCleanupRequests(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<PoolRequest[]>> {
-    return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(`${this.MOCKENDOPOINT + poolId}/cleanup-${this.poolRequestUriExtension}`,
+    return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(`${this.poolsEndpointUri + poolId}/cleanup-${this.poolRequestUriExtension}`,
       {
         params: PaginationParams.createSandboxPaginationParams(pagination)
       })
@@ -83,7 +82,7 @@ export class SandboxInstanceFacade {
   }
 
   getRequest(poolId: number, requestId: number): Observable<PoolRequest> {
-    return this.http.get<PoolRequestDTO>(`${this.MOCKENDOPOINT + poolId}/${this.poolRequestUriExtension}${requestId}`)
+    return this.http.get<PoolRequestDTO>(`${this.poolsEndpointUri + poolId}/${this.poolRequestUriExtension}${requestId}`)
       .pipe(map(response => this.sandboxInstanceMapper.mapRequestDTOToRequest(response)));
   }
 
