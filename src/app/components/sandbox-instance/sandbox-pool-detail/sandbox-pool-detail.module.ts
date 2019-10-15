@@ -8,14 +8,14 @@ import {PoolRequestResolver} from '../../../services/resolvers/pool-request-reso
 import {PoolResolver} from '../../../services/resolvers/pool-resolver.service';
 import {SandboxInstanceBreadcrumbResolver} from '../../../services/resolvers/sandbox-instance-breadcrumb-resolver.service';
 import {SandboxInstanceResolver} from '../../../services/resolvers/sandbox-instance-resolver.service';
-import {PoolRequestsConcreteService} from '../../../services/sandbox-instance/pool-requests-concrete.service';
-import {PoolRequestsService} from '../../../services/sandbox-instance/pool-requests.service';
+import {PoolCreationRequestsConcreteService} from '../../../services/sandbox-instance/pool-creation-requests-concrete.service';
+import {PoolRequestService} from '../../../services/sandbox-instance/pool-request.service';
 import {SandboxInstanceConcreteService} from '../../../services/sandbox-instance/sandbox-instance-concrete.service';
 import {SandboxInstanceService} from '../../../services/sandbox-instance/sandbox-instance.service';
-import { PoolRequestDetailComponent } from '../pool-request-detail/pool-request-detail.component';
 import {SandboxPoolDetailMaterialModule} from './sandbox-pool-detail-material.module';
 import {SandboxPoolDetailRoutingModule} from './sandbox-pool-detail-routing.module';
 import { SandboxPoolDetailComponent } from './sandbox-pool-detail.component';
+import {PoolCleanupRequestsConcreteService} from '../../../services/sandbox-instance/pool-cleanup-requests-concrete.service';
 
 @NgModule({
   declarations: [SandboxPoolDetailComponent],
@@ -32,8 +32,9 @@ import { SandboxPoolDetailComponent } from './sandbox-pool-detail.component';
     PoolRequestBreadcrumbResolver,
     SandboxInstanceResolver,
     SandboxInstanceBreadcrumbResolver,
+    PoolCreationRequestsConcreteService,
+    PoolCleanupRequestsConcreteService,
     { provide: SandboxInstanceService, useClass: SandboxInstanceConcreteService },
-    { provide: PoolRequestsService, useClass: PoolRequestsConcreteService }
   ]
 })
 export class SandboxInstanceOverviewModule { }

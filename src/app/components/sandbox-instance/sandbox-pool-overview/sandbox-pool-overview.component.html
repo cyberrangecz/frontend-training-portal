@@ -2,9 +2,9 @@
   <h1>Sandbox Pools Overview</h1>
   <kypo2-table
     [data]="pools$ | async"
-    [totalElements]="poolsTotalLength"
-    [hasError]="poolsTableHasError"
+    [totalElements]="totalLength$ | async"
+    [hasError]="hasError$ | async"
+    (rowAction)="onPoolAction($event)"
     (refresh)="onPoolsLoadEvent($event)">
   </kypo2-table>
 </div>
-

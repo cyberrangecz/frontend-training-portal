@@ -35,6 +35,6 @@ export class PoolRequestDetailComponent extends BaseComponent implements OnInit 
 
 
   onForceCleanup(stage: RequestStage, index: number) {
-    // TODO: Send request
+    // TODO: Implement with service for state polling
   }
 }

@@ -48,7 +48,9 @@ export class SandboxInstanceFacade {
 
   getPool(id: number): Observable<SandboxPool>  {
   return this.http.get<SandboxPoolDTO>(`${this.poolsEndpointUri}${id}/`)
-    .pipe(map(response => this.sandboxInstanceMapper.mapPoolDTOToPool(response)));
+    .pipe(
+      map(response => this.sandboxInstanceMapper.mapPoolDTOToPool(response))
+    );
   }
 
   getSandboxes(poolId: number, pagination: RequestedPagination = null): Observable<PaginatedResource<SandboxInstance[]>> {
@@ -57,12 +59,16 @@ export class SandboxInstanceFacade {
       {
         params: PaginationParams.createSandboxPaginationParams(pagination)
       })
-      .pipe(map(response => this.sandboxInstanceMapper.mapSandboxInstanceDTOsToSandboxInstances(response)));
+      .pipe(
+        map(response => this.sandboxInstanceMapper.mapSandboxInstanceDTOsToSandboxInstances(response))
+      );
   }
 
   getSandbox(sandboxId: number): Observable<SandboxInstance> {
     return this.http.get<SandboxInstanceDTO>(`${this.sandboxEndpointUri + sandboxId}/`)
-      .pipe(map(response => this.sandboxInstanceMapper.mapSandboxInstanceDTOToSandboxInstance(response)));
+      .pipe(
+        map(response => this.sandboxInstanceMapper.mapSandboxInstanceDTOToSandboxInstance(response))
+      );
   }
 
   getCreationRequests(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<PoolRequest[]>> {
@@ -70,7 +76,9 @@ export class SandboxInstanceFacade {
       {
         params: PaginationParams.createSandboxPaginationParams(pagination)
       })
-      .pipe(map(response => this.sandboxInstanceMapper.mapRequestsDTOToRequests(response)));
+      .pipe(
+        map(response => this.sandboxInstanceMapper.mapRequestsDTOToRequests(response))
+      );
   }
 
   getCleanupRequests(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<PoolRequest[]>> {
@@ -78,7 +86,34 @@ export class SandboxInstanceFacade {
       {
         params: PaginationParams.createSandboxPaginationParams(pagination)
       })
-      .pipe(map(response => this.sandboxInstanceMapper.mapRequestsDTOToRequests(response)));
+      .pipe(
+        map(response => this.sandboxInstanceMapper.mapRequestsDTOToRequests(response))
+      );
+  }
+
+  cancelCleanupRequest(poolId: number, requestId: number): Observable<any> {
+    return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(
+      `${this.poolsEndpointUri + poolId}/cleanup-${this.poolRequestUriExtension}${requestId}/cancel`);
+  }
+
+  retryCleanupRequest(poolId: number, requestId: number): Observable<any> {
+    return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(
+      `${this.poolsEndpointUri + poolId}/cleanup-${this.poolRequestUriExtension}${requestId}/retry`);
+  }
+
+  cancelCreationRequest(poolId: number, requestId: number): Observable<any> {
+    return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(
+      `${this.poolsEndpointUri + poolId}/creation-${this.poolRequestUriExtension}${requestId}/cancel`);
+  }
+
+  retryCreationRequest(poolId: number, requestId: number): Observable<any> {
+    return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(
+      `${this.poolsEndpointUri + poolId}/creation-${this.poolRequestUriExtension}${requestId}/retry`);
+  }
+
+  forceCleanupStage(poolId: number, requestId: number, stageId: number): Observable<any> {
+    return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(
+      `${this.poolsEndpointUri + poolId}/${this.poolRequestUriExtension}${requestId}stages/${stageId}/force`);
   }
 
   getRequest(poolId: number, requestId: number): Observable<PoolRequest> {
@@ -123,7 +158,11 @@ export class SandboxInstanceFacade {
     return this.http.delete(this.sandboxEndpointUri + sandboxId, { params: params});
   }
 
-  clearPool(poolId: number) {
+  deletePool(poolId: number): Observable<any> {
+    return this.http.delete(`${this.poolsEndpointUri + poolId}/`);
+  }
+
+  clearPool(poolId: number): Observable<any> {
     return this.http.delete(`${this.poolsEndpointUri + poolId}/${this.pythonSandboxInstancesUriExtension}`);
   }
 
@@ -175,4 +214,5 @@ export class SandboxInstanceFacade {
       `${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.poolsUriExtension}`,
       null);
   }
+
 }

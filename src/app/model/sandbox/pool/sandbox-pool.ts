@@ -4,4 +4,13 @@ export class SandboxPool {
   usedSize: number;
   maxSize: number;
   usedAndMaxSize: string;
+
+  isFull(): boolean {
+    return this.usedSize === this.maxSize;
+  }
+
+  isEmpty(): boolean {
+    return this.usedSize === 0;
+  }
+
 }
