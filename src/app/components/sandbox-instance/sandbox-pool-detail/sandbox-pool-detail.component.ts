@@ -1,14 +1,18 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {Kypo2Table, LoadTableEvent, RequestedPagination} from 'kypo2-table';
+import {Kypo2Table, LoadTableEvent, RequestedPagination, TableActionEvent} from 'kypo2-table';
 import {SandboxInstanceService} from '../../../services/sandbox-instance/sandbox-instance.service';
 import {SandboxInstance} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance';
 import {Observable} from 'rxjs';
-import {takeWhile} from 'rxjs/operators';
+import {map, takeWhile, tap} from 'rxjs/operators';
 import {PoolRequest} from '../../../model/sandbox/pool/request/pool-request';
 import {SandboxPool} from '../../../model/sandbox/pool/sandbox-pool';
-import {PoolRequestsService} from '../../../services/sandbox-instance/pool-requests.service';
 import {BaseComponent} from '../../base.component';
+import {SandboxInstanceTableCreator} from '../../../model/table-adapters/sandbox-instance-table-creator';
+import {environment} from '../../../../environments/environment';
+import {PoolRequestTableCreator} from '../../../model/table-adapters/pool-request-table-creator';
+import {PoolCreationRequestsConcreteService} from '../../../services/sandbox-instance/pool-creation-requests-concrete.service';
+import {PoolCleanupRequestsConcreteService} from '../../../services/sandbox-instance/pool-cleanup-requests-concrete.service';
 
 @Component({
   selector: 'kypo2-sandbox-instance-overview',
@@ -18,106 +22,125 @@ import {BaseComponent} from '../../base.component';
 })
 export class SandboxPoolDetailComponent extends BaseComponent implements OnInit {
 
-  instances$: Observable<Kypo2Table<SandboxInstance>>;
-  instancesTotalLength: number;
-  instancesTableHasError = false;
-
-  creationRequests$: Observable<Kypo2Table<PoolRequest>>;
-  creationRequestsTotalLength: number;
-  creationRequestsTableHasError = false;
-
-  cleanupRequests$: Observable<Kypo2Table<PoolRequest>>;
-  cleanupRequestsTotalLength: number;
-  cleanupRequestsTableHasError = false;
-
   pool: SandboxPool;
 
-  private lastInstancesLoadEvent: LoadTableEvent;
-  private lastCreationRequestsLoadEvent: LoadTableEvent;
-  private lastCleanupRequestsLoadEvent: LoadTableEvent;
+  instances$: Observable<Kypo2Table<SandboxInstance>>;
+  instancesTotalLength$: Observable<number>;
+  instancesTableHasError$: Observable<boolean>;
+
+  creationRequests$: Observable<Kypo2Table<PoolRequest>>;
+  creationRequestsTotalLength$: Observable<number>;
+  creationRequestsTableHasError$: Observable<boolean>;
+
+  cleanupRequests$: Observable<Kypo2Table<PoolRequest>>;
+  cleanupRequestsTotalLength$: Observable<number>;
+  cleanupRequestsTableHasError$: Observable<boolean>;
 
   constructor(private instanceService: SandboxInstanceService,
-              private requestsService: PoolRequestsService,
+              private creationRequestService: PoolCreationRequestsConcreteService,
+              private cleanupRequestService: PoolCleanupRequestsConcreteService,
               private activeRoute: ActivatedRoute) {
     super();
-    this.activeRoute.data
-      .pipe(
-        takeWhile(_ => this.isAlive),
-      ).subscribe(data => this.pool = data.pool);
   }
 
   ngOnInit() {
-    this.instances$ = this.instanceService.instances$;
-    this.lastInstancesLoadEvent = new LoadTableEvent(null, null);
-    this.onInstanceLoadEvent();
-
-    this.creationRequests$ = this.requestsService.creationRequests$;
-    this.lastCreationRequestsLoadEvent = new LoadTableEvent(null, null);
-    this.onCreationRequestsLoadEvent();
-
-    this.cleanupRequests$ = this.requestsService.cleanupRequests$;
-    this.lastCleanupRequestsLoadEvent = new LoadTableEvent(null, null);
-    this.onCleanupRequestsLoadEvent();
+    this.initTables();
   }
 
-  onInstanceLoadEvent(loadEvent: LoadTableEvent = null) {
-    if (loadEvent) {
-      this.lastInstancesLoadEvent = loadEvent;
-      this.getInstances(loadEvent.pagination);
-    } else {
-      this.getInstances(this.lastInstancesLoadEvent.pagination);
-    }
-  }
-
-  onCreationRequestsLoadEvent(loadEvent: LoadTableEvent = null) {
-    if (loadEvent) {
-      this.lastCreationRequestsLoadEvent = loadEvent;
-      this.getCreationRequests(loadEvent.pagination);
-    } else {
-      this.getCreationRequests(this.lastCreationRequestsLoadEvent.pagination);
-    }
-  }
-
-  onCleanupRequestsLoadEvent(loadEvent: LoadTableEvent = null) {
-    if (loadEvent) {
-      this.lastCleanupRequestsLoadEvent = loadEvent;
-      this.getCleanupRequests(loadEvent.pagination);
-    } else {
-      this.getCleanupRequests(this.lastCleanupRequestsLoadEvent.pagination);
-    }
-  }
-
-  private getInstances(pagination: RequestedPagination) {
-    this.instancesTableHasError = false;
-    this.instanceService.getAll(this.pool.id, pagination)
+  onInstanceLoadEvent(loadEvent: LoadTableEvent) {
+    this.instanceService.getAll(this.pool.id, loadEvent.pagination)
       .pipe(
         takeWhile(_ => this.isAlive),
       )
-      .subscribe(
-        paginatedInstances => this.instancesTotalLength = paginatedInstances.pagination.totalElements,
-        err => this.instancesTableHasError = true);
+      .subscribe();
   }
 
-
-  private getCreationRequests(pagination: RequestedPagination) {
-    this.creationRequestsTableHasError = false;
-    this.requestsService.getCreationRequests(this.pool.id, pagination)
+  onCreationRequestsLoadEvent(loadEvent: LoadTableEvent) {
+    this.creationRequestService.getAll(this.pool.id, loadEvent.pagination)
       .pipe(
         takeWhile(_ => this.isAlive),
       )
-      .subscribe(
-        paginatedRequests => this.creationRequestsTotalLength = paginatedRequests.pagination.totalElements,
-        err => this.creationRequestsTableHasError = true);
+      .subscribe();
   }
 
-  private getCleanupRequests(pagination: RequestedPagination) {
-    this.cleanupRequestsTableHasError = false;
-    this.requestsService.getCleanupRequests(this.pool.id, pagination)
+  onCleanupRequestsLoadEvent(loadEvent: LoadTableEvent) {
+    this.cleanupRequestService.getAll(this.pool.id, loadEvent.pagination)
       .pipe(
         takeWhile(_ => this.isAlive),
       )
-      .subscribe(
-        paginatedRequests => this.cleanupRequestsTotalLength = paginatedRequests.pagination.totalElements,
-        err => this.cleanupRequestsTableHasError = true);
+      .subscribe();
+  }
+
+  onInstanceAction(event: TableActionEvent<SandboxInstance>) {
+    if (event.action.label === SandboxInstanceTableCreator.DELETE_ACTION) {
+      this.instanceService.delete(event.element)
+        .pipe(takeWhile(_ => this.isAlive))
+        .subscribe();
+    }
+  }
+
+  onCreationAction(event: TableActionEvent<PoolRequest>) {
+    let action$: Observable<any>;
+    if (event.action.label === PoolRequestTableCreator.CANCEL_ACTION) {
+      action$ = this.creationRequestService.cancel(this.pool.id, event.element);
+    }
+    if (event.action.label === PoolRequestTableCreator.RETRY_ACTION) {
+      action$ = this.creationRequestService.retry(this.pool.id, event.element);
+    }
+    if (action$) {
+      action$
+        .pipe(takeWhile(_ => this.isAlive))
+        .subscribe();
+    }
+  }
+
+  onCleanupAction(event: TableActionEvent<PoolRequest>) {
+    let action$: Observable<any>;
+    if (event.action.label === PoolRequestTableCreator.CANCEL_ACTION) {
+      action$ = this.cleanupRequestService.cancel(this.pool.id, event.element);
+    }
+    if (event.action.label === PoolRequestTableCreator.RETRY_ACTION) {
+      action$ = this.cleanupRequestService.retry(this.pool.id, event.element);
+    }
+    if (action$) {
+      action$
+        .pipe(takeWhile(_ => this.isAlive))
+        .subscribe();
+    }
+  }
+
+  private initTables() {
+    const initialLoadEvent: LoadTableEvent = new LoadTableEvent(
+      new RequestedPagination(0, environment.defaultPaginationSize, '', ''));
+    this.activeRoute.data
+      .pipe(
+        takeWhile(_ => this.isAlive),
+      ).subscribe(data => {
+        this.pool = data.pool;
+        this.onInstanceLoadEvent(initialLoadEvent);
+        this.onCreationRequestsLoadEvent(initialLoadEvent);
+        this.onCleanupRequestsLoadEvent(initialLoadEvent);
+      }
+    );
+
+    this.instances$ = this.instanceService.instances$
+      .pipe(
+        map(instances => SandboxInstanceTableCreator.create(instances))
+      );
+    this.instancesTableHasError$ = this.instanceService.hasError$;
+    this.instancesTotalLength$ = this.instanceService.totalLength$;
+
+    this.creationRequests$ = this.creationRequestService.requests$
+      .pipe(
+        map(requests => PoolRequestTableCreator.create(requests, this.pool.id)));
+    this.creationRequestsTableHasError$ = this.creationRequestService.hasError$;
+    this.creationRequestsTotalLength$ = this.creationRequestService.totalLength$;
+
+    this.cleanupRequests$ = this.cleanupRequestService.requests$
+      .pipe(
+        map(requests => PoolRequestTableCreator.create(requests, this.pool.id))
+      );
+    this.cleanupRequestsTableHasError$ = this.cleanupRequestService.hasError$;
+    this.cleanupRequestsTotalLength$ = this.cleanupRequestService.totalLength$;
   }
 }

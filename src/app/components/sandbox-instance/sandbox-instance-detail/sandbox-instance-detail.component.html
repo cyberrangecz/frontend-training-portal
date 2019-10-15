@@ -2,7 +2,7 @@
 <div class="content">
   <kypo2-table class="mat-elevation-z8"
     [data]="resources$ | async"
-    [hasError]="resourcesHasError"
+    [hasError]="resourcesHasError$ | async"
     (refresh)="onResourceLoadEvent($event)">
   </kypo2-table>
   <mat-card [style.width.px]="topologyWidth"

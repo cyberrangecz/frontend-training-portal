@@ -5,9 +5,12 @@ import {RouteFactory} from '../routes/route-factory';
 import {PaginatedResource} from './paginated-resource';
 
 export class SandboxInstanceTableCreator {
+
+  static readonly DELETE_ACTION = 'delete';
+
   static create(resource: PaginatedResource<SandboxInstance[]>): Kypo2Table<SandboxInstance> {
     const actions = [
-      new RowAction('delete', 'delete', 'warn', 'Delete sandbox instance', of(false))
+      new RowAction(this.DELETE_ACTION, 'delete', 'warn', 'Delete sandbox instance', of(false))
     ];
     const rows = resource.elements.map(instance => {
       const row = new Row(instance, actions);
