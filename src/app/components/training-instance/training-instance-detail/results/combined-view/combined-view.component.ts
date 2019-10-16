@@ -25,7 +25,6 @@ export class CombinedViewComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.setVisualizationSize(window.innerWidth, innerHeight);
-    this.subscribeForInstanceChanges();
     this.getIdsForVisualization();
   }
 
@@ -41,12 +40,6 @@ export class CombinedViewComponent extends BaseComponent implements OnInit {
       this.trainingDefinitionId = activeTrainingInstance.trainingDefinition.id;
       this.isLoading = false;
     }
-  }
-
-  private subscribeForInstanceChanges() {
-    this.activeTrainingInstanceService.onActiveTrainingChanged
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(newInstanceId => this.getIdsForVisualization());
   }
 
   private setVisualizationSize(windowWidth: number, windowHeight: number) {

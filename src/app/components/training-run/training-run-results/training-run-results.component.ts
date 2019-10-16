@@ -1,8 +1,12 @@
-import {AfterViewInit, Component, HostListener, OnInit, } from '@angular/core';
+import {Component, HostListener, OnInit, } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Kypo2AuthService} from 'kypo2-auth';
-import {map} from 'rxjs/operators';
+import {map, takeWhile} from 'rxjs/operators';
 import {BaseComponent} from '../../base.component';
+import {Observable} from 'rxjs';
+import {VisualizationInfo} from '../../../model/visualizations/visualization-info';
+import {TrainingRun} from '../../../model/training/training-run';
+import {Kypo2TraineeModeInfo} from 'kypo2-trainings-visualization-overview-lib';
 @Component({
   selector: 'kypo2-training-run-results',
   templateUrl: './training-run-results.component.html',
@@ -11,14 +15,12 @@ import {BaseComponent} from '../../base.component';
 /**
  * Component displaying visualization of training run results
  */
-export class TrainingRunResultsComponent extends BaseComponent implements OnInit, AfterViewInit {
+export class TrainingRunResultsComponent extends BaseComponent implements OnInit {
 
-  display = false;
   vizSize: {width: number, height: number};
 
-  trainingDefinitionId: number;
-  trainingInstanceId: number;
-  activeUserUco: string;
+  visualizationInfo$: Observable<VisualizationInfo>;
+  traineeModeInfo$: Observable<Kypo2TraineeModeInfo>;
 
   constructor(private activatedRoute: ActivatedRoute,
               private authService: Kypo2AuthService) {
@@ -27,13 +29,7 @@ export class TrainingRunResultsComponent extends BaseComponent implements OnInit
 
   ngOnInit() {
     this.setVisualizationSize(window.innerWidth, innerHeight);
-    this.loadData();
-  }
-
-  ngAfterViewInit() {
-    // hack because visualization components won't render properly
-    // (probably because changing the setting of distraction free mode when leaving last level)
-    setTimeout(x => this.display = true, 1);
+    this.loadVisualizationInfo();
   }
 
   @HostListener('window:resize')
@@ -41,20 +37,30 @@ export class TrainingRunResultsComponent extends BaseComponent implements OnInit
     this.setVisualizationSize(event.target.innerWidth, event.target.innerHeight);
   }
 
-  loadData() {
-    this.activeUserUco = this.parseUcoFromUserLogin();
-    this.activatedRoute.data
+  loadVisualizationInfo() {
+    this.visualizationInfo$ = this.activatedRoute.data
       .pipe(
-        map(data => data.trainingRun)
-      )
-      .subscribe(tr => {
-        this.trainingInstanceId = tr.trainingInstanceId;
-        this.trainingDefinitionId = tr.trainingDefinitionId;
-      });
+        takeWhile(_ => this.isAlive),
+        map(data => this.createTrainingVisualizationInfo(data.trainingRun))
+      );
+    this.traineeModeInfo$ = this.visualizationInfo$
+      .pipe(
+        map(vizInfo => {
+            const traineeModeInfo = new Kypo2TraineeModeInfo();
+            traineeModeInfo.trainingRunId = vizInfo.trainingRunId;
+            traineeModeInfo.activeTraineeId = vizInfo.traineeId;
+            return traineeModeInfo;
+        })
+      );
   }
 
-  private parseUcoFromUserLogin() {
-    return this.authService.getActiveUser().login.split('@')[0];
+  private createTrainingVisualizationInfo(trainingRun: TrainingRun): VisualizationInfo {
+    const visualizationInfo = new VisualizationInfo();
+    visualizationInfo.trainingDefinitionId = trainingRun.trainingDefinitionId;
+    visualizationInfo.trainingInstanceId = trainingRun.trainingInstanceId;
+    visualizationInfo.trainingRunId = trainingRun.id;
+    visualizationInfo.traineeId = this.authService.getActiveUser().id;
+    return visualizationInfo;
   }
 
   private setVisualizationSize(windowWidth: number, windowHeight: number) {

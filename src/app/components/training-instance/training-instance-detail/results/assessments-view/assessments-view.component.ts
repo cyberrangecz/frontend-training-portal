@@ -20,7 +20,6 @@ export class AssessmentsViewComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.subscribeForInstanceChanges();
     this.getIdsForVisualization();
   }
 
@@ -30,11 +29,5 @@ export class AssessmentsViewComponent extends BaseComponent implements OnInit {
       this.trainingInstanceId = activeTrainingInstance.id;
       this.trainingDefinitionId = activeTrainingInstance.trainingDefinition.id;
     }
-  }
-
-  private subscribeForInstanceChanges() {
-    this.activeTrainingInstanceService.onActiveTrainingChanged
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(newInstanceId => this.getIdsForVisualization());
   }
 }

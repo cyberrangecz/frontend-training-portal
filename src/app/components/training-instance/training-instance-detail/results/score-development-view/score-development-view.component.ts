@@ -24,7 +24,6 @@ export class ScoreDevelopmentViewComponent extends BaseComponent implements OnIn
 
   ngOnInit() {
     this.setVisualizationSize(window.innerWidth, innerHeight);
-    this.subscribeForInstanceChanges();
     this.getIdsForVisualization();
   }
 
@@ -40,12 +39,6 @@ export class ScoreDevelopmentViewComponent extends BaseComponent implements OnIn
       this.trainingDefinitionId = activeTrainingInstance.trainingDefinition.id;
       this.isLoading = false;
     }
-  }
-
-  private subscribeForInstanceChanges() {
-    this.activeTrainingInstanceService.onActiveTrainingChanged
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(newInstanceId => this.getIdsForVisualization());
   }
 
   private setVisualizationSize(windowWidth: number, windowHeight: number) {
