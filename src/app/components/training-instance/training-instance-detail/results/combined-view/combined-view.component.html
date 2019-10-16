@@ -2,24 +2,21 @@
   <div class="header">
     <h3>Combined View</h3>
   </div>
-  <div class="content">
-
+  <div class="content" *ngIf="!isLoading"
+  >
     <kypo2-viz-hurdling
-      *ngIf="!isLoading"
       [trainingInstanceId]="trainingInstanceId"
       [trainingDefinitionId]="trainingDefinitionId"
       [showProgressView]="false">
     </kypo2-viz-hurdling>
 
     <kypo2-viz-overview-timeline
-      *ngIf="!isLoading"
     [size]="vizSize"
     [trainingInstanceId]="trainingInstanceId"
     [trainingDefinitionId]="trainingDefinitionId">
     </kypo2-viz-overview-timeline>
 
     <kypo2-viz-overview-clustering
-      *ngIf="!isLoading"
       [size]="vizSize"
       [trainingInstanceId]="trainingInstanceId"
       [trainingDefinitionId]="trainingDefinitionId">

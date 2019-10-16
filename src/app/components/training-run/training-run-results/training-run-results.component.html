@@ -1,31 +1,28 @@
-<div class="container" *ngIf="display">
+<div class="container">
   <div class="header">
     <h1>Training Results</h1>
   </div>
-  <div  class="content">
-
+  <div class="content" *ngIf="(visualizationInfo$ | async) as vizInfo">
     <div class="left-panel">
       <kypo2-viz-overview-table
-        [trainingDefinitionId]="trainingDefinitionId"
+        [trainingDefinitionId]="vizInfo.trainingDefinitionId"
         [standalone]="true"
-        [trainingInstanceId]="trainingInstanceId"
-        [feedbackLearnerId]="activeUserUco">
+        [trainingInstanceId]="vizInfo.trainingInstanceId"
+        [traineeModeInfo]="traineeModeInfo$ | async">
       </kypo2-viz-overview-table>
       <kypo2-viz-overview-timeline
         [size]="vizSize"
-        [enableAllPlayers]="false"
-        [feedbackLearnerId]="activeUserUco"
-        [trainingDefinitionId]="trainingDefinitionId"
-        [trainingInstanceId]="trainingInstanceId">
-
+        [traineeModeInfo]="traineeModeInfo$ | async"
+        [trainingDefinitionId]="vizInfo.trainingDefinitionId"
+        [trainingInstanceId]="vizInfo.trainingInstanceId">
       </kypo2-viz-overview-timeline>
     </div>
     <div class="middle-panel">
       <kypo2-viz-overview-clustering
         [size]="vizSize"
-        [feedbackLearnerId]="activeUserUco"
-        [trainingDefinitionId]="trainingDefinitionId"
-        [trainingInstanceId]="trainingInstanceId">
+        [traineeModeInfo]="traineeModeInfo$ | async"
+        [trainingDefinitionId]="vizInfo.trainingDefinitionId"
+        [trainingInstanceId]="vizInfo.trainingInstanceId">
       </kypo2-viz-overview-clustering>
     </div>
     <div class="right-panel">
