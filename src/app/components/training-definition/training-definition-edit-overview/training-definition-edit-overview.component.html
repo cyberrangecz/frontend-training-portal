@@ -50,5 +50,9 @@
       </div>
     </mat-panel-description>
   </mat-expansion-panel-header>
-  <kypo2-level-overview *ngIf="editMode$ | async" (levelsCount)="onLevelsCountChanged($event)" (unsavedLevels)="onUnsavedLevelsChanged($event)" [trainingDefinition]="trainingDefinition$ | async"></kypo2-level-overview>
+  <kypo2-level-overview *ngIf="editMode$ | async"
+                        [trainingDefinition]="trainingDefinition$ | async"
+                        (levelsCount)="onLevelsCountChanged($event)"
+                        (unsavedLevels)="onUnsavedLevelsChanged($event)">
+  </kypo2-level-overview>
 </mat-expansion-panel>

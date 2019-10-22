@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import { User} from 'kypo2-auth';
 import {Kypo2Table} from 'kypo2-table';
 import {Observable, Subject} from 'rxjs';
-import {tap} from 'rxjs/operators';
+import {switchMap, tap} from 'rxjs/operators';
 import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
 import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 import {UsersTableCreator} from '../../model/table-adapters/users-table-creator';
@@ -19,28 +19,45 @@ export class AuthorsAssignService extends UserAssignService {
     super();
   }
 
-  private assignedUsersSubject: Subject<Kypo2Table<User>> = new Subject();
-  assignedUsers$: Observable<Kypo2Table<User>> = this.assignedUsersSubject.asObservable();
+  private lastAssignedPagination: RequestedPagination;
+  private lastAssignedFilter: string;
+  private assignedUsersSubject: Subject<PaginatedResource<User[]>> = new Subject();
+  assignedUsers$: Observable<PaginatedResource<User[]>> = this.assignedUsersSubject.asObservable();
 
   assign(resourceId: number, users: User[]): Observable<any> {
     return this.userFacade.updateAuthors(resourceId, users.map(user => user.id), [])
       .pipe(
-        tap({error: err => this.errorHandler.display(err, 'Adding authors')})
+        tap({error: err => this.errorHandler.display(err, 'Adding authors')}),
+        switchMap(_ => this.getAssigned(resourceId, this.lastAssignedPagination, this.lastAssignedFilter))
       );
   }
 
   unassign(resourceId: number, users: User[]): Observable<any> {
     return this.userFacade.updateAuthors(resourceId, [], users.map(user => user.id))
       .pipe(
-        tap({error: err => this.errorHandler.display(err, 'Deleting authors')})
+        tap({error: err => this.errorHandler.display(err, 'Deleting authors from training definition')}),
+        switchMap(_ => this.getAssigned(resourceId, this.lastAssignedPagination, this.lastAssignedFilter))
       );
   }
 
   getAssigned(resourceId: number, pagination: RequestedPagination, filter: string = null): Observable<PaginatedResource<User[]>> {
+    this.lastAssignedPagination = pagination;
+    this.lastAssignedFilter = filter;
+    this.hasErrorSubject.next(false);
+    this.isLoadingAssignedSubject.next(true);
     return this.userFacade.getAuthors(resourceId, pagination, UserNameFilters.create(filter))
       .pipe(
-        tap(paginatedUsers => this.assignedUsersSubject.next(UsersTableCreator.create(paginatedUsers))),
-        tap({error: err => this.errorHandler.display(err, 'Fetching authors')})
+        tap(
+          paginatedUsers => {
+            this.assignedUsersSubject.next(paginatedUsers);
+            this.isLoadingAssignedSubject.next(false);
+            this.totalLengthSubject.next( paginatedUsers.pagination.totalElements);
+        },
+      err => {
+          this.errorHandler.display(err, 'Fetching authors');
+          this.isLoadingAssignedSubject.next(false);
+          this.hasErrorSubject.next(true);
+        })
       );
   }
 
@@ -51,18 +68,15 @@ export class AuthorsAssignService extends UserAssignService {
       new RequestedPagination(0, paginationSize, 'familyName', 'asc'),
       UserNameFilters.create(filter))
       .pipe(
-        tap(_ => _,
-          err => this.errorHandler.display(err, 'Fetching designers')
-        )
+        tap({error: err => this.errorHandler.display(err, 'Fetching designers')}),
       );
   }
 
   update(resourceId: number, additions: User[], removals: User[]): Observable<any> {
     return this.userFacade.updateAuthors(resourceId, additions.map(user => user.id), removals.map(user => user.id))
       .pipe(
-        tap(_ => _,
-            err => this.errorHandler.display(err, 'Updating authors')
-        )
+        tap({error: err => this.errorHandler.display(err, 'Updating authors')}),
+        switchMap(_ => this.getAssigned(resourceId, this.lastAssignedPagination, this.lastAssignedFilter))
       );
   }
 }

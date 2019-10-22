@@ -17,10 +17,10 @@
   </ng-template>
 </div>
 <h2> {{ assigneesTitle }} of {{ resource.title }}</h2>
-<kypo2-table [hasError]="assigneesTableHasError"
-             [data]="assignees | async"
+<kypo2-table [hasError]="assigneesTableHasError$ | async"
+             [data]="assignees$ | async"
              [isLoading]="isLoadingAssignees$ | async"
-             [totalElements]="assigneesTotalLength"
+             [totalElements]="assigneesTotalLength$ | async"
              (rowAction)="onAssigneesTableAction($event)"
              (rowSelection)="onAssigneesSelection($event)"
              (refresh)="onAssigneesLoadEvent($event)">

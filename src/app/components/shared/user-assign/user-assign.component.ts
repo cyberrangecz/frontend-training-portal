@@ -1,11 +1,22 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import {User} from 'kypo2-auth';
 import {Kypo2Table, LoadTableEvent, RequestedPagination, TableActionEvent} from 'kypo2-table';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {map, takeWhile} from 'rxjs/operators';
 import {DisplayableResource} from '../../../model/training/displayable-resource';
 import {UserAssignService} from '../../../services/shared/user-assign.service';
 import {BaseComponent} from '../../base.component';
+import {UsersTableCreator} from '../../../model/table-adapters/users-table-creator';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'kypo2-user-assign',
@@ -13,7 +24,7 @@ import {BaseComponent} from '../../base.component';
   styleUrls: ['./user-assign.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserAssignComponent extends BaseComponent implements OnInit {
+export class UserAssignComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input() resource: DisplayableResource;
   @Input() toAssignTitle: string;
@@ -21,25 +32,24 @@ export class UserAssignComponent extends BaseComponent implements OnInit {
   @Output() hasUnsavedChanges: EventEmitter<boolean> = new EventEmitter();
 
   toAssign: Observable<User[]>;
-  assignees: Observable<Kypo2Table<User>>;
-  assigneesTotalLength = 0;
-  assigneesTableHasError = false;
+  assignees$: Observable<Kypo2Table<User>>;
+  assigneesTotalLength$: Observable<number>;
+  assigneesTableHasError$: Observable<boolean>;
+  isLoadingAssignees$: Observable<boolean>;
   selectedToAssign: User[] = [];
   selectedAssignees: User[] = [];
-
-  private isLoadingAssigneesSubject = new BehaviorSubject<boolean>(false);
-  isLoadingAssignees$: Observable<boolean> = this.isLoadingAssigneesSubject.asObservable();
-
-  private lastLoadEvent: LoadTableEvent;
 
   constructor(private usersService: UserAssignService) {
     super();
   }
 
   ngOnInit() {
-    this.assignees = this.usersService.assignedUsers$;
-    this.lastLoadEvent = new LoadTableEvent(null, null);
-    this.onAssigneesLoadEvent();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if ('resource' in changes && this.resource && this.resource.id !== undefined) {
+      this.initTable();
+    }
   }
 
   getToAssign(filterValue: string) {
@@ -49,23 +59,11 @@ export class UserAssignComponent extends BaseComponent implements OnInit {
       );
   }
 
-  getAssignees(pagination: RequestedPagination, filterValue: string = null) {
-    this.assigneesTableHasError = false;
-    this.usersService.getAssigned(this.resource.id, pagination, filterValue)
-      .pipe(
-        takeWhile(_ => this.isAlive),
-      )
-      .subscribe(
-        paginatedUsers => this.assigneesTotalLength = paginatedUsers.pagination.totalElements,
-        err => this.assigneesTableHasError = true);
-  }
-
   assign() {
     this.usersService.assign(this.resource.id, this.selectedToAssign)
       .pipe(
         takeWhile(_ => this.isAlive)
       ).subscribe(_ => {
-        this.onAssigneesLoadEvent();
         this.selectedToAssign = [];
         this.hasUnsavedChanges.emit(this.calculateHasUnsavedChanges());
     });
@@ -78,7 +76,6 @@ export class UserAssignComponent extends BaseComponent implements OnInit {
   }
 
   deleteAssignee(author: User) {
-    this.isLoadingAssigneesSubject.next(true);
     this.usersService.unassign(this.resource.id, [author])
       .pipe(
         takeWhile(_ => this.isAlive)
@@ -86,7 +83,6 @@ export class UserAssignComponent extends BaseComponent implements OnInit {
   }
 
   deleteSelectedAssignees() {
-    this.isLoadingAssigneesSubject.next(true);
     this.usersService.unassign(this.resource.id, this.selectedAssignees)
       .pipe(
         takeWhile(_ => this.isAlive)
@@ -98,14 +94,12 @@ export class UserAssignComponent extends BaseComponent implements OnInit {
     this.selectedToAssign = selected;
   }
 
-  onAssigneesLoadEvent(loadEvent: LoadTableEvent = null) {
-    this.selectedAssignees = [];
-    if (loadEvent) {
-      this.lastLoadEvent = loadEvent;
-      this.getAssignees(loadEvent.pagination, loadEvent.filter);
-    } else {
-      this.getAssignees(this.lastLoadEvent.pagination, this.lastLoadEvent.filter);
-    }
+  onAssigneesLoadEvent(loadEvent: LoadTableEvent) {
+    this.usersService.getAssigned(this.resource.id, loadEvent.pagination, loadEvent.filter)
+      .pipe(
+        takeWhile(_ => this.isAlive),
+      )
+      .subscribe();
   }
 
   onAssigneesSelection(selected: User[]) {
@@ -118,8 +112,19 @@ export class UserAssignComponent extends BaseComponent implements OnInit {
 
   private onAssigneesDeleted() {
     this.selectedAssignees = [];
-    this.onAssigneesLoadEvent();
-    this.isLoadingAssigneesSubject.next(false);
     this.hasUnsavedChanges.emit(this.calculateHasUnsavedChanges());
+  }
+
+  private initTable() {
+    const initialLoadEvent: LoadTableEvent = new LoadTableEvent(
+      new RequestedPagination(0, environment.defaultPaginationSize, '', ''));
+    this.assignees$ = this.usersService.assignedUsers$
+      .pipe(
+        map(paginatedUsers => UsersTableCreator.create(paginatedUsers))
+      );
+    this.assigneesTableHasError$ = this.usersService.hasError$;
+    this.assigneesTotalLength$ = this.usersService.totalLength$;
+    this.isLoadingAssignees$ = this.usersService.isLoadingAssigned$;
+    this.onAssigneesLoadEvent(initialLoadEvent);
   }
 }

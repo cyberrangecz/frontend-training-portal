@@ -1,14 +1,19 @@
 import {User} from 'kypo2-auth';
 import {Kypo2Table} from 'kypo2-table';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
 import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
+import {PaginatedResourceService} from './paginated-resource.service';
 
-export abstract class UserAssignService {
+export abstract class UserAssignService extends PaginatedResourceService {
+
+  protected isLoadingAssignedSubject = new BehaviorSubject<boolean>(false);
+  isLoadingAssigned$: Observable<boolean> = this.isLoadingAssignedSubject.asObservable();
+
   /**
-   * Table of users already assigned to the resource
+   * List of users already assigned to the resource
    */
-  assignedUsers$: Observable<Kypo2Table<User>>;
+  abstract assignedUsers$: Observable<PaginatedResource<User[]>>;
 
   /**
    * Search for users available to assign to resource
