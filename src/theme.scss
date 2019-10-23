@@ -1,9 +1,11 @@
 @import '~@angular/material/theming';
 @import "variables.scss";
+@import "~kypo2-table/kypo2-table-theme";
 
 @include mat-core();
 $kypo2-theme: mat-light-theme($kypo2-primary-palette, $kypo2-accent-palette, $kypo2-warn-palette);
 @include angular-material-theme($kypo2-theme);
+@include kypo2-table-theme($kypo2-theme);
 
 $kypo2-white-theme: mat-light-theme($kypo2-white-primary-palette, $kypo2-white-primary-palette, $kypo2-white-primary-palette);
 
