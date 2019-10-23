@@ -1,15 +1,13 @@
 <h1>Sandbox Definition Overview</h1>
 <div class="sandbox-def">
     <kypo2-sandbox-definition-controls (dialogSandboxDefinition)="openSandboxDefinitionDialog()"></kypo2-sandbox-definition-controls>
-  <div class="sandbox-def-table-wrapper">
     <div class="sandbox-def-table">
-      <kypo2-table
-        [data] ="sandboxDefinitions$ | async"
-        [hasError]="sandboxDefinitionTableHasError"
-        (refresh)="fetchData($event)"
-        (rowAction)="onSandboxDefinitionTableAction($event)"
-        [totalElements]="sandboxDefinitionsTotalLength">
-      </kypo2-table>
-    </div>
+    <kypo2-table
+      [data] ="sandboxDefinitions$ | async"
+      [hasError]="sandboxDefinitionTableHasError"
+      (refresh)="fetchData($event)"
+      (rowAction)="onSandboxDefinitionTableAction($event)"
+      [totalElements]="sandboxDefinitionsTotalLength">
+    </kypo2-table>
   </div>
 </div>
