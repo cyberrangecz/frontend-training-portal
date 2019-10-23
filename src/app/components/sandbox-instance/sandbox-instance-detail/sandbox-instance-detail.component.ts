@@ -72,7 +72,11 @@ export class SandboxInstanceDetailComponent extends BaseComponent implements OnI
     this.resourcesHasError$ = this.resourceService.hasError$;
   }
   private subscribeToTopologyErrorHandler() {
-    this.topologyErrorService.error$.subscribe({
+    this.topologyErrorService.error$
+      .pipe(
+        takeWhile(_ => this.isAlive)
+      )
+      .subscribe({
       next: event => this.errorHandlerService.display(event.err, event.action),
       error: err => this.errorHandlerService.display(err, 'There is a problem with topology error handler.'),
     });
