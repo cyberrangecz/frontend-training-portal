@@ -8,6 +8,8 @@ import {Kypo2Table, LoadTableEvent} from 'kypo2-table';
 import {SandboxInstanceResource} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance-resource/sandbox-instance-resource';
 import {SandboxInstanceResourceService} from '../../../services/sandbox-instance/sandbox-instance-resource.service';
 import {SandboxInstanceResourceTableCreator} from '../../../model/table-adapters/sandbox-instance-resource-table-creator';
+import {Kypo2TopologyErrorService} from 'kypo2-topology-graph';
+import {ErrorHandlerService} from '../../../services/shared/error-handler.service';
 
 @Component({
   selector: 'kypo2-sandbox-instance-detail',
@@ -24,13 +26,16 @@ export class SandboxInstanceDetailComponent extends BaseComponent implements OnI
   resourcesHasError$: Observable<boolean>;
 
   constructor(private activeRoute: ActivatedRoute,
-              private resourceService: SandboxInstanceResourceService) {
+              private resourceService: SandboxInstanceResourceService,
+              private topologyErrorService: Kypo2TopologyErrorService,
+              private errorHandlerService: ErrorHandlerService) {
     super();
   }
 
   ngOnInit() {
     this.calculateTopologySize();
     this.initTable();
+    this.subscribeToTopologyErrorHandler();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -65,5 +70,11 @@ export class SandboxInstanceDetailComponent extends BaseComponent implements OnI
       map(resources => SandboxInstanceResourceTableCreator.create(resources, this.sandboxInstance.poolId, this.sandboxInstance.id))
     );
     this.resourcesHasError$ = this.resourceService.hasError$;
+  }
+  private subscribeToTopologyErrorHandler() {
+    this.topologyErrorService.error$.subscribe({
+      next: event => this.errorHandlerService.display(event.err, event.action),
+      error: err => this.errorHandlerService.display(err, 'There is a problem with topology error handler.'),
+    });
   }
 }
