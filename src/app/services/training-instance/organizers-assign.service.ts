@@ -34,7 +34,7 @@ export class OrganizersAssignService extends UserAssignService {
   getAssigned(resourceId: number, pagination: RequestedPagination, filter: string = null): Observable<PaginatedResource<User[]>> {
     this.lastAssignedPagination = pagination;
     this.lastAssignedFilter = filter;
-    this.hasErrorSubject.next(false);
+    this.hasErrorSubject$.next(false);
     this.isLoadingAssignedSubject.next(true);
     return this.userFacade.getOrganizers(resourceId, pagination, UserNameFilters.create(filter))
       .pipe(
@@ -46,7 +46,7 @@ export class OrganizersAssignService extends UserAssignService {
           err => {
             this.errorHandler.display(err, 'Fetching organizers');
             this.isLoadingAssignedSubject.next(false);
-            this.hasErrorSubject.next(true);
+            this.hasErrorSubject$.next(true);
           })
       );
   }

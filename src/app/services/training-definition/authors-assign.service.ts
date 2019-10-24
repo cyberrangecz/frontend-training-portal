@@ -43,7 +43,7 @@ export class AuthorsAssignService extends UserAssignService {
   getAssigned(resourceId: number, pagination: RequestedPagination, filter: string = null): Observable<PaginatedResource<User[]>> {
     this.lastAssignedPagination = pagination;
     this.lastAssignedFilter = filter;
-    this.hasErrorSubject.next(false);
+    this.hasErrorSubject$.next(false);
     this.isLoadingAssignedSubject.next(true);
     return this.userFacade.getAuthors(resourceId, pagination, UserNameFilters.create(filter))
       .pipe(
@@ -56,7 +56,7 @@ export class AuthorsAssignService extends UserAssignService {
       err => {
           this.errorHandler.display(err, 'Fetching authors');
           this.isLoadingAssignedSubject.next(false);
-          this.hasErrorSubject.next(true);
+          this.hasErrorSubject$.next(true);
         })
       );
   }
