@@ -113,7 +113,10 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": [
-              "src/styles.css"
+              "src/theme.scss",
+              "src/variables.scss",
+              "src/styles.scss",
+              "node_modules/kypo2-trainings-visualization-overview-lib/styles.css",
             ],
             "scripts": [],
             "assets": [
@@ -130,7 +133,8 @@
               "src/tsconfig.spec.json"
             ],
             "exclude": [
-              "**/node_modules/**"
+              "**/node_modules/**",
+              "**/*.spec.ts"
             ]
           }
         }

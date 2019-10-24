@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {PoolRequestResolver} from '../../../services/resolvers/pool-request-resolver.service';
 import {PoolRequestDetailComponent} from './pool-request-detail.component';
+import {PoolResolver} from '../../../services/resolvers/pool-resolver.service';
 
 const routes: Routes = [
   {
@@ -11,6 +12,7 @@ const routes: Routes = [
       breadcrumb: null,
     },
     resolve: {
+      pool: PoolResolver,
       poolRequest: PoolRequestResolver,
     }
   }

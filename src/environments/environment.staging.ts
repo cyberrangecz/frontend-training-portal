@@ -13,7 +13,7 @@ export const environment = {
   defaultAlertDuration: 5000, // 0 to display until user dismisses it
   defaultPaginationSize: 5,
   defaultOrganizerTROverviewRefreshRate: 5000,
-  sandboxAllocationStateRefreshRate: 5000,
+  apiPollingPeriod: 5000,
   kypo2TopologyConfig: {
     topologyRestUrl: sandboxesURL,
     decoratorsRestUrl: '',

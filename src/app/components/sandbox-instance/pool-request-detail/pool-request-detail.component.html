@@ -3,14 +3,22 @@
   <ng-template #creationRequest>
     <h1>Creation Request {{ request.id }} Detail</h1>
   </ng-template>
-  <div *ngIf="request.stages.length > 0 else noStages">
-    <kypo2-request-stage *ngFor="let stage of request.stages; trackBy: trackByFn; let i = index;"
-                         [isCleanup]="isCleanup"
-                         [stage]="stage"
-                         (forceCleanup)="onForceCleanup($event, i)">
-    </kypo2-request-stage>
-  </div>
-  <ng-template #noStages>
-    <h2>Request has no stages</h2>
-  </ng-template>
+  <ng-container *ngIf="hasError$ | async">
+    <mat-card class="error">
+      <span>We had some trouble loading the data.</span>
+      <button mat-icon-button (click)="reloadStages()" color="primary"><mat-icon>refresh</mat-icon></button>
+    </mat-card>
+  </ng-container>
+  <ng-container *ngIf="(stages$ | async) as stages">
+    <div *ngIf="stages.length > 0 else noStages">
+      <kypo2-request-stage *ngFor="let stage of request.stages; trackBy: trackByFn; let i = index;"
+                           [isCleanup]="isCleanup"
+                           [stage]="stage"
+                           (forceCleanup)="onForceCleanup($event, i)">
+      </kypo2-request-stage>
+    </div>
+    <ng-template #noStages>
+      <h2>Request has no stages</h2>
+    </ng-template>
+  </ng-container>
 </ng-container>

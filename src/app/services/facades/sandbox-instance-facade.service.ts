@@ -91,34 +91,34 @@ export class SandboxInstanceFacade {
       );
   }
 
-  cancelCleanupRequest(poolId: number, requestId: number): Observable<any> {
+  cancelCreationRequest(poolId: number, requestId: number): Observable<any> {
     return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(
       `${this.poolsEndpointUri + poolId}/cleanup-${this.poolRequestUriExtension}${requestId}/cancel`);
   }
 
-  retryCleanupRequest(poolId: number, requestId: number): Observable<any> {
+  retryCreationRequest(poolId: number, requestId: number): Observable<any> {
     return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(
       `${this.poolsEndpointUri + poolId}/cleanup-${this.poolRequestUriExtension}${requestId}/retry`);
   }
 
-  cancelCreationRequest(poolId: number, requestId: number): Observable<any> {
+  cancelCleanupRequest(poolId: number, requestId: number): Observable<any> {
     return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(
       `${this.poolsEndpointUri + poolId}/creation-${this.poolRequestUriExtension}${requestId}/cancel`);
   }
 
-  retryCreationRequest(poolId: number, requestId: number): Observable<any> {
+  retryCleanupRequest(poolId: number, requestId: number): Observable<any> {
     return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(
       `${this.poolsEndpointUri + poolId}/creation-${this.poolRequestUriExtension}${requestId}/retry`);
-  }
-
-  forceCleanupStage(poolId: number, requestId: number, stageId: number): Observable<any> {
-    return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(
-      `${this.poolsEndpointUri + poolId}/${this.poolRequestUriExtension}${requestId}stages/${stageId}/force`);
   }
 
   getRequest(poolId: number, requestId: number): Observable<PoolRequest> {
     return this.http.get<PoolRequestDTO>(`${this.poolsEndpointUri + poolId}/${this.poolRequestUriExtension}${requestId}`)
       .pipe(map(response => this.sandboxInstanceMapper.mapRequestDTOToRequest(response)));
+  }
+
+  forceStage(poolId: number, requestId: number, stageId: number): Observable<any> {
+    return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(
+      `${this.poolsEndpointUri + poolId}/${this.poolRequestUriExtension}${requestId}/stages/${stageId}/force`);
   }
 
   getResources(sandboxId: number): Observable<SandboxInstanceResource[]> {
@@ -137,7 +137,6 @@ export class SandboxInstanceFacade {
       map(resourceDTO => this.sandboxInstanceMapper.mapResourceDTOToResource(resourceDTO))
     );
   }
-
 
   /**
    * Sends request to allocate all sandboxes for selected training instance

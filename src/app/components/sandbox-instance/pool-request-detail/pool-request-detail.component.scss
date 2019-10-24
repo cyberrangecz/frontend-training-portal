@@ -1,3 +1,10 @@
+@import "~variables.scss";
+
 h1 {
+  text-align: center;
+}
+
+.error {
+  color: $warn;
   text-align: center;
 }

@@ -1,6 +1,5 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {Kypo2TableModule} from 'kypo2-table';
 import {SandboxInstanceFacadeModule} from '../../../services/facades/modules/sandbox-instance-facade.module';
 import {PoolRequestResolver} from '../../../services/resolvers/pool-request-resolver.service';
 import {PoolRequestDetailMaterialModule} from './pool-request-detail-material.module';
@@ -8,6 +7,8 @@ import {PoolRequestDetailRoutingModule} from './pool-request-detail-routing.modu
 import {PoolRequestDetailComponent} from './pool-request-detail.component';
 import { RequestStageComponent } from './request-stage/request-stage.component';
 import { RequestStageDetailComponent } from './request-stage/request-stage-detail/request-stage-detail.component';
+import {PoolRequestStagesPollingService} from '../../../services/sandbox-instance/pool-request/pool-request-stages-polling.service';
+import {PoolResolver} from '../../../services/resolvers/pool-resolver.service';
 
 @NgModule({
   imports: [
@@ -15,7 +16,6 @@ import { RequestStageDetailComponent } from './request-stage/request-stage-detai
     PoolRequestDetailRoutingModule,
     PoolRequestDetailMaterialModule,
     SandboxInstanceFacadeModule,
-    Kypo2TableModule,
   ],
   declarations: [
     PoolRequestDetailComponent,
@@ -23,7 +23,9 @@ import { RequestStageDetailComponent } from './request-stage/request-stage-detai
     RequestStageDetailComponent
   ],
   providers: [
-    PoolRequestResolver
+    PoolResolver,
+    PoolRequestResolver,
+    PoolRequestStagesPollingService
   ]
 })
 export class PoolRequestDetailModule {
