@@ -22,7 +22,7 @@ export const environment = {
   defaultPaginationSize: 5,
   defaultDelayToDisplayLoading: 500,
   defaultOrganizerTROverviewRefreshRate: 5000, // api polling period in training instance detail page
-  sandboxAllocationStateRefreshRate: 5000, // api polling during sandbox allocation
+  apiPollingPeriod: 5000, // api polling during sandbox allocation
   kypo2TopologyConfig: {
     topologyRestUrl: sandboxesURL,
     decoratorsRestUrl: '', // OBSOLETE

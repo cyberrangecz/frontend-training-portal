@@ -24,7 +24,7 @@ export class SandboxInstanceConcreteService extends SandboxInstanceService {
   }
 
   getAll(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<SandboxInstance[]>> {
-    this.hasErrorSubject.next(false);
+    this.hasErrorSubject$.next(false);
     return this.sandboxInstanceFacade.getSandboxes(poolId, pagination)
       .pipe(
         tap(
@@ -34,7 +34,7 @@ export class SandboxInstanceConcreteService extends SandboxInstanceService {
           },
           err => {
             this.errorHandler.display(err, 'Fetching sandbox instances');
-            this.hasErrorSubject.next(true);
+            this.hasErrorSubject$.next(true);
           }
         ),
       );

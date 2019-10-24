@@ -11,8 +11,8 @@ import {BaseComponent} from '../../base.component';
 import {SandboxInstanceTableCreator} from '../../../model/table-adapters/sandbox-instance-table-creator';
 import {environment} from '../../../../environments/environment';
 import {PoolRequestTableCreator} from '../../../model/table-adapters/pool-request-table-creator';
-import {PoolCreationRequestsConcreteService} from '../../../services/sandbox-instance/pool-creation-requests-concrete.service';
-import {PoolCleanupRequestsConcreteService} from '../../../services/sandbox-instance/pool-cleanup-requests-concrete.service';
+import {PoolCreationRequestsPollingService} from '../../../services/sandbox-instance/pool-request/pool-creation-requests-polling.service';
+import {PoolCleanupRequestsPollingService} from '../../../services/sandbox-instance/pool-request/pool-cleanup-requests-polling.service';
 
 @Component({
   selector: 'kypo2-sandbox-instance-overview',
@@ -37,8 +37,8 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
   cleanupRequestsTableHasError$: Observable<boolean>;
 
   constructor(private instanceService: SandboxInstanceService,
-              private creationRequestService: PoolCreationRequestsConcreteService,
-              private cleanupRequestService: PoolCleanupRequestsConcreteService,
+              private creationRequestService: PoolCreationRequestsPollingService,
+              private cleanupRequestService: PoolCleanupRequestsPollingService,
               private activeRoute: ActivatedRoute) {
     super();
   }

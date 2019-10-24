@@ -1,11 +1,12 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {Observable} from 'rxjs';
+import {merge, Observable, Subject} from 'rxjs';
 import {PoolRequest} from '../../../model/sandbox/pool/request/pool-request';
-import {map, tap} from 'rxjs/operators';
+import {map, mergeMap, switchMap, takeWhile, tap} from 'rxjs/operators';
 import {RequestStage} from '../../../model/sandbox/pool/request/stage/request-stage';
 import {BaseComponent} from '../../base.component';
 import {PoolCleanupRequest} from '../../../model/sandbox/pool/request/pool-cleanup-request';
+import {PoolRequestStagesPollingService} from '../../../services/sandbox-instance/pool-request/pool-request-stages-polling.service';
 
 @Component({
   selector: 'kypo2-pool-requests',
@@ -16,14 +17,18 @@ import {PoolCleanupRequest} from '../../../model/sandbox/pool/request/pool-clean
 export class PoolRequestDetailComponent extends BaseComponent implements OnInit {
 
   request$: Observable<PoolRequest>;
+  stages$: Observable<RequestStage[]>;
+  hasError$: Observable<boolean>;
   isCleanup: boolean;
 
-  constructor(private activeRoute: ActivatedRoute) {
+  private stagesSubject$: Subject<RequestStage[]> = new Subject();
+  private poolId: number;
+  private requestId: number;
+
+  constructor(private activeRoute: ActivatedRoute,
+              private requestStagesService: PoolRequestStagesPollingService) {
     super();
-    this.request$ = this.activeRoute.data.pipe(
-      map(data => data.poolRequest),
-      tap(request => this.isCleanup = request instanceof PoolCleanupRequest)
-    );
+    this.initDataSource();
   }
 
   ngOnInit() {
@@ -33,8 +38,43 @@ export class PoolRequestDetailComponent extends BaseComponent implements OnInit 
     return item.id;
   }
 
-
   onForceCleanup(stage: RequestStage, index: number) {
-    // TODO: Implement with service for state polling
+    this.requestStagesService.force(this.poolId, this.requestId, stage.id)
+      .pipe(
+        takeWhile(_ => this.isAlive)
+      ).subscribe();
+  }
+
+  private initDataSource() {
+    const data$ = this.activeRoute.data;
+    this.request$ = data$.pipe(
+      tap(data => {
+        this.poolId = data.pool.id;
+        this.requestId = data.poolRequest.id;
+      }),
+      map(data => data.poolRequest),
+      tap((request: PoolRequest) => {
+        this.isCleanup = request instanceof PoolCleanupRequest;
+      })
+    );
+    // We need to initialize polling with ids first
+    data$
+      .pipe(
+        tap(data => this.requestStagesService.startPolling(data.pool.id, data.poolRequest.id)),
+        switchMap(_ => this.requestStagesService.stages$),
+        tap(stages => this.stagesSubject$.next(stages)),
+        takeWhile(_ => this.isAlive)
+      ).subscribe();
+
+    this.stages$ = merge(this.request$.pipe(map(request => request.stages)), this.stagesSubject$.asObservable());
+    this.hasError$ = this.requestStagesService.hasError$;
+  }
+
+  reloadStages() {
+    this.requestStagesService.getAll(this.poolId, this.requestId)
+      .pipe(
+        takeWhile(_ => this.isAlive)
+      )
+      .subscribe();
   }
 }

@@ -21,7 +21,7 @@ export class PoolConcreteService extends PoolService {
   }
 
   getAll(pagination: RequestedPagination): Observable<PaginatedResource<SandboxPool[]>> {
-    this.hasErrorSubject.next(false);
+    this.hasErrorSubject$.next(false);
     return this.sandboxInstanceFacade.getPools(pagination)
       .pipe(
         tap(
@@ -31,7 +31,7 @@ export class PoolConcreteService extends PoolService {
           },
           err => {
             this.errorHandler.display(err, 'Fetching pools');
-            this.hasErrorSubject.next(true);
+            this.hasErrorSubject$.next(true);
           }
         ),
       );

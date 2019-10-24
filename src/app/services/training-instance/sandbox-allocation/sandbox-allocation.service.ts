@@ -29,7 +29,7 @@ export class SandboxAllocationService {
 
   private running = false;
 
-  private cacheConfig: ShareReplayConfig = { refCount: true, windowTime: environment.sandboxAllocationStateRefreshRate };
+  private cacheConfig: ShareReplayConfig = { refCount: true, windowTime: environment.apiPollingPeriod };
   private runningAllocations: SandboxInstanceAllocationState[] = [];
   private allocations: SandboxInstanceAllocationState[] = [];
 
@@ -117,7 +117,7 @@ export class SandboxAllocationService {
   }
 
   private startPeriodicalStateCheck() {
-    this.periodicalCheckSubscription = timer(0, environment.sandboxAllocationStateRefreshRate)
+    this.periodicalCheckSubscription = timer(0, environment.apiPollingPeriod)
       .pipe(
         takeWhile(() => this.running),
         switchMap(() => this.checkStateOfRunningAllocations())
