@@ -30,7 +30,7 @@ before_script:
     # Set additional Apt repository
     - echo "$APT_SOURCE_LIST" > /etc/apt/sources.list.d/kypo.list
 
-installAngular:
+testAngular:
     stage: testAngular
     script:
         - cp /usr/local/npmrc ~/.npmrc
