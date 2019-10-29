@@ -10,6 +10,7 @@ variables:
     LC_ALL: C.UTF-8
 
 stages:
+    - testAngular
     - installAngular
     - deployAngular
     - buildDebian
@@ -29,6 +30,17 @@ before_script:
     # Set additional Apt repository
     - echo "$APT_SOURCE_LIST" > /etc/apt/sources.list.d/kypo.list
 
+testAngular:
+    stage: testAngular
+    script:
+        - cp /usr/local/npmrc ~/.npmrc
+        - npm install
+        - ng test --browsers ChromeHeadlessNoSandbox --watch=false
+    only:
+        - triggers
+        - branches
+        - tags
+        
 installAngular:
     stage: installAngular
     script:
@@ -84,4 +96,3 @@ deployDebian:
         - '$TRIGGER_PIPELINE'
     only:
         - tags
-
