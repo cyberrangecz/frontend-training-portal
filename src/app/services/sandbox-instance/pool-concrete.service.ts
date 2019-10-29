@@ -1,16 +1,20 @@
 import {Injectable} from '@angular/core';
 import {Pagination, RequestedPagination} from 'kypo2-table';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {take, tap} from 'rxjs/operators';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {tap} from 'rxjs/operators';
 import {SandboxPool} from '../../model/sandbox/pool/sandbox-pool';
 import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 import {SandboxInstanceFacade} from '../facades/sandbox-instance-facade.service';
 import {ErrorHandlerService} from '../shared/error-handler.service';
 import {PoolService} from './pool.service';
 import {environment} from '../../../environments/environment';
+import {Cacheable, CacheBuster} from 'ngx-cacheable';
+
+const cacheBuster$: Subject<void> = new Subject();
 
 @Injectable()
 export class PoolConcreteService extends PoolService {
+
 
   private poolsSubject: BehaviorSubject<PaginatedResource<SandboxPool[]>> = new BehaviorSubject(this.initSubject());
   pools$: Observable<PaginatedResource<SandboxPool[]>> = this.poolsSubject.asObservable();
@@ -20,6 +24,9 @@ export class PoolConcreteService extends PoolService {
     super();
   }
 
+  @Cacheable({
+    cacheBusterObserver: cacheBuster$
+  })
   getAll(pagination: RequestedPagination): Observable<PaginatedResource<SandboxPool[]>> {
     this.hasErrorSubject$.next(false);
     return this.sandboxInstanceFacade.getPools(pagination)
@@ -37,6 +44,9 @@ export class PoolConcreteService extends PoolService {
       );
   }
 
+  @CacheBuster({
+    cacheBusterNotifier: cacheBuster$
+  })
   allocate(pool: SandboxPool, count: number = -1): Observable<any> {
     let allocation$: Observable<any>;
     if (count <= 0) {
@@ -50,6 +60,9 @@ export class PoolConcreteService extends PoolService {
       );
   }
 
+  @CacheBuster({
+    cacheBusterNotifier: cacheBuster$
+  })
   delete(pool: SandboxPool): Observable<any> {
     return this.sandboxInstanceFacade.deletePool(pool.id)
       .pipe(
@@ -57,6 +70,9 @@ export class PoolConcreteService extends PoolService {
       );
   }
 
+  @CacheBuster({
+    cacheBusterNotifier: cacheBuster$
+  })
   clear(pool: SandboxPool): Observable<any> {
     return this.sandboxInstanceFacade.clearPool(pool.id)
       .pipe(

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {SandboxInstanceResolver} from '../../../services/resolvers/sandbox-instance-resolver.service';
-import {SandboxInstanceResourceBreadcrumbResolver} from '../../../services/resolvers/sandbox-instance-resource-breadcrumb-resolver.service';
+import {SandboxInstanceResolver} from '../../../services/resolvers/sandbox-instance-resolvers/sandbox-instance-resolver.service';
+import {SandboxInstanceResourceBreadcrumbResolver} from '../../../services/resolvers/sandbox-instance-resolvers/sandbox-instance-resource-breadcrumb-resolver.service';
 import {
   SANDBOX_INSTANCE_RESOURCE_ID_SELECTOR,
   SANDBOX_INSTANCE_RESOURCE_PATH

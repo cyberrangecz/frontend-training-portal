@@ -1,7 +1,7 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {RequestedPagination} from 'kypo2-table';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {SandboxInstance} from '../../model/sandbox/pool/sandbox-instance/sandbox-instance';
 import {map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
@@ -16,6 +16,10 @@ import {SandboxInstanceResourceDTO} from '../../model/DTOs/sandbox-instance/sand
 import {SandboxPool} from '../../model/sandbox/pool/sandbox-pool';
 import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 import {SandboxInstanceMapper} from '../mappers/sandbox-instance-mapper.service';
+import {Cacheable} from 'ngx-cacheable';
+
+const poolCacheBuster: Subject<void> = new Subject();
+
 @Injectable()
 /**
  * Service to abstract communication with sandbox instance endpoint
@@ -46,6 +50,9 @@ export class SandboxInstanceFacade {
     }).pipe(map(response => this.sandboxInstanceMapper.mapPoolsDTOsToPools(response)));
   }
 
+  @Cacheable({
+    maxAge: 1000
+  })
   getPool(id: number): Observable<SandboxPool>  {
   return this.http.get<SandboxPoolDTO>(`${this.poolsEndpointUri}${id}/`)
     .pipe(
@@ -64,6 +71,9 @@ export class SandboxInstanceFacade {
       );
   }
 
+  @Cacheable({
+    maxAge: 1000
+  })
   getSandbox(sandboxId: number): Observable<SandboxInstance> {
     return this.http.get<SandboxInstanceDTO>(`${this.sandboxEndpointUri + sandboxId}/`)
       .pipe(
@@ -111,6 +121,9 @@ export class SandboxInstanceFacade {
       `${this.poolsEndpointUri + poolId}/creation-${this.poolRequestUriExtension}${requestId}/retry`);
   }
 
+  @Cacheable({
+    maxAge: 1000
+  })
   getRequest(poolId: number, requestId: number): Observable<PoolRequest> {
     return this.http.get<PoolRequestDTO>(`${this.poolsEndpointUri + poolId}/${this.poolRequestUriExtension}${requestId}`)
       .pipe(map(response => this.sandboxInstanceMapper.mapRequestDTOToRequest(response)));
@@ -129,6 +142,9 @@ export class SandboxInstanceFacade {
     );
   }
 
+  @Cacheable({
+    maxAge: 1000
+  })
   getResource(sandboxId: number, resourceId: string): Observable<SandboxInstanceResource> {
     // TODO: Endpoint is currently only for vms, not all resources. Needs to be updated either here or on backend
     return this.http.get<SandboxInstanceResourceDTO>(
@@ -213,5 +229,4 @@ export class SandboxInstanceFacade {
       `${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.poolsUriExtension}`,
       null);
   }
-
 }

@@ -1,19 +1,19 @@
-import {SandboxInstanceResource} from '../../model/sandbox/pool/sandbox-instance/sandbox-instance-resource/sandbox-instance-resource';
+import {SandboxInstanceResource} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance-resource/sandbox-instance-resource';
 import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
 import {Injectable} from '@angular/core';
 import {EMPTY, Observable, of} from 'rxjs';
-import {SandboxInstanceFacade} from '../facades/sandbox-instance-facade.service';
-import {POOL_ID_SELECTOR} from '../../components/sandbox-instance/sandbox-pool-overview/paths';
+import {SandboxInstanceFacade} from '../../facades/sandbox-instance-facade.service';
+import {POOL_ID_SELECTOR} from '../../../components/sandbox-instance/sandbox-pool-overview/paths';
 import {
   POOL_REQUEST_ID_SELECTOR,
   SANDBOX_INSTANCE_ID_SELECTOR
-} from '../../components/sandbox-instance/sandbox-pool-detail/paths';
+} from '../../../components/sandbox-instance/sandbox-pool-detail/paths';
 import {catchError, mergeMap, take} from 'rxjs/operators';
-import {RouteFactory} from '../../model/routes/route-factory';
+import {RouteFactory} from '../../../model/routes/route-factory';
 import {
   SANDBOX_INSTANCE_RESOURCE_ID_SELECTOR
-} from '../../components/sandbox-instance/sandbox-instance-resource-detail/paths';
-import {ErrorHandlerService} from '../shared/error-handler.service';
+} from '../../../components/sandbox-instance/sandbox-instance-resource-detail/paths';
+import {ErrorHandlerService} from '../../shared/error-handler.service';
 
 @Injectable()
 export class SandboxInstanceResourceResolver implements Resolve<SandboxInstanceResource> {

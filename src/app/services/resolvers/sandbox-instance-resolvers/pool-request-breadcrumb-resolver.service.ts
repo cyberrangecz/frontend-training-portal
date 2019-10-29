@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {PoolRequest} from '../../model/sandbox/pool/request/pool-request';
-import {SandboxInstanceFacade} from '../facades/sandbox-instance-facade.service';
+import {PoolRequest} from '../../../model/sandbox/pool/request/pool-request';
+import {SandboxInstanceFacade} from '../../facades/sandbox-instance-facade.service';
 import {PoolRequestResolver} from './pool-request-resolver.service';
 
 @Injectable()
