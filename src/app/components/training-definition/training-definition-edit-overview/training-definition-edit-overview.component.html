@@ -30,6 +30,7 @@
   </mat-expansion-panel-header>
   <kypo2-user-assign *ngIf="editMode$ | async"
                      [resource]="trainingDefinition$ | async"
+                     [defaultPaginationSize]="defaultPaginationSize"
                      (hasUnsavedChanges)="onAuthorsChanged($event)"
                     toAssignTitle="Designers"
                     assigneesTitle="Authors">

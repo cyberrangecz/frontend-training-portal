@@ -31,6 +31,7 @@
   <kypo2-user-assign *ngIf="editMode$ | async"
                      (hasUnsavedChanges)="onOrganizersChanged($event)"
                      [resource]="trainingInstance$ | async"
+                     [defaultPaginationSize]="defaultPaginationSize"
                      toAssignTitle="Organizers"
                      assigneesTitle="Organizers">
   </kypo2-user-assign>

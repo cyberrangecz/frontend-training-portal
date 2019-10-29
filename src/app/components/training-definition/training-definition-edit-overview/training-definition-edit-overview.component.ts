@@ -12,6 +12,7 @@ import {TrainingDefinition} from '../../../model/training/training-definition';
 import {TrainingDefinitionEditService} from '../../../services/training-definition/training-definition-edit.service';
 import {BaseComponent} from '../../base.component';
 import {UnsavedChangesDialogComponent} from '../../shared/unsaved-changes-dialog/unsaved-changes-dialog.component';
+import {environment} from '../../../../environments/environment';
 
 
 @Component({
@@ -33,6 +34,7 @@ export class TrainingDefinitionEditOverviewComponent extends BaseComponent imple
   saveDisabled$: Observable<boolean>;
   unsavedLevels: AbstractLevel[] = [];
   canDeactivateAuthors = true;
+  defaultPaginationSize = environment.defaultPaginationSize;
 
   private canDeactivateTDEdit = true;
 
