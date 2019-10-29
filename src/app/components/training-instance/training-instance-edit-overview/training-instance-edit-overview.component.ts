@@ -3,13 +3,14 @@ import {MatDialog} from '@angular/material/dialog';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable, of} from 'rxjs';
 import {map, takeWhile} from 'rxjs/operators';
-import {ResourceSavedEvent} from '../../../../model/events/resource-saved-event';
-import {TrainingInstanceChangeEvent} from '../../../../model/events/training-instance-change-event';
-import {RouteFactory} from '../../../../model/routes/route-factory';
-import {TrainingInstance} from '../../../../model/training/training-instance';
-import {TrainingInstanceEditService} from '../../../../services/training-instance/training-instance-edit.service';
-import {BaseComponent} from '../../../base.component';
-import {UnsavedChangesDialogComponent} from '../../../shared/unsaved-changes-dialog/unsaved-changes-dialog.component';
+import {ResourceSavedEvent} from '../../../model/events/resource-saved-event';
+import {TrainingInstanceChangeEvent} from '../../../model/events/training-instance-change-event';
+import {RouteFactory} from '../../../model/routes/route-factory';
+import {TrainingInstance} from '../../../model/training/training-instance';
+import {TrainingInstanceEditService} from '../../../services/training-instance/training-instance-edit.service';
+import {BaseComponent} from '../../base.component';
+import {UnsavedChangesDialogComponent} from '../../shared/unsaved-changes-dialog/unsaved-changes-dialog.component';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'kypo2-training-instance-edit-overview',
@@ -28,6 +29,7 @@ export class TrainingInstanceEditOverviewComponent extends BaseComponent impleme
   tiTitle$: Observable<string>;
   saveDisabled$: Observable<boolean>;
   canDeactivateOrganizers = true;
+  defaultPaginationSize = environment.defaultPaginationSize;
 
   private canDeactivateTIEdit = true;
 
