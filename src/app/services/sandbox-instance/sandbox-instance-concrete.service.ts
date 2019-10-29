@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {SandboxInstance} from '../../model/sandbox/pool/sandbox-instance/sandbox-instance';
 import {tap} from 'rxjs/operators';
 import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
@@ -10,6 +10,9 @@ import {environment} from '../../../environments/environment';
 import {ActivatedRoute} from '@angular/router';
 import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
 import {Pagination} from 'kypo2-table';
+import {Cacheable, CacheBuster} from 'ngx-cacheable';
+
+const cacheBuster$: Subject<void> = new Subject();
 
 @Injectable()
 export class SandboxInstanceConcreteService extends SandboxInstanceService {
@@ -23,6 +26,9 @@ export class SandboxInstanceConcreteService extends SandboxInstanceService {
     super();
   }
 
+  @Cacheable({
+    cacheBusterObserver: cacheBuster$
+  })
   getAll(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<SandboxInstance[]>> {
     this.hasErrorSubject$.next(false);
     return this.sandboxInstanceFacade.getSandboxes(poolId, pagination)
@@ -39,7 +45,9 @@ export class SandboxInstanceConcreteService extends SandboxInstanceService {
         ),
       );
   }
-
+  @CacheBuster({
+    cacheBusterNotifier: cacheBuster$
+  })
   delete(sandboxInstance: SandboxInstance): Observable<any> {
     return this.sandboxInstanceFacade.delete(sandboxInstance.id)
       .pipe(

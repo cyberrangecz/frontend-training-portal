@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {
   BehaviorSubject,
   merge,
-  Observable,
+  Observable, Subject,
 } from 'rxjs';
 import {
   switchMap,
@@ -17,6 +17,9 @@ import {Pagination} from 'kypo2-table';
 import {environment} from '../../../../environments/environment';
 import {HttpErrorResponse} from '@angular/common/http';
 import {PoolRequestPollingService} from './pool-request-polling.service';
+import {Cacheable, CacheBuster} from 'ngx-cacheable';
+
+export const poolCreationRequestsCacheBuster$: Subject<void> = new Subject();
 
 @Injectable()
 export class PoolCreationRequestsPollingService extends PoolRequestPollingService {
@@ -32,7 +35,9 @@ export class PoolCreationRequestsPollingService extends PoolRequestPollingServic
         tap(paginatedRequests => this.totalLengthSubject.next(paginatedRequests.pagination.totalElements))
       );
   }
-
+  @Cacheable({
+    cacheBusterObserver: poolCreationRequestsCacheBuster$
+  })
   getAll(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<PoolRequest[]>> {
     this.onManualGetAll(poolId, pagination);
     return this.sandboxInstanceFacade.getCreationRequests(poolId, pagination)
@@ -44,6 +49,9 @@ export class PoolCreationRequestsPollingService extends PoolRequestPollingServic
       );
   }
 
+  @CacheBuster({
+    cacheBusterNotifier: poolCreationRequestsCacheBuster$
+  })
   cancel(poolId: number, request: PoolRequest): Observable<any> {
     return this.sandboxInstanceFacade.cancelCreationRequest(poolId, request.id)
       .pipe(
@@ -52,6 +60,9 @@ export class PoolCreationRequestsPollingService extends PoolRequestPollingServic
       );
   }
 
+  @CacheBuster({
+    cacheBusterNotifier: poolCreationRequestsCacheBuster$
+  })
   retry(poolId: number, request: PoolRequest): Observable<any> {
     return this.sandboxInstanceFacade.retryCreationRequest(poolId, request.id)
       .pipe(
@@ -60,6 +71,10 @@ export class PoolCreationRequestsPollingService extends PoolRequestPollingServic
       );
   }
 
+  @Cacheable({
+    cacheBusterObserver: poolCreationRequestsCacheBuster$,
+    maxAge: environment.apiPollingPeriod - 1
+  })
   protected repeatLastGetAllRequest(): Observable<PaginatedResource<PoolRequest[]>> {
     this.hasErrorSubject$.next(false);
     return this.sandboxInstanceFacade.getCreationRequests(this.lastPoolId, this.lastPagination)

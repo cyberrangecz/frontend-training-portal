@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {SandboxPool} from '../../model/sandbox/pool/sandbox-pool';
+import {SandboxPool} from '../../../model/sandbox/pool/sandbox-pool';
 import {PoolResolver} from './pool-resolver.service';
 
 @Injectable()

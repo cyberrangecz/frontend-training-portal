@@ -4,10 +4,12 @@ import {map, retryWhen, switchMap, tap} from 'rxjs/operators';
 import {RequestStage} from '../../../model/sandbox/pool/request/stage/request-stage';
 import {PoolRequestStagesService} from './pool-request-stages.service';
 import {SandboxInstanceFacade} from '../../facades/sandbox-instance-facade.service';
-import {AlertService} from '../../shared/alert.service';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
+import {Cacheable, CacheBuster} from 'ngx-cacheable';
+
+export const poolRequestStagesCacheBuster$: Subject<void> = new Subject();
 
 @Injectable()
 export class PoolRequestStagesPollingService extends PoolRequestStagesService {
@@ -31,14 +33,9 @@ export class PoolRequestStagesPollingService extends PoolRequestStagesService {
     this.stages$ = merge(poll$, this.manuallyUpdatedStages$.asObservable());
   }
 
-  force(poolId: number, requestId: number, stageId: number): Observable<any> {
-    return this.sandboxInstanceFacade.forceStage(poolId, requestId, stageId)
-      .pipe(
-        tap( { error: err => this.errorHandler.display(err, 'Forcing stage')}),
-        switchMap(_ => this.getAll(poolId, requestId))
-      );
-  }
-
+  @Cacheable({
+    cacheBusterObserver: poolRequestStagesCacheBuster$
+  })
   getAll(poolId: number, requestId: number): Observable<RequestStage[]> {
     this.onManualGetAll(poolId, requestId);
     return this.sandboxInstanceFacade.getRequest(poolId, requestId)
@@ -51,6 +48,21 @@ export class PoolRequestStagesPollingService extends PoolRequestStagesService {
       );
   }
 
+  @CacheBuster({
+    cacheBusterNotifier: poolRequestStagesCacheBuster$
+  })
+  force(poolId: number, requestId: number, stageId: number): Observable<any> {
+    return this.sandboxInstanceFacade.forceStage(poolId, requestId, stageId)
+      .pipe(
+        tap( { error: err => this.errorHandler.display(err, 'Forcing stage')}),
+        switchMap(_ => this.getAll(poolId, requestId))
+      );
+  }
+
+  @Cacheable({
+    cacheBusterObserver: poolRequestStagesCacheBuster$,
+    maxAge: environment.apiPollingPeriod - 1
+  })
   private repeatLastGetAllRequest(): Observable<RequestStage[]> {
     this.hasErrorSubject$.next(false);
     return this.sandboxInstanceFacade.getRequest(this.poolId, this.requestId)

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, merge, Observable} from 'rxjs';
+import {BehaviorSubject, merge, Observable, Subject} from 'rxjs';
 import {PaginatedResource} from '../../../model/table-adapters/paginated-resource';
 import {PoolRequest} from '../../../model/sandbox/pool/request/pool-request';
 import {switchMap, tap} from 'rxjs/operators';
@@ -10,6 +10,9 @@ import {Pagination} from 'kypo2-table';
 import {environment} from '../../../../environments/environment';
 import {PoolRequestPollingService} from './pool-request-polling.service';
 import {HttpErrorResponse} from '@angular/common/http';
+import {Cacheable, CacheBuster} from 'ngx-cacheable';
+
+export const poolCleanupRequestsCacheBuster$: Subject<void> = new Subject();
 
 @Injectable()
 export class PoolCleanupRequestsPollingService extends PoolRequestPollingService {
@@ -26,6 +29,9 @@ export class PoolCleanupRequestsPollingService extends PoolRequestPollingService
       );
   }
 
+  @Cacheable({
+    cacheBusterObserver: poolCleanupRequestsCacheBuster$
+  })
   getAll(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<PoolRequest[]>> {
     this.onManualGetAll(poolId, pagination);
     return this.sandboxInstanceFacade.getCleanupRequests(poolId, pagination)
@@ -37,6 +43,9 @@ export class PoolCleanupRequestsPollingService extends PoolRequestPollingService
       );
   }
 
+  @CacheBuster({
+    cacheBusterNotifier: poolCleanupRequestsCacheBuster$
+  })
   cancel(poolId: number, request: PoolRequest): Observable<any> {
     return this.sandboxInstanceFacade.cancelCleanupRequest(poolId, request.id)
       .pipe(
@@ -45,6 +54,9 @@ export class PoolCleanupRequestsPollingService extends PoolRequestPollingService
       );
   }
 
+  @CacheBuster({
+    cacheBusterNotifier: poolCleanupRequestsCacheBuster$
+  })
   retry(poolId: number, request: PoolRequest): Observable<any> {
     return this.sandboxInstanceFacade.retryCleanupRequest(poolId, request.id)
       .pipe(
@@ -53,6 +65,10 @@ export class PoolCleanupRequestsPollingService extends PoolRequestPollingService
       );
   }
 
+  @Cacheable({
+    cacheBusterObserver: poolCleanupRequestsCacheBuster$,
+    maxAge: environment.apiPollingPeriod - 1
+  })
   protected repeatLastGetAllRequest(): Observable<PaginatedResource<PoolRequest[]>> {
     this.hasErrorSubject$.next(false);
     return this.sandboxInstanceFacade.getCleanupRequests(this.lastPoolId, this.lastPagination)

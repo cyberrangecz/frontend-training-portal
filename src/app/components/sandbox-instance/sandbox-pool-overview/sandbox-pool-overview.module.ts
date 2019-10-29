@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 
 import {Kypo2TableModule} from 'kypo2-table';
 import {SandboxInstanceFacadeModule} from '../../../services/facades/modules/sandbox-instance-facade.module';
-import {PoolBreadcrumbResolver} from '../../../services/resolvers/pool-breadcrumb-resolver.service';
-import {PoolResolver} from '../../../services/resolvers/pool-resolver.service';
+import {PoolBreadcrumbResolver} from '../../../services/resolvers/sandbox-instance-resolvers/pool-breadcrumb-resolver.service';
+import {PoolResolver} from '../../../services/resolvers/sandbox-instance-resolvers/pool-resolver.service';
 import {PoolConcreteService} from '../../../services/sandbox-instance/pool-concrete.service';
 import {PoolService} from '../../../services/sandbox-instance/pool.service';
 import {SandboxPoolOverviewMaterialModule} from './sandbox-pool-overview-material.module';

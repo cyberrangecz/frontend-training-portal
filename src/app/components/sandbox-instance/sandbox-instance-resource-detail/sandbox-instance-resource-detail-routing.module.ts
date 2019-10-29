@@ -1,6 +1,6 @@
 import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
-import {SandboxInstanceResourceResolver} from '../../../services/resolvers/sandbox-instance-resource-resolver.service';
+import {SandboxInstanceResourceResolver} from '../../../services/resolvers/sandbox-instance-resolvers/sandbox-instance-resource-resolver.service';
 import {SandboxInstanceResourceDetailComponent} from './sandbox-instance-resource-detail.component';
 
 const routes: Routes = [

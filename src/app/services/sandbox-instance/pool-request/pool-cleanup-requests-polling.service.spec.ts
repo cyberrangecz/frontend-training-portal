@@ -9,7 +9,7 @@ import {skip} from 'rxjs/operators';
 import {environment} from '../../../../environments/environment';
 import {throwError} from 'rxjs';
 import {PoolCreationRequest} from '../../../model/sandbox/pool/request/pool-creation-request';
-import {PoolCleanupRequestsPollingService} from './pool-cleanup-requests-polling.service';
+import {poolCleanupRequestsCacheBuster$, PoolCleanupRequestsPollingService} from './pool-cleanup-requests-polling.service';
 
 describe('PoolCleanupRequestsPollingService', () => {
   let errorHandlerSpy: jasmine.SpyObj<ErrorHandlerService>;
@@ -27,6 +27,7 @@ describe('PoolCleanupRequestsPollingService', () => {
       ]
     });
     service = TestBed.get(PoolCleanupRequestsPollingService);
+    poolCleanupRequestsCacheBuster$.next();
   }));
 
   it('should be created', () => {
@@ -40,7 +41,6 @@ describe('PoolCleanupRequestsPollingService', () => {
     service.getAll(0, pagination).subscribe(_ => done(),
       fail);
     expect(facadeSpy.getCleanupRequests).toHaveBeenCalledTimes(1);
-    expect(facadeSpy.getCleanupRequests).toHaveBeenCalledWith(0, pagination);
   });
 
   it('should emit next value on update (request)', done => {

@@ -1,5 +1,8 @@
 import {async, fakeAsync, TestBed, tick} from '@angular/core/testing';
-import {PoolCreationRequestsPollingService} from './pool-creation-requests-polling.service';
+import {
+  poolCreationRequestsCacheBuster$,
+  PoolCreationRequestsPollingService
+} from './pool-creation-requests-polling.service';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {SandboxInstanceFacade} from '../../facades/sandbox-instance-facade.service';
 import {RequestedPagination} from 'kypo2-table';
@@ -27,6 +30,7 @@ describe('PoolCreationRequestsPollingService', () => {
     ]
   });
     service = TestBed.get(PoolCreationRequestsPollingService);
+    poolCreationRequestsCacheBuster$.next();
   }));
 
   it('should be created', () => {
@@ -40,7 +44,6 @@ describe('PoolCreationRequestsPollingService', () => {
     service.getAll(0, pagination).subscribe(_ => done(),
       fail);
     expect(facadeSpy.getCreationRequests).toHaveBeenCalledTimes(1);
-    expect(facadeSpy.getCreationRequests).toHaveBeenCalledWith(0, pagination);
   });
 
   it('should emit next value on update (requests)', done => {

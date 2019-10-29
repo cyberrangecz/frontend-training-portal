@@ -3,7 +3,7 @@ import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/rou
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {SandboxInstanceResolver} from './sandbox-instance-resolver.service';
-import {SandboxInstance} from '../../model/sandbox/pool/sandbox-instance/sandbox-instance';
+import {SandboxInstance} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance';
 
 @Injectable()
 export class SandboxInstanceBreadcrumbResolver implements Resolve<string> {
