@@ -35,7 +35,7 @@ testAngular:
     script:
         - cp /usr/local/npmrc ~/.npmrc
         - npm install
-        - ng test --browsers ChromeHeadless --watch=false --no-sandbox
+        - ng test --browsers ChromeHeadlessNoSandbox --watch=false
     only:
         - triggers
         - branches
