@@ -16,7 +16,7 @@ import {LoadingService} from './services/shared/loading.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent extends BaseComponent implements OnInit, OnDestroy {
+export class AppComponent extends BaseComponent implements OnInit {
   isLoading$: Observable<boolean>;
   distractionFreeMode$: Observable<boolean>;
   activeUser$: Observable<User>;
@@ -33,11 +33,6 @@ export class AppComponent extends BaseComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-  }
-
-  ngOnDestroy() {
-    super.ngOnDestroy();
-    this.authService.dispose();
   }
 
   private subscribeAuthErrors() {
