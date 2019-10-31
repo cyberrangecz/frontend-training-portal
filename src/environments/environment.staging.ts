@@ -46,6 +46,7 @@ export const environment = {
           scope: 'openid email profile',
           logoutUrl: 'https://oidc.muni.cz/oidc/endsession',
           postLogoutRedirectUri: homeURL + '/login',
+          silentRefreshRedirectUri: homeURL + '/silent-refresh.html',
           clearHashAfterLogin: true
         },
       }
