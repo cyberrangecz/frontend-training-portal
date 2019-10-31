@@ -49,10 +49,10 @@ export const environment = {
         oidcConfig: {
           issuer: 'https://oidc.muni.cz/oidc/',
           clientId: 'b53f2660-8fa0-4d32-94e4-23a59d7e7077',
-          redirectUri: window.location.origin, // redirect after successful login
+          redirectUri: homeURL, // redirect after successful login
           scope: 'openid email profile',
           logoutUrl: 'https://oidc.muni.cz/oidc/endsession',
-          postLogoutRedirectUri: window.location.origin, // redirect after successful logout
+          postLogoutRedirectUri: homeURL, // redirect after successful logout
           clearHashAfterLogin: true // remove token and other info from url after login
         },
       },
