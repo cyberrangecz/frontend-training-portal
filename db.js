@@ -678,6 +678,26 @@ module.exports = function () {
         "total_pages": 1
       }
     },
+    "info_run": {
+      "id" : 5,
+      "start_time" : "2019-10-22T07:15:35.117599Z",
+      "end_time" : "2019-10-22T07:16:36.413598Z",
+      "event_log_reference" : null,
+      "state" : "ARCHIVED",
+      "sandbox_instance_ref_id" : null,
+      "participant_ref" : {
+        "iss" : "https://oidc.muni.cz/oidc/",
+        "picture" : "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAB8ElEQVR4Xu3YIQ5DQQwD0R6qFyro/Y/wy8cymAZFCnjE0loO3dfzPK9/vT/fZxveYERgcMgGvMGIwOCQDXiDEYHBIRvwBiMCg0M24A1GBAaHbMAbjAgMDtmANxgRGByyAW8wIjA4ZAPeYERgcMgGvMGIwOCQDXiDEYHBIRvwBiMCg0M24A1GBAaHbMAbjAgMDtmANxgRnC6C00VwughOF8HpIjhdBKeL4HQRnC6C00VwughOF8HpIjhdBKcb/UmxzGCXwS6DXcboMYcY7DLYZbDLGD3mEINdBrsMdhmjxxxisMtgl8EuY/SYQwx2Gewy2GWMHnOIwS6DXQa7jNFjDjHYZbDLYJcxeswhBrsMdhnsMkaPOcRgl8Eug13G6DGHGOwy2GWwyxg95hCDXQa7DHYZo8ccYrDLYJfBLmP0mEMMdhnsMthljB5ziMEug10Gu4zRYw4x2GWwy2CXEWWni+B0EZwugtNFcLoIThfB6SI4XQSni+B0EZwugtNFcLoIThfB6Ub/OyzbgDcYo8ccsgFvMEaPOWQD3mCMHnPIBrzBGD3mkA14gzF6zCEb8AZj9JhDNuANxugxh2zAG4zRYw7ZgDcYo8ccsgFvMEaPOWQD3mCMHnPIBrzBGD3mkA14gzF6zCEb8AZj9JhDNuANxg9pN4hcwILIiAAAAABJRU5ErkJggg==",
+        "user_ref_id" : 9,
+        "login" : "mail@muni.cz",
+        "full_name" : "Dummy user",
+        "given_name" : "User name",
+        "family_name" : "User"
+      },
+      "definition_id" : 5,
+      "instance_id" : 5,
+      "previous_sandbox_instance_ref_id" : 225
+    },
     "sandbox_definitions": {
       "page": 1,
       "page_size": 5,

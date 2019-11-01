@@ -19,7 +19,7 @@ import {AbstractQuestion} from '../../model/questions/abstract-question';
 import {ExtendedMatchingItems} from '../../model/questions/extended-matching-items';
 import {FreeFormQuestion} from '../../model/questions/free-form-question';
 import {MultipleChoiceQuestion} from '../../model/questions/multiple-choice-question';
-import {AccessedTrainingRunsTableRow} from '../../model/table-adapters/accessed-training-runs-table-row';
+import {AccessedTrainingRun} from '../../model/table-adapters/accessed-training-run';
 import {Kypo2Pagination} from '../../model/table-adapters/kypo2-pagination';
 import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 import {TrainingRunTableRow} from '../../model/table-adapters/training-run-table-row';
@@ -27,6 +27,8 @@ import {AccessTrainingRunInfo} from '../../model/training/access-training-run-in
 import {TrainingRun} from '../../model/training/training-run';
 import {LevelMapper} from './level-mapper.service';
 import {UserMapper} from './user.mapper.service';
+import {TraineeAccessTrainingRunActionEnum} from '../../model/enums/trainee-access-training-run-actions.enum';
+import PossibleActionEnum = AccessedTrainingRunDTO.PossibleActionEnum;
 
 @Injectable()
 /**
@@ -117,8 +119,8 @@ export class TrainingRunMapper {
   }
 
   mapAccessedTrainingRunDTOsToTrainingRunTableObjects(resource: TrainingRunRestResource)
-    : PaginatedResource<AccessedTrainingRunsTableRow[]> {
-    const tableData: AccessedTrainingRunsTableRow[] = [];
+    : PaginatedResource<AccessedTrainingRun[]> {
+    const tableData: AccessedTrainingRun[] = [];
     resource.content.forEach(accessedTrainingRunDTO =>
       tableData.push(this.mapAccessedTrainingRunDTOToTrainingRunTableObject(accessedTrainingRunDTO)));
     const tablePagination = new Kypo2Pagination(resource.pagination.number,
@@ -129,9 +131,20 @@ export class TrainingRunMapper {
     return new PaginatedResource(tableData, tablePagination);
   }
 
-
-  mapAccessedTrainingRunDTOToTrainingRunTableObject(accessedTrainingRunDTO: AccessedTrainingRunDTO): AccessedTrainingRunsTableRow {
-    return new AccessedTrainingRunsTableRow(accessedTrainingRunDTO);
+  mapAccessedTrainingRunDTOToTrainingRunTableObject(accessedTrainingRunDTO: AccessedTrainingRunDTO): AccessedTrainingRun {
+    const result = new AccessedTrainingRun();
+      result.currentLevel = accessedTrainingRunDTO.current_level_order;
+      result.totalLevels = accessedTrainingRunDTO.number_of_levels;
+      result.trainingInstanceTitle = accessedTrainingRunDTO.title;
+      result.trainingRunId = accessedTrainingRunDTO.id;
+      result.trainingInstanceStartTime = new Date(accessedTrainingRunDTO.training_instance_start_date);
+      result.trainingInstanceEndTime = new Date(accessedTrainingRunDTO.training_instance_end_date);
+      result.trainingInstanceDuration = `${result.trainingInstanceStartTime} - ${result.trainingInstanceEndTime}`;
+      result.trainingInstanceFormatedDuration =
+        `${this.extractDate(result.trainingInstanceStartTime.toString())} -
+         ${this.extractDate(result.trainingInstanceEndTime.toString())}`;
+      result.action = this.getPossibleActionFromDTO(accessedTrainingRunDTO.possible_action);
+    return result;
   }
 
   mapQuestionsToUserAnswerJSON(questions: AbstractQuestion[]): string {
@@ -199,5 +212,20 @@ export class TrainingRunMapper {
         return null;
       }
     }
+  }
+
+  private getPossibleActionFromDTO(action: PossibleActionEnum): TraineeAccessTrainingRunActionEnum {
+    switch (action) {
+      case PossibleActionEnum.RESULTS: return TraineeAccessTrainingRunActionEnum.Results;
+      case PossibleActionEnum.RESUME: return  TraineeAccessTrainingRunActionEnum.Resume;
+      case PossibleActionEnum.NONE: return TraineeAccessTrainingRunActionEnum.None;
+      default: console.error('Could not map attribute "action" of "AccessedTrainingRunDTO to any known action');
+    }
+  }
+
+  private extractDate(date: string): string {
+    const duration = (date.match(/[a-zA-Z]{3} [0-9]{2} [0-9]{4} [0-9]{2}:[0-9]{2}/g))[0];
+    const len = 2;
+    return `${duration.split(' ')[1]} ${duration.split(' ')[0]} ${duration.split(' ').slice(len).join(' ')}`;
   }
 }

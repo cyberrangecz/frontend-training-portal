@@ -1,12 +1,13 @@
-import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
-import { MatButton } from '@angular/material';
+import {Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
 import {BaseComponent} from '../../../base.component';
 import { TraineeAccessTrainingFormGroup } from './trainee-access-training-form-group';
+import { MatButton } from '@angular/material';
 
 @Component({
   selector: 'kypo2-access-training-run',
   templateUrl: './access-training-run.component.html',
-  styleUrls: ['./access-training-run.component.css']
+  styleUrls: ['./access-training-run.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 /**
  * Components for trainee access to training run by inserting token

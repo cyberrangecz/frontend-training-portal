@@ -1,12 +1,11 @@
 <div class="content">
   <h1>Training Runs Overview</h1>
   <kypo2-access-training-run (accessToken)="access($event)"></kypo2-access-training-run>
-  <kypo2-training-run-table
-    [hasError]="tableHasError"
-    [totalElements]="totalTrainingRuns$ | async"
-    [trainingRuns]="accessedTrainingRuns$ | async"
+  <kypo2-table
+    [data]="trainingRuns$ | async"
+    [hasError]="tableHasError$ | async"
+    [totalElements]="trainingRunsTotalLength$ | async"
     (refresh)="loadAccessedTrainingRuns($event)"
-    (resume)="onResume($event)"
-    (results)="onResults($event)">
-  </kypo2-training-run-table>
+    (rowAction)="onTableAction($event)">
+  </kypo2-table>
 </div>

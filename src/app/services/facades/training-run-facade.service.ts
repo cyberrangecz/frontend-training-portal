@@ -1,6 +1,5 @@
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Kypo2AuthService} from 'kypo2-auth';
 import {Observable} from 'rxjs/internal/Observable';
 import {map, tap} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
@@ -18,13 +17,12 @@ import {GameLevel} from '../../model/level/game-level';
 import {Hint} from '../../model/level/hint';
 import {InfoLevel} from '../../model/level/info-level';
 import {AbstractQuestion} from '../../model/questions/abstract-question';
-import {AccessedTrainingRunsTableRow} from '../../model/table-adapters/accessed-training-runs-table-row';
+import {AccessedTrainingRun} from '../../model/table-adapters/accessed-training-run';
 import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 import {AccessTrainingRunInfo} from '../../model/training/access-training-run-info';
 import {TrainingRun} from '../../model/training/training-run';
 import {LevelMapper} from '../mappers/level-mapper.service';
 import {TrainingRunMapper} from '../mappers/training-run-mapper.service';
-import {LoadingService} from '../shared/loading.service';
 
 /**
  * Service abstracting the training run endpoint.
@@ -77,24 +75,11 @@ export class TrainingRunFacade {
       .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
   }
 
-
-
-  /**
-   * Retrieves all training runs which are still active (can be accessed and "played")
-   * @returns {Observable<AccessedTrainingRunsTableRow[]>} observable of list of active training runs to be displayed in table
-   */
-  getAccessed(): Observable<PaginatedResource<AccessedTrainingRunsTableRow[]>> {
-    return this.http.get<TrainingRunRestResource>(this.trainingRunsEndpointUri + 'accessible/')
-      .pipe(map(response => this.trainingRunMapper.mapAccessedTrainingRunDTOsToTrainingRunTableObjects(response)));
-  }
-
-  getAccessedPaginated(pagination: RequestedPagination):
-    Observable<PaginatedResource<AccessedTrainingRunsTableRow[]>> {
+  getAccessed(pagination?: RequestedPagination):
+    Observable<PaginatedResource<AccessedTrainingRun[]>> {
     let params;
-    if (pagination.sort === 'title') {
-      params = this.createPaginationParamsForTRTitle(pagination);
-    } else {
-      params = PaginationParams.createTrainingsPaginationParams(pagination);
+    if (pagination) {
+      params = this.createPaginationParams(pagination);
     }
     return this.http.get<TrainingRunRestResource>(this.trainingRunsEndpointUri + 'accessible/', {params: params})
       .pipe(map(response => this.trainingRunMapper.mapAccessedTrainingRunDTOsToTrainingRunTableObjects(response)));
@@ -182,11 +167,10 @@ export class TrainingRunFacade {
     return this.http.put(this.trainingRunsEndpointUri + trainingRunId, null);
   }
 
-  private createPaginationParamsForTRTitle(pagination: RequestedPagination): HttpParams {
+  private createPaginationParams(pagination: RequestedPagination): HttpParams {
     return new HttpParams()
       .set('page', pagination.page.toString())
-      .set('size', pagination.size.toString())
-      .set('sortByTitle', pagination.sortDir);
+      .set('size', pagination.size.toString());
   }
 }
 

@@ -10,7 +10,8 @@ import {
 } from '../../components/training-instance/training-instance-overview/paths';
 import {POOL_REQUEST_PATH, SANDBOX_INSTANCE_PATH} from '../../components/sandbox-instance/sandbox-pool-detail/paths';
 import {SANDBOX_INSTANCE_RESOURCE_PATH} from '../../components/sandbox-instance/sandbox-instance-resource-detail/paths';
-import {SANDBOX_POOL_PATH, TRAINING_DEFINITION_PATH, TRAINING_INSTANCE_PATH} from '../../paths';
+import {SANDBOX_POOL_PATH, TRAINING_DEFINITION_PATH, TRAINING_INSTANCE_PATH, TRAINING_RUN_PATH} from '../../paths';
+import {TRAINING_RUN_GAME_PATH, TRAINING_RUN_RESULTS_PATH} from '../../components/training-run/training-run-overview/paths';
 
 export class RouteFactory {
 
@@ -48,6 +49,14 @@ export class RouteFactory {
 
   static toNewTrainingInstance(): string {
     return `${TRAINING_INSTANCE_PATH}/${TRAINING_INSTANCE_NEW_PATH}`;
+  }
+
+  static toTrainingRunGame(id: number | string): string {
+    return `${TRAINING_RUN_PATH}/${id}/${TRAINING_RUN_GAME_PATH}`;
+  }
+
+  static toTrainingRunResult(id: number | string): string {
+    return `${TRAINING_RUN_PATH}/${id}/${TRAINING_RUN_RESULTS_PATH}`;
   }
 
   static toPool(id: number | string): string {
