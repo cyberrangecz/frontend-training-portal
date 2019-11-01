@@ -1,31 +1,34 @@
-import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Observable} from 'rxjs';
-import {map, takeWhile, tap} from 'rxjs/operators';
-import {AccessedTrainingRunsTableRow} from '../../../model/table-adapters/accessed-training-runs-table-row';
-import {LoadTableEvent} from '../../../model/table-adapters/load-table-event';
-import {TrainingRunFacade} from '../../../services/facades/training-run-facade.service';
-import {ErrorHandlerService} from '../../../services/shared/error-handler.service';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ActiveTrainingRunService} from '../../../services/training-run/active-training-run.service';
 import {BaseComponent} from '../../base.component';
-import {TRAINING_RUN_GAME_PATH, TRAINING_RUN_RESULTS_PATH} from './paths';
+import {map, takeWhile} from 'rxjs/operators';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ErrorHandlerService} from '../../../services/shared/error-handler.service';
+import {Observable} from 'rxjs';
+import {AccessedTrainingRun} from '../../../model/table-adapters/accessed-training-run';
+import {Kypo2Table, LoadTableEvent, RequestedPagination, TableActionEvent} from 'kypo2-table';
+import {TrainingRunOverviewService} from '../../../services/shared/training-run-overview.service';
+import {RouteFactory} from '../../../model/routes/route-factory';
+import {environment} from '../../../../environments/environment';
+import {TrainingRunOverviewTableCreator} from '../../../model/table-adapters/training-run-overview-table-creator';
 
 @Component({
   selector: 'kypo2-trainee-overview',
   templateUrl: './training-run-overview.component.html',
-  styleUrls: ['./training-run-overview.component.css']
+  styleUrls: ['./training-run-overview.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 /**
  * Main component of the trainee overview. Wrapper for child components (table and training access)
  */
 export class TrainingRunOverviewComponent extends BaseComponent implements OnInit {
 
-  accessedTrainingRuns$: Observable<AccessedTrainingRunsTableRow[]>;
-  totalTrainingRuns$: Observable<number>;
-  tableHasError = false;
+  trainingRuns$: Observable<Kypo2Table<AccessedTrainingRun>>;
+  trainingRunsTotalLength$: Observable<number>;
+  tableHasError$: Observable<boolean>;
 
   constructor(private activeTrainingRun: ActiveTrainingRunService,
-              private trainingRunFacade: TrainingRunFacade,
+              private trainingRunOverviewService: TrainingRunOverviewService,
               private errorHandler: ErrorHandlerService,
               private router: Router,
               private activeRoute: ActivatedRoute) {
@@ -33,7 +36,7 @@ export class TrainingRunOverviewComponent extends BaseComponent implements OnIni
   }
 
   ngOnInit() {
-    this.activeTrainingRun.clear();
+    this.initTable();
   }
 
   access(accessToken: string) {
@@ -42,36 +45,56 @@ export class TrainingRunOverviewComponent extends BaseComponent implements OnIni
         takeWhile(_ => this.isAlive)
       )
       .subscribe(
-        id => this.router.navigate([id, TRAINING_RUN_GAME_PATH], { relativeTo: this.activeRoute }),
+        id => this.router.navigate([RouteFactory.toTrainingRunGame(id)]),
         err => this.errorHandler.display(err, 'Connecting to training run')
       );
   }
 
+  onTableAction(event: TableActionEvent<AccessedTrainingRun>) {
+    if (event.action.label.toLocaleLowerCase() === 'resume') {
+      this.onResume(event.element.trainingRunId);
+    } else if (event.action.label.toLocaleLowerCase() === 'access results') {
+      this.onResults(event.element.trainingRunId);
+    }
+  }
+
   onResume(id: number) {
-    this.trainingRunFacade.resume(id)
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(trainingRunInfo => {
+    this.trainingRunOverviewService.resume(id)
+      .pipe(takeWhile( () => this.isAlive))
+      .subscribe( trainingRunInfo => {
         this.activeTrainingRun.setUpFromTrainingRun(trainingRunInfo);
-        this.router.navigate([trainingRunInfo.trainingRunId, TRAINING_RUN_GAME_PATH], {relativeTo: this.activeRoute});
-        },
-        err => {
-        this.errorHandler.display(err, 'Resuming training run');
-      });
+        this.router.navigate([RouteFactory.toTrainingRunGame(id)]);
+        });
   }
 
   onResults(id: number) {
-    this.router.navigate([id, TRAINING_RUN_RESULTS_PATH], {relativeTo: this.activeRoute});
+    this.router.navigate([RouteFactory.toTrainingRunResult(id)]);
   }
 
   loadAccessedTrainingRuns(event: LoadTableEvent) {
-    const tableData$ = this.trainingRunFacade.getAccessedPaginated(event.pagination)
+    this.trainingRunOverviewService.load(event.pagination)
       .pipe(
-        tap(_ => this.tableHasError = false,
-          _ => this.tableHasError = true
-        )
-      );
-    this.accessedTrainingRuns$ = tableData$.pipe(map(table => table.elements));
-    this.totalTrainingRuns$ = tableData$.pipe(map(table => table.pagination.totalElements));
+        takeWhile(_ => this.isAlive),
+      )
+      .subscribe();
   }
 
+  private initTable() {
+    const initialLoadEvent: LoadTableEvent = new LoadTableEvent(
+      new RequestedPagination(0, environment.defaultPaginationSize, '', ''));
+    this.activeRoute.data
+      .pipe(
+        takeWhile(_ => this.isAlive),
+      ).subscribe(data => {
+         this.loadAccessedTrainingRuns(initialLoadEvent);
+    });
+    this.activeTrainingRun.clear();
+
+    this.trainingRuns$ = this.trainingRunOverviewService.trainingRuns$
+      .pipe(
+        map(trainingRuns => TrainingRunOverviewTableCreator.create(trainingRuns))
+      );
+    this.tableHasError$ = this.trainingRunOverviewService.hasError$;
+    this.trainingRunsTotalLength$ = this.trainingRunOverviewService.totalLength$;
+  }
 }
