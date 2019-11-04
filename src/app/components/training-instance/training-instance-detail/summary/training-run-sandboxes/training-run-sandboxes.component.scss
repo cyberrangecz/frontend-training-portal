@@ -1,0 +1,42 @@
+mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.sandbox-error {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+.allocation-progress {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+.allocation-progress > p {
+  margin-right: 20px;
+}
+
+.allocation-progress > mat-progress-bar {
+  width: 100px;
+}
+
+.allocate-info {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+.allocate-box {
+  margin-left: 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between
+}
+
+.allocate-box > mat-form-field {
+  width: 100px;
+}

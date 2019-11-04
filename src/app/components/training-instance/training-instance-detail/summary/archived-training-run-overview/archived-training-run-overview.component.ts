@@ -1,21 +1,15 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import {merge, of} from 'rxjs';
-import {catchError, map, startWith, switchMap, takeWhile} from 'rxjs/operators';
-import {environment} from '../../../../../../environments/environment';
-import {RequestedPagination} from '../../../../../model/DTOs/other/requested-pagination';
-import {PaginatedResource} from '../../../../../model/table-adapters/paginated-resource';
-import {TrainingRunTableRow} from '../../../../../model/table-adapters/training-run-table-row';
-import {TrainingInstanceFacade} from '../../../../../services/facades/training-instance-facade.service';
-import {TrainingRunFacade} from '../../../../../services/facades/training-run-facade.service';
-import {AlertService} from '../../../../../services/shared/alert.service';
-import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
-import {ActiveTrainingInstanceService} from '../../../../../services/training-instance/active-training-instance.service';
+import {Observable} from 'rxjs';
+import {map, takeWhile} from 'rxjs/operators';
 import {ActionConfirmationDialogComponent} from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
-import {BaseTrainingRunOverview} from '../base-training-run-overview';
+import {Kypo2Table, LoadTableEvent, RequestedPagination} from 'kypo2-table';
+import {ArchivedTrainingRunService} from '../../../../../services/shared/archived-training-run.service';
+import {environment} from '../../../../../../environments/environment';
+import {ActivatedRoute} from '@angular/router';
+import {TrainingRunTableCreator} from '../../../../../model/table-adapters/training-run-table-creator';
+import {TrainingRunTableAdapter} from '../../../../../model/table-adapters/training-run-table-adapter';
+import {BaseComponent} from '../../../../base.component';
 
 @Component({
   selector: 'kypo2-archived-training-run-overview',
@@ -25,29 +19,31 @@ import {BaseTrainingRunOverview} from '../base-training-run-overview';
 /**
  * Component displaying real time archived (accessed by trainee and with sandbox removed) training runs for organizer.
  */
-export class ArchivedTrainingRunOverviewComponent extends BaseTrainingRunOverview implements OnInit {
-
-  displayedColumns: string[] = ['player', 'state', 'actions'];
-  archivedTrainingRunsDataSource: MatTableDataSource<TrainingRunTableRow>;
-
-  resultsLength = 0;
-  isInErrorState = false;
-
-  @ViewChild(MatPaginator, { static: true }) archivedTrainingRunsPaginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) archivedTrainingRunSort: MatSort;
+export class ArchivedTrainingRunOverviewComponent extends BaseComponent implements OnInit {
+  archivedTrainingRuns$: Observable<Kypo2Table<TrainingRunTableAdapter>>;
+  archivedTrainingRunsTotalLength$: Observable<number>;
+  archivedTrainingRunsTableHasError$: Observable<boolean>;
+  selectedTrainingRuns: number[] = [];
 
   constructor(
-    activeTrainingInstanceService: ActiveTrainingInstanceService,
-    private dialog: MatDialog,
-    private alertService: AlertService,
-    private errorHandler: ErrorHandlerService,
-    private trainingRunFacade: TrainingRunFacade,
-    private trainingInstanceFacade: TrainingInstanceFacade) {
-    super(activeTrainingInstanceService);
-  }
+    private archivedTrainingRunService: ArchivedTrainingRunService,
+    private activeRoute: ActivatedRoute,
+    private dialog: MatDialog) { super(); }
 
   ngOnInit() {
-    super.ngOnInit();
+    this.initTables();
+  }
+
+  onArchivedTrainingRunTableAction(event) {
+    if (event.action.label.toLocaleLowerCase() === 'delete') {
+      this.deleteTrainingRun(event.element.trainingRun.id);
+    }
+  }
+  rowSelection(event: TrainingRunTableAdapter[]) {
+    this.selectedTrainingRuns = [];
+    event.forEach( selectedRun => {
+      this.selectedTrainingRuns.push(selectedRun.trainingRun.id);
+    });
   }
 
   deleteArchivedTrainingRuns() {
@@ -78,68 +74,50 @@ export class ArchivedTrainingRunOverviewComponent extends BaseTrainingRunOvervie
     });
   }
 
-
-  /**
-   * Creates table data source from training runs retrieved from a server.
-   */
-  protected initDataSource() {
-    this.archivedTrainingRunSort.sortChange
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(() => this.archivedTrainingRunsPaginator.pageIndex = 0);
-    this.archivedTrainingRunsPaginator.pageSize = environment.defaultPaginationSize;
-    this.archivedTrainingRunSort.active = 'id';
-    this.archivedTrainingRunSort.active = 'id';
-    this.archivedTrainingRunSort.direction = 'desc';
-    this.fetchData();
-  }
-
   /**
    * Fetch data from server
    */
-  protected fetchData() {
-    const pagination = new RequestedPagination(this.archivedTrainingRunsPaginator.pageIndex,
-      this.archivedTrainingRunsPaginator.pageSize,
-      this.archivedTrainingRunSort.active,
-      this.archivedTrainingRunSort.direction);
-
-    merge(this.archivedTrainingRunSort.sortChange, this.archivedTrainingRunsPaginator.page)
+  protected fetchData(event?) {
+    this.archivedTrainingRunService.getAll(this.archivedTrainingRunService.trainingInstance.id, event.pagination)
       .pipe(
-        takeWhile(() => this.isAlive),
-        startWith({}),
-        switchMap(() => {
-          return this.trainingInstanceFacade.getAssociatedTrainingRunsPaginated(this.trainingInstance.id, pagination, false);
-        }),
-        map(data => {
+        takeWhile(_ => this.isAlive),
+      )
+      .subscribe();
+  }
 
-          this.isInErrorState = false;
-          this.resultsLength = data.pagination.totalElements;
-          return data;
-        }),
-        catchError(err => {
-          this.isInErrorState = true;
-          this.errorHandler.display(err, 'Obtaining training run data');
-          return of([]);
-        })
-      ).subscribe(
-        (data: PaginatedResource<TrainingRunTableRow[]>) =>
-          this.archivedTrainingRunsDataSource = new MatTableDataSource(data.elements)
-    );
+  onTableLoadEvent(event) {
+    this.fetchData(event);
   }
 
   private sendRequestToDeleteArchivedTrainingRuns() {
-    const idsToDelete: number[] = this.archivedTrainingRunsDataSource.data.map(row => row.trainingRun.id);
-    this.trainingRunFacade.deleteMultiple(idsToDelete)
+    this.archivedTrainingRunService.deleteMultiple(this.selectedTrainingRuns)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
-        deleted => this.fetchData(),
-        err => this.errorHandler.display(err, 'Deleting training runs'));
+        _ => this.fetchData());
   }
 
   private sendRequestToDeleteArchivedTrainingRun(id: number) {
-    this.trainingRunFacade.delete(id)
+    this.archivedTrainingRunService.delete(id)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
-        deleted => this.fetchData(),
-        err => this.errorHandler.display(err, 'Deleting training run'));
+        _ => this.fetchData());
+  }
+
+  private initTables() {
+    const initialLoadEvent: LoadTableEvent = new LoadTableEvent(
+      new RequestedPagination(0, environment.defaultPaginationSize, '', ''));
+    this.activeRoute.data
+      .pipe(
+        takeWhile(_ => this.isAlive),
+      ).subscribe(_ => {
+          this.fetchData(initialLoadEvent);
+        }
+      );
+    this.archivedTrainingRuns$ = this.archivedTrainingRunService.archivedTrainingRuns$
+      .pipe(
+        map(trainingRuns => TrainingRunTableCreator.create(trainingRuns, 'archived'))
+      );
+    this.archivedTrainingRunsTableHasError$ = this.archivedTrainingRunService.hasError$;
+    this.archivedTrainingRunsTotalLength$ = this.archivedTrainingRunService.totalLength$;
   }
 }

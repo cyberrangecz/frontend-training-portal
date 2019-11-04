@@ -2,9 +2,8 @@ import {Injectable} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ReplaySubject} from 'rxjs';
 import {Observable} from 'rxjs/internal/Observable';
-import {map, takeWhile, tap} from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 import {
-  TRAINING_RUN_GAME_PATH,
   TRAINING_RUN_RESULTS_PATH
 } from '../../components/training-run/training-run-overview/paths';
 import {AbstractLevel} from '../../model/level/abstract-level';
