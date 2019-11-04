@@ -4,11 +4,12 @@ import {TableRowAdapter} from './table-row-adapter';
 export class AccessedTrainingRun implements TableRowAdapter {
   totalLevels: number;
   currentLevel: number;
+  completedLevels: string;
   trainingRunId: number;
   action: TraineeAccessTrainingRunActionEnum;
   trainingInstanceTitle: string;
   trainingInstanceDuration: string;
-  trainingInstanceFormatedDuration: string;
+  trainingInstanceFormattedDuration: string;
   trainingInstanceStartTime: Date;
   trainingInstanceEndTime: Date;
 
