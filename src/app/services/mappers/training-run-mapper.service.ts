@@ -135,12 +135,13 @@ export class TrainingRunMapper {
     const result = new AccessedTrainingRun();
       result.currentLevel = accessedTrainingRunDTO.current_level_order;
       result.totalLevels = accessedTrainingRunDTO.number_of_levels;
+      result.completedLevels = `${result.currentLevel}/${result.totalLevels}`;
       result.trainingInstanceTitle = accessedTrainingRunDTO.title;
       result.trainingRunId = accessedTrainingRunDTO.id;
       result.trainingInstanceStartTime = new Date(accessedTrainingRunDTO.training_instance_start_date);
       result.trainingInstanceEndTime = new Date(accessedTrainingRunDTO.training_instance_end_date);
       result.trainingInstanceDuration = `${result.trainingInstanceStartTime} - ${result.trainingInstanceEndTime}`;
-      result.trainingInstanceFormatedDuration =
+      result.trainingInstanceFormattedDuration =
         `${this.extractDate(result.trainingInstanceStartTime.toString())} -
          ${this.extractDate(result.trainingInstanceEndTime.toString())}`;
       result.action = this.getPossibleActionFromDTO(accessedTrainingRunDTO.possible_action);

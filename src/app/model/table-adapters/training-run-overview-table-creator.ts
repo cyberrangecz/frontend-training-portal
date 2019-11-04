@@ -11,8 +11,8 @@ export class TrainingRunOverviewTableCreator {
       resource.elements.map(trainingRun => new Row(trainingRun, this.createActions(trainingRun))),
       [
         new Column('trainingInstanceTitle', 'title', false),
-        new Column('trainingInstanceFormatedDuration', 'Date', false),
-        new Column('currentLevel', 'Completed Levels', false),
+        new Column('trainingInstanceFormattedDuration', 'Date', false),
+        new Column('completedLevels', 'Completed Levels', false),
       ]
     );
     table.pagination = resource.pagination;
