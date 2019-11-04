@@ -1,55 +1,19 @@
 <div class="training">
   <h2>Archived Training Runs</h2>
-  <button *ngIf="resultsLength > 0" class="delete-all" mat-button color="warn" (click)="deleteArchivedTrainingRuns()">Delete all</button>
+  <button *ngIf="(archivedTrainingRunsTotalLength$ | async) > 0" [disabled]="selectedTrainingRuns < 1" class="delete-all" mat-raised-button color="warn" (click)="deleteArchivedTrainingRuns()">
+    <span *ngIf="selectedTrainingRuns.length > 0 else show">Delete ({{selectedTrainingRuns.length}})</span>
+    <ng-template #show>Delete</ng-template>
+  </button>
   <div class="training-table-wrapper">
     <div class="training-table">
-      <div class="mat-elevation-z8">
-        <div class="error" *ngIf="isInErrorState">
-          We have some trouble loading the data. Please try again later.
-          <button mat-icon-button (click)="fetchData()" color="primary"><mat-icon>refresh</mat-icon></button>
-        </div>
-
-        <table mat-table [dataSource]="archivedTrainingRunsDataSource" matSort>
-          <!-- PLAYER NAME Column -->
-          <ng-container matColumnDef="player">
-            <th class="playerId" mat-header-cell *matHeaderCellDef>Player</th>
-            <td class="playerId" mat-cell *matCellDef="let data">
-              {{ data.trainingRun?.player?.name }}
-            </td>
-          </ng-container>
-
-          <!-- STATE Column -->
-          <ng-container matColumnDef="state">
-            <th class="state" mat-header-cell *matHeaderCellDef>Training Run State</th>
-            <td class="state" mat-cell *matCellDef="let data">
-              {{ data.trainingRun?.state }}
-            </td>
-          </ng-container>
-
-          <!-- ACTIONS Column -->
-          <ng-container matColumnDef="actions">
-            <th class="actions" mat-header-cell *matHeaderCellDef>Actions</th>
-            <td class="actions" mat-cell *matCellDef="let data">
-              <div class="action-buttons">
-                <!-- DELETE button-->
-                <button mat-icon-button
-                        color="warn"
-                        matTooltip="Delete training run"
-                        (click)="deleteTrainingRun(data.trainingRun?.id)">
-                  <mat-icon
-                    aria-label="Delete training run button">
-                    delete
-                  </mat-icon>
-                </button>
-              </div>
-            </td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-        <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-      </div>
+        <kypo2-table
+          [data] ="archivedTrainingRuns$ | async"
+          [hasError]="archivedTrainingRunsTableHasError$ | async"
+          [totalElements]="archivedTrainingRunsTotalLength$ | async"
+          (refresh)="onTableLoadEvent($event)"
+          (rowAction)="onArchivedTrainingRunTableAction($event)"
+          (rowSelection)="rowSelection($event)">
+        </kypo2-table>
     </div>
   </div>
 </div>

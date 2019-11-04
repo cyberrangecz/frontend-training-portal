@@ -1,178 +1,104 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import {interval, merge, of} from 'rxjs';
-import {catchError, map, startWith, switchMap, takeWhile} from 'rxjs/operators';
+import {interval, Observable} from 'rxjs';
+import {map, takeWhile} from 'rxjs/operators';
 import {environment} from '../../../../../../environments/environment';
 import {RequestedPagination} from '../../../../../model/DTOs/other/requested-pagination';
-import {AlertTypeEnum} from '../../../../../model/enums/alert-type.enum';
-import {PaginatedResource} from '../../../../../model/table-adapters/paginated-resource';
-import {TrainingRunTableRow} from '../../../../../model/table-adapters/training-run-table-row';
-import {SandboxInstanceFacade} from '../../../../../services/facades/sandbox-instance-facade.service';
-import {TrainingInstanceFacade} from '../../../../../services/facades/training-instance-facade.service';
-import {AlertService} from '../../../../../services/shared/alert.service';
-import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
-import {ActiveTrainingInstanceService} from '../../../../../services/training-instance/active-training-instance.service';
 import {ActionConfirmationDialogComponent} from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
-import {BaseTrainingRunOverview} from '../base-training-run-overview';
+import {Kypo2Table, LoadTableEvent} from 'kypo2-table';
+import {ActivatedRoute} from '@angular/router';
+import {TrainingRunTableCreator} from '../../../../../model/table-adapters/training-run-table-creator';
+import {FetchActiveTrainingRunService} from '../../../../../services/shared/fetch-active-training-run.service';
+import {TrainingRunTableAdapter} from '../../../../../model/table-adapters/training-run-table-adapter';
+import {BaseComponent} from '../../../../base.component';
+import {TrainingInstance} from '../../../../../model/training/training-instance';
 
 @Component({
   selector: 'kypo2-active-training-run-overview',
   templateUrl: './active-training-run-overview.component.html',
-  styleUrls: ['./active-training-run-overview.component.scss']
+  styleUrls: ['./active-training-run-overview.component.scss'],
+
 })
 /**
  * Component displaying training runs and its state in real time. Allows organizer to easily archive training runs
  * by removing theirs sandboxes
  */
-export class ActiveTrainingRunOverviewComponent extends BaseTrainingRunOverview implements OnInit {
+export class ActiveTrainingRunOverviewComponent extends BaseComponent implements OnInit {
+  activeTrainingRuns$: Observable<Kypo2Table<TrainingRunTableAdapter>>;
+  activeTrainingRunsTotalLength$: Observable<number>;
+  activeTrainingRunsTableHasError$: Observable<boolean>;
+  trainingInstance: TrainingInstance;
 
-  displayedColumns: string[] = ['sandboxInstanceId', 'sandboxInstanceState', 'player', 'state', 'actions'];
-  activeTrainingRunsDataSource: MatTableDataSource<TrainingRunTableRow>;
-
-  resultsLength = 0;
-  isInErrorState = false;
   now: number;
-
-  toAllocateInput: number;
-  hasSandboxesInfoError = false;
-  sandboxDeletionRunningCount: number;
-  sandboxAllocationRunningCount: number;
-  sandboxFailedCount: number;
-  sandboxAvailableCount: number;
-  sandboxCanBeAllocatedCount: number;
-
-  @ViewChild(MatPaginator, { static: true }) activeTrainingRunsPaginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) activeTrainingRunSort: MatSort;
-
+  fetchSandboxes = false;
+  deleteSandbox: TrainingRunTableAdapter;
 
   constructor(
-    activeTrainingInstanceService: ActiveTrainingInstanceService,
-    private dialog: MatDialog,
-    private alertService: AlertService,
-    private errorHandler: ErrorHandlerService,
-    private sandboxInstanceFacade: SandboxInstanceFacade,
-    private trainingInstanceFacade: TrainingInstanceFacade) {
-    super(activeTrainingInstanceService);
+    private activeRoute: ActivatedRoute,
+    private fetchActiveTrainingRunService: FetchActiveTrainingRunService,
+    private dialog: MatDialog) {
+    super();
+    this.trainingInstance = this.fetchActiveTrainingRunService.trainingInstance;
   }
 
   ngOnInit() {
-    super.ngOnInit();
     this.startCurrentTimePeriodicalUpdate();
+    this.initTables();
+  }
 
+  onActiveTrainingRunsTableSelection(event) {
+    if (event.action.label.toLocaleLowerCase() === 'delete') {
+      this.deleteSandboxOfTrainingRun(event.element);
+    }
+  }
+
+  /**
+   * Fetch data from server
+   */
+  protected fetchData(event?) {
+    this.fetchActiveTrainingRunService.getAll(this.fetchActiveTrainingRunService.trainingInstance.id, event.pagination)
+      .pipe(
+        takeWhile(_ => this.isAlive),
+      )
+      .subscribe();
+    this.fetchSandboxes = true;
+  }
+
+  onTableLoadEvent(event) {
+    this.fetchData(event);
+  }
+
+  private initTables() {
+    const initialLoadEvent: LoadTableEvent = new LoadTableEvent(
+      new RequestedPagination(0, environment.defaultPaginationSize, '', ''));
+    this.activeRoute.data
+      .pipe(
+        takeWhile(_ => this.isAlive),
+      ).subscribe(_ => {
+        this.fetchData(initialLoadEvent);
+      }
+    );
+    this.activeTrainingRuns$ = this.fetchActiveTrainingRunService.activeTrainingRuns$
+      .pipe(
+        map(trainingRuns => TrainingRunTableCreator.create(trainingRuns, 'active'))
+      );
+    this.activeTrainingRunsTableHasError$ = this.fetchActiveTrainingRunService.hasError$;
+    this.activeTrainingRunsTotalLength$ = this.fetchActiveTrainingRunService.totalLength$;
   }
 
   /**
    * Reverts selected training run
    * @param row table object of training run
    */
-  deleteSandboxOfTrainingRun(row: TrainingRunTableRow) {
+  private deleteSandboxOfTrainingRun(row: TrainingRunTableAdapter) {
     if (row.trainingRun.hasPlayer() && row.trainingRun.isRunning()) {
       this.askForDeleteSandboxConfirmation(row);
     } else {
-      this.sendRequestToDeleteSandbox(row);
+      this.deleteSandbox = row;
     }
   }
 
-  /**
-   * Applies filter data source
-   * @param {string} filterValue value by which the data should be filtered. Inserted by user
-   */
-  applyFilter(filterValue: string) {
-    this.activeTrainingRunsDataSource.filter = filterValue.trim().toLowerCase();
-    if (this.activeTrainingRunsDataSource.paginator) {
-      this.activeTrainingRunsDataSource.paginator.firstPage();
-    }
-  }
-
-  /**
-   * Creates table data source from training runs retrieved from a server.
-   */
-   protected initDataSource() {
-    this.activeTrainingRunSort.sortChange
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(() => this.activeTrainingRunsPaginator.pageIndex = 0);
-    this.activeTrainingRunsPaginator.pageSize = environment.defaultPaginationSize;
-    this.activeTrainingRunSort.active = 'state';
-    this.activeTrainingRunSort.direction = 'desc';
-    this.fetchTrainingRuns();
-  }
-
-  /**
-   * Fetch data from server
-   */
-  protected fetchData() {
-    this.fetchTrainingRuns();
-    this.fetchInfoForSandboxes();
-  }
-
-  private fetchInfoForSandboxes() {
-    this.sandboxInstanceFacade.getSandboxes(this.trainingInstance.poolId)
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(
-        resource => {
-            this.hasSandboxesInfoError = false;
-            this.sandboxFailedCount = resource.elements.filter(sandbox => sandbox.isFailed()).length;
-            this.sandboxDeletionRunningCount = resource.elements.filter(sandbox => sandbox.isBeingDeleted()).length;
-            this.sandboxAllocationRunningCount = resource.elements
-                                                  .filter(sandbox => sandbox.isInProgress())
-                                                  .length - this.sandboxDeletionRunningCount;
-            this.sandboxAvailableCount = resource.elements.filter(sandbox => sandbox.isCreated()).length - this.resultsLength;
-            this.sandboxCanBeAllocatedCount = Math.max(
-              0,
-              this.trainingInstance.poolSize - resource.elements.length - this.sandboxFailedCount
-            );
-            if (this.toAllocateInput === undefined) {
-              this.toAllocateInput = this.sandboxCanBeAllocatedCount;
-            }
-          },
-          err => {
-          this.hasSandboxesInfoError = true;
-        }
-      );
-  }
-
-  private fetchTrainingRuns() {
-    const pagination = new RequestedPagination(this.activeTrainingRunsPaginator.pageIndex,
-      this.activeTrainingRunsPaginator.pageSize,
-      this.activeTrainingRunSort.active,
-      this.activeTrainingRunSort.direction);
-
-    merge(this.activeTrainingRunSort.sortChange, this.activeTrainingRunsPaginator.page)
-      .pipe(
-        takeWhile(() => this.isAlive),
-        startWith({}),
-        switchMap(() => {
-          return this.trainingInstanceFacade.getAssociatedTrainingRunsPaginated(this.trainingInstance.id, pagination);
-        }),
-        map(data => {
-          this.isInErrorState = false;
-          this.resultsLength = data.pagination.totalElements;
-          return data;
-        }),
-        catchError(err => {
-          this.isInErrorState = true;
-          this.errorHandler.display(err, 'Obtaining training runs');
-          return of([]);
-        })
-      ).subscribe((data: PaginatedResource<TrainingRunTableRow[]>) => this.createDataSource(data.elements));
-  }
-
-  /**
-   * Creates data source from fetched data
-   * @param data fetched training runs
-   */
-  private createDataSource(data: TrainingRunTableRow[]) {
-    this.activeTrainingRunsDataSource = new MatTableDataSource(data);
-    this.activeTrainingRunsDataSource.filterPredicate =
-      (data: TrainingRunTableRow, filter: string) =>
-        data.trainingRun.state.toLowerCase().indexOf(filter) !== -1;
-  }
-
-
-  private askForDeleteSandboxConfirmation(row: TrainingRunTableRow) {
+  private askForDeleteSandboxConfirmation(row: TrainingRunTableAdapter) {
     const sandboxId: string = row.trainingRun.sandboxInstanceId ? row.trainingRun.sandboxInstanceId.toString() : '';
     const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
       data: {
@@ -185,39 +111,9 @@ export class ActiveTrainingRunOverviewComponent extends BaseTrainingRunOverview 
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(result => {
       if (result && result.type === 'confirm') {
-        this.sendRequestToDeleteSandbox(row);
+        this.deleteSandbox = row;
       }
     });
-  }
-
-  private sendRequestToAllocateSandboxes(count: number) {
-    this.sandboxInstanceFacade.allocateSandboxByTrainingInstance(this.trainingInstance.id, count)
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(
-        response => {
-          this.alertService.emitAlert(AlertTypeEnum.Success, 'Allocation of sandboxes has begun');
-          this.fetchInfoForSandboxes();
-        },
-        err => {
-          this.errorHandler.display(err, 'Allocation of sandboxes');
-        }
-      );
-  }
-
-  private sendRequestToDeleteSandbox(row: TrainingRunTableRow) {
-    row.deletionRequested = true;
-    this.sandboxInstanceFacade.deleteByTrainingInstance(this.trainingInstance.id, row.trainingRun.sandboxInstanceId)
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(
-      response => {
-        this.alertService.emitAlert(AlertTypeEnum.Success, 'Deletion of sandbox instance has started');
-        this.fetchData();
-      },
-      err => {
-        row.deletionRequested = false;
-        this.errorHandler.display(err, 'Deletion sandbox instance');
-      }
-    );
   }
 
   private startCurrentTimePeriodicalUpdate() {
@@ -225,7 +121,7 @@ export class ActiveTrainingRunOverviewComponent extends BaseTrainingRunOverview 
     this.now = Date.now();
     interval(period)
       .pipe(takeWhile(() => this.isAlive))
-      .subscribe(value =>
+      .subscribe(_ =>
       this.now = Date.now()
     );
   }

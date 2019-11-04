@@ -1,28 +1,5 @@
 @import "~variables.scss";
 
-mat-form-field {
-  font-size: 14px;
-  width: 100%;
-}
-
-.mat-sort-header-container {
-  align-items: center;
-}
-
-.allocation-progress {
-  display: flex;
-  flex-direction: row;
-  align-items: baseline;
-}
-
-.allocation-progress > p {
-  margin-right: 20px;
-}
-
-.allocation-progress > mat-progress-bar {
-  width: 100px;
-}
-
 .training {
   padding: 20px;
   display: flex;
@@ -34,59 +11,4 @@ mat-form-field {
   margin: auto auto;
   justify-items: center;
   justify-content: center;
-}
-
-table {
-  width: 100%;
-}
-
-.sandbox-error {
-  display: flex;
-  flex-direction: row;
-  align-items: baseline;
-}
-
-.allocate-info {
-  display: flex;
-  flex-direction: row;
-  align-items: baseline;
-}
-
-.allocate-box {
-  margin-left: 50px;
-  display: flex;
-  flex-direction: row;
-  align-items: baseline;
-  justify-content: space-between
-}
-
-.allocate-box > mat-form-field {
-  width: 100px;
-}
-
-
-
-td.sandboxInstanceId, th.sandboxInstanceId {
-  width: 20%;
-}
-
-td.sandboxInstanceState, th.sandboxInstanceState {
-  width: 20%;
-}
-
-td.playerId, th.playerId {
-  width: 20%;
-}
-
-td.state, th.state {
-  width: 20%;
-}
-
-td.actions, th.actions {
-  width: 20%;
-}
-
-.error {
-  color: $warn;
-  text-align: center;
 }

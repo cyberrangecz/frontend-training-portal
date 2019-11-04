@@ -1,111 +1,22 @@
 <div class="training">
-  <div class="sandboxes" *ngIf="trainingInstance?.endTime.valueOf() > now">
-    <h2>Sandboxes</h2>
-    <div class="sandbox-error" *ngIf="hasSandboxesInfoError">
-      <p color="warn">Could not reach server.</p>
-      <button mat-button color="primary" (click)="fetchInfoForSandboxes()">Try Again.</button>
-    </div>
-    <div *ngIf="!hasSandboxesInfoError" class="sandbox-info">
-      <div class="allocate-info">
-        <p>Possible to allocate: {{ sandboxCanBeAllocatedCount }}</p>
-        <div class="allocate-box">
-          <mat-form-field class="allocate-input">
-            <input matInput
-                   type="number"
-                   min="1"
-                   [max]="sandboxCanBeAllocatedCount"
-                   [disabled]="sandboxCanBeAllocatedCount === undefined || sandboxCanBeAllocatedCount < 1"
-                   [(ngModel)]="toAllocateInput">
-          </mat-form-field>
-          <button mat-button color="primary"
-                  (click)="sendRequestToAllocateSandboxes(toAllocateInput)"
-                  [disabled]="toAllocateInput === undefined || toAllocateInput < 1">Allocate</button>
-        </div>
-      </div>
-      <p>Available for players: {{ sandboxAvailableCount }}</p>
-      <p>In failed state: {{ sandboxFailedCount }}</p>
-      <div class="allocation-progress">
-        <p>Allocating right now: {{ sandboxAllocationRunningCount }}</p> <mat-progress-bar *ngIf="sandboxAllocationRunningCount > 0"  color="accent" mode="indeterminate"></mat-progress-bar>
-      </div>
-      <div class="allocation-progress">
-        <p>Deleting right now: {{ sandboxDeletionRunningCount }} </p> <mat-progress-bar *ngIf="sandboxDeletionRunningCount > 0" color="accent" mode="indeterminate"></mat-progress-bar>
-      </div>
-    </div>
-  </div>
+  <kypo2-training-run-sandboxes
+    [resultsLength]="activeTrainingRunsTotalLength$ | async"
+    [trainingInstance]="trainingInstance"
+    [now]="now"
+    [fetchInfo]="fetchSandboxes"
+    [deleteSandbox]="deleteSandbox">
+  </kypo2-training-run-sandboxes>
+
   <h2>Active Training Runs</h2>
   <div class="training-table-wrapper">
     <div class="training-table">
-      <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value)"
-               [disabled]="isInErrorState"
-               placeholder="Filter by state">
-      </mat-form-field>
-
-      <div class="mat-elevation-z8">
-        <div class="error" *ngIf="isInErrorState">
-          We have some trouble loading the data. Please try again later.
-          <button mat-icon-button (click)="fetchData()" color="primary"><mat-icon>refresh</mat-icon></button>
-        </div>
-
-        <table mat-table [dataSource]="activeTrainingRunsDataSource" matSort>
-
-          <!-- SANDBOX ID Column -->
-          <ng-container matColumnDef="sandboxInstanceId">
-            <th class="sandboxInstanceId" mat-header-cell *matHeaderCellDef>Sandbox ID</th>
-            <td class="sandboxInstanceId" mat-cell *matCellDef="let data">
-              {{ data.trainingRun?.sandboxInstanceId }}
-            </td>
-          </ng-container>
-
-          <!-- SANDBOX STATE Column -->
-          <ng-container matColumnDef="sandboxInstanceState">
-            <th class="sandboxInstanceState" mat-header-cell *matHeaderCellDef>Sandbox State</th>
-            <td class="sandboxInstanceState" mat-cell *matCellDef="let data">
-              {{ data.trainingRun?.sandboxInstanceState }}
-            </td>
-          </ng-container>
-
-          <!-- PLAYER NAME Column -->
-          <ng-container matColumnDef="player">
-            <th class="playerId" mat-header-cell *matHeaderCellDef>Player</th>
-            <td class="playerId" mat-cell *matCellDef="let data">
-              {{ data.trainingRun?.player?.name }}
-            </td>
-          </ng-container>
-
-          <!-- STATE Column -->
-          <ng-container matColumnDef="state">
-            <th class="state" mat-sort-header mat-header-cell *matHeaderCellDef>Training Run State</th>
-            <td class="state" mat-cell *matCellDef="let data">
-              {{ data.trainingRun?.state }}
-            </td>
-          </ng-container>
-
-          <!-- ACTIONS Column -->
-          <ng-container matColumnDef="actions">
-            <th class="actions" mat-header-cell *matHeaderCellDef>Actions</th>
-            <td class="actions" mat-cell *matCellDef="let data">
-
-              <div class="action-buttons">
-                <!-- DELETE button-->
-                <button [disabled]="data.deletionRequested"
-                        mat-icon-button
-                        color="warn"
-                        matTooltip="Delete sandbox of training run"
-                        (click)="deleteSandboxOfTrainingRun(data)">
-                  <mat-icon
-                    aria-label="Delete sandbox training run button">
-                    delete
-                  </mat-icon>
-                </button>
-              </div>
-            </td>
-          </ng-container>
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-        <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-      </div>
+      <kypo2-table
+        [data]="activeTrainingRuns$ | async"
+        [hasError]="activeTrainingRunsTableHasError$ | async"
+        [totalElements]="activeTrainingRunsTotalLength$ | async"
+        (rowAction)="onActiveTrainingRunsTableSelection($event)"
+        (refresh)="onTableLoadEvent($event)">
+      </kypo2-table>
     </div>
   </div>
 </div>

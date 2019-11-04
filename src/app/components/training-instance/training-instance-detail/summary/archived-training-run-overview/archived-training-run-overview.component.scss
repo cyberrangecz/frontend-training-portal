@@ -1,14 +1,5 @@
 @import "~variables.scss";
 
-mat-form-field {
-  font-size: 14px;
-  width: 100%;
-}
-
-.mat-sort-header-container {
-  align-items: center;
-}
-
 .training {
   padding: 20px;
   display: flex;
@@ -25,26 +16,5 @@ mat-form-field {
 button.delete-all {
   width: 120px;
   align-self: flex-end;
-}
-
-table {
-  width: 100%;
-}
-
-
-.loading {
-  position: relative;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.15);
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.error {
-  color: $warn;
-  text-align: center;
+  margin-bottom: 10px;
 }

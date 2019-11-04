@@ -11,6 +11,12 @@ import { TrainingInstanceInfoComponent } from './training-instance-info/training
 import {TrainingInstanceSummaryMaterialModule} from './training-instance-summary-material.module';
 import {TrainingInstanceSummaryRoutingModule} from './training-instance-summary-routing.module';
 import { TrainingInstanceSummaryComponent } from './training-instance-summary.component';
+import {Kypo2TableModule} from 'kypo2-table';
+import {ArchivedTrainingRunService} from '../../../../services/shared/archived-training-run.service';
+import {ArchivedTrainingRunConcreteService} from '../../../../services/training-run/archived-training-run.concrete.service';
+import {FetchActiveTrainingRunService} from '../../../../services/shared/fetch-active-training-run.service';
+import {FetchActiveTrainingRunConcreteService} from '../../../../services/training-run/fetch-active-training-run.concrete.service';
+import {TrainingRunSandboxesComponent} from './training-run-sandboxes/training-run-sandboxes.component';
 
 @NgModule({
   imports: [
@@ -20,15 +26,19 @@ import { TrainingInstanceSummaryComponent } from './training-instance-summary.co
     TrainingInstanceSummaryMaterialModule,
     TrainingInstanceSummaryRoutingModule,
     TrainingRunFacadeModule,
-    SandboxInstanceFacadeModule
+    SandboxInstanceFacadeModule,
+    Kypo2TableModule
   ],
   declarations: [
   TrainingInstanceSummaryComponent,
   TrainingInstanceInfoComponent,
+  TrainingRunSandboxesComponent,
   ActiveTrainingRunOverviewComponent,
   ArchivedTrainingRunOverviewComponent
   ],
   providers: [
+    {provide: ArchivedTrainingRunService, useClass: ArchivedTrainingRunConcreteService},
+    {provide: FetchActiveTrainingRunService, useClass: FetchActiveTrainingRunConcreteService},
     ErrorHandlerService
   ]
 })
