@@ -16,7 +16,6 @@ import {ArchivedTrainingRunService} from '../../../../services/shared/archived-t
 import {ArchivedTrainingRunConcreteService} from '../../../../services/training-run/archived-training-run.concrete.service';
 import {FetchActiveTrainingRunService} from '../../../../services/shared/fetch-active-training-run.service';
 import {FetchActiveTrainingRunConcreteService} from '../../../../services/training-run/fetch-active-training-run.concrete.service';
-import {TrainingRunSandboxesComponent} from './training-run-sandboxes/training-run-sandboxes.component';
 
 @NgModule({
   imports: [
@@ -32,7 +31,6 @@ import {TrainingRunSandboxesComponent} from './training-run-sandboxes/training-r
   declarations: [
   TrainingInstanceSummaryComponent,
   TrainingInstanceInfoComponent,
-  TrainingRunSandboxesComponent,
   ActiveTrainingRunOverviewComponent,
   ArchivedTrainingRunOverviewComponent
   ],
