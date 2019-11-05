@@ -86,7 +86,7 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
     const dialogRef = this.dialog.open(RevealHintDialogComponent, {
       data: {
         title: hintButton.hint.title,
-        penalty: hintButton.hint.hintPenalty
+        penalty: hintButton.hint.penalty
       }
     });
 
