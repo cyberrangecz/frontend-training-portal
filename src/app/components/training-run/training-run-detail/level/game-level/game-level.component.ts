@@ -7,6 +7,8 @@ import {takeWhile} from 'rxjs/operators';
 import {FlagCheck} from '../../../../../model/level/flag-check';
 import {GameLevel} from '../../../../../model/level/game-level';
 import {Hint} from '../../../../../model/level/hint';
+import {HintButton} from '../../../../../model/level/hint-button';
+import {HintDialogData} from '../../../../../model/level/hint-dialog-data';
 import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
 import {ActiveTrainingRunService} from '../../../../../services/training-run/active-training-run.service';
 import {TrainingRunGameLevelService} from '../../../../../services/training-run/training-run-game-level.service';
@@ -45,7 +47,7 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
   correctFlag: boolean;
   solutionShown: boolean;
   waitingOnResponse: boolean;
-  hintButtons = [];
+  hintButtons = Array<HintButton>();
 
   constructor(private dialog: MatDialog,
               private errorHandler: ErrorHandlerService,
@@ -84,10 +86,7 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
    */
   showHint(hintButton, index: number) {
     const dialogRef = this.dialog.open(RevealHintDialogComponent, {
-      data: {
-        title: hintButton.hint.title,
-        penalty: hintButton.hint.penalty
-      }
+      data: new HintDialogData(hintButton.hint.title, hintButton.hint.penalty)
     });
 
     dialogRef.afterClosed()
@@ -250,11 +249,7 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
   private initHintButtons() {
     this.hintButtons = [];
     this.level.hints.forEach((hint, index) => {
-        this.hintButtons.push(
-          {
-            displayed: !this.isPreviewMode && hint.hasContent(),
-            hint: hint
-          });
+        this.hintButtons.push(new HintButton(!this.isPreviewMode && hint.hasContent(), hint));
         if (!this.isPreviewMode && hint.hasContent()) {
           this.addHintToTextField(hint, index);
         }
