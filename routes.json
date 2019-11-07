@@ -1,7 +1,7 @@
 {
   "/kypo2-rest-user-and-group/api/v1/users/info": "/info",
   "/kypo2-rest-training/api/v1/training-definitions/designers": "/designers",
-  "/kypo2-rest-training/api/v1/training-definitions/for-organizers": "/for_organizers",
+  "/kypo2-rest-training/api/v1/training-definitions/for-organizers?page=:page&size=:size&sort=:sort&state=:state": "/for_organizers",
   "/kypo2-rest-training/api/v1/training-definitions/organizers": "/organizers",
   "/kypo2-rest-training/api/v1/training-definitions/sandbox-definitions/:id": "/sandbox_definition",
   "/kypo2-rest-training/api/v1/training-definitions/?page=:page&size=:size&sort=:sort": "/definitions_list",

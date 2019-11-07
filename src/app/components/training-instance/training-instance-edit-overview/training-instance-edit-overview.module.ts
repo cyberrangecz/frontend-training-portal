@@ -12,13 +12,14 @@ import {TrainingInstanceEditConcreteService} from '../../../services/training-in
 import {TrainingInstanceEditService} from '../../../services/training-instance/training-instance-edit.service';
 import {SharedModule} from '../../shared/shared.module';
 import {UnsavedChangesDialogComponent} from '../../shared/unsaved-changes-dialog/unsaved-changes-dialog.component';
-import {TrainingDefinitionPickerComponent} from './training-definition-picker/training-definition-picker.component';
+import {TrainingDefinitionSelectorComponent} from './training-definition-selector/training-definition-selector.component';
 import {TrainingInstanceEditOverviewMaterialModule} from './training-instance-edit-overview-material.module';
 import {TrainingInstanceEditOverviewRoutingModule} from './training-instance-edit-overview-routing.module';
 import { TrainingInstanceEditOverviewComponent } from './training-instance-edit-overview.component';
 import { TrainingInstanceEditControlsComponent } from './training-instance-edit/training-instance-edit-controls/training-instance-edit-controls.component';
 import {TrainingInstanceEditComponent} from './training-instance-edit/training-instance-edit.component';
 import {Kypo2UserAssignModule, Kypo2UserAssignService} from 'kypo2-user-assign';
+import { TrainingDefinitionListContentComponent } from './training-definition-selector/training-definition-list/training-definition-list-content.component';
 
 @NgModule({
   imports: [
@@ -40,14 +41,15 @@ import {Kypo2UserAssignModule, Kypo2UserAssignService} from 'kypo2-user-assign';
     TrainingInstanceEditOverviewComponent,
     TrainingInstanceEditControlsComponent,
     TrainingInstanceEditComponent,
-    TrainingDefinitionPickerComponent],
+    TrainingDefinitionSelectorComponent,
+    TrainingDefinitionListContentComponent],
   providers: [
     TrainingInstanceLeaveGuardService,
     { provide: Kypo2UserAssignService, useClass: OrganizersAssignService },
     { provide: TrainingInstanceEditService, useClass: TrainingInstanceEditConcreteService }
   ],
   entryComponents: [
-    TrainingDefinitionPickerComponent,
+    TrainingDefinitionSelectorComponent,
     UnsavedChangesDialogComponent
   ]
 })

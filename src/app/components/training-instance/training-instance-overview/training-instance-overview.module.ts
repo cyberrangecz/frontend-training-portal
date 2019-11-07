@@ -12,7 +12,7 @@ import {ActiveTrainingInstanceService} from '../../../services/training-instance
 import {SandboxAllocationService} from '../../../services/training-instance/sandbox-allocation/sandbox-allocation.service';
 import {SandboxInstanceObservablesPoolService} from '../../../services/training-instance/sandbox-allocation/sandbox-instance-observables-pool.service';
 import {SharedModule} from '../../shared/shared.module';
-import { TrainingDefinitionPickerComponent } from '../training-instance-edit-overview/training-definition-picker/training-definition-picker.component';
+import { TrainingDefinitionSelectorComponent } from '../training-instance-edit-overview/training-definition-selector/training-definition-selector.component';
 import { TrainingInstanceEditComponent } from '../training-instance-edit-overview/training-instance-edit/training-instance-edit.component';
 import { TrainingInstanceControlsComponent } from './training-instance-controls/training-instance-controls.component';
 import {TrainingInstanceOverviewMaterialModule} from './training-instance-overview-material.module';

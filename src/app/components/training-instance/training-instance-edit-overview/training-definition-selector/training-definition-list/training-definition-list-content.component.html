@@ -1,0 +1,22 @@
+<div *ngIf="cached.length > 0">
+  <h3 mat-subheader>{{ state }}</h3>
+  <div *ngIf="hasError" class="error">
+    <p>We have some trouble loading the data. Please try again later.</p>
+    <button mat-icon-button (click)="reload()" color="primary"><mat-icon>refresh</mat-icon></button>
+  </div>
+  <cdk-virtual-scroll-viewport itemSize="48">
+    <mat-list-item *cdkVirtualFor="let training of cached; trackBy: trackById">
+      <mat-radio-button [checked]="selected && training.id === selected.id"
+                        [value]="training"
+                        (change)="selectionChange.emit($event.value)">
+        {{ training.title | shortString: 50 }}
+      </mat-radio-button>
+    </mat-list-item>
+    <mat-list-item *ngIf="!isEnd && !hasError">
+      <button mat-button color="accent" (click)="getNextPage()">Show more...</button>
+    </mat-list-item>
+  </cdk-virtual-scroll-viewport>
+</div>
+<ng-container *ngIf="cached.length <= 0 && resourceLoaded">
+  <p>No {{ state | lowercase }} training definitions found.</p>
+</ng-container>

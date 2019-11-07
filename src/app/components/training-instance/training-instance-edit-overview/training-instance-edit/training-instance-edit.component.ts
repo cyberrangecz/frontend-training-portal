@@ -8,7 +8,7 @@ import {TrainingInstanceFacade} from '../../../../services/facades/training-inst
 import {AlertService} from '../../../../services/shared/alert.service';
 import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
 import {BaseComponent} from '../../../base.component';
-import {TrainingDefinitionPickerComponent} from '../training-definition-picker/training-definition-picker.component';
+import {TrainingDefinitionSelectorComponent} from '../training-definition-selector/training-definition-selector.component';
 import { TrainingInstanceFormGroup } from './training-instance-form-group';
 
 @Component({
@@ -72,7 +72,7 @@ export class TrainingInstanceEditComponent extends BaseComponent implements OnIn
    * Opens popup dialog to choose training definition from a list
    */
   chooseTrainingDefinition() {
-    const dialogRef = this.dialog.open(TrainingDefinitionPickerComponent, { data: this.trainingDefinition.value });
+    const dialogRef = this.dialog.open(TrainingDefinitionSelectorComponent, { data: this.trainingDefinition.value });
 
     dialogRef.afterClosed()
       .pipe(takeWhile(() => this.isAlive))
