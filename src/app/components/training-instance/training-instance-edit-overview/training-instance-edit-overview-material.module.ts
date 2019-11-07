@@ -9,9 +9,12 @@ import {MatInputModule} from '@angular/material/input';
 import {MatListModule} from '@angular/material/list';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatRadioModule} from '@angular/material/radio';
+import {ScrollingModule} from '@angular/cdk/scrolling';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 @NgModule({
   imports: [
+    ScrollingModule,
     MatButtonModule,
     MatIconModule,
     MatFormFieldModule,
@@ -19,11 +22,12 @@ import {MatRadioModule} from '@angular/material/radio';
     MatDialogModule,
     MatExpansionModule,
     MatDividerModule,
-    MatProgressSpinnerModule,
+    MatProgressBarModule,
     MatRadioModule,
     MatListModule
   ],
   exports: [
+    ScrollingModule,
     MatButtonModule,
     MatIconModule,
     MatFormFieldModule,
@@ -31,7 +35,7 @@ import {MatRadioModule} from '@angular/material/radio';
     MatDialogModule,
     MatExpansionModule,
     MatDividerModule,
-    MatProgressSpinnerModule,
+    MatProgressBarModule,
     MatRadioModule,
     MatListModule
   ]

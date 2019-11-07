@@ -590,6 +590,31 @@ module.exports = function () {
           "id": 5,
           "title": "Definition 5",
           "state": "UNRELEASED"
+        },
+        {
+          "id": 6,
+          "title": "Definition 6",
+          "state": "RELEASED"
+        },
+        {
+          "id": 7,
+          "title": "Definition 7",
+          "state": "RELEASED"
+        },
+        {
+          "id": 8,
+          "title": "Definition 8",
+          "state": "UNRELEASED"
+        },
+        {
+          "id": 9,
+          "title": "Definition 9",
+          "state": "RELEASED"
+        },
+        {
+          "id": 10,
+          "title": "Definition 10",
+          "state": "UNRELEASED"
         }
       ],
       "pagination": {
@@ -597,7 +622,7 @@ module.exports = function () {
         "number_of_elements": 5,
         "size": 20,
         "total_elements": 5,
-        "total_pages": 1
+        "total_pages": 10
       }
     },
     "training_instances": {

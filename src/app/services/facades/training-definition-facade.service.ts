@@ -28,6 +28,9 @@ import {LevelMapper} from '../mappers/level-mapper.service';
 import {TrainingDefinitionMapper} from '../mappers/training-definition-mapper.service';
 import {DownloadService} from '../shared/download.service';
 import {UploadService} from '../shared/upload.service';
+import {ParamsMerger} from '../../model/http/params/params-merger';
+import {FilterParams} from '../../model/http/params/filter-params';
+import {Filter} from '../../model/utils/filter';
 
 @Injectable()
 /**
@@ -54,40 +57,32 @@ export class TrainingDefinitionFacade {
 
   /**
    * Retrieves all training definitions
-   * @returns {Observable<TrainingDefinition[]>} Observable of training definitions list
+   * @returns {Observable<TrainingDefinition[]>} Observable of paginated training definitions list
    */
-  getAll(): Observable<TrainingDefinition[]> {
-    return this.http.get<TrainingDefinitionRestResource>(this.trainingDefsEndpointUri)
+  getAll(pagination: RequestedPagination, filters: Filter[] = []): Observable<PaginatedResource<TrainingDefinition[]>> {
+    const params = ParamsMerger.merge([PaginationParams.createTrainingsPaginationParams(pagination), FilterParams.create(filters)]);
+    return this.http.get<TrainingDefinitionRestResource>(this.trainingDefsEndpointUri,
+      { params: params })
       .pipe(map(response =>
         this.trainingDefinitionMapper.mapTrainingDefinitionDTOsToTrainingDefinitions(response)));
   }
 
-  getBetaTesters(trainingDefinitionId: number): Observable<User> {
-    return this.http.get<UserDTO>(`${this.trainingDefsEndpointUri + trainingDefinitionId}/beta-testers`)
-      .pipe(
-        map(response => User.fromDTO(response))
-      );
-  }
-
-  getAuthors(trainingDefinitionId: number): Observable<User> {
-    return this.http.get<UserDTO>(`${this.trainingDefsEndpointUri + trainingDefinitionId}/authors`)
-      .pipe(
-        map(response => User.fromDTO(response))
-      );
-  }
-
   /**
    * Retrieves all training definition on specified page of a pagination
+   * @deprecated
    */
   getAllPaginated(pagination: RequestedPagination): Observable<PaginatedResource<TrainingDefinitionTableRow[]>> {
+    // TODO: Replace with getAll() and mapping to TrainingDefinitionTableRow with TableCreator.
     return this.http.get<TrainingDefinitionRestResource>(this.trainingDefsEndpointUri,
       { params: PaginationParams.createTrainingsPaginationParams(pagination) })
       .pipe(map(response =>
         this.trainingDefinitionMapper.mapTrainingDefinitionDTOsToTrainingDefinitionsPaginated(response)));
   }
 
-  getAllForOrganizer(): Observable<TrainingDefinitionInfo[]> {
-    return this.http.get<TrainingDefinitionInfoRestResource>(this.trainingDefsEndpointUri + 'for-organizers')
+  getAllForOrganizer(pagination: RequestedPagination, filters: Filter[] = []): Observable<PaginatedResource<TrainingDefinitionInfo[]>> {
+    const params = ParamsMerger.merge([PaginationParams.createTrainingsPaginationParams(pagination), FilterParams.create(filters)]);
+    return this.http.get<TrainingDefinitionInfoRestResource>(this.trainingDefsEndpointUri + 'for-organizers',
+      { params: params })
       .pipe(map(response =>
         this.trainingDefinitionMapper.mapTrainingDefinitionsInfoDTOsToTrainingDefinitionsInfo(response)));
   }

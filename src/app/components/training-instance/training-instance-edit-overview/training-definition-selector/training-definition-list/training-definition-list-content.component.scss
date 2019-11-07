@@ -1,0 +1,14 @@
+@import "~variables.scss";
+
+cdk-virtual-scroll-viewport {
+  height: 300px;
+  width: 450px;
+}
+
+.error {
+  color: $warn;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: center;
+}
