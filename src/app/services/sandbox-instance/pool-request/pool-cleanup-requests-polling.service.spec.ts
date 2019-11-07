@@ -50,7 +50,7 @@ describe('PoolCleanupRequestsPollingService', () => {
 
     service.requests$.pipe(skip(1))
       .subscribe(emitted => {
-        expect(emitted).toBe(mockData);
+        expect(emitted).toEqual(mockData);
         done();
         },
         fail);

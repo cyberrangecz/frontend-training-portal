@@ -14,7 +14,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "stylePreprocessorOptions": {
             "includePaths": [
-              "src/variables.scss"
+              "src/variables"
             ]
           },
           "options": {
@@ -113,6 +113,11 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/variables"
+              ]
+            },
             "styles": [
               "src/theme.scss",
               "src/variables.scss",

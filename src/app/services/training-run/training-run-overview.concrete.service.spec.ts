@@ -8,16 +8,17 @@ import {skip} from 'rxjs/operators';
 describe('TrainingRunOverviewConcreteService', () => {
 
   let service: TrainingRunOverviewConcreteService;
-  let ErrorhandlerServiceSpy = jasmine.createSpyObj('ErrorHandlerService', ['display']);
-  let TrainingRunFacadeSpy = jasmine.createSpyObj('TrainingRunFacade', ['getAccessed']);
-
+  let errorHandlerServiceSpy: jasmine.SpyObj<ErrorHandlerService>;
+  let trainingRunFacadeSpy: jasmine.SpyObj<TrainingRunFacade>;
 
   beforeEach(async(() => {
+    errorHandlerServiceSpy = jasmine.createSpyObj('ErrorHandlerService', ['display']);
+    trainingRunFacadeSpy = jasmine.createSpyObj('TrainingRunFacade', ['getAccessed']);
     TestBed.configureTestingModule({
       providers: [
         TrainingRunOverviewConcreteService,
-        { provide: TrainingRunFacade, useValue: TrainingRunFacadeSpy},
-        { provide: ErrorHandlerService, useValue: ErrorhandlerServiceSpy},
+        { provide: TrainingRunFacade, useValue: trainingRunFacadeSpy},
+        { provide: ErrorHandlerService, useValue: errorHandlerServiceSpy},
       ],
     });
     service = TestBed.get(TrainingRunOverviewConcreteService);
@@ -28,18 +29,18 @@ describe('TrainingRunOverviewConcreteService', () => {
   });
 
   it('should call error handler on err', done => {
-    TrainingRunFacadeSpy.getAccessed.and.returnValue(throwError(null));
+    trainingRunFacadeSpy.getAccessed.and.returnValue(throwError(null));
 
     service.load().subscribe( _ => fail,
   _ => {
-      expect(ErrorhandlerServiceSpy.display).toHaveBeenCalledTimes(1);
+      expect(errorHandlerServiceSpy.display).toHaveBeenCalledTimes(1);
       done();
     });
-    expect(TrainingRunFacadeSpy.getAccessed).toHaveBeenCalledTimes(1);
+    expect(trainingRunFacadeSpy.getAccessed).toHaveBeenCalledTimes(1);
   });
 
   it('should emit hasError observable on err', done => {
-    TrainingRunFacadeSpy.getAccessed.and.returnValue(throwError(null));
+    trainingRunFacadeSpy.getAccessed.and.returnValue(throwError(null));
 
     service.hasError$
       .pipe(
