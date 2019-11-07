@@ -1,12 +1,13 @@
 <div class="content white-breadcrumbs-theme">
   <div class="home-breadcrumb">
-    <a mat-icon-button color="primary" [routerLink]="HOME_PATH"><mat-icon>home</mat-icon></a>
-    <button color="primary" *ngIf="breadcrumbs?.length > 0" disableRipple="true" mat-icon-button><mat-icon>play_arrow</mat-icon></button>
+    <a class="breadcrumb-text" mat-button color="primary" [routerLink]="HOME_PATH">Home</a>
+    <button color="primary" *ngIf="breadcrumbs?.length > 0" disableRipple="true" mat-button><b>/</b></button>
   </div>
-  <div *ngFor="let breadcrumb of breadcrumbs; index as i">
+  <div *ngFor="let breadcrumb of breadcrumbs; index as i; last as isLast">
     <div class="breadcrumb">
-      <a class="breadcrumb-text" mat-button color="primary" [routerLink]="breadcrumb?.url">{{ breadcrumb?.label }}</a>
-      <button color="primary" mat-icon-button *ngIf="i < breadcrumbs?.length - 1" disableRipple="true"><mat-icon>play_arrow</mat-icon></button>
+      <a class="breadcrumb-text" mat-button color="primary" [routerLink]="breadcrumb?.url" *ngIf="isLast"><b>{{ breadcrumb?.label }}</b></a>
+      <a class="breadcrumb-text" mat-button color="primary" [routerLink]="breadcrumb?.url" *ngIf="!isLast">{{ breadcrumb?.label }}</a>
+      <button color="primary" *ngIf="i < breadcrumbs?.length - 1" disableRipple="true" mat-button><b>/</b></button>
     </div>
   </div>
 </div>
