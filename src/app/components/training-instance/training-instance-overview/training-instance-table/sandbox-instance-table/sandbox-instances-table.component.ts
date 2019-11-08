@@ -21,6 +21,7 @@ import {SandboxAllocationService} from '../../../../../services/training-instanc
 import {BaseComponent} from '../../../../base.component';
 import {ActionConfirmationDialogComponent} from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import {AllocationErrorReasonComponent} from '../allocation-error-reason-dialog/allocation-error-reason.component';
+import {RequestedPagination} from 'kypo2-table';
 
 
 @Component({
@@ -71,7 +72,7 @@ export class SandboxInstancesTableComponent extends BaseComponent implements OnI
       } else {
         this.hasPoolId = true;
         this.canAllocate = this.trainingInstance.endTime.valueOf() > Date.now();
-        this.initTableDataSource();
+        this.displayData();
       }
     }
     if ('allocation$' in changes) {
@@ -167,10 +168,6 @@ export class SandboxInstancesTableComponent extends BaseComponent implements OnI
     this.allocationEvent.emit(sandboxAllocation$);
   }
 
-  private initTableDataSource() {
-    this.displayData();
-  }
-
   private displayData(allocationState: SandboxInstanceAllocationState = null) {
     if (allocationState) {
       this.createDataSourceFromAllocationState(allocationState);
@@ -198,7 +195,7 @@ export class SandboxInstancesTableComponent extends BaseComponent implements OnI
   }
 
   private fetchDataFromServer() {
-    this.sandboxInstanceFacade.getSandboxes(this.trainingInstance.poolId)
+    this.sandboxInstanceFacade.getSandboxes(this.trainingInstance.poolId,  new RequestedPagination(0, this.trainingInstance.poolSize, '', ''))
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
       response => {
