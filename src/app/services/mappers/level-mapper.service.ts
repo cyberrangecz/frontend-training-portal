@@ -172,7 +172,7 @@ export class LevelMapper {
     result.solution = gameLevelDTO.solution;
     result.incorrectFlagLimit = gameLevelDTO.incorrect_flag_limit;
     result.solutionPenalized = gameLevelDTO.solution_penalized;
-    result.icon = 'videogame_asset';
+    result.primaryIcon = 'videogame_asset';
     return result;
   }
 
@@ -185,7 +185,7 @@ export class LevelMapper {
     this.setAbstractLevelAttributesFromDTO(result, infoLevelDTO);
     result.type = AbstractLevelTypeEnum.Info;
     result.content = infoLevelDTO.content;
-    result.icon = 'info';
+    result.primaryIcon = 'info';
     return result;
   }
 
@@ -198,7 +198,7 @@ export class LevelMapper {
     this.setAbstractLevelAttributesFromDTO(result, assessmentLevelDTO);
     result.type = AbstractLevelTypeEnum.Assessment;
     result.instructions = assessmentLevelDTO.instructions;
-    result.icon = 'assignment';
+    result.primaryIcon = 'assignment';
     result.assessmentType = this.mapAssessmentTypeFromDTO(assessmentLevelDTO.assessment_type);
     if (assessmentLevelDTO.questions && assessmentLevelDTO.questions != '[]') {
       result.questions = this.mapQuestionsFromDTO(JSON.parse(assessmentLevelDTO.questions));

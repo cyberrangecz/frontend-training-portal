@@ -1,4 +1,4 @@
-import {AbstractStepItem, StepperInterface} from 'kypo2-stepper';
+import {Kypo2Stepper, StepItem} from 'kypo2-stepper';
 import {AbstractLevelTypeEnum} from '../../../model/enums/abstract-level-type.enum';
 import {AbstractLevel} from '../../../model/level/abstract-level';
 
@@ -6,14 +6,13 @@ import {AbstractLevel} from '../../../model/level/abstract-level';
  * Training run levels adapter to kypo stepper component
  */
 export class TrainingRunStepper {
-// TODO: refactor
 
   activeLevel: number;
   isLoading: boolean;
 
   abstractLevels: AbstractLevel[];
-  items: AbstractStepItem[] = [];
-  levels: StepperInterface<AbstractLevel> = {items: this.items as AbstractLevel[], isLocalChange: true, isLoading: this.isLoading};
+  items: StepItem[] = [];
+  levels: Kypo2Stepper<StepItem> = {items: this.items as AbstractLevel[]};
 
   constructor(levels: AbstractLevel[], isLoading: boolean, activeLevel: number) {
     this.abstractLevels = levels;
@@ -26,37 +25,37 @@ export class TrainingRunStepper {
   }
 
   /**
-   * Marks already completed levels as done if user had previous progress in training run
-   */
-  private markCompletedLevels() {
-    for (let i = 0; i < this.activeLevel; i++) {
-      this.abstractLevels[i].isActive = true;
-      this.abstractLevels[i].icon = 'done';
-    }
-  }
-
-  /**
    * Initialize icons for stepper items based on level type and inserts data to stepper
    */
   initStepperData() {
     for (let i = this.activeLevel; i < this.abstractLevels.length; i++) {
-      this.abstractLevels[i].isSaved = true;
+      this.abstractLevels[i].state.hasState = false;
       switch (this.abstractLevels[i].type) {
         case AbstractLevelTypeEnum.Assessment: {
-          this.abstractLevels[i].icon = 'assignment';
+          this.abstractLevels[i].primaryIcon = 'assignment';
           break;
         }
         case AbstractLevelTypeEnum.Game: {
-          this.abstractLevels[i].icon = 'videogame_asset';
+          this.abstractLevels[i].primaryIcon = 'videogame_asset';
           break;
         }
         case AbstractLevelTypeEnum.Info: {
-          this.abstractLevels[i].icon = 'info';
+          this.abstractLevels[i].primaryIcon = 'info';
           break;
         }
       }
     }
     this.items = this.abstractLevels;
     this.levels.items = this.items as AbstractLevel[];
+  }
+
+  /**
+   * Marks already completed levels as done if user had previous progress in training run
+   */
+  private markCompletedLevels() {
+    for (let i = 0; i < this.activeLevel; i++) {
+      this.abstractLevels[i].state.hasState = true;
+      this.abstractLevels[i].state.icon = 'done';
+    }
   }
 }
