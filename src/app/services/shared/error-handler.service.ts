@@ -13,7 +13,7 @@ export class ErrorHandlerService {
   }
 
   display(err: HttpErrorResponse, operation: string) {
-    if (err === null || err === undefined || err.status === 0) {
+    if (err === null || err === undefined || err.status === 0 || err.error === null || err.error === undefined) {
       this.alertService.emitAlert(
         AlertTypeEnum.Error,
         `${operation} Unknown error. Please check your internet connection or report the issue to developers`

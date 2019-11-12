@@ -7,10 +7,10 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import {StepperInterface} from 'kypo2-stepper';
 import {LevelMoveEvent} from '../../../../../model/events/level-move-event';
 import {AbstractLevel} from '../../../../../model/level/abstract-level';
 import {BaseComponent} from '../../../../base.component';
+import {Kypo2Stepper} from 'kypo2-stepper';
 
 @Component({
   selector: 'kypo2-levels-stepper',
@@ -28,7 +28,7 @@ export class TrainingLevelStepperComponent extends BaseComponent implements OnIn
   @Output() initialLevels: EventEmitter<AbstractLevel[]> = new EventEmitter();
 
   private previousActiveStep =  -1;
-  levelStepper: StepperInterface<AbstractLevel> = {items: [], isLocalChange: true, isLoading: false};
+  levelStepper: Kypo2Stepper<AbstractLevel> = {items: []};
 
   constructor(public dialog: MatDialog) {
     super();

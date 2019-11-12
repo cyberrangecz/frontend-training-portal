@@ -1,9 +1,9 @@
 /**
  * Class representing hint in a training level.
  */
-import {AbstractStepItem} from 'kypo2-stepper';
+import {StepItem, StepperItemState} from 'kypo2-stepper';
 
-export class Hint extends AbstractStepItem {
+export class Hint implements StepItem {
   id: number;
   title: string;
   content: string;
@@ -11,11 +11,16 @@ export class Hint extends AbstractStepItem {
   valid: boolean;
   penalty = 0;
 
+  isActive: boolean;
+  primaryIcon: string;
+  state: StepperItemState;
+
   constructor() {
-    super();
     this.valid = true;
-    this.isSaved = true; // TODO: REMOVE as hint should not be saved separatedly of level
-    this.icon = 'help_outline';
+    this.state = new StepperItemState();
+    this.state.icon = 'help_outline';
+    this.state.hasState = false; // TODO: REMOVE as hint should not be saved separatedly of level
+    this.primaryIcon = 'help_outline';
 
   }
 

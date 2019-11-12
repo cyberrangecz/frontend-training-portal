@@ -1,5 +1,5 @@
 import { Component, OnInit} from '@angular/core';
-import {AbstractStepItem} from 'kypo2-stepper';
+import {StepItem} from 'kypo2-stepper';
 import {takeWhile} from 'rxjs/operators';
 import {AbstractLevel} from '../../../model/level/abstract-level';
 import {ActiveTrainingRunService} from '../../../services/training-run/active-training-run.service';
@@ -25,7 +25,7 @@ export class TrainingRunDetailComponent extends BaseComponent implements OnInit 
   startTime: Date;
   isLoading = false;
 
-  items: AbstractStepItem[] = [];
+  items: StepItem[] = [];
   stepper: TrainingRunStepper;
 
   constructor(private activeTrainingRunService: ActiveTrainingRunService) {
@@ -50,7 +50,7 @@ export class TrainingRunDetailComponent extends BaseComponent implements OnInit 
   private updateStepperActiveLevel() {
     const prev = this.stepper.items[this.selectedStep - 1];
     if (prev) {
-      prev.icon = 'done';
+      prev.primaryIcon = 'done';
     }
     const current =  this.stepper.items[this.selectedStep];
     if (current) {

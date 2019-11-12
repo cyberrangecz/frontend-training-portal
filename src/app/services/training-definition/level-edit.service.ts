@@ -1,4 +1,3 @@
-import {moveItemInArray} from '@angular/cdk/drag-drop';
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, of} from 'rxjs';
 import {switchMap, tap} from 'rxjs/operators';
@@ -46,7 +45,7 @@ export class LevelEditService {
   }
 
   onActiveLevelChanged(level: AbstractLevel) {
-    level.isSaved = false;
+    level.isUnsaved = true;
     const newLevels = this.levelsSubject.getValue();
     newLevels[this.activeStepSubject.getValue()] = level;
     this.levelsSubject.next(newLevels);
@@ -58,7 +57,7 @@ export class LevelEditService {
       if (value !== undefined) {
         this.activeLevelCanBeSavedSubject.next(value);
       } else {
-        this.activeLevelCanBeSavedSubject.next(!level.isSaved && level.valid);
+        this.activeLevelCanBeSavedSubject.next(level.valid && level.isUnsaved);
       }
     }
   }
@@ -68,7 +67,7 @@ export class LevelEditService {
   }
 
   getUnsavedLevels(): AbstractLevel[] {
-    return this.levelsSubject.getValue().filter(level => !level.isSaved);
+    return this.levelsSubject.getValue().filter(level => level.isUnsaved);
   }
 
   navigateToLastLevel() {
@@ -204,7 +203,7 @@ export class LevelEditService {
   }
 
   private onLevelSaved(level: AbstractLevel) {
-    level.isSaved = true;
+    level.isUnsaved = false;
     level.valid = true;
     this.setLevelCanBeSaved(level);
   }

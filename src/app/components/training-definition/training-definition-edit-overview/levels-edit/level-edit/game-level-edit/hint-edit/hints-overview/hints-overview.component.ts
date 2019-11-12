@@ -10,7 +10,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
-import {StepperInterface} from 'kypo2-stepper';
+import {Kypo2Stepper} from 'kypo2-stepper';
 import {takeWhile} from 'rxjs/operators';
 import {Hint} from '../../../../../../../../model/level/hint';
 import {BaseComponent} from '../../../../../../../base.component';
@@ -28,6 +28,7 @@ import {ActionConfirmationDialogComponent} from '../../../../../../../shared/act
     }
   ]
 })
+
 /**
  * Hint stepper component, to navigate through existing hints and creating new hints
  */
@@ -42,7 +43,7 @@ export class HintsOverviewComponent extends BaseComponent implements OnInit, OnC
   selectedStep: number;
   isLoading = false;
 
-  stepperHints: StepperInterface<Hint> = {items: this.hints, isLocalChange: true, isLoading: this.isLoading};
+  stepperHints: Kypo2Stepper<Hint> = {items: this.hints};
 
   constructor(public dialog: MatDialog) {
     super();
@@ -74,13 +75,13 @@ export class HintsOverviewComponent extends BaseComponent implements OnInit, OnC
     hint.content = 'Write hint content here...';
     hint.order = this.stepperHints.items.length;
     this.stepperHints.items.push(hint);
+    // this.hints.push(hint);
     this.selectedStep = this.stepperHints.items.length - 1;
     this.hintsChanged();
   }
 
   /**
    * Deletes given hint from list of hints
-   * @param {Hint} hint hint which should be deleted
    */
   deleteHint() {
     const hint = this.stepperHints.items[this.selectedStep];
@@ -99,6 +100,7 @@ export class HintsOverviewComponent extends BaseComponent implements OnInit, OnC
       .subscribe(result => {
         if (result && result.type === 'confirm') {
             this.stepperHints.items.splice(index, 1);
+            // this.hints.splice(index, 1);
           this.changeSelectedStepAfterRemoving(index);
           this.orderUpdate();
         }
