@@ -1,4 +1,3 @@
-/*
 import {TrainingRunOverviewComponent} from './training-run-overview.component';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -24,12 +23,9 @@ import {TraineeAccessTrainingRunActionEnum} from '../../../model/enums/trainee-a
 import {Component, OnInit} from '@angular/core';
 
 let component: TrainingRunOverviewComponent;
-let fixture:   ComponentFixture<TrainingRunOverviewComponent>;
-let errorHandlerSpy: jasmine.SpyObj<ErrorHandlerService>;
-let alertServiceSpy: jasmine.SpyObj<AlertService>;
-let activeTrainingRunServiceSpy: jasmine.SpyObj<ActiveTrainingRunService>;
-let trainingRunResolverSpy: jasmine.SpyObj<TrainingRunResolver>;
+let fixture: ComponentFixture<TrainingRunOverviewComponent>;
 let trainingRunFacadeSpy: jasmine.SpyObj<TrainingRunFacade>;
+let trainingRunOverviewServiceSpy: jasmine.SpyObj<TrainingRunOverviewService>;
 let trainingRunOverviewConcreteServiceSpy: jasmine.SpyObj<TrainingRunOverviewConcreteService>;
 
 const routes = [
@@ -45,11 +41,13 @@ const routes = [
 
 describe('TrainingRunOverviewComponent', () => {
   beforeEach(() => {
-    errorHandlerSpy = jasmine.createSpyObj('ErrorHandlerService', ['display']);
-    alertServiceSpy = jasmine.createSpyObj('AlertService', ['emitAlert']);
-    activeTrainingRunServiceSpy = jasmine.createSpyObj('ActiveTrainingRunService', ['clear', 'setUpFromTrainingRun', 'access']);
-    trainingRunResolverSpy = jasmine.createSpyObj('TrainingRunResolver', ['resolve']);
+
+    const errorHandlerSpy = jasmine.createSpyObj('ErrorHandlerService', ['display']);
+    const alertServiceSpy = jasmine.createSpyObj('AlertService', ['emitAlert']);
+    const activeTrainingRunServiceSpy = jasmine.createSpyObj('ActiveTrainingRunService', ['clear', 'setUpFromTrainingRun', 'access']);
+    const trainingRunResolverSpy = jasmine.createSpyObj('TrainingRunResolver', ['resolve']);
     trainingRunFacadeSpy = jasmine.createSpyObj('TrainingRunFacade', ['getAccessed', 'resume', 'access']);
+    trainingRunOverviewServiceSpy = jasmine.createSpyObj('TrainingRunOverviewService', ['resume', 'load']);
     trainingRunOverviewConcreteServiceSpy = jasmine.createSpyObj('TrainingRunOverviewConcreteService', ['resume', 'load']);
 
     TestBed.configureTestingModule({
@@ -65,7 +63,8 @@ describe('TrainingRunOverviewComponent', () => {
       ],
       providers: [
         {provide: HAMMER_LOADER, useValue: () => new Promise(() => {})},
-        {provide: TrainingRunOverviewService, useClass: trainingRunOverviewConcreteServiceSpy},
+        {provide: TrainingRunOverviewService, useValue: trainingRunOverviewServiceSpy},
+        {provide: TrainingRunOverviewConcreteService, useValue: trainingRunOverviewConcreteServiceSpy},
         {provide: TrainingRunResolver, useValue: trainingRunResolverSpy},
         {provide: ErrorHandlerService, useValue: errorHandlerSpy},
         {provide: TrainingRunFacade, useValue: trainingRunFacadeSpy},
@@ -82,17 +81,7 @@ describe('TrainingRunOverviewComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('should have done initial call', () => {
-    const trainingRunOverviewSpy = spyOn(component, 'loadAccessedTrainingRuns').and.callThrough();
-
-    expect(trainingRunOverviewSpy).toHaveBeenCalledTimes(0);
-
-    fixture.autoDetectChanges(true);
-
-    expect(trainingRunOverviewSpy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call resume table resume event', () => {
+  it('should call resume on table resume event', () => {
     fixture.ngZone.run(() => {
       const tableEvent = new TableActionEvent<AccessedTrainingRun>(
         mockAccessedTrainingRun(false),
@@ -100,15 +89,14 @@ describe('TrainingRunOverviewComponent', () => {
       );
       const resumeSpy = spyOn(component, 'onResume').and.callThrough();
 
-      trainingRunFacadeSpy.resume.and.returnValue(asyncData(new AccessTrainingRunInfo()));
+      trainingRunOverviewServiceSpy.resume.and.returnValue(asyncData(new AccessTrainingRunInfo()));
       component.onTableAction(tableEvent);
       expect(resumeSpy).toHaveBeenCalled();
     });
   });
 
-  it('should call resume table result event', () => {
+  it('should call result on table result event', () => {
     fixture.ngZone.run(() => {
-
       const tableEvent = new TableActionEvent<AccessedTrainingRun>(
         mockAccessedTrainingRun(true),
         mockRow('access results')
@@ -143,4 +131,3 @@ class MockAccessTrainingRunComponent implements OnInit {
   ngOnInit() {
   }
 }
-*/
