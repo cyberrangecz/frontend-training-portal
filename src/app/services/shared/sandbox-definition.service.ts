@@ -19,7 +19,7 @@ export abstract class SandboxDefinitionService {
    * Deletes sandbox definition by given id
    * @param id unique identifier of sandbox
    */
-  abstract delete(id: number): Observable<any>;
+  abstract delete(id: number): Observable<PaginatedResource<SandboxDefinitionTableRow[]>>;
 
   /**
    * Adds new sandbox definition to existing ones
