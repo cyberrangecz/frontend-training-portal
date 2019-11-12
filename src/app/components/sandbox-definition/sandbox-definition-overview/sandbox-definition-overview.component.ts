@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import {AlertService} from '../../../services/shared/alert.service';
 import {Observable} from 'rxjs';
 import {takeWhile} from 'rxjs/operators';
-import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
 import {SandboxDefinitionTableRow} from '../../../model/table-adapters/sandbox-definition-table-row';
 import {ActionConfirmationDialogComponent} from '../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import {BaseComponent} from '../../base.component';
@@ -32,7 +31,6 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
   private lastLoadEvent: LoadTableEvent;
 
   constructor(private dialog: MatDialog,
-              private alertService: AlertService,
               private errorHandler: ErrorHandlerService,
               private sandboxDefinitionService: SandboxDefinitionService
               ) {
@@ -117,10 +115,7 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
   private sendRequestToDeleteSandboxDefinition(sandboxId: number) {
     this.sandboxDefinitionService.delete(sandboxId)
       .pipe(takeWhile(() => this.isAlive))
-      .subscribe(resp => {
-        this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox was successfully deleted.');
-        this.fetchData(resp);
-    });
+      .subscribe();
   }
 
   /**
@@ -129,9 +124,6 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
   private addSandboxDefinition(result: SandboxDefinitionInfo) {
     this.sandboxDefinitionService.add(result)
       .pipe(takeWhile(() => this.isAlive))
-      .subscribe(res => {
-        this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox definition was successfully uploaded');
-        this.fetchData(result);
-    });
+      .subscribe();
   }
 }
