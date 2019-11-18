@@ -78,6 +78,11 @@ const routes: Routes = [
     path: '',
     redirectTo: HOME_PATH,
     pathMatch: 'full',
+  },
+  {
+    path: 'logout-confirmed',
+    redirectTo: HOME_PATH,
+    pathMatch: 'full',
   }
 ];
 
