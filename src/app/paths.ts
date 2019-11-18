@@ -6,6 +6,7 @@ export const SANDBOX_DEFINITION_PATH = 'sandbox-definition';
 export const SANDBOX_POOL_PATH = 'pool';
 export const ADMIN_USER_PATH = 'user';
 export const ADMIN_GROUP_PATH = 'group';
+export const ADMIN_MICROSERVICE_PATH = 'microservice';
 export const LOGIN_PATH = 'login';
 export const BREADCRUMB_PARAM_SELECTOR = 'breadcrumb';
 

@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 import {Kypo2AuthService} from 'kypo2-auth';
 import {takeWhile} from 'rxjs/operators';
 import {
-  ADMIN_GROUP_PATH,
+  ADMIN_GROUP_PATH, ADMIN_MICROSERVICE_PATH,
   ADMIN_USER_PATH,
   SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH,
   TRAINING_DEFINITION_PATH,
@@ -100,6 +100,11 @@ export class HomeComponent extends BaseComponent implements OnInit {
         name: 'Group',
         disabled: !this.authService.isUserAndGroupAdmin(),
         route: ADMIN_GROUP_PATH
+      },
+      {
+        name: 'Microservice',
+        disabled: !this.authService.isUserAndGroupAdmin(),
+        route: ADMIN_MICROSERVICE_PATH
       },
     ];
   }

@@ -39,7 +39,7 @@
     "kypo2-topology-graph-model": "1.0.0",
     "kypo2-trainings-hurdling-viz-lib": "1.1.0",
     "kypo2-trainings-visualization-overview-lib": "1.0.2",
-    "kypo2-user-and-group-management": "1.3.2",
+    "kypo2-user-and-group-management": "2.0.0",
     "kypo2-user-assign": "1.0.0",
     "marked": "^0.7.0",
     "moment": "^2.24.0",

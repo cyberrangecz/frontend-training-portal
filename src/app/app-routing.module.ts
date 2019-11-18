@@ -6,7 +6,7 @@ import {
 } from 'kypo2-auth';
 import {HomeComponent} from './components/home/home.component';
 import {
-  ADMIN_GROUP_PATH,
+  ADMIN_GROUP_PATH, ADMIN_MICROSERVICE_PATH,
   ADMIN_USER_PATH,
   HOME_PATH,
   LOGIN_PATH, SANDBOX_DEFINITION_PATH,
@@ -36,38 +36,44 @@ const routes: Routes = [
     path: SANDBOX_DEFINITION_PATH,
     loadChildren: () => import('app/components/sandbox-definition/sandbox-definition-overview/sandbox-definition-overview.module').then(m => m.SandboxDefinitionOverviewModule),
     canActivate: [DesignerGuard],
-    data: { breadcrumb: 'Sandbox Definitions'}
+    data: { breadcrumb: 'Sandbox Definitions' }
   },
   {
     path: TRAINING_INSTANCE_PATH,
     loadChildren: () => import('app/components/training-instance/training-instance-overview/training-instance-overview.module').then(m => m.TrainingInstanceOverviewModule),
     canActivate: [OrganizerGuard],
-    data: { breadcrumb: 'Training Instances'}
+    data: { breadcrumb: 'Training Instances' }
 
   },
   {
     path: SANDBOX_POOL_PATH,
     loadChildren: () => import('app/components/sandbox-instance/sandbox-pool-overview/sandbox-pool-overview.module').then(m => m.SandboxPoolOverviewModuleModule),
     canActivate: [OrganizerGuard],
-    data: { breadcrumb: 'Sandbox Pools'}
+    data: { breadcrumb: 'Sandbox Pools' }
   },
   {
     path: TRAINING_RUN_PATH,
     loadChildren: () => import('app/components/training-run/training-run-overview/training-run-overview.module').then(m => m.TrainingRunOverviewModule),
     canActivate: [TraineeGuard],
-    data: { breadcrumb: 'Training Runs'}
+    data: { breadcrumb: 'Training Runs' }
   },
   {
     path: ADMIN_USER_PATH,
-    loadChildren: () => import('app/components/admin-user/admin-user.module').then(m => m.AdminUserModule),
+    loadChildren: () => import('app/components/administration/admin-user/admin-user.module').then(m => m.AdminUserModule),
     canActivate: [AdminGuard],
-    data: { breadcrumb: 'Users'}
+    data: { breadcrumb: 'Users' }
   },
   {
     path: ADMIN_GROUP_PATH,
-    loadChildren: () => import('app/components/admin-group/admin-group.module').then(m => m.AdminGroupModule),
+    loadChildren: () => import('app/components/administration/admin-group/admin-group.module').then(m => m.AdminGroupModule),
     canActivate: [AdminGuard],
-    data: { breadcrumb: 'Groups'}
+    data: { breadcrumb: 'Groups' }
+  },
+  {
+    path: ADMIN_MICROSERVICE_PATH,
+    loadChildren: () => import('app/components/administration/admin-microservice/admin-microservice.module').then(m => m.AdminMicroserviceModule),
+    canActivate: [AdminGuard],
+    data: { breadcrumb: 'Microservice'}
   },
   {
     path: LOGIN_PATH,
