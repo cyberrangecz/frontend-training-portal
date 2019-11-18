@@ -1,6 +1,6 @@
 import {User, UserRole} from 'kypo2-auth';
 import {
-  ADMIN_GROUP_PATH,
+  ADMIN_GROUP_PATH, ADMIN_MICROSERVICE_PATH,
   ADMIN_USER_PATH, HOME_PATH,
   SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH,
   TRAINING_DEFINITION_PATH,
@@ -9,7 +9,7 @@ import {
 } from '../../paths';
 import {MenuNode} from './menu-node';
 import {
-  ADMIN_NODES_GROUP_ORDER,
+  ADMIN_NODES_GROUP_ORDER, ADMIN_NODES_MICROSERVICE_ORDER,
   ADMIN_NODES_USER_ORDER,
   DESIGNER_NODES_SD_ORDER,
   DESIGNER_NODES_TD_ORDER,
@@ -62,38 +62,41 @@ export class TreeMenu {
   }
 
   private static AddAdminNodes(tree: MenuNode[]) {
-    const found = tree.find(node => node.label === ADMIN_LABEL);
-    const user = new MenuNode(found, 'User');
+    const parent = tree.find(node => node.label === ADMIN_LABEL);
+    const user = new MenuNode(parent, 'User');
     user.path = ADMIN_USER_PATH;
     user.order = ADMIN_NODES_USER_ORDER;
-    const group = new MenuNode(found, 'Group');
+    const group = new MenuNode(parent, 'Group');
     group.path = ADMIN_GROUP_PATH;
     group.order = ADMIN_NODES_GROUP_ORDER;
-    found.children.push(user, group);
+    const microservice = new MenuNode(parent, 'Microservice');
+    microservice.path = ADMIN_MICROSERVICE_PATH;
+    microservice.order = ADMIN_NODES_MICROSERVICE_ORDER;
+    parent.children.push(user, group, microservice);
   }
 
   private static AddDesignerNodes(tree: MenuNode[]) {
-    let found = tree.find(node => node.label === TRAININGS_LABEL);
-    const trainingDef = new MenuNode(found, 'Definition');
+    let parent = tree.find(node => node.label === TRAININGS_LABEL);
+    const trainingDef = new MenuNode(parent, 'Definition');
     trainingDef.path = TRAINING_DEFINITION_PATH;
     trainingDef.order = DESIGNER_NODES_TD_ORDER;
-    found.children.push(trainingDef);
+    parent.children.push(trainingDef);
 
-    found = tree.find(node => node.label === SANDBOXES_LABEL);
-    const sandboxDef = new MenuNode(found, 'Definition');
+    parent = tree.find(node => node.label === SANDBOXES_LABEL);
+    const sandboxDef = new MenuNode(parent, 'Definition');
     sandboxDef.path = SANDBOX_DEFINITION_PATH;
     sandboxDef.order = DESIGNER_NODES_SD_ORDER;
-    found.children.push(sandboxDef);
+    parent.children.push(sandboxDef);
   }
 
   private static AddOrganizerNodes(tree: MenuNode[]) {
-    const found = tree.find(node => node.label === TRAININGS_LABEL);
-    const trainingInstance = new MenuNode(found, 'Instance');
+    const parent = tree.find(node => node.label === TRAININGS_LABEL);
+    const trainingInstance = new MenuNode(parent, 'Instance');
     trainingInstance.path = TRAINING_INSTANCE_PATH;
     trainingInstance.order = ORGANIZER_NODES_TI_ORDER;
-    found.children.push(trainingInstance);
+    parent.children.push(trainingInstance);
 // TODO: Add when sandbox instance components are ready
-/*    found = tree.find(node => node.label === SANDBOXES_LABEL);
+/*    parent = tree.find(node => node.label === SANDBOXES_LABEL);
     const sandboxInstance = new MenuNode(found, 'Sandbox Instance');
     sandboxInstance.path = SANDBOX_POOL_PATH;
     sandboxInstance.order = 20;

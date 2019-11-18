@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Kypo2AuthService, User} from 'kypo2-auth';
 import {Observable} from 'rxjs';
 import {debounceTime, takeWhile} from 'rxjs/operators';
@@ -7,6 +7,14 @@ import {AlertTypeEnum} from './model/enums/alert-type.enum';
 import {AlertService} from './services/shared/alert.service';
 import {DistractionFreeModeService} from './services/shared/distraction-free-mode.service';
 import {LoadingService} from './services/shared/loading.service';
+import {
+  Kypo2UserAndGroupErrorService,
+  Kypo2UserAndGroupNotificationService,
+  Kypo2UserAndGroupRoutingEventService
+} from 'kypo2-user-and-group-management';
+import {Router} from '@angular/router';
+import {RouteFactory} from './model/routes/route-factory';
+import {ErrorHandlerService} from './services/shared/error-handler.service';
 
 /**
  * Main component serving as wrapper for layout and router outlet
@@ -21,23 +29,28 @@ export class AppComponent extends BaseComponent implements OnInit {
   distractionFreeMode$: Observable<boolean>;
   activeUser$: Observable<User>;
 
-  constructor(private authService: Kypo2AuthService,
+  constructor(private router: Router,
               private alertService: AlertService,
               private loadingService: LoadingService,
-              private distractionFreeMode: DistractionFreeModeService) {
+              private errorHandler: ErrorHandlerService,
+              private distractionFreeMode: DistractionFreeModeService,
+              private authService: Kypo2AuthService,
+) {
     super();
     this.activeUser$ = this.authService.activeUser$;
     this.distractionFreeMode$ = this.distractionFreeMode.isActive$;
     this.isLoading$ = this.loadingService.isLoading$.pipe(debounceTime(0));
-    this.subscribeAuthErrors();
+    this.subscribeKypo2AuthErrors();
   }
 
   ngOnInit() {
   }
 
-  private subscribeAuthErrors() {
+  private subscribeKypo2AuthErrors() {
     this.authService.authError$
-      .pipe(takeWhile(() => this.isAlive))
+      .pipe(
+        takeWhile(() => this.isAlive)
+      )
       .subscribe(error => this.alertService.emitAlert(AlertTypeEnum.Error, error.toString()));
   }
 }

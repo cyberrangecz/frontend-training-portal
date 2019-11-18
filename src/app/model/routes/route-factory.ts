@@ -12,6 +12,7 @@ import {POOL_REQUEST_PATH, SANDBOX_INSTANCE_PATH} from '../../components/sandbox
 import {SANDBOX_INSTANCE_RESOURCE_PATH} from '../../components/sandbox-instance/sandbox-instance-resource-detail/paths';
 import {SANDBOX_POOL_PATH, TRAINING_DEFINITION_PATH, TRAINING_INSTANCE_PATH, TRAINING_RUN_PATH} from '../../paths';
 import {TRAINING_RUN_GAME_PATH, TRAINING_RUN_RESULTS_PATH} from '../../components/training-run/training-run-overview/paths';
+import {Kypo2UserAndGroupRouteEvent} from 'kypo2-user-and-group-management';
 
 export class RouteFactory {
 
@@ -77,5 +78,29 @@ export class RouteFactory {
 
   static toPoolRequest(poolId: number | string, requestId: number | string): string {
     return `${SANDBOX_POOL_PATH}/${poolId}/${POOL_REQUEST_PATH}/${requestId}`;
+  }
+
+  static parseUserAndGroupRouteEvent(routeEvent: Kypo2UserAndGroupRouteEvent): string {
+    let route = `${routeEvent.resourceType.toLowerCase()}/`;
+    if (routeEvent.resourceId !== undefined && routeEvent.resourceId !== null) {
+      route += `${routeEvent.resourceId}/`;
+    }
+    if (routeEvent.actionType) {
+      route += RouteFactory.parseUserAndGroupActionType(routeEvent.actionType);
+    }
+    return route;
+  }
+
+  private static parseUserAndGroupActionType(actionType: 'EDIT' | 'NEW' | 'DETAIL') {
+    if (actionType === 'EDIT') {
+      return 'edit/';
+    }
+    if (actionType === 'NEW') {
+      return 'add/';
+    }
+    if (actionType === 'DETAIL') {
+      console.error('USER AND GROUP ActionType of "DETAIL" not supported!');
+      return '';
+    }
   }
 }
