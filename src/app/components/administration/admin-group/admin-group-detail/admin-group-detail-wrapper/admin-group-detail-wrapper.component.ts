@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {AdminBaseComponent} from '../../../admin-base-component';
 import {
   Kypo2UserAndGroupErrorService,
@@ -12,7 +12,8 @@ import {ErrorHandlerService} from '../../../../../services/shared/error-handler.
 @Component({
   selector: 'kypo2-admin-group-detail-wrapper',
   templateUrl: './admin-group-detail-wrapper.component.html',
-  styleUrls: ['./admin-group-detail-wrapper.component.scss']
+  styleUrls: ['./admin-group-detail-wrapper.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminGroupDetailWrapperComponent extends AdminBaseComponent {
 

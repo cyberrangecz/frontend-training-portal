@@ -1,14 +1,11 @@
-import {Column, Kypo2Table, Row} from 'kypo2-table';
+import {Column, Kypo2Table, Row, RowAction} from 'kypo2-table';
 import {RouteFactory} from '../routes/route-factory';
 import {SandboxInstanceResource} from '../sandbox/pool/sandbox-instance/sandbox-instance-resource/sandbox-instance-resource';
+import {of} from 'rxjs';
 
 export class SandboxInstanceResourceTableCreator {
-  static create(resources: SandboxInstanceResource[], poolId: number, sandboxId: number): Kypo2Table<SandboxInstanceResource> {
-    const rows = resources.map(resource => {
-      const row = new Row(resource, []);
-      row.addLink('name', RouteFactory.toSandboxInstanceResource(poolId, sandboxId, resource.name));
-      return row;
-    });
+  static create(resources: SandboxInstanceResource[]): Kypo2Table<SandboxInstanceResource> {
+    const rows = resources.map(resource =>  new Row(resource, []));
     return  new Kypo2Table<SandboxInstanceResource>(
       rows,
       [

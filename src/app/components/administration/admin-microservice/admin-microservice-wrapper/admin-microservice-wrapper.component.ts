@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {
   Kypo2UserAndGroupErrorService,
   Kypo2UserAndGroupNotificationService,
@@ -12,7 +12,8 @@ import {AdminBaseComponent} from '../../admin-base-component';
 @Component({
   selector: 'kypo2-admin-microservice-wrapper',
   templateUrl: './admin-microservice-wrapper.component.html',
-  styleUrls: ['./admin-microservice-wrapper.component.scss']
+  styleUrls: ['./admin-microservice-wrapper.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminMicroserviceWrapperComponent extends AdminBaseComponent {
 

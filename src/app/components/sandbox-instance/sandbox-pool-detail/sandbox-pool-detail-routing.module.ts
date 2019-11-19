@@ -7,7 +7,7 @@ import {
   POOL_REQUEST_ID_SELECTOR,
   POOL_REQUEST_PATH,
   SANDBOX_INSTANCE_ID_SELECTOR,
-  SANDBOX_INSTANCE_PATH
+  SANDBOX_INSTANCE_PATH, SANDBOX_INSTANCE_TOPOLOGY_PATH
 } from './paths';
 import {SandboxPoolDetailComponent} from './sandbox-pool-detail.component';
 
@@ -25,6 +25,13 @@ const routes: Routes = [
   {
     path: `${SANDBOX_INSTANCE_PATH}/:${SANDBOX_INSTANCE_ID_SELECTOR}`,
     loadChildren: () => import('app/components/sandbox-instance/sandbox-instance-detail/sandbox-instance-detail.module').then(m => m.SandboxInstanceDetailModule),
+    resolve: {
+      breadcrumb: SandboxInstanceBreadcrumbResolver
+    }
+  },
+  {
+    path: `${SANDBOX_INSTANCE_PATH}/:${SANDBOX_INSTANCE_ID_SELECTOR}/${SANDBOX_INSTANCE_TOPOLOGY_PATH}`,
+    loadChildren: () => import('app/components/sandbox-instance/sandbox-instance-topology/sandbox-instance-topology.module').then(m => m.SandboxInstanceTopologyModule),
     resolve: {
       breadcrumb: SandboxInstanceBreadcrumbResolver
     }
