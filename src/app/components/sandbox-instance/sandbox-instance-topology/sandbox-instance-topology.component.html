@@ -1,0 +1,13 @@
+<h1>Sandbox Instance {{ sandboxInstance?.id }} Topology</h1>
+<mat-card>
+  <mat-card-content>
+    <kypo2-topology-graph
+      [style.width.px]="topologyWidth"
+      [style.height.px]="topologyHeight"
+      [width]="topologyWidth"
+      [height]="topologyHeight"
+      [sandboxId]="sandboxInstance?.id">
+    </kypo2-topology-graph>
+  </mat-card-content>
+</mat-card>
+

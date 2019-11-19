@@ -1,10 +1,10 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Kypo2Table, LoadTableEvent, RequestedPagination, TableActionEvent} from 'kypo2-table';
 import {SandboxInstanceService} from '../../../services/sandbox-instance/sandbox-instance.service';
 import {SandboxInstance} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance';
 import {Observable} from 'rxjs';
-import {map, takeWhile, tap} from 'rxjs/operators';
+import {map, takeWhile} from 'rxjs/operators';
 import {PoolRequest} from '../../../model/sandbox/pool/request/pool-request';
 import {SandboxPool} from '../../../model/sandbox/pool/sandbox-pool';
 import {BaseComponent} from '../../base.component';
@@ -13,6 +13,7 @@ import {environment} from '../../../../environments/environment';
 import {PoolRequestTableCreator} from '../../../model/table-adapters/pool-request-table-creator';
 import {PoolCreationRequestsPollingService} from '../../../services/sandbox-instance/pool-request/pool-creation-requests-polling.service';
 import {PoolCleanupRequestsPollingService} from '../../../services/sandbox-instance/pool-request/pool-cleanup-requests-polling.service';
+import {RouteFactory} from '../../../model/routes/route-factory';
 
 @Component({
   selector: 'kypo2-sandbox-instance-overview',
@@ -39,6 +40,7 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
   constructor(private instanceService: SandboxInstanceService,
               private creationRequestService: PoolCreationRequestsPollingService,
               private cleanupRequestService: PoolCleanupRequestsPollingService,
+              private router: Router,
               private activeRoute: ActivatedRoute) {
     super();
   }
@@ -76,6 +78,9 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
       this.instanceService.delete(event.element)
         .pipe(takeWhile(_ => this.isAlive))
         .subscribe();
+    }
+    if (event.action.label === SandboxInstanceTableCreator.TOPOLOGY_ACTION) {
+      this.router.navigate([RouteFactory.toSandboxInstanceTopology(this.pool.id, event.element.id)]);
     }
   }
 

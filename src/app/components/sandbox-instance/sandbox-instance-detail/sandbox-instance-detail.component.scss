@@ -1,22 +1,7 @@
 @import '~variables.scss';
 
-.content {
-  padding-top: 20px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
 h1 {
   text-align: center;
-}
-
-mat-card {
-  padding: 10px;
-}
-
-mat-card-title {
-  margin-bottom: 10px;
 }
 
 kypo2-table {
