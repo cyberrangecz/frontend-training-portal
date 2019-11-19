@@ -4,7 +4,16 @@
       <span *ngIf="(editMode$ | async) else newTrainingTitle">Edit Training Definition</span>
       <ng-template #newTrainingTitle>Create Training Definition</ng-template>
     </mat-panel-title>
-    <mat-panel-description>{{ tdTitle$ | async }}</mat-panel-description>
+    <mat-panel-description>
+      <span>{{ tdTitle$ | async }}</span>
+      <span class="spacer"></span>
+      <div class="panel-description-error" *ngIf="!canDeactivateTDEdit">
+        <mat-icon color="warn">warning</mat-icon>
+        <mat-error>Changes are not saved</mat-error>
+      </div>
+      <mat-icon>edit</mat-icon>
+    </mat-panel-description>
+
   </mat-expansion-panel-header>
   <kypo2-training-definition-edit-controls
     [disabled]="saveDisabled$ | async"
@@ -22,13 +31,16 @@
   <mat-expansion-panel-header>
     <mat-panel-title>Edit Authors</mat-panel-title>
     <mat-panel-description>
+      <span class="spacer"></span>
       <div class="panel-description-error" *ngIf="!canDeactivateAuthors">
         <mat-icon color="warn">warning</mat-icon>
         <mat-error>Authors are not saved</mat-error>
       </div>
+      <mat-icon>person</mat-icon>
     </mat-panel-description>
   </mat-expansion-panel-header>
   <kypo2-user-assign *ngIf="editMode$ | async"
+                     resourceIcon="list_alt"
                      [resource]="trainingDefinition$ | async"
                      [defaultPaginationSize]="defaultPaginationSize"
                      (hasUnsavedChanges)="onAuthorsChanged($event)"
@@ -45,10 +57,12 @@
       <ng-template #levelCountFromTD>
         <span>Training definition contains {{ (trainingDefinition$ | async).levels.length}} level(s)</span>
       </ng-template>
+      <span class="spacer"></span>
       <div class="panel-description-error" *ngIf="unsavedLevels.length > 0">
         <mat-icon color="warn">warning</mat-icon>
         <mat-error>Some levels are not saved</mat-error>
       </div>
+      <mat-icon>games</mat-icon>
     </mat-panel-description>
   </mat-expansion-panel-header>
   <kypo2-level-overview *ngIf="editMode$ | async"

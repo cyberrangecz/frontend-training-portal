@@ -1,4 +1,4 @@
-@import "~variables.scss";
+@import "./src/variables.scss";
 
 .mat-expansion-panel-header-title,
 .mat-expansion-panel-header-description {
@@ -7,7 +7,7 @@
 
 .mat-expansion-panel-header-description {
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
 }
 
 .panel-description-error mat-icon {
@@ -18,6 +18,11 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-right: 10px;
+}
+
+.spacer {
+  flex: 1 1 0;
 }
 
 mat-divider {
