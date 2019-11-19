@@ -29,9 +29,8 @@ export class TrainingInstanceEditOverviewComponent extends BaseComponent impleme
   tiTitle$: Observable<string>;
   saveDisabled$: Observable<boolean>;
   canDeactivateOrganizers = true;
+  canDeactivateTIEdit = true;
   defaultPaginationSize = environment.defaultPaginationSize;
-
-  private canDeactivateTIEdit = true;
 
   constructor(private router: Router,
               private activeRoute: ActivatedRoute,

@@ -34,9 +34,8 @@ export class TrainingDefinitionEditOverviewComponent extends BaseComponent imple
   saveDisabled$: Observable<boolean>;
   unsavedLevels: AbstractLevel[] = [];
   canDeactivateAuthors = true;
+  canDeactivateTDEdit = true;
   defaultPaginationSize = environment.defaultPaginationSize;
-
-  private canDeactivateTDEdit = true;
 
   constructor(private router: Router,
               private activeRoute: ActivatedRoute,
