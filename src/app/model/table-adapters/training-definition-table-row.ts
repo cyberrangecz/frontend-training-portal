@@ -1,32 +1,35 @@
-import {TrainingDefinitionStateEnum} from '../enums/training-definition-state.enum';
-import {TrainingDefinition} from '../training/training-definition';
-import {StringNormalizer} from '../utils/ignore-diacritics-filter';
-import {TableRowAdapter} from './table-row-adapter';
+import { TrainingDefinitionStateEnum } from '../enums/training-definition-state.enum';
+import { TrainingDefinition } from '../training/training-definition';
+import { TableRowAdapter } from './table-row-adapter';
+import { formatDate } from '@angular/common';
+import { AbstractLevel } from '../level/abstract-level';
 
 export class TrainingDefinitionTableRow implements TableRowAdapter {
-  trainingDefinition: TrainingDefinition;
-  possibleStates: string[];
-  selectedState: TrainingDefinitionStateEnum;
-  isLoadingStateChange: boolean;
-  normalizedTitle: string;
-  normalizedState: string;
 
+  id: number;
+  title: string;
+  state: TrainingDefinitionStateEnum;
+  estimatedDuration: number;
+  lastEditTime: string;
+  description: string;
+  levels: AbstractLevel[];
+  outcomes: string[];
+  prerequisites: string[];
+  sandboxDefinitionId: number;
+  showStepperBar: boolean;
 
-  constructor(trainingDefinition: TrainingDefinition, selectedState: TrainingDefinitionStateEnum) {
-    this.trainingDefinition = trainingDefinition;
-    this.selectedState = selectedState;
-    this.normalizedTitle = StringNormalizer.normalizeDiacritics(this.trainingDefinition.title).toLowerCase();
-    this.normalizedState = this.trainingDefinition.state.toString().toLowerCase();
-    this.createPossibleStates();
-  }
+  constructor(trainingDefinition: TrainingDefinition) {
+    this.id = trainingDefinition.id;
+    this.title = trainingDefinition.title;
+    this.state = trainingDefinition.state;
+    this.estimatedDuration = trainingDefinition.estimatedDuration;
+    this.lastEditTime = formatDate(trainingDefinition.lastEditTime, 'd MMM yyyy H:mm', 'en-US');
+    this.description = trainingDefinition.description;
+    this.levels = trainingDefinition.levels;
+    this.outcomes = trainingDefinition.outcomes;
+    this.prerequisites = trainingDefinition.prerequisites;
+    this.sandboxDefinitionId = trainingDefinition.sandboxDefinitionId;
+    this.showStepperBar = trainingDefinition.showStepperBar;
 
-  createPossibleStates() {
-    this.possibleStates = Object.values(TrainingDefinitionStateEnum);
-    if (this.selectedState === TrainingDefinitionStateEnum.Unreleased) {
-     this.possibleStates = this.possibleStates.filter(state => state !== TrainingDefinitionStateEnum.Archived);
-    }
-    if (this.selectedState === TrainingDefinitionStateEnum.Archived) {
-      this.possibleStates = this.possibleStates.filter(state => state == TrainingDefinitionStateEnum.Archived);
-    }
   }
 }

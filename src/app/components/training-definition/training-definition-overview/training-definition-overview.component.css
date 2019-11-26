@@ -1,8 +1,15 @@
 .content {
-  width: 100%;
-  margin: 20px auto;
+	width: 100%;
+	margin: 20px auto;
 }
 
 h1 {
-  text-align: center;
+	text-align: center;
+}
+
+.train-def-table {
+	width: 90%;
+	margin: auto auto;
+	justify-items: center;
+	justify-content: center;
 }

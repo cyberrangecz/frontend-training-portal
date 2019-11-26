@@ -1,0 +1,12 @@
+<div class="block-content" *ngIf="data">
+  <p><span class="content-header">Description: </span>{{ data?.description }}</p>
+  <p><span class="content-header">Learning Outcomes: </span>{{ data?.outcomes }}</p>
+  <p><span class="content-header">Prerequisites: </span>{{ data?.prerequisites }}</p>
+  <div *ngIf="data?.showStepperBar else noStepperBar">
+    <p>Stepper bar will be displayed during the game.</p>
+  </div>
+  <ng-template #noStepperBar>
+    <p>Stepper bar will be hidden during the game.</p>
+  </ng-template>
+</div>
+

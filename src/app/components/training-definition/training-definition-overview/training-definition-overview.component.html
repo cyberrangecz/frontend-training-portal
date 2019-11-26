@@ -1,4 +1,16 @@
 <h1>Training Definition Overview</h1>
 <div class="content">
-  <kypo2-training-definition-table></kypo2-training-definition-table>
+  <div class="train-def-table">
+    <kypo2-training-definition-actions-panel
+      (action)="onActionPanelEvent($event)"
+    ></kypo2-training-definition-actions-panel>
+    <kypo2-table
+      [data]="trainingDefinitions$ | async"
+      [hasError]="isInErrorState"
+      (refresh)="fetchData($event)"
+      (rowAction)="onTrainingDefinitionTableAction($event)"
+      [totalElements]="trainingDefinitionsTotalLength"
+    >
+    </kypo2-table>
+  </div>
 </div>
