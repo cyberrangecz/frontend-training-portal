@@ -1,9 +1,10 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import { Component, Inject, OnInit, Output, EventEmitter } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import {takeWhile} from 'rxjs/operators';
-import {AlertTypeEnum} from '../../../../model/enums/alert-type.enum';
-import {TrainingDefinitionFacade} from '../../../../services/facades/training-definition-facade.service';
-import {BaseComponent} from '../../../base.component';
+import { takeWhile } from 'rxjs/operators';
+import { AlertTypeEnum } from '../../../../model/enums/alert-type.enum';
+import { TrainingDefinitionFacade } from '../../../../services/facades/training-definition-facade.service';
+import { BaseComponent } from '../../../base.component';
+import { BehaviorSubject } from 'rxjs';
 @Component({
   selector: 'kypo2-training-upload-dialog',
   templateUrl: './training-definition-upload-dialog.component.html',
@@ -12,18 +13,22 @@ import {BaseComponent} from '../../../base.component';
 /**
  * Component of training definition upload dialog window
  */
-export class TrainingDefinitionUploadDialogComponent extends BaseComponent implements OnInit {
-
+export class TrainingDefinitionUploadDialogComponent extends BaseComponent
+  implements OnInit {
   selectedFile: File;
-  uploadInProgress = false;
+  uploadInProgress;
 
-  constructor(public dialogRef: MatDialogRef<TrainingDefinitionUploadDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data,
-              private trainingDefinitionFacade: TrainingDefinitionFacade) {
+  onUploadLoading = new EventEmitter<any>();
+
+  constructor(
+    public dialogRef: MatDialogRef<TrainingDefinitionUploadDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data
+  ) {
     super();
   }
 
   ngOnInit() {
+    this.uploadInProgress = new BehaviorSubject<boolean>(false);
   }
 
   /**
@@ -38,7 +43,12 @@ export class TrainingDefinitionUploadDialogComponent extends BaseComponent imple
    */
   upload() {
     if (this.data.type == 'training') {
-      this.uploadTrainingDefinition();
+      this.uploadInProgress.next(true);
+      this.onUploadLoading.emit({
+        type: 'confirm',
+        file: this.selectedFile,
+        uploadInProgress: this.uploadInProgress
+      });
     }
   }
 
@@ -48,32 +58,4 @@ export class TrainingDefinitionUploadDialogComponent extends BaseComponent imple
   clearFile() {
     this.selectedFile = null;
   }
-
-  private uploadTrainingDefinition() {
-    this.uploadInProgress = true;
-    this.trainingDefinitionFacade.upload(this.selectedFile)
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(
-        resp => this.uploadSuccess('Training definition was successfully uploaded.'),
-        err => this.uploadFailure(err));
-  }
-
-  private uploadSuccess(message: string) {
-    const result = {
-      type: AlertTypeEnum.Success,
-      message: message
-    };
-    this.uploadInProgress = false;
-    this.dialogRef.close(result);
-  }
-
-  private uploadFailure(err) {
-    const result = {
-      type: AlertTypeEnum.Error,
-      message: 'File upload failed.'
-    };
-    this.uploadInProgress = false;
-    this.dialogRef.close(result);
-  }
 }
-

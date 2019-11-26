@@ -1,18 +1,18 @@
-import {Injectable} from '@angular/core';
-import {TrainingDefinitionCreateDTO} from '../../model/DTOs/training-definition/training-definition-create-dto';
-import {TrainingDefinitionDTO} from '../../model/DTOs/training-definition/training-definition-dto';
-import {TrainingDefinitionInfoDTO} from '../../model/DTOs/training-definition/training-definition-info-dto';
-import {TrainingDefinitionInfoRestResource} from '../../model/DTOs/training-definition/training-definition-info-rest-resource';
-import {TrainingDefinitionRestResource} from '../../model/DTOs/training-definition/training-definition-rest-resource';
-import {TrainingDefinitionUpdateDTO} from '../../model/DTOs/training-definition/training-definition-update-dto';
-import {TrainingDefinitionStateEnum} from '../../model/enums/training-definition-state.enum';
-import {AbstractLevel} from '../../model/level/abstract-level';
-import {Kypo2Pagination} from '../../model/table-adapters/kypo2-pagination';
-import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
-import {TrainingDefinitionTableRow} from '../../model/table-adapters/training-definition-table-row';
-import {TrainingDefinition} from '../../model/training/training-definition';
-import {TrainingDefinitionInfo} from '../../model/training/training-definition-info';
-import {LevelMapper} from './level-mapper.service';
+import { Injectable } from '@angular/core';
+import { TrainingDefinitionCreateDTO } from '../../model/DTOs/training-definition/training-definition-create-dto';
+import { TrainingDefinitionDTO } from '../../model/DTOs/training-definition/training-definition-dto';
+import { TrainingDefinitionInfoDTO } from '../../model/DTOs/training-definition/training-definition-info-dto';
+import { TrainingDefinitionInfoRestResource } from '../../model/DTOs/training-definition/training-definition-info-rest-resource';
+import { TrainingDefinitionRestResource } from '../../model/DTOs/training-definition/training-definition-rest-resource';
+import { TrainingDefinitionUpdateDTO } from '../../model/DTOs/training-definition/training-definition-update-dto';
+import { TrainingDefinitionStateEnum } from '../../model/enums/training-definition-state.enum';
+import { AbstractLevel } from '../../model/level/abstract-level';
+import { Kypo2Pagination } from '../../model/table-adapters/kypo2-pagination';
+import { PaginatedResource } from '../../model/table-adapters/paginated-resource';
+import { TrainingDefinitionTableRow } from '../../model/table-adapters/training-definition-table-row';
+import { TrainingDefinition } from '../../model/training/training-definition';
+import { TrainingDefinitionInfo } from '../../model/training/training-definition-info';
+import { LevelMapper } from './level-mapper.service';
 
 @Injectable()
 /**
@@ -43,7 +43,7 @@ export class TrainingDefinitionMapper {
     const tableData: TrainingDefinitionTableRow[] = [];
     resource.content.forEach((trainingDTO: TrainingDefinitionDTO) => {
       const td = this.mapTrainingDefinitionDTOToTrainingDefinition(trainingDTO, false);
-      tableData.push(new TrainingDefinitionTableRow(td, td.state));
+      tableData.push(new TrainingDefinitionTableRow(td));
     });
     const tablePagination = new Kypo2Pagination(
       resource.pagination.number,
@@ -65,7 +65,7 @@ export class TrainingDefinitionMapper {
     result.sandboxDefinitionId = trainingDefinitionDTO.sandbox_definition_ref_id;
     result.title = trainingDefinitionDTO.title;
     result.description = trainingDefinitionDTO.description;
-    result.prerequisites =  trainingDefinitionDTO.prerequisities ? trainingDefinitionDTO.prerequisities : [];
+    result.prerequisites = trainingDefinitionDTO.prerequisities ? trainingDefinitionDTO.prerequisities : [];
     result.outcomes = trainingDefinitionDTO.outcomes ? trainingDefinitionDTO.outcomes : [];
     result.state = this.mapTrainingDefDTOStateToEnum(trainingDefinitionDTO.state);
     result.lastEditTime = trainingDefinitionDTO.last_edited;
@@ -85,7 +85,7 @@ export class TrainingDefinitionMapper {
     const result = new TrainingDefinitionCreateDTO();
 
     result.prerequisities = trainingDefinition.prerequisites.filter(prerequisite => prerequisite.length > 1);
-    result.outcomes = trainingDefinition.outcomes.filter( outcome => outcome.length > 1);
+    result.outcomes = trainingDefinition.outcomes.filter(outcome => outcome.length > 1);
     result.description = trainingDefinition.description;
     result.state = TrainingDefinitionDTO.StateEnum.UNRELEASED;
     result.title = trainingDefinition.title;
@@ -106,7 +106,7 @@ export class TrainingDefinitionMapper {
     result.sandbox_definition_ref_id = trainingDefinition.sandboxDefinitionId;
     result.show_stepper_bar = trainingDefinition.showStepperBar;
     result.prerequisities = trainingDefinition.prerequisites.filter(prerequisite => prerequisite.length > 1);
-    result.outcomes = trainingDefinition.outcomes.filter( outcome => outcome.length > 1);
+    result.outcomes = trainingDefinition.outcomes.filter(outcome => outcome.length > 1);
     result.state = this.mapTrainingDefStateToDTOEnum(trainingDefinition.state);
     result.title = trainingDefinition.title;
 
