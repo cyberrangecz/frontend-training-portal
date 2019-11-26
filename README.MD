@@ -36,7 +36,7 @@ To run the app locally you will need to configure several backend services.
 Alternatively you can use json-server as mock backend with provided dummy data.
 
 1.  Install json-server `npm install -g json-server`.
-2.  Deploy server with provided parameters `json-server db.json --routes routes.json --middlewares server.js`.
+2.  Deploy server with provided parameters `json-server db.js --routes routes.json --middlewares server.js`.
 3.  Run `npm install`.
 4.  Run the app in local environment and ssl `ng serve --configuration=local --ssl` and access it on `https://localhost:4200`.
 
