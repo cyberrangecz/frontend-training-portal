@@ -74,7 +74,7 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent
       ? [
         new Filter(
           'title',
-          event.name
+          event.filter
         )
       ]
       : [];
