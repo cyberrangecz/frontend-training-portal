@@ -1,16 +1,16 @@
 import {SandboxDefinitionService} from '../shared/sandbox-definition.service';
-import {Observable, Subject} from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 import {SandboxDefinitionTableRow} from '../../model/table-adapters/sandbox-definition-table-row';
-import {Kypo2Table, RequestedPagination} from 'kypo2-table';
+import {Kypo2Table, Pagination, RequestedPagination} from 'kypo2-table';
 import {switchMap, tap} from 'rxjs/operators';
 import {SandboxDefinitionFacade} from '../facades/sandbox-definition-facade.service';
 import {ErrorHandlerService} from '../shared/error-handler.service';
 import {Injectable} from '@angular/core';
-import {SandboxDefinitionTableCreator} from '../../model/table-adapters/sandbox-definition-table-creator';
 import {SandboxDefinitionInfo} from '../../components/sandbox-definition/add-sandbox-definition-dialog/sandbox-definition-info';
 import {AlertTypeEnum} from '../../model/enums/alert-type.enum';
 import {AlertService} from '../shared/alert.service';
+import {environment} from '../../../environments/environment';
 
 @Injectable()
 export class SandboxDefinitionConcreteService extends SandboxDefinitionService {
@@ -21,16 +21,23 @@ export class SandboxDefinitionConcreteService extends SandboxDefinitionService {
     super();
   }
 
-  private sandboxDefinitionsSubject: Subject<Kypo2Table<SandboxDefinitionTableRow>> = new Subject();
-  sandboxDefinitions$: Observable<Kypo2Table<SandboxDefinitionTableRow>> = this.sandboxDefinitionsSubject.asObservable();
+  private sandboxDefinitionsSubject: BehaviorSubject<PaginatedResource<SandboxDefinitionTableRow[]>> = new BehaviorSubject(this.initSubject());
+  sandboxDefinitions$: Observable<PaginatedResource<SandboxDefinitionTableRow[]>> = this.sandboxDefinitionsSubject.asObservable();
 
   lastPagination: RequestedPagination;
 
-  getAll(pagination?: RequestedPagination): Observable<PaginatedResource<SandboxDefinitionTableRow[]>> {
+  getAll(pagination: RequestedPagination): Observable<PaginatedResource<SandboxDefinitionTableRow[]>> {
+    this.hasErrorSubject$.next(false);
     this.lastPagination = pagination;
     return this.sandboxDefinitionFacade.getAllPaginated(pagination).pipe(
-      tap(sandboxes => this.sandboxDefinitionsSubject.next(SandboxDefinitionTableCreator.create(sandboxes)),
-          err => this.errorHandler.display(err, 'Fetching sandbox definitions'))
+      tap(paginatedResource => {
+        this.sandboxDefinitionsSubject.next(paginatedResource);
+          this.totalLengthSubject.next(paginatedResource.pagination.totalElements);
+        },
+          err => {
+        this.errorHandler.display(err, 'Fetching sandbox definitions');
+        this.hasErrorSubject$.next(true);
+      })
     );
   }
 
@@ -51,5 +58,9 @@ export class SandboxDefinitionConcreteService extends SandboxDefinitionService {
         ),
         switchMap(() => this.getAll(this.lastPagination))
       );
+  }
+
+  private initSubject(): PaginatedResource<SandboxDefinitionTableRow[]> {
+    return new PaginatedResource([], new Pagination(0, 0, environment.defaultPaginationSize, 0, 0));
   }
 }

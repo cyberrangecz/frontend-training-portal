@@ -10,7 +10,6 @@ import {skip} from 'rxjs/operators';
 import {asyncData} from '../../testing/helpers/async-data';
 import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 import {Kypo2Pagination} from '../../model/table-adapters/kypo2-pagination';
-import {User} from 'kypo2-auth';
 import {SandboxDefinition} from '../../model/sandbox/definition/sandbox-definition';
 
 describe('SandboxDefinitionConcreteService', () => {
@@ -55,9 +54,8 @@ describe('SandboxDefinitionConcreteService', () => {
 
   it('should emit next value on update (sandboxDefinitions)', done => {
     const pagination = createPagination();
-    const mockPaginatedData = createPaginatedMock();
-    const mockData = createMock();
-    SandboxDefinitionFacadeSpy.getAllPaginated.and.returnValue(asyncData(mockPaginatedData));
+    const mockData = createMockData();
+    SandboxDefinitionFacadeSpy.getAllPaginated.and.returnValue(asyncData(mockData));
 
     service.sandboxDefinitions$.pipe(skip(1))
       .subscribe(emitted => {
@@ -74,15 +72,13 @@ describe('SandboxDefinitionConcreteService', () => {
     return new RequestedPagination(1, 5, '', '');
   }
 
-  function createMock() {
-    return new Kypo2Table<SandboxDefinitionTableRow>([], []);
-  }
-
-  function createPaginatedMock() {
+  function createMockData() {
     const sandbox1 = new SandboxDefinitionTableRow(new SandboxDefinition());
     sandbox1.id = 1;
     const sandbox2 = new SandboxDefinitionTableRow(new SandboxDefinition());
     sandbox2.id = 2;
-    return new PaginatedResource<SandboxDefinitionTableRow[]>([sandbox1, sandbox2], new Kypo2Pagination(1, 2, 5, 2, 1));
+    return new PaginatedResource<SandboxDefinitionTableRow[]>([sandbox1, sandbox2],
+      new Kypo2Pagination(1, 2, 5, 2, 1));
   }
+
 });

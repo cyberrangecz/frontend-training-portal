@@ -3,11 +3,11 @@ import {Kypo2Table, RequestedPagination} from 'kypo2-table';
 import {SandboxDefinitionTableRow} from '../../model/table-adapters/sandbox-definition-table-row';
 import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 import {SandboxDefinitionInfo} from '../../components/sandbox-definition/add-sandbox-definition-dialog/sandbox-definition-info';
+import {PaginatedResourceService} from './paginated-resource.service';
 
-export abstract class SandboxDefinitionService {
+export abstract class SandboxDefinitionService extends PaginatedResourceService {
 
-  abstract sandboxDefinitions$: Observable<Kypo2Table<SandboxDefinitionTableRow>>;
-
+  abstract sandboxDefinitions$: Observable<PaginatedResource<SandboxDefinitionTableRow[]>>;
 
   /**
    * Returns all sandbox definitions which are available

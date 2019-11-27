@@ -24,10 +24,6 @@ export class ErrorHandlerService {
       this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} 404 - Not found. Report the issue to developers`);
       return;
     }
-    if (err.status === HttpErrorCodesEnum.ERROR_400) {
-      this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} 400 - Bad request. Report the issue to developers`);
-      return;
-    }
     if (err.status === HttpErrorCodesEnum.ERROR_401) {
       this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} Unauthorized. Try to refresh page or login again`);
       return;

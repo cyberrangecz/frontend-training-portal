@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import {AlertService} from '../../../services/shared/alert.service';
-import {Observable} from 'rxjs';
-import {takeWhile} from 'rxjs/operators';
+import {EMPTY, Observable, of} from 'rxjs';
+import {map, switchMap, takeWhile} from 'rxjs/operators';
 import {SandboxDefinitionTableRow} from '../../../model/table-adapters/sandbox-definition-table-row';
 import {ActionConfirmationDialogComponent} from '../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import {BaseComponent} from '../../base.component';
@@ -11,6 +10,7 @@ import {SandboxDefinitionService} from '../../../services/shared/sandbox-definit
 import {Kypo2Table, LoadTableEvent, TableActionEvent} from 'kypo2-table';
 import {SandboxDefinitionInfo} from '../add-sandbox-definition-dialog/sandbox-definition-info';
 import {ErrorHandlerService} from '../../../services/shared/error-handler.service';
+import {SandboxDefinitionTableCreator} from '../../../model/table-adapters/sandbox-definition-table-creator';
 
 @Component({
   selector: 'kypo2-sandbox-definition-overview',
@@ -25,8 +25,8 @@ import {ErrorHandlerService} from '../../../services/shared/error-handler.servic
 export class SandboxDefinitionOverviewComponent extends BaseComponent implements OnInit {
 
   sandboxDefinitions$: Observable<Kypo2Table<SandboxDefinitionTableRow>>;
-  sandboxDefinitionTableHasError = false;
-  sandboxDefinitionsTotalLength = 0;
+  tableHasError$: Observable<boolean>;
+  tableTotalLength$: Observable<number>;
 
   private lastLoadEvent: LoadTableEvent;
 
@@ -38,37 +38,15 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
   }
 
   ngOnInit() {
-    this.sandboxDefinitions$ = this.sandboxDefinitionService.sandboxDefinitions$;
-    this.lastLoadEvent = new LoadTableEvent(null, null);
-    this.onLoadEvent(this.lastLoadEvent);
+    this.initTable();
   }
 
-  onLoadEvent(loadEvent: LoadTableEvent = null) {
-    if (loadEvent) {
-      this.lastLoadEvent = loadEvent;
-      this.fetchData(loadEvent);
-    } else {
-      this.fetchData(this.lastLoadEvent);
-    }
-  }
-
-  fetchData(event) {
-    let sandboxDefinitions;
-    this.sandboxDefinitionTableHasError = false;
-
-    if (event.pagination) {
-      sandboxDefinitions = this.sandboxDefinitionService.getAll(event.pagination);
-    } else {
-      sandboxDefinitions = this.sandboxDefinitionService.getAll();
-    }
-    sandboxDefinitions.pipe(
-      takeWhile(_ => this.isAlive),
-    )
-      .subscribe(
-        paginatedSandboxes => {
-          this.sandboxDefinitionsTotalLength = paginatedSandboxes.pagination.totalElements;
-        },
-        err => this.sandboxDefinitionTableHasError = true);
+  onLoadEvent(event: LoadTableEvent) {
+    this.sandboxDefinitionService.getAll(event.pagination)
+      .pipe(
+        takeWhile(_ => this.isAlive)
+      )
+      .subscribe();
   }
 
   onSandboxDefinitionTableAction(event: TableActionEvent<SandboxDefinitionTableRow>) {
@@ -83,12 +61,15 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
   openSandboxDefinitionDialog() {
     const dialogRef = this.dialog.open(AddSandboxDefinitionDialogComponent);
     dialogRef.afterClosed()
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(result => {
-        if (result && result.type === 'confirm') {
-          this.addSandboxDefinition(result.data);
-        }
-      });
+      .pipe(
+        takeWhile(() => this.isAlive),
+        switchMap(result =>
+          result && result.type === 'confirm'
+            ? this.sandboxDefinitionService.add(result.data)
+            : EMPTY
+        )
+      )
+      .subscribe();
   }
 
   /**
@@ -104,26 +85,24 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
       }
     });
     dialogRef.afterClosed()
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(result => {
-        if (result && result.type === 'confirm') {
-          this.sendRequestToDeleteSandboxDefinition(sandboxRow.sandbox.id);
-        }
-      });
+      .pipe(
+        takeWhile(() => this.isAlive),
+        switchMap(result =>
+          result && result.type === 'confirm'
+            ? this.sandboxDefinitionService.delete(sandboxRow.id)
+            : EMPTY
+        )
+      ).subscribe();
   }
 
-  private sendRequestToDeleteSandboxDefinition(sandboxId: number) {
-    this.sandboxDefinitionService.delete(sandboxId)
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe();
-  }
-
-  /**
-   * Uploads sandbox definition with data from dialog and creates alert with a result of the upload
-   */
-  private addSandboxDefinition(result: SandboxDefinitionInfo) {
-    this.sandboxDefinitionService.add(result)
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe();
+  private initTable() {
+    this.sandboxDefinitions$ = this.sandboxDefinitionService.sandboxDefinitions$
+      .pipe(
+        map(paginatedSandboxes => SandboxDefinitionTableCreator.create(paginatedSandboxes))
+      );
+    this.lastLoadEvent = new LoadTableEvent(null, null);
+    this.onLoadEvent(this.lastLoadEvent);
+    this.tableHasError$ = this.sandboxDefinitionService.hasError$;
+    this.tableTotalLength$ = this.sandboxDefinitionService.totalLength$;
   }
 }
