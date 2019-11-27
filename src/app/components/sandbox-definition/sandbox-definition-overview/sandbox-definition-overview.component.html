@@ -4,10 +4,10 @@
     <div class="sandbox-def-table">
     <kypo2-table
       [data] ="sandboxDefinitions$ | async"
-      [hasError]="sandboxDefinitionTableHasError"
-      (refresh)="fetchData($event)"
+      [hasError]="tableHasError$ | async"
+      (refresh)="onLoadEvent($event)"
       (rowAction)="onSandboxDefinitionTableAction($event)"
-      [totalElements]="sandboxDefinitionsTotalLength">
+      [totalElements]="tableTotalLength$ | async">
     </kypo2-table>
   </div>
 </div>

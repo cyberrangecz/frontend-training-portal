@@ -61,9 +61,7 @@ export class SandboxDefinitionFacade {
    * @param {number} id id of sandbox definition which should be removed
    */
   delete(id: number): Observable<any> {
-    return this.http.delete(this.sandboxDefsEndpoint + id)
-      .pipe(map(response =>
-        this.sandboxDefinitionMapper.mapSandboxDefinitionDTOToSandboxDefinitionPaginated(response)));
+    return this.http.delete(this.sandboxDefsEndpoint + id);
   }
 
   add(gitlabUrl: string, revision: string): Observable<any> {
