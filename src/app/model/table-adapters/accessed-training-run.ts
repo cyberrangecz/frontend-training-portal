@@ -8,7 +8,6 @@ export class AccessedTrainingRun implements TableRowAdapter {
   trainingRunId: number;
   action: TraineeAccessTrainingRunActionEnum;
   trainingInstanceTitle: string;
-  trainingInstanceDuration: string;
   trainingInstanceFormattedDuration: string;
   trainingInstanceStartTime: Date;
   trainingInstanceEndTime: Date;

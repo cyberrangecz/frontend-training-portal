@@ -26,7 +26,6 @@ import {TrainingRunTableRow} from '../../model/table-adapters/training-run-table
 import {AccessTrainingRunInfo} from '../../model/training/access-training-run-info';
 import {TrainingRun} from '../../model/training/training-run';
 import {LevelMapper} from './level-mapper.service';
-import {UserMapper} from './user.mapper.service';
 import {TraineeAccessTrainingRunActionEnum} from '../../model/enums/trainee-access-training-run-actions.enum';
 import PossibleActionEnum = AccessedTrainingRunDTO.PossibleActionEnum;
 
@@ -36,8 +35,7 @@ import PossibleActionEnum = AccessedTrainingRunDTO.PossibleActionEnum;
  */
 export class TrainingRunMapper {
 
-  constructor(private levelMapper: LevelMapper,
-              private userMapper: UserMapper) {
+  constructor(private levelMapper: LevelMapper) {
   }
 
   /**
@@ -140,7 +138,6 @@ export class TrainingRunMapper {
       result.trainingRunId = accessedTrainingRunDTO.id;
       result.trainingInstanceStartTime = new Date(accessedTrainingRunDTO.training_instance_start_date);
       result.trainingInstanceEndTime = new Date(accessedTrainingRunDTO.training_instance_end_date);
-      result.trainingInstanceDuration = `${result.trainingInstanceStartTime} - ${result.trainingInstanceEndTime}`;
       result.trainingInstanceFormattedDuration =
         `${this.extractDate(result.trainingInstanceStartTime.toString())} -
          ${this.extractDate(result.trainingInstanceEndTime.toString())}`;
