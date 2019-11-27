@@ -64,7 +64,7 @@ export class TrainingRunOverviewComponent extends BaseComponent implements OnIni
       .subscribe( trainingRunInfo => {
         this.activeTrainingRun.setUpFromTrainingRun(trainingRunInfo);
         this.router.navigate([RouteFactory.toTrainingRunGame(id)]);
-        });
+      });
   }
 
   onResults(id: number) {

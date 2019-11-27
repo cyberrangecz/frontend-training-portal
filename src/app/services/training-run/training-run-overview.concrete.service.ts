@@ -36,8 +36,8 @@ export class TrainingRunOverviewConcreteService extends TrainingRunOverviewServi
 
   resume(id: number): Observable<any> {
     return this.trainingRunFacade.resume(id).pipe(
-     tap( err => {
-       this.errorHandler.display(err, 'Resuming training run');
+     tap({
+       error: err => this.errorHandler.display(err, 'Resuming training run')
      })
    );
   }
