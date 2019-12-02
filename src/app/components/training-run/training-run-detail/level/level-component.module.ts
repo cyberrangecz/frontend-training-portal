@@ -2,8 +2,7 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {Kypo2TopologyGraphModule} from 'kypo2-topology-graph';
-import {MarkdownModule} from 'ngx-markdown';
-import {environment} from '../../../../../environments/environment';
+import {MarkdownModule, MarkedOptions} from 'ngx-markdown';
 import {LeaveConfirmationDialogComponent} from '../leave-confirmation-dialog/leave-confirmation-dialog.component';
 import {AbstractLevelComponent} from './abstract-level.component';
 import {AssessmentLevelComponent} from './assessment-level/assessment-level.component';
@@ -17,12 +16,30 @@ import {RevealSolutionDialogComponent} from './game-level/user-action-dialogs/re
 import {WrongFlagDialogComponent} from './game-level/user-action-dialogs/wrong-flag-dialog/wrong-flag-dialog.component';
 import {InfoLevelComponent} from './info-level/info-level.component';
 import {LevelMaterialModule} from './level-material.module';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../../../../environments/environment';
+
+const markdownParserConfig = {
+      loader: HttpClient,
+      markedOptions: {
+        provide: MarkedOptions,
+        useValue: {
+          gfm: true,
+          tables: true,
+          breaks: false,
+          pedantic: false,
+          sanitize: false,
+          smartLists: true,
+          smartypants: false,
+        },
+      }
+    };
 
 @NgModule({
   imports: [
     CommonModule,
     Kypo2TopologyGraphModule.forRoot(environment.kypo2TopologyConfig),
-    MarkdownModule.forRoot(environment.markdownConfig.markdownParser),
+    MarkdownModule.forRoot(markdownParserConfig),
     FormsModule,
     LevelMaterialModule,
   ],

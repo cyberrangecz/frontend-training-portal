@@ -12,7 +12,7 @@ export const environment = {
   // BEHAVIOUR SETTINGS
   defaultAlertDuration: 5000, // 0 to display until user dismisses it
   defaultPaginationSize: 5,
-  defaultOrganizerTROverviewRefreshRate: 5000,
+  organizerSummaryPollingPeriod: 5000,
   apiPollingPeriod: 5000,
   kypo2TopologyConfig: {
     topologyRestUrl: sandboxesURL,
@@ -51,26 +51,6 @@ export const environment = {
         },
       }
     ]
-  },
-  markdownConfig: {
-    markdownParser: {
-      loader: HttpClient,
-      markedOptions: {
-        provide: MarkedOptions,
-        useValue: {
-          gfm: true,
-          tables: true,
-          breaks: false,
-          pedantic: false,
-          sanitize: false,
-          smartLists: true,
-          smartypants: false,
-        },
-      }
-    },
-    markdownEditor: {
-      fileUploadRestUrl: ''
-    }
   },
   useHotjar: true,
   hotjarTrackingCode: '1435968'

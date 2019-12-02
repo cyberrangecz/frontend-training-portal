@@ -1,6 +1,3 @@
-import {HttpClient} from '@angular/common/http';
-import {MarkedOptions} from 'ngx-markdown';
-
 // Server url
 export const baseURL = 'https://kypo-devel.ics.muni.cz';
 // Frontend url
@@ -19,7 +16,7 @@ export const environment = {
   sandboxRestBasePath: sandboxesURL,
   defaultAlertDuration: 5000, // 0 to display until user dismisses it
   defaultPaginationSize: 5,
-  defaultOrganizerTROverviewRefreshRate: 5000, // api polling period in training instance detail page
+  organizerSummaryPollingPeriod: 5000, // api polling period in training instance detail page
   apiPollingPeriod: 5000, // api polling during sandbox allocation
   kypo2TopologyConfig: {
     topologyRestUrl: sandboxesURL,
@@ -58,26 +55,6 @@ export const environment = {
         },
       },
     ]
-  },
-  markdownConfig: {
-    markdownParser: {
-      loader: HttpClient,
-      markedOptions: {
-        provide: MarkedOptions,
-        useValue: {
-          gfm: true,
-          tables: true,
-          breaks: false,
-          pedantic: false,
-          sanitize: false,
-          smartLists: true,
-          smartypants: false,
-        },
-      }
-    },
-    markdownEditor: {
-      fileUploadRestUrl: ''
-    }
   },
   useHotjar: false,
   hotjarTrackingCode: '1436140'
