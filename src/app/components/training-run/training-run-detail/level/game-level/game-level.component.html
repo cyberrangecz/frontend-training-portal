@@ -10,24 +10,24 @@
     </div>
     <div class="right-panel" #rightPanel>
       <!-- TOPOLOGY COMPONENT-->
-      <kypo2-topology-graph  #topology
-                        *ngIf="!isPreviewMode"
-                        [width]="topologyWidth"
-                        [height]="topologyHeight"
-                        [sandboxId]="sandboxId"
-                        [style.width.px]="topologyWidth"
-                        [style.height.px]="topologyHeight"
-                        (onTopologyLoaded)="topologyLoaded()">
+      <kypo2-topology-graph #topology
+        *ngIf="!isPreviewMode"
+        [width]="topologyWidth"
+        [height]="topologyHeight"
+        [sandboxId]="sandboxId"
+        [style.width.px]="topologyWidth"
+        [style.height.px]="topologyHeight"
+        (onTopologyLoaded)="topologyLoaded()">
       </kypo2-topology-graph>
       <div *ngIf="isPreviewMode"
-           class="topology-placeholder"
-           [style.width.px]="topologyWidth"
-           [style.height.px]="topologyHeight">
+        class="topology-placeholder"
+        [style.width.px]="topologyWidth"
+        [style.height.px]="topologyHeight">
         <h3>There will be topology component</h3>
         <img src="assets/images/placeholders/topology-placeholder.png"
-             alt="Topology placeholder"
-             [width]="topologyWidth"
-             [height]="topologyHeight">
+          alt="Topology placeholder"
+          [width]="topologyWidth"
+          [height]="topologyHeight">
       </div>
 
       <div class="game-control-panel">
@@ -36,7 +36,8 @@
           <button
             *ngFor="let hintButton of hintButtons; index as i"
             mat-raised-button color="primary"
-            [disabled]="correctFlag || solutionShown || hintButton.displayed || waitingOnResponse"
+            [disabled]="correctFlag || solutionShown || hintButton.displayed ||
+            waitingOnResponse"
             (click)="showHint(hintButton, i + 1);"
             matTooltip="{{ hintButton.hint.title }}">
             Hint {{ i + 1 }}
@@ -44,42 +45,47 @@
 
           <!-- SOLUTION BUTTON-->
           <button mat-raised-button color="warn"
-                  [disabled]="correctFlag || solutionShown || waitingOnResponse"
-                  (click)="revealSolution()"
-                  matTooltip="Display solution">
+            [disabled]="correctFlag || solutionShown || waitingOnResponse"
+            (click)="revealSolution()"
+            matTooltip="Display solution">
             Solution
           </button>
 
           <div class="spacer"></div>
           <div class="flag-input">
             <!-- FLAG field-->
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline"
+              (keydown.enter)="$event.preventDefault()">
               <mat-label>Flag</mat-label>
-              <input matInput placeholder="Flag" [disabled]="correctFlag" [(ngModel)]="flag">
-              <button mat-button *ngIf="flag" [disabled]="correctFlag" matSuffix mat-icon-button aria-label="Clear" (click)="flag=''">
+              <input matInput placeholder="Flag" [disabled]="correctFlag"
+                [(ngModel)]="flag">
+              <button mat-button *ngIf="flag" [disabled]="correctFlag" matSuffix
+                mat-icon-button aria-label="Clear" (click)="flag=''">
                 <mat-icon>close</mat-icon>
               </button>
             </mat-form-field>
             <button mat-button color="accent"
-                    [disabled]="!flag || correctFlag"
-                    (click)="submitFlag()">
+              [disabled]="!flag || correctFlag"
+              (click)="submitFlag()">
               Submit</button>
           </div>
         </div>
 
         <div class="hint-content">
-          <markdown *ngIf="displayedHints || displayedHints !== ''" [data]="displayedHints"></markdown>
+          <markdown *ngIf="displayedHints || displayedHints !== ''"
+            [data]="displayedHints"></markdown>
         </div>
       </div>
     </div>
   </div>
   <div *ngIf="correctFlag" class="footer">
     <div *ngIf="hasNextLevel then nextLevelButton else finishButton"></div>
-      <ng-template #nextLevelButton>
-        <button mat-raised-button color="primary" (click)="nextLevel()">Next level</button>
-      </ng-template>
-      <ng-template #finishButton>
-        <button mat-raised-button color="primary" (click)="finish()">Finish training</button>
-      </ng-template>
+    <ng-template #nextLevelButton>
+      <button mat-raised-button color="primary" (click)="nextLevel()">Next level</button>
+    </ng-template>
+    <ng-template #finishButton>
+      <button mat-raised-button color="primary" (click)="finish()">Finish
+        training</button>
+    </ng-template>
   </div>
 </div>

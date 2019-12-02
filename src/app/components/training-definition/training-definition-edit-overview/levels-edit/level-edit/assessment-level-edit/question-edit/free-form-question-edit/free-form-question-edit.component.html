@@ -1,10 +1,12 @@
 <form [formGroup]="freeFormQuestionFormGroup.formGroup">
   <div class="content">
     <!-- TITLE field-->
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline"
+      (keydown.enter)="$event.preventDefault()">
       <mat-label>Title</mat-label>
       <input matInput placeholder="Title" formControlName="title" required>
-      <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title.setValue('')">
+      <button mat-button *ngIf="title" matSuffix mat-icon-button
+        aria-label="Clear" (click)="title.setValue('')">
         <mat-icon>close</mat-icon>
       </button>
       <mat-error *ngIf="title.hasError('required')">Title cannot be empty</mat-error>
@@ -12,27 +14,43 @@
 
     <div class="inline-input">
       <!-- SCORE field -->
-      <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionScore }}">
+      <mat-form-field appearance="outline" hintLabel="Number in range from 0 to
+        {{ maxQuestionScore }}">
         <mat-label>Points</mat-label>
-        <input matInput placeholder="Points" type="number" [max]="maxQuestionScore" min="0" formControlName="score" [required]="required">
-        <mat-error *ngIf="score.hasError('required')">Question score cannot be empty</mat-error>
-        <mat-error *ngIf="score.hasError('pattern') || score.hasError('min') || score.hasError('max')">Question score must be a number in range from 0 to {{this.maxQuestionScore}}</mat-error>
+        <input matInput placeholder="Points" type="number"
+          [max]="maxQuestionScore" min="0" formControlName="score"
+          [required]="required">
+        <mat-error *ngIf="score.hasError('required')">Question score cannot be
+          empty</mat-error>
+        <mat-error *ngIf="score.hasError('pattern') || score.hasError('min') ||
+          score.hasError('max')">Question score must be a number in range from 0
+          to {{this.maxQuestionScore}}</mat-error>
       </mat-form-field>
 
       <!-- PENALTY field -->
-      <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionPenalty }}">
+      <mat-form-field appearance="outline" hintLabel="Number in range from 0 to
+        {{ maxQuestionPenalty }}">
         <mat-label>Penalty points</mat-label>
-        <input matInput placeholder="Question Penalty points" type="number" [max]="maxQuestionPenalty" min="0" formControlName="penalty" [required]="required">
-        <mat-error *ngIf="penalty.hasError('required')">Question penalty cannot be empty</mat-error>
-        <mat-error *ngIf="penalty.hasError('pattern') || penalty.hasError('min') || penalty.hasError('max')">Question penalty must be a number in range from 0 to this.{{maxQuestionPenalty}}</mat-error>
+        <input matInput placeholder="Question Penalty points" type="number"
+          [max]="maxQuestionPenalty" min="0" formControlName="penalty"
+          [required]="required">
+        <mat-error *ngIf="penalty.hasError('required')">Question penalty cannot
+          be empty</mat-error>
+        <mat-error *ngIf="penalty.hasError('pattern') || penalty.hasError('min')
+          || penalty.hasError('max')">Question penalty must be a number in range
+          from 0 to this.{{maxQuestionPenalty}}</mat-error>
       </mat-form-field>
     </div>
 
     <!-- CORRECT ANSWERS field -->
     <div class="form-container" *ngIf="isTest">
-      <kypo2-free-form [formData]="answers.value" [required]="required" [formName]="'Answer'" [formPlaceholder]="'Answer'" (itemsChange)="answerChanged($event)" ></kypo2-free-form>
+      <kypo2-free-form [formData]="answers.value" [required]="required"
+        [formName]="'Answer'" [formPlaceholder]="'Answer'"
+        (itemsChange)="answerChanged($event)"></kypo2-free-form>
     </div>
 
-    <mat-error *ngIf="isTest && freeFormQuestionFormGroup.formGroup.hasError('noSelectedAnswers')">Test question must have correct answers.</mat-error>
+    <mat-error *ngIf="isTest &&
+      freeFormQuestionFormGroup.formGroup.hasError('noSelectedAnswers')">Test
+      question must have correct answers.</mat-error>
   </div>
 </form>

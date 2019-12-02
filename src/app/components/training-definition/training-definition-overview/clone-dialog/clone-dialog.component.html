@@ -2,18 +2,23 @@
 <div mat-dialog-content>
   <form [formGroup]="cloneDialogFormGroup.formGroup">
     <!-- TITLE field-->
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline"
+      (keydown.enter)="$event.preventDefault()">
       <mat-label>Title</mat-label>
-      <input matInput placeholder="Title" formControlName="clonedDefinitionTitle" required>
-      <button mat-button *ngIf="clonedDefinitionTitle.value" matSuffix mat-icon-button aria-label="Clear" (click)="clonedDefinitionTitle.setValue('')">
+      <input matInput placeholder="Title"
+        formControlName="clonedDefinitionTitle" required>
+      <button mat-button *ngIf="clonedDefinitionTitle.value" matSuffix
+        mat-icon-button aria-label="Clear"
+        (click)="clonedDefinitionTitle.setValue('')">
         <mat-icon>close</mat-icon>
       </button>
-      <mat-error *ngIf="clonedDefinitionTitle.hasError('required')">Title cannot be empty</mat-error>
+      <mat-error *ngIf="clonedDefinitionTitle.hasError('required')">Title cannot
+        be empty</mat-error>
     </mat-form-field>
   </form>
 </div>
 <div mat-dialog-actions>
-  <button mat-button  color="warn" cdkFocusInitial (click)="cancel()">Cancel</button>
+  <button mat-button color="warn" cdkFocusInitial (click)="cancel()">Cancel</button>
   <span class="spacer"></span>
   <button mat-button color="primary" (click)="confirm()">Clone</button>
 </div>

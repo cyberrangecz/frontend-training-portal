@@ -3,10 +3,13 @@
     <div class="form-container">
       <div class="left-col">
         <!-- TITLE field-->
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline"
+          (keydown.enter)="$event.preventDefault()">
           <mat-label>Title</mat-label>
           <input matInput placeholder="Title" formControlName="title" required>
-          <button mat-button *ngIf="title.value" matSuffix mat-icon-button aria-label="Clear" (click)="title.setValue(''); title.markAsDirty();">
+          <button mat-button *ngIf="title.value" matSuffix mat-icon-button
+            aria-label="Clear" (click)="title.setValue('');
+            title.markAsDirty();">
             <mat-icon>close</mat-icon>
           </button>
           <mat-error>Title cannot be empty</mat-error>
@@ -14,19 +17,29 @@
 
 
         <!-- DESCRIPTION field-->
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline"
+          (keydown.enter)="$event.preventDefault()">
           <mat-label>Description</mat-label>
-          <textarea  matInput placeholder="Description" formControlName="description"></textarea>
-          <button mat-button *ngIf="description.value" matSuffix mat-icon-button aria-label="Clear" (click)="description.setValue(''); description.markAsDirty();">
+          <textarea matInput placeholder="Description"
+            formControlName="description"></textarea>
+          <button mat-button *ngIf="description.value" matSuffix mat-icon-button
+            aria-label="Clear" (click)="description.setValue('');
+            description.markAsDirty();">
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
 
         <!-- PREREQUISITES field-->
-        <kypo2-free-form (itemsChange)="prerequisitesChange($event)" [required]="false" [hasHeader]="true" [formPlaceholder]="'Note'" [formName]="'Notes for instructors'" [formData]="trainingDefinition.prerequisites"></kypo2-free-form>
+        <kypo2-free-form (itemsChange)="prerequisitesChange($event)"
+          [required]="false" [hasHeader]="true" [formPlaceholder]="'Note'"
+          [formName]="'Notes for instructors'"
+          [formData]="trainingDefinition.prerequisites"></kypo2-free-form>
 
         <!-- OUTCOMES field-->
-        <kypo2-free-form (itemsChange)="outcomesChange($event)" [required]="false" [hasHeader]="true" [formPlaceholder]="'Outcome'" [formName]="'Learning outcomes'" [formData]="trainingDefinition.outcomes"></kypo2-free-form>
+        <kypo2-free-form (itemsChange)="outcomesChange($event)"
+          [required]="false" [hasHeader]="true" [formPlaceholder]="'Outcome'"
+          [formName]="'Learning outcomes'"
+          [formData]="trainingDefinition.outcomes"></kypo2-free-form>
 
       </div>
 
@@ -36,22 +49,26 @@
         <div class="form-line">
           <div class="form-line-content">
             <p *ngIf="!sandboxDefId.value">Sandbox Definition Id*</p>
-            <p *ngIf="sandboxDefId.value" style="color: black"> Sandbox Definition Id: {{ sandboxDefId.value }}</p>
+            <p *ngIf="sandboxDefId.value" style="color: black"> Sandbox
+              Definition Id: {{ sandboxDefId.value }}</p>
             <button (click)="chooseSandboxDefs()"
-                    mat-button color="accent">
+              mat-button color="accent">
               Choose
             </button>
           </div>
-          <mat-error *ngIf="sandboxDefId.hasError('required')">No sandbox definiton specified. Training definition requires one sandbox definition</mat-error>
+          <mat-error *ngIf="sandboxDefId.hasError('required')">No sandbox
+            definiton specified. Training definition requires one sandbox
+            definition</mat-error>
         </div>
 
         <!-- SHOW STEPPER BAR checkbox-->
         <div class="form-line">
           <div class="form-line-content">
             <span class="spacer"></span>
-            <mat-checkbox matTooltip="When active, trainee can see which level he is playing and how many there are until the end"
-                          labelPosition="before"
-                          formControlName="showProgress">
+            <mat-checkbox matTooltip="When active, trainee can see which level
+              he is playing and how many there are until the end"
+              labelPosition="before"
+              formControlName="showProgress">
               Show Stepper Bar
             </mat-checkbox>
           </div>
@@ -60,4 +77,3 @@
     </div>
   </form>
 </div>
-
