@@ -115,7 +115,7 @@ describe('FetchActiveTrainingRunConcreteService', () => {
 
     const subscription = service.activeTrainingRuns$.subscribe();
     assertPoll(3);
-    tick(5 * environment.defaultOrganizerTROverviewRefreshRate);
+    tick(5 * environment.organizerSummaryPollingPeriod);
     expect(trainingInstanceFacadeSpy.getAssociatedTrainingRunsPaginated).toHaveBeenCalledTimes(3);
     subscription.unsubscribe();
   }));
@@ -134,9 +134,9 @@ describe('FetchActiveTrainingRunConcreteService', () => {
     const subscription = service.activeTrainingRuns$.subscribe();
     expect(trainingInstanceFacadeSpy.getAssociatedTrainingRunsPaginated).toHaveBeenCalledTimes(0);
     assertPoll(3);
-    tick(environment.defaultOrganizerTROverviewRefreshRate);
+    tick(environment.organizerSummaryPollingPeriod);
     expect(trainingInstanceFacadeSpy.getAssociatedTrainingRunsPaginated).toHaveBeenCalledTimes(3);
-    tick( 5 * environment.defaultOrganizerTROverviewRefreshRate);
+    tick( 5 * environment.organizerSummaryPollingPeriod);
     expect(trainingInstanceFacadeSpy.getAssociatedTrainingRunsPaginated).toHaveBeenCalledTimes(3);
     service.getAll(0, pagination).subscribe();
     expect(trainingInstanceFacadeSpy.getAssociatedTrainingRunsPaginated).toHaveBeenCalledTimes(4);
@@ -155,7 +155,7 @@ describe('FetchActiveTrainingRunConcreteService', () => {
   function assertPoll(times: number, initialHaveBeenCalledTimes: number = 0) {
     let calledTimes = initialHaveBeenCalledTimes;
     for (let i = 0; i < times; i++) {
-      tick(environment.defaultOrganizerTROverviewRefreshRate);
+      tick(environment.organizerSummaryPollingPeriod);
       calledTimes = calledTimes + 1;
       expect(trainingInstanceFacadeSpy.getAssociatedTrainingRunsPaginated).toHaveBeenCalledTimes(calledTimes);
     }

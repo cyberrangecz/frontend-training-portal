@@ -24,7 +24,7 @@ export abstract class FetchActiveTrainingRunPollingService extends FetchActiveTr
   protected abstract repeatLastGetAllRequest(): Observable<PaginatedResource<TrainingRunTableRow[]>>;
 
   protected createPoll(): Observable<PaginatedResource<TrainingRunTableRow[]>> {
-    return timer(environment.defaultOrganizerTROverviewRefreshRate, environment.defaultOrganizerTROverviewRefreshRate)
+    return timer(environment.organizerSummaryPollingPeriod, environment.organizerSummaryPollingPeriod)
       .pipe(
         switchMap( _ => this.repeatLastGetAllRequest()),
         delayWhen( _ => this.delayPolling$),
@@ -39,6 +39,6 @@ export abstract class FetchActiveTrainingRunPollingService extends FetchActiveTr
       this.retryPolling$.next(true);
     }
     this.hasErrorSubject$.next(false);
-    this.delayPolling$.next(environment.defaultOrganizerTROverviewRefreshRate);
+    this.delayPolling$.next(environment.organizerSummaryPollingPeriod);
   }
 }

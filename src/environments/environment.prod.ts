@@ -1,77 +1,57 @@
-import {HttpClient} from '@angular/common/http';
-import {MarkedOptions} from 'ngx-markdown';
+import { NG_ENV } from 'angular-server-side-configuration/ng-env';
+
 export const baseURL = 'https://kypo.ics.muni.cz';
 export const homeURL = baseURL;
 export const trainingsURL = baseURL + ':8083/kypo2-rest-training/api/v1/';
 export const sandboxesURL = baseURL + ':8080/kypo2-django-openstack/api/v1/';
 export const userAngGroupURL = baseURL + ':8084/kypo2-rest-user-and-group/api/v1/';
 export const environment = {
-  production: true,
-  trainingRestBasePath: trainingsURL,
-  sandboxRestBasePath: sandboxesURL,
+  production: NG_ENV.production,
+  trainingRestBasePath: NG_ENV.trainingRestBasePath,
+  sandboxRestBasePath: NG_ENV.sandboxRestBasePath,
   // BEHAVIOUR SETTINGS
-  defaultAlertDuration: 5000, // 0 to display until user dismisses it
-  defaultPaginationSize: 5,
-  defaultOrganizerTROverviewRefreshRate: 5000,
-  apiPollingPeriod: 5000,
+  defaultAlertDuration: Number(NG_ENV.defaultAlertDuration), // 0 to display until user dismisses it
+  defaultPaginationSize: Number(NG_ENV.defaultPaginationSize),
+  organizerSummaryPollingPeriod: Number(NG_ENV.organizerSummaryPollingPeriod),
+  apiPollingPeriod: Number(NG_ENV.apiPollingPeriod),
   kypo2TopologyConfig: {
-    topologyRestUrl: sandboxesURL,
-    decoratorsRestUrl: '',
-    defaultDecoratorRefreshPeriodInSeconds: 3,
-    useRealTime: false,
-    useDecorators: false,
+    topologyRestUrl: NG_ENV.topologyRestUrl,
+    decoratorsRestUrl: NG_ENV.decoratorsRestUrl,
+    defaultDecoratorRefreshPeriodInSeconds: Number(NG_ENV.defaultDecoratorRefreshPeriodInSeconds),
+    useRealTime: Boolean(NG_ENV.useRealTime),
+    useDecorators: Boolean(NG_ENV.useDecorators),
   },
   kypo2UserAndGroupConfig: {
-    userAndGroupRestBasePath: userAngGroupURL,
-    defaultPaginationSize: 20,
+    userAndGroupRestBasePath: NG_ENV.userAndGroupRestBasePath,
+    defaultPaginationSize: Number(NG_ENV.defaultPaginationSize),
   },
   kypo2AuthConfig: {
-    maxRetryAttempts: 3,
-    guardMainPageRedirect: 'home',
-    guardLoginPageRedirect: 'login',
-    userInfoRestUri: userAngGroupURL,
+    maxRetryAttempts: Number(NG_ENV.maxRetryAttempts),
+    guardMainPageRedirect: NG_ENV.guardMainPageRedirect,
+    guardLoginPageRedirect: NG_ENV.guardLoginPageRedirect,
+    userInfoRestUri: NG_ENV.userInfoRestUri,
     tokenInterceptorAllowedUrls: [
       baseURL
     ],
     providers: [
       {
-        label: 'Login with MUNI',
-        textColor: 'white',
-        backgroundColor: '#002776',
-        tokenRefreshTime: 30000,
+        label: NG_ENV.label,
+        textColor: NG_ENV.textColor,
+        backgroundColor: NG_ENV.backgroundColor,
+        tokenRefreshTime: Number(NG_ENV.tokenRefreshTime),
         oidcConfig: {
-          issuer: 'https://oidc.muni.cz/oidc/',
-          clientId: '4fbfa660-88e9-4560-98ee-c858610e7946',
-          redirectUri: homeURL,
-          scope: 'openid email profile',
-          logoutUrl: 'https://oidc.muni.cz/oidc/endsession',
-          postLogoutRedirectUri: homeURL + '/logout-confirmed/',
-          silentRefreshRedirectUri: homeURL + '/silent-refresh.html',
-          clearHashAfterLogin: true
+          issuer: NG_ENV.issuer,
+          clientId: NG_ENV.clientId,
+          redirectUri: NG_ENV.redirectUri,
+          scope: NG_ENV.scope,
+          logoutUrl: NG_ENV.logoutUrl,
+          postLogoutRedirectUri: NG_ENV.postLogoutRedirectUri,
+          silentRefreshRedirectUri: NG_ENV.silentRefreshRedirectUri,
+          clearHashAfterLogin: Boolean(NG_ENV.clearHashAfterLogin)
         }
       }
     ]
   },
-  markdownConfig: {
-    markdownParser: {
-      loader: HttpClient,
-      markedOptions: {
-        provide: MarkedOptions,
-        useValue: {
-          gfm: true,
-          tables: true,
-          breaks: false,
-          pedantic: false,
-          sanitize: false,
-          smartLists: true,
-          smartypants: false,
-        },
-      }
-    },
-    markdownEditor: {
-      fileUploadRestUrl: ''
-    }
-  },
-  useHotjar: true,
-  hotjarTrackingCode: '1435907'
+  useHotjar: Boolean(NG_ENV.useHotjar),
+  hotjarTrackingCode: NG_ENV.hotjarTrackingCode
 };

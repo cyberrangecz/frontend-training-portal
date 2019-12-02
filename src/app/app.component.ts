@@ -7,13 +7,7 @@ import {AlertTypeEnum} from './model/enums/alert-type.enum';
 import {AlertService} from './services/shared/alert.service';
 import {DistractionFreeModeService} from './services/shared/distraction-free-mode.service';
 import {LoadingService} from './services/shared/loading.service';
-import {
-  Kypo2UserAndGroupErrorService,
-  Kypo2UserAndGroupNotificationService,
-  Kypo2UserAndGroupRoutingEventService
-} from 'kypo2-user-and-group-management';
 import {Router} from '@angular/router';
-import {RouteFactory} from './model/routes/route-factory';
 import {ErrorHandlerService} from './services/shared/error-handler.service';
 
 /**

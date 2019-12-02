@@ -4,7 +4,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {MarkdownEditorModule} from 'kypo2-markdown-editor';
 import {Kypo2StepperModule} from 'kypo2-stepper';
-import {environment} from '../../../../../../environments/environment';
 import {SharedModule} from '../../../../shared/shared.module';
 import { AbstractLevelEditComponent } from './abstract-level-edit.component';
 import { AssessmentLevelEditComponent } from './assessment-level-edit/assessment-level-edit.component';
@@ -20,6 +19,29 @@ import { HintDetailEditComponent } from './game-level-edit/hint-edit/hint-detail
 import { HintsOverviewComponent } from './game-level-edit/hint-edit/hints-overview/hints-overview.component';
 import { InfoLevelEditComponent } from './info-level-edit/info-level-edit.component';
 import {LevelEditMaterialModule} from './level-edit-material.module';
+import {HttpClient} from '@angular/common/http';
+import {MarkedOptions} from 'ngx-markdown';
+
+ const markdownConfig = {
+    markdownParser: {
+      loader: HttpClient,
+      markedOptions: {
+        provide: MarkedOptions,
+        useValue: {
+          gfm: true,
+          tables: true,
+          breaks: false,
+          pedantic: false,
+          sanitize: false,
+          smartLists: true,
+          smartypants: false,
+        },
+      }
+    },
+    markdownEditor: {
+      fileUploadRestUrl: ''
+    }
+  };
 
 /**
  * Module containing components service and routing related to level edit/detail
@@ -28,7 +50,7 @@ import {LevelEditMaterialModule} from './level-edit-material.module';
   imports: [
     CommonModule,
     FormsModule,
-    MarkdownEditorModule.forRoot(environment.markdownConfig),
+    MarkdownEditorModule.forRoot(markdownConfig),
     Kypo2StepperModule,
     LevelEditMaterialModule,
     MatSlideToggleModule,
