@@ -3,53 +3,69 @@
     <div class="panel-wrapper">
       <div class="left-panel">
         <!-- TITLE filed -->
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline"
+          (keydown.enter)="$event.preventDefault()">
           <mat-label>Title</mat-label>
           <input matInput placeholder="Title" formControlName="title" required>
-          <button mat-button *ngIf="title.value" matSuffix mat-icon-button aria-label="Clear" (click)="title.setValue(''); onContentChanged()">
+          <button mat-button *ngIf="title.value" matSuffix mat-icon-button
+            aria-label="Clear" (click)="title.setValue(''); onContentChanged()">
             <mat-icon>close</mat-icon>
           </button>
           <mat-error *ngIf="title.hasError('required')">Title cannot be empty</mat-error>
         </mat-form-field>
 
         <!-- ESTIMATED DURATION field -->
-        <mat-form-field appearance="outline" hintLabel="Number in minutes. Range from 1 to 60">
+        <mat-form-field appearance="outline" hintLabel="Number in minutes. Range
+          from 1 to 60">
           <mat-label>Estimated Duration in minutes</mat-label>
-          <input matInput placeholder="Estimated Duration in Minutes" type="number" max="60" min="1" formControlName="estimatedDuration">
+          <input matInput placeholder="Estimated Duration in Minutes"
+            type="number" max="60" min="1" formControlName="estimatedDuration">
           <mat-error>Estimated duration must be a number in range from 1 to 60</mat-error>
         </mat-form-field>
 
         <!--CONTENT field -->
         <h3>Content</h3>
-        <kypo2-markdown-editor class="mrkdwn-content" [kypo2-markdown-file-upload]="false" (contentChange)="content.setValue($event);" [content]="content.value"></kypo2-markdown-editor>
+        <kypo2-markdown-editor class="mrkdwn-content"
+          [kypo2-markdown-file-upload]="false"
+          (contentChange)="content.setValue($event);" [content]="content.value"></kypo2-markdown-editor>
         <mat-error *ngIf="content.hasError('required')">Content cannot be empty</mat-error>
-
         <!--SOLUTION field -->
         <h3>Solution</h3>
-        <kypo2-markdown-editor class="mrkdwn-solution" [kypo2-markdown-file-upload]="false" (contentChange)="solution.setValue($event)" [content]="solution.value"></kypo2-markdown-editor>
-        <mat-error *ngIf="solution.hasError('required')">Solution cannot be empty</mat-error>
+        <kypo2-markdown-editor class="mrkdwn-solution"
+          [kypo2-markdown-file-upload]="false"
+          (contentChange)="solution.setValue($event)"
+          [content]="solution.value"></kypo2-markdown-editor>
+        <mat-error *ngIf="solution.hasError('required')">Solution cannot be
+          empty</mat-error>
       </div>
 
       <div class="right-panel">
         <!-- MAX SCORE filed -->
-        <mat-form-field appearance="outline" hintLabel="Number in range from 0 to 100">
+        <mat-form-field appearance="outline" hintLabel="Number in range from 0
+          to 100">
           <mat-label>Points for the level</mat-label>
-          <input matInput placeholder="Points for the level" type="number" max="100" min="0" formControlName="maxScore" required>
+          <input matInput placeholder="Points for the level" type="number"
+            max="100" min="0" formControlName="maxScore" required>
           <mat-error>Maximal score must be a number in range from 0 to 100</mat-error>
         </mat-form-field>
 
         <!-- INCORRECT FLAG LIMIT field -->
-        <mat-form-field appearance="outline" hintLabel="1 to 100. If the limit will be overreached, solution will be displayed automatically.">
+        <mat-form-field appearance="outline" hintLabel="1 to 100. If the limit
+          will be overreached, solution will be displayed automatically.">
           <mat-label>Incorrect Flag Limit</mat-label>
-          <input matInput placeholder="Incorrect Flag Limit" type="number" min="1" max="100" formControlName="incorrectFlagLimit" required>
+          <input matInput placeholder="Incorrect Flag Limit" type="number"
+            min="1" max="100" formControlName="incorrectFlagLimit" required>
           <mat-error>Incorrect flag limit must be in range of 1 to 100</mat-error>
         </mat-form-field>
 
         <!-- FLAG field -->
-        <mat-form-field appearance="outline" hintLabel="Max 50 characters">
+        <mat-form-field appearance="outline" hintLabel="Max 50 characters"
+          (keydown.enter)="$event.preventDefault()">
           <mat-label>Flag</mat-label>
-          <input matInput placeholder="Flag" maxlength="50" formControlName="flag" required>
-          <button mat-button *ngIf="flag" matSuffix mat-icon-button aria-label="Clear" (click)="flag.setValue('')">
+          <input matInput placeholder="Flag" maxlength="50"
+            formControlName="flag" required>
+          <button mat-button *ngIf="flag" matSuffix mat-icon-button
+            aria-label="Clear" (click)="flag.setValue('')">
             <mat-icon>close</mat-icon>
           </button>
           <mat-hint align="end">{{flag.value?.length || 0}}/50</mat-hint>
@@ -57,11 +73,14 @@
         </mat-form-field>
 
         <!-- SOLUTION PENALIZED field -->
-        <mat-checkbox formControlName="solutionPenalized" matTooltip="Penalty for displaying the solution">Solution Penalized (trainee will get 0 points for the level)</mat-checkbox>
+        <mat-checkbox formControlName="solutionPenalized" matTooltip="Penalty
+          for displaying the solution">Solution Penalized (trainee will get 0
+          points for the level)</mat-checkbox>
       </div>
     </div>
 
     <!--HINTS component -->
-    <kypo2-hints-overview (hintsChange)="hintsChanged($event)" [hints]="level.hints" [levelMaxScore]="level.maxScore"></kypo2-hints-overview>
+    <kypo2-hints-overview (hintsChange)="hintsChanged($event)"
+      [hints]="level.hints" [levelMaxScore]="level.maxScore"></kypo2-hints-overview>
   </form>
 </div>

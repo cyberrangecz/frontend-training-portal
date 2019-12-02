@@ -1,10 +1,12 @@
 <form [formGroup]="multipleChoicesFormGroup.formGroup">
   <div class="content">
     <!-- TITLE field-->
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline"
+      (keydown.enter)="$event.preventDefault()">
       <mat-label>Title</mat-label>
       <input matInput placeholder="Title" formControlName="title" required>
-      <button mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)="title.setValue('')">
+      <button mat-button *ngIf="title" matSuffix mat-icon-button
+        aria-label="Clear" (click)="title.setValue('')">
         <mat-icon>close</mat-icon>
       </button>
       <mat-error *ngIf="title.hasError('required')">Title cannot be empty</mat-error>
@@ -13,46 +15,68 @@
 
     <div class="inline-input">
       <!-- SCORE field -->
-      <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionScore }}">
+      <mat-form-field appearance="outline" hintLabel="Number in range from 0 to
+        {{ maxQuestionScore }}">
         <mat-label>Points</mat-label>
-        <input matInput placeholder="Points" type="number" [max]="maxQuestionScore" min="0" formControlName="score" [required]="required">
-        <mat-error *ngIf="score.hasError('required')">Question score cannot be empty</mat-error>
-        <mat-error *ngIf="score.hasError('pattern') || score.hasError('min') || score.hasError('max')">Question score must be a number in range from 0 to {{this.maxQuestionScore}}</mat-error>
+        <input matInput placeholder="Points" type="number"
+          [max]="maxQuestionScore" min="0" formControlName="score"
+          [required]="required">
+        <mat-error *ngIf="score.hasError('required')">Question score cannot be
+          empty</mat-error>
+        <mat-error *ngIf="score.hasError('pattern') || score.hasError('min') ||
+          score.hasError('max')">Question score must be a number in range from 0
+          to {{this.maxQuestionScore}}</mat-error>
       </mat-form-field>
 
       <!-- PENALTY field -->
-      <mat-form-field appearance="outline" hintLabel="Number in range from 0 to {{ maxQuestionPenalty }}">
+      <mat-form-field appearance="outline" hintLabel="Number in range from 0 to
+        {{ maxQuestionPenalty }}">
         <mat-label>Penalty points</mat-label>
-        <input matInput placeholder="Question Penalty points" type="number" [max]="maxQuestionPenalty" min="0" formControlName="penalty" [required]="required">
-        <mat-error *ngIf="penalty.hasError('required')">Question penalty cannot be empty</mat-error>
-        <mat-error *ngIf="penalty.hasError('pattern') || penalty.hasError('min') || penalty.hasError('max')">Question penalty must be a number in range from 0 to this.{{maxQuestionPenalty}}</mat-error>
+        <input matInput placeholder="Question Penalty points" type="number"
+          [max]="maxQuestionPenalty" min="0" formControlName="penalty"
+          [required]="required">
+        <mat-error *ngIf="penalty.hasError('required')">Question penalty cannot
+          be empty</mat-error>
+        <mat-error *ngIf="penalty.hasError('pattern') || penalty.hasError('min')
+          || penalty.hasError('max')">Question penalty must be a number in range
+          from 0 to this.{{maxQuestionPenalty}}</mat-error>
       </mat-form-field>
     </div>
 
     <div class="answer-controls" *ngIf="required && isTest">
       <button (click)="addOption()" mat-button color="primary">Add answer</button>
-      <button [disabled]="correctAnswersIndices.value.length <= 0" mat-button color="warn" (click)="clearAnswers()" class="clear-answers">Clear answers</button>
+      <button [disabled]="correctAnswersIndices.value.length <= 0" mat-button
+        color="warn" (click)="clearAnswers()" class="clear-answers">Clear
+        answers</button>
     </div>
 
     <!-- OPTIONS field -->
-    <div  formArrayName="options">
-      <div *ngFor="let option of options.controls; index as i; trackBy: trackByFn" class="option">
-        <mat-checkbox [disabled]="!isTest || !required" [checked]="correctAnswersIndices.value.includes(i)" (change)="onAnswerChanged($event, i)"></mat-checkbox>
-        <mat-form-field>
+    <div formArrayName="options">
+      <div *ngFor="let option of options.controls; index as i; trackBy:
+        trackByFn" class="option">
+        <mat-checkbox [disabled]="!isTest || !required"
+          [checked]="correctAnswersIndices.value.includes(i)"
+          (change)="onAnswerChanged($event, i)"></mat-checkbox>
+        <mat-form-field (keydown.enter)="$event.preventDefault()">
           <mat-label>Option {{ i + 1 }}</mat-label>
-          <input matInput placeholder="Option {{ i + 1 }}" [formControl]="option">
-          <button mat-button *ngIf="option.value" matSuffix mat-icon-button aria-label="Clear" (click)="option.setValue('')">
+          <input matInput placeholder="Option {{ i + 1 }}"
+            [formControl]="option">
+          <button mat-button *ngIf="option.value" matSuffix mat-icon-button
+            aria-label="Clear" (click)="option.setValue('')">
             <mat-icon>close</mat-icon>
           </button>
-          <mat-error *ngIf="option.hasError('required')">{{i+1}}. option cannot be empty</mat-error>
+          <mat-error *ngIf="option.hasError('required')">{{i+1}}. option cannot
+            be empty</mat-error>
         </mat-form-field>
-        <button mat-button matSuffix mat-icon-button aria-label="Delete option" color="warn" matTooltip="Delete option"
-                (click)="deleteOption(i)">
+        <button mat-button matSuffix mat-icon-button aria-label="Delete option"
+          color="warn" matTooltip="Delete option"
+          (click)="deleteOption(i)">
           <mat-icon>remove_circle</mat-icon>
         </button>
       </div>
       <mat-error *ngIf="options.hasError('required')">Options cannot be empty</mat-error>
-      <mat-error *ngIf="isTest && correctAnswersIndices.hasError('required')">Test question must have selected correct answers</mat-error>
+      <mat-error *ngIf="isTest && correctAnswersIndices.hasError('required')">Test
+        question must have selected correct answers</mat-error>
     </div>
   </div>
 </form>

@@ -1,11 +1,13 @@
-  <div class="content">
-    <form [formGroup]="trainingInstanceFormGroup.formGroup">
+ <div class="content">
+  <form [formGroup]="trainingInstanceFormGroup.formGroup">
 
     <!--TITLE field-->
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline"
+      (keydown.enter)="$event.preventDefault()">
       <mat-label>Title</mat-label>
       <input matInput placeholder="Title" formControlName="title" required>
-      <button mat-button *ngIf="title.value" matSuffix mat-icon-button aria-label="Clear" (click)="title.setValue('');">
+      <button mat-button *ngIf="title.value" matSuffix mat-icon-button
+        aria-label="Clear" (click)="title.setValue('');">
         <mat-icon>close</mat-icon>
       </button>
       <mat-error *ngIf="title.hasError('required')">This field is required</mat-error>
@@ -14,21 +16,31 @@
     <div class="panel-wrapper">
       <div class="left-panel">
         <!-- POOL SIZE filed -->
-        <mat-form-field appearance="outline" hintLabel="Pool of sandboxes that can be allocated" class="multi-line-hint">
+        <mat-form-field appearance="outline" hintLabel="Pool of sandboxes that
+          can be allocated" class="multi-line-hint">
           <mat-label>Sandbox pool size</mat-label>
-          <input matInput placeholder="Sandbox pool size" type="number" max="64" min="1" formControlName="poolSize" required>
-          <mat-error *ngIf="poolSize.hasError('max') || poolSize.hasError('min')">Pool size must be number in range from {{poolSize.hasError('min')}} to {{poolSize.hasError('max')}}</mat-error>
-          <mat-error *ngIf="poolSize.hasError('required')">This field is required</mat-error>
+          <input matInput placeholder="Sandbox pool size" type="number" max="64"
+            min="1" formControlName="poolSize" required>
+          <mat-error *ngIf="poolSize.hasError('max') ||
+            poolSize.hasError('min')">Pool size must be number in range from
+            {{poolSize.hasError('min')}} to {{poolSize.hasError('max')}}</mat-error>
+          <mat-error *ngIf="poolSize.hasError('required')">This field is
+            required</mat-error>
         </mat-form-field>
 
         <!-- ACCESS TOKEN filed -->
-        <mat-form-field appearance="outline"  hintLabel="Generated PIN code will be added to your token" class="multi-line-hint">
+        <mat-form-field appearance="outline" hintLabel="Generated PIN code will
+          be added to your token" class="multi-line-hint"
+          (keydown.enter)="$event.preventDefault()">
           <mat-label>Access Token Prefix</mat-label>
-          <input matInput placeholder="Access Token" formControlName="accessToken" required>
-          <button mat-button *ngIf="accessToken.value" matSuffix mat-icon-button aria-label="Clear" (click)="accessToken.setValue('');">
+          <input matInput placeholder="Access Token"
+            formControlName="accessToken" required>
+          <button mat-button *ngIf="accessToken.value" matSuffix mat-icon-button
+            aria-label="Clear" (click)="accessToken.setValue('');">
             <mat-icon>close</mat-icon>
           </button>
-          <mat-error *ngIf="accessToken.hasError('required')">This field is required</mat-error>
+          <mat-error *ngIf="accessToken.hasError('required')">This field is
+            required</mat-error>
         </mat-form-field>
       </div>
 
@@ -42,24 +54,29 @@
           <mat-label>Start Time</mat-label>
           <div class="input-wrapper">
             <input matInput
-                   placeholder="Start Time"
-                   required
-                   [min]="now"
-                   [max]="endTime.value"
-                   formControlName="startTime"
-                   (dateTimeChange)="onStartTimeChanged()"
-                   [owlDateTime]="startTimePicker">
+              placeholder="Start Time"
+              required
+              [min]="now"
+              [max]="endTime.value"
+              formControlName="startTime"
+              (dateTimeChange)="onStartTimeChanged()"
+              [owlDateTime]="startTimePicker">
             <owl-date-time #startTimePicker [startAt]="startTime.value"></owl-date-time>
           </div>
-          <mat-error *ngIf="trainingInstanceFormGroup.formGroup.hasError('startTimeAfterEndTime')">Start time must be before end time</mat-error>
-          <mat-error *ngIf="startTime.hasError('dateInPast')">Start time cannot be in the past</mat-error>
-          <mat-error *ngIf="startTime.hasError('required')">This field is required</mat-error>
+          <mat-error
+            *ngIf="trainingInstanceFormGroup.formGroup.hasError('startTimeAfterEndTime')">Start
+            time must be before end time</mat-error>
+          <mat-error *ngIf="startTime.hasError('dateInPast')">Start time cannot
+            be in the past</mat-error>
+          <mat-error *ngIf="startTime.hasError('required')">This field is
+            required</mat-error>
         </mat-form-field>
 
         <!-- END TIME field -->
         <mat-form-field
           class="multi-line-hint"
-          hintLabel="Trainees cannot access training runs after end time expires"
+          hintLabel="Trainees cannot access training runs after end time
+          expires"
           [owlDateTimeTrigger]="endTimePicker"
           appearance="outline">
           <mat-label>End Time</mat-label>
@@ -71,23 +88,28 @@
               [min]="startTime.value"
               formControlName="endTime"
               [owlDateTime]="endTimePicker">
-            <owl-date-time #endTimePicker [startAt]="endTime.value ? endTime.value : startTime.value"></owl-date-time>
+            <owl-date-time #endTimePicker [startAt]="endTime.value ?
+              endTime.value : startTime.value"></owl-date-time>
           </div>
-          <mat-error *ngIf="trainingInstanceFormGroup.formGroup.hasError('startTimeAfterEndTime')">Start time must be before end time</mat-error>
-          <mat-error *ngIf="endTime.hasError('dateInPast')">End time cannot be in the past</mat-error>
+          <mat-error
+            *ngIf="trainingInstanceFormGroup.formGroup.hasError('startTimeAfterEndTime')">Start
+            time must be before end time</mat-error>
+          <mat-error *ngIf="endTime.hasError('dateInPast')">End time cannot be
+            in the past</mat-error>
           <mat-error *ngIf="endTime.hasError('required')">This field is required</mat-error>
         </mat-form-field>
 
         <!-- TRAINING DEFINITION field-->
         <div class="form-line">
-          <p *ngIf="trainingDefinition.value">Training Definition: {{ trainingDefinition.value.title | shortString: 30 }}</p>
+          <p *ngIf="trainingDefinition.value">Training Definition: {{
+            trainingDefinition.value.title | shortString: 30 }}</p>
           <p *ngIf="!trainingDefinition.value">Training Definition*</p>
           <button (click)="chooseTrainingDefinition()"
-                  mat-button color="accent">
+            mat-button color="accent">
             Choose
           </button>
         </div>
       </div>
     </div>
   </form>
-  </div>
+</div>

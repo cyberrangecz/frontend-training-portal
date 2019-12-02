@@ -5,10 +5,13 @@
 
   <!-- ANSWER field-->
 
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline"
+    (keydown.enter)="$event.preventDefault()">
     <mat-label>Answer</mat-label>
-    <input matInput placeholder="Answer" [(ngModel)]="answer" [required]="question.required" (keyup)="onChange()">
-    <button mat-button *ngIf="answer" matSuffix mat-icon-button aria-label="Clear" (click)="answer =''; onChange()">
+    <input matInput placeholder="Answer" [(ngModel)]="answer"
+      [required]="question.required" (keyup)="onChange()">
+    <button mat-button *ngIf="answer" matSuffix mat-icon-button
+      aria-label="Clear" (click)="answer=''; onChange()">
       <mat-icon>close</mat-icon>
     </button>
   </mat-form-field>
