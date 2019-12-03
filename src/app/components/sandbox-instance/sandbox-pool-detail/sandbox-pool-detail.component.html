@@ -2,6 +2,9 @@
 <div class="content">
   <div class="overview">
     <h3>Sandbox Instances</h3>
+    <div class="controls">
+      <button mat-raised-button color="primary" [disabled]="pool?.isFull()" (click)="allocatePool()">Allocate</button>
+    </div>
     <kypo2-table [data]="instances$ | async"
                  [hasError]="instancesTableHasError$ | async"
                  [totalElements]="instancesTotalLength$ | async"
@@ -20,7 +23,7 @@
                      (refresh)="onCreationRequestsLoadEvent($event)">
         </kypo2-table>
       </div>
-      <div class="request">
+<!--      <div class="request">
         <h3>Cleanup Requests</h3>
         <kypo2-table [data]="cleanupRequests$ | async"
                      [hasError]="cleanupRequestsTableHasError$ | async"
@@ -28,7 +31,7 @@
                      (rowAction)="onCleanupAction($event)"
                      (refresh)="onCleanupRequestsLoadEvent($event)">
         </kypo2-table>
-      </div>
+      </div>-->
     </div>
   </div>
 </div>

@@ -95,10 +95,12 @@
             </td>
           </ng-container>
 
-          <!-- ID Column -->
+          <!-- POOL ID Column -->
           <ng-container matColumnDef="pool-id">
             <th class="pool-id" mat-header-cell *matHeaderCellDef>Pool ID</th>
-            <td class="pool-id" mat-cell *matCellDef="let training"> {{ training.trainingInstance?.poolId }} </td>
+            <td class="pool-id" mat-cell *matCellDef="let training">
+              {{ training.trainingInstance?.poolId }}
+            </td>
           </ng-container>
 
           <!-- PASSWORD Column -->

@@ -12,8 +12,29 @@ mat-card {
   justify-content: flex-end;
 }
 
+.stage-output {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.error {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: center;
+}
+
 .success {
   color: $success;
+}
+
+.warn {
+  color: $warn;
+}
+
+.primary {
+  color: $primary;
 }
 
 .state h3 {

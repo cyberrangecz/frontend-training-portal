@@ -1,11 +1,12 @@
 import {RequestStageState} from '../../../../enums/request-stage-state.enum';
+import {RequestStageType} from '../../../../enums/request-stage-type.enum';
 
 export abstract class RequestStage {
   id: number;
-  jobId: number;
-  externalResource: string;
   description: string;
   state: RequestStageState;
-  percentFinished: number;
-  output?: string[];
+  errorMessage: string;
+  start: Date;
+  end: Date;
+  type: RequestStageType = RequestStageType.ANSIBLE_RUN // TODO: remove assignment
 }

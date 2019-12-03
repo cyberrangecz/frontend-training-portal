@@ -1,7 +1,5 @@
-import {Column, Kypo2Table, Row, RowAction} from 'kypo2-table';
-import {RouteFactory} from '../routes/route-factory';
+import {Column, Kypo2Table, Row} from 'kypo2-table';
 import {SandboxInstanceResource} from '../sandbox/pool/sandbox-instance/sandbox-instance-resource/sandbox-instance-resource';
-import {of} from 'rxjs';
 
 export class SandboxInstanceResourceTableCreator {
   static create(resources: SandboxInstanceResource[]): Kypo2Table<SandboxInstanceResource> {

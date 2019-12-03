@@ -90,17 +90,16 @@ export class TreeMenu {
   }
 
   private static AddOrganizerNodes(tree: MenuNode[]) {
-    const parent = tree.find(node => node.label === TRAININGS_LABEL);
+    let parent = tree.find(node => node.label === TRAININGS_LABEL);
     const trainingInstance = new MenuNode(parent, 'Instance');
     trainingInstance.path = TRAINING_INSTANCE_PATH;
     trainingInstance.order = ORGANIZER_NODES_TI_ORDER;
     parent.children.push(trainingInstance);
-// TODO: Add when sandbox instance components are ready
-/*    parent = tree.find(node => node.label === SANDBOXES_LABEL);
-    const sandboxInstance = new MenuNode(found, 'Sandbox Instance');
+    parent = tree.find(node => node.label === SANDBOXES_LABEL);
+    const sandboxInstance = new MenuNode(parent, 'Instance');
     sandboxInstance.path = SANDBOX_POOL_PATH;
     sandboxInstance.order = 20;
-    found.children.push(sandboxInstance);*/
+    parent.children.push(sandboxInstance);
   }
 
   private static AddTraineeNodes(tree: MenuNode[]) {

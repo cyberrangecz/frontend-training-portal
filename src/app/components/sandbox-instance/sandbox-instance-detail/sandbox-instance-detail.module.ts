@@ -6,8 +6,8 @@ import { SandboxInstanceDetailRoutingModule } from './sandbox-instance-detail-ro
 import { SandboxInstanceDetailComponent } from './sandbox-instance-detail.component';
 import {Kypo2TopologyGraphModule} from 'kypo2-topology-graph';
 import {environment} from '../../../../environments/environment';
-import {SandboxInstanceResourceService} from '../../../services/sandbox-instance/sandbox-instance-resource.service';
-import {SandboxInstanceResourceConcreteService} from '../../../services/sandbox-instance/sandbox-instance-resource-concrete.service';
+import {SandboxInstanceResourceService} from '../../../services/sandbox-instance/sandbox/sandbox-instance-resource.service';
+import {SandboxInstanceResourceConcreteService} from '../../../services/sandbox-instance/sandbox/sandbox-instance-resource-concrete.service';
 import {Kypo2TableModule} from 'kypo2-table';
 import {SandboxInstanceResourceResolver} from '../../../services/resolvers/sandbox-instance-resolvers/sandbox-instance-resource-resolver.service';
 import {SandboxInstanceResourceBreadcrumbResolver} from '../../../services/resolvers/sandbox-instance-resolvers/sandbox-instance-resource-breadcrumb-resolver.service';

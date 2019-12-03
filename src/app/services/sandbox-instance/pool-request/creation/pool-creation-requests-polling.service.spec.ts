@@ -1,33 +1,36 @@
 import {async, fakeAsync, TestBed, tick} from '@angular/core/testing';
-import {ErrorHandlerService} from '../../shared/error-handler.service';
-import {SandboxInstanceFacade} from '../../facades/sandbox-instance-facade.service';
+import {
+  poolCreationRequestsCacheBuster$,
+  PoolCreationRequestsPollingService
+} from './pool-creation-requests-polling.service';
+import {ErrorHandlerService} from '../../../shared/error-handler.service';
+import {SandboxInstanceFacade} from '../../../facades/sandbox-instance-facade.service';
 import {RequestedPagination} from 'kypo2-table';
-import {asyncData} from '../../../testing/helpers/async-data';
-import {PaginatedResource} from '../../../model/table-adapters/paginated-resource';
-import {Kypo2Pagination} from '../../../model/table-adapters/kypo2-pagination';
+import {asyncData} from '../../../../testing/helpers/async-data';
+import {PaginatedResource} from '../../../../model/table-adapters/paginated-resource';
+import {Kypo2Pagination} from '../../../../model/table-adapters/kypo2-pagination';
 import {skip} from 'rxjs/operators';
-import {environment} from '../../../../environments/environment';
+import {environment} from '../../../../../environments/environment';
 import {throwError} from 'rxjs';
-import {PoolCreationRequest} from '../../../model/sandbox/pool/request/pool-creation-request';
-import {poolCleanupRequestsCacheBuster$, PoolCleanupRequestsPollingService} from './pool-cleanup-requests-polling.service';
+import {PoolCreationRequest} from '../../../../model/sandbox/pool/request/pool-creation-request';
 
-describe('PoolCleanupRequestsPollingService', () => {
+describe('PoolCreationRequestsPollingService', () => {
   let errorHandlerSpy: jasmine.SpyObj<ErrorHandlerService>;
   let facadeSpy: jasmine.SpyObj<SandboxInstanceFacade>;
-  let service: PoolCleanupRequestsPollingService;
+  let service: PoolCreationRequestsPollingService;
 
   beforeEach(async(() => {
     errorHandlerSpy = jasmine.createSpyObj('ErrorHandlerService', ['display']);
-    facadeSpy = jasmine.createSpyObj('SandboxInstanceFacade', ['getCleanupRequests', 'cancelCleanupRequest', 'retryCleanupRequest']);
+    facadeSpy = jasmine.createSpyObj('SandboxInstanceFacade', ['getCreationRequests', 'cancelCreationRequest', 'retryCreationRequest']);
     TestBed.configureTestingModule({
-      providers: [
-        PoolCleanupRequestsPollingService,
-        {provide: SandboxInstanceFacade, useValue: facadeSpy},
-        {provide: ErrorHandlerService, useValue: errorHandlerSpy}
-      ]
-    });
-    service = TestBed.get(PoolCleanupRequestsPollingService);
-    poolCleanupRequestsCacheBuster$.next();
+    providers: [
+      PoolCreationRequestsPollingService,
+      {provide: SandboxInstanceFacade, useValue: facadeSpy},
+      {provide: ErrorHandlerService, useValue: errorHandlerSpy}
+    ]
+  });
+    service = TestBed.get(PoolCreationRequestsPollingService);
+    poolCreationRequestsCacheBuster$.next();
   }));
 
   it('should be created', () => {
@@ -36,21 +39,21 @@ describe('PoolCleanupRequestsPollingService', () => {
 
   it('should load data from facade (called once)', done => {
     const pagination = createPagination();
-    facadeSpy.getCleanupRequests.and.returnValue(asyncData(null));
+    facadeSpy.getCreationRequests.and.returnValue(asyncData(null));
 
     service.getAll(0, pagination).subscribe(_ => done(),
       fail);
-    expect(facadeSpy.getCleanupRequests).toHaveBeenCalledTimes(1);
+    expect(facadeSpy.getCreationRequests).toHaveBeenCalledTimes(1);
   });
 
-  it('should emit next value on update (request)', done => {
+  it('should emit next value on update (requests)', done => {
     const pagination = createPagination();
     const mockData = createMock();
-    facadeSpy.getCleanupRequests.and.returnValue(asyncData(mockData));
+    facadeSpy.getCreationRequests.and.returnValue(asyncData(mockData));
 
     service.requests$.pipe(skip(1))
       .subscribe(emitted => {
-        expect(emitted).toEqual(mockData);
+        expect(emitted).toBe(mockData);
         done();
         },
         fail);
@@ -62,7 +65,8 @@ describe('PoolCleanupRequestsPollingService', () => {
   it('should emit next value on update (totalLength)', done => {
     const pagination = createPagination();
     const mockData = createMock();
-    facadeSpy.getCleanupRequests.and.returnValue(asyncData(mockData));
+    facadeSpy.getCreationRequests.and.returnValue(asyncData(mockData));
+
     const subscription = service.requests$.pipe(skip(1))
       .subscribe(_ => _,
         fail);
@@ -80,19 +84,19 @@ describe('PoolCleanupRequestsPollingService', () => {
 
   it('should call error handler on err', done => {
     const pagination = createPagination();
-    facadeSpy.getCleanupRequests.and.returnValue(throwError(null));
+    facadeSpy.getCreationRequests.and.returnValue(throwError(null));
 
     service.getAll(0, pagination)
       .subscribe(_ => fail,
         _ => {
         expect(errorHandlerSpy.display).toHaveBeenCalledTimes(1);
         done();
-        });
+      });
   });
 
   it('should emit hasError observable on err', done => {
     const pagination = createPagination();
-    facadeSpy.getCleanupRequests.and.returnValue(throwError(null));
+    facadeSpy.getCreationRequests.and.returnValue(throwError(null));
     service.hasError$
       .pipe(
         skip(2) // we ignore initial value and value emitted before the call is made
@@ -110,37 +114,34 @@ describe('PoolCleanupRequestsPollingService', () => {
     const mockData = createMock();
     const request = new PoolCreationRequest();
     request.id = 0;
-    facadeSpy.getCleanupRequests.and.returnValue(asyncData(mockData));
-    facadeSpy.cancelCleanupRequest.and.returnValue(asyncData(null));
+    facadeSpy.getCreationRequests.and.returnValue(asyncData(mockData));
+    facadeSpy.cancelCreationRequest.and.returnValue(asyncData(null));
 
     service.cancel(0, request)
       .subscribe(_ => {
-        expect(facadeSpy.cancelCleanupRequest).toHaveBeenCalledTimes(1);
+        expect(facadeSpy.cancelCreationRequest).toHaveBeenCalledTimes(1);
         done();
-        },
-        fail
-      );
+      });
   });
 
   it('should update the data on cancel', done => {
     const mockData = createMock();
     const request = new PoolCreationRequest();
     request.id = 0;
-    facadeSpy.getCleanupRequests.and.returnValue(asyncData(mockData));
-    facadeSpy.cancelCleanupRequest.and.returnValue(asyncData(null));
+    facadeSpy.getCreationRequests.and.returnValue(asyncData(mockData));
+    facadeSpy.cancelCreationRequest.and.returnValue(asyncData(null));
 
     service.cancel(0, request)
       .subscribe(_ => {
-        expect(facadeSpy.getCleanupRequests).toHaveBeenCalledTimes(1);
+        expect(facadeSpy.getCreationRequests).toHaveBeenCalledTimes(1);
         done();
-        },
-        fail
-      );
+      }
+    );
   });
 
   it('should start polling', fakeAsync(() => {
     const mockData = createMock();
-    facadeSpy.getCleanupRequests.and.returnValue(asyncData(mockData));
+    facadeSpy.getCreationRequests.and.returnValue(asyncData(mockData));
 
     const subscription = service.requests$.subscribe();
     assertPoll(1);
@@ -149,19 +150,19 @@ describe('PoolCleanupRequestsPollingService', () => {
 
   it('should stop polling on error', fakeAsync(() => {
     const mockData = createMock();
-    facadeSpy.getCleanupRequests.and.returnValues(asyncData(mockData), asyncData(mockData), throwError(null)); // throw error on third call
+    facadeSpy.getCreationRequests.and.returnValues(asyncData(mockData), asyncData(mockData), throwError(null)); // throw error on third call
 
     const subscription = service.requests$.subscribe();
     assertPoll(3);
     tick(5 * environment.apiPollingPeriod);
-    expect(facadeSpy.getCleanupRequests).toHaveBeenCalledTimes(3);
+    expect(facadeSpy.getCreationRequests).toHaveBeenCalledTimes(3);
     subscription.unsubscribe();
   }));
 
   it('should start polling again after request is successful', fakeAsync(() => {
     const pagination = createPagination();
     const mockData = createMock();
-    facadeSpy.getCleanupRequests.and.returnValues(
+    facadeSpy.getCreationRequests.and.returnValues(
       asyncData(mockData),
       asyncData(mockData),
       throwError(null),
@@ -170,14 +171,14 @@ describe('PoolCleanupRequestsPollingService', () => {
       asyncData(mockData));
 
     const subscription = service.requests$.subscribe();
-    expect(facadeSpy.getCleanupRequests).toHaveBeenCalledTimes(0);
+    expect(facadeSpy.getCreationRequests).toHaveBeenCalledTimes(0);
     assertPoll(3);
     tick(environment.apiPollingPeriod);
-    expect(facadeSpy.getCleanupRequests).toHaveBeenCalledTimes(3);
+    expect(facadeSpy.getCreationRequests).toHaveBeenCalledTimes(3);
     tick( 5 * environment.apiPollingPeriod);
-    expect(facadeSpy.getCleanupRequests).toHaveBeenCalledTimes(3);
+    expect(facadeSpy.getCreationRequests).toHaveBeenCalledTimes(3);
     service.getAll(0, pagination).subscribe();
-    expect(facadeSpy.getCleanupRequests).toHaveBeenCalledTimes(4);
+    expect(facadeSpy.getCreationRequests).toHaveBeenCalledTimes(4);
     assertPoll(3, 4);
     subscription.unsubscribe();
   }));
@@ -195,7 +196,7 @@ describe('PoolCleanupRequestsPollingService', () => {
     for (let i = 0; i < times; i++) {
       tick(environment.apiPollingPeriod);
       calledTimes = calledTimes + 1;
-      expect(facadeSpy.getCleanupRequests).toHaveBeenCalledTimes(calledTimes);
+      expect(facadeSpy.getCreationRequests).toHaveBeenCalledTimes(calledTimes);
     }
   }
 });

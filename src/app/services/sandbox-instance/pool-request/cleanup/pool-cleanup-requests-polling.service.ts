@@ -1,28 +1,21 @@
 import {Injectable} from '@angular/core';
-import {
-  BehaviorSubject,
-  merge,
-  Observable, Subject,
-} from 'rxjs';
-import {
-  switchMap,
-  tap
-} from 'rxjs/operators';
-import {PoolRequest} from '../../../model/sandbox/pool/request/pool-request';
-import {PaginatedResource} from '../../../model/table-adapters/paginated-resource';
-import {SandboxInstanceFacade} from '../../facades/sandbox-instance-facade.service';
-import {ErrorHandlerService} from '../../shared/error-handler.service';
-import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
+import {BehaviorSubject, merge, Observable, Subject} from 'rxjs';
+import {PaginatedResource} from '../../../../model/table-adapters/paginated-resource';
+import {PoolRequest} from '../../../../model/sandbox/pool/request/pool-request';
+import {switchMap, tap} from 'rxjs/operators';
+import {SandboxInstanceFacade} from '../../../facades/sandbox-instance-facade.service';
+import {ErrorHandlerService} from '../../../shared/error-handler.service';
+import {RequestedPagination} from '../../../../model/DTOs/other/requested-pagination';
 import {Pagination} from 'kypo2-table';
-import {environment} from '../../../../environments/environment';
+import {environment} from '../../../../../environments/environment';
+import {PoolRequestPollingService} from '../pool-request-polling.service';
 import {HttpErrorResponse} from '@angular/common/http';
-import {PoolRequestPollingService} from './pool-request-polling.service';
 import {Cacheable, CacheBuster} from 'ngx-cacheable';
 
-export const poolCreationRequestsCacheBuster$: Subject<void> = new Subject();
+export const poolCleanupRequestsCacheBuster$: Subject<void> = new Subject();
 
 @Injectable()
-export class PoolCreationRequestsPollingService extends PoolRequestPollingService {
+export class PoolCleanupRequestsPollingService extends PoolRequestPollingService {
 
   private manuallyUpdatedRequests$: BehaviorSubject<PaginatedResource<PoolRequest[]>> = new BehaviorSubject(this.initSubject());
   requests$: Observable<PaginatedResource<PoolRequest[]>>;
@@ -35,12 +28,13 @@ export class PoolCreationRequestsPollingService extends PoolRequestPollingServic
         tap(paginatedRequests => this.totalLengthSubject.next(paginatedRequests.pagination.totalElements))
       );
   }
+
   @Cacheable({
-    cacheBusterObserver: poolCreationRequestsCacheBuster$
+    cacheBusterObserver: poolCleanupRequestsCacheBuster$
   })
   getAll(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<PoolRequest[]>> {
     this.onManualGetAll(poolId, pagination);
-    return this.sandboxInstanceFacade.getCreationRequests(poolId, pagination)
+    return this.sandboxInstanceFacade.getCleanupRequests(poolId, pagination)
       .pipe(
         tap(
           paginatedRequests => this.manuallyUpdatedRequests$.next(paginatedRequests),
@@ -50,41 +44,41 @@ export class PoolCreationRequestsPollingService extends PoolRequestPollingServic
   }
 
   @CacheBuster({
-    cacheBusterNotifier: poolCreationRequestsCacheBuster$
+    cacheBusterNotifier: poolCleanupRequestsCacheBuster$
   })
   cancel(poolId: number, request: PoolRequest): Observable<any> {
-    return this.sandboxInstanceFacade.cancelCreationRequest(poolId, request.id)
+    return this.sandboxInstanceFacade.cancelCleanupRequest(poolId, request.id)
       .pipe(
-        tap({ error: err => this.errorHandler.display(err, 'Canceling creation request')}),
+        tap({ error: err => this.errorHandler.display(err, 'Canceling cleanup request')}),
         switchMap(_ => this.getAll(poolId, this.lastPagination))
       );
   }
 
   @CacheBuster({
-    cacheBusterNotifier: poolCreationRequestsCacheBuster$
+    cacheBusterNotifier: poolCleanupRequestsCacheBuster$
   })
   retry(poolId: number, request: PoolRequest): Observable<any> {
-    return this.sandboxInstanceFacade.retryCreationRequest(poolId, request.id)
+    return this.sandboxInstanceFacade.retryCleanupRequest(poolId, request.id)
       .pipe(
-        tap({ error: err => this.errorHandler.display(err, 'Canceling creation request')}),
+        tap({ error: err => this.errorHandler.display(err, 'Retrying cleanup request')}),
         switchMap(_ => this.getAll(poolId, this.lastPagination))
       );
   }
 
   @Cacheable({
-    cacheBusterObserver: poolCreationRequestsCacheBuster$,
+    cacheBusterObserver: poolCleanupRequestsCacheBuster$,
     maxAge: environment.apiPollingPeriod - 1
   })
   protected repeatLastGetAllRequest(): Observable<PaginatedResource<PoolRequest[]>> {
     this.hasErrorSubject$.next(false);
-    return this.sandboxInstanceFacade.getCreationRequests(this.lastPoolId, this.lastPagination)
+    return this.sandboxInstanceFacade.getCleanupRequests(this.lastPoolId, this.lastPagination)
       .pipe(
         tap({ error: err => this.onGetAllError(err)})
       );
   }
 
   private onGetAllError(err: HttpErrorResponse) {
-    this.errorHandler.display(err, 'Fetching creation requests');
+    this.errorHandler.display(err, 'Fetching deletion requests');
     this.hasErrorSubject$.next(true);
   }
 

@@ -1,5 +1,5 @@
 import {BehaviorSubject, Observable} from 'rxjs';
-import {SandboxInstanceResource} from '../../model/sandbox/pool/sandbox-instance/sandbox-instance-resource/sandbox-instance-resource';
+import {SandboxInstanceResource} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance-resource/sandbox-instance-resource';
 
 export abstract class SandboxInstanceResourceService {
   protected hasErrorSubject: BehaviorSubject<boolean> = new BehaviorSubject(false);

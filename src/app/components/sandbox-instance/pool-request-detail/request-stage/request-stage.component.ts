@@ -14,6 +14,9 @@ import {RequestStageType} from '../../../../model/enums/request-stage-type.enum'
 import {OpenStackStage} from '../../../../model/sandbox/pool/request/stage/open-stack-stage';
 import {AnsibleRunStage} from '../../../../model/sandbox/pool/request/stage/ansible-run-stage';
 import {RequestStageState} from '../../../../model/enums/request-stage-state.enum';
+import {StageDetail} from '../../../../model/sandbox/pool/request/stage/stage-detail';
+import {StageDetailEvent} from '../../../../model/events/stage-detail-event';
+import {StageDetailEventType} from '../../../../model/enums/stage-detail-event-type';
 
 @Component({
   selector: 'kypo2-request-stage',
@@ -24,12 +27,14 @@ import {RequestStageState} from '../../../../model/enums/request-stage-state.enu
 export class RequestStageComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input() stage: RequestStage;
+  @Input() stageDetail: StageDetail;
   @Input() isCleanup: boolean;
   @Output() forceCleanup: EventEmitter<RequestStage> = new EventEmitter();
+  @Output() stageDetailEvent: EventEmitter<StageDetailEvent> = new EventEmitter();
 
+  stageDetailIsLoading = false;
   stageType: RequestStageType;
   logoSrc: string;
-
   stageStates = RequestStageState;
 
   ngOnInit() {
@@ -39,10 +44,23 @@ export class RequestStageComponent extends BaseComponent implements OnInit, OnCh
     if ('stage' in changes) {
       this.resolveStageType();
     }
+    if ('stageDetail' in changes) {
+      this.stageDetailIsLoading = false;
+    }
   }
 
   onForceCleanup() {
     this.forceCleanup.emit(this.stage);
+  }
+
+  onStageDetailEvent(opened: boolean) {
+    this.stageDetailIsLoading = opened;
+    this.stageDetailEvent.emit(
+        new StageDetailEvent(
+            this.stage,
+            opened ? StageDetailEventType.SUBSCRIBE : StageDetailEventType.UNSUBSCRIBE
+        )
+    );
   }
 
   private resolveStageType() {

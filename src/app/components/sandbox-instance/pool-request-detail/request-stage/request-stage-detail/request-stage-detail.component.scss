@@ -7,6 +7,14 @@
   white-space: nowrap;
 }
 
+.temp-viewport {
+  height: 800px;
+  background-color: black;
+  color: gainsboro;
+  overflow-y: scroll;
+  font-family: 'Source Code Pro', monospace;
+}
+
 .actions {
   display: flex;
   flex-direction: row;

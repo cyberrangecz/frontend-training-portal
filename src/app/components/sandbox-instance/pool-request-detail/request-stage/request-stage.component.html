@@ -12,17 +12,43 @@
         <mat-icon *ngSwitchCase="stageStates.FINISHED" class="success">done</mat-icon>
         <mat-icon *ngSwitchCase="stageStates.RUNNING" color="primary">play_arrow</mat-icon>
       </ng-container>
-      <h3>{{ stage?.state }} ({{ stage?.percentFinished }}%)</h3>
+      <h3>{{ stage?.state }}</h3>
     </div>
-    <mat-progress-bar mode="determinate" [color]="stage?.state === stageStates.FAILED ? 'warn' : 'primary'" [value]="stage?.percentFinished"></mat-progress-bar>
-    <mat-expansion-panel  class="mat-elevation-z1" [disabled]="stage?.state === stageStates.IN_QUEUE">
+    <p *ngIf="stage.start">Started: {{ stage?.start | dateTimeFormat }}</p>
+    <p *ngIf="stage.start">Ended: {{ stage?.end | dateTimeFormat }}</p>
+    <p class="warn" *ngIf="stage.errorMessage"> {{ stage.errorMessage }}</p>
+
+    <mat-expansion-panel  class="mat-elevation-z1"
+                          [disabled]="stage?.state === stageStates.IN_QUEUE"
+                          (closed)="onStageDetailEvent(false)"
+                          (opened)="onStageDetailEvent(true)">
       <mat-expansion-panel-header>
         <mat-panel-title>Stage detail</mat-panel-title>
       </mat-expansion-panel-header>
-      <kypo2-request-stage-detail *ngIf="stage.output && stage.output.length > 0 else noStageOutput" [stage]="stage" [totalLength]="stage?.output.length"></kypo2-request-stage-detail>
-      <ng-template #noStageOutput>
-        <h3>Stage has no output</h3>
+      <div class="stage-output" *ngIf="!stageDetailIsLoading else stageOutputLoading">
+        <div *ngIf="stageDetail?.hasError" class="error">
+          <p class="warn">We have some trouble loading the data. Please try again.</p>
+          <button mat-icon-button color="primary" (click)="onStageDetailEvent(true)">
+            <mat-icon>refresh</mat-icon>
+          </button>
+        </div>
+        <div *ngIf="!stageDetail?.hasError">
+          <kypo2-request-stage-detail *ngIf="stageDetail && stageDetail.output?.length > 0 else noStageOutput"
+                                      [stageDetail]="stageDetail"
+                                      [totalLength]="stageDetail.output?.length">
+          </kypo2-request-stage-detail>
+          <ng-template #noStageOutput>
+            <h3>Stage has no output</h3>
+          </ng-template>
+        </div>
+
+      </div>
+      <ng-template #stageOutputLoading>
+        <div class="stage-output">
+          <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+        </div>
       </ng-template>
+
     </mat-expansion-panel>
   </mat-card-content>
   <mat-card-actions align="end" *ngIf="isCleanup">

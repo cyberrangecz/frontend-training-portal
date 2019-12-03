@@ -8,6 +8,7 @@ import {
 import {OpenStackStage} from '../../../../../model/sandbox/pool/request/stage/open-stack-stage';
 import {BaseComponent} from '../../../../base.component';
 import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
+import {StageDetail} from '../../../../../model/sandbox/pool/request/stage/stage-detail';
 
 @Component({
   selector: 'kypo2-request-stage-detail',
@@ -17,7 +18,7 @@ import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
 })
 export class RequestStageDetailComponent extends BaseComponent implements OnInit {
 
-  @Input() stage: OpenStackStage;
+  @Input() stageDetail: StageDetail;
   @Input() totalLength: number;
   @ViewChild(CdkVirtualScrollViewport, {static: true}) viewPort: CdkVirtualScrollViewport;
 

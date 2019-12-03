@@ -1,16 +1,16 @@
-import {SandboxInstanceFacade} from '../../facades/sandbox-instance-facade.service';
-import {ErrorHandlerService} from '../../shared/error-handler.service';
+import {SandboxInstanceFacade} from '../../../facades/sandbox-instance-facade.service';
+import {ErrorHandlerService} from '../../../shared/error-handler.service';
 import {poolRequestStagesCacheBuster$, PoolRequestStagesPollingService} from './pool-request-stages-polling.service';
 import {async, fakeAsync, TestBed, tick} from '@angular/core/testing';
-import {asyncData} from '../../../testing/helpers/async-data';
+import {asyncData} from '../../../../testing/helpers/async-data';
 import {skip} from 'rxjs/operators';
 import {throwError} from 'rxjs';
-import {PoolCreationRequest} from '../../../model/sandbox/pool/request/pool-creation-request';
-import {environment} from '../../../../environments/environment';
-import {AnsibleRunStage} from '../../../model/sandbox/pool/request/stage/ansible-run-stage';
-import {OpenStackStage} from '../../../model/sandbox/pool/request/stage/open-stack-stage';
+import {PoolCreationRequest} from '../../../../model/sandbox/pool/request/pool-creation-request';
+import {environment} from '../../../../../environments/environment';
+import {AnsibleRunStage} from '../../../../model/sandbox/pool/request/stage/ansible-run-stage';
+import {OpenStackStage} from '../../../../model/sandbox/pool/request/stage/open-stack-stage';
 
-describe('PoolRequestsStagesPollingService', () => {
+describe('PoolRequestStagesPollingService', () => {
 
   let errorHandlerSpy: jasmine.SpyObj<ErrorHandlerService>;
   let facadeSpy: jasmine.SpyObj<SandboxInstanceFacade>;
@@ -18,7 +18,7 @@ describe('PoolRequestsStagesPollingService', () => {
 
   beforeEach(async(() => {
     errorHandlerSpy = jasmine.createSpyObj('ErrorHandlerService', ['display']);
-    facadeSpy = jasmine.createSpyObj('SandboxInstanceFacade', ['getRequest', 'forceStage']);
+    facadeSpy = jasmine.createSpyObj('SandboxInstanceFacade', ['getCreationStages', 'forceStage']);
     TestBed.configureTestingModule({
       providers: [
         PoolRequestStagesPollingService,
@@ -35,30 +35,16 @@ describe('PoolRequestsStagesPollingService', () => {
   });
 
   it('should load data from facade (called once)', done => {
-    facadeSpy.getRequest.and.returnValue(asyncData(new PoolCreationRequest()));
+    facadeSpy.getCreationStages.and.returnValue(asyncData(new PoolCreationRequest()));
 
     service.getAll(0, 0).subscribe(_ => done(),
       _ => fail);
-    expect(facadeSpy.getRequest).toHaveBeenCalledTimes(1);
-    expect(facadeSpy.getRequest).toHaveBeenCalledWith(0, 0);
+    expect(facadeSpy.getCreationStages).toHaveBeenCalledTimes(1);
   });
 
-  it('should emit next value on update (stages observable)', done => {
-    const request = createMockRequest();
-    facadeSpy.getRequest.and.returnValue(asyncData(request));
-
-    service.startPolling(0, 0);
-    service.stages$
-      .subscribe(emitted => {
-        expect(emitted).toBe(request.stages);
-        done();
-        },
-          _ => fail);
-    service.getAll(0, 0).subscribe({error: _ => fail});
-  });
 
   it('should call error handler on err', done => {
-    facadeSpy.getRequest.and.returnValue(throwError(null));
+    facadeSpy.getCreationStages.and.returnValue(throwError(null));
 
     service.getAll(0, 0)
       .subscribe(_ => fail,
@@ -69,7 +55,7 @@ describe('PoolRequestsStagesPollingService', () => {
   });
 
   it('should emit hasError observable on err', done => {
-    facadeSpy.getRequest.and.returnValue(throwError(null));
+    facadeSpy.getCreationStages.and.returnValue(throwError(null));
 
     service.hasError$
       .pipe(
@@ -87,7 +73,7 @@ describe('PoolRequestsStagesPollingService', () => {
 
   it('should call facade on force cleanup', done => {
     facadeSpy.forceStage.and.returnValue(asyncData(null));
-    facadeSpy.getRequest.and.returnValue(asyncData(createMockRequest()));
+    facadeSpy.getCreationStages.and.returnValue(asyncData(createStages()));
 
     service.force(0, 0, 0)
       .subscribe(_ => {
@@ -99,11 +85,11 @@ describe('PoolRequestsStagesPollingService', () => {
 
   it('should update the data on force cleanup request', done => {
     facadeSpy.forceStage.and.returnValue(asyncData(null));
-    facadeSpy.getRequest.and.returnValue(asyncData(createMockRequest()));
+    facadeSpy.getCreationStages.and.returnValue(asyncData(createStages()));
 
     service.force(0, 0, 0)
       .subscribe(_ => {
-          expect(facadeSpy.getRequest).toHaveBeenCalledTimes(1);
+          expect(facadeSpy.getCreationStages).toHaveBeenCalledTimes(1);
           done();
         },
         _ => fail);
@@ -111,68 +97,72 @@ describe('PoolRequestsStagesPollingService', () => {
 
   it('should not start polling without calling startPolling', fakeAsync(() => {
     tick(5 * environment.apiPollingPeriod);
-    expect(facadeSpy.getRequest).toHaveBeenCalledTimes(0);
+    expect(facadeSpy.getCreationStages).toHaveBeenCalledTimes(0);
   }));
 
   it('should start polling after calling startPolling', fakeAsync(() => {
-    const request = createMockRequest();
-    facadeSpy.getRequest.and.returnValue(asyncData(request));
+    const stages = createStages();
+    facadeSpy.getCreationStages.and.returnValue(asyncData(stages));
 
-    service.startPolling(0, 0);
+    service.startPolling(0, 0, 'CREATION');
     const subscription = service.stages$.subscribe();
     assertPoll(5);
     subscription.unsubscribe();
   }));
 
   it('should stop polling on error', fakeAsync(() => {
-    const request = createMockRequest();
-    facadeSpy.getRequest.and.returnValues(asyncData(request), asyncData(request), throwError(null)); // throw error on third call
+    const stages = createStages();
+    facadeSpy.getCreationStages.and.returnValues(
+      asyncData(stages),
+      asyncData(stages),
+      asyncData(stages),
+      throwError(null)); // throw error on fourth period call
 
-    service.startPolling(0, 0);
+    service.startPolling(0, 0, 'CREATION');
     const subscription = service.stages$.subscribe();
     assertPoll(3);
     tick(5 * environment.apiPollingPeriod);
-    expect(facadeSpy.getRequest).toHaveBeenCalledTimes(3);
+    expect(facadeSpy.getCreationStages).toHaveBeenCalledTimes(4);
     subscription.unsubscribe();
   }));
 
   it('should start polling again after request is successful', fakeAsync(() => {
-    const request = createMockRequest();
-    facadeSpy.getRequest.and.returnValues(
-      asyncData(request),
-      asyncData(request),
+    const stages = createStages();
+    facadeSpy.getCreationStages.and.returnValues(
+      asyncData(stages),
+      asyncData(stages),
+      asyncData(stages),
       throwError(null),
-      asyncData(request),
-      asyncData(request),
-      asyncData(request)
+      asyncData(stages),
+      asyncData(stages),
+      asyncData(stages),
+      asyncData(stages),
+      asyncData(stages)
     );
 
-    service.startPolling(0, 0);
+    service.startPolling(0, 0, 'CREATION');
     const subscription = service.stages$.subscribe();
     assertPoll(3);
     tick(environment.apiPollingPeriod);
-    expect(facadeSpy.getRequest).toHaveBeenCalledTimes(3);
+    expect(facadeSpy.getCreationStages).toHaveBeenCalledTimes(4);
     tick( 5 * environment.apiPollingPeriod);
-    expect(facadeSpy.getRequest).toHaveBeenCalledTimes(3);
+    expect(facadeSpy.getCreationStages).toHaveBeenCalledTimes(4);
     service.getAll(0, 0).subscribe();
-    expect(facadeSpy.getRequest).toHaveBeenCalledTimes(4);
-    assertPoll(3, 4);
+    expect(facadeSpy.getCreationStages).toHaveBeenCalledTimes(5);
+    assertPoll(3, 6);
     subscription.unsubscribe();
   }));
 
-  function createMockRequest() {
-    const request = new PoolCreationRequest();
-    request.stages = [new AnsibleRunStage(), new OpenStackStage()];
-    request.stagesCount = 2;
-    return request;
+  function createStages() {
+    return [new AnsibleRunStage(), new OpenStackStage()];
   }
 
-  function assertPoll(times: number, initialHaveBeenCalledTimes: number = 0) {
+  function assertPoll(times: number, initialHaveBeenCalledTimes: number = 1) {
     let calledTimes = initialHaveBeenCalledTimes;
     for (let i = 0; i < times; i++) {
       tick(environment.apiPollingPeriod);
       calledTimes = calledTimes + 1;
-      expect(facadeSpy.getRequest).toHaveBeenCalledTimes(calledTimes);
+      expect(facadeSpy.getCreationStages).toHaveBeenCalledTimes(calledTimes);
     }
   }
 });

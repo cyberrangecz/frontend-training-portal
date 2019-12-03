@@ -7,16 +7,21 @@ import {PoolRequestDetailRoutingModule} from './pool-request-detail-routing.modu
 import {PoolRequestDetailComponent} from './pool-request-detail.component';
 import { RequestStageComponent } from './request-stage/request-stage.component';
 import { RequestStageDetailComponent } from './request-stage/request-stage-detail/request-stage-detail.component';
-import {PoolRequestStagesPollingService} from '../../../services/sandbox-instance/pool-request/pool-request-stages-polling.service';
+import {PoolRequestStagesPollingService} from '../../../services/sandbox-instance/pool-request/stage/pool-request-stages-polling.service';
 import {PoolResolver} from '../../../services/resolvers/sandbox-instance-resolvers/pool-resolver.service';
+import {PoolRequestTypeResolver} from '../../../services/resolvers/sandbox-instance-resolvers/pool-request-type-resolver.service';
+import {PipesModule} from '../../../pipes/pipes.module';
+import {StageDetailService} from '../../../services/sandbox-instance/pool-request/stage/stage-detail.service';
+import {StageDetailPollingService} from '../../../services/sandbox-instance/pool-request/stage/stage-detail-polling.service';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    PoolRequestDetailRoutingModule,
-    PoolRequestDetailMaterialModule,
-    SandboxInstanceFacadeModule,
-  ],
+    imports: [
+        CommonModule,
+        PoolRequestDetailRoutingModule,
+        PoolRequestDetailMaterialModule,
+        SandboxInstanceFacadeModule,
+        PipesModule,
+    ],
   declarations: [
     PoolRequestDetailComponent,
     RequestStageComponent,
@@ -25,7 +30,9 @@ import {PoolResolver} from '../../../services/resolvers/sandbox-instance-resolve
   providers: [
     PoolResolver,
     PoolRequestResolver,
-    PoolRequestStagesPollingService
+    PoolRequestTypeResolver,
+    PoolRequestStagesPollingService,
+    {provide: StageDetailService, useClass: StageDetailPollingService}
   ]
 })
 export class PoolRequestDetailModule {

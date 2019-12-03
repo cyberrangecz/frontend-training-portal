@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Kypo2Table, LoadTableEvent, RequestedPagination, TableActionEvent} from 'kypo2-table';
-import {SandboxInstanceService} from '../../../services/sandbox-instance/sandbox-instance.service';
+import {SandboxInstanceService} from '../../../services/sandbox-instance/sandbox/sandbox-instance.service';
 import {SandboxInstance} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance';
 import {Observable} from 'rxjs';
 import {map, takeWhile} from 'rxjs/operators';
@@ -11,8 +11,8 @@ import {BaseComponent} from '../../base.component';
 import {SandboxInstanceTableCreator} from '../../../model/table-adapters/sandbox-instance-table-creator';
 import {environment} from '../../../../environments/environment';
 import {PoolRequestTableCreator} from '../../../model/table-adapters/pool-request-table-creator';
-import {PoolCreationRequestsPollingService} from '../../../services/sandbox-instance/pool-request/pool-creation-requests-polling.service';
-import {PoolCleanupRequestsPollingService} from '../../../services/sandbox-instance/pool-request/pool-cleanup-requests-polling.service';
+import {PoolCreationRequestsPollingService} from '../../../services/sandbox-instance/pool-request/creation/pool-creation-requests-polling.service';
+import {PoolCleanupRequestsPollingService} from '../../../services/sandbox-instance/pool-request/cleanup/pool-cleanup-requests-polling.service';
 import {RouteFactory} from '../../../model/routes/route-factory';
 
 @Component({
@@ -114,6 +114,11 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
     }
   }
 
+  allocatePool() {
+    this.instanceService.allocate(this.pool.id)
+      .subscribe();
+  }
+
   private initTables() {
     const initialLoadEvent: LoadTableEvent = new LoadTableEvent(
       new RequestedPagination(0, environment.defaultPaginationSize, '', ''));
@@ -124,7 +129,7 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
         this.pool = data.pool;
         this.onInstanceLoadEvent(initialLoadEvent);
         this.onCreationRequestsLoadEvent(initialLoadEvent);
-        this.onCleanupRequestsLoadEvent(initialLoadEvent);
+       // this.onCleanupRequestsLoadEvent(initialLoadEvent);
       }
     );
 
@@ -137,15 +142,15 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
 
     this.creationRequests$ = this.creationRequestService.requests$
       .pipe(
-        map(requests => PoolRequestTableCreator.create(requests, this.pool.id)));
+        map(requests => PoolRequestTableCreator.create(requests, this.pool.id, 'CREATION')));
     this.creationRequestsTableHasError$ = this.creationRequestService.hasError$;
     this.creationRequestsTotalLength$ = this.creationRequestService.totalLength$;
 
-    this.cleanupRequests$ = this.cleanupRequestService.requests$
+/*    this.cleanupRequests$ = this.cleanupRequestService.requests$
       .pipe(
-        map(requests => PoolRequestTableCreator.create(requests, this.pool.id))
+        map(requests => PoolRequestTableCreator.create(requests, this.pool.id, 'CLEANUP'))
       );
     this.cleanupRequestsTableHasError$ = this.cleanupRequestService.hasError$;
-    this.cleanupRequestsTotalLength$ = this.cleanupRequestService.totalLength$;
+    this.cleanupRequestsTotalLength$ = this.cleanupRequestService.totalLength$;*/
   }
 }

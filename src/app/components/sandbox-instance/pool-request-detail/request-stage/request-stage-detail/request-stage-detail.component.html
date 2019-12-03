@@ -1,11 +1,14 @@
-<div class="actions">
+<!--<div class="actions">
   <button mat-icon-button matTooltip="Scroll to start" (click)="scrollToStart()">
     <mat-icon>vertical_align_top</mat-icon>
   </button>
   <button mat-icon-button matTooltip="Scroll to end" (click)=scrollToEnd()>
     <mat-icon>vertical_align_bottom</mat-icon>
   </button>
+</div>-->
+<div class="temp-viewport">
+  <span>{{ stageDetail?.output}}></span>
 </div>
-<cdk-virtual-scroll-viewport #viewport itemSize="20" class="stage-output-viewport">
-  <div *cdkVirtualFor="let row of stage?.output; templateCacheSize: 100" class="row">{{ row }}</div>
-</cdk-virtual-scroll-viewport>
+<!--<cdk-virtual-scroll-viewport #viewport itemSize="20" class="stage-output-viewport">
+  <div *cdkVirtualFor="let row of stageDetail?.output; templateCacheSize: 100" class="row">{{ row }}</div>
+</cdk-virtual-scroll-viewport>-->
