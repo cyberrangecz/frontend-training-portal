@@ -11,7 +11,7 @@ export const environment = {
   sandboxRestBasePath: sandboxesURL,
   // BEHAVIOUR SETTINGS
   defaultAlertDuration: 5000, // 0 to display until user dismisses it
-  defaultPaginationSize: 5,
+  defaultPaginationSize: 10,
   organizerSummaryPollingPeriod: 5000,
   apiPollingPeriod: 5000,
   kypo2TopologyConfig: {
@@ -23,7 +23,7 @@ export const environment = {
   },
   kypo2UserAndGroupConfig: {
     userAndGroupRestBasePath: userAngGroupURL,
-    defaultPaginationSize: 20,
+    defaultPaginationSize: 10,
   },
   kypo2AuthConfig: {
     maxRetryAttempts: 3,
