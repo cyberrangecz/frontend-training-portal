@@ -1,25 +1,27 @@
 import {Injectable} from '@angular/core';
 import {Pagination, RequestedPagination} from 'kypo2-table';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {tap} from 'rxjs/operators';
-import {SandboxPool} from '../../model/sandbox/pool/sandbox-pool';
-import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
-import {SandboxInstanceFacade} from '../facades/sandbox-instance-facade.service';
-import {ErrorHandlerService} from '../shared/error-handler.service';
+import {switchMap, tap} from 'rxjs/operators';
+import {SandboxPool} from '../../../model/sandbox/pool/sandbox-pool';
+import {PaginatedResource} from '../../../model/table-adapters/paginated-resource';
+import {SandboxInstanceFacade} from '../../facades/sandbox-instance-facade.service';
+import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {PoolService} from './pool.service';
-import {environment} from '../../../environments/environment';
+import {environment} from '../../../../environments/environment';
 import {Cacheable, CacheBuster} from 'ngx-cacheable';
+import {AlertService} from '../../shared/alert.service';
+import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
 
 const cacheBuster$: Subject<void> = new Subject();
 
 @Injectable()
 export class PoolConcreteService extends PoolService {
-
-
+  private lastPagination: RequestedPagination;
   private poolsSubject: BehaviorSubject<PaginatedResource<SandboxPool[]>> = new BehaviorSubject(this.initSubject());
   pools$: Observable<PaginatedResource<SandboxPool[]>> = this.poolsSubject.asObservable();
 
   constructor(private sandboxInstanceFacade: SandboxInstanceFacade,
+              private alertService: AlertService,
               private errorHandler: ErrorHandlerService) {
     super();
   }
@@ -28,6 +30,7 @@ export class PoolConcreteService extends PoolService {
     cacheBusterObserver: cacheBuster$
   })
   getAll(pagination: RequestedPagination): Observable<PaginatedResource<SandboxPool[]>> {
+    this.lastPagination = pagination;
     this.hasErrorSubject$.next(false);
     return this.sandboxInstanceFacade.getPools(pagination)
       .pipe(
@@ -56,7 +59,10 @@ export class PoolConcreteService extends PoolService {
     }
     return allocation$
       .pipe(
-        tap({error: err => this.errorHandler.display(err, 'Allocating sandboxes')})
+        tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Allocation started'),
+          err => this.errorHandler.display(err, 'Allocating sandboxes')
+        ),
+        switchMap(_ => this.getAll(this.lastPagination))
       );
   }
 
@@ -66,7 +72,10 @@ export class PoolConcreteService extends PoolService {
   delete(pool: SandboxPool): Observable<any> {
     return this.sandboxInstanceFacade.deletePool(pool.id)
       .pipe(
-        tap({error: err => this.errorHandler.display(err, 'Deleting pool')})
+        tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Pool was successfully deleted'),
+            err => this.errorHandler.display(err, 'Deleting pool')
+        ),
+        switchMap(_ => this.getAll(this.lastPagination))
       );
   }
 
@@ -76,7 +85,10 @@ export class PoolConcreteService extends PoolService {
   clear(pool: SandboxPool): Observable<any> {
     return this.sandboxInstanceFacade.clearPool(pool.id)
       .pipe(
-        tap({error: err => this.errorHandler.display(err, 'Clearing pool')})
+        tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Pool was successfully cleared'),
+          err => this.errorHandler.display(err, 'Clear pool')
+        ),
+        switchMap(_ => this.getAll(this.lastPagination))
       );
   }
 

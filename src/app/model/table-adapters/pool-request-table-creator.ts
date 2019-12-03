@@ -9,26 +9,26 @@ export class PoolRequestTableCreator {
   static readonly CANCEL_ACTION = 'cancel';
   static readonly RETRY_ACTION =  'retry';
 
-  static create(resource: PaginatedResource<PoolRequest[]>, poolId: number): Kypo2Table<PoolRequest> {
+  static create(resource: PaginatedResource<PoolRequest[]>, poolId: number, type: 'CREATION' | 'CLEANUP'): Kypo2Table<PoolRequest> {
     const table = new Kypo2Table<PoolRequest>(
-      this.createRows(resource, poolId),
+      this.createRows(resource, poolId, type),
       [
         new Column('id', 'id', false),
-        new Column('stagesCount', 'No. of stages', false)
+        new Column('createdAtFormatted', 'created', false),
       ]
     );
     table.pagination = resource.pagination;
     return table;
   }
 
-  private static createRows(resource: PaginatedResource<PoolRequest[]>, poolId: number): Row<PoolRequest>[] {
+  private static createRows(resource: PaginatedResource<PoolRequest[]>, poolId: number, type: 'CREATION' | 'CLEANUP'): Row<PoolRequest>[] {
     return resource.elements.map(request => {
-      const actions = [
-        new RowAction(this.CANCEL_ACTION, 'cancel', 'warn', 'Cancel running request', of(!request.isRunning())),
-        new RowAction(this.RETRY_ACTION, 'replay', 'primary', 'Try again', of(!request.isFailed()))
-      ];
-      const row = new Row(request, actions);
-      row.addLink('id', RouteFactory.toPoolRequest(poolId, request.id));
+      const row = new Row(request, []);
+      if (type === 'CREATION') {
+        row.addLink('id', RouteFactory.toCreationRequest(poolId, request.id));
+      } else {
+        row.addLink('id', RouteFactory.toCreationRequest(poolId, request.id));
+      }
       return row;
     });
   }

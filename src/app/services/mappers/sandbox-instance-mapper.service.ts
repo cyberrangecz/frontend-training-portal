@@ -16,8 +16,8 @@ import {SandboxInstanceState} from '../../model/enums/sandbox-instance-state';
 import {SandboxInstanceResourceDTO} from '../../model/DTOs/sandbox-instance/sandbox-instance-resource-dto';
 import {SandboxInstanceResource} from '../../model/sandbox/pool/sandbox-instance/sandbox-instance-resource/sandbox-instance-resource';
 import {SandboxInstance} from '../../model/sandbox/pool/sandbox-instance/sandbox-instance';
-import {RequestStageState} from '../../model/enums/request-stage-state.enum';
 import {PoolCleanupRequest} from '../../model/sandbox/pool/request/pool-cleanup-request';
+import {RequestStageState} from '../../model/enums/request-stage-state.enum';
 
 @Injectable()
 /**
@@ -69,9 +69,9 @@ export class SandboxInstanceMapper {
     return result;
   }
 
-  mapRequestsDTOToRequests(paginatedDTO: DjangoResourceDTO<PoolRequestDTO>) {
+  mapCreateRequestsDTOToCreateRequests(paginatedDTO: DjangoResourceDTO<PoolRequestDTO>) {
     const elements = paginatedDTO.results
-      .map(requestDTO => this.mapRequestDTOToRequest(requestDTO));
+      .map(requestDTO => this.mapCreateRequestDTOToCreateRequest(requestDTO));
     const pagination = new Kypo2Pagination(
       paginatedDTO.page,
       paginatedDTO.page_count,
@@ -81,17 +81,31 @@ export class SandboxInstanceMapper {
     return new PaginatedResource(elements, pagination);
   }
 
-  mapRequestDTOToRequest(requestDTO: PoolRequestDTO): PoolRequest {
-    let request: PoolRequest;
-    if (requestDTO.type === 'CREATION') {
-      request = new PoolCreationRequest();
-    } else if (requestDTO.type === 'CLEANUP') {
-      request = new PoolCleanupRequest();
-    } else {
-      console.error(`${requestDTO.type} does not match supported PoolRequest types.`);
-    }
+  mapCreateRequestDTOToCreateRequest(requestDTO: PoolRequestDTO): PoolRequest {
+    const request = new PoolCreationRequest();
     request.id = requestDTO.id;
-    request.stages = requestDTO.stages.map(stageDTO => this.mapRequestStageDTOToRequestStage(stageDTO));
+    request.poolId = requestDTO.pool;
+    request.createdAt = new Date(requestDTO.created);
+    return request;
+  }
+
+  mapCleanupRequestsDTOToCleanupRequests(paginatedDTO: DjangoResourceDTO<PoolRequestDTO>) {
+    const elements = paginatedDTO.results
+      .map(requestDTO => this.mapCleanupRequestDTOToCleanupRequest(requestDTO));
+    const pagination = new Kypo2Pagination(
+      paginatedDTO.page,
+      paginatedDTO.page_count,
+      paginatedDTO.page_size,
+      paginatedDTO.total_count,
+      paginatedDTO.page_count);
+    return new PaginatedResource(elements, pagination);
+  }
+
+  mapCleanupRequestDTOToCleanupRequest(requestDTO: PoolRequestDTO): PoolRequest {
+    const request = new PoolCleanupRequest();
+    request.id = requestDTO.id;
+    request.poolId = requestDTO.pool;
+    request.createdAt = new Date(requestDTO.created);
     return request;
   }
 
@@ -107,9 +121,21 @@ export class SandboxInstanceMapper {
     return resource;
   }
 
-  private mapRequestStageDTOToRequestStage(stageDTO: RequestStageDTO): RequestStage {
+  mapRequestStagesDTOToRequestStages(paginatedDTO: DjangoResourceDTO<RequestStageDTO>) {
+    const elements = paginatedDTO.results
+      .map(stageDTO => this.mapRequestStageDTOToRequestStage(stageDTO));
+    const pagination = new Kypo2Pagination(
+      paginatedDTO.page,
+      paginatedDTO.page_count,
+      paginatedDTO.page_size,
+      paginatedDTO.total_count,
+      paginatedDTO.page_count);
+    return new PaginatedResource(elements, pagination);
+  }
+
+  mapRequestStageDTOToRequestStage(stageDTO: RequestStageDTO): RequestStage {
     let stage: RequestStage;
-    if (stageDTO.type === 'ANSIBLE_RUN') {
+    if (stageDTO.type === 'ANSIBLE' || stageDTO.type === undefined) {
       stage = new AnsibleRunStage();
     } else if (stageDTO.type === 'OPENSTACK') {
       stage = new OpenStackStage();
@@ -117,15 +143,36 @@ export class SandboxInstanceMapper {
       console.error(`${stageDTO.type} does not match supported RequestStage types`);
     }
     stage.id = stageDTO.id;
-    stage.jobId = stageDTO.job_id;
-    stage.description = stageDTO.description;
-    stage.percentFinished = stageDTO.percent;
-    stage.state = RequestStageState[stageDTO.state];
-    if (stageDTO.output && stageDTO.output.length > 0) {
-      stage.output = stageDTO.output.split('.');
+    stage.state = this.resolveStageState(stageDTO);
+    stage.errorMessage = stageDTO.error_message;
+
+    if (stageDTO.start) {
+      stage.start = new Date(stageDTO.start);
     }
+    if (stageDTO.end) {
+      stage.end = new Date(stageDTO.end);
+    }
+
+    // stage.jobId = stageDTO.job_id;
+    // stage.description = stageDTO.description;
+    // stage.percentFinished = stageDTO.percent;
+    // stage.state = RequestStageState[stageDTO.state];
     return stage;
   }
+
+  private resolveStageState(stageDTO: RequestStageDTO): RequestStageState {
+    if (stageDTO.failed) {
+      return RequestStageState.FAILED;
+    }
+    if ((stageDTO.start === undefined || stageDTO.start === null) && (stageDTO.end === undefined || stageDTO.end === null)) {
+      return RequestStageState.IN_QUEUE;
+    }
+    if (stageDTO.start !== undefined && stageDTO.start !== null && (stageDTO.end === undefined || stageDTO.end === null)) {
+      return RequestStageState.RUNNING;
+    }
+    return RequestStageState.FINISHED;
+  }
+
 
   private getSandboxStateFromString(state: string): SandboxInstanceState {
     const lowercasedState = state.toLowerCase();

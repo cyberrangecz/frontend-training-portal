@@ -11,9 +11,11 @@
   </ng-container>
   <ng-container *ngIf="(stages$ | async) as stages">
     <div *ngIf="stages.length > 0 else noStages">
-      <kypo2-request-stage *ngFor="let stage of request.stages; trackBy: trackByFn; let i = index;"
+      <kypo2-request-stage *ngFor="let stage of stages; trackBy: trackByFn; let i = index;"
                            [isCleanup]="isCleanup"
                            [stage]="stage"
+                           [stageDetail]="getStageDetail(stage.id)"
+                           (stageDetailEvent)="onStageDetailEvent($event)"
                            (forceCleanup)="onForceCleanup($event, i)">
       </kypo2-request-stage>
     </div>

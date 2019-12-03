@@ -1,13 +1,16 @@
 import {BehaviorSubject, merge, Observable, Subject, timer} from 'rxjs';
-import {environment} from '../../../../environments/environment';
+import {environment} from '../../../../../environments/environment';
 import {map, retryWhen, switchMap, tap} from 'rxjs/operators';
-import {RequestStage} from '../../../model/sandbox/pool/request/stage/request-stage';
+import {RequestStage} from '../../../../model/sandbox/pool/request/stage/request-stage';
 import {PoolRequestStagesService} from './pool-request-stages.service';
-import {SandboxInstanceFacade} from '../../facades/sandbox-instance-facade.service';
-import {ErrorHandlerService} from '../../shared/error-handler.service';
+import {SandboxInstanceFacade} from '../../../facades/sandbox-instance-facade.service';
+import {ErrorHandlerService} from '../../../shared/error-handler.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Cacheable, CacheBuster} from 'ngx-cacheable';
+import {RequestedPagination} from 'kypo2-table';
+import {OpenStackStage} from '../../../../model/sandbox/pool/request/stage/open-stack-stage';
+import {AnsibleRunStage} from '../../../../model/sandbox/pool/request/stage/ansible-run-stage';
 
 export const poolRequestStagesCacheBuster$: Subject<void> = new Subject();
 
@@ -17,7 +20,8 @@ export class PoolRequestStagesPollingService extends PoolRequestStagesService {
   private requestId: number;
   private retryPolling$: Subject<boolean> = new Subject();
   private manuallyUpdatedStages$: Subject<RequestStage[]> = new Subject();
-  private hasErrorSubject$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  private type: 'CREATION' | 'CLEANUP' = 'CREATION';
+
   hasError$: Observable<boolean> = this.hasErrorSubject$.asObservable();
   stages$: Observable<RequestStage[]>;
 
@@ -26,8 +30,9 @@ export class PoolRequestStagesPollingService extends PoolRequestStagesService {
     super();
   }
 
-  startPolling(poolId: number, requestId: number) {
+  startPolling(poolId: number, requestId: number, type: 'CREATION' | 'CLEANUP') {
     this.poolId = poolId;
+    this.type = type;
     this.requestId = requestId;
     const poll$ = this.createPoll();
     this.stages$ = merge(poll$, this.manuallyUpdatedStages$.asObservable());
@@ -38,9 +43,14 @@ export class PoolRequestStagesPollingService extends PoolRequestStagesService {
   })
   getAll(poolId: number, requestId: number): Observable<RequestStage[]> {
     this.onManualGetAll(poolId, requestId);
-    return this.sandboxInstanceFacade.getRequest(poolId, requestId)
+    const mockPagination = new RequestedPagination(0, 100, '', '');
+/*    const stagesRequest$ = this.type === 'CREATION'
+      ? this.sandboxInstanceFacade.getCreationStages(poolId, requestId, mockPagination)
+      : this.sandboxInstanceFacade.getCleanupStages(poolId, requestId, mockPagination);*/
+    const stagesRequest$ = this.sandboxInstanceFacade.getCreationStages(poolId, requestId, mockPagination);
+    return stagesRequest$
       .pipe(
-        map(request => request.stages),
+        map(paginatedResource => paginatedResource.elements),
         tap(
           stages => this.manuallyUpdatedStages$.next(stages),
           err => this.onGetAllError(err)
@@ -59,21 +69,40 @@ export class PoolRequestStagesPollingService extends PoolRequestStagesService {
       );
   }
 
+  getOutput(stage: RequestStage): Observable<string[]> {
+    let stageOutput$: Observable<string[]>;
+    if (stage instanceof OpenStackStage) {
+      stageOutput$ = this.sandboxInstanceFacade.getOpenstackStageOutput(stage.id);
+    }
+    if (stage instanceof AnsibleRunStage) {
+      stageOutput$ = this.sandboxInstanceFacade.getAnsibleStageOutput(stage.id);
+    }
+    return stageOutput$
+      .pipe(
+        tap({error: err => this.errorHandler.display(err, 'Fetching stage output')})
+      );
+  }
+
   @Cacheable({
     cacheBusterObserver: poolRequestStagesCacheBuster$,
     maxAge: environment.apiPollingPeriod - 1
   })
   private repeatLastGetAllRequest(): Observable<RequestStage[]> {
     this.hasErrorSubject$.next(false);
-    return this.sandboxInstanceFacade.getRequest(this.poolId, this.requestId)
+    const mockPagination = new RequestedPagination(0, 100, '', '');
+    /*    const stagesRequest$ = this.type === 'CREATION'
+          ? this.sandboxInstanceFacade.getCreationStages(poolId, requestId, mockPagination)
+          : this.sandboxInstanceFacade.getCleanupStages(poolId, requestId, mockPagination);*/
+    const stagesRequest$ = this.sandboxInstanceFacade.getCreationStages(this.poolId, this.requestId, mockPagination);
+    return stagesRequest$
       .pipe(
-        map(request => request.stages),
+        map(paginatedResource => paginatedResource.elements),
         tap({ error: err => this.onGetAllError(err)})
       );
   }
 
   private createPoll(): Observable<RequestStage[]> {
-    return timer(environment.apiPollingPeriod, environment.apiPollingPeriod)
+    return timer(0, environment.apiPollingPeriod)
       .pipe(
         switchMap(_ => this.repeatLastGetAllRequest()),
         retryWhen(_ => this.retryPolling$),

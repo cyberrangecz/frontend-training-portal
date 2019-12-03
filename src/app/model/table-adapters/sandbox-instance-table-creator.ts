@@ -10,13 +10,13 @@ export class SandboxInstanceTableCreator {
   static readonly TOPOLOGY_ACTION = 'topology';
 
   static create(resource: PaginatedResource<SandboxInstance[]>): Kypo2Table<SandboxInstance> {
-    const actions = [
-      new RowAction(this.DELETE_ACTION, 'delete', 'warn', 'Delete sandbox instance', of(false)),
-      new RowAction(this.TOPOLOGY_ACTION, 'device_hub', 'primary', 'Display topology', of(false))
-  ];
     const rows = resource.elements.map(instance => {
+      const actions = [
+        new RowAction(this.DELETE_ACTION, 'delete', 'warn', 'Delete sandbox instance', of(false)),
+        new RowAction(this.TOPOLOGY_ACTION, 'device_hub', 'primary', 'Display topology', of(!instance.isCreated()))
+      ];
       const row = new Row(instance, actions);
-      row.addLink('id', RouteFactory.toSandboxInstance(instance.poolId, instance.id));
+      // TODO: ADD row.addLink('id', RouteFactory.toSandboxInstance(instance.poolId, instance.id));
       return row;
     });
     const table = new Kypo2Table<SandboxInstance>(

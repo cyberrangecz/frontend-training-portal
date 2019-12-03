@@ -1,9 +1,9 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {RequestedPagination} from 'kypo2-table';
-import {Observable, Subject} from 'rxjs';
+import {Observable, of, Subject} from 'rxjs';
 import {SandboxInstance} from '../../model/sandbox/pool/sandbox-instance/sandbox-instance';
-import {map} from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {DjangoResourceDTO} from '../../model/DTOs/other/django-resource-dto';
 import {PoolRequestDTO} from '../../model/DTOs/sandbox-instance/pool-request-dto';
@@ -17,6 +17,8 @@ import {SandboxPool} from '../../model/sandbox/pool/sandbox-pool';
 import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 import {SandboxInstanceMapper} from '../mappers/sandbox-instance-mapper.service';
 import {Cacheable} from 'ngx-cacheable';
+import {RequestStage} from '../../model/sandbox/pool/request/stage/request-stage';
+import {RequestStageDTO} from '../../model/DTOs/sandbox-instance/request-stage-dto';
 
 const poolCacheBuster: Subject<void> = new Subject();
 
@@ -31,9 +33,12 @@ export class SandboxInstanceFacade {
 
   private readonly pythonSandboxInstancesUriExtension = 'sandboxes/';
   private readonly poolsUriExtension = 'pools/';
-  private readonly poolRequestUriExtension = 'requests/';
+  private readonly poolCreationRequestUriExtension = 'create-requests/';
+  private readonly poolCleanupRequestUriExtension = 'cleanup-requests/';
+  private readonly stagesUriExtension = 'stages/';
   private readonly sandboxResourceExtension = 'resources';
 
+  private readonly stagesEndpointUri = environment.sandboxRestBasePath + this.stagesUriExtension;
   private readonly poolsEndpointUri = environment.sandboxRestBasePath + this.poolsUriExtension;
   private readonly sandboxEndpointUri = environment.sandboxRestBasePath + this.pythonSandboxInstancesUriExtension;
   private readonly  trainingInstancesEndpointUri = environment.trainingRestBasePath + this.trainingInstancesUriExtension;
@@ -81,57 +86,77 @@ export class SandboxInstanceFacade {
       );
   }
 
-  getCreationRequests(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<PoolRequest[]>> {
-    return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(`${this.poolsEndpointUri + poolId}/creation-${this.poolRequestUriExtension}`,
+  getCreationStages(poolId: number, requestId: number, pagination: RequestedPagination): Observable<PaginatedResource<RequestStage[]>> {
+    return this.http.get<DjangoResourceDTO<RequestStageDTO>>(`${this.poolsEndpointUri + poolId}/${this.poolCreationRequestUriExtension + requestId}/${this.stagesUriExtension}`,
       {
         params: PaginationParams.createSandboxPaginationParams(pagination)
       })
       .pipe(
-        map(response => this.sandboxInstanceMapper.mapRequestsDTOToRequests(response))
+        map(response => this.sandboxInstanceMapper.mapRequestStagesDTOToRequestStages(response))
+      );
+  }
+
+  // TODO: Add getCleanupStages method
+
+  getCreationRequests(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<PoolRequest[]>> {
+    return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(`${this.poolsEndpointUri + poolId}/${this.poolCreationRequestUriExtension}`,
+      {
+        params: PaginationParams.createSandboxPaginationParams(pagination)
+      })
+      .pipe(
+        map(response => this.sandboxInstanceMapper.mapCreateRequestsDTOToCreateRequests(response))
       );
   }
 
   getCleanupRequests(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<PoolRequest[]>> {
-    return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(`${this.poolsEndpointUri + poolId}/cleanup-${this.poolRequestUriExtension}`,
+    return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(`${this.poolsEndpointUri + poolId}/${this.poolCleanupRequestUriExtension}`,
       {
         params: PaginationParams.createSandboxPaginationParams(pagination)
       })
       .pipe(
-        map(response => this.sandboxInstanceMapper.mapRequestsDTOToRequests(response))
+        map(response => this.sandboxInstanceMapper.mapCleanupRequestsDTOToCleanupRequests(response))
       );
   }
 
   cancelCreationRequest(poolId: number, requestId: number): Observable<any> {
     return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(
-      `${this.poolsEndpointUri + poolId}/cleanup-${this.poolRequestUriExtension}${requestId}/cancel`);
+      `${this.poolsEndpointUri + poolId}/${this.poolCreationRequestUriExtension}${requestId}/cancel`);
   }
 
   retryCreationRequest(poolId: number, requestId: number): Observable<any> {
     return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(
-      `${this.poolsEndpointUri + poolId}/cleanup-${this.poolRequestUriExtension}${requestId}/retry`);
+      `${this.poolsEndpointUri + poolId}/${this.poolCreationRequestUriExtension}${requestId}/retry`);
   }
 
   cancelCleanupRequest(poolId: number, requestId: number): Observable<any> {
     return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(
-      `${this.poolsEndpointUri + poolId}/creation-${this.poolRequestUriExtension}${requestId}/cancel`);
+      `${this.poolsEndpointUri + poolId}/${this.poolCleanupRequestUriExtension}${requestId}/cancel`);
   }
 
   retryCleanupRequest(poolId: number, requestId: number): Observable<any> {
     return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(
-      `${this.poolsEndpointUri + poolId}/creation-${this.poolRequestUriExtension}${requestId}/retry`);
+      `${this.poolsEndpointUri + poolId}/${this.poolCleanupRequestUriExtension}${requestId}/retry`);
   }
 
   @Cacheable({
     maxAge: 1000
   })
-  getRequest(poolId: number, requestId: number): Observable<PoolRequest> {
-    return this.http.get<PoolRequestDTO>(`${this.poolsEndpointUri + poolId}/${this.poolRequestUriExtension}${requestId}`)
-      .pipe(map(response => this.sandboxInstanceMapper.mapRequestDTOToRequest(response)));
+  getCreateRequest(poolId: number, requestId: number): Observable<PoolRequest> {
+    return this.http.get<PoolRequestDTO>(`${this.poolsEndpointUri + poolId}/${this.poolCreationRequestUriExtension}${requestId}`)
+      .pipe(map(response => this.sandboxInstanceMapper.mapCreateRequestDTOToCreateRequest(response)));
+  }
+
+  @Cacheable({
+    maxAge: 1000
+  })
+  getCleanupRequest(poolId: number, requestId: number): Observable<PoolRequest> {
+    return this.http.get<PoolRequestDTO>(`${this.poolsEndpointUri + poolId}/${this.poolCleanupRequestUriExtension}${requestId}`)
+      .pipe(map(response => this.sandboxInstanceMapper.mapCreateRequestDTOToCreateRequest(response)));
   }
 
   forceStage(poolId: number, requestId: number, stageId: number): Observable<any> {
     return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(
-      `${this.poolsEndpointUri + poolId}/${this.poolRequestUriExtension}${requestId}/stages/${stageId}/force`);
+      `${this.poolsEndpointUri + poolId}/${this.poolCreationRequestUriExtension}${requestId}/${this.stagesUriExtension}${stageId}/force`);
   }
 
   getResources(sandboxId: number): Observable<SandboxInstanceResource[]> {
@@ -152,6 +177,22 @@ export class SandboxInstanceFacade {
     ).pipe(
       map(resourceDTO => this.sandboxInstanceMapper.mapResourceDTOToResource(resourceDTO))
     );
+  }
+
+
+  @Cacheable({
+    maxAge: environment.apiPollingPeriod
+  })
+  getOpenstackStageOutput(id: number): Observable<string[]> {
+    return of([]);
+  }
+
+  @Cacheable({
+    maxAge: environment.apiPollingPeriod
+  })
+  getAnsibleStageOutput(id: number): Observable<string[]> {
+    const options: Object = { responseType: 'text' as 'text'};
+    return this.http.get<string[]>(`${this.stagesEndpointUri + id}/ansible/outputs`, options);
   }
 
   /**

@@ -83,7 +83,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
       },
       {
         name: 'Sandbox Instance',
-        disabled: true, // !this.authService.isTrainingOrganizer(),
+        disabled: !this.authService.isTrainingDesigner(),
         route: SANDBOX_POOL_PATH
       },
     ];

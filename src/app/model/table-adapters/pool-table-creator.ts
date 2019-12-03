@@ -30,7 +30,7 @@ export class PoolTableCreator {
         new RowAction(this.DELETE_ACTION, 'delete', 'warn', 'Delete Pool', of(pool.usedSize !== 0)),
         new RowAction(this.ALLOCATE_ALL_ACTION, ' subscriptions', 'primary', 'Allocate pool', of(pool.isFull())),
         new RowAction(this.ALLOCATE_ONE_ACTION, 'exposure_plus_1', 'primary', 'Allocate one sandbox', of(pool.isFull())),
-        new RowAction(this.CLEAR_ACTION, 'clear_all', 'warn', 'Delete all sandboxes in pool', of(pool.isEmpty()))
+       // TODO: new RowAction(this.CLEAR_ACTION, 'clear_all', 'warn', 'Delete all sandboxes in pool', of(pool.isEmpty()))
       ];
       const row = new Row(pool, actions);
       row.addLink('id', RouteFactory.toPool(pool.id));

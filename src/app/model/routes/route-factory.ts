@@ -9,7 +9,8 @@ import {
   TRAINING_INSTANCE_NEW_PATH
 } from '../../components/training-instance/training-instance-overview/paths';
 import {
-  POOL_REQUEST_PATH,
+  POOL_CLEANUP_REQUEST_PATH,
+  POOL_CREATION_REQUEST_PATH,
   SANDBOX_INSTANCE_PATH,
   SANDBOX_INSTANCE_TOPOLOGY_PATH
 } from '../../components/sandbox-instance/sandbox-pool-detail/paths';
@@ -84,8 +85,12 @@ export class RouteFactory {
     return `${SANDBOX_POOL_PATH}/${poolId}/${SANDBOX_INSTANCE_PATH}/${sandboxId}/${SANDBOX_INSTANCE_RESOURCE_PATH}/${resourceName}`;
   }
 
-  static toPoolRequest(poolId: number | string, requestId: number | string): string {
-    return `${SANDBOX_POOL_PATH}/${poolId}/${POOL_REQUEST_PATH}/${requestId}`;
+  static toCreationRequest(poolId: number | string, requestId: number | string): string {
+    return `${SANDBOX_POOL_PATH}/${poolId}/${POOL_CREATION_REQUEST_PATH}/${requestId}`;
+  }
+
+  static toCleanupRequest(poolId: number | string, requestId: number | string): string {
+    return `${SANDBOX_POOL_PATH}/${poolId}/${POOL_CLEANUP_REQUEST_PATH}/${requestId}`;
   }
 
   static parseUserAndGroupRouteEvent(routeEvent: Kypo2UserAndGroupRouteEvent): string {

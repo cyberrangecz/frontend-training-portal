@@ -3,7 +3,7 @@ import {Kypo2Table, LoadTableEvent, RequestedPagination, TableActionEvent} from 
 import {Observable} from 'rxjs';
 import {map, take, takeWhile} from 'rxjs/operators';
 import {SandboxPool} from '../../../model/sandbox/pool/sandbox-pool';
-import {PoolService} from '../../../services/sandbox-instance/pool.service';
+import {PoolService} from '../../../services/sandbox-instance/pool/pool.service';
 import {BaseComponent} from '../../base.component';
 import {PoolTableCreator} from '../../../model/table-adapters/pool-table-creator';
 import {environment} from '../../../../environments/environment';

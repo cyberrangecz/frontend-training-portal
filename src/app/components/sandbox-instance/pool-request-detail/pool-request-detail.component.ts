@@ -1,12 +1,15 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {merge, Observable, Subject} from 'rxjs';
+import {Observable} from 'rxjs';
 import {PoolRequest} from '../../../model/sandbox/pool/request/pool-request';
-import {map, mergeMap, switchMap, takeWhile, tap} from 'rxjs/operators';
+import {map, takeWhile, tap} from 'rxjs/operators';
 import {RequestStage} from '../../../model/sandbox/pool/request/stage/request-stage';
 import {BaseComponent} from '../../base.component';
-import {PoolCleanupRequest} from '../../../model/sandbox/pool/request/pool-cleanup-request';
-import {PoolRequestStagesPollingService} from '../../../services/sandbox-instance/pool-request/pool-request-stages-polling.service';
+import {StageDetailService} from '../../../services/sandbox-instance/pool-request/stage/stage-detail.service';
+import {StageDetail} from '../../../model/sandbox/pool/request/stage/stage-detail';
+import {PoolRequestStagesPollingService} from '../../../services/sandbox-instance/pool-request/stage/pool-request-stages-polling.service';
+import {StageDetailEventType} from '../../../model/enums/stage-detail-event-type';
+import {StageDetailEvent} from '../../../model/events/stage-detail-event';
 
 @Component({
   selector: 'kypo2-pool-requests',
@@ -21,11 +24,12 @@ export class PoolRequestDetailComponent extends BaseComponent implements OnInit 
   hasError$: Observable<boolean>;
   isCleanup: boolean;
 
-  private stagesSubject$: Subject<RequestStage[]> = new Subject();
   private poolId: number;
   private requestId: number;
+  private stageDetails: StageDetail[];
 
   constructor(private activeRoute: ActivatedRoute,
+              private stageDetailService: StageDetailService,
               private requestStagesService: PoolRequestStagesPollingService) {
     super();
     this.initDataSource();
@@ -45,36 +49,50 @@ export class PoolRequestDetailComponent extends BaseComponent implements OnInit 
       ).subscribe();
   }
 
-  private initDataSource() {
-    const data$ = this.activeRoute.data;
-    this.request$ = data$.pipe(
-      tap(data => {
-        this.poolId = data.pool.id;
-        this.requestId = data.poolRequest.id;
-      }),
-      map(data => data.poolRequest),
-      tap((request: PoolRequest) => {
-        this.isCleanup = request instanceof PoolCleanupRequest;
-      })
-    );
-    // We need to initialize polling with ids first
-    data$
-      .pipe(
-        tap(data => this.requestStagesService.startPolling(data.pool.id, data.poolRequest.id)),
-        switchMap(_ => this.requestStagesService.stages$),
-        tap(stages => this.stagesSubject$.next(stages)),
-        takeWhile(_ => this.isAlive)
-      ).subscribe();
-
-    this.stages$ = merge(this.request$.pipe(map(request => request.stages)), this.stagesSubject$.asObservable());
-    this.hasError$ = this.requestStagesService.hasError$;
-  }
-
   reloadStages() {
     this.requestStagesService.getAll(this.poolId, this.requestId)
       .pipe(
         takeWhile(_ => this.isAlive)
       )
       .subscribe();
+  }
+
+  onStageDetailEvent(event: StageDetailEvent) {
+    if (event.type === StageDetailEventType.SUBSCRIBE) {
+      this.stageDetailService.subscribe(event.stage)
+        .subscribe();
+    } else {
+      this.stageDetailService.unsubscribe(event.stage);
+    }
+  }
+
+  getStageDetail(id: number): StageDetail {
+    return this.stageDetails.find(stageDetail => stageDetail.stageId === id);
+  }
+
+  private initDataSource() {
+    const data$ = this.activeRoute.data;
+    this.request$ = data$.pipe(
+      tap(data => {
+        this.poolId = data.pool.id;
+        this.requestId = data.poolRequest.id;
+        this.isCleanup = data.poolRequestType === 'CLEANUP';
+      }),
+      map(data => data.poolRequest),
+    );
+    // We need to initialize polling with ids first
+    data$
+      .pipe(
+        tap(data => this.requestStagesService.startPolling(data.pool.id, data.poolRequest.id, data.poolRequestType)),
+        takeWhile(_ => this.isAlive)
+      ).subscribe();
+
+    this.stages$ = this.requestStagesService.stages$;
+    this.hasError$ = this.requestStagesService.hasError$;
+    this.stageDetailService.stageDetail$
+      .pipe(
+        takeWhile(_ => this.isAlive)
+      ).subscribe(stageDetails => this.stageDetails = stageDetails);
+
   }
 }

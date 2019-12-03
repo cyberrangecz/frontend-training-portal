@@ -5,9 +5,9 @@ import {PoolResolver} from '../../../services/resolvers/sandbox-instance-resolve
 import {SandboxInstanceBreadcrumbResolver} from '../../../services/resolvers/sandbox-instance-resolvers/sandbox-instance-breadcrumb-resolver.service';
 import {
   POOL_REQUEST_ID_SELECTOR,
-  POOL_REQUEST_PATH,
+  POOL_CREATION_REQUEST_PATH,
   SANDBOX_INSTANCE_ID_SELECTOR,
-  SANDBOX_INSTANCE_PATH, SANDBOX_INSTANCE_TOPOLOGY_PATH
+  SANDBOX_INSTANCE_PATH, SANDBOX_INSTANCE_TOPOLOGY_PATH, POOL_CLEANUP_REQUEST_PATH
 } from './paths';
 import {SandboxPoolDetailComponent} from './sandbox-pool-detail.component';
 
@@ -37,7 +37,14 @@ const routes: Routes = [
     }
   },
   {
-    path: `${POOL_REQUEST_PATH}/:${POOL_REQUEST_ID_SELECTOR}`,
+    path: `${POOL_CREATION_REQUEST_PATH}/:${POOL_REQUEST_ID_SELECTOR}`,
+    loadChildren: () => import('app/components/sandbox-instance/pool-request-detail/pool-request-detail.module').then(m => m.PoolRequestDetailModule),
+    resolve: {
+      breadcrumb: PoolRequestBreadcrumbResolver,
+    }
+  },
+  {
+    path: `${POOL_CLEANUP_REQUEST_PATH}/:${POOL_REQUEST_ID_SELECTOR}`,
     loadChildren: () => import('app/components/sandbox-instance/pool-request-detail/pool-request-detail.module').then(m => m.PoolRequestDetailModule),
     resolve: {
       breadcrumb: PoolRequestBreadcrumbResolver,
