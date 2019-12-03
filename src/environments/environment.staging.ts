@@ -1,5 +1,3 @@
-import {HttpClient} from '@angular/common/http';
-import {MarkedOptions} from 'ngx-markdown';
 export const baseURL = 'https://kypo-devel.ics.muni.cz';
 export const homeURL = baseURL;
 export const trainingsURL = baseURL + ':8083/kypo2-rest-training/api/v1/';

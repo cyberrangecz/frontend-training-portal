@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Add Sandbox Definition</h1>
+<h1 mat-dialog-title>Create Sandbox Definition</h1>
 <form [formGroup]="sandboxDefinitionFormGroup.formGroup">
   <div mat-dialog-content class="content">
     <!-- URL field-->
@@ -33,5 +33,5 @@
   <button mat-button cdkFocusInitial color="warn" (click)="cancel()">Cancel</button>
   <span class="spacer"></span>
   <button mat-button color="primary"
-    [disabled]="!sandboxDefinitionFormGroup.formGroup.valid" (click)="add()">Add</button>
+    [disabled]="!sandboxDefinitionFormGroup.formGroup.valid" (click)="add()">Create</button>
 </div>

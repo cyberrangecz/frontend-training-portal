@@ -1,8 +1,8 @@
 import {SandboxDefinitionService} from '../shared/sandbox-definition.service';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
 import {SandboxDefinitionTableRow} from '../../model/table-adapters/sandbox-definition-table-row';
-import {Kypo2Table, Pagination, RequestedPagination} from 'kypo2-table';
+import {Pagination, RequestedPagination} from 'kypo2-table';
 import {switchMap, tap} from 'rxjs/operators';
 import {SandboxDefinitionFacade} from '../facades/sandbox-definition-facade.service';
 import {ErrorHandlerService} from '../shared/error-handler.service';
@@ -44,7 +44,9 @@ export class SandboxDefinitionConcreteService extends SandboxDefinitionService {
   add(result: SandboxDefinitionInfo): Observable<any> {
     return this.sandboxDefinitionFacade.add(result.sandboxGitlabUrl, result.sandboxRevision)
       .pipe(
-        tap({error: err => this.errorHandler.display(err, 'Uploading sandbox definition')}),
+        tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox definition was successfully created'),
+          err => this.errorHandler.display(err, 'Creating sandbox definition')
+        ),
         switchMap(() => this.getAll(this.lastPagination))
       );
   }
@@ -53,7 +55,7 @@ export class SandboxDefinitionConcreteService extends SandboxDefinitionService {
     return this.sandboxDefinitionFacade.delete(id)
       .pipe(
         tap(
-          _ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox definition was successfully uploaded'),
+          _ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox definition was successfully deleted'),
           err => this.errorHandler.display(err, 'Removing sandbox definition')
         ),
         switchMap(() => this.getAll(this.lastPagination))

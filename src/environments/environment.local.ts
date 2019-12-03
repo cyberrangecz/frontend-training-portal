@@ -1,6 +1,3 @@
-import { HttpClient } from '@angular/common/http';
-import { MarkedOptions } from 'ngx-markdown';
-
 // Server url
 export const baseURL = 'http://localhost';
 // Frontend url
