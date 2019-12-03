@@ -49,7 +49,7 @@ export class PoolCleanupRequestsPollingService extends PoolRequestPollingService
   cancel(poolId: number, request: PoolRequest): Observable<any> {
     return this.sandboxInstanceFacade.cancelCleanupRequest(poolId, request.id)
       .pipe(
-        tap({ error: err => this.errorHandler.display(err, 'Canceling cleanup request')}),
+        tap({ error: err => this.errorHandler.display(err, 'Cancelling cleanup request')}),
         switchMap(_ => this.getAll(poolId, this.lastPagination))
       );
   }

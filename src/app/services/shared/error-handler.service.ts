@@ -21,7 +21,7 @@ export class ErrorHandlerService {
       return;
     }
     if (err.status === HttpErrorCodesEnum.ERROR_404) {
-      this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} 404 - Not found. Report the issue to developers`);
+      this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} 404 - Not found. Please report the issue to developers`);
       return;
     }
     if (err.status === HttpErrorCodesEnum.ERROR_401) {
@@ -37,8 +37,12 @@ export class ErrorHandlerService {
     }
     if (err.error.message) { // JAVA API
       this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} failed with following message: ${err.error.message}`);
-    } else { // PYTHON API
+    } else if (err.error.detail) { // PYTHON API
       this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} failed with following message: ${err.error.detail}`);
+    } else if (err.error.non_field_errors) {
+      this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} failed with following message: ${err.error.non_field_errors}`);
+    } else {
+      this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} failed with unsupported message. Please report this to developers`);
     }
   }
 }

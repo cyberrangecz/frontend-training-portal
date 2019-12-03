@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import {EMPTY, Observable, of} from 'rxjs';
+import {EMPTY, Observable} from 'rxjs';
 import {map, switchMap, takeWhile} from 'rxjs/operators';
 import {SandboxDefinitionTableRow} from '../../../model/table-adapters/sandbox-definition-table-row';
 import {ActionConfirmationDialogComponent} from '../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
@@ -8,7 +8,6 @@ import {BaseComponent} from '../../base.component';
 import {AddSandboxDefinitionDialogComponent} from '../add-sandbox-definition-dialog/add-sandbox-definition-dialog.component';
 import {SandboxDefinitionService} from '../../../services/shared/sandbox-definition.service';
 import {Kypo2Table, LoadTableEvent, TableActionEvent} from 'kypo2-table';
-import {SandboxDefinitionInfo} from '../add-sandbox-definition-dialog/sandbox-definition-info';
 import {ErrorHandlerService} from '../../../services/shared/error-handler.service';
 import {SandboxDefinitionTableCreator} from '../../../model/table-adapters/sandbox-definition-table-creator';
 

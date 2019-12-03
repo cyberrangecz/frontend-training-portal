@@ -7,7 +7,6 @@
       "prefer-method-signature": true,
       "interface-over-type-literal": true,
       "no-require-imports": true,
-      "no-any": true,
       "cyclomatic-complexity": [true, 10],
       "directive-selector": [
             true,
