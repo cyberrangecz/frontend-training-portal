@@ -1,23 +1,23 @@
-import {SandboxDefinitionService} from '../shared/sandbox-definition.service';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
-import {SandboxDefinitionTableRow} from '../../model/table-adapters/sandbox-definition-table-row';
-import {Pagination, RequestedPagination} from 'kypo2-table';
-import {switchMap, tap} from 'rxjs/operators';
-import {SandboxDefinitionFacade} from '../facades/sandbox-definition-facade.service';
-import {ErrorHandlerService} from '../shared/error-handler.service';
-import {Injectable} from '@angular/core';
-import {SandboxDefinitionInfo} from '../../components/sandbox-definition/add-sandbox-definition-dialog/sandbox-definition-info';
-import {AlertTypeEnum} from '../../model/enums/alert-type.enum';
-import {AlertService} from '../shared/alert.service';
-import {environment} from '../../../environments/environment';
+import { SandboxDefinitionService } from '../shared/sandbox-definition.service';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { PaginatedResource } from '../../model/table-adapters/paginated-resource';
+import { SandboxDefinitionTableRow } from '../../model/table-adapters/sandbox-definition-table-row';
+import { Pagination, RequestedPagination } from 'kypo2-table';
+import { switchMap, tap } from 'rxjs/operators';
+import { SandboxDefinitionFacade } from '../facades/sandbox-definition-facade.service';
+import { ErrorHandlerService } from '../shared/error-handler.service';
+import { Injectable } from '@angular/core';
+import { SandboxDefinitionInfo } from '../../components/sandbox-definition/add-sandbox-definition-dialog/sandbox-definition-info';
+import { AlertTypeEnum } from '../../model/enums/alert-type.enum';
+import { AlertService } from '../shared/alert.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class SandboxDefinitionConcreteService extends SandboxDefinitionService {
 
   constructor(private sandboxDefinitionFacade: SandboxDefinitionFacade,
-              private alertService: AlertService,
-              private errorHandler: ErrorHandlerService) {
+    private alertService: AlertService,
+    private errorHandler: ErrorHandlerService) {
     super();
   }
 
@@ -32,12 +32,12 @@ export class SandboxDefinitionConcreteService extends SandboxDefinitionService {
     return this.sandboxDefinitionFacade.getAllPaginated(pagination).pipe(
       tap(paginatedResource => {
         this.sandboxDefinitionsSubject.next(paginatedResource);
-          this.totalLengthSubject.next(paginatedResource.pagination.totalElements);
-        },
-          err => {
-        this.errorHandler.display(err, 'Fetching sandbox definitions');
-        this.hasErrorSubject$.next(true);
-      })
+        this.totalLengthSubject.next(paginatedResource.pagination.totalElements);
+      },
+        err => {
+          this.errorHandler.display(err, 'Fetching sandbox definitions');
+          this.hasErrorSubject$.next(true);
+        })
     );
   }
 
