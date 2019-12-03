@@ -15,7 +15,7 @@ export const environment = {
   trainingRestBasePath: trainingsURL,
   sandboxRestBasePath: sandboxesURL,
   defaultAlertDuration: 5000, // 0 to display until user dismisses it
-  defaultPaginationSize: 5,
+  defaultPaginationSize: 10,
   organizerSummaryPollingPeriod: 5000, // api polling period in training instance detail page
   apiPollingPeriod: 5000, // api polling during sandbox allocation
   kypo2TopologyConfig: {
@@ -27,7 +27,7 @@ export const environment = {
   },
   kypo2UserAndGroupConfig: {
     userAndGroupRestBasePath: userAngGroupURL,
-    defaultPaginationSize: 20,
+    defaultPaginationSize: 10,
   },
   kypo2AuthConfig: {
     maxRetryAttempts: 3, // How many attempts to try to get user info from user and group service before emitting error
