@@ -6,7 +6,7 @@ import { BaseComponent } from '../../base.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertService } from '../../../services/shared/alert.service';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { Kypo2Table, TableActionEvent, LoadTableEvent } from 'kypo2-table';
+import {Kypo2Table, TableActionEvent, LoadTableEvent, RequestedPagination} from 'kypo2-table';
 import { TrainingDefinitionService } from '../../../services/shared/training-definition.service';
 import { takeWhile, take } from 'rxjs/operators';
 import { TrainingDefinitionTableRow } from '../../../model/table-adapters/training-definition-table-row';
@@ -22,6 +22,7 @@ import { StateChangeDialogComponent } from './state-change-dialog/state-change-d
 import { HttpErrorResponse } from '@angular/common/http';
 import { Filter } from '../../../model/utils/filter';
 import { TrainingDefinitionUploadDialogComponent } from './training-definition-upload-dialog/training-definition-upload-dialog.component';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'kypo2-trainining-definition-overview',
@@ -53,17 +54,14 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent
 
   ngOnInit() {
     this.trainingDefinitions$ = this.trainingDefinitionService.trainingDefinitions$;
-    this.lastLoadEvent = new LoadTableEvent(null, null);
+    const initialPagination = new RequestedPagination(0, environment.defaultPaginationSize, '', '');
+    this.lastLoadEvent = new LoadTableEvent(initialPagination, null);
     this.onLoadEvent(this.lastLoadEvent);
   }
 
-  onLoadEvent(loadEvent: LoadTableEvent = null) {
-    if (loadEvent) {
-      this.lastLoadEvent = loadEvent;
-      this.fetchData(loadEvent);
-    } else {
-      this.fetchData(this.lastLoadEvent);
-    }
+  onLoadEvent(loadEvent: LoadTableEvent) {
+    this.lastLoadEvent = loadEvent;
+    this.fetchData(loadEvent);
   }
 
   fetchData(event) {
