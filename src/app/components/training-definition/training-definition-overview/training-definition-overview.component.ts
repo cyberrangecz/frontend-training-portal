@@ -9,7 +9,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import {Kypo2Table, TableActionEvent, LoadTableEvent, RequestedPagination} from 'kypo2-table';
 import { TrainingDefinitionService } from '../../../services/shared/training-definition.service';
 import { takeWhile, take } from 'rxjs/operators';
-import { TrainingDefinitionTableRow } from '../../../model/table-adapters/training-definition-table-row';
+import { TrainingDefinitionTableRow } from '../../../model/table/row/training-definition-table-row';
 import { CloneDialogComponent } from './clone-dialog/clone-dialog.component';
 import { ActionConfirmationDialogComponent } from '../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import { Router, ActivatedRoute } from '@angular/router';

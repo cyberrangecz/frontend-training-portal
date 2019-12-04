@@ -3,7 +3,7 @@ import {Pagination, RequestedPagination} from 'kypo2-table';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {switchMap, tap} from 'rxjs/operators';
 import {SandboxPool} from '../../../model/sandbox/pool/sandbox-pool';
-import {PaginatedResource} from '../../../model/table-adapters/paginated-resource';
+import {PaginatedResource} from '../../../model/table/other/paginated-resource';
 import {SandboxInstanceFacade} from '../../facades/sandbox-instance-facade.service';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {PoolService} from './pool.service';

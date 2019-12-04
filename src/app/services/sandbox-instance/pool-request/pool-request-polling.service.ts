@@ -1,6 +1,6 @@
 import {PoolRequestService} from './pool-request.service';
 import {Observable, Subject, timer} from 'rxjs';
-import {PaginatedResource} from '../../../model/table-adapters/paginated-resource';
+import {PaginatedResource} from '../../../model/table/other/paginated-resource';
 import {PoolRequest} from '../../../model/sandbox/pool/request/pool-request';
 import {environment} from '../../../../environments/environment';
 import {delayWhen, retryWhen, switchMap} from 'rxjs/operators';

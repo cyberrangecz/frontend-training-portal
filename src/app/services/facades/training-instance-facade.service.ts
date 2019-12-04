@@ -10,9 +10,9 @@ import {TrainingInstanceRestResource} from '../../model/DTOs/training-instance/t
 import {TrainingRunRestResource} from '../../model/DTOs/training-run/training-run-rest-resource';
 import {PaginationParams} from '../../model/http/params/pagination-params';
 import {ResponseHeaderContentDispositionReader} from '../../model/http/response-headers/response-header-content-disposition-reader';
-import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
-import {TrainingInstanceTableRow} from '../../model/table-adapters/training-instance-table-row';
-import {TrainingRunTableRow} from '../../model/table-adapters/training-run-table-row';
+import {PaginatedResource} from '../../model/table/other/paginated-resource';
+import {TrainingInstanceTableRow} from '../../model/table/row/training-instance-table-row';
+import {TrainingRunTableRow} from '../../model/table/row/training-run-table-row';
 import {TrainingInstance} from '../../model/training/training-instance';
 import {TrainingRun} from '../../model/training/training-run';
 import {TrainingInstanceMapper} from '../mappers/training-instance-mapper.service';

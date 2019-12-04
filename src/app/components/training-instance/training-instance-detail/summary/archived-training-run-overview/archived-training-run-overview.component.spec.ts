@@ -9,7 +9,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {MaterialTestingModule} from '../../../../../testing/test-utils/material-testing.module';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ArchivedTrainingRunService} from '../../../../../services/shared/archived-training-run.service';
-import {TrainingRunTableAdapter} from '../../../../../model/table-adapters/training-run-table-adapter';
+import {TrainingRunTableAdapter} from '../../../../../model/table/row/training-run-table-adapter';
 import {TrainingRun} from '../../../../../model/training/training-run';
 import {User} from 'kypo2-auth';
 import {of} from 'rxjs';

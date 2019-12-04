@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {PaginatedResourceService} from './paginated-resource.service';
 import {Observable} from 'rxjs';
-import {TrainingRunTableRow} from '../../model/table-adapters/training-run-table-row';
-import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
+import {TrainingRunTableRow} from '../../model/table/row/training-run-table-row';
+import {PaginatedResource} from '../../model/table/other/paginated-resource';
 import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
 import {TrainingInstance} from '../../model/training/training-instance';
 

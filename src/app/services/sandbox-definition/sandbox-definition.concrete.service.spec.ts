@@ -3,13 +3,12 @@ import {ErrorHandlerService} from '../shared/error-handler.service';
 import {SandboxDefinitionConcreteService} from './sandbox-definition.concrete.service';
 import {SandboxDefinitionFacade} from '../facades/sandbox-definition-facade.service';
 import {throwError} from 'rxjs';
-import {Kypo2Table, RequestedPagination} from 'kypo2-table';
+import {RequestedPagination} from 'kypo2-table';
 import {AlertService} from '../shared/alert.service';
-import {SandboxDefinitionTableRow} from '../../model/table-adapters/sandbox-definition-table-row';
 import {skip} from 'rxjs/operators';
 import {asyncData} from '../../testing/helpers/async-data';
-import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
-import {Kypo2Pagination} from '../../model/table-adapters/kypo2-pagination';
+import {PaginatedResource} from '../../model/table/other/paginated-resource';
+import {Kypo2Pagination} from '../../model/table/other/kypo2-pagination';
 import {SandboxDefinition} from '../../model/sandbox/definition/sandbox-definition';
 
 describe('SandboxDefinitionConcreteService', () => {
@@ -73,11 +72,11 @@ describe('SandboxDefinitionConcreteService', () => {
   }
 
   function createMockData() {
-    const sandbox1 = new SandboxDefinitionTableRow(new SandboxDefinition());
+    const sandbox1 = new SandboxDefinition();
     sandbox1.id = 1;
-    const sandbox2 = new SandboxDefinitionTableRow(new SandboxDefinition());
+    const sandbox2 = new SandboxDefinition();
     sandbox2.id = 2;
-    return new PaginatedResource<SandboxDefinitionTableRow[]>([sandbox1, sandbox2],
+    return new PaginatedResource<SandboxDefinition[]>([sandbox1, sandbox2],
       new Kypo2Pagination(1, 2, 5, 2, 1));
   }
 

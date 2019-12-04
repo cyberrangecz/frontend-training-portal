@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {SandboxDefinitionTableRow} from '../../../../model/table-adapters/sandbox-definition-table-row';
+import {SandboxDefinition} from '../../../../model/sandbox/definition/sandbox-definition';
 
 @Component({
   selector: 'kypo2-sandbox-definition-table-detail',
@@ -8,7 +8,7 @@ import {SandboxDefinitionTableRow} from '../../../../model/table-adapters/sandbo
 })
 export class SandboxDefinitionDetailComponent implements OnInit {
 
-  @Input() data: SandboxDefinitionTableRow;
+  @Input() data: SandboxDefinition;
 
   constructor() { }
 

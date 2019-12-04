@@ -7,9 +7,9 @@ import { TrainingDefinitionRestResource } from '../../model/DTOs/training-defini
 import { TrainingDefinitionUpdateDTO } from '../../model/DTOs/training-definition/training-definition-update-dto';
 import { TrainingDefinitionStateEnum } from '../../model/enums/training-definition-state.enum';
 import { AbstractLevel } from '../../model/level/abstract-level';
-import { Kypo2Pagination } from '../../model/table-adapters/kypo2-pagination';
-import { PaginatedResource } from '../../model/table-adapters/paginated-resource';
-import { TrainingDefinitionTableRow } from '../../model/table-adapters/training-definition-table-row';
+import { Kypo2Pagination } from '../../model/table/other/kypo2-pagination';
+import { PaginatedResource } from '../../model/table/other/paginated-resource';
+import { TrainingDefinitionTableRow } from '../../model/table/row/training-definition-table-row';
 import { TrainingDefinition } from '../../model/training/training-definition';
 import { TrainingDefinitionInfo } from '../../model/training/training-definition-info';
 import { LevelMapper } from './level-mapper.service';

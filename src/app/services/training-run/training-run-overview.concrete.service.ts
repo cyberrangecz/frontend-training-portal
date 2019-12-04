@@ -3,9 +3,9 @@ import {TrainingRunOverviewService} from '../shared/training-run-overview.servic
 import {Pagination, RequestedPagination} from 'kypo2-table';
 import {TrainingRunFacade} from '../facades/training-run-facade.service';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {AccessedTrainingRun} from '../../model/table-adapters/accessed-training-run';
+import {AccessedTrainingRun} from '../../model/table/row/accessed-training-run';
 import {tap} from 'rxjs/operators';
-import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
+import {PaginatedResource} from '../../model/table/other/paginated-resource';
 import {ErrorHandlerService} from '../shared/error-handler.service';
 import {environment} from '../../../environments/environment';
 

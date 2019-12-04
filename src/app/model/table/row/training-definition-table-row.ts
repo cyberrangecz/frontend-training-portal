@@ -1,10 +1,9 @@
-import { TrainingDefinitionStateEnum } from '../enums/training-definition-state.enum';
-import { TrainingDefinition } from '../training/training-definition';
-import { TableRowAdapter } from './table-row-adapter';
+import { TrainingDefinitionStateEnum } from '../../enums/training-definition-state.enum';
+import { TrainingDefinition } from '../../training/training-definition';
 import { formatDate } from '@angular/common';
-import { AbstractLevel } from '../level/abstract-level';
+import { AbstractLevel } from '../../level/abstract-level';
 
-export class TrainingDefinitionTableRow implements TableRowAdapter {
+export class TrainingDefinitionTableRow {
 
   id: number;
   title: string;

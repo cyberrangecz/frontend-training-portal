@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {TrainingDefinitionInfo} from '../../../../../model/training/training-definition-info';
-import {PaginatedResource} from '../../../../../model/table-adapters/paginated-resource';
+import {PaginatedResource} from '../../../../../model/table/other/paginated-resource';
 import {RequestedPagination} from 'kypo2-table';
 
 @Component({

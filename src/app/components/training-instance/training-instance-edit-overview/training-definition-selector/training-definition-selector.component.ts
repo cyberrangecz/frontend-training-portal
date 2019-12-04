@@ -7,7 +7,7 @@ import {SandboxDefinitionPickerComponent} from '../../../training-definition/tra
 import {TrainingDefinitionOrganizerSelectorService} from '../../../../services/training-instance/training-definition-selector/training-definition-organizer-selector.service';
 import {RequestedPagination} from 'kypo2-table';
 import {merge, Observable} from 'rxjs';
-import {PaginatedResource} from '../../../../model/table-adapters/paginated-resource';
+import {PaginatedResource} from '../../../../model/table/other/paginated-resource';
 import {takeWhile} from 'rxjs/operators';
 
 @Component({

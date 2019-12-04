@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject, merge, Observable} from 'rxjs';
-import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
-import {TrainingRunTableRow} from '../../model/table-adapters/training-run-table-row';
+import {PaginatedResource} from '../../model/table/other/paginated-resource';
+import {TrainingRunTableRow} from '../../model/table/row/training-run-table-row';
 import {Pagination} from 'kypo2-table';
 import {environment} from '../../../environments/environment';
 import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';

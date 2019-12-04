@@ -10,8 +10,8 @@ import {AnsibleRunStage} from '../../model/sandbox/pool/request/stage/ansible-ru
 import {OpenStackStage} from '../../model/sandbox/pool/request/stage/open-stack-stage';
 import {RequestStage} from '../../model/sandbox/pool/request/stage/request-stage';
 import {SandboxPool} from '../../model/sandbox/pool/sandbox-pool';
-import {Kypo2Pagination} from '../../model/table-adapters/kypo2-pagination';
-import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
+import {Kypo2Pagination} from '../../model/table/other/kypo2-pagination';
+import {PaginatedResource} from '../../model/table/other/paginated-resource';
 import {SandboxInstanceState} from '../../model/enums/sandbox-instance-state';
 import {SandboxInstanceResourceDTO} from '../../model/DTOs/sandbox-instance/sandbox-instance-resource-dto';
 import {SandboxInstanceResource} from '../../model/sandbox/pool/sandbox-instance/sandbox-instance-resource/sandbox-instance-resource';

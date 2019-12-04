@@ -2,12 +2,12 @@ import {async, TestBed} from '@angular/core/testing';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {asyncData} from '../../../testing/helpers/async-data';
 import {RequestedPagination} from 'kypo2-table';
-import {PaginatedResource} from '../../../model/table-adapters/paginated-resource';
+import {PaginatedResource} from '../../../model/table/other/paginated-resource';
 import {throwError} from 'rxjs';
 import {skip, take} from 'rxjs/operators';
 import {TrainingDefinitionFacade} from '../../facades/training-definition-facade.service';
 import {TrainingDefinitionOrganizerSelectorService} from './training-definition-organizer-selector.service';
-import {Kypo2Pagination} from '../../../model/table-adapters/kypo2-pagination';
+import {Kypo2Pagination} from '../../../model/table/other/kypo2-pagination';
 import {TrainingDefinitionInfo} from '../../../model/training/training-definition-info';
 
 

@@ -1,7 +1,7 @@
-import {TrainingRunStateEnum} from '../enums/training-run-state.enum';
+import {TrainingRunStateEnum} from '../../enums/training-run-state.enum';
 import {TrainingRunTableRow} from './training-run-table-row';
-import {TrainingRun} from '../training/training-run';
-import {SandboxInstanceState} from '../enums/sandbox-instance-state';
+import {TrainingRun} from '../../training/training-run';
+import {SandboxInstanceState} from '../../enums/sandbox-instance-state';
 
 export class TrainingRunTableAdapter extends TrainingRunTableRow {
   player: string;

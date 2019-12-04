@@ -8,8 +8,8 @@ import {throwError} from 'rxjs';
 import {asyncData} from '../../testing/helpers/async-data';
 import {environment} from '../../../environments/environment';
 import {RequestedPagination} from 'kypo2-table';
-import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
-import {Kypo2Pagination} from '../../model/table-adapters/kypo2-pagination';
+import {PaginatedResource} from '../../model/table/other/paginated-resource';
+import {Kypo2Pagination} from '../../model/table/other/kypo2-pagination';
 
 describe('FetchActiveTrainingRunConcreteService', () => {
 

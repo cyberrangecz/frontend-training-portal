@@ -5,7 +5,7 @@ import {map, take, takeWhile} from 'rxjs/operators';
 import {SandboxPool} from '../../../model/sandbox/pool/sandbox-pool';
 import {PoolService} from '../../../services/sandbox-instance/pool/pool.service';
 import {BaseComponent} from '../../base.component';
-import {PoolTableCreator} from '../../../model/table-adapters/pool-table-creator';
+import {PoolTableCreator} from '../../../model/table/factory/pool-table-creator';
 import {environment} from '../../../../environments/environment';
 
 @Component({

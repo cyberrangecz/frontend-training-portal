@@ -2,14 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import {EMPTY, Observable} from 'rxjs';
 import {map, switchMap, takeWhile} from 'rxjs/operators';
-import {SandboxDefinitionTableRow} from '../../../model/table-adapters/sandbox-definition-table-row';
 import {ActionConfirmationDialogComponent} from '../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import {BaseComponent} from '../../base.component';
 import {AddSandboxDefinitionDialogComponent} from '../add-sandbox-definition-dialog/add-sandbox-definition-dialog.component';
 import {SandboxDefinitionService} from '../../../services/shared/sandbox-definition.service';
 import {Kypo2Table, LoadTableEvent, TableActionEvent} from 'kypo2-table';
 import {ErrorHandlerService} from '../../../services/shared/error-handler.service';
-import {SandboxDefinitionTableCreator} from '../../../model/table-adapters/sandbox-definition-table-creator';
+import {SandboxDefinitionTableCreator} from '../../../model/table/factory/sandbox-definition-table-creator';
+import {SandboxDefinition} from '../../../model/sandbox/definition/sandbox-definition';
 
 @Component({
   selector: 'kypo2-sandbox-definition-overview',
@@ -23,7 +23,7 @@ import {SandboxDefinitionTableCreator} from '../../../model/table-adapters/sandb
  */
 export class SandboxDefinitionOverviewComponent extends BaseComponent implements OnInit {
 
-  sandboxDefinitions$: Observable<Kypo2Table<SandboxDefinitionTableRow>>;
+  sandboxDefinitions$: Observable<Kypo2Table<SandboxDefinition>>;
   tableHasError$: Observable<boolean>;
   tableTotalLength$: Observable<number>;
 
@@ -48,7 +48,7 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
       .subscribe();
   }
 
-  onSandboxDefinitionTableAction(event: TableActionEvent<SandboxDefinitionTableRow>) {
+  onSandboxDefinitionTableAction(event: TableActionEvent<SandboxDefinition>) {
     if (event.action.label.toLocaleLowerCase() === 'delete') {
       this.deleteSandboxDefinition(event.element);
     }
@@ -73,14 +73,13 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
 
   /**
    * Removes sandbox definition data object from data source and sends request to delete the sandbox in database
-   * @param {SandboxDefinitionTableRow} sandboxRow sandbox definition data row which should be deleted
    */
-  deleteSandboxDefinition(sandboxRow: SandboxDefinitionTableRow) {
+  deleteSandboxDefinition(sandboxRow: SandboxDefinition) {
     const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
       data: {
         type: 'Sandbox Definition',
         action: 'delete',
-        title: sandboxRow.sandbox.title
+        title: sandboxRow.title
       }
     });
     dialogRef.afterClosed()

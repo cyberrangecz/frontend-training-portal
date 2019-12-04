@@ -1,6 +1,6 @@
 import {RequestedPagination} from 'kypo2-table';
 import {Observable} from 'rxjs';
-import {PaginatedResource} from '../../../model/table-adapters/paginated-resource';
+import {PaginatedResource} from '../../../model/table/other/paginated-resource';
 import {SandboxInstance} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance';
 import {PaginatedResourceService} from '../../shared/paginated-resource.service';
 

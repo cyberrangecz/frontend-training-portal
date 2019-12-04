@@ -12,7 +12,7 @@ import {AlertService} from '../../../services/shared/alert.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {of} from 'rxjs';
 import {MaterialTestingModule} from '../../../testing/test-utils/material-testing.module';
-import {AccessedTrainingRun} from '../../../model/table-adapters/accessed-training-run';
+import {AccessedTrainingRun} from '../../../model/table/row/accessed-training-run';
 import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserTestingModule} from '@angular/platform-browser/testing';
 import {TrainingRunFacade} from '../../../services/facades/training-run-facade.service';

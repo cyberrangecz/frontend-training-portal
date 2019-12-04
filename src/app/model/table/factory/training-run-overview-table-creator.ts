@@ -1,8 +1,8 @@
-import {AccessedTrainingRun} from './accessed-training-run';
-import {PaginatedResource} from './paginated-resource';
+import {AccessedTrainingRun} from '../row/accessed-training-run';
+import {PaginatedResource} from '../other/paginated-resource';
 import {Column, Kypo2Table, Row} from 'kypo2-table';
 import {of} from 'rxjs';
-import {TraineeAccessTrainingRunActionEnum} from '../enums/trainee-access-training-run-actions.enum';
+import {TraineeAccessTrainingRunActionEnum} from '../../enums/trainee-access-training-run-actions.enum';
 
 export class TrainingRunOverviewTableCreator {
   static create(resource: PaginatedResource<AccessedTrainingRun[]>): Kypo2Table<AccessedTrainingRun> {

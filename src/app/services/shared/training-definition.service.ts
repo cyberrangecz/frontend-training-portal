@@ -2,8 +2,8 @@ import { TrainingDefinitionStateEnum } from './../../model/enums/training-defini
 import { TrainingDefinition } from '../../model/training/training-definition';
 import { Observable } from 'rxjs';
 import { Kypo2Table, RequestedPagination } from 'kypo2-table';
-import { PaginatedResource } from '../../model/table-adapters/paginated-resource';
-import { TrainingDefinitionTableRow } from '../../model/table-adapters/training-definition-table-row';
+import { PaginatedResource } from '../../model/table/other/paginated-resource';
+import { TrainingDefinitionTableRow } from '../../model/table/row/training-definition-table-row';
 import { Filter } from '../../model/utils/filter';
 
 export abstract class TrainingDefinitionService {

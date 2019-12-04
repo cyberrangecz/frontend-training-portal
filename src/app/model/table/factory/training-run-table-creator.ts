@@ -1,8 +1,8 @@
 import {Column, Kypo2Table, Row} from 'kypo2-table';
 import {of} from 'rxjs';
-import {PaginatedResource} from './paginated-resource';
-import {TrainingRunTableAdapter} from './training-run-table-adapter';
-import {TrainingRunTableRow} from './training-run-table-row';
+import {PaginatedResource} from '../other/paginated-resource';
+import {TrainingRunTableAdapter} from '../row/training-run-table-adapter';
+import {TrainingRunTableRow} from '../row/training-run-table-row';
 
 export class TrainingRunTableCreator {
   static create(resource: PaginatedResource<TrainingRunTableRow[]>, tableType: string): Kypo2Table<TrainingRunTableAdapter> {

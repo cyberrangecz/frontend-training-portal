@@ -1,9 +1,9 @@
-import { TrainingDefinitionStateEnum } from './../enums/training-definition-state.enum';
+import { TrainingDefinitionStateEnum } from '../../enums/training-definition-state.enum';
 import { Column, Kypo2Table, Row, RowExpand } from 'kypo2-table';
 import { of } from 'rxjs';
-import { PaginatedResource } from './paginated-resource';
-import { TrainingDefinitionTableRow } from './training-definition-table-row';
-import { TrainingDefinitionDetailComponent } from '../../components/training-definition/training-definition-overview/training-definition-detail/training-definition-detail.component';
+import { PaginatedResource } from '../other/paginated-resource';
+import { TrainingDefinitionTableRow } from '../row/training-definition-table-row';
+import { TrainingDefinitionDetailComponent } from '../../../components/training-definition/training-definition-overview/training-definition-detail/training-definition-detail.component';
 
 export class TrainingDefinitionTableCreator {
   static create(

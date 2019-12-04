@@ -1,7 +1,7 @@
 import { RequestedPagination} from 'kypo2-table';
 import {Observable} from 'rxjs';
 import {PoolRequest} from '../../../model/sandbox/pool/request/pool-request';
-import {PaginatedResource} from '../../../model/table-adapters/paginated-resource';
+import {PaginatedResource} from '../../../model/table/other/paginated-resource';
 import {PaginatedResourceService} from '../../shared/paginated-resource.service';
 
 export abstract class PoolRequestService extends PaginatedResourceService {

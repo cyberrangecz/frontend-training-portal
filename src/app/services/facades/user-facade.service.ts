@@ -9,8 +9,8 @@ import {UserRestResource} from '../../model/DTOs/other/user-rest-resource-dto';
 import {FilterParams} from '../../model/http/params/filter-params';
 import {PaginationParams} from '../../model/http/params/pagination-params';
 import {ParamsMerger} from '../../model/http/params/params-merger';
-import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
-import {UserRow} from '../../model/table-adapters/user-table-row';
+import {PaginatedResource} from '../../model/table/other/paginated-resource';
+import {UserRow} from '../../model/table/row/user-table-row';
 import {Filter} from '../../model/utils/filter';
 import {UserMapper} from '../mappers/user.mapper.service';
 

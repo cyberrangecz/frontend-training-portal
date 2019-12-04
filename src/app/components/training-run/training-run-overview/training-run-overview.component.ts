@@ -5,12 +5,12 @@ import {map, takeWhile} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ErrorHandlerService} from '../../../services/shared/error-handler.service';
 import {Observable} from 'rxjs';
-import {AccessedTrainingRun} from '../../../model/table-adapters/accessed-training-run';
+import {AccessedTrainingRun} from '../../../model/table/row/accessed-training-run';
 import {Kypo2Table, LoadTableEvent, RequestedPagination, TableActionEvent} from 'kypo2-table';
 import {TrainingRunOverviewService} from '../../../services/shared/training-run-overview.service';
 import {RouteFactory} from '../../../model/routes/route-factory';
 import {environment} from '../../../../environments/environment';
-import {TrainingRunOverviewTableCreator} from '../../../model/table-adapters/training-run-overview-table-creator';
+import {TrainingRunOverviewTableCreator} from '../../../model/table/factory/training-run-overview-table-creator';
 
 @Component({
   selector: 'kypo2-trainee-overview',
