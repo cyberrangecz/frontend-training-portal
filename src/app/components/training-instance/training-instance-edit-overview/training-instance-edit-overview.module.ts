@@ -6,7 +6,7 @@ import {PipesModule} from '../../../pipes/pipes.module';
 import {TrainingDefinitionFacadeModule} from '../../../services/facades/modules/training-definition-facade.module';
 import {TrainingInstanceFacadeModule} from '../../../services/facades/modules/training-instance-facade.module';
 import {UserFacadeModule} from '../../../services/facades/modules/user-facade.module';
-import {TrainingInstanceLeaveGuardService} from '../../../services/guards/training-instance-leave-guard.service';
+import {TrainingInstanceCanDeactivate} from '../../../services/guards/training-instance-can-deactivate.service';
 import {OrganizersAssignService} from '../../../services/training-instance/organizers-assign/organizers-assign.service';
 import {TrainingInstanceEditConcreteService} from '../../../services/training-instance/training-instance-edit-concrete.service';
 import {TrainingInstanceEditService} from '../../../services/training-instance/training-instance-edit.service';
@@ -44,7 +44,7 @@ import { TrainingDefinitionListContentComponent } from './training-definition-se
     TrainingDefinitionSelectorComponent,
     TrainingDefinitionListContentComponent],
   providers: [
-    TrainingInstanceLeaveGuardService,
+    TrainingInstanceCanDeactivate,
     { provide: Kypo2UserAssignService, useClass: OrganizersAssignService },
     { provide: TrainingInstanceEditService, useClass: TrainingInstanceEditConcreteService }
   ],
