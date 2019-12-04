@@ -1,6 +1,7 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ViewChild} from '@angular/core';
 import {AdminBaseComponent} from '../../../admin-base-component';
 import {
+  Kypo2GroupEditOverviewComponent,
   Kypo2UserAndGroupErrorService,
   Kypo2UserAndGroupNotificationService,
   Kypo2UserAndGroupRoutingEventService
@@ -16,6 +17,8 @@ import {ErrorHandlerService} from '../../../../../services/shared/error-handler.
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminGroupDetailWrapperComponent extends AdminBaseComponent {
+
+  @ViewChild(Kypo2GroupEditOverviewComponent, { static: true}) groupEditOverviewComponent;
 
   constructor(protected userAndGroupRouting: Kypo2UserAndGroupRoutingEventService,
               protected userAndGroupNotificationService: Kypo2UserAndGroupNotificationService,

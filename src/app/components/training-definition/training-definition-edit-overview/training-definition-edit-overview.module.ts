@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {PipesModule} from '../../../pipes/pipes.module';
 import {SandboxDefinitionFacadeModule} from '../../../services/facades/modules/sandbox-definition-facade.module';
-import {TrainingDefinitionLeaveGuard} from '../../../services/guards/training-definition-leave-guard.service';
+import {TrainingDefinitionCanDeactivate} from '../../../services/guards/training-definition-can-deactivate.service';
 import {TrainingDefinitionBreadcrumbResolver} from '../../../services/resolvers/training-definition-breadcrumb-resolver.service';
 import {TrainingDefinitionResolver} from '../../../services/resolvers/training-definition-resolver.service';
 import {AuthorsAssignService} from '../../../services/training-definition/authors-assign/authors-assign.service';
@@ -43,7 +43,7 @@ import {Kypo2UserAssignModule, Kypo2UserAssignService} from 'kypo2-user-assign';
   ],
   providers: [
     TrainingDefinitionEditService,
-    TrainingDefinitionLeaveGuard,
+    TrainingDefinitionCanDeactivate,
     TrainingDefinitionResolver,
     TrainingDefinitionBreadcrumbResolver,
     {provide: Kypo2UserAssignService, useClass: AuthorsAssignService},

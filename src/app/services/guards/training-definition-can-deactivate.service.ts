@@ -7,7 +7,7 @@ import {TrainingDefinitionEditOverviewComponent} from '../../components/training
 /**
  * Checks if form for editing/creating TD is saved
  */
-export class TrainingDefinitionLeaveGuard implements CanDeactivate<TrainingDefinitionEditOverviewComponent> {
+export class TrainingDefinitionCanDeactivate implements CanDeactivate<TrainingDefinitionEditOverviewComponent> {
 
   canDeactivate(component: TrainingDefinitionEditOverviewComponent,
                 currentRoute: ActivatedRouteSnapshot,

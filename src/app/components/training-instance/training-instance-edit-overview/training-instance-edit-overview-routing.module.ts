@@ -1,13 +1,13 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {TrainingInstanceLeaveGuardService} from '../../../services/guards/training-instance-leave-guard.service';
+import {TrainingInstanceCanDeactivate} from '../../../services/guards/training-instance-can-deactivate.service';
 import {TrainingInstanceEditOverviewComponent} from './training-instance-edit-overview.component';
 
 const routes: Routes = [
   {
     path: '',
     component: TrainingInstanceEditOverviewComponent,
-    canDeactivate: [TrainingInstanceLeaveGuardService],
+    canDeactivate: [TrainingInstanceCanDeactivate],
     data: { breadcrumb: null }
   },
 ];

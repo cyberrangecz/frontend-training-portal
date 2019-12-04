@@ -2,7 +2,7 @@ import {ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot, UrlTree} fro
 import {Observable} from 'rxjs';
 import {TrainingInstanceEditOverviewComponent} from '../../components/training-instance/training-instance-edit-overview/training-instance-edit-overview.component';
 
-export class TrainingInstanceLeaveGuardService implements CanDeactivate<TrainingInstanceEditOverviewComponent> {
+export class TrainingInstanceCanDeactivate implements CanDeactivate<TrainingInstanceEditOverviewComponent> {
   canDeactivate(component: TrainingInstanceEditOverviewComponent,
                 currentRoute: ActivatedRouteSnapshot,
                 currentState: RouterStateSnapshot,

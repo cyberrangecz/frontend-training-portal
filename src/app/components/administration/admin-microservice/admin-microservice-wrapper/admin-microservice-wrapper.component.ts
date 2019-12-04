@@ -1,5 +1,6 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ViewChild} from '@angular/core';
 import {
+  Kypo2MicroserviceEditOverviewComponent,
   Kypo2UserAndGroupErrorService,
   Kypo2UserAndGroupNotificationService,
   Kypo2UserAndGroupRoutingEventService
@@ -16,6 +17,8 @@ import {AdminBaseComponent} from '../../admin-base-component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminMicroserviceWrapperComponent extends AdminBaseComponent {
+
+  @ViewChild(Kypo2MicroserviceEditOverviewComponent, { static: true }) microserviceEditComponent;
 
   constructor(protected userAndGroupRouting: Kypo2UserAndGroupRoutingEventService,
               protected userAndGroupNotificationService: Kypo2UserAndGroupNotificationService,
