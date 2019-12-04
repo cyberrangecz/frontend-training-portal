@@ -3,7 +3,7 @@ import {User} from 'kypo2-auth';
 import {Pagination, RequestedPagination} from 'kypo2-table';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {switchMap, tap} from 'rxjs/operators';
-import {PaginatedResource} from '../../../model/table-adapters/paginated-resource';
+import {PaginatedResource} from '../../../model/table/other/paginated-resource';
 import {UserNameFilters} from '../../../model/utils/user-name-filters';
 import {UserFacade} from '../../facades/user-facade.service';
 import {ErrorHandlerService} from '../../shared/error-handler.service';

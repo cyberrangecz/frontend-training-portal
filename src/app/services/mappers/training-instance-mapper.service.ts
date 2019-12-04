@@ -3,9 +3,9 @@ import {TrainingInstanceCreateDTO} from '../../model/DTOs/training-instance/trai
 import {TrainingInstanceDTO} from '../../model/DTOs/training-instance/training-instance-dto';
 import {TrainingInstanceRestResource} from '../../model/DTOs/training-instance/training-instance-rest-resource';
 import {TrainingInstanceUpdateDTO} from '../../model/DTOs/training-instance/training-instance-update-dto';
-import {Kypo2Pagination} from '../../model/table-adapters/kypo2-pagination';
-import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
-import {TrainingInstanceTableRow} from '../../model/table-adapters/training-instance-table-row';
+import {Kypo2Pagination} from '../../model/table/other/kypo2-pagination';
+import {PaginatedResource} from '../../model/table/other/paginated-resource';
+import {TrainingInstanceTableRow} from '../../model/table/row/training-instance-table-row';
 import {TrainingInstance} from '../../model/training/training-instance';
 import {TrainingDefinitionMapper} from './training-definition-mapper.service';
 

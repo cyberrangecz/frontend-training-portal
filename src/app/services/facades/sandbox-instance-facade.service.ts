@@ -14,7 +14,7 @@ import {PoolRequest} from '../../model/sandbox/pool/request/pool-request';
 import {SandboxInstanceResource} from '../../model/sandbox/pool/sandbox-instance/sandbox-instance-resource/sandbox-instance-resource';
 import {SandboxInstanceResourceDTO} from '../../model/DTOs/sandbox-instance/sandbox-instance-resource-dto';
 import {SandboxPool} from '../../model/sandbox/pool/sandbox-pool';
-import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
+import {PaginatedResource} from '../../model/table/other/paginated-resource';
 import {SandboxInstanceMapper} from '../mappers/sandbox-instance-mapper.service';
 import {Cacheable} from 'ngx-cacheable';
 import {RequestStage} from '../../model/sandbox/pool/request/stage/request-stage';

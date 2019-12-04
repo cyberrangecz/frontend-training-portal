@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {SandboxInstance} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance';
 import {switchMap, tap} from 'rxjs/operators';
-import {PaginatedResource} from '../../../model/table-adapters/paginated-resource';
+import {PaginatedResource} from '../../../model/table/other/paginated-resource';
 import {SandboxInstanceFacade} from '../../facades/sandbox-instance-facade.service';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {SandboxInstanceService} from './sandbox-instance.service';

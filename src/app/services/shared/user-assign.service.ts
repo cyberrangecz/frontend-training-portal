@@ -2,7 +2,7 @@ import {User} from 'kypo2-auth';
 import {Kypo2Table} from 'kypo2-table';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
-import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
+import {PaginatedResource} from '../../model/table/other/paginated-resource';
 import {PaginatedResourceService} from './paginated-resource.service';
 
 export abstract class UserAssignService extends PaginatedResourceService {

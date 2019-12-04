@@ -1,7 +1,6 @@
 import { SandboxDefinitionService } from '../shared/sandbox-definition.service';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { PaginatedResource } from '../../model/table-adapters/paginated-resource';
-import { SandboxDefinitionTableRow } from '../../model/table-adapters/sandbox-definition-table-row';
+import { PaginatedResource } from '../../model/table/other/paginated-resource';
 import { Pagination, RequestedPagination } from 'kypo2-table';
 import { switchMap, tap } from 'rxjs/operators';
 import { SandboxDefinitionFacade } from '../facades/sandbox-definition-facade.service';
@@ -11,6 +10,7 @@ import { SandboxDefinitionInfo } from '../../components/sandbox-definition/add-s
 import { AlertTypeEnum } from '../../model/enums/alert-type.enum';
 import { AlertService } from '../shared/alert.service';
 import { environment } from '../../../environments/environment';
+import {SandboxDefinition} from '../../model/sandbox/definition/sandbox-definition';
 
 @Injectable()
 export class SandboxDefinitionConcreteService extends SandboxDefinitionService {
@@ -21,12 +21,12 @@ export class SandboxDefinitionConcreteService extends SandboxDefinitionService {
     super();
   }
 
-  private sandboxDefinitionsSubject: BehaviorSubject<PaginatedResource<SandboxDefinitionTableRow[]>> = new BehaviorSubject(this.initSubject());
-  sandboxDefinitions$: Observable<PaginatedResource<SandboxDefinitionTableRow[]>> = this.sandboxDefinitionsSubject.asObservable();
+  private sandboxDefinitionsSubject: BehaviorSubject<PaginatedResource<SandboxDefinition[]>> = new BehaviorSubject(this.initSubject());
+  sandboxDefinitions$: Observable<PaginatedResource<SandboxDefinition[]>> = this.sandboxDefinitionsSubject.asObservable();
 
   lastPagination: RequestedPagination;
 
-  getAll(pagination: RequestedPagination): Observable<PaginatedResource<SandboxDefinitionTableRow[]>> {
+  getAll(pagination: RequestedPagination): Observable<PaginatedResource<SandboxDefinition[]>> {
     this.hasErrorSubject$.next(false);
     this.lastPagination = pagination;
     return this.sandboxDefinitionFacade.getAllPaginated(pagination).pipe(
@@ -51,7 +51,7 @@ export class SandboxDefinitionConcreteService extends SandboxDefinitionService {
       );
   }
 
-  delete(id: number): Observable<PaginatedResource<SandboxDefinitionTableRow[]>> {
+  delete(id: number): Observable<PaginatedResource<SandboxDefinition[]>> {
     return this.sandboxDefinitionFacade.delete(id)
       .pipe(
         tap(
@@ -62,7 +62,7 @@ export class SandboxDefinitionConcreteService extends SandboxDefinitionService {
       );
   }
 
-  private initSubject(): PaginatedResource<SandboxDefinitionTableRow[]> {
+  private initSubject(): PaginatedResource<SandboxDefinition[]> {
     return new PaginatedResource([], new Pagination(0, 0, environment.defaultPaginationSize, 0, 0));
   }
 }

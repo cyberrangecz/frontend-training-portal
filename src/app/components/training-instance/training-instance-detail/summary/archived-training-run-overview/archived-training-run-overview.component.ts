@@ -7,8 +7,8 @@ import {Kypo2Table, LoadTableEvent, RequestedPagination} from 'kypo2-table';
 import {ArchivedTrainingRunService} from '../../../../../services/shared/archived-training-run.service';
 import {environment} from '../../../../../../environments/environment';
 import {ActivatedRoute} from '@angular/router';
-import {TrainingRunTableCreator} from '../../../../../model/table-adapters/training-run-table-creator';
-import {TrainingRunTableAdapter} from '../../../../../model/table-adapters/training-run-table-adapter';
+import {TrainingRunTableCreator} from '../../../../../model/table/factory/training-run-table-creator';
+import {TrainingRunTableAdapter} from '../../../../../model/table/row/training-run-table-adapter';
 import {BaseComponent} from '../../../../base.component';
 
 @Component({

@@ -7,7 +7,7 @@ import {Observable} from 'rxjs';
 import {Kypo2Table, LoadTableEvent} from 'kypo2-table';
 import {SandboxInstanceResource} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance-resource/sandbox-instance-resource';
 import {SandboxInstanceResourceService} from '../../../services/sandbox-instance/sandbox/sandbox-instance-resource.service';
-import {SandboxInstanceResourceTableCreator} from '../../../model/table-adapters/sandbox-instance-resource-table-creator';
+import {SandboxInstanceResourceTableCreator} from '../../../model/table/factory/sandbox-instance-resource-table-creator';
 
 @Component({
   selector: 'kypo2-sandbox-instance-detail',

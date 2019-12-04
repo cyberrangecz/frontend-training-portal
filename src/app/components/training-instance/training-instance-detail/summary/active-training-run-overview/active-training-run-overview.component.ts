@@ -7,9 +7,9 @@ import {RequestedPagination} from '../../../../../model/DTOs/other/requested-pag
 import {ActionConfirmationDialogComponent} from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import {Kypo2Table, LoadTableEvent} from 'kypo2-table';
 import {ActivatedRoute} from '@angular/router';
-import {TrainingRunTableCreator} from '../../../../../model/table-adapters/training-run-table-creator';
+import {TrainingRunTableCreator} from '../../../../../model/table/factory/training-run-table-creator';
 import {FetchActiveTrainingRunService} from '../../../../../services/shared/fetch-active-training-run.service';
-import {TrainingRunTableAdapter} from '../../../../../model/table-adapters/training-run-table-adapter';
+import {TrainingRunTableAdapter} from '../../../../../model/table/row/training-run-table-adapter';
 import {BaseComponent} from '../../../../base.component';
 import {TrainingInstance} from '../../../../../model/training/training-instance';
 

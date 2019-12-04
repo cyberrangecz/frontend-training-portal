@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import {FetchActiveTrainingRunService} from '../shared/fetch-active-training-run.service';
 import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
 import {Observable, Subject, timer} from 'rxjs';
-import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
-import {TrainingRunTableRow} from '../../model/table-adapters/training-run-table-row';
+import {PaginatedResource} from '../../model/table/other/paginated-resource';
+import {TrainingRunTableRow} from '../../model/table/row/training-run-table-row';
 import {environment} from '../../../environments/environment';
 import {delayWhen, retryWhen, switchMap} from 'rxjs/operators';
 

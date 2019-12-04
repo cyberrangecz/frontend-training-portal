@@ -1,7 +1,7 @@
 import {Column, Kypo2Table, Row, RowAction} from 'kypo2-table';
-import {RouteFactory} from '../routes/route-factory';
-import {PoolRequest} from '../sandbox/pool/request/pool-request';
-import {PaginatedResource} from './paginated-resource';
+import {RouteFactory} from '../../routes/route-factory';
+import {PoolRequest} from '../../sandbox/pool/request/pool-request';
+import {PaginatedResource} from '../other/paginated-resource';
 import {of} from 'rxjs';
 
 export class PoolRequestTableCreator {

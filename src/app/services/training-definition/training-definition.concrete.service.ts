@@ -4,12 +4,12 @@ import { Observable, Subject } from 'rxjs';
 import { ErrorHandlerService } from '../shared/error-handler.service';
 import { TrainingDefinitionFacade } from '../facades/training-definition-facade.service';
 import { TrainingDefinitionService } from '../shared/training-definition.service';
-import { TrainingDefinitionTableRow } from '../../model/table-adapters/training-definition-table-row';
-import { PaginatedResource } from '../../model/table-adapters/paginated-resource';
+import { TrainingDefinitionTableRow } from '../../model/table/row/training-definition-table-row';
+import { PaginatedResource } from '../../model/table/other/paginated-resource';
 import { RequestedPagination } from '../../model/DTOs/other/requested-pagination';
 import { tap } from 'rxjs/operators';
 import { Kypo2Table } from 'kypo2-table';
-import { TrainingDefinitionTableCreator } from '../../model/table-adapters/training-definition-table-creator';
+import { TrainingDefinitionTableCreator } from '../../model/table/factory/training-definition-table-creator';
 import { Injectable } from '@angular/core';
 import { TrainingDefinition } from '../../model/training/training-definition';
 

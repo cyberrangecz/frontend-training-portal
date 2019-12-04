@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {PaginatedResource} from '../../../model/table-adapters/paginated-resource';
+import {PaginatedResource} from '../../../model/table/other/paginated-resource';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {RequestedPagination} from 'kypo2-table';
 import {TrainingDefinitionFacade} from '../../facades/training-definition-facade.service';

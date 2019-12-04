@@ -13,7 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import {Observable} from 'rxjs';
 import {skipWhile, takeWhile} from 'rxjs/operators';
-import {SandboxInstanceTableRow} from '../../../../../model/table-adapters/sandbox-instance-table-row';
+import {SandboxInstanceTableRow} from '../../../../../model/table/row/sandbox-instance-table-row';
 import {SandboxInstanceAllocationState} from '../../../../../model/training/sandbox-instance-allocation-state';
 import {SandboxInstanceFacade} from '../../../../../services/facades/sandbox-instance-facade.service';
 import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';

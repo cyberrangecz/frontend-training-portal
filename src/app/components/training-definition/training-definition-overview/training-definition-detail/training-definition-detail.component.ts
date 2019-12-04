@@ -1,4 +1,4 @@
-import { TrainingDefinitionTableRow } from '../../../../model/table-adapters/training-definition-table-row';
+import { TrainingDefinitionTableRow } from '../../../../model/table/row/training-definition-table-row';
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { BaseComponent } from '../../../base.component';
 

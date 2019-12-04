@@ -1,4 +1,4 @@
-import { TrainingDefinitionTableRow } from '../../../../model/table-adapters/training-definition-table-row';
+import { TrainingDefinitionTableRow } from '../../../../model/table/row/training-definition-table-row';
 import { BaseComponent } from './../../../base.component';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { TableActionEvent } from 'kypo2-table';

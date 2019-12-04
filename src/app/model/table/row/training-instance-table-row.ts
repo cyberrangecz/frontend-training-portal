@@ -1,11 +1,10 @@
 import {Observable} from 'rxjs';
-import {RouteFactory} from '../routes/route-factory';
-import {SandboxInstanceAllocationState} from '../training/sandbox-instance-allocation-state';
-import {TrainingInstance} from '../training/training-instance';
-import {StringNormalizer} from '../utils/ignore-diacritics-filter';
-import {TableRowAdapter} from './table-row-adapter';
+import {RouteFactory} from '../../routes/route-factory';
+import {SandboxInstanceAllocationState} from '../../training/sandbox-instance-allocation-state';
+import {TrainingInstance} from '../../training/training-instance';
+import {StringNormalizer} from '../../utils/ignore-diacritics-filter';
 
-export class TrainingInstanceTableRow implements TableRowAdapter {
+export class TrainingInstanceTableRow {
   trainingDefinitionTitle: string;
   detailRouterLink: string;
   isAllocationInProgress: boolean;

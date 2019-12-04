@@ -1,11 +1,11 @@
 import {Column, Kypo2Table, Row, RowExpand} from 'kypo2-table';
 import {of} from 'rxjs';
-import {SandboxDefinitionTableRow} from './sandbox-definition-table-row';
-import {SandboxDefinitionDetailComponent} from '../../components/sandbox-definition/sandbox-definition-overview/sandbox-definition-detail/sandbox-definition-detail.component';
-import {PaginatedResource} from './paginated-resource';
+import {SandboxDefinitionDetailComponent} from '../../../components/sandbox-definition/sandbox-definition-overview/sandbox-definition-detail/sandbox-definition-detail.component';
+import {PaginatedResource} from '../other/paginated-resource';
+import {SandboxDefinition} from '../../sandbox/definition/sandbox-definition';
 
 export class SandboxDefinitionTableCreator {
-  static create(resource: PaginatedResource<SandboxDefinitionTableRow[]>): Kypo2Table<SandboxDefinitionTableRow> {
+  static create(resource: PaginatedResource<SandboxDefinition[]>): Kypo2Table<SandboxDefinition> {
 
     const actions = [{
         label: 'Delete',
@@ -14,7 +14,7 @@ export class SandboxDefinitionTableCreator {
         tooltip: 'Delete',
         disabled$: of(false)
       }];
-    const table = new Kypo2Table<SandboxDefinitionTableRow>(
+    const table = new Kypo2Table<SandboxDefinition>(
       resource.elements.map(sandboxDef => new Row(sandboxDef, actions)),
       [
         new Column('id', 'id', false),

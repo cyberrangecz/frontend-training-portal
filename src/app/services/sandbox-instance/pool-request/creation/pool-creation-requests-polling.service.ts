@@ -9,7 +9,7 @@ import {
   tap
 } from 'rxjs/operators';
 import {PoolRequest} from '../../../../model/sandbox/pool/request/pool-request';
-import {PaginatedResource} from '../../../../model/table-adapters/paginated-resource';
+import {PaginatedResource} from '../../../../model/table/other/paginated-resource';
 import {SandboxInstanceFacade} from '../../../facades/sandbox-instance-facade.service';
 import {ErrorHandlerService} from '../../../shared/error-handler.service';
 import {RequestedPagination} from '../../../../model/DTOs/other/requested-pagination';

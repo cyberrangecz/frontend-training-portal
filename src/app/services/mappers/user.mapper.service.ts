@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {User} from 'kypo2-auth';
 import {UserRestResource} from '../../model/DTOs/other/user-rest-resource-dto';
-import {Kypo2Pagination} from '../../model/table-adapters/kypo2-pagination';
-import {PaginatedResource} from '../../model/table-adapters/paginated-resource';
-import {UserRow} from '../../model/table-adapters/user-table-row';
+import {Kypo2Pagination} from '../../model/table/other/kypo2-pagination';
+import {PaginatedResource} from '../../model/table/other/paginated-resource';
+import {UserRow} from '../../model/table/row/user-table-row';
 
 @Injectable()
 /**

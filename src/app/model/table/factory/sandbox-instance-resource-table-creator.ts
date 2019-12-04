@@ -1,5 +1,5 @@
 import {Column, Kypo2Table, Row} from 'kypo2-table';
-import {SandboxInstanceResource} from '../sandbox/pool/sandbox-instance/sandbox-instance-resource/sandbox-instance-resource';
+import {SandboxInstanceResource} from '../../sandbox/pool/sandbox-instance/sandbox-instance-resource/sandbox-instance-resource';
 
 export class SandboxInstanceResourceTableCreator {
   static create(resources: SandboxInstanceResource[]): Kypo2Table<SandboxInstanceResource> {

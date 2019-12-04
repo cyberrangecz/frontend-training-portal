@@ -1,8 +1,8 @@
-import {SandboxInstance} from '../sandbox/pool/sandbox-instance/sandbox-instance';
+import {SandboxInstance} from '../../sandbox/pool/sandbox-instance/sandbox-instance';
 import {Column, Kypo2Table, Row, RowAction} from 'kypo2-table';
 import {of} from 'rxjs';
-import {RouteFactory} from '../routes/route-factory';
-import {PaginatedResource} from './paginated-resource';
+import {RouteFactory} from '../../routes/route-factory';
+import {PaginatedResource} from '../other/paginated-resource';
 
 export class SandboxInstanceTableCreator {
 
