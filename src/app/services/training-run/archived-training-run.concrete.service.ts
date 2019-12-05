@@ -1,4 +1,3 @@
-import { AlertTypeEnum } from './../../model/enums/alert-type.enum';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, merge, Observable } from 'rxjs';
 import { Pagination } from 'kypo2-table';
@@ -12,9 +11,8 @@ import { ErrorHandlerService } from '../shared/error-handler.service';
 import { environment } from '../../../environments/environment';
 import { ArchivedTrainingRunPollingService } from './archived-training-run-polling.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ActiveTrainingInstanceService } from '../training-instance/active-training-instance.service';
-import { TrainingInstance } from '../../model/training/training-instance';
 import { AlertService } from '../shared/alert.service';
+import {TrainingInstance} from '../../model/training/training-instance';
 
 @Injectable()
 export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunPollingService {
@@ -23,20 +21,21 @@ export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunPolli
   > = new BehaviorSubject(this.initSubject());
   archivedTrainingRuns$: Observable<PaginatedResource<TrainingRunTableRow[]>>;
 
-  trainingInstance: TrainingInstance;
   lastPagination: RequestedPagination;
 
   constructor(
-    private activeTrainingInstanceService: ActiveTrainingInstanceService,
     private trainingRunFacade: TrainingRunFacade,
     private trainingInstanceFacade: TrainingInstanceFacade,
     private alertService: AlertService,
     private errorHandler: ErrorHandlerService
   ) {
     super();
-    this.trainingInstance = activeTrainingInstanceService.get();
+  }
+
+  startPolling(trainingInstance: TrainingInstance) {
+    this.lastTrainingInstanceId = trainingInstance.id;
     this.archivedTrainingRuns$ = merge(
-      this.archivedTrainingRunPoll$,
+      this.createPoll(),
       this.archivedTrainingRunsSubject.asObservable()
     ).pipe(
       tap(paginatedRuns =>
@@ -69,7 +68,7 @@ export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunPolli
       tap({
         error: err => this.errorHandler.display(err, 'Deleting training run')
       }),
-      switchMap(() => this.getAll(this.trainingInstance.id, this.lastPagination))
+      switchMap(() => this.getAll(this.lastTrainingInstanceId, this.lastPagination))
     );
   }
 
@@ -80,7 +79,7 @@ export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunPolli
         tap({
           error: err => this.errorHandler.display(err, 'Deleting training runs')
         }),
-        switchMap(() => this.getAll(this.trainingInstance.id, this.lastPagination))
+        switchMap(() => this.getAll(this.lastTrainingInstanceId, this.lastPagination))
       );
   }
 
@@ -98,7 +97,8 @@ export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunPolli
     return this.trainingInstanceFacade
       .getAssociatedTrainingRunsPaginated(
         this.lastTrainingInstanceId,
-        this.lastPagination
+        this.lastPagination,
+        false
       )
       .pipe(tap({ error: err => this.onGetAllError(err) }));
   }

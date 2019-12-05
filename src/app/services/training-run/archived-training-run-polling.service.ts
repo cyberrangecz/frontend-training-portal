@@ -14,17 +14,15 @@ export abstract class ArchivedTrainingRunPollingService extends ArchivedTraining
   protected lastPagination: RequestedPagination;
   protected retryPolling$: Subject<boolean> = new Subject();
   protected delayPolling$: Subject<number> = new Subject();
-  protected archivedTrainingRunPoll$: Observable<PaginatedResource<TrainingRunTableRow[]>>;
 
   protected constructor() {
     super();
-    this.archivedTrainingRunPoll$ = this.createPoll();
   }
 
   protected abstract repeatLastGetAllRequest(): Observable<PaginatedResource<TrainingRunTableRow[]>>;
 
   protected createPoll(): Observable<PaginatedResource<TrainingRunTableRow[]>> {
-    return timer(environment.organizerSummaryPollingPeriod, environment.organizerSummaryPollingPeriod)
+    return timer(0, environment.organizerSummaryPollingPeriod)
       .pipe(
         switchMap( _ => this.repeatLastGetAllRequest()),
         delayWhen( _ => this.delayPolling$),

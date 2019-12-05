@@ -11,7 +11,6 @@ import {ErrorHandlerService} from '../shared/error-handler.service';
 import {ActiveTrainingRunPollingService} from './active-training-run-polling.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {TrainingInstance} from '../../model/training/training-instance';
-import {ActiveTrainingInstanceService} from '../training-instance/active-training-instance.service';
 import {SandboxInstanceFacade} from '../facades/sandbox-instance-facade.service';
 import {AlertService} from '../shared/alert.service';
 import {AlertTypeEnum} from '../../model/enums/alert-type.enum';
@@ -26,12 +25,16 @@ export class ActiveTrainingRunConcreteService extends ActiveTrainingRunPollingSe
 
   constructor(private trainingInstanceFacade: TrainingInstanceFacade,
               private sandboxInstanceFacade: SandboxInstanceFacade,
-              private activeTrainingInstanceService: ActiveTrainingInstanceService,
               private alertService: AlertService,
               private errorHandler: ErrorHandlerService) {
     super();
-    this.trainingInstance = activeTrainingInstanceService.get();
-    this.activeTrainingRuns$ = merge(this.activeTrainingRunPoll$, this.activeTrainingRunsSubject.asObservable())
+
+  }
+
+  startPolling(trainingInstance: TrainingInstance) {
+    this.trainingInstance = trainingInstance;
+    this.lastTrainingInstanceId = trainingInstance.id;
+    this.activeTrainingRuns$ = merge(super.createPoll(), this.activeTrainingRunsSubject.asObservable())
       .pipe(
         tap(
           paginatedRuns => this.totalLengthSubject.next(paginatedRuns.pagination.totalElements)
@@ -61,8 +64,6 @@ export class ActiveTrainingRunConcreteService extends ActiveTrainingRunPollingSe
         switchMap(_ => this.getAll(trainingId, this.lastPagination))
       )
   }
-
-
 
   private initSubject(): PaginatedResource<TrainingRunTableRow[]> {
     return new PaginatedResource([], new Pagination(0, 0, environment.defaultPaginationSize, 0, 0));

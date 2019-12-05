@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import {EMPTY, interval, Observable} from 'rxjs';
 import {map, switchMap, takeWhile} from 'rxjs/operators';
@@ -24,24 +24,21 @@ import {TrainingInstance} from '../../../../../model/training/training-instance'
  * by removing theirs sandboxes
  */
 export class ActiveTrainingRunOverviewComponent extends BaseComponent implements OnInit {
+
+  @Input() trainingInstance: TrainingInstance;
+
   activeTrainingRuns$: Observable<Kypo2Table<TrainingRunTableAdapter>>;
   activeTrainingRunsTotalLength$: Observable<number>;
   activeTrainingRunsTableHasError$: Observable<boolean>;
-  trainingInstance: TrainingInstance;
-
-  now: number;
-  fetchSandboxes = false;
 
   constructor(
     private activeRoute: ActivatedRoute,
     private activeTrainingRunService: ActiveTrainingRunService,
     private dialog: MatDialog) {
     super();
-    this.trainingInstance = this.activeTrainingRunService.trainingInstance;
   }
 
   ngOnInit() {
-    this.startCurrentTimePeriodicalUpdate();
     this.initTables();
   }
 
@@ -51,32 +48,16 @@ export class ActiveTrainingRunOverviewComponent extends BaseComponent implements
     }
   }
 
-  /**
-   * Fetch data from server
-   */
-  protected fetchData(event?) {
+  onTableLoadEvent(event) {
     this.activeTrainingRunService.getAll(this.activeTrainingRunService.trainingInstance.id, event.pagination)
       .pipe(
         takeWhile(_ => this.isAlive),
       )
       .subscribe();
-    this.fetchSandboxes = true;
-  }
-
-  onTableLoadEvent(event) {
-    this.fetchData(event);
   }
 
   private initTables() {
-    const initialLoadEvent: LoadTableEvent = new LoadTableEvent(
-      new RequestedPagination(0, environment.defaultPaginationSize, '', ''));
-    this.activeRoute.data
-      .pipe(
-        takeWhile(_ => this.isAlive),
-      ).subscribe(_ => {
-        this.fetchData(initialLoadEvent);
-      }
-    );
+    this.activeTrainingRunService.startPolling(this.trainingInstance);
     this.activeTrainingRuns$ = this.activeTrainingRunService.activeTrainingRuns$
       .pipe(
         map(trainingRuns => TrainingRunTableCreator.create(trainingRuns, 'active'))
@@ -118,15 +99,5 @@ export class ActiveTrainingRunOverviewComponent extends BaseComponent implements
         )
       )
       .subscribe();
-  }
-
-  private startCurrentTimePeriodicalUpdate() {
-    const period = 60000;
-    this.now = Date.now();
-    interval(period)
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(_ =>
-      this.now = Date.now()
-    );
   }
 }
