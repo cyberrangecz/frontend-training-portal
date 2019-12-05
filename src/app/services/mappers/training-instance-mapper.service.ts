@@ -58,9 +58,6 @@ export class TrainingInstanceMapper {
     result.poolSize = trainingInstanceDTO.pool_size;
     result.accessToken = trainingInstanceDTO.access_token;
     result.poolId = trainingInstanceDTO.pool_id;
-    if (trainingInstanceDTO.sandboxes_with_training_run) {
-      result.sandboxWithTrainingRunIds = trainingInstanceDTO.sandboxes_with_training_run;
-    }
     return result;
   }
 

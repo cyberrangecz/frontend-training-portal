@@ -1,7 +1,6 @@
 /**
  * Class representing training instance of a definition.
  */
-import {User} from 'kypo2-auth';
 import {DisplayableResource} from './displayable-resource';
 import {TrainingDefinition} from './training-definition';
 
@@ -10,7 +9,6 @@ export class TrainingInstance implements DisplayableResource {
   id: number;
   poolId: number;
   trainingDefinition: TrainingDefinition;
-  sandboxWithTrainingRunIds: number[];
   startTime: Date;
   endTime: Date;
   title: string;
@@ -25,10 +23,6 @@ export class TrainingInstance implements DisplayableResource {
 
   hasPoolId(): boolean {
     return this.poolId !== undefined && this.poolId !== null;
-  }
-
-  hasTrainingRunConnectedWithSandbox(sandboxInstanceId: number): boolean {
-    return this.sandboxWithTrainingRunIds.includes(sandboxInstanceId);
   }
 
   isActive(timestamp: number): boolean {

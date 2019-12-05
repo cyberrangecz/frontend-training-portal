@@ -89,11 +89,7 @@ export class SandboxInstancesTableComponent extends BaseComponent implements OnI
 
   deleteSandbox(sandboxRow: SandboxInstanceTableRow, isHardDelete = false) {
     this.isHardDelete = isHardDelete;
-    if (this.trainingInstance.hasTrainingRunConnectedWithSandbox(sandboxRow.sandboxInstance.id)) {
-      this.askForConfirmation(sandboxRow);
-    } else {
-      this.sendRequestToDeleteSandbox(sandboxRow);
-    }
+    this.askForConfirmation(sandboxRow);
   }
 
   showSandboxErrorMessage(sandboxRow: SandboxInstanceTableRow) {
@@ -106,7 +102,7 @@ export class SandboxInstancesTableComponent extends BaseComponent implements OnI
         type: 'Sandbox Instance',
         action: 'delete',
         title: sandboxRow.sandboxInstance.id.toString(),
-        additionalInfo: 'This sandbox instance is connected to training run.'
+        additionalInfo: 'This sandbox instance may be connected to a training run.'
       }
     });
 

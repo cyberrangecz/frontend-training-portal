@@ -1,5 +1,5 @@
 import {async, fakeAsync, TestBed, tick} from '@angular/core/testing';
-import { FetchActiveTrainingRunConcreteService } from './fetch-active-training-run.concrete.service';
+import { ActiveTrainingRunConcreteService } from './active-training-run-concrete.service';
 import {ErrorHandlerService} from '../shared/error-handler.service';
 import {TrainingInstanceFacade} from '../facades/training-instance-facade.service';
 import {ActiveTrainingInstanceService} from '../training-instance/active-training-instance.service';
@@ -10,28 +10,38 @@ import {environment} from '../../../environments/environment';
 import {RequestedPagination} from 'kypo2-table';
 import {PaginatedResource} from '../../model/table/other/paginated-resource';
 import {Kypo2Pagination} from '../../model/table/other/kypo2-pagination';
+import {SandboxInstanceFacade} from '../facades/sandbox-instance-facade.service';
+import {AlertService} from '../shared/alert.service';
 
-describe('FetchActiveTrainingRunConcreteService', () => {
+describe('ActiveTrainingRunConcreteService', () => {
 
   let errorHandlerSpy: jasmine.SpyObj<ErrorHandlerService>;
+  let alertServiceSpy: jasmine.SpyObj<AlertService>;
+
   let trainingInstanceFacadeSpy: jasmine.SpyObj<TrainingInstanceFacade>;
+  let sandboxInstanceFacadeSpy: jasmine.SpyObj<SandboxInstanceFacade>;
+
   let activeTrainingInstanceServiceSpy: jasmine.SpyObj<ActiveTrainingInstanceService>;
-  let service: FetchActiveTrainingRunConcreteService;
+  let service: ActiveTrainingRunConcreteService;
 
   beforeEach(async(() => {
     errorHandlerSpy = jasmine.createSpyObj('ErrorHandlerService', ['display']);
+    alertServiceSpy = jasmine.createSpyObj('AlertService', ['emitAlert']);
+    sandboxInstanceFacadeSpy = jasmine.createSpyObj('SandboxInstanceFacade', ['deleteByTrainingInstance']);
     trainingInstanceFacadeSpy = jasmine.createSpyObj('TrainingInstanceFacade', ['getAssociatedTrainingRunsPaginated']);
     activeTrainingInstanceServiceSpy = jasmine.createSpyObj('ActiveTrainingInstanceService', ['get']);
 
     TestBed.configureTestingModule({
       providers: [
-        FetchActiveTrainingRunConcreteService,
+        ActiveTrainingRunConcreteService,
         {provide: ActiveTrainingInstanceService, useValue: activeTrainingInstanceServiceSpy},
         {provide: TrainingInstanceFacade, useValue: trainingInstanceFacadeSpy},
+        {provide: SandboxInstanceFacade, useValue: sandboxInstanceFacadeSpy },
         {provide: ErrorHandlerService, useValue: errorHandlerSpy},
+        {provide: AlertService, useValue: alertServiceSpy}
       ]
     });
-    service = TestBed.get(FetchActiveTrainingRunConcreteService);
+    service = TestBed.get(ActiveTrainingRunConcreteService);
   }));
 
   it('should be created', () => {
