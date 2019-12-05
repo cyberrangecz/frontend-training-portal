@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {FetchActiveTrainingRunService} from '../shared/fetch-active-training-run.service';
+import {ActiveTrainingRunService} from '../shared/active-training-run.service';
 import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
 import {Observable, Subject, timer} from 'rxjs';
 import {PaginatedResource} from '../../model/table/other/paginated-resource';
@@ -8,7 +8,7 @@ import {environment} from '../../../environments/environment';
 import {delayWhen, retryWhen, switchMap} from 'rxjs/operators';
 
 @Injectable()
-export abstract class FetchActiveTrainingRunPollingService extends FetchActiveTrainingRunService {
+export abstract class ActiveTrainingRunPollingService extends ActiveTrainingRunService {
 
   protected lastTrainingInstanceId: number;
   protected lastPagination: RequestedPagination;

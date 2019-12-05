@@ -1,14 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import {interval, Observable} from 'rxjs';
-import {map, takeWhile} from 'rxjs/operators';
+import {EMPTY, interval, Observable} from 'rxjs';
+import {map, switchMap, takeWhile} from 'rxjs/operators';
 import {environment} from '../../../../../../environments/environment';
 import {RequestedPagination} from '../../../../../model/DTOs/other/requested-pagination';
 import {ActionConfirmationDialogComponent} from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import {Kypo2Table, LoadTableEvent} from 'kypo2-table';
 import {ActivatedRoute} from '@angular/router';
 import {TrainingRunTableCreator} from '../../../../../model/table/factory/training-run-table-creator';
-import {FetchActiveTrainingRunService} from '../../../../../services/shared/fetch-active-training-run.service';
+import {ActiveTrainingRunService} from '../../../../../services/shared/active-training-run.service';
 import {TrainingRunTableAdapter} from '../../../../../model/table/row/training-run-table-adapter';
 import {BaseComponent} from '../../../../base.component';
 import {TrainingInstance} from '../../../../../model/training/training-instance';
@@ -31,14 +31,13 @@ export class ActiveTrainingRunOverviewComponent extends BaseComponent implements
 
   now: number;
   fetchSandboxes = false;
-  deleteSandbox: TrainingRunTableAdapter;
 
   constructor(
     private activeRoute: ActivatedRoute,
-    private fetchActiveTrainingRunService: FetchActiveTrainingRunService,
+    private activeTrainingRunService: ActiveTrainingRunService,
     private dialog: MatDialog) {
     super();
-    this.trainingInstance = this.fetchActiveTrainingRunService.trainingInstance;
+    this.trainingInstance = this.activeTrainingRunService.trainingInstance;
   }
 
   ngOnInit() {
@@ -56,7 +55,7 @@ export class ActiveTrainingRunOverviewComponent extends BaseComponent implements
    * Fetch data from server
    */
   protected fetchData(event?) {
-    this.fetchActiveTrainingRunService.getAll(this.fetchActiveTrainingRunService.trainingInstance.id, event.pagination)
+    this.activeTrainingRunService.getAll(this.activeTrainingRunService.trainingInstance.id, event.pagination)
       .pipe(
         takeWhile(_ => this.isAlive),
       )
@@ -78,12 +77,12 @@ export class ActiveTrainingRunOverviewComponent extends BaseComponent implements
         this.fetchData(initialLoadEvent);
       }
     );
-    this.activeTrainingRuns$ = this.fetchActiveTrainingRunService.activeTrainingRuns$
+    this.activeTrainingRuns$ = this.activeTrainingRunService.activeTrainingRuns$
       .pipe(
         map(trainingRuns => TrainingRunTableCreator.create(trainingRuns, 'active'))
       );
-    this.activeTrainingRunsTableHasError$ = this.fetchActiveTrainingRunService.hasError$;
-    this.activeTrainingRunsTotalLength$ = this.fetchActiveTrainingRunService.totalLength$;
+    this.activeTrainingRunsTableHasError$ = this.activeTrainingRunService.hasError$;
+    this.activeTrainingRunsTotalLength$ = this.activeTrainingRunService.totalLength$;
   }
 
   /**
@@ -94,26 +93,31 @@ export class ActiveTrainingRunOverviewComponent extends BaseComponent implements
     if (row.trainingRun.hasPlayer() && row.trainingRun.isRunning()) {
       this.askForDeleteSandboxConfirmation(row);
     } else {
-      this.deleteSandbox = row;
+      this.activeTrainingRunService.deleteSandbox(this.trainingInstance.id, row.sandboxId)
+        .pipe(
+          takeWhile(_ => this.isAlive)
+        )
+        .subscribe()
     }
   }
 
   private askForDeleteSandboxConfirmation(row: TrainingRunTableAdapter) {
-    const sandboxId: string = row.trainingRun.sandboxInstanceId ? row.trainingRun.sandboxInstanceId.toString() : '';
     const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
       data: {
         type: 'sandbox instance',
-        title: sandboxId,
+        title: row.sandboxId,
         action: 'delete'
       }
     });
     dialogRef.afterClosed()
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(result => {
-      if (result && result.type === 'confirm') {
-        this.deleteSandbox = row;
-      }
-    });
+      .pipe(
+        takeWhile(() => this.isAlive),
+        switchMap( result => (result && result.type === 'confirm')
+          ? this.activeTrainingRunService.deleteSandbox(this.trainingInstance.id, row.sandboxId)
+          : EMPTY
+        )
+      )
+      .subscribe();
   }
 
   private startCurrentTimePeriodicalUpdate() {

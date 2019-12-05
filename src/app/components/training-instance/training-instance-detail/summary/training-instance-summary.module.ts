@@ -14,8 +14,8 @@ import { TrainingInstanceSummaryComponent } from './training-instance-summary.co
 import {Kypo2TableModule} from 'kypo2-table';
 import {ArchivedTrainingRunService} from '../../../../services/shared/archived-training-run.service';
 import {ArchivedTrainingRunConcreteService} from '../../../../services/training-run/archived-training-run.concrete.service';
-import {FetchActiveTrainingRunService} from '../../../../services/shared/fetch-active-training-run.service';
-import {FetchActiveTrainingRunConcreteService} from '../../../../services/training-run/fetch-active-training-run.concrete.service';
+import {ActiveTrainingRunService} from '../../../../services/shared/active-training-run.service';
+import {ActiveTrainingRunConcreteService} from '../../../../services/training-run/active-training-run-concrete.service';
 
 @NgModule({
   imports: [
@@ -36,7 +36,7 @@ import {FetchActiveTrainingRunConcreteService} from '../../../../services/traini
   ],
   providers: [
     {provide: ArchivedTrainingRunService, useClass: ArchivedTrainingRunConcreteService},
-    {provide: FetchActiveTrainingRunService, useClass: FetchActiveTrainingRunConcreteService},
+    {provide: ActiveTrainingRunService, useClass: ActiveTrainingRunConcreteService},
     ErrorHandlerService
   ]
 })

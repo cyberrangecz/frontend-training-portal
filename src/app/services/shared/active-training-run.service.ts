@@ -7,10 +7,12 @@ import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
 import {TrainingInstance} from '../../model/training/training-instance';
 
 @Injectable()
-export abstract class FetchActiveTrainingRunService extends PaginatedResourceService {
+export abstract class ActiveTrainingRunService extends PaginatedResourceService {
   abstract trainingInstance: TrainingInstance;
 
   abstract activeTrainingRuns$: Observable<PaginatedResource<TrainingRunTableRow[]>>;
 
   abstract getAll(id: number, pagination?: RequestedPagination): Observable<PaginatedResource<TrainingRunTableRow[]>>;
+
+  abstract deleteSandbox(trainingId: number, sandboxId: number): Observable<any>
 }
