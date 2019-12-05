@@ -50,7 +50,7 @@ describe('ArchivedTrainingRunConcreteService', () => {
   it('should call error handler on err', done => {
     trainingInstanceFacadeSpy.getAssociatedTrainingRunsPaginated.and.returnValue(throwError(null));
 
-    service.getAll(1).subscribe(_ => fail,
+    service.getAll(1, createPagination()).subscribe(_ => fail,
       _ => {
         expect(errorHandlerSpy.display).toHaveBeenCalledTimes(1);
         done();
@@ -69,23 +69,23 @@ describe('ArchivedTrainingRunConcreteService', () => {
         done();
       },
         _ => fail);
-    service.getAll(1).subscribe(
+    service.getAll(1, createPagination()).subscribe(
       _ => fail,
       _ => done()
     );
   });
 
   it('should called deleteMultiple (called once)', done => {
-
     const mockData = createMock();
     trainingInstanceFacadeSpy.getAssociatedTrainingRunsPaginated.and.returnValue(asyncData(mockData));
     trainingRunFacadeSpy.deleteMultiple.and.returnValue(asyncData([1, 2, 5]));
-
-    service.deleteMultiple([1, 2, 5]).subscribe(_ => done(),
+    service.trainingInstance = new TrainingInstance();
+    service.deleteMultiple([1, 2, 5]).subscribe(_ => {
+        expect(trainingRunFacadeSpy.deleteMultiple).toHaveBeenCalledTimes(1);
+        expect(trainingRunFacadeSpy.deleteMultiple).toHaveBeenCalledWith([1, 2, 5]);
+        done();
+      },
       _ => fail);
-
-    expect(trainingRunFacadeSpy.deleteMultiple).toHaveBeenCalledTimes(1);
-    expect(trainingRunFacadeSpy.deleteMultiple).toHaveBeenCalledWith([1, 2, 5]);
   });
 
   it('should start polling', fakeAsync(() => {

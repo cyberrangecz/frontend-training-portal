@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import {EMPTY, interval, Observable} from 'rxjs';
-import {map, switchMap, takeWhile} from 'rxjs/operators';
+import {map, switchMap, takeWhile, tap} from 'rxjs/operators';
 import {environment} from '../../../../../../environments/environment';
 import {RequestedPagination} from '../../../../../model/DTOs/other/requested-pagination';
 import {ActionConfirmationDialogComponent} from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
@@ -49,7 +49,7 @@ export class ActiveTrainingRunOverviewComponent extends BaseComponent implements
   }
 
   onTableLoadEvent(event) {
-    this.activeTrainingRunService.getAll(this.activeTrainingRunService.trainingInstance.id, event.pagination)
+    this.activeTrainingRunService.getAll(this.trainingInstance.id, event.pagination)
       .pipe(
         takeWhile(_ => this.isAlive),
       )
