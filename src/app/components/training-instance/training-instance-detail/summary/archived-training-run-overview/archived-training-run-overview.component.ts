@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material';
 import {Observable} from 'rxjs';
-import {map, takeWhile} from 'rxjs/operators';
+import {map, takeWhile, tap} from 'rxjs/operators';
 import {ActionConfirmationDialogComponent} from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import {Kypo2Table, LoadTableEvent, RequestedPagination} from 'kypo2-table';
 import {ArchivedTrainingRunService} from '../../../../../services/shared/archived-training-run.service';

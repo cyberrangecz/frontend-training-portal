@@ -51,7 +51,7 @@ describe('ActiveTrainingRunConcreteService', () => {
 
   it('should error handler', done => {
     trainingInstanceFacadeSpy.getAssociatedTrainingRunsPaginated.and.returnValue(throwError(null));
-    service.getAll(1).subscribe(_ => fail,
+    service.getAll(1, createPagination()).subscribe(_ => fail,
       _ => {
         expect(errorHandlerSpy.display).toHaveBeenCalledTimes(1);
         done();

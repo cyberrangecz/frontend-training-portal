@@ -1,4 +1,4 @@
-import {BehaviorSubject, merge, Observable, Subject, timer} from 'rxjs';
+import {merge, Observable, Subject, timer} from 'rxjs';
 import {environment} from '../../../../../environments/environment';
 import {map, retryWhen, switchMap, tap} from 'rxjs/operators';
 import {RequestStage} from '../../../../model/sandbox/pool/request/stage/request-stage';

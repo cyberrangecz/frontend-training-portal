@@ -10,10 +10,6 @@ import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
 @Injectable()
 export abstract class ArchivedTrainingRunPollingService extends ArchivedTrainingRunService {
 
-  protected lastTrainingInstanceId: number;
-  protected lastPagination: RequestedPagination;
-  protected retryPolling$: Subject<boolean> = new Subject();
-  protected delayPolling$: Subject<number> = new Subject();
 
   protected constructor() {
     super();
@@ -21,22 +17,4 @@ export abstract class ArchivedTrainingRunPollingService extends ArchivedTraining
 
   protected abstract repeatLastGetAllRequest(): Observable<PaginatedResource<TrainingRunTableRow[]>>;
 
-  protected createPoll(): Observable<PaginatedResource<TrainingRunTableRow[]>> {
-    return timer(0, environment.organizerSummaryPollingPeriod)
-      .pipe(
-        switchMap( _ => this.repeatLastGetAllRequest()),
-        delayWhen( _ => this.delayPolling$),
-        retryWhen(_ => this.retryPolling$)
-      );
-  }
-
-  protected onManualGetAll(lastTrainingInstanceId: number, pagination: RequestedPagination) {
-    this.lastTrainingInstanceId = lastTrainingInstanceId;
-    this.lastPagination = pagination;
-    if (this.hasErrorSubject$.getValue()) {
-      this.retryPolling$.next(true);
-    }
-    this.hasErrorSubject$.next(false);
-    this.delayPolling$.next(environment.organizerSummaryPollingPeriod);
-  }
 }
