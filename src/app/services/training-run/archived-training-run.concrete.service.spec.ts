@@ -79,8 +79,6 @@ describe('ArchivedTrainingRunConcreteService', () => {
 
     const mockData = createMock();
     trainingInstanceFacadeSpy.getAssociatedTrainingRunsPaginated.and.returnValue(asyncData(mockData));
-    service.trainingInstance = new TrainingInstance();
-    service.trainingInstance.id = 0;
     trainingRunFacadeSpy.deleteMultiple.and.returnValue(asyncData([1, 2, 5]));
 
     service.deleteMultiple([1, 2, 5]).subscribe(_ => done(),
@@ -90,46 +88,10 @@ describe('ArchivedTrainingRunConcreteService', () => {
     expect(trainingRunFacadeSpy.deleteMultiple).toHaveBeenCalledWith([1, 2, 5]);
   });
 
-  it('should emit next value on update (archivedTrainingRuns)', done => {
-    const pagination = createPagination();
-    const mockData = createMock();
-    trainingInstanceFacadeSpy.getAssociatedTrainingRunsPaginated.and.returnValue(asyncData(mockData));
-
-    service.archivedTrainingRuns$.pipe(skip(1))
-      .subscribe(emitted => {
-        expect(emitted).toBe(mockData);
-        done();
-      },
-        fail);
-    service.getAll(0, pagination)
-      .subscribe(_ => _,
-        fail);
-  });
-
-  it('should emit next value on update (totalLength)', done => {
-    const pagination = createPagination();
-    const mockData = createMock();
-    trainingInstanceFacadeSpy.getAssociatedTrainingRunsPaginated.and.returnValue(asyncData(mockData));
-
-    const subscription = service.archivedTrainingRuns$.pipe(skip(1))
-      .subscribe(_ => _,
-        fail);
-    service.totalLength$.pipe(skip(1))
-      .subscribe(emitted => {
-        expect(emitted).toBe(5);
-        subscription.unsubscribe();
-        done();
-      },
-        fail);
-    service.getAll(0, pagination)
-      .subscribe(_ => _,
-        fail);
-  });
-
   it('should start polling', fakeAsync(() => {
     const mockData = createMock();
     trainingInstanceFacadeSpy.getAssociatedTrainingRunsPaginated.and.returnValue(asyncData(mockData));
-
+    service.startPolling(new TrainingInstance());
     const subscription = service.archivedTrainingRuns$.subscribe();
     assertPoll(1);
     subscription.unsubscribe();
@@ -137,12 +99,16 @@ describe('ArchivedTrainingRunConcreteService', () => {
 
   it('should stop polling on error', fakeAsync(() => {
     const mockData = createMock();
-    trainingInstanceFacadeSpy.getAssociatedTrainingRunsPaginated.and.returnValues(asyncData(mockData), asyncData(mockData), throwError(null)); // throw error on third call
-
+    trainingInstanceFacadeSpy.getAssociatedTrainingRunsPaginated.and.returnValues(
+      asyncData(mockData),
+      asyncData(mockData),
+      asyncData(mockData),
+      throwError(null)); // throw error on fourth call
+    service.startPolling(new TrainingInstance());
     const subscription = service.archivedTrainingRuns$.subscribe();
     assertPoll(3);
     tick(5 * environment.organizerSummaryPollingPeriod);
-    expect(trainingInstanceFacadeSpy.getAssociatedTrainingRunsPaginated).toHaveBeenCalledTimes(3);
+    expect(trainingInstanceFacadeSpy.getAssociatedTrainingRunsPaginated).toHaveBeenCalledTimes(4);
     subscription.unsubscribe();
   }));
 
@@ -152,21 +118,23 @@ describe('ArchivedTrainingRunConcreteService', () => {
     trainingInstanceFacadeSpy.getAssociatedTrainingRunsPaginated.and.returnValues(
       asyncData(mockData),
       asyncData(mockData),
+      asyncData(mockData),
       throwError(null),
+      asyncData(mockData),
       asyncData(mockData),
       asyncData(mockData),
       asyncData(mockData));
 
+    service.startPolling(new TrainingInstance());
     const subscription = service.archivedTrainingRuns$.subscribe();
-    expect(trainingInstanceFacadeSpy.getAssociatedTrainingRunsPaginated).toHaveBeenCalledTimes(0);
     assertPoll(3);
     tick(environment.organizerSummaryPollingPeriod);
-    expect(trainingInstanceFacadeSpy.getAssociatedTrainingRunsPaginated).toHaveBeenCalledTimes(3);
-    tick(5 * environment.organizerSummaryPollingPeriod);
-    expect(trainingInstanceFacadeSpy.getAssociatedTrainingRunsPaginated).toHaveBeenCalledTimes(3);
-    service.getAll(0, pagination).subscribe();
     expect(trainingInstanceFacadeSpy.getAssociatedTrainingRunsPaginated).toHaveBeenCalledTimes(4);
-    assertPoll(3, 4);
+    tick(5 * environment.organizerSummaryPollingPeriod);
+    expect(trainingInstanceFacadeSpy.getAssociatedTrainingRunsPaginated).toHaveBeenCalledTimes(4);
+    service.getAll(0, pagination).subscribe();
+    expect(trainingInstanceFacadeSpy.getAssociatedTrainingRunsPaginated).toHaveBeenCalledTimes(5);
+    assertPoll(3, 6);
     subscription.unsubscribe();
   }));
 
@@ -178,7 +146,7 @@ describe('ArchivedTrainingRunConcreteService', () => {
     return new PaginatedResource([], new Kypo2Pagination(1, 0, 5, 5, 1));
   }
 
-  function assertPoll(times: number, initialHaveBeenCalledTimes: number = 0) {
+  function assertPoll(times: number, initialHaveBeenCalledTimes: number = 1) {
     let calledTimes = initialHaveBeenCalledTimes;
     for (let i = 0; i < times; i++) {
       tick(environment.organizerSummaryPollingPeriod);

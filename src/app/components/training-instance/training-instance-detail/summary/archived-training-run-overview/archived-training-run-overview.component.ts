@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material';
 import {Observable} from 'rxjs';
 import {map, takeWhile} from 'rxjs/operators';
@@ -10,6 +10,7 @@ import {ActivatedRoute} from '@angular/router';
 import {TrainingRunTableCreator} from '../../../../../model/table/factory/training-run-table-creator';
 import {TrainingRunTableAdapter} from '../../../../../model/table/row/training-run-table-adapter';
 import {BaseComponent} from '../../../../base.component';
+import {TrainingInstance} from '../../../../../model/training/training-instance';
 
 @Component({
   selector: 'kypo2-archived-training-run-overview',
@@ -20,6 +21,7 @@ import {BaseComponent} from '../../../../base.component';
  * Component displaying real time archived (accessed by trainee and with sandbox removed) training runs for organizer.
  */
 export class ArchivedTrainingRunOverviewComponent extends BaseComponent implements OnInit {
+  @Input() trainingInstance: TrainingInstance;
   archivedTrainingRuns$: Observable<Kypo2Table<TrainingRunTableAdapter>>;
   archivedTrainingRunsTotalLength$: Observable<number>;
   archivedTrainingRunsTableHasError$: Observable<boolean>;
@@ -39,6 +41,7 @@ export class ArchivedTrainingRunOverviewComponent extends BaseComponent implemen
       this.deleteTrainingRun(event.element.trainingRun.id);
     }
   }
+
   rowSelection(event: TrainingRunTableAdapter[]) {
     this.selectedTrainingRuns = [];
     event.forEach( selectedRun => {
@@ -78,7 +81,7 @@ export class ArchivedTrainingRunOverviewComponent extends BaseComponent implemen
    * Fetch data from server
    */
   protected fetchData(event?) {
-    this.archivedTrainingRunService.getAll(this.archivedTrainingRunService.trainingInstance.id, event.pagination)
+    this.archivedTrainingRunService.getAll(this.trainingInstance.id, event.pagination)
       .pipe(
         takeWhile(_ => this.isAlive),
       )
@@ -104,15 +107,7 @@ export class ArchivedTrainingRunOverviewComponent extends BaseComponent implemen
   }
 
   private initTables() {
-    const initialLoadEvent: LoadTableEvent = new LoadTableEvent(
-      new RequestedPagination(0, environment.defaultPaginationSize, '', ''));
-    this.activeRoute.data
-      .pipe(
-        takeWhile(_ => this.isAlive),
-      ).subscribe(_ => {
-          this.fetchData(initialLoadEvent);
-        }
-      );
+    this.archivedTrainingRunService.startPolling(this.trainingInstance);
     this.archivedTrainingRuns$ = this.archivedTrainingRunService.archivedTrainingRuns$
       .pipe(
         map(trainingRuns => TrainingRunTableCreator.create(trainingRuns, 'archived'))

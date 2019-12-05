@@ -24,7 +24,7 @@ describe('ArchivedTrainingRunOverviewComponent', () => {
   const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed : of({}), close: null });
 
   beforeEach(() => {
-    archivedTrainingRunServiceSpy = jasmine.createSpyObj('ArchivedTrainingRunService', ['getAll', 'delete', 'deleteMultiple']);
+    archivedTrainingRunServiceSpy = jasmine.createSpyObj('ArchivedTrainingRunService', ['startPolling', 'getAll', 'delete', 'deleteMultiple']);
 
     TestBed.configureTestingModule({
       declarations: [ArchivedTrainingRunOverviewComponent],

@@ -10,6 +10,8 @@ import {TrainingInstance} from '../../model/training/training-instance';
 export abstract class ActiveTrainingRunService extends PaginatedResourceService {
   abstract trainingInstance: TrainingInstance;
 
+  abstract startPolling(trainingInstance: TrainingInstance);
+
   abstract activeTrainingRuns$: Observable<PaginatedResource<TrainingRunTableRow[]>>;
 
   abstract getAll(id: number, pagination?: RequestedPagination): Observable<PaginatedResource<TrainingRunTableRow[]>>;
