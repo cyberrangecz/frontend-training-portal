@@ -8,10 +8,12 @@
 }
 
 .temp-viewport {
-  height: 800px;
+  max-height: 800px;
   background-color: black;
   color: gainsboro;
   overflow-y: scroll;
+  word-break: break-all;
+  padding: 10px;
   font-family: 'Source Code Pro', monospace;
 }
 
