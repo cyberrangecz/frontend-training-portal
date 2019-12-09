@@ -66,6 +66,7 @@ export class SandboxInstanceMapper {
     result.state = this.getSandboxStateFromString(sandboxInstanceDTO.status);
     result.stateLabel = sandboxInstanceDTO.status.replace(new RegExp('_', 'g'), ' ');
     result.stateErrorMessage = sandboxInstanceDTO.status_reason;
+    result.locked = sandboxInstanceDTO.locked;
     return result;
   }
 

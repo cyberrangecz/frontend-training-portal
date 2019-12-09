@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {SandboxInstance} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance';
-import {switchMap, tap} from 'rxjs/operators';
+import {delay, switchMap, tap} from 'rxjs/operators';
 import {PaginatedResource} from '../../../model/table/other/paginated-resource';
 import {SandboxInstanceFacade} from '../../facades/sandbox-instance-facade.service';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
@@ -10,11 +10,8 @@ import {environment} from '../../../../environments/environment';
 import {ActivatedRoute} from '@angular/router';
 import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
 import {Pagination} from 'kypo2-table';
-import {Cacheable, CacheBuster} from 'ngx-cacheable';
 import {AlertService} from '../../shared/alert.service';
 import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
-
-const cacheBuster$: Subject<void> = new Subject();
 
 @Injectable()
 export class SandboxInstanceConcreteService extends SandboxInstanceService {
@@ -30,9 +27,6 @@ export class SandboxInstanceConcreteService extends SandboxInstanceService {
     super();
   }
 
-  @Cacheable({
-    cacheBusterObserver: cacheBuster$
-  })
   getAll(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<SandboxInstance[]>> {
     this.hasErrorSubject$.next(false);
     this.lastPagination = pagination;
@@ -51,9 +45,6 @@ export class SandboxInstanceConcreteService extends SandboxInstanceService {
       );
   }
 
-  @CacheBuster({
-    cacheBusterNotifier: cacheBuster$
-  })
   delete(sandboxInstance: SandboxInstance): Observable<any> {
     return this.sandboxInstanceFacade.delete(sandboxInstance.id)
       .pipe(
@@ -63,9 +54,6 @@ export class SandboxInstanceConcreteService extends SandboxInstanceService {
       );
   }
 
-  @CacheBuster({
-    cacheBusterNotifier: cacheBuster$
-  })
   allocate(poolId: number): Observable<any> {
     return this.sandboxInstanceFacade.allocate(poolId)
       .pipe(
@@ -76,8 +64,45 @@ export class SandboxInstanceConcreteService extends SandboxInstanceService {
   }
 
 
+  unlock(sandboxInstance: SandboxInstance): Observable<any> {
+    return this.sandboxInstanceFacade.unlock(sandboxInstance.id)
+      .pipe(
+        tap(_ => {
+          this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox instance was successfully unlocked');
+          this.onChangedLock(sandboxInstance.id, false);
+          },
+        err => this.errorHandler.display(err, 'Unlocking sandbox instance')
+        ),
+      );
+  }
+
+  lock(sandboxInstance: SandboxInstance): Observable<any> {
+    return this.sandboxInstanceFacade.lock(sandboxInstance.id)
+      .pipe(
+        tap(_ => {
+            this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox instance was successfully locked');
+            this.onChangedLock(sandboxInstance.id, true);
+          },
+          err => this.errorHandler.display(err, 'Locking sandbox instance')
+        ),
+      );
+  }
+
+
+
   private initSubject(): PaginatedResource<SandboxInstance[]> {
     return new PaginatedResource([], new Pagination(0, 0, environment.defaultPaginationSize, 0, 0));
+  }
+
+  private onChangedLock(sandboxId: number, locked: boolean) {
+    const sandboxes = this.instancesSubject.getValue();
+    const changedSandboxIndex = sandboxes.elements.findIndex(element => element.id === sandboxId);
+    const changedSandbox = sandboxes.elements[changedSandboxIndex];
+    if (changedSandbox) {
+      changedSandbox.locked = locked;
+      sandboxes.elements[changedSandboxIndex] = changedSandbox;
+      this.instancesSubject.next(sandboxes);
+    }
   }
 }
 
