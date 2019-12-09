@@ -12,4 +12,8 @@ export abstract class SandboxInstanceService extends PaginatedResourceService {
   abstract delete(sandboxInstance: SandboxInstance): Observable<any>;
 
   abstract allocate(id: number): Observable<any>;
+
+  abstract unlock(sandboxInstance: SandboxInstance): Observable<any>;
+
+  abstract lock(sandboxInstance: SandboxInstance): Observable<any>;
 }

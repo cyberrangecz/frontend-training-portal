@@ -36,7 +36,7 @@ export class SandboxInstanceFacade {
   private readonly poolCreationRequestUriExtension = 'create-requests/';
   private readonly poolCleanupRequestUriExtension = 'cleanup-requests/';
   private readonly stagesUriExtension = 'stages/';
-  private readonly sandboxResourceExtension = 'resources';
+  private readonly sandboxResourceExtension = 'resources/';
 
   private readonly stagesEndpointUri = environment.sandboxRestBasePath + this.stagesUriExtension;
   private readonly poolsEndpointUri = environment.sandboxRestBasePath + this.poolsUriExtension;
@@ -120,29 +120,29 @@ export class SandboxInstanceFacade {
 
   cancelCreationRequest(poolId: number, requestId: number): Observable<any> {
     return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(
-      `${this.poolsEndpointUri + poolId}/${this.poolCreationRequestUriExtension}${requestId}/cancel`);
+      `${this.poolsEndpointUri + poolId}/${this.poolCreationRequestUriExtension}${requestId}/cancel/`);
   }
 
   retryCreationRequest(poolId: number, requestId: number): Observable<any> {
     return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(
-      `${this.poolsEndpointUri + poolId}/${this.poolCreationRequestUriExtension}${requestId}/retry`);
+      `${this.poolsEndpointUri + poolId}/${this.poolCreationRequestUriExtension}${requestId}/retry/`);
   }
 
   cancelCleanupRequest(poolId: number, requestId: number): Observable<any> {
     return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(
-      `${this.poolsEndpointUri + poolId}/${this.poolCleanupRequestUriExtension}${requestId}/cancel`);
+      `${this.poolsEndpointUri + poolId}/${this.poolCleanupRequestUriExtension}${requestId}/cancel/`);
   }
 
   retryCleanupRequest(poolId: number, requestId: number): Observable<any> {
     return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(
-      `${this.poolsEndpointUri + poolId}/${this.poolCleanupRequestUriExtension}${requestId}/retry`);
+      `${this.poolsEndpointUri + poolId}/${this.poolCleanupRequestUriExtension}${requestId}/retry/`);
   }
 
   @Cacheable({
     maxAge: 1000
   })
   getCreateRequest(poolId: number, requestId: number): Observable<PoolRequest> {
-    return this.http.get<PoolRequestDTO>(`${this.poolsEndpointUri + poolId}/${this.poolCreationRequestUriExtension}${requestId}`)
+    return this.http.get<PoolRequestDTO>(`${this.poolsEndpointUri + poolId}/${this.poolCreationRequestUriExtension}${requestId}/`)
       .pipe(map(response => this.sandboxInstanceMapper.mapCreateRequestDTOToCreateRequest(response)));
   }
 
@@ -150,13 +150,13 @@ export class SandboxInstanceFacade {
     maxAge: 1000
   })
   getCleanupRequest(poolId: number, requestId: number): Observable<PoolRequest> {
-    return this.http.get<PoolRequestDTO>(`${this.poolsEndpointUri + poolId}/${this.poolCleanupRequestUriExtension}${requestId}`)
+    return this.http.get<PoolRequestDTO>(`${this.poolsEndpointUri + poolId}/${this.poolCleanupRequestUriExtension}${requestId}/`)
       .pipe(map(response => this.sandboxInstanceMapper.mapCreateRequestDTOToCreateRequest(response)));
   }
 
   forceStage(poolId: number, requestId: number, stageId: number): Observable<any> {
     return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(
-      `${this.poolsEndpointUri + poolId}/${this.poolCreationRequestUriExtension}${requestId}/${this.stagesUriExtension}${stageId}/force`);
+      `${this.poolsEndpointUri + poolId}/${this.poolCreationRequestUriExtension}${requestId}/${this.stagesUriExtension}${stageId}/force/`);
   }
 
   getResources(sandboxId: number): Observable<SandboxInstanceResource[]> {
@@ -192,7 +192,7 @@ export class SandboxInstanceFacade {
   })
   getAnsibleStageOutput(id: number): Observable<string[]> {
     const options: Object = { responseType: 'text' as 'text'};
-    return this.http.get<string[]>(`${this.stagesEndpointUri + id}/ansible/outputs`, options);
+    return this.http.get<string[]>(`${this.stagesEndpointUri + id}/ansible/outputs/`, options);
   }
 
   /**
@@ -211,7 +211,15 @@ export class SandboxInstanceFacade {
 
   delete(sandboxId: number, hard: boolean = false) {
     const params = new HttpParams().set('hard', hard.toString());
-    return this.http.delete(this.sandboxEndpointUri + sandboxId, { params: params});
+    return this.http.delete(`${this.sandboxEndpointUri + sandboxId}/`, { params: params});
+  }
+
+  unlock(sandboxId: number): Observable<any> {
+    return this.http.delete(`${this.sandboxEndpointUri + sandboxId}/lock/`);
+  }
+
+  lock(sandboxId: number): Observable<any> {
+    return this.http.post(`${this.sandboxEndpointUri + sandboxId}/lock/`, {});
   }
 
   deletePool(poolId: number): Observable<any> {

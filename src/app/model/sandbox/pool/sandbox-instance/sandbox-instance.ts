@@ -9,6 +9,7 @@ export class SandboxInstance {
   state: SandboxInstanceState;
   stateLabel: string;
   stateErrorMessage: string;
+  locked: boolean;
 
   constructor() {
   }

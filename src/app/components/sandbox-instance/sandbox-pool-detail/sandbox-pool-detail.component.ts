@@ -79,6 +79,16 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
         .pipe(takeWhile(_ => this.isAlive))
         .subscribe();
     }
+    if (event.action.label === SandboxInstanceTableCreator.UNLOCK_ACTION) {
+      this.instanceService.unlock(event.element)
+        .pipe(takeWhile(_ => this.isAlive))
+        .subscribe();
+    }
+    if (event.action.label === SandboxInstanceTableCreator.LOCK_ACTION) {
+      this.instanceService.lock(event.element)
+        .pipe(takeWhile( _ => this.isAlive))
+        .subscribe();
+    }
     if (event.action.label === SandboxInstanceTableCreator.TOPOLOGY_ACTION) {
       this.router.navigate([RouteFactory.toSandboxInstanceTopology(this.pool.id, event.element.id)]);
     }
