@@ -1,4 +1,4 @@
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {RequestedPagination} from 'kypo2-table';
 import {Observable, of, Subject} from 'rxjs';
@@ -191,8 +191,15 @@ export class SandboxInstanceFacade {
     maxAge: environment.apiPollingPeriod
   })
   getAnsibleStageOutput(id: number): Observable<string[]> {
-    const options: Object = { responseType: 'text' as 'text'};
-    return this.http.get<string[]>(`${this.stagesEndpointUri + id}/ansible/outputs/`, options);
+    const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
+    const options: Object = {
+      responseType: 'text' as 'text',
+      headers: headers
+    };
+    return this.http.get<string>(`${this.stagesEndpointUri + id}/ansible/outputs/`, options)
+      .pipe(
+        map(resp => resp.split('\\n')),
+      );
   }
 
   /**

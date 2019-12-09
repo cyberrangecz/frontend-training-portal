@@ -7,7 +7,7 @@
   </button>
 </div>-->
 <div class="temp-viewport">
-  {{ stageDetail?.output }}
+  <p *ngFor="let row of stageDetail?.output">{{ row }}</p>
 </div>
 <!--<cdk-virtual-scroll-viewport #viewport itemSize="20" class="stage-output-viewport">
   <div *cdkVirtualFor="let row of stageDetail?.output; templateCacheSize: 100" class="row">{{ row }}</div>
