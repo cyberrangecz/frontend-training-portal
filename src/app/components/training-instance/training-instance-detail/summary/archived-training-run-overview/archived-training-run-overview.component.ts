@@ -95,15 +95,13 @@ export class ArchivedTrainingRunOverviewComponent extends BaseComponent implemen
   private sendRequestToDeleteArchivedTrainingRuns() {
     this.archivedTrainingRunService.deleteMultiple(this.selectedTrainingRuns)
       .pipe(takeWhile(() => this.isAlive))
-      .subscribe(
-        _ => this.fetchData());
+      .subscribe();
   }
 
   private sendRequestToDeleteArchivedTrainingRun(id: number) {
     this.archivedTrainingRunService.delete(id)
       .pipe(takeWhile(() => this.isAlive))
-      .subscribe(
-        _ => this.fetchData());
+      .subscribe();
   }
 
   private initTables() {
