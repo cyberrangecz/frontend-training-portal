@@ -78,7 +78,7 @@ export class ActiveTrainingRunOverviewComponent extends BaseComponent implements
         .pipe(
           takeWhile(_ => this.isAlive)
         )
-        .subscribe()
+        .subscribe();
     }
   }
 
@@ -86,7 +86,7 @@ export class ActiveTrainingRunOverviewComponent extends BaseComponent implements
     const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
       data: {
         type: 'sandbox instance',
-        title: row.sandboxId,
+        title: row.sandboxId.toString(),
         action: 'delete'
       }
     });
