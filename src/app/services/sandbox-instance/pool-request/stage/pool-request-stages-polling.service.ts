@@ -69,20 +69,6 @@ export class PoolRequestStagesPollingService extends PoolRequestStagesService {
       );
   }
 
-  getOutput(stage: RequestStage): Observable<string[]> {
-    let stageOutput$: Observable<string[]>;
-    if (stage instanceof OpenStackStage) {
-      stageOutput$ = this.sandboxInstanceFacade.getOpenstackStageOutput(stage.id);
-    }
-    if (stage instanceof AnsibleRunStage) {
-      stageOutput$ = this.sandboxInstanceFacade.getAnsibleStageOutput(stage.id);
-    }
-    return stageOutput$
-      .pipe(
-        tap({error: err => this.errorHandler.display(err, 'Fetching stage output')})
-      );
-  }
-
   @Cacheable({
     cacheBusterObserver: poolRequestStagesCacheBuster$,
     maxAge: environment.apiPollingPeriod - 1

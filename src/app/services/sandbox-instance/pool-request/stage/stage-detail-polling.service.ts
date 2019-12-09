@@ -39,6 +39,20 @@ export class StageDetailPollingService extends StageDetailService {
     this.subscribedStageDetails.remove(stage.id);
   }
 
+  private createPoll(): Observable<StageDetail[]> {
+    return timer(environment.apiPollingPeriod, environment.apiPollingPeriod)
+      .pipe(
+        switchMap(_ => this.refreshSubscribed()),
+        retryWhen(_ => this.retryPolling$),
+      );
+  }
+
+  private refreshSubscribed(): Observable<StageDetail[]> {
+    const stageDetails$ = this.subscribedStageDetails.values()
+      .map(stageDetail => this.getStageOutputRequest(stageDetail.stageId, stageDetail.type));
+    return forkJoin(stageDetails$);
+  }
+
   private getStageOutputRequest(stageId: number, stageType: RequestStageType): Observable<StageDetail> {
     let stageOutput$: Observable<string[]>;
     if (stageType === RequestStageType.OPENSTACK) {
@@ -65,19 +79,5 @@ export class StageDetailPollingService extends StageDetailService {
           }
         )
       );
-  }
-
-  private createPoll(): Observable<StageDetail[]> {
-    return timer(environment.apiPollingPeriod, environment.apiPollingPeriod)
-      .pipe(
-        switchMap(_ => this.refreshSubscribed()),
-        retryWhen(_ => this.retryPolling$),
-      );
-  }
-
-  private refreshSubscribed(): Observable<StageDetail[]> {
-    const stageDetails$ = this.subscribedStageDetails.values()
-      .map(stageDetail => this.getStageOutputRequest(stageDetail.stageId, stageDetail.type));
-    return forkJoin(stageDetails$);
   }
 }
