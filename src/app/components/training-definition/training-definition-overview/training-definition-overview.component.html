@@ -5,6 +5,8 @@
       (action)="onActionPanelEvent($event)"
     ></kypo2-training-definition-actions-panel>
     <kypo2-table
+      [defaultSortDirection]="INIT_SORT_DIR"
+      [defaultSortName]="INIT_SORT_NAME"
       [data]="trainingDefinitions$ | async"
       [hasError]="isInErrorState"
       (refresh)="fetchData($event)"
