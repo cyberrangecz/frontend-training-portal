@@ -1,4 +1,3 @@
-import { StringNormalizer } from './../../../model/utils/ignore-diacritics-filter';
 import { TrainingDefinitionStateEnum } from './../../../model/enums/training-definition-state.enum';
 import { AlertTypeEnum } from './../../../model/enums/alert-type.enum';
 import { Component, OnInit } from '@angular/core';
@@ -35,6 +34,9 @@ import {environment} from '../../../../environments/environment';
 export class TrainingDefinitionOverviewComponent extends BaseComponent
   implements OnInit {
 
+  readonly INIT_SORT_NAME = 'lastEdited';
+  readonly INIT_SORT_DIR = 'desc';
+
   isInErrorState = false;
   private isLoadingSubject = new BehaviorSubject(false);
   isLoading$: Observable<boolean> = this.isLoadingSubject.asObservable();
@@ -54,7 +56,7 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent
 
   ngOnInit() {
     this.trainingDefinitions$ = this.trainingDefinitionService.trainingDefinitions$;
-    const initialPagination = new RequestedPagination(0, environment.defaultPaginationSize, '', '');
+    const initialPagination = new RequestedPagination(0, environment.defaultPaginationSize, this.INIT_SORT_NAME, this.INIT_SORT_DIR);
     this.lastLoadEvent = new LoadTableEvent(initialPagination, null);
     this.onLoadEvent(this.lastLoadEvent);
   }

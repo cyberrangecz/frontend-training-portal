@@ -6,10 +6,11 @@ import {ActionConfirmationDialogComponent} from '../../shared/action-confirmatio
 import {BaseComponent} from '../../base.component';
 import {AddSandboxDefinitionDialogComponent} from '../add-sandbox-definition-dialog/add-sandbox-definition-dialog.component';
 import {SandboxDefinitionService} from '../../../services/shared/sandbox-definition.service';
-import {Kypo2Table, LoadTableEvent, TableActionEvent} from 'kypo2-table';
+import {Kypo2Table, LoadTableEvent, RequestedPagination, TableActionEvent} from 'kypo2-table';
 import {ErrorHandlerService} from '../../../services/shared/error-handler.service';
 import {SandboxDefinitionTableCreator} from '../../../model/table/factory/sandbox-definition-table-creator';
 import {SandboxDefinition} from '../../../model/sandbox/definition/sandbox-definition';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'kypo2-sandbox-definition-overview',
@@ -98,7 +99,7 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
       .pipe(
         map(paginatedSandboxes => SandboxDefinitionTableCreator.create(paginatedSandboxes))
       );
-    this.lastLoadEvent = new LoadTableEvent(null, null);
+    this.lastLoadEvent = new LoadTableEvent(new RequestedPagination(0, environment.defaultPaginationSize, '', ''), null);
     this.onLoadEvent(this.lastLoadEvent);
     this.tableHasError$ = this.sandboxDefinitionService.hasError$;
     this.tableTotalLength$ = this.sandboxDefinitionService.totalLength$;
