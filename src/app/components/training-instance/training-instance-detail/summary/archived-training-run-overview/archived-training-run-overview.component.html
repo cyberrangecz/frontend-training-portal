@@ -1,6 +1,6 @@
 <div class="training">
   <h2>Archived Training Runs</h2>
-  <button *ngIf="(archivedTrainingRunsTotalLength$ | async) > 0" [disabled]="selectedTrainingRuns < 1" class="delete-all" mat-raised-button color="warn" (click)="deleteArchivedTrainingRuns()">
+  <button [disabled]="selectedTrainingRuns < 1" class="delete-all" mat-raised-button color="warn" (click)="deleteArchivedTrainingRuns()">
     <span *ngIf="selectedTrainingRuns.length > 0 else show">Delete ({{selectedTrainingRuns.length}})</span>
     <ng-template #show>Delete</ng-template>
   </button>

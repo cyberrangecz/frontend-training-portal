@@ -1,11 +1,12 @@
  import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
- import {of} from 'rxjs';
- import {map, takeWhile, tap} from 'rxjs/operators';
+ import {Observable, of} from 'rxjs';
+ import {map, takeWhile} from 'rxjs/operators';
 import {TrainingInstanceFacade} from '../../../services/facades/training-instance-facade.service';
 import {ActiveTrainingInstanceService} from '../../../services/training-instance/active-training-instance.service';
  import {BaseComponent} from '../../base.component';
  import {PROGRESS_PATH, RESULTS_PATH, SUMMARY_PATH} from './paths';
+ import {TrainingInstance} from '../../../model/training/training-instance';
 @Component({
   selector: 'kypo2-training-instance-detail',
   templateUrl: './training-instance-detail.component.html',
@@ -17,6 +18,7 @@ import {ActiveTrainingInstanceService} from '../../../services/training-instance
 export class TrainingInstanceDetailComponent extends BaseComponent implements OnInit {
 
   navLinks = [];
+  trainingInstance$: Observable<TrainingInstance>;
 
   constructor(private route: ActivatedRoute,
               private trainingInstanceFacade: TrainingInstanceFacade,
@@ -25,18 +27,11 @@ export class TrainingInstanceDetailComponent extends BaseComponent implements On
   }
 
   ngOnInit() {
-    this.setActiveTrainingInstanceFromUrl();
-  }
-
-  /**
-   * Gets id of training instance from url and sets it as active for child components
-   */
-  private setActiveTrainingInstanceFromUrl() {
-    this.route.data.pipe(
+    this.trainingInstance$ = this.route.data.pipe(
       map(data => data.trainingInstance),
       takeWhile(() => this.isAlive),
-      )
-      .subscribe(training => this.createTabs());
+    );
+    this.trainingInstance$.subscribe(training => this.createTabs());
   }
 
   private createTabs() {

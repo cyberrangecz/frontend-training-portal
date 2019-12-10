@@ -1,7 +1,10 @@
+<h1 *ngIf="(editMode$ | async) else newTrainingMainTitle">Edit {{ tdTitle$ | async }}</h1>
+<ng-template #newTrainingMainTitle><h1>Create Training Definition</h1></ng-template>
+
 <mat-expansion-panel  [expanded]="!(editMode$ | async)">
   <mat-expansion-panel-header>
     <mat-panel-title>
-      <span *ngIf="(editMode$ | async) else newTrainingTitle">Edit Training Definition</span>
+      <span *ngIf="(editMode$ | async) else newTrainingTitle">Edit {{ tdTitle$ | async }}</span>
       <ng-template #newTrainingTitle>Create Training Definition</ng-template>
     </mat-panel-title>
     <mat-panel-description>

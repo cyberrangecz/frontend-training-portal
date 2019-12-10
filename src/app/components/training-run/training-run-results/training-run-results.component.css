@@ -5,18 +5,9 @@
   align-content: center;
 }
 
-.header {
-  margin-top: 50px;
-  text-align: center;
-  width: 90%;
-
-}
-
 .content {
-  margin-top: 50px;
   display: flex;
   flex-direction: column;
-  width: 90%;
 }
 
 .left-panel {
@@ -34,9 +25,7 @@
   flex-direction: column;
 }
 
-@media screen and (max-width: 800px) {
-  .content {
-    width: 100%;
-  }
+h1 {
+  text-align: center;
 }
 

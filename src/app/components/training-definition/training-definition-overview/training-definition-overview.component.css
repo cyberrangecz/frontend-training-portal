@@ -1,15 +1,8 @@
-.content {
-	width: 100%;
-	margin: 20px auto;
-}
-
 h1 {
 	text-align: center;
 }
 
-.train-def-table {
-	width: 90%;
-	margin: auto auto;
-	justify-items: center;
-	justify-content: center;
+kypo2-training-definition-controls {
+  display: flex;
+  justify-content: flex-end;
 }

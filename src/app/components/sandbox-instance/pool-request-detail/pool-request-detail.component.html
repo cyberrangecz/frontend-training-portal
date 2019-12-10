@@ -1,7 +1,7 @@
 <ng-container *ngIf="(request$ | async) as request">
-  <h1 *ngIf="isCleanup else creationRequest">Cleanup Request {{ request.id }} Detail</h1>
+  <h1 *ngIf="isCleanup else creationRequest">Cleanup Request {{ request.id }}</h1>
   <ng-template #creationRequest>
-    <h1>Creation Request {{ request.id }} Detail</h1>
+    <h1>Creation Request {{ request.id }}</h1>
   </ng-template>
   <ng-container *ngIf="hasError$ | async">
     <mat-card class="error">

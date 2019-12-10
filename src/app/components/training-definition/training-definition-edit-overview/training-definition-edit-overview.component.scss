@@ -1,5 +1,9 @@
 @import "./src/variables.scss";
 
+h1 {
+  text-align: center;
+}
+
 .mat-expansion-panel-header-title,
 .mat-expansion-panel-header-description {
   flex-basis: 0;
@@ -31,4 +35,9 @@ mat-divider {
 
 mat-expansion-panel {
   margin: 10px 0;
+}
+
+kypo2-training-definition-edit-controls {
+  display: flex;
+  justify-content: flex-end;
 }
