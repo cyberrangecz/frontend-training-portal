@@ -2,25 +2,8 @@ h1 {
   text-align: center;
 }
 
-.sandbox-def {
-  padding: 20px;
+kypo2-sandbox-definition-controls {
   display: flex;
-  flex-direction: column;
-}
-
-.sandbox-def-table-wrapper {
-  flex-grow: 10;
-}
-
-.sandbox-def-table {
-  width: 90%;
-  margin: auto auto;
-  justify-items: center;
-  justify-content: center;
-}
-
-@media screen and (max-width: 800px) {
-  .sandbox-def {
-    flex-direction: column;
-  }
+  justify-content: flex-end;
+  margin-bottom: 10px;
 }

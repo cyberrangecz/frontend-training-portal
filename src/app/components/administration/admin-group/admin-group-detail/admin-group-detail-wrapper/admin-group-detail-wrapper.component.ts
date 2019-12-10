@@ -6,9 +6,12 @@ import {
   Kypo2UserAndGroupNotificationService,
   Kypo2UserAndGroupRoutingEventService
 } from 'kypo2-user-and-group-management';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AlertService} from '../../../../../services/shared/alert.service';
 import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
+import {Group} from 'kypo2-user-and-group-management/lib/model/group/group.model';
+import {map} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'kypo2-admin-group-detail-wrapper',
@@ -18,6 +21,8 @@ import {ErrorHandlerService} from '../../../../../services/shared/error-handler.
 })
 export class AdminGroupDetailWrapperComponent extends AdminBaseComponent {
 
+  group$: Observable<Group>;
+
   @ViewChild(Kypo2GroupEditOverviewComponent, { static: true}) groupEditOverviewComponent;
 
   constructor(protected userAndGroupRouting: Kypo2UserAndGroupRoutingEventService,
@@ -25,7 +30,9 @@ export class AdminGroupDetailWrapperComponent extends AdminBaseComponent {
               protected userAndGroupErrorService: Kypo2UserAndGroupErrorService,
               protected router: Router,
               protected alertService: AlertService,
-              protected errorHandler: ErrorHandlerService) {
+              protected errorHandler: ErrorHandlerService,
+              private activeRoute: ActivatedRoute) {
     super(userAndGroupRouting, userAndGroupNotificationService, userAndGroupErrorService, router, alertService, errorHandler);
+    this.group$ = this.activeRoute.data.pipe(map(data => data.group));
   }
 }

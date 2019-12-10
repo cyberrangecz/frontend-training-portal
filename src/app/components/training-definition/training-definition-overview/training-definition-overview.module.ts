@@ -16,7 +16,7 @@ import { TrainingDefinitionUploadDialogComponent } from './training-definition-u
 import { Kypo2TableModule } from 'kypo2-table';
 import { TrainingDefinitionService } from '../../../services/shared/training-definition.service';
 import { TrainingDefinitionConcreteService } from '../../../services/training-definition/training-definition.concrete.service';
-import { TrainingDefinitionActionsPanelComponent } from './training-definition-actions-panel/training-definition-actions-panel.component';
+import { TrainingDefinitionOverviewControlsComponent } from './training-definition-overview-controls/training-definition-overview-controls.component';
 
 /**
  * Module containing components and services for training definition overview with routing to inner feature modules.
@@ -41,7 +41,7 @@ import { TrainingDefinitionActionsPanelComponent } from './training-definition-a
     StateChangeDialogComponent,
     CloneDialogComponent,
     TrainingDefinitionDetailComponent,
-    TrainingDefinitionActionsPanelComponent
+    TrainingDefinitionOverviewControlsComponent
   ],
   providers: [
     { provide: TrainingDefinitionService, useClass: TrainingDefinitionConcreteService }
@@ -51,7 +51,7 @@ import { TrainingDefinitionActionsPanelComponent } from './training-definition-a
     StateChangeDialogComponent,
     CloneDialogComponent,
     TrainingDefinitionDetailComponent,
-    TrainingDefinitionActionsPanelComponent
+    TrainingDefinitionOverviewControlsComponent
   ]
 })
 
