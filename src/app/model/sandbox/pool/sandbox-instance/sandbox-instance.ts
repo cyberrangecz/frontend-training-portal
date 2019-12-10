@@ -4,14 +4,25 @@
 import {SandboxInstanceState} from '../../../enums/sandbox-instance-state';
 
 export class SandboxInstance {
+
   id: number;
   poolId: number;
   state: SandboxInstanceState;
   stateLabel: string;
   stateErrorMessage: string;
-  locked: boolean;
+  lockState: 'locked' | 'unlocked';
+  private _locked: boolean;
 
   constructor() {
+  }
+
+  get locked(): boolean {
+    return this._locked;
+  }
+
+  set locked(value: boolean) {
+    this._locked = value;
+    this.lockState = value ? 'locked' : 'unlocked';
   }
 
   isCreated(): boolean {

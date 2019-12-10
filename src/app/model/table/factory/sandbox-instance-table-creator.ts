@@ -29,6 +29,7 @@ export class SandboxInstanceTableCreator {
       rows,
       [
         new Column('id', 'id', false),
+        new Column('lockState', 'lock', false),
         new Column('stateLabel', 'state', false),
       ]
     );
