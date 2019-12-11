@@ -1,4 +1,4 @@
-<h1>Sandbox Instance {{ sandboxInstance?.id }} Topology</h1>
+<h1>Sandbox Instance {{ (sandboxInstance$ | async)?.id }} Topology</h1>
 <mat-card>
   <mat-card-content>
     <kypo2-topology-graph
@@ -6,7 +6,7 @@
       [style.height.px]="topologyHeight"
       [width]="topologyWidth"
       [height]="topologyHeight"
-      [sandboxId]="sandboxInstance?.id">
+      [sandboxId]="(sandboxInstance$ | async)?.id">
     </kypo2-topology-graph>
   </mat-card-content>
 </mat-card>

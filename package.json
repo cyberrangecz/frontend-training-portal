@@ -38,7 +38,7 @@
     "kypo2-stepper": "0.3.1",
     "kypo2-table": "1.2.0",
     "kypo2-topology-collision-avoidance": "1.0.0",
-    "kypo2-topology-graph": "1.3.0",
+    "kypo2-topology-graph": "1.3.3",
     "kypo2-topology-graph-model": "1.0.0",
     "kypo2-trainings-hurdling-viz-lib": "1.1.0",
     "kypo2-trainings-visualization-overview-lib": "1.0.2",
