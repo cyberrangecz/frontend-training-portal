@@ -157,13 +157,13 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
 
 
   private init() {
+    this.sandboxId = this.activeLevelService.sandboxInstanceId;
     this.isPreviewMode = this.sandboxId === null || this.sandboxId === undefined;
     this.correctFlag = false;
     this.solutionShown = false;
     this.isTopologyLoaded = false;
     this.displayedHints = '';
     this.calculateTopologySize();
-    this.sandboxId = this.activeLevelService.sandboxInstanceId;
     this.displayedText = this.level.content;
     this.hasNextLevel = this.activeLevelService.hasNextLevel();
     this.initHintButtons();

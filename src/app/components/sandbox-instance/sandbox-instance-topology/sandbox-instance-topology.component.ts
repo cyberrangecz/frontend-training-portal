@@ -3,8 +3,9 @@ import {SandboxInstance} from '../../../model/sandbox/pool/sandbox-instance/sand
 import {ActivatedRoute} from '@angular/router';
 import {Kypo2TopologyErrorService} from 'kypo2-topology-graph';
 import {ErrorHandlerService} from '../../../services/shared/error-handler.service';
-import {takeWhile} from 'rxjs/operators';
+import {map, takeWhile, tap} from 'rxjs/operators';
 import {BaseComponent} from '../../base.component';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'kypo2-sandbox-instance-topology',
@@ -14,7 +15,7 @@ import {BaseComponent} from '../../base.component';
 })
 export class SandboxInstanceTopologyComponent extends BaseComponent implements OnInit {
 
-  sandboxInstance: SandboxInstance;
+  sandboxInstance$: Observable<SandboxInstance>;
   topologyWidth: number;
   topologyHeight: number;
 
@@ -24,13 +25,11 @@ export class SandboxInstanceTopologyComponent extends BaseComponent implements O
     super();
   }
   ngOnInit() {
-    this.activeRoute.data
+    this.sandboxInstance$ = this.activeRoute.data
       .pipe(
         takeWhile(_ => this.isAlive),
-      ).subscribe(data => {
-        this.sandboxInstance = data.sandboxInstance;
-      }
-    );
+        map(data => data.sandboxInstance)
+      );
     this.calculateTopologySize();
     this.subscribeToTopologyErrorHandler();
 

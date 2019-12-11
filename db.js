@@ -2927,21 +2927,21 @@ module.exports = function () {
       "results":[
         {
           "id":205,
-          "status":"FULL_BUILD_IN_PROGRESS",
+          "status":"FULL_BUILD_COMPLETE",
           "pool":72,
           "status_reason":"Stack CREATE started",
           "locked":false
         },
         {
           "id":206,
-          "status":"FULL_BUILD_IN_PROGRESS",
+          "status":"FULL_BUILD_COMPLETE",
           "pool":72,
           "status_reason":"Stack CREATE started",
           "locked":false
         },
         {
           "id":208,
-          "status":"FULL_BUILD_IN_PROGRESS",
+          "status":"FULL_BUILD_COMPLETE",
           "pool":72,
           "status_reason":"Stack CREATE started",
           "locked":false
