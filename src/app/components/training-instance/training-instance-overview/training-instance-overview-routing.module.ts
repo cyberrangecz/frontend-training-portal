@@ -3,7 +3,6 @@ import {RouterModule, Routes} from '@angular/router';
 import {TrainingInstanceBreadcrumbResolver} from '../../../services/resolvers/training-instance-breadcrumb-resolver.service';
 import {TrainingInstanceResolver} from '../../../services/resolvers/training-instance-resolver.service';
 import {
-  ACCESS_TOKEN_PATH,
   TRAINING_INSTANCE_DETAIL_PATH,
   TRAINING_INSTANCE_EDIT_PATH,
   TRAINING_INSTANCE_NEW_PATH
@@ -41,15 +40,6 @@ const routes: Routes = [
       breadcrumb: TrainingInstanceBreadcrumbResolver,
     }
   },
-  {
-    path: `:id/${ACCESS_TOKEN_PATH}`,
-    loadChildren: () => import('app/components/training-instance/access-token-detail/access-token-detail.module').then(m => m.AccessTokenDetailModule),
-    resolve: {
-      trainingInstance: TrainingInstanceResolver,
-      breadcrumb: TrainingInstanceBreadcrumbResolver,
-    }
-  },
-
 ];
 
 @NgModule({

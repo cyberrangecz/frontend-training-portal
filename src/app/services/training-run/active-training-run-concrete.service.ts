@@ -64,7 +64,7 @@ export class ActiveTrainingRunConcreteService extends ActiveTrainingRunService {
           err => this.errorHandler.display(err, 'Deleting sandbox instance')
         ),
         switchMap(_ => this.getAll(trainingId, this.lastPagination))
-      )
+      );
   }
 
   private repeatLastGetAllRequest(): Observable<PaginatedResource<TrainingRunTableRow[]>> {

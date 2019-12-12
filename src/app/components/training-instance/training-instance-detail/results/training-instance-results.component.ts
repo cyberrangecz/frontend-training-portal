@@ -1,43 +1,46 @@
-import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ChangeDetectionStrategy, Component, HostListener, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 import {BaseComponent} from '../../../base.component';
-import {
-  VIZ_ASSESSMENTS_PATH,
-  VIZ_COMBINED_PATH, VIZ_PROGRESS_PATH,
-  VIZ_SCORE_DEVELOPMENT_PATH,
-  VIZ_SCORE_SCATTER_PLOT_PATH
-} from './paths';
+import {Observable} from 'rxjs';
+import {TrainingInstance} from '../../../../model/training/training-instance';
+import {map, takeWhile, tap} from 'rxjs/operators';
+import {DIVIDE_BY} from './traning-instance-results.constants';
 
 @Component({
   selector: 'kypo2-training-instance-results',
   templateUrl: './training-instance-results.component.html',
-  styleUrls: ['./training-instance-results.component.css']
+  styleUrls: ['./training-instance-results.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-/**
- * Wrapper for training results menu and navigation between selected visualizations
- */
+
 export class TrainingInstanceResultsComponent extends BaseComponent implements OnInit {
 
-  readonly SCORE_DEVELOPMENT = VIZ_SCORE_DEVELOPMENT_PATH;
-  readonly SCATTER_PLOT = VIZ_SCORE_SCATTER_PLOT_PATH;
-  readonly ASSESSMENTS = VIZ_ASSESSMENTS_PATH;
-  readonly COMBINED = VIZ_COMBINED_PATH;
-  readonly PROGRESS = VIZ_PROGRESS_PATH;
+  trainingInstance$: Observable<TrainingInstance>;
+  vizSize: { width: number, height: number };
 
   constructor(
-    private router: Router,
     private activeRoute: ActivatedRoute) {
     super();
   }
 
-  ngOnInit() {
+  @HostListener('window:resize')
+  onResize(event) {
+    this.calculateVisualizationSize(event.target.innerWidth, event.target.innerHeight);
   }
 
-  /**
-   * Navigates to specific component in view outlet
-   * @param {string} path path to the requested component
-   */
-  navigateTo(path: string) {
-    this.router.navigate([{ outlets: { view: path } }], {relativeTo: this.activeRoute});
+  ngOnInit() {
+    this.trainingInstance$ = this.activeRoute.data
+      .pipe(
+        takeWhile(_ => this.isAlive),
+        map(data => data.trainingInstance),
+        tap(_ => this.calculateVisualizationSize(window.innerWidth, window.innerHeight))
+      );
   }
+
+  private calculateVisualizationSize(windowWidth: number, windowHeight: number) {
+    const width = windowWidth / DIVIDE_BY;
+    const height = windowHeight / DIVIDE_BY;
+    this.vizSize = { width: width, height: height };
+  }
+
 }

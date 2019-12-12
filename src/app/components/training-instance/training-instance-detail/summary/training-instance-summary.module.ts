@@ -4,7 +4,6 @@ import {FormsModule} from '@angular/forms';
 import {PipesModule} from '../../../../pipes/pipes.module';
 import {SandboxInstanceFacadeModule} from '../../../../services/facades/modules/sandbox-instance-facade.module';
 import {TrainingRunFacadeModule} from '../../../../services/facades/modules/training-run-facade.module';
-import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
 import { ActiveTrainingRunOverviewComponent } from './active-training-run-overview/active-training-run-overview.component';
 import { ArchivedTrainingRunOverviewComponent } from './archived-training-run-overview/archived-training-run-overview.component';
 import { TrainingInstanceInfoComponent } from './training-instance-info/training-instance-info.component';
@@ -37,7 +36,6 @@ import {ActiveTrainingRunConcreteService} from '../../../../services/training-ru
   providers: [
     {provide: ArchivedTrainingRunService, useClass: ArchivedTrainingRunConcreteService},
     {provide: ActiveTrainingRunService, useClass: ActiveTrainingRunConcreteService},
-    ErrorHandlerService
   ]
 })
 

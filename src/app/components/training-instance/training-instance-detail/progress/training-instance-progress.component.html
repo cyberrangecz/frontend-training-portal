@@ -1,13 +1,9 @@
-<div class="container">
-  <div class="header">
-    <h2>Training Progress</h2>
-    <mat-divider></mat-divider>
-  </div>
-  <div class="content">
-    <kypo2-viz-hurdling *ngIf="!isLoading"
-      [trainingInstanceId]="trainingInstanceId"
-      [trainingDefinitionId]="trainingDefinitionId"
-      showProgressView="true">
-    </kypo2-viz-hurdling>
-  </div>
-</div>
+<h1>{{ (trainingInstance$ | async)?.title | titlecase}} Progress</h1>
+<mat-card>
+  <kypo2-viz-hurdling *ngIf="(trainingInstance$ | async) as trainingInstance"
+                      showProgressView="true"
+                      [trainingInstanceId]="trainingInstance?.id"
+                      [trainingDefinitionId]="trainingInstance?.trainingDefinition?.id">
+  </kypo2-viz-hurdling>
+</mat-card>
+

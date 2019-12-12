@@ -1,43 +1,32 @@
-import {Component, OnInit} from '@angular/core';
-import {takeWhile} from 'rxjs/operators';
-import {ActiveTrainingInstanceService} from '../../../../services/training-instance/active-training-instance.service';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {map, takeWhile} from 'rxjs/operators';
 import {BaseComponent} from '../../../base.component';
+import {ActivatedRoute} from '@angular/router';
+import {Observable} from 'rxjs';
+import {TrainingInstance} from '../../../../model/training/training-instance';
 
 @Component({
   selector: 'kypo2-training-instance-progress',
   templateUrl: './training-instance-progress.component.html',
-  styleUrls: ['./training-instance-progress.component.css']
+  styleUrls: ['./training-instance-progress.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 /**
  * Wrapper for progress visualization
  */
 export class TrainingInstanceProgressComponent extends BaseComponent implements OnInit {
 
-  isLoading = true;
-  trainingDefinitionId: number;
-  trainingInstanceId: number;
+  @Input() trainingInstance$: Observable<TrainingInstance>;
 
-  constructor(private activeTrainingInstanceService: ActiveTrainingInstanceService) {
+  constructor(private activeRoute: ActivatedRoute) {
     super();
   }
 
   ngOnInit() {
-    this.subscribeForInstanceChanges();
-    this.getIdsForVisualization();
-  }
-
-  private getIdsForVisualization() {
-    const activeTrainingInstance = this.activeTrainingInstanceService.get();
-    if (activeTrainingInstance) {
-      this.trainingInstanceId = activeTrainingInstance.id;
-      this.trainingDefinitionId = activeTrainingInstance.trainingDefinition.id;
-      this.isLoading = false;
-    }
-  }
-
-  private subscribeForInstanceChanges() {
-    this.activeTrainingInstanceService.onActiveTrainingChanged
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(newInstanceId => this.getIdsForVisualization());
+    this.trainingInstance$ = this.activeRoute.data
+      .pipe(
+        takeWhile(_ => this.isAlive),
+        map(data => data.trainingInstance)
+      );
   }
 }

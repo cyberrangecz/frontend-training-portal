@@ -1,9 +1,7 @@
-.container {
-  margin: 20px;
-  display: flex;
-  flex-direction: column;
+h1 {
+  text-align: center;
 }
 
-button.trigger {
-  margin-top: 20px;
+.tab-icon {
+  margin-right: 8px;
 }

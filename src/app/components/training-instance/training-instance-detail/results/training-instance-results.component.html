@@ -1,35 +1,84 @@
-<div class="container">
-  <div class="header">
-    <h2>Training Results</h2>
-    <mat-divider></mat-divider>
-    <button class="trigger" mat-raised-button color="primary" [matMenuTriggerFor]="menu">
-      Change View
-    </button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="navigateTo(SCORE_DEVELOPMENT)">
-        <mat-icon>score</mat-icon>
-        <span>Score Development View</span>
-      </button>
-      <button mat-menu-item (click)="navigateTo(SCATTER_PLOT)">
-        <mat-icon>scatter_plot</mat-icon>
-        <span>Score Scatter Plot View</span>
-      </button>
-      <button mat-menu-item (click)="navigateTo(PROGRESS)">
-        <mat-icon>timeline</mat-icon>
-        <span>Training Progress View</span>
-      </button>
-      <button mat-menu-item (click)="navigateTo(ASSESSMENTS)">
-        <mat-icon>assessment</mat-icon>
-        <span>Assessments View</span>
-      </button>
-      <mat-divider></mat-divider>
-      <button mat-menu-item (click)="navigateTo(COMBINED)">
-        <mat-icon>dashboard</mat-icon>
-        <span>Combined View</span>
-      </button>
-    </mat-menu>
-  </div>
-  <div class="content">
-    <router-outlet name="view"></router-outlet>
-  </div>
-</div>
+<h1>{{ (trainingInstance$ | async)?.title | titlecase }} Results</h1>
+
+<mat-tab-group mat-stretch-tabs class="mat-elevation-z4" *ngIf="(trainingInstance$ | async) as trainingInstance">
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="tab-icon">score</mat-icon>
+      Score Development
+    </ng-template>
+    <ng-template matTabContent>
+      <kypo2-viz-overview-timeline
+        [size]="vizSize"
+        [trainingInstanceId]="trainingInstance?.id"
+        [trainingDefinitionId]="trainingInstance?.trainingDefinition?.id">
+      </kypo2-viz-overview-timeline>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="tab-icon">scatter_plot</mat-icon>
+      Score Scatter Plot
+    </ng-template>
+    <ng-template matTabContent>
+      <kypo2-viz-overview-clustering
+        [size]="vizSize"
+        [trainingInstanceId]="trainingInstance?.id"
+        [trainingDefinitionId]="trainingInstance?.trainingDefinition?.id">
+      </kypo2-viz-overview-clustering>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="tab-icon">timeline</mat-icon>
+      Progress
+    </ng-template>
+    <ng-template matTabContent>
+      <kypo2-viz-hurdling
+        [showProgressView]="false"
+        [trainingInstanceId]="trainingInstance?.id"
+        [trainingDefinitionId]="trainingInstance?.trainingDefinition?.id">
+      </kypo2-viz-hurdling>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="tab-icon">assignment</mat-icon>
+      Assessments
+    </ng-template>
+    <ng-template matTabContent>
+      <kypo2-assessment-results-viz
+        [trainingInstanceId]="trainingInstance?.id"
+        [trainingDefinitionId]="trainingInstance?.trainingDefinition?.id">
+      </kypo2-assessment-results-viz>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="tab-icon">dashboard</mat-icon>
+      Overview
+    </ng-template>
+    <ng-template matTabContent>
+      <kypo2-viz-hurdling
+        [showProgressView]="false"
+        [trainingInstanceId]="trainingInstance?.id"
+        [trainingDefinitionId]="trainingInstance?.trainingDefinition?.id">
+      </kypo2-viz-hurdling>
+
+      <kypo2-viz-overview-timeline
+        [size]="vizSize"
+        [trainingInstanceId]="trainingInstance?.id"
+        [trainingDefinitionId]="trainingInstance?.trainingDefinition?.id">
+      </kypo2-viz-overview-timeline>
+
+      <kypo2-viz-overview-clustering
+        [size]="vizSize"
+        [trainingInstanceId]="trainingInstance?.id"
+        [trainingDefinitionId]="trainingInstance?.trainingDefinition?.id">
+      </kypo2-viz-overview-clustering>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>

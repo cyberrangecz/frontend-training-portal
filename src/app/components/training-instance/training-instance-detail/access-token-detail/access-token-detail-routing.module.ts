@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {TrainingInstanceGuard} from '../../../services/guards/training-instance-guard.service';
+import {TrainingInstanceGuard} from '../../../../services/guards/training-instance-guard.service';
 import {AccessTokenDetailComponent} from './access-token-detail.component';
 
 const routes: Routes = [
