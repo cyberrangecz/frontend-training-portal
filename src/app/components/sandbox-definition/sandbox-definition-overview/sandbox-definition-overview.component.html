@@ -1,5 +1,5 @@
 <h1>Sandbox Definition Overview</h1>
-<kypo2-sandbox-definition-controls (dialogSandboxDefinition)="openSandboxDefinitionDialog()"></kypo2-sandbox-definition-controls>
+<kypo2-sandbox-definition-controls (create)="create()"></kypo2-sandbox-definition-controls>
 <kypo2-table
   [data] ="sandboxDefinitions$ | async"
   [hasError]="tableHasError$ | async"

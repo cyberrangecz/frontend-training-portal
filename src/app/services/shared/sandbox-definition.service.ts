@@ -1,7 +1,7 @@
 import {Observable} from 'rxjs';
 import {RequestedPagination} from 'kypo2-table';
 import {PaginatedResource} from '../../model/table/other/paginated-resource';
-import {SandboxDefinitionInfo} from '../../components/sandbox-definition/add-sandbox-definition-dialog/sandbox-definition-info';
+import {SandboxDefinitionInfo} from '../../components/sandbox-definition/create-sandbox-definition/sandbox-definition-info';
 import {PaginatedResourceService} from './paginated-resource.service';
 import {SandboxDefinition} from '../../model/sandbox/definition/sandbox-definition';
 
@@ -25,5 +25,5 @@ export abstract class SandboxDefinitionService extends PaginatedResourceService 
    * Adds new sandbox definition to existing ones
    * @param result consists of URL to Gitlab and revision
    */
-  abstract add(result: SandboxDefinitionInfo): Observable<any>;
+  abstract create(result: SandboxDefinitionInfo): Observable<any>;
 }

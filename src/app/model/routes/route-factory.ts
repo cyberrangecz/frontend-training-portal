@@ -14,9 +14,16 @@ import {
   SANDBOX_INSTANCE_TOPOLOGY_PATH
 } from '../../components/sandbox-instance/sandbox-pool-detail/paths';
 import {SANDBOX_INSTANCE_RESOURCE_PATH} from '../../components/sandbox-instance/sandbox-instance-resource-detail/paths';
-import {SANDBOX_POOL_PATH, TRAINING_DEFINITION_PATH, TRAINING_INSTANCE_PATH, TRAINING_RUN_PATH} from '../../paths';
+import {
+  SANDBOX_DEFINITION_PATH,
+  SANDBOX_POOL_PATH,
+  TRAINING_DEFINITION_PATH,
+  TRAINING_INSTANCE_PATH,
+  TRAINING_RUN_PATH
+} from '../../paths';
 import {TRAINING_RUN_GAME_PATH, TRAINING_RUN_RESULTS_PATH} from '../../components/training-run/training-run-overview/paths';
 import {Kypo2UserAndGroupRouteEvent} from 'kypo2-user-and-group-management';
+import {SANDBOX_DEFINITION_NEW_PATH} from '../../components/sandbox-definition/sandbox-definition-overview/paths';
 import {
   ACCESS_TOKEN_PATH,
   PROGRESS_PATH, RESULTS_PATH,
@@ -81,6 +88,14 @@ export class RouteFactory {
     return `${TRAINING_RUN_PATH}/${id}/${TRAINING_RUN_RESULTS_PATH}`;
   }
 
+  static toSandboxDefinitionOverview() {
+    return SANDBOX_DEFINITION_PATH;
+  }
+
+  static toNewSandboxDefinition() {
+    return `${SANDBOX_DEFINITION_PATH}/${SANDBOX_DEFINITION_NEW_PATH}`;
+  }
+
   static toPool(id: number | string): string {
     return `${SANDBOX_POOL_PATH}/${id}`;
   }
@@ -132,4 +147,5 @@ export class RouteFactory {
       return '';
     }
   }
+
 }

@@ -6,7 +6,7 @@ import { switchMap, tap } from 'rxjs/operators';
 import { SandboxDefinitionFacade } from '../facades/sandbox-definition-facade.service';
 import { ErrorHandlerService } from '../shared/error-handler.service';
 import { Injectable } from '@angular/core';
-import { SandboxDefinitionInfo } from '../../components/sandbox-definition/add-sandbox-definition-dialog/sandbox-definition-info';
+import { SandboxDefinitionInfo } from '../../components/sandbox-definition/create-sandbox-definition/sandbox-definition-info';
 import { AlertTypeEnum } from '../../model/enums/alert-type.enum';
 import { AlertService } from '../shared/alert.service';
 import { environment } from '../../../environments/environment';
@@ -41,13 +41,12 @@ export class SandboxDefinitionConcreteService extends SandboxDefinitionService {
     );
   }
 
-  add(result: SandboxDefinitionInfo): Observable<any> {
+  create(result: SandboxDefinitionInfo): Observable<any> {
     return this.sandboxDefinitionFacade.add(result.sandboxGitlabUrl, result.sandboxRevision)
       .pipe(
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox definition was successfully created'),
           err => this.errorHandler.display(err, 'Creating sandbox definition')
-        ),
-        switchMap(() => this.getAll(this.lastPagination))
+        )
       );
   }
 
