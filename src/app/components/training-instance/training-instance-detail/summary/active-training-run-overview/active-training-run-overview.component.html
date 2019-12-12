@@ -1,14 +1,8 @@
-<div class="training">
-  <h2>Active Training Runs</h2>
-  <div class="training-table-wrapper">
-    <div class="training-table">
-      <kypo2-table
-        [data]="activeTrainingRuns$ | async"
-        [hasError]="activeTrainingRunsTableHasError$ | async"
-        [totalElements]="activeTrainingRunsTotalLength$ | async"
-        (rowAction)="onActiveTrainingRunsTableSelection($event)"
-        (refresh)="onTableLoadEvent($event)">
-      </kypo2-table>
-    </div>
-  </div>
-</div>
+<kypo2-table
+  elevation="0"
+  [data]="activeTrainingRuns$ | async"
+  [hasError]="activeTrainingRunsTableHasError$ | async"
+  [totalElements]="activeTrainingRunsTotalLength$ | async"
+  (rowAction)="onActiveTrainingRunsTableSelection($event)"
+  (refresh)="onTableLoadEvent($event)">
+</kypo2-table>

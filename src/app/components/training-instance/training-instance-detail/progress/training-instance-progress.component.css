@@ -1,12 +1,3 @@
-.container {
-  margin: 20px;
-  display: flex;
-  flex-direction: column;
-}
-
-.header {
-}
-
-.content {
-  display:flex;
+h1 {
+  text-align: center;
 }

@@ -25,6 +25,10 @@ export class TrainingInstance implements DisplayableResource {
     return this.poolId !== undefined && this.poolId !== null;
   }
 
+  hasStarted(): boolean {
+    return new Date().valueOf() >= this.startTime.valueOf();
+  }
+
   isActive(timestamp: number): boolean {
     return this.startTime.valueOf() < timestamp && this.endTime.valueOf() > timestamp;
   }

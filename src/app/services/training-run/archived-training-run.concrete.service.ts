@@ -86,9 +86,7 @@ export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunServi
     );
   }
 
-  protected repeatLastGetAllRequest(): Observable<
-    PaginatedResource<TrainingRunTableRow[]>
-  > {
+  protected repeatLastGetAllRequest(): Observable<PaginatedResource<TrainingRunTableRow[]>> {
     this.hasErrorSubject$.next(false);
     return this.trainingInstanceFacade
       .getAssociatedTrainingRunsPaginated(

@@ -18,16 +18,19 @@
     </mat-panel-description>
 
   </mat-expansion-panel-header>
-  <kypo2-training-definition-edit-controls
-    [disabled]="saveDisabled$ | async"
-    [editMode]="editMode$ | async"
-    (save)="onSave($event)">
-  </kypo2-training-definition-edit-controls>
-  <mat-divider></mat-divider>
-  <kypo2-training-definition-edit
-    (edited)="onTrainingDefinitionChanged($event)"
-    [trainingDefinition]="trainingDefinition$ | async">
-  </kypo2-training-definition-edit>
+  <ng-template matExpansionPanelContent>
+    <kypo2-training-definition-edit-controls
+      [disabled]="saveDisabled$ | async"
+      [editMode]="editMode$ | async"
+      (save)="onSave($event)">
+    </kypo2-training-definition-edit-controls>
+    <mat-divider></mat-divider>
+    <kypo2-training-definition-edit
+      (edited)="onTrainingDefinitionChanged($event)"
+      [trainingDefinition]="trainingDefinition$ | async">
+    </kypo2-training-definition-edit>
+  </ng-template>
+
 </mat-expansion-panel>
 
 <mat-expansion-panel [disabled]="!(editMode$ | async)" [expanded]="editMode$ | async">
@@ -42,14 +45,16 @@
       <mat-icon>person</mat-icon>
     </mat-panel-description>
   </mat-expansion-panel-header>
-  <kypo2-user-assign *ngIf="editMode$ | async"
-                     resourceIcon="list_alt"
-                     [resource]="trainingDefinition$ | async"
-                     [defaultPaginationSize]="defaultPaginationSize"
-                     (hasUnsavedChanges)="onAuthorsChanged($event)"
-                    toAssignTitle="Designers"
-                    assigneesTitle="Authors">
-  </kypo2-user-assign>
+  <ng-template matExpansionPanelContent>
+    <kypo2-user-assign *ngIf="editMode$ | async"
+                       resourceIcon="list_alt"
+                       [resource]="trainingDefinition$ | async"
+                       [defaultPaginationSize]="defaultPaginationSize"
+                       (hasUnsavedChanges)="onAuthorsChanged($event)"
+                      toAssignTitle="Designers"
+                      assigneesTitle="Authors">
+    </kypo2-user-assign>
+  </ng-template>
 </mat-expansion-panel>
 
 <mat-expansion-panel [disabled]="!(editMode$ | async)" [expanded]="editMode$ | async">
@@ -68,9 +73,11 @@
       <mat-icon>games</mat-icon>
     </mat-panel-description>
   </mat-expansion-panel-header>
-  <kypo2-level-overview *ngIf="editMode$ | async"
-                        [trainingDefinition]="trainingDefinition$ | async"
-                        (levelsCount)="onLevelsCountChanged($event)"
-                        (unsavedLevels)="onUnsavedLevelsChanged($event)">
-  </kypo2-level-overview>
+  <ng-template matExpansionPanelContent>
+    <kypo2-level-overview *ngIf="editMode$ | async"
+                          [trainingDefinition]="trainingDefinition$ | async"
+                          (levelsCount)="onLevelsCountChanged($event)"
+                          (unsavedLevels)="onUnsavedLevelsChanged($event)">
+    </kypo2-level-overview>
+  </ng-template>
 </mat-expansion-panel>

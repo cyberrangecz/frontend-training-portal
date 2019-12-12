@@ -1,19 +1,17 @@
-<div class="training">
-  <h2>Archived Training Runs</h2>
-  <button [disabled]="selectedTrainingRuns?.length < 1" class="delete-all" mat-raised-button color="warn" (click)="deleteArchivedTrainingRuns()">
+<div class="controls">
+  <button [disabled]="selectedTrainingRuns?.length < 1" mat-raised-button color="warn" (click)="deleteArchivedTrainingRuns()">
     <span *ngIf="selectedTrainingRuns?.length > 0 else show">Delete ({{selectedTrainingRuns?.length}})</span>
     <ng-template #show>Delete</ng-template>
   </button>
-  <div class="training-table-wrapper">
-    <div class="training-table">
-        <kypo2-table
-          [data] ="archivedTrainingRuns$ | async"
-          [hasError]="archivedTrainingRunsTableHasError$ | async"
-          [totalElements]="archivedTrainingRunsTotalLength$ | async"
-          (refresh)="onTableLoadEvent($event)"
-          (rowAction)="onArchivedTrainingRunTableAction($event)"
-          (rowSelection)="rowSelection($event)">
-        </kypo2-table>
-    </div>
-  </div>
 </div>
+<mat-divider></mat-divider>
+<kypo2-table
+  elevation="0"
+  [data] ="archivedTrainingRuns$ | async"
+  [hasError]="archivedTrainingRunsTableHasError$ | async"
+  [totalElements]="archivedTrainingRunsTotalLength$ | async"
+  (refresh)="onTableLoadEvent($event)"
+  (rowAction)="onArchivedTrainingRunTableAction($event)"
+  (rowSelection)="rowSelection($event)">
+</kypo2-table>
+

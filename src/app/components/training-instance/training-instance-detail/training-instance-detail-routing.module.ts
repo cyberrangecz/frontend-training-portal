@@ -1,50 +1,56 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {TrainingInstanceGuard} from '../../../services/guards/training-instance-guard.service';
-import {ACCESS_TOKEN_PATH} from '../training-instance-overview/paths';
 import {
+  ACCESS_TOKEN_PATH,
   PROGRESS_PATH,
   RESULTS_PATH,
   SUMMARY_PATH,
-  TRAINING_INSTANCE_DETAIL_OUTLET,
-  TRAINING_INSTANCE_DETAIL_PATH
 } from './paths';
-import {TrainingInstanceDetailComponent} from './training-instance-detail.component';
+import {TrainingInstanceResolver} from '../../../services/resolvers/training-instance-resolver.service';
+import {TrainingInstanceDetailBreadcrumbResolver} from '../../../services/resolvers/training-instance-detail-breadcrumb-resolver.service';
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: TRAINING_INSTANCE_DETAIL_PATH,
+    redirectTo: SUMMARY_PATH,
   },
   {
-    path: TRAINING_INSTANCE_DETAIL_PATH,
+    path: SUMMARY_PATH,
     canActivate: [TrainingInstanceGuard],
-    component: TrainingInstanceDetailComponent,
-    data: {breadcrumb: null},
-    children: [
-      {
-        path: SUMMARY_PATH,
-        loadChildren: () => import('app/components/training-instance/training-instance-detail/summary/training-instance-summary.module').then(m => m.TrainingInstanceSummaryModule),
-        outlet: TRAINING_INSTANCE_DETAIL_OUTLET
-      },
-      {
-        path: PROGRESS_PATH,
-        loadChildren: () => import('app/components/training-instance/training-instance-detail/progress/training-instance-progress.module').then(m => m.TrainingInstanceProgressModule),
-        outlet: TRAINING_INSTANCE_DETAIL_OUTLET
-      },
-      {
-        path: RESULTS_PATH,
-        loadChildren: () => import('app/components/training-instance/training-instance-detail/results/training-instance-results.module').then(m => m.TrainingInstanceResultsModule),
-        outlet: TRAINING_INSTANCE_DETAIL_OUTLET
-      },
-      {
-        path: '',
-        pathMatch: 'full',
-        redirectTo: SUMMARY_PATH,
-        outlet: TRAINING_INSTANCE_DETAIL_OUTLET
-      }
-    ]
-  }
+    resolve: {
+      trainingInstance: TrainingInstanceResolver,
+      breadcrumb: TrainingInstanceDetailBreadcrumbResolver,
+    },
+    loadChildren: () => import('app/components/training-instance/training-instance-detail/summary/training-instance-summary.module').then(m => m.TrainingInstanceSummaryModule),
+  },
+  {
+    path: PROGRESS_PATH,
+    canActivate: [TrainingInstanceGuard],
+    resolve: {
+      trainingInstance: TrainingInstanceResolver,
+      breadcrumb: TrainingInstanceDetailBreadcrumbResolver,
+    },
+    loadChildren: () => import('app/components/training-instance/training-instance-detail/progress/training-instance-progress.module').then(m => m.TrainingInstanceProgressModule),
+  },
+  {
+    path: RESULTS_PATH,
+    canActivate: [TrainingInstanceGuard],
+    resolve: {
+      trainingInstance: TrainingInstanceResolver,
+      breadcrumb: TrainingInstanceDetailBreadcrumbResolver,
+    },
+    loadChildren: () => import('app/components/training-instance/training-instance-detail/results/training-instance-results.module').then(m => m.TrainingInstanceResultsModule),
+  },
+  {
+    path: ACCESS_TOKEN_PATH,
+    canActivate: [TrainingInstanceGuard],
+    resolve: {
+      trainingInstance: TrainingInstanceResolver,
+      breadcrumb: TrainingInstanceDetailBreadcrumbResolver,
+    },
+    loadChildren: () => import('app/components/training-instance/training-instance-detail/access-token-detail/access-token-detail.module').then(m => m.AccessTokenDetailModule),
+  },
 ];
 
 @NgModule({

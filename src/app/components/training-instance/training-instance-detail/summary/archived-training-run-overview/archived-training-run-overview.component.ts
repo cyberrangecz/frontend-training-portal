@@ -1,12 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material';
 import {Observable} from 'rxjs';
-import {map, takeWhile, tap} from 'rxjs/operators';
+import {map, takeWhile} from 'rxjs/operators';
 import {ActionConfirmationDialogComponent} from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
-import {Kypo2Table, LoadTableEvent, RequestedPagination} from 'kypo2-table';
+import {Kypo2Table} from 'kypo2-table';
 import {ArchivedTrainingRunService} from '../../../../../services/shared/archived-training-run.service';
-import {environment} from '../../../../../../environments/environment';
-import {ActivatedRoute} from '@angular/router';
 import {TrainingRunTableCreator} from '../../../../../model/table/factory/training-run-table-creator';
 import {TrainingRunTableAdapter} from '../../../../../model/table/row/training-run-table-adapter';
 import {BaseComponent} from '../../../../base.component';
@@ -15,13 +13,16 @@ import {TrainingInstance} from '../../../../../model/training/training-instance'
 @Component({
   selector: 'kypo2-archived-training-run-overview',
   templateUrl: './archived-training-run-overview.component.html',
-  styleUrls: ['./archived-training-run-overview.component.scss']
+  styleUrls: ['./archived-training-run-overview.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 /**
  * Component displaying real time archived (accessed by trainee and with sandbox removed) training runs for organizer.
  */
 export class ArchivedTrainingRunOverviewComponent extends BaseComponent implements OnInit {
   @Input() trainingInstance: TrainingInstance;
+  @Input() isPollingActive: boolean;
+
   archivedTrainingRuns$: Observable<Kypo2Table<TrainingRunTableAdapter>>;
   archivedTrainingRunsTotalLength$: Observable<number>;
   archivedTrainingRunsTableHasError$: Observable<boolean>;
@@ -29,11 +30,10 @@ export class ArchivedTrainingRunOverviewComponent extends BaseComponent implemen
 
   constructor(
     private archivedTrainingRunService: ArchivedTrainingRunService,
-    private activeRoute: ActivatedRoute,
     private dialog: MatDialog) { super(); }
 
   ngOnInit() {
-    this.initTables();
+    this.startPolling();
   }
 
   onArchivedTrainingRunTableAction(event) {
@@ -104,10 +104,11 @@ export class ArchivedTrainingRunOverviewComponent extends BaseComponent implemen
       .subscribe();
   }
 
-  private initTables() {
+  private startPolling() {
     this.archivedTrainingRunService.startPolling(this.trainingInstance);
     this.archivedTrainingRuns$ = this.archivedTrainingRunService.archivedTrainingRuns$
       .pipe(
+        takeWhile(_ => this.isPollingActive),
         map(trainingRuns => TrainingRunTableCreator.create(trainingRuns, 'archived'))
       );
     this.archivedTrainingRunsTableHasError$ = this.archivedTrainingRunService.hasError$;

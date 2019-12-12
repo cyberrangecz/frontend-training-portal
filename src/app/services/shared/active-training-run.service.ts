@@ -8,11 +8,12 @@ import {TrainingInstance} from '../../model/training/training-instance';
 
 @Injectable()
 export abstract class ActiveTrainingRunService extends PaginatedResourceService {
-  abstract startPolling(trainingInstance: TrainingInstance);
 
   abstract activeTrainingRuns$: Observable<PaginatedResource<TrainingRunTableRow[]>>;
 
+  abstract startPolling(trainingInstance: TrainingInstance);
+
   abstract getAll(id: number, pagination?: RequestedPagination): Observable<PaginatedResource<TrainingRunTableRow[]>>;
 
-  abstract deleteSandbox(trainingId: number, sandboxId: number): Observable<any>
+  abstract deleteSandbox(trainingId: number, sandboxId: number): Observable<any>;
 }

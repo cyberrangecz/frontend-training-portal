@@ -3,8 +3,12 @@ import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/rou
 import {Kypo2GroupResolverHelperService} from 'kypo2-user-and-group-management';
 import {ErrorHandlerService} from '../shared/error-handler.service';
 import {EMPTY, Observable, of} from 'rxjs';
-import {ADMIN_GROUP_NEW_PATH} from '../../components/administration/admin-group/admin-group-detail/paths';
+import {
+  ADMIN_GROUP_EDIT_PATH,
+  ADMIN_GROUP_NEW_PATH
+} from '../../components/administration/admin-group/admin-group-detail/paths';
 import {catchError, mergeMap, take} from 'rxjs/operators';
+import {Group} from 'kypo2-user-and-group-management/lib/model/group/group.model';
 
 @Injectable()
 export class GroupBreadcrumbResolver implements Resolve<string> {
@@ -14,13 +18,13 @@ export class GroupBreadcrumbResolver implements Resolve<string> {
   }
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<string> | Promise<string> | string {
     if (state.url.endsWith(ADMIN_GROUP_NEW_PATH)) {
-      return 'Add';
+      return 'Create';
     } else if (route.paramMap.has('groupId')) {
       const id = Number(route.paramMap.get('groupId'));
       return this.groupResolveHelper.getById(id)
         .pipe(
           take(1),
-          mergeMap(group => group ? of(group.name) : EMPTY),
+          mergeMap(group => group ? of(this.getBreadcrumbFromTitle(group, state)) : EMPTY),
           catchError( (err) => {
             this.errorHandler.display(err, 'Group breadcrumbs resolver');
             return EMPTY;
@@ -28,5 +32,11 @@ export class GroupBreadcrumbResolver implements Resolve<string> {
         );
     }
     return EMPTY;
+  }
+
+  private getBreadcrumbFromTitle(group: Group, state: RouterStateSnapshot): string {
+    return state.url.includes(ADMIN_GROUP_EDIT_PATH)
+      ? `Edit ${group.name}`
+      : group.name;
   }
 }

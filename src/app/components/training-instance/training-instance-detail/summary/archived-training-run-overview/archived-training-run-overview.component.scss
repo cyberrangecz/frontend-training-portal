@@ -1,20 +1,10 @@
-@import "./src/variables.scss";
-
-.training {
-  padding: 20px;
+.controls {
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
 }
 
-.training-table {
-  width: 100%;
-  margin: auto auto;
-  justify-items: center;
-  justify-content: center;
-}
-
-button.delete-all {
+.controls > button {
   width: 120px;
-  align-self: flex-end;
   margin-bottom: 10px;
 }

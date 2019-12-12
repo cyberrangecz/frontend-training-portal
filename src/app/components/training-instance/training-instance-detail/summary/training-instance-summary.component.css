@@ -1,27 +1,41 @@
-.container {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
+h1 {
+  text-align: center;
 }
 
-.content {
-  margin-top: 10px;
+.mat-expansion-panel-header-title,
+.mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.panel-description-error mat-icon {
+  margin-right: 5px;
+}
+
+.panel-description-error {
   display: flex;
   flex-direction: row;
+  align-items: center;
+  margin-right: 10px;
 }
 
-kypo2-training-instance-info {
-  flex-grow: 1;
+.spacer {
+  flex: 1 1 0;
 }
 
-.training-run-overview {
+.controls {
   display: flex;
-  flex-direction: column;
-  flex-grow: 2;
+  justify-content: flex-end;
 }
 
-@media screen and (max-width: 800px) {
-  .content {
-    flex-direction: column;
-  }
+.controls > a {
+  margin-left: 10px;
+}
+
+mat-expansion-panel {
+  margin: 10px 0;
 }

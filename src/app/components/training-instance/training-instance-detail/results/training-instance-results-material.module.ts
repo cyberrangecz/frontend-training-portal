@@ -1,21 +1,18 @@
 import {NgModule} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @NgModule({
   imports: [
-    MatMenuModule,
     MatButtonModule,
     MatIconModule,
-    MatDividerModule,
+    MatTabsModule
   ],
   exports: [
-    MatMenuModule,
     MatButtonModule,
     MatIconModule,
-    MatDividerModule
+    MatTabsModule
   ]
 })
 export class TrainingInstanceResultsMaterialModule {

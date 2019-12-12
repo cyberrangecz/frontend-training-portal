@@ -18,16 +18,18 @@
       <mat-icon>edit</mat-icon>
     </mat-panel-description>
   </mat-expansion-panel-header>
-  <kypo2-training-instance-edit-controls
-    [disabled]="saveDisabled$ | async"
-    [editMode]="editMode$ | async"
-    (save)="onSave($event)">
-  </kypo2-training-instance-edit-controls>
-  <mat-divider></mat-divider>
-  <kypo2-training-instance-edit
-    (edited)="onTrainingInstanceChanged($event)"
-    [trainingInstance]="trainingInstance$ | async">
-  </kypo2-training-instance-edit>
+  <ng-template matExpansionPanelContent>
+    <kypo2-training-instance-edit-controls
+      [disabled]="saveDisabled$ | async"
+      [editMode]="editMode$ | async"
+      (save)="onSave($event)">
+    </kypo2-training-instance-edit-controls>
+    <mat-divider></mat-divider>
+    <kypo2-training-instance-edit
+      (edited)="onTrainingInstanceChanged($event)"
+      [trainingInstance]="trainingInstance$ | async">
+    </kypo2-training-instance-edit>
+  </ng-template>
 </mat-expansion-panel>
 
 <mat-expansion-panel [disabled]="!(editMode$ | async)" [expanded]="editMode$ | async">
@@ -42,12 +44,14 @@
       <mat-icon>person</mat-icon>
     </mat-panel-description>
   </mat-expansion-panel-header>
-  <kypo2-user-assign *ngIf="editMode$ | async"
-                     resourceIcon="event_available"
-                     (hasUnsavedChanges)="onOrganizersChanged($event)"
-                     [resource]="trainingInstance$ | async"
-                     [defaultPaginationSize]="defaultPaginationSize"
-                     toAssignTitle="Organizers"
-                     assigneesTitle="Organizers">
-  </kypo2-user-assign>
+  <ng-template matExpansionPanelContent>
+    <kypo2-user-assign *ngIf="editMode$ | async"
+                       resourceIcon="event_available"
+                       (hasUnsavedChanges)="onOrganizersChanged($event)"
+                       [resource]="trainingInstance$ | async"
+                       [defaultPaginationSize]="defaultPaginationSize"
+                       toAssignTitle="Organizers"
+                       assigneesTitle="Organizers">
+    </kypo2-user-assign>
+  </ng-template>
 </mat-expansion-panel>

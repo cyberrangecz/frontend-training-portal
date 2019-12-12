@@ -3,7 +3,6 @@ import {
   TRAINING_DEFINITION_NEW_PATH, TRAINING_DEFINITION_PREVIEW_PATH
 } from '../../components/training-definition/training-definition-overview/paths';
 import {
-  ACCESS_TOKEN_PATH,
   TRAINING_INSTANCE_DETAIL_PATH,
   TRAINING_INSTANCE_EDIT_PATH,
   TRAINING_INSTANCE_NEW_PATH
@@ -18,6 +17,11 @@ import {SANDBOX_INSTANCE_RESOURCE_PATH} from '../../components/sandbox-instance/
 import {SANDBOX_POOL_PATH, TRAINING_DEFINITION_PATH, TRAINING_INSTANCE_PATH, TRAINING_RUN_PATH} from '../../paths';
 import {TRAINING_RUN_GAME_PATH, TRAINING_RUN_RESULTS_PATH} from '../../components/training-run/training-run-overview/paths';
 import {Kypo2UserAndGroupRouteEvent} from 'kypo2-user-and-group-management';
+import {
+  ACCESS_TOKEN_PATH,
+  PROGRESS_PATH, RESULTS_PATH,
+  SUMMARY_PATH
+} from '../../components/training-instance/training-instance-detail/paths';
 
 export class RouteFactory {
 
@@ -45,12 +49,24 @@ export class RouteFactory {
     return `${TRAINING_INSTANCE_PATH}/${id}/${TRAINING_INSTANCE_EDIT_PATH}`;
   }
 
-  static toTrainingInstanceAccessToken(id: number | string): string {
-    return `${TRAINING_INSTANCE_PATH}/${id}/${ACCESS_TOKEN_PATH}`;
-  }
-
   static toTrainingInstanceDetail(id: number | string): string {
     return `${TRAINING_INSTANCE_PATH}/${id}/${TRAINING_INSTANCE_DETAIL_PATH}`;
+  }
+
+  static toTrainingInstanceAccessToken(id: number | string): string {
+    return `${this.toTrainingInstanceDetail(id)}/${ACCESS_TOKEN_PATH}`;
+  }
+
+  static toTrainingInstanceSummary(id: number | string): string {
+    return `${this.toTrainingInstanceDetail(id)}/${SUMMARY_PATH}`;
+  }
+
+  static toTrainingInstanceProgress(id: number | string): string {
+    return `${this.toTrainingInstanceDetail(id)}/${PROGRESS_PATH}`;
+  }
+
+  static toTrainingInstanceResults(id: number | string): string {
+    return `${this.toTrainingInstanceDetail(id)}/${RESULTS_PATH}`;
   }
 
   static toNewTrainingInstance(): string {
@@ -109,7 +125,7 @@ export class RouteFactory {
       return 'edit/';
     }
     if (actionType === 'NEW') {
-      return 'add/';
+      return 'create/';
     }
     if (actionType === 'DETAIL') {
       console.error('USER AND GROUP ActionType of "DETAIL" not supported!');

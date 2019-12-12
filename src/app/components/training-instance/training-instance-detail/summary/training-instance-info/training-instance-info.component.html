@@ -1,20 +1,8 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-title> {{ trainingInstance?.title | shortString: 30}}</mat-card-title>
-    <mat-card-subtitle>of Training Definition: {{ trainingDefinition?.title | shortString: 30 }} </mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
-    <p>{{ trainingDefinition.description }}</p>
-    <p>Access token: {{ trainingInstance.accessToken }}</p>
-    <p>Start Time: {{ trainingInstance.startTime | dateTimeFormat }}</p>
-    <p>End Time: {{ trainingInstance.endTime | dateTimeFormat }}</p>
-    <p>Pool Size: {{ trainingInstance.poolSize }}</p>
-    <p>Pool Id: {{ trainingInstance.poolId }}</p>
-  </mat-card-content>
-  <mat-card-actions align="end">
-    <a  mat-button color="accent"
-        [routerLink]="['/' + accessTokenRouterLink]">
-      Display access token
-    </a>
-  </mat-card-actions>
-</mat-card>
+<h2>{{ trainingInstance?.title | shortString: 30}}</h2>
+<h3>of Training Definition: {{ trainingDefinition?.title | shortString: 30 }}</h3>
+<p>{{ trainingDefinition.description }}</p>
+<p>Access token: <a mat-button color="primary" [routerLink]="accessTokenLink">{{ trainingInstance.accessToken }}</a></p>
+<p>Start Time: {{ trainingInstance.startTime | dateTimeFormat }}</p>
+<p>End Time: {{ trainingInstance.endTime | dateTimeFormat }}</p>
+<p>Pool Size: {{ trainingInstance.poolSize }}</p>
+<p>Pool Id: {{ trainingInstance.poolId }}</p>
