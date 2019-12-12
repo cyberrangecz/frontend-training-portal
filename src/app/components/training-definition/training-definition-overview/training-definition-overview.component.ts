@@ -12,16 +12,12 @@ import { TrainingDefinitionTableRow } from '../../../model/table/row/training-de
 import { CloneDialogComponent } from './clone-dialog/clone-dialog.component';
 import { ActionConfirmationDialogComponent } from '../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import { Router, ActivatedRoute } from '@angular/router';
-import {
-  TRAINING_DEFINITION_PREVIEW_PATH,
-  TRAINING_DEFINITION_EDIT_PATH,
-  TRAINING_DEFINITION_NEW_PATH
-} from './paths';
 import { StateChangeDialogComponent } from './state-change-dialog/state-change-dialog.component';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Filter } from '../../../model/utils/filter';
 import { TrainingDefinitionUploadDialogComponent } from './training-definition-upload-dialog/training-definition-upload-dialog.component';
 import {environment} from '../../../../environments/environment';
+import {RouteFactory} from '../../../model/routes/route-factory';
 
 @Component({
   selector: 'kypo2-trainining-definition-overview',
@@ -200,15 +196,11 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent
    * @param {number} id id of a training definition which should be edited
    */
   editTrainingDefinition(trainingRow: TrainingDefinitionTableRow) {
-    this.router.navigate([trainingRow.id, TRAINING_DEFINITION_EDIT_PATH], {
-      relativeTo: this.activatedRoute
-    });
+    this.router.navigate([RouteFactory.toTrainingDefinitionEdit(trainingRow.id)]);
   }
 
   previewTrainingDefinition(trainingRow: TrainingDefinitionTableRow) {
-    this.router.navigate([trainingRow.id, TRAINING_DEFINITION_PREVIEW_PATH], {
-      relativeTo: this.activatedRoute
-    });
+    this.router.navigate([RouteFactory.toTrainingDefinitionPreview(trainingRow.id)]);
   }
 
   changeTrainingDefinitionState(
@@ -302,9 +294,7 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent
    * Navigates to training sub route with parameters indicating creation of a new training definition
    */
   newTrainingDefinition() {
-    this.router.navigate([TRAINING_DEFINITION_NEW_PATH], {
-      relativeTo: this.activatedRoute
-    });
+    this.router.navigate([RouteFactory.toNewTrainingDefinition()]);
   }
 
   /**

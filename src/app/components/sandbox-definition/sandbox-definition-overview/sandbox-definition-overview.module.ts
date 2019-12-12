@@ -1,10 +1,7 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {PipesModule} from '../../../pipes/pipes.module';
 import {SandboxDefinitionFacadeModule} from '../../../services/facades/modules/sandbox-definition-facade.module';
-import {TrainingDefinitionFacadeModule} from '../../../services/facades/modules/training-definition-facade.module';
-import {AddSandboxDefinitionDialogComponent} from '../add-sandbox-definition-dialog/add-sandbox-definition-dialog.component';
+import {CreateSandboxDefinitionComponent} from '../create-sandbox-definition/create-sandbox-definition.component';
 import { SandboxDefinitionControlsComponent } from './sandbox-definition-controls/sandbox-definition-controls.component';
 import {Kypo2TableModule} from 'kypo2-table';
 import {SandboxDefinitionService} from '../../../services/shared/sandbox-definition.service';
@@ -20,18 +17,13 @@ import {SandboxDefinitionOverviewComponent} from './sandbox-definition-overview.
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule,
-    PipesModule,
     SandboxDefinitionOverviewRoutingModule,
     SandboxDefinitionOverviewMaterialModule,
     SandboxDefinitionFacadeModule,
-    TrainingDefinitionFacadeModule,
-    ReactiveFormsModule,
     Kypo2TableModule,
   ],
   declarations: [
     SandboxDefinitionOverviewComponent,
-    AddSandboxDefinitionDialogComponent,
     SandboxDefinitionControlsComponent,
     SandboxDefinitionDetailComponent
   ],
@@ -39,7 +31,6 @@ import {SandboxDefinitionOverviewComponent} from './sandbox-definition-overview.
     {provide: SandboxDefinitionService, useClass: SandboxDefinitionConcreteService}
   ],
   entryComponents: [
-    AddSandboxDefinitionDialogComponent,
     SandboxDefinitionDetailComponent
   ]
 })

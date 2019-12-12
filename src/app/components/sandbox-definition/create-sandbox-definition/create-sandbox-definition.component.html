@@ -1,0 +1,38 @@
+<h1>Create Sandbox Definition</h1>
+<mat-card>
+  <div class="controls">
+    <button mat-flat-button color="primary" [disabled]="!sandboxDefinitionFormGroup.formGroup.valid" (click)="create()">Save</button>
+  </div>
+
+  <form [formGroup]="sandboxDefinitionFormGroup.formGroup">
+    <div class="content">
+      <!-- URL field-->
+      <mat-form-field appearance="outline"
+                      (keydown.enter)="$event.preventDefault()">
+        <mat-label>Gitlab URL</mat-label>
+        <input matInput
+               placeholder="login@machine.tld:path/to/sandbox-definitions/sandbox_name.git"
+               formControlName="gitlabUrl" required>
+        <button mat-button *ngIf="gitlabUrl.value" matSuffix mat-icon-button
+                aria-label="Clear" (click)="gitlabUrl.setValue('');">
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-error *ngIf="gitlabUrl.hasError('required')">This field is required</mat-error>
+      </mat-form-field>
+
+      <!-- REVISION field-->
+      <mat-form-field appearance="outline"
+                      (keydown.enter)="$event.preventDefault()">
+        <mat-label>Revision</mat-label>
+        <input matInput placeholder="Revision" formControlName="revision"
+               required>
+        <button mat-button *ngIf="revision.value" matSuffix mat-icon-button
+                aria-label="Clear" (click)="revision.setValue('');">
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-error *ngIf="revision.hasError('required')">This field is required</mat-error>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-card>
+
