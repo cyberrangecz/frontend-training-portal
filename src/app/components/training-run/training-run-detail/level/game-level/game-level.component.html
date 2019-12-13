@@ -59,7 +59,7 @@
                               (keydown.enter)="$event.preventDefault()">
                 <mat-label>Flag</mat-label>
                 <input matInput placeholder="Flag" [disabled]="correctFlag"
-                       [(ngModel)]="flag">
+                       [(ngModel)]="flag" [ngModelOptions]="{standalone: true}">
                 <button mat-button *ngIf="flag" [disabled]="correctFlag" matSuffix
                         mat-icon-button aria-label="Clear" (click)="flag=''">
                   <mat-icon>close</mat-icon>

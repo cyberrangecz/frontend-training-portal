@@ -1,6 +1,5 @@
-import { TrainingDefinitionTableRow } from '../../../../model/table/row/training-definition-table-row';
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { BaseComponent } from '../../../base.component';
+import { Component, Input, OnInit } from '@angular/core';
+import {TrainingDefinition} from '../../../../model/training/training-definition';
 
 @Component({
   selector: 'kypo2-training-definition-detail',
@@ -12,7 +11,7 @@ import { BaseComponent } from '../../../base.component';
  */
 export class TrainingDefinitionDetailComponent implements OnInit {
 
-  @Input() data: TrainingDefinitionTableRow;
+  @Input() data: TrainingDefinition;
 
 
   ngOnInit() {

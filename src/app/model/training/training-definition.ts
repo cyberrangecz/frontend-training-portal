@@ -1,11 +1,20 @@
 import {TrainingDefinitionStateEnum} from '../enums/training-definition-state.enum';
 import {AbstractLevel} from '../level/abstract-level';
 import {DisplayableResource} from './displayable-resource';
+import {formatDate} from '@angular/common';
 
 /**
  * Class representing training definition in a system.
  */
 export class TrainingDefinition implements DisplayableResource {
+  get lastEditTime(): Date {
+    return this._lastEditTime;
+  }
+
+  set lastEditTime(value: Date) {
+    this._lastEditTime = value;
+    this.lastEditTimeFormatted = formatDate(value, 'd MMM yyyy H:mm', 'en-US');
+  }
 
   id: number;
   sandboxDefinitionId: number;
@@ -18,17 +27,14 @@ export class TrainingDefinition implements DisplayableResource {
   state: TrainingDefinitionStateEnum;
   levels: AbstractLevel[];
 
-  lastEditTime: Date;
+  lastEditTimeFormatted: string;
+  private _lastEditTime: Date;
 
   constructor() {
     this.showStepperBar = true;
     this.outcomes = [];
     this.prerequisites = [];
     this.levels = [];
-  }
-
-  hasLevels(): boolean {
-    return this.levels.length > 0;
   }
 
   toString() {

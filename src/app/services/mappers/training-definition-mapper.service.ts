@@ -9,7 +9,6 @@ import { TrainingDefinitionStateEnum } from '../../model/enums/training-definiti
 import { AbstractLevel } from '../../model/level/abstract-level';
 import { Kypo2Pagination } from '../../model/table/other/kypo2-pagination';
 import { PaginatedResource } from '../../model/table/other/paginated-resource';
-import { TrainingDefinitionTableRow } from '../../model/table/row/training-definition-table-row';
 import { TrainingDefinition } from '../../model/training/training-definition';
 import { TrainingDefinitionInfo } from '../../model/training/training-definition-info';
 import { LevelMapper } from './level-mapper.service';
@@ -23,12 +22,8 @@ export class TrainingDefinitionMapper {
   constructor(private levelMapper: LevelMapper) {
   }
 
-  /**
-   * Maps training definition DTOs retrieved from the server to internal training definition objects
-   * @param resource training definition DTOs retrieved from server
-   */
-  mapTrainingDefinitionDTOsToTrainingDefinitions(resource: TrainingDefinitionRestResource): PaginatedResource<TrainingDefinition[]> {
-    const elements = resource.content.map(trainingDTO => this.mapTrainingDefinitionDTOToTrainingDefinition(trainingDTO, false));
+  mapTrainingDefinitionDTOsToTrainingDefinitionsPaginated(resource: TrainingDefinitionRestResource, withLevels = false): PaginatedResource<TrainingDefinition[]> {
+    const elements = resource.content.map(trainingDTO => this.mapTrainingDefinitionDTOToTrainingDefinition(trainingDTO, withLevels));
     const pagination = new Kypo2Pagination(
       resource.pagination.number,
       resource.pagination.number_of_elements,
@@ -36,22 +31,6 @@ export class TrainingDefinitionMapper {
       resource.pagination.total_elements,
       resource.pagination.total_pages);
     return new PaginatedResource(elements, pagination);
-  }
-
-  mapTrainingDefinitionDTOsToTrainingDefinitionsPaginated(resource: TrainingDefinitionRestResource)
-    : PaginatedResource<TrainingDefinitionTableRow[]> {
-    const tableData: TrainingDefinitionTableRow[] = [];
-    resource.content.forEach((trainingDTO: TrainingDefinitionDTO) => {
-      const td = this.mapTrainingDefinitionDTOToTrainingDefinition(trainingDTO, false);
-      tableData.push(new TrainingDefinitionTableRow(td));
-    });
-    const tablePagination = new Kypo2Pagination(
-      resource.pagination.number,
-      resource.pagination.number_of_elements,
-      resource.pagination.size,
-      resource.pagination.total_elements,
-      resource.pagination.total_pages);
-    return new PaginatedResource(tableData, tablePagination);
   }
 
   /**
