@@ -54,16 +54,18 @@
           <div class="spacer"></div>
           <div class="flag-input">
             <!-- FLAG field-->
-            <mat-form-field appearance="outline"
-              (keydown.enter)="$event.preventDefault()">
-              <mat-label>Flag</mat-label>
-              <input matInput placeholder="Flag" [disabled]="correctFlag"
-                [(ngModel)]="flag">
-              <button mat-button *ngIf="flag" [disabled]="correctFlag" matSuffix
-                mat-icon-button aria-label="Clear" (click)="flag=''">
-                <mat-icon>close</mat-icon>
-              </button>
-            </mat-form-field>
+            <form autocomplete="off">
+              <mat-form-field appearance="outline"
+                              (keydown.enter)="$event.preventDefault()">
+                <mat-label>Flag</mat-label>
+                <input matInput placeholder="Flag" [disabled]="correctFlag"
+                       [(ngModel)]="flag">
+                <button mat-button *ngIf="flag" [disabled]="correctFlag" matSuffix
+                        mat-icon-button aria-label="Clear" (click)="flag=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </form>
             <button mat-button color="accent"
               [disabled]="!flag || correctFlag"
               (click)="submitFlag()">

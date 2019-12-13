@@ -3,7 +3,7 @@
   <mat-card-subtitle>Fill in access token provided by the organizer to start the
     training</mat-card-subtitle>
   <mat-card-content>
-    <form [formGroup]="traineeAccessTrainingFormGroup.formGroup">
+    <form autocomplete="off" [formGroup]="traineeAccessTrainingFormGroup.formGroup">
       <mat-form-field appearance="outline" class="prefix-form"
         (keydown.enter)="$event.preventDefault()">
 
