@@ -17,7 +17,7 @@ import {RevealHintDialogComponent} from './user-action-dialogs/reveal-hint-dialo
 import {RevealSolutionDialogComponent} from './user-action-dialogs/reveal-solution-dialog/reveal-solution-dialog.component';
 import {WrongFlagDialogComponent} from './user-action-dialogs/wrong-flag-dialog/wrong-flag-dialog.component';
 import {ASCPECT_RATIO_Y, ASPECT_RATIO_X, DIVIDE_BY, WINDOW_WIDTH} from './game-level.constants';
-import {Kypo2TopologyErrorService, TopologyError} from 'kypo2-topology-graph';
+import {Kypo2TopologyErrorService} from 'kypo2-topology-graph';
 
 @Component({
   selector: 'kypo2-game-level',
