@@ -1,13 +1,14 @@
 <h1>Training Definition Overview</h1>
 <kypo2-training-definition-controls
-  (action)="onActionPanelEvent($event)">
+  (action)="onControlsAction($event)">
 </kypo2-training-definition-controls>
 <kypo2-table
   [defaultSortDirection]="INIT_SORT_DIR"
   [defaultSortName]="INIT_SORT_NAME"
   [data]="trainingDefinitions$ | async"
-  [hasError]="isInErrorState"
-  (refresh)="fetchData($event)"
-  (rowAction)="onTrainingDefinitionTableAction($event)"
-  [totalElements]="trainingDefinitionsTotalLength">
+  [hasError]="hasError$ | async"
+  [isLoading]="isLoading$ | async"
+  [totalElements]="totalLength$ | async"
+  (refresh)="onLoadEvent($event)"
+  (rowAction)="onTrainingDefinitionTableAction($event)">
 </kypo2-table>

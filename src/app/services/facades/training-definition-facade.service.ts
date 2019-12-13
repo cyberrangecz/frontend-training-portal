@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User, UserDTO } from 'kypo2-auth';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
@@ -21,7 +20,6 @@ import { AssessmentLevel } from '../../model/level/assessment-level';
 import { GameLevel } from '../../model/level/game-level';
 import { InfoLevel } from '../../model/level/info-level';
 import { PaginatedResource } from '../../model/table/other/paginated-resource';
-import { TrainingDefinitionTableRow } from '../../model/table/row/training-definition-table-row';
 import { TrainingDefinition } from '../../model/training/training-definition';
 import { TrainingDefinitionInfo } from '../../model/training/training-definition-info';
 import { LevelMapper } from '../mappers/level-mapper.service';
@@ -40,7 +38,6 @@ export class TrainingDefinitionFacade {
   readonly trainingDefinitionUriExtension = 'training-definitions/';
   readonly exportsUriExtension = 'exports/';
   readonly importsUriExtension = 'imports/';
-  readonly sandboxDefinitionUriExtension = 'sandbox-definitions/';
   readonly levelsUriExtension = 'levels/';
 
   readonly trainingDefsEndpointUri = environment.trainingRestBasePath + this.trainingDefinitionUriExtension;
@@ -59,22 +56,10 @@ export class TrainingDefinitionFacade {
    * Retrieves all training definitions
    * @returns {Observable<TrainingDefinition[]>} Observable of paginated training definitions list
    */
-  getAll(pagination: RequestedPagination, filters: Filter[] = []): Observable<PaginatedResource<TrainingDefinitionTableRow[]>> {
+  getAll(pagination: RequestedPagination, filters: Filter[] = []): Observable<PaginatedResource<TrainingDefinition[]>> {
     const params = ParamsMerger.merge([PaginationParams.createTrainingsPaginationParams(pagination), FilterParams.create(filters)]);
     return this.http.get<TrainingDefinitionRestResource>(this.trainingDefsEndpointUri,
       { params: params })
-      .pipe(map(response =>
-        this.trainingDefinitionMapper.mapTrainingDefinitionDTOsToTrainingDefinitionsPaginated(response)));
-  }
-
-  /**
-   * Retrieves all training definition on specified page of a pagination
-   * @deprecated
-   */
-  getAllPaginated(pagination: RequestedPagination): Observable<PaginatedResource<TrainingDefinitionTableRow[]>> {
-    // TODO: Replace with getAll() and mapping to TrainingDefinitionTableRow with TableCreator.
-    return this.http.get<TrainingDefinitionRestResource>(this.trainingDefsEndpointUri,
-      { params: PaginationParams.createTrainingsPaginationParams(pagination) })
       .pipe(map(response =>
         this.trainingDefinitionMapper.mapTrainingDefinitionDTOsToTrainingDefinitionsPaginated(response)));
   }

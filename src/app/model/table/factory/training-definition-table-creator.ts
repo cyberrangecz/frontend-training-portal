@@ -2,65 +2,74 @@ import { TrainingDefinitionStateEnum } from '../../enums/training-definition-sta
 import { Column, Kypo2Table, Row, RowExpand } from 'kypo2-table';
 import { of } from 'rxjs';
 import { PaginatedResource } from '../other/paginated-resource';
-import { TrainingDefinitionTableRow } from '../row/training-definition-table-row';
 import { TrainingDefinitionDetailComponent } from '../../../components/training-definition/training-definition-overview/training-definition-detail/training-definition-detail.component';
+import {TrainingDefinition} from '../../training/training-definition';
 
 export class TrainingDefinitionTableCreator {
-  static create(
-    resource: PaginatedResource<TrainingDefinitionTableRow[]>
-  ): Kypo2Table<TrainingDefinitionTableRow> {
+
+  static readonly EDIT_ACTION = 'Edit';
+  static readonly DELETE_ACTION = 'Delete';
+  static readonly CLONE_ACTION = 'Clone';
+  static readonly DOWNLOAD_ACTION = 'Download';
+  static readonly PREVIEW_ACTION = 'Preview';
+  static readonly RELEASE_ACTION = 'Release';
+  static readonly UNRELEASE_ACTION = 'Unrelease';
+  static readonly ARCHIVE_ACTION = 'Archive';
+
+  static create(resource: PaginatedResource<TrainingDefinition[]>): Kypo2Table<TrainingDefinition> {
     const baseActions = [
       {
-        label: 'Edit',
+        label: this.EDIT_ACTION,
         icon: 'create',
         color: 'primary',
         tooltip: 'Edit training definition',
         disabled$: of(false)
       },
       {
-        label: 'Delete',
+        label: this.DELETE_ACTION,
         icon: 'delete',
         color: 'warn',
         tooltip: 'Delete training definition',
         disabled$: of(false)
       },
       {
-        label: 'Clone',
+        label: this.CLONE_ACTION,
         icon: 'file_copy',
         color: 'primary',
         tooltip: 'Clone training definition',
         disabled$: of(false)
       },
       {
-        label: 'Download',
+        label: this.DOWNLOAD_ACTION,
         icon: 'cloud_download',
         color: 'primary',
         tooltip: 'Download training definition',
         disabled$: of(false)
       },
       {
-        label: 'Preview',
+        label: this.PREVIEW_ACTION,
         icon: 'remove_red_eye',
         color: 'primary',
         tooltip: 'Preview training run',
         disabled$: of(false)
       }
     ];
-    const table = new Kypo2Table<TrainingDefinitionTableRow>(
+
+    const table = new Kypo2Table<TrainingDefinition>(
       resource.elements.map(trainingDef => {
         const actions = Array.from(baseActions);
         switch (trainingDef.state) {
           case TrainingDefinitionStateEnum.Released:
             actions.push(
               {
-                label: 'Unrelease',
+                label: this.UNRELEASE_ACTION,
                 icon: 'lock_open',
                 color: 'warn',
                 tooltip: 'Unrelease training definition',
                 disabled$: of(false)
               },
               {
-                label: 'Archive',
+                label: this.ARCHIVE_ACTION,
                 icon: 'archive',
                 color: 'warn',
                 tooltip: 'Archive training definition',
@@ -70,7 +79,7 @@ export class TrainingDefinitionTableCreator {
             break;
           case TrainingDefinitionStateEnum.Unreleased:
             actions.push({
-              label: 'Release',
+              label: this.RELEASE_ACTION,
               icon: 'lock',
               color: 'warn',
               tooltip: 'Release training definition',
@@ -87,13 +96,8 @@ export class TrainingDefinitionTableCreator {
         new Column('id', 'id', true),
         new Column('title', 'title', true),
         new Column('state', 'state', true),
-        new Column(
-          'estimatedDuration',
-          'estimated duration',
-          true,
-          'estimatedDuration'
-        ),
-        new Column('lastEditTime', 'last edit', true, 'lastEdited')
+        new Column('estimatedDuration', 'estimated duration', true, 'estimatedDuration'),
+        new Column('lastEditTimeFormatted', 'last edit', true, 'lastEdited')
       ]
     );
     table.expand = new RowExpand(TrainingDefinitionDetailComponent);
