@@ -1,12 +1,13 @@
-<h1 mat-dialog-title>{{ data.action | titlecase }} {{ data.type | titlecase }}</h1>
-<div mat-dialog-content>
-  <p class="mat-body-1" *ngIf="data.title">Do you really want to {{ data.action }} {{ data.type }}: {{ data.title | titlecase }}?</p>
-  <p class="mat-body-1" *ngIf="!data.title">Do you really want to {{ data.action }} {{ data.type }}?</p>
-  <p class="mat-body-1" *ngIf="data.additionalInfo"> {{ data.additionalInfo }}</p>
+<h1 mat-dialog-title class="title">{{ data.action | titlecase }} {{ data.type |
+  titlecase }} ?</h1>
+<div *ngIf="message" mat-dialog-content>
+  <p class="message" *ngIf="data.title">{{message}} {{ data.type }}: {{
+    data.title | titlecase }} ?</p>
+  <p class="message" *ngIf="!data.title">{{message}} {{ data.type }}?</p>
+  <p class="message" *ngIf="data.additionalInfo"> {{ data.additionalInfo }}</p>
 </div>
-<div mat-dialog-actions>
-  <button mat-button color="warn" cdkFocusInitial (click)="cancel()">Cancel</button>
+<div class="actions" mat-dialog-actions>
+  <button mat-button color="warn" cdkFocusInitial (click)="cancel()">{{cancelButtonName}}</button>
   <span class="spacer"></span>
-  <button mat-button color="primary" (click)="confirm()">Confirm</button>
+  <button mat-button color="primary" (click)="confirm()">{{confirmButtonName}}</button>
 </div>
-
