@@ -1,4 +1,4 @@
-import { TrainingDefinitionStateEnum } from './../../../model/enums/training-definition-state.enum';
+import { TrainingDefinitionStateEnum } from '../../../model/enums/training-definition-state.enum';
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '../../base.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -15,7 +15,7 @@ import {environment} from '../../../../environments/environment';
 import {RouteFactory} from '../../../model/routes/route-factory';
 import {TrainingDefinition} from '../../../model/training/training-definition';
 import {TrainingDefinitionTableCreator} from '../../../model/table/factory/training-definition-table-creator';
-import {UploadFileEvent} from '../../../model/events/upload-file-event';
+import {FileUploadProgressService} from '../../../services/shared/file-upload-progress.service';
 
 @Component({
   selector: 'kypo2-trainining-definition-overview',
@@ -40,6 +40,7 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private dialog: MatDialog,
+    private fileUploadProgressService: FileUploadProgressService,
     private trainingDefinitionService: TrainingDefinitionService) {
     super();
   }
@@ -194,17 +195,15 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent
     dialogRef.componentInstance.onUpload
       .pipe(
         take(1),
-        switchMap(event => this.controlFileUpload(event))
-      ).subscribe(_ => dialogRef.close());
-  }
-
-  private controlFileUpload(event: UploadFileEvent): Observable<any> {
-    return this.trainingDefinitionService.upload(event.file)
-      .pipe(
-        tap( _ => event.uploadInProgress.next(false),
-          _ => event.uploadInProgress.next(false)
-        )
-      );
+        tap(_ => this.fileUploadProgressService.start()),
+        switchMap(file => this.trainingDefinitionService.upload(file))
+      ).subscribe(
+        _ =>  {
+          this.fileUploadProgressService.finish();
+          dialogRef.close();
+          },
+        _ => this.fileUploadProgressService.finish()
+    );
   }
 
   private initTable() {

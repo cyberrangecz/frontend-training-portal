@@ -17,6 +17,7 @@ import { Kypo2TableModule } from 'kypo2-table';
 import { TrainingDefinitionService } from '../../../services/shared/training-definition.service';
 import { TrainingDefinitionConcreteService } from '../../../services/training-definition/training-definition.concrete.service';
 import { TrainingDefinitionOverviewControlsComponent } from './training-definition-overview-controls/training-definition-overview-controls.component';
+import {FileUploadProgressService} from '../../../services/shared/file-upload-progress.service';
 
 /**
  * Module containing components and services for training definition overview with routing to inner feature modules.
@@ -44,6 +45,7 @@ import { TrainingDefinitionOverviewControlsComponent } from './training-definiti
     TrainingDefinitionOverviewControlsComponent
   ],
   providers: [
+    FileUploadProgressService,
     { provide: TrainingDefinitionService, useClass: TrainingDefinitionConcreteService }
   ],
   entryComponents: [
