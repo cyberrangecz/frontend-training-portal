@@ -50,4 +50,8 @@ export class TrainingDefinitionUploadDialogComponent extends BaseComponent
   clearFile() {
     this.selectedFile = null;
   }
+
+  resetFileInput(event){
+    event.target.value = null;
+  }
 }
