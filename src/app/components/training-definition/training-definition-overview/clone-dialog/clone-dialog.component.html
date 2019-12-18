@@ -1,4 +1,5 @@
-<h1 mat-dialog-title>Clone {{ data.title | titlecase | shortString: 30 }}</h1>
+<h1 class="title" mat-dialog-title>Clone {{ data.title | titlecase | shortString:
+  30 }}</h1>
 <div mat-dialog-content>
   <form [formGroup]="cloneDialogFormGroup.formGroup">
     <!-- TITLE field-->
@@ -17,7 +18,7 @@
     </mat-form-field>
   </form>
 </div>
-<div mat-dialog-actions>
+<div class="actions" mat-dialog-actions>
   <button mat-button color="warn" cdkFocusInitial (click)="cancel()">Cancel</button>
   <span class="spacer"></span>
   <button mat-button color="primary" (click)="confirm()">Clone</button>
