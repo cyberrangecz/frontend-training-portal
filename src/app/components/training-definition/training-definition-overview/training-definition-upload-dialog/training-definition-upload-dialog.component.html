@@ -12,7 +12,10 @@
       *ngIf="uploadInProgress$.value"
       mode="indeterminate"
     ></mat-progress-bar>
-    <span class="spacer" *ngIf="selectedFile && !uploadInProgress$.value"></span>
+    <span
+      class="spacer"
+      *ngIf="selectedFile && !uploadInProgress$.value"
+    ></span>
 
     <!-- CLEAR FILES BUTTON -->
     <button
@@ -32,7 +35,7 @@
     class="drop"
     *ngIf="!uploadInProgress$.value"
     ngfDrop
-    [fileDropDisabled]="true"
+    [fileDropDisabled]="false"
     [(file)]="selectedFile"
   >
     <p>Drop File Here</p>
@@ -45,9 +48,11 @@
       mat-button
       color="accent"
       ngf
+      (click)="resetFileInput($event)"
       [selectable]="!uploadInProgress$.value"
       [disabled]="uploadInProgress$.value"
-      [(file)]="selectedFile">
+      [(file)]="selectedFile"
+    >
       Choose...
     </button>
   </div>
@@ -60,7 +65,8 @@
     [disabled]="!selectedFile || uploadInProgress$.value"
     (click)="upload()"
     mat-button
-    color="primary">
+    color="primary"
+  >
     Upload
   </button>
 </div>
