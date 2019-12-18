@@ -6,12 +6,17 @@ mat-progress-bar {
   flex: 1 1 0;
 }
 
+.title {
+  text-align: center;
+  font: 500 20px/32px "Source Sans Pro", sans-serif;
+  margin: 0 0 20px;
+}
+
 .choose-button {
   display: flex;
-  width: 100%;
   flex-direction: row;
-  align-items: flex-end;
-  align-content: flex-end;
+  align-items: center;
+  align-content: center;
 }
 
 .choose-button button {
@@ -29,28 +34,36 @@ mat-progress-bar {
 .content {
   display: flex;
   flex-direction: column;
+  font-family: "Source Sans Pro", sans-serif;
 }
 
-
 .drop {
-  margin: 5px;
+  margin: 5px 0;
   display: flex;
-  height: 100px;
   flex-direction: column;
-  text-align: center;
+  text-align: bottom;
   align-items: center;
   justify-items: center;
-  border: 1px dotted deeppink;
+  border: 1px solid #d8d8d8;
+  border-radius: 5px;
+  min-width: 400px;
+  min-height: 150px;
+  justify-content: center;
 }
 
 .actions {
-  margin-top: 15px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: space-between;
   align-content: space-between;
+  text-align: center;
+  font: 500 14px "Source Sans Pro", sans-serif;
 }
 
-.actions button {
-  margin: auto auto;
+.drag-text {
+  color: #757575;
+}
+
+.selected-file {
 }
