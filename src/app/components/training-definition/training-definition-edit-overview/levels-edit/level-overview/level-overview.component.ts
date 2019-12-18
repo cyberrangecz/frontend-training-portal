@@ -8,17 +8,17 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
-import {MatDialog} from '@angular/material/dialog';
-import {ActivatedRoute} from '@angular/router';
-import {Observable, of} from 'rxjs';
-import {debounceTime, switchMap, takeWhile, tap} from 'rxjs/operators';
-import {AbstractLevelTypeEnum} from '../../../../../model/enums/abstract-level-type.enum';
-import {LevelMoveEvent} from '../../../../../model/events/level-move-event';
-import {AbstractLevel} from '../../../../../model/level/abstract-level';
-import {TrainingDefinition} from '../../../../../model/training/training-definition';
-import {LevelEditService} from '../../../../../services/training-definition/level-edit.service';
-import {BaseComponent} from '../../../../base.component';
-import {ActionConfirmationDialogComponent} from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { debounceTime, switchMap, takeWhile, tap } from 'rxjs/operators';
+import { AbstractLevelTypeEnum } from '../../../../../model/enums/abstract-level-type.enum';
+import { LevelMoveEvent } from '../../../../../model/events/level-move-event';
+import { AbstractLevel } from '../../../../../model/level/abstract-level';
+import { TrainingDefinition } from '../../../../../model/training/training-definition';
+import { LevelEditService } from '../../../../../services/training-definition/level-edit.service';
+import { BaseComponent } from '../../../../base.component';
+import { ActionConfirmationDialogComponent } from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 
 @Component({
   selector: 'kypo2-level-overview',
@@ -41,8 +41,8 @@ export class LevelOverviewComponent extends BaseComponent implements OnInit, OnC
   levelMovingInProgress: boolean;
 
   constructor(private activeRoute: ActivatedRoute,
-              private dialog: MatDialog,
-              private levelService: LevelEditService) {
+    private dialog: MatDialog,
+    private levelService: LevelEditService) {
     super();
   }
 
@@ -77,7 +77,7 @@ export class LevelOverviewComponent extends BaseComponent implements OnInit, OnC
         this.levelService.navigateToLastLevel();
         this.levelsCount.emit(this.levelService.getLevelsCount());
       }
-   );
+      );
   }
 
   onLevelMoved(event: LevelMoveEvent) {
@@ -103,7 +103,8 @@ export class LevelOverviewComponent extends BaseComponent implements OnInit, OnC
     this.levelService.save(level)
       .pipe(
         takeWhile(_ => this.isAlive)
-      ).subscribe(_ =>  this.unsavedLevels.emit(this.levelService.getUnsavedLevels()));
+      ).subscribe(_ => this.unsavedLevels.emit(this.levelService.getUnsavedLevels()));
+    this.levelService.forceStepperUpdate();
   }
 
   onActiveLevelChanged(level: AbstractLevel) {
@@ -113,18 +114,18 @@ export class LevelOverviewComponent extends BaseComponent implements OnInit, OnC
   private showDialogBeforeDeleting(level: AbstractLevel) {
     const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
       data:
-        {
-          type: 'level',
-          action: 'delete',
-          title: level.title
-        }
+      {
+        type: 'level',
+        action: 'delete',
+        title: level.title
+      }
     });
     dialogRef.afterClosed()
       .pipe(
         takeWhile(() => this.isAlive),
         switchMap(result => result && result.type === 'confirm' ? this.levelService.delete(level) : of(null))
       ).subscribe(_ => this.levelsCount.emit(this.levelService.getLevelsCount())
-  );
+      );
   }
 
 }
