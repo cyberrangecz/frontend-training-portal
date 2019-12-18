@@ -1,15 +1,15 @@
-import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, of} from 'rxjs';
-import {switchMap, tap} from 'rxjs/operators';
-import {AbstractLevelTypeEnum} from '../../model/enums/abstract-level-type.enum';
-import {AlertTypeEnum} from '../../model/enums/alert-type.enum';
-import {AbstractLevel} from '../../model/level/abstract-level';
-import {AssessmentLevel} from '../../model/level/assessment-level';
-import {GameLevel} from '../../model/level/game-level';
-import {InfoLevel} from '../../model/level/info-level';
-import {TrainingDefinitionFacade} from '../facades/training-definition-facade.service';
-import {AlertService} from '../shared/alert.service';
-import {ErrorHandlerService} from '../shared/error-handler.service';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { switchMap, tap, take, map } from 'rxjs/operators';
+import { AbstractLevelTypeEnum } from '../../model/enums/abstract-level-type.enum';
+import { AlertTypeEnum } from '../../model/enums/alert-type.enum';
+import { AbstractLevel } from '../../model/level/abstract-level';
+import { AssessmentLevel } from '../../model/level/assessment-level';
+import { GameLevel } from '../../model/level/game-level';
+import { InfoLevel } from '../../model/level/info-level';
+import { TrainingDefinitionFacade } from '../facades/training-definition-facade.service';
+import { AlertService } from '../shared/alert.service';
+import { ErrorHandlerService } from '../shared/error-handler.service';
 
 @Injectable()
 export class LevelEditService {
@@ -26,8 +26,8 @@ export class LevelEditService {
   activeLevelCanBeSaved$: Observable<boolean> = this.activeLevelCanBeSavedSubject.asObservable();
 
   constructor(private trainingDefinitionFacade: TrainingDefinitionFacade,
-              private errorHandler: ErrorHandlerService,
-              private alertService: AlertService) {
+    private errorHandler: ErrorHandlerService,
+    private alertService: AlertService) {
   }
 
   set(trainingDefinitionId: number, levels: AbstractLevel[]) {
@@ -50,6 +50,11 @@ export class LevelEditService {
     newLevels[this.activeStepSubject.getValue()] = level;
     this.levelsSubject.next(newLevels);
     this.setLevelCanBeSaved(level);
+  }
+
+  forceStepperUpdate() {
+    // need to pass levels as new object to trigger change detection in level stepper component
+    this.levelsSubject.next(Array.from(this.levelsSubject.value));
   }
 
   setLevelCanBeSaved(level: AbstractLevel, value?: boolean) {
@@ -96,24 +101,24 @@ export class LevelEditService {
     this.setLevelCanBeSaved(level, false);
     return this.sendRequestToSaveLevel(level)
       .pipe(
-      tap(_ => {
-        this.onLevelSaved(level);
-        if (!silentSave) {
-          this.alertService.emitAlert(AlertTypeEnum.Success, `Level ${level.title} saved`);
-        }
+        tap(_ => {
+          this.onLevelSaved(level);
+          if (!silentSave) {
+            this.alertService.emitAlert(AlertTypeEnum.Success, `Level ${level.title} saved`);
+          }
         },
-        err => {
-          this.setLevelCanBeSaved(level);
-          this.errorHandler.display(err, `Saving level ${level.title}`);
-      })
-    );
+          err => {
+            this.setLevelCanBeSaved(level);
+            this.errorHandler.display(err, `Saving level ${level.title}`);
+          })
+      );
   }
 
   delete(level: AbstractLevel): Observable<AbstractLevel[]> {
     return this.trainingDefinitionFacade.deleteLevel(this.trainingDefinitionId, level.id)
       .pipe(
         tap(_ => this.onLevelDeleted(level.id),
-        err => this.errorHandler.display(err, 'Deleting level "' + level.title + '"')
+          err => this.errorHandler.display(err, 'Deleting level "' + level.title + '"')
         )
       );
   }
@@ -147,7 +152,7 @@ export class LevelEditService {
       .pipe(
         switchMap(basicLevelInfo => this.trainingDefinitionFacade.getLevelById(basicLevelInfo.id) as Observable<GameLevel>),
         tap(level => this.onLevelAdded(level),
-            err =>  this.errorHandler.display(err, 'Adding game level')
+          err => this.errorHandler.display(err, 'Adding game level')
         )
       );
   }
@@ -157,7 +162,7 @@ export class LevelEditService {
       .pipe(
         switchMap(basicLevelInfo => this.trainingDefinitionFacade.getLevelById(basicLevelInfo.id) as Observable<InfoLevel>),
         tap(level => this.onLevelAdded(level),
-          err =>  this.errorHandler.display(err, 'Adding info level')
+          err => this.errorHandler.display(err, 'Adding info level')
         )
       );
   }
@@ -167,7 +172,7 @@ export class LevelEditService {
       .pipe(
         switchMap(basicLevelInfo => this.trainingDefinitionFacade.getLevelById(basicLevelInfo.id) as Observable<AssessmentLevel>),
         tap(level => this.onLevelAdded(level),
-          err =>  this.errorHandler.display(err, 'Adding assessment level')
+          err => this.errorHandler.display(err, 'Adding assessment level')
         )
       );
   }
