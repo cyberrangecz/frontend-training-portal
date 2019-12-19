@@ -13,6 +13,28 @@ Implementation of the frontend for KYPO Trainings (former Capture the flag games
 - [Angular v8](https://angular.io/guide/quickstart)
 - [Angular Material v8](https://material.angular.io/guide/getting-started)
 
+## UX/UI Guidelines
+If extending the project, consult [Google Material Guildelines](https://material.io/design/guidelines-overview/).
+
+Also prefer usage of [Angular Material Components](https://material.angular.io/) and [Material Icons](https://material.io/resources/icons/) if possible.
+
+## Codestyle and Architecture
+
+Codestyle should roughly comply with [Angular Codestyle](https://angular.io/guide/styleguide) and is enforced through [TSLint](https://palantir.github.io/tslint/).
+
+Best practices, tips and trick for new developers can be found [here](https://projects.ics.muni.cz/projects/kbase/knowledgebase/articles/170).
+
+We try to use smart-dumb architecture in our components and to outsorce most of the "business logic" that smart components needs to handle to injected mplementations of abstract services to allow for reuse in different context easily.
+
+No state management library, like NGRX is utilized but the data should flow through services and components in similar architecture as the figure below shows.
+
+![Recommended architecture](https://gitlab.ics.muni.cz/kypo2/frontend-new/kypo2-trainings/wikis/uploads/2ab19735a374e035b509c6a04fb29282/frontend-dataflow.png)
+
+
+## Documentation
+
+You can generate documentation with tools like [Compodoc](https://compodoc.app/) or [TypeDoc](https://typedoc.org/)
+
 ## Usage
 
 You can use the app:
