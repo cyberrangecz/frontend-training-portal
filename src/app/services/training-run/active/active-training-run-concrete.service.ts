@@ -77,7 +77,7 @@ export class ActiveTrainingRunConcreteService extends ActiveTrainingRunService {
    * @param sandboxId to delete
    */
   deleteSandbox(trainingInstanceId: number, sandboxId: number): Observable<any> {
-    return this.sandboxInstanceFacade.deleteByTrainingInstance(trainingInstanceId, sandboxId)
+    return this.sandboxInstanceFacade.delete(sandboxId)
       .pipe(
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Deleting of sandbox instance started'),
           err => this.errorHandler.display(err, 'Deleting sandbox instance')

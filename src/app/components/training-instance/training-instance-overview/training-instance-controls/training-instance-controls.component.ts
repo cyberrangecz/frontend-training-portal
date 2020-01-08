@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 /**
  * Component containing controls for training instance overview page
@@ -6,7 +6,8 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 @Component({
   selector: 'kypo2-training-instance-controls',
   templateUrl: './training-instance-controls.component.html',
-  styleUrls: ['./training-instance-controls.component.scss']
+  styleUrls: ['./training-instance-controls.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TrainingInstanceControlsComponent implements OnInit {
 

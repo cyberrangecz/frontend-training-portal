@@ -1,22 +1,18 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {PipesModule} from '../../../pipes/pipes.module';
 import {SandboxInstanceApiModule} from '../../../services/api/modules/sandbox-instance-api.module';
 import {TrainingInstanceApiModule} from '../../../services/api/modules/training-instance-api.module';
 import {TrainingInstanceBreadcrumbResolver} from '../../../services/resolvers/training-instance-breadcrumb-resolver.service';
 import {TrainingInstanceResolver} from '../../../services/resolvers/training-instance-resolver.service';
-import {SandboxAllocationService} from '../../../services/training-instance/sandbox-allocation/sandbox-allocation.service';
-import {SandboxInstanceObservablesPoolService} from '../../../services/training-instance/sandbox-allocation/sandbox-instance-observables-pool.service';
 import {SharedModule} from '../../shared/shared.module';
 import { TrainingInstanceControlsComponent } from './training-instance-controls/training-instance-controls.component';
 import {TrainingInstanceOverviewMaterialModule} from './training-instance-overview-material.module';
 import {TrainingInstanceOverviewRoutingModule} from './training-instance-overview-routing.module';
 import {TrainingInstanceOverviewComponent} from './training-instance-overview.component';
-import { AllocationErrorReasonComponent } from './training-instance-table/allocation-error-reason-dialog/allocation-error-reason.component';
-import { AllocationModalComponent } from './training-instance-table/allocation-modal/allocation-modal.component';
-import {SandboxInstancesTableComponent} from './training-instance-table/sandbox-instance-table/sandbox-instances-table.component';
-import { TrainingInstanceTableComponent } from './training-instance-table/training-instance-table.component';
+import {TrainingInstanceOverviewService} from '../../../services/training-instance/training-instance-overview.service';
+import {TrainingInstanceOverviewConcreteService} from '../../../services/training-instance/training-instance-overview-concrete.service';
+import {Kypo2TableModule} from 'kypo2-table';
 
 /**
  * Main module of training instance agenda. Contains components and providers for displaying table of training instance
@@ -28,7 +24,7 @@ import { TrainingInstanceTableComponent } from './training-instance-table/traini
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    PipesModule,
+    Kypo2TableModule,
     TrainingInstanceOverviewMaterialModule,
     TrainingInstanceOverviewRoutingModule,
     TrainingInstanceApiModule,
@@ -36,21 +32,12 @@ import { TrainingInstanceTableComponent } from './training-instance-table/traini
   ],
   declarations: [
     TrainingInstanceOverviewComponent,
-    TrainingInstanceTableComponent,
-    SandboxInstancesTableComponent,
-    AllocationErrorReasonComponent,
-    AllocationModalComponent,
     TrainingInstanceControlsComponent
   ],
   providers: [
-    SandboxInstanceObservablesPoolService,
-    SandboxAllocationService,
     TrainingInstanceResolver,
-    TrainingInstanceBreadcrumbResolver
-  ],
-  entryComponents: [
-    AllocationModalComponent,
-    AllocationErrorReasonComponent
+    TrainingInstanceBreadcrumbResolver,
+    { provide: TrainingInstanceOverviewService, useClass: TrainingInstanceOverviewConcreteService }
   ]
 })
 

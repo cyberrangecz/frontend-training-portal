@@ -35,7 +35,6 @@ export class TrainingInstanceFormGroup {
     if (control.value && control.value.valueOf() < Date.now()) {
       error = { dateInPast: true };
     }
-
     return error ? error : null;
   }
 

@@ -1,6 +1,5 @@
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {User, UserDTO} from 'kypo2-auth';
 import {Observable} from 'rxjs/internal/Observable';
 import {map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
@@ -11,13 +10,14 @@ import {TrainingRunRestResource} from '../../model/DTOs/training-run/training-ru
 import {PaginationParams} from '../../model/http/params/pagination-params';
 import {ResponseHeaderContentDispositionReader} from '../../model/http/response-headers/response-header-content-disposition-reader';
 import {PaginatedResource} from '../../model/table/other/paginated-resource';
-import {TrainingInstanceTableRow} from '../../model/table/row/training-instance-table-row';
 import {TrainingRunTableRow} from '../../model/table/row/training-run-table-row';
 import {TrainingInstance} from '../../model/training/training-instance';
-import {TrainingRun} from '../../model/training/training-run';
 import {TrainingInstanceMapper} from '../mappers/training-instance-mapper.service';
 import {TrainingRunMapper} from '../mappers/training-run-mapper.service';
 import {DownloadService} from '../shared/download.service';
+import {Filter} from '../../model/utils/filter';
+import {ParamsMerger} from '../../model/http/params/params-merger';
+import {FilterParams} from '../../model/http/params/filter-params';
 
 /**
  * Service abstracting http communication with training instance endpoints.
@@ -41,10 +41,12 @@ export class TrainingInstanceApi {
   /**
    * Sends http request to retrieve all training instances on specified page of a pagination
    * @param pagination requested pagination
+   * @param filters filters to be applied on resources
    */
-  getAll(pagination: RequestedPagination): Observable<PaginatedResource<TrainingInstanceTableRow[]>> {
+  getAll(pagination: RequestedPagination,  filters: Filter[] = []): Observable<PaginatedResource<TrainingInstance[]>> {
+    const params = ParamsMerger.merge([PaginationParams.createTrainingsPaginationParams(pagination), FilterParams.create(filters)]);
     return this.http.get<TrainingInstanceRestResource>(this.trainingInstancesEndpointUri,
-      { params: PaginationParams.createTrainingsPaginationParams(pagination) })
+      { params: params })
       .pipe(map(response =>
         this.trainingInstanceMapper.mapTrainingInstanceDTOsToTrainingInstances(response)));
   }
@@ -105,10 +107,10 @@ export class TrainingInstanceApi {
   }
 
   /**
-   * Sends http request to download training instance
-   * @param id id of training instance which should be downloaded
+   * Sends http request to archive (download) training instance
+   * @param id id of training instance which should be archived
    */
-  download(id: number): Observable<boolean> {
+  archive(id: number): Observable<boolean> {
     const headers = new HttpHeaders();
     headers.set('Accept', [
       'application/octet-stream'

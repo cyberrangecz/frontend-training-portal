@@ -38,9 +38,8 @@ export class SandboxPoolOverviewComponent extends BaseComponent implements OnIni
   onPoolsLoadEvent(loadEvent: LoadTableEvent) {
     this.poolService.getAll(loadEvent.pagination)
       .pipe(
-        takeWhile(_ => this.isAlive),
-      )
-      .subscribe();
+        takeWhile(_ => this.isAlive)
+      ).subscribe();
   }
 
   /**

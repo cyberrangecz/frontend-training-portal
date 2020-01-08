@@ -99,7 +99,8 @@ export class OrganizersAssignService extends Kypo2UserAssignService {
   }
 
   /**
-   * Adds and removes associations between selected organizers and resource. Refreshes observable of already assigned organizers or handles error
+   * Adds and removes associations between selected organizers and resource. Refreshes observable of already
+   * assigned organizers or handles error
    * @param resourceId id of selected resource
    * @param additions users to assign to selected resource
    * @param removals users whose association with resource should be removed
