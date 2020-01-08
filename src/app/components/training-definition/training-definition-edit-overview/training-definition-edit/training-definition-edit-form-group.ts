@@ -1,6 +1,9 @@
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {TrainingDefinition} from '../../../../model/training/training-definition';
 
+/**
+ * Form control class of training definition edit form
+ */
 export class TrainingDefinitionEditFormGroup {
   formGroup: FormGroup;
 
@@ -15,12 +18,16 @@ export class TrainingDefinitionEditFormGroup {
     });
   }
 
-  setValuesToTrainingDefinition(td: TrainingDefinition) {
-    td.sandboxDefinitionId = this.formGroup.get('sandboxDefId').value;
-    td.title = this.formGroup.get('title').value;
-    td.description = this.formGroup.get('description').value;
-    td.showStepperBar = this.formGroup.get('showProgress').value;
-    td.outcomes = this.formGroup.get('outcomes').value;
-    td.prerequisites = this.formGroup.get('prerequisites').value;
+  /**
+   * Sets values from form to training definition object
+   * @param trainingDefinition training definition object to be filled with inputs from form
+   */
+  setValuesToTrainingDefinition(trainingDefinition: TrainingDefinition) {
+    trainingDefinition.sandboxDefinitionId = this.formGroup.get('sandboxDefId').value;
+    trainingDefinition.title = this.formGroup.get('title').value;
+    trainingDefinition.description = this.formGroup.get('description').value;
+    trainingDefinition.showStepperBar = this.formGroup.get('showProgress').value;
+    trainingDefinition.outcomes = this.formGroup.get('outcomes').value;
+    trainingDefinition.prerequisites = this.formGroup.get('prerequisites').value;
   }
 }

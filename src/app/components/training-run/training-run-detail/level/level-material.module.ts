@@ -10,6 +10,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+/**
+ * Material component imports for training run level module
+ */
 @NgModule({
   imports: [
     MatButtonModule,

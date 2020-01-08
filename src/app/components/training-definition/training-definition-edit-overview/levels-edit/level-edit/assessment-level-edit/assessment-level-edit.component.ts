@@ -14,15 +14,15 @@ import {AbstractQuestion} from '../../../../../../model/questions/abstract-quest
 import {BaseComponent} from '../../../../../base.component';
 import { AssessmentLevelEditFormGroup } from './assessment-level-edit-form-group';
 
+/**
+ * Component for editing new or existing assessment level
+ */
 @Component({
   selector: 'kypo2-assessment-level-configuration',
   templateUrl: './assessment-level-edit.component.html',
   styleUrls: ['./assessment-level-edit.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-/**
- * Component for editing new or existing assessment levels
- */
 export class AssessmentLevelEditComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input() level: AssessmentLevel;
@@ -58,6 +58,10 @@ export class AssessmentLevelEditComponent extends BaseComponent implements OnIni
     }
   }
 
+  /**
+   * Changes internal state of the component and emits change event to parent component
+   * @param questions new state of changed questions
+   */
   onQuestionsChanged(questions: AbstractQuestion[]) {
     this.level.questions = questions;
     this.assessmentFormGroup.setToLevel(this.level);

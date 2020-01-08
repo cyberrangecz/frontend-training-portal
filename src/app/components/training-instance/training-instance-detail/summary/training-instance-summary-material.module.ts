@@ -6,6 +6,9 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
 
+/**
+ * Material components for training instance summary module
+ */
 @NgModule({
   imports: [
     MatExpansionModule,
@@ -24,7 +27,6 @@ import {MatDividerModule} from '@angular/material/divider';
     MatDividerModule
   ]
 })
-
 export class TrainingInstanceSummaryMaterialModule {
 
 }

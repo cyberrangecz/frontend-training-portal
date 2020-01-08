@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {ActiveTrainingRunService} from '../../../services/training-run/active-training-run.service';
+import {RunningTrainingRunService} from '../../../services/training-run/running/running-training-run.service';
 import {BaseComponent} from '../../base.component';
 import {map, takeWhile} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -7,7 +7,7 @@ import {ErrorHandlerService} from '../../../services/shared/error-handler.servic
 import {Observable} from 'rxjs';
 import {AccessedTrainingRun} from '../../../model/table/row/accessed-training-run';
 import {Kypo2Table, LoadTableEvent, RequestedPagination, TableActionEvent} from 'kypo2-table';
-import {TrainingRunOverviewService} from '../../../services/shared/training-run-overview.service';
+import {AccessedTrainingRunService} from '../../../services/training-run/accessed/accessed-training-run.service';
 import {RouteFactory} from '../../../model/routes/route-factory';
 import {environment} from '../../../../environments/environment';
 import {TrainingRunOverviewTableCreator} from '../../../model/table/factory/training-run-overview-table-creator';
@@ -19,7 +19,7 @@ import {TrainingRunOverviewTableCreator} from '../../../model/table/factory/trai
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 /**
- * Main component of the trainee overview. Wrapper for child components (table and training access)
+ * Main smart component of the trainee overview.
  */
 export class TrainingRunOverviewComponent extends BaseComponent implements OnInit {
 
@@ -27,8 +27,8 @@ export class TrainingRunOverviewComponent extends BaseComponent implements OnIni
   trainingRunsTotalLength$: Observable<number>;
   tableHasError$: Observable<boolean>;
 
-  constructor(private activeTrainingRun: ActiveTrainingRunService,
-              private trainingRunOverviewService: TrainingRunOverviewService,
+  constructor(private activeTrainingRun: RunningTrainingRunService,
+              private trainingRunOverviewService: AccessedTrainingRunService,
               private errorHandler: ErrorHandlerService,
               private router: Router,
               private activeRoute: ActivatedRoute) {
@@ -39,6 +39,10 @@ export class TrainingRunOverviewComponent extends BaseComponent implements OnIni
     this.initTable();
   }
 
+  /**
+   * Calls service to access training run. If successful, navigate to the game
+   * @param accessToken
+   */
   access(accessToken: string) {
     this.activeTrainingRun.access(accessToken)
       .pipe(
@@ -50,6 +54,10 @@ export class TrainingRunOverviewComponent extends BaseComponent implements OnIni
       );
   }
 
+  /**
+   * Resolves type of table action and handles it
+   * @param event table action event
+   */
   onTableAction(event: TableActionEvent<AccessedTrainingRun>) {
     if (event.action.label.toLocaleLowerCase() === 'resume') {
       this.onResume(event.element.trainingRunId);
@@ -58,6 +66,10 @@ export class TrainingRunOverviewComponent extends BaseComponent implements OnIni
     }
   }
 
+  /**
+   * Calls service to resume in training run, if successful, navigates to the game
+   * @param id id of training run to resume
+   */
   onResume(id: number) {
     this.trainingRunOverviewService.resume(id)
       .pipe(takeWhile( () => this.isAlive))
@@ -67,12 +79,20 @@ export class TrainingRunOverviewComponent extends BaseComponent implements OnIni
       });
   }
 
+  /**
+   * Navigates to training run results page
+   * @param id id of the training run
+   */
   onResults(id: number) {
     this.router.navigate([RouteFactory.toTrainingRunResult(id)]);
   }
 
+  /**
+   * Loads training run data for the table component
+   * @param event load table event
+   */
   loadAccessedTrainingRuns(event: LoadTableEvent) {
-    this.trainingRunOverviewService.load(event.pagination)
+    this.trainingRunOverviewService.getAll(event.pagination)
       .pipe(
         takeWhile(_ => this.isAlive),
       )

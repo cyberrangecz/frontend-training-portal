@@ -17,16 +17,17 @@ import {FreeFormQuestion} from '../../../../../../../../model/questions/free-for
 import {MultipleChoiceQuestion} from '../../../../../../../../model/questions/multiple-choice-question';
 import {BaseComponent} from '../../../../../../../base.component';
 import {ActionConfirmationDialogComponent} from '../../../../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
+import {ConfirmationDialogActionEnum} from '../../../../../../../../model/enums/confirmation-dialog-action-enum';
 
+/**
+ * Wrapper component for questions inside the assessment level
+ */
 @Component({
   selector: 'kypo2-question-overview',
   templateUrl: './questions-overview.component.html',
   styleUrls: ['./questions-overview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-/**
- * Wrapper component for questions inside the assessment level. Creates child question components.
- */
 export class QuestionsOverviewComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input() questions: AbstractQuestion[];
@@ -50,7 +51,7 @@ export class QuestionsOverviewComponent extends BaseComponent implements OnInit,
     if ('isTest' in changes && !changes['isTest'].isFirstChange()) {
       if (this.isTest && this.questions) {
         this.questions.forEach(question => question.required = true);
-        this.questionChanged();
+        this.onQuestionChanged();
       }
     }
   }
@@ -62,7 +63,7 @@ export class QuestionsOverviewComponent extends BaseComponent implements OnInit,
     const newFfq = new FreeFormQuestion('New Free Form Question');
     newFfq.required = this.isTest;
     this.questions.push(newFfq);
-    this.questionChanged();
+    this.onQuestionChanged();
   }
 
   /**
@@ -74,7 +75,7 @@ export class QuestionsOverviewComponent extends BaseComponent implements OnInit,
     newMcq.options.push('Option 2');
     newMcq.required = this.isTest;
     this.questions.push(newMcq);
-    this.questionChanged();
+    this.onQuestionChanged();
   }
 
   /**
@@ -88,10 +89,14 @@ export class QuestionsOverviewComponent extends BaseComponent implements OnInit,
     newEmi.rows.push('Row 1');
     newEmi.rows.push('Row 2');
     this.questions.push(newEmi);
-    this.questionChanged();
+    this.onQuestionChanged();
   }
 
-  questionChanged(event: QuestionChangeEvent = null) {
+  /**
+   * Changes internal state of the component and emits event to parent component
+   * @param event question change state event
+   */
+  onQuestionChanged(event: QuestionChangeEvent = null) {
     this.calculateHasError();
     if (event) {
       this.questions[event.index] = event.question;
@@ -100,7 +105,7 @@ export class QuestionsOverviewComponent extends BaseComponent implements OnInit,
   }
 
   /**
-   * Deletes question on given index
+   * Displays confirmation dialog, on confirmation, deletes question on given index
    * @param index index of question which should be deleted
    */
   onDelete(index: number) {
@@ -108,7 +113,7 @@ export class QuestionsOverviewComponent extends BaseComponent implements OnInit,
       data:
         {
           type: 'question',
-          action: 'delete',
+          action: ConfirmationDialogActionEnum.DELETE,
           title: this.questions[index].title
         }
     });
@@ -118,7 +123,7 @@ export class QuestionsOverviewComponent extends BaseComponent implements OnInit,
       .subscribe(result => {
       if (result && result.type === 'confirm') {
         this.questions.splice(index, 1);
-        this.questionChanged();
+        this.onQuestionChanged();
       }
     });
   }

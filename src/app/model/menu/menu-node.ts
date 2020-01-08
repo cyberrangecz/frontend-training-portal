@@ -1,3 +1,6 @@
+/**
+ * Class representing node in a menu tree-like structure
+ */
 export class MenuNode {
 
   constructor(parent: MenuNode, label: string) {

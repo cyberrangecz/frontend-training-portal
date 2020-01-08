@@ -5,17 +5,25 @@ import {catchError, mergeMap, take} from 'rxjs/operators';
 import {POOL_ID_SELECTOR} from '../../../components/sandbox-instance/sandbox-pool-overview/paths';
 import {RouteFactory} from '../../../model/routes/route-factory';
 import {SandboxPool} from '../../../model/sandbox/pool/sandbox-pool';
-import {SandboxInstanceFacade} from '../../facades/sandbox-instance-facade.service';
+import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 
+/**
+ * Router data provider
+ */
 @Injectable()
 export class PoolResolver implements Resolve<SandboxPool> {
 
-  constructor(private sandboxInstanceFacade: SandboxInstanceFacade,
+  constructor(private sandboxInstanceFacade: SandboxInstanceApi,
               private errorHandler: ErrorHandlerService,
               private router: Router) {
   }
 
+  /**
+   * Retrieves a specific resource based on id provided in url. Navigates to a resource overview if no resource with such id exists.
+   * @param route route snapshot
+   * @param state router state snapshot
+   */
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
     Observable<SandboxPool> | Promise<SandboxPool> | SandboxPool {
     if (route.paramMap.has(POOL_ID_SELECTOR)) {

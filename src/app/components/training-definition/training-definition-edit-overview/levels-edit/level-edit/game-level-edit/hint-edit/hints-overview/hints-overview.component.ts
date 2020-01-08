@@ -15,7 +15,12 @@ import {takeWhile} from 'rxjs/operators';
 import {Hint} from '../../../../../../../../model/level/hint';
 import {BaseComponent} from '../../../../../../../base.component';
 import {ActionConfirmationDialogComponent} from '../../../../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
+import {ConfirmationDialogActionEnum} from '../../../../../../../../model/enums/confirmation-dialog-action-enum';
 
+
+/**
+ * Main hint edit component. Contains stepper to navigate through existing hints and controls to create new hints
+ */
 @Component({
   selector: 'kypo2-hints-overview',
   templateUrl: './hints-overview.component.html',
@@ -28,10 +33,6 @@ import {ActionConfirmationDialogComponent} from '../../../../../../../shared/act
     }
   ]
 })
-
-/**
- * Hint stepper component, to navigate through existing hints and creating new hints
- */
 export class HintsOverviewComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input() hints: Hint[];
@@ -41,7 +42,6 @@ export class HintsOverviewComponent extends BaseComponent implements OnInit, OnC
   hintsHasErrors: boolean;
   penaltySum: number;
   selectedStep: number;
-  isLoading = false;
 
   stepperHints: Kypo2Stepper<Hint> = {items: this.hints};
 
@@ -75,21 +75,20 @@ export class HintsOverviewComponent extends BaseComponent implements OnInit, OnC
     hint.content = 'Write hint content here...';
     hint.order = this.stepperHints.items.length;
     this.stepperHints.items.push(hint);
-    // this.hints.push(hint);
     this.selectedStep = this.stepperHints.items.length - 1;
-    this.hintsChanged();
+    this.onHintsChanged();
   }
 
   /**
-   * Deletes given hint from list of hints
+   * Displays confirmation dialog window, if confirmed, deletes given active hint from list of hints
    */
-  deleteHint() {
+  deleteActiveHint() {
     const hint = this.stepperHints.items[this.selectedStep];
     const index = this.selectedStep;
     const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
       data: {
         type: 'hint',
-        action: 'delete',
+        action: ConfirmationDialogActionEnum.DELETE,
         title: hint.title
       }
     });
@@ -100,29 +99,31 @@ export class HintsOverviewComponent extends BaseComponent implements OnInit, OnC
       .subscribe(result => {
         if (result && result.type === 'confirm') {
             this.stepperHints.items.splice(index, 1);
-            // this.hints.splice(index, 1);
           this.changeSelectedStepAfterRemoving(index);
-          this.orderUpdate();
+          this.onOrderUpdate();
         }
       });
   }
 
   /**
-   * Triggered after selection of active level is changes in the stepper
-   * @param event event of active level change
+   * Triggered after selection of active hint is changed in the stepper
+   * @param index index of active hint
    */
-  selectionChanged(event) {
-    if (event !== this.selectedStep && this.stepperHints.items.length > 0) {
+  onActiveHintChanged(index: number) {
+    if (index !== this.selectedStep && this.stepperHints.items.length > 0) {
       this.stepperHints.items[this.selectedStep].isActive = false;
-      this.selectedStep = event;
+      this.selectedStep = index;
     }
   }
 
-  orderUpdate() {
+  /**
+   * Updates order of stepper items to match order of the hints
+   */
+  onOrderUpdate() {
     this.stepperHints.items.forEach((hint, index) => {
       this.stepperHints.items[index].order = index;
     });
-    this.hintsChanged();
+    this.onHintsChanged();
   }
 
   /**
@@ -135,7 +136,7 @@ export class HintsOverviewComponent extends BaseComponent implements OnInit, OnC
     } else {
       this.selectedStep--;
     }
-    this.selectionChanged(this.stepperHints.items.length - 1);
+    this.onActiveHintChanged(this.stepperHints.items.length - 1);
     if (this.stepperHints.items.length > 0) {
       this.stepperHints.items[this.stepperHints.items.length - 1].isActive = true;
     }
@@ -144,7 +145,7 @@ export class HintsOverviewComponent extends BaseComponent implements OnInit, OnC
   /**
    * Emits event if new hint is added or saved
    */
-  private hintsChanged(hint: Hint = null) {
+  private onHintsChanged(hint: Hint = null) {
     if (hint) {
       this.stepperHints.items[this.selectedStep] = hint;
     }

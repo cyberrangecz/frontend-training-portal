@@ -35,6 +35,9 @@ const markdownParserConfig = {
       }
     };
 
+/**
+ * Module containing training run level component declarations and necessary imports for the components
+ */
 @NgModule({
   imports: [
     CommonModule,

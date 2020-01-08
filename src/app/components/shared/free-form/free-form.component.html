@@ -8,7 +8,7 @@
 <button color="primary" mat-button (click)="addItem()">Add {{formPlaceholder}}</button>
 <!-- DELETE button-->
 <button [disabled]="items.controls.length <1" color="warn" mat-button
-  (click)="removeItems()">Delete all</button>
+  (click)="clear()">Delete all</button>
 
 <!-- ITEM field-->
 <form [formGroup]="freeFormItemFormGroup.formGroup">

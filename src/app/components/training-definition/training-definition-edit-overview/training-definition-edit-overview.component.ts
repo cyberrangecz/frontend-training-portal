@@ -9,22 +9,20 @@ import {TrainingDefinitionChangeEvent} from '../../../model/events/training-defi
 import {AbstractLevel} from '../../../model/level/abstract-level';
 import {RouteFactory} from '../../../model/routes/route-factory';
 import {TrainingDefinition} from '../../../model/training/training-definition';
-import {TrainingDefinitionEditService} from '../../../services/training-definition/training-definition-edit.service';
+import {TrainingDefinitionEditService} from '../../../services/training-definition/edit/training-definition-edit.service';
 import {BaseComponent} from '../../base.component';
 import {UnsavedChangesDialogComponent} from '../../shared/unsaved-changes-dialog/unsaved-changes-dialog.component';
 import {environment} from '../../../../environments/environment';
 
-
+/**
+ * Main smart component of training definition edit/new page.
+ */
 @Component({
   selector: 'kypo2-training-definition-detail',
   templateUrl: './training-definition-edit-overview.component.html',
   styleUrls: ['./training-definition-edit-overview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-/**
- * Main component of training definition. Serves mainly as a smart component wrapper and resolves id of a training specified in the URL.
- * Training definition with provided id is retrieved from the server and passed to child component
- */
 export class TrainingDefinitionEditOverviewComponent extends BaseComponent implements OnInit {
 
   trainingDefinition$: Observable<TrainingDefinition>;
@@ -64,8 +62,7 @@ export class TrainingDefinitionEditOverviewComponent extends BaseComponent imple
   }
 
   /**
-   * Determines if all changes in sub components are saved and user can navigate to different component
-   * @returns {Observable<boolean>} true if saved all his changes or agreed with leaving without saving them, false otherwise
+   * Determines if all changes in sub components are saved and user can navigate to different page
    */
   canDeactivate(): Observable<boolean> {
     if (!this.canDeactivateTDEdit || !this.canDeactivateAuthors || this.unsavedLevels.length > 0) {
@@ -83,11 +80,19 @@ export class TrainingDefinitionEditOverviewComponent extends BaseComponent imple
     return of(true);
   }
 
+  /**
+   * Passes state of edited training definition to service and changes state of the component (canDeactivate)
+   * @param $event training definition change event containing validity and new state
+   */
   onTrainingDefinitionChanged($event: TrainingDefinitionChangeEvent) {
     this.editService.change($event);
     this.canDeactivateTDEdit = false;
   }
 
+  /**
+   * Calls service to save training definition state
+   * @param stayOnPage true if on successful save, user should remain on the page, false if he or she should be navigated back to overview page
+   */
   onSave(stayOnPage: boolean = false) {
     this.editService.save()
       .pipe(
@@ -95,14 +100,26 @@ export class TrainingDefinitionEditOverviewComponent extends BaseComponent imple
       ).subscribe(event => this.onTrainingDefinitionSaved(event, stayOnPage));
   }
 
+  /**
+   * Changes state of the component when one of the levels is saved
+   * @param unsavedLevels unsaved levels emitted from child component
+   */
   onUnsavedLevelsChanged(unsavedLevels: AbstractLevel[]) {
     this.unsavedLevels = unsavedLevels;
   }
 
-  onLevelsCountChanged($event: number) {
-    this.levelsCount = $event;
+  /**
+   * Changes state of the component when level is added or deleted
+   * @param count new count of levels
+   */
+  onLevelsCountChanged(count: number) {
+    this.levelsCount = count;
   }
 
+  /**
+   * Changes state of the component when authors of the training definition are changed
+   * @param hasUnsavedChanges true if the child component has unsaved, false otherwise
+   */
   onAuthorsChanged(hasUnsavedChanges: boolean) {
     this.canDeactivateAuthors = !hasUnsavedChanges;
   }

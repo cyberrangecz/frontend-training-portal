@@ -44,7 +44,7 @@ import {MarkedOptions} from 'ngx-markdown';
   };
 
 /**
- * Module containing components service and routing related to level edit/detail
+ * Module containing components and providers related to level edit/detail
  */
 @NgModule({
   imports: [

@@ -10,6 +10,9 @@ import {merge, Observable} from 'rxjs';
 import {PaginatedResource} from '../../../../model/table/other/paginated-resource';
 import {takeWhile} from 'rxjs/operators';
 
+/**
+ * Popup dialog for associating training definitions with training instance
+ */
 @Component({
   selector: 'kypo2-training-definition-picker',
   templateUrl: './training-definition-selector.component.html',
@@ -20,9 +23,6 @@ import {takeWhile} from 'rxjs/operators';
     { provide: 'unreleasedService', useClass: TrainingDefinitionOrganizerSelectorService }
   ]
 })
-/**
- * Popup dialog to choose from training definition which will be associated with the training instance
- */
 export class TrainingDefinitionSelectorComponent extends BaseComponent implements OnInit {
 
   released$: Observable<PaginatedResource<TrainingDefinitionInfo[]>>;
@@ -55,6 +55,11 @@ export class TrainingDefinitionSelectorComponent extends BaseComponent implement
       .subscribe();
   }
 
+  /**
+   * Calls service to fetch training definitions
+   * @param pagination requested pagination
+   * @param released true if released training definitions should be fetched, false if unreleased
+   */
   fetch(pagination: RequestedPagination, released: boolean) {
     if (released) {
       this.releasedService.get(pagination, 'RELEASED')
@@ -91,6 +96,10 @@ export class TrainingDefinitionSelectorComponent extends BaseComponent implement
     this.dialogRef.close(result);
   }
 
+  /**
+   * Updated selected training definition
+   * @param selected selected training definition
+   */
   onSelectionChange(selected: TrainingDefinitionInfo) {
     this.selected = selected;
   }

@@ -7,12 +7,11 @@ import {TrainingDefinition} from '../../../../model/training/training-definition
   styleUrls: ['./training-definition-detail.component.scss']
 })
 /**
- * Detail of training definition. Loads info about levels
+ * Detail of training definition for overview table component. Displays detailed information about training definition
  */
 export class TrainingDefinitionDetailComponent implements OnInit {
 
   @Input() data: TrainingDefinition;
-
 
   ngOnInit() {
   }

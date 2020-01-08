@@ -1,25 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {TrainingInstance} from '../../../../model/training/training-instance';
-import {ActiveTrainingInstanceService} from '../../../../services/training-instance/active-training-instance.service';
 import {BaseComponent} from '../../../base.component';
+import {map, takeWhile} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {ActivatedRoute} from '@angular/router';
 
-@Component({
-  selector: 'kypo2-access-token-detail',
-  templateUrl: './access-token-detail.component.html',
-  styleUrls: ['./access-token-detail.component.css']
-})
 /**
  * Displays access token of training instance for presentational purposes (to display on projector etc.)
  */
+@Component({
+  selector: 'kypo2-access-token-detail',
+  templateUrl: './access-token-detail.component.html',
+  styleUrls: ['./access-token-detail.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
 export class AccessTokenDetailComponent extends BaseComponent implements OnInit {
 
-  trainingInstance: TrainingInstance;
+  trainingInstance$: Observable<TrainingInstance>;
 
-  constructor(private activeTrainingInstance: ActiveTrainingInstanceService) {
+  constructor(private activeRoute: ActivatedRoute) {
     super();
   }
 
   ngOnInit() {
-    this.trainingInstance = this.activeTrainingInstance.get();
-  }
+    this.trainingInstance$ = this.activeRoute.data
+      .pipe(
+        takeWhile(_ => this.isAlive),
+        map(data => data.trainingInstance)
+      );  }
 }

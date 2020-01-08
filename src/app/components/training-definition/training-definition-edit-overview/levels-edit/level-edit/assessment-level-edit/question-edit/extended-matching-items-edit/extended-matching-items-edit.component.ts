@@ -17,18 +17,17 @@ import {takeWhile} from 'rxjs/operators';
 import {AbstractQuestion} from '../../../../../../../../model/questions/abstract-question';
 import {ExtendedMatchingItems} from '../../../../../../../../model/questions/extended-matching-items';
 import {BaseComponent} from '../../../../../../../base.component';
-import {MultipleChoiceFormGroup} from '../multiple-choice-question-edit/multiple-choice-question-edit-form-group';
 import { ExtendedMatchingItemsFormGroup } from './extended-matching-items-form-group';
 
+/**
+ * Component for editing a question of type Extended Matching Items
+ */
 @Component({
   selector: 'kypo2-extended-matching-items',
   templateUrl: './extended-matching-items-edit.component.html',
   styleUrls: ['./extended-matching-items-edit.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-/**
- * Component for editing a question of type Extended Matching Items
- */
 export class ExtendedMatchingItemsEditComponent extends BaseComponent
   implements OnInit, OnChanges, AfterViewInit {
   @Input() question: ExtendedMatchingItems;
@@ -92,7 +91,7 @@ export class ExtendedMatchingItemsEditComponent extends BaseComponent
     }
     if ('required' in changes && !changes['required'].isFirstChange()) {
       this.checkState();
-      this.requiredChanged();
+      this.onRequiredChanged();
     }
   }
 
@@ -101,7 +100,7 @@ export class ExtendedMatchingItemsEditComponent extends BaseComponent
   }
 
   /**
-   * Helper method to enable tracking a variable accessed by *ngFor index
+   * Helper method to improve performance of *ngFor directive
    * @param index
    * @param item
    */
@@ -110,7 +109,7 @@ export class ExtendedMatchingItemsEditComponent extends BaseComponent
   }
 
   /**
-   * User made a change in the input
+   * Changes internal state of the component and emits event to parent component
    */
   questionChanged() {
     this.extendedMatchingQuestionFormGroup.formGroup.markAsDirty();
@@ -118,7 +117,10 @@ export class ExtendedMatchingItemsEditComponent extends BaseComponent
     this.questionChange.emit(this.question);
   }
 
-  requiredChanged() {
+  /**
+   * Changes internal state of component if required attribute of answer was changed
+   */
+  onRequiredChanged() {
     if (!this.required) {
       this.score.setValue(0);
     }
@@ -243,7 +245,7 @@ export class ExtendedMatchingItemsEditComponent extends BaseComponent
   /**
    * Changes extendedMatchingQuestionFormGroup based on required and isTest inputs
    */
-  checkState() {
+  private checkState() {
     if (this.required) {
       this.score.enable();
     } else {

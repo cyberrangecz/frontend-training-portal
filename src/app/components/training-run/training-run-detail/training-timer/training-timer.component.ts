@@ -3,18 +3,18 @@ import {Observable, timer} from 'rxjs';
 import {map, takeWhile} from 'rxjs/operators';
 import {BaseComponent} from '../../../base.component';
 
+/**
+ * Component of training timer displaying time passed from start of the training
+ */
 @Component({
   selector: 'kypo2-training-timer',
   templateUrl: './training-timer.component.html',
   styleUrls: ['./training-timer.component.css']
 })
-/**
- * PRESENTATIONAL
- * Component of training timer displaying time passed from start of the training
- */
+
 export class TrainingTimerComponent extends BaseComponent implements OnInit, OnChanges {
 
-  @Input('startTime') startTime: Date;
+  @Input() startTime: Date;
   timeElapsed: Observable<number>;
 
   ngOnInit() {

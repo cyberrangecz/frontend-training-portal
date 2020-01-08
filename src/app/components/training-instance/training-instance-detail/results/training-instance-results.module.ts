@@ -9,7 +9,7 @@ import {Kypo2AssessmentsResultsVisualizationModule} from 'kypo2-assessments-resu
 import {Kypo2TrainingsVisualizationOverviewLibModule} from 'kypo2-trainings-visualization-overview-lib';
 
 /**
- * Module containing components and routing for training instance results (mainly visualizations)
+ * Module containing components and providers for training instance results page
  */
 @NgModule({
   imports: [

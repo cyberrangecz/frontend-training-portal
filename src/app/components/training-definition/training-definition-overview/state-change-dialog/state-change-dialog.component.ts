@@ -3,14 +3,14 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {TrainingDefinitionStateEnum} from '../../../../model/enums/training-definition-state.enum';
 import {BaseComponent} from '../../../base.component';
 
+/**
+ * Confirmation dialog after switching states of training definition
+ */
 @Component({
   selector: 'kypo2-state-change-dialog',
   templateUrl: './state-change-dialog.component.html',
   styleUrls: ['./state-change-dialog.component.css']
 })
-/**
- * Confirmation dialog after switching states of training definition
- */
 export class StateChangeDialogComponent extends BaseComponent implements OnInit {
 
   displayedText: string;
@@ -24,12 +24,18 @@ export class StateChangeDialogComponent extends BaseComponent implements OnInit 
     this.createDisplayedText();
   }
 
+  /**
+   * Closes the dialog with 'confirm' result
+   */
   confirm() {
     this.dialogRef.close({
       type: 'confirm'
     });
   }
 
+  /**
+   * Closes the dialog with no result
+   */
   cancel() {
     this.dialogRef.close();
   }

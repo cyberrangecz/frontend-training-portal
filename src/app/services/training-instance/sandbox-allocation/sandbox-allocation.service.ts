@@ -15,7 +15,7 @@ import {environment} from '../../../../environments/environment';
 import {SandboxAllocationState} from '../../../model/enums/sandbox-allocation-state';
 import {SandboxInstanceAllocationState} from '../../../model/training/sandbox-instance-allocation-state';
 import {TrainingInstance} from '../../../model/training/training-instance';
-import {SandboxInstanceFacade} from '../../facades/sandbox-instance-facade.service';
+import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
 import {SandboxInstanceObservablesPoolService} from './sandbox-instance-observables-pool.service';
 import {SandboxInstance} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance';
 
@@ -54,7 +54,7 @@ export class SandboxAllocationService {
   private periodicalCheckSubscription: Subscription;
 
   constructor(private sandboxObservablesPool: SandboxInstanceObservablesPoolService,
-              private sandboxInstanceFacade: SandboxInstanceFacade) {
+              private sandboxInstanceFacade: SandboxInstanceApi) {
   }
 
   getCurrentStateOfAllocation(): SandboxInstanceAllocationState[] {

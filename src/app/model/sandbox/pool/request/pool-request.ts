@@ -1,5 +1,8 @@
 import {DateTimeFormatPipe} from '../../../../pipes/date-time-format.pipe';
 
+/**
+ * Class representing pool request
+ */
 export abstract class PoolRequest {
   id: number;
   poolId: number;

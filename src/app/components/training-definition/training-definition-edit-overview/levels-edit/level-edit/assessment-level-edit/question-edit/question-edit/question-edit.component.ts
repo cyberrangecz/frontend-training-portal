@@ -15,15 +15,15 @@ import {FreeFormQuestion} from '../../../../../../../../model/questions/free-for
 import {MultipleChoiceQuestion} from '../../../../../../../../model/questions/multiple-choice-question';
 import {BaseComponent} from '../../../../../../../base.component';
 
+/**
+ * Wrapper component of a specific question type edit component. Resolves type of the question and creates sub component accordingly
+ */
 @Component({
   selector: 'kypo2-question-edit',
   templateUrl: './question-edit.component.html',
   styleUrls: ['./question-edit.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-/**
- * Wrapper component of a specific question type edit component. Resolves type of the question and creates sub component accordingly
- */
 export class QuestionEditComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input() question: AbstractQuestion;
@@ -46,17 +46,22 @@ export class QuestionEditComponent extends BaseComponent implements OnInit, OnCh
     }
   }
 
+  /**
+   * Passes received event to parent component
+   * @param question changed question
+   */
   questionChanged(question: AbstractQuestion) {
     this.questionChange.emit(new QuestionChangeEvent(question, this.index));
   }
 
+  /**
+   * Emits event to delete selected question
+   * @param i index of question to delete
+   */
   onDelete(i: number) {
     this.delete.emit(i);
   }
 
-  /**
-   * Resolves whether the question is Free Form, Extended Matching Items, or Multiple Choice Question
-   */
   private resolveQuestionType() {
     this.isFfq = this.question instanceof FreeFormQuestion;
     this.isEmi = this.question instanceof ExtendedMatchingItems;

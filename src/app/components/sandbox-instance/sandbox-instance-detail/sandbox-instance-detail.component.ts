@@ -9,6 +9,9 @@ import {SandboxInstanceResource} from '../../../model/sandbox/pool/sandbox-insta
 import {SandboxInstanceResourceService} from '../../../services/sandbox-instance/sandbox/sandbox-instance-resource.service';
 import {SandboxInstanceResourceTableCreator} from '../../../model/table/factory/sandbox-instance-resource-table-creator';
 
+/**
+ * Smart component of sandbox instance detail page
+ */
 @Component({
   selector: 'kypo2-sandbox-instance-detail',
   templateUrl: './sandbox-instance-detail.component.html',
@@ -30,6 +33,10 @@ export class SandboxInstanceDetailComponent extends BaseComponent implements OnI
     this.initTable();
   }
 
+  /**
+   * Gets new data for sandbox instance resource table
+   * @param event load data event from sandbox instance resources table
+   */
   onResourceLoadEvent(event: LoadTableEvent = null) {
     this.resourceService.getAll(this.sandboxInstance.id)
       .pipe(

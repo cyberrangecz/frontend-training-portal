@@ -3,20 +3,19 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BaseComponent } from '../../../base.component';
 import {Observable} from 'rxjs';
 import {FileUploadProgressService} from '../../../../services/shared/file-upload-progress.service';
-import {tap} from 'rxjs/operators';
+
+/**
+ * Component of training definition upload dialog window
+ */
 @Component({
   selector: 'kypo2-training-upload-dialog',
   templateUrl: './training-definition-upload-dialog.component.html',
   styleUrls: ['./training-definition-upload-dialog.component.css']
 })
-/**
- * Component of training definition upload dialog window
- */
-export class TrainingDefinitionUploadDialogComponent extends BaseComponent
-  implements OnInit {
+export class TrainingDefinitionUploadDialogComponent extends BaseComponent implements OnInit {
+
   selectedFile: File;
   uploadInProgress$: Observable<boolean>;
-
   onUpload = new EventEmitter<File>();
 
   constructor(public dialogRef: MatDialogRef<TrainingDefinitionUploadDialogComponent>,
@@ -30,14 +29,14 @@ export class TrainingDefinitionUploadDialogComponent extends BaseComponent
   }
 
   /**
-   * Cancels the upload and closes the dialog window
+   * Cancels the upload and closes the dialog window with no result
    */
   cancel() {
     this.dialogRef.close();
   }
 
   /**
-   * Uploads chosen file to a server and displays result of the upload
+   * Emits upload event with selected file
    */
   upload() {
     this.onUpload.emit(this.selectedFile);

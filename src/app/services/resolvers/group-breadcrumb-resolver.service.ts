@@ -10,12 +10,21 @@ import {
 import {catchError, mergeMap, take} from 'rxjs/operators';
 import {Group} from 'kypo2-user-and-group-management/lib/model/group/group.model';
 
+/**
+ * Router breadcrumb title provider
+ */
 @Injectable()
 export class GroupBreadcrumbResolver implements Resolve<string> {
 
   constructor(private groupResolveHelper: Kypo2GroupResolverHelperService,
               private errorHandler: ErrorHandlerService) {
   }
+
+  /**
+   * Retrieves a breadcrumb title based on provided url
+   * @param route route snapshot
+   * @param state router state snapshot
+   */
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<string> | Promise<string> | string {
     if (state.url.endsWith(ADMIN_GROUP_NEW_PATH)) {
       return 'Create';

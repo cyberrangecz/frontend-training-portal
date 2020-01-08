@@ -10,11 +10,13 @@ const routes: Routes = [
   }
 ];
 
+/**
+ * Routing module for training instance results
+ */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-
 export class TrainingInstanceResultsRoutingModule {
 
 }

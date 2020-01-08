@@ -50,7 +50,7 @@ export class TrainingRunStepper {
   }
 
   /**
-   * Marks already completed levels as done if user had previous progress in training run
+   * Marks already completed levels as done
    */
   private markCompletedLevels() {
     for (let i = 0; i < this.activeLevel; i++) {

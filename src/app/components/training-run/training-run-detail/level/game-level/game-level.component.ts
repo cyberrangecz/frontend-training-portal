@@ -10,8 +10,8 @@ import {Hint} from '../../../../../model/level/hint';
 import {HintButton} from '../../../../../model/level/hint-button';
 import {HintDialogData} from '../../../../../model/level/hint-dialog-data';
 import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
-import {ActiveTrainingRunService} from '../../../../../services/training-run/active-training-run.service';
-import {TrainingRunGameLevelService} from '../../../../../services/training-run/training-run-game-level.service';
+import {RunningTrainingRunService} from '../../../../../services/training-run/running/running-training-run.service';
+import {TrainingRunGameLevelService} from '../../../../../services/training-run/running/training-run-game-level.service';
 import {BaseComponent} from '../../../../base.component';
 import {RevealHintDialogComponent} from './user-action-dialogs/reveal-hint-dialog/reveal-hint-dialog.component';
 import {RevealSolutionDialogComponent} from './user-action-dialogs/reveal-solution-dialog/reveal-solution-dialog.component';
@@ -37,7 +37,6 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
   sandboxId: number;
   topologyWidth: number;
   topologyHeight: number;
-  isTopologyLoaded: boolean;
   hasNextLevel: boolean;
   isPreviewMode: boolean;
 
@@ -52,7 +51,7 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
   constructor(private dialog: MatDialog,
               private errorHandler: ErrorHandlerService,
             private gameLevelService: TrainingRunGameLevelService,
-            private activeLevelService: ActiveTrainingRunService,
+            private activeLevelService: RunningTrainingRunService,
             private topologyErrorService: Kypo2TopologyErrorService,
             private errorHandlerService: ErrorHandlerService) {
     super();
@@ -73,16 +72,11 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
     }
   }
 
-  topologyLoaded() {
-    this.isTopologyLoaded = true;
-  }
-
-
   /**
    * Displays popup dialog asking for users confirmation of the action. If the action is confirmed by user,
    * selected hint is displayed and information about penalty for taking the hint send to the endpoint
    * @param hintButton hint button clicked by the user
-   * @param {number} index index of the hint (order)
+   * @param index index of the hint (order)
    */
   showHint(hintButton, index: number) {
     const dialogRef = this.dialog.open(RevealHintDialogComponent, {
@@ -120,7 +114,7 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
   }
 
   /**
-   * Checks whether the flag is correct and perform appropriate actions
+   * Calls service to check whether the flag is correct, displays the result to the user and if flag was correct, moves to the next level
    */
   submitFlag() {
     this.gameLevelService.isCorrectFlag(this.activeLevelService.trainingRunId, this.flag)
@@ -137,6 +131,9 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
       );
   }
 
+  /**
+   * Calls service to move to the next level
+   */
   nextLevel() {
     this.activeLevelService.nextLevel()
       .pipe(takeWhile(() => this.isAlive))
@@ -146,6 +143,9 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
       );
   }
 
+  /**
+   * Calls service to finish the training
+   */
   finish() {
     this.activeLevelService.finish()
       .pipe(takeWhile(() => this.isAlive))
@@ -161,7 +161,6 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
     this.isPreviewMode = this.sandboxId === null || this.sandboxId === undefined;
     this.correctFlag = false;
     this.solutionShown = false;
-    this.isTopologyLoaded = false;
     this.displayedHints = '';
     this.calculateTopologySize();
     this.displayedText = this.level.content;
@@ -181,17 +180,10 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
     this.solutionShown = true;
   }
 
-  /**
-   * Calculates height by already assigned width to keep 4:3 aspect ratio
-   * @param width
-   */
   private calculateHeightWith43AspectRatio(width: number): number {
       return (width / ASPECT_RATIO_X) * ASCPECT_RATIO_Y;
   }
 
-  /**
-   * The level is unlocked and the user can continue to the next one
-   */
   private onCorrectFlagSubmitted() {
     this.correctFlag = true;
     this.flag = '';

@@ -5,6 +5,9 @@ import { PaginatedResource } from '../other/paginated-resource';
 import { TrainingDefinitionDetailComponent } from '../../../components/training-definition/training-definition-overview/training-definition-detail/training-definition-detail.component';
 import {TrainingDefinition} from '../../training/training-definition';
 
+/**
+ * Helper class transforming paginated resource to class for common table component
+ */
 export class TrainingDefinitionTableCreator {
 
   static readonly EDIT_ACTION = 'Edit';
@@ -16,6 +19,10 @@ export class TrainingDefinitionTableCreator {
   static readonly UNRELEASE_ACTION = 'Unrelease';
   static readonly ARCHIVE_ACTION = 'Archive';
 
+  /**
+   * Transforming paginated resource to class for common table component
+   * @param resource paginated resource to transform
+   */
   static create(resource: PaginatedResource<TrainingDefinition[]>): Kypo2Table<TrainingDefinition> {
     const baseActions = [
       {

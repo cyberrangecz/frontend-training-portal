@@ -2,8 +2,15 @@ import {HttpParams} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
 import {RequestedPagination} from '../../DTOs/other/requested-pagination';
 
+/**
+ * Class transforming requested pagination object to http params into microservice supported format
+ */
 export class PaginationParams {
 
+  /**
+   * Transforms requested pagination object to http params in trainings microservice format (JAVA API)
+   * @param pagination requested pagination
+   */
   static createTrainingsPaginationParams(pagination: RequestedPagination): HttpParams {
     if (pagination) {
       if (pagination.sort) {
@@ -23,14 +30,18 @@ export class PaginationParams {
       .set('size', environment.defaultPaginationSize.toString());
   }
 
+  /**
+   * Transforms requested pagination object to http params in sandbox microservice format (PYTHON API)
+   * @param pagination requested pagination
+   */
   static createSandboxPaginationParams(pagination: RequestedPagination): HttpParams {
     if (pagination) {
       return new HttpParams()
-        .set('page', (pagination.page + 1).toString()) // + 1 because PythonAPI pages starts with 1 instead of 0
+        .set('page', (pagination.page + 1).toString()) // + 1 because sandbox microservice pages starts with 1 instead of 0
         .set('page_size', pagination.size.toString());
     }
     return new HttpParams()
-      .set('page', '1') // 1 because PythonAPI pages starts with 1 instead of 0
+      .set('page', '1') // 1 because sandbox microservice pages starts with 1 instead of 0
       .set('page_size', environment.defaultPaginationSize.toString());
   }
 }

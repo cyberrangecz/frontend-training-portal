@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {TrainingInstanceGuard} from '../../../services/guards/training-instance-guard.service';
 import {
   ACCESS_TOKEN_PATH,
   PROGRESS_PATH,
@@ -9,6 +8,7 @@ import {
 } from './paths';
 import {TrainingInstanceResolver} from '../../../services/resolvers/training-instance-resolver.service';
 import {TrainingInstanceDetailBreadcrumbResolver} from '../../../services/resolvers/training-instance-detail-breadcrumb-resolver.service';
+
 const routes: Routes = [
   {
     path: '',
@@ -17,7 +17,6 @@ const routes: Routes = [
   },
   {
     path: SUMMARY_PATH,
-    canActivate: [TrainingInstanceGuard],
     resolve: {
       trainingInstance: TrainingInstanceResolver,
       breadcrumb: TrainingInstanceDetailBreadcrumbResolver,
@@ -26,7 +25,6 @@ const routes: Routes = [
   },
   {
     path: PROGRESS_PATH,
-    canActivate: [TrainingInstanceGuard],
     resolve: {
       trainingInstance: TrainingInstanceResolver,
       breadcrumb: TrainingInstanceDetailBreadcrumbResolver,
@@ -35,7 +33,6 @@ const routes: Routes = [
   },
   {
     path: RESULTS_PATH,
-    canActivate: [TrainingInstanceGuard],
     resolve: {
       trainingInstance: TrainingInstanceResolver,
       breadcrumb: TrainingInstanceDetailBreadcrumbResolver,
@@ -44,7 +41,6 @@ const routes: Routes = [
   },
   {
     path: ACCESS_TOKEN_PATH,
-    canActivate: [TrainingInstanceGuard],
     resolve: {
       trainingInstance: TrainingInstanceResolver,
       breadcrumb: TrainingInstanceDetailBreadcrumbResolver,
@@ -53,6 +49,9 @@ const routes: Routes = [
   },
 ];
 
+/**
+ * Routing module for training instance detail module
+ */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]

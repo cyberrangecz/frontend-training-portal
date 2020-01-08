@@ -7,7 +7,7 @@ import {HOME_PATH} from '../../paths';
 import {CanActivateToObservable} from './can-activate-to-observable';
 @Injectable()
 /**
- * Guard which determines if user is signed in and has role of designer.
+ * Route guard determining if user is signed in and has role of a designer.
  */
 export class DesignerGuard implements CanActivate {
 

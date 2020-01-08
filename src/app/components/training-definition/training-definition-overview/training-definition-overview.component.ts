@@ -4,7 +4,7 @@ import { BaseComponent } from '../../base.component';
 import { MatDialog } from '@angular/material/dialog';
 import {Observable, EMPTY} from 'rxjs';
 import {Kypo2Table, TableActionEvent, LoadTableEvent, RequestedPagination} from 'kypo2-table';
-import { TrainingDefinitionService } from '../../../services/shared/training-definition.service';
+import { TrainingDefinitionService } from '../../../services/training-definition/overview/training-definition.service';
 import {takeWhile, take, map, switchMap, tap} from 'rxjs/operators';
 import { CloneDialogComponent } from './clone-dialog/clone-dialog.component';
 import { ActionConfirmationDialogComponent } from '../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
@@ -16,15 +16,16 @@ import {RouteFactory} from '../../../model/routes/route-factory';
 import {TrainingDefinition} from '../../../model/training/training-definition';
 import {TrainingDefinitionTableCreator} from '../../../model/table/factory/training-definition-table-creator';
 import {FileUploadProgressService} from '../../../services/shared/file-upload-progress.service';
+import {ConfirmationDialogActionEnum} from '../../../model/enums/confirmation-dialog-action-enum';
 
+/**
+ * Main smart component of training definition overview
+ */
 @Component({
   selector: 'kypo2-trainining-definition-overview',
   templateUrl: './training-definition-overview.component.html',
   styleUrls: ['./training-definition-overview.component.css']
 })
-/**
- * Main component of designer overview. Serves mainly as a wrapper for smaller components
- */
 export class TrainingDefinitionOverviewComponent extends BaseComponent
   implements OnInit {
 
@@ -49,6 +50,10 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent
     this.initTable();
   }
 
+  /**
+   * Gets new data for table
+   * @param loadEvent event emitted by table component to get new data
+   */
   onLoadEvent(loadEvent: LoadTableEvent) {
     this.trainingDefinitionService.getAll(loadEvent.pagination, loadEvent.filter)
       .pipe(
@@ -57,7 +62,11 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent
       .subscribe();
   }
 
-  onControlsAction(action: string) {
+  /**
+   * Resolves controls action and calls appropriate handler
+   * @param action type of action emitted by controls component
+   */
+  onControlsAction(action: 'create' | 'upload') {
     switch (action) {
       case 'create':
         this.newTrainingDefinition();
@@ -68,6 +77,10 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent
     }
   }
 
+  /**
+   * Resolves type of emitted event and calls appropriate handler
+   * @param event action event emitted from table component
+   */
   onTrainingDefinitionTableAction(event: TableActionEvent<TrainingDefinition>) {
     switch (event.action.label) {
       case TrainingDefinitionTableCreator.CLONE_ACTION:
@@ -98,9 +111,10 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent
   }
 
   /**
-   * Displays dialog window to clone a training definition and creates alert with a result of creation
+   * Displays dialog window to clone a training definition and if confirmed, calls service to clone
+   * @param trainingDefinition training definition to clone
    */
-  openCloneDialog(trainingDefinition: TrainingDefinition) {
+  private openCloneDialog(trainingDefinition: TrainingDefinition) {
     const dialogRef = this.dialog.open(CloneDialogComponent, {
       data: trainingDefinition
     });
@@ -114,12 +128,16 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent
       ).subscribe();
   }
 
-  deleteTrainingDefinition(trainingRow: TrainingDefinition) {
+  /**
+   * Displays dialog window to confirm deleting training definition, if confirmed, calls service to delete training definition
+   * @param trainingDefinition training definition to delete
+   */
+  private deleteTrainingDefinition(trainingDefinition: TrainingDefinition) {
     const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
       data: {
         type: 'Training Definition',
-        action: 'delete',
-        title: trainingRow.title
+        action: ConfirmationDialogActionEnum.DELETE,
+        title: trainingDefinition.title
       }
     });
 
@@ -127,14 +145,18 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent
       .pipe(
         takeWhile(() => this.isAlive),
         switchMap(result => result && result.type === 'confirm'
-        ? this.trainingDefinitionService.delete(trainingRow.id)
+        ? this.trainingDefinitionService.delete(trainingDefinition.id)
         : EMPTY)
       )
       .subscribe();
   }
 
-  downloadTrainingDefinition(trainingRow: TrainingDefinition) {
-    this.trainingDefinitionService.download(trainingRow.id)
+  /**
+   * Calls service to download selected training definition
+   * @param trainingDefinition training definition to download
+   */
+  private downloadTrainingDefinition(trainingDefinition: TrainingDefinition) {
+    this.trainingDefinitionService.download(trainingDefinition.id)
       .pipe(
         takeWhile(() => this.isAlive)
       )
@@ -142,21 +164,30 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent
   }
 
   /**
-   * Navigates to training sub route with parameters indicating editing of an existing training definition
-   * @param {number} id id of a training definition which should be edited
+   * Navigates to training definition edit page
+   * @param trainingDefinition raining definition to be edited
    */
-  editTrainingDefinition(trainingRow: TrainingDefinition) {
-    this.router.navigate([RouteFactory.toTrainingDefinitionEdit(trainingRow.id)]);
+  private editTrainingDefinition(trainingDefinition: TrainingDefinition) {
+    this.router.navigate([RouteFactory.toTrainingDefinitionEdit(trainingDefinition.id)]);
   }
 
-  previewTrainingDefinition(trainingRow: TrainingDefinition) {
-    this.router.navigate([RouteFactory.toTrainingDefinitionPreview(trainingRow.id)]);
+  /**
+   * Navigates to training definition preview page
+   * @param trainingDefinition training definition to preview
+   */
+  private previewTrainingDefinition(trainingDefinition: TrainingDefinition) {
+    this.router.navigate([RouteFactory.toTrainingDefinitionPreview(trainingDefinition.id)]);
   }
 
-  changeTrainingDefinitionState(newState: TrainingDefinitionStateEnum, trainingRow: TrainingDefinition) {
+  /**
+   * Opens state change confirmation dialog, if confirmed, calls service to change state of the training definition
+   * @param newState state to be set
+   * @param trainingDefinition training definition which state should be changed
+   */
+  changeTrainingDefinitionState(newState: TrainingDefinitionStateEnum, trainingDefinition: TrainingDefinition) {
     const dialogRef = this.dialog.open(StateChangeDialogComponent, {
       data: {
-        fromState: trainingRow.state,
+        fromState: trainingDefinition.state,
         toState: newState
       }
     });
@@ -165,21 +196,21 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent
       .pipe(
         takeWhile(() => this.isAlive),
         switchMap(result => result && result.type === 'confirm'
-          ? this.trainingDefinitionService.changeState(newState, trainingRow.id)
+          ? this.trainingDefinitionService.changeState(trainingDefinition.id, newState)
           : EMPTY)
       )
       .subscribe();
   }
 
   /**
-   * Navigates to training sub route with parameters indicating creation of a new training definition
+   * Navigates to new training definition page
    */
   private newTrainingDefinition() {
     this.router.navigate([RouteFactory.toNewTrainingDefinition()]);
   }
 
   /**
-   * Displays dialog window to upload a file with training definition and creates alert with a result of the upload
+   * Opens dialog window to upload training definition, calls service to upload with selected file
    */
   private uploadTrainingDefinition() {
     const dialogRef = this.dialog.open(

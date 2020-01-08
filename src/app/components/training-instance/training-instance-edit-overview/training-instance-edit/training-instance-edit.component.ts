@@ -4,21 +4,21 @@ import {interval} from 'rxjs';
 import {takeWhile} from 'rxjs/operators';
 import {TrainingInstanceChangeEvent} from '../../../../model/events/training-instance-change-event';
 import {TrainingInstance} from '../../../../model/training/training-instance';
-import {TrainingInstanceFacade} from '../../../../services/facades/training-instance-facade.service';
+import {TrainingInstanceApi} from '../../../../services/api/training-instance-api.service';
 import {AlertService} from '../../../../services/shared/alert.service';
 import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
 import {BaseComponent} from '../../../base.component';
 import {TrainingDefinitionSelectorComponent} from '../training-definition-selector/training-definition-selector.component';
 import { TrainingInstanceFormGroup } from './training-instance-form-group';
 
+/**
+ * Component for creating new or editing existing training instance
+ */
 @Component({
   selector: 'kypo2-training-instance-edit',
   templateUrl: './training-instance-edit.component.html',
   styleUrls: ['./training-instance-edit.component.css']
 })
-/**
- * Component for creating new or editing existing training instance
- */
 export class TrainingInstanceEditComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input() trainingInstance: TrainingInstance;
@@ -32,7 +32,7 @@ export class TrainingInstanceEditComponent extends BaseComponent implements OnIn
   constructor(
     private alertService: AlertService,
     private errorHandler: ErrorHandlerService,
-    private trainingInstanceFacade: TrainingInstanceFacade,
+    private trainingInstanceFacade: TrainingInstanceApi,
     private dialog: MatDialog) {
     super();
   }
@@ -69,7 +69,7 @@ export class TrainingInstanceEditComponent extends BaseComponent implements OnIn
   }
 
   /**
-   * Opens popup dialog to choose training definition from a list
+   * Opens popup dialog to choose a training definition to associate with edited training instance
    */
   chooseTrainingDefinition() {
     const dialogRef = this.dialog.open(TrainingDefinitionSelectorComponent, { data: this.trainingDefinition.value });
@@ -84,6 +84,9 @@ export class TrainingInstanceEditComponent extends BaseComponent implements OnIn
     });
   }
 
+  /**
+   * Changes internal component state to prevent from from recalculating start time if user already set the value
+   */
   onStartTimeChanged() {
     this.userChangedStartTime = true;
   }

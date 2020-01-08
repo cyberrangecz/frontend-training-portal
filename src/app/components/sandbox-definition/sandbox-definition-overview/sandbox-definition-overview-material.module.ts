@@ -2,6 +2,9 @@ import {NgModule} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
 
+/**
+ * Material component imports for sandbox definition overview module
+ */
 @NgModule({
   imports: [
     MatButtonModule,
@@ -12,5 +15,4 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatDialogModule
   ]
 })
-
 export class SandboxDefinitionOverviewMaterialModule {}

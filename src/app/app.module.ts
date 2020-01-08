@@ -11,7 +11,7 @@ import { AppComponent } from './app.component';
 import {HomeModule} from './components/home/home.module';
 import {LayoutModule} from './components/layout/layout.module';
 import {SharedModule} from './components/shared/shared.module';
-import {UserFacadeModule} from './services/facades/modules/user-facade.module';
+import {UserApiModule} from './services/api/modules/user-api.module';
 import {AdminGuard} from './services/guards/admin-guard.service';
 import {DesignerGuard} from './services/guards/designer-guard.service';
 import {NotOnlyTraineeGuard} from './services/guards/only-trainee.guard.service';
@@ -34,7 +34,7 @@ import {LoadingService} from './services/shared/loading.service';
     SharedModule,
     LayoutModule,
     HomeModule,
-    UserFacadeModule,
+    UserApiModule,
     Kypo2AuthModule.forRoot(environment.kypo2AuthConfig),
     environment.useHotjar ? NgxHotjarModule.forRoot(environment.hotjarTrackingCode) : [],
     MatIconModule,
@@ -54,4 +54,7 @@ import {LoadingService} from './services/shared/loading.service';
   ],
   bootstrap: [AppComponent]
 })
+/**
+ * Main app module. Contains global providers and module imports.
+ */
 export class AppModule { }

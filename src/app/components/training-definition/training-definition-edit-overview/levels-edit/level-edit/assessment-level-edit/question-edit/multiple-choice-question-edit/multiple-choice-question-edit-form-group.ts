@@ -7,6 +7,9 @@ import {
 import {AbstractQuestion} from '../../../../../../../../model/questions/abstract-question';
 import {MultipleChoiceQuestion} from '../../../../../../../../model/questions/multiple-choice-question';
 
+/**
+ * Form control class for form in mcq edit component
+ */
 export class MultipleChoiceFormGroup {
   formGroup: FormGroup;
   private maxQuestionScore = AbstractQuestion.MAX_QUESTION_SCORE;
@@ -32,6 +35,11 @@ export class MultipleChoiceFormGroup {
     });
   }
 
+  /**
+   * Sets inserted input to multiple choice question object
+   * @param mcq object to be filled with form inputs
+   * @param isTest true if level is test, false if questionnaire
+   */
   setToMCQ(mcq: MultipleChoiceQuestion, isTest: boolean) {
     mcq.title = this.formGroup.get('title').value;
     mcq.correctAnswersIndices = this.formGroup.get('correctAnswersIndices').value;
@@ -41,6 +49,9 @@ export class MultipleChoiceFormGroup {
     mcq.valid = this.formGroup.valid;
   }
 
+  /**
+   * Adds validators to check whether correct answers were predefined if level is test
+   */
   addAnswersValidator() {
     this.formGroup
       .get('correctAnswersIndices')
@@ -48,6 +59,9 @@ export class MultipleChoiceFormGroup {
     this.formGroup.get('correctAnswersIndices').updateValueAndValidity();
   }
 
+  /**
+   * Removes correct answers validators if level is questionnaire
+   */
   removeAnswersValidator() {
     this.formGroup.get('correctAnswersIndices').clearValidators();
     this.formGroup.get('correctAnswersIndices').updateValueAndValidity();

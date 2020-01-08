@@ -4,14 +4,15 @@ import {Kypo2AuthService, User} from 'kypo2-auth';
 import {LOGIN_PATH} from '../../../paths';
 import {BaseComponent} from '../../base.component';
 
+/**
+ *  Logged in user details
+ */
 @Component({
   selector: 'kypo2-active-user',
   templateUrl: './active-user.component.html',
   styleUrls: ['./active-user.component.css']
 })
-/** PRESENTATIONAL with global services
- * Logged in user info component
- */
+
 export class ActiveUserComponent extends BaseComponent implements OnInit {
 
   /**
@@ -27,10 +28,16 @@ export class ActiveUserComponent extends BaseComponent implements OnInit {
   ngOnInit() {
   }
 
+  /**
+   * Navigates to login page
+   */
   login() {
     this.router.navigate([LOGIN_PATH]);
   }
 
+  /**
+   * Logs out active user
+   */
   logout() {
     this.authService.logout();
   }

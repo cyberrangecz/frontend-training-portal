@@ -3,7 +3,7 @@ import {BehaviorSubject, merge, Observable, Subject} from 'rxjs';
 import {PaginatedResource} from '../../../../model/table/other/paginated-resource';
 import {PoolRequest} from '../../../../model/sandbox/pool/request/pool-request';
 import {switchMap, tap} from 'rxjs/operators';
-import {SandboxInstanceFacade} from '../../../facades/sandbox-instance-facade.service';
+import {SandboxInstanceApi} from '../../../api/sandbox-instance-api.service';
 import {ErrorHandlerService} from '../../../shared/error-handler.service';
 import {RequestedPagination} from '../../../../model/DTOs/other/requested-pagination';
 import {Pagination} from 'kypo2-table';
@@ -12,23 +12,39 @@ import {PoolRequestPollingService} from '../pool-request-polling.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Cacheable, CacheBuster} from 'ngx-cacheable';
 
+/**
+ * Emission causes cached data to cleanup
+ */
 export const poolCleanupRequestsCacheBuster$: Subject<void> = new Subject();
 
+/**
+ * Basic implementation of a layer between a component and an API service.
+ * Can manually get cleanup requests, poll them and perform various operations to modify them.
+ */
 @Injectable()
 export class PoolCleanupRequestsPollingService extends PoolRequestPollingService {
 
   private manuallyUpdatedRequests$: BehaviorSubject<PaginatedResource<PoolRequest[]>> = new BehaviorSubject(this.initSubject());
+
+  /**
+   * List of cleanup requests with currently selected pagination options
+   */
   requests$: Observable<PaginatedResource<PoolRequest[]>>;
 
-  constructor(private sandboxInstanceFacade: SandboxInstanceFacade,
+  constructor(private sandboxInstanceFacade: SandboxInstanceApi,
               private errorHandler: ErrorHandlerService) {
     super();
     this.requests$ = merge(this.poll$, this.manuallyUpdatedRequests$.asObservable())
       .pipe(
-        tap(paginatedRequests => this.totalLengthSubject.next(paginatedRequests.pagination.totalElements))
+        tap(paginatedRequests => this.totalLengthSubject$.next(paginatedRequests.pagination.totalElements))
       );
   }
 
+  /**
+   * Gets all cleanup requests with passed pagination and updates related observables or handles an error
+   * @param poolId id of a pool associated with cleanup requests
+   * @param pagination requested pagination
+   */
   @Cacheable({
     cacheBusterObserver: poolCleanupRequestsCacheBuster$
   })
@@ -43,6 +59,11 @@ export class PoolCleanupRequestsPollingService extends PoolRequestPollingService
       );
   }
 
+  /**
+   * Cancels a cleanup request, informs about the result and updates list of requests or handles an error
+   * @param poolId id of a pool associated with cleanup requests
+   * @param request a request to be cancelled
+   */
   @CacheBuster({
     cacheBusterNotifier: poolCleanupRequestsCacheBuster$
   })
@@ -54,6 +75,11 @@ export class PoolCleanupRequestsPollingService extends PoolRequestPollingService
       );
   }
 
+  /**
+   * Retries a cleanup request, informs about the result and updates list of requests or handles an error
+   * @param poolId id of a pool associated with cleanup requests
+   * @param request a request to be retried
+   */
   @CacheBuster({
     cacheBusterNotifier: poolCleanupRequestsCacheBuster$
   })
@@ -65,6 +91,9 @@ export class PoolCleanupRequestsPollingService extends PoolRequestPollingService
       );
   }
 
+  /**
+   * Repeats last get all request for polling purposes
+   */
   @Cacheable({
     cacheBusterObserver: poolCleanupRequestsCacheBuster$,
     maxAge: environment.apiPollingPeriod - 1

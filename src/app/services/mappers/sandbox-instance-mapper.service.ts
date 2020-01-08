@@ -21,10 +21,14 @@ import {RequestStageState} from '../../model/enums/request-stage-state.enum';
 
 @Injectable()
 /**
- * Maps DTOs os sandbox instances to model
+ * Maps DTOs of sandbox instances on internal model
  */
 export class SandboxInstanceMapper {
 
+  /**
+   * Maps paginated pool dtos on internal model
+   * @param paginatedDTO dto to be mapped on internal model
+   */
   mapPoolsDTOsToPools(paginatedDTO: DjangoResourceDTO<SandboxPoolDTO>): PaginatedResource<SandboxPool[]> {
     const elements = paginatedDTO.results
       .map(poolDTO => this.mapPoolDTOToPool(poolDTO));
@@ -37,6 +41,10 @@ export class SandboxInstanceMapper {
     return new PaginatedResource(elements, pagination);
   }
 
+  /**
+   * Maps pool dto on internal model
+   * @param sandboxPoolDTO dto to be mapped on internal model
+   */
   mapPoolDTOToPool(sandboxPoolDTO: SandboxPoolDTO): SandboxPool {
     const pool = new SandboxPool();
     pool.id = sandboxPoolDTO.id;
@@ -47,6 +55,10 @@ export class SandboxInstanceMapper {
     return pool;
   }
 
+  /**
+   * Maps paginated sandbox instance on internal model
+   * @param paginatedDTO dto to be mapped on internal model
+   */
   mapSandboxInstanceDTOsToSandboxInstances(paginatedDTO: DjangoResourceDTO<SandboxInstanceDTO>): PaginatedResource<SandboxInstance[]> {
     const elements = paginatedDTO.results
       .map(sandboxDTO => this.mapSandboxInstanceDTOToSandboxInstance(sandboxDTO));
@@ -59,6 +71,10 @@ export class SandboxInstanceMapper {
     return new PaginatedResource(elements, pagination);
   }
 
+  /**
+   * Maps sandbox instance on internal model
+   * @param sandboxInstanceDTO dto to be mapped on internal model
+   */
   mapSandboxInstanceDTOToSandboxInstance(sandboxInstanceDTO: SandboxInstanceDTO): SandboxInstance {
     const result = new SandboxInstance();
     result.id = sandboxInstanceDTO.id;
@@ -70,6 +86,10 @@ export class SandboxInstanceMapper {
     return result;
   }
 
+  /**
+   * Maps paginated create requests dtos on internal model
+   * @param paginatedDTO dto to be mapped on internal model
+   */
   mapCreateRequestsDTOToCreateRequests(paginatedDTO: DjangoResourceDTO<PoolRequestDTO>) {
     const elements = paginatedDTO.results
       .map(requestDTO => this.mapCreateRequestDTOToCreateRequest(requestDTO));
@@ -82,6 +102,10 @@ export class SandboxInstanceMapper {
     return new PaginatedResource(elements, pagination);
   }
 
+  /**
+   * Maps create request dto on internal model
+   * @param requestDTO dto to be mapped on internal model
+   */
   mapCreateRequestDTOToCreateRequest(requestDTO: PoolRequestDTO): PoolRequest {
     const request = new PoolCreationRequest();
     request.id = requestDTO.id;
@@ -90,6 +114,10 @@ export class SandboxInstanceMapper {
     return request;
   }
 
+  /**
+   * Maps paginated cleanup requests dtos on internal model
+   * @param paginatedDTO dto to be mapped on internal model
+   */
   mapCleanupRequestsDTOToCleanupRequests(paginatedDTO: DjangoResourceDTO<PoolRequestDTO>) {
     const elements = paginatedDTO.results
       .map(requestDTO => this.mapCleanupRequestDTOToCleanupRequest(requestDTO));
@@ -102,6 +130,10 @@ export class SandboxInstanceMapper {
     return new PaginatedResource(elements, pagination);
   }
 
+  /**
+   * Maps cleanup request dto on internal model
+   * @param requestDTO dto to be mapped on internal model
+   */
   mapCleanupRequestDTOToCleanupRequest(requestDTO: PoolRequestDTO): PoolRequest {
     const request = new PoolCleanupRequest();
     request.id = requestDTO.id;
@@ -110,10 +142,18 @@ export class SandboxInstanceMapper {
     return request;
   }
 
+  /**
+   * Maps sandbox instance resource dtos on internal model
+   * @param resourcesDTO dto to be mapped on internal model
+   */
   mapResourceDTOsToResources(resourcesDTO: SandboxInstanceResourceDTO[]): SandboxInstanceResource[] {
     return resourcesDTO.map(resourceDTO => this.mapResourceDTOToResource(resourceDTO));
   }
 
+  /**
+   * Maps sandbox instance resource dto on internal model
+   * @param resourceDTO dto to be mapped on internal model
+   */
   mapResourceDTOToResource(resourceDTO: SandboxInstanceResourceDTO): SandboxInstanceResource {
     const resource = new SandboxInstanceResource();
     resource.name = resourceDTO.name;
@@ -122,6 +162,10 @@ export class SandboxInstanceMapper {
     return resource;
   }
 
+  /**
+   * Maps paginated request stage dtos on internal model
+   * @param paginatedDTO dto to be mapped on internal model
+   */
   mapRequestStagesDTOToRequestStages(paginatedDTO: DjangoResourceDTO<RequestStageDTO>) {
     const elements = paginatedDTO.results
       .map(stageDTO => this.mapRequestStageDTOToRequestStage(stageDTO));
@@ -134,6 +178,10 @@ export class SandboxInstanceMapper {
     return new PaginatedResource(elements, pagination);
   }
 
+  /**
+   * Maps request stage dto on internal model
+   * @param stageDTO dto to be mapped on internal model
+   */
   mapRequestStageDTOToRequestStage(stageDTO: RequestStageDTO): RequestStage {
     let stage: RequestStage;
     if (stageDTO.type === 'ANSIBLE' || stageDTO.type === undefined) {

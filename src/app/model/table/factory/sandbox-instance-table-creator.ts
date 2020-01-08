@@ -1,9 +1,11 @@
 import {SandboxInstance} from '../../sandbox/pool/sandbox-instance/sandbox-instance';
 import {Column, Kypo2Table, Row, RowAction} from 'kypo2-table';
 import {of} from 'rxjs';
-import {RouteFactory} from '../../routes/route-factory';
 import {PaginatedResource} from '../other/paginated-resource';
 
+/**
+ * Helper class transforming paginated resource to class for common table component
+ */
 export class SandboxInstanceTableCreator {
 
   static readonly DELETE_ACTION = 'delete';
@@ -11,7 +13,10 @@ export class SandboxInstanceTableCreator {
   static readonly UNLOCK_ACTION = 'Unlock';
   static readonly LOCK_ACTION = 'Lock';
 
-
+  /**
+   * Transforming paginated resource to class for common table component
+   * @param resource paginated resource to transform
+   */
   static create(resource: PaginatedResource<SandboxInstance[]>): Kypo2Table<SandboxInstance> {
     const rows = resource.elements.map(instance => {
       const actions = [

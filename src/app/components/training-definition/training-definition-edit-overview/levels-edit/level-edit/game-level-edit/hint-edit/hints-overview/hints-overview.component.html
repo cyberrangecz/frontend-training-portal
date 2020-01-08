@@ -16,7 +16,7 @@
   </mat-expansion-panel-header>
 
   <kypo2-hint-controls [deleteDisabled]="stepperHints?.items?.length === 0"
-                       (delete)="deleteHint()"
+                       (delete)="deleteActiveHint()"
                        (add)="addHint()">
   </kypo2-hint-controls>
   <mat-divider></mat-divider>
@@ -26,16 +26,16 @@
     <kypo2-stepper [selectable]="true"
                    [stepperItems]="stepperHints"
                    [activeIndex]="selectedStep"
-                   (stepSwapped)="orderUpdate()"
-                   (indexSelected)="selectionChanged($event)"
-                   (selectedStepSwapped)="selectionChanged($event)">
+                   (stepSwapped)="onOrderUpdate()"
+                   (indexSelected)="onActiveHintChanged($event)"
+                   (selectedStepSwapped)="onActiveHintChanged($event)">
     </kypo2-stepper>
     <div>
       <mat-divider></mat-divider>
       <ng-template matStepLabel>Hint {{ selectedStep + 1 }}</ng-template>
       <div class="step-content">
         <kypo2-hint-edit [hint]="stepperHints.items[selectedStep]"
-                   (hintChange)="hintsChanged($event)"
+                   (hintChange)="onHintsChanged($event)"
                    [levelMaxScore]="levelMaxScore"
                    [hintsPenaltySum]="penaltySum"
                    [order]="selectedStep">

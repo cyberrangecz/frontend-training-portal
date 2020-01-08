@@ -7,17 +7,26 @@ import {
 } from '../../../components/sandbox-instance/sandbox-pool-detail/paths';
 import {POOL_ID_SELECTOR} from '../../../components/sandbox-instance/sandbox-pool-overview/paths';
 import {RouteFactory} from '../../../model/routes/route-factory';
-import {SandboxInstanceFacade} from '../../facades/sandbox-instance-facade.service';
+import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {SandboxInstance} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance';
 
+/**
+ * Router data provider
+ */
 @Injectable()
 export class SandboxInstanceResolver implements Resolve<SandboxInstance> {
 
-  constructor(private sandboxInstanceFacade: SandboxInstanceFacade,
+  constructor(private sandboxInstanceFacade: SandboxInstanceApi,
               private errorHandler: ErrorHandlerService,
               private router: Router) {
   }
+
+  /**
+   * Retrieves a specific resource based on id provided in url. Navigates to a resource overview if no resource with such id exists.
+   * @param route route snapshot
+   * @param state router state snapshot
+   */
   resolve(route: ActivatedRouteSnapshot,
           state: RouterStateSnapshot): Observable<SandboxInstance> | Promise<SandboxInstance> | SandboxInstance {
     if (!route.paramMap.has(POOL_ID_SELECTOR)) {

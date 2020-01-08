@@ -1,6 +1,6 @@
 import {async, TestBed} from '@angular/core/testing';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
-import {UserFacade} from '../../facades/user-facade.service';
+import {UserApi} from '../../api/user-api.service';
 import {asyncData} from '../../../testing/helpers/async-data';
 import {RequestedPagination} from 'kypo2-table';
 import {PaginatedResource} from '../../../model/table/other/paginated-resource';
@@ -13,7 +13,7 @@ import {OrganizersAssignService} from './organizers-assign.service';
 
 describe('OrganizersAssignService', () => {
   let errorHandlerSpy: jasmine.SpyObj<ErrorHandlerService>;
-  let facadeSpy: jasmine.SpyObj<UserFacade>;
+  let facadeSpy: jasmine.SpyObj<UserApi>;
   let service: OrganizersAssignService;
 
   beforeEach(async(() => {
@@ -23,7 +23,7 @@ describe('OrganizersAssignService', () => {
     TestBed.configureTestingModule({
       providers: [
         OrganizersAssignService,
-        {provide: UserFacade, useValue: facadeSpy},
+        {provide: UserApi, useValue: facadeSpy},
         {provide: ErrorHandlerService, useValue: errorHandlerSpy}
       ]
     });

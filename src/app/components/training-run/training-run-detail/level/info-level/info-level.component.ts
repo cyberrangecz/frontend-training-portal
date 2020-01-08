@@ -2,7 +2,7 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 import {takeWhile} from 'rxjs/operators';
 import {InfoLevel} from '../../../../../model/level/info-level';
 import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
-import {ActiveTrainingRunService} from '../../../../../services/training-run/active-training-run.service';
+import {RunningTrainingRunService} from '../../../../../services/training-run/running/running-training-run.service';
 import {BaseComponent} from '../../../../base.component';
 
 @Component({
@@ -18,7 +18,7 @@ export class InfoLevelComponent extends BaseComponent implements OnInit, OnChang
   @Input('level') level: InfoLevel;
   hasNextLevel: boolean;
 
-  constructor(private activeLevelService: ActiveTrainingRunService,
+  constructor(private activeLevelService: RunningTrainingRunService,
               private errorHandler: ErrorHandlerService) {
     super();
   }
@@ -33,6 +33,9 @@ export class InfoLevelComponent extends BaseComponent implements OnInit, OnChang
     }
   }
 
+  /**
+   * Calls service to move to the next level of the training run
+   */
   nextLevel() {
     this.activeLevelService.nextLevel()
       .pipe(takeWhile(() => this.isAlive))
@@ -42,6 +45,9 @@ export class InfoLevelComponent extends BaseComponent implements OnInit, OnChang
       );
   }
 
+  /**
+   * Calls service to finish training run
+   */
   finish() {
     this.activeLevelService.finish()
       .pipe(takeWhile(() => this.isAlive))

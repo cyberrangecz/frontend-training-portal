@@ -9,7 +9,6 @@ export class SandboxDefinition {
   title: string;
   url: string;
   rev: string;
-  asocciatedTrainingDefs: TrainingDefinition[];
   authors: User[];
 
   constructor() {

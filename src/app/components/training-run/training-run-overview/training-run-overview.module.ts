@@ -6,15 +6,15 @@ import {TrainingRunOverviewMaterialModule} from './training-run-overview-materia
 import { AccessTrainingRunComponent } from './access-training-run/access-training-run.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {PipesModule} from '../../../pipes/pipes.module';
-import {ActiveTrainingRunService} from '../../../services/training-run/active-training-run.service';
-import {TrainingInstanceFacadeModule} from '../../../services/facades/modules/training-instance-facade.module';
-import {TrainingRunFacadeModule} from '../../../services/facades/modules/training-run-facade.module';
-import {TrainingDefinitionFacadeModule} from '../../../services/facades/modules/training-definition-facade.module';
+import {RunningTrainingRunService} from '../../../services/training-run/running/running-training-run.service';
+import {TrainingInstanceApiModule} from '../../../services/api/modules/training-instance-api.module';
+import {TrainingRunApiModule} from '../../../services/api/modules/training-run-api.module';
+import {TrainingDefinitionApiModule} from '../../../services/api/modules/training-definition-api.module';
 import {TrainingRunResolver} from '../../../services/resolvers/training-run-resolver.service';
 import {MatCardModule} from '@angular/material/card';
 import {Kypo2TableModule} from 'kypo2-table';
-import {TrainingRunOverviewService} from '../../../services/shared/training-run-overview.service';
-import {TrainingRunOverviewConcreteService} from '../../../services/training-run/training-run-overview.concrete.service';
+import {AccessedTrainingRunService} from '../../../services/training-run/accessed/accessed-training-run.service';
+import {AccessedTrainingRunConcreteService} from '../../../services/training-run/accessed/accessed-training-run-concrete.service';
 
 /**
  * Main module for trainee agenda. Contains components and top level routing
@@ -26,9 +26,9 @@ import {TrainingRunOverviewConcreteService} from '../../../services/training-run
     TrainingRunOverviewRoutingModule,
     TrainingRunOverviewMaterialModule,
     PipesModule,
-    TrainingInstanceFacadeModule,
-    TrainingRunFacadeModule,
-    TrainingDefinitionFacadeModule,
+    TrainingInstanceApiModule,
+    TrainingRunApiModule,
+    TrainingDefinitionApiModule,
     ReactiveFormsModule,
     MatCardModule,
     Kypo2TableModule
@@ -38,8 +38,8 @@ import {TrainingRunOverviewConcreteService} from '../../../services/training-run
     AccessTrainingRunComponent
   ],
   providers: [
-    {provide: TrainingRunOverviewService, useClass: TrainingRunOverviewConcreteService},
-    ActiveTrainingRunService,
+    {provide: AccessedTrainingRunService, useClass: AccessedTrainingRunConcreteService},
+    RunningTrainingRunService,
     TrainingRunResolver
   ]
 })

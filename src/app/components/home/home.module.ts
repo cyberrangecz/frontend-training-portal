@@ -5,7 +5,7 @@ import {HomeRoutingModule} from './home-routing.module';
 import {HomeComponent} from './home.component';
 
 /**
- * Portal main page module
+ * Portal home page module
  */
 @NgModule({
   imports: [

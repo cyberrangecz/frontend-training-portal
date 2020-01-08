@@ -10,6 +10,9 @@ import {AlertService} from '../../../../services/shared/alert.service';
 import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
 import {AdminBaseComponent} from '../../admin-base-component';
 
+/**
+ * Main component of microservice creation administration (for subscription to user and group library observables)
+ */
 @Component({
   selector: 'kypo2-admin-microservice-wrapper',
   templateUrl: './admin-microservice-wrapper.component.html',

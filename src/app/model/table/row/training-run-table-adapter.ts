@@ -3,6 +3,9 @@ import {TrainingRunTableRow} from './training-run-table-row';
 import {TrainingRun} from '../../training/training-run';
 import {SandboxInstanceState} from '../../enums/sandbox-instance-state';
 
+/**
+ * Class representing row of training run table
+ */
 export class TrainingRunTableAdapter extends TrainingRunTableRow {
   player: string;
   state: TrainingRunStateEnum;

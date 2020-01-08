@@ -1,5 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
+/**
+ * Component of control bar for training instance edit overview
+ */
 @Component({
   selector: 'kypo2-training-instance-edit-controls',
   templateUrl: './training-instance-edit-controls.component.html',
@@ -17,10 +20,16 @@ export class TrainingInstanceEditControlsComponent implements OnInit {
   ngOnInit() {
   }
 
+  /**
+   * Emits event to save the edited training instance
+   */
   onSave() {
     this.save.emit(false);
   }
 
+  /**
+   * Emits event to save the edited training instance and stay on the same page
+   */
   onSaveAndStayOnPage() {
     this.save.emit(true);
   }

@@ -70,6 +70,10 @@ export class TraineeQuestionComponent extends BaseComponent implements OnInit, O
     }
   }
 
+  /**
+   * Emits event containing question and its index to the parent component
+   * @param event index and question
+   */
   onContentChanged(event: { index: number, question: AbstractQuestion }) {
     this.question = event.question;
     this.contentChanged.emit(event.index);

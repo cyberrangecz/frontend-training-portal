@@ -4,8 +4,8 @@ import {AssessmentTypeEnum} from '../../../../../model/enums/assessment-type.enu
 import {AssessmentLevel} from '../../../../../model/level/assessment-level';
 import {AbstractQuestion} from '../../../../../model/questions/abstract-question';
 import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
-import {ActiveTrainingRunService} from '../../../../../services/training-run/active-training-run.service';
-import {TrainingRunAssessmentLevelService} from '../../../../../services/training-run/training-run-assessment-level.service';
+import {RunningTrainingRunService} from '../../../../../services/training-run/running/running-training-run.service';
+import {TrainingRunAssessmentLevelService} from '../../../../../services/training-run/running/training-run-assessment-level.service';
 import {BaseComponent} from '../../../../base.component';
 import {TraineeQuestionComponent} from './question/trainee-question.component';
 @Component({
@@ -28,7 +28,7 @@ export class AssessmentLevelComponent extends BaseComponent implements OnInit, O
   isSubmitted = false;
 
   constructor(private assessmentLevelService: TrainingRunAssessmentLevelService,
-              private activeLevelService: ActiveTrainingRunService,
+              private activeLevelService: RunningTrainingRunService,
               private errorHandler: ErrorHandlerService) {
     super();
   }
@@ -47,13 +47,15 @@ export class AssessmentLevelComponent extends BaseComponent implements OnInit, O
     }
   }
 
+  /**
+   * When user changes his answers, check if answers are valid (and can be submitted) is done
+   */
   onContentChanged() {
     this.checkCanSubmit();
   }
 
-
   /**
-   * Validates answers and calls REST API to save user's answers
+   * Gathers all trainees answers and calls service to save then
    */
   submit() {
     const results: AbstractQuestion[] = [];
@@ -64,7 +66,9 @@ export class AssessmentLevelComponent extends BaseComponent implements OnInit, O
     this.sendSubmitRequest(results);
   }
 
-
+  /**
+   * Calls service to move to the next level
+   */
   nextLevel() {
     this.activeLevelService.nextLevel()
       .pipe(takeWhile(() => this.isAlive))
@@ -74,6 +78,9 @@ export class AssessmentLevelComponent extends BaseComponent implements OnInit, O
       );
   }
 
+  /**
+   * Calls service to finish the training run
+   */
   finish() {
     this.activeLevelService.finish()
       .pipe(takeWhile(() => this.isAlive))

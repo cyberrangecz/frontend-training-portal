@@ -4,14 +4,14 @@ import {Observable} from 'rxjs/internal/Observable';
 import {AbstractLevelComponent} from '../../components/training-run/training-run-detail/level/abstract-level.component';
 import {TRAINING_RUN_PATH} from '../../paths';
 import {DistractionFreeModeService} from '../shared/distraction-free-mode.service';
-import {ActiveTrainingRunService} from '../training-run/active-training-run.service';
+import {RunningTrainingRunService} from '../training-run/running/running-training-run.service';
 @Injectable()
 /**
- * Guard triggered when accessing training run level. Turns on and off the distraction free mode
+ * Route guard determining if distraction free (gaming) mode should be turned on or off.
  */
 export class TrainingRunLevelsGuard implements CanActivate, CanDeactivate<AbstractLevelComponent> {
 
-  constructor(private activeTrainingRunLevelService: ActiveTrainingRunService,
+  constructor(private activeTrainingRunLevelService: RunningTrainingRunService,
               private distractionFreeModeService: DistractionFreeModeService,
               private router: Router) {
   }

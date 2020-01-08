@@ -3,15 +3,15 @@ import {BaseComponent} from '../../../base.component';
 import { TraineeAccessTrainingFormGroup } from './trainee-access-training-form-group';
 import { MatButton } from '@angular/material';
 
+/**
+ * Component for trainee access to training run by inserting token
+ */
 @Component({
   selector: 'kypo2-access-training-run',
   templateUrl: './access-training-run.component.html',
   styleUrls: ['./access-training-run.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-/**
- * Components for trainee access to training run by inserting token
- */
 export class AccessTrainingRunComponent extends BaseComponent implements OnInit {
 
   @ViewChild('pin', {static: false}) accessTokenPinInput: ElementRef;
@@ -28,11 +28,19 @@ export class AccessTrainingRunComponent extends BaseComponent implements OnInit 
   get accessTokenPrefix() {return this.traineeAccessTrainingFormGroup.formGroup.get('accessTokenPrefix'); }
   get accessTokenPin() {return this.traineeAccessTrainingFormGroup.formGroup.get('accessTokenPin'); }
 
+  /**
+   * Emits event to access with inserted access token
+   */
   access() {
     const accessToken = this.accessTokenPrefix.value + '-' + this.accessTokenPin.value;
     this.accessToken.emit(accessToken);
   }
 
+  /**
+   * Handles paste event to split pasted access token (prefix and generated pin code) between two input elements
+   * (access token is in format prefix-pincode)
+   * @param event js clipboard event
+   */
   onPaste(event: ClipboardEvent) {
     const pastedText = event.clipboardData.getData('text');
     if (pastedText.includes('-')) {
@@ -46,6 +54,11 @@ export class AccessTrainingRunComponent extends BaseComponent implements OnInit 
     }
   }
 
+  /**
+   * Waits on '-' key insertion and automatically changes to focus from prefix input to pin code input
+   * (access token is in format prefix-pincode)
+   * @param event js keyup event
+   */
   onKeyup(event) {
     if (event.key === '-') {
       this.accessTokenPinInput.nativeElement.focus();

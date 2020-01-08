@@ -17,6 +17,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+/**
+ * Material components for training definition edit overview module
+ */
 @NgModule({
   imports: [
     MatFormFieldModule,
@@ -36,7 +39,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatCardModule,
     MatProgressSpinnerModule,
     MatExpansionModule
-
   ],
   exports: [
     MatFormFieldModule,

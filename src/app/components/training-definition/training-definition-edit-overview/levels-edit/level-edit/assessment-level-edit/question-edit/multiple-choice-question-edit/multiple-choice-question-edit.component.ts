@@ -18,15 +18,15 @@ import {BaseComponent} from '../../../../../../../base.component';
 import {FreeFormQuestionFormGroup} from '../free-form-question-edit/free-form-question-form-group';
 import { MultipleChoiceFormGroup } from './multiple-choice-question-edit-form-group';
 
+/**
+ * Component for editing a question of type Multiple Choice Question
+ */
 @Component({
   selector: 'kypo2-multiple-choice-question-edit',
   templateUrl: './multiple-choice-question-edit.component.html',
   styleUrls: ['./multiple-choice-question-edit.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-/**
- * Component for editing a question of type Multiple Choice Question
- */
 export class MultipleChoiceQuestionEditComponent extends BaseComponent
   implements OnInit, OnChanges {
   @Input() question: MultipleChoiceQuestion;
@@ -78,12 +78,12 @@ export class MultipleChoiceQuestionEditComponent extends BaseComponent
     }
     if ('required' in changes && !changes['required'].isFirstChange()) {
       this.checkState();
-      this.requiredChanged();
+      this.onRequiredChanged();
     }
   }
 
   /**
-   * Helper method to enable tracking a variable accessed by *ngFor index
+   * Helper method to improve *ngFor performance
    * @param index
    * @param item
    */
@@ -92,15 +92,16 @@ export class MultipleChoiceQuestionEditComponent extends BaseComponent
   }
 
   /**
-   * User made a change in the input
+   * Changes internal state of the component and emits change event
    */
   questionChanged() {
     this.multipleChoicesFormGroup.formGroup.markAsDirty();
     this.multipleChoicesFormGroup.setToMCQ(this.question, this.isTest);
     this.questionChange.emit(this.question);
   }
+
   /**
-   * Deletes all answers selected by user
+   * Deletes all answers
    */
   clearAnswers() {
     this.correctAnswersIndices.setValue([]);
@@ -108,7 +109,7 @@ export class MultipleChoiceQuestionEditComponent extends BaseComponent
   }
 
   /**
-   * Called when user changed the answer (clicked on a checkbox
+   * Adds or removes answer from correct answers
    * @param event event of checkbox change
    * @param index index of an answer which has been changed
    */
@@ -138,7 +139,10 @@ export class MultipleChoiceQuestionEditComponent extends BaseComponent
     this.questionChanged();
   }
 
-  requiredChanged() {
+  /**
+   * Changes internal state of component if required attribute of answer was changed
+   */
+  onRequiredChanged() {
     if (!this.required) {
       this.score.setValue(0);
     }

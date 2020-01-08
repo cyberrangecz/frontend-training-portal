@@ -3,22 +3,23 @@ import {MatDialog} from '@angular/material';
 import {Observable} from 'rxjs';
 import {map, takeWhile} from 'rxjs/operators';
 import {ActionConfirmationDialogComponent} from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
-import {Kypo2Table} from 'kypo2-table';
-import {ArchivedTrainingRunService} from '../../../../../services/shared/archived-training-run.service';
+import {Kypo2Table, LoadTableEvent, TableActionEvent} from 'kypo2-table';
+import {ArchivedTrainingRunService} from '../../../../../services/training-run/archived/archived-training-run.service';
 import {TrainingRunTableCreator} from '../../../../../model/table/factory/training-run-table-creator';
 import {TrainingRunTableAdapter} from '../../../../../model/table/row/training-run-table-adapter';
 import {BaseComponent} from '../../../../base.component';
 import {TrainingInstance} from '../../../../../model/training/training-instance';
+import {ConfirmationDialogActionEnum} from '../../../../../model/enums/confirmation-dialog-action-enum';
 
+/**
+ * Component for displaying archived (finished by trainee and with sandbox removed) training runs for organizer in real-time.
+ */
 @Component({
   selector: 'kypo2-archived-training-run-overview',
   templateUrl: './archived-training-run-overview.component.html',
   styleUrls: ['./archived-training-run-overview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-/**
- * Component displaying real time archived (accessed by trainee and with sandbox removed) training runs for organizer.
- */
 export class ArchivedTrainingRunOverviewComponent extends BaseComponent implements OnInit {
   @Input() trainingInstance: TrainingInstance;
   @Input() isPollingActive: boolean;
@@ -36,24 +37,35 @@ export class ArchivedTrainingRunOverviewComponent extends BaseComponent implemen
     this.startPolling();
   }
 
-  onArchivedTrainingRunTableAction(event) {
+  /**
+   * Resolves actions and calls related action handler
+   * @param event event emitted by table
+   */
+  onArchivedTrainingRunTableAction(event: TableActionEvent<TrainingRunTableAdapter>) {
     if (event.action.label.toLocaleLowerCase() === 'delete') {
       this.deleteTrainingRun(event.element.trainingRun.id);
     }
   }
 
-  rowSelection(event: TrainingRunTableAdapter[]) {
+  /**
+   * Stores selected training runs emitted by table
+   * @param event event containing selected training runs emitted by table
+   */
+  onRowSelection(event: TrainingRunTableAdapter[]) {
     this.selectedTrainingRuns = [];
     event.forEach( selectedRun => {
       this.selectedTrainingRuns.push(selectedRun.trainingRun.id);
     });
   }
 
+  /**
+   * Displays confirmation dialog and if confirmed, calls service to delete archived training runs
+   */
   deleteArchivedTrainingRuns() {
     const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
       data: {
         type: 'archived training runs',
-        action: 'delete'
+        action: ConfirmationDialogActionEnum.DELETE
       }
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -63,11 +75,15 @@ export class ArchivedTrainingRunOverviewComponent extends BaseComponent implemen
     });
   }
 
+  /**
+   * Displays confirmation dialog and if confirmed, calls service to delete selected archived training run
+   * @param id id of training run to delete
+   */
   deleteTrainingRun(id: number) {
     const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
       data: {
         type: 'archived training run',
-        action: 'delete'
+        action: ConfirmationDialogActionEnum.DELETE
       }
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -78,18 +94,15 @@ export class ArchivedTrainingRunOverviewComponent extends BaseComponent implemen
   }
 
   /**
-   * Fetch data from server
+   * Loads fresh data for table
+   * @param event event to load new data emitted by table
    */
-  protected fetchData(event?) {
+  onTableLoadEvent(event: LoadTableEvent) {
     this.archivedTrainingRunService.getAll(this.trainingInstance.id, event.pagination)
       .pipe(
         takeWhile(_ => this.isAlive),
       )
       .subscribe();
-  }
-
-  onTableLoadEvent(event) {
-    this.fetchData(event);
   }
 
   private sendRequestToDeleteArchivedTrainingRuns() {

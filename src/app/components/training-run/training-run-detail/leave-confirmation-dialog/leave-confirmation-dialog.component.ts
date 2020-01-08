@@ -19,14 +19,19 @@ export class LeaveConfirmationDialogComponent extends BaseComponent implements O
   ngOnInit() {
   }
 
+  /**
+   * Closes the dialog with result 'confirm'
+   */
   confirm() {
     this.dialogRef.close({
       type: 'confirm'
     });
   }
 
+  /**
+   * Closes the dialog with no result
+   */
   cancel() {
     this.dialogRef.close();
   }
-
 }

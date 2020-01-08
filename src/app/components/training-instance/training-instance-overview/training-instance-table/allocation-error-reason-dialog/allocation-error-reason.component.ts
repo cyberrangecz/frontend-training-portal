@@ -9,7 +9,7 @@ import {BaseComponent} from '../../../../base.component';
   styleUrls: ['./allocation-error-reason.component.css']
 })
 /**
- * Displays detail of sandbox instance allocation error.
+ * Displays detail of sandbox instance allocation error in a popup window
  */
 export class AllocationErrorReasonComponent extends BaseComponent implements OnInit {
 
@@ -21,6 +21,9 @@ export class AllocationErrorReasonComponent extends BaseComponent implements OnI
   ngOnInit() {
   }
 
+  /**
+   * Closes dialog
+   */
   close() {
     this.dialogRef.close();
   }

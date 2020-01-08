@@ -1,5 +1,8 @@
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
+/**
+ * Form control class for access training run form
+ */
 export class TraineeAccessTrainingFormGroup {
 
     formGroup: FormGroup;

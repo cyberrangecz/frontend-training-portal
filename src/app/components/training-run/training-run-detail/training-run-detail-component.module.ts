@@ -9,6 +9,9 @@ import {TrainingRunDetailMaterialModule} from './training-run-detail-material.mo
 import {TrainingRunDetailComponent} from './training-run-detail.component';
 import {TrainingTimerComponent} from './training-timer/training-timer.component';
 
+/**
+ * Contains all components of training run detail
+ */
 @NgModule({
   imports: [
     CommonModule,

@@ -1,5 +1,8 @@
 import {TraineeAccessTrainingRunActionEnum} from '../../enums/trainee-access-training-run-actions.enum';
 
+/**
+ * Class representing row of accessed training run table
+ */
 export class AccessedTrainingRun {
   totalLevels: number;
   currentLevel: number;

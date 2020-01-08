@@ -17,11 +17,13 @@ const routes: Routes = [
   },
 ];
 
+/**
+ * Routing for training definition edit overview
+ */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-
 export class TrainingDefinitionEditOverviewRoutingModule {
 
 }

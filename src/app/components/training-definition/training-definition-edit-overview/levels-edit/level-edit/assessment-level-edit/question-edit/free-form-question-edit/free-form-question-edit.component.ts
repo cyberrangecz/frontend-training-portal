@@ -13,7 +13,7 @@ import {takeWhile} from 'rxjs/operators';
 import {AbstractQuestion} from '../../../../../../../../model/questions/abstract-question';
 import {FreeFormQuestion} from '../../../../../../../../model/questions/free-form-question';
 import {BaseComponent} from '../../../../../../../base.component';
-import {FreeFormItems} from '../../../../../../../shared/free-form/free-form-items';
+import {FreeFormItemsChangeEvent} from '../../../../../../../../model/utils/free-form-items-change-event';
 import { FreeFormQuestionFormGroup } from './free-form-question-form-group';
 
 @Component({
@@ -71,12 +71,12 @@ export class FreeFormQuestionEditComponent extends BaseComponent implements OnIn
     }
     if ('required' in changes && !changes['required'].isFirstChange()) {
       this.checkState();
-      this.requiredChanged();
+      this.onRequiredChanged();
     }
   }
 
   /**
-   * Reacts when user changes an input
+   * Changes internal state of the component if question is changed and emits event to parent component
    */
   questionChanged() {
     this.freeFormQuestionFormGroup.formGroup.markAsDirty();
@@ -84,7 +84,11 @@ export class FreeFormQuestionEditComponent extends BaseComponent implements OnIn
     this.questionChange.emit(this.question);
   }
 
-  answerChanged(event: FreeFormItems) {
+  /**
+   * Changes internal state of the component if answer is changed
+   * @param event change event of answers
+   */
+  answerChanged(event: FreeFormItemsChangeEvent) {
     this.freeFormValid = event.validity;
     if (event.isAdded) {
       (this.answers as FormArray).push(new FormControl('', this.required ? Validators.required : undefined));
@@ -98,7 +102,10 @@ export class FreeFormQuestionEditComponent extends BaseComponent implements OnIn
     }
   }
 
-  requiredChanged() {
+  /**
+   * Changes internal state of component if required attribute of answer was changed
+   */
+  onRequiredChanged() {
     if (!this.required) {
       this.score.setValue(0);
     }
@@ -107,7 +114,7 @@ export class FreeFormQuestionEditComponent extends BaseComponent implements OnIn
   /**
    * Enables/disables score and penalty form field based on required and isTest inputs
    */
-  checkState() {
+  private checkState() {
     if (this.required) {
       this.score.enable();
     } else {

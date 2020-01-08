@@ -15,6 +15,9 @@ import {PoolCreationRequestsPollingService} from '../../../services/sandbox-inst
 import {PoolCleanupRequestsPollingService} from '../../../services/sandbox-instance/pool-request/cleanup/pool-cleanup-requests-polling.service';
 import {RouteFactory} from '../../../model/routes/route-factory';
 
+/**
+ * Smart component of sandbox pool detail page
+ */
 @Component({
   selector: 'kypo2-sandbox-instance-overview',
   templateUrl: './sandbox-pool-detail.component.html',
@@ -49,6 +52,10 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
     this.initTables();
   }
 
+  /**
+   * Gets new data for sandbox instance overview table
+   * @param loadEvent load event emitted from sandbox instances table
+   */
   onInstanceLoadEvent(loadEvent: LoadTableEvent) {
     this.instanceService.getAll(this.pool.id, loadEvent.pagination)
       .pipe(
@@ -57,6 +64,10 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
       .subscribe();
   }
 
+  /**
+   * Gets new data for creation requests overview table
+   * @param loadEvent load event emitted from creation requests table
+   */
   onCreationRequestsLoadEvent(loadEvent: LoadTableEvent) {
     this.creationRequestService.getAll(this.pool.id, loadEvent.pagination)
       .pipe(
@@ -65,6 +76,10 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
       .subscribe();
   }
 
+  /**
+   * Gets new data for cleanup requests overview table
+   * @param loadEvent load event emitted from cleanup requests table
+   */
   onCleanupRequestsLoadEvent(loadEvent: LoadTableEvent) {
     this.cleanupRequestService.getAll(this.pool.id, loadEvent.pagination)
       .pipe(
@@ -73,6 +88,10 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
       .subscribe();
   }
 
+  /**
+   * Resolves type of action emitted from sandbox instances table and calls appropriate handler
+   * @param event action event emitted from sandbox instances table
+   */
   onInstanceAction(event: TableActionEvent<SandboxInstance>) {
     if (event.action.label === SandboxInstanceTableCreator.DELETE_ACTION) {
       this.instanceService.delete(event.element)
@@ -94,6 +113,10 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
     }
   }
 
+  /**
+   * Resolves type of action emitted from creation requests table and calls appropriate handler
+   * @param event action event emitted from creation requests table
+   */
   onCreationAction(event: TableActionEvent<PoolRequest>) {
     let action$: Observable<any>;
     if (event.action.label === PoolRequestTableCreator.CANCEL_ACTION) {
@@ -109,6 +132,10 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
     }
   }
 
+  /**
+   * Resolves type of action emitted from cleanup requests table and calls appropriate handler
+   * @param event action event emitted from cleanup requests table
+   */
   onCleanupAction(event: TableActionEvent<PoolRequest>) {
     let action$: Observable<any>;
     if (event.action.label === PoolRequestTableCreator.CANCEL_ACTION) {
@@ -124,6 +151,9 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
     }
   }
 
+  /**
+   * Calls service to allocate pool with sandbox instance
+   */
   allocatePool() {
     this.instanceService.allocate(this.pool.id)
       .subscribe();
@@ -139,7 +169,8 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
         this.pool = data.pool;
         this.onInstanceLoadEvent(initialLoadEvent);
         this.onCreationRequestsLoadEvent(initialLoadEvent);
-       // this.onCleanupRequestsLoadEvent(initialLoadEvent);
+      // TODO: Add when backend API supports cleanup requests
+      // this.onCleanupRequestsLoadEvent(initialLoadEvent);
       }
     );
 
@@ -155,7 +186,7 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
         map(requests => PoolRequestTableCreator.create(requests, this.pool.id, 'CREATION')));
     this.creationRequestsTableHasError$ = this.creationRequestService.hasError$;
     this.creationRequestsTotalLength$ = this.creationRequestService.totalLength$;
-
+   // TODO: Add when backend API supports cleanup requests
 /*    this.cleanupRequests$ = this.cleanupRequestService.requests$
       .pipe(
         map(requests => PoolRequestTableCreator.create(requests, this.pool.id, 'CLEANUP'))

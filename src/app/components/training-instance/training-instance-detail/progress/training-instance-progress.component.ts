@@ -5,15 +5,15 @@ import {ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs';
 import {TrainingInstance} from '../../../../model/training/training-instance';
 
+/**
+ * Component displaying progress visualization
+ */
 @Component({
   selector: 'kypo2-training-instance-progress',
   templateUrl: './training-instance-progress.component.html',
   styleUrls: ['./training-instance-progress.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-/**
- * Wrapper for progress visualization
- */
 export class TrainingInstanceProgressComponent extends BaseComponent implements OnInit {
 
   @Input() trainingInstance$: Observable<TrainingInstance>;

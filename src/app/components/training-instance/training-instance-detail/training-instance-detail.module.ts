@@ -1,12 +1,11 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {TrainingInstanceGuard} from '../../../services/guards/training-instance-guard.service';
 import {TrainingInstanceDetailRoutingModule} from './training-instance-detail-routing.module';
 import {TrainingInstanceDetailBreadcrumbResolver} from '../../../services/resolvers/training-instance-detail-breadcrumb-resolver.service';
 import {TrainingInstanceResolver} from '../../../services/resolvers/training-instance-resolver.service';
 
 /**
- * Module containing components and routing for training instance detail agenda
+ * Module containing components and providers for training instance detail agenda
  */
 @NgModule({
   imports: [
@@ -16,7 +15,6 @@ import {TrainingInstanceResolver} from '../../../services/resolvers/training-ins
   declarations: [
   ],
   providers: [
-    TrainingInstanceGuard,
     TrainingInstanceResolver,
     TrainingInstanceDetailBreadcrumbResolver
   ]

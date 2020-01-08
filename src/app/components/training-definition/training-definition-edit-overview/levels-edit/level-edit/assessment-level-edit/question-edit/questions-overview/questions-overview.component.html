@@ -27,7 +27,7 @@
     <!-- QUESTIONS -->
     <div *ngFor="let question of questions; index as i" class="question">
       <kypo2-question-edit
-        (questionChange)="questionChanged($event)"
+        (questionChange)="onQuestionChanged($event)"
         (delete)="onDelete($event)"
         [question]="questions[i]"
         [index]="i"

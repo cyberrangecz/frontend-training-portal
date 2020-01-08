@@ -8,7 +8,7 @@ import {CanActivateToObservable} from './can-activate-to-observable';
 
 @Injectable()
 /**
- * Guard which determines if user is signed in and has role of organizer.
+ * Route guard determining if user is signed in and has role of an organizer.
  */
 export class OrganizerGuard implements CanActivate {
 

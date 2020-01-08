@@ -7,7 +7,7 @@ import {TrainingRunResultsRoutingModule} from './training-run-results-routing.mo
 import { TrainingRunResultsComponent } from './training-run-results.component';
 
 /**
- * Module containing components and routing for trainees results in game
+ * Module containing components for trainees results in game
  */
 @NgModule({
   imports: [

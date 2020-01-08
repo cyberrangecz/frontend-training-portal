@@ -4,8 +4,7 @@ import {EMPTY, Observable} from 'rxjs';
 import {map, switchMap, takeWhile} from 'rxjs/operators';
 import {ActionConfirmationDialogComponent} from '../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import {BaseComponent} from '../../base.component';
-import {CreateSandboxDefinitionComponent} from '../create-sandbox-definition/create-sandbox-definition.component';
-import {SandboxDefinitionService} from '../../../services/shared/sandbox-definition.service';
+import {SandboxDefinitionService} from '../../../services/sandbox-definition/sandbox-definition.service';
 import {Kypo2Table, LoadTableEvent, RequestedPagination, TableActionEvent} from 'kypo2-table';
 import {ErrorHandlerService} from '../../../services/shared/error-handler.service';
 import {SandboxDefinitionTableCreator} from '../../../model/table/factory/sandbox-definition-table-creator';
@@ -13,6 +12,7 @@ import {SandboxDefinition} from '../../../model/sandbox/definition/sandbox-defin
 import {environment} from '../../../../environments/environment';
 import {Router} from '@angular/router';
 import {RouteFactory} from '../../../model/routes/route-factory';
+import {ConfirmationDialogActionEnum} from '../../../model/enums/confirmation-dialog-action-enum';
 
 @Component({
   selector: 'kypo2-sandbox-definition-overview',
@@ -22,7 +22,7 @@ import {RouteFactory} from '../../../model/routes/route-factory';
 
 /**
  * Component displaying overview of sandbox definitions. Contains button for create sandbox definitions,
- * table with all sandbox definitions associated with currently logged in user and possible actions for sandbox definition.
+ * table with all sandbox definitions and possible actions on sandbox definition.
  */
 export class SandboxDefinitionOverviewComponent extends BaseComponent implements OnInit {
 
@@ -44,6 +44,10 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
     this.initTable();
   }
 
+  /**
+   * Refreshes table with new data
+   * @param event to load data
+   */
   onLoadEvent(event: LoadTableEvent) {
     this.sandboxDefinitionService.getAll(event.pagination)
       .pipe(
@@ -52,25 +56,33 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
       .subscribe();
   }
 
+  /**
+   * Resolves correct action based on received event and performs it
+   * @param event table action event emitted by child table component
+   */
   onSandboxDefinitionTableAction(event: TableActionEvent<SandboxDefinition>) {
     if (event.action.label.toLocaleLowerCase() === 'delete') {
       this.deleteSandboxDefinition(event.element);
     }
   }
 
+  /**
+   * Navigates to create sandbox definition page
+   */
   create() {
     this.router.navigate([RouteFactory.toNewSandboxDefinition()]);
   }
 
   /**
-   * Removes sandbox definition data object from data source and sends request to delete the sandbox in database
+   * Displays confirmation dialog and in case of confirmation calls service to delete sandbox definition
+   * @param sandbox sandbox to delete
    */
-  deleteSandboxDefinition(sandboxRow: SandboxDefinition) {
+  deleteSandboxDefinition(sandbox: SandboxDefinition) {
     const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
       data: {
         type: 'Sandbox Definition',
-        action: 'delete',
-        title: sandboxRow.title
+        action: ConfirmationDialogActionEnum.DELETE,
+        title: sandbox.title
       }
     });
     dialogRef.afterClosed()
@@ -78,14 +90,14 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
         takeWhile(() => this.isAlive),
         switchMap(result =>
           result && result.type === 'confirm'
-            ? this.sandboxDefinitionService.delete(sandboxRow.id)
+            ? this.sandboxDefinitionService.delete(sandbox.id)
             : EMPTY
         )
       ).subscribe();
   }
 
   private initTable() {
-    this.sandboxDefinitions$ = this.sandboxDefinitionService.sandboxDefinitions$
+    this.sandboxDefinitions$ = this.sandboxDefinitionService.definitions$
       .pipe(
         map(paginatedSandboxes => SandboxDefinitionTableCreator.create(paginatedSandboxes))
       );

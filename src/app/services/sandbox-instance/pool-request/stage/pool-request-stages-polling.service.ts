@@ -3,17 +3,22 @@ import {environment} from '../../../../../environments/environment';
 import {map, retryWhen, switchMap, tap} from 'rxjs/operators';
 import {RequestStage} from '../../../../model/sandbox/pool/request/stage/request-stage';
 import {PoolRequestStagesService} from './pool-request-stages.service';
-import {SandboxInstanceFacade} from '../../../facades/sandbox-instance-facade.service';
+import {SandboxInstanceApi} from '../../../api/sandbox-instance-api.service';
 import {ErrorHandlerService} from '../../../shared/error-handler.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Cacheable, CacheBuster} from 'ngx-cacheable';
 import {RequestedPagination} from 'kypo2-table';
-import {OpenStackStage} from '../../../../model/sandbox/pool/request/stage/open-stack-stage';
-import {AnsibleRunStage} from '../../../../model/sandbox/pool/request/stage/ansible-run-stage';
 
+/**
+ * Emission causes cached data to cleanup
+ */
 export const poolRequestStagesCacheBuster$: Subject<void> = new Subject();
 
+/**
+ * Basic implementation of a layer between a component and an API service.
+ * Can manually get stages of creation or cleanup requests, poll them and perform various operations to modify them.
+ */
 @Injectable()
 export class PoolRequestStagesPollingService extends PoolRequestStagesService {
   private poolId: number;
@@ -22,14 +27,22 @@ export class PoolRequestStagesPollingService extends PoolRequestStagesService {
   private manuallyUpdatedStages$: Subject<RequestStage[]> = new Subject();
   private type: 'CREATION' | 'CLEANUP' = 'CREATION';
 
-  hasError$: Observable<boolean> = this.hasErrorSubject$.asObservable();
+  /**
+   * List of stages
+   */
   stages$: Observable<RequestStage[]>;
 
-  constructor(private sandboxInstanceFacade: SandboxInstanceFacade,
+  constructor(private sandboxInstanceFacade: SandboxInstanceApi,
               private errorHandler: ErrorHandlerService) {
     super();
   }
 
+  /**
+   * Starts polling with ids and info passed as arguments
+   * @param poolId id of a pool associated with stages
+   * @param requestId id of a request associated with stages
+   * @param type type of a request. CREATION or CLEANUP
+   */
   startPolling(poolId: number, requestId: number, type: 'CREATION' | 'CLEANUP') {
     this.poolId = poolId;
     this.type = type;
@@ -38,16 +51,22 @@ export class PoolRequestStagesPollingService extends PoolRequestStagesService {
     this.stages$ = merge(poll$, this.manuallyUpdatedStages$.asObservable());
   }
 
+  /**
+   * Gets all stages and updates related observables or handles an error
+   * @param poolId id of a pool associated with stages
+   * @param requestId id of a request associated with stages
+   */
   @Cacheable({
     cacheBusterObserver: poolRequestStagesCacheBuster$
   })
   getAll(poolId: number, requestId: number): Observable<RequestStage[]> {
     this.onManualGetAll(poolId, requestId);
-    const mockPagination = new RequestedPagination(0, 100, '', '');
+    const fakePagination = new RequestedPagination(0, 100, '', '');
+    // TODO: Add once supported by a backend API
 /*    const stagesRequest$ = this.type === 'CREATION'
       ? this.sandboxInstanceFacade.getCreationStages(poolId, requestId, mockPagination)
       : this.sandboxInstanceFacade.getCleanupStages(poolId, requestId, mockPagination);*/
-    const stagesRequest$ = this.sandboxInstanceFacade.getCreationStages(poolId, requestId, mockPagination);
+    const stagesRequest$ = this.sandboxInstanceFacade.getCreationStages(poolId, requestId, fakePagination);
     return stagesRequest$
       .pipe(
         map(paginatedResource => paginatedResource.elements),
@@ -58,6 +77,12 @@ export class PoolRequestStagesPollingService extends PoolRequestStagesService {
       );
   }
 
+  /**
+   * Forces stage to finish, informs on result of the operation and refreshes list of stages or handles error
+   * @param poolId id of a pool associated with stages
+   * @param requestId id of a request associated with stages
+   * @param stageId if of a stage to be forced
+   */
   @CacheBuster({
     cacheBusterNotifier: poolRequestStagesCacheBuster$
   })

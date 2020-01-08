@@ -31,7 +31,7 @@ import PossibleActionEnum = AccessedTrainingRunDTO.PossibleActionEnum;
 
 @Injectable()
 /**
- *  Maps DTOs to training run model
+ *  Maps DTOs to training run internal model
  */
 export class TrainingRunMapper {
 
@@ -39,21 +39,10 @@ export class TrainingRunMapper {
   }
 
   /**
-   * Maps training run DTOs retrieved from remote server to training run objects
-   * @param resource training run DTOs retrieved from remote server
+   * Maps paginated training run DTOs on training run objects with pagination
+   * @param resource dto to be mapped on internal model
    */
-  mapTrainingRunDTOsToTrainingRuns(resource: TrainingRunRestResource): TrainingRun[] {
-    const result: TrainingRun[] = [];
-    resource.content.forEach(trainingRunDTO =>
-      result.push(this.mapTrainingRunDTOToTrainingRun(trainingRunDTO)));
-    return result;
-  }
-
-  /**
-   * Maps training run DTOs retrieved from remote server to training run objects with pagination
-   * @param resource training run DTOs retrieved from remote server
-   */
-  mapTrainingRunDTOsToTrainingRunsWithPagination(resource: TrainingRunRestResource): PaginatedResource<TrainingRunTableRow[]> {
+  mapTrainingRunDTOsToTrainingRuns(resource: TrainingRunRestResource): PaginatedResource<TrainingRunTableRow[]> {
     const tableData: TrainingRunTableRow[] = [];
     resource.content.forEach(trainingRunDTO => {
       const tableRow = new TrainingRunTableRow();
@@ -70,8 +59,8 @@ export class TrainingRunMapper {
   }
 
   /**
-   * Maps training run DTO retrieved from remote server to training run object
-   * @param trainingRunDTO training run DTO retrieved from remote server
+   * Maps training run DTO ron training run object
+   * @param trainingRunDTO dto to be mapped on internal model
    */
   mapTrainingRunDTOToTrainingRun(trainingRunDTO: TrainingRunDTO): TrainingRun {
     const result = new TrainingRun();
@@ -93,6 +82,10 @@ export class TrainingRunMapper {
     return result;
   }
 
+  /**
+   * Maps access training run dto on internal model
+   * @param accessDTO dto to be mapped on internal model
+   */
   mapAccessTrainingRunDTOToAccessTrainingRun(accessDTO: AccessTrainingRunDTO): AccessTrainingRunInfo {
     const result = new AccessTrainingRunInfo();
     result.trainingRunId = accessDTO.training_run_id;
@@ -116,20 +109,27 @@ export class TrainingRunMapper {
     return result;
   }
 
-  mapAccessedTrainingRunDTOsToTrainingRunTableObjects(resource: TrainingRunRestResource)
+  /**
+   * Maps paginated accessed training run dtos on internal model
+   * @param resource dto to be mapped on internal model
+   */
+  mapAccessedTrainingRunDTOsToAccessedTrainingRun(resource: TrainingRunRestResource)
     : PaginatedResource<AccessedTrainingRun[]> {
-    const tableData: AccessedTrainingRun[] = [];
-    resource.content.forEach(accessedTrainingRunDTO =>
-      tableData.push(this.mapAccessedTrainingRunDTOToTrainingRunTableObject(accessedTrainingRunDTO)));
-    const tablePagination = new Kypo2Pagination(resource.pagination.number,
+    const elements = resource.content.map(accessedTrainingRunDTO =>
+      this.mapAccessedTrainingRunDTOToAccessedTrainingRun(accessedTrainingRunDTO));
+    const pagination = new Kypo2Pagination(resource.pagination.number,
       resource.pagination.number_of_elements,
       resource.pagination.size,
       resource.pagination.total_elements,
       resource.pagination.total_pages);
-    return new PaginatedResource(tableData, tablePagination);
+    return new PaginatedResource(elements, pagination);
   }
 
-  mapAccessedTrainingRunDTOToTrainingRunTableObject(accessedTrainingRunDTO: AccessedTrainingRunDTO): AccessedTrainingRun {
+  /**
+   * Maps accessed training run dto on internal model
+   * @param accessedTrainingRunDTO dto to be mapped on internal model
+   */
+  mapAccessedTrainingRunDTOToAccessedTrainingRun(accessedTrainingRunDTO: AccessedTrainingRunDTO): AccessedTrainingRun {
     const result = new AccessedTrainingRun();
       result.currentLevel = accessedTrainingRunDTO.current_level_order;
       result.totalLevels = accessedTrainingRunDTO.number_of_levels;
@@ -145,12 +145,19 @@ export class TrainingRunMapper {
     return result;
   }
 
+  /**
+   * Maps internal question objects on user answer json
+   * @param questions questions to be mapped on json
+   */
   mapQuestionsToUserAnswerJSON(questions: AbstractQuestion[]): string {
-    const result: AbstractAssessmentAnswerDTO[] = [];
-    questions.forEach(question => result.push(this.mapQuestionToUserAnswerDTO(question)));
+    const result = questions.map(question => this.mapQuestionToUserAnswerDTO(question));
     return JSON.stringify(result);
   }
 
+  /**
+   * Maps internal question object to assessment answer dto
+   * @param question internal question model to be mapped on assessment answer dto
+   */
   mapQuestionToUserAnswerDTO(question: AbstractQuestion): AbstractAssessmentAnswerDTO {
     if (question instanceof FreeFormQuestion) {
       return this.mapFFQToUserAnswerDTO(question);

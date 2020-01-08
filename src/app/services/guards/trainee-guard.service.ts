@@ -8,7 +8,7 @@ import {CanActivateToObservable} from './can-activate-to-observable';
 
 @Injectable()
 /**
- * Guard which determines if user is signed in and has role of trainee.
+ * Route guard determining if user is signed in and has role of a trainee.
  */
 export class TraineeGuard implements CanActivate {
 

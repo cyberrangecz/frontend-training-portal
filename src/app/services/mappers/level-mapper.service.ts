@@ -109,12 +109,20 @@ export class LevelMapper {
     return result;
   }
 
+  /**
+   * Map basic level info dtos to abstract levels
+   * @param resource dtos which should be mapped to an array of abstract levels
+   */
   mapBasicInfoDTOsToAbstractLevels(resource: BasicLevelInfoDTO[]): AbstractLevel[] {
     const result: AbstractLevel[] = [];
     resource.forEach(levelDTO => result.push(this.mapBasicInfoDTOToAbstractLevel(levelDTO)));
     return result;
   }
 
+  /**
+   * Map basic level info dto to abstract level
+   * @param level dto which should be mapped to abstract level
+   */
   mapBasicInfoDTOToAbstractLevel(level: BasicLevelInfoDTO): AbstractLevel {
     const result = this.createLevelByType(level.level_type);
     result.id = level.id;
@@ -123,6 +131,10 @@ export class LevelMapper {
     return result;
   }
 
+  /**
+   * Maps hint dto to hint
+   * @param hint hint dto
+   */
   mapHintDTOToHint(hint: HintDTO): Hint {
     const result = new Hint();
     result.id = hint.id;

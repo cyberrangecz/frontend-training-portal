@@ -7,7 +7,7 @@ import {AlertTypeEnum} from '../../model/enums/alert-type.enum';
 import {AlertEvent} from '../../model/events/alert-event';
 
 /**
- * Service emitting alert events.
+ * Global service emitting alert events.
  */
 @Injectable()
 export class AlertService {

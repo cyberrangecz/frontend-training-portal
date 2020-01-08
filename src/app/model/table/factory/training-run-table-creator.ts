@@ -4,11 +4,20 @@ import {PaginatedResource} from '../other/paginated-resource';
 import {TrainingRunTableAdapter} from '../row/training-run-table-adapter';
 import {TrainingRunTableRow} from '../row/training-run-table-row';
 
+/**
+ * Helper class transforming paginated resource to class for common table component
+ */
 export class TrainingRunTableCreator {
-  static create(resource: PaginatedResource<TrainingRunTableRow[]>, tableType: string): Kypo2Table<TrainingRunTableAdapter> {
+
+  /**
+   * Transforming paginated resource to class for common table component
+   * @param resource paginated resource to transform
+   * @param tableType whether to display in archived or active context
+   */
+  static create(resource: PaginatedResource<TrainingRunTableRow[]>, tableType: 'archived' | 'active'): Kypo2Table<TrainingRunTableAdapter> {
 
     const resources = this.mapTrainingRunTableRowToTrainingRunTableModel(resource);
-    let table = null;
+    let table;
 
     const actions = [{
       label: 'Delete',

@@ -6,7 +6,7 @@ import {takeWhile} from 'rxjs/operators';
 import {TrainingDefinitionChangeEvent} from '../../../../model/events/training-definition-change-event';
 import {TrainingDefinition} from '../../../../model/training/training-definition';
 import {BaseComponent} from '../../../base.component';
-import {FreeFormItems} from '../../../shared/free-form/free-form-items';
+import {FreeFormItemsChangeEvent} from '../../../../model/utils/free-form-items-change-event';
 import {SandboxDefinitionPickerComponent} from './sandbox-definition-picker/sandbox-definition-picker.component';
 import { TrainingDefinitionEditFormGroup } from './training-definition-edit-form-group';
 
@@ -60,7 +60,11 @@ export class TrainingDefinitionEditComponent extends BaseComponent implements On
     }
   }
 
-  prerequisitesChange(event: FreeFormItems) {
+  /**
+   * Changes form state if change of prerequisites event is emitted from child component
+   * @param event form state change event emitted from child component
+   */
+  prerequisitesChange(event: FreeFormItemsChangeEvent) {
     this.freeFormValid = event.validity;
     if (event.isAdded) {
       (this.prerequisites as FormArray).push(new FormControl(''));
@@ -73,8 +77,11 @@ export class TrainingDefinitionEditComponent extends BaseComponent implements On
       this.prerequisites.at(event.index).setValue(event.items[event.index]);
     }
   }
-
-  outcomesChange(event: FreeFormItems) {
+  /**
+   * Changes form state if change of outcomes event is emitted from child component
+   * @param event form state change event emitted from child component
+   */
+  outcomesChange(event: FreeFormItemsChangeEvent) {
     this.freeFormValid = event.validity;
     if (event.isAdded) {
       (this.outcomes as FormArray).push(new FormControl(''));

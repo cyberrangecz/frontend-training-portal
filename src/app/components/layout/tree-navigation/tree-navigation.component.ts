@@ -5,14 +5,14 @@ import {MenuNode} from '../../../model/menu/menu-node';
 import {TreeMenu} from '../../../model/menu/tree-menu';
 import {BaseComponent} from '../../base.component';
 
+/**
+ * Component of sidebar navigation menu. Displays main agendas and pages in tree-like hierarchical structure
+ */
 @Component({
   selector: 'kypo2-tree-navigation',
   templateUrl: './tree-navigation.component.html',
   styleUrls: ['./tree-navigation.component.scss']
 })
-/**
- * Tree navigation menu
- */
 export class TreeNavigationComponent extends BaseComponent implements OnInit, OnChanges {
   /**
    * Logged in user

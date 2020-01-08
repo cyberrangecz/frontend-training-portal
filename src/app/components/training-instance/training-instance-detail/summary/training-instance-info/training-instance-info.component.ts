@@ -3,17 +3,16 @@ import {TrainingDefinition} from '../../../../../model/training/training-definit
 import {TrainingInstance} from '../../../../../model/training/training-instance';
 import {BaseComponent} from '../../../../base.component';
 import {RouteFactory} from '../../../../../model/routes/route-factory';
-import {Router} from '@angular/router';
 
+/**
+ * Component for displaying basic info about selected training instance.
+ */
 @Component({
   selector: 'kypo2-training-instance-info',
   templateUrl: './training-instance-info.component.html',
   styleUrls: ['./training-instance-info.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-/**
- * Displays info about selected training instance.
- */
 export class TrainingInstanceInfoComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input() trainingInstance: TrainingInstance;
@@ -33,6 +32,4 @@ export class TrainingInstanceInfoComponent extends BaseComponent implements OnIn
       this.accessTokenLink = `/${RouteFactory.toTrainingInstanceAccessToken(this.trainingInstance.id)}`;
     }
   }
-
-
 }

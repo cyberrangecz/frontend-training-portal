@@ -1,5 +1,8 @@
 import {Filter} from './filter';
 
+/**
+ * Creates filters from user name filter value
+ */
 export class UserNameFilters {
   static create(filterValue: string): Filter[] {
      if (!filterValue || filterValue === '' || filterValue.trim().length <= 0) {

@@ -9,6 +9,9 @@ import {AlertService} from '../../../../services/shared/alert.service';
 import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
 import {AdminBaseComponent} from '../../admin-base-component';
 
+/**
+ * Main component of group overview administration (for subscription to user and group library observables)
+ */
 @Component({
   selector: 'kypo2-admin-group-wrapper',
   templateUrl: './admin-group-wrapper.component.html',

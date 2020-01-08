@@ -8,6 +8,9 @@ import {BaseComponent} from '../../base.component';
 import {PoolTableCreator} from '../../../model/table/factory/pool-table-creator';
 import {environment} from '../../../../environments/environment';
 
+/**
+ * Smart component of sandbox pool overview page
+ */
 @Component({
   selector: 'kypo2-sandbox-pool-overview',
   templateUrl: './sandbox-pool-overview.component.html',
@@ -28,6 +31,10 @@ export class SandboxPoolOverviewComponent extends BaseComponent implements OnIni
     this.initTable();
   }
 
+  /**
+   * Gets new data for pool overview table
+   * @param loadEvent load data event from table component
+   */
   onPoolsLoadEvent(loadEvent: LoadTableEvent) {
     this.poolService.getAll(loadEvent.pagination)
       .pipe(
@@ -36,6 +43,10 @@ export class SandboxPoolOverviewComponent extends BaseComponent implements OnIni
       .subscribe();
   }
 
+  /**
+   * Resolves type of action and calls appropriate handler
+   * @param event action event emitted from pool overview table
+   */
   onPoolAction(event: TableActionEvent<SandboxPool>) {
     let action$;
     if (event.action.label === PoolTableCreator.DELETE_ACTION) {

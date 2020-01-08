@@ -32,6 +32,10 @@ import {BREADCRUMB_PARAM_SELECTOR} from '../../paths';
  */
 export class BreadcrumbBuilderService {
 
+  /**
+   * Builds ordered list of breadcrumbs from data retrieved from router's activated route
+   * @param activeRoute router active route
+   */
   build(activeRoute: ActivatedRoute): Observable<Breadcrumb[]> {
     const result: Observable<Breadcrumb>[] = [];
     let currentRoute = activeRoute.root;

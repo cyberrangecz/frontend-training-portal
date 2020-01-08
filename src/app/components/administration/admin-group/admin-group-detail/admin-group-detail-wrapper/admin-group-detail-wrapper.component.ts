@@ -13,6 +13,9 @@ import {Group} from 'kypo2-user-and-group-management/lib/model/group/group.model
 import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 
+/**
+ * Main component of group detail administration (for subscription to user and group library observables)
+ */
 @Component({
   selector: 'kypo2-admin-group-detail-wrapper',
   templateUrl: './admin-group-detail-wrapper.component.html',

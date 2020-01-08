@@ -15,6 +15,9 @@ const routes: Routes = [
   }
 ];
 
+/**
+ * Routing for training definition preview
+ */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]

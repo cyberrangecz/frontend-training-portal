@@ -14,14 +14,19 @@ import {TrainingInstanceTableRow} from '../../../../model/table/row/training-ins
 import {SandboxInstanceAllocationState} from '../../../../model/training/sandbox-instance-allocation-state';
 import {TrainingInstance} from '../../../../model/training/training-instance';
 import {StringNormalizer} from '../../../../model/utils/ignore-diacritics-filter';
-import {TrainingInstanceFacade} from '../../../../services/facades/training-instance-facade.service';
+import {TrainingInstanceApi} from '../../../../services/api/training-instance-api.service';
 import {AlertService} from '../../../../services/shared/alert.service';
 import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
 import {SandboxAllocationService} from '../../../../services/training-instance/sandbox-allocation/sandbox-allocation.service';
 import {BaseComponent} from '../../../base.component';
 import {ActionConfirmationDialogComponent} from '../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import {AllocationModalComponent} from './allocation-modal/allocation-modal.component';
+import {ConfirmationDialogActionEnum} from '../../../../model/enums/confirmation-dialog-action-enum';
 
+/**
+ * Component for displaying training instances in form of an expandable table. Organizer can allocate sandboxes through table
+ * or expanded detail.
+ */
 @Component({
   selector: 'kypo2-training-instance-table',
   templateUrl: './training-instance-table.component.html',
@@ -34,11 +39,6 @@ import {AllocationModalComponent} from './allocation-modal/allocation-modal.comp
     ]),
     ],
 })
-
-/**
- * Component for list of training instance displayed in form of an expandable table. Organizer can allocate sandboxes through table
- * or expanded detail.
- */
 export class TrainingInstanceTableComponent extends BaseComponent implements OnInit, OnDestroy {
 
   @Output() edit: EventEmitter<TrainingInstance> = new EventEmitter();
@@ -61,7 +61,7 @@ export class TrainingInstanceTableComponent extends BaseComponent implements OnI
     private errorHandler: ErrorHandlerService,
     private allocationService: SandboxAllocationService,
     private authService: Kypo2AuthService,
-    private trainingInstanceFacade: TrainingInstanceFacade) {
+    private trainingInstanceFacade: TrainingInstanceApi) {
     super();
   }
 
@@ -75,23 +75,27 @@ export class TrainingInstanceTableComponent extends BaseComponent implements OnI
     this.allocationService.dispose();
   }
 
-  editTraining(training: TrainingInstance) {
-    this.edit.emit(training);
+  /**
+   * Emit event to navigate to training instance edit page
+   * @param trainingInstance training instance which should be edited
+   */
+  editTraining(trainingInstance: TrainingInstance) {
+    this.edit.emit(trainingInstance);
   }
 
   /**
    * Opens popup dialog to confirm if the user really wants to delete the training instance. If the action is
-   * confirmed, training instance is removed and REST API called to remove training from endpoint
-   * @param {TrainingInstanceTableRow} training training instance which should be removed
+   * confirmed, service is called to delete the training instance
+   * @param row row of table containing training instance which should be deleted
    */
-  deleteTraining(training: TrainingInstanceTableRow) {
+  deleteTraining(row: TrainingInstanceTableRow) {
 
     const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
       data: {
         type: 'Training Instance',
-        action: 'delete',
-        title: training.trainingInstance.title,
-        additionalInfo: training.trainingInstance.isActive(this.now) ? 'This training instance is in progress.' : undefined
+        action: ConfirmationDialogActionEnum.DELETE,
+        title: row.trainingInstance.title,
+        additionalInfo: row.trainingInstance.isActive(this.now) ? 'This training instance is in progress.' : undefined
       }
     });
 
@@ -99,15 +103,15 @@ export class TrainingInstanceTableComponent extends BaseComponent implements OnI
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(result => {
       if (result && result.type === 'confirm') {
-        this.sendRequestToDeleteTrainingInstance(training.trainingInstance.id);
+        this.sendRequestToDeleteTrainingInstance(row.trainingInstance.id);
       }
     });
   }
 
   /**
-   *
-   * @param {number} id
-   */
+   * Calls service to archive (download) training instance
+   * @param id id of the training instance to archive
+    */
   archiveTraining(id: number) {
     this.trainingInstanceFacade.download(id)
       .pipe(takeWhile(() => this.isAlive))
@@ -119,6 +123,10 @@ export class TrainingInstanceTableComponent extends BaseComponent implements OnI
       });
   }
 
+  /**
+   * Opens dialog for selecting number of allocated sandboxes and calls service to start the allocation
+   * @param row row of the table
+   */
   allocateTrainingInstanceSandboxes(row: TrainingInstanceTableRow) {
     const dialogRef = this.dialog.open(AllocationModalComponent, {
       data: row.trainingInstance.poolSize - row.allocatedSandboxesCount
@@ -133,21 +141,11 @@ export class TrainingInstanceTableComponent extends BaseComponent implements OnI
       });
   }
 
-  private startAllocation(row: TrainingInstanceTableRow, count: number) {
-    row.isAllocationInProgress = true;
-    row.allocation$ = this.allocationService.allocateSandboxes(row.trainingInstance, count);
-    row.allocation$
-      .pipe(
-        takeWhile(() => this.isAlive),
-        skipWhile(state => !state.wasUpdated || state.sandboxes.length === 0)
-      )
-      .subscribe(
-        allocationState => this.onAllocationUpdate(allocationState, row),
-        err => this.onAllocationUpdateError(err, row)
-      );
-  }
-
-
+  /**
+   * Subscribes to received observable and updates allocation state on each emission
+   * @param allocation$ observable of the running allocation
+   * @param instanceRow table row of the training instance associated with allocation
+   */
   onAllocationEvent(allocation$: Observable<SandboxInstanceAllocationState>, instanceRow: TrainingInstanceTableRow) {
     allocation$
       .pipe(takeWhile(() => this.isAlive))
@@ -182,6 +180,20 @@ export class TrainingInstanceTableComponent extends BaseComponent implements OnI
     this.fetchData();
   }
 
+  private startAllocation(row: TrainingInstanceTableRow, count: number) {
+    row.isAllocationInProgress = true;
+    row.allocation$ = this.allocationService.allocateSandboxes(row.trainingInstance, count);
+    row.allocation$
+      .pipe(
+        takeWhile(() => this.isAlive),
+        skipWhile(state => !state.wasUpdated || state.sandboxes.length === 0)
+      )
+      .subscribe(
+        allocationState => this.onAllocationUpdate(allocationState, row),
+        err => this.onAllocationUpdateError(err, row)
+      );
+  }
+
   /**
    * Fetches data from the server
    */
@@ -191,7 +203,7 @@ export class TrainingInstanceTableComponent extends BaseComponent implements OnI
         takeWhile(() => this.isAlive),
         startWith({}),
         switchMap(() => {
-          return this.trainingInstanceFacade.getPaginated({
+          return this.trainingInstanceFacade.getAll({
             page: this.paginator.pageIndex,
             size: this.paginator.pageSize,
             sort: this.sort.active,

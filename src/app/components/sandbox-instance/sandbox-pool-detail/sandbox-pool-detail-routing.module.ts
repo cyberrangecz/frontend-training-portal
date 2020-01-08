@@ -52,6 +52,9 @@ const routes: Routes = [
   }
 ];
 
+/**
+ * Routing for pool detail module
+ */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]

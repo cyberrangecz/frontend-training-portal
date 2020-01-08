@@ -1,10 +1,9 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {SandboxDefinitionFacadeModule} from '../../../services/facades/modules/sandbox-definition-facade.module';
-import {CreateSandboxDefinitionComponent} from '../create-sandbox-definition/create-sandbox-definition.component';
+import {SandboxDefinitionApiModule} from '../../../services/api/modules/sandbox-definition-api.module';
 import { SandboxDefinitionControlsComponent } from './sandbox-definition-controls/sandbox-definition-controls.component';
 import {Kypo2TableModule} from 'kypo2-table';
-import {SandboxDefinitionService} from '../../../services/shared/sandbox-definition.service';
+import {SandboxDefinitionService} from '../../../services/sandbox-definition/sandbox-definition.service';
 import {SandboxDefinitionConcreteService} from '../../../services/sandbox-definition/sandbox-definition.concrete.service';
 import {SandboxDefinitionDetailComponent} from './sandbox-definition-detail/sandbox-definition-detail.component';
 import {SandboxDefinitionOverviewRoutingModule} from './sandbox-definition-overview-routing.module';
@@ -12,14 +11,14 @@ import {SandboxDefinitionOverviewMaterialModule} from './sandbox-definition-over
 import {SandboxDefinitionOverviewComponent} from './sandbox-definition-overview.component';
 
 /**
- * Module containing components and routing for sandbox definition agenda
+ * Module containing components and services for sandbox definition overview page
  */
 @NgModule({
   imports: [
     CommonModule,
     SandboxDefinitionOverviewRoutingModule,
     SandboxDefinitionOverviewMaterialModule,
-    SandboxDefinitionFacadeModule,
+    SandboxDefinitionApiModule,
     Kypo2TableModule,
   ],
   declarations: [

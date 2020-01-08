@@ -3,6 +3,6 @@
   [data]="activeTrainingRuns$ | async"
   [hasError]="activeTrainingRunsTableHasError$ | async"
   [totalElements]="activeTrainingRunsTotalLength$ | async"
-  (rowAction)="onActiveTrainingRunsTableSelection($event)"
+  (rowAction)="onActiveTrainingRunAction($event)"
   (refresh)="onTableLoadEvent($event)">
 </kypo2-table>

@@ -4,7 +4,15 @@ import {SandboxDefinitionDetailComponent} from '../../../components/sandbox-defi
 import {PaginatedResource} from '../other/paginated-resource';
 import {SandboxDefinition} from '../../sandbox/definition/sandbox-definition';
 
+/**
+ * Helper class transforming paginated resource to class for common table component
+ */
 export class SandboxDefinitionTableCreator {
+
+  /**
+   * Transforming paginated resource to class for common table component
+   * @param resource paginated resource to transform
+   */
   static create(resource: PaginatedResource<SandboxDefinition[]>): Kypo2Table<SandboxDefinition> {
 
     const actions = [{

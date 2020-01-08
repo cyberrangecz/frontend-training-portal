@@ -8,7 +8,7 @@ import {BaseComponent} from '../../base.component';
   styleUrls: ['./unsaved-changes-dialog.component.css']
 })
 /**
- * PRESENTATIONAL
+ *
  * Popup dialog component to confirm if user wants to leave without saving changes
  */
 export class UnsavedChangesDialogComponent extends BaseComponent implements OnInit {
@@ -26,19 +26,27 @@ export class UnsavedChangesDialogComponent extends BaseComponent implements OnIn
   ngOnInit() {
   }
 
+  /**
+   * Closes the dialog with 'confirm' result
+   */
   confirm() {
     this.dialogRef.close({
       type: 'confirm'
     });
   }
 
+  /**
+   * Closes the dialog with 'save' result
+   */
   save() {
     this.dialogRef.close({
       type: 'save'
     });
   }
 
-
+  /**
+   * Closes the dialog with no result
+   */
   cancel() {
     this.dialogRef.close();
   }

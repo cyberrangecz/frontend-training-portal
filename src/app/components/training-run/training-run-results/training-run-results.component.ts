@@ -37,6 +37,9 @@ export class TrainingRunResultsComponent extends BaseComponent implements OnInit
     this.setVisualizationSize(event.target.innerWidth, event.target.innerHeight);
   }
 
+  /**
+   * Gets asynchronous data for visualizations
+   */
   loadVisualizationInfo() {
     this.visualizationInfo$ = this.activatedRoute.data
       .pipe(

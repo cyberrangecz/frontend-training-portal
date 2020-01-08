@@ -2,6 +2,10 @@ import {Directive, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output}
 import {Subject, Subscription} from 'rxjs';
 import {throttleTime} from 'rxjs/operators';
 
+/**
+ * Directive throttling a click event (waits 1s before emitting another value after emitting the last value)
+ * To prevent repeating actions on multiple clicks in short period of time (for example sending http request)
+ */
 @Directive({
   selector: '[throttleClick]'
 })

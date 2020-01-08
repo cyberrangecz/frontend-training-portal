@@ -1,6 +1,9 @@
 import {TrainingInstance} from './training-instance';
 import {SandboxInstance} from '../sandbox/pool/sandbox-instance/sandbox-instance';
 
+/**
+ * Class containing state of sandbox instance allocation
+ */
 export class SandboxInstanceAllocationState {
   training: TrainingInstance;
   requestedPoolSize: number;

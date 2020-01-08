@@ -1,7 +1,15 @@
 import {Column, Kypo2Table, Row} from 'kypo2-table';
 import {SandboxInstanceResource} from '../../sandbox/pool/sandbox-instance/sandbox-instance-resource/sandbox-instance-resource';
 
+/**
+ * Helper class transforming paginated resource to class for common table component
+ */
 export class SandboxInstanceResourceTableCreator {
+
+  /**
+   * Transforming paginated resource to class for common table component
+   * @param resources paginated resource to transform
+   */
   static create(resources: SandboxInstanceResource[]): Kypo2Table<SandboxInstanceResource> {
     const rows = resources.map(resource =>  new Row(resource, []));
     return  new Kypo2Table<SandboxInstanceResource>(

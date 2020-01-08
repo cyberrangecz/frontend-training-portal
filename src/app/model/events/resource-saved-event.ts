@@ -1,3 +1,6 @@
+/**
+ * Event representing requested save of a resource
+ */
 export class ResourceSavedEvent {
   id: number;
   editMode: boolean;

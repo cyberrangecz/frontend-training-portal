@@ -2,7 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import {StepItem} from 'kypo2-stepper';
 import {takeWhile} from 'rxjs/operators';
 import {AbstractLevel} from '../../../model/level/abstract-level';
-import {ActiveTrainingRunService} from '../../../services/training-run/active-training-run.service';
+import {RunningTrainingRunService} from '../../../services/training-run/running/running-training-run.service';
 import {BaseComponent} from '../../base.component';
 import {TrainingRunStepper} from './training-run-stepper';
 
@@ -28,7 +28,7 @@ export class TrainingRunDetailComponent extends BaseComponent implements OnInit 
   items: StepItem[] = [];
   stepper: TrainingRunStepper;
 
-  constructor(private activeTrainingRunService: ActiveTrainingRunService) {
+  constructor(private activeTrainingRunService: RunningTrainingRunService) {
     super();
   }
 
