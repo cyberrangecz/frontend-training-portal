@@ -8,6 +8,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatListModule} from '@angular/material/list';
 
 /**
  * Angular Material components imports for layout module
@@ -22,7 +24,9 @@ import {MatTreeModule} from '@angular/material/tree';
     MatTooltipModule,
     MatDividerModule,
     MatTreeModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatListModule,
+    MatFormFieldModule,
   ],
   exports: [
     MatToolbarModule,
@@ -33,7 +37,9 @@ import {MatTreeModule} from '@angular/material/tree';
     MatTooltipModule,
     MatDividerModule,
     MatTreeModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatListModule,
+    MatFormFieldModule,
   ]
 })
 export class LayoutMaterialModule {

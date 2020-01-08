@@ -1,7 +1,6 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {MatFormFieldModule, MatListModule, MatSidenavModule} from '@angular/material';
 import {RouterModule} from '@angular/router';
 import {BreadcrumbBuilderService} from '../../services/breadcrumbs/breadcrumb-builder.service';
 import {UserIdModule} from '../shared/user-id/user-id.module';
@@ -14,6 +13,8 @@ import {SidenavComponent} from './sidenav/sidenav.component';
 import {ToolbarComponent} from './toolbar/toolbar.component';
 import { TreeNavigationComponent } from './tree-navigation/tree-navigation.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
+import { FooterComponent } from './footer/footer.component';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 /**
  * Module containing all layout related components
@@ -25,8 +26,7 @@ import { UserMenuComponent } from './user-menu/user-menu.component';
     FormsModule,
     LayoutMaterialModule,
     UserIdModule,
-    MatListModule,
-    MatFormFieldModule,
+
   ],
   declarations: [
     ToolbarComponent,
@@ -37,13 +37,15 @@ import { UserMenuComponent } from './user-menu/user-menu.component';
     BreadcrumbsComponent,
     BreadcrumbsPresentationalComponent,
     LoadingComponent,
+    FooterComponent,
   ],
   exports: [
     ToolbarComponent,
     ActiveUserComponent,
     SidenavComponent,
-    MatSidenavModule,
     LoadingComponent,
+    FooterComponent,
+    MatSidenavModule
   ],
   providers: [
     BreadcrumbBuilderService
