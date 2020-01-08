@@ -1,6 +1,7 @@
 <div *ngIf="(distractionFreeMode$ | async) else withLayout">
   <kypo2-loading [isLoading]="isLoading$ | async"></kypo2-loading>
   <router-outlet></router-outlet>
+  <kypo2-footer></kypo2-footer>
 </div>
 <ng-template #withLayout>
   <mat-drawer-container autosize>
@@ -15,6 +16,7 @@
       <div class="content">
         <router-outlet></router-outlet>
       </div>
+      <kypo2-footer></kypo2-footer>
     </mat-drawer-content>
   </mat-drawer-container>
 </ng-template>
