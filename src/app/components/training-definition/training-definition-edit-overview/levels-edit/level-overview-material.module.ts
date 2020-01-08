@@ -1,5 +1,4 @@
 import {NgModule} from '@angular/core';
-import {MatProgressSpinnerModule} from '@angular/material';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -12,10 +11,10 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatStepperModule } from '@angular/material/stepper';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
+/**
+ * Material components for training definition level module
+ */
 @NgModule({
   imports: [
     MatFormFieldModule,
@@ -26,14 +25,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatDialogModule,
     MatDividerModule,
     MatListModule,
-    MatStepperModule,
     MatMenuModule,
-    MatTooltipModule,
     MatCheckboxModule,
-    MatSidenavModule,
     MatRadioModule,
     MatCardModule,
-    MatProgressSpinnerModule
   ],
   exports: [
     MatFormFieldModule,
@@ -44,15 +39,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatDialogModule,
     MatDividerModule,
     MatListModule,
-    MatStepperModule,
     MatMenuModule,
-    MatTooltipModule,
     MatCheckboxModule,
-    MatSidenavModule,
     MatRadioModule,
     MatCardModule,
-    MatProgressSpinnerModule
   ]
 })
-
 export class LevelOverviewMaterialModule {}

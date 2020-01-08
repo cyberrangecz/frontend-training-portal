@@ -9,6 +9,9 @@ import {
 import {AbstractQuestion} from '../../../../../../../../model/questions/abstract-question';
 import {ExtendedMatchingItems} from '../../../../../../../../model/questions/extended-matching-items';
 
+/**
+ * Form control group for form in EMI edit component
+ */
 export class ExtendedMatchingItemsFormGroup {
   formGroup: FormGroup;
 
@@ -35,6 +38,11 @@ export class ExtendedMatchingItemsFormGroup {
     this.noSelectedAnswers);
   }
 
+  /**
+   * Sets inserted input values to emi object
+   * @param emi emi object to be filled with inserted inputs
+   * @param isTest true if level is test, false if questionnaire
+   */
   setToEMI(emi: ExtendedMatchingItems, isTest: boolean) {
     emi.title = this.formGroup.get('title').value;
     emi.rows = this.formGroup.get('rows').value;
@@ -57,10 +65,16 @@ export class ExtendedMatchingItemsFormGroup {
     return error ? error : null;
   }
 
+  /**
+   * Adds correct answers validators (if level is test)
+   */
   addAnswersValidator() {
     this.formGroup.setValidators(this.noSelectedAnswers);
   }
 
+  /**
+   * Removes correct answers validators (if level is questionnaire)
+   */
   removeAnswersValidator() {
     this.formGroup.clearValidators();
     this.formGroup.updateValueAndValidity();

@@ -1,5 +1,8 @@
 import {TrainingDefinition} from '../training/training-definition';
 
+/**
+ * Event representing training definition change (edit)
+ */
 export class TrainingDefinitionChangeEvent {
   trainingDefinition: TrainingDefinition;
   isValid: boolean;

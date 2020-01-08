@@ -1,19 +1,14 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@busacca/ng-pick-datetime';
 import {PipesModule} from '../../../pipes/pipes.module';
-import {SandboxInstanceFacadeModule} from '../../../services/facades/modules/sandbox-instance-facade.module';
-import {TrainingDefinitionFacadeModule} from '../../../services/facades/modules/training-definition-facade.module';
-import {TrainingInstanceFacadeModule} from '../../../services/facades/modules/training-instance-facade.module';
+import {SandboxInstanceApiModule} from '../../../services/api/modules/sandbox-instance-api.module';
+import {TrainingInstanceApiModule} from '../../../services/api/modules/training-instance-api.module';
 import {TrainingInstanceBreadcrumbResolver} from '../../../services/resolvers/training-instance-breadcrumb-resolver.service';
 import {TrainingInstanceResolver} from '../../../services/resolvers/training-instance-resolver.service';
-import {ActiveTrainingInstanceService} from '../../../services/training-instance/active-training-instance.service';
 import {SandboxAllocationService} from '../../../services/training-instance/sandbox-allocation/sandbox-allocation.service';
 import {SandboxInstanceObservablesPoolService} from '../../../services/training-instance/sandbox-allocation/sandbox-instance-observables-pool.service';
 import {SharedModule} from '../../shared/shared.module';
-import { TrainingDefinitionSelectorComponent } from '../training-instance-edit-overview/training-definition-selector/training-definition-selector.component';
-import { TrainingInstanceEditComponent } from '../training-instance-edit-overview/training-instance-edit/training-instance-edit.component';
 import { TrainingInstanceControlsComponent } from './training-instance-controls/training-instance-controls.component';
 import {TrainingInstanceOverviewMaterialModule} from './training-instance-overview-material.module';
 import {TrainingInstanceOverviewRoutingModule} from './training-instance-overview-routing.module';
@@ -36,8 +31,8 @@ import { TrainingInstanceTableComponent } from './training-instance-table/traini
     PipesModule,
     TrainingInstanceOverviewMaterialModule,
     TrainingInstanceOverviewRoutingModule,
-    TrainingInstanceFacadeModule,
-    SandboxInstanceFacadeModule,
+    TrainingInstanceApiModule,
+    SandboxInstanceApiModule,
   ],
   declarations: [
     TrainingInstanceOverviewComponent,
@@ -48,7 +43,6 @@ import { TrainingInstanceTableComponent } from './training-instance-table/traini
     TrainingInstanceControlsComponent
   ],
   providers: [
-    ActiveTrainingInstanceService,
     SandboxInstanceObservablesPoolService,
     SandboxAllocationService,
     TrainingInstanceResolver,

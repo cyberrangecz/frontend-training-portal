@@ -1,11 +1,15 @@
 import {AbstractLevel} from '../level/abstract-level';
+import {StepperStateChange} from 'kypo2-stepper/lib/component/stepper-state-change';
 
+/**
+ * Event representing change of position of a level in level stepper
+ */
 export class LevelMoveEvent {
-  indexes: any;
+  stepperStateChange: StepperStateChange;
   levels: AbstractLevel[];
 
-  constructor(indexes: any, levels: AbstractLevel[]) {
-    this.indexes = indexes;
+  constructor(stepperStateChange: StepperStateChange, levels: AbstractLevel[]) {
+    this.stepperStateChange = stepperStateChange;
     this.levels = levels;
   }
 }

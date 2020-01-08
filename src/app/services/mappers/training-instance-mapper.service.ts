@@ -11,7 +11,7 @@ import {TrainingDefinitionMapper} from './training-definition-mapper.service';
 
 @Injectable()
 /**
- * Maps DTOs to training instance model
+ * Maps DTOs on training instance internal model
  */
 export class TrainingInstanceMapper {
 
@@ -19,20 +19,10 @@ export class TrainingInstanceMapper {
   }
 
   /**
-   * Maps training instance dtos received from remote server to training instance objects
-   * @param resource array of training instance dtos received from remote server
+   * Maps paginated training instance dtos received on training instance objects
+   * @param resource dto to be mapped on internal model
    */
-  mapTrainingInstanceDTOsToTrainingInstances(resource: TrainingInstanceRestResource): TrainingInstance[] {
-    const result: TrainingInstance[] = [];
-    resource.content.forEach(dto => result.push(this.mapTrainingInstanceDTOToTrainingInstance(dto)));
-    return result;
-  }
-
-  /**
-   * Maps training instance dtos received from remote server to training instance objects
-   * @param resource array of training instance dtos received from remote server with pagination
-   */
-  mapTrainingInstanceDTOsToTrainingInstancesWithPagination(resource: TrainingInstanceRestResource)
+  mapTrainingInstanceDTOsToTrainingInstances(resource: TrainingInstanceRestResource)
     : PaginatedResource<TrainingInstanceTableRow[]> {
     const tableDataList = resource.content.map(dto => new TrainingInstanceTableRow(this.mapTrainingInstanceDTOToTrainingInstance(dto)));
     const tablePagination = new Kypo2Pagination(resource.pagination.number,
@@ -44,8 +34,8 @@ export class TrainingInstanceMapper {
   }
 
   /**
-   * Maps training instance dto received from remote server to training instance object
-   * @param trainingInstanceDTO training instance dto received from remote server
+   * Maps training instance dto received fon training instance object
+   * @param trainingInstanceDTO dto to be mapped on internal model
    */
   mapTrainingInstanceDTOToTrainingInstance(trainingInstanceDTO: TrainingInstanceDTO): TrainingInstance {
     const result = new TrainingInstance();
@@ -62,8 +52,8 @@ export class TrainingInstanceMapper {
   }
 
   /**
-   * Maps training instance object to training instance create dto used to create new resource on the remote server
-   * @param trainingInstance training instance object which should be created
+   * Maps training instance on training instance create dto
+   * @param trainingInstance training instance object which should be mapped
    */
   mapTrainingInstanceToTrainingInstanceCreateDTO(trainingInstance: TrainingInstance): TrainingInstanceCreateDTO {
     const result = new TrainingInstanceCreateDTO();
@@ -77,8 +67,8 @@ export class TrainingInstanceMapper {
   }
 
   /**
-   * Maps training instance object to training instance update dto used to update existing resource on the remote server
-   * @param trainingInstance training instance object which should be updated
+   * Maps training instance on training instance update dto
+   * @param trainingInstance training instance object which should be mapped
    */
   mapTrainingInstanceToTrainingInstanceUpdateDTO(trainingInstance: TrainingInstance): TrainingInstanceUpdateDTO {
     const result = new TrainingInstanceUpdateDTO();

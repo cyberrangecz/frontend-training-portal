@@ -1,3 +1,6 @@
+/**
+ * Class representing a breadcrumb in a breadcrumb navigation system
+ */
 export class Breadcrumb {
   label: string;
   url: string;

@@ -12,6 +12,6 @@
   [totalElements]="archivedTrainingRunsTotalLength$ | async"
   (refresh)="onTableLoadEvent($event)"
   (rowAction)="onArchivedTrainingRunTableAction($event)"
-  (rowSelection)="rowSelection($event)">
+  (rowSelection)="onRowSelection($event)">
 </kypo2-table>
 

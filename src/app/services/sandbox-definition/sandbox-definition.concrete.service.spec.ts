@@ -1,7 +1,7 @@
 import {async, TestBed} from '@angular/core/testing';
 import {ErrorHandlerService} from '../shared/error-handler.service';
 import {SandboxDefinitionConcreteService} from './sandbox-definition.concrete.service';
-import {SandboxDefinitionFacade} from '../facades/sandbox-definition-facade.service';
+import {SandboxDefinitionApi} from '../api/sandbox-definition-api.service';
 import {throwError} from 'rxjs';
 import {RequestedPagination} from 'kypo2-table';
 import {AlertService} from '../shared/alert.service';
@@ -14,7 +14,7 @@ import {SandboxDefinition} from '../../model/sandbox/definition/sandbox-definiti
 describe('SandboxDefinitionConcreteService', () => {
 
   let errorHandlerSpy: jasmine.SpyObj<ErrorHandlerService>;
-  let SandboxDefinitionFacadeSpy: jasmine.SpyObj<SandboxDefinitionFacade>;
+  let SandboxDefinitionFacadeSpy: jasmine.SpyObj<SandboxDefinitionApi>;
   let alertHandlerSpy: jasmine.SpyObj<AlertService>;
   let service: SandboxDefinitionConcreteService;
 
@@ -27,7 +27,7 @@ describe('SandboxDefinitionConcreteService', () => {
     TestBed.configureTestingModule({
       providers: [
         SandboxDefinitionConcreteService,
-        {provide: SandboxDefinitionFacade, useValue: SandboxDefinitionFacadeSpy},
+        {provide: SandboxDefinitionApi, useValue: SandboxDefinitionFacadeSpy},
         {provide: AlertService, useValue: alertHandlerSpy},
         {provide: ErrorHandlerService, useValue: errorHandlerSpy},
       ]
@@ -56,7 +56,7 @@ describe('SandboxDefinitionConcreteService', () => {
     const mockData = createMockData();
     SandboxDefinitionFacadeSpy.getAllPaginated.and.returnValue(asyncData(mockData));
 
-    service.sandboxDefinitions$.pipe(skip(1))
+    service.definitions$.pipe(skip(1))
       .subscribe(emitted => {
           expect(emitted).toBe(mockData);
           done();

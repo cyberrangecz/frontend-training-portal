@@ -7,6 +7,9 @@ import {ScrollingModule} from '@angular/cdk/scrolling';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
+/**
+ * Material components for pool request detail module
+ */
 @NgModule({
   imports: [
     MatButtonModule,

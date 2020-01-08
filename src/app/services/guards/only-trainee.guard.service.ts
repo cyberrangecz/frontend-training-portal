@@ -8,7 +8,8 @@ import {LoadingService} from '../shared/loading.service';
 import {CanActivateToObservable} from './can-activate-to-observable';
 
 /**
- * If user has only trainee role, redirects him directly to training run agenda
+ * Route guard determining if user is signed in and has ONLY role of a trainee.
+ * If true, user is navigated directly to trainee agenda instead of the homepage
  */
 @Injectable()
 export class NotOnlyTraineeGuard implements CanActivate {

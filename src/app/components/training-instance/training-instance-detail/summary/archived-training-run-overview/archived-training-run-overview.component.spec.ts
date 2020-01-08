@@ -2,13 +2,13 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {ArchivedTrainingRunOverviewComponent} from './archived-training-run-overview.component';
 import {BrowserTestingModule} from '@angular/platform-browser/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {Kypo2TableModule} from 'kypo2-table';
+import {Kypo2TableModule, RowAction, TableActionEvent} from 'kypo2-table';
 import {PipesModule} from '../../../../../pipes/pipes.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MaterialTestingModule} from '../../../../../testing/test-utils/material-testing.module';
 import {RouterTestingModule} from '@angular/router/testing';
-import {ArchivedTrainingRunService} from '../../../../../services/shared/archived-training-run.service';
+import {ArchivedTrainingRunService} from '../../../../../services/training-run/archived/archived-training-run.service';
 import {TrainingRunTableAdapter} from '../../../../../model/table/row/training-run-table-adapter';
 import {TrainingRun} from '../../../../../model/training/training-run';
 import {User} from 'kypo2-auth';
@@ -55,14 +55,14 @@ describe('ArchivedTrainingRunOverviewComponent', () => {
   });
 
   it('should add row to selected rows array', () => {
-    component.rowSelection([
+    component.onRowSelection([
       new TrainingRunTableAdapter(createMockRun('1'), false),
     ]);
     expect(component.selectedTrainingRuns.length).toEqual(1);
   });
 
   it('should add multiple rows to selected rows array', () => {
-    component.rowSelection([
+    component.onRowSelection([
       new TrainingRunTableAdapter(createMockRun('1'), false),
       new TrainingRunTableAdapter(createMockRun('2'), false),
       new TrainingRunTableAdapter(createMockRun('3'), false)
@@ -80,7 +80,7 @@ describe('ArchivedTrainingRunOverviewComponent', () => {
     expect(dialogSpy).toHaveBeenCalledTimes(1);
   });
 
-  function createMockRun(id) {
+  function createMockRun(id): TrainingRun {
     const run = new TrainingRun();
     run.id = id;
     run.player = new User([]);
@@ -88,20 +88,9 @@ describe('ArchivedTrainingRunOverviewComponent', () => {
     return run;
   }
 
-  function createTableActionEvent() {
-    const event = {
-      action: {
-        label: 'delete'
-      },
-      element: {
-        trainingRun: {
-          id: '1'
-        }
-      }
-    };
-    return event;
+  function createTableActionEvent(): TableActionEvent<TrainingRunTableAdapter> {
+    const action = new RowAction('delete', '', '', '', of(false));
+    const element = new TrainingRunTableAdapter(createMockRun(1), false);
+    return new TableActionEvent(element, action);
   }
-
-
-
 });

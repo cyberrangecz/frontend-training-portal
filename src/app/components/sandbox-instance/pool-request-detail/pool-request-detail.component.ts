@@ -11,6 +11,9 @@ import {PoolRequestStagesPollingService} from '../../../services/sandbox-instanc
 import {StageDetailEventType} from '../../../model/enums/stage-detail-event-type';
 import {StageDetailEvent} from '../../../model/events/stage-detail-event';
 
+/**
+ * Smart component for pool request detail page
+ */
 @Component({
   selector: 'kypo2-pool-requests',
   templateUrl: './pool-request-detail.component.html',
@@ -38,10 +41,20 @@ export class PoolRequestDetailComponent extends BaseComponent implements OnInit 
   ngOnInit() {
   }
 
+  /**
+   * Helper method to improve performance of *ngFor directive
+   * @param index index of pool request stage
+   * @param item selected stage
+   */
   trackByFn(index: number, item: RequestStage) {
     return item.id;
   }
 
+  /**
+   * Calls service to force cleanup stage
+   * @param stage cleanup stage to force
+   * @param index index of stage to force
+   */
   onForceCleanup(stage: RequestStage, index: number) {
     this.requestStagesService.force(this.poolId, this.requestId, stage.id)
       .pipe(
@@ -49,6 +62,9 @@ export class PoolRequestDetailComponent extends BaseComponent implements OnInit 
       ).subscribe();
   }
 
+  /**
+   * Reloads stages of pool request
+   */
   reloadStages() {
     this.requestStagesService.getAll(this.poolId, this.requestId)
       .pipe(
@@ -57,6 +73,10 @@ export class PoolRequestDetailComponent extends BaseComponent implements OnInit 
       .subscribe();
   }
 
+  /**
+   * Resolves type of stage detail event and calls appropriate handler
+   * @param event stage detail event emitted from child component (subcribe or unsubsribe)
+   */
   onStageDetailEvent(event: StageDetailEvent) {
     if (event.type === StageDetailEventType.SUBSCRIBE) {
       this.stageDetailService.subscribe(event.stage)
@@ -66,6 +86,10 @@ export class PoolRequestDetailComponent extends BaseComponent implements OnInit 
     }
   }
 
+  /**
+   * Gets details for specified stage
+   * @param id id of stage which detail should be retrieved
+   */
   getStageDetail(id: number): StageDetail {
     return this.stageDetails.find(stageDetail => stageDetail.stageId === id);
   }

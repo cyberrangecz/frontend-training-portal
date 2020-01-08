@@ -4,14 +4,14 @@ import {TrainingDefinition} from '../../../../model/training/training-definition
 import {BaseComponent} from '../../../base.component';
 import { CloneDialogFormGroup } from './clone-dialog-form-group';
 
+/**
+ * Displays dialog with a form to select name of cloned training definition
+ */
 @Component({
   selector: 'kypo2-clone-dialog',
   templateUrl: './clone-dialog.component.html',
   styleUrls: ['./clone-dialog.component.css']
 })
-/**
- * Dialog to select name of cloned training definition
- */
 export class CloneDialogComponent extends BaseComponent implements OnInit {
 
   cloneDialogFormGroup: CloneDialogFormGroup;
@@ -21,13 +21,16 @@ export class CloneDialogComponent extends BaseComponent implements OnInit {
     super();
   }
 
+  get clonedDefinitionTitle() {return this.cloneDialogFormGroup.formGroup.get('clonedDefinitionTitle'); }
+
   ngOnInit() {
     this.cloneDialogFormGroup = new CloneDialogFormGroup();
     this.clonedDefinitionTitle.setValue( 'Clone of ' + this.data.title);
   }
 
-  get clonedDefinitionTitle() {return this.cloneDialogFormGroup.formGroup.get('clonedDefinitionTitle'); }
-
+  /**
+   * Closes the dialog with 'confirm' result and inserted title of clened training definition
+   */
   confirm() {
     if (this.cloneDialogFormGroup.formGroup.valid) {
     this.dialogRef.close({
@@ -37,6 +40,9 @@ export class CloneDialogComponent extends BaseComponent implements OnInit {
     }
   }
 
+  /**
+   * Closes the dialog with no result
+   */
   cancel() {
     this.dialogRef.close();
   }

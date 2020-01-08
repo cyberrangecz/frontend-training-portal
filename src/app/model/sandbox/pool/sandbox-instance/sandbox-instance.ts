@@ -1,5 +1,5 @@
 /**
- * Class representing sandbox instance of a definition
+ * Class representing sandbox instance
  */
 import {SandboxInstanceState} from '../../../enums/sandbox-instance-state';
 

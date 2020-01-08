@@ -2,12 +2,12 @@ import {Component, Inject, OnInit} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'reveal-hint-dialog',
+  selector: 'kypo2-reveal-hint-dialog',
   templateUrl: './reveal-hint-dialog.component.html',
   styleUrls: ['./reveal-hint-dialog.component.css']
 })
 /**
- * Component of a popup dialog to display confirm taking of a hint by user.
+ * Popup dialog asking for confirmation of revelation of a hint in a game level
  */
 export class RevealHintDialogComponent implements OnInit {
 
@@ -20,12 +20,18 @@ export class RevealHintDialogComponent implements OnInit {
 
   }
 
+  /**
+   * Closes the dialog with result 'confirm'
+   */
   confirm() {
     this.dialogRef.close({
       type: 'confirm'
     });
   }
 
+  /**
+   * Closes the dialog with no result
+   */
   cancel() {
     this.dialogRef.close();
   }

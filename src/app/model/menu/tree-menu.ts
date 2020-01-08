@@ -20,6 +20,9 @@ const TRAININGS_LABEL = 'Trainings';
 const SANDBOXES_LABEL = 'Sandboxes';
 const ADMIN_LABEL = 'Administration';
 
+/**
+ * Class representing sidebar navigation menu. Creates menu in a tree-like structure based on user roles
+ */
 export class TreeMenu {
   static create(user: User): MenuNode[] {
     let tree = TreeMenu.createTopLevelNodes();

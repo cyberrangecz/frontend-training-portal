@@ -4,7 +4,7 @@ import {
   PoolCreationRequestsPollingService
 } from './pool-creation-requests-polling.service';
 import {ErrorHandlerService} from '../../../shared/error-handler.service';
-import {SandboxInstanceFacade} from '../../../facades/sandbox-instance-facade.service';
+import {SandboxInstanceApi} from '../../../api/sandbox-instance-api.service';
 import {RequestedPagination} from 'kypo2-table';
 import {asyncData} from '../../../../testing/helpers/async-data';
 import {PaginatedResource} from '../../../../model/table/other/paginated-resource';
@@ -16,7 +16,7 @@ import {PoolCreationRequest} from '../../../../model/sandbox/pool/request/pool-c
 
 describe('PoolCreationRequestsPollingService', () => {
   let errorHandlerSpy: jasmine.SpyObj<ErrorHandlerService>;
-  let facadeSpy: jasmine.SpyObj<SandboxInstanceFacade>;
+  let facadeSpy: jasmine.SpyObj<SandboxInstanceApi>;
   let service: PoolCreationRequestsPollingService;
 
   beforeEach(async(() => {
@@ -25,7 +25,7 @@ describe('PoolCreationRequestsPollingService', () => {
     TestBed.configureTestingModule({
     providers: [
       PoolCreationRequestsPollingService,
-      {provide: SandboxInstanceFacade, useValue: facadeSpy},
+      {provide: SandboxInstanceApi, useValue: facadeSpy},
       {provide: ErrorHandlerService, useValue: errorHandlerSpy}
     ]
   });

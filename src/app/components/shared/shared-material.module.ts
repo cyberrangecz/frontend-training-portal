@@ -6,6 +6,9 @@ import { MatIconModule } from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
+/**
+ * Material component imports for shared module
+ */
 @NgModule({
   imports: [
     MatIconModule,
@@ -24,7 +27,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatInputModule
   ]
 })
-
 export class SharedMaterialModule {
 
 }

@@ -98,7 +98,9 @@ const routes: Routes = [
   } as ExtraOptions)],
   exports: [RouterModule]
 })
-
+/**
+ * Main routing module. Contains routes to all lazy-loaded app agendas.
+ */
 export class AppRoutingModule {
 
 }

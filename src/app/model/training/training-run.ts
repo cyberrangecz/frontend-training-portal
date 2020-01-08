@@ -4,7 +4,7 @@ import {TrainingRunStateEnum} from '../enums/training-run-state.enum';
 import {AbstractLevel} from '../level/abstract-level';
 
 /**
- * Class representing training run of an instance
+ * Class representing training run
  */
 export class TrainingRun {
 

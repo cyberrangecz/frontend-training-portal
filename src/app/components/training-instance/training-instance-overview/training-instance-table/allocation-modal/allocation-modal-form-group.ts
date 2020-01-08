@@ -1,5 +1,8 @@
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 
+/**
+ * Form group of allocation size form
+ */
 export class AllocationModalFormGroup {
   formGroup: FormGroup;
 

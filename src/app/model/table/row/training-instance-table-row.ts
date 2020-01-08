@@ -4,6 +4,9 @@ import {SandboxInstanceAllocationState} from '../../training/sandbox-instance-al
 import {TrainingInstance} from '../../training/training-instance';
 import {StringNormalizer} from '../../utils/ignore-diacritics-filter';
 
+/**
+ * Class representing row of training instance table
+ */
 export class TrainingInstanceTableRow {
   trainingDefinitionTitle: string;
   detailRouterLink: string;

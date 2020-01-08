@@ -10,6 +10,9 @@ import {GroupBreadcrumbResolver} from '../../../../services/resolvers/group-brea
 import { AdminGroupDetailWrapperComponent } from './admin-group-detail-wrapper/admin-group-detail-wrapper.component';
 import {GroupEditCanDeactivate} from '../../../../services/guards/group-edit-can-deactivate.service';
 
+/**
+ * Administration group detail module
+ */
 @NgModule({
   imports: [
     CommonModule,

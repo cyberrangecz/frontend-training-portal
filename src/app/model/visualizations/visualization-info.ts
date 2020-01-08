@@ -1,3 +1,6 @@
+/**
+ * Wrapper class for necessary info for visualizations
+ */
 export class VisualizationInfo {
   trainingDefinitionId: number;
   trainingInstanceId: number;

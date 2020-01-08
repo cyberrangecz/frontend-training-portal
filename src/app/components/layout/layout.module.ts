@@ -16,7 +16,7 @@ import { TreeNavigationComponent } from './tree-navigation/tree-navigation.compo
 import { UserMenuComponent } from './user-menu/user-menu.component';
 
 /**
- * Module container for all layout related components
+ * Module containing all layout related components
  */
 @NgModule({
   imports: [

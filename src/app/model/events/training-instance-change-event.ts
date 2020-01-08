@@ -1,5 +1,8 @@
 import {TrainingInstance} from '../training/training-instance';
 
+/**
+ * Event representing training instance change (edit)
+ */
 export class TrainingInstanceChangeEvent {
   trainingInstance: TrainingInstance;
   isValid: boolean;

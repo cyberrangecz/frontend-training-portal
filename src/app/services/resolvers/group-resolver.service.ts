@@ -8,6 +8,9 @@ import {catchError, mergeMap, take, tap} from 'rxjs/operators';
 import {ADMIN_GROUP_PATH} from '../../paths';
 import {ADMIN_GROUP_NEW_PATH} from '../../components/administration/admin-group/admin-group-detail/paths';
 
+/**
+ * Router data provider
+ */
 @Injectable()
 export class GroupResolver implements Resolve<Group> {
 
@@ -16,6 +19,11 @@ export class GroupResolver implements Resolve<Group> {
               private errorHandler: ErrorHandlerService) {
   }
 
+  /**
+   * Retrieves a specific resource based on id provided in url. Navigates to a resource overview if no resource with such id exists.
+   * @param route route snapshot
+   * @param state router state snapshot
+   */
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Group> | Promise<Group> | Group {
     if (state.url.endsWith(`${ADMIN_GROUP_PATH}/${ADMIN_GROUP_NEW_PATH}`)) {
       return null;

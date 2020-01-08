@@ -43,6 +43,4 @@ export class FreeFormQuestionTraineeComponent extends BaseComponent implements O
   saveChanges() {
     this.question.usersAnswer = this.answer;
   }
-
-
 }

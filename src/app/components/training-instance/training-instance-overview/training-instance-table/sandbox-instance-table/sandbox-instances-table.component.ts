@@ -15,13 +15,14 @@ import {Observable} from 'rxjs';
 import {skipWhile, takeWhile} from 'rxjs/operators';
 import {SandboxInstanceTableRow} from '../../../../../model/table/row/sandbox-instance-table-row';
 import {SandboxInstanceAllocationState} from '../../../../../model/training/sandbox-instance-allocation-state';
-import {SandboxInstanceFacade} from '../../../../../services/facades/sandbox-instance-facade.service';
+import {SandboxInstanceApi} from '../../../../../services/api/sandbox-instance-api.service';
 import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
 import {SandboxAllocationService} from '../../../../../services/training-instance/sandbox-allocation/sandbox-allocation.service';
 import {BaseComponent} from '../../../../base.component';
 import {ActionConfirmationDialogComponent} from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import {AllocationErrorReasonComponent} from '../allocation-error-reason-dialog/allocation-error-reason.component';
 import {RequestedPagination} from 'kypo2-table';
+import {ConfirmationDialogActionEnum} from '../../../../../model/enums/confirmation-dialog-action-enum';
 
 
 @Component({
@@ -57,7 +58,7 @@ export class SandboxInstancesTableComponent extends BaseComponent implements OnI
     private dialog: MatDialog,
     private errorHandler: ErrorHandlerService,
     private allocationService: SandboxAllocationService,
-    private sandboxInstanceFacade: SandboxInstanceFacade) {
+    private sandboxInstanceFacade: SandboxInstanceApi) {
     super();
   }
 
@@ -80,6 +81,10 @@ export class SandboxInstancesTableComponent extends BaseComponent implements OnI
     }
   }
 
+  /**
+   * Applies inserted filter value on data source
+   * @param filterValue value by which should be filtered
+   */
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
     if (this.dataSource.paginator) {
@@ -87,20 +92,55 @@ export class SandboxInstancesTableComponent extends BaseComponent implements OnI
     }
   }
 
+  /**
+   * Opens popup dialog to confirm the action, if confirmed, call service to delete sandbox instance
+   * @param sandboxRow table row of a sandbox instance
+   * @param isHardDelete whether or not should be hard deleted (hard delete cannot fail but it takes much longer)
+   */
   deleteSandbox(sandboxRow: SandboxInstanceTableRow, isHardDelete = false) {
     this.isHardDelete = isHardDelete;
     this.askForConfirmation(sandboxRow);
   }
 
+  /**
+   * Displays sandbox allocation error in popup window
+   * @param sandboxRow table row of a sandbox instance
+   */
   showSandboxErrorMessage(sandboxRow: SandboxInstanceTableRow) {
     this.dialog.open(AllocationErrorReasonComponent, { data: sandboxRow.sandboxInstance });
+  }
+
+  /**
+   * Calls service to allocate  new sandbox instance
+   * @param sandboxRow table row
+   */
+  allocateSandbox(sandboxRow: SandboxInstanceTableRow) {
+    this.isDisabled = true;
+    const sandboxCount = this.getSandboxCount() + 1;
+    const sandboxAllocation$ = this.allocationService.allocateSandbox(this.trainingInstance, sandboxCount);
+    sandboxAllocation$
+      .pipe(
+        takeWhile(() => this.isAlive),
+        skipWhile(allocationState => !allocationState.wasUpdated)
+      )
+      .subscribe(
+        allocationState =>  {
+          this.isDisabled = false;
+          this.displayData(allocationState);
+        },
+        err =>  {
+          this.isDisabled = false;
+          this.errorHandler.display(err, 'Allocating sandbox');
+        }
+      );
+    this.allocationEvent.emit(sandboxAllocation$);
   }
 
   private askForConfirmation(sandboxRow: SandboxInstanceTableRow) {
     const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
       data: {
         type: 'Sandbox Instance',
-        action: 'delete',
+        action: ConfirmationDialogActionEnum.DELETE,
         title: sandboxRow.sandboxInstance.id.toString(),
         additionalInfo: 'This sandbox instance may be connected to a training run.'
       }
@@ -140,28 +180,6 @@ export class SandboxInstancesTableComponent extends BaseComponent implements OnI
       }
     );
     this.allocationEvent.emit(sandboxDeletion$);
-  }
-
-  allocateSandbox(sandboxRow: SandboxInstanceTableRow) {
-    this.isDisabled = true;
-    const sandboxCount = this.getSandboxCount() + 1;
-    const sandboxAllocation$ = this.allocationService.allocateSandbox(this.trainingInstance, sandboxCount);
-    sandboxAllocation$
-      .pipe(
-        takeWhile(() => this.isAlive),
-        skipWhile(allocationState => !allocationState.wasUpdated)
-      )
-      .subscribe(
-        allocationState =>  {
-          this.isDisabled = false;
-          this.displayData(allocationState);
-        },
-        err =>  {
-          this.isDisabled = false;
-          this.errorHandler.display(err, 'Allocating sandbox');
-        }
-      );
-    this.allocationEvent.emit(sandboxAllocation$);
   }
 
   private displayData(allocationState: SandboxInstanceAllocationState = null) {

@@ -16,19 +16,20 @@ import { AbstractLevelTypeEnum } from '../../../../../model/enums/abstract-level
 import { LevelMoveEvent } from '../../../../../model/events/level-move-event';
 import { AbstractLevel } from '../../../../../model/level/abstract-level';
 import { TrainingDefinition } from '../../../../../model/training/training-definition';
-import { LevelEditService } from '../../../../../services/training-definition/level-edit.service';
+import { LevelEditService } from '../../../../../services/training-definition/edit/level-edit.service';
 import { BaseComponent } from '../../../../base.component';
 import { ActionConfirmationDialogComponent } from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
+import {ConfirmationDialogActionEnum} from '../../../../../model/enums/confirmation-dialog-action-enum';
 
+/**
+ * Smart component for level stepper and level edit components
+ */
 @Component({
   selector: 'kypo2-level-overview',
   templateUrl: './level-overview.component.html',
   styleUrls: ['./level-overview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-/**
- * Smart wrapper component for level stepper and level edit components
- */
 export class LevelOverviewComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Output() unsavedLevels: EventEmitter<AbstractLevel[]> = new EventEmitter();
@@ -62,12 +63,17 @@ export class LevelOverviewComponent extends BaseComponent implements OnInit, OnC
     }
   }
 
-  onActiveLevelChange(stepIndex: number) {
-    this.levelService.setActiveStep(stepIndex);
+  /**
+   * Calls service to set new active level
+   * @param levelIndex index of new active level
+   */
+  onActiveLevelChange(levelIndex: number) {
+    this.levelService.setActiveLevel(levelIndex);
   }
 
   /**
-   * Creates new game level with default values
+   * Calls service to create new level of selected type
+   * @param levelType type of level to create
    */
   addLevel(levelType: AbstractLevelTypeEnum) {
     this.levelService.add(levelType)
@@ -80,52 +86,63 @@ export class LevelOverviewComponent extends BaseComponent implements OnInit, OnC
       );
   }
 
+  /**
+   * Call service to move level from original position to a new one
+   * @param event event of level move
+   */
   onLevelMoved(event: LevelMoveEvent) {
     this.levelMovingInProgress = true;
-    this.levelService.move(event.indexes.previousIndex, event.indexes.currentIndex)
+    this.levelService.move(event.stepperStateChange.previousIndex, event.stepperStateChange.currentIndex)
       .pipe(
         takeWhile(_ => this.isAlive)
       ).subscribe(
         _ => {
           this.levelMovingInProgress = false;
-          this.levelService.setActiveStep(event.indexes.currentIndex);
+          this.levelService.setActiveLevel(event.stepperStateChange.currentIndex);
         },
         _ => this.levelMovingInProgress = false
       );
   }
 
+  /**
+   * Shows confirmation dialog to delete currently active level, calls service to delete the level, if confirmed
+   */
   onDeleteLevel() {
-    this.showDialogBeforeDeleting(this.levelService.getSelected());
-  }
-
-  onSave() {
     const level = this.levelService.getSelected();
-    this.levelService.save(level)
-      .pipe(
-        takeWhile(_ => this.isAlive)
-      ).subscribe(_ => this.unsavedLevels.emit(this.levelService.getUnsavedLevels()));
-    this.levelService.forceStepperUpdate();
-  }
-
-  onActiveLevelChanged(level: AbstractLevel) {
-    this.levelService.onActiveLevelChanged(level);
-  }
-
-  private showDialogBeforeDeleting(level: AbstractLevel) {
     const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
       data:
-      {
-        type: 'level',
-        action: 'delete',
-        title: level.title
-      }
+        {
+          type: 'level',
+          action: ConfirmationDialogActionEnum.DELETE,
+          title: level.title
+        }
     });
     dialogRef.afterClosed()
       .pipe(
         takeWhile(() => this.isAlive),
         switchMap(result => result && result.type === 'confirm' ? this.levelService.delete(level) : of(null))
       ).subscribe(_ => this.levelsCount.emit(this.levelService.getLevelsCount())
-      );
+    );
+  }
+
+  /**
+   * Calls service to save currently active level
+   */
+  onSave() {
+    this.levelService.forceStepperUpdate();
+    const level = this.levelService.getSelected();
+    this.levelService.save(level)
+      .pipe(
+        takeWhile(_ => this.isAlive)
+      ).subscribe(_ => this.unsavedLevels.emit(this.levelService.getUnsavedLevels()));
+  }
+
+  /**
+   * Calls service to change active level
+   * @param level level to set as active
+   */
+  onActiveLevelChanged(level: AbstractLevel) {
+    this.levelService.onActiveLevelChanged(level);
   }
 
 }

@@ -10,13 +10,16 @@ import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 
 @Injectable()
+/**
+ * Intercepts HTTP requests and logs error responses to console
+ */
 export class ErrorLogInterceptor implements HttpInterceptor {
 
   constructor() {
   }
 
 
-  /**  Intercepts HTTP requests and logs possible errors
+  /**  Intercepts HTTP requests and logs error responses to console
    * @param req http request
    * @param next next http handler
    */

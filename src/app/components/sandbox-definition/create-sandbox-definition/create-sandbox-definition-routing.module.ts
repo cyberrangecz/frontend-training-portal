@@ -10,6 +10,9 @@ const routes: Routes = [
   },
 ];
 
+/**
+ * Create sandbox definition routing module
+ */
 @NgModule({
   imports: [
     RouterModule.forChild(routes)

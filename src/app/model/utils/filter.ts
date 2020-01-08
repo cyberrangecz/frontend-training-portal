@@ -1,3 +1,6 @@
+/**
+ * Creates filter for api services that support filtering of results
+ */
 export class Filter {
   paramName: string;
   value: string;

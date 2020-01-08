@@ -1,27 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {map, switchMap, takeWhile} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {AccessTrainingRunInfo} from '../../../model/training/access-training-run-info';
 import {TrainingDefinition} from '../../../model/training/training-definition';
-import {TrainingDefinitionFacade} from '../../../services/facades/training-definition-facade.service';
-import {ActiveTrainingRunService} from '../../../services/training-run/active-training-run.service';
+import {TrainingDefinitionApi} from '../../../services/api/training-definition-api.service';
+import {RunningTrainingRunService} from '../../../services/training-run/running/running-training-run.service';
 import {BaseComponent} from '../../base.component';
 
+/**
+ * Main component of training run preview. Initializes mock services with data of training definition to simulate
+ * real server behaviour.
+ */
 @Component({
   selector: 'kypo2-designer-preview',
   templateUrl: './training-preview.component.html',
   styleUrls: ['./training-preview.component.css']
 })
-/**
- * Main component of traning run preview. Initializes mock services with data of training definition to simulate
- * real backend behaviour.
- */
 export class TrainingPreviewComponent extends BaseComponent implements OnInit {
 
   isLoaded = false;
 
-  constructor(private previewService: ActiveTrainingRunService,
-              private trainingDefinitionFacade: TrainingDefinitionFacade,
+  constructor(private previewService: RunningTrainingRunService,
+              private trainingDefinitionFacade: TrainingDefinitionApi,
               private activeRoute: ActivatedRoute) {
     super();
   }

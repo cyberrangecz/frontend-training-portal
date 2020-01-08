@@ -4,24 +4,36 @@ import {BehaviorSubject, forkJoin, merge, Observable, Subject, timer} from 'rxjs
 import {StageDetail} from '../../../../model/sandbox/pool/request/stage/stage-detail';
 import {RequestStage} from '../../../../model/sandbox/pool/request/stage/request-stage';
 import {map, retryWhen, switchMap, tap} from 'rxjs/operators';
-import {SandboxInstanceFacade} from '../../../facades/sandbox-instance-facade.service';
+import {SandboxInstanceApi} from '../../../api/sandbox-instance-api.service';
 import {Dictionary} from 'typescript-collections';
 import {environment} from '../../../../../environments/environment';
 import {RequestStageType} from '../../../../model/enums/request-stage-type.enum';
 
+/**
+ * Service extending stage detail service of polling behaviour.
+ * Stages must bust be first subscribed to be added to a list of polled stages.
+ */
 @Injectable()
 export class StageDetailPollingService extends StageDetailService {
 
   private retryPolling$: Subject<boolean> = new Subject();
   private stageDetailsSubject$: BehaviorSubject<StageDetail[]> = new BehaviorSubject([]);
-  stageDetail$: Observable<StageDetail[]>;
   private subscribedStageDetails: Dictionary<number, StageDetail> = new Dictionary();
 
-  constructor(private sandboxInstanceFacade: SandboxInstanceFacade) {
+  /**
+   * Emits received data with every new poll response
+   */
+  stageDetail$: Observable<StageDetail[]>;
+
+  constructor(private sandboxInstanceFacade: SandboxInstanceApi) {
     super();
     this.stageDetail$ = merge(this.createPoll(), this.stageDetailsSubject$.asObservable());
   }
 
+  /**
+   * Adds a stage to a list of polled stages
+   * @param stage a stage to add to a list of polled stages
+   */
   subscribe(stage: RequestStage): Observable<any> {
     return this.getStageOutputRequest(stage.id, stage.type)
       .pipe(
@@ -35,6 +47,10 @@ export class StageDetailPollingService extends StageDetailService {
       );
   }
 
+  /**
+   * Removes a stage from a list of polled stages
+   * @param stage a stage to removed from a list of polled stages
+   */
   unsubscribe(stage: RequestStage) {
     this.subscribedStageDetails.remove(stage.id);
   }

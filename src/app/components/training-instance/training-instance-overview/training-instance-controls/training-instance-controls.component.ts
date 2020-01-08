@@ -1,5 +1,8 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
+/**
+ * Component containing controls for training instance overview page
+ */
 @Component({
   selector: 'kypo2-training-instance-controls',
   templateUrl: './training-instance-controls.component.html',
@@ -14,6 +17,9 @@ export class TrainingInstanceControlsComponent implements OnInit {
   ngOnInit() {
   }
 
+  /**
+   * Emits event to create new training instance
+   */
   onCreate() {
     this.create.emit();
   }

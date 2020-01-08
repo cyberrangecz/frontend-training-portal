@@ -9,6 +9,9 @@ import {
 import {AbstractQuestion} from '../../../../../../../../model/questions/abstract-question';
 import {FreeFormQuestion} from '../../../../../../../../model/questions/free-form-question';
 
+/**
+ * Form control for free form question component
+ */
 export class FreeFormQuestionFormGroup {
   formGroup: FormGroup;
 
@@ -33,12 +36,18 @@ export class FreeFormQuestionFormGroup {
       this.noSelectedAnswers);
   }
 
-  setToFFQ(ffq: FreeFormQuestion, freeFromValid: boolean, isTest: boolean) {
+  /**
+   * Sets form input values to free form question object
+   * @param ffq free form question to be filled with values
+   * @param ffqIsValid true if free form question is valid, false otherwise
+   * @param isTest true if level is test, false if questionnaire
+   */
+  setToFFQ(ffq: FreeFormQuestion, ffqIsValid: boolean, isTest: boolean) {
     ffq.title = this.formGroup.get('title').value;
     ffq.correctAnswers = this.formGroup.get('answers').value;
     ffq.score = ffq.required ? this.formGroup.get('score').value : 0;
     ffq.penalty = isTest ? this.formGroup.get('penalty').value : 0;
-    ffq.valid = !isTest ? true : this.formGroup.valid && freeFromValid;
+    ffq.valid = !isTest ? true : this.formGroup.valid && ffqIsValid;
   }
 
   private noSelectedAnswers: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
@@ -50,10 +59,16 @@ export class FreeFormQuestionFormGroup {
     return error ? error : null;
   }
 
+  /**
+   * Adds validator to answers if preselected correct answers are required (if level is test)
+   */
   addAnswersValidator() {
     this.formGroup.setValidators(this.noSelectedAnswers);
   }
 
+  /**
+   * Removes validators from answers if preselected correct answers are not required (if level is questionnaire)
+   */
   removeAnswersValidator() {
     this.formGroup.clearValidators();
     this.formGroup.updateValueAndValidity();

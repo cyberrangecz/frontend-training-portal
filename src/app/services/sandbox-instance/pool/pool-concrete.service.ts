@@ -4,7 +4,7 @@ import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {switchMap, tap} from 'rxjs/operators';
 import {SandboxPool} from '../../../model/sandbox/pool/sandbox-pool';
 import {PaginatedResource} from '../../../model/table/other/paginated-resource';
-import {SandboxInstanceFacade} from '../../facades/sandbox-instance-facade.service';
+import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {PoolService} from './pool.service';
 import {environment} from '../../../../environments/environment';
@@ -12,20 +12,35 @@ import {Cacheable, CacheBuster} from 'ngx-cacheable';
 import {AlertService} from '../../shared/alert.service';
 import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
 
+/**
+ * Emission causes cached data to cleanup
+ */
 const cacheBuster$: Subject<void> = new Subject();
 
+/**
+ * Basic implementation of a layer between a component and an API service.
+ * Can manually get pools and perform various operations to modify them.
+ */
 @Injectable()
 export class PoolConcreteService extends PoolService {
   private lastPagination: RequestedPagination;
   private poolsSubject: BehaviorSubject<PaginatedResource<SandboxPool[]>> = new BehaviorSubject(this.initSubject());
+
+  /**
+   * List of pools with currently selected pagination options
+   */
   pools$: Observable<PaginatedResource<SandboxPool[]>> = this.poolsSubject.asObservable();
 
-  constructor(private sandboxInstanceFacade: SandboxInstanceFacade,
+  constructor(private sandboxInstanceFacade: SandboxInstanceApi,
               private alertService: AlertService,
               private errorHandler: ErrorHandlerService) {
     super();
   }
 
+  /**
+   * Gets all pools with passed pagination and updates related observables or handles an error
+   * @param pagination requested pagination
+   */
   @Cacheable({
     cacheBusterObserver: cacheBuster$
   })
@@ -37,7 +52,7 @@ export class PoolConcreteService extends PoolService {
         tap(
           paginatedPools => {
             this.poolsSubject.next(paginatedPools);
-            this.totalLengthSubject.next(paginatedPools.pagination.totalElements);
+            this.totalLengthSubject$.next(paginatedPools.pagination.totalElements);
           },
           err => {
             this.errorHandler.display(err, 'Fetching pools');
@@ -47,6 +62,11 @@ export class PoolConcreteService extends PoolService {
       );
   }
 
+  /**
+   * Starts a sandbox instance allocation, informs about the result and updates list of pools or handles an error
+   * @param pool a pool to be allocated with sandbox instances
+   * @param count number of sandbox instances to be allocated
+   */
   @CacheBuster({
     cacheBusterNotifier: cacheBuster$
   })
@@ -66,6 +86,10 @@ export class PoolConcreteService extends PoolService {
       );
   }
 
+  /**
+   * Deletes a pool, informs about the result and updates list of pools or handles an error
+   * @param pool a pool to be deleted
+   */
   @CacheBuster({
     cacheBusterNotifier: cacheBuster$
   })
@@ -79,6 +103,10 @@ export class PoolConcreteService extends PoolService {
       );
   }
 
+  /**
+   * Clears a pool by deleting all associated sandbox instances, informs about the result and updates list of pools or handles an error
+   * @param pool a pool to be cleared
+   */
   @CacheBuster({
     cacheBusterNotifier: cacheBuster$
   })

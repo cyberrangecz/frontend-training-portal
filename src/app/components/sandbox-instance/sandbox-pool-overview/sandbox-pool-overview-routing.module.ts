@@ -21,6 +21,9 @@ const routes: Routes = [
   }
 ];
 
+/**
+ * Routing module for sandbox pool overview
+ */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]

@@ -6,13 +6,18 @@ import {TrainingDefinitionDTO} from '../../model/DTOs/training-definition/traini
 
 @Injectable()
 /**
- * Service parsing file and uploading it to endpoint
+ * Parsers and uploads a file to a server
  */
 export class UploadService {
 
   constructor(private http: HttpClient) {
   }
 
+  /**
+   * Converts training definition file to a JSON object and sends it to provided url.
+   * @param url url of an endpoint
+   * @param file file to be parsed and uploaded
+   */
   public uploadTrainingDefinition(url: string, file: File): Observable<TrainingDefinitionDTO> {
     const fileReader = new FileReader();
     const fileRead$ = fromEvent(fileReader, 'load')

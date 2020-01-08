@@ -30,7 +30,7 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <ng-template matExpansionPanelContent>
-        <kypo2-active-training-run-overview [isPollingActive]="isExpanded(1)" [trainingInstance]="trainingInstance">
+        <kypo2-active-training-run-overview [isPollingActive]="isOpen(1)" [trainingInstance]="trainingInstance">
         </kypo2-active-training-run-overview>
       </ng-template>
 
@@ -46,7 +46,7 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <ng-template matExpansionPanelContent>
-        <kypo2-archived-training-run-overview [isPollingActive]="isExpanded(2)" [trainingInstance]="trainingInstance">
+        <kypo2-archived-training-run-overview [isPollingActive]="isOpen(2)" [trainingInstance]="trainingInstance">
         </kypo2-archived-training-run-overview>
       </ng-template>
 

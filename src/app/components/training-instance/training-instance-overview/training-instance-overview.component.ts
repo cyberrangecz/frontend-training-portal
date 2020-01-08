@@ -11,7 +11,6 @@ import {BaseComponent} from '../../base.component';
 })
 /**
  * Main component of organizer overview.
- * Wrapper for child components (definition of new training instance and overivew of  existing training instances)
  */
 export class TrainingInstanceOverviewComponent extends BaseComponent implements OnInit, OnDestroy {
 
@@ -22,6 +21,10 @@ export class TrainingInstanceOverviewComponent extends BaseComponent implements 
   ngOnInit() {
   }
 
+  /**
+   * Navigates to page for creating new training instance or editing existing
+   * @param trainingInstance training instance to edit, null if new should be created
+   */
   onNavigateToEdit(trainingInstance: TrainingInstance = null) {
     if (trainingInstance) {
       this.router.navigate([RouteFactory.toTrainingInstanceEdit(trainingInstance.id)]);

@@ -1,6 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {SandboxDefinition} from '../../../../model/sandbox/definition/sandbox-definition';
 
+/**
+ * Table detail of expanded row displaying sandbox definition details
+ */
 @Component({
   selector: 'kypo2-sandbox-definition-table-detail',
   templateUrl: './sandbox-definition-detail.component.html',

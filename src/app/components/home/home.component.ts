@@ -12,16 +12,15 @@ import {
 } from '../../paths';
 import {BaseComponent} from '../base.component';
 
-
+/**
+ * Main component of homepage (portal) page. Portal page is a main crossroad of possible sub pages. Only those matching with user
+ * role are accessible.
+ */
 @Component({
   selector: 'kypo2-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-/**
- * Main component of portal page. Portal page is a main crossroad of possible sub pages. Only those matching with user
- * role are accessible.
- */
 export class HomeComponent extends BaseComponent implements OnInit {
 
   trainingAgendas;
@@ -41,7 +40,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
 
   /**
    * Navigates to specified route
-   * @param {string} route route to which should router navigate
+   * @param route route to which should router navigate
    */
   navigateToRoute(route: string) {
     this.router.navigate([route]);

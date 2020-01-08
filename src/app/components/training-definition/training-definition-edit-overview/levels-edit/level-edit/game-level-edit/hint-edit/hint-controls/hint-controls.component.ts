@@ -1,5 +1,8 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
+/**
+ * Hint controls for hint overview component
+ */
 @Component({
   selector: 'kypo2-hint-controls',
   templateUrl: './hint-controls.component.html',
@@ -18,10 +21,16 @@ export class HintControlsComponent implements OnInit {
   ngOnInit() {
   }
 
+  /**
+   * Emits event to add new hint
+   */
   onAdd() {
     this.add.emit();
   }
 
+  /**
+   * Emits event to delete active hint
+   */
   onDelete() {
     this.delete.emit();
   }

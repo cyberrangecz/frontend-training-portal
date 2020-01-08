@@ -9,6 +9,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 
+/**
+ * Angular Material components imports for layout module
+ */
 @NgModule({
   imports: [
     MatToolbarModule,
@@ -33,7 +36,6 @@ import {MatTreeModule} from '@angular/material/tree';
     MatProgressBarModule
   ]
 })
-
 export class LayoutMaterialModule {
 
 }

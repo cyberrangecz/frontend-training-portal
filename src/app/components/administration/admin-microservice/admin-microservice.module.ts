@@ -6,6 +6,9 @@ import {AdminMicroserviceRoutingModule} from './admin-microservice-routing.modul
 import { AdminMicroserviceWrapperComponent } from './admin-microservice-wrapper/admin-microservice-wrapper.component';
 import {MicroserviceEditCanDeactivate} from '../../../services/guards/microservice-edit-can-deactivate.service';
 
+/**
+ * Module of administration microservice
+ */
 @NgModule({
   imports: [
     CommonModule,

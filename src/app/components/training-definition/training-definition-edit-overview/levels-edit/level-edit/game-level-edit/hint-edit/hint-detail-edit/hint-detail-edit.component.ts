@@ -12,7 +12,7 @@ import {Validators} from '@angular/forms';
 import {takeWhile} from 'rxjs/operators';
 import {Hint} from '../../../../../../../../model/level/hint';
 import {BaseComponent} from '../../../../../../../base.component';
-import {HintConfigurationFormGroup} from './hint-configuration-form-group';
+import {HintEditFormGroup} from './hint-edit-form-group';
 
 @Component({
   selector: 'kypo2-hint-edit',
@@ -21,7 +21,7 @@ import {HintConfigurationFormGroup} from './hint-configuration-form-group';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 /**
- * Component for configuration of new or existing game level hint
+ * Component to edit new or existing game level hint
  */
 export class HintDetailEditComponent extends BaseComponent implements OnInit, OnChanges {
 
@@ -32,7 +32,7 @@ export class HintDetailEditComponent extends BaseComponent implements OnInit, On
   @Output() hintChange: EventEmitter<Hint> = new EventEmitter();
 
   maxHintPenalty: number;
-  hintConfigurationFormGroup: HintConfigurationFormGroup;
+  hintConfigurationFormGroup: HintEditFormGroup;
 
   constructor() {
     super();
@@ -52,7 +52,7 @@ export class HintDetailEditComponent extends BaseComponent implements OnInit, On
 
   ngOnChanges(changes: SimpleChanges): void {
     if ('hint' in changes) {
-      this.hintConfigurationFormGroup = new HintConfigurationFormGroup(this.hint);
+      this.hintConfigurationFormGroup = new HintEditFormGroup(this.hint);
       this.calculateMaxPenalty();
       this.subscribeFormChanges();
     }
@@ -61,7 +61,10 @@ export class HintDetailEditComponent extends BaseComponent implements OnInit, On
     }
   }
 
-  hintChanged() {
+  /**
+   * Changes internal component state and emits event on hint change
+   */
+  onHintChanged() {
     this.hintConfigurationFormGroup.formGroup.markAsDirty();
     this.hintConfigurationFormGroup.setToHint(this.hint);
     this.hintChange.emit(this.hint);
@@ -71,7 +74,7 @@ export class HintDetailEditComponent extends BaseComponent implements OnInit, On
     this.hintConfigurationFormGroup.formGroup.valueChanges
       .pipe(
         takeWhile(_ => this.isAlive)
-      ).subscribe(_ => this.hintChanged());
+      ).subscribe(_ => this.onHintChanged());
   }
 
   private calculateMaxPenalty() {

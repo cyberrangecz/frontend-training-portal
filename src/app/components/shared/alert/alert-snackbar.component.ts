@@ -8,8 +8,8 @@ import {BaseComponent} from '../../base.component';
   templateUrl: './alert-snackbar.component.html',
   styleUrls: ['./alert-snackbar.component.css']
 })
-/** PRESENTATIONAL
- * Displays alert event in mtaerial snack bar
+/**
+ * Displays alert event in material snack bar
  */
 export class AlertSnackbarComponent extends BaseComponent implements OnInit {
 

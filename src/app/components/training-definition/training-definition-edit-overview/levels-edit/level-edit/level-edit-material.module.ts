@@ -9,9 +9,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatRadioModule } from '@angular/material/radio';
-import { MatStepperModule } from '@angular/material/stepper';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+/**
+ * Material components imports for level detail edit
+ */
 @NgModule({
   imports: [
     MatButtonModule,
@@ -19,7 +21,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatInputModule,
     MatIconModule,
     MatExpansionModule,
-    MatStepperModule,
     MatTooltipModule,
     MatCheckboxModule,
     MatMenuModule,
@@ -33,7 +34,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatInputModule,
     MatIconModule,
     MatExpansionModule,
-    MatStepperModule,
     MatTooltipModule,
     MatCheckboxModule,
     MatMenuModule,

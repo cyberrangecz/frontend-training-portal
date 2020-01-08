@@ -5,7 +5,7 @@ import {RequestedPagination} from 'kypo2-table';
 import {PaginatedResource} from '../../../model/table/other/paginated-resource';
 import {throwError} from 'rxjs';
 import {skip, take} from 'rxjs/operators';
-import {TrainingDefinitionFacade} from '../../facades/training-definition-facade.service';
+import {TrainingDefinitionApi} from '../../api/training-definition-api.service';
 import {TrainingDefinitionOrganizerSelectorService} from './training-definition-organizer-selector.service';
 import {Kypo2Pagination} from '../../../model/table/other/kypo2-pagination';
 import {TrainingDefinitionInfo} from '../../../model/training/training-definition-info';
@@ -13,17 +13,17 @@ import {TrainingDefinitionInfo} from '../../../model/training/training-definitio
 
 describe('TrainingDefinitionOrganizerSelectorService', () => {
   let errorHandlerSpy: jasmine.SpyObj<ErrorHandlerService>;
-  let facadeSpy: jasmine.SpyObj<TrainingDefinitionFacade>;
+  let tdApiSpy: jasmine.SpyObj<TrainingDefinitionApi>;
   let service: TrainingDefinitionOrganizerSelectorService;
 
   beforeEach(async(() => {
     errorHandlerSpy = jasmine.createSpyObj('ErrorHandlerService', ['display']);
-    facadeSpy = jasmine.createSpyObj('TrainingDefinitionFacade', ['getAllForOrganizer']);
+    tdApiSpy = jasmine.createSpyObj('TrainingDefinitionApi', ['getAllForOrganizer']);
 
     TestBed.configureTestingModule({
       providers: [
         TrainingDefinitionOrganizerSelectorService,
-        {provide: TrainingDefinitionFacade, useValue: facadeSpy},
+        {provide: TrainingDefinitionApi, useValue: tdApiSpy},
         {provide: ErrorHandlerService, useValue: errorHandlerSpy}
       ]
     });
@@ -35,16 +35,16 @@ describe('TrainingDefinitionOrganizerSelectorService', () => {
   });
 
   it('should load training definitions from facade (called once)', done => {
-    facadeSpy.getAllForOrganizer.and.returnValue((asyncData(createMock())));
+    tdApiSpy.getAllForOrganizer.and.returnValue((asyncData(createMock())));
     const pagination = createPagination();
     service.get(pagination, 'RELEASED')
       .subscribe(_ => done(),
         fail);
-    expect(facadeSpy.getAllForOrganizer).toHaveBeenCalledTimes(1);
+    expect(tdApiSpy.getAllForOrganizer).toHaveBeenCalledTimes(1);
   });
 
   it('should call error handler on err', done => {
-    facadeSpy.getAllForOrganizer.and.returnValue((throwError(null)));
+    tdApiSpy.getAllForOrganizer.and.returnValue((throwError(null)));
     const pagination = createPagination();
     service.get(pagination, 'RELEASED')
       .subscribe(_ => fail,
@@ -56,9 +56,10 @@ describe('TrainingDefinitionOrganizerSelectorService', () => {
 
 
   it('should emit totalLength on get', done => {
-    facadeSpy.getAllForOrganizer.and.returnValue((asyncData(createMock())));
+    tdApiSpy.getAllForOrganizer.and.returnValue((asyncData(createMock())));
     const pagination = createPagination();
     service.totalLength$
+      .pipe(skip(1))
       .subscribe(emitted => {
           expect(emitted).toBe(2);
           done();
@@ -71,7 +72,7 @@ describe('TrainingDefinitionOrganizerSelectorService', () => {
   });
 
   it ('should emit hasError on err', done => {
-    facadeSpy.getAllForOrganizer.and.returnValue((throwError(null)));
+    tdApiSpy.getAllForOrganizer.and.returnValue((throwError(null)));
     const pagination = createPagination();
     service.hasError$.pipe(skip(2)) // we ignore initial value and value emitted before the call is made
       .subscribe(emitted => {
@@ -87,7 +88,7 @@ describe('TrainingDefinitionOrganizerSelectorService', () => {
 
   it('should emit next value on get', done => {
     const mockData = createMock();
-    facadeSpy.getAllForOrganizer.and.returnValue((asyncData(mockData)));
+    tdApiSpy.getAllForOrganizer.and.returnValue((asyncData(mockData)));
     const pagination = createPagination();
     service.trainingDefinition$
       .subscribe(emitted => {

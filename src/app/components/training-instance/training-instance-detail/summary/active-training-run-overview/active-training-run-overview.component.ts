@@ -5,23 +5,22 @@ import {map, switchMap, takeWhile} from 'rxjs/operators';
 import {ActionConfirmationDialogComponent} from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import {Kypo2Table, LoadTableEvent} from 'kypo2-table';
 import {TrainingRunTableCreator} from '../../../../../model/table/factory/training-run-table-creator';
-import {ActiveTrainingRunService} from '../../../../../services/shared/active-training-run.service';
 import {TrainingRunTableAdapter} from '../../../../../model/table/row/training-run-table-adapter';
 import {BaseComponent} from '../../../../base.component';
 import {TrainingInstance} from '../../../../../model/training/training-instance';
 import {TableActionEvent} from 'kypo2-table/lib/model/table-action-event';
+import {ActiveTrainingRunService} from '../../../../../services/training-run/active/active-training-run.service';
+import {ConfirmationDialogActionEnum} from '../../../../../model/enums/confirmation-dialog-action-enum';
 
+/**
+ * Component displaying active training runs and its state in real time.
+ */
 @Component({
   selector: 'kypo2-active-training-run-overview',
   templateUrl: './active-training-run-overview.component.html',
   styleUrls: ['./active-training-run-overview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
-
 })
-/**
- * Component displaying training runs and its state in real time. Allows organizer to easily archive training runs
- * by removing theirs sandboxes
- */
 export class ActiveTrainingRunOverviewComponent extends BaseComponent implements OnInit {
 
   @Input() trainingInstance: TrainingInstance;
@@ -41,12 +40,20 @@ export class ActiveTrainingRunOverviewComponent extends BaseComponent implements
     this.startPolling();
   }
 
-  onActiveTrainingRunsTableSelection(event: TableActionEvent<TrainingRunTableAdapter>) {
+  /**
+   * Resolves type of action and calls handler
+   * @param event action event emitted from table
+   */
+  onActiveTrainingRunAction(event: TableActionEvent<TrainingRunTableAdapter>) {
     if (event.action.label.toLocaleLowerCase() === 'delete') {
       this.deleteSandboxOfTrainingRun(event.element);
     }
   }
 
+  /**
+   * Calls service to get new data for table
+   * @param event reload data event emitted from table
+   */
   onTableLoadEvent(event: LoadTableEvent) {
     this.activeTrainingRunService.getAll(this.trainingInstance.id, event.pagination)
       .pipe(
@@ -66,10 +73,6 @@ export class ActiveTrainingRunOverviewComponent extends BaseComponent implements
     this.activeTrainingRunsTotalLength$ = this.activeTrainingRunService.totalLength$;
   }
 
-  /**
-   * Reverts selected training run
-   * @param row table object of training run
-   */
   private deleteSandboxOfTrainingRun(row: TrainingRunTableAdapter) {
     if (row.trainingRun.hasPlayer() && row.trainingRun.isRunning()) {
       this.askForDeleteSandboxConfirmation(row);
@@ -87,7 +90,7 @@ export class ActiveTrainingRunOverviewComponent extends BaseComponent implements
       data: {
         type: 'sandbox instance',
         title: row.sandboxId.toString(),
-        action: 'delete'
+        action: ConfirmationDialogActionEnum.DELETE
       }
     });
     dialogRef.afterClosed()

@@ -10,7 +10,7 @@ import {
 } from 'rxjs/operators';
 import {PoolRequest} from '../../../../model/sandbox/pool/request/pool-request';
 import {PaginatedResource} from '../../../../model/table/other/paginated-resource';
-import {SandboxInstanceFacade} from '../../../facades/sandbox-instance-facade.service';
+import {SandboxInstanceApi} from '../../../api/sandbox-instance-api.service';
 import {ErrorHandlerService} from '../../../shared/error-handler.service';
 import {RequestedPagination} from '../../../../model/DTOs/other/requested-pagination';
 import {Pagination} from 'kypo2-table';
@@ -19,23 +19,39 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {PoolRequestPollingService} from '../pool-request-polling.service';
 import {Cacheable, CacheBuster} from 'ngx-cacheable';
 
+/**
+ * Emission causes cached data to cleanup
+ */
 export const poolCreationRequestsCacheBuster$: Subject<void> = new Subject();
 
+/**
+ * Basic implementation of a layer between a component and an API service.
+ * Can manually get creation requests, poll them and perform various operations to modify them.
+ */
 @Injectable()
 export class PoolCreationRequestsPollingService extends PoolRequestPollingService {
 
   private manuallyUpdatedRequests$: BehaviorSubject<PaginatedResource<PoolRequest[]>> = new BehaviorSubject(this.initSubject());
+
+  /**
+   * List of creation requests with currently selected pagination options
+   */
   requests$: Observable<PaginatedResource<PoolRequest[]>>;
 
-  constructor(private sandboxInstanceFacade: SandboxInstanceFacade,
+  constructor(private sandboxInstanceFacade: SandboxInstanceApi,
               private errorHandler: ErrorHandlerService) {
     super();
     this.requests$ = merge(this.poll$, this.manuallyUpdatedRequests$.asObservable())
       .pipe(
-        tap(paginatedRequests => this.totalLengthSubject.next(paginatedRequests.pagination.totalElements))
+        tap(paginatedRequests => this.totalLengthSubject$.next(paginatedRequests.pagination.totalElements))
       );
   }
 
+  /**
+   * Gets all creation requests with passed pagination and updates related observables or handles an error
+   * @param poolId id of a pool associated with creation requests
+   * @param pagination requested pagination
+   */
   @Cacheable({
     cacheBusterObserver: poolCreationRequestsCacheBuster$
   })
@@ -50,6 +66,11 @@ export class PoolCreationRequestsPollingService extends PoolRequestPollingServic
       );
   }
 
+  /**
+   * Cancels a creation request, informs about the result and updates list of requests or handles an error
+   * @param poolId id of a pool associated with cleanup requests
+   * @param request a request to be cancelled
+   */
   @CacheBuster({
     cacheBusterNotifier: poolCreationRequestsCacheBuster$
   })
@@ -61,6 +82,11 @@ export class PoolCreationRequestsPollingService extends PoolRequestPollingServic
       );
   }
 
+  /**
+   * Retries a creation request, informs about the result and updates list of requests or handles an error
+   * @param poolId id of a pool associated with cleanup requests
+   * @param request a request to be retried
+   */
   @CacheBuster({
     cacheBusterNotifier: poolCreationRequestsCacheBuster$
   })
@@ -72,6 +98,9 @@ export class PoolCreationRequestsPollingService extends PoolRequestPollingServic
       );
   }
 
+  /**
+   * Repeats last get all request for polling purposes
+   */
   @Cacheable({
     cacheBusterObserver: poolCreationRequestsCacheBuster$,
     maxAge: environment.apiPollingPeriod - 1

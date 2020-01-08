@@ -2,12 +2,12 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {PipesModule} from '../../../pipes/pipes.module';
-import {SandboxDefinitionFacadeModule} from '../../../services/facades/modules/sandbox-definition-facade.module';
+import {SandboxDefinitionApiModule} from '../../../services/api/modules/sandbox-definition-api.module';
 import {TrainingDefinitionCanDeactivate} from '../../../services/guards/training-definition-can-deactivate.service';
 import {TrainingDefinitionBreadcrumbResolver} from '../../../services/resolvers/training-definition-breadcrumb-resolver.service';
 import {TrainingDefinitionResolver} from '../../../services/resolvers/training-definition-resolver.service';
 import {AuthorsAssignService} from '../../../services/training-definition/authors-assign/authors-assign.service';
-import {TrainingDefinitionEditService} from '../../../services/training-definition/training-definition-edit.service';
+import {TrainingDefinitionEditService} from '../../../services/training-definition/edit/training-definition-edit.service';
 import {SharedModule} from '../../shared/shared.module';
 import { UnsavedChangesDialogComponent } from '../../shared/unsaved-changes-dialog/unsaved-changes-dialog.component';
 import {LevelOverviewModule} from './levels-edit/level-overview.module';
@@ -20,7 +20,7 @@ import { TrainingDefinitionEditComponent } from './training-definition-edit/trai
 import {Kypo2UserAssignModule, Kypo2UserAssignService} from 'kypo2-user-assign';
 
 /**
- * Module containing components and services of training definition detail/edt/new actions. Contains routing to level modules
+ * Module containing components and providers of training definition detail/edt/new actions.
  */
 @NgModule({
   imports: [
@@ -31,7 +31,7 @@ import {Kypo2UserAssignModule, Kypo2UserAssignService} from 'kypo2-user-assign';
     TrainingDefinitionEditOverviewRoutingModule,
     TrainingDefinitionEditOverviewMaterialModule,
     LevelOverviewModule,
-    SandboxDefinitionFacadeModule,
+    SandboxDefinitionApiModule,
     PipesModule,
     ReactiveFormsModule,
   ],

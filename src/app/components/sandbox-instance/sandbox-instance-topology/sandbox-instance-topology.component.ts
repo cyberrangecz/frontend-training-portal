@@ -3,10 +3,13 @@ import {SandboxInstance} from '../../../model/sandbox/pool/sandbox-instance/sand
 import {ActivatedRoute} from '@angular/router';
 import {Kypo2TopologyErrorService} from 'kypo2-topology-graph';
 import {ErrorHandlerService} from '../../../services/shared/error-handler.service';
-import {map, takeWhile, tap} from 'rxjs/operators';
+import {map, takeWhile} from 'rxjs/operators';
 import {BaseComponent} from '../../base.component';
 import {Observable} from 'rxjs';
 
+/**
+ * Smart component of sandbox instance topology page
+ */
 @Component({
   selector: 'kypo2-sandbox-instance-topology',
   templateUrl: './sandbox-instance-topology.component.html',
@@ -24,6 +27,7 @@ export class SandboxInstanceTopologyComponent extends BaseComponent implements O
               private errorHandlerService: ErrorHandlerService) {
     super();
   }
+
   ngOnInit() {
     this.sandboxInstance$ = this.activeRoute.data
       .pipe(

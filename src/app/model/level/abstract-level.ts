@@ -1,5 +1,5 @@
 /**
- * Parent class of all level types. Can't be instantiated
+ * Parent class of all level types
  */
 import {StepItem, StepperItemState} from 'kypo2-stepper';
 import {AbstractLevelTypeEnum} from '../enums/abstract-level-type.enum';
@@ -12,7 +12,6 @@ export abstract class AbstractLevel implements StepItem {
   maxScore: number;
   icon: string;
   valid: boolean;
-  // custom attribute for displaying icons customized to level type
   type: AbstractLevelTypeEnum;
   isUnsaved: boolean;
 

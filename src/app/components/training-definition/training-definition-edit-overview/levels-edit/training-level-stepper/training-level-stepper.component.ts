@@ -11,7 +11,11 @@ import {LevelMoveEvent} from '../../../../../model/events/level-move-event';
 import {AbstractLevel} from '../../../../../model/level/abstract-level';
 import {BaseComponent} from '../../../../base.component';
 import {Kypo2Stepper} from 'kypo2-stepper';
+import {StepperStateChange} from 'kypo2-stepper/lib/component/stepper-state-change';
 
+/**
+ * Stepper component for navigation between training definition levels
+ */
 @Component({
   selector: 'kypo2-levels-stepper',
   templateUrl: './training-level-stepper.component.html',
@@ -24,11 +28,12 @@ export class TrainingLevelStepperComponent extends BaseComponent implements OnIn
   @Input() movingInProgress: boolean;
   @Input() activeStep: number;
   @Output() activeStepChange: EventEmitter<number> = new EventEmitter();
-  @Output() levelSwap: EventEmitter<object> = new EventEmitter();
+  @Output() levelSwap: EventEmitter<LevelMoveEvent> = new EventEmitter();
   @Output() initialLevels: EventEmitter<AbstractLevel[]> = new EventEmitter();
 
-  private previousActiveStep =  -1;
   levelStepper: Kypo2Stepper<AbstractLevel> = {items: []};
+
+  private previousActiveStep =  -1;
 
   constructor(public dialog: MatDialog) {
     super();
@@ -46,11 +51,19 @@ export class TrainingLevelStepperComponent extends BaseComponent implements OnIn
     }
   }
 
-  selectionChanged(event) {
-    this.activeStepChange.emit(event);
+  /**
+   * Passes active step change event to parent component
+   * @param activeStep index of active (selected) level
+   */
+  activeStepChanged(activeStep: number) {
+    this.activeStepChange.emit(activeStep);
   }
 
-  swapLevels(event) {
+  /**
+   * Wraps stepper state change event to level move event and emits it to parent component
+   * @param event state of the stepper
+   */
+  swapLevels(event: StepperStateChange) {
     this.levelSwap.emit(new LevelMoveEvent(event, this.levelStepper.items));
   }
 

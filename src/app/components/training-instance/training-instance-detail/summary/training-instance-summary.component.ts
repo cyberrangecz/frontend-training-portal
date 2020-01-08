@@ -6,15 +6,15 @@ import {ActivatedRoute} from '@angular/router';
 import {map, switchMap, tap} from 'rxjs/operators';
 import {RouteFactory} from '../../../../model/routes/route-factory';
 
+/**
+ * Smart component of training instance summary
+ */
 @Component({
   selector: 'kypo2-training-instance-summary',
   templateUrl: './training-instance-summary.component.html',
   styleUrls: ['./training-instance-summary.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-/**
- * Component for training summary. Wrapper for child components
- */
 export class TrainingInstanceSummaryComponent extends BaseComponent implements OnInit {
 
   trainingInstance$: Observable<TrainingInstance>;
@@ -45,15 +45,27 @@ export class TrainingInstanceSummaryComponent extends BaseComponent implements O
       );
   }
 
+  /**
+   * Opens expansion panel of index
+   * @param index index of expansion panel to open
+   */
   open(index: number) {
     this.expanded.add(index);
   }
 
+  /**
+   * Closes expansion panel of index
+   * @param index index of expansion panel to close
+   */
   close(index: number) {
     this.expanded.delete(index);
   }
 
-  isExpanded(index: number): boolean {
+  /**
+   * True if expansion panel on provided index is opened, false otherwise
+   * @param index index of expansion panel
+   */
+  isOpen(index: number): boolean {
     return this.expanded.has(index);
   }
 }

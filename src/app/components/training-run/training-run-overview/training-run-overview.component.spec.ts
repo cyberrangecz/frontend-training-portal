@@ -3,9 +3,9 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {ReactiveFormsModule} from '@angular/forms';
 import {PipesModule} from '../../../pipes/pipes.module';
 import {Kypo2TableModule, RowAction, TableActionEvent} from 'kypo2-table';
-import {TrainingRunOverviewService} from '../../../services/shared/training-run-overview.service';
-import {TrainingRunOverviewConcreteService} from '../../../services/training-run/training-run-overview.concrete.service';
-import {ActiveTrainingRunService} from '../../../services/training-run/active-training-run.service';
+import {AccessedTrainingRunService} from '../../../services/training-run/accessed/accessed-training-run.service';
+import {AccessedTrainingRunConcreteService} from '../../../services/training-run/accessed/accessed-training-run-concrete.service';
+import {RunningTrainingRunService} from '../../../services/training-run/running/running-training-run.service';
 import {TrainingRunResolver} from '../../../services/resolvers/training-run-resolver.service';
 import {ErrorHandlerService} from '../../../services/shared/error-handler.service';
 import {AlertService} from '../../../services/shared/alert.service';
@@ -15,7 +15,7 @@ import {MaterialTestingModule} from '../../../testing/test-utils/material-testin
 import {AccessedTrainingRun} from '../../../model/table/row/accessed-training-run';
 import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserTestingModule} from '@angular/platform-browser/testing';
-import {TrainingRunFacade} from '../../../services/facades/training-run-facade.service';
+import {TrainingRunApi} from '../../../services/api/training-run-api.service';
 import {asyncData} from '../../../testing/helpers/async-data';
 import {AccessTrainingRunInfo} from '../../../model/training/access-training-run-info';
 import {HAMMER_LOADER} from '@angular/platform-browser';
@@ -24,9 +24,9 @@ import {Component, OnInit} from '@angular/core';
 
 let component: TrainingRunOverviewComponent;
 let fixture: ComponentFixture<TrainingRunOverviewComponent>;
-let trainingRunFacadeSpy: jasmine.SpyObj<TrainingRunFacade>;
-let trainingRunOverviewServiceSpy: jasmine.SpyObj<TrainingRunOverviewService>;
-let trainingRunOverviewConcreteServiceSpy: jasmine.SpyObj<TrainingRunOverviewConcreteService>;
+let trainingRunFacadeSpy: jasmine.SpyObj<TrainingRunApi>;
+let trainingRunOverviewServiceSpy: jasmine.SpyObj<AccessedTrainingRunService>;
+let trainingRunOverviewConcreteServiceSpy: jasmine.SpyObj<AccessedTrainingRunConcreteService>;
 
 const routes = [
   {
@@ -63,13 +63,13 @@ describe('TrainingRunOverviewComponent', () => {
       ],
       providers: [
         {provide: HAMMER_LOADER, useValue: () => new Promise(() => {})},
-        {provide: TrainingRunOverviewService, useValue: trainingRunOverviewServiceSpy},
-        {provide: TrainingRunOverviewConcreteService, useValue: trainingRunOverviewConcreteServiceSpy},
+        {provide: AccessedTrainingRunService, useValue: trainingRunOverviewServiceSpy},
+        {provide: AccessedTrainingRunConcreteService, useValue: trainingRunOverviewConcreteServiceSpy},
         {provide: TrainingRunResolver, useValue: trainingRunResolverSpy},
         {provide: ErrorHandlerService, useValue: errorHandlerSpy},
-        {provide: TrainingRunFacade, useValue: trainingRunFacadeSpy},
+        {provide: TrainingRunApi, useValue: trainingRunFacadeSpy},
         {provide: AlertService, useValue: alertServiceSpy},
-        {provide: ActiveTrainingRunService, useValue: activeTrainingRunServiceSpy}
+        {provide: RunningTrainingRunService, useValue: activeTrainingRunServiceSpy}
       ],
     }).compileComponents();
 

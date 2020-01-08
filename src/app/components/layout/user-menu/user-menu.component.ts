@@ -8,7 +8,7 @@ import {BaseComponent} from '../../base.component';
   styleUrls: ['./user-menu.component.css']
 })
 /**
- * Displays icon and expandable detail of logged user.
+ * Component of user menu. Contains icon and expandable detail of logged user.
  */
 export class UserMenuComponent extends BaseComponent implements OnInit {
 

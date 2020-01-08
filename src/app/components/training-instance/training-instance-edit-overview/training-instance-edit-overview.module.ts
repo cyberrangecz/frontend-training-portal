@@ -3,13 +3,13 @@ import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {OwlDateTimeModule, OwlNativeDateTimeModule} from '@busacca/ng-pick-datetime';
 import {PipesModule} from '../../../pipes/pipes.module';
-import {TrainingDefinitionFacadeModule} from '../../../services/facades/modules/training-definition-facade.module';
-import {TrainingInstanceFacadeModule} from '../../../services/facades/modules/training-instance-facade.module';
-import {UserFacadeModule} from '../../../services/facades/modules/user-facade.module';
+import {TrainingDefinitionApiModule} from '../../../services/api/modules/training-definition-api.module';
+import {TrainingInstanceApiModule} from '../../../services/api/modules/training-instance-api.module';
+import {UserApiModule} from '../../../services/api/modules/user-api.module';
 import {TrainingInstanceCanDeactivate} from '../../../services/guards/training-instance-can-deactivate.service';
 import {OrganizersAssignService} from '../../../services/training-instance/organizers-assign/organizers-assign.service';
-import {TrainingInstanceEditConcreteService} from '../../../services/training-instance/training-instance-edit-concrete.service';
-import {TrainingInstanceEditService} from '../../../services/training-instance/training-instance-edit.service';
+import {TrainingInstanceEditConcreteService} from '../../../services/training-instance/edit/training-instance-edit-concrete.service';
+import {TrainingInstanceEditService} from '../../../services/training-instance/edit/training-instance-edit.service';
 import {SharedModule} from '../../shared/shared.module';
 import {UnsavedChangesDialogComponent} from '../../shared/unsaved-changes-dialog/unsaved-changes-dialog.component';
 import {TrainingDefinitionSelectorComponent} from './training-definition-selector/training-definition-selector.component';
@@ -21,19 +21,22 @@ import {TrainingInstanceEditComponent} from './training-instance-edit/training-i
 import {Kypo2UserAssignModule, Kypo2UserAssignService} from 'kypo2-user-assign';
 import { TrainingDefinitionListContentComponent } from './training-definition-selector/training-definition-list/training-definition-list-content.component';
 
+/**
+ * Main module of training instance edit components and providers
+ */
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    UserFacadeModule,
+    UserApiModule,
     Kypo2UserAssignModule,
     SharedModule,
     PipesModule,
     TrainingInstanceEditOverviewMaterialModule,
     TrainingInstanceEditOverviewRoutingModule,
-    TrainingInstanceFacadeModule,
-    TrainingDefinitionFacadeModule,
+    TrainingInstanceApiModule,
+    TrainingDefinitionApiModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
   ],

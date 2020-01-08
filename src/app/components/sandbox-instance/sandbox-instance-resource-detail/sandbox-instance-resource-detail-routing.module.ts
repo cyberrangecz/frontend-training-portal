@@ -16,6 +16,9 @@ const routes: Routes = [
   }
 ];
 
+/**
+ * Routing module for sandbox instance resource detail module
+ */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]

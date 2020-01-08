@@ -9,6 +9,10 @@ export const ADMIN_USER_ROUTES: Routes = [
     data: {breadcrumb: null}
   }
 ];
+
+/**
+ * Administration of users routing
+ */
 @NgModule({
   imports: [RouterModule.forChild(ADMIN_USER_ROUTES)],
   exports: [RouterModule]

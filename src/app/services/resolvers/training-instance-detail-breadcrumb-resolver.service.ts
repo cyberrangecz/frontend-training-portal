@@ -7,8 +7,16 @@ import {
   SUMMARY_PATH
 } from '../../components/training-instance/training-instance-detail/paths';
 
+/**
+ * Router breadcrumb title provider
+ */
 export class TrainingInstanceDetailBreadcrumbResolver implements Resolve<string> {
 
+  /**
+   * Retrieves a breadcrumb title based on provided url
+   * @param route route snapshot
+   * @param state router state snapshot
+   */
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<string> | Promise<string> | string {
     if (state.url.includes(SUMMARY_PATH)) {
       return 'Summary';

@@ -20,6 +20,9 @@ const routes: Routes = [
   }
   ];
 
+/**
+ * Routing module for sandbox request detail module
+ */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]

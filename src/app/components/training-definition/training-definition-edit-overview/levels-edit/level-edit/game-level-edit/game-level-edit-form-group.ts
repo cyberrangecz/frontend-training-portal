@@ -2,6 +2,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {GameLevel} from '../../../../../../model/level/game-level';
 import {INCORRECT_FLAG_LIMIT, MAX_ESTIMATED_DURATION, MAX_FLAG, MAX_SCORE} from './game-level-edit.contants';
 
+/**
+ * Form control class for game level edit component
+ */
 export class GameLevelEditFormGroup {
   formGroup: FormGroup;
 
@@ -35,6 +38,10 @@ export class GameLevelEditFormGroup {
     });
   }
 
+  /**
+   * Sets inserted form values from inputs to game level
+   * @param level level which values should be filled
+   */
   setToLevel(level: GameLevel) {
     level.title = this.formGroup.get('title').value;
     level.content = this.formGroup.get('content').value;

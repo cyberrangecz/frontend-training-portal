@@ -2,18 +2,18 @@ import {Component, Inject, OnInit, Optional} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {takeWhile} from 'rxjs/operators';
 import {SandboxDefinition} from '../../../../../model/sandbox/definition/sandbox-definition';
-import {SandboxDefinitionFacade} from '../../../../../services/facades/sandbox-definition-facade.service';
+import {SandboxDefinitionApi} from '../../../../../services/api/sandbox-definition-api.service';
 import {BaseComponent} from '../../../../base.component';
 
+/**
+ * Component of sandbox definition picker dialog window.
+ * Lets the user to choose from list of sandbox definitions which should be associated with the training definition
+ */
 @Component({
-  selector: 'app-sandbox-definition-picker',
+  selector: 'kypo2-sandbox-definition-picker',
   templateUrl: './sandbox-definition-picker.component.html',
   styleUrls: ['./sandbox-definition-picker.component.css']
 })
-/**
- * Component of sandbox definition picker dialog window.
- * Lets the user to choose from list of sandbox definitions which will be associated with the training definition
- */
 export class SandboxDefinitionPickerComponent extends BaseComponent implements OnInit {
 
   sandboxDefs: SandboxDefinition[];
@@ -22,7 +22,7 @@ export class SandboxDefinitionPickerComponent extends BaseComponent implements O
 
   constructor(@Optional() @Inject(MAT_DIALOG_DATA) public data: number,
               public dialogRef: MatDialogRef<SandboxDefinitionPickerComponent>,
-              private sandboxDefinitionFacade: SandboxDefinitionFacade) {
+              private sandboxDefinitionFacade: SandboxDefinitionApi) {
     super();
   }
 
@@ -39,7 +39,7 @@ export class SandboxDefinitionPickerComponent extends BaseComponent implements O
   }
 
   /**
-   * Closes the dialog window and passes the selected option to its parent component
+   * Closes the dialog window with 'confirm' result and selected sandbox definition
    */
   confirm() {
     const result = {
@@ -50,7 +50,7 @@ export class SandboxDefinitionPickerComponent extends BaseComponent implements O
   }
 
   /**
-   * Closes the dialog window without passing the selected option
+   * Closes the dialog window without result and selected option
    */
   cancel() {
     const result = {

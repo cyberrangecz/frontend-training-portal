@@ -5,7 +5,7 @@ import {TrainingDefinitionEditOverviewComponent} from '../../components/training
 
 @Injectable()
 /**
- * Checks if form for editing/creating TD is saved
+ * Route guard determining if navigation outside of training definition edit page should proceed
  */
 export class TrainingDefinitionCanDeactivate implements CanDeactivate<TrainingDefinitionEditOverviewComponent> {
 

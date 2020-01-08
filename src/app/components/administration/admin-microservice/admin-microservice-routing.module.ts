@@ -12,6 +12,9 @@ export const ADMIN_MICROSERVICE_ROUTES: Routes = [
   }
 ];
 
+/**
+ * Administration microservice routing
+ */
 @NgModule({
   imports: [RouterModule.forChild(ADMIN_MICROSERVICE_ROUTES)],
   exports: [RouterModule]

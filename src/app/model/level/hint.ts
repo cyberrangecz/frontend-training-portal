@@ -1,5 +1,5 @@
 /**
- * Class representing hint in a training level.
+ * Class representing hint in a game training level.
  */
 import {StepItem, StepperItemState} from 'kypo2-stepper';
 

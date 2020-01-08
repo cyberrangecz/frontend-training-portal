@@ -2,6 +2,9 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Breadcrumb} from '../../../../model/breadcrumb/breadcrumb';
 import {HOME_PATH} from '../../../../paths';
 
+/**
+ * Displays individual breadcrumbs
+ */
 @Component({
   selector: 'kypo2-breadcrumbs-presentational',
   templateUrl: './breadcrumbs-presentational.component.html',

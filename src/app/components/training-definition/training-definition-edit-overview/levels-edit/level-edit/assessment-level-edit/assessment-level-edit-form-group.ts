@@ -1,7 +1,10 @@
-import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
+import { FormControl, FormGroup, Validators} from '@angular/forms';
 import {AssessmentTypeEnum} from '../../../../../../model/enums/assessment-type.enum';
 import {AssessmentLevel} from '../../../../../../model/level/assessment-level';
 
+/**
+ * Form control class for assessment level edit component
+ */
 export class AssessmentLevelEditFormGroup {
 
     formGroup: FormGroup;
@@ -18,7 +21,10 @@ export class AssessmentLevelEditFormGroup {
           ]),
         });
     }
-
+  /**
+   * Sets inserted form values from inputs to assessment level
+   * @param level level which values should be filled
+   */
     setToLevel(level: AssessmentLevel) {
       level.title = this.formGroup.get('title').value;
       level.instructions = this.formGroup.get('instructions').value;

@@ -73,4 +73,7 @@ import {
     MatExpansionModule
   ]
 })
+/**
+ * Helper mock module for automatic import of all material components
+ */
 export class MaterialTestingModule { }

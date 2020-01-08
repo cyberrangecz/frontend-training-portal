@@ -1,6 +1,9 @@
 import { FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import {TrainingInstance} from '../../../../model/training/training-instance';
 
+/**
+ * Training instance edit form group control
+ */
 export class TrainingInstanceFormGroup {
 
   formGroup: FormGroup;
@@ -36,6 +39,10 @@ export class TrainingInstanceFormGroup {
     return error ? error : null;
   }
 
+  /**
+   * Sets values from training instance to individual inputs
+   * @param trainingInstance training instance which values should be set to inputs
+   */
   setValuesToTrainingInstance(trainingInstance: TrainingInstance) {
     trainingInstance.startTime = this.formGroup.get('startTime').value;
     trainingInstance.endTime = this.formGroup.get('endTime').value;

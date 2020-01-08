@@ -15,13 +15,18 @@ import { LevelMapper } from './level-mapper.service';
 
 @Injectable()
 /**
- * Maps DTOs to Training Definition model
+ * Maps DTOs to Training Definition internal model
  */
 export class TrainingDefinitionMapper {
 
   constructor(private levelMapper: LevelMapper) {
   }
 
+  /**
+   * Maps paginated training definition dtos on internal model
+   * @param resource dto to be mapped on internal model
+   * @param withLevels true if training definition's levels should be mapped, false if omitted
+   */
   mapTrainingDefinitionDTOsToTrainingDefinitionsPaginated(resource: TrainingDefinitionRestResource, withLevels = false): PaginatedResource<TrainingDefinition[]> {
     const elements = resource.content.map(trainingDTO => this.mapTrainingDefinitionDTOToTrainingDefinition(trainingDTO, withLevels));
     const pagination = new Kypo2Pagination(
@@ -34,9 +39,9 @@ export class TrainingDefinitionMapper {
   }
 
   /**
-   * Maps training definition DTO retrieved from the server to internal training definition object
+   * Maps training definition dto on internal model
    * @param trainingDefinitionDTO training definition DTO retrieved from server
-   * @param withLevels
+   * @param withLevels withLevels true if training definition's levels should be mapped, false if omitted
    */
   mapTrainingDefinitionDTOToTrainingDefinition(trainingDefinitionDTO: TrainingDefinitionDTO, withLevels: boolean): TrainingDefinition {
     const result = new TrainingDefinition();
@@ -57,7 +62,7 @@ export class TrainingDefinitionMapper {
   }
 
   /**
-   * Maps internal training definition object to TrainingDefinitionCreate DTO object used in communication with REST API
+   * Maps internal training definition to TrainingDefinitionCreate DTO object used in communication with REST API
    * @param trainingDefinition training definition object from which will the DTO be created
    */
   mapTrainingDefinitionToTrainingDefinitionCreateDTO(trainingDefinition: TrainingDefinition): TrainingDefinitionCreateDTO {
@@ -74,7 +79,7 @@ export class TrainingDefinitionMapper {
   }
 
   /**
-   * Maps internal training definition object to TrainingDefinitionUpdate DTO object used in communication with REST API
+   * Maps internal training definition to TrainingDefinitionUpdate DTO object used in communication with REST API
    * @param trainingDefinition training definition object from which will the DTO be created
    */
   mapTrainingDefinitionToTrainingDefinitionUpdateDTO(trainingDefinition: TrainingDefinition): TrainingDefinitionUpdateDTO {
@@ -92,6 +97,10 @@ export class TrainingDefinitionMapper {
     return result;
   }
 
+  /**
+   *  Maps paginated training definition info dtos on internal model
+   * @param resource dto to be mapped on internal model
+   */
   mapTrainingDefinitionsInfoDTOsToTrainingDefinitionsInfo(resource: TrainingDefinitionInfoRestResource): PaginatedResource<TrainingDefinitionInfo[]> {
     const elements = resource.content.map(dto => this.mapTrainingDefinitionInfoDTOToTrainingDefinitionInfo(dto));
     const pagination = new Kypo2Pagination(
@@ -103,6 +112,10 @@ export class TrainingDefinitionMapper {
     return new PaginatedResource(elements, pagination);
   }
 
+  /**
+   * Maps training definition info dto on internal model
+   * @param dto dto to be mapped on internal model
+   */
   mapTrainingDefinitionInfoDTOToTrainingDefinitionInfo(dto: TrainingDefinitionInfoDTO): TrainingDefinitionInfo {
     const result = new TrainingDefinitionInfo();
     result.id = dto.id;

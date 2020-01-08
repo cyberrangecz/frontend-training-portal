@@ -1,6 +1,6 @@
 import {async, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {ErrorHandlerService} from '../../../shared/error-handler.service';
-import {SandboxInstanceFacade} from '../../../facades/sandbox-instance-facade.service';
+import {SandboxInstanceApi} from '../../../api/sandbox-instance-api.service';
 import {RequestedPagination} from 'kypo2-table';
 import {asyncData} from '../../../../testing/helpers/async-data';
 import {PaginatedResource} from '../../../../model/table/other/paginated-resource';
@@ -13,7 +13,7 @@ import {poolCleanupRequestsCacheBuster$, PoolCleanupRequestsPollingService} from
 
 describe('PoolCleanupRequestsPollingService', () => {
   let errorHandlerSpy: jasmine.SpyObj<ErrorHandlerService>;
-  let facadeSpy: jasmine.SpyObj<SandboxInstanceFacade>;
+  let facadeSpy: jasmine.SpyObj<SandboxInstanceApi>;
   let service: PoolCleanupRequestsPollingService;
 
   beforeEach(async(() => {
@@ -22,7 +22,7 @@ describe('PoolCleanupRequestsPollingService', () => {
     TestBed.configureTestingModule({
       providers: [
         PoolCleanupRequestsPollingService,
-        {provide: SandboxInstanceFacade, useValue: facadeSpy},
+        {provide: SandboxInstanceApi, useValue: facadeSpy},
         {provide: ErrorHandlerService, useValue: errorHandlerSpy}
       ]
     });

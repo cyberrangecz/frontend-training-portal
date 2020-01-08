@@ -4,6 +4,9 @@ import {RouteFactory} from '../../routes/route-factory';
 import {SandboxPool} from '../../sandbox/pool/sandbox-pool';
 import {PaginatedResource} from '../other/paginated-resource';
 
+/**
+ * Helper class transforming paginated resource to class for common table component
+ */
 export class PoolTableCreator {
 
   static readonly DELETE_ACTION = 'Delete';
@@ -11,6 +14,10 @@ export class PoolTableCreator {
   static readonly ALLOCATE_ONE_ACTION = 'Allocate one';
   static readonly CLEAR_ACTION = 'Delete sandboxes';
 
+  /**
+   * Transforming paginated resource to class for common table component
+   * @param resource paginated resource to transform
+   */
   static create(resource: PaginatedResource<SandboxPool[]> = null): Kypo2Table<SandboxPool> {
     const table = new Kypo2Table<SandboxPool>(
       this.createRows(resource),

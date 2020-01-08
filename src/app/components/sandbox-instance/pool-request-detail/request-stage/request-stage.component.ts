@@ -18,6 +18,9 @@ import {StageDetail} from '../../../../model/sandbox/pool/request/stage/stage-de
 import {StageDetailEvent} from '../../../../model/events/stage-detail-event';
 import {StageDetailEventType} from '../../../../model/enums/stage-detail-event-type';
 
+/**
+ * Component of request stage basic info
+ */
 @Component({
   selector: 'kypo2-request-stage',
   templateUrl: './request-stage.component.html',
@@ -49,10 +52,17 @@ export class RequestStageComponent extends BaseComponent implements OnInit, OnCh
     }
   }
 
+  /**
+   * Emits event to force cleanup stage
+   */
   onForceCleanup() {
     this.forceCleanup.emit(this.stage);
   }
 
+  /**
+   * Changes internal state of the component and emits event to the parent component
+   * @param opened true if stage detail was opened, false if closed
+   */
   onStageDetailEvent(opened: boolean) {
     this.stageDetailIsLoading = opened;
     this.stageDetailEvent.emit(

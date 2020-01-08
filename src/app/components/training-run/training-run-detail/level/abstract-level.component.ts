@@ -1,26 +1,25 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {tap} from 'rxjs/operators';
 import {AbstractLevelTypeEnum} from '../../../../model/enums/abstract-level-type.enum';
 import {AbstractLevel} from '../../../../model/level/abstract-level';
-import {ActiveTrainingRunService} from '../../../../services/training-run/active-training-run.service';
+import {RunningTrainingRunService} from '../../../../services/training-run/running/running-training-run.service';
 import {BaseComponent} from '../../../base.component';
 
+/**
+ * Component to display one level in a training run. Serves mainly as a wrapper which determines the type of the training
+ * and displays child component accordingly
+ */
 @Component({
   selector: 'kypo2-abstract-level',
   templateUrl: './abstract-level.component.html',
   styleUrls: ['./abstract-level.component.css']
 })
-/**
- * Component to display one level in a training run. Serves mainly as a wrapper which determines the type of the training
- * and displays child component accordingly
- */
 export class AbstractLevelComponent extends BaseComponent implements OnInit {
 
   level$: Observable<AbstractLevel>;
   levelTypes = AbstractLevelTypeEnum;
 
-  constructor(private activeLevelsService: ActiveTrainingRunService) {
+  constructor(private activeLevelsService: RunningTrainingRunService) {
     super();
   }
 

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import {SandboxInstanceResolver} from '../../../services/resolvers/sandbox-instance-resolvers/sandbox-instance-resolver.service';
 import { SandboxInstanceDetailRoutingModule } from './sandbox-instance-detail-routing.module';
 import { SandboxInstanceDetailComponent } from './sandbox-instance-detail.component';
@@ -12,6 +11,9 @@ import {Kypo2TableModule} from 'kypo2-table';
 import {SandboxInstanceResourceResolver} from '../../../services/resolvers/sandbox-instance-resolvers/sandbox-instance-resource-resolver.service';
 import {SandboxInstanceResourceBreadcrumbResolver} from '../../../services/resolvers/sandbox-instance-resolvers/sandbox-instance-resource-breadcrumb-resolver.service';
 
+/**
+ * Contains components and providers for sandbox instance detail page
+ */
 @NgModule({
   declarations: [SandboxInstanceDetailComponent],
   imports: [

@@ -17,6 +17,9 @@ export const ADMIN_GROUP_DETAIL_ROUTES: Routes = [
   },
 ];
 
+/**
+ * Administration group detail routing
+ */
 @NgModule({
   imports: [RouterModule.forChild(ADMIN_GROUP_DETAIL_ROUTES)],
   exports: [RouterModule]

@@ -6,13 +6,15 @@ import {TrainingInstance} from '../../../../model/training/training-instance';
 import {map, takeWhile, tap} from 'rxjs/operators';
 import {DIVIDE_BY} from './traning-instance-results.constants';
 
+/**
+ * Component displaying training instance results visualizations
+ */
 @Component({
   selector: 'kypo2-training-instance-results',
   templateUrl: './training-instance-results.component.html',
   styleUrls: ['./training-instance-results.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-
 export class TrainingInstanceResultsComponent extends BaseComponent implements OnInit {
 
   trainingInstance$: Observable<TrainingInstance>;

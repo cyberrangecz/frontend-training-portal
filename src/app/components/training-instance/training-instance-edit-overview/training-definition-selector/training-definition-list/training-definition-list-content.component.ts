@@ -3,6 +3,9 @@ import {TrainingDefinitionInfo} from '../../../../../model/training/training-def
 import {PaginatedResource} from '../../../../../model/table/other/paginated-resource';
 import {RequestedPagination} from 'kypo2-table';
 
+/**
+ * Displays training definitions list available for associating with a training instance
+ */
 @Component({
   selector: 'kypo2-training-definition-list-content',
   templateUrl: './training-definition-list-content.component.html',
@@ -38,6 +41,9 @@ export class TrainingDefinitionListContentComponent implements OnInit, OnChanges
     }
   }
 
+  /**
+   * Emits event to get next page of training definitions
+   */
   getNextPage() {
     if (this.isEnd || !this.resource) {
       return;
@@ -47,10 +53,17 @@ export class TrainingDefinitionListContentComponent implements OnInit, OnChanges
     }
   }
 
-  trackById(i) {
-    return i.id;
+  /**
+   * Tracking function to improve *ngFor performance
+   * @param trainingDefinition tracked training definition
+   */
+  trackById(trainingDefinition: TrainingDefinitionInfo) {
+    return trainingDefinition.id;
   }
 
+  /**
+   * Refreshes current page of training definitions
+   */
   reload() {
     this.fetch.emit(new RequestedPagination(this.page, this.pageSize, 'title', 'asc'));
   }

@@ -1,4 +1,7 @@
-
+/**
+ * Removes diacritics from string
+ * @deprecated
+ */
 export class StringNormalizer {
 
  static normalizeDiacritics(str: string): string {

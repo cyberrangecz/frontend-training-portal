@@ -6,6 +6,9 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatIconModule} from '@angular/material/icon';
 import {MatCardModule} from '@angular/material/card';
 
+/**
+ * Material components import for create sandbox definition module
+ */
 @NgModule({
   imports: [
     MatFormFieldModule,

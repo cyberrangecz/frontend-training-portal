@@ -6,6 +6,9 @@ import {TrainingInstanceProgressMaterialModule} from './training-instance-progre
 import {TrainingInstanceProgressRoutingModule} from './training-instance-progress-routing.module';
 import { TrainingInstanceProgressComponent } from './training-instance-progress.component';
 
+/**
+ * Component imports, declarations and providers for training instance progress page
+ */
 @NgModule({
   imports: [
     CommonModule,
@@ -19,7 +22,6 @@ import { TrainingInstanceProgressComponent } from './training-instance-progress.
   providers: [
   ]
 })
-
 export class TrainingInstanceProgressModule {
 
 }

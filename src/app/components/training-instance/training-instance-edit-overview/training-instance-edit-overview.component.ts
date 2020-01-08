@@ -7,21 +7,20 @@ import {ResourceSavedEvent} from '../../../model/events/resource-saved-event';
 import {TrainingInstanceChangeEvent} from '../../../model/events/training-instance-change-event';
 import {RouteFactory} from '../../../model/routes/route-factory';
 import {TrainingInstance} from '../../../model/training/training-instance';
-import {TrainingInstanceEditService} from '../../../services/training-instance/training-instance-edit.service';
+import {TrainingInstanceEditService} from '../../../services/training-instance/edit/training-instance-edit.service';
 import {BaseComponent} from '../../base.component';
 import {UnsavedChangesDialogComponent} from '../../shared/unsaved-changes-dialog/unsaved-changes-dialog.component';
 import {environment} from '../../../../environments/environment';
 
+/**
+ * Main component of training instance edit/create page. Serves mainly as a smart component wrapper
+ */
 @Component({
   selector: 'kypo2-training-instance-edit-overview',
   templateUrl: './training-instance-edit-overview.component.html',
   styleUrls: ['./training-instance-edit-overview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-/**
- * Main component of training definition. Serves mainly as a smart component wrapper and resolves id of a training specified in the URL.
- * Training instance with provided id is retrieved from the server and passed to child component
- */
 export class TrainingInstanceEditOverviewComponent extends BaseComponent implements OnInit {
 
   trainingInstance$: Observable<TrainingInstance>;
@@ -60,7 +59,7 @@ export class TrainingInstanceEditOverviewComponent extends BaseComponent impleme
 
   /**
    * Determines if all changes in sub components are saved and user can navigate to different component
-   * @returns {Observable<boolean>} true if saved all his changes or agreed with leaving without saving them, false otherwise
+   * @returns true if saved all his changes or agreed with leaving without saving them, false otherwise
    */
   canDeactivate(): Observable<boolean> {
     if (!this.canDeactivateTIEdit || !this.canDeactivateOrganizers) {
@@ -78,15 +77,27 @@ export class TrainingInstanceEditOverviewComponent extends BaseComponent impleme
     return of(true);
   }
 
+  /**
+   * Changes canDeactivate state of the component
+   * @param hasUnsavedChanges true if organizers component has unsaved changes, false otherwise
+   */
   onOrganizersChanged(hasUnsavedChanges: boolean) {
     this.canDeactivateOrganizers = !hasUnsavedChanges;
   }
 
+  /**
+   * Updates state of the training instance and changes canDeactivate state of the component
+   * @param $event training instance change event, containing latest update of training instance and its validity
+   */
   onTrainingInstanceChanged($event: TrainingInstanceChangeEvent) {
     this.editService.change($event);
     this.canDeactivateTIEdit = false;
   }
 
+  /**
+   * Calls service to save the edited training instance
+   * @param stayOnPage true if user should stay on the same page after saving, false if he or she should be navigated to the overview
+   */
   onSave(stayOnPage: boolean = false) {
     this.editService.save()
       .pipe(

@@ -8,6 +8,9 @@ import { SandboxInstanceTopologyComponent } from './sandbox-instance-topology.co
 import {MatCardModule} from '@angular/material/card';
 
 
+/**
+ * Module containing components and providers for sandbox instance topology page
+ */
 @NgModule({
   declarations: [SandboxInstanceTopologyComponent],
   imports: [

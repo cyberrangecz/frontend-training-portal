@@ -3,14 +3,14 @@ import {Kypo2AuthService, User} from 'kypo2-auth';
 import {tap} from 'rxjs/operators';
 import {BaseComponent} from '../../base.component';
 
+/**
+ * Displays icon and basic info about logged in user
+ */
 @Component({
   selector: 'kypo2-user-id',
   templateUrl: './user-id.component.html',
   styleUrls: ['./user-id.component.css']
 })
-/**
- * Generates and displays icon and basic info about logged in user
- */
 export class UserIdComponent extends BaseComponent implements OnInit {
 
   user: User;

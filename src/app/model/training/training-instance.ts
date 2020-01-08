@@ -21,14 +21,24 @@ export class TrainingInstance implements DisplayableResource {
     this.startTime.setMinutes(this.startTime.getMinutes() + delay);
   }
 
+  /**
+   * True if has associated pool, false otherwise
+   */
   hasPoolId(): boolean {
     return this.poolId !== undefined && this.poolId !== null;
   }
 
+  /**
+   * True if current time is greater than start time of the training instance, false otherwise
+   */
   hasStarted(): boolean {
     return new Date().valueOf() >= this.startTime.valueOf();
   }
 
+  /**
+   * True if passed time is greater than start time and smaller than end time of the training instance, false otherwise
+   * @param timestamp time to be compared with start time and end time of training instance
+   */
   isActive(timestamp: number): boolean {
     return this.startTime.valueOf() < timestamp && this.endTime.valueOf() > timestamp;
   }
