@@ -26,9 +26,6 @@ import {RequestStageDTO} from '../../model/DTOs/sandbox-instance/request-stage-d
 @Injectable()
 export class SandboxInstanceApi {
 
-  private readonly trainingInstancesUriExtension = 'training-instances/';
-  private readonly javaSandboxInstancesUriExtension = 'sandbox-instances/';
-
   private readonly pythonSandboxInstancesUriExtension = 'sandboxes/';
   private readonly poolsUriExtension = 'pools/';
   private readonly poolCreationRequestUriExtension = 'create-requests/';
@@ -39,7 +36,6 @@ export class SandboxInstanceApi {
   private readonly stagesEndpointUri = environment.sandboxRestBasePath + this.stagesUriExtension;
   private readonly poolsEndpointUri = environment.sandboxRestBasePath + this.poolsUriExtension;
   private readonly sandboxEndpointUri = environment.sandboxRestBasePath + this.pythonSandboxInstancesUriExtension;
-  private readonly  trainingInstancesEndpointUri = environment.trainingRestBasePath + this.trainingInstancesUriExtension;
 
   constructor(private http: HttpClient,
               private sandboxInstanceMapper: SandboxInstanceMapper) {
@@ -348,67 +344,5 @@ export class SandboxInstanceApi {
    */
   createPool() {
     return this.http.post(this.poolsEndpointUri, null);
-  }
-
-
-  /**
-   * Sends http request to delete sandbox instance associated with a training instance
-   * @param trainingInstanceId id of the associated training instance
-   * @param sandboxId if id of the sandbox instance to delete
-   * @param isHardDeleted true if hard delete (without possibility of failing) should be performed, false otherwise.
-   * NOTE: Hard delete might take a much longer to process
-   */
-  deleteByTrainingInstance(trainingInstanceId: number, sandboxId: number, isHardDeleted = false): Observable<any> {
-    if (!isHardDeleted) {
-      return this.http.delete(`${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.javaSandboxInstancesUriExtension}`,
-        {
-          params: {sandboxIds: sandboxId.toString()}
-        }
-      );
-    } else {
-      return this.http.delete(`${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.javaSandboxInstancesUriExtension}?hard`,
-        {
-          params: {sandboxIds: sandboxId.toString()}
-        }
-      );
-    }
-  }
-
-  /**
-   * Sends http request to delete multiple sandbox instances associated with a training instance
-   * @param trainingInstanceId id of the associated training instance
-   * @param sandboxIds if id of the sandbox instance to delete
-   */
-  deleteMultipleByTrainingInstance(trainingInstanceId: number, sandboxIds: [number]): Observable<any> {
-    return this.http.delete(`${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.javaSandboxInstancesUriExtension}`,
-      {
-        params: {sandboxIds: sandboxIds.toString()}
-      }
-    );
-  }
-
-  /**
-   * Sends http request to delete sandbox instance associated with a training instance
-   * @param trainingInstanceId id of the associated training instance
-   * @param count number of sandbox instance that should be allocated in a pool associated with training instance
-   */
-  allocateSandboxByTrainingInstance(trainingInstanceId: number, count: number = 1): Observable<any> {
-    let params = new HttpParams();
-    params = params.append('count', count.toString());
-    return this.http.post(`${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.javaSandboxInstancesUriExtension}`,
-      {},
-      {
-        params: params
-      });
-  }
-
-  /**
-   * Sends http request to create pool for sandboxes of selected training instance
-   * @param trainingInstanceId id of the associated training instance
-   */
-  createPoolByTrainingInstance(trainingInstanceId: number): Observable<number> {
-    return this.http.post<number>(
-      `${this.trainingInstancesEndpointUri + trainingInstanceId}/${this.poolsUriExtension}`,
-      null);
   }
 }

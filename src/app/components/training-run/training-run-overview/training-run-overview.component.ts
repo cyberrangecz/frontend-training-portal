@@ -12,15 +12,15 @@ import {RouteFactory} from '../../../model/routes/route-factory';
 import {environment} from '../../../../environments/environment';
 import {TrainingRunOverviewTableCreator} from '../../../model/table/factory/training-run-overview-table-creator';
 
+/**
+ * Main smart component of the trainee overview.
+ */
 @Component({
   selector: 'kypo2-trainee-overview',
   templateUrl: './training-run-overview.component.html',
   styleUrls: ['./training-run-overview.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-/**
- * Main smart component of the trainee overview.
- */
 export class TrainingRunOverviewComponent extends BaseComponent implements OnInit {
 
   trainingRuns$: Observable<Kypo2Table<AccessedTrainingRun>>;

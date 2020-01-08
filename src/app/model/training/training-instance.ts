@@ -16,16 +16,6 @@ export class TrainingInstance implements DisplayableResource {
   accessToken: string;
 
   constructor() {
-    const delay = 5;
-    this.startTime = new Date();
-    this.startTime.setMinutes(this.startTime.getMinutes() + delay);
-  }
-
-  /**
-   * True if has associated pool, false otherwise
-   */
-  hasPoolId(): boolean {
-    return this.poolId !== undefined && this.poolId !== null;
   }
 
   /**

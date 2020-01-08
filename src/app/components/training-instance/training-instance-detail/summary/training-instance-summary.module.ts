@@ -42,5 +42,4 @@ import {ActiveTrainingRunService} from '../../../../services/training-run/active
   ]
 })
 export class TrainingInstanceSummaryModule {
-
 }

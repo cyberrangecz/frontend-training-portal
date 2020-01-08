@@ -1,3 +1,13 @@
 <h1>Training Instance Overview</h1>
-<kypo2-training-instance-controls (create)="onNavigateToEdit()"></kypo2-training-instance-controls>
-<kypo2-training-instance-table (edit)="onNavigateToEdit($event)"></kypo2-training-instance-table>
+<div class="content">
+  <kypo2-training-instance-controls (create)="onCreate()"></kypo2-training-instance-controls>
+  <kypo2-table
+    [defaultSortName]="INITIAL_SORT_NAME"
+    [defaultSortDirection]="INITIAL_SORT_DIR"
+    [data]="instances$ | async"
+    [totalElements]="totalLength$ | async"
+    [hasError]="hasError$ | async"
+    (rowAction)="onInstanceAction($event)"
+    (refresh)="onInstancesLoadEvent($event)">
+  </kypo2-table>
+</div>

@@ -77,6 +77,9 @@ export class TrainingInstanceEditConcreteService extends TrainingInstanceEditSer
     this.setEditMode(trainingInstance);
     if (ti === null) {
       ti = new TrainingInstance();
+      const delay = 5;
+      ti.startTime = new Date();
+      ti.startTime.setMinutes(ti.startTime.getMinutes() + delay);
     }
     this.trainingInstanceSubject.next(ti);
   }
