@@ -1,14 +1,13 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
-import {Kypo2GroupResolverHelperService} from 'kypo2-user-and-group-management';
-import {ErrorHandlerService} from '../shared/error-handler.service';
-import {EMPTY, Observable, of} from 'rxjs';
+import {EMPTY, Observable} from 'rxjs';
 import {
   ADMIN_GROUP_EDIT_PATH,
   ADMIN_GROUP_NEW_PATH
 } from '../../components/administration/admin-group/admin-group-detail/paths';
-import {catchError, mergeMap, take} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {Group} from 'kypo2-user-and-group-management/lib/model/group/group.model';
+import {GroupResolver} from './group-resolver.service';
 
 /**
  * Router breadcrumb title provider
@@ -16,8 +15,7 @@ import {Group} from 'kypo2-user-and-group-management/lib/model/group/group.model
 @Injectable()
 export class GroupBreadcrumbResolver implements Resolve<string> {
 
-  constructor(private groupResolveHelper: Kypo2GroupResolverHelperService,
-              private errorHandler: ErrorHandlerService) {
+  constructor(private groupResolver: GroupResolver) {
   }
 
   /**
@@ -29,21 +27,15 @@ export class GroupBreadcrumbResolver implements Resolve<string> {
     if (state.url.endsWith(ADMIN_GROUP_NEW_PATH)) {
       return 'Create';
     } else if (route.paramMap.has('groupId')) {
-      const id = Number(route.paramMap.get('groupId'));
-      return this.groupResolveHelper.getById(id)
-        .pipe(
-          take(1),
-          mergeMap(group => group ? of(this.getBreadcrumbFromTitle(group, state)) : EMPTY),
-          catchError( (err) => {
-            this.errorHandler.display(err, 'Group breadcrumbs resolver');
-            return EMPTY;
-          })
+      const resolved =  this.groupResolver.resolve(route, state) as Observable<Group>;
+       return resolved.pipe(
+          map(group => group ? (this.getBreadcrumbFromGroup(group, state)) : '')
         );
     }
     return EMPTY;
   }
 
-  private getBreadcrumbFromTitle(group: Group, state: RouterStateSnapshot): string {
+  private getBreadcrumbFromGroup(group: Group, state: RouterStateSnapshot): string {
     return state.url.includes(ADMIN_GROUP_EDIT_PATH)
       ? `Edit ${group.name}`
       : group.name;

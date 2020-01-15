@@ -1,14 +1,13 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
-import {EMPTY, Observable, of} from 'rxjs';
-import {catchError, mergeMap, take} from 'rxjs/operators';
+import {EMPTY, Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {
   TRAINING_DEFINITION_EDIT_PATH,
   TRAINING_DEFINITION_NEW_PATH
 } from '../../components/training-definition/training-definition-overview/paths';
-import {TrainingDefinitionApi} from '../api/training-definition-api.service';
-import {ErrorHandlerService} from '../shared/error-handler.service';
 import {TrainingDefinition} from '../../model/training/training-definition';
+import {TrainingDefinitionResolver} from './training-definition-resolver.service';
 
 /**
  * Router breadcrumb title provider
@@ -17,8 +16,7 @@ import {TrainingDefinition} from '../../model/training/training-definition';
 export class TrainingDefinitionBreadcrumbResolver implements Resolve<string> {
 
   constructor(
-    private trainingDefinitionFacade: TrainingDefinitionApi,
-    private errorHandler: ErrorHandlerService) {
+    private trainingDefinitionResolver: TrainingDefinitionResolver) {
   }
 
   /**
@@ -30,21 +28,15 @@ export class TrainingDefinitionBreadcrumbResolver implements Resolve<string> {
     if (state.url.endsWith(TRAINING_DEFINITION_NEW_PATH)) {
       return 'Create';
     } else if (route.paramMap.has('id')) {
-      const id = Number(route.paramMap.get('id'));
-      return this.trainingDefinitionFacade.get(id)
-        .pipe(
-          take(1),
-          mergeMap(td => td ? of(this.getBreadcrumbFromTitle(td, state)) : EMPTY),
-          catchError( (err) => {
-            this.errorHandler.display(err, 'Training definition breadcrumbs resolver');
-            return EMPTY;
-          })
+      const resolved = this.trainingDefinitionResolver.resolve(route, state) as Observable<TrainingDefinition>;
+      return resolved.pipe(
+          map(td => td ? this.getBreadcrumbFromDefinition(td, state) : ''),
         );
     }
     return EMPTY;
   }
 
-  private getBreadcrumbFromTitle(trainingDefinition: TrainingDefinition, state: RouterStateSnapshot): string {
+  private getBreadcrumbFromDefinition(trainingDefinition: TrainingDefinition, state: RouterStateSnapshot): string {
     return state.url.includes(TRAINING_DEFINITION_EDIT_PATH)
       ? `Edit ${trainingDefinition.title}`
       : trainingDefinition.title;
