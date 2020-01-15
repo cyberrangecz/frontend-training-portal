@@ -28,6 +28,7 @@ import {TrainingRun} from '../../model/training/training-run';
 import {LevelMapper} from './level-mapper.service';
 import {TraineeAccessTrainingRunActionEnum} from '../../model/enums/trainee-access-training-run-actions.enum';
 import PossibleActionEnum = AccessedTrainingRunDTO.PossibleActionEnum;
+import {JavaApiPaginationMapper} from './java-api-pagination-mapper';
 
 @Injectable()
 /**
@@ -43,19 +44,15 @@ export class TrainingRunMapper {
    * @param resource dto to be mapped on internal model
    */
   mapTrainingRunDTOsToTrainingRuns(resource: TrainingRunRestResource): PaginatedResource<TrainingRunTableRow[]> {
-    const tableData: TrainingRunTableRow[] = [];
+    const elements: TrainingRunTableRow[] = [];
     resource.content.forEach(trainingRunDTO => {
       const tableRow = new TrainingRunTableRow();
       tableRow.trainingRun = this.mapTrainingRunDTOToTrainingRun(trainingRunDTO);
-      tableData.push(tableRow);
+      elements.push(tableRow);
     });
+    const pagination = JavaApiPaginationMapper.map(resource.pagination);
 
-    const tablePagination = new Kypo2Pagination(resource.pagination.number,
-      resource.pagination.number_of_elements,
-      resource.pagination.size,
-      resource.pagination.total_elements,
-      resource.pagination.total_pages);
-    return new PaginatedResource(tableData, tablePagination);
+    return new PaginatedResource(elements, pagination);
   }
 
   /**
@@ -117,11 +114,7 @@ export class TrainingRunMapper {
     : PaginatedResource<AccessedTrainingRun[]> {
     const elements = resource.content.map(accessedTrainingRunDTO =>
       this.mapAccessedTrainingRunDTOToAccessedTrainingRun(accessedTrainingRunDTO));
-    const pagination = new Kypo2Pagination(resource.pagination.number,
-      resource.pagination.number_of_elements,
-      resource.pagination.size,
-      resource.pagination.total_elements,
-      resource.pagination.total_pages);
+    const pagination = JavaApiPaginationMapper.map(resource.pagination);
     return new PaginatedResource(elements, pagination);
   }
 

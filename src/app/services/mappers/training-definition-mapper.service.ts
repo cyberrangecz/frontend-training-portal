@@ -12,6 +12,7 @@ import { PaginatedResource } from '../../model/table/other/paginated-resource';
 import { TrainingDefinition } from '../../model/training/training-definition';
 import { TrainingDefinitionInfo } from '../../model/training/training-definition-info';
 import { LevelMapper } from './level-mapper.service';
+import {JavaApiPaginationMapper} from './java-api-pagination-mapper';
 
 @Injectable()
 /**
@@ -29,12 +30,7 @@ export class TrainingDefinitionMapper {
    */
   mapTrainingDefinitionDTOsToTrainingDefinitionsPaginated(resource: TrainingDefinitionRestResource, withLevels = false): PaginatedResource<TrainingDefinition[]> {
     const elements = resource.content.map(trainingDTO => this.mapTrainingDefinitionDTOToTrainingDefinition(trainingDTO, withLevels));
-    const pagination = new Kypo2Pagination(
-      resource.pagination.number,
-      resource.pagination.number_of_elements,
-      resource.pagination.size,
-      resource.pagination.total_elements,
-      resource.pagination.total_pages);
+    const pagination = JavaApiPaginationMapper.map(resource.pagination);
     return new PaginatedResource(elements, pagination);
   }
 
@@ -103,12 +99,7 @@ export class TrainingDefinitionMapper {
    */
   mapTrainingDefinitionsInfoDTOsToTrainingDefinitionsInfo(resource: TrainingDefinitionInfoRestResource): PaginatedResource<TrainingDefinitionInfo[]> {
     const elements = resource.content.map(dto => this.mapTrainingDefinitionInfoDTOToTrainingDefinitionInfo(dto));
-    const pagination = new Kypo2Pagination(
-      resource.pagination.number,
-      resource.pagination.number_of_elements,
-      resource.pagination.size,
-      resource.pagination.total_elements,
-      resource.pagination.total_pages);
+    const pagination = JavaApiPaginationMapper.map(resource.pagination);
     return new PaginatedResource(elements, pagination);
   }
 
