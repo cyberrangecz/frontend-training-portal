@@ -3,6 +3,7 @@ import {SandboxDefinitionDTO} from '../../model/DTOs/sandbox-definition/sandbox-
 import {SandboxDefinition} from '../../model/sandbox/definition/sandbox-definition';
 import {Kypo2Pagination} from '../../model/table/other/kypo2-pagination';
 import {PaginatedResource} from '../../model/table/other/paginated-resource';
+import {DjangoApiPaginationMapper} from './django-api-pagination-mapper';
 
 /**
  * Maps DTOs of sandbox definitions to internal model
@@ -18,12 +19,7 @@ export class SandboxDefinitionMapper {
     const tableData = paginatedDTO.results
       .map(sandboxDTO => this.mapSandboxDefinitionDTOToSandboxDefinition(sandboxDTO));
 
-    const tablePagination = new Kypo2Pagination(
-      paginatedDTO.page,
-      paginatedDTO.page_count,
-      paginatedDTO.page_size,
-      paginatedDTO.total_count,
-      paginatedDTO.page_count);
+    const tablePagination = DjangoApiPaginationMapper.map(paginatedDTO);
     return new PaginatedResource(tableData, tablePagination);
   }
 

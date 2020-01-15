@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {User} from 'kypo2-auth';
 import {UserRestResource} from '../../model/DTOs/other/user-rest-resource-dto';
-import {Kypo2Pagination} from '../../model/table/other/kypo2-pagination';
 import {PaginatedResource} from '../../model/table/other/paginated-resource';
+import {JavaApiPaginationMapper} from './java-api-pagination-mapper';
 
 @Injectable()
 /**
@@ -16,12 +16,7 @@ export class UserMapper {
    */
   mapUserDTOsToUsers(resource: UserRestResource): PaginatedResource<User[]> {
     const elements = resource.content.map(userDTO => User.fromDTO(userDTO));
-    const pagination = new Kypo2Pagination(
-      resource.pagination.number,
-      resource.pagination.number_of_elements,
-      resource.pagination.size,
-      resource.pagination.total_elements,
-      resource.pagination.total_pages);
+    const pagination = JavaApiPaginationMapper.map(resource.pagination);
     return new PaginatedResource(elements, pagination);
   }
 }

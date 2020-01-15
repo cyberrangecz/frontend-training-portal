@@ -10,7 +10,6 @@ import {AnsibleRunStage} from '../../model/sandbox/pool/request/stage/ansible-ru
 import {OpenStackStage} from '../../model/sandbox/pool/request/stage/open-stack-stage';
 import {RequestStage} from '../../model/sandbox/pool/request/stage/request-stage';
 import {SandboxPool} from '../../model/sandbox/pool/sandbox-pool';
-import {Kypo2Pagination} from '../../model/table/other/kypo2-pagination';
 import {PaginatedResource} from '../../model/table/other/paginated-resource';
 import {SandboxInstanceState} from '../../model/enums/sandbox-instance-state';
 import {SandboxInstanceResourceDTO} from '../../model/DTOs/sandbox-instance/sandbox-instance-resource-dto';
@@ -18,6 +17,7 @@ import {SandboxInstanceResource} from '../../model/sandbox/pool/sandbox-instance
 import {SandboxInstance} from '../../model/sandbox/pool/sandbox-instance/sandbox-instance';
 import {PoolCleanupRequest} from '../../model/sandbox/pool/request/pool-cleanup-request';
 import {RequestStageState} from '../../model/enums/request-stage-state.enum';
+import {DjangoApiPaginationMapper} from './django-api-pagination-mapper';
 
 @Injectable()
 /**
@@ -32,12 +32,7 @@ export class SandboxInstanceMapper {
   mapPoolsDTOsToPools(paginatedDTO: DjangoResourceDTO<SandboxPoolDTO>): PaginatedResource<SandboxPool[]> {
     const elements = paginatedDTO.results
       .map(poolDTO => this.mapPoolDTOToPool(poolDTO));
-    const pagination = new Kypo2Pagination(
-      paginatedDTO.page,
-      paginatedDTO.page_count,
-      paginatedDTO.page_size,
-      paginatedDTO.total_count,
-      paginatedDTO.page_count);
+    const pagination = DjangoApiPaginationMapper.map(paginatedDTO);
     return new PaginatedResource(elements, pagination);
   }
 
@@ -62,12 +57,7 @@ export class SandboxInstanceMapper {
   mapSandboxInstanceDTOsToSandboxInstances(paginatedDTO: DjangoResourceDTO<SandboxInstanceDTO>): PaginatedResource<SandboxInstance[]> {
     const elements = paginatedDTO.results
       .map(sandboxDTO => this.mapSandboxInstanceDTOToSandboxInstance(sandboxDTO));
-    const pagination = new Kypo2Pagination(
-      paginatedDTO.page,
-      paginatedDTO.page_count,
-      paginatedDTO.page_size,
-      paginatedDTO.total_count,
-      paginatedDTO.page_count);
+    const pagination = DjangoApiPaginationMapper.map(paginatedDTO);
     return new PaginatedResource(elements, pagination);
   }
 
@@ -93,12 +83,7 @@ export class SandboxInstanceMapper {
   mapCreateRequestsDTOToCreateRequests(paginatedDTO: DjangoResourceDTO<PoolRequestDTO>) {
     const elements = paginatedDTO.results
       .map(requestDTO => this.mapCreateRequestDTOToCreateRequest(requestDTO));
-    const pagination = new Kypo2Pagination(
-      paginatedDTO.page,
-      paginatedDTO.page_count,
-      paginatedDTO.page_size,
-      paginatedDTO.total_count,
-      paginatedDTO.page_count);
+    const pagination = DjangoApiPaginationMapper.map(paginatedDTO);
     return new PaginatedResource(elements, pagination);
   }
 
@@ -121,12 +106,7 @@ export class SandboxInstanceMapper {
   mapCleanupRequestsDTOToCleanupRequests(paginatedDTO: DjangoResourceDTO<PoolRequestDTO>) {
     const elements = paginatedDTO.results
       .map(requestDTO => this.mapCleanupRequestDTOToCleanupRequest(requestDTO));
-    const pagination = new Kypo2Pagination(
-      paginatedDTO.page,
-      paginatedDTO.page_count,
-      paginatedDTO.page_size,
-      paginatedDTO.total_count,
-      paginatedDTO.page_count);
+    const pagination =  DjangoApiPaginationMapper.map(paginatedDTO);
     return new PaginatedResource(elements, pagination);
   }
 
@@ -169,12 +149,7 @@ export class SandboxInstanceMapper {
   mapRequestStagesDTOToRequestStages(paginatedDTO: DjangoResourceDTO<RequestStageDTO>) {
     const elements = paginatedDTO.results
       .map(stageDTO => this.mapRequestStageDTOToRequestStage(stageDTO));
-    const pagination = new Kypo2Pagination(
-      paginatedDTO.page,
-      paginatedDTO.page_count,
-      paginatedDTO.page_size,
-      paginatedDTO.total_count,
-      paginatedDTO.page_count);
+    const pagination = DjangoApiPaginationMapper.map(paginatedDTO);
     return new PaginatedResource(elements, pagination);
   }
 
