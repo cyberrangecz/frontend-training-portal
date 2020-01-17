@@ -1,4 +1,4 @@
-import {AbstractQuestion} from './abstract-question';
+import {Question} from './question';
 
 /**
  * One of the question types used in questionnaires. Has an ordered list of rows and columns and matching correct answers.
@@ -9,7 +9,7 @@ import {AbstractQuestion} from './abstract-question';
  * question3    X           X          O
  *
  */
-export class ExtendedMatchingItems extends AbstractQuestion {
+export class ExtendedMatchingItems extends Question {
 
   rows: string[];
   cols: string[];

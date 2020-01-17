@@ -8,7 +8,7 @@ import {AlertService} from '../shared/alert.service';
 import {skip} from 'rxjs/operators';
 import {asyncData} from '../../testing/helpers/async-data';
 import {PaginatedResource} from '../../model/table/other/paginated-resource';
-import {Kypo2Pagination} from '../../model/table/other/kypo2-pagination';
+import {Pagination} from '../../model/table/other/pagination';
 import {SandboxDefinition} from '../../model/sandbox/definition/sandbox-definition';
 
 describe('SandboxDefinitionConcreteService', () => {
@@ -76,8 +76,8 @@ describe('SandboxDefinitionConcreteService', () => {
     sandbox1.id = 1;
     const sandbox2 = new SandboxDefinition();
     sandbox2.id = 2;
-    return new PaginatedResource<SandboxDefinition[]>([sandbox1, sandbox2],
-      new Kypo2Pagination(1, 2, 5, 2, 1));
+    return new PaginatedResource<SandboxDefinition>([sandbox1, sandbox2],
+      new Pagination(1, 2, 5, 2, 1));
   }
 
 });

@@ -15,13 +15,13 @@ export abstract class PoolRequestService extends PaginatedResourceService {
   /**
    * @contract must be updated every time new data are received
    */
-  abstract requests$: Observable<PaginatedResource<PoolRequest[]>>;
+  abstract requests$: Observable<PaginatedResource<PoolRequest>>;
 
   /**
    * @param poolId id of a pool associated with requests
    * @param pagination requested pagination
    */
-  abstract getAll(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<PoolRequest[]>>;
+  abstract getAll(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<PoolRequest>>;
 
   /**
    * Cancels a request

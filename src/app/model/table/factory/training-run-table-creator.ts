@@ -14,7 +14,7 @@ export class TrainingRunTableCreator {
    * @param resource paginated resource to transform
    * @param tableType whether to display in archived or active context
    */
-  static create(resource: PaginatedResource<TrainingRunTableRow[]>, tableType: 'archived' | 'active'): Kypo2Table<TrainingRunTableAdapter> {
+  static create(resource: PaginatedResource<TrainingRunTableRow>, tableType: 'archived' | 'active'): Kypo2Table<TrainingRunTableAdapter> {
 
     const resources = this.mapTrainingRunTableRowToTrainingRunTableModel(resource);
     let table;
@@ -56,13 +56,13 @@ export class TrainingRunTableCreator {
     return table;
   }
 
-  private static mapTrainingRunTableRowToTrainingRunTableModel(runs: PaginatedResource<TrainingRunTableRow[]>)
-    : PaginatedResource<TrainingRunTableAdapter[]> {
+  private static mapTrainingRunTableRowToTrainingRunTableModel(runs: PaginatedResource<TrainingRunTableRow>)
+    : PaginatedResource<TrainingRunTableAdapter> {
     const elements: TrainingRunTableAdapter[] = [];
     runs.elements.forEach( run => {
       elements.push(new TrainingRunTableAdapter(run.trainingRun, run.deletionRequested));
     });
 
-    return new PaginatedResource<TrainingRunTableAdapter[]>(elements, runs.pagination);
+    return new PaginatedResource<TrainingRunTableAdapter>(elements, runs.pagination);
   }
 }

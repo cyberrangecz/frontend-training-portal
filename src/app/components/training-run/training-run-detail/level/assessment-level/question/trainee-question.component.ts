@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
-import {AbstractQuestion} from '../../../../../../model/questions/abstract-question';
+import {Question} from '../../../../../../model/questions/question';
 import {ExtendedMatchingItems} from '../../../../../../model/questions/extended-matching-items';
 import {FreeFormQuestion} from '../../../../../../model/questions/free-form-question';
 import {MultipleChoiceQuestion} from '../../../../../../model/questions/multiple-choice-question';
@@ -19,7 +19,7 @@ import {MultipleChoiceQuestionTraineeComponent} from './multiple-choice-question
  */
 export class TraineeQuestionComponent extends BaseComponent implements OnInit, OnChanges {
 
-  @Input() question: AbstractQuestion;
+  @Input() question: Question;
   @Input() index: number;
 
   @Output() contentChanged: EventEmitter<number> = new EventEmitter();
@@ -74,7 +74,7 @@ export class TraineeQuestionComponent extends BaseComponent implements OnInit, O
    * Emits event containing question and its index to the parent component
    * @param event index and question
    */
-  onContentChanged(event: { index: number, question: AbstractQuestion }) {
+  onContentChanged(event: { index: number, question: Question }) {
     this.question = event.question;
     this.contentChanged.emit(event.index);
   }

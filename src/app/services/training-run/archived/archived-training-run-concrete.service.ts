@@ -22,13 +22,13 @@ export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunServi
 
   private lastPagination: RequestedPagination;
   private retryPolling$: Subject<boolean> = new Subject();
-  private manuallyUpdated$: BehaviorSubject<PaginatedResource<TrainingRunTableRow[]>> = new BehaviorSubject(this.initSubject());
+  private manuallyUpdated$: BehaviorSubject<PaginatedResource<TrainingRunTableRow>> = new BehaviorSubject(this.initSubject());
   private trainingInstance: TrainingInstance;
   /**
    * List of archived training runs with currently selected pagination options
    */
 
-  archivedTrainingRuns$: Observable<PaginatedResource<TrainingRunTableRow[]>>;
+  archivedTrainingRuns$: Observable<PaginatedResource<TrainingRunTableRow>>;
 
   constructor(
     private trainingRunFacade: TrainingRunApi,
@@ -60,7 +60,7 @@ export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunServi
    * @param trainingInstanceId which archived training runs should be requested
    * @param pagination requested pagination
    */
-  getAll(trainingInstanceId: number, pagination: RequestedPagination): Observable<PaginatedResource<TrainingRunTableRow[]>> {
+  getAll(trainingInstanceId: number, pagination: RequestedPagination): Observable<PaginatedResource<TrainingRunTableRow>> {
     this.onManualGetAll(pagination);
     return this.trainingInstanceFacade
       .getAssociatedTrainingRuns(trainingInstanceId, pagination, false)
@@ -80,7 +80,7 @@ export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunServi
    * as a side effect or handles error
    * @param id of archived training run to delete
    */
-  delete(id: number): Observable<PaginatedResource<TrainingRunTableRow[]>> {
+  delete(id: number): Observable<PaginatedResource<TrainingRunTableRow>> {
     return this.trainingRunFacade.delete(id).pipe(
       tap({
         error: err => this.errorHandler.display(err, 'Deleting training run')
@@ -104,14 +104,14 @@ export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunServi
       );
   }
 
-  private initSubject(): PaginatedResource<TrainingRunTableRow[]> {
+  private initSubject(): PaginatedResource<TrainingRunTableRow> {
     return new PaginatedResource(
       [],
       new Pagination(0, 0, environment.defaultPaginationSize, 0, 0)
     );
   }
 
-  protected repeatLastGetAllRequest(): Observable<PaginatedResource<TrainingRunTableRow[]>> {
+  protected repeatLastGetAllRequest(): Observable<PaginatedResource<TrainingRunTableRow>> {
     this.hasErrorSubject$.next(false);
     return this.trainingInstanceFacade
       .getAssociatedTrainingRuns(
@@ -127,7 +127,7 @@ export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunServi
     this.hasErrorSubject$.next(true);
   }
 
-  protected createPoll(): Observable<PaginatedResource<TrainingRunTableRow[]>> {
+  protected createPoll(): Observable<PaginatedResource<TrainingRunTableRow>> {
     return timer(0, environment.organizerSummaryPollingPeriod)
       .pipe(
         switchMap( _ => this.repeatLastGetAllRequest()),

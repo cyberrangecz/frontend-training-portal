@@ -16,14 +16,14 @@ export abstract class TrainingDefinitionService extends PaginatedResourceService
   /**
    * @contract must be updated every time new data are received
    */
-  abstract trainingDefinitions$: Observable<PaginatedResource<TrainingDefinition[]>>;
+  abstract trainingDefinitions$: Observable<PaginatedResource<TrainingDefinition>>;
 
   /**
    *
    * @param pagination requested pagination
    * @param filter filter to be applied on training definition
    */
-  abstract getAll(pagination: RequestedPagination, filter: string): Observable<PaginatedResource<TrainingDefinition[]>>;
+  abstract getAll(pagination: RequestedPagination, filter: string): Observable<PaginatedResource<TrainingDefinition>>;
 
   /**
    * Deletes selected training definition

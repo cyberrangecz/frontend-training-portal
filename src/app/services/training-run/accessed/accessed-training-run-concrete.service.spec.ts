@@ -4,8 +4,6 @@ import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {TrainingRunApi} from '../../api/training-run-api.service';
 import {throwError} from 'rxjs';
 import {skip} from 'rxjs/operators';
-import {PaginatedResource} from '../../../model/table/other/paginated-resource';
-import {Kypo2Pagination} from '../../../model/table/other/kypo2-pagination';
 import {RequestedPagination} from 'kypo2-table';
 
 describe('AccessedTrainingRunConcreteService', () => {

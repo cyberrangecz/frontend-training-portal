@@ -18,7 +18,7 @@ export class PoolRequestTableCreator {
    * @param poolId id of pool associated with resource
    * @param type type of request
    */
-  static create(resource: PaginatedResource<PoolRequest[]>, poolId: number, type: 'CREATION' | 'CLEANUP'): Kypo2Table<PoolRequest> {
+  static create(resource: PaginatedResource<PoolRequest>, poolId: number, type: 'CREATION' | 'CLEANUP'): Kypo2Table<PoolRequest> {
     const table = new Kypo2Table<PoolRequest>(
       this.createRows(resource, poolId, type),
       [
@@ -30,7 +30,7 @@ export class PoolRequestTableCreator {
     return table;
   }
 
-  private static createRows(resource: PaginatedResource<PoolRequest[]>, poolId: number, type: 'CREATION' | 'CLEANUP'): Row<PoolRequest>[] {
+  private static createRows(resource: PaginatedResource<PoolRequest>, poolId: number, type: 'CREATION' | 'CLEANUP'): Row<PoolRequest>[] {
     return resource.elements.map(request => {
       const row = new Row(request, []);
       if (type === 'CREATION') {

@@ -23,7 +23,7 @@ export class TrainingDefinitionTableCreator {
    * Transforming paginated resource to class for common table component
    * @param resource paginated resource to transform
    */
-  static create(resource: PaginatedResource<TrainingDefinition[]>): Kypo2Table<TrainingDefinition> {
+  static create(resource: PaginatedResource<TrainingDefinition>): Kypo2Table<TrainingDefinition> {
     const baseActions = [
       {
         label: this.EDIT_ACTION,

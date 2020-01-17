@@ -15,13 +15,13 @@ export abstract class SandboxInstanceService extends PaginatedResourceService {
   /**
    * @contract must be updated every time new data are received
    */
-  abstract instances$: Observable<PaginatedResource<SandboxInstance[]>>;
+  abstract instances$: Observable<PaginatedResource<SandboxInstance>>;
 
   /**
    * @param poolId id of a pool associated with sandbox instances
    * @param pagination requested pagination
    */
-  abstract getAll(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<SandboxInstance[]>>;
+  abstract getAll(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<SandboxInstance>>;
 
   /**
    * Deletes a sandbox instance

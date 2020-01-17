@@ -2,7 +2,7 @@ import {Component, Input, OnChanges, OnInit, QueryList, SimpleChanges, ViewChild
 import {takeWhile} from 'rxjs/operators';
 import {AssessmentTypeEnum} from '../../../../../model/enums/assessment-type.enum';
 import {AssessmentLevel} from '../../../../../model/level/assessment-level';
-import {AbstractQuestion} from '../../../../../model/questions/abstract-question';
+import {Question} from '../../../../../model/questions/question';
 import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
 import {RunningTrainingRunService} from '../../../../../services/training-run/running/running-training-run.service';
 import {TrainingRunAssessmentLevelService} from '../../../../../services/training-run/running/training-run-assessment-level.service';
@@ -58,7 +58,7 @@ export class AssessmentLevelComponent extends BaseComponent implements OnInit, O
    * Gathers all trainees answers and calls service to save then
    */
   submit() {
-    const results: AbstractQuestion[] = [];
+    const results: Question[] = [];
     this.questionComponents.forEach(component => {
       component.saveChanges();
       results.push(component.question);
@@ -90,7 +90,7 @@ export class AssessmentLevelComponent extends BaseComponent implements OnInit, O
       );
   }
 
-  private sendSubmitRequest(answers: AbstractQuestion[]) {
+  private sendSubmitRequest(answers: Question[]) {
     this.assessmentLevelService.submit(this.activeLevelService.trainingRunId, answers)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(

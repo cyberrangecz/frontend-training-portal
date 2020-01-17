@@ -11,7 +11,7 @@ export class PaginationParams {
    * Transforms requested pagination object to http params in trainings microservice format (JAVA API)
    * @param pagination requested pagination
    */
-  static createTrainingsPaginationParams(pagination: RequestedPagination): HttpParams {
+  static forJavaAPI(pagination: RequestedPagination): HttpParams {
     if (pagination) {
       if (pagination.sort) {
         const sort = pagination.sort + ',' + (pagination.sortDir ? pagination.sortDir : 'asc');
@@ -34,7 +34,7 @@ export class PaginationParams {
    * Transforms requested pagination object to http params in sandbox microservice format (PYTHON API)
    * @param pagination requested pagination
    */
-  static createSandboxPaginationParams(pagination: RequestedPagination): HttpParams {
+  static forDjangoAPI(pagination: RequestedPagination): HttpParams {
     if (pagination) {
       return new HttpParams()
         .set('page', (pagination.page + 1).toString()) // + 1 because sandbox microservice pages starts with 1 instead of 0

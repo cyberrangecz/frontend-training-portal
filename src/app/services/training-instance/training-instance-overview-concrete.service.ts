@@ -19,8 +19,8 @@ export class TrainingInstanceOverviewConcreteService extends TrainingInstanceOve
 
   private lastPagination: RequestedPagination;
   private lastFilter: string;
-  private trainingInstancesSubject$: BehaviorSubject<PaginatedResource<TrainingInstance[]>> = new BehaviorSubject(this.initSubject());
-  trainingInstances$: Observable<PaginatedResource<TrainingInstance[]>> = this.trainingInstancesSubject$.asObservable();
+  private trainingInstancesSubject$: BehaviorSubject<PaginatedResource<TrainingInstance>> = new BehaviorSubject(this.initSubject());
+  trainingInstances$: Observable<PaginatedResource<TrainingInstance>> = this.trainingInstancesSubject$.asObservable();
 
   constructor(private trainingInstanceApi: TrainingInstanceApi,
               private sandboxInstanceApi: SandboxInstanceApi,
@@ -29,7 +29,7 @@ export class TrainingInstanceOverviewConcreteService extends TrainingInstanceOve
     super();
   }
 
-  getAll(pagination: RequestedPagination, filter: string = null): Observable<PaginatedResource<TrainingInstance[]>> {
+  getAll(pagination: RequestedPagination, filter: string = null): Observable<PaginatedResource<TrainingInstance>> {
     this.lastPagination = pagination;
     this.lastFilter = filter;
     this.hasErrorSubject$.next(false);
@@ -72,7 +72,7 @@ export class TrainingInstanceOverviewConcreteService extends TrainingInstanceOve
       );
   }
 
-  private initSubject(): PaginatedResource<TrainingInstance[]> {
+  private initSubject(): PaginatedResource<TrainingInstance> {
     return new PaginatedResource([],
       new Pagination(0, 0, environment.defaultPaginationSize, 0, 0));
 

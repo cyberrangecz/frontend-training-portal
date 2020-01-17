@@ -16,18 +16,18 @@ export abstract class SandboxDefinitionService extends PaginatedResourceService 
   /**
    * @contract must be updated every time new data are received
    */
-  abstract definitions$: Observable<PaginatedResource<SandboxDefinition[]>>;
+  abstract definitions$: Observable<PaginatedResource<SandboxDefinition>>;
 
   /**
    * @param pagination requested pagination
    */
-  abstract getAll(pagination: RequestedPagination): Observable<PaginatedResource<SandboxDefinition[]>>;
+  abstract getAll(pagination: RequestedPagination): Observable<PaginatedResource<SandboxDefinition>>;
 
   /**
    * Deletes sandbox definition by given id
    * @param id unique identifier of a sandbox definition
    */
-  abstract delete(id: number): Observable<PaginatedResource<SandboxDefinition[]>>;
+  abstract delete(id: number): Observable<PaginatedResource<SandboxDefinition>>;
 
   /**
    * Creates a  new sandbox definition

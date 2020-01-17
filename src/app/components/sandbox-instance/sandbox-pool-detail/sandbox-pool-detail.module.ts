@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {Kypo2TableModule} from 'kypo2-table';
-import {SandboxInstanceApiModule} from '../../../services/api/modules/sandbox-instance-api.module';
 import {PoolRequestBreadcrumbResolver} from '../../../services/resolvers/sandbox-instance-resolvers/pool-request-breadcrumb-resolver.service';
 import {PoolRequestResolver} from '../../../services/resolvers/sandbox-instance-resolvers/pool-request-resolver.service';
 import {PoolResolver} from '../../../services/resolvers/sandbox-instance-resolvers/pool-resolver.service';
@@ -14,6 +13,7 @@ import {SandboxPoolDetailMaterialModule} from './sandbox-pool-detail-material.mo
 import {SandboxPoolDetailRoutingModule} from './sandbox-pool-detail-routing.module';
 import { SandboxPoolDetailComponent } from './sandbox-pool-detail.component';
 import {PoolCleanupRequestsPollingService} from '../../../services/sandbox-instance/pool-request/cleanup/pool-cleanup-requests-polling.service';
+import {SandboxInstanceApi} from '../../../services/api/sandbox-instance-api.service';
 
 /**
  * Module containing component and providers for sandbox pool detail page
@@ -25,9 +25,9 @@ import {PoolCleanupRequestsPollingService} from '../../../services/sandbox-insta
     SandboxPoolDetailRoutingModule,
     SandboxPoolDetailMaterialModule,
     Kypo2TableModule,
-    SandboxInstanceApiModule
   ],
   providers: [
+    SandboxInstanceApi,
     PoolResolver,
     PoolRequestResolver,
     PoolRequestBreadcrumbResolver,

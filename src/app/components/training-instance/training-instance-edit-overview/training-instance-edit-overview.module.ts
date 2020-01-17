@@ -3,9 +3,6 @@ import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {OwlDateTimeModule, OwlNativeDateTimeModule} from '@busacca/ng-pick-datetime';
 import {PipesModule} from '../../../pipes/pipes.module';
-import {TrainingDefinitionApiModule} from '../../../services/api/modules/training-definition-api.module';
-import {TrainingInstanceApiModule} from '../../../services/api/modules/training-instance-api.module';
-import {UserApiModule} from '../../../services/api/modules/user-api.module';
 import {TrainingInstanceCanDeactivate} from '../../../services/guards/training-instance-can-deactivate.service';
 import {OrganizersAssignService} from '../../../services/training-instance/organizers-assign/organizers-assign.service';
 import {TrainingInstanceEditConcreteService} from '../../../services/training-instance/edit/training-instance-edit-concrete.service';
@@ -20,6 +17,9 @@ import { TrainingInstanceEditControlsComponent } from './training-instance-edit/
 import {TrainingInstanceEditComponent} from './training-instance-edit/training-instance-edit.component';
 import {Kypo2UserAssignModule, Kypo2UserAssignService} from 'kypo2-user-assign';
 import { TrainingDefinitionListContentComponent } from './training-definition-selector/training-definition-list/training-definition-list-content.component';
+import {TrainingDefinitionApi} from '../../../services/api/training-definition-api.service';
+import {TrainingInstanceApi} from '../../../services/api/training-instance-api.service';
+import {UserApi} from '../../../services/api/user-api.service';
 
 /**
  * Main module of training instance edit components and providers
@@ -29,14 +29,11 @@ import { TrainingDefinitionListContentComponent } from './training-definition-se
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    UserApiModule,
     Kypo2UserAssignModule,
     SharedModule,
     PipesModule,
     TrainingInstanceEditOverviewMaterialModule,
     TrainingInstanceEditOverviewRoutingModule,
-    TrainingInstanceApiModule,
-    TrainingDefinitionApiModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
   ],
@@ -47,6 +44,9 @@ import { TrainingDefinitionListContentComponent } from './training-definition-se
     TrainingDefinitionSelectorComponent,
     TrainingDefinitionListContentComponent],
   providers: [
+    UserApi,
+    TrainingInstanceApi,
+    TrainingDefinitionApi,
     TrainingInstanceCanDeactivate,
     { provide: Kypo2UserAssignService, useClass: OrganizersAssignService },
     { provide: TrainingInstanceEditService, useClass: TrainingInstanceEditConcreteService }

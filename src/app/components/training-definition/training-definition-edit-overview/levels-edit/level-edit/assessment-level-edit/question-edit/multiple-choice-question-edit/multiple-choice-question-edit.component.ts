@@ -11,7 +11,7 @@ import {
 import { FormArray, FormControl, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import {takeWhile} from 'rxjs/operators';
-import {AbstractQuestion} from '../../../../../../../../model/questions/abstract-question';
+import {Question} from '../../../../../../../../model/questions/question';
 import {MultipleChoiceQuestion} from '../../../../../../../../model/questions/multiple-choice-question';
 import {AlertService} from '../../../../../../../../services/shared/alert.service';
 import {BaseComponent} from '../../../../../../../base.component';
@@ -35,8 +35,8 @@ export class MultipleChoiceQuestionEditComponent extends BaseComponent
   @Output() questionChange: EventEmitter<MultipleChoiceQuestion> = new EventEmitter();
 
   multipleChoicesFormGroup: MultipleChoiceFormGroup;
-  maxQuestionScore = AbstractQuestion.MAX_QUESTION_SCORE;
-  maxQuestionPenalty = AbstractQuestion.MAX_QUESTION_PENALTY;
+  maxQuestionScore = Question.MAX_QUESTION_SCORE;
+  maxQuestionPenalty = Question.MAX_QUESTION_PENALTY;
 
   constructor() {
     super();

@@ -13,7 +13,7 @@ export class SandboxDefinitionTableCreator {
    * Transforming paginated resource to class for common table component
    * @param resource paginated resource to transform
    */
-  static create(resource: PaginatedResource<SandboxDefinition[]>): Kypo2Table<SandboxDefinition> {
+  static create(resource: PaginatedResource<SandboxDefinition>): Kypo2Table<SandboxDefinition> {
 
     const actions = [{
         label: 'Delete',

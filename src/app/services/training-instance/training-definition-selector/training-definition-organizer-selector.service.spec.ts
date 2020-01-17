@@ -7,7 +7,7 @@ import {throwError} from 'rxjs';
 import {skip, take} from 'rxjs/operators';
 import {TrainingDefinitionApi} from '../../api/training-definition-api.service';
 import {TrainingDefinitionOrganizerSelectorService} from './training-definition-organizer-selector.service';
-import {Kypo2Pagination} from '../../../model/table/other/kypo2-pagination';
+import {Pagination} from '../../../model/table/other/pagination';
 import {TrainingDefinitionInfo} from '../../../model/training/training-definition-info';
 
 
@@ -111,6 +111,6 @@ describe('TrainingDefinitionOrganizerSelectorService', () => {
     td1.id = 0;
     const td2 = new TrainingDefinitionInfo();
     td2.id = 1;
-    return new PaginatedResource([td1, td2], new Kypo2Pagination(1, 2, 5, 2, 1));
+    return new PaginatedResource([td1, td2], new Pagination(1, 2, 5, 2, 1));
   }
 });

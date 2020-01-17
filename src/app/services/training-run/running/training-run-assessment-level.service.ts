@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {AbstractQuestion} from '../../../model/questions/abstract-question';
+import {Question} from '../../../model/questions/question';
 import {TrainingRunApi} from '../../api/training-run-api.service';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class TrainingRunAssessmentLevelService {
    * @param trainingRunId id of current training run
    * @param answers answers entered by user
    */
-  submit(trainingRunId: number, answers: AbstractQuestion[]): Observable<any> {
+  submit(trainingRunId: number, answers: Question[]): Observable<any> {
     return this.trainingRunFacade.submitAnswers(trainingRunId, answers);
   }
 }

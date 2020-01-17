@@ -29,7 +29,7 @@ export abstract class PoolRequestPollingService extends PoolRequestService {
   /**
    * Emits received data with every new poll response
    */
-  protected poll$: Observable<PaginatedResource<PoolRequest[]>>;
+  protected poll$: Observable<PaginatedResource<PoolRequest>>;
 
   protected constructor() {
     super();
@@ -39,7 +39,7 @@ export abstract class PoolRequestPollingService extends PoolRequestService {
   /**
    * Repeats last recorded request
    */
-  protected abstract repeatLastGetAllRequest(): Observable<PaginatedResource<PoolRequest[]>>;
+  protected abstract repeatLastGetAllRequest(): Observable<PaginatedResource<PoolRequest>>;
 
   /**
    * Updates polling info when request is made manually (by changing pagination for example) and delays poll period
@@ -56,7 +56,7 @@ export abstract class PoolRequestPollingService extends PoolRequestService {
     this.delayPolling$.next(environment.apiPollingPeriod);
   }
 
-  private createPoll(): Observable<PaginatedResource<PoolRequest[]>> {
+  private createPoll(): Observable<PaginatedResource<PoolRequest>> {
     return timer(environment.apiPollingPeriod, environment.apiPollingPeriod)
       .pipe(
         switchMap(_ => this.repeatLastGetAllRequest()),

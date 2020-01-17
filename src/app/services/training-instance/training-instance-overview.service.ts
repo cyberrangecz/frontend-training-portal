@@ -5,9 +5,9 @@ import {TrainingInstance} from '../../model/training/training-instance';
 import {RequestedPagination} from 'kypo2-table';
 
 export abstract class TrainingInstanceOverviewService extends PaginatedResourceService {
-  abstract trainingInstances$: Observable<PaginatedResource<TrainingInstance[]>>;
+  abstract trainingInstances$: Observable<PaginatedResource<TrainingInstance>>;
 
-  abstract getAll(pagination: RequestedPagination, filter: string): Observable<PaginatedResource<TrainingInstance[]>>;
+  abstract getAll(pagination: RequestedPagination, filter: string): Observable<PaginatedResource<TrainingInstance>>;
 
   abstract archive(id: number): Observable<any>;
 

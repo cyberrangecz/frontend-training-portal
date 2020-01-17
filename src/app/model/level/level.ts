@@ -4,13 +4,12 @@
 import {StepItem, StepperItemState} from 'kypo2-stepper';
 import {AbstractLevelTypeEnum} from '../enums/abstract-level-type.enum';
 
-export abstract class AbstractLevel implements StepItem {
+export abstract class Level implements StepItem {
   id: number;
   title: string;
   order: number;
   estimatedDuration: number;
   maxScore: number;
-  icon: string;
   valid: boolean;
   type: AbstractLevelTypeEnum;
   isUnsaved: boolean;

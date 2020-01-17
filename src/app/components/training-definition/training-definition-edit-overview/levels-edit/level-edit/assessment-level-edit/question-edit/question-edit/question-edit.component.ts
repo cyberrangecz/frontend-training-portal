@@ -9,7 +9,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import {QuestionChangeEvent} from '../../../../../../../../model/events/question-change-event';
-import {AbstractQuestion} from '../../../../../../../../model/questions/abstract-question';
+import {Question} from '../../../../../../../../model/questions/question';
 import {ExtendedMatchingItems} from '../../../../../../../../model/questions/extended-matching-items';
 import {FreeFormQuestion} from '../../../../../../../../model/questions/free-form-question';
 import {MultipleChoiceQuestion} from '../../../../../../../../model/questions/multiple-choice-question';
@@ -26,7 +26,7 @@ import {BaseComponent} from '../../../../../../../base.component';
 })
 export class QuestionEditComponent extends BaseComponent implements OnInit, OnChanges {
 
-  @Input() question: AbstractQuestion;
+  @Input() question: Question;
   @Input() isTest: boolean;
   @Input() index: number;
 
@@ -50,7 +50,7 @@ export class QuestionEditComponent extends BaseComponent implements OnInit, OnCh
    * Passes received event to parent component
    * @param question changed question
    */
-  questionChanged(question: AbstractQuestion) {
+  questionChanged(question: Question) {
     this.questionChange.emit(new QuestionChangeEvent(question, this.index));
   }
 

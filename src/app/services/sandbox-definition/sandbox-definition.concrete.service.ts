@@ -26,17 +26,17 @@ export class SandboxDefinitionConcreteService extends SandboxDefinitionService {
   }
 
   private lastPagination: RequestedPagination;
-  private sandboxDefinitionsSubject: BehaviorSubject<PaginatedResource<SandboxDefinition[]>> = new BehaviorSubject(this.initSubject());
+  private sandboxDefinitionsSubject: BehaviorSubject<PaginatedResource<SandboxDefinition>> = new BehaviorSubject(this.initSubject());
   /**
    * List of sandbox definitions with currently selected pagination options
    */
-  definitions$: Observable<PaginatedResource<SandboxDefinition[]>> = this.sandboxDefinitionsSubject.asObservable();
+  definitions$: Observable<PaginatedResource<SandboxDefinition>> = this.sandboxDefinitionsSubject.asObservable();
 
   /**
    * Gets all sandbox definitions with passed pagination and updates related observables or handles an error
    * @param pagination requested pagination
    */
-  getAll(pagination: RequestedPagination): Observable<PaginatedResource<SandboxDefinition[]>> {
+  getAll(pagination: RequestedPagination): Observable<PaginatedResource<SandboxDefinition>> {
     this.hasErrorSubject$.next(false);
     this.lastPagination = pagination;
     return this.sandboxDefinitionFacade.getAllPaginated(pagination).pipe(
@@ -68,7 +68,7 @@ export class SandboxDefinitionConcreteService extends SandboxDefinitionService {
    * Deletes a sandbox definition, informs about the result and updates list of sandbox definitions or handles an error
    * @param sandboxDefinitionId id of a sandbox definition to be deleted
    */
-  delete(sandboxDefinitionId: number): Observable<PaginatedResource<SandboxDefinition[]>> {
+  delete(sandboxDefinitionId: number): Observable<PaginatedResource<SandboxDefinition>> {
     return this.sandboxDefinitionFacade.delete(sandboxDefinitionId)
       .pipe(
         tap(
@@ -79,7 +79,7 @@ export class SandboxDefinitionConcreteService extends SandboxDefinitionService {
       );
   }
 
-  private initSubject(): PaginatedResource<SandboxDefinition[]> {
+  private initSubject(): PaginatedResource<SandboxDefinition> {
     return new PaginatedResource([], new Pagination(0, 0, environment.defaultPaginationSize, 0, 0));
   }
 }

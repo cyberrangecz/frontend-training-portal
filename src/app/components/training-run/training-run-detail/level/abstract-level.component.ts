@@ -1,7 +1,7 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {AbstractLevelTypeEnum} from '../../../../model/enums/abstract-level-type.enum';
-import {AbstractLevel} from '../../../../model/level/abstract-level';
+import {Level} from '../../../../model/level/level';
 import {RunningTrainingRunService} from '../../../../services/training-run/running/running-training-run.service';
 import {BaseComponent} from '../../../base.component';
 
@@ -16,7 +16,7 @@ import {BaseComponent} from '../../../base.component';
 })
 export class AbstractLevelComponent extends BaseComponent implements OnInit {
 
-  level$: Observable<AbstractLevel>;
+  level$: Observable<Level>;
   levelTypes = AbstractLevelTypeEnum;
 
   constructor(private activeLevelsService: RunningTrainingRunService) {

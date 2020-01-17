@@ -6,7 +6,7 @@ import {
   ValidatorFn,
   Validators
 } from '@angular/forms';
-import {AbstractQuestion} from '../../../../../../../../model/questions/abstract-question';
+import {Question} from '../../../../../../../../model/questions/question';
 import {ExtendedMatchingItems} from '../../../../../../../../model/questions/extended-matching-items';
 
 /**
@@ -26,13 +26,13 @@ export class ExtendedMatchingItemsFormGroup {
           Validators.required,
           Validators.pattern('^[0-9]*$'),
           Validators.min(0),
-          Validators.max(AbstractQuestion.MAX_QUESTION_SCORE)
+          Validators.max(Question.MAX_QUESTION_SCORE)
         ]),
         penalty: new FormControl(emi.penalty, [
           Validators.required,
           Validators.pattern('^[0-9]*$'),
           Validators.min(0),
-          Validators.max(AbstractQuestion.MAX_QUESTION_PENALTY)
+          Validators.max(Question.MAX_QUESTION_PENALTY)
         ]),
       },
     this.noSelectedAnswers);

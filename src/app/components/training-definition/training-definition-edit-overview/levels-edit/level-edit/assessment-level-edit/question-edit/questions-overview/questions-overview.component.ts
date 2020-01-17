@@ -11,7 +11,7 @@ import {
 import {MatDialog} from '@angular/material/dialog';
 import {takeWhile} from 'rxjs/operators';
 import {QuestionChangeEvent} from '../../../../../../../../model/events/question-change-event';
-import {AbstractQuestion} from '../../../../../../../../model/questions/abstract-question';
+import {Question} from '../../../../../../../../model/questions/question';
 import {ExtendedMatchingItems} from '../../../../../../../../model/questions/extended-matching-items';
 import {FreeFormQuestion} from '../../../../../../../../model/questions/free-form-question';
 import {MultipleChoiceQuestion} from '../../../../../../../../model/questions/multiple-choice-question';
@@ -30,10 +30,10 @@ import {ConfirmationDialogActionEnum} from '../../../../../../../../model/enums/
 })
 export class QuestionsOverviewComponent extends BaseComponent implements OnInit, OnChanges {
 
-  @Input() questions: AbstractQuestion[];
+  @Input() questions: Question[];
   @Input() isTest: boolean;
   @Input() disabled: boolean;
-  @Output() questionsChange: EventEmitter<AbstractQuestion[]> = new EventEmitter();
+  @Output() questionsChange: EventEmitter<Question[]> = new EventEmitter();
 
   questionsHasError: boolean;
 

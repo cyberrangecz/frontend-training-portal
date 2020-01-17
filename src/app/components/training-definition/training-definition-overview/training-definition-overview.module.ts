@@ -4,8 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ngfModule } from 'angular-file';
 import { SharedDirectivesModule } from '../../../directives/shared-directives.module';
 import { PipesModule } from '../../../pipes/pipes.module';
-import { TrainingDefinitionApiModule } from '../../../services/api/modules/training-definition-api.module';
-import { TrainingInstanceApiModule } from '../../../services/api/modules/training-instance-api.module';
 import { CloneDialogComponent } from './clone-dialog/clone-dialog.component';
 import { StateChangeDialogComponent } from './state-change-dialog/state-change-dialog.component';
 import { TrainingDefinitionOverviewMaterialModule } from './training-definition-overview-material.module';
@@ -18,6 +16,8 @@ import { TrainingDefinitionService } from '../../../services/training-definition
 import { TrainingDefinitionConcreteService } from '../../../services/training-definition/overview/training-definition.concrete.service';
 import { TrainingDefinitionOverviewControlsComponent } from './training-definition-overview-controls/training-definition-overview-controls.component';
 import {FileUploadProgressService} from '../../../services/shared/file-upload-progress.service';
+import {TrainingDefinitionApi} from '../../../services/api/training-definition-api.service';
+import {TrainingInstanceApi} from '../../../services/api/training-instance-api.service';
 
 /**
  * Module containing components and providers for training definition overview.
@@ -31,8 +31,6 @@ import {FileUploadProgressService} from '../../../services/shared/file-upload-pr
     SharedDirectivesModule,
     TrainingDefinitionOverviewRoutingModule,
     TrainingDefinitionOverviewMaterialModule,
-    TrainingDefinitionApiModule,
-    TrainingInstanceApiModule,
     ReactiveFormsModule,
     Kypo2TableModule
   ],
@@ -45,6 +43,8 @@ import {FileUploadProgressService} from '../../../services/shared/file-upload-pr
     TrainingDefinitionOverviewControlsComponent
   ],
   providers: [
+    TrainingDefinitionApi,
+    TrainingInstanceApi,
     FileUploadProgressService,
     { provide: TrainingDefinitionService, useClass: TrainingDefinitionConcreteService }
   ],

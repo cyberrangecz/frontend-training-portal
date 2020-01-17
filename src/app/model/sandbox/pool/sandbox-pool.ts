@@ -1,6 +1,7 @@
 /**
  * Class representing sandbox pool
  */
+
 export class SandboxPool {
   id: number;
   definitionId: number;

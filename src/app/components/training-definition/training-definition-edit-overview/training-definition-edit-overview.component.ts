@@ -6,7 +6,7 @@ import {of} from 'rxjs/internal/observable/of';
 import {map, takeWhile} from 'rxjs/operators';
 import {ResourceSavedEvent} from '../../../model/events/resource-saved-event';
 import {TrainingDefinitionChangeEvent} from '../../../model/events/training-definition-change-event';
-import {AbstractLevel} from '../../../model/level/abstract-level';
+import {Level} from '../../../model/level/level';
 import {RouteFactory} from '../../../model/routes/route-factory';
 import {TrainingDefinition} from '../../../model/training/training-definition';
 import {TrainingDefinitionEditService} from '../../../services/training-definition/edit/training-definition-edit.service';
@@ -30,7 +30,7 @@ export class TrainingDefinitionEditOverviewComponent extends BaseComponent imple
   tdTitle$: Observable<string>;
   levelsCount = -1;
   saveDisabled$: Observable<boolean>;
-  unsavedLevels: AbstractLevel[] = [];
+  unsavedLevels: Level[] = [];
   canDeactivateAuthors = true;
   canDeactivateTDEdit = true;
   defaultPaginationSize = environment.defaultPaginationSize;
@@ -104,7 +104,7 @@ export class TrainingDefinitionEditOverviewComponent extends BaseComponent imple
    * Changes state of the component when one of the levels is saved
    * @param unsavedLevels unsaved levels emitted from child component
    */
-  onUnsavedLevelsChanged(unsavedLevels: AbstractLevel[]) {
+  onUnsavedLevelsChanged(unsavedLevels: Level[]) {
     this.unsavedLevels = unsavedLevels;
   }
 

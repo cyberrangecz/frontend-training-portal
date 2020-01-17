@@ -9,7 +9,7 @@ import {RequestedPagination} from '../../../model/DTOs/other/requested-paginatio
 import {switchMap, tap} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {TrainingDefinition} from '../../../model/training/training-definition';
-import {Kypo2Pagination} from '../../../model/table/other/kypo2-pagination';
+import {Pagination} from '../../../model/table/other/pagination';
 import {environment} from '../../../../environments/environment';
 import {AlertService} from '../../shared/alert.service';
 import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
@@ -30,18 +30,18 @@ export class TrainingDefinitionConcreteService extends TrainingDefinitionService
   private lastPagination: RequestedPagination;
   private lastFilters: string;
 
-  private trainingDefinitionsSubject$: BehaviorSubject<PaginatedResource<TrainingDefinition[]>> = new BehaviorSubject(this.initSubject());
+  private trainingDefinitionsSubject$: BehaviorSubject<PaginatedResource<TrainingDefinition>> = new BehaviorSubject(this.initSubject());
   /**
    * List of training definitions with currently selected pagination options
    */
-  trainingDefinitions$: Observable<PaginatedResource<TrainingDefinition[]>> = this.trainingDefinitionsSubject$.asObservable();
+  trainingDefinitions$: Observable<PaginatedResource<TrainingDefinition>> = this.trainingDefinitionsSubject$.asObservable();
 
   /**
    * Gets all training definitions with passed pagination and filter and updates related observables or handles an error
    * @param pagination requested pagination
    * @param filter filter to be applied on training definitions (attribute title)
    */
-  getAll(pagination: RequestedPagination, filter: string): Observable<PaginatedResource<TrainingDefinition[]>> {
+  getAll(pagination: RequestedPagination, filter: string): Observable<PaginatedResource<TrainingDefinition>> {
   this.lastPagination = pagination;
   this.lastFilters = filter;
   const filters = filter ? [new Filter('title', filter)] : [];
@@ -133,9 +133,9 @@ export class TrainingDefinitionConcreteService extends TrainingDefinitionService
       );
   }
 
-  private initSubject(): PaginatedResource<TrainingDefinition[]> {
+  private initSubject(): PaginatedResource<TrainingDefinition> {
     return new PaginatedResource([],
-      new Kypo2Pagination(0, 0, environment.defaultPaginationSize, 0, 0 ));
+      new Pagination(0, 0, environment.defaultPaginationSize, 0, 0 ));
   }
 
   private onChangedState(trainingDefinitionId: number, newState: TrainingDefinitionStateEnum) {

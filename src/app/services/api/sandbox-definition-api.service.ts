@@ -9,7 +9,8 @@ import {SandboxDefinitionDTO} from '../../model/DTOs/sandbox-definition/sandbox-
 import {PaginationParams} from '../../model/http/params/pagination-params';
 import {SandboxDefinition} from '../../model/sandbox/definition/sandbox-definition';
 import {PaginatedResource} from '../../model/table/other/paginated-resource';
-import {SandboxDefinitionMapper} from '../mappers/sandbox-definition-mapper.service';
+import {SandboxDefinitionMapper} from '../../model/mappers/sandbox-definition/sandbox-definition-mapper';
+import {PaginationMapper} from '../../model/mappers/pagination-mapper';
 
 /**
  * Service abstracting http communication with sandbox definition endpoints.
@@ -19,31 +20,36 @@ export class SandboxDefinitionApi {
 
   private readonly sandboxDefsEndpoint = environment.sandboxRestBasePath + 'definitions/';
 
-  constructor(private http: HttpClient,
-              private sandboxDefinitionMapper: SandboxDefinitionMapper) {
+  constructor(private http: HttpClient) {
   }
-
 
   /**
    * Sends http request to retrieve all sandbox definitions
    */
   getAll(): Observable<SandboxDefinition[]> {
     return this.http.get<DjangoResourceDTO<SandboxDefinitionDTO>>(this.sandboxDefsEndpoint, { headers: this.createDefaultHeaders() })
-      .pipe(map(response =>
-      this.sandboxDefinitionMapper.mapSandboxDefinitionsDTOToSandboxDefinitions(response.results)));
+      .pipe(
+        map(response => SandboxDefinitionMapper.fromDTOs(response.results))
+      );
   }
 
   /**
    * Sends http request to retrieve all sandbox definitions on specified page of a pagination
    */
-  getAllPaginated(pagination?: RequestedPagination): Observable<PaginatedResource<SandboxDefinition[]>> {
+  getAllPaginated(pagination?: RequestedPagination): Observable<PaginatedResource<SandboxDefinition>> {
     return this.http.get<DjangoResourceDTO<SandboxDefinitionDTO>>(this.sandboxDefsEndpoint,
       {
         headers: this.createDefaultHeaders(),
-        params: PaginationParams.createSandboxPaginationParams(pagination)
+        params: PaginationParams.forDjangoAPI(pagination)
       })
-      .pipe(map(response =>
-        this.sandboxDefinitionMapper.mapSandboxDefinitionDTOToSandboxDefinitionPaginated(response)));
+      .pipe(
+        map(response =>
+          new PaginatedResource<SandboxDefinition>(
+            SandboxDefinitionMapper.fromDTOs(response.results),
+            PaginationMapper.fromDjangoAPI(response)
+          )
+        )
+      );
   }
 
   /**
@@ -52,7 +58,9 @@ export class SandboxDefinitionApi {
    */
   get(id: number): Observable<SandboxDefinition> {
     return this.http.get<SandboxDefinitionDTO>(this.sandboxDefsEndpoint + id, { headers: this.createDefaultHeaders() })
-      .pipe(map(response => this.sandboxDefinitionMapper.mapSandboxDefinitionDTOToSandboxDefinition(response)));
+      .pipe(
+        map(response => SandboxDefinitionMapper.fromDTO(response))
+      );
   }
 
   /**

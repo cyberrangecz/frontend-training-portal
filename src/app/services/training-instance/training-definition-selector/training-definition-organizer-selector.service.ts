@@ -15,9 +15,9 @@ import {PaginatedResourceService} from '../../shared/paginated-resource.service'
  */
 @Injectable()
 export class TrainingDefinitionOrganizerSelectorService extends PaginatedResourceService {
-  private tdsSubject: Subject<PaginatedResource<TrainingDefinitionInfo[]>> = new Subject();
+  private tdsSubject: Subject<PaginatedResource<TrainingDefinitionInfo>> = new Subject();
 
-  trainingDefinition$: Observable<PaginatedResource<TrainingDefinitionInfo[]>> = this.tdsSubject.asObservable();
+  trainingDefinition$: Observable<PaginatedResource<TrainingDefinitionInfo>> = this.tdsSubject.asObservable();
   hasError$: Observable<boolean> = this.hasErrorSubject$.asObservable();
   isLoading$: Observable<boolean> = this.isLoadingSubject$.asObservable();
   totalLength$: Observable<number> = this.totalLengthSubject$.asObservable();
@@ -32,7 +32,7 @@ export class TrainingDefinitionOrganizerSelectorService extends PaginatedResourc
    * @param pagination requested pagination
    * @param stateFilter filter (state attribute) which should be applied to requested training definitions
    */
-  get(pagination: RequestedPagination, stateFilter: string): Observable<PaginatedResource<TrainingDefinitionInfo[]>> {
+  get(pagination: RequestedPagination, stateFilter: string): Observable<PaginatedResource<TrainingDefinitionInfo>> {
     this.hasErrorSubject$.next(false);
     this.isLoadingSubject$.next(true);
     return this.tdFacade.getAllForOrganizer(pagination, [new Filter('state', stateFilter)])

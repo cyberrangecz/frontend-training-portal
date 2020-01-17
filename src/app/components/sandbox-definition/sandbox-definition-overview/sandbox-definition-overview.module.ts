@@ -1,6 +1,5 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {SandboxDefinitionApiModule} from '../../../services/api/modules/sandbox-definition-api.module';
 import { SandboxDefinitionControlsComponent } from './sandbox-definition-controls/sandbox-definition-controls.component';
 import {Kypo2TableModule} from 'kypo2-table';
 import {SandboxDefinitionService} from '../../../services/sandbox-definition/sandbox-definition.service';
@@ -9,6 +8,7 @@ import {SandboxDefinitionDetailComponent} from './sandbox-definition-detail/sand
 import {SandboxDefinitionOverviewRoutingModule} from './sandbox-definition-overview-routing.module';
 import {SandboxDefinitionOverviewMaterialModule} from './sandbox-definition-overview-material.module';
 import {SandboxDefinitionOverviewComponent} from './sandbox-definition-overview.component';
+import {SandboxDefinitionApi} from '../../../services/api/sandbox-definition-api.service';
 
 /**
  * Module containing components and services for sandbox definition overview page
@@ -18,7 +18,6 @@ import {SandboxDefinitionOverviewComponent} from './sandbox-definition-overview.
     CommonModule,
     SandboxDefinitionOverviewRoutingModule,
     SandboxDefinitionOverviewMaterialModule,
-    SandboxDefinitionApiModule,
     Kypo2TableModule,
   ],
   declarations: [
@@ -27,6 +26,7 @@ import {SandboxDefinitionOverviewComponent} from './sandbox-definition-overview.
     SandboxDefinitionDetailComponent
   ],
   providers: [
+    SandboxDefinitionApi,
     {provide: SandboxDefinitionService, useClass: SandboxDefinitionConcreteService}
   ],
   entryComponents: [

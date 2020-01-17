@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import {AbstractQuestion} from '../../../../../../../model/questions/abstract-question';
+import {Question} from '../../../../../../../model/questions/question';
 import {MultipleChoiceQuestion} from '../../../../../../../model/questions/multiple-choice-question';
 import {BaseComponent} from '../../../../../../base.component';
 
@@ -18,7 +18,7 @@ export class MultipleChoiceQuestionTraineeComponent extends BaseComponent implem
   @Input() question: MultipleChoiceQuestion;
   @Input() index: number;
 
-  @Output() contentChanged: EventEmitter<{index: number, question: AbstractQuestion}> = new EventEmitter();
+  @Output() contentChanged: EventEmitter<{index: number, question: Question}> = new EventEmitter();
 
   userAnswersIndexes: number[] = [];
 

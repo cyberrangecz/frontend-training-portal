@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import {Injectable} from '@angular/core';
 import {Observable, of, ReplaySubject} from 'rxjs';
-import {AbstractLevel} from '../../../model/level/abstract-level';
+import {Level} from '../../../model/level/level';
 import {GameLevel} from '../../../model/level/game-level';
 import {AccessTrainingRunInfo} from '../../../model/training/access-training-run-info';
 import {TrainingRunGameLevelService} from '../../training-run/running/training-run-game-level.service';
@@ -16,12 +16,12 @@ export class PreviewTrainingRunService {
   constructor(private gameService: TrainingRunGameLevelService,
               private location: Location) {}
 
-  private levels: AbstractLevel[] = [];
+  private levels: Level[] = [];
   private activeLevelIndex: number;
   private isStepperDisplayed: boolean;
 
-  private activeLevelSubject: ReplaySubject<AbstractLevel> = new ReplaySubject(1);
-  activeLevel$: Observable<AbstractLevel> = this.activeLevelSubject.asObservable();
+  private activeLevelSubject: ReplaySubject<Level> = new ReplaySubject(1);
+  activeLevel$: Observable<Level> = this.activeLevelSubject.asObservable();
 
   setUpFromTrainingRun(trainingRunInfo: AccessTrainingRunInfo) {
     this.levels = trainingRunInfo.levels;
@@ -42,11 +42,11 @@ export class PreviewTrainingRunService {
     return of(-1);
   }
 
-  getLevels(): AbstractLevel[] {
+  getLevels(): Level[] {
     return this.levels;
   }
 
-  getActiveLevel(): AbstractLevel {
+  getActiveLevel(): Level {
     return this.levels[this.activeLevelIndex];
   }
 
@@ -62,7 +62,7 @@ export class PreviewTrainingRunService {
     return this.isStepperDisplayed;
 }
 
-  nextLevel(): Observable<AbstractLevel> {
+  nextLevel(): Observable<Level> {
     this.activeLevelIndex++;
     const nextLevel = this.levels[this.activeLevelIndex];
     if (nextLevel instanceof GameLevel && this.gameService instanceof PreviewGameLevelService) {

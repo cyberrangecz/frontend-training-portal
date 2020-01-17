@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import {takeWhile} from 'rxjs/operators';
 import {AssessmentLevel} from '../../../../../../model/level/assessment-level';
-import {AbstractQuestion} from '../../../../../../model/questions/abstract-question';
+import {Question} from '../../../../../../model/questions/question';
 import {BaseComponent} from '../../../../../base.component';
 import { AssessmentLevelEditFormGroup } from './assessment-level-edit-form-group';
 
@@ -62,7 +62,7 @@ export class AssessmentLevelEditComponent extends BaseComponent implements OnIni
    * Changes internal state of the component and emits change event to parent component
    * @param questions new state of changed questions
    */
-  onQuestionsChanged(questions: AbstractQuestion[]) {
+  onQuestionsChanged(questions: Question[]) {
     this.level.questions = questions;
     this.assessmentFormGroup.setToLevel(this.level);
     this.levelChange.emit(this.level);
