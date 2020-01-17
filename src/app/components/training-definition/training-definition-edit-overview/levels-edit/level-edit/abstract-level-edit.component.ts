@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AbstractLevelTypeEnum} from '../../../../../model/enums/abstract-level-type.enum';
-import {AbstractLevel} from '../../../../../model/level/abstract-level';
+import {Level} from '../../../../../model/level/level';
 import {BaseComponent} from '../../../../base.component';
 
 /**
@@ -14,8 +14,8 @@ import {BaseComponent} from '../../../../base.component';
 })
 export class AbstractLevelEditComponent extends BaseComponent implements OnInit {
 
-  @Input() level: AbstractLevel;
-  @Output() levelChange: EventEmitter<AbstractLevel> = new EventEmitter();
+  @Input() level: Level;
+  @Output() levelChange: EventEmitter<Level> = new EventEmitter();
   levelTypes = AbstractLevelTypeEnum;
 
   ngOnInit() {
@@ -25,7 +25,7 @@ export class AbstractLevelEditComponent extends BaseComponent implements OnInit 
    * Passes emitted event to the parent component
    * @param level changed level
    */
-  onLevelChange(level: AbstractLevel) {
+  onLevelChange(level: Level) {
     this.levelChange.emit(level);
   }
 }

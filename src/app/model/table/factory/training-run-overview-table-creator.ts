@@ -13,7 +13,7 @@ export class TrainingRunOverviewTableCreator {
    * Transforming paginated resource to class for common table component
    * @param resource paginated resource to transform
    */
-  static create(resource: PaginatedResource<AccessedTrainingRun[]>): Kypo2Table<AccessedTrainingRun> {
+  static create(resource: PaginatedResource<AccessedTrainingRun>): Kypo2Table<AccessedTrainingRun> {
     const table = new Kypo2Table<AccessedTrainingRun>(
       resource.elements.map(trainingRun => new Row(trainingRun, this.createActions(trainingRun))),
       [

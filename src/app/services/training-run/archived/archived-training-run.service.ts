@@ -18,7 +18,7 @@ export abstract class ArchivedTrainingRunService extends PaginatedResourceServic
   /**
    * @contract must be updated every time new data are received
    */
-  abstract archivedTrainingRuns$: Observable<PaginatedResource<TrainingRunTableRow[]>>;
+  abstract archivedTrainingRuns$: Observable<PaginatedResource<TrainingRunTableRow>>;
 
   /**
    * Starts polling in regular intervals
@@ -30,7 +30,7 @@ export abstract class ArchivedTrainingRunService extends PaginatedResourceServic
    * @param trainingInstanceId id of associated training instance
    * @param pagination requested pagination
    */
-  abstract getAll(trainingInstanceId: number, pagination?: RequestedPagination): Observable<PaginatedResource<TrainingRunTableRow[]>>;
+  abstract getAll(trainingInstanceId: number, pagination?: RequestedPagination): Observable<PaginatedResource<TrainingRunTableRow>>;
 
   /**
    * Deletes archived training run

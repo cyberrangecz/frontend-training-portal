@@ -5,14 +5,6 @@ import {SandboxInstanceState} from '../../../enums/sandbox-instance-state';
 
 export class SandboxInstance {
 
-  id: number;
-  poolId: number;
-  state: SandboxInstanceState;
-  stateLabel: string;
-  stateErrorMessage: string;
-  lockState: 'locked' | 'unlocked';
-  private _locked: boolean;
-
   constructor() {
   }
 
@@ -24,6 +16,14 @@ export class SandboxInstance {
     this._locked = value;
     this.lockState = value ? 'locked' : 'unlocked';
   }
+
+  id: number;
+  poolId: number;
+  state: SandboxInstanceState;
+  stateLabel: string;
+  stateErrorMessage: string;
+  lockState: 'locked' | 'unlocked';
+  private _locked: boolean;
 
   isCreated(): boolean {
     return this.state === SandboxInstanceState.COMPLETE;
@@ -38,11 +38,4 @@ export class SandboxInstance {
       || this.state === SandboxInstanceState.DELETE_IN_PROGRESS;
   }
 
-  isBeingDeleted(): boolean {
-    return this.state === SandboxInstanceState.DELETE_IN_PROGRESS;
-  }
-
-  isDeleteFailed(): boolean {
-    return this.state === SandboxInstanceState.DELETE_FAILED;
-  }
 }

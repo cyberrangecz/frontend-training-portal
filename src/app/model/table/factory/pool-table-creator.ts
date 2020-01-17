@@ -18,7 +18,7 @@ export class PoolTableCreator {
    * Transforming paginated resource to class for common table component
    * @param resource paginated resource to transform
    */
-  static create(resource: PaginatedResource<SandboxPool[]> = null): Kypo2Table<SandboxPool> {
+  static create(resource: PaginatedResource<SandboxPool> = null): Kypo2Table<SandboxPool> {
     const table = new Kypo2Table<SandboxPool>(
       this.createRows(resource),
       [
@@ -31,7 +31,7 @@ export class PoolTableCreator {
     return table;
   }
 
-  private static createRows(resource: PaginatedResource<SandboxPool[]>): Row<SandboxPool>[] {
+  private static createRows(resource: PaginatedResource<SandboxPool>): Row<SandboxPool>[] {
     return resource.elements.map(pool => {
       const actions = [
         new RowAction(this.DELETE_ACTION, 'delete', 'warn', 'Delete Pool', of(pool.usedSize !== 0)),

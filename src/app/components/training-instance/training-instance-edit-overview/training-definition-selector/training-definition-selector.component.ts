@@ -25,9 +25,9 @@ import {takeWhile} from 'rxjs/operators';
 })
 export class TrainingDefinitionSelectorComponent extends BaseComponent implements OnInit {
 
-  released$: Observable<PaginatedResource<TrainingDefinitionInfo[]>>;
+  released$: Observable<PaginatedResource<TrainingDefinitionInfo>>;
   releasedHasError$: Observable<boolean>;
-  unreleased$: Observable<PaginatedResource<TrainingDefinitionInfo[]>>;
+  unreleased$: Observable<PaginatedResource<TrainingDefinitionInfo>>;
   unreleasedHasError$: Observable<boolean>;
   isLoading$: Observable<boolean>;
   selected: TrainingDefinitionInfo;

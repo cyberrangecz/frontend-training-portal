@@ -12,12 +12,13 @@ import {ResponseHeaderContentDispositionReader} from '../../model/http/response-
 import {PaginatedResource} from '../../model/table/other/paginated-resource';
 import {TrainingRunTableRow} from '../../model/table/row/training-run-table-row';
 import {TrainingInstance} from '../../model/training/training-instance';
-import {TrainingInstanceMapper} from '../mappers/training-instance-mapper.service';
-import {TrainingRunMapper} from '../mappers/training-run-mapper.service';
-import {DownloadService} from '../shared/download.service';
 import {Filter} from '../../model/utils/filter';
 import {ParamsMerger} from '../../model/http/params/params-merger';
 import {FilterParams} from '../../model/http/params/filter-params';
+import {JsonFromBlobConverter} from '../../model/http/response-headers/json-from-blob-converter';
+import {TrainingInstanceMapper} from '../../model/mappers/training-instance/training-instance-mapper';
+import {TrainingRunTableRowMapper} from '../../model/mappers/training-run/training-run-table-row-mapper';
+import {PaginationMapper} from '../../model/mappers/pagination-mapper';
 
 /**
  * Service abstracting http communication with training instance endpoints.
@@ -32,10 +33,7 @@ export class TrainingInstanceApi {
   readonly trainingInstancesEndpointUri = environment.trainingRestBasePath + this.trainingInstancesUriExtension;
   readonly trainingExportsEndpointUri = environment.trainingRestBasePath + this.exportsUriExtension;
 
-  constructor(private http: HttpClient,
-              private downloadService: DownloadService,
-              private trainingRunMapper: TrainingRunMapper,
-              private trainingInstanceMapper: TrainingInstanceMapper) {
+  constructor(private http: HttpClient) {
   }
 
   /**
@@ -43,12 +41,16 @@ export class TrainingInstanceApi {
    * @param pagination requested pagination
    * @param filters filters to be applied on resources
    */
-  getAll(pagination: RequestedPagination,  filters: Filter[] = []): Observable<PaginatedResource<TrainingInstance[]>> {
-    const params = ParamsMerger.merge([PaginationParams.createTrainingsPaginationParams(pagination), FilterParams.create(filters)]);
+  getAll(pagination: RequestedPagination,  filters: Filter[] = []): Observable<PaginatedResource<TrainingInstance>> {
+    const params = ParamsMerger.merge([PaginationParams.forJavaAPI(pagination), FilterParams.create(filters)]);
     return this.http.get<TrainingInstanceRestResource>(this.trainingInstancesEndpointUri,
       { params: params })
-      .pipe(map(response =>
-        this.trainingInstanceMapper.mapTrainingInstanceDTOsToTrainingInstances(response)));
+      .pipe(
+        map(response => new PaginatedResource<TrainingInstance>(
+          TrainingInstanceMapper.fromDTOs(response.content),
+          PaginationMapper.fromJavaAPI(response.pagination)
+        ))
+      );
   }
 
   /**
@@ -57,8 +59,7 @@ export class TrainingInstanceApi {
    */
   get(id: number): Observable<TrainingInstance> {
     return this.http.get<TrainingInstanceDTO>(this.trainingInstancesEndpointUri + id)
-      .pipe(map(response =>
-        this.trainingInstanceMapper.mapTrainingInstanceDTOToTrainingInstance(response)));
+      .pipe(map(response => TrainingInstanceMapper.fromDTO(response)));
   }
 
   /**
@@ -68,13 +69,18 @@ export class TrainingInstanceApi {
    * @param isActive true if active training runs should be retrieved, false if archived training runs should be retrieved
    */
   getAssociatedTrainingRuns(trainingInstanceId: number, pagination: RequestedPagination, isActive = true)
-      : Observable<PaginatedResource<TrainingRunTableRow[]>> {
-      let params = PaginationParams.createTrainingsPaginationParams(pagination);
+      : Observable<PaginatedResource<TrainingRunTableRow>> {
+      let params = PaginationParams.forJavaAPI(pagination);
       params = params.append('isActive', isActive.toString());
         return this.http.get<TrainingRunRestResource>(
           this.trainingInstancesEndpointUri + trainingInstanceId + '/' + this.trainingRunsUriExtension,
           { params: params })
-          .pipe(map(response => this.trainingRunMapper.mapTrainingRunDTOsToTrainingRuns(response)));
+          .pipe(
+            map(response => new PaginatedResource(
+              TrainingRunTableRowMapper.fromDTOs(response.content),
+              PaginationMapper.fromJavaAPI(response.pagination)
+            ))
+          );
   }
 
   /**
@@ -83,9 +89,8 @@ export class TrainingInstanceApi {
    */
   create(trainingInstance: TrainingInstance): Observable<TrainingInstance> {
     return this.http.post<TrainingInstanceDTO>(this.trainingInstancesEndpointUri,
-      this.trainingInstanceMapper.mapTrainingInstanceToTrainingInstanceCreateDTO(trainingInstance))
-      .pipe(map(trainingInstanceDTO =>
-        this.trainingInstanceMapper.mapTrainingInstanceDTOToTrainingInstance(trainingInstanceDTO)));
+      TrainingInstanceMapper.toCreateDTO(trainingInstance))
+      .pipe(map(response => TrainingInstanceMapper.fromDTO(response)));
   }
 
   /**
@@ -93,8 +98,7 @@ export class TrainingInstanceApi {
    * @param trainingInstance training instance which should be updated
    */
   update(trainingInstance: TrainingInstance): Observable<string> {
-    return this.http.put(this.trainingInstancesEndpointUri,
-      this.trainingInstanceMapper.mapTrainingInstanceToTrainingInstanceUpdateDTO(trainingInstance),
+    return this.http.put(this.trainingInstancesEndpointUri, TrainingInstanceMapper.toUpdateDTO(trainingInstance),
       { responseType: 'text'});
   }
 
@@ -122,7 +126,7 @@ export class TrainingInstanceApi {
           headers: headers
       })
       .pipe(map(resp =>  {
-        this.downloadService.downloadJSONFileFromBlobResponse(resp,
+        JsonFromBlobConverter.convert(resp,
           ResponseHeaderContentDispositionReader.getFilenameFromResponse(resp, 'archived-training-instance.zip'));
         return true;
       }));

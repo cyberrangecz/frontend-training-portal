@@ -21,12 +21,12 @@ import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
 export class SandboxInstanceConcreteService extends SandboxInstanceService {
 
   private lastPagination: RequestedPagination;
-  private instancesSubject: BehaviorSubject<PaginatedResource<SandboxInstance[]>> = new BehaviorSubject(this.initSubject());
+  private instancesSubject: BehaviorSubject<PaginatedResource<SandboxInstance>> = new BehaviorSubject(this.initSubject());
 
   /**
    * List of sandbox instance with currently selected pagination options
    */
-  instances$: Observable<PaginatedResource<SandboxInstance[]>> = this.instancesSubject.asObservable();
+  instances$: Observable<PaginatedResource<SandboxInstance>> = this.instancesSubject.asObservable();
 
   constructor(private sandboxInstanceFacade: SandboxInstanceApi,
               private activatedRoute: ActivatedRoute,
@@ -40,7 +40,7 @@ export class SandboxInstanceConcreteService extends SandboxInstanceService {
    * @param poolId id of a pool associated with sandbox instances
    * @param pagination requested pagination
    */
-  getAll(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<SandboxInstance[]>> {
+  getAll(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<SandboxInstance>> {
     this.hasErrorSubject$.next(false);
     this.lastPagination = pagination;
     return this.sandboxInstanceFacade.getSandboxes(poolId, pagination)
@@ -120,7 +120,7 @@ export class SandboxInstanceConcreteService extends SandboxInstanceService {
 
 
 
-  private initSubject(): PaginatedResource<SandboxInstance[]> {
+  private initSubject(): PaginatedResource<SandboxInstance> {
     return new PaginatedResource([], new Pagination(0, 0, environment.defaultPaginationSize, 0, 0));
   }
 

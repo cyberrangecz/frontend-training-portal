@@ -1,5 +1,5 @@
 import {TrainingDefinitionStateEnum} from '../enums/training-definition-state.enum';
-import {AbstractLevel} from '../level/abstract-level';
+import {Level} from '../level/level';
 import {DisplayableResource} from './displayable-resource';
 import {formatDate} from '@angular/common';
 
@@ -25,7 +25,7 @@ export class TrainingDefinition implements DisplayableResource {
   prerequisites: string[];
   outcomes: string[];
   state: TrainingDefinitionStateEnum;
-  levels: AbstractLevel[];
+  levels: Level[];
 
   lastEditTimeFormatted: string;
   private _lastEditTime: Date;

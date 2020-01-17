@@ -4,7 +4,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import {AbstractQuestion} from '../../../../../../../../model/questions/abstract-question';
+import {Question} from '../../../../../../../../model/questions/question';
 import {MultipleChoiceQuestion} from '../../../../../../../../model/questions/multiple-choice-question';
 
 /**
@@ -12,8 +12,8 @@ import {MultipleChoiceQuestion} from '../../../../../../../../model/questions/mu
  */
 export class MultipleChoiceFormGroup {
   formGroup: FormGroup;
-  private maxQuestionScore = AbstractQuestion.MAX_QUESTION_SCORE;
-  private maxQuestionPenalty = AbstractQuestion.MAX_QUESTION_PENALTY;
+  private maxQuestionScore = Question.MAX_QUESTION_SCORE;
+  private maxQuestionPenalty = Question.MAX_QUESTION_PENALTY;
 
   constructor(mcq: MultipleChoiceQuestion) {
     this.formGroup = new FormGroup({

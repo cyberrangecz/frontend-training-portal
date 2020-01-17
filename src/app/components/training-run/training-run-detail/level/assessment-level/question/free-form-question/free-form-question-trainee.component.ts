@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AbstractQuestion} from '../../../../../../../model/questions/abstract-question';
+import {Question} from '../../../../../../../model/questions/question';
 import {FreeFormQuestion} from '../../../../../../../model/questions/free-form-question';
 import {BaseComponent} from '../../../../../../base.component';
 
@@ -17,7 +17,7 @@ export class FreeFormQuestionTraineeComponent extends BaseComponent implements O
   @Input() question: FreeFormQuestion;
   @Input() index: number;
 
-  @Output() contentChanged: EventEmitter<{index: number, question: AbstractQuestion}> = new EventEmitter();
+  @Output() contentChanged: EventEmitter<{index: number, question: Question}> = new EventEmitter();
   answer: string;
 
   ngOnInit() {

@@ -6,7 +6,7 @@ import {
   ValidatorFn,
   Validators
 } from '@angular/forms';
-import {AbstractQuestion} from '../../../../../../../../model/questions/abstract-question';
+import {Question} from '../../../../../../../../model/questions/question';
 import {FreeFormQuestion} from '../../../../../../../../model/questions/free-form-question';
 
 /**
@@ -23,13 +23,13 @@ export class FreeFormQuestionFormGroup {
           Validators.required,
           Validators.pattern('^[0-9]*$'),
           Validators.min(0),
-          Validators.max(AbstractQuestion.MAX_QUESTION_SCORE)
+          Validators.max(Question.MAX_QUESTION_SCORE)
         ]),
         penalty: new FormControl(ffq.penalty, [
           Validators.required,
           Validators.pattern('^[0-9]*$'),
           Validators.min(0),
-          Validators.max(AbstractQuestion.MAX_QUESTION_PENALTY)
+          Validators.max(Question.MAX_QUESTION_PENALTY)
         ]),
         answers: new FormArray(ffq.correctAnswers.map(answer => new FormControl(answer, Validators.required)))
       },

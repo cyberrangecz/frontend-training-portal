@@ -24,12 +24,12 @@ export const poolCleanupRequestsCacheBuster$: Subject<void> = new Subject();
 @Injectable()
 export class PoolCleanupRequestsPollingService extends PoolRequestPollingService {
 
-  private manuallyUpdatedRequests$: BehaviorSubject<PaginatedResource<PoolRequest[]>> = new BehaviorSubject(this.initSubject());
+  private manuallyUpdatedRequests$: BehaviorSubject<PaginatedResource<PoolRequest>> = new BehaviorSubject(this.initSubject());
 
   /**
    * List of cleanup requests with currently selected pagination options
    */
-  requests$: Observable<PaginatedResource<PoolRequest[]>>;
+  requests$: Observable<PaginatedResource<PoolRequest>>;
 
   constructor(private sandboxInstanceFacade: SandboxInstanceApi,
               private errorHandler: ErrorHandlerService) {
@@ -48,7 +48,7 @@ export class PoolCleanupRequestsPollingService extends PoolRequestPollingService
   @Cacheable({
     cacheBusterObserver: poolCleanupRequestsCacheBuster$
   })
-  getAll(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<PoolRequest[]>> {
+  getAll(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<PoolRequest>> {
     this.onManualGetAll(poolId, pagination);
     return this.sandboxInstanceFacade.getCleanupRequests(poolId, pagination)
       .pipe(
@@ -98,7 +98,7 @@ export class PoolCleanupRequestsPollingService extends PoolRequestPollingService
     cacheBusterObserver: poolCleanupRequestsCacheBuster$,
     maxAge: environment.apiPollingPeriod - 1
   })
-  protected repeatLastGetAllRequest(): Observable<PaginatedResource<PoolRequest[]>> {
+  protected repeatLastGetAllRequest(): Observable<PaginatedResource<PoolRequest>> {
     this.hasErrorSubject$.next(false);
     return this.sandboxInstanceFacade.getCleanupRequests(this.lastPoolId, this.lastPagination)
       .pipe(
@@ -111,7 +111,7 @@ export class PoolCleanupRequestsPollingService extends PoolRequestPollingService
     this.hasErrorSubject$.next(true);
   }
 
-  private initSubject(): PaginatedResource<PoolRequest[]> {
+  private initSubject(): PaginatedResource<PoolRequest> {
     return new PaginatedResource([], new Pagination(0, 0, environment.defaultPaginationSize, 0, 0));
   }
 }

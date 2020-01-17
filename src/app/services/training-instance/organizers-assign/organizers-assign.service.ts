@@ -24,12 +24,12 @@ export class OrganizersAssignService extends Kypo2UserAssignService {
 
   private lastAssignedPagination: RequestedPagination;
   private lastAssignedFilter: string;
-  private assignedUsersSubject: BehaviorSubject<PaginatedResource<User[]>> = new BehaviorSubject(this.initSubject());
+  private assignedUsersSubject: BehaviorSubject<PaginatedResource<User>> = new BehaviorSubject(this.initSubject());
 
   /**
    * Currently assigned users (organizers)
    */
-  assignedUsers$: Observable<PaginatedResource<User[]>> = this.assignedUsersSubject.asObservable();
+  assignedUsers$: Observable<PaginatedResource<User>> = this.assignedUsersSubject.asObservable();
 
   /***
    * Assigns organizer to a resource (creates association)
@@ -50,7 +50,7 @@ export class OrganizersAssignService extends Kypo2UserAssignService {
    * @param pagination requested pagination
    * @param filter username filter which should be applied on organizers
    */
-  getAssigned(resourceId: number, pagination: RequestedPagination, filter: string = null): Observable<PaginatedResource<User[]>> {
+  getAssigned(resourceId: number, pagination: RequestedPagination, filter: string = null): Observable<PaginatedResource<User>> {
     this.lastAssignedPagination = pagination;
     this.lastAssignedFilter = filter;
     this.hasErrorSubject$.next(false);
@@ -75,7 +75,7 @@ export class OrganizersAssignService extends Kypo2UserAssignService {
    * @param resourceId id of selected resource
    * @param filter username filter which should be applied on organizers
    */
-  getAvailableToAssign(resourceId: number, filter: string = null): Observable<PaginatedResource<User[]>> {
+  getAvailableToAssign(resourceId: number, filter: string = null): Observable<PaginatedResource<User>> {
     const paginationSize = 25;
     return this.userFacade.getOrganizersNotInTI(
       resourceId,
@@ -113,7 +113,7 @@ export class OrganizersAssignService extends Kypo2UserAssignService {
       );
   }
 
-  private initSubject(): PaginatedResource<User[]> {
+  private initSubject(): PaginatedResource<User> {
     return new PaginatedResource([], new Pagination(0, 0, environment.defaultPaginationSize, 0, 0));
   }
 }

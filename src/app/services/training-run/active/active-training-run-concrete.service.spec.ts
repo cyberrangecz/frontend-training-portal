@@ -8,7 +8,7 @@ import {asyncData} from '../../../testing/helpers/async-data';
 import {environment} from '../../../../environments/environment';
 import {RequestedPagination} from 'kypo2-table';
 import {PaginatedResource} from '../../../model/table/other/paginated-resource';
-import {Kypo2Pagination} from '../../../model/table/other/kypo2-pagination';
+import {Pagination} from '../../../model/table/other/pagination';
 import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
 import {AlertService} from '../../shared/alert.service';
 import {TrainingInstance} from '../../../model/training/training-instance';
@@ -128,7 +128,7 @@ describe('ActiveTrainingRunConcreteService', () => {
   }
 
   function createMock() {
-    return new PaginatedResource([], new Kypo2Pagination(1, 0, 5, 5, 1));
+    return new PaginatedResource([], new Pagination(1, 0, 5, 5, 1));
   }
 
   function assertPoll(times: number, initialHaveBeenCalledTimes: number = 1) {

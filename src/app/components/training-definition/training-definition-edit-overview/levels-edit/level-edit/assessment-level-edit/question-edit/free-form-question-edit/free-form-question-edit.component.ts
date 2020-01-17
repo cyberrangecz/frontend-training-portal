@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { FormArray, FormControl, Validators } from '@angular/forms';
 import {takeWhile} from 'rxjs/operators';
-import {AbstractQuestion} from '../../../../../../../../model/questions/abstract-question';
+import {Question} from '../../../../../../../../model/questions/question';
 import {FreeFormQuestion} from '../../../../../../../../model/questions/free-form-question';
 import {BaseComponent} from '../../../../../../../base.component';
 import {FreeFormItemsChangeEvent} from '../../../../../../../../model/utils/free-form-items-change-event';
@@ -33,8 +33,8 @@ export class FreeFormQuestionEditComponent extends BaseComponent implements OnIn
 
   freeFormValid: boolean;
   freeFormQuestionFormGroup: FreeFormQuestionFormGroup;
-  maxQuestionScore = AbstractQuestion.MAX_QUESTION_SCORE;
-  maxQuestionPenalty = AbstractQuestion.MAX_QUESTION_PENALTY;
+  maxQuestionScore = Question.MAX_QUESTION_SCORE;
+  maxQuestionPenalty = Question.MAX_QUESTION_PENALTY;
 
   ngOnInit() {}
 

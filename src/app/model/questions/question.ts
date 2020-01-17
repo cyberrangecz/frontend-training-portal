@@ -1,7 +1,8 @@
 /**
  * Abstract parent class of all possible types of questions
  */
-export abstract class AbstractQuestion {
+
+export abstract class Question {
   public static readonly MAX_QUESTION_SCORE = 100;
   public static readonly MAX_QUESTION_PENALTY = 100;
 
@@ -19,5 +20,4 @@ export abstract class AbstractQuestion {
     this.score = 0;
     this.penalty = 0;
   }
-
 }

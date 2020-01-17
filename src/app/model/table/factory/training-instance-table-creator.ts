@@ -12,7 +12,7 @@ export class TrainingInstanceTableCreator {
   static readonly DELETE_ACTION = 'Delete';
   static readonly ARCHIVE_ACTION = 'Archive';
 
-  static create(resource: PaginatedResource<TrainingInstance[]>,
+  static create(resource: PaginatedResource<TrainingInstance>,
                 trainingInstanceService: TrainingInstanceOverviewService): Kypo2Table<TrainingInstanceRowAdapter> {
     const actions = [
       {

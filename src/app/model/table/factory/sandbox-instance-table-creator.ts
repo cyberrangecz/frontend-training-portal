@@ -17,7 +17,7 @@ export class SandboxInstanceTableCreator {
    * Transforming paginated resource to class for common table component
    * @param resource paginated resource to transform
    */
-  static create(resource: PaginatedResource<SandboxInstance[]>): Kypo2Table<SandboxInstance> {
+  static create(resource: PaginatedResource<SandboxInstance>): Kypo2Table<SandboxInstance> {
     const rows = resource.elements.map(instance => {
       const actions = [
         new RowAction(this.DELETE_ACTION, 'delete', 'warn', 'Delete sandbox instance', of(false)),

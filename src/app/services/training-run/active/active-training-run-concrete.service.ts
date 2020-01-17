@@ -24,10 +24,10 @@ export class ActiveTrainingRunConcreteService extends ActiveTrainingRunService {
 
   private lastPagination: RequestedPagination;
   private retryPolling$: Subject<boolean> = new Subject();
-  private manuallyUpdated$: BehaviorSubject<PaginatedResource<TrainingRunTableRow[]>> = new BehaviorSubject(this.initSubject());
+  private manuallyUpdated$: BehaviorSubject<PaginatedResource<TrainingRunTableRow>> = new BehaviorSubject(this.initSubject());
   private trainingInstance: TrainingInstance;
 
-  activeTrainingRuns$: Observable<PaginatedResource<TrainingRunTableRow[]>>;
+  activeTrainingRuns$: Observable<PaginatedResource<TrainingRunTableRow>>;
 
   constructor(private trainingInstanceFacade: TrainingInstanceApi,
               private sandboxInstanceFacade: SandboxInstanceApi,
@@ -57,7 +57,7 @@ export class ActiveTrainingRunConcreteService extends ActiveTrainingRunService {
    * @param trainingInstanceId which active training runs should be requested
    * @param pagination requested pagination
    */
-  getAll(trainingInstanceId: number, pagination: RequestedPagination): Observable<PaginatedResource<TrainingRunTableRow[]>> {
+  getAll(trainingInstanceId: number, pagination: RequestedPagination): Observable<PaginatedResource<TrainingRunTableRow>> {
     this.onManualGetAll(pagination);
     return this.trainingInstanceFacade.getAssociatedTrainingRuns(trainingInstanceId, pagination)
       .pipe(
@@ -86,7 +86,7 @@ export class ActiveTrainingRunConcreteService extends ActiveTrainingRunService {
       );
   }
 
-  private repeatLastGetAllRequest(): Observable<PaginatedResource<TrainingRunTableRow[]>> {
+  private repeatLastGetAllRequest(): Observable<PaginatedResource<TrainingRunTableRow>> {
     this.hasErrorSubject$.next(false);
     return this.trainingInstanceFacade.getAssociatedTrainingRuns(this.trainingInstance.id, this.lastPagination)
       .pipe(
@@ -107,7 +107,7 @@ export class ActiveTrainingRunConcreteService extends ActiveTrainingRunService {
     this.hasErrorSubject$.next(false);
   }
 
-  private createPoll(): Observable<PaginatedResource<TrainingRunTableRow[]>> {
+  private createPoll(): Observable<PaginatedResource<TrainingRunTableRow>> {
     return timer(0, environment.organizerSummaryPollingPeriod)
       .pipe(
         switchMap( _ => this.repeatLastGetAllRequest()),
@@ -115,7 +115,7 @@ export class ActiveTrainingRunConcreteService extends ActiveTrainingRunService {
       );
   }
 
-  private initSubject(): PaginatedResource<TrainingRunTableRow[]> {
+  private initSubject(): PaginatedResource<TrainingRunTableRow> {
     return new PaginatedResource(
       [],
       new Pagination(0, 0, environment.defaultPaginationSize, 0, 0)

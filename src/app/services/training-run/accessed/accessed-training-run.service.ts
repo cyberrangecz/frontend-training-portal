@@ -15,13 +15,13 @@ export abstract class AccessedTrainingRunService extends PaginatedResourceServic
   /***
    * @contract must be updated every time new data are received
    */
-  abstract trainingRuns$: Observable<PaginatedResource<AccessedTrainingRun[]>>;
+  abstract trainingRuns$: Observable<PaginatedResource<AccessedTrainingRun>>;
 
   /**
    * Requests paginated data
    * @param pagination requested pagination info
    */
-  abstract getAll(pagination: RequestedPagination): Observable<PaginatedResource<AccessedTrainingRun[]>>;
+  abstract getAll(pagination: RequestedPagination): Observable<PaginatedResource<AccessedTrainingRun>>;
 
   /**
    * Resume in already started training run

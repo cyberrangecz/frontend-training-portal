@@ -15,7 +15,7 @@ export class TrainingDefinitionListContentComponent implements OnInit, OnChanges
 
   @Input() state: string;
   @Input() selected: TrainingDefinitionInfo;
-  @Input() resource: PaginatedResource<TrainingDefinitionInfo[]>;
+  @Input() resource: PaginatedResource<TrainingDefinitionInfo>;
   @Input() hasError: boolean;
   @Input() pageSize: number;
   @Output() fetch: EventEmitter<RequestedPagination> = new EventEmitter();

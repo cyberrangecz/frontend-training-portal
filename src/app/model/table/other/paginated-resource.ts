@@ -1,14 +1,14 @@
-import {Kypo2Pagination} from './kypo2-pagination';
+import {Pagination} from './pagination';
 
 /**
  * Generic class of paginated resource
  */
 export class PaginatedResource<T> {
-  elements: T;
-  pagination: Kypo2Pagination;
+  elements: T[];
+  pagination: Pagination;
 
-  constructor(rows: T, pagination: Kypo2Pagination) {
-    this.elements = rows;
+  constructor(elements: T[], pagination: Pagination) {
+    this.elements = elements;
     this.pagination = pagination;
   }
 }

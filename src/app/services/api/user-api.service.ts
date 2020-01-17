@@ -11,7 +11,8 @@ import {PaginationParams} from '../../model/http/params/pagination-params';
 import {ParamsMerger} from '../../model/http/params/params-merger';
 import {PaginatedResource} from '../../model/table/other/paginated-resource';
 import {Filter} from '../../model/utils/filter';
-import {UserMapper} from '../mappers/user.mapper.service';
+import {PaginationMapper} from '../../model/mappers/pagination-mapper';
+import {UserMapper} from '../../model/mappers/user/user-mapper';
 
 /**
  * Service abstracting http communication with user related endpoints.
@@ -23,9 +24,7 @@ export class UserApi {
   readonly trainingDefsEndpointUri = environment.trainingRestBasePath + this.trainingDefinitionUriExtension;
   readonly trainingInstancesEndpointUri = environment.trainingRestBasePath + this.trainingInstanceUrlExtension;
 
-
-  constructor(private http: HttpClient,
-              private userMapper: UserMapper) {
+  constructor(private http: HttpClient) {
   }
 
   /**
@@ -36,12 +35,12 @@ export class UserApi {
    */
   getOrganizersNotInTI(trainingInstanceId: number,
                        pagination: RequestedPagination,
-                       filters: Filter[] = []): Observable<PaginatedResource<User[]>> {
-    const params = ParamsMerger.merge([PaginationParams.createTrainingsPaginationParams(pagination), FilterParams.create(filters)]);
+                       filters: Filter[] = []): Observable<PaginatedResource<User>> {
+    const params = ParamsMerger.merge([PaginationParams.forJavaAPI(pagination), FilterParams.create(filters)]);
     return this.http.get<UserRestResource>(`${this.trainingInstancesEndpointUri + trainingInstanceId}/organizers-not-in-training-instance`,
       { params: params})
       .pipe(
-        map(resp => this.userMapper.mapUserDTOsToUsers(resp))
+        map(resp => this.paginatedUsersFromDTO(resp))
       );
   }
 
@@ -53,12 +52,12 @@ export class UserApi {
    */
   getDesignersNotInTD(trainingDefinitionId: number,
                       pagination: RequestedPagination,
-                      filters: Filter[] = []): Observable<PaginatedResource<User[]>> {
-    const params = ParamsMerger.merge([PaginationParams.createTrainingsPaginationParams(pagination), FilterParams.create(filters)]);
+                      filters: Filter[] = []): Observable<PaginatedResource<User>> {
+    const params = ParamsMerger.merge([PaginationParams.forJavaAPI(pagination), FilterParams.create(filters)]);
     return this.http.get<UserRestResource>(`${this.trainingDefsEndpointUri + trainingDefinitionId}/designers-not-in-training-definition`,
       { params: params })
       .pipe(
-        map(resp => this.userMapper.mapUserDTOsToUsers(resp))
+        map(resp => this.paginatedUsersFromDTO(resp))
       );
   }
 
@@ -70,12 +69,12 @@ export class UserApi {
    */
   getAuthors(trainingDefinitionId: number,
              pagination: RequestedPagination,
-             filters: Filter[] = []): Observable<PaginatedResource<User[]>> {
-    const params = ParamsMerger.merge([PaginationParams.createTrainingsPaginationParams(pagination), FilterParams.create(filters)]);
+             filters: Filter[] = []): Observable<PaginatedResource<User>> {
+    const params = ParamsMerger.merge([PaginationParams.forJavaAPI(pagination), FilterParams.create(filters)]);
     return this.http.get<UserRestResource>(`${this.trainingDefsEndpointUri + trainingDefinitionId}/authors`,
       { params: params})
       .pipe(
-        map(resp => this.userMapper.mapUserDTOsToUsers(resp))
+        map(resp => this.paginatedUsersFromDTO(resp))
       );
   }
 
@@ -87,13 +86,20 @@ export class UserApi {
    */
   getOrganizers(trainingInstanceId: number,
                 pagination: RequestedPagination,
-                filters: Filter[] = []): Observable<PaginatedResource<User[]>> {
-    const params = ParamsMerger.merge([PaginationParams.createTrainingsPaginationParams(pagination), FilterParams.create(filters)]);
+                filters: Filter[] = []): Observable<PaginatedResource<User>> {
+    const params = ParamsMerger.merge([PaginationParams.forJavaAPI(pagination), FilterParams.create(filters)]);
     return this.http.get<UserRestResource>(`${this.trainingInstancesEndpointUri + trainingInstanceId}/organizers`,
       { params: params})
       .pipe(
-        map(resp => this.userMapper.mapUserDTOsToUsers(resp))
+        map(resp => this.paginatedUsersFromDTO(resp))
       );
+  }
+
+  private paginatedUsersFromDTO(dto: UserRestResource): PaginatedResource<User> {
+    return new PaginatedResource<User>(
+      UserMapper.fromDTOs(dto.content),
+      PaginationMapper.fromJavaAPI(dto.pagination)
+    );
   }
 
   /**

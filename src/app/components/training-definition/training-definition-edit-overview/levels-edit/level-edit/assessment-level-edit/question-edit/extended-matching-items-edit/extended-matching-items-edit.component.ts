@@ -14,7 +14,7 @@ import {
 import { FormArray, FormControl, Validators } from '@angular/forms';
 import { MatRadioButton } from '@angular/material/radio';
 import {takeWhile} from 'rxjs/operators';
-import {AbstractQuestion} from '../../../../../../../../model/questions/abstract-question';
+import {Question} from '../../../../../../../../model/questions/question';
 import {ExtendedMatchingItems} from '../../../../../../../../model/questions/extended-matching-items';
 import {BaseComponent} from '../../../../../../../base.component';
 import { ExtendedMatchingItemsFormGroup } from './extended-matching-items-form-group';
@@ -36,8 +36,8 @@ export class ExtendedMatchingItemsEditComponent extends BaseComponent
   @Output() questionChange: EventEmitter<ExtendedMatchingItems> = new EventEmitter();
 
   extendedMatchingQuestionFormGroup: ExtendedMatchingItemsFormGroup;
-  maxQuestionScore = AbstractQuestion.MAX_QUESTION_SCORE;
-  maxQuestionPenalty = AbstractQuestion.MAX_QUESTION_PENALTY;
+  maxQuestionScore = Question.MAX_QUESTION_SCORE;
+  maxQuestionPenalty = Question.MAX_QUESTION_PENALTY;
 
 
   @ViewChildren(MatRadioButton) radioButtons: QueryList<MatRadioButton>;

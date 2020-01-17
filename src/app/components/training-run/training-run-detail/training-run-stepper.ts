@@ -1,6 +1,6 @@
 import {Kypo2Stepper, StepItem} from 'kypo2-stepper';
 import {AbstractLevelTypeEnum} from '../../../model/enums/abstract-level-type.enum';
-import {AbstractLevel} from '../../../model/level/abstract-level';
+import {Level} from '../../../model/level/level';
 
 /**
  * Training run levels adapter to kypo stepper component
@@ -10,11 +10,11 @@ export class TrainingRunStepper {
   activeLevel: number;
   isLoading: boolean;
 
-  abstractLevels: AbstractLevel[];
+  abstractLevels: Level[];
   items: StepItem[] = [];
-  levels: Kypo2Stepper<StepItem> = {items: this.items as AbstractLevel[]};
+  levels: Kypo2Stepper<StepItem> = {items: this.items as Level[]};
 
-  constructor(levels: AbstractLevel[], isLoading: boolean, activeLevel: number) {
+  constructor(levels: Level[], isLoading: boolean, activeLevel: number) {
     this.abstractLevels = levels;
     this.isLoading = isLoading;
     if (activeLevel || activeLevel === 0) {
@@ -46,7 +46,7 @@ export class TrainingRunStepper {
       }
     }
     this.items = this.abstractLevels;
-    this.levels.items = this.items as AbstractLevel[];
+    this.levels.items = this.items as Level[];
   }
 
   /**

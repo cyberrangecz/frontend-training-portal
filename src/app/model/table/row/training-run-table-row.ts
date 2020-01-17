@@ -7,3 +7,4 @@ export class TrainingRunTableRow {
   trainingRun: TrainingRun;
   deletionRequested: boolean;
 }
+

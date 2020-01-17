@@ -21,10 +21,10 @@ export class Hint implements StepItem {
     this.state.icon = 'help_outline';
     this.state.hasState = false; // TODO: REMOVE as hint should not be saved separatedly of level
     this.primaryIcon = 'help_outline';
-
   }
 
   hasContent(): boolean {
     return this.content !== null && this.content !== undefined;
   }
+
 }

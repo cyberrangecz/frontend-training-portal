@@ -14,12 +14,12 @@ export abstract class PoolService extends PaginatedResourceService {
   /**
    * @contract must be updated every time new data are received
    */
-  abstract pools$: Observable<PaginatedResource<SandboxPool[]>>;
+  abstract pools$: Observable<PaginatedResource<SandboxPool>>;
 
   /**
    * @param pagination requested pagination
    */
-  abstract getAll(pagination: RequestedPagination): Observable<PaginatedResource<SandboxPool[]>>;
+  abstract getAll(pagination: RequestedPagination): Observable<PaginatedResource<SandboxPool>>;
 
   /**
    * Deletes a pool

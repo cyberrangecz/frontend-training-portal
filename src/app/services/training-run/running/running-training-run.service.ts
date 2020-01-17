@@ -6,7 +6,7 @@ import {map, tap} from 'rxjs/operators';
 import {
   TRAINING_RUN_RESULTS_PATH
 } from '../../../components/training-run/training-run-overview/paths';
-import {AbstractLevel} from '../../../model/level/abstract-level';
+import {Level} from '../../../model/level/level';
 import {AssessmentLevel} from '../../../model/level/assessment-level';
 import {GameLevel} from '../../../model/level/game-level';
 import {InfoLevel} from '../../../model/level/info-level';
@@ -26,16 +26,16 @@ export class RunningTrainingRunService {
               private router: Router) {
   }
 
-  private activeLevels: AbstractLevel[];
-  private activeLevel: GameLevel | AssessmentLevel | InfoLevel;
+  private activeLevels: Level[];
+  private activeLevel: Level;
   private startTime: Date;
   private isStepperDisplayed: boolean;
 
   sandboxInstanceId: number;
   trainingRunId: number;
 
-  private activeLevelSubject: ReplaySubject<AbstractLevel> = new ReplaySubject<AbstractLevel>(1);
-  activeLevel$: Observable<AbstractLevel> = this.activeLevelSubject.asObservable();
+  private activeLevelSubject: ReplaySubject<Level> = new ReplaySubject<Level>(1);
+  activeLevel$: Observable<Level> = this.activeLevelSubject.asObservable();
 
   /**
    * Initializes the service from training run access info
@@ -62,11 +62,11 @@ export class RunningTrainingRunService {
       );
   }
 
-  getLevels(): AbstractLevel[] {
+  getLevels(): Level[] {
     return this.activeLevels;
   }
 
-  getActiveLevel(): AbstractLevel {
+  getActiveLevel(): Level {
     return this.activeLevel;
   }
 
@@ -85,7 +85,7 @@ export class RunningTrainingRunService {
   /**
    * Sends request to move to next level. If response is successful, the next level in order is set as active
    */
-  nextLevel(): Observable<AbstractLevel> {
+  nextLevel(): Observable<Level> {
     return this.trainingRunFacade.nextLevel(this.trainingRunId)
       .pipe(map(resp => {
         this.setActiveLevel(resp);
@@ -116,7 +116,7 @@ export class RunningTrainingRunService {
     this.activeLevels = [];
   }
 
-  private setActiveLevel(level: GameLevel | InfoLevel | AssessmentLevel) {
+  private setActiveLevel(level: Level) {
     this.activeLevel = level;
     this.activeLevelSubject.next(this.activeLevel);
   }

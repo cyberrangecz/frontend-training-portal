@@ -14,7 +14,7 @@ import { Observable, of } from 'rxjs';
 import { debounceTime, switchMap, takeWhile, tap } from 'rxjs/operators';
 import { AbstractLevelTypeEnum } from '../../../../../model/enums/abstract-level-type.enum';
 import { LevelMoveEvent } from '../../../../../model/events/level-move-event';
-import { AbstractLevel } from '../../../../../model/level/abstract-level';
+import { Level } from '../../../../../model/level/level';
 import { TrainingDefinition } from '../../../../../model/training/training-definition';
 import { LevelEditService } from '../../../../../services/training-definition/edit/level-edit.service';
 import { BaseComponent } from '../../../../base.component';
@@ -32,12 +32,12 @@ import {ConfirmationDialogActionEnum} from '../../../../../model/enums/confirmat
 })
 export class LevelOverviewComponent extends BaseComponent implements OnInit, OnChanges {
 
-  @Output() unsavedLevels: EventEmitter<AbstractLevel[]> = new EventEmitter();
+  @Output() unsavedLevels: EventEmitter<Level[]> = new EventEmitter();
   @Output() levelsCount: EventEmitter<number> = new EventEmitter();
   @Input() trainingDefinition: TrainingDefinition;
 
   activeStep$: Observable<number>;
-  levels$: Observable<AbstractLevel[]>;
+  levels$: Observable<Level[]>;
   activeLevelCanBeSaved$: Observable<boolean>;
   levelMovingInProgress: boolean;
 
@@ -141,7 +141,7 @@ export class LevelOverviewComponent extends BaseComponent implements OnInit, OnC
    * Calls service to change active level
    * @param level level to set as active
    */
-  onActiveLevelChanged(level: AbstractLevel) {
+  onActiveLevelChanged(level: Level) {
     this.levelService.onActiveLevelChanged(level);
   }
 

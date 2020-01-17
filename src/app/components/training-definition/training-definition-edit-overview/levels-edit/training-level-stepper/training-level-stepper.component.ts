@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import {LevelMoveEvent} from '../../../../../model/events/level-move-event';
-import {AbstractLevel} from '../../../../../model/level/abstract-level';
+import {Level} from '../../../../../model/level/level';
 import {BaseComponent} from '../../../../base.component';
 import {Kypo2Stepper} from 'kypo2-stepper';
 import {StepperStateChange} from 'kypo2-stepper/lib/component/stepper-state-change';
@@ -24,14 +24,14 @@ import {StepperStateChange} from 'kypo2-stepper/lib/component/stepper-state-chan
 })
 export class TrainingLevelStepperComponent extends BaseComponent implements OnInit, OnChanges {
 
-  @Input() levels: AbstractLevel[];
+  @Input() levels: Level[];
   @Input() movingInProgress: boolean;
   @Input() activeStep: number;
   @Output() activeStepChange: EventEmitter<number> = new EventEmitter();
   @Output() levelSwap: EventEmitter<LevelMoveEvent> = new EventEmitter();
-  @Output() initialLevels: EventEmitter<AbstractLevel[]> = new EventEmitter();
+  @Output() initialLevels: EventEmitter<Level[]> = new EventEmitter();
 
-  levelStepper: Kypo2Stepper<AbstractLevel> = {items: []};
+  levelStepper: Kypo2Stepper<Level> = {items: []};
 
   private previousActiveStep =  -1;
 

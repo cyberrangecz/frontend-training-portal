@@ -11,7 +11,6 @@ import { AppComponent } from './app.component';
 import {HomeModule} from './components/home/home.module';
 import {LayoutModule} from './components/layout/layout.module';
 import {SharedModule} from './components/shared/shared.module';
-import {UserApiModule} from './services/api/modules/user-api.module';
 import {AdminGuard} from './services/guards/admin-guard.service';
 import {DesignerGuard} from './services/guards/designer-guard.service';
 import {NotOnlyTraineeGuard} from './services/guards/only-trainee.guard.service';
@@ -21,6 +20,7 @@ import {ErrorLogInterceptor} from './services/http-interceptors/error-log-interc
 import {LoadingInterceptor} from './services/http-interceptors/loading-interceptor';
 import {DistractionFreeModeService} from './services/shared/distraction-free-mode.service';
 import {LoadingService} from './services/shared/loading.service';
+import {UserApi} from './services/api/user-api.service';
 
 @NgModule({
   declarations: [
@@ -34,13 +34,13 @@ import {LoadingService} from './services/shared/loading.service';
     SharedModule,
     LayoutModule,
     HomeModule,
-    UserApiModule,
     Kypo2AuthModule.forRoot(environment.kypo2AuthConfig),
     environment.useHotjar ? NgxHotjarModule.forRoot(environment.hotjarTrackingCode) : [],
     MatIconModule,
     MatButtonModule,
   ],
   providers: [
+    UserApi,
     DesignerGuard,
     OrganizerGuard,
     AdminGuard,

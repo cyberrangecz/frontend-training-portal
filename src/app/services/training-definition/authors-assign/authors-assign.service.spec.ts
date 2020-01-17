@@ -5,7 +5,7 @@ import {UserApi} from '../../api/user-api.service';
 import {asyncData} from '../../../testing/helpers/async-data';
 import {RequestedPagination} from 'kypo2-table';
 import {PaginatedResource} from '../../../model/table/other/paginated-resource';
-import {Kypo2Pagination} from '../../../model/table/other/kypo2-pagination';
+import {Pagination} from '../../../model/table/other/pagination';
 import {User} from 'kypo2-auth';
 import {throwError} from 'rxjs';
 import {skip, take} from 'rxjs/operators';
@@ -191,6 +191,6 @@ describe('AuthorsAssignService', () => {
     user1.id = 1;
     const user2 = new User([]);
     user2.id = 2;
-    return new PaginatedResource([user1, user2], new Kypo2Pagination(1, 2, 5, 2, 1));
+    return new PaginatedResource([user1, user2], new Pagination(1, 2, 5, 2, 1));
   }
 });

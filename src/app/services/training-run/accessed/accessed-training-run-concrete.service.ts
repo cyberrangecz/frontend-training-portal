@@ -15,8 +15,8 @@ import {environment} from '../../../../environments/environment';
 @Injectable()
 export class AccessedTrainingRunConcreteService extends AccessedTrainingRunService {
 
-  private trainingRunsSubject: BehaviorSubject<PaginatedResource<AccessedTrainingRun[]>> = new BehaviorSubject(this.initSubject());
-  trainingRuns$: Observable<PaginatedResource<AccessedTrainingRun[]>> = this.trainingRunsSubject.asObservable();
+  private trainingRunsSubject: BehaviorSubject<PaginatedResource<AccessedTrainingRun>> = new BehaviorSubject(this.initSubject());
+  trainingRuns$: Observable<PaginatedResource<AccessedTrainingRun>> = this.trainingRunsSubject.asObservable();
 
   constructor(private trainingRunFacade: TrainingRunApi,
               private errorHandler: ErrorHandlerService) {
@@ -27,7 +27,7 @@ export class AccessedTrainingRunConcreteService extends AccessedTrainingRunServi
    * Gets paginated accessed training runs and updates related observables or handles error.
    * @param pagination requested pagination info
    */
-  getAll(pagination: RequestedPagination): Observable<PaginatedResource<AccessedTrainingRun[]>> {
+  getAll(pagination: RequestedPagination): Observable<PaginatedResource<AccessedTrainingRun>> {
     this.hasErrorSubject$.next(false);
     return this.trainingRunFacade.getAccessed(pagination).pipe(
       tap(trainingRuns => {
@@ -52,7 +52,7 @@ export class AccessedTrainingRunConcreteService extends AccessedTrainingRunServi
    );
   }
 
-  private initSubject(): PaginatedResource<AccessedTrainingRun[]> {
+  private initSubject(): PaginatedResource<AccessedTrainingRun> {
     return new PaginatedResource([], new Pagination(0, 0, environment.defaultPaginationSize, 0, 0));
   }
 }

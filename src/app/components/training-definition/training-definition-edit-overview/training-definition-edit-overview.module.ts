@@ -2,7 +2,6 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {PipesModule} from '../../../pipes/pipes.module';
-import {SandboxDefinitionApiModule} from '../../../services/api/modules/sandbox-definition-api.module';
 import {TrainingDefinitionCanDeactivate} from '../../../services/guards/training-definition-can-deactivate.service';
 import {TrainingDefinitionBreadcrumbResolver} from '../../../services/resolvers/training-definition-breadcrumb-resolver.service';
 import {TrainingDefinitionResolver} from '../../../services/resolvers/training-definition-resolver.service';
@@ -18,6 +17,7 @@ import { TrainingDefinitionEditOverviewComponent } from './training-definition-e
 import { SandboxDefinitionPickerComponent } from './training-definition-edit/sandbox-definition-picker/sandbox-definition-picker.component';
 import { TrainingDefinitionEditComponent } from './training-definition-edit/training-definition-edit.component';
 import {Kypo2UserAssignModule, Kypo2UserAssignService} from 'kypo2-user-assign';
+import {SandboxDefinitionApi} from '../../../services/api/sandbox-definition-api.service';
 
 /**
  * Module containing components and providers of training definition detail/edt/new actions.
@@ -31,7 +31,6 @@ import {Kypo2UserAssignModule, Kypo2UserAssignService} from 'kypo2-user-assign';
     TrainingDefinitionEditOverviewRoutingModule,
     TrainingDefinitionEditOverviewMaterialModule,
     LevelOverviewModule,
-    SandboxDefinitionApiModule,
     PipesModule,
     ReactiveFormsModule,
   ],
@@ -42,6 +41,7 @@ import {Kypo2UserAssignModule, Kypo2UserAssignService} from 'kypo2-user-assign';
     TrainingDefinitionEditControlsComponent,
   ],
   providers: [
+    SandboxDefinitionApi,
     TrainingDefinitionEditService,
     TrainingDefinitionCanDeactivate,
     TrainingDefinitionResolver,

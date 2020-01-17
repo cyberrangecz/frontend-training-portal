@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
-import {AbstractQuestion} from '../../../model/questions/abstract-question';
+import {Question} from '../../../model/questions/question';
 
 @Injectable()
 /**
@@ -8,7 +8,7 @@ import {AbstractQuestion} from '../../../model/questions/abstract-question';
  */
 export class PreviewAssessmentLevelService {
 
-  submit(trainingRunId: number, answers: AbstractQuestion[]): Observable<any> {
+  submit(trainingRunId: number, answers: Question[]): Observable<any> {
     return of(true);
   }
 }

@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { AbstractLevelTypeEnum } from '../../../model/enums/abstract-level-type.enum';
 import { AlertTypeEnum } from '../../../model/enums/alert-type.enum';
-import { AbstractLevel } from '../../../model/level/abstract-level';
+import { Level } from '../../../model/level/level';
 import { AssessmentLevel } from '../../../model/level/assessment-level';
 import { GameLevel } from '../../../model/level/game-level';
 import { InfoLevel } from '../../../model/level/info-level';
@@ -21,7 +21,7 @@ export class LevelEditService {
 
   private trainingDefinitionId: number;
 
-  private levelsSubject$: BehaviorSubject<AbstractLevel[]> = new BehaviorSubject([]);
+  private levelsSubject$: BehaviorSubject<Level[]> = new BehaviorSubject([]);
   /**
    * All currently edited levels of training definition
    */
@@ -49,7 +49,7 @@ export class LevelEditService {
    * @param trainingDefinitionId id of training definition
    * @param levels all levels associated with training definition id
    */
-  set(trainingDefinitionId: number, levels: AbstractLevel[]) {
+  set(trainingDefinitionId: number, levels: Level[]) {
     this.trainingDefinitionId = trainingDefinitionId;
     this.levelsSubject$.next(levels);
   }
@@ -67,7 +67,7 @@ export class LevelEditService {
    * Performs necessary actions to initiate and update values related to active level change
    * @param level new active level
    */
-  onActiveLevelChanged(level: AbstractLevel) {
+  onActiveLevelChanged(level: Level) {
     level.isUnsaved = true;
     const newLevels = this.levelsSubject$.getValue();
     newLevels[this.activeStepSubject.getValue()] = level;
@@ -86,7 +86,7 @@ export class LevelEditService {
    * @param level level to determine
    * @param value pre-determined result
    */
-  setLevelCanBeSaved(level: AbstractLevel, value?: boolean) {
+  setLevelCanBeSaved(level: Level, value?: boolean) {
     if (this.levelsSubject$.getValue().length > 0 && level.id === this.getSelected().id) {
       if (value !== undefined) {
         this.activeLevelCanBeSavedSubject.next(value);
@@ -96,11 +96,11 @@ export class LevelEditService {
     }
   }
 
-  getSelected(): AbstractLevel {
+  getSelected(): Level {
     return this.levelsSubject$.getValue()[this.activeStepSubject.getValue()];
   }
 
-  getUnsavedLevels(): AbstractLevel[] {
+  getUnsavedLevels(): Level[] {
     return this.levelsSubject$.getValue().filter(level => level.isUnsaved);
   }
 
@@ -121,7 +121,7 @@ export class LevelEditService {
    * Creates new level with default values based on passed level type
    * @param levelType enum of possible level types
    */
-  add(levelType: AbstractLevelTypeEnum): Observable<AbstractLevel> {
+  add(levelType: AbstractLevelTypeEnum): Observable<Level> {
     switch (levelType) {
       case AbstractLevelTypeEnum.Info: return this.addInfoLevel();
       case AbstractLevelTypeEnum.Assessment: return this.addAssessmentLevel();
@@ -135,7 +135,7 @@ export class LevelEditService {
    * @param level level to be saved
    * @param silentSave whether or not to display alerts when save was successful
    */
-  save(level: AbstractLevel, silentSave = false): Observable<any> {
+  save(level: Level, silentSave = false): Observable<any> {
     this.setLevelCanBeSaved(level, false);
     return this.sendRequestToSaveLevel(level)
       .pipe(
@@ -156,7 +156,7 @@ export class LevelEditService {
    * Delets selected level and displays alert with result of the operation
    * @param level level tobe deleted
    */
-  delete(level: AbstractLevel): Observable<AbstractLevel[]> {
+  delete(level: Level): Observable<Level[]> {
     return this.trainingDefinitionFacade.deleteLevel(this.trainingDefinitionId, level.id)
       .pipe(
         tap(_ => this.onLevelDeleted(level.id),
@@ -228,11 +228,11 @@ export class LevelEditService {
     this.navigateToPreviousLevel();
   }
 
-  private onLevelAdded(level: AbstractLevel) {
+  private onLevelAdded(level: Level) {
     this.levelsSubject$.getValue().push(level);
   }
 
-  private sendRequestToSaveLevel(level: AbstractLevel): Observable<any> {
+  private sendRequestToSaveLevel(level: Level): Observable<any> {
     switch (true) {
       case level instanceof InfoLevel: return this.saveInfoLevel(level as InfoLevel);
       case level instanceof AssessmentLevel: return this.saveAssessmentLevel(level as AssessmentLevel);
@@ -253,7 +253,7 @@ export class LevelEditService {
     return this.trainingDefinitionFacade.updateAssessmentLevel(this.trainingDefinitionId, level);
   }
 
-  private onLevelSaved(level: AbstractLevel) {
+  private onLevelSaved(level: Level) {
     level.isUnsaved = false;
     level.valid = true;
     this.setLevelCanBeSaved(level);

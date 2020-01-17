@@ -1,7 +1,7 @@
 /**
  * Class representing pagination of received resource
  */
-export class Kypo2Pagination {
+export class Pagination {
   page: number;
   numberOfElements: number;
   size: number;

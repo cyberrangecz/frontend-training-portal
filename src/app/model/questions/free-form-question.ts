@@ -1,9 +1,9 @@
-import {AbstractQuestion} from './abstract-question';
+import {Question} from './question';
 
 /**
  * One of types of questions. Has question and answer
  */
-export class FreeFormQuestion extends AbstractQuestion {
+export class FreeFormQuestion extends Question {
 
   correctAnswers: string[];
   usersAnswer: string;

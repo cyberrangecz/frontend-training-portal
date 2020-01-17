@@ -1,9 +1,9 @@
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {RequestedPagination} from 'kypo2-table';
-import {Observable, of, Subject} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {SandboxInstance} from '../../model/sandbox/pool/sandbox-instance/sandbox-instance';
-import {map, tap} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {DjangoResourceDTO} from '../../model/DTOs/other/django-resource-dto';
 import {PoolRequestDTO} from '../../model/DTOs/sandbox-instance/pool-request-dto';
@@ -15,10 +15,15 @@ import {SandboxInstanceResource} from '../../model/sandbox/pool/sandbox-instance
 import {SandboxInstanceResourceDTO} from '../../model/DTOs/sandbox-instance/sandbox-instance-resource-dto';
 import {SandboxPool} from '../../model/sandbox/pool/sandbox-pool';
 import {PaginatedResource} from '../../model/table/other/paginated-resource';
-import {SandboxInstanceMapper} from '../mappers/sandbox-instance-mapper.service';
 import {Cacheable} from 'ngx-cacheable';
 import {RequestStage} from '../../model/sandbox/pool/request/stage/request-stage';
 import {RequestStageDTO} from '../../model/DTOs/sandbox-instance/request-stage-dto';
+import {PoolRequestMapper} from '../../model/mappers/sandbox-instance/pool-request-mapper';
+import {SandboxPoolMapper} from '../../model/mappers/sandbox-instance/sandbox-pool-mapper';
+import {SandboxInstanceMapper} from '../../model/mappers/sandbox-instance/sandbox-instance-mapper';
+import {RequestStageMapper} from '../../model/mappers/sandbox-instance/request-stage-mapper';
+import {SandboxInstanceResourceMapper} from '../../model/mappers/sandbox-instance/sandbox-instance-resource-mapper';
+import {PaginationMapper} from '../../model/mappers/pagination-mapper';
 
 /**
  * Service abstracting http communication with sandbox instances endpoints.
@@ -37,20 +42,26 @@ export class SandboxInstanceApi {
   private readonly poolsEndpointUri = environment.sandboxRestBasePath + this.poolsUriExtension;
   private readonly sandboxEndpointUri = environment.sandboxRestBasePath + this.pythonSandboxInstancesUriExtension;
 
-  constructor(private http: HttpClient,
-              private sandboxInstanceMapper: SandboxInstanceMapper) {
+  constructor(private http: HttpClient) {
   }
 
   /**
    * Sends http request to retrieve all training instances on specified page of a pagination
    * @param pagination requested pagination
    */
-  getPools(pagination: RequestedPagination = null): Observable<PaginatedResource<SandboxPool[]>> {
+  getPools(pagination: RequestedPagination = null): Observable<PaginatedResource<SandboxPool>> {
     return this.http.get<DjangoResourceDTO<SandboxPoolDTO>>(
       this.poolsEndpointUri,
-    {
-        params: PaginationParams.createSandboxPaginationParams(pagination)
-    }).pipe(map(response => this.sandboxInstanceMapper.mapPoolsDTOsToPools(response)));
+      {
+        params: PaginationParams.forDjangoAPI(pagination)
+      })
+      .pipe(
+        map(response =>
+        new PaginatedResource<SandboxPool>(
+          SandboxPoolMapper.fromDTOs(response.results),
+          PaginationMapper.fromDjangoAPI(response)
+        ))
+      );
   }
 
   /**
@@ -63,7 +74,7 @@ export class SandboxInstanceApi {
   getPool(poolId: number): Observable<SandboxPool>  {
   return this.http.get<SandboxPoolDTO>(`${this.poolsEndpointUri}${poolId}/`)
     .pipe(
-      map(response => this.sandboxInstanceMapper.mapPoolDTOToPool(response))
+      map(response => SandboxPoolMapper.fromDTO(response))
     );
   }
 
@@ -72,14 +83,18 @@ export class SandboxInstanceApi {
    * @param poolId id of the associated pool
    * @param pagination requested pagination
    */
-  getSandboxes(poolId: number, pagination: RequestedPagination = null): Observable<PaginatedResource<SandboxInstance[]>> {
+  getSandboxes(poolId: number, pagination: RequestedPagination = null): Observable<PaginatedResource<SandboxInstance>> {
     return this.http.get<DjangoResourceDTO<SandboxInstanceDTO>>(
       `${this.poolsEndpointUri + poolId}/${this.pythonSandboxInstancesUriExtension}`,
       {
-        params: PaginationParams.createSandboxPaginationParams(pagination)
+        params: PaginationParams.forDjangoAPI(pagination)
       })
       .pipe(
-        map(response => this.sandboxInstanceMapper.mapSandboxInstanceDTOsToSandboxInstances(response))
+        map(response =>
+          new PaginatedResource<SandboxInstance>(
+            SandboxInstanceMapper.fromDTOs(response.results),
+            PaginationMapper.fromDjangoAPI(response)
+          ))
       );
   }
 
@@ -93,7 +108,7 @@ export class SandboxInstanceApi {
   getSandbox(sandboxId: number): Observable<SandboxInstance> {
     return this.http.get<SandboxInstanceDTO>(`${this.sandboxEndpointUri + sandboxId}/`)
       .pipe(
-        map(response => this.sandboxInstanceMapper.mapSandboxInstanceDTOToSandboxInstance(response))
+        map(response => SandboxInstanceMapper.fromDTO(response))
       );
   }
 
@@ -103,13 +118,17 @@ export class SandboxInstanceApi {
    * @param requestId id of the associated request
    * @param pagination requested pagination
    */
-  getCreationStages(poolId: number, requestId: number, pagination: RequestedPagination): Observable<PaginatedResource<RequestStage[]>> {
+  getCreationStages(poolId: number, requestId: number, pagination: RequestedPagination): Observable<PaginatedResource<RequestStage>> {
     return this.http.get<DjangoResourceDTO<RequestStageDTO>>(`${this.poolsEndpointUri + poolId}/${this.poolCreationRequestUriExtension + requestId}/${this.stagesUriExtension}`,
       {
-        params: PaginationParams.createSandboxPaginationParams(pagination)
+        params: PaginationParams.forDjangoAPI(pagination)
       })
       .pipe(
-        map(response => this.sandboxInstanceMapper.mapRequestStagesDTOToRequestStages(response))
+        map(response =>
+          new PaginatedResource<RequestStage>(
+            RequestStageMapper.fromDTOs(response.results),
+            PaginationMapper.fromDjangoAPI(response)
+          ))
       );
   }
 
@@ -120,13 +139,17 @@ export class SandboxInstanceApi {
    * @param poolId id of the associated pool
    * @param pagination requested pagination
    */
-  getCreationRequests(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<PoolRequest[]>> {
+  getCreationRequests(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<PoolRequest>> {
     return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(`${this.poolsEndpointUri + poolId}/${this.poolCreationRequestUriExtension}`,
       {
-        params: PaginationParams.createSandboxPaginationParams(pagination)
+        params: PaginationParams.forDjangoAPI(pagination)
       })
       .pipe(
-        map(response => this.sandboxInstanceMapper.mapCreateRequestsDTOToCreateRequests(response))
+        map(response =>
+          new PaginatedResource<PoolRequest>(
+            PoolRequestMapper.fromDTOs(response.results, 'CREATION'),
+            PaginationMapper.fromDjangoAPI(response)
+          ))
       );
   }
 
@@ -135,13 +158,17 @@ export class SandboxInstanceApi {
    * @param poolId id of the associated pool
    * @param pagination requested pagination
    */
-  getCleanupRequests(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<PoolRequest[]>> {
+  getCleanupRequests(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<PoolRequest>> {
     return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(`${this.poolsEndpointUri + poolId}/${this.poolCleanupRequestUriExtension}`,
       {
-        params: PaginationParams.createSandboxPaginationParams(pagination)
+        params: PaginationParams.forDjangoAPI(pagination)
       })
       .pipe(
-        map(response => this.sandboxInstanceMapper.mapCleanupRequestsDTOToCleanupRequests(response))
+        map(response =>
+          new PaginatedResource<PoolRequest>(
+            PoolRequestMapper.fromDTOs(response.results, 'CLEANUP'),
+            PaginationMapper.fromDjangoAPI(response)
+          ))
       );
   }
 
@@ -195,7 +222,7 @@ export class SandboxInstanceApi {
   })
   getCreateRequest(poolId: number, requestId: number): Observable<PoolRequest> {
     return this.http.get<PoolRequestDTO>(`${this.poolsEndpointUri + poolId}/${this.poolCreationRequestUriExtension}${requestId}/`)
-      .pipe(map(response => this.sandboxInstanceMapper.mapCreateRequestDTOToCreateRequest(response)));
+      .pipe(map(response => PoolRequestMapper.fromDTO(response, 'CREATION')));
   }
 
   /**
@@ -208,7 +235,7 @@ export class SandboxInstanceApi {
   })
   getCleanupRequest(poolId: number, requestId: number): Observable<PoolRequest> {
     return this.http.get<PoolRequestDTO>(`${this.poolsEndpointUri + poolId}/${this.poolCleanupRequestUriExtension}${requestId}/`)
-      .pipe(map(response => this.sandboxInstanceMapper.mapCreateRequestDTOToCreateRequest(response)));
+      .pipe(map(response => PoolRequestMapper.fromDTO(response, 'CLEANUP')));
   }
 
   /**
@@ -230,7 +257,7 @@ export class SandboxInstanceApi {
     return this.http.get<SandboxInstanceResourceDTO[]>(
       `${this.sandboxEndpointUri + sandboxId}/${this.sandboxResourceExtension}`
     ).pipe(
-      map(resourcesDTO => this.sandboxInstanceMapper.mapResourceDTOsToResources(resourcesDTO))
+      map(response => SandboxInstanceResourceMapper.fromDTOs(response))
     );
   }
 
@@ -247,7 +274,7 @@ export class SandboxInstanceApi {
     return this.http.get<SandboxInstanceResourceDTO>(
       `${this.sandboxEndpointUri + sandboxId}/vms/${resourceId}/`
     ).pipe(
-      map(resourceDTO => this.sandboxInstanceMapper.mapResourceDTOToResource(resourceDTO))
+      map(response => SandboxInstanceResourceMapper.fromDTO(response))
     );
   }
 

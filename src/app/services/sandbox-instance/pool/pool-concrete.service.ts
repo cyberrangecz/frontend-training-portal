@@ -24,12 +24,12 @@ const cacheBuster$: Subject<void> = new Subject();
 @Injectable()
 export class PoolConcreteService extends PoolService {
   private lastPagination: RequestedPagination;
-  private poolsSubject: BehaviorSubject<PaginatedResource<SandboxPool[]>> = new BehaviorSubject(this.initSubject());
+  private poolsSubject: BehaviorSubject<PaginatedResource<SandboxPool>> = new BehaviorSubject(this.initSubject());
 
   /**
    * List of pools with currently selected pagination options
    */
-  pools$: Observable<PaginatedResource<SandboxPool[]>> = this.poolsSubject.asObservable();
+  pools$: Observable<PaginatedResource<SandboxPool>> = this.poolsSubject.asObservable();
 
   constructor(private sandboxInstanceFacade: SandboxInstanceApi,
               private alertService: AlertService,
@@ -44,7 +44,7 @@ export class PoolConcreteService extends PoolService {
   @Cacheable({
     cacheBusterObserver: cacheBuster$
   })
-  getAll(pagination: RequestedPagination): Observable<PaginatedResource<SandboxPool[]>> {
+  getAll(pagination: RequestedPagination): Observable<PaginatedResource<SandboxPool>> {
     this.lastPagination = pagination;
     this.hasErrorSubject$.next(false);
     return this.sandboxInstanceFacade.getPools(pagination)
@@ -120,7 +120,7 @@ export class PoolConcreteService extends PoolService {
       );
   }
 
-  private initSubject(): PaginatedResource<SandboxPool[]> {
+  private initSubject(): PaginatedResource<SandboxPool> {
     return new PaginatedResource([], new Pagination(0, 0, environment.defaultPaginationSize, 0, 0));
   }
 }
