@@ -12,9 +12,6 @@ const routes: Routes = [
   {
     path: '',
     component: SandboxInstanceDetailComponent,
-    data: {
-      breadcrumb: null
-    },
     resolve: {
       sandboxInstance: SandboxInstanceResolver
     }

@@ -5,6 +5,8 @@ import {Level} from '../../../model/level/level';
 import {RunningTrainingRunService} from '../../../services/training-run/running/running-training-run.service';
 import {BaseComponent} from '../../base.component';
 import {TrainingRunStepper} from './training-run-stepper';
+import {Kypo2AuthService, User} from 'kypo2-auth';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'kypo2-training-run-detail',
@@ -17,6 +19,7 @@ import {TrainingRunStepper} from './training-run-stepper';
  */
 export class TrainingRunDetailComponent extends BaseComponent implements OnInit {
 
+  user$: Observable<User>;
   levels: Level[];
 
   selectedStep: number;
@@ -28,12 +31,14 @@ export class TrainingRunDetailComponent extends BaseComponent implements OnInit 
   items: StepItem[] = [];
   stepper: TrainingRunStepper;
 
-  constructor(private activeTrainingRunService: RunningTrainingRunService) {
+  constructor(private activeTrainingRunService: RunningTrainingRunService,
+              private auth: Kypo2AuthService) {
     super();
   }
 
   ngOnInit() {
     this.initData();
+    this.user$ = this.auth.activeUser$;
     this.subscribeToActiveLevelChange();
     this.isTimerDisplayed = true;
   }

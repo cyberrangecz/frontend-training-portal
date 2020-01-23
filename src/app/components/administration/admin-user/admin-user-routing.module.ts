@@ -6,7 +6,6 @@ export const ADMIN_USER_ROUTES: Routes = [
   {
     path: '',
     component: AdminUserWrapperComponent,
-    data: {breadcrumb: null}
   }
 ];
 

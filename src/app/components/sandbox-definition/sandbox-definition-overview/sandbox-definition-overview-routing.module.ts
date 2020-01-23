@@ -7,7 +7,6 @@ const routes: Routes = [
   {
     path: '',
     component: SandboxDefinitionOverviewComponent,
-    data: {breadcrumb: null}
   },
   {
     path: SANDBOX_DEFINITION_NEW_PATH,

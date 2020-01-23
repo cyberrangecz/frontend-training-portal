@@ -7,21 +7,14 @@ export const ADMIN_GROUP_ROUTES: Routes = [
   {
     path: '',
     component: AdminGroupWrapperComponent,
-    data: {breadcrumb: null},
   },
   {
     path: ADMIN_GROUP_NEW_PATH,
     loadChildren: () => import('app/components/administration/admin-group/admin-group-detail/admin-group-detail.module').then(m => m.AdminGroupDetailModule),
-    data: {
-      breadcrumb: null
-    }
   },
   {
     path: ':groupId/' + ADMIN_GROUP_EDIT_PATH,
     loadChildren: () => import('app/components/administration/admin-group/admin-group-detail/admin-group-detail.module').then(m => m.AdminGroupDetailModule),
-    data: {
-      breadcrumb: null
-    }
   },
 ];
 

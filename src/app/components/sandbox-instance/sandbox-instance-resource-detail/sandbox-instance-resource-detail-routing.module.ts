@@ -7,9 +7,6 @@ const routes: Routes = [
   {
     path: '',
     component: SandboxInstanceResourceDetailComponent,
-    data: {
-      breadcrumb: null
-    },
     resolve: {
       sandboxResource: SandboxInstanceResourceResolver
     }

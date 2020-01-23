@@ -14,7 +14,6 @@ const routes: Routes = [
   {
     path: '',
     component: TrainingInstanceOverviewComponent,
-    data: { breadcrumb: null }
   },
   {
     path: `:id/${TRAINING_INSTANCE_DETAIL_PATH}`,

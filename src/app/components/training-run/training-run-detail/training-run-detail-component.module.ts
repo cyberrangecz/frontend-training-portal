@@ -3,11 +3,11 @@ import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {Kypo2StepperModule} from 'kypo2-stepper';
 import {PipesModule} from '../../../pipes/pipes.module';
-import {UserIdModule} from '../../shared/user-id/user-id.module';
 import {LevelComponentModule} from './level/level-component.module';
 import {TrainingRunDetailMaterialModule} from './training-run-detail-material.module';
 import {TrainingRunDetailComponent} from './training-run-detail.component';
 import {TrainingTimerComponent} from './training-timer/training-timer.component';
+import {CsirtUserCardModule} from 'csirt-mu-layout';
 
 /**
  * Contains all components of training run detail
@@ -15,12 +15,12 @@ import {TrainingTimerComponent} from './training-timer/training-timer.component'
 @NgModule({
   imports: [
     CommonModule,
-    UserIdModule,
     TrainingRunDetailMaterialModule,
     RouterModule,
     LevelComponentModule,
     PipesModule,
     Kypo2StepperModule,
+    CsirtUserCardModule
   ],
   declarations: [
     TrainingRunDetailComponent,

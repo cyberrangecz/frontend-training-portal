@@ -5,8 +5,7 @@ import {AccessTokenDetailComponent} from './access-token-detail.component';
 const routes: Routes = [
   {
     path: '',
-    component: AccessTokenDetailComponent,
-    data: { breadcrumb: null }
+    component: AccessTokenDetailComponent
   }
 ];
 

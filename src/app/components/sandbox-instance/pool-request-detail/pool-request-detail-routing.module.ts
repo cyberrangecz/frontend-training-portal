@@ -9,9 +9,6 @@ const routes: Routes = [
   {
     path: '',
     component: PoolRequestDetailComponent,
-    data: {
-      breadcrumb: null,
-    },
     resolve: {
       pool: PoolResolver,
       poolRequest: PoolRequestResolver,

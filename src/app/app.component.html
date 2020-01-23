@@ -1,22 +1,8 @@
-<div *ngIf="(distractionFreeMode$ | async) else withLayout">
-  <kypo2-loading [isLoading]="isLoading$ | async"></kypo2-loading>
+<csirt-mu-layout1 logoSrc="./assets/images/kypo-logo.svg"
+              [user]="activeUser$ | async"
+              [isLoading]="isLoading$ | async"
+              [agendaContainers]="agendaContainers$ | async"
+              (login)="onLogin()"
+              (logout)="onLogout()">
   <router-outlet></router-outlet>
-  <kypo2-footer></kypo2-footer>
-</div>
-<ng-template #withLayout>
-  <mat-drawer-container autosize>
-    <mat-drawer #drawer mode="side" opened="true">
-      <div class="nav-content">
-        <kypo2-sidenav [user]="activeUser$ | async"></kypo2-sidenav>
-      </div>
-    </mat-drawer>
-    <mat-drawer-content>
-      <kypo2-toolbar [user]="activeUser$ | async"></kypo2-toolbar>
-      <kypo2-loading [isLoading]="isLoading$ | async"></kypo2-loading>
-      <div class="content">
-        <router-outlet></router-outlet>
-      </div>
-      <kypo2-footer></kypo2-footer>
-    </mat-drawer-content>
-  </mat-drawer-container>
-</ng-template>
+</csirt-mu-layout1>

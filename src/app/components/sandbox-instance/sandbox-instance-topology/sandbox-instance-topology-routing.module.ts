@@ -6,9 +6,6 @@ const routes: Routes = [
   {
     path: '',
     component: SandboxInstanceTopologyComponent,
-    data: {
-      breadcrumb: null
-    },
     resolve: {
       sandboxInstance: SandboxInstanceResolver
     }

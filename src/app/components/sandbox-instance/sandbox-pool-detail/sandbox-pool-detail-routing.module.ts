@@ -15,9 +15,6 @@ const routes: Routes = [
   {
     path: '',
     component: SandboxPoolDetailComponent,
-    data: {
-      breadcrumb: null
-    },
     resolve: {
       pool: PoolResolver
     }
