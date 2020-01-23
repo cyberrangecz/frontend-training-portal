@@ -6,7 +6,6 @@ const routes: Routes = [
   {
     path: '',
     component: TrainingRunResultsComponent,
-    data: {breadcrumb: null}
   },
 ];
 

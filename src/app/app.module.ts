@@ -9,7 +9,6 @@ import {environment} from '../environments/environment';
 import {AppRoutingModule} from './app-routing.module';
 import { AppComponent } from './app.component';
 import {HomeModule} from './components/home/home.module';
-import {LayoutModule} from './components/layout/layout.module';
 import {SharedModule} from './components/shared/shared.module';
 import {AdminGuard} from './services/guards/admin-guard.service';
 import {DesignerGuard} from './services/guards/designer-guard.service';
@@ -21,6 +20,7 @@ import {LoadingInterceptor} from './services/http-interceptors/loading-intercept
 import {DistractionFreeModeService} from './services/shared/distraction-free-mode.service';
 import {LoadingService} from './services/shared/loading.service';
 import {UserApi} from './services/api/user-api.service';
+import {CsirtMuLayout1Module} from 'csirt-mu-layout';
 
 @NgModule({
   declarations: [
@@ -32,7 +32,7 @@ import {UserApi} from './services/api/user-api.service';
     HttpClientModule,
     AppRoutingModule,
     SharedModule,
-    LayoutModule,
+    CsirtMuLayout1Module,
     HomeModule,
     Kypo2AuthModule.forRoot(environment.kypo2AuthConfig),
     environment.useHotjar ? NgxHotjarModule.forRoot(environment.hotjarTrackingCode) : [],

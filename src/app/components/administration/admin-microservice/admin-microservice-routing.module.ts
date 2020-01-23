@@ -8,7 +8,6 @@ export const ADMIN_MICROSERVICE_ROUTES: Routes = [
     path: '',
     component: AdminMicroserviceWrapperComponent,
     canDeactivate: [MicroserviceEditCanDeactivate],
-    data: { breadcrumb: null }
   }
 ];
 

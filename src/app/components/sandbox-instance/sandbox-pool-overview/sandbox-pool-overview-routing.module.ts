@@ -8,9 +8,6 @@ const routes: Routes = [
   {
     path: '',
     component: SandboxPoolOverviewComponent,
-    data: {
-      breadcrumb: null
-    }
   },
   {
     path: `:${POOL_ID_SELECTOR}`,

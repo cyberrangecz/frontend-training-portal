@@ -15,12 +15,6 @@ $kypo2-white-theme: mat-light-theme($kypo2-white-primary-palette, $kypo2-white-p
   @include angular-material-theme($kypo2-white-theme);
 }
 
-$lighter-white-theme: mat-light-theme($darker-white-primary-palette, $darker-white-primary-palette, $darker-white-primary-palette);
-
-.white-breadcrumbs-theme {
-  @include angular-material-theme($lighter-white-theme);
-}
-
 $kypo2-typography: mat-typography-config(
   $font-family: $kypo2-base-font
 );

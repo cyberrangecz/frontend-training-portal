@@ -8,7 +8,6 @@ const routes: Routes = [
   {
     path: '',
     component: TrainingRunOverviewComponent,
-    data: {breadcrumb: null}
   },
   {
     path: ':id/' + TRAINING_RUN_GAME_PATH,

@@ -8,7 +8,6 @@ const routes: Routes = [
     path: '',
     component: TrainingInstanceEditOverviewComponent,
     canDeactivate: [TrainingInstanceCanDeactivate],
-    data: { breadcrumb: null }
   },
 ];
 

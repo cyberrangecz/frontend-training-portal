@@ -5,8 +5,7 @@ import {TrainingInstanceProgressComponent} from './training-instance-progress.co
 const routes: Routes = [
   {
     path: '',
-    component: TrainingInstanceProgressComponent,
-    data: { breadcrumb: null }
+    component: TrainingInstanceProgressComponent
   },
 
 ];
