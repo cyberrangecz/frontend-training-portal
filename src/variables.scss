@@ -1,14 +1,10 @@
 @import '~@angular/material/theming';
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap');
+@import '~csirt-mu-layout/csirt-mu-variables';
 
-$kypo2-base-font: 'Source Sans Pro', sans-serif;
-
-$kypo2-primary-palette: mat-palette($mat-indigo);
-$kypo2-accent-palette:  mat-palette($mat-pink, A200, A100, A400);
-$kypo2-warn-palette:    mat-palette($mat-red);
-$primary: mat-color($kypo2-primary-palette);
-$accent: mat-color($kypo2-accent-palette);
-$warn: mat-color($kypo2-warn-palette);
+$primary: mat-color($csirt-mu-primary-palette);
+$accent: mat-color($csirt-mu-accent-palette);
+$warn: mat-color($csirt-mu-warn-palette);
 $success: #6DF000;
 $non-accent: #808080;
 

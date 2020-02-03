@@ -2,21 +2,18 @@
 @import "variables.scss";
 @import "~kypo2-table/kypo2-table-theme";
 @import "~kypo2-user-assign/kypo2-resource-selector-theme";
+@import '~csirt-mu-layout/csirt-mu-variables';
 
 @include mat-core();
-$kypo2-theme: mat-light-theme($kypo2-primary-palette, $kypo2-accent-palette, $kypo2-warn-palette);
-@include angular-material-theme($kypo2-theme);
-@include kypo2-table-theme($kypo2-theme);
-@include kypo2-resource-selector-theme($kypo2-theme);
+@include angular-material-theme($csirt-mu-theme);
+@include angular-material-typography($csirt-mu-typography);
+
+@include angular-material-theme($csirt-mu-theme);
+@include kypo2-table-theme($csirt-mu-theme);
+@include kypo2-resource-selector-theme($csirt-mu-theme);
 
 $kypo2-white-theme: mat-light-theme($kypo2-white-primary-palette, $kypo2-white-primary-palette, $kypo2-white-primary-palette);
 
 .white-navigation-theme {
   @include angular-material-theme($kypo2-white-theme);
 }
-
-$kypo2-typography: mat-typography-config(
-  $font-family: $kypo2-base-font
-);
-
-@include angular-material-typography($kypo2-typography);
