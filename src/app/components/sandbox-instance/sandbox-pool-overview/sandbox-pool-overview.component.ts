@@ -48,16 +48,16 @@ export class SandboxPoolOverviewComponent extends BaseComponent implements OnIni
    */
   onPoolAction(event: TableActionEvent<SandboxPool>) {
     let action$;
-    if (event.action.label === PoolTableCreator.DELETE_ACTION) {
+    if (event.action.id === PoolTableCreator.DELETE_ACTION_ID) {
       action$ = this.poolService.delete(event.element);
     }
-    if (event.action.label === PoolTableCreator.ALLOCATE_ALL_ACTION) {
+    if (event.action.id === PoolTableCreator.ALLOCATE_ALL_ACTION_ID) {
       action$ = this.poolService.allocate(event.element);
     }
-    if (event.action.label === PoolTableCreator.ALLOCATE_ONE_ACTION) {
+    if (event.action.id === PoolTableCreator.ALLOCATE_ONE_ACTION_ID) {
       action$ = this.poolService.allocate(event.element, 1);
     }
-    if (event.action.label === PoolTableCreator.CLEAR_ACTION) {
+    if (event.action.id === PoolTableCreator.CLEAR_ACTION_ID) {
       action$ = this.poolService.clear(event.element);
     }
     if (action$) {

@@ -8,8 +8,8 @@ import {PaginatedResource} from '../other/paginated-resource';
  */
 export class PoolRequestTableCreator {
 
-  static readonly CANCEL_ACTION = 'cancel';
-  static readonly RETRY_ACTION =  'retry';
+  static readonly CANCEL_ACTION_ID = 'cancel';
+  static readonly RETRY_ACTION_Id =  'retry';
 
 
   /**

@@ -45,7 +45,7 @@ export class ActiveTrainingRunOverviewComponent extends BaseComponent implements
    * @param event action event emitted from table
    */
   onActiveTrainingRunAction(event: TableActionEvent<TrainingRunTableAdapter>) {
-    if (event.action.label.toLocaleLowerCase() === 'delete') {
+    if (event.action.id === TrainingRunTableCreator.DELETE_ACTION_ID) {
       this.deleteSandboxOfTrainingRun(event.element);
     }
   }

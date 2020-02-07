@@ -14,6 +14,7 @@ import {TrainingRun} from '../../../../../model/training/training-run';
 import {User} from 'kypo2-auth';
 import {of} from 'rxjs';
 import {MatDialog} from '@angular/material';
+import {TrainingRunTableCreator} from '../../../../../model/table/factory/training-run-table-creator';
 
 describe('ArchivedTrainingRunOverviewComponent', () => {
 
@@ -89,7 +90,7 @@ describe('ArchivedTrainingRunOverviewComponent', () => {
   }
 
   function createTableActionEvent(): TableActionEvent<TrainingRunTableAdapter> {
-    const action = new RowAction('delete', '', '', '', of(false));
+    const action = new RowAction(TrainingRunTableCreator.DELETE_ACTION_ID, '', '', '', '', of(false));
     const element = new TrainingRunTableAdapter(createMockRun(1), false);
     return new TableActionEvent(element, action);
   }

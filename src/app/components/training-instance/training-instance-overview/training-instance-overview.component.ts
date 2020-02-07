@@ -50,16 +50,16 @@ export class TrainingInstanceOverviewComponent extends BaseComponent implements 
   }
 
   onInstanceAction(event: TableActionEvent<any>) {
-    if (event.action.label === TrainingInstanceTableCreator.EDIT_ACTION) {
+    if (event.action.id === TrainingInstanceTableCreator.EDIT_ACTION_ID) {
       this.router.navigate([RouteFactory.toTrainingInstanceEdit(event.element.id)]);
       return;
     }
-
+    
     let action$;
-    if (event.action.label === TrainingInstanceTableCreator.ARCHIVE_ACTION) {
+    if (event.action.id === TrainingInstanceTableCreator.ARCHIVE_ACTION_ID) {
       action$ = this.trainingInstanceService.archive(event.element.id);
     }
-    if (event.action.label === TrainingInstanceTableCreator.DELETE_ACTION) {
+    if (event.action.id === TrainingInstanceTableCreator.DELETE_ACTION_ID) {
       action$ = this.trainingInstanceService.delete(event.element.id);
     }
     action$

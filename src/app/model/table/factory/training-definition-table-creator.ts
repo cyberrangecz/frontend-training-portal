@@ -10,14 +10,14 @@ import {TrainingDefinition} from '../../training/training-definition';
  */
 export class TrainingDefinitionTableCreator {
 
-  static readonly EDIT_ACTION = 'Edit';
-  static readonly DELETE_ACTION = 'Delete';
-  static readonly CLONE_ACTION = 'Clone';
-  static readonly DOWNLOAD_ACTION = 'Download';
-  static readonly PREVIEW_ACTION = 'Preview';
-  static readonly RELEASE_ACTION = 'Release';
-  static readonly UNRELEASE_ACTION = 'Unrelease';
-  static readonly ARCHIVE_ACTION = 'Archive';
+  static readonly EDIT_ACTION_ID = 'edit';
+  static readonly DELETE_ACTION_ID = 'delete';
+  static readonly CLONE_ACTION_ID = 'clone';
+  static readonly DOWNLOAD_ACTION_ID = 'download';
+  static readonly PREVIEW_ACTION_ID = 'preview';
+  static readonly RELEASE_ACTION_ID = 'release';
+  static readonly UNRELEASE_ACTION_ID = 'unrelease';
+  static readonly ARCHIVE_ACTION_ID = 'archive';
 
   /**
    * Transforming paginated resource to class for common table component
@@ -26,35 +26,40 @@ export class TrainingDefinitionTableCreator {
   static create(resource: PaginatedResource<TrainingDefinition>): Kypo2Table<TrainingDefinition> {
     const baseActions = [
       {
-        label: this.EDIT_ACTION,
+        id: this.EDIT_ACTION_ID,
+        label: 'Edit',
         icon: 'create',
         color: 'primary',
         tooltip: 'Edit training definition',
         disabled$: of(false)
       },
       {
-        label: this.DELETE_ACTION,
+        id: this.DELETE_ACTION_ID,
+        label: 'Delete',
         icon: 'delete',
         color: 'warn',
         tooltip: 'Delete training definition',
         disabled$: of(false)
       },
       {
-        label: this.CLONE_ACTION,
+        id: this.CLONE_ACTION_ID,
+        label: 'Clone',
         icon: 'file_copy',
         color: 'primary',
         tooltip: 'Clone training definition',
         disabled$: of(false)
       },
       {
-        label: this.DOWNLOAD_ACTION,
+        id: this.DOWNLOAD_ACTION_ID,
+        label: 'Download',
         icon: 'cloud_download',
         color: 'primary',
         tooltip: 'Download training definition',
         disabled$: of(false)
       },
       {
-        label: this.PREVIEW_ACTION,
+        id: this.PREVIEW_ACTION_ID,
+        label: 'Preview',
         icon: 'remove_red_eye',
         color: 'primary',
         tooltip: 'Preview training run',
@@ -69,14 +74,16 @@ export class TrainingDefinitionTableCreator {
           case TrainingDefinitionStateEnum.Released:
             actions.push(
               {
-                label: this.UNRELEASE_ACTION,
+                id: this.UNRELEASE_ACTION_ID,
+                label: 'Unrelease',
                 icon: 'lock_open',
                 color: 'warn',
                 tooltip: 'Unrelease training definition',
                 disabled$: of(false)
               },
               {
-                label: this.ARCHIVE_ACTION,
+                id: this.ARCHIVE_ACTION_ID,
+                label: 'Archive',
                 icon: 'archive',
                 color: 'warn',
                 tooltip: 'Archive training definition',
@@ -86,7 +93,8 @@ export class TrainingDefinitionTableCreator {
             break;
           case TrainingDefinitionStateEnum.Unreleased:
             actions.push({
-              label: this.RELEASE_ACTION,
+              id: this.RELEASE_ACTION_ID,
+              label: 'Release',
               icon: 'lock',
               color: 'warn',
               tooltip: 'Release training definition',

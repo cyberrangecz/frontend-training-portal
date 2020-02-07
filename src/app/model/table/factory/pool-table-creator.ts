@@ -9,10 +9,10 @@ import {PaginatedResource} from '../other/paginated-resource';
  */
 export class PoolTableCreator {
 
-  static readonly DELETE_ACTION = 'Delete';
-  static readonly ALLOCATE_ALL_ACTION = 'Allocate all';
-  static readonly ALLOCATE_ONE_ACTION = 'Allocate one';
-  static readonly CLEAR_ACTION = 'Delete sandboxes';
+  static readonly DELETE_ACTION_ID = 'delete';
+  static readonly ALLOCATE_ALL_ACTION_ID = 'allocate_all';
+  static readonly ALLOCATE_ONE_ACTION_ID = 'allocate_one';
+  static readonly CLEAR_ACTION_ID = 'clear';
 
   /**
    * Transforming paginated resource to class for common table component
@@ -34,10 +34,10 @@ export class PoolTableCreator {
   private static createRows(resource: PaginatedResource<SandboxPool>): Row<SandboxPool>[] {
     return resource.elements.map(pool => {
       const actions = [
-        new RowAction(this.DELETE_ACTION, 'delete', 'warn', 'Delete Pool', of(pool.usedSize !== 0)),
-        new RowAction(this.ALLOCATE_ALL_ACTION, ' subscriptions', 'primary', 'Allocate pool', of(pool.isFull())),
-        new RowAction(this.ALLOCATE_ONE_ACTION, 'exposure_plus_1', 'primary', 'Allocate one sandbox', of(pool.isFull())),
-       // TODO: new RowAction(this.CLEAR_ACTION, 'clear_all', 'warn', 'Delete all sandboxes in pool', of(pool.isEmpty()))
+        new RowAction(this.DELETE_ACTION_ID, 'Delete', 'delete', 'warn', 'Delete Pool', of(pool.usedSize !== 0)),
+        new RowAction(this.ALLOCATE_ALL_ACTION_ID, 'Allocate All', ' subscriptions', 'primary', 'Allocate pool', of(pool.isFull())),
+        new RowAction(this.ALLOCATE_ONE_ACTION_ID, 'Allocate One', 'exposure_plus_1', 'primary', 'Allocate one sandbox', of(pool.isFull())),
+       // TODO: new RowAction(this.CLEAR_ACTION_ID, 'Delete Sandboxes, 'clear_all', 'warn', 'Delete all sandboxes in pool', of(pool.isEmpty()))
       ];
       const row = new Row(pool, actions);
       row.addLink('id', RouteFactory.toPool(pool.id));

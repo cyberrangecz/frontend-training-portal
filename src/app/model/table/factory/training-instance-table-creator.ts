@@ -8,29 +8,32 @@ import {TrainingInstanceOverviewService} from '../../../services/training-instan
 
 export class TrainingInstanceTableCreator {
 
-  static readonly EDIT_ACTION = 'Edit';
-  static readonly DELETE_ACTION = 'Delete';
-  static readonly ARCHIVE_ACTION = 'Archive';
+  static readonly EDIT_ACTION_ID = 'edit';
+  static readonly DELETE_ACTION_ID = 'delete';
+  static readonly ARCHIVE_ACTION_ID = 'archive';
 
   static create(resource: PaginatedResource<TrainingInstance>,
                 trainingInstanceService: TrainingInstanceOverviewService): Kypo2Table<TrainingInstanceRowAdapter> {
     const actions = [
       {
-        label: this.EDIT_ACTION,
+        id: this.EDIT_ACTION_ID,
+        label: 'Edit',
         icon: 'create',
         color: 'primary',
         tooltip: 'Edit training instance',
         disabled$: of(false)
       },
       {
-        label: this.DELETE_ACTION,
+        id: this.DELETE_ACTION_ID,
+        label: 'Delete',
         icon: 'delete',
         color: 'warn',
         tooltip: 'Delete training instance',
         disabled$: of(false)
       },
       {
-        label: this.ARCHIVE_ACTION,
+        id: this.ARCHIVE_ACTION_ID,
+        label: 'Archive',
         icon: 'archive',
         color: 'primary',
         tooltip: 'Download zip file containing all training instance files',
