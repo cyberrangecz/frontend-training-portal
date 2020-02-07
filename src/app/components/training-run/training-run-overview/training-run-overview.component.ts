@@ -59,9 +59,9 @@ export class TrainingRunOverviewComponent extends BaseComponent implements OnIni
    * @param event table action event
    */
   onTableAction(event: TableActionEvent<AccessedTrainingRun>) {
-    if (event.action.label.toLocaleLowerCase() === 'resume') {
+    if (event.action.id === TrainingRunOverviewTableCreator.RESUME_ACTION_ID) {
       this.onResume(event.element.trainingRunId);
-    } else if (event.action.label.toLocaleLowerCase() === 'access results') {
+    } else if (event.action.id === TrainingRunOverviewTableCreator.ACCESS_RESULT_ACTION_ID) {
       this.onResults(event.element.trainingRunId);
     }
   }

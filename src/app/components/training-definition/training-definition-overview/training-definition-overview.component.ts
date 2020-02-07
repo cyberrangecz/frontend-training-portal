@@ -82,29 +82,29 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent
    * @param event action event emitted from table component
    */
   onTrainingDefinitionTableAction(event: TableActionEvent<TrainingDefinition>) {
-    switch (event.action.label) {
-      case TrainingDefinitionTableCreator.CLONE_ACTION:
+    switch (event.action.id) {
+      case TrainingDefinitionTableCreator.CLONE_ACTION_ID:
         this.openCloneDialog(event.element);
         break;
-      case TrainingDefinitionTableCreator.DOWNLOAD_ACTION:
+      case TrainingDefinitionTableCreator.DOWNLOAD_ACTION_ID:
         this.downloadTrainingDefinition(event.element);
         break;
-      case TrainingDefinitionTableCreator.PREVIEW_ACTION:
+      case TrainingDefinitionTableCreator.PREVIEW_ACTION_ID:
         this.previewTrainingDefinition(event.element);
         break;
-      case TrainingDefinitionTableCreator.EDIT_ACTION:
+      case TrainingDefinitionTableCreator.EDIT_ACTION_ID:
         this.editTrainingDefinition(event.element);
         break;
-      case TrainingDefinitionTableCreator.DELETE_ACTION:
+      case TrainingDefinitionTableCreator.DELETE_ACTION_ID:
         this.deleteTrainingDefinition(event.element);
         break;
-      case TrainingDefinitionTableCreator.RELEASE_ACTION:
+      case TrainingDefinitionTableCreator.RELEASE_ACTION_ID:
         this.changeTrainingDefinitionState(TrainingDefinitionStateEnum.Released, event.element);
         break;
-      case TrainingDefinitionTableCreator.UNRELEASE_ACTION:
+      case TrainingDefinitionTableCreator.UNRELEASE_ACTION_ID:
         this.changeTrainingDefinitionState(TrainingDefinitionStateEnum.Unreleased, event.element);
         break;
-      case TrainingDefinitionTableCreator.ARCHIVE_ACTION:
+      case TrainingDefinitionTableCreator.ARCHIVE_ACTION_ID:
         this.changeTrainingDefinitionState(TrainingDefinitionStateEnum.Archived, event.element);
         break;
     }

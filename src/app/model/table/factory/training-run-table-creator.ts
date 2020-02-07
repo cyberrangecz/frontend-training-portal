@@ -9,17 +9,19 @@ import {TrainingRunTableRow} from '../row/training-run-table-row';
  */
 export class TrainingRunTableCreator {
 
+  static readonly DELETE_ACTION_ID = 'delete';
+
   /**
    * Transforming paginated resource to class for common table component
    * @param resource paginated resource to transform
    * @param tableType whether to display in archived or active context
    */
   static create(resource: PaginatedResource<TrainingRunTableRow>, tableType: 'archived' | 'active'): Kypo2Table<TrainingRunTableAdapter> {
-
     const resources = this.mapTrainingRunTableRowToTrainingRunTableModel(resource);
     let table;
 
     const actions = [{
+      id: this.DELETE_ACTION_ID,
       label: 'Delete',
       icon: 'delete',
       color: 'warn',

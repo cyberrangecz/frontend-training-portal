@@ -21,6 +21,7 @@ import {AccessTrainingRunInfo} from '../../../model/training/access-training-run
 import {HAMMER_LOADER} from '@angular/platform-browser';
 import {TraineeAccessTrainingRunActionEnum} from '../../../model/enums/trainee-access-training-run-actions.enum';
 import {Component, OnInit} from '@angular/core';
+import {TrainingRunOverviewTableCreator} from '../../../model/table/factory/training-run-overview-table-creator';
 
 let component: TrainingRunOverviewComponent;
 let fixture: ComponentFixture<TrainingRunOverviewComponent>;
@@ -85,7 +86,7 @@ describe('TrainingRunOverviewComponent', () => {
     fixture.ngZone.run(() => {
       const tableEvent = new TableActionEvent<AccessedTrainingRun>(
         mockAccessedTrainingRun(false),
-        mockRow('resume')
+        mockRow(TrainingRunOverviewTableCreator.RESUME_ACTION_ID)
       );
       const resumeSpy = spyOn(component, 'onResume').and.callThrough();
 
@@ -99,7 +100,7 @@ describe('TrainingRunOverviewComponent', () => {
     fixture.ngZone.run(() => {
       const tableEvent = new TableActionEvent<AccessedTrainingRun>(
         mockAccessedTrainingRun(true),
-        mockRow('access results')
+        mockRow(TrainingRunOverviewTableCreator.ACCESS_RESULT_ACTION_ID)
       );
       const resultSpy = spyOn(component, 'onResults').and.callThrough();
 
@@ -116,8 +117,8 @@ describe('TrainingRunOverviewComponent', () => {
     return accessedTrainingRunMock;
   }
 
-  function mockRow(label: string): RowAction {
-    return new RowAction(label, 'icon', 'black', 'tooltip', of(false));
+  function mockRow(id: string): RowAction {
+    return new RowAction(id, id, 'icon', 'black', 'tooltip', of(false));
   }
 });
 

@@ -42,7 +42,7 @@ export class ArchivedTrainingRunOverviewComponent extends BaseComponent implemen
    * @param event event emitted by table
    */
   onArchivedTrainingRunTableAction(event: TableActionEvent<TrainingRunTableAdapter>) {
-    if (event.action.label.toLocaleLowerCase() === 'delete') {
+    if (event.action.id === TrainingRunTableCreator.DELETE_ACTION_ID) {
       this.deleteTrainingRun(event.element.trainingRun.id);
     }
   }

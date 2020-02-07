@@ -93,22 +93,22 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
    * @param event action event emitted from sandbox instances table
    */
   onInstanceAction(event: TableActionEvent<SandboxInstance>) {
-    if (event.action.label === SandboxInstanceTableCreator.DELETE_ACTION) {
+    if (event.action.id === SandboxInstanceTableCreator.DELETE_ACTION_ID) {
       this.instanceService.delete(event.element)
         .pipe(takeWhile(_ => this.isAlive))
         .subscribe();
     }
-    if (event.action.label === SandboxInstanceTableCreator.UNLOCK_ACTION) {
+    if (event.action.id === SandboxInstanceTableCreator.UNLOCK_ACTION_ID) {
       this.instanceService.unlock(event.element)
         .pipe(takeWhile(_ => this.isAlive))
         .subscribe();
     }
-    if (event.action.label === SandboxInstanceTableCreator.LOCK_ACTION) {
+    if (event.action.id === SandboxInstanceTableCreator.LOCK_ACTION_ID) {
       this.instanceService.lock(event.element)
         .pipe(takeWhile( _ => this.isAlive))
         .subscribe();
     }
-    if (event.action.label === SandboxInstanceTableCreator.TOPOLOGY_ACTION) {
+    if (event.action.id === SandboxInstanceTableCreator.TOPOLOGY_ACTION_ID) {
       this.router.navigate([RouteFactory.toSandboxInstanceTopology(this.pool.id, event.element.id)]);
     }
   }
@@ -119,10 +119,10 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
    */
   onCreationAction(event: TableActionEvent<PoolRequest>) {
     let action$: Observable<any>;
-    if (event.action.label === PoolRequestTableCreator.CANCEL_ACTION) {
+    if (event.action.id === PoolRequestTableCreator.CANCEL_ACTION_ID) {
       action$ = this.creationRequestService.cancel(this.pool.id, event.element);
     }
-    if (event.action.label === PoolRequestTableCreator.RETRY_ACTION) {
+    if (event.action.id === PoolRequestTableCreator.RETRY_ACTION_Id) {
       action$ = this.creationRequestService.retry(this.pool.id, event.element);
     }
     if (action$) {
@@ -138,10 +138,10 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
    */
   onCleanupAction(event: TableActionEvent<PoolRequest>) {
     let action$: Observable<any>;
-    if (event.action.label === PoolRequestTableCreator.CANCEL_ACTION) {
+    if (event.action.label === PoolRequestTableCreator.CANCEL_ACTION_ID) {
       action$ = this.cleanupRequestService.cancel(this.pool.id, event.element);
     }
-    if (event.action.label === PoolRequestTableCreator.RETRY_ACTION) {
+    if (event.action.label === PoolRequestTableCreator.RETRY_ACTION_Id) {
       action$ = this.cleanupRequestService.retry(this.pool.id, event.element);
     }
     if (action$) {

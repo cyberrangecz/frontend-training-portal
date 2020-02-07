@@ -9,6 +9,8 @@ import {SandboxDefinition} from '../../sandbox/definition/sandbox-definition';
  */
 export class SandboxDefinitionTableCreator {
 
+  static readonly DELETE_ACTION_ID = 'delete';
+
   /**
    * Transforming paginated resource to class for common table component
    * @param resource paginated resource to transform
@@ -16,12 +18,13 @@ export class SandboxDefinitionTableCreator {
   static create(resource: PaginatedResource<SandboxDefinition>): Kypo2Table<SandboxDefinition> {
 
     const actions = [{
-        label: 'Delete',
-        icon: 'delete',
-        color: 'warn',
-        tooltip: 'Delete',
-        disabled$: of(false)
-      }];
+      id: this.DELETE_ACTION_ID,
+      label: 'Delete',
+      icon: 'delete',
+      color: 'warn',
+      tooltip: 'Delete',
+      disabled$: of(false)
+    }];
     const table = new Kypo2Table<SandboxDefinition>(
       resource.elements.map(sandboxDef => new Row(sandboxDef, actions)),
       [

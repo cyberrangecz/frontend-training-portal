@@ -9,6 +9,8 @@ import {TraineeAccessTrainingRunActionEnum} from '../../enums/trainee-access-tra
  */
 export class TrainingRunOverviewTableCreator {
 
+  static readonly RESUME_ACTION_ID = 'resume';
+  static readonly ACCESS_RESULT_ACTION_ID = 'access';
   /**
    * Transforming paginated resource to class for common table component
    * @param resource paginated resource to transform
@@ -43,6 +45,7 @@ export class TrainingRunOverviewTableCreator {
     }
     return [
       {
+        id: this.RESUME_ACTION_ID,
         label: 'Resume',
         icon: 'open_in_new',
         color: 'primary',
@@ -50,6 +53,7 @@ export class TrainingRunOverviewTableCreator {
         disabled$: of(isResumeActionDisabled)
       },
       {
+        id: this.ACCESS_RESULT_ACTION_ID,
         label: 'Access results',
         icon: 'assessment',
         color: 'primary',

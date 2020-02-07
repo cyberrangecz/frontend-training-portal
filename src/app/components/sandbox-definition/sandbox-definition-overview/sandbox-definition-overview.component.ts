@@ -61,7 +61,7 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
    * @param event table action event emitted by child table component
    */
   onSandboxDefinitionTableAction(event: TableActionEvent<SandboxDefinition>) {
-    if (event.action.label.toLocaleLowerCase() === 'delete') {
+    if (event.action.id === SandboxDefinitionTableCreator.DELETE_ACTION_ID) {
       this.deleteSandboxDefinition(event.element);
     }
   }
