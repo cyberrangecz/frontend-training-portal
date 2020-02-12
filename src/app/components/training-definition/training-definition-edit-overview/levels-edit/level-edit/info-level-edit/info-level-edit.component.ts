@@ -11,7 +11,7 @@ import {
 import {takeWhile} from 'rxjs/operators';
 import {InfoLevel} from '../../../../../../model/level/info-level';
 import {BaseComponent} from '../../../../../base.component';
-import { InfoLevelEditFormGroup } from './info-level-edit-form-group';
+import {InfoLevelEditFormGroup} from './info-level-edit-form-group';
 
 /**
  * Component for editing of new or existing info level

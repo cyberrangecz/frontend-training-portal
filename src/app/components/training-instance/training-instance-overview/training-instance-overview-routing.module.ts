@@ -2,11 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {TrainingInstanceBreadcrumbResolver} from '../../../services/resolvers/training-instance-breadcrumb-resolver.service';
 import {TrainingInstanceResolver} from '../../../services/resolvers/training-instance-resolver.service';
-import {
-  TRAINING_INSTANCE_DETAIL_PATH,
-  TRAINING_INSTANCE_EDIT_PATH,
-  TRAINING_INSTANCE_NEW_PATH
-} from './paths';
+import {TRAINING_INSTANCE_DETAIL_PATH, TRAINING_INSTANCE_EDIT_PATH, TRAINING_INSTANCE_NEW_PATH} from './paths';
 import {TrainingInstanceOverviewComponent} from './training-instance-overview.component';
 
 

@@ -1,4 +1,3 @@
-
 import {AbstractLevelDTO} from '../abstract-level-dto';
 import {HintDTO} from './hint-dto';
 

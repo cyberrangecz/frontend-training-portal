@@ -1,6 +1,7 @@
 import {
   TRAINING_DEFINITION_EDIT_PATH,
-  TRAINING_DEFINITION_NEW_PATH, TRAINING_DEFINITION_PREVIEW_PATH
+  TRAINING_DEFINITION_NEW_PATH,
+  TRAINING_DEFINITION_PREVIEW_PATH
 } from '../../components/training-definition/training-definition-overview/paths';
 import {
   TRAINING_INSTANCE_DETAIL_PATH,
@@ -21,12 +22,16 @@ import {
   TRAINING_INSTANCE_PATH,
   TRAINING_RUN_PATH
 } from '../../paths';
-import {TRAINING_RUN_GAME_PATH, TRAINING_RUN_RESULTS_PATH} from '../../components/training-run/training-run-overview/paths';
+import {
+  TRAINING_RUN_GAME_PATH,
+  TRAINING_RUN_RESULTS_PATH
+} from '../../components/training-run/training-run-overview/paths';
 import {Kypo2UserAndGroupRouteEvent} from 'kypo2-user-and-group-management';
 import {SANDBOX_DEFINITION_NEW_PATH} from '../../components/sandbox-definition/sandbox-definition-overview/paths';
 import {
   ACCESS_TOKEN_PATH,
-  PROGRESS_PATH, RESULTS_PATH,
+  PROGRESS_PATH,
+  RESULTS_PATH,
   SUMMARY_PATH
 } from '../../components/training-instance/training-instance-detail/paths';
 

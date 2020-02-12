@@ -1,5 +1,5 @@
 import {async, fakeAsync, TestBed, tick} from '@angular/core/testing';
-import { ActiveTrainingRunConcreteService } from './active-training-run-concrete.service';
+import {ActiveTrainingRunConcreteService} from './active-training-run-concrete.service';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {TrainingInstanceApi} from '../../api/training-instance-api.service';
 import {skip} from 'rxjs/operators';
@@ -38,7 +38,7 @@ describe('ActiveTrainingRunConcreteService', () => {
         {provide: AlertService, useValue: alertServiceSpy}
       ]
     });
-    service = TestBed.get(ActiveTrainingRunConcreteService);
+    service = TestBed.inject(ActiveTrainingRunConcreteService);
   }));
 
   it('should be created', () => {

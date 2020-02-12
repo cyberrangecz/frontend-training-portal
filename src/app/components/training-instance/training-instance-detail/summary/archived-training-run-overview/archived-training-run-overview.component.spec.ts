@@ -13,7 +13,7 @@ import {TrainingRunTableAdapter} from '../../../../../model/table/row/training-r
 import {TrainingRun} from '../../../../../model/training/training-run';
 import {User} from 'kypo2-auth';
 import {of} from 'rxjs';
-import {MatDialog} from '@angular/material';
+import {MatDialog} from '@angular/material/dialog';
 import {TrainingRunTableCreator} from '../../../../../model/table/factory/training-run-table-creator';
 
 describe('ArchivedTrainingRunOverviewComponent', () => {

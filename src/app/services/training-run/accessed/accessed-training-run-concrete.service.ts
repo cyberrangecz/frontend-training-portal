@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {AccessedTrainingRunService} from './accessed-training-run.service';
 import {Pagination, RequestedPagination} from 'kypo2-table';
 import {TrainingRunApi} from '../../api/training-run-api.service';

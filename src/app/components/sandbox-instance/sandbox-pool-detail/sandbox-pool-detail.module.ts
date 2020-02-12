@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {NgModule} from '@angular/core';
 import {Kypo2TableModule} from 'kypo2-table';
 import {PoolRequestBreadcrumbResolver} from '../../../services/resolvers/sandbox-instance-resolvers/pool-request-breadcrumb-resolver.service';
 import {PoolRequestResolver} from '../../../services/resolvers/sandbox-instance-resolvers/pool-request-resolver.service';
@@ -11,7 +11,7 @@ import {SandboxInstanceConcreteService} from '../../../services/sandbox-instance
 import {SandboxInstanceService} from '../../../services/sandbox-instance/sandbox/sandbox-instance.service';
 import {SandboxPoolDetailMaterialModule} from './sandbox-pool-detail-material.module';
 import {SandboxPoolDetailRoutingModule} from './sandbox-pool-detail-routing.module';
-import { SandboxPoolDetailComponent } from './sandbox-pool-detail.component';
+import {SandboxPoolDetailComponent} from './sandbox-pool-detail.component';
 import {PoolCleanupRequestsPollingService} from '../../../services/sandbox-instance/pool-request/cleanup/pool-cleanup-requests-polling.service';
 import {SandboxInstanceApi} from '../../../services/api/sandbox-instance-api.service';
 

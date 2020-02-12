@@ -1,4 +1,4 @@
-import { RequestedPagination} from 'kypo2-table';
+import {RequestedPagination} from 'kypo2-table';
 import {Observable} from 'rxjs';
 import {PoolRequest} from '../../../model/sandbox/pool/request/pool-request';
 import {PaginatedResource} from '../../../model/table/other/paginated-resource';

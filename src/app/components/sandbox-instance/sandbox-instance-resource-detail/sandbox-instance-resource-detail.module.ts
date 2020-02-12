@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {SandboxInstanceResourceDetailRoutingModule} from './sandbox-instance-resource-detail-routing.module';
 import {SandboxInstanceResourceDetailMaterialModule} from './sandbox-instance-resource-detail-material.module';
 import {SandboxInstanceResourceResolver} from '../../../services/resolvers/sandbox-instance-resolvers/sandbox-instance-resource-resolver.service';
-import { SandboxInstanceResourceDetailComponent } from './sandbox-instance-resource-detail.component';
+import {SandboxInstanceResourceDetailComponent} from './sandbox-instance-resource-detail.component';
 
 /**
  * Module containing components and providers for sandbox instance resource detail page

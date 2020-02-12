@@ -1,16 +1,16 @@
 import {NgModule} from '@angular/core';
 import {ExtraOptions, RouterModule, Routes} from '@angular/router';
-import {
-  Kypo2AuthProviderPickerComponent,
-  Kypo2NotAuthGuardService
-} from 'kypo2-auth';
+import {Kypo2AuthProviderPickerComponent, Kypo2NotAuthGuardService} from 'kypo2-auth';
 import {HomeComponent} from './components/home/home.component';
 import {
-  ADMIN_GROUP_PATH, ADMIN_MICROSERVICE_PATH,
+  ADMIN_GROUP_PATH,
+  ADMIN_MICROSERVICE_PATH,
   ADMIN_USER_PATH,
   HOME_PATH,
-  LOGIN_PATH, SANDBOX_DEFINITION_PATH,
-  SANDBOX_POOL_PATH, TRAINING_DEFINITION_PATH,
+  LOGIN_PATH,
+  SANDBOX_DEFINITION_PATH,
+  SANDBOX_POOL_PATH,
+  TRAINING_DEFINITION_PATH,
   TRAINING_INSTANCE_PATH,
   TRAINING_RUN_PATH
 } from './paths';

@@ -1,8 +1,8 @@
-import { TrainingDefinitionStateEnum } from '../../../model/enums/training-definition-state.enum';
-import { TrainingDefinition } from '../../../model/training/training-definition';
-import { Observable } from 'rxjs';
-import { RequestedPagination } from 'kypo2-table';
-import { PaginatedResource } from '../../../model/table/other/paginated-resource';
+import {TrainingDefinitionStateEnum} from '../../../model/enums/training-definition-state.enum';
+import {TrainingDefinition} from '../../../model/training/training-definition';
+import {Observable} from 'rxjs';
+import {RequestedPagination} from 'kypo2-table';
+import {PaginatedResource} from '../../../model/table/other/paginated-resource';
 import {PaginatedResourceService} from '../../shared/paginated-resource.service';
 
 /**

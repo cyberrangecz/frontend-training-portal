@@ -1,11 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {
-  ACCESS_TOKEN_PATH,
-  PROGRESS_PATH,
-  RESULTS_PATH,
-  SUMMARY_PATH,
-} from './paths';
+import {ACCESS_TOKEN_PATH, PROGRESS_PATH, RESULTS_PATH, SUMMARY_PATH,} from './paths';
 import {TrainingInstanceResolver} from '../../../services/resolvers/training-instance-resolver.service';
 import {TrainingInstanceDetailBreadcrumbResolver} from '../../../services/resolvers/training-instance-detail-breadcrumb-resolver.service';
 

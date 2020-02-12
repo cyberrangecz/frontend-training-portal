@@ -3,13 +3,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ReplaySubject} from 'rxjs';
 import {Observable} from 'rxjs/internal/Observable';
 import {map, tap} from 'rxjs/operators';
-import {
-  TRAINING_RUN_RESULTS_PATH
-} from '../../../components/training-run/training-run-overview/paths';
+import {TRAINING_RUN_RESULTS_PATH} from '../../../components/training-run/training-run-overview/paths';
 import {Level} from '../../../model/level/level';
-import {AssessmentLevel} from '../../../model/level/assessment-level';
-import {GameLevel} from '../../../model/level/game-level';
-import {InfoLevel} from '../../../model/level/info-level';
 import {AccessTrainingRunInfo} from '../../../model/training/access-training-run-info';
 import {TRAINING_RUN_PATH} from '../../../paths';
 import {TrainingRunApi} from '../../api/training-run-api.service';

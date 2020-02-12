@@ -27,7 +27,7 @@ describe('AuthorsAssignService', () => {
         {provide: ErrorHandlerService, useValue: errorHandlerSpy}
       ]
     });
-    service = TestBed.get(AuthorsAssignService);
+    service = TestBed.inject(AuthorsAssignService);
   }));
 
   it('should be created', () => {

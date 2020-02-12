@@ -4,14 +4,10 @@ import {Injectable} from '@angular/core';
 import {EMPTY, Observable, of} from 'rxjs';
 import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
 import {POOL_ID_SELECTOR} from '../../../components/sandbox-instance/sandbox-pool-overview/paths';
-import {
-  SANDBOX_INSTANCE_ID_SELECTOR
-} from '../../../components/sandbox-instance/sandbox-pool-detail/paths';
+import {SANDBOX_INSTANCE_ID_SELECTOR} from '../../../components/sandbox-instance/sandbox-pool-detail/paths';
 import {catchError, mergeMap, take} from 'rxjs/operators';
 import {RouteFactory} from '../../../model/routes/route-factory';
-import {
-  SANDBOX_INSTANCE_RESOURCE_ID_SELECTOR
-} from '../../../components/sandbox-instance/sandbox-instance-resource-detail/paths';
+import {SANDBOX_INSTANCE_RESOURCE_ID_SELECTOR} from '../../../components/sandbox-instance/sandbox-instance-resource-detail/paths';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 
 /**

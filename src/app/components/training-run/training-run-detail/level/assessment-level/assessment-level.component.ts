@@ -8,6 +8,7 @@ import {RunningTrainingRunService} from '../../../../../services/training-run/ru
 import {TrainingRunAssessmentLevelService} from '../../../../../services/training-run/running/training-run-assessment-level.service';
 import {BaseComponent} from '../../../../base.component';
 import {TraineeQuestionComponent} from './question/trainee-question.component';
+
 @Component({
   selector: 'kypo2-assessment-level',
   templateUrl: './assessment-level.component.html',

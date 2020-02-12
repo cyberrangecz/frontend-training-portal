@@ -1,18 +1,19 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {BehaviorSubject, merge, Observable, Subject, timer} from 'rxjs';
-import { Pagination } from 'kypo2-table';
-import { TrainingRunTableRow } from '../../../model/table/row/training-run-table-row';
-import { PaginatedResource } from '../../../model/table/other/paginated-resource';
-import { TrainingRunApi } from '../../api/training-run-api.service';
-import { TrainingInstanceApi } from '../../api/training-instance-api.service';
-import { RequestedPagination } from '../../../model/DTOs/other/requested-pagination';
-import {tap, switchMap, retryWhen} from 'rxjs/operators';
-import { ErrorHandlerService } from '../../shared/error-handler.service';
-import { environment } from '../../../../environments/environment';
-import { HttpErrorResponse } from '@angular/common/http';
-import { AlertService } from '../../shared/alert.service';
+import {Pagination} from 'kypo2-table';
+import {TrainingRunTableRow} from '../../../model/table/row/training-run-table-row';
+import {PaginatedResource} from '../../../model/table/other/paginated-resource';
+import {TrainingRunApi} from '../../api/training-run-api.service';
+import {TrainingInstanceApi} from '../../api/training-instance-api.service';
+import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
+import {retryWhen, switchMap, tap} from 'rxjs/operators';
+import {ErrorHandlerService} from '../../shared/error-handler.service';
+import {environment} from '../../../../environments/environment';
+import {HttpErrorResponse} from '@angular/common/http';
+import {AlertService} from '../../shared/alert.service';
 import {TrainingInstance} from '../../../model/training/training-instance';
 import {ArchivedTrainingRunService} from './archived-training-run.service';
+
 /**
  * Basic implementation of layer between component and API service.
  * Can manually get archived training runs and poll in regular intervals.

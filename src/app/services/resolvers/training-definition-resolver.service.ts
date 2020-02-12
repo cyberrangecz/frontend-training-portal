@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
 import {EMPTY, Observable, of} from 'rxjs';
-import {catchError, mergeMap, take, tap} from 'rxjs/operators';
+import {catchError, mergeMap, take} from 'rxjs/operators';
 import {TRAINING_DEFINITION_NEW_PATH} from '../../components/training-definition/training-definition-overview/paths';
 import {TrainingDefinition} from '../../model/training/training-definition';
 import {TRAINING_DEFINITION_PATH} from '../../paths';

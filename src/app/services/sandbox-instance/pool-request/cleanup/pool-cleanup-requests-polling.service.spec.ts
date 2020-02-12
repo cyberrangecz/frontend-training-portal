@@ -9,7 +9,10 @@ import {skip} from 'rxjs/operators';
 import {environment} from '../../../../../environments/environment';
 import {throwError} from 'rxjs';
 import {PoolCreationRequest} from '../../../../model/sandbox/pool/request/pool-creation-request';
-import {poolCleanupRequestsCacheBuster$, PoolCleanupRequestsPollingService} from './pool-cleanup-requests-polling.service';
+import {
+  poolCleanupRequestsCacheBuster$,
+  PoolCleanupRequestsPollingService
+} from './pool-cleanup-requests-polling.service';
 
 describe('PoolCleanupRequestsPollingService', () => {
   let errorHandlerSpy: jasmine.SpyObj<ErrorHandlerService>;
@@ -26,7 +29,7 @@ describe('PoolCleanupRequestsPollingService', () => {
         {provide: ErrorHandlerService, useValue: errorHandlerSpy}
       ]
     });
-    service = TestBed.get(PoolCleanupRequestsPollingService);
+    service = TestBed.inject(PoolCleanupRequestsPollingService);
     poolCleanupRequestsCacheBuster$.next();
   }));
 

@@ -1,6 +1,6 @@
 import {
-  AfterViewInit, ChangeDetectionStrategy,
-  ChangeDetectorRef,
+  AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -11,13 +11,13 @@ import {
   SimpleChanges,
   ViewChildren
 } from '@angular/core';
-import { FormArray, FormControl, Validators } from '@angular/forms';
-import { MatRadioButton } from '@angular/material/radio';
+import {FormArray, FormControl, Validators} from '@angular/forms';
+import {MatRadioButton} from '@angular/material/radio';
 import {takeWhile} from 'rxjs/operators';
 import {Question} from '../../../../../../../../model/questions/question';
 import {ExtendedMatchingItems} from '../../../../../../../../model/questions/extended-matching-items';
 import {BaseComponent} from '../../../../../../../base.component';
-import { ExtendedMatchingItemsFormGroup } from './extended-matching-items-form-group';
+import {ExtendedMatchingItemsFormGroup} from './extended-matching-items-form-group';
 
 /**
  * Component for editing a question of type Extended Matching Items

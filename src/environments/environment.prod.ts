@@ -1,4 +1,4 @@
-import { NG_ENV } from 'angular-server-side-configuration/ng-env';
+import {NG_ENV} from 'angular-server-side-configuration/ng-env';
 
 export const baseURL = 'https://kypo.ics.muni.cz';
 export const homeURL = baseURL;

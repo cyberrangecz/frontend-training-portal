@@ -1,10 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {
-  TRAINING_DEFINITION_EDIT_PATH,
-  TRAINING_DEFINITION_NEW_PATH,
-  TRAINING_DEFINITION_PREVIEW_PATH
-} from './paths';
+import {TRAINING_DEFINITION_EDIT_PATH, TRAINING_DEFINITION_NEW_PATH, TRAINING_DEFINITION_PREVIEW_PATH} from './paths';
 import {TrainingDefinitionOverviewComponent} from './training-definition-overview.component';
 
 const routes: Routes = [

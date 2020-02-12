@@ -1,9 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
 import {EMPTY, Observable, of} from 'rxjs';
-import {
-  POOL_REQUEST_ID_SELECTOR
-} from '../../../components/sandbox-instance/sandbox-pool-detail/paths';
+import {POOL_REQUEST_ID_SELECTOR} from '../../../components/sandbox-instance/sandbox-pool-detail/paths';
 import {POOL_ID_SELECTOR} from '../../../components/sandbox-instance/sandbox-pool-overview/paths';
 import {RouteFactory} from '../../../model/routes/route-factory';
 import {PoolRequest} from '../../../model/sandbox/pool/request/pool-request';

@@ -8,17 +8,17 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { debounceTime, switchMap, takeWhile, tap } from 'rxjs/operators';
-import { AbstractLevelTypeEnum } from '../../../../../model/enums/abstract-level-type.enum';
-import { LevelMoveEvent } from '../../../../../model/events/level-move-event';
-import { Level } from '../../../../../model/level/level';
-import { TrainingDefinition } from '../../../../../model/training/training-definition';
-import { LevelEditService } from '../../../../../services/training-definition/edit/level-edit.service';
-import { BaseComponent } from '../../../../base.component';
-import { ActionConfirmationDialogComponent } from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
+import {ActivatedRoute} from '@angular/router';
+import {Observable, of} from 'rxjs';
+import {debounceTime, switchMap, takeWhile, tap} from 'rxjs/operators';
+import {AbstractLevelTypeEnum} from '../../../../../model/enums/abstract-level-type.enum';
+import {LevelMoveEvent} from '../../../../../model/events/level-move-event';
+import {Level} from '../../../../../model/level/level';
+import {TrainingDefinition} from '../../../../../model/training/training-definition';
+import {LevelEditService} from '../../../../../services/training-definition/edit/level-edit.service';
+import {BaseComponent} from '../../../../base.component';
+import {ActionConfirmationDialogComponent} from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import {ConfirmationDialogActionEnum} from '../../../../../model/enums/confirmation-dialog-action-enum';
 
 /**

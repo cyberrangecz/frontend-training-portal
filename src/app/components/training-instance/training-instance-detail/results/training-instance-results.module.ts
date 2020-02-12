@@ -2,7 +2,7 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {TrainingInstanceResultsMaterialModule} from './training-instance-results-material.module';
 import {TrainingInstanceResultsRoutingModule} from './training-instance-results-routing.module';
-import { TrainingInstanceResultsComponent } from './training-instance-results.component';
+import {TrainingInstanceResultsComponent} from './training-instance-results.component';
 import {Kypo2TrainingsHurdlingVizLibModule} from 'kypo2-trainings-hurdling-viz-lib';
 import {environment} from '../../../../../environments/environment';
 import {Kypo2AssessmentsResultsVisualizationModule} from 'kypo2-assessments-results-visualization';

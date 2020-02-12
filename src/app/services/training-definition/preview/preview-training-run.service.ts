@@ -1,4 +1,4 @@
-import { Location } from '@angular/common';
+import {Location} from '@angular/common';
 import {Injectable} from '@angular/core';
 import {Observable, of, ReplaySubject} from 'rxjs';
 import {Level} from '../../../model/level/level';

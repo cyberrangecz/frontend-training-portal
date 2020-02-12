@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {SandboxInstanceResolver} from '../../../services/resolvers/sandbox-instance-resolvers/sandbox-instance-resolver.service';
-import { SandboxInstanceDetailRoutingModule } from './sandbox-instance-detail-routing.module';
-import { SandboxInstanceDetailComponent } from './sandbox-instance-detail.component';
+import {SandboxInstanceDetailRoutingModule} from './sandbox-instance-detail-routing.module';
+import {SandboxInstanceDetailComponent} from './sandbox-instance-detail.component';
 import {Kypo2TopologyGraphModule} from 'kypo2-topology-graph';
 import {environment} from '../../../../environments/environment';
 import {SandboxInstanceResourceService} from '../../../services/sandbox-instance/sandbox/sandbox-instance-resource.service';

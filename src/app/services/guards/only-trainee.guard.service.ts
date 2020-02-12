@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-import { Kypo2AuthGuardWithLogin, Kypo2AuthService} from 'kypo2-auth';
+import {Kypo2AuthGuardWithLogin, Kypo2AuthService} from 'kypo2-auth';
 import {Observable} from 'rxjs';
-import {map, tap} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {TRAINING_RUN_PATH} from '../../paths';
 import {LoadingService} from '../shared/loading.service';
 import {CanActivateToObservable} from './can-activate-to-observable';

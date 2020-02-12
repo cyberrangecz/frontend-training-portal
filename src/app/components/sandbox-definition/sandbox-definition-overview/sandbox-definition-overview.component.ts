@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
 import {EMPTY, Observable} from 'rxjs';
 import {map, switchMap, takeWhile} from 'rxjs/operators';
 import {ActionConfirmationDialogComponent} from '../../shared/action-confirmation-dialog/action-confirmation-dialog.component';

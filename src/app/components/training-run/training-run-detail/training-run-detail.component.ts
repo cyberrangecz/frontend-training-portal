@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {StepItem} from 'kypo2-stepper';
 import {takeWhile} from 'rxjs/operators';
 import {Level} from '../../../model/level/level';

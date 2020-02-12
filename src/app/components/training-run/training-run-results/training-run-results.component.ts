@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit, } from '@angular/core';
+import {Component, HostListener, OnInit,} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Kypo2AuthService} from 'kypo2-auth';
 import {map, takeWhile} from 'rxjs/operators';
@@ -7,6 +7,7 @@ import {Observable} from 'rxjs';
 import {VisualizationInfo} from '../../../model/visualizations/visualization-info';
 import {TrainingRun} from '../../../model/training/training-run';
 import {Kypo2TraineeModeInfo} from 'kypo2-trainings-visualization-overview-lib';
+
 @Component({
   selector: 'kypo2-training-run-results',
   templateUrl: './training-run-results.component.html',

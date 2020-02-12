@@ -1,9 +1,9 @@
 import {AccessTrainingRunDTO} from '../../DTOs/training-run/access-training-run-dto';
 import {GameLevel} from '../../level/game-level';
 import {AbstractLevelDTO} from '../../DTOs/level/abstract-level-dto';
-import LevelTypeEnum = AbstractLevelDTO.LevelTypeEnum;
 import {AccessTrainingRunInfo} from '../../training/access-training-run-info';
 import {LevelMapper} from '../level/level-mapper';
+import LevelTypeEnum = AbstractLevelDTO.LevelTypeEnum;
 
 export class AccessTrainingRunMapper {
   static fromDTO(dto: AccessTrainingRunDTO): AccessTrainingRunInfo {

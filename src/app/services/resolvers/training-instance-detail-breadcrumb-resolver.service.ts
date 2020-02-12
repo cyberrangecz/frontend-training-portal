@@ -6,10 +6,12 @@ import {
   RESULTS_PATH,
   SUMMARY_PATH
 } from '../../components/training-instance/training-instance-detail/paths';
+import {Injectable} from '@angular/core';
 
 /**
  * Router breadcrumb title provider
  */
+@Injectable()
 export class TrainingInstanceDetailBreadcrumbResolver implements Resolve<string> {
 
   /**

@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {TrainingRunOverviewRoutingModule} from './training-run-overview-routing.module';
 import {TrainingRunOverviewComponent} from './training-run-overview.component';
 import {TrainingRunOverviewMaterialModule} from './training-run-overview-material.module';
-import { AccessTrainingRunComponent } from './access-training-run/access-training-run.component';
+import {AccessTrainingRunComponent} from './access-training-run/access-training-run.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {PipesModule} from '../../../pipes/pipes.module';
 import {RunningTrainingRunService} from '../../../services/training-run/running/running-training-run.service';

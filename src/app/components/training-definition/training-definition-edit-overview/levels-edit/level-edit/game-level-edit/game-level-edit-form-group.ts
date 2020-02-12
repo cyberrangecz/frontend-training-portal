@@ -1,4 +1,4 @@
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {GameLevel} from '../../../../../../model/level/game-level';
 import {INCORRECT_FLAG_LIMIT, MAX_ESTIMATED_DURATION, MAX_FLAG, MAX_SCORE} from './game-level-edit.contants';
 

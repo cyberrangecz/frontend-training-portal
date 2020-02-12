@@ -1,7 +1,7 @@
 import {AccessedTrainingRunDTO} from '../../DTOs/training-run/accessed-training-run-dto';
 import {TraineeAccessTrainingRunActionEnum} from '../../enums/trainee-access-training-run-actions.enum';
-import PossibleActionEnum = AccessedTrainingRunDTO.PossibleActionEnum;
 import {AccessedTrainingRun} from '../../table/row/accessed-training-run';
+import PossibleActionEnum = AccessedTrainingRunDTO.PossibleActionEnum;
 
 export class AccessedTrainingRunMapper {
 

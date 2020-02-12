@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {TrainingRunTableRow} from '../../../model/table/row/training-run-table-row';
 import {PaginatedResource} from '../../../model/table/other/paginated-resource';

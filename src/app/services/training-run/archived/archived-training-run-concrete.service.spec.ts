@@ -1,17 +1,17 @@
-import { TrainingInstance } from '../../../model/training/training-instance';
-import { async, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { ErrorHandlerService } from '../../shared/error-handler.service';
-import { ArchivedTrainingRunConcreteService } from './archived-training-run-concrete.service';
-import { throwError } from 'rxjs';
-import { TrainingInstanceApi } from '../../api/training-instance-api.service';
-import { TrainingRunApi } from '../../api/training-run-api.service';
-import { skip } from 'rxjs/operators';
-import { asyncData } from '../../../testing/helpers/async-data';
-import { RequestedPagination } from 'kypo2-table';
-import { PaginatedResource } from '../../../model/table/other/paginated-resource';
-import { Pagination } from '../../../model/table/other/pagination';
-import { environment } from '../../../../environments/environment';
-import { AlertService } from '../../shared/alert.service';
+import {TrainingInstance} from '../../../model/training/training-instance';
+import {async, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {ErrorHandlerService} from '../../shared/error-handler.service';
+import {ArchivedTrainingRunConcreteService} from './archived-training-run-concrete.service';
+import {throwError} from 'rxjs';
+import {TrainingInstanceApi} from '../../api/training-instance-api.service';
+import {TrainingRunApi} from '../../api/training-run-api.service';
+import {skip} from 'rxjs/operators';
+import {asyncData} from '../../../testing/helpers/async-data';
+import {RequestedPagination} from 'kypo2-table';
+import {PaginatedResource} from '../../../model/table/other/paginated-resource';
+import {Pagination} from '../../../model/table/other/pagination';
+import {environment} from '../../../../environments/environment';
+import {AlertService} from '../../shared/alert.service';
 
 describe('ArchivedTrainingRunConcreteService', () => {
 
@@ -36,7 +36,7 @@ describe('ArchivedTrainingRunConcreteService', () => {
         { provide: TrainingRunApi, useValue: trainingRunFacadeSpy }
       ]
     });
-    service = TestBed.get(ArchivedTrainingRunConcreteService);
+    service = TestBed.inject(ArchivedTrainingRunConcreteService);
   }));
 
   it('should be created', () => {

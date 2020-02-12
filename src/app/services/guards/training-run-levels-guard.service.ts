@@ -5,6 +5,7 @@ import {AbstractLevelComponent} from '../../components/training-run/training-run
 import {TRAINING_RUN_PATH} from '../../paths';
 import {DistractionFreeModeService} from '../shared/distraction-free-mode.service';
 import {RunningTrainingRunService} from '../training-run/running/running-training-run.service';
+
 @Injectable()
 /**
  * Route guard determining if distraction free (gaming) mode should be turned on or off.

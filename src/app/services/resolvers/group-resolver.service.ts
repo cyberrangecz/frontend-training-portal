@@ -4,7 +4,7 @@ import {Kypo2GroupResolverHelperService} from 'kypo2-user-and-group-management';
 import {Group} from 'kypo2-user-and-group-management/lib/model/group/group.model';
 import {Injectable} from '@angular/core';
 import {EMPTY, Observable, of} from 'rxjs';
-import {catchError, mergeMap, take, tap} from 'rxjs/operators';
+import {catchError, mergeMap, take} from 'rxjs/operators';
 import {ADMIN_GROUP_PATH} from '../../paths';
 import {ADMIN_GROUP_NEW_PATH} from '../../components/administration/admin-group/admin-group-detail/paths';
 

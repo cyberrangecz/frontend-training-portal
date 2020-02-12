@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {NgModule} from '@angular/core';
 import {Kypo2StepperModule} from 'kypo2-stepper';
 import {TrainingRunLevelsGuard} from '../../../services/guards/training-run-levels-guard.service';
 import {LevelModule} from './level/level.module';
