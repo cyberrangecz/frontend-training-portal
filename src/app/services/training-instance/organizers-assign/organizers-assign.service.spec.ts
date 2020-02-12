@@ -27,7 +27,7 @@ describe('OrganizersAssignService', () => {
         {provide: ErrorHandlerService, useValue: errorHandlerSpy}
       ]
     });
-    service = TestBed.get(OrganizersAssignService);
+    service = TestBed.inject(OrganizersAssignService);
   }));
 
   it('should be created', () => {

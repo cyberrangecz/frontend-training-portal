@@ -1,8 +1,5 @@
-import {
-  Component, ElementRef, HostListener, Input, OnChanges,
-  OnInit, SimpleChanges, ViewChild,
-} from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import {Component, ElementRef, HostListener, Input, OnChanges, OnInit, SimpleChanges, ViewChild,} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
 import {takeWhile} from 'rxjs/operators';
 import {FlagCheck} from '../../../../../model/level/flag-check';
 import {GameLevel} from '../../../../../model/level/game-level';

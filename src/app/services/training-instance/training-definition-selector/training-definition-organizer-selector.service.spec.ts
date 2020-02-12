@@ -27,7 +27,7 @@ describe('TrainingDefinitionOrganizerSelectorService', () => {
         {provide: ErrorHandlerService, useValue: errorHandlerSpy}
       ]
     });
-    service = TestBed.get(TrainingDefinitionOrganizerSelectorService);
+    service = TestBed.inject(TrainingDefinitionOrganizerSelectorService);
   }));
 
   it('should be created', () => {

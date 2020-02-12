@@ -4,7 +4,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TrainingInstanceBreadcrumbResolver} from '../../../services/resolvers/training-instance-breadcrumb-resolver.service';
 import {TrainingInstanceResolver} from '../../../services/resolvers/training-instance-resolver.service';
 import {SharedModule} from '../../shared/shared.module';
-import { TrainingInstanceControlsComponent } from './training-instance-controls/training-instance-controls.component';
+import {TrainingInstanceControlsComponent} from './training-instance-controls/training-instance-controls.component';
 import {TrainingInstanceOverviewMaterialModule} from './training-instance-overview-material.module';
 import {TrainingInstanceOverviewRoutingModule} from './training-instance-overview-routing.module';
 import {TrainingInstanceOverviewComponent} from './training-instance-overview.component';

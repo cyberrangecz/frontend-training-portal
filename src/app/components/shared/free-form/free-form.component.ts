@@ -1,4 +1,13 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import {FormArray, FormControl, Validators} from '@angular/forms';
 import {BaseComponent} from '../../base.component';
 import {FreeFormItemFormGroup} from '../../../model/utils/free-form-item-form-group';

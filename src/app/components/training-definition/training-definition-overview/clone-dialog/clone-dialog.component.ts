@@ -1,8 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {TrainingDefinition} from '../../../../model/training/training-definition';
 import {BaseComponent} from '../../../base.component';
-import { CloneDialogFormGroup } from './clone-dialog-form-group';
+import {CloneDialogFormGroup} from './clone-dialog-form-group';
 
 /**
  * Displays dialog with a form to select name of cloned training definition

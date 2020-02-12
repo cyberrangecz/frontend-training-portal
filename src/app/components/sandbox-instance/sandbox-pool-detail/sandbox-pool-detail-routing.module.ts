@@ -4,10 +4,12 @@ import {PoolRequestBreadcrumbResolver} from '../../../services/resolvers/sandbox
 import {PoolResolver} from '../../../services/resolvers/sandbox-instance-resolvers/pool-resolver.service';
 import {SandboxInstanceBreadcrumbResolver} from '../../../services/resolvers/sandbox-instance-resolvers/sandbox-instance-breadcrumb-resolver.service';
 import {
-  POOL_REQUEST_ID_SELECTOR,
+  POOL_CLEANUP_REQUEST_PATH,
   POOL_CREATION_REQUEST_PATH,
+  POOL_REQUEST_ID_SELECTOR,
   SANDBOX_INSTANCE_ID_SELECTOR,
-  SANDBOX_INSTANCE_PATH, SANDBOX_INSTANCE_TOPOLOGY_PATH, POOL_CLEANUP_REQUEST_PATH
+  SANDBOX_INSTANCE_PATH,
+  SANDBOX_INSTANCE_TOPOLOGY_PATH
 } from './paths';
 import {SandboxPoolDetailComponent} from './sandbox-pool-detail.component';
 

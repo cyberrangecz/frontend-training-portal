@@ -1,15 +1,15 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
-import { AbstractLevelTypeEnum } from '../../../model/enums/abstract-level-type.enum';
-import { AlertTypeEnum } from '../../../model/enums/alert-type.enum';
-import { Level } from '../../../model/level/level';
-import { AssessmentLevel } from '../../../model/level/assessment-level';
-import { GameLevel } from '../../../model/level/game-level';
-import { InfoLevel } from '../../../model/level/info-level';
-import { TrainingDefinitionApi } from '../../api/training-definition-api.service';
-import { AlertService } from '../../shared/alert.service';
-import { ErrorHandlerService } from '../../shared/error-handler.service';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {switchMap, tap} from 'rxjs/operators';
+import {AbstractLevelTypeEnum} from '../../../model/enums/abstract-level-type.enum';
+import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
+import {Level} from '../../../model/level/level';
+import {AssessmentLevel} from '../../../model/level/assessment-level';
+import {GameLevel} from '../../../model/level/game-level';
+import {InfoLevel} from '../../../model/level/info-level';
+import {TrainingDefinitionApi} from '../../api/training-definition-api.service';
+import {AlertService} from '../../shared/alert.service';
+import {ErrorHandlerService} from '../../shared/error-handler.service';
 
 /**
  * Service handling editing of training definition's levels and related operations.

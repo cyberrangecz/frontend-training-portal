@@ -4,8 +4,8 @@ import {PoolRequestResolver} from '../../../services/resolvers/sandbox-instance-
 import {PoolRequestDetailMaterialModule} from './pool-request-detail-material.module';
 import {PoolRequestDetailRoutingModule} from './pool-request-detail-routing.module';
 import {PoolRequestDetailComponent} from './pool-request-detail.component';
-import { RequestStageComponent } from './request-stage/request-stage.component';
-import { RequestStageDetailComponent } from './request-stage/request-stage-detail/request-stage-detail.component';
+import {RequestStageComponent} from './request-stage/request-stage.component';
+import {RequestStageDetailComponent} from './request-stage/request-stage-detail/request-stage-detail.component';
 import {PoolRequestStagesPollingService} from '../../../services/sandbox-instance/pool-request/stage/pool-request-stages-polling.service';
 import {PoolResolver} from '../../../services/resolvers/sandbox-instance-resolvers/pool-resolver.service';
 import {PoolRequestTypeResolver} from '../../../services/resolvers/sandbox-instance-resolvers/pool-request-type-resolver.service';

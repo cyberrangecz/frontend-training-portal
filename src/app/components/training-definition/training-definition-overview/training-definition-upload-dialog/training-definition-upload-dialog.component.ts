@@ -1,6 +1,6 @@
-import { Component, Inject, OnInit, EventEmitter } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { BaseComponent } from '../../../base.component';
+import {Component, EventEmitter, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {BaseComponent} from '../../../base.component';
 import {Observable} from 'rxjs';
 import {FileUploadProgressService} from '../../../../services/shared/file-upload-progress.service';
 

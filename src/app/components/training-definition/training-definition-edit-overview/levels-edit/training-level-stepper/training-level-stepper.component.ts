@@ -1,12 +1,14 @@
 import {
   ChangeDetectionStrategy,
-  Component, EventEmitter,
+  Component,
+  EventEmitter,
   Input,
   OnChanges,
-  OnInit, Output,
+  OnInit,
+  Output,
   SimpleChanges,
 } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
 import {LevelMoveEvent} from '../../../../../model/events/level-move-event';
 import {Level} from '../../../../../model/level/level';
 import {BaseComponent} from '../../../../base.component';

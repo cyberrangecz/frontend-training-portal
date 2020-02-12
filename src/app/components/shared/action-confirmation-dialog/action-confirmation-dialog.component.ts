@@ -1,7 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { BaseComponent } from '../../base.component';
-import { ConfirmationDialogActionEnum } from '../../../model/enums/confirmation-dialog-action-enum';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {BaseComponent} from '../../base.component';
+import {ConfirmationDialogActionEnum} from '../../../model/enums/confirmation-dialog-action-enum';
 
 @Component({
   selector: 'kypo2-action-confirmation-dialog',

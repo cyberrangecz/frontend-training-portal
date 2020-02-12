@@ -1,15 +1,15 @@
-import { SandboxDefinitionService } from './sandbox-definition.service';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { PaginatedResource } from '../../model/table/other/paginated-resource';
-import { Pagination, RequestedPagination } from 'kypo2-table';
-import { switchMap, tap } from 'rxjs/operators';
-import { SandboxDefinitionApi } from '../api/sandbox-definition-api.service';
-import { ErrorHandlerService } from '../shared/error-handler.service';
-import { Injectable } from '@angular/core';
-import { SandboxDefinitionCreateInfo } from '../../model/sandbox/definition/sandbox-definition-create-info';
-import { AlertTypeEnum } from '../../model/enums/alert-type.enum';
-import { AlertService } from '../shared/alert.service';
-import { environment } from '../../../environments/environment';
+import {SandboxDefinitionService} from './sandbox-definition.service';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {PaginatedResource} from '../../model/table/other/paginated-resource';
+import {Pagination, RequestedPagination} from 'kypo2-table';
+import {switchMap, tap} from 'rxjs/operators';
+import {SandboxDefinitionApi} from '../api/sandbox-definition-api.service';
+import {ErrorHandlerService} from '../shared/error-handler.service';
+import {Injectable} from '@angular/core';
+import {SandboxDefinitionCreateInfo} from '../../model/sandbox/definition/sandbox-definition-create-info';
+import {AlertTypeEnum} from '../../model/enums/alert-type.enum';
+import {AlertService} from '../shared/alert.service';
+import {environment} from '../../../environments/environment';
 import {SandboxDefinition} from '../../model/sandbox/definition/sandbox-definition';
 
 /**

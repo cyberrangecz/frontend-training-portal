@@ -1,6 +1,6 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import { SandboxDefinitionControlsComponent } from './sandbox-definition-controls/sandbox-definition-controls.component';
+import {SandboxDefinitionControlsComponent} from './sandbox-definition-controls/sandbox-definition-controls.component';
 import {Kypo2TableModule} from 'kypo2-table';
 import {SandboxDefinitionService} from '../../../services/sandbox-definition/sandbox-definition.service';
 import {SandboxDefinitionConcreteService} from '../../../services/sandbox-definition/sandbox-definition.concrete.service';
@@ -29,9 +29,6 @@ import {SandboxDefinitionApi} from '../../../services/api/sandbox-definition-api
     SandboxDefinitionApi,
     {provide: SandboxDefinitionService, useClass: SandboxDefinitionConcreteService}
   ],
-  entryComponents: [
-    SandboxDefinitionDetailComponent
-  ]
 })
 
 export class SandboxDefinitionOverviewModule {

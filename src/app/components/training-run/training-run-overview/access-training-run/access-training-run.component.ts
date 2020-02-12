@@ -1,7 +1,7 @@
-import {Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {BaseComponent} from '../../../base.component';
-import { TraineeAccessTrainingFormGroup } from './trainee-access-training-form-group';
-import { MatButton } from '@angular/material';
+import {TraineeAccessTrainingFormGroup} from './trainee-access-training-form-group';
+import {MatButton} from '@angular/material/button';
 
 /**
  * Component for trainee access to training run by inserting token
@@ -14,8 +14,8 @@ import { MatButton } from '@angular/material';
 })
 export class AccessTrainingRunComponent extends BaseComponent implements OnInit {
 
-  @ViewChild('pin', {static: false}) accessTokenPinInput: ElementRef;
-  @ViewChild('accessButton', {static: false}) accessButton: MatButton;
+  @ViewChild('pin') accessTokenPinInput: ElementRef;
+  @ViewChild('accessButton') accessButton: MatButton;
 
   @Output() accessToken: EventEmitter<string> = new EventEmitter<string>();
 

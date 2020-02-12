@@ -1,4 +1,5 @@
 import {Level} from './level';
+
 /**
  * Class representing single level in a training of type Info
  */

@@ -1,8 +1,5 @@
 import {Level} from './level';
 import {Hint} from './hint';
-import {GameLevelDTO} from '../DTOs/level/game/game-level-dto';
-import {AbstractLevelTypeEnum} from '../enums/abstract-level-type.enum';
-import {GameLevelUpdateDTO, GameLevelUpdateDTOClass} from '../DTOs/level/game/game-level-update-dto';
 
 /**
  * Class representing level in a training of type Game

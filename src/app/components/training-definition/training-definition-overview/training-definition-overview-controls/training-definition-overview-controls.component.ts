@@ -1,5 +1,5 @@
-import { BaseComponent } from '../../../base.component';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import {BaseComponent} from '../../../base.component';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 /**
  * Components containing controls for training definition overview

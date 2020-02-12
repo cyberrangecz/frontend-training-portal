@@ -24,9 +24,9 @@ export class TraineeQuestionComponent extends BaseComponent implements OnInit, O
 
   @Output() contentChanged: EventEmitter<number> = new EventEmitter();
 
-  @ViewChild(FreeFormQuestionTraineeComponent, { static: false }) ffqChild: FreeFormQuestionTraineeComponent;
-  @ViewChild(ExtendedMatchingItemsTraineeComponent, { static: false }) emiChild: ExtendedMatchingItemsTraineeComponent;
-  @ViewChild(MultipleChoiceQuestionTraineeComponent, { static: false }) mcqChild: MultipleChoiceQuestionTraineeComponent;
+  @ViewChild(FreeFormQuestionTraineeComponent) ffqChild: FreeFormQuestionTraineeComponent;
+  @ViewChild(ExtendedMatchingItemsTraineeComponent) emiChild: ExtendedMatchingItemsTraineeComponent;
+  @ViewChild(MultipleChoiceQuestionTraineeComponent) mcqChild: MultipleChoiceQuestionTraineeComponent;
 
 
   isEmi = false;

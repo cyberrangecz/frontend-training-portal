@@ -1,4 +1,4 @@
-import { FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import {FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import {TrainingInstance} from '../../../../model/training/training-instance';
 
 /**

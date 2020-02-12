@@ -1,13 +1,6 @@
 import {Injectable} from '@angular/core';
-import {
-  BehaviorSubject,
-  merge,
-  Observable, Subject,
-} from 'rxjs';
-import {
-  switchMap,
-  tap
-} from 'rxjs/operators';
+import {BehaviorSubject, merge, Observable, Subject,} from 'rxjs';
+import {switchMap, tap} from 'rxjs/operators';
 import {PoolRequest} from '../../../../model/sandbox/pool/request/pool-request';
 import {PaginatedResource} from '../../../../model/table/other/paginated-resource';
 import {SandboxInstanceApi} from '../../../api/sandbox-instance-api.service';

@@ -32,7 +32,7 @@ describe('SandboxDefinitionConcreteService', () => {
         {provide: ErrorHandlerService, useValue: errorHandlerSpy},
       ]
     });
-    service = TestBed.get(SandboxDefinitionConcreteService);
+    service = TestBed.inject(SandboxDefinitionConcreteService);
   }));
 
   it('should be created', () => {

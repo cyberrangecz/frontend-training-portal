@@ -3,7 +3,8 @@ import {NgModule} from '@angular/core';
 import {Kypo2GroupOverviewModule, Kypo2UserAndGroupEventModule} from 'kypo2-user-and-group-management';
 import {environment} from '../../../../environments/environment';
 import {AdminGroupRoutingModule} from './admin-group-routing.module';
-import { AdminGroupWrapperComponent } from './admin-group-wrapper/admin-group-wrapper.component';
+import {AdminGroupWrapperComponent} from './admin-group-wrapper/admin-group-wrapper.component';
+
 /**
  * Administration of groups module
  */

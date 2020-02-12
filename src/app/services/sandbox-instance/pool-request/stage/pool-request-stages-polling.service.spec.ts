@@ -26,7 +26,7 @@ describe('PoolRequestStagesPollingService', () => {
         {provide: ErrorHandlerService, useValue: errorHandlerSpy}
       ]
     });
-    service = TestBed.get(PoolRequestStagesPollingService);
+    service = TestBed.inject(PoolRequestStagesPollingService);
     poolRequestStagesCacheBuster$.next();
   }));
 

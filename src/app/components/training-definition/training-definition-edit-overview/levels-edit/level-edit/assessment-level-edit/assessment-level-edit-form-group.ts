@@ -1,4 +1,4 @@
-import { FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AssessmentTypeEnum} from '../../../../../../model/enums/assessment-type.enum';
 import {AssessmentLevel} from '../../../../../../model/level/assessment-level';
 

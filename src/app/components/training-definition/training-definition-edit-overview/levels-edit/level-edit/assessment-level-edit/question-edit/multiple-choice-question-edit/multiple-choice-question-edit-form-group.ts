@@ -1,9 +1,4 @@
-import {
-  FormArray,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import {FormArray, FormControl, FormGroup, Validators,} from '@angular/forms';
 import {Question} from '../../../../../../../../model/questions/question';
 import {MultipleChoiceQuestion} from '../../../../../../../../model/questions/multiple-choice-question';
 

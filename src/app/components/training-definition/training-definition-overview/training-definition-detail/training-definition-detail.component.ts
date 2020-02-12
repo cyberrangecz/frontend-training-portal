@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {TrainingDefinition} from '../../../../model/training/training-definition';
 
 @Component({

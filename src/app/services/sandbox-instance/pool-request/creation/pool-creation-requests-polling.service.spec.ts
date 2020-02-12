@@ -29,7 +29,7 @@ describe('PoolCreationRequestsPollingService', () => {
       {provide: ErrorHandlerService, useValue: errorHandlerSpy}
     ]
   });
-    service = TestBed.get(PoolCreationRequestsPollingService);
+    service = TestBed.inject(PoolCreationRequestsPollingService);
     poolCreationRequestsCacheBuster$.next();
   }));
 

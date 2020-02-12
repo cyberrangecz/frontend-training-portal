@@ -8,15 +8,13 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
-import { FormArray, FormControl, Validators } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import {FormArray, FormControl, Validators} from '@angular/forms';
+import {MatCheckboxChange} from '@angular/material/checkbox';
 import {takeWhile} from 'rxjs/operators';
 import {Question} from '../../../../../../../../model/questions/question';
 import {MultipleChoiceQuestion} from '../../../../../../../../model/questions/multiple-choice-question';
-import {AlertService} from '../../../../../../../../services/shared/alert.service';
 import {BaseComponent} from '../../../../../../../base.component';
-import {FreeFormQuestionFormGroup} from '../free-form-question-edit/free-form-question-form-group';
-import { MultipleChoiceFormGroup } from './multiple-choice-question-edit-form-group';
+import {MultipleChoiceFormGroup} from './multiple-choice-question-edit-form-group';
 
 /**
  * Component for editing a question of type Multiple Choice Question

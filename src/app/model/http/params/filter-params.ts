@@ -1,5 +1,5 @@
-import { HttpParams } from '@angular/common/http';
-import { Filter } from '../../utils/filter';
+import {HttpParams} from '@angular/common/http';
+import {Filter} from '../../utils/filter';
 
 /**
  * Class transforming filters to http params in server supported format

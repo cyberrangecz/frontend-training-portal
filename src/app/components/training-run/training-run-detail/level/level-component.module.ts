@@ -73,12 +73,6 @@ const markdownParserConfig = {
     MultipleChoiceQuestionTraineeComponent,
     ExtendedMatchingItemsTraineeComponent,
     LeaveConfirmationDialogComponent
-  ],
-  entryComponents: [
-    LeaveConfirmationDialogComponent,
-    RevealHintDialogComponent,
-    RevealSolutionDialogComponent,
-    WrongFlagDialogComponent
   ]
 })
 export class LevelComponentModule {

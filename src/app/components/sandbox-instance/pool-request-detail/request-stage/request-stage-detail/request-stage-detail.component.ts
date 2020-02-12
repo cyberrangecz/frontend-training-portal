@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {BaseComponent} from '../../../../base.component';
 import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
 import {StageDetail} from '../../../../../model/sandbox/pool/request/stage/stage-detail';

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import { User} from 'kypo2-auth';
+import {User} from 'kypo2-auth';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {switchMap, tap} from 'rxjs/operators';
 import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';

@@ -9,8 +9,8 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { AbstractLevelDTO } from '../level/abstract-level-dto';
-import { BasicLevelInfoDTO } from '../level/basic-level-info-dto';
+import {AbstractLevelDTO} from '../level/abstract-level-dto';
+import {BasicLevelInfoDTO} from '../level/basic-level-info-dto';
 import {HintDTO} from '../level/game/hint-dto';
 
 

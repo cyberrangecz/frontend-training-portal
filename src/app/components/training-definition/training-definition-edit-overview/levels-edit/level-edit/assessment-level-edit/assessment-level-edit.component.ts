@@ -12,7 +12,7 @@ import {takeWhile} from 'rxjs/operators';
 import {AssessmentLevel} from '../../../../../../model/level/assessment-level';
 import {Question} from '../../../../../../model/questions/question';
 import {BaseComponent} from '../../../../../base.component';
-import { AssessmentLevelEditFormGroup } from './assessment-level-edit-form-group';
+import {AssessmentLevelEditFormGroup} from './assessment-level-edit-form-group';
 
 /**
  * Component for editing new or existing assessment level

@@ -9,7 +9,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { AbstractLevelDTO } from '../level/abstract-level-dto';
+import {AbstractLevelDTO} from '../level/abstract-level-dto';
 
 import {UserDTO} from 'kypo2-auth';
 

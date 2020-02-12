@@ -1,5 +1,4 @@
 import {TrainingInstanceDTO} from '../../DTOs/training-instance/training-instance-dto';
-import {TrainingDefinition} from '../../training/training-definition';
 import {TrainingInstanceCreateDTO} from '../../DTOs/training-instance/training-instance-create-dto';
 import {TrainingInstanceUpdateDTO} from '../../DTOs/training-instance/training-instance-update-dto';
 import {TrainingInstance} from '../../training/training-instance';

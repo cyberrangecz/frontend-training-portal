@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-import { Kypo2AuthGuardWithLogin, Kypo2AuthService} from 'kypo2-auth';
+import {Kypo2AuthGuardWithLogin, Kypo2AuthService} from 'kypo2-auth';
 import {Observable} from 'rxjs/internal/Observable';
 import {map} from 'rxjs/operators';
 import {HOME_PATH} from '../../paths';
 import {CanActivateToObservable} from './can-activate-to-observable';
+
 @Injectable()
 /**
  * Route guard determining if user is signed in and has role of a designer.

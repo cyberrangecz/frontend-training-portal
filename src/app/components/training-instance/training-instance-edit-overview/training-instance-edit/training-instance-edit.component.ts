@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
 import {interval} from 'rxjs';
 import {takeWhile} from 'rxjs/operators';
 import {TrainingInstanceChangeEvent} from '../../../../model/events/training-instance-change-event';
@@ -9,7 +9,7 @@ import {AlertService} from '../../../../services/shared/alert.service';
 import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
 import {BaseComponent} from '../../../base.component';
 import {TrainingDefinitionSelectorComponent} from '../training-definition-selector/training-definition-selector.component';
-import { TrainingInstanceFormGroup } from './training-instance-form-group';
+import {TrainingInstanceFormGroup} from './training-instance-form-group';
 
 /**
  * Component for creating new or editing existing training instance

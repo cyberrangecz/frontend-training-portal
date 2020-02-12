@@ -22,7 +22,7 @@ describe('AccessedTrainingRunConcreteService', () => {
         { provide: ErrorHandlerService, useValue: errorHandlerServiceSpy},
       ],
     });
-    service = TestBed.get(AccessedTrainingRunConcreteService);
+    service = TestBed.inject(AccessedTrainingRunConcreteService);
   }));
 
   it('should be created', () => {
