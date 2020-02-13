@@ -58,7 +58,5 @@ export const environment = {
         }
       }
     ]
-  },
-  useHotjar: false,
-  hotjarTrackingCode: ''
+  }
 };

@@ -51,7 +51,5 @@ export const environment = {
         }
       }
     ]
-  },
-  useHotjar: Boolean(NG_ENV.useHotjar),
-  hotjarTrackingCode: NG_ENV.hotjarTrackingCode
+  }
 };
