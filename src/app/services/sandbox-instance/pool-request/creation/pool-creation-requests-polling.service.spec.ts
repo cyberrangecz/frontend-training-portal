@@ -1,8 +1,5 @@
 import {async, fakeAsync, TestBed, tick} from '@angular/core/testing';
-import {
-  poolCreationRequestsCacheBuster$,
-  PoolCreationRequestsPollingService
-} from './pool-creation-requests-polling.service';
+import {PoolCreationRequestsPollingService} from './pool-creation-requests-polling.service';
 import {ErrorHandlerService} from '../../../shared/error-handler.service';
 import {SandboxInstanceApi} from '../../../api/sandbox-instance-api.service';
 import {RequestedPagination} from 'kypo2-table';
@@ -30,7 +27,6 @@ describe('PoolCreationRequestsPollingService', () => {
     ]
   });
     service = TestBed.inject(PoolCreationRequestsPollingService);
-    poolCreationRequestsCacheBuster$.next();
   }));
 
   it('should be created', () => {

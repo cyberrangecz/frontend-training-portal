@@ -1,8 +1,8 @@
-import {RequestedPagination} from 'kypo2-table';
 import {Observable} from 'rxjs';
 import {PoolRequest} from '../../../model/sandbox/pool/request/pool-request';
 import {PaginatedResource} from '../../../model/table/other/paginated-resource';
 import {PaginatedResourceService} from '../../shared/paginated-resource.service';
+import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
 
 /**
  * A layer between a component and an API service. Implement a concrete service by extending this class.

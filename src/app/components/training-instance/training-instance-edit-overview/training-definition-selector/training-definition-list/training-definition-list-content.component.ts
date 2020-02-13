@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {TrainingDefinitionInfo} from '../../../../../model/training/training-definition-info';
 import {PaginatedResource} from '../../../../../model/table/other/paginated-resource';
-import {RequestedPagination} from 'kypo2-table';
+import {RequestedPagination} from '../../../../../model/DTOs/other/requested-pagination';
 
 /**
  * Displays training definitions list available for associating with a training instance

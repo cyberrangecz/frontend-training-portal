@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {Pagination, RequestedPagination} from 'kypo2-table';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {Pagination} from 'kypo2-table';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {switchMap, tap} from 'rxjs/operators';
 import {SandboxPool} from '../../../model/sandbox/pool/sandbox-pool';
 import {PaginatedResource} from '../../../model/table/other/paginated-resource';
@@ -8,14 +8,10 @@ import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {PoolService} from './pool.service';
 import {environment} from '../../../../environments/environment';
-import {Cacheable, CacheBuster} from 'ngx-cacheable';
 import {AlertService} from '../../shared/alert.service';
 import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
+import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
 
-/**
- * Emission causes cached data to cleanup
- */
-const cacheBuster$: Subject<void> = new Subject();
 
 /**
  * Basic implementation of a layer between a component and an API service.
@@ -41,9 +37,6 @@ export class PoolConcreteService extends PoolService {
    * Gets all pools with passed pagination and updates related observables or handles an error
    * @param pagination requested pagination
    */
-  @Cacheable({
-    cacheBusterObserver: cacheBuster$
-  })
   getAll(pagination: RequestedPagination): Observable<PaginatedResource<SandboxPool>> {
     this.lastPagination = pagination;
     this.hasErrorSubject$.next(false);
@@ -67,9 +60,6 @@ export class PoolConcreteService extends PoolService {
    * @param pool a pool to be allocated with sandbox instances
    * @param count number of sandbox instances to be allocated
    */
-  @CacheBuster({
-    cacheBusterNotifier: cacheBuster$
-  })
   allocate(pool: SandboxPool, count: number = -1): Observable<any> {
     let allocation$: Observable<any>;
     if (count <= 0) {
@@ -90,9 +80,6 @@ export class PoolConcreteService extends PoolService {
    * Deletes a pool, informs about the result and updates list of pools or handles an error
    * @param pool a pool to be deleted
    */
-  @CacheBuster({
-    cacheBusterNotifier: cacheBuster$
-  })
   delete(pool: SandboxPool): Observable<any> {
     return this.sandboxInstanceFacade.deletePool(pool.id)
       .pipe(
@@ -107,9 +94,6 @@ export class PoolConcreteService extends PoolService {
    * Clears a pool by deleting all associated sandbox instances, informs about the result and updates list of pools or handles an error
    * @param pool a pool to be cleared
    */
-  @CacheBuster({
-    cacheBusterNotifier: cacheBuster$
-  })
   clear(pool: SandboxPool): Observable<any> {
     return this.sandboxInstanceFacade.clearPool(pool.id)
       .pipe(

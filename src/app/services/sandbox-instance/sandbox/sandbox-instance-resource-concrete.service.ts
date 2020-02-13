@@ -1,16 +1,11 @@
 import {SandboxInstanceResourceService} from './sandbox-instance-resource.service';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {SandboxInstanceResource} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance-resource/sandbox-instance-resource';
 import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {tap} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
-import {Cacheable} from 'ngx-cacheable';
 
-/**
- * Clears cached data on emission
- */
-const cacheBuster$: Subject<void> = new Subject();
 
 /**
  * Basic implementation of a layer between a component and an API service.
@@ -35,9 +30,6 @@ export class SandboxInstanceResourceConcreteService extends SandboxInstanceResou
    * Is cached until cacheBuster emission
    * @param sandboxInstanceId id of a sandbox instance associated with requested resources.
    */
-  @Cacheable({
-    cacheBusterObserver: cacheBuster$
-  })
   getAll(sandboxInstanceId: number): Observable<SandboxInstanceResource[]> {
     return this.sandboxInstanceFacade.getResources(sandboxInstanceId)
       .pipe(

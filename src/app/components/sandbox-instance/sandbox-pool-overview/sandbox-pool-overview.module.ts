@@ -1,6 +1,5 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-
 import {Kypo2TableModule} from 'kypo2-table';
 import {PoolBreadcrumbResolver} from '../../../services/resolvers/sandbox-instance-resolvers/pool-breadcrumb-resolver.service';
 import {PoolResolver} from '../../../services/resolvers/sandbox-instance-resolvers/pool-resolver.service';
@@ -17,8 +16,8 @@ import {SandboxInstanceApi} from '../../../services/api/sandbox-instance-api.ser
   declarations: [SandboxPoolOverviewComponent],
   imports: [
     CommonModule,
+    Kypo2TableModule,
     SandboxPoolOverviewRoutingModule,
-    Kypo2TableModule
   ],
   providers: [
     SandboxInstanceApi,

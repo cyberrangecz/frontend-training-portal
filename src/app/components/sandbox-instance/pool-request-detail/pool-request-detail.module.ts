@@ -18,12 +18,12 @@ import {SandboxInstanceApi} from '../../../services/api/sandbox-instance-api.ser
  * Contains components and providers for pool request detail page
  */
 @NgModule({
-    imports: [
-        CommonModule,
-        PoolRequestDetailRoutingModule,
-        PoolRequestDetailMaterialModule,
-        PipesModule,
-    ],
+  imports: [
+      CommonModule,
+      PoolRequestDetailRoutingModule,
+      PoolRequestDetailMaterialModule,
+      PipesModule,
+  ],
   declarations: [
     PoolRequestDetailComponent,
     RequestStageComponent,

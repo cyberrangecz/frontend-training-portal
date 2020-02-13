@@ -10,7 +10,6 @@ import {environment} from '../../../../../environments/environment';
 import {throwError} from 'rxjs';
 import {PoolCreationRequest} from '../../../../model/sandbox/pool/request/pool-creation-request';
 import {
-  poolCleanupRequestsCacheBuster$,
   PoolCleanupRequestsPollingService
 } from './pool-cleanup-requests-polling.service';
 
@@ -30,7 +29,6 @@ describe('PoolCleanupRequestsPollingService', () => {
       ]
     });
     service = TestBed.inject(PoolCleanupRequestsPollingService);
-    poolCleanupRequestsCacheBuster$.next();
   }));
 
   it('should be created', () => {

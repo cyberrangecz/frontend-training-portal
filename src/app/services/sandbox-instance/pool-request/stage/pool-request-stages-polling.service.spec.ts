@@ -1,6 +1,6 @@
 import {SandboxInstanceApi} from '../../../api/sandbox-instance-api.service';
 import {ErrorHandlerService} from '../../../shared/error-handler.service';
-import {poolRequestStagesCacheBuster$, PoolRequestStagesPollingService} from './pool-request-stages-polling.service';
+import {PoolRequestStagesPollingService} from './pool-request-stages-polling.service';
 import {async, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {asyncData} from '../../../../testing/helpers/async-data';
 import {skip} from 'rxjs/operators';
@@ -27,7 +27,6 @@ describe('PoolRequestStagesPollingService', () => {
       ]
     });
     service = TestBed.inject(PoolRequestStagesPollingService);
-    poolRequestStagesCacheBuster$.next();
   }));
 
   it('should be created', () => {

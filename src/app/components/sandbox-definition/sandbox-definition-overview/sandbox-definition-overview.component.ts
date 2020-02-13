@@ -5,7 +5,7 @@ import {map, switchMap, takeWhile} from 'rxjs/operators';
 import {ActionConfirmationDialogComponent} from '../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import {BaseComponent} from '../../base.component';
 import {SandboxDefinitionService} from '../../../services/sandbox-definition/sandbox-definition.service';
-import {Kypo2Table, LoadTableEvent, RequestedPagination, TableActionEvent} from 'kypo2-table';
+import {Kypo2Table, LoadTableEvent, TableActionEvent} from 'kypo2-table';
 import {ErrorHandlerService} from '../../../services/shared/error-handler.service';
 import {SandboxDefinitionTableCreator} from '../../../model/table/factory/sandbox-definition-table-creator';
 import {SandboxDefinition} from '../../../model/sandbox/definition/sandbox-definition';
@@ -13,6 +13,7 @@ import {environment} from '../../../../environments/environment';
 import {Router} from '@angular/router';
 import {RouteFactory} from '../../../model/routes/route-factory';
 import {ConfirmationDialogActionEnum} from '../../../model/enums/confirmation-dialog-action-enum';
+import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
 
 @Component({
   selector: 'kypo2-sandbox-definition-overview',

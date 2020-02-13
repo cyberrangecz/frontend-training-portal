@@ -46,7 +46,6 @@
     "kypo2-user-assign": "9.0.0",
     "marked": "0.8.0",
     "moment": "^2.24.0",
-    "ngx-cacheable": "1.4.0",
     "ngx-markdown": "^8.2.1",
     "rxjs": "^6.5.3",
     "tslib": "^1.10.0",
