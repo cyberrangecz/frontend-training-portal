@@ -1,6 +1,5 @@
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {RequestedPagination} from 'kypo2-table';
 import {Observable, of} from 'rxjs';
 import {SandboxInstance} from '../../model/sandbox/pool/sandbox-instance/sandbox-instance';
 import {map} from 'rxjs/operators';
@@ -15,7 +14,6 @@ import {SandboxInstanceResource} from '../../model/sandbox/pool/sandbox-instance
 import {SandboxInstanceResourceDTO} from '../../model/DTOs/sandbox-instance/sandbox-instance-resource-dto';
 import {SandboxPool} from '../../model/sandbox/pool/sandbox-pool';
 import {PaginatedResource} from '../../model/table/other/paginated-resource';
-import {Cacheable} from 'ngx-cacheable';
 import {RequestStage} from '../../model/sandbox/pool/request/stage/request-stage';
 import {RequestStageDTO} from '../../model/DTOs/sandbox-instance/request-stage-dto';
 import {PoolRequestMapper} from '../../model/mappers/sandbox-instance/pool-request-mapper';
@@ -24,6 +22,7 @@ import {SandboxInstanceMapper} from '../../model/mappers/sandbox-instance/sandbo
 import {RequestStageMapper} from '../../model/mappers/sandbox-instance/request-stage-mapper';
 import {SandboxInstanceResourceMapper} from '../../model/mappers/sandbox-instance/sandbox-instance-resource-mapper';
 import {PaginationMapper} from '../../model/mappers/pagination-mapper';
+import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
 
 /**
  * Service abstracting http communication with sandbox instances endpoints.
@@ -68,9 +67,6 @@ export class SandboxInstanceApi {
    * Sends http request to retrieves pool by id
    * @param poolId id of the pool
    */
-  @Cacheable({
-    maxAge: 1000
-  })
   getPool(poolId: number): Observable<SandboxPool>  {
   return this.http.get<SandboxPoolDTO>(`${this.poolsEndpointUri}${poolId}/`)
     .pipe(
@@ -102,9 +98,6 @@ export class SandboxInstanceApi {
    * Sends http request to retrieve sandbox instance by id
    * @param sandboxId id of the sandbox instance
    */
-  @Cacheable({
-    maxAge: 1000
-  })
   getSandbox(sandboxId: number): Observable<SandboxInstance> {
     return this.http.get<SandboxInstanceDTO>(`${this.sandboxEndpointUri + sandboxId}/`)
       .pipe(
@@ -217,9 +210,6 @@ export class SandboxInstanceApi {
    * @param poolId id of the associated pool
    * @param requestId id of the associated request
    */
-  @Cacheable({
-    maxAge: 1000
-  })
   getCreateRequest(poolId: number, requestId: number): Observable<PoolRequest> {
     return this.http.get<PoolRequestDTO>(`${this.poolsEndpointUri + poolId}/${this.poolCreationRequestUriExtension}${requestId}/`)
       .pipe(map(response => PoolRequestMapper.fromDTO(response, 'CREATION')));
@@ -230,9 +220,6 @@ export class SandboxInstanceApi {
    * @param poolId id of the associated pool
    * @param requestId id of the associated request
    */
-  @Cacheable({
-    maxAge: 1000
-  })
   getCleanupRequest(poolId: number, requestId: number): Observable<PoolRequest> {
     return this.http.get<PoolRequestDTO>(`${this.poolsEndpointUri + poolId}/${this.poolCleanupRequestUriExtension}${requestId}/`)
       .pipe(map(response => PoolRequestMapper.fromDTO(response, 'CLEANUP')));
@@ -266,9 +253,6 @@ export class SandboxInstanceApi {
    * @param sandboxId id of the associated sandbox instance
    * @param resourceId id of the requested resource
    */
-  @Cacheable({
-    maxAge: 1000
-  })
   getResource(sandboxId: number, resourceId: string): Observable<SandboxInstanceResource> {
     // TODO: Endpoint is currently only for vms, not all resources. Needs to be updated either here or on backend
     return this.http.get<SandboxInstanceResourceDTO>(
@@ -283,9 +267,6 @@ export class SandboxInstanceApi {
    * Sends http request to get openstack stage output
    * @param stageId of the requested stage id
    */
-  @Cacheable({
-    maxAge: environment.apiPollingPeriod
-  })
   getOpenstackStageOutput(stageId: number): Observable<string[]> {
     return of([]);
   }
@@ -294,9 +275,6 @@ export class SandboxInstanceApi {
    * Sends http request to get ansible stage output
    * @param stageId of the requested stage id
    */
-  @Cacheable({
-    maxAge: environment.apiPollingPeriod
-  })
   getAnsibleStageOutput(stageId: number): Observable<string[]> {
     const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
     const options: Object = {

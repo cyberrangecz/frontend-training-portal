@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Kypo2Table, LoadTableEvent, RequestedPagination, TableActionEvent} from 'kypo2-table';
+import {Kypo2Table, LoadTableEvent, TableActionEvent} from 'kypo2-table';
 import {SandboxInstanceService} from '../../../services/sandbox-instance/sandbox/sandbox-instance.service';
 import {SandboxInstance} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance';
 import {Observable} from 'rxjs';
@@ -14,6 +14,7 @@ import {PoolRequestTableCreator} from '../../../model/table/factory/pool-request
 import {PoolCreationRequestsPollingService} from '../../../services/sandbox-instance/pool-request/creation/pool-creation-requests-polling.service';
 import {PoolCleanupRequestsPollingService} from '../../../services/sandbox-instance/pool-request/cleanup/pool-cleanup-requests-polling.service';
 import {RouteFactory} from '../../../model/routes/route-factory';
+import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
 
 /**
  * Smart component of sandbox pool detail page

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, merge, Observable, Subject,} from 'rxjs';
+import {BehaviorSubject, merge, Observable} from 'rxjs';
 import {switchMap, tap} from 'rxjs/operators';
 import {PoolRequest} from '../../../../model/sandbox/pool/request/pool-request';
 import {PaginatedResource} from '../../../../model/table/other/paginated-resource';
@@ -10,12 +10,6 @@ import {Pagination} from 'kypo2-table';
 import {environment} from '../../../../../environments/environment';
 import {HttpErrorResponse} from '@angular/common/http';
 import {PoolRequestPollingService} from '../pool-request-polling.service';
-import {Cacheable, CacheBuster} from 'ngx-cacheable';
-
-/**
- * Emission causes cached data to cleanup
- */
-export const poolCreationRequestsCacheBuster$: Subject<void> = new Subject();
 
 /**
  * Basic implementation of a layer between a component and an API service.
@@ -45,9 +39,6 @@ export class PoolCreationRequestsPollingService extends PoolRequestPollingServic
    * @param poolId id of a pool associated with creation requests
    * @param pagination requested pagination
    */
-  @Cacheable({
-    cacheBusterObserver: poolCreationRequestsCacheBuster$
-  })
   getAll(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<PoolRequest>> {
     this.onManualGetAll(poolId, pagination);
     return this.sandboxInstanceFacade.getCreationRequests(poolId, pagination)
@@ -64,9 +55,6 @@ export class PoolCreationRequestsPollingService extends PoolRequestPollingServic
    * @param poolId id of a pool associated with cleanup requests
    * @param request a request to be cancelled
    */
-  @CacheBuster({
-    cacheBusterNotifier: poolCreationRequestsCacheBuster$
-  })
   cancel(poolId: number, request: PoolRequest): Observable<any> {
     return this.sandboxInstanceFacade.cancelCreationRequest(poolId, request.id)
       .pipe(
@@ -80,9 +68,6 @@ export class PoolCreationRequestsPollingService extends PoolRequestPollingServic
    * @param poolId id of a pool associated with cleanup requests
    * @param request a request to be retried
    */
-  @CacheBuster({
-    cacheBusterNotifier: poolCreationRequestsCacheBuster$
-  })
   retry(poolId: number, request: PoolRequest): Observable<any> {
     return this.sandboxInstanceFacade.retryCreationRequest(poolId, request.id)
       .pipe(
@@ -94,10 +79,6 @@ export class PoolCreationRequestsPollingService extends PoolRequestPollingServic
   /**
    * Repeats last get all request for polling purposes
    */
-  @Cacheable({
-    cacheBusterObserver: poolCreationRequestsCacheBuster$,
-    maxAge: environment.apiPollingPeriod - 1
-  })
   protected repeatLastGetAllRequest(): Observable<PaginatedResource<PoolRequest>> {
     this.hasErrorSubject$.next(false);
     return this.sandboxInstanceFacade.getCreationRequests(this.lastPoolId, this.lastPagination)

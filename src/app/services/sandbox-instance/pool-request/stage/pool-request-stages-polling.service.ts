@@ -7,13 +7,7 @@ import {SandboxInstanceApi} from '../../../api/sandbox-instance-api.service';
 import {ErrorHandlerService} from '../../../shared/error-handler.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Cacheable, CacheBuster} from 'ngx-cacheable';
-import {RequestedPagination} from 'kypo2-table';
-
-/**
- * Emission causes cached data to cleanup
- */
-export const poolRequestStagesCacheBuster$: Subject<void> = new Subject();
+import {RequestedPagination} from '../../../../model/DTOs/other/requested-pagination';
 
 /**
  * Basic implementation of a layer between a component and an API service.
@@ -56,9 +50,6 @@ export class PoolRequestStagesPollingService extends PoolRequestStagesService {
    * @param poolId id of a pool associated with stages
    * @param requestId id of a request associated with stages
    */
-  @Cacheable({
-    cacheBusterObserver: poolRequestStagesCacheBuster$
-  })
   getAll(poolId: number, requestId: number): Observable<RequestStage[]> {
     this.onManualGetAll(poolId, requestId);
     const fakePagination = new RequestedPagination(0, 100, '', '');
@@ -83,9 +74,6 @@ export class PoolRequestStagesPollingService extends PoolRequestStagesService {
    * @param requestId id of a request associated with stages
    * @param stageId if of a stage to be forced
    */
-  @CacheBuster({
-    cacheBusterNotifier: poolRequestStagesCacheBuster$
-  })
   force(poolId: number, requestId: number, stageId: number): Observable<any> {
     return this.sandboxInstanceFacade.forceStage(poolId, requestId, stageId)
       .pipe(
@@ -94,10 +82,6 @@ export class PoolRequestStagesPollingService extends PoolRequestStagesService {
       );
   }
 
-  @Cacheable({
-    cacheBusterObserver: poolRequestStagesCacheBuster$,
-    maxAge: environment.apiPollingPeriod - 1
-  })
   private repeatLastGetAllRequest(): Observable<RequestStage[]> {
     this.hasErrorSubject$.next(false);
     const mockPagination = new RequestedPagination(0, 100, '', '');

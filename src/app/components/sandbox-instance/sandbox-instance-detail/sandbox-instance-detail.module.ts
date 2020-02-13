@@ -18,8 +18,8 @@ import {SandboxInstanceResourceBreadcrumbResolver} from '../../../services/resol
   declarations: [SandboxInstanceDetailComponent],
   imports: [
     CommonModule,
-    SandboxInstanceDetailRoutingModule,
     Kypo2TableModule,
+    SandboxInstanceDetailRoutingModule,
     Kypo2TopologyGraphModule.forRoot(environment.kypo2TopologyConfig)
   ],
   providers: [

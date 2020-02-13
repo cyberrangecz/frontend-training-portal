@@ -22,9 +22,9 @@ import {SandboxInstanceApi} from '../../../services/api/sandbox-instance-api.ser
   declarations: [SandboxPoolDetailComponent],
   imports: [
     CommonModule,
-    SandboxPoolDetailRoutingModule,
-    SandboxPoolDetailMaterialModule,
     Kypo2TableModule,
+    SandboxPoolDetailRoutingModule,
+    SandboxPoolDetailMaterialModule
   ],
   providers: [
     SandboxInstanceApi,

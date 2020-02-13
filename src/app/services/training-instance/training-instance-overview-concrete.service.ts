@@ -2,7 +2,6 @@ import {TrainingInstanceOverviewService} from './training-instance-overview.serv
 import {BehaviorSubject, Observable} from 'rxjs';
 import {PaginatedResource} from '../../model/table/other/paginated-resource';
 import {TrainingInstance} from '../../model/training/training-instance';
-import {Pagination, RequestedPagination} from 'kypo2-table';
 import {environment} from '../../../environments/environment';
 import {AlertService} from '../shared/alert.service';
 import {ErrorHandlerService} from '../shared/error-handler.service';
@@ -10,9 +9,10 @@ import {TrainingInstanceFilter} from '../../model/utils/training-instance-filter
 import {map, switchMap, tap} from 'rxjs/operators';
 import {AlertTypeEnum} from '../../model/enums/alert-type.enum';
 import {Injectable} from '@angular/core';
-import {Cacheable} from 'ngx-cacheable';
 import {TrainingInstanceApi} from '../api/training-instance-api.service';
 import {SandboxInstanceApi} from '../api/sandbox-instance-api.service';
+import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
+import {Pagination} from '../../model/table/other/pagination';
 
 @Injectable()
 export class TrainingInstanceOverviewConcreteService extends TrainingInstanceOverviewService {
@@ -61,10 +61,6 @@ export class TrainingInstanceOverviewConcreteService extends TrainingInstanceOve
       );
   }
 
-  @Cacheable({
-    maxCacheCount: 100,
-    maxAge: 60000
-  })
   getPoolState(poolId: number): Observable<string> {
     return this.sandboxInstanceApi.getPool(poolId)
       .pipe(
