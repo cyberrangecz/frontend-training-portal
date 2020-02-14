@@ -105,7 +105,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "trainings:build"
+            "browserTarget": "trainings:build",
+            "ssl": true
           },
           "configurations": {
             "production": {
@@ -163,6 +164,19 @@
             ]
           }
         },
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "e2e/cypress.json",
+            "tsConfig": "e2e/tsconfig.e2e.json",
+            "devServerTarget": "trainings:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "csirt-mu-example-app:serve:production"
+            }
+          }
+        },
         "ngsscbuild": {
           "builder": "angular-server-side-configuration:ngsscbuild",
           "options": {
@@ -174,33 +188,6 @@
             "production": {
               "browserTarget": "trainings:build:production"
             }
-          }
-        }
-      }
-    },
-    "trainings-e2e": {
-      "root": "e2e/",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "trainings:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "trainings:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
           }
         }
       }
