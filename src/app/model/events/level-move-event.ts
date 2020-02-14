@@ -1,4 +1,3 @@
-import {Level} from '../level/level';
 import {StepperStateChange} from 'kypo2-stepper/lib/component/stepper-state-change';
 
 /**
@@ -6,10 +5,8 @@ import {StepperStateChange} from 'kypo2-stepper/lib/component/stepper-state-chan
  */
 export class LevelMoveEvent {
   stepperStateChange: StepperStateChange;
-  levels: Level[];
 
-  constructor(stepperStateChange: StepperStateChange, levels: Level[]) {
+  constructor(stepperStateChange: StepperStateChange) {
     this.stepperStateChange = stepperStateChange;
-    this.levels = levels;
   }
 }

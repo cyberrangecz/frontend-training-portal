@@ -7,6 +7,5 @@ export class InfoLevel extends Level {
   content: string;
   constructor() {
     super();
-    this.primaryIcon = 'info';
   }
 }

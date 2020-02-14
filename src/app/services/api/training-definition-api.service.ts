@@ -294,7 +294,7 @@ export class TrainingDefinitionApi {
    * @param levelId id of a level which should be moved
    * @param toPosition index of new position of a level
    */
-  moveLevels(trainingDefinitionId: number, levelId: number, toPosition: number): Observable<Level[]> {
+  moveLevelTo(trainingDefinitionId: number, levelId: number, toPosition: number): Observable<Level[]> {
     return this.http.put<BasicLevelInfoDTO[]>(
       `${this.trainingDefsEndpointUri + trainingDefinitionId}/${this.levelsUriExtension}${levelId}/move-to/${toPosition}`,
       {},

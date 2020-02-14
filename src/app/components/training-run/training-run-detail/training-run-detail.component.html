@@ -8,8 +8,8 @@
     </a>
     <!-- LEVEL STEPPER -->
     <div class="training-run-stepper">
-      <div *ngIf="isStepperDisplayed && levels">
-        <kypo2-stepper [dragDisabled]="true" [selectable]="false" [stepperItems]="stepper.levels" [activeIndex]="selectedStep"></kypo2-stepper>
+      <div *ngIf="isStepperDisplayed && stepper?.levels">
+        <kypo2-stepper [dragDisabled]="true" [selectable]="false" [stepperItems]="stepper?.levels" [activeIndex]="selectedStep"></kypo2-stepper>
       </div>
     </div>
 

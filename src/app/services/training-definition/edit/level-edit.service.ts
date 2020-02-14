@@ -172,24 +172,21 @@ export class LevelEditService {
    */
   move(fromIndex, toIndex): Observable<any> {
     const levels = this.levelsSubject$.getValue();
-    const from = levels[toIndex]; // doesnt make sense semantically but is required because the position was already changed in stepper component. It will be fixed when stepper supports snapshots
-    return this.trainingDefinitionFacade.moveLevels(this.trainingDefinitionId, from.id, toIndex)
+    const from = levels[fromIndex];
+    return this.trainingDefinitionFacade.moveLevelTo(this.trainingDefinitionId, from.id, toIndex)
       .pipe(
         tap({
           error: (err) => {
-            this.moveRollback(fromIndex, toIndex);
+            this.moveRollback(fromIndex);
             this.errorHandler.display(err, `Moving level "${from.title}"`);
           }
         })
       );
   }
 
-  private moveRollback(fromIndex: number, toIndex: number) {
+  private moveRollback(fromIndex: number) {
     const levels = this.levelsSubject$.getValue();
-    const tempLevel = levels[toIndex];
-    levels[toIndex] = levels[fromIndex];
-    levels[fromIndex] = tempLevel;
-    this.levelsSubject$.next(levels);
+    this.levelsSubject$.next(levels.sort((a, b) => a.order - b.order));
     this.setActiveLevel(fromIndex);
   }
 

@@ -15,7 +15,6 @@ export class GameLevel extends Level {
 
   constructor() {
     super();
-    this.primaryIcon = 'videogame_asset';
     this.hints = [];
   }
 
