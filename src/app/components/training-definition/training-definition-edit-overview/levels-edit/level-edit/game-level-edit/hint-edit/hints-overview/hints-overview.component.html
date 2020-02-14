@@ -32,9 +32,9 @@
     </kypo2-stepper>
     <div>
       <mat-divider></mat-divider>
-      <ng-template matStepLabel>Hint {{ selectedStep + 1 }}</ng-template>
+      <ng-template>Hint {{ selectedStep + 1 }}</ng-template>
       <div class="step-content">
-        <kypo2-hint-edit [hint]="stepperHints.items[selectedStep]"
+        <kypo2-hint-edit [hint]="stepperHints.items[selectedStep].hint"
                    (hintChange)="onHintsChanged($event)"
                    [levelMaxScore]="levelMaxScore"
                    [hintsPenaltySum]="penaltySum"

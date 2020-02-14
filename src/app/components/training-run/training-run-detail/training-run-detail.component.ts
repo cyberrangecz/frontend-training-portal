@@ -7,6 +7,7 @@ import {BaseComponent} from '../../base.component';
 import {TrainingRunStepper} from './training-run-stepper';
 import {Kypo2AuthService, User} from 'kypo2-auth';
 import {Observable} from 'rxjs';
+import {LevelStepperAdapter} from '../../../model/stepper/level-stepper-adapter';
 
 @Component({
   selector: 'kypo2-training-run-detail',
@@ -48,8 +49,8 @@ export class TrainingRunDetailComponent extends BaseComponent implements OnInit 
     this.startTime = this.activeTrainingRunService.getStartTime();
     this.isStepperDisplayed = this.activeTrainingRunService.getIsStepperDisplayed();
     this.selectedStep = this.activeTrainingRunService.getActiveLevelPosition();
-
-    this.stepper = new TrainingRunStepper(this.levels, this.isLoading, this.selectedStep);
+    const stepperAdapterLevels = this.levels.map(level => new LevelStepperAdapter(level));
+    this.stepper = new TrainingRunStepper(stepperAdapterLevels, this.isLoading, this.selectedStep);
   }
 
   private updateStepperActiveLevel() {

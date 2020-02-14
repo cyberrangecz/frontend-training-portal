@@ -13,6 +13,5 @@ export class AssessmentLevel extends Level {
   constructor() {
     super();
     this.questions = [];
-    this.primaryIcon = 'assignment';
   }
 }

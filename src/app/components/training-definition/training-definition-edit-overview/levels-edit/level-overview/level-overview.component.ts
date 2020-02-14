@@ -11,7 +11,7 @@ import {
 import {MatDialog} from '@angular/material/dialog';
 import {ActivatedRoute} from '@angular/router';
 import {Observable, of} from 'rxjs';
-import {debounceTime, switchMap, takeWhile, tap} from 'rxjs/operators';
+import {debounceTime, map, switchMap, takeWhile, tap} from 'rxjs/operators';
 import {AbstractLevelTypeEnum} from '../../../../../model/enums/abstract-level-type.enum';
 import {LevelMoveEvent} from '../../../../../model/events/level-move-event';
 import {Level} from '../../../../../model/level/level';
@@ -20,6 +20,7 @@ import {LevelEditService} from '../../../../../services/training-definition/edit
 import {BaseComponent} from '../../../../base.component';
 import {ActionConfirmationDialogComponent} from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import {ConfirmationDialogActionEnum} from '../../../../../model/enums/confirmation-dialog-action-enum';
+import {LevelStepperAdapter} from '../../../../../model/stepper/level-stepper-adapter';
 
 /**
  * Smart component for level stepper and level edit components
@@ -37,7 +38,7 @@ export class LevelOverviewComponent extends BaseComponent implements OnInit, OnC
   @Input() trainingDefinition: TrainingDefinition;
 
   activeStep$: Observable<number>;
-  levels$: Observable<Level[]>;
+  stepperLevels: Observable<LevelStepperAdapter[]>;
   activeLevelCanBeSaved$: Observable<boolean>;
   levelMovingInProgress: boolean;
 
@@ -49,8 +50,9 @@ export class LevelOverviewComponent extends BaseComponent implements OnInit, OnC
 
   ngOnInit() {
     this.activeStep$ = this.levelService.activeStep$;
-    this.levels$ = this.levelService.levels$
+    this.stepperLevels = this.levelService.levels$
       .pipe(
+        map(levels => levels.map(level => new LevelStepperAdapter(level))),
         tap(_ => this.unsavedLevels.emit(this.levelService.getUnsavedLevels()))
       );
     this.activeLevelCanBeSaved$ = this.levelService.activeLevelCanBeSaved$.pipe(debounceTime(0));
@@ -59,7 +61,6 @@ export class LevelOverviewComponent extends BaseComponent implements OnInit, OnC
   ngOnChanges(changes: SimpleChanges): void {
     if ('trainingDefinition' in changes) {
       this.levelService.set(this.trainingDefinition.id, this.trainingDefinition.levels);
-
     }
   }
 

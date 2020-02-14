@@ -4,15 +4,15 @@
                       (saveLevel)="onSave()">
 </kypo2-level-controls>
 <mat-divider></mat-divider>
-<div *ngIf="(levels$ | async).length > 0 else noLevels">
+<div *ngIf="(stepperLevels | async).length > 0 else noLevels">
  <kypo2-levels-stepper [activeStep]="activeStep$ | async"
-                       [levels]="levels$ | async"
+                       [levels]="stepperLevels | async"
                        [movingInProgress]="levelMovingInProgress"
                        (levelSwap)="onLevelMoved($event)"
                        (activeStepChange)="onActiveLevelChange($event)">
  </kypo2-levels-stepper>
  <mat-divider></mat-divider>
- <kypo2-level-edit [level]="(levels$ | async)[activeStep$ | async]" (levelChange)="onActiveLevelChanged($event)"></kypo2-level-edit>
+ <kypo2-level-edit [level]="(stepperLevels | async)[activeStep$ | async].level" (levelChange)="onActiveLevelChanged($event)"></kypo2-level-edit>
 </div>
 
 <ng-template #noLevels>

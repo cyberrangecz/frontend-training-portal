@@ -16,6 +16,7 @@ import {Hint} from '../../../../../../../../model/level/hint';
 import {BaseComponent} from '../../../../../../../base.component';
 import {ActionConfirmationDialogComponent} from '../../../../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import {ConfirmationDialogActionEnum} from '../../../../../../../../model/enums/confirmation-dialog-action-enum';
+import {HintStepperAdapter} from '../../../../../../../../model/stepper/hint-stepper-adapter';
 
 
 /**
@@ -43,7 +44,7 @@ export class HintsOverviewComponent extends BaseComponent implements OnInit, OnC
   penaltySum: number;
   selectedStep: number;
 
-  stepperHints: Kypo2Stepper<Hint> = {items: this.hints};
+  stepperHints: Kypo2Stepper<HintStepperAdapter> = {items: []};
 
   constructor(public dialog: MatDialog) {
     super();
@@ -55,7 +56,7 @@ export class HintsOverviewComponent extends BaseComponent implements OnInit, OnC
 
   ngOnChanges(changes: SimpleChanges) {
     if ('hints' in changes) {
-      this.stepperHints.items = this.hints;
+      this.stepperHints.items = this.hints.map(hint => new HintStepperAdapter(hint));
       this.setInitialHintPenaltySum();
       this.calculateHasError();
     }
@@ -71,10 +72,11 @@ export class HintsOverviewComponent extends BaseComponent implements OnInit, OnC
     const hint = new Hint();
     hint.title = 'New hint';
     hint.penalty = 0;
-    hint.isActive = true;
     hint.content = 'Write hint content here...';
     hint.order = this.stepperHints.items.length;
-    this.stepperHints.items.push(hint);
+    const hintStepperAdapter = new HintStepperAdapter(hint);
+    hintStepperAdapter.isActive = true;
+    this.stepperHints.items.push(hintStepperAdapter);
     this.selectedStep = this.stepperHints.items.length - 1;
     this.onHintsChanged();
   }
@@ -121,7 +123,7 @@ export class HintsOverviewComponent extends BaseComponent implements OnInit, OnC
    */
   onOrderUpdate() {
     this.stepperHints.items.forEach((hint, index) => {
-      this.stepperHints.items[index].order = index;
+      this.stepperHints.items[index].hint.order = index;
     });
     this.onHintsChanged();
   }
@@ -147,11 +149,11 @@ export class HintsOverviewComponent extends BaseComponent implements OnInit, OnC
    */
   private onHintsChanged(hint: Hint = null) {
     if (hint) {
-      this.stepperHints.items[this.selectedStep] = hint;
+      this.stepperHints.items[this.selectedStep].hint = hint;
     }
     this.calculateHintPenaltySum();
     this.calculateHasError();
-    this.hintsChange.emit(this.stepperHints.items);
+    this.hintsChange.emit(this.stepperHints.items.map(item => item.hint));
   }
 
 
@@ -179,8 +181,8 @@ export class HintsOverviewComponent extends BaseComponent implements OnInit, OnC
    */
   private calculateHintPenaltySum() {
     let hintsPenaltySum = 0;
-    this.stepperHints.items.forEach(hint => {
-      hintsPenaltySum += hint.penalty;
+    this.stepperHints.items.forEach(item => {
+      hintsPenaltySum += item.hint.penalty;
     });
     this.penaltySum = hintsPenaltySum;
   }
