@@ -8,7 +8,7 @@ export class SandboxDefinitionMapper {
     sandbox.id = dto.id;
     sandbox.title = dto.name;
     sandbox.url = dto.url;
-    sandbox.rev = dto.url;
+    sandbox.rev = dto.rev;
     return sandbox;
   }
 
