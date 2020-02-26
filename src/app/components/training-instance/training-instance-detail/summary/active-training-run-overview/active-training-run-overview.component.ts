@@ -2,7 +2,6 @@ import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {EMPTY, Observable} from 'rxjs';
 import {map, switchMap, takeWhile} from 'rxjs/operators';
-import {ActionConfirmationDialogComponent} from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import {Kypo2Table, LoadTableEvent} from 'kypo2-table';
 import {TrainingRunTableCreator} from '../../../../../model/table/factory/training-run-table-creator';
 import {TrainingRunTableAdapter} from '../../../../../model/table/row/training-run-table-adapter';
@@ -10,7 +9,11 @@ import {BaseComponent} from '../../../../base.component';
 import {TrainingInstance} from '../../../../../model/training/training-instance';
 import {TableActionEvent} from 'kypo2-table/lib/model/table-action-event';
 import {ActiveTrainingRunService} from '../../../../../services/training-run/active/active-training-run.service';
-import {ConfirmationDialogActionEnum} from '../../../../../model/enums/confirmation-dialog-action-enum';
+import {
+  CsirtMuConfirmationDialogConfig,
+  CsirtMuDialogResultEnum,
+  CsirtMuNotificationDetailComponent
+} from 'csirt-mu-layout';
 
 /**
  * Component displaying active training runs and its state in real time.
@@ -86,17 +89,18 @@ export class ActiveTrainingRunOverviewComponent extends BaseComponent implements
   }
 
   private askForDeleteSandboxConfirmation(row: TrainingRunTableAdapter) {
-    const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
-      data: {
-        type: 'sandbox instance',
-        title: row.sandboxId.toString(),
-        action: ConfirmationDialogActionEnum.DELETE
-      }
+    const dialogRef = this.dialog.open(CsirtMuNotificationDetailComponent, {
+      data: new CsirtMuConfirmationDialogConfig(
+        'Delete Sandbox Instance',
+        `Do you want to delete sandbox instance of player "${row.player}"?`,
+        'Cancel',
+        'Delete'
+      )
     });
     dialogRef.afterClosed()
       .pipe(
         takeWhile(() => this.isAlive),
-        switchMap( result => (result && result.type === 'confirm')
+        switchMap( result => (result === CsirtMuDialogResultEnum.CONFIRMED)
           ? this.activeTrainingRunService.deleteSandbox(this.trainingInstance.id, row.sandboxId)
           : EMPTY
         )

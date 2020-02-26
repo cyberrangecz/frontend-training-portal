@@ -58,7 +58,7 @@ export class PoolCreationRequestsPollingService extends PoolRequestPollingServic
   cancel(poolId: number, request: PoolRequest): Observable<any> {
     return this.sandboxInstanceFacade.cancelCreationRequest(poolId, request.id)
       .pipe(
-        tap({ error: err => this.errorHandler.display(err, 'Cancelling creation request')}),
+        tap({ error: err => this.errorHandler.emit(err, 'Cancelling creation request')}),
         switchMap(_ => this.getAll(poolId, this.lastPagination))
       );
   }
@@ -71,7 +71,7 @@ export class PoolCreationRequestsPollingService extends PoolRequestPollingServic
   retry(poolId: number, request: PoolRequest): Observable<any> {
     return this.sandboxInstanceFacade.retryCreationRequest(poolId, request.id)
       .pipe(
-        tap({ error: err => this.errorHandler.display(err, 'Cancelling creation request')}),
+        tap({ error: err => this.errorHandler.emit(err, 'Cancelling creation request')}),
         switchMap(_ => this.getAll(poolId, this.lastPagination))
       );
   }
@@ -88,7 +88,7 @@ export class PoolCreationRequestsPollingService extends PoolRequestPollingServic
   }
 
   private onGetAllError(err: HttpErrorResponse) {
-    this.errorHandler.display(err, 'Fetching creation requests');
+    this.errorHandler.emit(err, 'Fetching creation requests');
     this.hasErrorSubject$.next(true);
   }
 

@@ -58,7 +58,7 @@ export class PoolCleanupRequestsPollingService extends PoolRequestPollingService
   cancel(poolId: number, request: PoolRequest): Observable<any> {
     return this.sandboxInstanceFacade.cancelCleanupRequest(poolId, request.id)
       .pipe(
-        tap({ error: err => this.errorHandler.display(err, 'Cancelling cleanup request')}),
+        tap({ error: err => this.errorHandler.emit(err, 'Cancelling cleanup request')}),
         switchMap(_ => this.getAll(poolId, this.lastPagination))
       );
   }
@@ -71,7 +71,7 @@ export class PoolCleanupRequestsPollingService extends PoolRequestPollingService
   retry(poolId: number, request: PoolRequest): Observable<any> {
     return this.sandboxInstanceFacade.retryCleanupRequest(poolId, request.id)
       .pipe(
-        tap({ error: err => this.errorHandler.display(err, 'Retrying cleanup request')}),
+        tap({ error: err => this.errorHandler.emit(err, 'Retrying cleanup request')}),
         switchMap(_ => this.getAll(poolId, this.lastPagination))
       );
   }
@@ -88,7 +88,7 @@ export class PoolCleanupRequestsPollingService extends PoolRequestPollingService
   }
 
   private onGetAllError(err: HttpErrorResponse) {
-    this.errorHandler.display(err, 'Fetching deletion requests');
+    this.errorHandler.emit(err, 'Fetching deletion requests');
     this.hasErrorSubject$.next(true);
   }
 

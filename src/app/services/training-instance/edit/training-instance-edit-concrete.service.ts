@@ -97,7 +97,7 @@ export class TrainingInstanceEditConcreteService extends TrainingInstanceEditSer
             this.alertService.emitAlert(AlertTypeEnum.Success, 'Training instance was successfully saved');
             this.onSaved();
           },
-          err => this.errorHandler.display(err, 'Creating new training instance')
+          err => this.errorHandler.emit(err, 'Creating new training instance')
         )
       );
   }
@@ -110,7 +110,7 @@ export class TrainingInstanceEditConcreteService extends TrainingInstanceEditSer
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Training instance was successfully saved');
           this.onSaved();
         },
-          err => this.errorHandler.display(err, 'Editing training instance')
+          err => this.errorHandler.emit(err, 'Editing training instance')
         )
       );
   }

@@ -80,7 +80,7 @@ export class ActiveTrainingRunConcreteService extends ActiveTrainingRunService {
     return this.sandboxInstanceFacade.delete(sandboxId)
       .pipe(
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Deleting of sandbox instance started'),
-          err => this.errorHandler.display(err, 'Deleting sandbox instance')
+          err => this.errorHandler.emit(err, 'Deleting sandbox instance')
         ),
         switchMap(_ => this.getAll(trainingInstanceId, this.lastPagination))
       );
@@ -95,7 +95,7 @@ export class ActiveTrainingRunConcreteService extends ActiveTrainingRunService {
   }
 
   private onGetAllError(err: HttpErrorResponse) {
-    this.errorHandler.display(err, 'Obtaining training runs');
+    this.errorHandler.emit(err, 'Obtaining training runs');
     this.hasErrorSubject$.next(true);
   }
 

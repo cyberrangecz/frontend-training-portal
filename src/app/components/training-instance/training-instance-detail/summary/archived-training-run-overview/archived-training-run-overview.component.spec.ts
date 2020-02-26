@@ -77,7 +77,7 @@ describe('ArchivedTrainingRunOverviewComponent', () => {
   });
 
   it('should call removal dialog on table "delete archived" action', () => {
-    component.deleteArchivedTrainingRuns();
+    component.deleteSelectedTrainingRuns();
     expect(dialogSpy).toHaveBeenCalledTimes(1);
   });
 

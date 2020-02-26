@@ -35,7 +35,7 @@ export class TrainingDefinitionResolver implements Resolve<TrainingDefinition> {
           take(1),
           mergeMap(td => td ? of(td) : this.navigateToNew()),
           catchError(err => {
-            this.errorHandler.display(err, 'Training definition resolver');
+            this.errorHandler.emit(err, 'Training definition resolver');
             this.navigateToNew();
             return EMPTY;
           })

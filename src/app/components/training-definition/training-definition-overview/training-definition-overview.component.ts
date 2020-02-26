@@ -7,16 +7,18 @@ import {Kypo2Table, LoadTableEvent, RequestedPagination, TableActionEvent} from 
 import {TrainingDefinitionService} from '../../../services/training-definition/overview/training-definition.service';
 import {map, switchMap, take, takeWhile, tap} from 'rxjs/operators';
 import {CloneDialogComponent} from './clone-dialog/clone-dialog.component';
-import {ActionConfirmationDialogComponent} from '../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import {ActivatedRoute, Router} from '@angular/router';
-import {StateChangeDialogComponent} from './state-change-dialog/state-change-dialog.component';
 import {TrainingDefinitionUploadDialogComponent} from './training-definition-upload-dialog/training-definition-upload-dialog.component';
 import {environment} from '../../../../environments/environment';
 import {RouteFactory} from '../../../model/routes/route-factory';
 import {TrainingDefinition} from '../../../model/training/training-definition';
 import {TrainingDefinitionTableCreator} from '../../../model/table/factory/training-definition-table-creator';
 import {FileUploadProgressService} from '../../../services/shared/file-upload-progress.service';
-import {ConfirmationDialogActionEnum} from '../../../model/enums/confirmation-dialog-action-enum';
+import {
+  CsirtMuConfirmationDialogComponent,
+  CsirtMuConfirmationDialogConfig,
+  CsirtMuDialogResultEnum
+} from 'csirt-mu-layout';
 
 /**
  * Main smart component of training definition overview
@@ -133,18 +135,19 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent
    * @param trainingDefinition training definition to delete
    */
   private deleteTrainingDefinition(trainingDefinition: TrainingDefinition) {
-    const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
-      data: {
-        type: 'Training Definition',
-        action: ConfirmationDialogActionEnum.DELETE,
-        title: trainingDefinition.title
-      }
+    const dialogRef = this.dialog.open(CsirtMuConfirmationDialogComponent, {
+      data: new CsirtMuConfirmationDialogConfig(
+        'Delete Training Definition',
+        `Do you want to delete training definition "${trainingDefinition.title}"?`,
+        'Cancel',
+        'Delete'
+      )
     });
 
     dialogRef.afterClosed()
       .pipe(
         takeWhile(() => this.isAlive),
-        switchMap(result => result && result.type === 'confirm'
+        switchMap(result => result === CsirtMuDialogResultEnum.CONFIRMED
         ? this.trainingDefinitionService.delete(trainingDefinition.id)
         : EMPTY)
       )
@@ -185,17 +188,18 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent
    * @param trainingDefinition training definition which state should be changed
    */
   changeTrainingDefinitionState(newState: TrainingDefinitionStateEnum, trainingDefinition: TrainingDefinition) {
-    const dialogRef = this.dialog.open(StateChangeDialogComponent, {
-      data: {
-        fromState: trainingDefinition.state,
-        toState: newState
-      }
-    });
+    const dialogRef = this.dialog.open(CsirtMuConfirmationDialogComponent, {
+      data: new CsirtMuConfirmationDialogConfig(
+        'Training Definition State Change',
+      `Do you want to change state of training definition from "${trainingDefinition.state}" to "${newState}"?`,
+        'Cancel',
+        'Change'
+    )});
 
     dialogRef.afterClosed()
       .pipe(
         takeWhile(() => this.isAlive),
-        switchMap(result => result && result.type === 'confirm'
+        switchMap(result => result === CsirtMuDialogResultEnum.CONFIRMED
           ? this.trainingDefinitionService.changeState(trainingDefinition.id, newState)
           : EMPTY)
       )

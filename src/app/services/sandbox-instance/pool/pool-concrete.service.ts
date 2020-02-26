@@ -48,7 +48,7 @@ export class PoolConcreteService extends PoolService {
             this.totalLengthSubject$.next(paginatedPools.pagination.totalElements);
           },
           err => {
-            this.errorHandler.display(err, 'Fetching pools');
+            this.errorHandler.emit(err, 'Fetching pools');
             this.hasErrorSubject$.next(true);
           }
         ),
@@ -70,7 +70,7 @@ export class PoolConcreteService extends PoolService {
     return allocation$
       .pipe(
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Allocation started'),
-          err => this.errorHandler.display(err, 'Allocating sandboxes')
+          err => this.errorHandler.emit(err, 'Allocating sandboxes')
         ),
         switchMap(_ => this.getAll(this.lastPagination))
       );
@@ -84,7 +84,7 @@ export class PoolConcreteService extends PoolService {
     return this.sandboxInstanceFacade.deletePool(pool.id)
       .pipe(
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Pool was successfully deleted'),
-            err => this.errorHandler.display(err, 'Deleting pool')
+            err => this.errorHandler.emit(err, 'Deleting pool')
         ),
         switchMap(_ => this.getAll(this.lastPagination))
       );
@@ -98,7 +98,7 @@ export class PoolConcreteService extends PoolService {
     return this.sandboxInstanceFacade.clearPool(pool.id)
       .pipe(
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Pool was successfully cleared'),
-          err => this.errorHandler.display(err, 'Clear pool')
+          err => this.errorHandler.emit(err, 'Clear pool')
         ),
         switchMap(_ => this.getAll(this.lastPagination))
       );

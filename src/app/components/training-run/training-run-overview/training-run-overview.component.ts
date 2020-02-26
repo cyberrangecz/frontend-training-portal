@@ -50,7 +50,7 @@ export class TrainingRunOverviewComponent extends BaseComponent implements OnIni
       )
       .subscribe(
         id => this.router.navigate([RouteFactory.toTrainingRunGame(id)]),
-        err => this.errorHandler.display(err, 'Connecting to training run')
+        err => this.errorHandler.emit(err, 'Connecting to training run')
       );
   }
 

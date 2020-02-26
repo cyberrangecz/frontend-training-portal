@@ -9,8 +9,12 @@ import {RouteFactory} from '../../../model/routes/route-factory';
 import {TrainingInstance} from '../../../model/training/training-instance';
 import {TrainingInstanceEditService} from '../../../services/training-instance/edit/training-instance-edit.service';
 import {BaseComponent} from '../../base.component';
-import {UnsavedChangesDialogComponent} from '../../shared/unsaved-changes-dialog/unsaved-changes-dialog.component';
 import {environment} from '../../../../environments/environment';
+import {
+  CsirtMuConfirmationDialogComponent,
+  CsirtMuConfirmationDialogConfig,
+  CsirtMuDialogResultEnum
+} from 'csirt-mu-layout';
 
 /**
  * Main component of training instance edit/create page. Serves mainly as a smart component wrapper
@@ -63,15 +67,17 @@ export class TrainingInstanceEditOverviewComponent extends BaseComponent impleme
    */
   canDeactivate(): Observable<boolean> {
     if (!this.canDeactivateTIEdit || !this.canDeactivateOrganizers) {
-      const dialogRef = this.dialog.open(UnsavedChangesDialogComponent, {
-        data: {
-          payload: ['Training instance or organizers are not saved.'],
-          saveOption: false
-        },
+      const dialogRef = this.dialog.open(CsirtMuConfirmationDialogComponent, {
+        data: new CsirtMuConfirmationDialogConfig(
+          'Unsaved Changes',
+          'There are unsaved changes in training instance or organizers. Do you really want to leave?',
+          'Cancel',
+          'Leave'
+        )
       });
       return dialogRef.afterClosed()
         .pipe(
-          map(result => result && result.type === 'confirm')
+          map(result => result === CsirtMuDialogResultEnum.CONFIRMED)
         );
     }
     return of(true);

@@ -47,7 +47,7 @@ export class SandboxInstanceResourceResolver implements Resolve<SandboxInstanceR
         take(1),
         mergeMap(resource => resource ? of(resource) : this.navigateToSandboxDetail(poolId, sandboxId)),
         catchError(err => {
-          this.errorHandler.display(err, 'Sandbox instance resource resolver');
+          this.errorHandler.emit(err, 'Sandbox instance resource resolver');
           this.navigateToPool(poolId);
           return EMPTY;
         })

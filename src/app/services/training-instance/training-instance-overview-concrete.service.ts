@@ -43,7 +43,7 @@ export class TrainingInstanceOverviewConcreteService extends TrainingInstanceOve
             },
             err => {
             this.hasErrorSubject$.next(true);
-            this.errorHandler.display(err, 'Fetching training instances');
+            this.errorHandler.emit(err, 'Fetching training instances');
           })
       );
   }
@@ -56,7 +56,7 @@ export class TrainingInstanceOverviewConcreteService extends TrainingInstanceOve
     return this.trainingInstanceApi.delete(id)
       .pipe(
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Training instance was successfully deleted'),
-          err => this.errorHandler.display(err, 'Deleting training instance')),
+          err => this.errorHandler.emit(err, 'Deleting training instance')),
         switchMap(_ => this.getAll(this.lastPagination, this.lastFilter))
       );
   }

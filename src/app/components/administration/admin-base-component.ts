@@ -6,10 +6,10 @@ import {
   Kypo2UserAndGroupRoutingEventService
 } from 'kypo2-user-and-group-management';
 import {Router} from '@angular/router';
-import {AlertService} from '../../services/shared/alert.service';
 import {ErrorHandlerService} from '../../services/shared/error-handler.service';
 import {takeWhile} from 'rxjs/operators';
 import {RouteFactory} from '../../model/routes/route-factory';
+import {CsirtMuNotificationService, CsirtMuNotificationTypeEnum} from 'csirt-mu-layout';
 
 export class AdminBaseComponent extends BaseComponent implements OnInit {
 
@@ -17,7 +17,7 @@ export class AdminBaseComponent extends BaseComponent implements OnInit {
               protected userAndGroupNotificationService: Kypo2UserAndGroupNotificationService,
               protected userAndGroupErrorService: Kypo2UserAndGroupErrorService,
               protected router: Router,
-              protected alertService: AlertService,
+              protected notificationService: CsirtMuNotificationService,
               protected errorHandler: ErrorHandlerService) {
     super();
   }
@@ -37,12 +37,12 @@ export class AdminBaseComponent extends BaseComponent implements OnInit {
       .pipe(
         takeWhile(() => this.isAlive)
       )
-      .subscribe(notification => this.alertService.emitAlert(notification.type, notification.message));
+      .subscribe(notification => this.notificationService.emit({ type: CsirtMuNotificationTypeEnum.Success, title: notification.message, source: 'user & group microservice'}));
 
     this.userAndGroupErrorService.error$
       .pipe(
         takeWhile(() => this.isAlive)
       )
-      .subscribe(error => this.errorHandler.display(error.err, error.action));
+      .subscribe(error => this.errorHandler.emit(error.err, error.action));
   }
 }

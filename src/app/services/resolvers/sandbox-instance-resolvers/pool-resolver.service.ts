@@ -33,7 +33,7 @@ export class PoolResolver implements Resolve<SandboxPool> {
           take(1),
           mergeMap(pool => pool ? of(pool) : this.navigateToOverview()),
           catchError(err => {
-            this.errorHandler.display(err, 'Sandbox pool resolver');
+            this.errorHandler.emit(err, 'Sandbox pool resolver');
             this.navigateToOverview();
             return EMPTY;
           })

@@ -20,7 +20,7 @@ describe('SandboxDefinitionConcreteService', () => {
 
 
   beforeEach(async(() => {
-    errorHandlerSpy = jasmine.createSpyObj('ErrorHandlerService', ['display']);
+    errorHandlerSpy = jasmine.createSpyObj('ErrorHandlerService', ['emit']);
     alertHandlerSpy = jasmine.createSpyObj('AlertService', ['emitAlert']);
     SandboxDefinitionFacadeSpy = jasmine.createSpyObj('SandboxDefinitionFacade', ['getAllPaginated', 'delete', 'add']);
 
@@ -45,7 +45,7 @@ describe('SandboxDefinitionConcreteService', () => {
 
     service.getAll(pagination).subscribe( _ => fail,
       _ => {
-        expect(errorHandlerSpy.display).toHaveBeenCalledTimes(1);
+        expect(errorHandlerSpy.emit).toHaveBeenCalledTimes(1);
         done();
       });
     expect(SandboxDefinitionFacadeSpy.getAllPaginated).toHaveBeenCalledTimes(1);

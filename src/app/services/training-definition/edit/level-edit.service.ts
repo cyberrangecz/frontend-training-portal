@@ -147,7 +147,7 @@ export class LevelEditService {
         },
           err => {
             this.setLevelCanBeSaved(level);
-            this.errorHandler.display(err, `Saving level ${level.title}`);
+            this.errorHandler.emit(err, `Saving level ${level.title}`);
           })
       );
   }
@@ -160,7 +160,7 @@ export class LevelEditService {
     return this.trainingDefinitionFacade.deleteLevel(this.trainingDefinitionId, level.id)
       .pipe(
         tap(_ => this.onLevelDeleted(level.id),
-          err => this.errorHandler.display(err, 'Deleting level "' + level.title + '"')
+          err => this.errorHandler.emit(err, 'Deleting level "' + level.title + '"')
         )
       );
   }
@@ -178,7 +178,7 @@ export class LevelEditService {
         tap({
           error: (err) => {
             this.moveRollback(fromIndex);
-            this.errorHandler.display(err, `Moving level "${from.title}"`);
+            this.errorHandler.emit(err, `Moving level "${from.title}"`);
           }
         })
       );
@@ -195,7 +195,7 @@ export class LevelEditService {
       .pipe(
         switchMap(basicLevelInfo => this.trainingDefinitionFacade.getLevel(basicLevelInfo.id) as Observable<GameLevel>),
         tap(level => this.onLevelAdded(level),
-          err => this.errorHandler.display(err, 'Adding game level')
+          err => this.errorHandler.emit(err, 'Adding game level')
         )
       );
   }
@@ -205,7 +205,7 @@ export class LevelEditService {
       .pipe(
         switchMap(basicLevelInfo => this.trainingDefinitionFacade.getLevel(basicLevelInfo.id) as Observable<InfoLevel>),
         tap(level => this.onLevelAdded(level),
-          err => this.errorHandler.display(err, 'Adding info level')
+          err => this.errorHandler.emit(err, 'Adding info level')
         )
       );
   }
@@ -215,7 +215,7 @@ export class LevelEditService {
       .pipe(
         switchMap(basicLevelInfo => this.trainingDefinitionFacade.getLevel(basicLevelInfo.id) as Observable<AssessmentLevel>),
         tap(level => this.onLevelAdded(level),
-          err => this.errorHandler.display(err, 'Adding assessment level')
+          err => this.errorHandler.emit(err, 'Adding assessment level')
         )
       );
   }

@@ -51,7 +51,7 @@ export class SandboxInstanceConcreteService extends SandboxInstanceService {
             this.totalLengthSubject$.next(paginatedInstances.pagination.totalElements);
           },
           err => {
-            this.errorHandler.display(err, 'Fetching sandbox instances');
+            this.errorHandler.emit(err, 'Fetching sandbox instances');
             this.hasErrorSubject$.next(true);
           }
         ),
@@ -66,7 +66,7 @@ export class SandboxInstanceConcreteService extends SandboxInstanceService {
     return this.sandboxInstanceFacade.delete(sandboxInstance.id)
       .pipe(
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox instance was successfully deleted'),
-          err => this.errorHandler.display(err, 'Deleting sandbox instance')),
+          err => this.errorHandler.emit(err, 'Deleting sandbox instance')),
         switchMap(_ => this.getAll(sandboxInstance.poolId, this.lastPagination))
       );
   }
@@ -79,7 +79,7 @@ export class SandboxInstanceConcreteService extends SandboxInstanceService {
     return this.sandboxInstanceFacade.allocate(poolId)
       .pipe(
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Pool allocation has started'),
-          err => this.errorHandler.display(err, 'Allocating pool')),
+          err => this.errorHandler.emit(err, 'Allocating pool')),
         switchMap(_ => this.getAll(poolId, this.lastPagination))
       );
   }
@@ -96,7 +96,7 @@ export class SandboxInstanceConcreteService extends SandboxInstanceService {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox instance was successfully unlocked');
           this.onChangedLock(sandboxInstance.id, false);
           },
-        err => this.errorHandler.display(err, 'Unlocking sandbox instance')
+        err => this.errorHandler.emit(err, 'Unlocking sandbox instance')
         ),
       );
   }
@@ -113,7 +113,7 @@ export class SandboxInstanceConcreteService extends SandboxInstanceService {
             this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox instance was successfully locked');
             this.onChangedLock(sandboxInstance.id, true);
           },
-          err => this.errorHandler.display(err, 'Locking sandbox instance')
+          err => this.errorHandler.emit(err, 'Locking sandbox instance')
         ),
       );
   }

@@ -35,7 +35,7 @@ export class TrainingInstanceResolver implements Resolve<TrainingInstance> {
           take(1),
           mergeMap(ti => ti ? of(ti) : this.navigateToNew()),
           catchError(err => {
-            this.errorHandler.display(err, 'Training instance resolver');
+            this.errorHandler.emit(err, 'Training instance resolver');
             this.navigateToNew();
             return EMPTY;
           })

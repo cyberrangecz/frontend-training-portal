@@ -39,7 +39,7 @@ export class AuthorsAssignService extends Kypo2UserAssignService {
   assign(resourceId: number, users: User[]): Observable<any> {
     return this.userFacade.updateAuthors(resourceId, users.map(user => user.id), [])
       .pipe(
-        tap({error: err => this.errorHandler.display(err, 'Adding authors')}),
+        tap({error: err => this.errorHandler.emit(err, 'Adding authors')}),
         switchMap(_ => this.getAssigned(resourceId, this.lastAssignedPagination, this.lastAssignedFilter))
       );
   }
@@ -52,7 +52,7 @@ export class AuthorsAssignService extends Kypo2UserAssignService {
   unassign(resourceId: number, users: User[]): Observable<any> {
     return this.userFacade.updateAuthors(resourceId, [], users.map(user => user.id))
       .pipe(
-        tap({error: err => this.errorHandler.display(err, 'Deleting authors from training definition')}),
+        tap({error: err => this.errorHandler.emit(err, 'Deleting authors from training definition')}),
         switchMap(_ => this.getAssigned(resourceId, this.lastAssignedPagination, this.lastAssignedFilter))
       );
   }
@@ -77,7 +77,7 @@ export class AuthorsAssignService extends Kypo2UserAssignService {
             this.totalLengthSubject.next( paginatedUsers.pagination.totalElements);
         },
       err => {
-          this.errorHandler.display(err, 'Fetching authors');
+          this.errorHandler.emit(err, 'Fetching authors');
           this.isLoadingAssignedSubject.next(false);
           this.hasErrorSubject$.next(true);
         })
@@ -96,7 +96,7 @@ export class AuthorsAssignService extends Kypo2UserAssignService {
       new RequestedPagination(0, paginationSize, 'familyName', 'asc'),
       UserNameFilters.create(filter))
       .pipe(
-        tap({error: err => this.errorHandler.display(err, 'Fetching designers')}),
+        tap({error: err => this.errorHandler.emit(err, 'Fetching designers')}),
       );
   }
 
@@ -109,7 +109,7 @@ export class AuthorsAssignService extends Kypo2UserAssignService {
   update(resourceId: number, additions: User[], removals: User[]): Observable<any> {
     return this.userFacade.updateAuthors(resourceId, additions.map(user => user.id), removals.map(user => user.id))
       .pipe(
-        tap({error: err => this.errorHandler.display(err, 'Updating authors')}),
+        tap({error: err => this.errorHandler.emit(err, 'Updating authors')}),
         switchMap(_ => this.getAssigned(resourceId, this.lastAssignedPagination, this.lastAssignedFilter))
       );
   }

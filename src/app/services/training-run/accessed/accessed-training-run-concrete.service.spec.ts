@@ -13,7 +13,7 @@ describe('AccessedTrainingRunConcreteService', () => {
   let trainingRunFacadeSpy: jasmine.SpyObj<TrainingRunApi>;
 
   beforeEach(async(() => {
-    errorHandlerServiceSpy = jasmine.createSpyObj('ErrorHandlerService', ['display']);
+    errorHandlerServiceSpy = jasmine.createSpyObj('ErrorHandlerService', ['emit']);
     trainingRunFacadeSpy = jasmine.createSpyObj('TrainingRunFacade', ['getAccessed']);
     TestBed.configureTestingModule({
       providers: [
@@ -34,7 +34,7 @@ describe('AccessedTrainingRunConcreteService', () => {
 
     service.getAll(createPagination()).subscribe(_ => fail,
   _ => {
-      expect(errorHandlerServiceSpy.display).toHaveBeenCalledTimes(1);
+      expect(errorHandlerServiceSpy.emit).toHaveBeenCalledTimes(1);
       done();
     });
     expect(trainingRunFacadeSpy.getAccessed).toHaveBeenCalledTimes(1);

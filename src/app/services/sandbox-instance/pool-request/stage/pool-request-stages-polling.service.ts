@@ -77,7 +77,7 @@ export class PoolRequestStagesPollingService extends PoolRequestStagesService {
   force(poolId: number, requestId: number, stageId: number): Observable<any> {
     return this.sandboxInstanceFacade.forceStage(poolId, requestId, stageId)
       .pipe(
-        tap( { error: err => this.errorHandler.display(err, 'Forcing stage')}),
+        tap( { error: err => this.errorHandler.emit(err, 'Forcing stage')}),
         switchMap(_ => this.getAll(poolId, requestId))
       );
   }
@@ -114,7 +114,7 @@ export class PoolRequestStagesPollingService extends PoolRequestStagesService {
   }
 
   private onGetAllError(err: HttpErrorResponse) {
-    this.errorHandler.display(err, 'Fetching stages');
+    this.errorHandler.emit(err, 'Fetching stages');
     this.hasErrorSubject$.next(true);
   }
 }

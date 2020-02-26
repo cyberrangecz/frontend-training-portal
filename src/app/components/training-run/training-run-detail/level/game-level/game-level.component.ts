@@ -1,20 +1,21 @@
-import {Component, ElementRef, HostListener, Input, OnChanges, OnInit, SimpleChanges, ViewChild,} from '@angular/core';
+import {Component, ElementRef, HostListener, Input, OnChanges, OnInit, SimpleChanges, ViewChild, } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {takeWhile} from 'rxjs/operators';
 import {FlagCheck} from '../../../../../model/level/flag-check';
 import {GameLevel} from '../../../../../model/level/game-level';
 import {Hint} from '../../../../../model/level/hint';
 import {HintButton} from '../../../../../model/level/hint-button';
-import {HintDialogData} from '../../../../../model/level/hint-dialog-data';
 import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
 import {RunningTrainingRunService} from '../../../../../services/training-run/running/running-training-run.service';
 import {TrainingRunGameLevelService} from '../../../../../services/training-run/running/training-run-game-level.service';
 import {BaseComponent} from '../../../../base.component';
-import {RevealHintDialogComponent} from './user-action-dialogs/reveal-hint-dialog/reveal-hint-dialog.component';
-import {RevealSolutionDialogComponent} from './user-action-dialogs/reveal-solution-dialog/reveal-solution-dialog.component';
-import {WrongFlagDialogComponent} from './user-action-dialogs/wrong-flag-dialog/wrong-flag-dialog.component';
 import {ASCPECT_RATIO_Y, ASPECT_RATIO_X, DIVIDE_BY, WINDOW_WIDTH} from './game-level.constants';
 import {Kypo2TopologyErrorService} from 'kypo2-topology-graph';
+import {
+  CsirtMuConfirmationDialogComponent,
+  CsirtMuConfirmationDialogConfig,
+  CsirtMuDialogResultEnum
+} from 'csirt-mu-layout';
 
 @Component({
   selector: 'kypo2-game-level',
@@ -75,15 +76,21 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
    * @param hintButton hint button clicked by the user
    * @param index index of the hint (order)
    */
-  showHint(hintButton, index: number) {
-    const dialogRef = this.dialog.open(RevealHintDialogComponent, {
-      data: new HintDialogData(hintButton.hint.title, hintButton.hint.penalty)
+  revealHint(hintButton: HintButton, index: number) {
+    const dialogRef = this.dialog.open(CsirtMuConfirmationDialogComponent, {
+      data: new CsirtMuConfirmationDialogConfig(
+        'Reveal Hint',
+        `Do you want to reveal hint "${hintButton.hint.title}"?
+ It will cost you ${hintButton.hint.penalty} points.`,
+        'Cancel',
+        'Reveal'
+      )
     });
 
     dialogRef.afterClosed()
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(result => {
-      if (result && result.type === 'confirm') {
+      if (result === CsirtMuDialogResultEnum.CONFIRMED) {
         this.sendRequestToShowHint(hintButton, index);
       }
     });
@@ -94,17 +101,24 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
    * the solution is displayed.
    */
   revealSolution() {
-    const dialogRef = this.dialog.open(RevealSolutionDialogComponent, {
-      data: {
-        title: 'solution',
-        isPenalized: this.level.solutionPenalized,
-      }
+    let dialogMessage = 'Do you want to reveal solution of this level?';
+    dialogMessage += this.level.solutionPenalized
+      ? '\n All your points will be subtracted.'
+      : '';
+
+    const dialogRef = this.dialog.open(CsirtMuConfirmationDialogComponent, {
+      data: new CsirtMuConfirmationDialogConfig(
+        'Reveal Solution',
+        dialogMessage,
+        'Cancel',
+        'Reveal'
+      )
     });
 
     dialogRef.afterClosed()
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(result => {
-      if (result && result.type === 'confirm') {
+      if (result === CsirtMuDialogResultEnum.CONFIRMED) {
         this.sendRequestToRevealSolution();
       }
     });
@@ -124,7 +138,7 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
               this.onWrongFlagSubmitted(resp);
             }
           },
-        err => this.errorHandler.display(err, 'Submitting flag')
+        err => this.errorHandler.emit(err, 'Submitting flag')
       );
   }
 
@@ -136,7 +150,7 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         resp => {},
-        err => this.errorHandler.display(err, 'Moving to next level')
+        err => this.errorHandler.emit(err, 'Moving to next level')
       );
   }
 
@@ -148,7 +162,7 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         resp => {},
-        err => this.errorHandler.display(err, 'Finishing training')
+        err => this.errorHandler.emit(err, 'Finishing training')
       );
   }
 
@@ -196,10 +210,19 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
     if (!this.solutionShown && flagCheck.remainingAttempts === 0) {
       this.showSolution(flagCheck.solution);
     }
-    this.dialog.open(WrongFlagDialogComponent, {
-      data: {
-         remainingAttempts: flagCheck.remainingAttempts,
-      }
+
+    let dialogMessage = 'You have submitted incorrect flag.\n';
+    dialogMessage += !this.solutionShown && flagCheck.remainingAttempts > 0
+      ? `You have ${flagCheck.remainingAttempts} remaining attempts.`
+      : 'Please insert the flag shown in the solution.';
+
+    this.dialog.open(CsirtMuConfirmationDialogComponent, {
+      data: new CsirtMuConfirmationDialogConfig(
+        'Incorrect Flag',
+        dialogMessage,
+        '',
+        'OK'
+      )
     });
   }
 
@@ -213,7 +236,7 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
       },
       err => {
         this.waitingOnResponse = false;
-        this.errorHandler.display(err, 'Loading solution');
+        this.errorHandler.emit(err, 'Loading solution');
       });
   }
 
@@ -227,7 +250,7 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
           this.addHintToTextField(resp, index);
         },
         err => {
-          this.errorHandler.display(err, 'Taking hint "' + hintButton.hint.title + '"');
+          this.errorHandler.emit(err, 'Taking hint "' + hintButton.hint.title + '"');
           this.waitingOnResponse = false;
         });
   }
@@ -262,8 +285,8 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
         takeWhile(_ => this.isAlive)
       )
       .subscribe({
-      next: event => this.errorHandlerService.display(event.err, event.action),
-      error: err => this.errorHandlerService.display(err, 'There is a problem with topology error handler.'),
+      next: event => this.errorHandlerService.emit(event.err, event.action),
+      error: err => this.errorHandlerService.emit(err, 'There is a problem with topology error handler.'),
     });
   }
 }

@@ -7,11 +7,11 @@ import {
   Kypo2UserAndGroupRoutingEventService
 } from 'kypo2-user-and-group-management';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AlertService} from '../../../../../services/shared/alert.service';
 import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
 import {Group} from 'kypo2-user-and-group-management/lib/model/group/group.model';
 import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
+import {CsirtMuNotificationService} from 'csirt-mu-layout';
 
 /**
  * Main component of group detail administration (for subscription to user and group library observables)
@@ -32,10 +32,10 @@ export class AdminGroupDetailWrapperComponent extends AdminBaseComponent {
               protected userAndGroupNotificationService: Kypo2UserAndGroupNotificationService,
               protected userAndGroupErrorService: Kypo2UserAndGroupErrorService,
               protected router: Router,
-              protected alertService: AlertService,
+              protected notificationService: CsirtMuNotificationService,
               protected errorHandler: ErrorHandlerService,
               private activeRoute: ActivatedRoute) {
-    super(userAndGroupRouting, userAndGroupNotificationService, userAndGroupErrorService, router, alertService, errorHandler);
+    super(userAndGroupRouting, userAndGroupNotificationService, userAndGroupErrorService, router, notificationService, errorHandler);
     this.group$ = this.activeRoute.data.pipe(map(data => data.group));
   }
 }

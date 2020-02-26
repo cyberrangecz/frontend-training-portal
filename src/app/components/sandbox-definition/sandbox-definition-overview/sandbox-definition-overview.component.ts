@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {EMPTY, Observable} from 'rxjs';
 import {map, switchMap, takeWhile} from 'rxjs/operators';
-import {ActionConfirmationDialogComponent} from '../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import {BaseComponent} from '../../base.component';
 import {SandboxDefinitionService} from '../../../services/sandbox-definition/sandbox-definition.service';
 import {Kypo2Table, LoadTableEvent, TableActionEvent} from 'kypo2-table';
@@ -12,8 +11,12 @@ import {SandboxDefinition} from '../../../model/sandbox/definition/sandbox-defin
 import {environment} from '../../../../environments/environment';
 import {Router} from '@angular/router';
 import {RouteFactory} from '../../../model/routes/route-factory';
-import {ConfirmationDialogActionEnum} from '../../../model/enums/confirmation-dialog-action-enum';
 import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
+import {
+  CsirtMuConfirmationDialogComponent,
+  CsirtMuConfirmationDialogConfig,
+  CsirtMuDialogResultEnum
+} from 'csirt-mu-layout';
 
 @Component({
   selector: 'kypo2-sandbox-definition-overview',
@@ -79,18 +82,18 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
    * @param sandbox sandbox to delete
    */
   deleteSandboxDefinition(sandbox: SandboxDefinition) {
-    const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
-      data: {
-        type: 'Sandbox Definition',
-        action: ConfirmationDialogActionEnum.DELETE,
-        title: sandbox.title
-      }
+    const dialogRef = this.dialog.open(CsirtMuConfirmationDialogComponent, {
+      data: new CsirtMuConfirmationDialogConfig(
+        'Delete Sandbox Definition',
+        `Do you want to delete sandbox definition "${sandbox.title}"?`,
+        'Cancel',
+        'Delete'
+      )
     });
     dialogRef.afterClosed()
       .pipe(
         takeWhile(() => this.isAlive),
-        switchMap(result =>
-          result && result.type === 'confirm'
+        switchMap(result => result === CsirtMuDialogResultEnum.CONFIRMED
             ? this.sandboxDefinitionService.delete(sandbox.id)
             : EMPTY
         )

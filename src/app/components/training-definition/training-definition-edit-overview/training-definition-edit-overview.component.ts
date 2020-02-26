@@ -11,8 +11,12 @@ import {RouteFactory} from '../../../model/routes/route-factory';
 import {TrainingDefinition} from '../../../model/training/training-definition';
 import {TrainingDefinitionEditService} from '../../../services/training-definition/edit/training-definition-edit.service';
 import {BaseComponent} from '../../base.component';
-import {UnsavedChangesDialogComponent} from '../../shared/unsaved-changes-dialog/unsaved-changes-dialog.component';
 import {environment} from '../../../../environments/environment';
+import {
+  CsirtMuConfirmationDialogComponent,
+  CsirtMuConfirmationDialogConfig,
+  CsirtMuDialogResultEnum
+} from 'csirt-mu-layout';
 
 /**
  * Main smart component of training definition edit/new page.
@@ -66,15 +70,17 @@ export class TrainingDefinitionEditOverviewComponent extends BaseComponent imple
    */
   canDeactivate(): Observable<boolean> {
     if (!this.canDeactivateTDEdit || !this.canDeactivateAuthors || this.unsavedLevels.length > 0) {
-      const dialogRef = this.dialog.open(UnsavedChangesDialogComponent, {
-        data: {
-          payload: ['Training definition, authors or levels are not saved.'],
-          saveOption: false
-        },
+      const dialogRef = this.dialog.open(CsirtMuConfirmationDialogComponent, {
+        data: new CsirtMuConfirmationDialogConfig(
+          'Unsaved Changes',
+          'There are unsaved changes in training definition, authors or levels. Do you really want to leave without saving?',
+          'Cancel',
+          'Leave'
+        )
       });
       return dialogRef.afterClosed()
         .pipe(
-          map(result => result && result.type === 'confirm')
+          map(result => result === CsirtMuDialogResultEnum.CONFIRMED)
         );
     }
     return of(true);

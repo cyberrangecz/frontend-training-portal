@@ -35,7 +35,7 @@ export class GroupResolver implements Resolve<Group> {
           take(1),
           mergeMap(group => group ? of(group) : this.navigateToNew()),
           catchError(err => {
-            this.errorHandler.display(err, 'Group resolver');
+            this.errorHandler.emit(err, 'Group resolver');
             this.navigateToNew();
             return EMPTY;
           })
