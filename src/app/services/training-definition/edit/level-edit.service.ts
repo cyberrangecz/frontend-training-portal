@@ -226,7 +226,7 @@ export class LevelEditService {
   }
 
   private onLevelAdded(level: Level) {
-    this.levelsSubject$.getValue().push(level);
+    this.levelsSubject$.next([...this.levelsSubject$.getValue(), level]);
   }
 
   private sendRequestToSaveLevel(level: Level): Observable<any> {
