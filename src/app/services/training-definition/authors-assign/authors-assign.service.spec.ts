@@ -17,7 +17,7 @@ describe('AuthorsAssignService', () => {
   let service: AuthorsAssignService;
 
   beforeEach(async(() => {
-    errorHandlerSpy = jasmine.createSpyObj('ErrorHandlerService', ['display']);
+    errorHandlerSpy = jasmine.createSpyObj('ErrorHandlerService', ['emit']);
     facadeSpy = jasmine.createSpyObj('UserFacade', ['getDesignersNotInTD', 'getAuthors', 'updateAuthors']);
 
     TestBed.configureTestingModule({
@@ -100,7 +100,7 @@ describe('AuthorsAssignService', () => {
     service.getAvailableToAssign(0)
       .subscribe(_ => fail,
         err => {
-        expect(errorHandlerSpy.display).toHaveBeenCalledTimes(1);
+        expect(errorHandlerSpy.emit).toHaveBeenCalledTimes(1);
         done();
     });
   });
@@ -110,7 +110,7 @@ describe('AuthorsAssignService', () => {
     service.getAssigned(0, null)
       .subscribe(_ => fail,
         err => {
-          expect(errorHandlerSpy.display).toHaveBeenCalledTimes(1);
+          expect(errorHandlerSpy.emit).toHaveBeenCalledTimes(1);
           done();
         });
   });
@@ -120,7 +120,7 @@ describe('AuthorsAssignService', () => {
     service.assign(0, [])
       .subscribe(_ => fail,
         err => {
-          expect(errorHandlerSpy.display).toHaveBeenCalledTimes(1);
+          expect(errorHandlerSpy.emit).toHaveBeenCalledTimes(1);
           done();
         });
   });
@@ -130,7 +130,7 @@ describe('AuthorsAssignService', () => {
     service.unassign(0, [])
       .subscribe(_ => fail,
         err => {
-          expect(errorHandlerSpy.display).toHaveBeenCalledTimes(1);
+          expect(errorHandlerSpy.emit).toHaveBeenCalledTimes(1);
           done();
         });
   });

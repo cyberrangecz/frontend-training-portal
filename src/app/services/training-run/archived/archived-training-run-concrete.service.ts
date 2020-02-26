@@ -84,7 +84,7 @@ export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunServi
   delete(id: number): Observable<PaginatedResource<TrainingRunTableRow>> {
     return this.trainingRunFacade.delete(id).pipe(
       tap({
-        error: err => this.errorHandler.display(err, 'Deleting training run')
+        error: err => this.errorHandler.emit(err, 'Deleting training run')
       }),
       switchMap(() => this.getAll(this.trainingInstance.id, this.lastPagination))
     );
@@ -99,7 +99,7 @@ export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunServi
     return this.trainingRunFacade.deleteMultiple(idsToDelete)
       .pipe(
         tap({
-          error: err => this.errorHandler.display(err, 'Deleting training runs')
+          error: err => this.errorHandler.emit(err, 'Deleting training runs')
         }),
         switchMap(() => this.getAll(this.trainingInstance.id, this.lastPagination))
       );
@@ -124,7 +124,7 @@ export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunServi
   }
 
   private onGetAllError(err: HttpErrorResponse) {
-    this.errorHandler.display(err, 'Fetching archived training runs');
+    this.errorHandler.emit(err, 'Fetching archived training runs');
     this.hasErrorSubject$.next(true);
   }
 

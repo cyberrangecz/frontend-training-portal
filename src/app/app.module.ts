@@ -17,7 +17,6 @@ import {OrganizerGuard} from './services/guards/organizer-guard.service';
 import {TraineeGuard} from './services/guards/trainee-guard.service';
 import {ErrorLogInterceptor} from './services/http-interceptors/error-log-interceptor';
 import {LoadingInterceptor} from './services/http-interceptors/loading-interceptor';
-import {DistractionFreeModeService} from './services/shared/distraction-free-mode.service';
 import {LoadingService} from './services/shared/loading.service';
 import {UserApi} from './services/api/user-api.service';
 import {CsirtMuLayout1Module} from 'csirt-mu-layout';
@@ -45,7 +44,6 @@ import {CsirtMuLayout1Module} from 'csirt-mu-layout';
     AdminGuard,
     TraineeGuard,
     NotOnlyTraineeGuard,
-    DistractionFreeModeService,
     LoadingService,
     { provide: HTTP_INTERCEPTORS, useClass: Kypo2AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },

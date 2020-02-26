@@ -55,8 +55,8 @@ export class SandboxInstanceTopologyComponent extends BaseComponent implements O
         takeWhile(_ => this.isAlive)
       )
       .subscribe({
-        next: event => this.errorHandlerService.display(event.err, event.action),
-        error: err => this.errorHandlerService.display(err, 'There is a problem with topology error handler.'),
+        next: event => this.errorHandlerService.emit(event.err, event.action),
+        error: err => this.errorHandlerService.emit(err, 'There is a problem with topology error handler.'),
       });
   }
 

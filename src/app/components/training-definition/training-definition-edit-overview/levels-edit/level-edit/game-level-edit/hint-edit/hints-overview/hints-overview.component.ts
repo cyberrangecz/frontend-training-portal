@@ -14,9 +14,12 @@ import {Kypo2Stepper} from 'kypo2-stepper';
 import {takeWhile} from 'rxjs/operators';
 import {Hint} from '../../../../../../../../model/level/hint';
 import {BaseComponent} from '../../../../../../../base.component';
-import {ActionConfirmationDialogComponent} from '../../../../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
-import {ConfirmationDialogActionEnum} from '../../../../../../../../model/enums/confirmation-dialog-action-enum';
 import {HintStepperAdapter} from '../../../../../../../../model/stepper/hint-stepper-adapter';
+import {
+  CsirtMuConfirmationDialogComponent,
+  CsirtMuConfirmationDialogConfig,
+  CsirtMuDialogResultEnum
+} from 'csirt-mu-layout';
 
 
 /**
@@ -87,19 +90,20 @@ export class HintsOverviewComponent extends BaseComponent implements OnInit, OnC
   deleteActiveHint() {
     const hint = this.stepperHints.items[this.selectedStep];
     const index = this.selectedStep;
-    const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
-      data: {
-        type: 'hint',
-        action: ConfirmationDialogActionEnum.DELETE,
-        title: hint.title
-      }
+    const dialogRef = this.dialog.open(CsirtMuConfirmationDialogComponent, {
+      data: new CsirtMuConfirmationDialogConfig(
+        'Delete Hint',
+        `Do you want to delete hint "${hint.title}"?`,
+        'Cancel',
+        'Delete'
+      )
     });
 
     dialogRef
       .afterClosed()
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(result => {
-        if (result && result.type === 'confirm') {
+        if (result === CsirtMuDialogResultEnum.CONFIRMED) {
             this.stepperHints.items.splice(index, 1);
           this.changeSelectedStepAfterRemoving(index);
           this.onOrderUpdate();

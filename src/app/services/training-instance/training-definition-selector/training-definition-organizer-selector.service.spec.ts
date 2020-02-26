@@ -17,7 +17,7 @@ describe('TrainingDefinitionOrganizerSelectorService', () => {
   let service: TrainingDefinitionOrganizerSelectorService;
 
   beforeEach(async(() => {
-    errorHandlerSpy = jasmine.createSpyObj('ErrorHandlerService', ['display']);
+    errorHandlerSpy = jasmine.createSpyObj('ErrorHandlerService', ['emit']);
     tdApiSpy = jasmine.createSpyObj('TrainingDefinitionApi', ['getAllForOrganizer']);
 
     TestBed.configureTestingModule({
@@ -49,7 +49,7 @@ describe('TrainingDefinitionOrganizerSelectorService', () => {
     service.get(pagination, 'RELEASED')
       .subscribe(_ => fail,
         err => {
-          expect(errorHandlerSpy.display).toHaveBeenCalledTimes(1);
+          expect(errorHandlerSpy.emit).toHaveBeenCalledTimes(1);
           done();
         });
   });

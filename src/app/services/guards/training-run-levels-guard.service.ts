@@ -3,7 +3,6 @@ import {ActivatedRouteSnapshot, CanActivate, CanDeactivate, Router, RouterStateS
 import {Observable} from 'rxjs/internal/Observable';
 import {AbstractLevelComponent} from '../../components/training-run/training-run-detail/level/abstract-level.component';
 import {TRAINING_RUN_PATH} from '../../paths';
-import {DistractionFreeModeService} from '../shared/distraction-free-mode.service';
 import {RunningTrainingRunService} from '../training-run/running/running-training-run.service';
 
 @Injectable()
@@ -13,7 +12,6 @@ import {RunningTrainingRunService} from '../training-run/running/running-trainin
 export class TrainingRunLevelsGuard implements CanActivate, CanDeactivate<AbstractLevelComponent> {
 
   constructor(private activeTrainingRunLevelService: RunningTrainingRunService,
-              private distractionFreeModeService: DistractionFreeModeService,
               private router: Router) {
   }
 
@@ -21,7 +19,6 @@ export class TrainingRunLevelsGuard implements CanActivate, CanDeactivate<Abstra
     if (this.activeTrainingRunLevelService.getLevels()
       && this.activeTrainingRunLevelService.getLevels().length > 0
       && this.activeTrainingRunLevelService.getActiveLevel()) {
-      this.distractionFreeModeService.setDistractionFreeMode(true);
       return true;
     } else {
       this.router.navigate([TRAINING_RUN_PATH]);
@@ -30,7 +27,6 @@ export class TrainingRunLevelsGuard implements CanActivate, CanDeactivate<Abstra
 
   canDeactivate(component: AbstractLevelComponent, currentRoute: ActivatedRouteSnapshot,
                 currentState: RouterStateSnapshot, nextState?: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    this.distractionFreeModeService.setDistractionFreeMode(false);
     this.activeTrainingRunLevelService.clear();
     return true;
   }

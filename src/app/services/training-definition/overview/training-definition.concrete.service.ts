@@ -59,7 +59,7 @@ export class TrainingDefinitionConcreteService extends TrainingDefinitionService
             err => {
             this.hasErrorSubject$.next(true);
             this.isLoadingSubject$.next(false);
-            this.errorHandler.display(err, 'Fetching training definitions');
+            this.errorHandler.emit(err, 'Fetching training definitions');
           })
       );
   }
@@ -73,7 +73,7 @@ export class TrainingDefinitionConcreteService extends TrainingDefinitionService
       .delete(trainingDefinitionId)
       .pipe(
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Training definition was successfully deleted'),
-          err => this.errorHandler.display(err, 'Deleting training definition')),
+          err => this.errorHandler.emit(err, 'Deleting training definition')),
         switchMap(_ => this.getAll(this.lastPagination, this.lastFilters))
       );
   }
@@ -89,7 +89,7 @@ export class TrainingDefinitionConcreteService extends TrainingDefinitionService
       .clone(trainingDefinitionId, title)
       .pipe(
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Training definition was successfully cloned'),
-          err => this.errorHandler.display(err, 'Cloning training definition')),
+          err => this.errorHandler.emit(err, 'Cloning training definition')),
         switchMap(_ => this.getAll(this.lastPagination, this.lastFilters))
       );
   }
@@ -101,7 +101,7 @@ export class TrainingDefinitionConcreteService extends TrainingDefinitionService
   download(trainingDefinitionId: number): Observable<any> {
     return this.trainingDefinitionFacade.download(trainingDefinitionId)
       .pipe(
-        tap({error: err => this.errorHandler.display(err, 'Downloading training definition')})
+        tap({error: err => this.errorHandler.emit(err, 'Downloading training definition')})
       );
   }
 
@@ -114,7 +114,7 @@ export class TrainingDefinitionConcreteService extends TrainingDefinitionService
     return this.trainingDefinitionFacade.upload(file)
       .pipe(
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Training definition was successfully created'),
-          err => this.errorHandler.display(err, 'Creating training definition')),
+          err => this.errorHandler.emit(err, 'Creating training definition')),
         switchMap(_ => this.getAll(this.lastPagination, this.lastFilters))
       );
   }
@@ -129,7 +129,7 @@ export class TrainingDefinitionConcreteService extends TrainingDefinitionService
     return this.trainingDefinitionFacade.changeState(trainingDefinitionId, newState)
       .pipe(
         tap(_ => this.onChangedState(trainingDefinitionId, newState),
-          err => this.errorHandler.display(err, 'Changing training definition state'))
+          err => this.errorHandler.emit(err, 'Changing training definition state'))
       );
   }
 

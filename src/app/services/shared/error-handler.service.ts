@@ -1,53 +1,61 @@
 import {HttpErrorResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {AlertTypeEnum} from '../../model/enums/alert-type.enum';
-import {AlertService} from './alert.service';
 import {HttpErrorCodesEnum} from '../../model/enums/http-error-codes.enum';
+import {CsirtMuNotification, CsirtMuNotificationService, CsirtMuNotificationTypeEnum} from 'csirt-mu-layout';
 
 @Injectable()
 /**
  * Resolves type of error and emits alert with appropriate message
  */
 export class ErrorHandlerService {
-  constructor(private alertService: AlertService) {
+  constructor(private notificationService: CsirtMuNotificationService) {
   }
 
   /**
    * Handles various error types from different servers and displays alert with user-friendly message
    * @param err http error
    * @param operation description of an operation which caused the error
+   * @param source source of the error
    */
-  display(err: HttpErrorResponse, operation: string) {
+  emit(err: HttpErrorResponse, operation: string, source?: string) {
+    const notification: CsirtMuNotification = {
+      type: CsirtMuNotificationTypeEnum.Error,
+      title: operation,
+      source: source
+    };
     if (err === null || err === undefined || err.status === 0 || err.error === null || err.error === undefined) {
-      this.alertService.emitAlert(
-        AlertTypeEnum.Error,
-        `${operation} Unknown error. Please check your internet connection or report the issue to developers`
-      );
+      notification.additionalInfo = ['Unknown error. Please check your internet connection or report the issue to developers', err?.message];
+      this.notificationService.emit(notification);
       return;
     }
     if (err.status === HttpErrorCodesEnum.ERROR_404) {
-      this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} 404 - Not found. Please report the issue to developers`);
+      notification.additionalInfo = ['404 - Not found. Please report the issue to developers', err?.message];
+      this.notificationService.emit(notification);
       return;
     }
     if (err.status === HttpErrorCodesEnum.ERROR_401) {
-      this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} Unauthorized. Try to refresh page or login again`);
+      notification.additionalInfo = ['Unauthorized. Try to refresh page or login again', err?.message];
+      this.notificationService.emit(notification);
       return;
     }
     if (err.status === HttpErrorCodesEnum.ERROR_403) {
-      this.alertService.emitAlert(
-        AlertTypeEnum.Error,
-        `${operation} You may not have access rights to requested resource. Contact system administrator.`
-      );
+      notification.additionalInfo = ['You may not have access rights to requested resource. Contact system administrator.', err?.message];
+      this.notificationService.emit(notification);
       return;
     }
     if (err.error.message) { // JAVA API
-      this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} failed with following message: ${err.error.message}`);
+      notification.additionalInfo = [err.error.message];
+      this.notificationService.emit(notification);
     } else if (err.error.detail) { // PYTHON API
-      this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} failed with following message: ${err.error.detail}`);
+      notification.additionalInfo = [err.error.detail];
+      this.notificationService.emit(notification);
     } else if (err.error.non_field_errors) { // PYTHON API
-      this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} failed with following message: ${err.error.non_field_errors}`);
+      notification.additionalInfo = [err.error.non_field_errors];
+      this.notificationService.emit(notification);
     } else { // UNKNOWN API
-      this.alertService.emitAlert(AlertTypeEnum.Error, `${operation} failed with unsupported message. Please report this to developers`);
+      notification.additionalInfo = ['Failed with unsupported error message. Please report the following message to developers', err?.message?.toString()];
+      this.notificationService.emit(notification);
     }
   }
 }

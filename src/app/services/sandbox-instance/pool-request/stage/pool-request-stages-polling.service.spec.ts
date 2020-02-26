@@ -17,7 +17,7 @@ describe('PoolRequestStagesPollingService', () => {
   let service: PoolRequestStagesPollingService;
 
   beforeEach(async(() => {
-    errorHandlerSpy = jasmine.createSpyObj('ErrorHandlerService', ['display']);
+    errorHandlerSpy = jasmine.createSpyObj('ErrorHandlerService', ['emit']);
     facadeSpy = jasmine.createSpyObj('SandboxInstanceFacade', ['getCreationStages', 'forceStage']);
     TestBed.configureTestingModule({
       providers: [
@@ -48,7 +48,7 @@ describe('PoolRequestStagesPollingService', () => {
     service.getAll(0, 0)
       .subscribe(_ => fail,
         _ => {
-        expect(errorHandlerSpy.display).toHaveBeenCalledTimes(1);
+        expect(errorHandlerSpy.emit).toHaveBeenCalledTimes(1);
         done();
       });
   });

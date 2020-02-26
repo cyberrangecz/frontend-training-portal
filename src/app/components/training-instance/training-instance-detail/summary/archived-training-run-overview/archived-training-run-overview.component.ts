@@ -2,14 +2,17 @@ import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {Observable} from 'rxjs';
 import {map, takeWhile} from 'rxjs/operators';
-import {ActionConfirmationDialogComponent} from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
 import {Kypo2Table, LoadTableEvent, TableActionEvent} from 'kypo2-table';
 import {ArchivedTrainingRunService} from '../../../../../services/training-run/archived/archived-training-run.service';
 import {TrainingRunTableCreator} from '../../../../../model/table/factory/training-run-table-creator';
 import {TrainingRunTableAdapter} from '../../../../../model/table/row/training-run-table-adapter';
 import {BaseComponent} from '../../../../base.component';
 import {TrainingInstance} from '../../../../../model/training/training-instance';
-import {ConfirmationDialogActionEnum} from '../../../../../model/enums/confirmation-dialog-action-enum';
+import {
+  CsirtMuConfirmationDialogComponent,
+  CsirtMuConfirmationDialogConfig,
+  CsirtMuDialogResultEnum
+} from 'csirt-mu-layout';
 
 /**
  * Component for displaying archived (finished by trainee and with sandbox removed) training runs for organizer in real-time.
@@ -61,15 +64,17 @@ export class ArchivedTrainingRunOverviewComponent extends BaseComponent implemen
   /**
    * Displays confirmation dialog and if confirmed, calls service to delete archived training runs
    */
-  deleteArchivedTrainingRuns() {
-    const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
-      data: {
-        type: 'archived training runs',
-        action: ConfirmationDialogActionEnum.DELETE
-      }
+  deleteSelectedTrainingRuns() {
+    const dialogRef = this.dialog.open(CsirtMuConfirmationDialogComponent, {
+      data: new CsirtMuConfirmationDialogConfig(
+        'Delete Training Runs',
+        'Do you want to delete selected training run?',
+        'Cancel',
+        'Delete'
+      )
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result && result.type === 'confirm') {
+      if (result === CsirtMuDialogResultEnum.CONFIRMED) {
         this.sendRequestToDeleteArchivedTrainingRuns();
       }
     });
@@ -80,14 +85,16 @@ export class ArchivedTrainingRunOverviewComponent extends BaseComponent implemen
    * @param id id of training run to delete
    */
   deleteTrainingRun(id: number) {
-    const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
-      data: {
-        type: 'archived training run',
-        action: ConfirmationDialogActionEnum.DELETE
-      }
+    const dialogRef = this.dialog.open(CsirtMuConfirmationDialogComponent, {
+      data: new CsirtMuConfirmationDialogConfig(
+        'Delete Training Run',
+        `Do you want to delete training run with ID "${id}"?`,
+        'Cancel',
+        'Delete'
+      )
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result && result.type === 'confirm') {
+      if (result === CsirtMuDialogResultEnum.CONFIRMED) {
         this.sendRequestToDeleteArchivedTrainingRun(id);
       }
     });

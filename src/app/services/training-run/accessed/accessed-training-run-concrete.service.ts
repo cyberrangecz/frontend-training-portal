@@ -35,7 +35,7 @@ export class AccessedTrainingRunConcreteService extends AccessedTrainingRunServi
         this.totalLengthSubject$.next(trainingRuns.pagination.totalElements);
       },
         err => {
-          this.errorHandler.display(err, 'Fetching training runs');
+          this.errorHandler.emit(err, 'Fetching training runs');
           this.hasErrorSubject$.next(true);
         })
     );
@@ -47,7 +47,7 @@ export class AccessedTrainingRunConcreteService extends AccessedTrainingRunServi
   resume(trainingRunId: number): Observable<any> {
     return this.trainingRunFacade.resume(trainingRunId).pipe(
      tap({
-       error: err => this.errorHandler.display(err, 'Resuming training run')
+       error: err => this.errorHandler.emit(err, 'Resuming training run')
      })
    );
   }

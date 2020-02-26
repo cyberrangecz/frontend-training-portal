@@ -18,9 +18,12 @@ import {Level} from '../../../../../model/level/level';
 import {TrainingDefinition} from '../../../../../model/training/training-definition';
 import {LevelEditService} from '../../../../../services/training-definition/edit/level-edit.service';
 import {BaseComponent} from '../../../../base.component';
-import {ActionConfirmationDialogComponent} from '../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
-import {ConfirmationDialogActionEnum} from '../../../../../model/enums/confirmation-dialog-action-enum';
 import {LevelStepperAdapter} from '../../../../../model/stepper/level-stepper-adapter';
+import {
+  CsirtMuConfirmationDialogComponent,
+  CsirtMuConfirmationDialogConfig,
+  CsirtMuDialogResultEnum
+} from 'csirt-mu-layout';
 
 /**
  * Smart component for level stepper and level edit components
@@ -110,18 +113,18 @@ export class LevelOverviewComponent extends BaseComponent implements OnInit, OnC
    */
   onDeleteLevel() {
     const level = this.levelService.getSelected();
-    const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
-      data:
-        {
-          type: 'level',
-          action: ConfirmationDialogActionEnum.DELETE,
-          title: level.title
-        }
+    const dialogRef = this.dialog.open(CsirtMuConfirmationDialogComponent, {
+      data: new CsirtMuConfirmationDialogConfig(
+        'Delete Level',
+        `Do you want to delete level "${level.title}"?`,
+        'Cancel',
+        'Delete'
+      )
     });
     dialogRef.afterClosed()
       .pipe(
         takeWhile(() => this.isAlive),
-        switchMap(result => result && result.type === 'confirm' ? this.levelService.delete(level) : of(null))
+        switchMap(result => result === CsirtMuDialogResultEnum.CONFIRMED ? this.levelService.delete(level) : of(null))
       ).subscribe(_ => this.levelsCount.emit(this.levelService.getLevelsCount())
     );
   }

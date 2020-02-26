@@ -8,6 +8,7 @@ import {Router} from '@angular/router';
 import {AlertService} from '../../../../services/shared/alert.service';
 import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
 import {AdminBaseComponent} from '../../admin-base-component';
+import {CsirtMuNotificationService} from 'csirt-mu-layout';
 
 /**
  * Main component of user overview administration (for subscription to user and group library observables)
@@ -24,8 +25,8 @@ export class AdminUserWrapperComponent extends AdminBaseComponent {
               protected userAndGroupNotificationService: Kypo2UserAndGroupNotificationService,
               protected userAndGroupErrorService: Kypo2UserAndGroupErrorService,
               protected router: Router,
-              protected alertService: AlertService,
+              protected notificationService: CsirtMuNotificationService,
               protected errorHandler: ErrorHandlerService) {
-    super(userAndGroupRouting, userAndGroupNotificationService, userAndGroupErrorService, router, alertService, errorHandler);
+    super(userAndGroupRouting, userAndGroupNotificationService, userAndGroupErrorService, router, notificationService, errorHandler);
   }
 }

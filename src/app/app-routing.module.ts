@@ -7,7 +7,7 @@ import {
   ADMIN_MICROSERVICE_PATH,
   ADMIN_USER_PATH,
   HOME_PATH,
-  LOGIN_PATH,
+  LOGIN_PATH, NOTIFICATIONS_PATH,
   SANDBOX_DEFINITION_PATH,
   SANDBOX_POOL_PATH,
   TRAINING_DEFINITION_PATH,
@@ -79,6 +79,11 @@ const routes: Routes = [
     path: LOGIN_PATH,
     component: Kypo2AuthProviderPickerComponent,
     canActivate: [Kypo2NotAuthGuardService]
+  },
+  {
+    path: NOTIFICATIONS_PATH,
+    loadChildren: () => import('./components/notifications/notifications-overview.module').then(m => m.NotificationsOverviewModule),
+    data: { breadcrumb: 'Notifications'}
   },
  {
     path: '',

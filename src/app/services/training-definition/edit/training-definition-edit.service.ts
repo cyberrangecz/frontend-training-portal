@@ -94,7 +94,7 @@ export class TrainingDefinitionEditService {
           this.alertService.emitAlert(AlertTypeEnum.Success, 'Changes were successfully saved.');
           this.onSaved();
           },
-            err => this.errorHandler.display(err, 'Editing training definition')
+            err => this.errorHandler.emit(err, 'Editing training definition')
         )
       );
   }
@@ -107,7 +107,7 @@ export class TrainingDefinitionEditService {
             this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully saved.');
             this.onSaved();
             },
-            err => this.errorHandler.display(err, 'Creating new training definition')
+            err => this.errorHandler.emit(err, 'Creating new training definition')
         )
       );
   }

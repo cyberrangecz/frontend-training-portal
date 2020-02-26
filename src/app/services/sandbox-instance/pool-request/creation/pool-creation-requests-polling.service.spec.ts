@@ -17,7 +17,7 @@ describe('PoolCreationRequestsPollingService', () => {
   let service: PoolCreationRequestsPollingService;
 
   beforeEach(async(() => {
-    errorHandlerSpy = jasmine.createSpyObj('ErrorHandlerService', ['display']);
+    errorHandlerSpy = jasmine.createSpyObj('ErrorHandlerService', ['emit']);
     facadeSpy = jasmine.createSpyObj('SandboxInstanceFacade', ['getCreationRequests', 'cancelCreationRequest', 'retryCreationRequest']);
     TestBed.configureTestingModule({
     providers: [
@@ -85,7 +85,7 @@ describe('PoolCreationRequestsPollingService', () => {
     service.getAll(0, pagination)
       .subscribe(_ => fail,
         _ => {
-        expect(errorHandlerSpy.display).toHaveBeenCalledTimes(1);
+        expect(errorHandlerSpy.emit).toHaveBeenCalledTimes(1);
         done();
       });
   });

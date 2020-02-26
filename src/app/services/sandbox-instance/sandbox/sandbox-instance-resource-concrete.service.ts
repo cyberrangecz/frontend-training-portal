@@ -36,7 +36,7 @@ export class SandboxInstanceResourceConcreteService extends SandboxInstanceResou
         tap(
           resources => this.resourceSubject.next(resources),
         err => {
-            this.errorHandler.display(err, 'Fetching sandbox resources');
+            this.errorHandler.emit(err, 'Fetching sandbox resources');
             this.hasErrorSubject.next(true);
           }
         )

@@ -45,7 +45,7 @@ export class SandboxDefinitionConcreteService extends SandboxDefinitionService {
         this.totalLengthSubject$.next(paginatedResource.pagination.totalElements);
       },
         err => {
-          this.errorHandler.display(err, 'Fetching sandbox definitions');
+          this.errorHandler.emit(err, 'Fetching sandbox definitions');
           this.hasErrorSubject$.next(true);
         })
     );
@@ -59,7 +59,7 @@ export class SandboxDefinitionConcreteService extends SandboxDefinitionService {
     return this.sandboxDefinitionFacade.create(sandboxDefinitionInfo.sandboxGitlabUrl, sandboxDefinitionInfo.sandboxRevision)
       .pipe(
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox definition was successfully created'),
-          err => this.errorHandler.display(err, 'Creating sandbox definition')
+          err => this.errorHandler.emit(err, 'Creating sandbox definition')
         )
       );
   }
@@ -73,7 +73,7 @@ export class SandboxDefinitionConcreteService extends SandboxDefinitionService {
       .pipe(
         tap(
           _ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox definition was successfully deleted'),
-          err => this.errorHandler.display(err, 'Removing sandbox definition')
+          err => this.errorHandler.emit(err, 'Removing sandbox definition')
         ),
         switchMap(() => this.getAll(this.lastPagination))
       );

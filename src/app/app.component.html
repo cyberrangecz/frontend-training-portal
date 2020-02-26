@@ -2,6 +2,7 @@
               [user]="activeUser$ | async"
               [isLoading]="isLoading$ | async"
               [agendaContainers]="agendaContainers$ | async"
+              [notificationsRoute]="notificationRoute"
               (login)="onLogin()"
               (logout)="onLogout()">
   <router-outlet></router-outlet>

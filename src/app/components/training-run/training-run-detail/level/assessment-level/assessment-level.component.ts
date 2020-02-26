@@ -75,7 +75,7 @@ export class AssessmentLevelComponent extends BaseComponent implements OnInit, O
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         resp => {},
-        err => this.errorHandler.display(err, 'Moving to next level')
+        err => this.errorHandler.emit(err, 'Moving to next level')
       );
   }
 
@@ -87,7 +87,7 @@ export class AssessmentLevelComponent extends BaseComponent implements OnInit, O
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(
         resp => {},
-        err => this.errorHandler.display(err, 'Finishing training')
+        err => this.errorHandler.emit(err, 'Finishing training')
       );
   }
 
@@ -100,7 +100,7 @@ export class AssessmentLevelComponent extends BaseComponent implements OnInit, O
   }
 
   private onSubmittedError(err) {
-    this.errorHandler.display(err, 'Submitting answers');
+    this.errorHandler.emit(err, 'Submitting answers');
     this.isSubmitted = false;
   }
 

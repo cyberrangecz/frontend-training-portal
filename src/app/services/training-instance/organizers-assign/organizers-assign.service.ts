@@ -39,7 +39,7 @@ export class OrganizersAssignService extends Kypo2UserAssignService {
   assign(resourceId: number, users: User[]): Observable<any> {
     return this.userFacade.updateOrganizers(resourceId, users.map(user => user.id), [])
       .pipe(
-        tap({error: err => this.errorHandler.display(err, 'Assigning organizers to training instance')}),
+        tap({error: err => this.errorHandler.emit(err, 'Assigning organizers to training instance')}),
         switchMap(_ => this.getAssigned(resourceId, this.lastAssignedPagination, this.lastAssignedFilter))
       );
   }
@@ -63,7 +63,7 @@ export class OrganizersAssignService extends Kypo2UserAssignService {
             this.isLoadingAssignedSubject.next(false);
           },
           err => {
-            this.errorHandler.display(err, 'Fetching organizers');
+            this.errorHandler.emit(err, 'Fetching organizers');
             this.isLoadingAssignedSubject.next(false);
             this.hasErrorSubject$.next(true);
           })
@@ -82,7 +82,7 @@ export class OrganizersAssignService extends Kypo2UserAssignService {
       new RequestedPagination(0, paginationSize, 'familyName', 'asc'),
       UserNameFilters.create(filter))
       .pipe(
-        tap({error: err => this.errorHandler.display(err, 'Fetching organizers')})
+        tap({error: err => this.errorHandler.emit(err, 'Fetching organizers')})
       );  }
 
   /**
@@ -93,7 +93,7 @@ export class OrganizersAssignService extends Kypo2UserAssignService {
   unassign(resourceId: number, users: User[]): Observable<any> {
     return this.userFacade.updateOrganizers(resourceId, [], users.map(user => user.id))
       .pipe(
-        tap({error: err => this.errorHandler.display(err, 'Deleting organizers from training instance')}),
+        tap({error: err => this.errorHandler.emit(err, 'Deleting organizers from training instance')}),
         switchMap(_ => this.getAssigned(resourceId, this.lastAssignedPagination, this.lastAssignedFilter))
       );
   }
@@ -108,7 +108,7 @@ export class OrganizersAssignService extends Kypo2UserAssignService {
   update(resourceId: number, additions: User[], removals: User[]): Observable<any> {
     return this.userFacade.updateOrganizers(resourceId, additions.map(user => user.id), removals.map(user => user.id))
       .pipe(
-        tap({error: err => this.errorHandler.display(err, 'Updating organizers')}),
+        tap({error: err => this.errorHandler.emit(err, 'Updating organizers')}),
         switchMap(_ => this.getAssigned(resourceId, this.lastAssignedPagination, this.lastAssignedFilter))
       );
   }

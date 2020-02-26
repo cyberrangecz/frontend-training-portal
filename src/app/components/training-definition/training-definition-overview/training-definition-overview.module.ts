@@ -5,7 +5,6 @@ import {ngfModule} from 'angular-file';
 import {SharedDirectivesModule} from '../../../directives/shared-directives.module';
 import {PipesModule} from '../../../pipes/pipes.module';
 import {CloneDialogComponent} from './clone-dialog/clone-dialog.component';
-import {StateChangeDialogComponent} from './state-change-dialog/state-change-dialog.component';
 import {TrainingDefinitionOverviewMaterialModule} from './training-definition-overview-material.module';
 import {TrainingDefinitionOverviewRoutingModule} from './training-definition-overview-routing.module';
 import {TrainingDefinitionOverviewComponent} from './training-definition-overview.component';
@@ -37,7 +36,6 @@ import {TrainingInstanceApi} from '../../../services/api/training-instance-api.s
   declarations: [
     TrainingDefinitionOverviewComponent,
     TrainingDefinitionUploadDialogComponent,
-    StateChangeDialogComponent,
     CloneDialogComponent,
     TrainingDefinitionDetailComponent,
     TrainingDefinitionOverviewControlsComponent

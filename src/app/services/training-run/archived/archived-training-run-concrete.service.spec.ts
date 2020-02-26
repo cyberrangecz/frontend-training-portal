@@ -22,7 +22,7 @@ describe('ArchivedTrainingRunConcreteService', () => {
   let service: ArchivedTrainingRunConcreteService;
 
   beforeEach(async(() => {
-    errorHandlerSpy = jasmine.createSpyObj('ErrorHandlerService', ['display']);
+    errorHandlerSpy = jasmine.createSpyObj('ErrorHandlerService', ['emit']);
     trainingInstanceFacadeSpy = jasmine.createSpyObj('TrainingInstanceApi', ['getAssociatedTrainingRuns']);
     alertHandlerSpy = jasmine.createSpyObj('AlertService', ['emitAlert']);
     trainingRunFacadeSpy = jasmine.createSpyObj('TrainingRunFacade', ['deleteMultiple']);
@@ -48,7 +48,7 @@ describe('ArchivedTrainingRunConcreteService', () => {
 
     service.getAll(1, createPagination()).subscribe(_ => fail,
       _ => {
-        expect(errorHandlerSpy.display).toHaveBeenCalledTimes(1);
+        expect(errorHandlerSpy.emit).toHaveBeenCalledTimes(1);
         done();
       });
     expect(trainingInstanceFacadeSpy.getAssociatedTrainingRuns).toHaveBeenCalledTimes(1);

@@ -45,7 +45,7 @@ export class TrainingDefinitionOrganizerSelectorService extends PaginatedResourc
           },
           err => {
             this.hasErrorSubject$.next(true);
-            this.errorHandler.display(err, `Fetching ${stateFilter} Training Definitions`);
+            this.errorHandler.emit(err, `Fetching ${stateFilter} Training Definitions`);
             this.isLoadingSubject$.next(false);
           }
         )

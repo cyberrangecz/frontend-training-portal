@@ -16,8 +16,11 @@ import {ExtendedMatchingItems} from '../../../../../../../../model/questions/ext
 import {FreeFormQuestion} from '../../../../../../../../model/questions/free-form-question';
 import {MultipleChoiceQuestion} from '../../../../../../../../model/questions/multiple-choice-question';
 import {BaseComponent} from '../../../../../../../base.component';
-import {ActionConfirmationDialogComponent} from '../../../../../../../shared/action-confirmation-dialog/action-confirmation-dialog.component';
-import {ConfirmationDialogActionEnum} from '../../../../../../../../model/enums/confirmation-dialog-action-enum';
+import {
+  CsirtMuConfirmationDialogComponent,
+  CsirtMuConfirmationDialogConfig,
+  CsirtMuDialogResultEnum
+} from 'csirt-mu-layout';
 
 /**
  * Wrapper component for questions inside the assessment level
@@ -109,19 +112,19 @@ export class QuestionsOverviewComponent extends BaseComponent implements OnInit,
    * @param index index of question which should be deleted
    */
   onDelete(index: number) {
-    const dialogRef = this.dialog.open(ActionConfirmationDialogComponent, {
-      data:
-        {
-          type: 'question',
-          action: ConfirmationDialogActionEnum.DELETE,
-          title: this.questions[index].title
-        }
+    const dialogRef = this.dialog.open(CsirtMuConfirmationDialogComponent, {
+      data: new CsirtMuConfirmationDialogConfig(
+        'Delete question',
+        `Do you want to delete question "${this.questions[index].title}"?`,
+        'Cancel',
+        'Delete'
+      )
     });
 
     dialogRef.afterClosed()
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(result => {
-      if (result && result.type === 'confirm') {
+      if (result === CsirtMuDialogResultEnum.CONFIRMED) {
         this.questions.splice(index, 1);
         this.onQuestionChanged();
       }
