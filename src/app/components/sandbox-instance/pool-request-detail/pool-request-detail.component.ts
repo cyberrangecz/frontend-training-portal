@@ -111,7 +111,11 @@ export class PoolRequestDetailComponent extends BaseComponent implements OnInit 
         takeWhile(_ => this.isAlive)
       ).subscribe();
 
-    this.stages$ = this.requestStagesService.stages$;
+    this.stages$ = this.requestStagesService.resource$
+      .pipe(
+        map(paginatedStages => paginatedStages.elements)
+      );
+
     this.hasError$ = this.requestStagesService.hasError$;
     this.stageDetailService.stageDetail$
       .pipe(

@@ -3,8 +3,7 @@
   <kypo2-access-training-run (accessToken)="access($event)"></kypo2-access-training-run>
   <kypo2-table
     [data]="trainingRuns$ | async"
-    [hasError]="tableHasError$ | async"
-    [totalElements]="trainingRunsTotalLength$ | async"
+    [hasError]="hasError$ | async"
     (refresh)="loadAccessedTrainingRuns($event)"
     (rowAction)="onTableAction($event)">
   </kypo2-table>

@@ -21,12 +21,6 @@ import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
 export class SandboxInstanceConcreteService extends SandboxInstanceService {
 
   private lastPagination: RequestedPagination;
-  private instancesSubject: BehaviorSubject<PaginatedResource<SandboxInstance>> = new BehaviorSubject(this.initSubject());
-
-  /**
-   * List of sandbox instance with currently selected pagination options
-   */
-  instances$: Observable<PaginatedResource<SandboxInstance>> = this.instancesSubject.asObservable();
 
   constructor(private sandboxInstanceFacade: SandboxInstanceApi,
               private activatedRoute: ActivatedRoute,
@@ -47,8 +41,7 @@ export class SandboxInstanceConcreteService extends SandboxInstanceService {
       .pipe(
         tap(
           paginatedInstances => {
-            this.instancesSubject.next(paginatedInstances);
-            this.totalLengthSubject$.next(paginatedInstances.pagination.totalElements);
+            this.resourceSubject$.next(paginatedInstances);
           },
           err => {
             this.errorHandler.emit(err, 'Fetching sandbox instances');
@@ -119,19 +112,14 @@ export class SandboxInstanceConcreteService extends SandboxInstanceService {
   }
 
 
-
-  private initSubject(): PaginatedResource<SandboxInstance> {
-    return new PaginatedResource([], new Pagination(0, 0, environment.defaultPaginationSize, 0, 0));
-  }
-
   private onChangedLock(sandboxId: number, locked: boolean) {
-    const sandboxes = this.instancesSubject.getValue();
+    const sandboxes = this.resourceSubject$.getValue();
     const changedSandboxIndex = sandboxes.elements.findIndex(element => element.id === sandboxId);
     const changedSandbox = sandboxes.elements[changedSandboxIndex];
     if (changedSandbox) {
       changedSandbox.locked = locked;
       sandboxes.elements[changedSandboxIndex] = changedSandbox;
-      this.instancesSubject.next(sandboxes);
+      this.resourceSubject$.next(sandboxes);
     }
   }
 }

@@ -8,7 +8,6 @@
   [data]="trainingDefinitions$ | async"
   [hasError]="hasError$ | async"
   [isLoading]="isLoading$ | async"
-  [totalElements]="totalLength$ | async"
   (refresh)="onLoadEvent($event)"
   (rowAction)="onTrainingDefinitionTableAction($event)">
 </kypo2-table>

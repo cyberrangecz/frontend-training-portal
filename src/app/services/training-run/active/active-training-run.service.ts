@@ -10,15 +10,9 @@ import {RequestedPagination} from '../../../model/DTOs/other/requested-paginatio
  * Layer between component and API service. Implement concrete service by extending this class.
  * Provide concrete class in Angular Module. For more info see https://angular.io/guide/dependency-injection-providers.
  * You can use get methods to get paginated resources and other actions to modify data.
- * Subscribe to activeTrainingRuns$ to receive latest data updates.
  */
 @Injectable()
-export abstract class ActiveTrainingRunService extends PaginatedResourceService {
-
-  /***
-   * @contract must be updated every time new data are received
-   */
-  abstract activeTrainingRuns$: Observable<PaginatedResource<TrainingRunTableRow>>;
+export abstract class ActiveTrainingRunService extends PaginatedResourceService<TrainingRunTableRow> {
 
   /**
    * Starts polling in regular intervals

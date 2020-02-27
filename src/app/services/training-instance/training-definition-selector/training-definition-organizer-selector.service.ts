@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {PaginatedResource} from '../../../model/table/other/paginated-resource';
-import {Observable, Subject} from 'rxjs';
+import {Observable} from 'rxjs';
 import {RequestedPagination} from 'kypo2-table';
 import {TrainingDefinitionApi} from '../../api/training-definition-api.service';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
@@ -11,18 +11,11 @@ import {PaginatedResourceService} from '../../shared/paginated-resource.service'
 
 /**
  * Layer between component and API service
- * Subscribe to trainingDefinition$ to receive latest data updates.
  */
 @Injectable()
-export class TrainingDefinitionOrganizerSelectorService extends PaginatedResourceService {
-  private tdsSubject: Subject<PaginatedResource<TrainingDefinitionInfo>> = new Subject();
+export class TrainingDefinitionOrganizerSelectorService extends PaginatedResourceService<TrainingDefinitionInfo> {
 
-  trainingDefinition$: Observable<PaginatedResource<TrainingDefinitionInfo>> = this.tdsSubject.asObservable();
-  hasError$: Observable<boolean> = this.hasErrorSubject$.asObservable();
-  isLoading$: Observable<boolean> = this.isLoadingSubject$.asObservable();
-  totalLength$: Observable<number> = this.totalLengthSubject$.asObservable();
-
-  constructor(private tdFacade: TrainingDefinitionApi,
+  constructor(private api: TrainingDefinitionApi,
               private errorHandler: ErrorHandlerService) {
     super();
   }
@@ -35,12 +28,11 @@ export class TrainingDefinitionOrganizerSelectorService extends PaginatedResourc
   get(pagination: RequestedPagination, stateFilter: string): Observable<PaginatedResource<TrainingDefinitionInfo>> {
     this.hasErrorSubject$.next(false);
     this.isLoadingSubject$.next(true);
-    return this.tdFacade.getAllForOrganizer(pagination, [new Filter('state', stateFilter)])
+    return this.api.getAllForOrganizer(pagination, [new Filter('state', stateFilter)])
       .pipe(
         tap(
           definitions =>  {
-            this.tdsSubject.next(definitions);
-            this.totalLengthSubject$.next(definitions.pagination.totalElements);
+            this.resourceSubject$.next(definitions);
             this.isLoadingSubject$.next(false);
           },
           err => {

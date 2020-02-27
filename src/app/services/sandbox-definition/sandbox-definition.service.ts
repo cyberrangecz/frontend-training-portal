@@ -9,15 +9,8 @@ import {SandboxDefinition} from '../../model/sandbox/definition/sandbox-definiti
  * A layer between a component and an API service. Implement a concrete service by extending this class.
  * Provide a concrete class in Angular Module. For more info see https://angular.io/guide/dependency-injection-providers.
  * You can use get methods to get paginated sandbox definitions and other operations to modify data.
- * Subscribe to definitions$ to receive latest data updates.
  */
-export abstract class SandboxDefinitionService extends PaginatedResourceService {
-
-  /**
-   * @contract must be updated every time new data are received
-   */
-  abstract definitions$: Observable<PaginatedResource<SandboxDefinition>>;
-
+export abstract class SandboxDefinitionService extends PaginatedResourceService<SandboxDefinition> {
   /**
    * @param pagination requested pagination
    */

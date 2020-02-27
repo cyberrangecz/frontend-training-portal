@@ -15,9 +15,6 @@ import {environment} from '../../../../environments/environment';
 @Injectable()
 export class AccessedTrainingRunConcreteService extends AccessedTrainingRunService {
 
-  private trainingRunsSubject: BehaviorSubject<PaginatedResource<AccessedTrainingRun>> = new BehaviorSubject(this.initSubject());
-  trainingRuns$: Observable<PaginatedResource<AccessedTrainingRun>> = this.trainingRunsSubject.asObservable();
-
   constructor(private trainingRunFacade: TrainingRunApi,
               private errorHandler: ErrorHandlerService) {
     super();
@@ -31,8 +28,7 @@ export class AccessedTrainingRunConcreteService extends AccessedTrainingRunServi
     this.hasErrorSubject$.next(false);
     return this.trainingRunFacade.getAccessed(pagination).pipe(
       tap(trainingRuns => {
-        this.trainingRunsSubject.next(trainingRuns);
-        this.totalLengthSubject$.next(trainingRuns.pagination.totalElements);
+        this.resourceSubject$.next(trainingRuns);
       },
         err => {
           this.errorHandler.emit(err, 'Fetching training runs');
@@ -40,6 +36,7 @@ export class AccessedTrainingRunConcreteService extends AccessedTrainingRunServi
         })
     );
   }
+
   /**
    * Resumes in already started training run or handles error.
    * @param trainingRunId id of training run to resume
@@ -50,9 +47,5 @@ export class AccessedTrainingRunConcreteService extends AccessedTrainingRunServi
        error: err => this.errorHandler.emit(err, 'Resuming training run')
      })
    );
-  }
-
-  private initSubject(): PaginatedResource<AccessedTrainingRun> {
-    return new PaginatedResource([], new Pagination(0, 0, environment.defaultPaginationSize, 0, 0));
   }
 }

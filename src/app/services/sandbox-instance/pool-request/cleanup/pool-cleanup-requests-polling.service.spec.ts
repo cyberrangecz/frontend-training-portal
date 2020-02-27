@@ -49,29 +49,10 @@ describe('PoolCleanupRequestsPollingService', () => {
     const mockData = createMock();
     facadeSpy.getCleanupRequests.and.returnValue(asyncData(mockData));
 
-    service.requests$.pipe(skip(1))
+    service.resource$.pipe(skip(1))
       .subscribe(emitted => {
         expect(emitted).toEqual(mockData);
         done();
-        },
-        fail);
-    service.getAll(0, pagination)
-      .subscribe(_ => _,
-        fail);
-  });
-
-  it('should emit next value on update (totalLength)', done => {
-    const pagination = createPagination();
-    const mockData = createMock();
-    facadeSpy.getCleanupRequests.and.returnValue(asyncData(mockData));
-    const subscription = service.requests$.pipe(skip(1))
-      .subscribe(_ => _,
-        fail);
-    service.totalLength$.pipe(skip(1))
-      .subscribe(emitted => {
-          expect(emitted).toBe(5);
-          subscription.unsubscribe();
-          done();
         },
         fail);
     service.getAll(0, pagination)
@@ -143,7 +124,7 @@ describe('PoolCleanupRequestsPollingService', () => {
     const mockData = createMock();
     facadeSpy.getCleanupRequests.and.returnValue(asyncData(mockData));
 
-    const subscription = service.requests$.subscribe();
+    const subscription = service.resource$.subscribe();
     assertPoll(1);
     subscription.unsubscribe();
   }));
@@ -152,7 +133,7 @@ describe('PoolCleanupRequestsPollingService', () => {
     const mockData = createMock();
     facadeSpy.getCleanupRequests.and.returnValues(asyncData(mockData), asyncData(mockData), throwError(null)); // throw error on third call
 
-    const subscription = service.requests$.subscribe();
+    const subscription = service.resource$.subscribe();
     assertPoll(3);
     tick(5 * environment.apiPollingPeriod);
     expect(facadeSpy.getCleanupRequests).toHaveBeenCalledTimes(3);
@@ -170,7 +151,7 @@ describe('PoolCleanupRequestsPollingService', () => {
       asyncData(mockData),
       asyncData(mockData));
 
-    const subscription = service.requests$.subscribe();
+    const subscription = service.resource$.subscribe();
     expect(facadeSpy.getCleanupRequests).toHaveBeenCalledTimes(0);
     assertPoll(3);
     tick(environment.apiPollingPeriod);

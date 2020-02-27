@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {Observable} from 'rxjs';
-import {map, takeWhile} from 'rxjs/operators';
+import {map, takeWhile, tap} from 'rxjs/operators';
 import {Kypo2Table, LoadTableEvent, TableActionEvent} from 'kypo2-table';
 import {ArchivedTrainingRunService} from '../../../../../services/training-run/archived/archived-training-run.service';
 import {TrainingRunTableCreator} from '../../../../../model/table/factory/training-run-table-creator';
@@ -24,13 +24,13 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArchivedTrainingRunOverviewComponent extends BaseComponent implements OnInit {
+
   @Input() trainingInstance: TrainingInstance;
   @Input() isPollingActive: boolean;
 
-  archivedTrainingRuns$: Observable<Kypo2Table<TrainingRunTableAdapter>>;
-  archivedTrainingRunsTotalLength$: Observable<number>;
-  archivedTrainingRunsTableHasError$: Observable<boolean>;
-  selectedTrainingRuns: number[] = [];
+  trainingRuns: Observable<Kypo2Table<TrainingRunTableAdapter>>;
+  hasError$: Observable<boolean>;
+  selectedRuns: number[] = [];
 
   constructor(
     private archivedTrainingRunService: ArchivedTrainingRunService,
@@ -55,9 +55,9 @@ export class ArchivedTrainingRunOverviewComponent extends BaseComponent implemen
    * @param event event containing selected training runs emitted by table
    */
   onRowSelection(event: TrainingRunTableAdapter[]) {
-    this.selectedTrainingRuns = [];
+    this.selectedRuns = [];
     event.forEach( selectedRun => {
-      this.selectedTrainingRuns.push(selectedRun.trainingRun.id);
+      this.selectedRuns.push(selectedRun.trainingRun.id);
     });
   }
 
@@ -113,7 +113,7 @@ export class ArchivedTrainingRunOverviewComponent extends BaseComponent implemen
   }
 
   private sendRequestToDeleteArchivedTrainingRuns() {
-    this.archivedTrainingRunService.deleteMultiple(this.selectedTrainingRuns)
+    this.archivedTrainingRunService.deleteMultiple(this.selectedRuns)
       .pipe(takeWhile(() => this.isAlive))
       .subscribe();
   }
@@ -126,12 +126,11 @@ export class ArchivedTrainingRunOverviewComponent extends BaseComponent implemen
 
   private startPolling() {
     this.archivedTrainingRunService.startPolling(this.trainingInstance);
-    this.archivedTrainingRuns$ = this.archivedTrainingRunService.archivedTrainingRuns$
+    this.trainingRuns = this.archivedTrainingRunService.archivedTrainingRuns$
       .pipe(
         takeWhile(_ => this.isPollingActive),
-        map(trainingRuns => TrainingRunTableCreator.create(trainingRuns, 'archived'))
+        map(paginatedRuns => TrainingRunTableCreator.create(paginatedRuns, 'archived'))
       );
-    this.archivedTrainingRunsTableHasError$ = this.archivedTrainingRunService.hasError$;
-    this.archivedTrainingRunsTotalLength$ = this.archivedTrainingRunService.totalLength$;
+    this.hasError$ = this.archivedTrainingRunService.hasError$;
   }
 }

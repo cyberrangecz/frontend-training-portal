@@ -30,12 +30,6 @@ export class TrainingDefinitionConcreteService extends TrainingDefinitionService
   private lastPagination: RequestedPagination;
   private lastFilters: string;
 
-  private trainingDefinitionsSubject$: BehaviorSubject<PaginatedResource<TrainingDefinition>> = new BehaviorSubject(this.initSubject());
-  /**
-   * List of training definitions with currently selected pagination options
-   */
-  trainingDefinitions$: Observable<PaginatedResource<TrainingDefinition>> = this.trainingDefinitionsSubject$.asObservable();
-
   /**
    * Gets all training definitions with passed pagination and filter and updates related observables or handles an error
    * @param pagination requested pagination
@@ -52,8 +46,7 @@ export class TrainingDefinitionConcreteService extends TrainingDefinitionService
       .pipe(
         tap(
           paginatedTrainings => {
-            this.trainingDefinitionsSubject$.next(paginatedTrainings);
-            this.totalLengthSubject$.next(paginatedTrainings.pagination.totalElements);
+            this.resourceSubject$.next(paginatedTrainings);
             this.isLoadingSubject$.next(false);
           },
             err => {
@@ -133,19 +126,14 @@ export class TrainingDefinitionConcreteService extends TrainingDefinitionService
       );
   }
 
-  private initSubject(): PaginatedResource<TrainingDefinition> {
-    return new PaginatedResource([],
-      new Pagination(0, 0, environment.defaultPaginationSize, 0, 0 ));
-  }
-
   private onChangedState(trainingDefinitionId: number, newState: TrainingDefinitionStateEnum) {
-    const lastResources = this.trainingDefinitionsSubject$.getValue();
+    const lastResources = this.resourceSubject$.getValue();
     const changedTd = lastResources.elements.find(td => td.id === trainingDefinitionId);
     const changedIndex = lastResources.elements.findIndex(td => td.id === trainingDefinitionId);
     if (changedTd && changedIndex !== -1) {
       changedTd.state = newState;
       lastResources.elements[changedIndex] = changedTd;
-      this.trainingDefinitionsSubject$.next(lastResources);
+      this.resourceSubject$.next(lastResources);
     }
     this.alertService.emitAlert(AlertTypeEnum.Success, `Training definition state was changed to ${newState}`);
   }

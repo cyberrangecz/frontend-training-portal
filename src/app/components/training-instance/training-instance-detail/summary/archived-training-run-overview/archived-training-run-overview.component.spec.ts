@@ -59,7 +59,7 @@ describe('ArchivedTrainingRunOverviewComponent', () => {
     component.onRowSelection([
       new TrainingRunTableAdapter(createMockRun('1'), false),
     ]);
-    expect(component.selectedTrainingRuns.length).toEqual(1);
+    expect(component.selectedRuns.length).toEqual(1);
   });
 
   it('should add multiple rows to selected rows array', () => {
@@ -68,7 +68,7 @@ describe('ArchivedTrainingRunOverviewComponent', () => {
       new TrainingRunTableAdapter(createMockRun('2'), false),
       new TrainingRunTableAdapter(createMockRun('3'), false)
     ]);
-    expect(component.selectedTrainingRuns.length).toEqual(3);
+    expect(component.selectedRuns.length).toEqual(3);
   });
 
   it('should call removal dialog on table "delete" action', () => {

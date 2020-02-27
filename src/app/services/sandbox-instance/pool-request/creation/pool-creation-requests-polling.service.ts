@@ -18,20 +18,12 @@ import {PoolRequestPollingService} from '../pool-request-polling.service';
 @Injectable()
 export class PoolCreationRequestsPollingService extends PoolRequestPollingService {
 
-  private manuallyUpdatedRequests$: BehaviorSubject<PaginatedResource<PoolRequest>> = new BehaviorSubject(this.initSubject());
-
-  /**
-   * List of creation requests with currently selected pagination options
-   */
-  requests$: Observable<PaginatedResource<PoolRequest>>;
+  private manuallyUpdatedRequests$: BehaviorSubject<PaginatedResource<PoolRequest>> = new BehaviorSubject(this.init());
 
   constructor(private sandboxInstanceFacade: SandboxInstanceApi,
               private errorHandler: ErrorHandlerService) {
     super();
-    this.requests$ = merge(this.poll$, this.manuallyUpdatedRequests$.asObservable())
-      .pipe(
-        tap(paginatedRequests => this.totalLengthSubject$.next(paginatedRequests.pagination.totalElements))
-      );
+    this.resource$ = merge(this.poll$, this.manuallyUpdatedRequests$.asObservable());
   }
 
   /**
@@ -92,7 +84,7 @@ export class PoolCreationRequestsPollingService extends PoolRequestPollingServic
     this.hasErrorSubject$.next(true);
   }
 
-  private initSubject(): PaginatedResource<PoolRequest> {
+  private init(): PaginatedResource<PoolRequest> {
     return new PaginatedResource([], new Pagination(0, 0, environment.defaultPaginationSize, 0, 0));
   }
 }

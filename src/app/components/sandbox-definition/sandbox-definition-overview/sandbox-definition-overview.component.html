@@ -2,8 +2,7 @@
 <kypo2-sandbox-definition-controls (create)="create()"></kypo2-sandbox-definition-controls>
 <kypo2-table
   [data] ="sandboxDefinitions$ | async"
-  [hasError]="tableHasError$ | async"
+  [hasError]="hasError$ | async"
   (refresh)="onLoadEvent($event)"
-  (rowAction)="onSandboxDefinitionTableAction($event)"
-  [totalElements]="tableTotalLength$ | async">
+  (rowAction)="onSandboxDefinitionTableAction($event)">
 </kypo2-table>

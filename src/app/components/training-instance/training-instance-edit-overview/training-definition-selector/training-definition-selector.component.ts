@@ -44,9 +44,9 @@ export class TrainingDefinitionSelectorComponent extends BaseComponent implement
 
   ngOnInit() {
     const pagination = new RequestedPagination(0, this.pageSize, 'title', 'asc');
-    this.released$ = this.releasedService.trainingDefinition$;
+    this.released$ = this.releasedService.resource$;
     this.releasedHasError$ = this.releasedService.hasError$;
-    this.unreleased$ = this.unreleasedService.trainingDefinition$;
+    this.unreleased$ = this.unreleasedService.resource$;
     this.unreleasedHasError$ = this.unreleasedService.hasError$;
     this.isLoading$ = merge(this.releasedService.isLoading$, this.unreleasedService.isLoading$);
     this.releasedService.get(pagination, 'RELEASED')

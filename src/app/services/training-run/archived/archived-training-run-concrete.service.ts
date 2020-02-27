@@ -23,7 +23,6 @@ export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunServi
 
   private lastPagination: RequestedPagination;
   private retryPolling$: Subject<boolean> = new Subject();
-  private manuallyUpdated$: BehaviorSubject<PaginatedResource<TrainingRunTableRow>> = new BehaviorSubject(this.initSubject());
   private trainingInstance: TrainingInstance;
   /**
    * List of archived training runs with currently selected pagination options
@@ -48,12 +47,7 @@ export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunServi
     this.trainingInstance = trainingInstance;
     this.lastPagination = new RequestedPagination(0, environment.defaultPaginationSize, '', '');
     const poll$ = this.createPoll();
-    this.archivedTrainingRuns$ = merge(poll$, this.manuallyUpdated$.asObservable())
-      .pipe(
-        tap(
-          paginatedRuns => this.totalLengthSubject$.next(paginatedRuns.pagination.totalElements)
-        )
-      );
+    this.archivedTrainingRuns$ = merge(poll$, this.resourceSubject$.asObservable());
   }
 
   /**
@@ -68,8 +62,7 @@ export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunServi
       .pipe(
         tap(
           runs => {
-            this.manuallyUpdated$.next(runs);
-            this.totalLengthSubject$.next(runs.pagination.totalElements);
+            this.resourceSubject$.next(runs);
           },
           err => this.onGetAllError(err)
         )
@@ -103,13 +96,6 @@ export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunServi
         }),
         switchMap(() => this.getAll(this.trainingInstance.id, this.lastPagination))
       );
-  }
-
-  private initSubject(): PaginatedResource<TrainingRunTableRow> {
-    return new PaginatedResource(
-      [],
-      new Pagination(0, 0, environment.defaultPaginationSize, 0, 0)
-    );
   }
 
   protected repeatLastGetAllRequest(): Observable<PaginatedResource<TrainingRunTableRow>> {

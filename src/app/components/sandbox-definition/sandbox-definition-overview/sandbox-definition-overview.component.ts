@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {EMPTY, Observable} from 'rxjs';
-import {map, switchMap, takeWhile} from 'rxjs/operators';
+import {map, switchMap, takeWhile, tap} from 'rxjs/operators';
 import {BaseComponent} from '../../base.component';
 import {SandboxDefinitionService} from '../../../services/sandbox-definition/sandbox-definition.service';
 import {Kypo2Table, LoadTableEvent, TableActionEvent} from 'kypo2-table';
@@ -31,8 +31,7 @@ import {
 export class SandboxDefinitionOverviewComponent extends BaseComponent implements OnInit {
 
   sandboxDefinitions$: Observable<Kypo2Table<SandboxDefinition>>;
-  tableHasError$: Observable<boolean>;
-  tableTotalLength$: Observable<number>;
+  hasError$: Observable<boolean>;
 
   private lastLoadEvent: LoadTableEvent;
 
@@ -101,13 +100,13 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
   }
 
   private initTable() {
-    this.sandboxDefinitions$ = this.sandboxDefinitionService.definitions$
+    this.sandboxDefinitions$ = this.sandboxDefinitionService.resource$
       .pipe(
         map(paginatedSandboxes => SandboxDefinitionTableCreator.create(paginatedSandboxes))
       );
     this.lastLoadEvent = new LoadTableEvent(new RequestedPagination(0, environment.defaultPaginationSize, '', ''), null);
     this.onLoadEvent(this.lastLoadEvent);
-    this.tableHasError$ = this.sandboxDefinitionService.hasError$;
-    this.tableTotalLength$ = this.sandboxDefinitionService.totalLength$;
+    this.hasError$ = this.sandboxDefinitionService.hasError$;
+
   }
 }

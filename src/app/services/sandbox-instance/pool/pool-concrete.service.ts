@@ -19,13 +19,8 @@ import {RequestedPagination} from '../../../model/DTOs/other/requested-paginatio
  */
 @Injectable()
 export class PoolConcreteService extends PoolService {
-  private lastPagination: RequestedPagination;
-  private poolsSubject: BehaviorSubject<PaginatedResource<SandboxPool>> = new BehaviorSubject(this.initSubject());
 
-  /**
-   * List of pools with currently selected pagination options
-   */
-  pools$: Observable<PaginatedResource<SandboxPool>> = this.poolsSubject.asObservable();
+  private lastPagination: RequestedPagination;
 
   constructor(private sandboxInstanceFacade: SandboxInstanceApi,
               private alertService: AlertService,
@@ -44,8 +39,7 @@ export class PoolConcreteService extends PoolService {
       .pipe(
         tap(
           paginatedPools => {
-            this.poolsSubject.next(paginatedPools);
-            this.totalLengthSubject$.next(paginatedPools.pagination.totalElements);
+            this.resourceSubject$.next(paginatedPools);
           },
           err => {
             this.errorHandler.emit(err, 'Fetching pools');
@@ -102,9 +96,5 @@ export class PoolConcreteService extends PoolService {
         ),
         switchMap(_ => this.getAll(this.lastPagination))
       );
-  }
-
-  private initSubject(): PaginatedResource<SandboxPool> {
-    return new PaginatedResource([], new Pagination(0, 0, environment.defaultPaginationSize, 0, 0));
   }
 }

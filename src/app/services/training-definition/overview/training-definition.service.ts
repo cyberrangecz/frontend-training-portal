@@ -11,13 +11,7 @@ import {PaginatedResourceService} from '../../shared/paginated-resource.service'
  * You can use get methods to get paginated resources and other operations to modify data.
  * Subscribe to trainingDefinitions$ to receive latest data updates.
  */
-export abstract class TrainingDefinitionService extends PaginatedResourceService {
-
-  /**
-   * @contract must be updated every time new data are received
-   */
-  abstract trainingDefinitions$: Observable<PaginatedResource<TrainingDefinition>>;
-
+export abstract class TrainingDefinitionService extends PaginatedResourceService<TrainingDefinition> {
   /**
    *
    * @param pagination requested pagination

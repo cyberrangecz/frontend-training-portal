@@ -8,13 +8,8 @@ import {RequestedPagination} from '../../../model/DTOs/other/requested-paginatio
  * A layer between a component and an API service. Implement a concrete service by extending this class.
  * Provide a concrete class in Angular Module. For more info see https://angular.io/guide/dependency-injection-providers.
  * You can use get methods to get paginated pools and other operations to modify data.
- * Subscribe to pools$ to receive latest data updates.
  */
-export abstract class PoolService extends PaginatedResourceService {
-  /**
-   * @contract must be updated every time new data are received
-   */
-  abstract pools$: Observable<PaginatedResource<SandboxPool>>;
+export abstract class PoolService extends PaginatedResourceService<SandboxPool> {
 
   /**
    * @param pagination requested pagination

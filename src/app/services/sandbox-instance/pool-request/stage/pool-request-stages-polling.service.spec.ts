@@ -104,7 +104,7 @@ describe('PoolRequestStagesPollingService', () => {
     facadeSpy.getCreationStages.and.returnValue(asyncData(stages));
 
     service.startPolling(0, 0, 'CREATION');
-    const subscription = service.stages$.subscribe();
+    const subscription = service.resource$.subscribe();
     assertPoll(5);
     subscription.unsubscribe();
   }));
@@ -118,7 +118,7 @@ describe('PoolRequestStagesPollingService', () => {
       throwError(null)); // throw error on fourth period call
 
     service.startPolling(0, 0, 'CREATION');
-    const subscription = service.stages$.subscribe();
+    const subscription = service.resource$.subscribe();
     assertPoll(3);
     tick(5 * environment.apiPollingPeriod);
     expect(facadeSpy.getCreationStages).toHaveBeenCalledTimes(4);
@@ -140,7 +140,7 @@ describe('PoolRequestStagesPollingService', () => {
     );
 
     service.startPolling(0, 0, 'CREATION');
-    const subscription = service.stages$.subscribe();
+    const subscription = service.resource$.subscribe();
     assertPoll(3);
     tick(environment.apiPollingPeriod);
     expect(facadeSpy.getCreationStages).toHaveBeenCalledTimes(4);

@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Kypo2Table, LoadTableEvent, TableActionEvent} from 'kypo2-table';
 import {Observable} from 'rxjs';
-import {map, takeWhile} from 'rxjs/operators';
+import {map, takeWhile, tap} from 'rxjs/operators';
 import {SandboxPool} from '../../../model/sandbox/pool/sandbox-pool';
 import {PoolService} from '../../../services/sandbox-instance/pool/pool.service';
 import {BaseComponent} from '../../base.component';
@@ -21,7 +21,6 @@ import {RequestedPagination} from '../../../model/DTOs/other/requested-paginatio
 export class SandboxPoolOverviewComponent extends BaseComponent implements OnInit {
 
   pools$: Observable<Kypo2Table<SandboxPool>>;
-  totalLength$: Observable<number>;
   hasError$: Observable<boolean>;
 
   constructor(private poolService: PoolService) {
@@ -71,11 +70,10 @@ export class SandboxPoolOverviewComponent extends BaseComponent implements OnIni
   private initTable() {
     const initialLoadEvent: LoadTableEvent = new LoadTableEvent(
       new RequestedPagination(0, environment.defaultPaginationSize, '', ''));
-    this.pools$ = this.poolService.pools$
+    this.pools$ = this.poolService.resource$
       .pipe(
-        map(paginatedResource => PoolTableCreator.create(paginatedResource))
+        map(paginatedPools => PoolTableCreator.create(paginatedPools))
       );
-    this.totalLength$ = this.poolService.totalLength$;
     this.hasError$ = this.poolService.hasError$;
     this.onPoolsLoadEvent(initialLoadEvent);
   }

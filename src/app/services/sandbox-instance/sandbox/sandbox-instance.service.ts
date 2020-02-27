@@ -8,14 +8,8 @@ import {RequestedPagination} from '../../../model/DTOs/other/requested-paginatio
  * A layer between a component and an API service. Implement a concrete service by extending this class.
  * Provide a concrete class in Angular Module. For more info see https://angular.io/guide/dependency-injection-providers.
  * You can use get methods to get paginated sandbox instances and other operations to modify data.
- * Subscribe to instances$ to receive latest data updates.
  */
-export abstract class SandboxInstanceService extends PaginatedResourceService {
-
-  /**
-   * @contract must be updated every time new data are received
-   */
-  abstract instances$: Observable<PaginatedResource<SandboxInstance>>;
+export abstract class SandboxInstanceService extends PaginatedResourceService<SandboxInstance> {
 
   /**
    * @param poolId id of a pool associated with sandbox instances

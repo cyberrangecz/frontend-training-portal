@@ -47,7 +47,7 @@ describe('PoolCreationRequestsPollingService', () => {
     const mockData = createMock();
     facadeSpy.getCreationRequests.and.returnValue(asyncData(mockData));
 
-    service.requests$.pipe(skip(1))
+    service.resource$.pipe(skip(1))
       .subscribe(emitted => {
         expect(emitted).toBe(mockData);
         done();
@@ -58,25 +58,6 @@ describe('PoolCreationRequestsPollingService', () => {
         fail);
   });
 
-  it('should emit next value on update (totalLength)', done => {
-    const pagination = createPagination();
-    const mockData = createMock();
-    facadeSpy.getCreationRequests.and.returnValue(asyncData(mockData));
-
-    const subscription = service.requests$.pipe(skip(1))
-      .subscribe(_ => _,
-        fail);
-    service.totalLength$.pipe(skip(1))
-      .subscribe(emitted => {
-          expect(emitted).toBe(5);
-          subscription.unsubscribe();
-          done();
-        },
-        fail);
-    service.getAll(0, pagination)
-      .subscribe(_ => _,
-        fail);
-  });
 
   it('should call error handler on err', done => {
     const pagination = createPagination();
@@ -139,7 +120,7 @@ describe('PoolCreationRequestsPollingService', () => {
     const mockData = createMock();
     facadeSpy.getCreationRequests.and.returnValue(asyncData(mockData));
 
-    const subscription = service.requests$.subscribe();
+    const subscription = service.resource$.subscribe();
     assertPoll(1);
     subscription.unsubscribe();
   }));
@@ -148,7 +129,7 @@ describe('PoolCreationRequestsPollingService', () => {
     const mockData = createMock();
     facadeSpy.getCreationRequests.and.returnValues(asyncData(mockData), asyncData(mockData), throwError(null)); // throw error on third call
 
-    const subscription = service.requests$.subscribe();
+    const subscription = service.resource$.subscribe();
     assertPoll(3);
     tick(5 * environment.apiPollingPeriod);
     expect(facadeSpy.getCreationRequests).toHaveBeenCalledTimes(3);
@@ -166,7 +147,7 @@ describe('PoolCreationRequestsPollingService', () => {
       asyncData(mockData),
       asyncData(mockData));
 
-    const subscription = service.requests$.subscribe();
+    const subscription = service.resource$.subscribe();
     expect(facadeSpy.getCreationRequests).toHaveBeenCalledTimes(0);
     assertPoll(3);
     tick(environment.apiPollingPeriod);
