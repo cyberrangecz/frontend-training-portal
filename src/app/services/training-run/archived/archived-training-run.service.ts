@@ -13,7 +13,7 @@ import {TrainingInstance} from '../../../model/training/training-instance';
  * Subscribe to archivedTrainingRuns$ to receive latest data updates.
  */
 @Injectable()
-export abstract class ArchivedTrainingRunService extends PaginatedResourceService {
+export abstract class ArchivedTrainingRunService extends PaginatedResourceService<TrainingRunTableRow> {
 
   /**
    * @contract must be updated every time new data are received

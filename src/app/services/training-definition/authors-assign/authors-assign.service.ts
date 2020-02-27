@@ -74,7 +74,6 @@ export class AuthorsAssignService extends Kypo2UserAssignService {
           paginatedUsers => {
             this.assignedUsersSubject.next(paginatedUsers);
             this.isLoadingAssignedSubject.next(false);
-            this.totalLengthSubject.next( paginatedUsers.pagination.totalElements);
         },
       err => {
           this.errorHandler.emit(err, 'Fetching authors');

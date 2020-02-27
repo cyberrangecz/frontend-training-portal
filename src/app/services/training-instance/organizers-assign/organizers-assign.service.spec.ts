@@ -135,21 +135,6 @@ describe('OrganizersAssignService', () => {
         });
   });
 
-  it('should emit totalLength on get assigned organizers', done => {
-    facadeSpy.getOrganizers.and.returnValue((asyncData(createMock())));
-    const pagination = createPagination();
-    service.totalLength$.pipe(skip(1))
-      .subscribe(emitted => {
-          expect(emitted).toBe(2);
-          done();
-        },
-        fail);
-    service.getAssigned(0, pagination)
-      .pipe(take(1))
-      .subscribe(_ => _,
-        fail);
-  });
-
   it ('should emit hasError on err', done => {
     facadeSpy.getOrganizers.and.returnValue((throwError(null)));
     const pagination = createPagination();

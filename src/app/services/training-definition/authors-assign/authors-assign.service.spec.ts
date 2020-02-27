@@ -135,20 +135,6 @@ describe('AuthorsAssignService', () => {
         });
   });
 
-  it('should emit totalLength on getAuthors', done => {
-    facadeSpy.getAuthors.and.returnValue((asyncData(createMock())));
-    const pagination = createPagination();
-    service.totalLength$.pipe(skip(1))
-      .subscribe(emitted => {
-        expect(emitted).toBe(2);
-        done();
-      },
-        fail);
-    service.getAssigned(0, pagination)
-      .pipe(take(1))
-      .subscribe(_ => _,
-        fail);
-  });
 
   it ('should emit hasError on err', done => {
     facadeSpy.getAuthors.and.returnValue((throwError(null)));

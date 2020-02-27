@@ -26,11 +26,6 @@ export class SandboxDefinitionConcreteService extends SandboxDefinitionService {
   }
 
   private lastPagination: RequestedPagination;
-  private sandboxDefinitionsSubject: BehaviorSubject<PaginatedResource<SandboxDefinition>> = new BehaviorSubject(this.initSubject());
-  /**
-   * List of sandbox definitions with currently selected pagination options
-   */
-  definitions$: Observable<PaginatedResource<SandboxDefinition>> = this.sandboxDefinitionsSubject.asObservable();
 
   /**
    * Gets all sandbox definitions with passed pagination and updates related observables or handles an error
@@ -41,8 +36,7 @@ export class SandboxDefinitionConcreteService extends SandboxDefinitionService {
     this.lastPagination = pagination;
     return this.sandboxDefinitionFacade.getAllPaginated(pagination).pipe(
       tap(paginatedResource => {
-        this.sandboxDefinitionsSubject.next(paginatedResource);
-        this.totalLengthSubject$.next(paginatedResource.pagination.totalElements);
+        this.resourceSubject$.next(paginatedResource);
       },
         err => {
           this.errorHandler.emit(err, 'Fetching sandbox definitions');
@@ -77,9 +71,5 @@ export class SandboxDefinitionConcreteService extends SandboxDefinitionService {
         ),
         switchMap(() => this.getAll(this.lastPagination))
       );
-  }
-
-  private initSubject(): PaginatedResource<SandboxDefinition> {
-    return new PaginatedResource([], new Pagination(0, 0, environment.defaultPaginationSize, 0, 0));
   }
 }

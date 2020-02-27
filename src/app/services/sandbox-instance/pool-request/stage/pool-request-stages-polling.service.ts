@@ -8,6 +8,7 @@ import {ErrorHandlerService} from '../../../shared/error-handler.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {RequestedPagination} from '../../../../model/DTOs/other/requested-pagination';
+import {PaginatedResource} from '../../../../model/table/other/paginated-resource';
 
 /**
  * Basic implementation of a layer between a component and an API service.
@@ -18,13 +19,7 @@ export class PoolRequestStagesPollingService extends PoolRequestStagesService {
   private poolId: number;
   private requestId: number;
   private retryPolling$: Subject<boolean> = new Subject();
-  private manuallyUpdatedStages$: Subject<RequestStage[]> = new Subject();
   private type: 'CREATION' | 'CLEANUP' = 'CREATION';
-
-  /**
-   * List of stages
-   */
-  stages$: Observable<RequestStage[]>;
 
   constructor(private sandboxInstanceFacade: SandboxInstanceApi,
               private errorHandler: ErrorHandlerService) {
@@ -42,7 +37,7 @@ export class PoolRequestStagesPollingService extends PoolRequestStagesService {
     this.type = type;
     this.requestId = requestId;
     const poll$ = this.createPoll();
-    this.stages$ = merge(poll$, this.manuallyUpdatedStages$.asObservable());
+    this.resource$ = merge(poll$, this.resourceSubject$.asObservable());
   }
 
   /**
@@ -50,7 +45,7 @@ export class PoolRequestStagesPollingService extends PoolRequestStagesService {
    * @param poolId id of a pool associated with stages
    * @param requestId id of a request associated with stages
    */
-  getAll(poolId: number, requestId: number): Observable<RequestStage[]> {
+  getAll(poolId: number, requestId: number): Observable<PaginatedResource<RequestStage>> {
     this.onManualGetAll(poolId, requestId);
     const fakePagination = new RequestedPagination(0, 100, '', '');
     // TODO: Add once supported by a backend API
@@ -60,9 +55,8 @@ export class PoolRequestStagesPollingService extends PoolRequestStagesService {
     const stagesRequest$ = this.sandboxInstanceFacade.getCreationStages(poolId, requestId, fakePagination);
     return stagesRequest$
       .pipe(
-        map(paginatedResource => paginatedResource.elements),
         tap(
-          stages => this.manuallyUpdatedStages$.next(stages),
+          stages => this.resourceSubject$.next(stages),
           err => this.onGetAllError(err)
         )
       );
@@ -82,7 +76,7 @@ export class PoolRequestStagesPollingService extends PoolRequestStagesService {
       );
   }
 
-  private repeatLastGetAllRequest(): Observable<RequestStage[]> {
+  private repeatLastGetAllRequest(): Observable<PaginatedResource<RequestStage>> {
     this.hasErrorSubject$.next(false);
     const mockPagination = new RequestedPagination(0, 100, '', '');
     /*    const stagesRequest$ = this.type === 'CREATION'
@@ -91,12 +85,11 @@ export class PoolRequestStagesPollingService extends PoolRequestStagesService {
     const stagesRequest$ = this.sandboxInstanceFacade.getCreationStages(this.poolId, this.requestId, mockPagination);
     return stagesRequest$
       .pipe(
-        map(paginatedResource => paginatedResource.elements),
         tap({ error: err => this.onGetAllError(err)})
       );
   }
 
-  private createPoll(): Observable<RequestStage[]> {
+  private createPoll(): Observable<PaginatedResource<RequestStage>> {
     return timer(0, environment.apiPollingPeriod)
       .pipe(
         switchMap(_ => this.repeatLastGetAllRequest()),

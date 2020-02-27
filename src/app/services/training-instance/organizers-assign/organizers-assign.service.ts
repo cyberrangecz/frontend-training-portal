@@ -59,7 +59,6 @@ export class OrganizersAssignService extends Kypo2UserAssignService {
       .pipe(
         tap(paginatedUsers => {
             this.assignedUsersSubject.next(paginatedUsers);
-            this.totalLengthSubject.next( paginatedUsers.pagination.totalElements);
             this.isLoadingAssignedSubject.next(false);
           },
           err => {

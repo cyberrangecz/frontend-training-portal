@@ -24,10 +24,7 @@ export class ActiveTrainingRunConcreteService extends ActiveTrainingRunService {
 
   private lastPagination: RequestedPagination;
   private retryPolling$: Subject<boolean> = new Subject();
-  private manuallyUpdated$: BehaviorSubject<PaginatedResource<TrainingRunTableRow>> = new BehaviorSubject(this.initSubject());
   private trainingInstance: TrainingInstance;
-
-  activeTrainingRuns$: Observable<PaginatedResource<TrainingRunTableRow>>;
 
   constructor(private trainingInstanceFacade: TrainingInstanceApi,
               private sandboxInstanceFacade: SandboxInstanceApi,
@@ -44,12 +41,7 @@ export class ActiveTrainingRunConcreteService extends ActiveTrainingRunService {
     this.trainingInstance = trainingInstance;
     this.lastPagination = new RequestedPagination(0, environment.defaultPaginationSize, '', '');
     const poll$ = this.createPoll();
-    this.activeTrainingRuns$ = merge(poll$, this.manuallyUpdated$.asObservable())
-      .pipe(
-        tap(
-          paginatedRuns => this.totalLengthSubject$.next(paginatedRuns.pagination.totalElements)
-        )
-      );
+    this.resource$ = merge(poll$, this.resourceSubject$.asObservable());
   }
 
   /**
@@ -62,8 +54,7 @@ export class ActiveTrainingRunConcreteService extends ActiveTrainingRunService {
     return this.trainingInstanceFacade.getAssociatedTrainingRuns(trainingInstanceId, pagination)
       .pipe(
         tap( runs => {
-            this.manuallyUpdated$.next(runs);
-            this.totalLengthSubject$.next(runs.pagination.totalElements);
+            this.resourceSubject$.next(runs);
           },
           err => this.onGetAllError(err)
         )
@@ -113,12 +104,5 @@ export class ActiveTrainingRunConcreteService extends ActiveTrainingRunService {
         switchMap( _ => this.repeatLastGetAllRequest()),
         retryWhen(_ => this.retryPolling$)
       );
-  }
-
-  private initSubject(): PaginatedResource<TrainingRunTableRow> {
-    return new PaginatedResource(
-      [],
-      new Pagination(0, 0, environment.defaultPaginationSize, 0, 0)
-    );
   }
 }

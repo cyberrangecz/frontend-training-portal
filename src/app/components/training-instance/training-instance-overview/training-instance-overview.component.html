@@ -5,7 +5,6 @@
     [defaultSortName]="INITIAL_SORT_NAME"
     [defaultSortDirection]="INITIAL_SORT_DIR"
     [data]="instances$ | async"
-    [totalElements]="totalLength$ | async"
     [hasError]="hasError$ | async"
     (rowAction)="onInstanceAction($event)"
     (refresh)="onInstancesLoadEvent($event)">

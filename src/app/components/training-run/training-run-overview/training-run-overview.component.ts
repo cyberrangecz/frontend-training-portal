@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {RunningTrainingRunService} from '../../../services/training-run/running/running-training-run.service';
 import {BaseComponent} from '../../base.component';
-import {map, takeWhile} from 'rxjs/operators';
+import {map, takeWhile, tap} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ErrorHandlerService} from '../../../services/shared/error-handler.service';
 import {Observable} from 'rxjs';
@@ -24,8 +24,7 @@ import {TrainingRunOverviewTableCreator} from '../../../model/table/factory/trai
 export class TrainingRunOverviewComponent extends BaseComponent implements OnInit {
 
   trainingRuns$: Observable<Kypo2Table<AccessedTrainingRun>>;
-  trainingRunsTotalLength$: Observable<number>;
-  tableHasError$: Observable<boolean>;
+  hasError$: Observable<boolean>;
 
   constructor(private activeTrainingRun: RunningTrainingRunService,
               private trainingRunOverviewService: AccessedTrainingRunService,
@@ -110,11 +109,10 @@ export class TrainingRunOverviewComponent extends BaseComponent implements OnIni
     });
     this.activeTrainingRun.clear();
 
-    this.trainingRuns$ = this.trainingRunOverviewService.trainingRuns$
+    this.trainingRuns$ = this.trainingRunOverviewService.resource$
       .pipe(
-        map(trainingRuns => TrainingRunOverviewTableCreator.create(trainingRuns))
+        map(paginatedRuns => TrainingRunOverviewTableCreator.create(paginatedRuns))
       );
-    this.tableHasError$ = this.trainingRunOverviewService.hasError$;
-    this.trainingRunsTotalLength$ = this.trainingRunOverviewService.totalLength$;
+    this.hasError$ = this.trainingRunOverviewService.hasError$;
   }
 }

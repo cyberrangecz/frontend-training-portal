@@ -2,7 +2,6 @@
   elevation="0"
   [data]="activeTrainingRuns$ | async"
   [hasError]="activeTrainingRunsTableHasError$ | async"
-  [totalElements]="activeTrainingRunsTotalLength$ | async"
   (rowAction)="onActiveTrainingRunAction($event)"
   (refresh)="onTableLoadEvent($event)">
 </kypo2-table>

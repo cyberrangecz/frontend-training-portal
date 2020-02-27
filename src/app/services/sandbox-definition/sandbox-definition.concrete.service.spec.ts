@@ -56,7 +56,7 @@ describe('SandboxDefinitionConcreteService', () => {
     const mockData = createMockData();
     SandboxDefinitionFacadeSpy.getAllPaginated.and.returnValue(asyncData(mockData));
 
-    service.definitions$.pipe(skip(1))
+    service.resource$.pipe(skip(1))
       .subscribe(emitted => {
           expect(emitted).toBe(mockData);
           done();

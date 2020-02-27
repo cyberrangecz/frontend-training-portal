@@ -76,7 +76,7 @@ describe('ActiveTrainingRunConcreteService', () => {
     trainingInstanceApiSpy.getAssociatedTrainingRuns.and.returnValue(asyncData(mockData));
 
     service.startPolling(new TrainingInstance());
-    const subscription = service.activeTrainingRuns$.subscribe();
+    const subscription = service.resource$.subscribe();
     assertPoll(1);
     subscription.unsubscribe();
   }));
@@ -90,7 +90,7 @@ describe('ActiveTrainingRunConcreteService', () => {
       throwError(null)); // throw error on fourth call
 
     service.startPolling(new TrainingInstance());
-    const subscription = service.activeTrainingRuns$.subscribe();
+    const subscription = service.resource$.subscribe();
     assertPoll(3);
     tick(5 * environment.organizerSummaryPollingPeriod);
     expect(trainingInstanceApiSpy.getAssociatedTrainingRuns).toHaveBeenCalledTimes(4);
@@ -111,7 +111,7 @@ describe('ActiveTrainingRunConcreteService', () => {
       asyncData(mockData));
 
     service.startPolling(new TrainingInstance());
-    const subscription = service.activeTrainingRuns$.subscribe();
+    const subscription = service.resource$.subscribe();
     assertPoll(3);
     tick(environment.organizerSummaryPollingPeriod);
     expect(trainingInstanceApiSpy.getAssociatedTrainingRuns).toHaveBeenCalledTimes(4);

@@ -4,7 +4,7 @@ import {Kypo2Table, LoadTableEvent, TableActionEvent} from 'kypo2-table';
 import {SandboxInstanceService} from '../../../services/sandbox-instance/sandbox/sandbox-instance.service';
 import {SandboxInstance} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance';
 import {Observable} from 'rxjs';
-import {map, takeWhile} from 'rxjs/operators';
+import {map, takeWhile, tap} from 'rxjs/operators';
 import {PoolRequest} from '../../../model/sandbox/pool/request/pool-request';
 import {SandboxPool} from '../../../model/sandbox/pool/sandbox-pool';
 import {BaseComponent} from '../../base.component';
@@ -30,15 +30,12 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
   pool: SandboxPool;
 
   instances$: Observable<Kypo2Table<SandboxInstance>>;
-  instancesTotalLength$: Observable<number>;
   instancesTableHasError$: Observable<boolean>;
 
   creationRequests$: Observable<Kypo2Table<PoolRequest>>;
-  creationRequestsTotalLength$: Observable<number>;
   creationRequestsTableHasError$: Observable<boolean>;
 
   cleanupRequests$: Observable<Kypo2Table<PoolRequest>>;
-  cleanupRequestsTotalLength$: Observable<number>;
   cleanupRequestsTableHasError$: Observable<boolean>;
 
   constructor(private instanceService: SandboxInstanceService,
@@ -175,24 +172,17 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
       }
     );
 
-    this.instances$ = this.instanceService.instances$
+    this.instances$ = this.instanceService.resource$
       .pipe(
-        map(instances => SandboxInstanceTableCreator.create(instances))
+        map(paginatedInstance => SandboxInstanceTableCreator.create(paginatedInstance))
       );
     this.instancesTableHasError$ = this.instanceService.hasError$;
-    this.instancesTotalLength$ = this.instanceService.totalLength$;
 
-    this.creationRequests$ = this.creationRequestService.requests$
+    this.creationRequests$ = this.creationRequestService.resource$
       .pipe(
-        map(requests => PoolRequestTableCreator.create(requests, this.pool.id, 'CREATION')));
+        map(paginatedRequests => PoolRequestTableCreator.create(paginatedRequests, this.pool.id, 'CREATION')));
     this.creationRequestsTableHasError$ = this.creationRequestService.hasError$;
-    this.creationRequestsTotalLength$ = this.creationRequestService.totalLength$;
-   // TODO: Add when backend API supports cleanup requests
-/*    this.cleanupRequests$ = this.cleanupRequestService.requests$
-      .pipe(
-        map(requests => PoolRequestTableCreator.create(requests, this.pool.id, 'CLEANUP'))
-      );
-    this.cleanupRequestsTableHasError$ = this.cleanupRequestService.hasError$;
-    this.cleanupRequestsTotalLength$ = this.cleanupRequestService.totalLength$;*/
+
+   // TODO: Add  cleanup when backend API supports cleanup requests
   }
 }

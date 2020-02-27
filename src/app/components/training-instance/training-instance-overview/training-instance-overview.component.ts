@@ -9,7 +9,7 @@ import {TrainingInstanceOverviewService} from '../../../services/training-instan
 import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
 import {environment} from '../../../../environments/environment';
 import {TrainingInstanceTableCreator} from '../../../model/table/factory/training-instance-table-creator';
-import {map, takeWhile} from 'rxjs/operators';
+import {map, takeWhile, tap} from 'rxjs/operators';
 
 /**
  * Main component of organizer overview.
@@ -25,9 +25,8 @@ export class TrainingInstanceOverviewComponent extends BaseComponent implements 
   readonly INITIAL_SORT_NAME = 'startTime';
   readonly INITIAL_SORT_DIR = 'desc';
 
+  instances$: Observable<Kypo2Table<TrainingInstanceRowAdapter>>;
   hasError$: Observable<boolean>;
-  totalLength$: Observable<number>;
-  instances$: Observable<Kypo2Table<TrainingInstanceRowAdapter>> ;
 
   constructor(private router: Router,
               private trainingInstanceService: TrainingInstanceOverviewService) {
@@ -54,7 +53,7 @@ export class TrainingInstanceOverviewComponent extends BaseComponent implements 
       this.router.navigate([RouteFactory.toTrainingInstanceEdit(event.element.id)]);
       return;
     }
-    
+
     let action$;
     if (event.action.id === TrainingInstanceTableCreator.ARCHIVE_ACTION_ID) {
       action$ = this.trainingInstanceService.archive(event.element.id);
@@ -72,11 +71,10 @@ export class TrainingInstanceOverviewComponent extends BaseComponent implements 
     const initLoadEvent = new LoadTableEvent(
       new RequestedPagination(0, environment.defaultPaginationSize, this.INITIAL_SORT_NAME, this.INITIAL_SORT_DIR)
     );
-    this.instances$ = this.trainingInstanceService.trainingInstances$
+    this.instances$ = this.trainingInstanceService.resource$
       .pipe(
-        map(paginatedResource => TrainingInstanceTableCreator.create(paginatedResource, this.trainingInstanceService))
+        map(paginatedInstances => TrainingInstanceTableCreator.create(paginatedInstances, this.trainingInstanceService))
       );
-    this.totalLength$ = this.trainingInstanceService.totalLength$;
     this.hasError$ = this.trainingInstanceService.hasError$;
     this.onInstancesLoadEvent(initLoadEvent);
   }

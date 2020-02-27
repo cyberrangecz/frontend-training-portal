@@ -8,14 +8,8 @@ import {PaginatedResourceService} from '../../shared/paginated-resource.service'
  * Layer between component and API service. Implement concrete service by extending this class.
  * Provide concrete class in Angular Module. For more info see https://angular.io/guide/dependency-injection-providers.
  * You can use get methods to get paginated resources and other actions to modify data.
- * Subscribe to trainingRuns$ to receive latest data updates.
  */
-export abstract class AccessedTrainingRunService extends PaginatedResourceService {
-
-  /***
-   * @contract must be updated every time new data are received
-   */
-  abstract trainingRuns$: Observable<PaginatedResource<AccessedTrainingRun>>;
+export abstract class AccessedTrainingRunService extends PaginatedResourceService<AccessedTrainingRun> {
 
   /**
    * Requests paginated data

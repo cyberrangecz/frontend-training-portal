@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {EMPTY, Observable} from 'rxjs';
-import {map, switchMap, takeWhile} from 'rxjs/operators';
+import {map, switchMap, takeWhile, tap} from 'rxjs/operators';
 import {Kypo2Table, LoadTableEvent} from 'kypo2-table';
 import {TrainingRunTableCreator} from '../../../../../model/table/factory/training-run-table-creator';
 import {TrainingRunTableAdapter} from '../../../../../model/table/row/training-run-table-adapter';
@@ -30,7 +30,6 @@ export class ActiveTrainingRunOverviewComponent extends BaseComponent implements
   @Input() isPollingActive: boolean;
 
   activeTrainingRuns$: Observable<Kypo2Table<TrainingRunTableAdapter>>;
-  activeTrainingRunsTotalLength$: Observable<number>;
   activeTrainingRunsTableHasError$: Observable<boolean>;
 
   constructor(
@@ -67,13 +66,12 @@ export class ActiveTrainingRunOverviewComponent extends BaseComponent implements
 
   private startPolling() {
     this.activeTrainingRunService.startPolling(this.trainingInstance);
-    this.activeTrainingRuns$ = this.activeTrainingRunService.activeTrainingRuns$
+    this.activeTrainingRuns$ = this.activeTrainingRunService.resource$
       .pipe(
           takeWhile(_ => this.isPollingActive),
-          map(trainingRuns => TrainingRunTableCreator.create(trainingRuns, 'active'))
+          map(paginatedRuns => TrainingRunTableCreator.create(paginatedRuns, 'active'))
       );
     this.activeTrainingRunsTableHasError$ = this.activeTrainingRunService.hasError$;
-    this.activeTrainingRunsTotalLength$ = this.activeTrainingRunService.totalLength$;
   }
 
   private deleteSandboxOfTrainingRun(row: TrainingRunTableAdapter) {

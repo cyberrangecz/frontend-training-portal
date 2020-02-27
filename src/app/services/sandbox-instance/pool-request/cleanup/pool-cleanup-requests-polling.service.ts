@@ -18,20 +18,15 @@ import {HttpErrorResponse} from '@angular/common/http';
 @Injectable()
 export class PoolCleanupRequestsPollingService extends PoolRequestPollingService {
 
-  private manuallyUpdatedRequests$: BehaviorSubject<PaginatedResource<PoolRequest>> = new BehaviorSubject(this.initSubject());
-
   /**
    * List of cleanup requests with currently selected pagination options
    */
-  requests$: Observable<PaginatedResource<PoolRequest>>;
+  resource$: Observable<PaginatedResource<PoolRequest>>;
 
   constructor(private sandboxInstanceFacade: SandboxInstanceApi,
               private errorHandler: ErrorHandlerService) {
     super();
-    this.requests$ = merge(this.poll$, this.manuallyUpdatedRequests$.asObservable())
-      .pipe(
-        tap(paginatedRequests => this.totalLengthSubject$.next(paginatedRequests.pagination.totalElements))
-      );
+    this.resource$ = merge(this.poll$, this.resourceSubject$.asObservable());
   }
 
   /**
@@ -44,7 +39,7 @@ export class PoolCleanupRequestsPollingService extends PoolRequestPollingService
     return this.sandboxInstanceFacade.getCleanupRequests(poolId, pagination)
       .pipe(
         tap(
-          paginatedRequests => this.manuallyUpdatedRequests$.next(paginatedRequests),
+          paginatedRequests => this.resourceSubject$.next(paginatedRequests),
           err => this.onGetAllError(err)
         )
       );
@@ -90,9 +85,5 @@ export class PoolCleanupRequestsPollingService extends PoolRequestPollingService
   private onGetAllError(err: HttpErrorResponse) {
     this.errorHandler.emit(err, 'Fetching deletion requests');
     this.hasErrorSubject$.next(true);
-  }
-
-  private initSubject(): PaginatedResource<PoolRequest> {
-    return new PaginatedResource([], new Pagination(0, 0, environment.defaultPaginationSize, 0, 0));
   }
 }

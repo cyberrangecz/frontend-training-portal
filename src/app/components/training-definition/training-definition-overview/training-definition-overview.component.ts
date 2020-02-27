@@ -35,7 +35,6 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent
   readonly INIT_SORT_DIR = 'desc';
 
   trainingDefinitions$: Observable<Kypo2Table<TrainingDefinition>>;
-  totalLength$: Observable<number>;
   hasError$: Observable<boolean>;
   isLoading$: Observable<boolean>;
 
@@ -242,10 +241,9 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent
   }
 
   private initTable() {
-    this.totalLength$ = this.trainingDefinitionService.totalLength$;
     this.hasError$ = this.trainingDefinitionService.hasError$;
     this.isLoading$ = this.trainingDefinitionService.isLoading$;
-    this.trainingDefinitions$ = this.trainingDefinitionService.trainingDefinitions$
+    this.trainingDefinitions$ = this.trainingDefinitionService.resource$
       .pipe(
         map(tds => TrainingDefinitionTableCreator.create(tds))
       );

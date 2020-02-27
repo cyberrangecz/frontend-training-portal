@@ -4,8 +4,7 @@ import {PaginatedResource} from '../../model/table/other/paginated-resource';
 import {TrainingInstance} from '../../model/training/training-instance';
 import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
 
-export abstract class TrainingInstanceOverviewService extends PaginatedResourceService {
-  abstract trainingInstances$: Observable<PaginatedResource<TrainingInstance>>;
+export abstract class TrainingInstanceOverviewService extends PaginatedResourceService<TrainingInstance> {
 
   abstract getAll(pagination: RequestedPagination, filter: string): Observable<PaginatedResource<TrainingInstance>>;
 
