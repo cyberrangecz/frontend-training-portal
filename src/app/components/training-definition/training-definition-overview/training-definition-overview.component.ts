@@ -1,24 +1,15 @@
 import {TrainingDefinitionStateEnum} from '../../../model/enums/training-definition-state.enum';
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from '../../base.component';
-import {MatDialog} from '@angular/material/dialog';
-import {EMPTY, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {Kypo2Table, LoadTableEvent, RequestedPagination, TableActionEvent} from 'kypo2-table';
 import {TrainingDefinitionService} from '../../../services/training-definition/overview/training-definition.service';
-import {map, switchMap, take, takeWhile, tap} from 'rxjs/operators';
-import {CloneDialogComponent} from './clone-dialog/clone-dialog.component';
-import {ActivatedRoute, Router} from '@angular/router';
-import {TrainingDefinitionUploadDialogComponent} from './training-definition-upload-dialog/training-definition-upload-dialog.component';
+import {map, takeWhile} from 'rxjs/operators';
+import {ActivatedRoute} from '@angular/router';
 import {environment} from '../../../../environments/environment';
-import {RouteFactory} from '../../../model/routes/route-factory';
 import {TrainingDefinition} from '../../../model/training/training-definition';
 import {TrainingDefinitionTableCreator} from '../../../model/table/factory/training-definition-table-creator';
-import {FileUploadProgressService} from '../../../services/shared/file-upload-progress.service';
-import {
-  CsirtMuConfirmationDialogComponent,
-  CsirtMuConfirmationDialogConfig,
-  CsirtMuDialogResultEnum
-} from 'csirt-mu-layout';
+
 
 /**
  * Main smart component of training definition overview
@@ -39,10 +30,7 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent
   isLoading$: Observable<boolean>;
 
   constructor(
-    private router: Router,
     private activatedRoute: ActivatedRoute,
-    private dialog: MatDialog,
-    private fileUploadProgressService: FileUploadProgressService,
     private trainingDefinitionService: TrainingDefinitionService) {
     super();
   }
@@ -65,179 +53,61 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent
 
   /**
    * Resolves controls action and calls appropriate handler
-   * @param action type of action emitted by controls component
+   * @param actionType type of action emitted by controls component
    */
-  onControlsAction(action: 'create' | 'upload') {
-    switch (action) {
+  onControlsAction(actionType: 'create' | 'upload') {
+    let action$: Observable<any>;
+    switch (actionType) {
       case 'create':
-        this.newTrainingDefinition();
+        action$ = this.trainingDefinitionService.create();
         break;
       case 'upload':
-        this.uploadTrainingDefinition();
+        action$ = this.trainingDefinitionService.upload();
         break;
     }
+    action$
+      .pipe(
+        takeWhile(_ => this.isAlive)
+      ).subscribe();
   }
 
   /**
    * Resolves type of emitted event and calls appropriate handler
    * @param event action event emitted from table component
    */
-  onTrainingDefinitionTableAction(event: TableActionEvent<TrainingDefinition>) {
+  onTableAction(event: TableActionEvent<TrainingDefinition>) {
+    let action$: Observable<any>;
     switch (event.action.id) {
       case TrainingDefinitionTableCreator.CLONE_ACTION_ID:
-        this.openCloneDialog(event.element);
+        action$ = this.trainingDefinitionService.clone(event.element);
         break;
       case TrainingDefinitionTableCreator.DOWNLOAD_ACTION_ID:
-        this.downloadTrainingDefinition(event.element);
+        action$ = this.trainingDefinitionService.download(event.element);
         break;
       case TrainingDefinitionTableCreator.PREVIEW_ACTION_ID:
-        this.previewTrainingDefinition(event.element);
+        action$ = this.trainingDefinitionService.preview(event.element);
         break;
       case TrainingDefinitionTableCreator.EDIT_ACTION_ID:
-        this.editTrainingDefinition(event.element);
+        action$ = this.trainingDefinitionService.edit(event.element);
         break;
       case TrainingDefinitionTableCreator.DELETE_ACTION_ID:
-        this.deleteTrainingDefinition(event.element);
+        action$ = this.trainingDefinitionService.delete(event.element);
         break;
       case TrainingDefinitionTableCreator.RELEASE_ACTION_ID:
-        this.changeTrainingDefinitionState(TrainingDefinitionStateEnum.Released, event.element);
+        action$ = this.trainingDefinitionService.changeState(event.element, TrainingDefinitionStateEnum.Released);
         break;
       case TrainingDefinitionTableCreator.UNRELEASE_ACTION_ID:
-        this.changeTrainingDefinitionState(TrainingDefinitionStateEnum.Unreleased, event.element);
+        action$ = this.trainingDefinitionService.changeState(event.element, TrainingDefinitionStateEnum.Unreleased);
         break;
       case TrainingDefinitionTableCreator.ARCHIVE_ACTION_ID:
-        this.changeTrainingDefinitionState(TrainingDefinitionStateEnum.Archived, event.element);
+        action$ = this.trainingDefinitionService.changeState(event.element, TrainingDefinitionStateEnum.Archived);
         break;
     }
-  }
 
-  /**
-   * Displays dialog window to clone a training definition and if confirmed, calls service to clone
-   * @param trainingDefinition training definition to clone
-   */
-  private openCloneDialog(trainingDefinition: TrainingDefinition) {
-    const dialogRef = this.dialog.open(CloneDialogComponent, {
-      data: trainingDefinition
-    });
-    dialogRef
-      .afterClosed()
+    action$
       .pipe(
-        takeWhile(() => this.isAlive),
-        switchMap(result => result && result.type === 'confirm'
-        ? this.trainingDefinitionService.clone(trainingDefinition.id, result.title)
-        : EMPTY)
+        takeWhile(_ => this.isAlive)
       ).subscribe();
-  }
-
-  /**
-   * Displays dialog window to confirm deleting training definition, if confirmed, calls service to delete training definition
-   * @param trainingDefinition training definition to delete
-   */
-  private deleteTrainingDefinition(trainingDefinition: TrainingDefinition) {
-    const dialogRef = this.dialog.open(CsirtMuConfirmationDialogComponent, {
-      data: new CsirtMuConfirmationDialogConfig(
-        'Delete Training Definition',
-        `Do you want to delete training definition "${trainingDefinition.title}"?`,
-        'Cancel',
-        'Delete'
-      )
-    });
-
-    dialogRef.afterClosed()
-      .pipe(
-        takeWhile(() => this.isAlive),
-        switchMap(result => result === CsirtMuDialogResultEnum.CONFIRMED
-        ? this.trainingDefinitionService.delete(trainingDefinition.id)
-        : EMPTY)
-      )
-      .subscribe();
-  }
-
-  /**
-   * Calls service to download selected training definition
-   * @param trainingDefinition training definition to download
-   */
-  private downloadTrainingDefinition(trainingDefinition: TrainingDefinition) {
-    this.trainingDefinitionService.download(trainingDefinition.id)
-      .pipe(
-        takeWhile(() => this.isAlive)
-      )
-      .subscribe();
-  }
-
-  /**
-   * Navigates to training definition edit page
-   * @param trainingDefinition raining definition to be edited
-   */
-  private editTrainingDefinition(trainingDefinition: TrainingDefinition) {
-    this.router.navigate([RouteFactory.toTrainingDefinitionEdit(trainingDefinition.id)]);
-  }
-
-  /**
-   * Navigates to training definition preview page
-   * @param trainingDefinition training definition to preview
-   */
-  private previewTrainingDefinition(trainingDefinition: TrainingDefinition) {
-    this.router.navigate([RouteFactory.toTrainingDefinitionPreview(trainingDefinition.id)]);
-  }
-
-  /**
-   * Opens state change confirmation dialog, if confirmed, calls service to change state of the training definition
-   * @param newState state to be set
-   * @param trainingDefinition training definition which state should be changed
-   */
-  changeTrainingDefinitionState(newState: TrainingDefinitionStateEnum, trainingDefinition: TrainingDefinition) {
-    const dialogRef = this.dialog.open(CsirtMuConfirmationDialogComponent, {
-      data: new CsirtMuConfirmationDialogConfig(
-        'Training Definition State Change',
-      `Do you want to change state of training definition from "${trainingDefinition.state}" to "${newState}"?`,
-        'Cancel',
-        'Change'
-    )});
-
-    dialogRef.afterClosed()
-      .pipe(
-        takeWhile(() => this.isAlive),
-        switchMap(result => result === CsirtMuDialogResultEnum.CONFIRMED
-          ? this.trainingDefinitionService.changeState(trainingDefinition.id, newState)
-          : EMPTY)
-      )
-      .subscribe();
-  }
-
-  /**
-   * Navigates to new training definition page
-   */
-  private newTrainingDefinition() {
-    this.router.navigate([RouteFactory.toNewTrainingDefinition()]);
-  }
-
-  /**
-   * Opens dialog window to upload training definition, calls service to upload with selected file
-   */
-  private uploadTrainingDefinition() {
-    const dialogRef = this.dialog.open(
-      TrainingDefinitionUploadDialogComponent,
-      {
-        data: {
-          title: 'Upload Training Definition',
-          type: 'training'
-        }
-      }
-    );
-
-    dialogRef.componentInstance.onUpload
-      .pipe(
-        take(1),
-        tap(_ => this.fileUploadProgressService.start()),
-        switchMap(file => this.trainingDefinitionService.upload(file))
-      ).subscribe(
-        _ =>  {
-          this.fileUploadProgressService.finish();
-          dialogRef.close();
-          },
-        _ => this.fileUploadProgressService.finish()
-    );
   }
 
   private initTable() {

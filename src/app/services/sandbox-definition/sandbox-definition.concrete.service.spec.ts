@@ -1,6 +1,6 @@
 import {async, TestBed} from '@angular/core/testing';
 import {ErrorHandlerService} from '../shared/error-handler.service';
-import {SandboxDefinitionConcreteService} from './sandbox-definition.concrete.service';
+import {SandboxDefinitionOverviewConcreteService} from './sandbox-definition-overview-concrete.service';
 import {SandboxDefinitionApi} from '../api/sandbox-definition-api.service';
 import {throwError} from 'rxjs';
 import {RequestedPagination} from 'kypo2-table';
@@ -10,29 +10,35 @@ import {asyncData} from '../../testing/helpers/async-data';
 import {PaginatedResource} from '../../model/table/other/paginated-resource';
 import {Pagination} from '../../model/table/other/pagination';
 import {SandboxDefinition} from '../../model/sandbox/definition/sandbox-definition';
+import {MatDialog} from '@angular/material/dialog';
+import {RouterTestingModule} from '@angular/router/testing';
 
-describe('SandboxDefinitionConcreteService', () => {
+describe('SandboxDefinitionOverviewConcreteService', () => {
 
   let errorHandlerSpy: jasmine.SpyObj<ErrorHandlerService>;
-  let SandboxDefinitionFacadeSpy: jasmine.SpyObj<SandboxDefinitionApi>;
+  let apiSpy: jasmine.SpyObj<SandboxDefinitionApi>;
   let alertHandlerSpy: jasmine.SpyObj<AlertService>;
-  let service: SandboxDefinitionConcreteService;
+  let dialogSpy: jasmine.SpyObj<MatDialog>;
+  let service: SandboxDefinitionOverviewConcreteService;
 
 
   beforeEach(async(() => {
     errorHandlerSpy = jasmine.createSpyObj('ErrorHandlerService', ['emit']);
     alertHandlerSpy = jasmine.createSpyObj('AlertService', ['emitAlert']);
-    SandboxDefinitionFacadeSpy = jasmine.createSpyObj('SandboxDefinitionFacade', ['getAllPaginated', 'delete', 'add']);
+    dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
+    apiSpy = jasmine.createSpyObj('SandboxDefinitionApi', ['getAllPaginated', 'delete', 'add']);
 
     TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
       providers: [
-        SandboxDefinitionConcreteService,
-        {provide: SandboxDefinitionApi, useValue: SandboxDefinitionFacadeSpy},
+        SandboxDefinitionOverviewConcreteService,
+        {provide: MatDialog, useValue: dialogSpy},
+        {provide: SandboxDefinitionApi, useValue: apiSpy},
         {provide: AlertService, useValue: alertHandlerSpy},
         {provide: ErrorHandlerService, useValue: errorHandlerSpy},
       ]
     });
-    service = TestBed.inject(SandboxDefinitionConcreteService);
+    service = TestBed.inject(SandboxDefinitionOverviewConcreteService);
   }));
 
   it('should be created', () => {
@@ -41,20 +47,20 @@ describe('SandboxDefinitionConcreteService', () => {
 
   it('should call error handler on err', done => {
     const pagination = createPagination();
-    SandboxDefinitionFacadeSpy.getAllPaginated.and.returnValue(throwError(null));
+    apiSpy.getAllPaginated.and.returnValue(throwError(null));
 
     service.getAll(pagination).subscribe( _ => fail,
       _ => {
         expect(errorHandlerSpy.emit).toHaveBeenCalledTimes(1);
         done();
       });
-    expect(SandboxDefinitionFacadeSpy.getAllPaginated).toHaveBeenCalledTimes(1);
+    expect(apiSpy.getAllPaginated).toHaveBeenCalledTimes(1);
   });
 
   it('should emit next value on update (sandboxDefinitions)', done => {
     const pagination = createPagination();
     const mockData = createMockData();
-    SandboxDefinitionFacadeSpy.getAllPaginated.and.returnValue(asyncData(mockData));
+    apiSpy.getAllPaginated.and.returnValue(asyncData(mockData));
 
     service.resource$.pipe(skip(1))
       .subscribe(emitted => {

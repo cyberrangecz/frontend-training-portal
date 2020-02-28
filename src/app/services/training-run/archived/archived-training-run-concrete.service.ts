@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, merge, Observable, Subject, timer} from 'rxjs';
-import {Pagination} from 'kypo2-table';
+import {EMPTY, merge, Observable, Subject, timer} from 'rxjs';
 import {TrainingRunTableRow} from '../../../model/table/row/training-run-table-row';
 import {PaginatedResource} from '../../../model/table/other/paginated-resource';
 import {TrainingRunApi} from '../../api/training-run-api.service';
@@ -13,6 +12,12 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {AlertService} from '../../shared/alert.service';
 import {TrainingInstance} from '../../../model/training/training-instance';
 import {ArchivedTrainingRunService} from './archived-training-run.service';
+import {
+  CsirtMuConfirmationDialogComponent,
+  CsirtMuConfirmationDialogConfig,
+  CsirtMuDialogResultEnum
+} from 'csirt-mu-layout';
+import {MatDialog} from '@angular/material/dialog';
 
 /**
  * Basic implementation of layer between component and API service.
@@ -32,6 +37,7 @@ export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunServi
 
   constructor(
     private trainingRunFacade: TrainingRunApi,
+    private dialog: MatDialog,
     private trainingInstanceFacade: TrainingInstanceApi,
     private alertService: AlertService,
     private errorHandler: ErrorHandlerService
@@ -70,31 +76,30 @@ export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunServi
   }
 
   /**
-   * Deletes selected archived training run and refreshes list of all archived training runs
+   * Displays dialog to confirm deleting training run and refreshes list of all archived training runs
    * as a side effect or handles error
    * @param id of archived training run to delete
    */
   delete(id: number): Observable<PaginatedResource<TrainingRunTableRow>> {
-    return this.trainingRunFacade.delete(id).pipe(
-      tap({
-        error: err => this.errorHandler.emit(err, 'Deleting training run')
-      }),
-      switchMap(() => this.getAll(this.trainingInstance.id, this.lastPagination))
-    );
+    return this.displayDialogToDelete()
+      .pipe(
+        switchMap(result => result === CsirtMuDialogResultEnum.CONFIRMED
+        ? this.callApiToDelete(id)
+        : EMPTY)
+      );
   }
 
   /**
-   * Deletes selected archived training runs and refreshes list of all archived training runs
+   * Displays dialog to confirm deleting selected archived training runs and refreshes list of all archived training runs
    * as a side effect or handles error
    * @param idsToDelete ids of archived training run to delete
    */
-  deleteMultiple(idsToDelete: number[]): Observable<any> {
-    return this.trainingRunFacade.deleteMultiple(idsToDelete)
+  deleteMultiple(idsToDelete: number[]): Observable<PaginatedResource<TrainingRunTableRow>> {
+    return this.displayDialogToDelete(true)
       .pipe(
-        tap({
-          error: err => this.errorHandler.emit(err, 'Deleting training runs')
-        }),
-        switchMap(() => this.getAll(this.trainingInstance.id, this.lastPagination))
+        switchMap(result => result === CsirtMuDialogResultEnum.CONFIRMED
+          ? this.callApiToDeleteMultiple(idsToDelete)
+          : EMPTY)
       );
   }
 
@@ -129,4 +134,41 @@ export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunServi
     }
     this.hasErrorSubject$.next(false);
   }
+
+  private displayDialogToDelete(multiple = false): Observable<CsirtMuDialogResultEnum> {
+    const title = multiple ? 'Delete Training Runs' : 'Delete Training Run';
+    const message = multiple
+      ? `Do you want to delete the training run?`
+      : 'Do you want to delete selected training runs?';
+
+    const dialogRef = this.dialog.open(CsirtMuConfirmationDialogComponent, {
+      data: new CsirtMuConfirmationDialogConfig(
+        title,
+        message,
+        'Cancel',
+        'Delete'
+      )
+    });
+    return dialogRef.afterClosed();
+  }
+
+  private callApiToDelete(id: number): Observable<PaginatedResource<TrainingRunTableRow>> {
+    return this.trainingRunFacade.delete(id).pipe(
+      tap({
+        error: err => this.errorHandler.emit(err, 'Deleting training run')
+      }),
+      switchMap(() => this.getAll(this.trainingInstance.id, this.lastPagination))
+    );
+  }
+
+  private callApiToDeleteMultiple(idsToDelete: number[]): Observable<PaginatedResource<TrainingRunTableRow>> {
+    return this.trainingRunFacade.deleteMultiple(idsToDelete)
+      .pipe(
+        tap({
+          error: err => this.errorHandler.emit(err, 'Deleting training runs')
+        }),
+        switchMap(() => this.getAll(this.trainingInstance.id, this.lastPagination))
+      );
+  }
+
 }

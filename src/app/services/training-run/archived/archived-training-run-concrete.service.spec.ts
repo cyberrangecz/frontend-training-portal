@@ -12,12 +12,14 @@ import {PaginatedResource} from '../../../model/table/other/paginated-resource';
 import {Pagination} from '../../../model/table/other/pagination';
 import {environment} from '../../../../environments/environment';
 import {AlertService} from '../../shared/alert.service';
+import {MatDialog} from '@angular/material/dialog';
 
 describe('ArchivedTrainingRunConcreteService', () => {
 
   let errorHandlerSpy: jasmine.SpyObj<ErrorHandlerService>;
   let trainingInstanceFacadeSpy: jasmine.SpyObj<TrainingInstanceApi>;
   let trainingRunFacadeSpy: jasmine.SpyObj<TrainingRunApi>;
+  let dialogSpy: jasmine.SpyObj<MatDialog>;
   let alertHandlerSpy: jasmine.SpyObj<AlertService>;
   let service: ArchivedTrainingRunConcreteService;
 
@@ -26,10 +28,13 @@ describe('ArchivedTrainingRunConcreteService', () => {
     trainingInstanceFacadeSpy = jasmine.createSpyObj('TrainingInstanceApi', ['getAssociatedTrainingRuns']);
     alertHandlerSpy = jasmine.createSpyObj('AlertService', ['emitAlert']);
     trainingRunFacadeSpy = jasmine.createSpyObj('TrainingRunFacade', ['deleteMultiple']);
+    dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
 
     TestBed.configureTestingModule({
       providers: [
         ArchivedTrainingRunConcreteService,
+        {provide: MatDialog, useValue: dialogSpy},
+
         { provide: TrainingInstanceApi, useValue: trainingInstanceFacadeSpy },
         { provide: ErrorHandlerService, useValue: errorHandlerSpy },
         { provide: AlertService, useValue: alertHandlerSpy },
@@ -69,21 +74,6 @@ describe('ArchivedTrainingRunConcreteService', () => {
       _ => fail,
       _ => done()
     );
-  });
-
-  it('should called deleteMultiple (called once)', done => {
-    const mockData = createMock();
-    const ti = new TrainingInstance();
-    ti.id = 1;
-    trainingInstanceFacadeSpy.getAssociatedTrainingRuns.and.returnValue(asyncData(mockData));
-    trainingRunFacadeSpy.deleteMultiple.and.returnValue(asyncData([1, 2, 5]));
-    service.startPolling(ti); // to initialize the service
-    service.deleteMultiple([1, 2, 5]).subscribe(_ => {
-        expect(trainingRunFacadeSpy.deleteMultiple).toHaveBeenCalledTimes(1);
-        expect(trainingRunFacadeSpy.deleteMultiple).toHaveBeenCalledWith([1, 2, 5]);
-        done();
-      },
-      _ => fail);
   });
 
   it('should start polling', fakeAsync(() => {

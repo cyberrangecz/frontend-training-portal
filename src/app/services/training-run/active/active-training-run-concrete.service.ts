@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, merge, Observable, Subject, timer} from 'rxjs';
+import {EMPTY, merge, Observable, Subject, timer} from 'rxjs';
 import {PaginatedResource} from '../../../model/table/other/paginated-resource';
 import {TrainingRunTableRow} from '../../../model/table/row/training-run-table-row';
-import {Pagination} from 'kypo2-table';
 import {environment} from '../../../../environments/environment';
 import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
 import {TrainingInstanceApi} from '../../api/training-instance-api.service';
@@ -14,6 +13,13 @@ import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
 import {AlertService} from '../../shared/alert.service';
 import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
 import {ActiveTrainingRunService} from './active-training-run.service';
+import {TrainingRun} from '../../../model/training/training-run';
+import {
+  CsirtMuConfirmationDialogConfig,
+  CsirtMuDialogResultEnum,
+  CsirtMuNotificationDetailComponent
+} from 'csirt-mu-layout';
+import {MatDialog} from '@angular/material/dialog';
 
 /**
  * Basic implementation of layer between component and API service.
@@ -28,6 +34,7 @@ export class ActiveTrainingRunConcreteService extends ActiveTrainingRunService {
 
   constructor(private trainingInstanceFacade: TrainingInstanceApi,
               private sandboxInstanceFacade: SandboxInstanceApi,
+              private dialog: MatDialog,
               private alertService: AlertService,
               private errorHandler: ErrorHandlerService) {
     super();
@@ -64,16 +71,42 @@ export class ActiveTrainingRunConcreteService extends ActiveTrainingRunService {
   /**
    * Delete sandbox instance associated with training instance and refreshes list of all active training runs
    * as a side effect or handles error
-   * @param trainingInstanceId associated with sandbox instance
-   * @param sandboxId to delete
+   * @param trainingRun training run whose sandbox should be deleted
    */
-  deleteSandbox(trainingInstanceId: number, sandboxId: number): Observable<any> {
-    return this.sandboxInstanceFacade.delete(sandboxId)
+  deleteSandbox(trainingRun: TrainingRun): Observable<any> {
+    if (trainingRun.hasPlayer() && trainingRun.isRunning()) {
+      return this.displayDeleteSandboxDialog(trainingRun)
+        .pipe(
+          switchMap(result => result === CsirtMuDialogResultEnum.CONFIRMED
+          ? this.callApiToDeleteSandbox(trainingRun)
+          : EMPTY
+          )
+        );
+    } else {
+      return this.callApiToDeleteSandbox(trainingRun);
+    }
+
+  }
+
+  private displayDeleteSandboxDialog(trainingRun: TrainingRun): Observable<CsirtMuDialogResultEnum> {
+    const dialogRef = this.dialog.open(CsirtMuNotificationDetailComponent, {
+      data: new CsirtMuConfirmationDialogConfig(
+        'Delete Sandbox Instance',
+        `Do you want to delete sandbox instance of player "${trainingRun?.player?.name}"?`,
+        'Cancel',
+        'Delete'
+      )
+    });
+    return dialogRef.afterClosed();
+  }
+
+  private callApiToDeleteSandbox(trainingRun): Observable<PaginatedResource<TrainingRunTableRow>> {
+    return this.sandboxInstanceFacade.delete(trainingRun.sandboxInstanceId)
       .pipe(
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Deleting of sandbox instance started'),
           err => this.errorHandler.emit(err, 'Deleting sandbox instance')
         ),
-        switchMap(_ => this.getAll(trainingInstanceId, this.lastPagination))
+        switchMap(_ => this.getAll(trainingRun.trainingInstanceId, this.lastPagination))
       );
   }
 
