@@ -1,25 +1,33 @@
-import {SandboxDefinitionService} from './sandbox-definition.service';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {SandboxDefinitionOverviewService} from './sandbox-definition-overview.service';
+import {BehaviorSubject, EMPTY, Observable, of} from 'rxjs';
 import {PaginatedResource} from '../../model/table/other/paginated-resource';
-import {Pagination, RequestedPagination} from 'kypo2-table';
+import {RequestedPagination} from 'kypo2-table';
 import {switchMap, tap} from 'rxjs/operators';
 import {SandboxDefinitionApi} from '../api/sandbox-definition-api.service';
 import {ErrorHandlerService} from '../shared/error-handler.service';
 import {Injectable} from '@angular/core';
-import {SandboxDefinitionCreateInfo} from '../../model/sandbox/definition/sandbox-definition-create-info';
 import {AlertTypeEnum} from '../../model/enums/alert-type.enum';
 import {AlertService} from '../shared/alert.service';
-import {environment} from '../../../environments/environment';
 import {SandboxDefinition} from '../../model/sandbox/definition/sandbox-definition';
+import {RouteFactory} from '../../model/routes/route-factory';
+import {Router} from '@angular/router';
+import {
+  CsirtMuConfirmationDialogComponent,
+  CsirtMuConfirmationDialogConfig,
+  CsirtMuDialogResultEnum
+} from 'csirt-mu-layout';
+import {MatDialog} from '@angular/material/dialog';
 
 /**
  * Basic implementation of a layer between a component and an API service.
  * Can manually get sandbox definitions and perform various operations to modify them.
  */
 @Injectable()
-export class SandboxDefinitionConcreteService extends SandboxDefinitionService {
+export class SandboxDefinitionOverviewConcreteService extends SandboxDefinitionOverviewService {
 
   constructor(private sandboxDefinitionFacade: SandboxDefinitionApi,
+    private router: Router,
+    private dialog: MatDialog,
     private alertService: AlertService,
     private errorHandler: ErrorHandlerService) {
     super();
@@ -45,25 +53,38 @@ export class SandboxDefinitionConcreteService extends SandboxDefinitionService {
     );
   }
 
-  /**
-   * Creates a sandbox definition, informs about the result and updates list of sandbox definitions or handles an error
-   * @param sandboxDefinitionInfo container for attributes required for sandbox definition creation
-   */
-  create(sandboxDefinitionInfo: SandboxDefinitionCreateInfo): Observable<any> {
-    return this.sandboxDefinitionFacade.create(sandboxDefinitionInfo.sandboxGitlabUrl, sandboxDefinitionInfo.sandboxRevision)
-      .pipe(
-        tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox definition was successfully created'),
-          err => this.errorHandler.emit(err, 'Creating sandbox definition')
-        )
-      );
+  create(): Observable<any> {
+    return of(this.router.navigate([RouteFactory.toNewSandboxDefinition()]));
   }
 
   /**
    * Deletes a sandbox definition, informs about the result and updates list of sandbox definitions or handles an error
-   * @param sandboxDefinitionId id of a sandbox definition to be deleted
+   * @param sandboxDefinition sandbox definition to be deleted
    */
-  delete(sandboxDefinitionId: number): Observable<PaginatedResource<SandboxDefinition>> {
-    return this.sandboxDefinitionFacade.delete(sandboxDefinitionId)
+  delete(sandboxDefinition: SandboxDefinition): Observable<PaginatedResource<SandboxDefinition>> {
+    return this.displayDialogToDelete(sandboxDefinition)
+      .pipe(
+        switchMap(result => result === CsirtMuDialogResultEnum.CONFIRMED
+          ? this.callApiToDelete(sandboxDefinition)
+          : EMPTY
+        )
+      );
+  }
+
+  private displayDialogToDelete(sandboxDefinition: SandboxDefinition): Observable<CsirtMuDialogResultEnum> {
+    const dialogRef = this.dialog.open(CsirtMuConfirmationDialogComponent, {
+      data: new CsirtMuConfirmationDialogConfig(
+        'Delete Sandbox Definition',
+        `Do you want to delete sandbox definition "${sandboxDefinition.title}"?`,
+        'Cancel',
+        'Delete'
+      )
+    });
+    return dialogRef.afterClosed();
+  }
+
+  private callApiToDelete(sandboxDefinition: SandboxDefinition): Observable<PaginatedResource<SandboxDefinition>> {
+    return this.sandboxDefinitionFacade.delete(sandboxDefinition.id)
       .pipe(
         tap(
           _ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox definition was successfully deleted'),

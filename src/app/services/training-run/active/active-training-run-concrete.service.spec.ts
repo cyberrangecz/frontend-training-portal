@@ -12,12 +12,13 @@ import {Pagination} from '../../../model/table/other/pagination';
 import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
 import {AlertService} from '../../shared/alert.service';
 import {TrainingInstance} from '../../../model/training/training-instance';
+import {MatDialog} from '@angular/material/dialog';
 
 describe('ActiveTrainingRunConcreteService', () => {
 
   let errorHandlerSpy: jasmine.SpyObj<ErrorHandlerService>;
   let alertServiceSpy: jasmine.SpyObj<AlertService>;
-
+  let dialogSpy: jasmine.SpyObj<MatDialog>;
   let trainingInstanceApiSpy: jasmine.SpyObj<TrainingInstanceApi>;
   let sandboxInstanceApiSpy: jasmine.SpyObj<SandboxInstanceApi>;
 
@@ -28,10 +29,11 @@ describe('ActiveTrainingRunConcreteService', () => {
     alertServiceSpy = jasmine.createSpyObj('AlertService', ['emitAlert']);
     sandboxInstanceApiSpy = jasmine.createSpyObj('SandboxInstanceApi', ['deleteByTrainingInstance']);
     trainingInstanceApiSpy = jasmine.createSpyObj('TrainingInstanceApi', ['getAssociatedTrainingRuns']);
-
+    dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
     TestBed.configureTestingModule({
       providers: [
         ActiveTrainingRunConcreteService,
+        {provide: MatDialog, useValue: dialogSpy},
         {provide: TrainingInstanceApi, useValue: trainingInstanceApiSpy},
         {provide: SandboxInstanceApi, useValue: sandboxInstanceApiSpy },
         {provide: ErrorHandlerService, useValue: errorHandlerSpy},

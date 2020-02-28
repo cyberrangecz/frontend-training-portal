@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
 import {switchMap, tap} from 'rxjs/operators';
 import {AbstractLevelTypeEnum} from '../../../model/enums/abstract-level-type.enum';
 import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
@@ -10,6 +10,12 @@ import {InfoLevel} from '../../../model/level/info-level';
 import {TrainingDefinitionApi} from '../../api/training-definition-api.service';
 import {AlertService} from '../../shared/alert.service';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
+import {MatDialog} from '@angular/material/dialog';
+import {
+  CsirtMuConfirmationDialogComponent,
+  CsirtMuConfirmationDialogConfig,
+  CsirtMuDialogResultEnum
+} from 'csirt-mu-layout';
 
 /**
  * Service handling editing of training definition's levels and related operations.
@@ -39,7 +45,8 @@ export class LevelEditService {
    */
   activeLevelCanBeSaved$: Observable<boolean> = this.activeLevelCanBeSavedSubject.asObservable();
 
-  constructor(private trainingDefinitionFacade: TrainingDefinitionApi,
+  constructor(private api: TrainingDefinitionApi,
+    private dialog: MatDialog,
     private errorHandler: ErrorHandlerService,
     private alertService: AlertService) {
   }
@@ -153,15 +160,15 @@ export class LevelEditService {
   }
 
   /**
-   * Delets selected level and displays alert with result of the operation
+   * Displays dialog to delete selected level and displays alert with result of the operation
    * @param level level tobe deleted
    */
   delete(level: Level): Observable<Level[]> {
-    return this.trainingDefinitionFacade.deleteLevel(this.trainingDefinitionId, level.id)
+    return this.displayDialogToDelete(level)
       .pipe(
-        tap(_ => this.onLevelDeleted(level.id),
-          err => this.errorHandler.emit(err, 'Deleting level "' + level.title + '"')
-        )
+        switchMap(result => result === CsirtMuDialogResultEnum.CONFIRMED
+        ? this.callApiToDelete(level)
+        : EMPTY)
       );
   }
 
@@ -173,7 +180,7 @@ export class LevelEditService {
   move(fromIndex, toIndex): Observable<any> {
     const levels = this.levelsSubject$.getValue();
     const from = levels[fromIndex];
-    return this.trainingDefinitionFacade.moveLevelTo(this.trainingDefinitionId, from.id, toIndex)
+    return this.api.moveLevelTo(this.trainingDefinitionId, from.id, toIndex)
       .pipe(
         tap({
           error: (err) => {
@@ -191,9 +198,9 @@ export class LevelEditService {
   }
 
   private addGameLevel(): Observable<GameLevel> {
-    return this.trainingDefinitionFacade.createGameLevel(this.trainingDefinitionId)
+    return this.api.createGameLevel(this.trainingDefinitionId)
       .pipe(
-        switchMap(basicLevelInfo => this.trainingDefinitionFacade.getLevel(basicLevelInfo.id) as Observable<GameLevel>),
+        switchMap(basicLevelInfo => this.api.getLevel(basicLevelInfo.id) as Observable<GameLevel>),
         tap(level => this.onLevelAdded(level),
           err => this.errorHandler.emit(err, 'Adding game level')
         )
@@ -201,9 +208,9 @@ export class LevelEditService {
   }
 
   private addInfoLevel(): Observable<InfoLevel> {
-    return this.trainingDefinitionFacade.createInfoLevel(this.trainingDefinitionId)
+    return this.api.createInfoLevel(this.trainingDefinitionId)
       .pipe(
-        switchMap(basicLevelInfo => this.trainingDefinitionFacade.getLevel(basicLevelInfo.id) as Observable<InfoLevel>),
+        switchMap(basicLevelInfo => this.api.getLevel(basicLevelInfo.id) as Observable<InfoLevel>),
         tap(level => this.onLevelAdded(level),
           err => this.errorHandler.emit(err, 'Adding info level')
         )
@@ -211,11 +218,32 @@ export class LevelEditService {
   }
 
   private addAssessmentLevel(): Observable<AssessmentLevel> {
-    return this.trainingDefinitionFacade.createAssessmentLevel(this.trainingDefinitionId)
+    return this.api.createAssessmentLevel(this.trainingDefinitionId)
       .pipe(
-        switchMap(basicLevelInfo => this.trainingDefinitionFacade.getLevel(basicLevelInfo.id) as Observable<AssessmentLevel>),
+        switchMap(basicLevelInfo => this.api.getLevel(basicLevelInfo.id) as Observable<AssessmentLevel>),
         tap(level => this.onLevelAdded(level),
           err => this.errorHandler.emit(err, 'Adding assessment level')
+        )
+      );
+  }
+
+  private displayDialogToDelete(level: Level): Observable<CsirtMuDialogResultEnum> {
+    const dialogRef = this.dialog.open(CsirtMuConfirmationDialogComponent, {
+      data: new CsirtMuConfirmationDialogConfig(
+        'Delete Level',
+        `Do you want to delete level "${level.title}"?`,
+        'Cancel',
+        'Delete'
+      )
+    });
+    return dialogRef.afterClosed();
+  }
+
+  private callApiToDelete(level: Level): Observable<Level[]> {
+    return this.api.deleteLevel(this.trainingDefinitionId, level.id)
+      .pipe(
+        tap(_ => this.onLevelDeleted(level.id),
+          err => this.errorHandler.emit(err, 'Deleting level "' + level.title + '"')
         )
       );
   }
@@ -239,15 +267,15 @@ export class LevelEditService {
   }
 
   private saveInfoLevel(level: InfoLevel): Observable<any> {
-    return this.trainingDefinitionFacade.updateInfoLevel(this.trainingDefinitionId, level);
+    return this.api.updateInfoLevel(this.trainingDefinitionId, level);
   }
 
   private saveGameLevel(level: GameLevel): Observable<any> {
-    return this.trainingDefinitionFacade.updateGameLevel(this.trainingDefinitionId, level);
+    return this.api.updateGameLevel(this.trainingDefinitionId, level);
   }
 
   private saveAssessmentLevel(level: AssessmentLevel): Observable<any> {
-    return this.trainingDefinitionFacade.updateAssessmentLevel(this.trainingDefinitionId, level);
+    return this.api.updateAssessmentLevel(this.trainingDefinitionId, level);
   }
 
   private onLevelSaved(level: Level) {

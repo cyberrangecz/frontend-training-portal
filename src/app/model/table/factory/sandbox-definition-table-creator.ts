@@ -1,6 +1,6 @@
 import {Column, Kypo2Table, Row, RowExpand} from 'kypo2-table';
 import {of} from 'rxjs';
-import {SandboxDefinitionDetailComponent} from '../../../components/sandbox-definition/sandbox-definition-overview/sandbox-definition-detail/sandbox-definition-detail.component';
+import {SandboxDefinitionDetailComponent} from '../../../components/sandbox-definition/overview/sandbox-definition-detail/sandbox-definition-detail.component';
 import {PaginatedResource} from '../other/paginated-resource';
 import {SandboxDefinition} from '../../sandbox/definition/sandbox-definition';
 

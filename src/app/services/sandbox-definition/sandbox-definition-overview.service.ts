@@ -1,7 +1,6 @@
 import {Observable} from 'rxjs';
 import {RequestedPagination} from 'kypo2-table';
 import {PaginatedResource} from '../../model/table/other/paginated-resource';
-import {SandboxDefinitionCreateInfo} from '../../model/sandbox/definition/sandbox-definition-create-info';
 import {PaginatedResourceService} from '../shared/paginated-resource.service';
 import {SandboxDefinition} from '../../model/sandbox/definition/sandbox-definition';
 
@@ -10,7 +9,7 @@ import {SandboxDefinition} from '../../model/sandbox/definition/sandbox-definiti
  * Provide a concrete class in Angular Module. For more info see https://angular.io/guide/dependency-injection-providers.
  * You can use get methods to get paginated sandbox definitions and other operations to modify data.
  */
-export abstract class SandboxDefinitionService extends PaginatedResourceService<SandboxDefinition> {
+export abstract class SandboxDefinitionOverviewService extends PaginatedResourceService<SandboxDefinition> {
   /**
    * @param pagination requested pagination
    */
@@ -18,13 +17,12 @@ export abstract class SandboxDefinitionService extends PaginatedResourceService<
 
   /**
    * Deletes sandbox definition by given id
-   * @param id unique identifier of a sandbox definition
+   * @param sandboxDefinition sandbox definition to delete
    */
-  abstract delete(id: number): Observable<PaginatedResource<SandboxDefinition>>;
+  abstract delete(sandboxDefinition: SandboxDefinition): Observable<PaginatedResource<SandboxDefinition>>;
 
   /**
    * Creates a  new sandbox definition
-   * @param sandboxDefinitionInfo container for attributes required for sandbox definition creation
    */
-  abstract create(sandboxDefinitionInfo: SandboxDefinitionCreateInfo): Observable<any>;
+  abstract create(): Observable<any>;
 }

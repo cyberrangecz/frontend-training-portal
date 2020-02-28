@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {ArchivedTrainingRunOverviewComponent} from './archived-training-run-overview.component';
 import {BrowserTestingModule} from '@angular/platform-browser/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {Kypo2TableModule, RowAction, TableActionEvent} from 'kypo2-table';
+import {Kypo2TableModule} from 'kypo2-table';
 import {PipesModule} from '../../../../../pipes/pipes.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -12,17 +12,12 @@ import {ArchivedTrainingRunService} from '../../../../../services/training-run/a
 import {TrainingRunTableAdapter} from '../../../../../model/table/row/training-run-table-adapter';
 import {TrainingRun} from '../../../../../model/training/training-run';
 import {User} from 'kypo2-auth';
-import {of} from 'rxjs';
-import {MatDialog} from '@angular/material/dialog';
-import {TrainingRunTableCreator} from '../../../../../model/table/factory/training-run-table-creator';
 
 describe('ArchivedTrainingRunOverviewComponent', () => {
 
   let archivedTrainingRunServiceSpy: jasmine.SpyObj<ArchivedTrainingRunService>;
   let component: ArchivedTrainingRunOverviewComponent;
   let fixture: ComponentFixture<ArchivedTrainingRunOverviewComponent>;
-  let dialogSpy: jasmine.Spy;
-  const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed : of({}), close: null });
 
   beforeEach(() => {
     archivedTrainingRunServiceSpy = jasmine.createSpyObj('ArchivedTrainingRunService', ['startPolling', 'getAll', 'delete', 'deleteMultiple']);
@@ -47,9 +42,6 @@ describe('ArchivedTrainingRunOverviewComponent', () => {
     fixture = TestBed.createComponent(ArchivedTrainingRunOverviewComponent);
     component = fixture.componentInstance;
   });
-  beforeEach(() => {
-    dialogSpy = spyOn(TestBed.get(MatDialog), 'open').and.returnValue(dialogRefSpyObj);
-  });
 
   it('should be created', () => {
     expect(component).toBeDefined();
@@ -59,7 +51,7 @@ describe('ArchivedTrainingRunOverviewComponent', () => {
     component.onRowSelection([
       new TrainingRunTableAdapter(createMockRun('1'), false),
     ]);
-    expect(component.selectedRuns.length).toEqual(1);
+    expect(component.selectedTrainingRunIds.length).toEqual(1);
   });
 
   it('should add multiple rows to selected rows array', () => {
@@ -68,17 +60,7 @@ describe('ArchivedTrainingRunOverviewComponent', () => {
       new TrainingRunTableAdapter(createMockRun('2'), false),
       new TrainingRunTableAdapter(createMockRun('3'), false)
     ]);
-    expect(component.selectedRuns.length).toEqual(3);
-  });
-
-  it('should call removal dialog on table "delete" action', () => {
-    component.onArchivedTrainingRunTableAction(createTableActionEvent());
-    expect(dialogSpy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call removal dialog on table "delete archived" action', () => {
-    component.deleteSelectedTrainingRuns();
-    expect(dialogSpy).toHaveBeenCalledTimes(1);
+    expect(component.selectedTrainingRunIds.length).toEqual(3);
   });
 
   function createMockRun(id): TrainingRun {
@@ -87,11 +69,5 @@ describe('ArchivedTrainingRunOverviewComponent', () => {
     run.player = new User([]);
     run.player.name = 'name';
     return run;
-  }
-
-  function createTableActionEvent(): TableActionEvent<TrainingRunTableAdapter> {
-    const action = new RowAction(TrainingRunTableCreator.DELETE_ACTION_ID, '', '', '', '', of(false));
-    const element = new TrainingRunTableAdapter(createMockRun(1), false);
-    return new TableActionEvent(element, action);
   }
 });

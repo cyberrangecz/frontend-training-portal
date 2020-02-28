@@ -1,6 +1,6 @@
 <kypo2-level-controls [saveDisabled]="!(this.activeLevelCanBeSaved$ | async)"
                       (addLevel)="addLevel($event)"
-                      (deleteLevel)="onDeleteLevel()"
+                      (deleteLevel)="onDeleteSelected()"
                       (saveLevel)="onSave()">
 </kypo2-level-controls>
 <mat-divider></mat-divider>

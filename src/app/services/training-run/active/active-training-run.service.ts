@@ -5,6 +5,7 @@ import {PaginatedResource} from '../../../model/table/other/paginated-resource';
 import {TrainingRunTableRow} from '../../../model/table/row/training-run-table-row';
 import {TrainingInstance} from '../../../model/training/training-instance';
 import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
+import {TrainingRun} from '../../../model/training/training-run';
 
 /**
  * Layer between component and API service. Implement concrete service by extending this class.
@@ -28,8 +29,7 @@ export abstract class ActiveTrainingRunService extends PaginatedResourceService<
 
   /**
    * Deletes sandbox associated with active training run
-   * @param trainingInstanceId id of training instance associated with training run
-   * @param sandboxId id of sandbox to delete
+   * @param trainingRun training run whose sandbox instance should be deleted
    */
-  abstract deleteSandbox(trainingInstanceId: number, sandboxId: number): Observable<any>;
+  abstract deleteSandbox(trainingRun: TrainingRun): Observable<any>;
 }

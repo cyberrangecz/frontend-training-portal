@@ -34,7 +34,7 @@ const routes: Routes = [
   },
   {
     path: SANDBOX_DEFINITION_PATH,
-    loadChildren: () => import('app/components/sandbox-definition/sandbox-definition-overview/sandbox-definition-overview.module').then(m => m.SandboxDefinitionOverviewModule),
+    loadChildren: () => import('app/components/sandbox-definition/overview/sandbox-definition-overview.module').then(m => m.SandboxDefinitionOverviewModule),
     canActivate: [DesignerGuard],
     data: { breadcrumb: 'Sandbox Definitions' }
   },

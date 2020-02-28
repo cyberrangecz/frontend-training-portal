@@ -34,7 +34,6 @@ export class CloneDialogComponent extends BaseComponent implements OnInit {
   confirm() {
     if (this.cloneDialogFormGroup.formGroup.valid) {
     this.dialogRef.close({
-      type: 'confirm',
       title: this.clonedDefinitionTitle.value
     });
     }

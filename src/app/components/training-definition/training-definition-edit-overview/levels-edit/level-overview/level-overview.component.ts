@@ -10,8 +10,8 @@ import {
 } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {ActivatedRoute} from '@angular/router';
-import {Observable, of} from 'rxjs';
-import {debounceTime, map, switchMap, takeWhile, tap} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {debounceTime, map, takeWhile, tap} from 'rxjs/operators';
 import {AbstractLevelTypeEnum} from '../../../../../model/enums/abstract-level-type.enum';
 import {LevelMoveEvent} from '../../../../../model/events/level-move-event';
 import {Level} from '../../../../../model/level/level';
@@ -19,11 +19,6 @@ import {TrainingDefinition} from '../../../../../model/training/training-definit
 import {LevelEditService} from '../../../../../services/training-definition/edit/level-edit.service';
 import {BaseComponent} from '../../../../base.component';
 import {LevelStepperAdapter} from '../../../../../model/stepper/level-stepper-adapter';
-import {
-  CsirtMuConfirmationDialogComponent,
-  CsirtMuConfirmationDialogConfig,
-  CsirtMuDialogResultEnum
-} from 'csirt-mu-layout';
 
 /**
  * Smart component for level stepper and level edit components
@@ -111,22 +106,11 @@ export class LevelOverviewComponent extends BaseComponent implements OnInit, OnC
   /**
    * Shows confirmation dialog to delete currently active level, calls service to delete the level, if confirmed
    */
-  onDeleteLevel() {
-    const level = this.levelService.getSelected();
-    const dialogRef = this.dialog.open(CsirtMuConfirmationDialogComponent, {
-      data: new CsirtMuConfirmationDialogConfig(
-        'Delete Level',
-        `Do you want to delete level "${level.title}"?`,
-        'Cancel',
-        'Delete'
-      )
-    });
-    dialogRef.afterClosed()
+  onDeleteSelected() {
+    this.levelService.delete(this.levelService.getSelected())
       .pipe(
-        takeWhile(() => this.isAlive),
-        switchMap(result => result === CsirtMuDialogResultEnum.CONFIRMED ? this.levelService.delete(level) : of(null))
-      ).subscribe(_ => this.levelsCount.emit(this.levelService.getLevelsCount())
-    );
+        takeWhile(_ => this.isAlive)
+      ).subscribe(_ => this.levelsCount.emit(this.levelService.getLevelsCount()));
   }
 
   /**

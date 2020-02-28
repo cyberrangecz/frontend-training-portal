@@ -1,8 +1,6 @@
 import {ChangeDetectionStrategy, Component, HostListener, OnInit} from '@angular/core';
-import {MatDialog} from '@angular/material/dialog';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs/internal/Observable';
-import {of} from 'rxjs/internal/observable/of';
 import {map, takeWhile} from 'rxjs/operators';
 import {ResourceSavedEvent} from '../../../model/events/resource-saved-event';
 import {TrainingDefinitionChangeEvent} from '../../../model/events/training-definition-change-event';
@@ -12,11 +10,6 @@ import {TrainingDefinition} from '../../../model/training/training-definition';
 import {TrainingDefinitionEditService} from '../../../services/training-definition/edit/training-definition-edit.service';
 import {BaseComponent} from '../../base.component';
 import {environment} from '../../../../environments/environment';
-import {
-  CsirtMuConfirmationDialogComponent,
-  CsirtMuConfirmationDialogConfig,
-  CsirtMuDialogResultEnum
-} from 'csirt-mu-layout';
 
 /**
  * Main smart component of training definition edit/new page.
@@ -41,8 +34,7 @@ export class TrainingDefinitionEditOverviewComponent extends BaseComponent imple
 
   constructor(private router: Router,
               private activeRoute: ActivatedRoute,
-              private editService: TrainingDefinitionEditService,
-              private dialog: MatDialog) {
+              private editService: TrainingDefinitionEditService) {
     super();
     this.trainingDefinition$ = this.editService.trainingDefinition$;
     this.editMode$ = this.editService.editMode$;
@@ -68,22 +60,8 @@ export class TrainingDefinitionEditOverviewComponent extends BaseComponent imple
   /**
    * Determines if all changes in sub components are saved and user can navigate to different page
    */
-  canDeactivate(): Observable<boolean> {
-    if (!this.canDeactivateTDEdit || !this.canDeactivateAuthors || this.unsavedLevels.length > 0) {
-      const dialogRef = this.dialog.open(CsirtMuConfirmationDialogComponent, {
-        data: new CsirtMuConfirmationDialogConfig(
-          'Unsaved Changes',
-          'There are unsaved changes in training definition, authors or levels. Do you really want to leave without saving?',
-          'Cancel',
-          'Leave'
-        )
-      });
-      return dialogRef.afterClosed()
-        .pipe(
-          map(result => result === CsirtMuDialogResultEnum.CONFIRMED)
-        );
-    }
-    return of(true);
+  canDeactivate(): boolean {
+    return this.canDeactivateTDEdit && this.canDeactivateAuthors && this.unsavedLevels.length <= 0;
   }
 
   /**

@@ -12,6 +12,13 @@ import {PaginatedResourceService} from '../../shared/paginated-resource.service'
  * Subscribe to trainingDefinitions$ to receive latest data updates.
  */
 export abstract class TrainingDefinitionService extends PaginatedResourceService<TrainingDefinition> {
+
+  abstract create(): Observable<any>;
+
+  abstract edit(trainingDefinition: TrainingDefinition): Observable<any>;
+
+  abstract preview(trainingDefinition: TrainingDefinition): Observable<any>;
+
   /**
    *
    * @param pagination requested pagination
@@ -21,33 +28,31 @@ export abstract class TrainingDefinitionService extends PaginatedResourceService
 
   /**
    * Deletes selected training definition
-   * @param trainingDefinitionId id of training definition to delete
+   * @param trainingDefinitiontraining definition to delete
    */
-  abstract delete(trainingDefinitionId: number): Observable<any>;
+  abstract delete(trainingDefinition: TrainingDefinition): Observable<any>;
 
   /**
    * Creates a clone of selected training definition
-   * @param trainingDefinitionId id of a training definition to clone
-   * @param title title of the cloned training definition
+   * @param trainingDefinition training definition to clone
    */
-  abstract clone(trainingDefinitionId: number, title: string): Observable<any>;
+  abstract clone(trainingDefinition: TrainingDefinition): Observable<any>;
 
   /**
    * Downloads training definition description in JSON
-   * @param trainingDefinitionId id of a training definition to download
+   * @param trainingDefinition training definition to download
    */
-  abstract download(trainingDefinitionId: number): Observable<any>;
+  abstract download(trainingDefinition: TrainingDefinition): Observable<any>;
 
   /**
-   * Creates new training definition by uploading JSON description.
-   * @param file file of a training definition description
+   * Creates new training definition by uploading its JSON description.
    */
-  abstract upload(file: File): Observable<any>;
+  abstract upload(): Observable<any>;
 
   /**
    * Changes state of a training definition
-   * @param trainingDefinitionId id of a training definition whose state shall be changed
+   * @param trainingDefinition training definition whose state shall be changed
    * @param newState new state of a training definition
    */
-  abstract changeState(trainingDefinitionId: number, newState: TrainingDefinitionStateEnum, ): Observable<any>;
+  abstract changeState(trainingDefinition: TrainingDefinition, newState: TrainingDefinitionStateEnum, ): Observable<any>;
 }

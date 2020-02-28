@@ -16,11 +16,10 @@ export class TrainingDefinitionUploadDialogComponent extends BaseComponent imple
 
   selectedFile: File;
   uploadInProgress$: Observable<boolean>;
-  onUpload = new EventEmitter<File>();
+  onUpload$ = new EventEmitter<File>();
 
   constructor(public dialogRef: MatDialogRef<TrainingDefinitionUploadDialogComponent>,
-    private uploadProgressService: FileUploadProgressService,
-    @Inject(MAT_DIALOG_DATA) public data) {
+    private uploadProgressService: FileUploadProgressService) {
     super();
     this.uploadInProgress$ = this.uploadProgressService.isInProgress$;
   }
@@ -39,7 +38,7 @@ export class TrainingDefinitionUploadDialogComponent extends BaseComponent imple
    * Emits upload event with selected file
    */
   upload() {
-    this.onUpload.emit(this.selectedFile);
+    this.onUpload$.emit(this.selectedFile);
   }
 
   /**

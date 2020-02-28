@@ -4,8 +4,10 @@ import {CreateSandboxDefinitionComponent} from './create-sandbox-definition.comp
 import {CreateSandboxDefinitionRoutingModule} from './create-sandbox-definition-routing.module';
 import {CreateSandboxDefinitionMaterial} from './create-sandbox-definition-material.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {SandboxDefinitionService} from '../../../services/sandbox-definition/sandbox-definition.service';
-import {SandboxDefinitionConcreteService} from '../../../services/sandbox-definition/sandbox-definition.concrete.service';
+import {SandboxDefinitionOverviewService} from '../../../services/sandbox-definition/sandbox-definition-overview.service';
+import {SandboxDefinitionOverviewConcreteService} from '../../../services/sandbox-definition/sandbox-definition-overview-concrete.service';
+import {SandboxDefinitionDetailService} from '../../../services/sandbox-definition/detail/sandbox-definition-detail.service';
+import {SandboxDefinitionDetailConcreteService} from '../../../services/sandbox-definition/detail/sandbox-definition-detail-concrete.service';
 
 /**
  * Module for create sandbox definition page and components
@@ -22,7 +24,7 @@ import {SandboxDefinitionConcreteService} from '../../../services/sandbox-defini
     CreateSandboxDefinitionComponent
   ],
   providers: [
-    {provide: SandboxDefinitionService, useClass: SandboxDefinitionConcreteService}
+    {provide: SandboxDefinitionDetailService, useClass: SandboxDefinitionDetailConcreteService}
   ]
 })
 export class CreateSandboxDefinitionModule {

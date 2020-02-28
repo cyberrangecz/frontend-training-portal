@@ -1,18 +1,27 @@
 import {Filter} from '../../../model/utils/filter';
 import {TrainingDefinitionStateEnum} from '../../../model/enums/training-definition-state.enum';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {EMPTY, Observable, of} from 'rxjs';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {TrainingDefinitionApi} from '../../api/training-definition-api.service';
 import {TrainingDefinitionService} from './training-definition.service';
 import {PaginatedResource} from '../../../model/table/other/paginated-resource';
 import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
-import {switchMap, tap} from 'rxjs/operators';
+import {map, switchMap, take, tap} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {TrainingDefinition} from '../../../model/training/training-definition';
-import {Pagination} from '../../../model/table/other/pagination';
-import {environment} from '../../../../environments/environment';
 import {AlertService} from '../../shared/alert.service';
 import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
+import {
+  CsirtMuConfirmationDialogComponent,
+  CsirtMuConfirmationDialogConfig,
+  CsirtMuDialogResultEnum
+} from 'csirt-mu-layout';
+import {MatDialog} from '@angular/material/dialog';
+import {CloneDialogComponent} from '../../../components/training-definition/training-definition-overview/clone-dialog/clone-dialog.component';
+import {TrainingDefinitionUploadDialogComponent} from '../../../components/training-definition/training-definition-overview/training-definition-upload-dialog/training-definition-upload-dialog.component';
+import {FileUploadProgressService} from '../../shared/file-upload-progress.service';
+import {Router} from '@angular/router';
+import {RouteFactory} from '../../../model/routes/route-factory';
 
 /**
  * Basic implementation of a layer between a component and an API service.
@@ -21,8 +30,11 @@ import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
 @Injectable()
 export class TrainingDefinitionConcreteService extends TrainingDefinitionService {
   constructor(
-    private trainingDefinitionFacade: TrainingDefinitionApi,
+    private api: TrainingDefinitionApi,
+    private dialog: MatDialog,
+    private router: Router,
     private alertService: AlertService,
+    private fileUploadProgressService: FileUploadProgressService,
     private errorHandler: ErrorHandlerService) {
     super();
   }
@@ -41,15 +53,110 @@ export class TrainingDefinitionConcreteService extends TrainingDefinitionService
   const filters = filter ? [new Filter('title', filter)] : [];
   this.hasErrorSubject$.next(false);
   this.isLoadingSubject$.next(true);
-    return this.trainingDefinitionFacade
-      .getAll(pagination, filters)
+  return this.callApiToGetAll(pagination, filters);
+  }
+
+  create(): Observable<any> {
+    return of(this.router.navigate([RouteFactory.toNewTrainingDefinition()]));
+  }
+
+  edit(trainingDefinition: TrainingDefinition): Observable<any> {
+    return of(this.router.navigate([RouteFactory.toTrainingDefinitionEdit(trainingDefinition.id)]));
+  }
+
+  preview(trainingDefinition: TrainingDefinition): Observable<any> {
+    return of(this.router.navigate([RouteFactory.toTrainingDefinitionPreview(trainingDefinition.id)]));
+  }
+
+  /**
+   * Displays dialog to delete training definition and informs about the result and optionally updates list of training definitions or handles an error
+   * @param trainingDefinition training definition to be deleted
+   */
+  delete(trainingDefinition: TrainingDefinition): Observable<PaginatedResource<TrainingDefinition>> {
+    return this.displayDialogToDelete(trainingDefinition)
+      .pipe(
+        switchMap(result => result === CsirtMuDialogResultEnum.CONFIRMED
+        ? this.callApiToDelete(trainingDefinition)
+        : EMPTY)
+      );
+  }
+
+  /**
+   * Creates a clone of already existing training definition.
+   * Informs about the result and updates list of training definitions or handles an error
+   * @param trainingDefinition training definition to clone
+   */
+  clone(trainingDefinition: TrainingDefinition): Observable<PaginatedResource<TrainingDefinition>> {
+    return this.displayCloneDialog(trainingDefinition)
+      .pipe(
+        switchMap(title => title !== undefined
+          ? this.callApiToClone(trainingDefinition, title)
+          : EMPTY
+        )
+      );
+  }
+
+  /**
+   * Downloads training definition description in JSON file, handles error if download fails
+   * @param trainingDefinition training definition to be downloaded
+   */
+  download(trainingDefinition: TrainingDefinition): Observable<any> {
+    return this.api.download(trainingDefinition.id)
+      .pipe(
+        tap({error: err => this.errorHandler.emit(err, 'Downloading training definition')})
+      );
+  }
+
+  /**
+   * Displays dialog to change state of a selected training definition to a new one.
+   * Informs about the result and updates list of training definitions or handles an error
+   * @param trainingDefinition training definition whose state shall be changed
+   * @param newState new state of a training definition
+   */
+  changeState(trainingDefinition: TrainingDefinition, newState: TrainingDefinitionStateEnum): Observable<any> {
+    return this.displayChangeStateDialog(trainingDefinition, newState)
+      .pipe(
+        switchMap(result => result === CsirtMuDialogResultEnum.CONFIRMED
+          ? this.callApiToChangeState(trainingDefinition, newState)
+          : EMPTY)
+      );
+  }
+
+  /**
+   * Creates a new training definition by uploading a training definition description JSON file.
+   * Informs about the result and updates list of training definitions or handles an error
+   */
+  upload(): Observable<PaginatedResource<TrainingDefinition>> {
+    const dialogRef = this.dialog.open(TrainingDefinitionUploadDialogComponent);
+    return dialogRef.componentInstance.onUpload$
+      .pipe(
+        take(1),
+        tap(_ => this.fileUploadProgressService.start()),
+        switchMap(file => this.api.upload(file)),
+        tap(
+          _ =>  {
+            this.alertService.emitAlert(AlertTypeEnum.Success, 'Training definition was uploaded');
+            this.fileUploadProgressService.finish();
+            dialogRef.close();
+          },
+          err => {
+            this.fileUploadProgressService.finish();
+            this.errorHandler.emit(err, 'Uploading training definition');
+          }
+        ),
+        switchMap(_ => this.getAll(this.lastPagination, this.lastFilters))
+      );
+  }
+
+  private callApiToGetAll(pagination: RequestedPagination, filters: Filter[]): Observable<PaginatedResource<TrainingDefinition>> {
+    return this.api.getAll(pagination, filters)
       .pipe(
         tap(
           paginatedTrainings => {
             this.resourceSubject$.next(paginatedTrainings);
             this.isLoadingSubject$.next(false);
           },
-            err => {
+          err => {
             this.hasErrorSubject$.next(true);
             this.isLoadingSubject$.next(false);
             this.errorHandler.emit(err, 'Fetching training definitions');
@@ -57,13 +164,20 @@ export class TrainingDefinitionConcreteService extends TrainingDefinitionService
       );
   }
 
-  /**
-   * Deletes training definition and informs about the result and updates list of training definitions or handles an error
-   * @param trainingDefinitionId id of training definition to be deleted
-   */
-  delete(trainingDefinitionId: number): Observable<any> {
-    return this.trainingDefinitionFacade
-      .delete(trainingDefinitionId)
+  private displayDialogToDelete(trainingDefinition: TrainingDefinition): Observable<CsirtMuDialogResultEnum> {
+    const dialogRef = this.dialog.open(CsirtMuConfirmationDialogComponent, {
+      data: new CsirtMuConfirmationDialogConfig(
+        'Delete Training Definition',
+        `Do you want to delete training definition "${trainingDefinition.title}"?`,
+        'Cancel',
+        'Delete'
+      )
+    });
+    return dialogRef.afterClosed();
+  }
+
+  private callApiToDelete(trainingDefinition: TrainingDefinition): Observable<PaginatedResource<TrainingDefinition>> {
+    return this.api.delete(trainingDefinition.id)
       .pipe(
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Training definition was successfully deleted'),
           err => this.errorHandler.emit(err, 'Deleting training definition')),
@@ -71,57 +185,40 @@ export class TrainingDefinitionConcreteService extends TrainingDefinitionService
       );
   }
 
-  /**
-   * Creates a clone of already existing training definition.
-   * Informs about the result and updates list of training definitions or handles an error
-   * @param trainingDefinitionId id of a training definition to clone
-   * @param title new title of the cloned training definition
-   */
-  clone(trainingDefinitionId: number, title: string): Observable<any> {
-    return this.trainingDefinitionFacade
-      .clone(trainingDefinitionId, title)
+  private displayCloneDialog(trainingDefinition: TrainingDefinition): Observable<string> {
+    const dialogRef = this.dialog.open(CloneDialogComponent, {
+      data: trainingDefinition
+    });
+    return dialogRef.afterClosed()
       .pipe(
-        tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Training definition was successfully cloned'),
+        map(result => result.title)
+      );
+  }
+
+  private callApiToClone(trainingDefinition: TrainingDefinition, title: string): Observable<PaginatedResource<TrainingDefinition>> {
+    return this.api.clone(trainingDefinition.id, title)
+      .pipe(
+        tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Training definition was cloned'),
           err => this.errorHandler.emit(err, 'Cloning training definition')),
         switchMap(_ => this.getAll(this.lastPagination, this.lastFilters))
       );
   }
 
-  /**
-   * Downloads training definition description in JSON file, handles error if download fails
-   * @param trainingDefinitionId id of a training definition to be downloaded
-   */
-  download(trainingDefinitionId: number): Observable<any> {
-    return this.trainingDefinitionFacade.download(trainingDefinitionId)
-      .pipe(
-        tap({error: err => this.errorHandler.emit(err, 'Downloading training definition')})
-      );
+  private displayChangeStateDialog(trainingDefinition: TrainingDefinition, newState: TrainingDefinitionStateEnum): Observable<CsirtMuDialogResultEnum> {
+    const dialogRef = this.dialog.open(CsirtMuConfirmationDialogComponent, {
+      data: new CsirtMuConfirmationDialogConfig(
+        'Training Definition State Change',
+        `Do you want to change state of training definition from "${trainingDefinition.state}" to "${newState}"?`,
+        'Cancel',
+        'Change'
+      )});
+    return dialogRef.afterClosed();
   }
 
-  /**
-   * Creates a new training definition by uploading a training definition description JSON file.
-   * Informs about the result and updates list of training definitions or handles an error
-   * @param file
-   */
-  upload(file: File): Observable<any> {
-    return this.trainingDefinitionFacade.upload(file)
+  private callApiToChangeState(trainingDefinition: TrainingDefinition, newState: TrainingDefinitionStateEnum): Observable<any> {
+    return this.api.changeState(trainingDefinition.id, newState)
       .pipe(
-        tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Training definition was successfully created'),
-          err => this.errorHandler.emit(err, 'Creating training definition')),
-        switchMap(_ => this.getAll(this.lastPagination, this.lastFilters))
-      );
-  }
-
-  /**
-   * Changes state of a selected training definition to a new one.
-   * Informs about the result and updates list of training definitions or handles an error
-   * @param trainingDefinitionId id of the training definition whose state shall be changed
-   * @param newState new state of a training definition
-   */
-  changeState(trainingDefinitionId: number, newState: TrainingDefinitionStateEnum): Observable<any> {
-    return this.trainingDefinitionFacade.changeState(trainingDefinitionId, newState)
-      .pipe(
-        tap(_ => this.onChangedState(trainingDefinitionId, newState),
+        tap(_ => this.onChangedState(trainingDefinition.id, newState),
           err => this.errorHandler.emit(err, 'Changing training definition state'))
       );
   }

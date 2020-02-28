@@ -1,11 +1,12 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {BaseComponent} from '../../base.component';
 import {SandboxDefinitionFormGroup} from './create-sandbox-definition-dialog-form-group';
-import {SandboxDefinitionService} from '../../../services/sandbox-definition/sandbox-definition.service';
+import {SandboxDefinitionOverviewService} from '../../../services/sandbox-definition/sandbox-definition-overview.service';
 import {SandboxDefinitionCreateInfo} from '../../../model/sandbox/definition/sandbox-definition-create-info';
 import {takeWhile} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import {RouteFactory} from '../../../model/routes/route-factory';
+import {SandboxDefinitionDetailService} from '../../../services/sandbox-definition/detail/sandbox-definition-detail.service';
 
 /**
  * Component with form for creating new sandbox definition
@@ -20,7 +21,7 @@ export class CreateSandboxDefinitionComponent extends BaseComponent implements O
 
   sandboxDefinitionFormGroup: SandboxDefinitionFormGroup;
 
-  constructor(private sandboxDefinitionService: SandboxDefinitionService,
+  constructor(private sandboxDefinitionService: SandboxDefinitionDetailService,
               private router: Router) {
     super();
   }
@@ -42,7 +43,7 @@ export class CreateSandboxDefinitionComponent extends BaseComponent implements O
       .pipe(
         takeWhile(_ => this.isAlive)
       )
-      .subscribe(_ => this.router.navigate(['/', RouteFactory.toSandboxDefinitionOverview()]));
+      .subscribe();
   }
 
 }

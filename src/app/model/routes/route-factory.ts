@@ -27,7 +27,7 @@ import {
   TRAINING_RUN_RESULTS_PATH
 } from '../../components/training-run/training-run-overview/paths';
 import {Kypo2UserAndGroupRouteEvent} from 'kypo2-user-and-group-management';
-import {SANDBOX_DEFINITION_NEW_PATH} from '../../components/sandbox-definition/sandbox-definition-overview/paths';
+import {SANDBOX_DEFINITION_NEW_PATH} from '../../components/sandbox-definition/overview/paths';
 import {
   ACCESS_TOKEN_PATH,
   PROGRESS_PATH,

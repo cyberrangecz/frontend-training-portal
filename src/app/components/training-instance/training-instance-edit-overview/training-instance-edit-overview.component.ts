@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, HostListener, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {map, takeWhile} from 'rxjs/operators';
 import {ResourceSavedEvent} from '../../../model/events/resource-saved-event';
 import {TrainingInstanceChangeEvent} from '../../../model/events/training-instance-change-event';
@@ -10,11 +10,6 @@ import {TrainingInstance} from '../../../model/training/training-instance';
 import {TrainingInstanceEditService} from '../../../services/training-instance/edit/training-instance-edit.service';
 import {BaseComponent} from '../../base.component';
 import {environment} from '../../../../environments/environment';
-import {
-  CsirtMuConfirmationDialogComponent,
-  CsirtMuConfirmationDialogConfig,
-  CsirtMuDialogResultEnum
-} from 'csirt-mu-layout';
 
 /**
  * Main component of training instance edit/create page. Serves mainly as a smart component wrapper
@@ -63,26 +58,11 @@ export class TrainingInstanceEditOverviewComponent extends BaseComponent impleme
 
   /**
    * Determines if all changes in sub components are saved and user can navigate to different component
-   * @returns true if saved all his changes or agreed with leaving without saving them, false otherwise
+   * @returns true if saved all his changes, false otherwise
    */
-  canDeactivate(): Observable<boolean> {
-    if (!this.canDeactivateTIEdit || !this.canDeactivateOrganizers) {
-      const dialogRef = this.dialog.open(CsirtMuConfirmationDialogComponent, {
-        data: new CsirtMuConfirmationDialogConfig(
-          'Unsaved Changes',
-          'There are unsaved changes in training instance or organizers. Do you really want to leave?',
-          'Cancel',
-          'Leave'
-        )
-      });
-      return dialogRef.afterClosed()
-        .pipe(
-          map(result => result === CsirtMuDialogResultEnum.CONFIRMED)
-        );
-    }
-    return of(true);
+  canDeactivate(): boolean {
+    return this.canDeactivateTIEdit && this.canDeactivateOrganizers;
   }
-
   /**
    * Changes canDeactivate state of the component
    * @param hasUnsavedChanges true if organizers component has unsaved changes, false otherwise
