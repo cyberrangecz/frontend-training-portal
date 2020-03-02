@@ -1,7 +1,8 @@
 <h1>Training Definition Overview</h1>
-<kypo2-training-definition-controls
+<kypo2-controls
+  [controls]="controls"
   (action)="onControlsAction($event)">
-</kypo2-training-definition-controls>
+</kypo2-controls>
 <kypo2-table
   [defaultSortDirection]="INIT_SORT_DIR"
   [defaultSortName]="INIT_SORT_NAME"

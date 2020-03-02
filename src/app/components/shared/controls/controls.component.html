@@ -1,0 +1,14 @@
+<div class="controls">
+  <ng-container *ngFor="let control of controls; let i = index">
+    <ng-container *ngIf="isExpandable(control) else basicButton">
+      <kypo2-expandable-control-button [expandableControl]="control" (action)="onAction($event)">
+      </kypo2-expandable-control-button>
+    </ng-container>
+    <ng-template #basicButton>
+      <kypo2-basic-control-button [control]="control"
+                                  (action)="onAction($event)">
+      </kypo2-basic-control-button>
+    </ng-template>
+  </ng-container>
+</div>
+

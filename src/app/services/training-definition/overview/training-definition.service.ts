@@ -28,7 +28,7 @@ export abstract class TrainingDefinitionService extends PaginatedResourceService
 
   /**
    * Deletes selected training definition
-   * @param trainingDefinitiontraining definition to delete
+   * @param trainingDefinition definition to delete
    */
   abstract delete(trainingDefinition: TrainingDefinition): Observable<any>;
 
@@ -54,5 +54,5 @@ export abstract class TrainingDefinitionService extends PaginatedResourceService
    * @param trainingDefinition training definition whose state shall be changed
    * @param newState new state of a training definition
    */
-  abstract changeState(trainingDefinition: TrainingDefinition, newState: TrainingDefinitionStateEnum, ): Observable<any>;
+  abstract changeState(trainingDefinition: TrainingDefinition, newState: TrainingDefinitionStateEnum): Observable<any>;
 }

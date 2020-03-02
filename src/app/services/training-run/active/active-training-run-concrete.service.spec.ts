@@ -47,17 +47,7 @@ describe('ActiveTrainingRunConcreteService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should error handler', done => {
-    trainingInstanceApiSpy.getAssociatedTrainingRuns.and.returnValue(throwError(null));
-    service.getAll(1, createPagination()).subscribe(_ => fail,
-      _ => {
-        expect(errorHandlerSpy.emit).toHaveBeenCalledTimes(1);
-        done();
-      });
-    expect(trainingInstanceApiSpy.getAssociatedTrainingRuns).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call error handler on err', done => {
+  it('should emit hasError on err', done => {
     const pagination = createPagination();
     trainingInstanceApiSpy.getAssociatedTrainingRuns.and.returnValue(throwError(null));
     service.hasError$

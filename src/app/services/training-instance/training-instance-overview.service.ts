@@ -8,6 +8,10 @@ export abstract class TrainingInstanceOverviewService extends PaginatedResourceS
 
   abstract getAll(pagination: RequestedPagination, filter: string): Observable<PaginatedResource<TrainingInstance>>;
 
+  abstract create(): Observable<any>;
+
+  abstract edit(id: number): Observable<any>;
+
   abstract archive(id: number): Observable<any>;
 
   abstract delete(id: number): Observable<any>;

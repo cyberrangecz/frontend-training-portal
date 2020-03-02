@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {Observable} from 'rxjs';
-import {map, takeWhile} from 'rxjs/operators';
+import {map, take, takeWhile} from 'rxjs/operators';
 import {BaseComponent} from '../../base.component';
 import {SandboxDefinitionOverviewService} from '../../../services/sandbox-definition/sandbox-definition-overview.service';
 import {Kypo2Table, LoadTableEvent, TableActionEvent} from 'kypo2-table';
@@ -11,6 +11,8 @@ import {SandboxDefinition} from '../../../model/sandbox/definition/sandbox-defin
 import {environment} from '../../../../environments/environment';
 import {Router} from '@angular/router';
 import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
+import {ControlButton} from '../../../model/controls/control-button';
+import {SandboxDefinitionOverviewControls} from './sandbox-definition-overview-controls';
 
 @Component({
   selector: 'kypo2-sandbox-definition-overview',
@@ -24,6 +26,7 @@ import {RequestedPagination} from '../../../model/DTOs/other/requested-paginatio
  */
 export class SandboxDefinitionOverviewComponent extends BaseComponent implements OnInit {
 
+  controls: ControlButton[];
   sandboxDefinitions$: Observable<Kypo2Table<SandboxDefinition>>;
   hasError$: Observable<boolean>;
 
@@ -38,6 +41,7 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
   }
 
   ngOnInit() {
+    this.controls = SandboxDefinitionOverviewControls.create(this.sandboxDefinitionService);
     this.initTable();
   }
 
@@ -57,7 +61,7 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
    * Resolves correct action based on received event and performs it
    * @param event table action event emitted by child table component
    */
-  onSandboxDefinitionTableAction(event: TableActionEvent<SandboxDefinition>) {
+  onTableAction(event: TableActionEvent<SandboxDefinition>) {
     if (event.action.id === SandboxDefinitionTableCreator.DELETE_ACTION_ID) {
       this.sandboxDefinitionService.delete(event.element);
     }
@@ -66,10 +70,10 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
   /**
    * Navigates to create sandbox definition page
    */
-  create() {
-    this.sandboxDefinitionService.create()
+  onControlsActions(control: ControlButton) {
+    control.action$
       .pipe(
-        takeWhile(_ => this.isAlive)
+        take(1)
       ).subscribe();
   }
 

@@ -70,7 +70,7 @@ export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunServi
           runs => {
             this.resourceSubject$.next(runs);
           },
-          err => this.onGetAllError(err)
+          err => this.onGetAllError()
         )
       );
   }
@@ -111,11 +111,10 @@ export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunServi
         this.lastPagination,
         false
       )
-      .pipe(tap({ error: err => this.onGetAllError(err) }));
+      .pipe(tap({ error: err => this.onGetAllError() }));
   }
 
-  private onGetAllError(err: HttpErrorResponse) {
-    this.errorHandler.emit(err, 'Fetching archived training runs');
+  private onGetAllError() {
     this.hasErrorSubject$.next(true);
   }
 

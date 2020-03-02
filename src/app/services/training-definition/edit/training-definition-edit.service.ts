@@ -4,12 +4,12 @@ import {Kypo2AuthService} from 'kypo2-auth';
 import {BehaviorSubject, Observable, ReplaySubject} from 'rxjs';
 import {filter, map, tap} from 'rxjs/operators';
 import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
-import {ResourceSavedEvent} from '../../../model/events/resource-saved-event';
 import {TrainingDefinitionChangeEvent} from '../../../model/events/training-definition-change-event';
 import {TrainingDefinition} from '../../../model/training/training-definition';
 import {TrainingDefinitionApi} from '../../api/training-definition-api.service';
 import {AlertService} from '../../shared/alert.service';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
+import {RouteFactory} from '../../../model/routes/route-factory';
 
 /**
  * Service handling editing of training definition and related operations.
@@ -68,14 +68,22 @@ export class TrainingDefinitionEditService {
   /**
    * Saves/creates training definition based on edit mode or handles error.
    */
-  save(): Observable<ResourceSavedEvent> {
+  save(): Observable<any> {
     if (this.editModeSubject.getValue()) {
-      return this.update()
-        .pipe(map(id => new ResourceSavedEvent(id, true)));
+      return this.update();
     } else {
       return this.create()
-        .pipe(map(id => new ResourceSavedEvent(id, false)));
+        .pipe(
+          map(_ => this.router.navigate([RouteFactory.toTrainingDefinitionOverview()]))
+        );
     }
+  }
+
+  createAndStay(): Observable<any> {
+    return this.create()
+      .pipe(
+        map(id =>  this.router.navigate([RouteFactory.toTrainingDefinitionEdit(id)]))
+      );
   }
 
   /**
@@ -91,7 +99,7 @@ export class TrainingDefinitionEditService {
     return this.trainingDefinitionFacade.update(this.editedSnapshot)
       .pipe(
         tap(id => {
-          this.alertService.emitAlert(AlertTypeEnum.Success, 'Changes were successfully saved.');
+          this.alertService.emitAlert(AlertTypeEnum.Success, 'Changes were saved');
           this.onSaved();
           },
             err => this.errorHandler.emit(err, 'Editing training definition')
@@ -104,7 +112,7 @@ export class TrainingDefinitionEditService {
       .pipe(
         tap(
           id => {
-            this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was successfully saved.');
+            this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was saved');
             this.onSaved();
             },
             err => this.errorHandler.emit(err, 'Creating new training definition')

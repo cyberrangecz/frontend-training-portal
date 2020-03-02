@@ -15,19 +15,22 @@ import {ActiveTrainingRunConcreteService} from '../../../../services/training-ru
 import {ActiveTrainingRunService} from '../../../../services/training-run/active/active-training-run.service';
 import {SandboxInstanceApi} from '../../../../services/api/sandbox-instance-api.service';
 import {TrainingRunApi} from '../../../../services/api/training-run-api.service';
+import {ControlsModule} from '../../../shared/controls/controls.module';
+import {TrainingInstanceSummaryService} from '../../../../services/training-instance/summary/training-instance-summary.service';
 
 /**
  * Components and providers for training instance summaries.
  */
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    PipesModule,
-    TrainingInstanceSummaryMaterialModule,
-    TrainingInstanceSummaryRoutingModule,
-    Kypo2TableModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        PipesModule,
+        TrainingInstanceSummaryMaterialModule,
+        TrainingInstanceSummaryRoutingModule,
+        Kypo2TableModule,
+        ControlsModule
+    ],
   declarations: [
   TrainingInstanceSummaryComponent,
   TrainingInstanceInfoComponent,
@@ -35,6 +38,7 @@ import {TrainingRunApi} from '../../../../services/api/training-run-api.service'
   ArchivedTrainingRunOverviewComponent
   ],
   providers: [
+    TrainingInstanceSummaryService,
     SandboxInstanceApi,
     TrainingRunApi,
     {provide: ArchivedTrainingRunService, useClass: ArchivedTrainingRunConcreteService},

@@ -20,6 +20,8 @@ import {
   CsirtMuConfirmationDialogConfig,
   CsirtMuDialogResultEnum
 } from 'csirt-mu-layout';
+import {ControlButton} from '../../../../../../../../model/controls/control-button';
+import {BehaviorSubject, defer, of} from 'rxjs';
 
 
 /**
@@ -43,11 +45,13 @@ export class HintsOverviewComponent extends BaseComponent implements OnInit, OnC
   @Input() levelMaxScore: number;
   @Output() hintsChange: EventEmitter<Hint[]> = new EventEmitter();
 
+  private deleteDisabledSubject$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
   hintsHasErrors: boolean;
   penaltySum: number;
   selectedStep: number;
-
   stepperHints: Kypo2Stepper<HintStepperAdapter> = {items: []};
+  controls: ControlButton[];
 
   constructor(public dialog: MatDialog) {
     super();
@@ -55,14 +59,23 @@ export class HintsOverviewComponent extends BaseComponent implements OnInit, OnC
 
   ngOnInit() {
     this.selectedStep = 0;
+    this.initControls();
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if ('hints' in changes) {
+      this.deleteDisabledSubject$.next(this.hints.length <= 0);
       this.stepperHints.items = this.hints.map(hint => new HintStepperAdapter(hint));
       this.setInitialHintPenaltySum();
       this.calculateHasError();
     }
+  }
+
+  onControlAction(control: ControlButton) {
+    control.action$
+      .pipe(
+        takeWhile(_ => this.isAlive)
+      ).subscribe();
   }
 
   /**
@@ -189,5 +202,24 @@ export class HintsOverviewComponent extends BaseComponent implements OnInit, OnC
       hintsPenaltySum += item.hint.penalty;
     });
     this.penaltySum = hintsPenaltySum;
+  }
+
+  private initControls() {
+    this.controls = [
+      new ControlButton(
+        'add',
+        'Add',
+        'primary',
+        of(false),
+        defer(() => this.addHint())
+      ),
+      new ControlButton(
+        'delete',
+        'Delete',
+        'warn',
+        this.deleteDisabledSubject$.asObservable(),
+        defer(() => this.deleteActiveHint())
+      )
+    ];
   }
 }

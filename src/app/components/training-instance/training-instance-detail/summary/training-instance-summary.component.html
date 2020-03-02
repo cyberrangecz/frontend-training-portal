@@ -10,10 +10,7 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <ng-template matExpansionPanelContent>
-        <div class="controls">
-          <a mat-raised-button color="primary" [routerLink]="progressLink" [disabled]="!(hasStarted$ | async)">Show Progress </a>
-          <a mat-raised-button color="primary" [routerLink]="resultsLink" [disabled]="!(hasStarted$ | async)">Show Results</a>
-        </div>
+        <kypo2-controls [controls]="controls" (action)="onControlAction($event)"></kypo2-controls>
         <kypo2-training-instance-info
           [trainingInstance]="trainingInstance">
         </kypo2-training-instance-info>

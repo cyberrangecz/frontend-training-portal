@@ -1,6 +1,6 @@
 <h1>Training Instance Overview</h1>
 <div class="content">
-  <kypo2-training-instance-controls (create)="onCreate()"></kypo2-training-instance-controls>
+  <kypo2-controls [controls]="controls" (action)="onControlAction($event)"></kypo2-controls>
   <kypo2-table
     [defaultSortName]="INITIAL_SORT_NAME"
     [defaultSortDirection]="INITIAL_SORT_DIR"

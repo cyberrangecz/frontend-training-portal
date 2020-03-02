@@ -29,23 +29,6 @@ export class TrainingRunStepper {
    * Initialize icons for stepper items based on level type and inserts data to stepper
    */
   initStepperData() {
-/*    for (let i = this.activeLevel; i < this.abstractLevels.length; i++) {
-      this.abstractLevels[i].state.hasState = false;
-      switch (this.abstractLevels[i].type) {
-        case AbstractLevelTypeEnum.Assessment: {
-          this.abstractLevels[i].primaryIcon = 'assignment';
-          break;
-        }
-        case AbstractLevelTypeEnum.Game: {
-          this.abstractLevels[i].primaryIcon = 'videogame_asset';
-          break;
-        }
-        case AbstractLevelTypeEnum.Info: {
-          this.abstractLevels[i].primaryIcon = 'info';
-          break;
-        }
-      }
-    }*/
     this.items = this.abstractLevels;
     this.levels.items = this.items;
   }

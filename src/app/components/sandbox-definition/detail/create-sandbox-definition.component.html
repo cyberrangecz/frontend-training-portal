@@ -1,8 +1,6 @@
 <h1>Create Sandbox Definition</h1>
 <mat-card>
-  <div class="controls">
-    <button mat-flat-button color="primary" [disabled]="!sandboxDefinitionFormGroup.formGroup.valid" (click)="create()">Save</button>
-  </div>
+  <kypo2-controls [controls]="controls" (action)="onControlsAction($event)"></kypo2-controls>
 
   <form [formGroup]="sandboxDefinitionFormGroup.formGroup">
     <div class="content">

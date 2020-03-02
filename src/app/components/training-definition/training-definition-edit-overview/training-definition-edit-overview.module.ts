@@ -9,7 +9,6 @@ import {AuthorsAssignService} from '../../../services/training-definition/author
 import {TrainingDefinitionEditService} from '../../../services/training-definition/edit/training-definition-edit.service';
 import {SharedModule} from '../../shared/shared.module';
 import {LevelOverviewModule} from './levels-edit/level-overview.module';
-import {TrainingDefinitionEditControlsComponent} from './training-definition-edit-controls/training-definition-edit-controls.component';
 import {TrainingDefinitionEditOverviewMaterialModule} from './training-definition-edit-overview-material.module';
 import {TrainingDefinitionEditOverviewRoutingModule} from './training-definition-edit-overview-routing.module';
 import {TrainingDefinitionEditOverviewComponent} from './training-definition-edit-overview.component';
@@ -17,27 +16,28 @@ import {SandboxDefinitionPickerComponent} from './training-definition-edit/sandb
 import {TrainingDefinitionEditComponent} from './training-definition-edit/training-definition-edit.component';
 import {Kypo2UserAssignModule, Kypo2UserAssignService} from 'kypo2-user-assign';
 import {SandboxDefinitionApi} from '../../../services/api/sandbox-definition-api.service';
+import {ControlsModule} from '../../shared/controls/controls.module';
 
 /**
  * Module containing components and providers of training definition detail/edt/new actions.
  */
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    SharedModule,
-    Kypo2UserAssignModule,
-    TrainingDefinitionEditOverviewRoutingModule,
-    TrainingDefinitionEditOverviewMaterialModule,
-    LevelOverviewModule,
-    PipesModule,
-    ReactiveFormsModule,
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        SharedModule,
+        Kypo2UserAssignModule,
+        TrainingDefinitionEditOverviewRoutingModule,
+        TrainingDefinitionEditOverviewMaterialModule,
+        LevelOverviewModule,
+        PipesModule,
+        ReactiveFormsModule,
+        ControlsModule,
+    ],
   declarations: [
     TrainingDefinitionEditOverviewComponent,
     TrainingDefinitionEditComponent,
     SandboxDefinitionPickerComponent,
-    TrainingDefinitionEditControlsComponent,
   ],
   providers: [
     SandboxDefinitionApi,
