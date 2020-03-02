@@ -17,11 +17,9 @@
     </mat-panel-description>
   </mat-expansion-panel-header>
 
-  <kypo2-question-controls
-    (addFFQ)="addFFQ()"
-    (addMCQ)="addMCQ()"
-    (addEMI)="addEMI()">
-    </kypo2-question-controls>
+  <kypo2-controls [controls]="controls"
+                  (action)="onControlAction($event)">
+    </kypo2-controls>
   <div *ngIf="questions && questions.length > 0 else noQuestions">
     <mat-divider></mat-divider>
     <!-- QUESTIONS -->

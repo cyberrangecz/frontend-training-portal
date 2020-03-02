@@ -1,13 +1,8 @@
-<div class="controls">
-  <button [disabled]="selectedTrainingRunIds?.length < 1" mat-raised-button color="warn" (click)="deleteSelectedTrainingRuns()">
-    <span *ngIf="selectedTrainingRunIds?.length > 0 else show">Delete ({{selectedTrainingRunIds?.length}})</span>
-    <ng-template #show>Delete</ng-template>
-  </button>
-</div>
+<kypo2-controls [controls]="controls" (action)="onControlsAction($event)"></kypo2-controls>
 <mat-divider></mat-divider>
 <kypo2-table
   elevation="0"
-  [data] ="trainingRuns | async"
+  [data] ="trainingRuns$ | async"
   [hasError]="hasError$ | async"
   (refresh)="onTableLoadEvent($event)"
   (rowAction)="onTableAction($event)"

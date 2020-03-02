@@ -19,11 +19,8 @@
     </mat-panel-description>
   </mat-expansion-panel-header>
   <ng-template matExpansionPanelContent>
-    <kypo2-training-instance-edit-controls
-      [disabled]="saveDisabled$ | async"
-      [editMode]="editMode$ | async"
-      (save)="onSave($event)">
-    </kypo2-training-instance-edit-controls>
+    <kypo2-controls [controls]="controls" (action)="onControlsAction($event)">
+    </kypo2-controls>
     <mat-divider></mat-divider>
     <kypo2-training-instance-edit
       (edited)="onTrainingInstanceChanged($event)"

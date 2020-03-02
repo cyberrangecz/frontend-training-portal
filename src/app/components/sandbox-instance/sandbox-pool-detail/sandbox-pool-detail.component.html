@@ -2,9 +2,7 @@
 <div class="content">
   <div class="overview">
     <h3>Sandbox Instances</h3>
-    <div class="controls">
-      <button mat-raised-button color="primary" [disabled]="pool?.isFull()" (click)="allocatePool()">Allocate</button>
-    </div>
+    <kypo2-controls [controls]="controls" (action)="onControlsAction($event)"></kypo2-controls>
     <kypo2-table
                   [data]="instances$ | async"
                  [hasError]="instancesTableHasError$ | async"

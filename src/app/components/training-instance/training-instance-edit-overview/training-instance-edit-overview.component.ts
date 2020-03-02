@@ -1,15 +1,14 @@
 import {ChangeDetectionStrategy, Component, HostListener, OnInit} from '@angular/core';
-import {MatDialog} from '@angular/material/dialog';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs';
-import {map, takeWhile} from 'rxjs/operators';
-import {ResourceSavedEvent} from '../../../model/events/resource-saved-event';
+import {map, takeWhile, tap} from 'rxjs/operators';
 import {TrainingInstanceChangeEvent} from '../../../model/events/training-instance-change-event';
-import {RouteFactory} from '../../../model/routes/route-factory';
 import {TrainingInstance} from '../../../model/training/training-instance';
 import {TrainingInstanceEditService} from '../../../services/training-instance/edit/training-instance-edit.service';
 import {BaseComponent} from '../../base.component';
 import {environment} from '../../../../environments/environment';
+import {ControlButton} from '../../../model/controls/control-button';
+import {TrainingInstanceEditControls} from './training-instance-edit-controls';
 
 /**
  * Main component of training instance edit/create page. Serves mainly as a smart component wrapper
@@ -25,24 +24,27 @@ export class TrainingInstanceEditOverviewComponent extends BaseComponent impleme
   trainingInstance$: Observable<TrainingInstance>;
   editMode$: Observable<boolean>;
   tiTitle$: Observable<string>;
-  saveDisabled$: Observable<boolean>;
   canDeactivateOrganizers = true;
   canDeactivateTIEdit = true;
   defaultPaginationSize = environment.defaultPaginationSize;
+  controls: ControlButton[];
 
   constructor(private router: Router,
               private activeRoute: ActivatedRoute,
-              private editService: TrainingInstanceEditService,
-              private dialog: MatDialog) {
+              private editService: TrainingInstanceEditService) {
     super();
     this.trainingInstance$ = this.editService.trainingInstance$;
-    this.editMode$ = this.editService.editMode$;
     this.tiTitle$ = this.editService.trainingInstance$.pipe(map(ti => ti.title));
-    this.saveDisabled$ = this.editService.saveDisabled$;
     this.activeRoute.data
       .pipe(
         takeWhile(_ => this.isAlive)
       ).subscribe(data => this.editService.set(data.trainingInstance));
+
+    this.editMode$ = this.editService.editMode$
+      .pipe(
+        tap(editMode => this.controls = TrainingInstanceEditControls.create(this.editService, editMode, this.editService.saveDisabled$))
+      );
+
   }
 
   ngOnInit() {
@@ -56,6 +58,17 @@ export class TrainingInstanceEditOverviewComponent extends BaseComponent impleme
     return this.canDeactivateTIEdit && this.canDeactivateOrganizers;
   }
 
+  onControlsAction(control: ControlButton) {
+    control.action$
+      .pipe(
+        takeWhile(_ => this.isAlive)
+      ).subscribe(_ => {
+      if (control.id === TrainingInstanceEditControls.SAVE_ACTION_ID || control.id === TrainingInstanceEditControls.SAVE_AND_STAY_ACTION_ID) {
+        this.canDeactivateTIEdit = true;
+      }
+    });
+  }
+
   /**
    * Determines if all changes in sub components are saved and user can navigate to different component
    * @returns true if saved all his changes, false otherwise
@@ -63,6 +76,7 @@ export class TrainingInstanceEditOverviewComponent extends BaseComponent impleme
   canDeactivate(): boolean {
     return this.canDeactivateTIEdit && this.canDeactivateOrganizers;
   }
+
   /**
    * Changes canDeactivate state of the component
    * @param hasUnsavedChanges true if organizers component has unsaved changes, false otherwise
@@ -78,29 +92,5 @@ export class TrainingInstanceEditOverviewComponent extends BaseComponent impleme
   onTrainingInstanceChanged($event: TrainingInstanceChangeEvent) {
     this.editService.change($event);
     this.canDeactivateTIEdit = false;
-  }
-
-  /**
-   * Calls service to save the edited training instance
-   * @param stayOnPage true if user should stay on the same page after saving, false if he or she should be navigated to the overview
-   */
-  onSave(stayOnPage: boolean = false) {
-    this.editService.save()
-      .pipe(
-        takeWhile(_ => this.isAlive)
-      ).subscribe(event => this.onTrainingInstanceSaved(event, stayOnPage));
-  }
-
-  private onTrainingInstanceSaved(event: ResourceSavedEvent, stayOnPage: boolean = false) {
-    this.canDeactivateTIEdit = true;
-    if (event.editMode) {
-      return;
-    }
-    if (!stayOnPage) {
-      this.router.navigate([RouteFactory.toTrainingInstanceOverview()]);
-    }
-    if (stayOnPage && !event.editMode) {
-      this.router.navigate([RouteFactory.toTrainingInstanceEdit(event.id)]);
-    }
   }
 }

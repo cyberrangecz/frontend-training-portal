@@ -5,30 +5,30 @@ import {Kypo2StepperModule} from 'kypo2-stepper';
 import {PipesModule} from '../../../../pipes/pipes.module';
 import {LevelEditService} from '../../../../services/training-definition/edit/level-edit.service';
 import {SharedModule} from '../../../shared/shared.module';
-import {LevelControlsComponent} from './level-controls/level-controls.component';
 import {LevelEditModule} from './level-edit/level-edit.module';
-import {LevelOverviewMaterialModule} from './level-overview-material.module';
 import {LevelOverviewComponent} from './level-overview/level-overview.component';
 import {TrainingLevelStepperComponent} from './training-level-stepper/training-level-stepper.component';
+import {ControlsModule} from '../../../shared/controls/controls.module';
+import {MatDividerModule} from '@angular/material/divider';
 
 /**
  * Module containing component and providers for training definition levels' overview
  */
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    PipesModule,
-    LevelOverviewMaterialModule,
-    LevelEditModule,
-    ReactiveFormsModule,
-    SharedModule,
-    Kypo2StepperModule
-  ],
+    imports: [
+      CommonModule,
+      FormsModule,
+      PipesModule,
+      LevelEditModule,
+      ReactiveFormsModule,
+      SharedModule,
+      Kypo2StepperModule,
+      MatDividerModule,
+      ControlsModule
+    ],
   declarations: [
     TrainingLevelStepperComponent,
     LevelOverviewComponent,
-    LevelControlsComponent,
   ],
   providers: [
     LevelEditService,

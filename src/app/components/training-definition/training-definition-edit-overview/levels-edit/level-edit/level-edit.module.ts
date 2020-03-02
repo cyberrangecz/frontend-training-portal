@@ -10,17 +10,16 @@ import {AssessmentLevelEditComponent} from './assessment-level-edit/assessment-l
 import {ExtendedMatchingItemsEditComponent} from './assessment-level-edit/question-edit/extended-matching-items-edit/extended-matching-items-edit.component';
 import {FreeFormQuestionEditComponent} from './assessment-level-edit/question-edit/free-form-question-edit/free-form-question-edit.component';
 import {MultipleChoiceQuestionEditComponent} from './assessment-level-edit/question-edit/multiple-choice-question-edit/multiple-choice-question-edit.component';
-import {QuestionControlsComponent} from './assessment-level-edit/question-edit/question-controls/question-controls.component';
 import {QuestionEditComponent} from './assessment-level-edit/question-edit/question-edit/question-edit.component';
 import {QuestionsOverviewComponent} from './assessment-level-edit/question-edit/questions-overview/questions-overview.component';
 import {GameLevelEditComponent} from './game-level-edit/game-level-edit.component';
-import {HintControlsComponent} from './game-level-edit/hint-edit/hint-controls/hint-controls.component';
 import {HintDetailEditComponent} from './game-level-edit/hint-edit/hint-detail-edit/hint-detail-edit.component';
 import {HintsOverviewComponent} from './game-level-edit/hint-edit/hints-overview/hints-overview.component';
 import {InfoLevelEditComponent} from './info-level-edit/info-level-edit.component';
 import {LevelEditMaterialModule} from './level-edit-material.module';
 import {HttpClient} from '@angular/common/http';
 import {MarkedOptions} from 'ngx-markdown';
+import {ControlsModule} from '../../../../shared/controls/controls.module';
 
 const markdownConfig = {
     markdownParser: {
@@ -47,16 +46,17 @@ const markdownConfig = {
  * Module containing components and providers related to level edit/detail
  */
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    MarkdownEditorModule.forRoot(markdownConfig),
-    Kypo2StepperModule,
-    LevelEditMaterialModule,
-    MatSlideToggleModule,
-    ReactiveFormsModule,
-    SharedModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        MarkdownEditorModule.forRoot(markdownConfig),
+        Kypo2StepperModule,
+        LevelEditMaterialModule,
+        MatSlideToggleModule,
+        ReactiveFormsModule,
+        SharedModule,
+        ControlsModule
+    ],
   exports: [
     AbstractLevelEditComponent
   ],
@@ -72,8 +72,6 @@ const markdownConfig = {
   FreeFormQuestionEditComponent,
   MultipleChoiceQuestionEditComponent,
   ExtendedMatchingItemsEditComponent,
-  QuestionControlsComponent,
-  HintControlsComponent
   ],
   providers: [
   ]

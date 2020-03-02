@@ -1,15 +1,15 @@
 import {ChangeDetectionStrategy, Component, HostListener, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs/internal/Observable';
-import {map, takeWhile} from 'rxjs/operators';
-import {ResourceSavedEvent} from '../../../model/events/resource-saved-event';
+import {map, takeWhile, tap} from 'rxjs/operators';
 import {TrainingDefinitionChangeEvent} from '../../../model/events/training-definition-change-event';
 import {Level} from '../../../model/level/level';
-import {RouteFactory} from '../../../model/routes/route-factory';
 import {TrainingDefinition} from '../../../model/training/training-definition';
 import {TrainingDefinitionEditService} from '../../../services/training-definition/edit/training-definition-edit.service';
 import {BaseComponent} from '../../base.component';
 import {environment} from '../../../../environments/environment';
+import {ControlButton} from '../../../model/controls/control-button';
+import {TrainingDefinitionEditControls} from './training-definition-edit-controls';
 
 /**
  * Main smart component of training definition edit/new page.
@@ -31,19 +31,26 @@ export class TrainingDefinitionEditOverviewComponent extends BaseComponent imple
   canDeactivateAuthors = true;
   canDeactivateTDEdit = true;
   defaultPaginationSize = environment.defaultPaginationSize;
+  controls: ControlButton[];
 
-  constructor(private router: Router,
-              private activeRoute: ActivatedRoute,
+  constructor(private activeRoute: ActivatedRoute,
               private editService: TrainingDefinitionEditService) {
     super();
     this.trainingDefinition$ = this.editService.trainingDefinition$;
-    this.editMode$ = this.editService.editMode$;
+    this.editMode$ = this.editService.editMode$.pipe(
+      tap(isEditMode => this.controls = TrainingDefinitionEditControls.create(this.editService, isEditMode, this.saveDisabled$))
+    );
     this.tdTitle$ = this.editService.trainingDefinition$.pipe(map(td => td.title));
     this.saveDisabled$ = this.editService.saveDisabled$;
     this.activeRoute.data
       .pipe(
         takeWhile(_ => this.isAlive),
       ).subscribe(data => this.editService.set(data.trainingDefinition));
+
+    this.editMode$.pipe(
+      takeWhile(_ => this.isAlive),
+      tap(isEditMode => this.controls = TrainingDefinitionEditControls.create(this.editService, isEditMode, this.saveDisabled$))
+    );
   }
 
   ngOnInit() {
@@ -54,7 +61,7 @@ export class TrainingDefinitionEditOverviewComponent extends BaseComponent imple
    */
   @HostListener('window:beforeunload')
   canRefreshOrLeave(): boolean {
-    return this.canDeactivateTDEdit && this.canDeactivateAuthors  && this.unsavedLevels.length === 0;
+    return this.canDeactivate();
   }
 
   /**
@@ -73,15 +80,11 @@ export class TrainingDefinitionEditOverviewComponent extends BaseComponent imple
     this.canDeactivateTDEdit = false;
   }
 
-  /**
-   * Calls service to save training definition state
-   * @param stayOnPage true if on successful save, user should remain on the page, false if he or she should be navigated back to overview page
-   */
-  onSave(stayOnPage: boolean = false) {
-    this.editService.save()
+  onControlsAction(control: ControlButton) {
+    control.action$
       .pipe(
         takeWhile(_ => this.isAlive)
-      ).subscribe(event => this.onTrainingDefinitionSaved(event, stayOnPage));
+      ).subscribe(_ => this.canDeactivateTDEdit = true);
   }
 
   /**
@@ -107,18 +110,4 @@ export class TrainingDefinitionEditOverviewComponent extends BaseComponent imple
   onAuthorsChanged(hasUnsavedChanges: boolean) {
     this.canDeactivateAuthors = !hasUnsavedChanges;
   }
-
-  private onTrainingDefinitionSaved(event: ResourceSavedEvent, stayOnPage: boolean = false) {
-    this.canDeactivateTDEdit = true;
-    if (event.editMode) {
-      return;
-    }
-    if (!stayOnPage) {
-      this.router.navigate([RouteFactory.toTrainingDefinitionOverview()]);
-    }
-    if (stayOnPage && !event.editMode) {
-      this.router.navigate([RouteFactory.toTrainingDefinitionEdit(event.id)]);
-    }
-  }
-
 }

@@ -21,6 +21,11 @@ import {
   CsirtMuConfirmationDialogConfig,
   CsirtMuDialogResultEnum
 } from 'csirt-mu-layout';
+import {ControlButton} from '../../../../../../../../model/controls/control-button';
+import {ExpandableControlButtonComponent} from '../../../../../../../shared/controls/expandable-control-button/expandable-control-button.component';
+import {ExpandableControlButton} from '../../../../../../../../model/controls/expandable-control-button';
+import {defer, NEVER, of} from 'rxjs';
+import {ExpandedMenuControlButton} from '../../../../../../../../model/controls/expanded-menu-control-button';
 
 /**
  * Wrapper component for questions inside the assessment level
@@ -39,12 +44,14 @@ export class QuestionsOverviewComponent extends BaseComponent implements OnInit,
   @Output() questionsChange: EventEmitter<Question[]> = new EventEmitter();
 
   questionsHasError: boolean;
+  controls: ControlButton[];
 
   constructor(public dialog: MatDialog) {
     super();
   }
 
   ngOnInit() {
+    this.initControls();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -57,6 +64,13 @@ export class QuestionsOverviewComponent extends BaseComponent implements OnInit,
         this.onQuestionChanged();
       }
     }
+  }
+
+  onControlAction(control: ControlButton) {
+    control.action$
+      .pipe(
+        takeWhile(_ => this.isAlive)
+      ).subscribe();
   }
 
   /**
@@ -133,5 +147,43 @@ export class QuestionsOverviewComponent extends BaseComponent implements OnInit,
 
   private calculateHasError() {
     this.questionsHasError = this.questions.some(question => !question.valid);
+  }
+
+  private initControls() {
+    this.controls = [
+      new ExpandableControlButton(
+        'add',
+        'Add',
+        'primary',
+        of(false),
+        NEVER,
+        [
+          new ExpandedMenuControlButton(
+            'ffq',
+            'Free Form Question',
+            'primary',
+            of(false),
+            defer(() => this.addFFQ()),
+            'help_outline'
+          ),
+          new ExpandedMenuControlButton(
+            'mcq',
+            'Multiple Choice Question',
+            'primary',
+            of(false),
+            defer(() => this.addMCQ()),
+            'check_circle'
+          ),
+          new ExpandedMenuControlButton(
+            'emi',
+            'Extended Matching Items Questions',
+            'primary',
+            of(false),
+            defer(() => this.addEMI()),
+            'list_alt'
+          )
+        ]
+      )
+    ];
   }
 }

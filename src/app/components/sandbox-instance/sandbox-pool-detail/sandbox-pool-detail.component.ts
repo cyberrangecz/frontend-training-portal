@@ -15,6 +15,8 @@ import {PoolCreationRequestsPollingService} from '../../../services/sandbox-inst
 import {PoolCleanupRequestsPollingService} from '../../../services/sandbox-instance/pool-request/cleanup/pool-cleanup-requests-polling.service';
 import {RouteFactory} from '../../../model/routes/route-factory';
 import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
+import {ControlButton} from '../../../model/controls/control-button';
+import {SandboxPoolDetailControls} from './sandbox-pool-detail-controls';
 
 /**
  * Smart component of sandbox pool detail page
@@ -38,6 +40,8 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
   cleanupRequests$: Observable<Kypo2Table<PoolRequest>>;
   cleanupRequestsTableHasError$: Observable<boolean>;
 
+  controls: ControlButton[];
+
   constructor(private instanceService: SandboxInstanceService,
               private creationRequestService: PoolCreationRequestsPollingService,
               private cleanupRequestService: PoolCleanupRequestsPollingService,
@@ -48,6 +52,7 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
 
   ngOnInit() {
     this.initTables();
+    this.initControls();
   }
 
   /**
@@ -60,6 +65,13 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
         takeWhile(_ => this.isAlive),
       )
       .subscribe();
+  }
+
+  onControlsAction(control: ControlButton) {
+    control.action$
+      .pipe(
+        takeWhile(_ => this.isAlive)
+      ).subscribe();
   }
 
   /**
@@ -149,14 +161,6 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
     }
   }
 
-  /**
-   * Calls service to allocate pool with sandbox instance
-   */
-  allocatePool() {
-    this.instanceService.allocate(this.pool.id)
-      .subscribe();
-  }
-
   private initTables() {
     const initialLoadEvent: LoadTableEvent = new LoadTableEvent(
       new RequestedPagination(0, environment.defaultPaginationSize, '', ''));
@@ -184,5 +188,9 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
     this.creationRequestsTableHasError$ = this.creationRequestService.hasError$;
 
    // TODO: Add  cleanup when backend API supports cleanup requests
+  }
+
+  private initControls() {
+    this.controls = SandboxPoolDetailControls.create(this.pool, this.instanceService);
   }
 }

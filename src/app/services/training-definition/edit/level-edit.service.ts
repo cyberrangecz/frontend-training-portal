@@ -33,17 +33,21 @@ export class LevelEditService {
    */
   levels$ = this.levelsSubject$.asObservable();
 
-  private activeStepSubject: BehaviorSubject<number> = new BehaviorSubject(0);
+  private activeStepSubject$: BehaviorSubject<number> = new BehaviorSubject(0);
   /**
    * Index of selected level
    */
-  activeStep$ = this.activeStepSubject.asObservable();
+  activeStep$ = this.activeStepSubject$.asObservable();
 
-  private activeLevelCanBeSavedSubject: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  private activeLevelCanBeSavedSubject$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   /**
    * True if selected level is valid and can be saved, false otherwise
    */
-  activeLevelCanBeSaved$: Observable<boolean> = this.activeLevelCanBeSavedSubject.asObservable();
+  activeLevelCanBeSaved$: Observable<boolean> = this.activeLevelCanBeSavedSubject$.asObservable();
+
+  private unsavedLevelsSubject$: BehaviorSubject<Level[]> = new BehaviorSubject([]);
+
+  unsavedLevels$: Observable<Level[]> = this.unsavedLevelsSubject$.asObservable();
 
   constructor(private api: TrainingDefinitionApi,
     private dialog: MatDialog,
@@ -66,7 +70,7 @@ export class LevelEditService {
   }
 
   setActiveLevel(levelIndex: number) {
-    this.activeStepSubject.next(levelIndex);
+    this.activeStepSubject$.next(levelIndex);
     this.setLevelCanBeSaved(this.getSelected());
   }
 
@@ -77,14 +81,10 @@ export class LevelEditService {
   onActiveLevelChanged(level: Level) {
     level.isUnsaved = true;
     const newLevels = this.levelsSubject$.getValue();
-    newLevels[this.activeStepSubject.getValue()] = level;
+    newLevels[this.activeStepSubject$.getValue()] = level;
     this.levelsSubject$.next(newLevels);
     this.setLevelCanBeSaved(level);
-  }
-
-  forceStepperUpdate() {
-    // need to pass levels as new object to trigger change detection in level stepper component
-    this.levelsSubject$.next(Array.from(this.levelsSubject$.value));
+    this.emitUnsavedLevels();
   }
 
   /**
@@ -96,27 +96,22 @@ export class LevelEditService {
   setLevelCanBeSaved(level: Level, value?: boolean) {
     if (this.levelsSubject$.getValue().length > 0 && level.id === this.getSelected().id) {
       if (value !== undefined) {
-        this.activeLevelCanBeSavedSubject.next(value);
+        this.activeLevelCanBeSavedSubject$.next(value);
       } else {
-        this.activeLevelCanBeSavedSubject.next(level.valid && level.isUnsaved);
+        this.activeLevelCanBeSavedSubject$.next(level.valid && level.isUnsaved);
       }
     }
   }
 
   getSelected(): Level {
-    return this.levelsSubject$.getValue()[this.activeStepSubject.getValue()];
+    return this.levelsSubject$.getValue()[this.activeStepSubject$.getValue()];
   }
-
-  getUnsavedLevels(): Level[] {
-    return this.levelsSubject$.getValue().filter(level => level.isUnsaved);
-  }
-
   navigateToLastLevel() {
     this.setActiveLevel(this.levelsSubject$.getValue().length - 1);
   }
 
   navigateToPreviousLevel() {
-    const curr = this.activeStepSubject.getValue();
+    const curr = this.activeStepSubject$.getValue();
     if (curr > 0) {
       this.setActiveLevel(curr - 1);
     } else {
@@ -129,28 +124,42 @@ export class LevelEditService {
    * @param levelType enum of possible level types
    */
   add(levelType: AbstractLevelTypeEnum): Observable<Level> {
+    let added$: Observable<Level>;
     switch (levelType) {
-      case AbstractLevelTypeEnum.Info: return this.addInfoLevel();
-      case AbstractLevelTypeEnum.Assessment: return this.addAssessmentLevel();
-      case AbstractLevelTypeEnum.Game: return this.addGameLevel();
+      case AbstractLevelTypeEnum.Info: {
+        added$ = this.addInfoLevel();
+        break;
+      }
+      case AbstractLevelTypeEnum.Assessment: {
+        added$ = this.addAssessmentLevel();
+        break;
+      }
+      case AbstractLevelTypeEnum.Game: {
+        added$ = this.addGameLevel();
+        break;
+      }
       default: console.error('Unsupported type of level in add method od LevelEditService');
     }
+
+    return added$.pipe(
+      tap(_ => this.navigateToLastLevel())
+    );
   }
 
   /**
    * Saves changes in edited level and optionally informs on result of the operation
-   * @param level level to be saved
-   * @param silentSave whether or not to display alerts when save was successful
+
    */
-  save(level: Level, silentSave = false): Observable<any> {
+  saveSelected(): Observable<any> {
+    // need to pass levels as new object to trigger change detection in level stepper component
+    this.levelsSubject$.next(Array.from(this.levelsSubject$.value));
+    const level = this.getSelected();
     this.setLevelCanBeSaved(level, false);
     return this.sendRequestToSaveLevel(level)
       .pipe(
         tap(_ => {
           this.onLevelSaved(level);
-          if (!silentSave) {
             this.alertService.emitAlert(AlertTypeEnum.Success, `Level ${level.title} saved`);
-          }
         },
           err => {
             this.setLevelCanBeSaved(level);
@@ -161,9 +170,9 @@ export class LevelEditService {
 
   /**
    * Displays dialog to delete selected level and displays alert with result of the operation
-   * @param level level tobe deleted
    */
-  delete(level: Level): Observable<Level[]> {
+  deleteSelected(): Observable<Level[]> {
+    const level = this.getSelected();
     return this.displayDialogToDelete(level)
       .pipe(
         switchMap(result => result === CsirtMuDialogResultEnum.CONFIRMED
@@ -182,12 +191,11 @@ export class LevelEditService {
     const from = levels[fromIndex];
     return this.api.moveLevelTo(this.trainingDefinitionId, from.id, toIndex)
       .pipe(
-        tap({
-          error: (err) => {
+        tap(_ => this.setActiveLevel(toIndex),
+    err => {
             this.moveRollback(fromIndex);
             this.errorHandler.emit(err, `Moving level "${from.title}"`);
-          }
-        })
+          })
       );
   }
 
@@ -282,6 +290,14 @@ export class LevelEditService {
     level.isUnsaved = false;
     level.valid = true;
     this.setLevelCanBeSaved(level);
+    this.emitUnsavedLevels();
+  }
+
+  private emitUnsavedLevels() {
+    this.unsavedLevelsSubject$.next(
+      this.levelsSubject$.getValue()
+        .filter(level => level.isUnsaved)
+    );
   }
 
 }

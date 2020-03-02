@@ -1,10 +1,12 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {BaseComponent} from '../../../base.component';
 import {TrainingInstance} from '../../../../model/training/training-instance';
-import {Observable, timer} from 'rxjs';
+import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import {map, switchMap, tap} from 'rxjs/operators';
-import {RouteFactory} from '../../../../model/routes/route-factory';
+import {map, takeWhile, tap} from 'rxjs/operators';
+import {ControlButton} from '../../../../model/controls/control-button';
+import {TrainingInstanceSummaryControls} from './training-instance-summary-controls';
+import {TrainingInstanceSummaryService} from '../../../../services/training-instance/summary/training-instance-summary.service';
 
 /**
  * Smart component of training instance summary
@@ -18,13 +20,11 @@ import {RouteFactory} from '../../../../model/routes/route-factory';
 export class TrainingInstanceSummaryComponent extends BaseComponent implements OnInit {
 
   trainingInstance$: Observable<TrainingInstance>;
-  hasStarted$: Observable<boolean>;
-
-  progressLink: string;
-  resultsLink: string;
-
+  controls: ControlButton[];
   private expanded: Set<number> = new Set();
-  constructor(private activeRoute: ActivatedRoute) {
+
+  constructor(private activeRoute: ActivatedRoute,
+              private service: TrainingInstanceSummaryService) {
     super();
   }
 
@@ -33,18 +33,19 @@ export class TrainingInstanceSummaryComponent extends BaseComponent implements O
       .pipe(
         map(data => data.trainingInstance),
         tap(ti => {
-          this.progressLink = `/${RouteFactory.toTrainingInstanceProgress(ti.id)}`;
-          this.resultsLink = `/${RouteFactory.toTrainingInstanceResults(ti.id)}`;
+          this.service.set(ti);
+          const disabled$ = this.service.hasStarted$.pipe(map(hasStated => !hasStated));
+          this.controls = TrainingInstanceSummaryControls.create(this.service, disabled$, disabled$);
         })
-      );
-
-    this.hasStarted$ = timer(0, 60000)
-      .pipe(
-        switchMap(_ => this.trainingInstance$),
-        map(ti => ti.hasStarted())
       );
   }
 
+  onControlAction(control: ControlButton) {
+    control.action$
+      .pipe(
+        takeWhile(_ => this.isAlive)
+      ).subscribe();
+  }
   /**
    * Opens expansion panel of index
    * @param index index of expansion panel to open

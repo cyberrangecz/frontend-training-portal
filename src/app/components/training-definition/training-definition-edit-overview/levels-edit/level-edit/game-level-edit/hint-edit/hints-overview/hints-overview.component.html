@@ -15,10 +15,9 @@
     </mat-panel-description>
   </mat-expansion-panel-header>
 
-  <kypo2-hint-controls [deleteDisabled]="stepperHints?.items?.length === 0"
-                       (delete)="deleteActiveHint()"
-                       (add)="addHint()">
-  </kypo2-hint-controls>
+  <kypo2-controls [controls]="controls"
+                  (action)="onControlAction($event)">
+  </kypo2-controls>
   <mat-divider></mat-divider>
 
 <!--     HINT stepper-->

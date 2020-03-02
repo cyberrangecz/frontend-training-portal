@@ -8,6 +8,7 @@ import {SandboxDefinitionOverviewService} from '../../../services/sandbox-defini
 import {SandboxDefinitionOverviewConcreteService} from '../../../services/sandbox-definition/sandbox-definition-overview-concrete.service';
 import {SandboxDefinitionDetailService} from '../../../services/sandbox-definition/detail/sandbox-definition-detail.service';
 import {SandboxDefinitionDetailConcreteService} from '../../../services/sandbox-definition/detail/sandbox-definition-detail-concrete.service';
+import {ControlsModule} from '../../shared/controls/controls.module';
 
 /**
  * Module for create sandbox definition page and components
@@ -18,7 +19,8 @@ import {SandboxDefinitionDetailConcreteService} from '../../../services/sandbox-
     FormsModule,
     ReactiveFormsModule,
     CreateSandboxDefinitionRoutingModule,
-    CreateSandboxDefinitionMaterial
+    CreateSandboxDefinitionMaterial,
+    ControlsModule
   ],
   declarations: [
     CreateSandboxDefinitionComponent

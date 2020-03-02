@@ -1,8 +1,6 @@
-<kypo2-level-controls [saveDisabled]="!(this.activeLevelCanBeSaved$ | async)"
-                      (addLevel)="addLevel($event)"
-                      (deleteLevel)="onDeleteSelected()"
-                      (saveLevel)="onSave()">
-</kypo2-level-controls>
+<kypo2-controls [controls]="controls"
+                (action)="onControlAction($event)">
+</kypo2-controls>
 <mat-divider></mat-divider>
 <div *ngIf="(stepperLevels | async).length > 0 else noLevels">
  <kypo2-levels-stepper [activeStep]="activeStep$ | async"

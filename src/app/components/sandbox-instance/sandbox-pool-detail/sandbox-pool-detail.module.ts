@@ -14,18 +14,20 @@ import {SandboxPoolDetailRoutingModule} from './sandbox-pool-detail-routing.modu
 import {SandboxPoolDetailComponent} from './sandbox-pool-detail.component';
 import {PoolCleanupRequestsPollingService} from '../../../services/sandbox-instance/pool-request/cleanup/pool-cleanup-requests-polling.service';
 import {SandboxInstanceApi} from '../../../services/api/sandbox-instance-api.service';
+import {ControlsModule} from '../../shared/controls/controls.module';
 
 /**
  * Module containing component and providers for sandbox pool detail page
  */
 @NgModule({
   declarations: [SandboxPoolDetailComponent],
-  imports: [
-    CommonModule,
-    Kypo2TableModule,
-    SandboxPoolDetailRoutingModule,
-    SandboxPoolDetailMaterialModule
-  ],
+    imports: [
+        CommonModule,
+        Kypo2TableModule,
+        SandboxPoolDetailRoutingModule,
+        SandboxPoolDetailMaterialModule,
+        ControlsModule
+    ],
   providers: [
     SandboxInstanceApi,
     PoolResolver,

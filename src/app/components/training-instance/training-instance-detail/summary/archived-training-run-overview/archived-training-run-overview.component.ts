@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
+import {defer, Observable, of} from 'rxjs';
 import {map, takeWhile} from 'rxjs/operators';
 import {Kypo2Table, LoadTableEvent, TableActionEvent} from 'kypo2-table';
 import {ArchivedTrainingRunService} from '../../../../../services/training-run/archived/archived-training-run.service';
@@ -7,6 +7,7 @@ import {TrainingRunTableCreator} from '../../../../../model/table/factory/traini
 import {TrainingRunTableAdapter} from '../../../../../model/table/row/training-run-table-adapter';
 import {BaseComponent} from '../../../../base.component';
 import {TrainingInstance} from '../../../../../model/training/training-instance';
+import {ControlButton} from '../../../../../model/controls/control-button';
 /**
  * Component for displaying archived (finished by trainee and with sandbox removed) training runs for organizer in real-time.
  */
@@ -21,15 +22,17 @@ export class ArchivedTrainingRunOverviewComponent extends BaseComponent implemen
   @Input() trainingInstance: TrainingInstance;
   @Input() isPollingActive: boolean;
 
-  trainingRuns: Observable<Kypo2Table<TrainingRunTableAdapter>>;
+  trainingRuns$: Observable<Kypo2Table<TrainingRunTableAdapter>>;
   hasError$: Observable<boolean>;
   selectedTrainingRunIds: number[] = [];
+  controls: ControlButton[];
 
   constructor(
-    private archivedTrainingRunService: ArchivedTrainingRunService) { super(); }
+    private service: ArchivedTrainingRunService) { super(); }
 
   ngOnInit() {
     this.startPolling();
+    this.initControls();
   }
 
   /**
@@ -38,11 +41,18 @@ export class ArchivedTrainingRunOverviewComponent extends BaseComponent implemen
    */
   onTableAction(event: TableActionEvent<TrainingRunTableAdapter>) {
     if (event.action.id === TrainingRunTableCreator.DELETE_ACTION_ID) {
-      this.archivedTrainingRunService.delete(event.element.trainingRun.id)
+      this.service.delete(event.element.trainingRun.id)
         .pipe(
           takeWhile(_ => this.isAlive)
         ).subscribe();
     }
+  }
+
+  onControlsAction(control: ControlButton) {
+    control.action$
+      .pipe(
+        takeWhile(_ => this.isAlive)
+      ).subscribe();
   }
 
   /**
@@ -54,6 +64,7 @@ export class ArchivedTrainingRunOverviewComponent extends BaseComponent implemen
     event.forEach( selectedRun => {
       this.selectedTrainingRunIds.push(selectedRun.trainingRun.id);
     });
+    this.initControls();
   }
 
   /**
@@ -61,7 +72,7 @@ export class ArchivedTrainingRunOverviewComponent extends BaseComponent implemen
    * @param event event to load new data emitted by table
    */
   onTableLoadEvent(event: LoadTableEvent) {
-    this.archivedTrainingRunService.getAll(this.trainingInstance.id, event.pagination)
+    this.service.getAll(this.trainingInstance.id, event.pagination)
       .pipe(
         takeWhile(_ => this.isAlive),
       )
@@ -69,19 +80,34 @@ export class ArchivedTrainingRunOverviewComponent extends BaseComponent implemen
   }
 
   deleteSelectedTrainingRuns() {
-    this.archivedTrainingRunService.deleteMultiple(this.selectedTrainingRunIds)
+    this.service.deleteMultiple(this.selectedTrainingRunIds)
       .pipe(
         takeWhile(_ => this.isAlive)
       ).subscribe();
   }
 
   private startPolling() {
-    this.archivedTrainingRunService.startPolling(this.trainingInstance);
-    this.trainingRuns = this.archivedTrainingRunService.archivedTrainingRuns$
+    this.service.startPolling(this.trainingInstance);
+    this.trainingRuns$ = this.service.archivedTrainingRuns$
       .pipe(
         takeWhile(_ => this.isPollingActive),
         map(paginatedRuns => TrainingRunTableCreator.create(paginatedRuns, 'archived'))
       );
-    this.hasError$ = this.archivedTrainingRunService.hasError$;
+    this.hasError$ = this.service.hasError$;
+  }
+
+  private initControls() {
+    const deleteLabel = this.selectedTrainingRunIds.length > 0
+      ? `Delete (${this.selectedTrainingRunIds.length})`
+      : 'Delete';
+    this.controls = [
+      new ControlButton(
+        'deleteMultiple',
+        deleteLabel,
+        'warn',
+        of(this.selectedTrainingRunIds.length <= 0),
+        defer(() => this.service.deleteMultiple(this.selectedTrainingRunIds))
+      )
+    ];
   }
 }

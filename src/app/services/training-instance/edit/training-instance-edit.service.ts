@@ -1,5 +1,4 @@
 import {Observable} from 'rxjs';
-import {ResourceSavedEvent} from '../../../model/events/resource-saved-event';
 import {TrainingInstanceChangeEvent} from '../../../model/events/training-instance-change-event';
 import {TrainingInstance} from '../../../model/training/training-instance';
 
@@ -34,7 +33,9 @@ export abstract class TrainingInstanceEditService {
   /**
    * Saves changes in currently edited training instance
    */
-  abstract save(): Observable<ResourceSavedEvent>;
+  abstract save(): Observable<any>;
+
+  abstract createAndStay(): Observable<any>;
 
   /**
    * Handles changes of edited training instance

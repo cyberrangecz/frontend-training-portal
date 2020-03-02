@@ -1,12 +1,11 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {BaseComponent} from '../../base.component';
 import {SandboxDefinitionFormGroup} from './create-sandbox-definition-dialog-form-group';
-import {SandboxDefinitionOverviewService} from '../../../services/sandbox-definition/sandbox-definition-overview.service';
 import {SandboxDefinitionCreateInfo} from '../../../model/sandbox/definition/sandbox-definition-create-info';
 import {takeWhile} from 'rxjs/operators';
-import {Router} from '@angular/router';
-import {RouteFactory} from '../../../model/routes/route-factory';
 import {SandboxDefinitionDetailService} from '../../../services/sandbox-definition/detail/sandbox-definition-detail.service';
+import {ControlButton} from '../../../model/controls/control-button';
+import {SandboxDefinitionDetailControls} from './sandbox-definition-detail-controls';
 
 /**
  * Component with form for creating new sandbox definition
@@ -20,13 +19,14 @@ import {SandboxDefinitionDetailService} from '../../../services/sandbox-definiti
 export class CreateSandboxDefinitionComponent extends BaseComponent implements OnInit {
 
   sandboxDefinitionFormGroup: SandboxDefinitionFormGroup;
+  controls: ControlButton[];
 
-  constructor(private sandboxDefinitionService: SandboxDefinitionDetailService,
-              private router: Router) {
+  constructor(private sandboxDefinitionService: SandboxDefinitionDetailService) {
     super();
   }
 
   ngOnInit() {
+    this.controls = SandboxDefinitionDetailControls.create();
     this.sandboxDefinitionFormGroup = new SandboxDefinitionFormGroup();
   }
 
@@ -35,15 +35,13 @@ export class CreateSandboxDefinitionComponent extends BaseComponent implements O
   get revision() {return this.sandboxDefinitionFormGroup.formGroup.get('revision'); }
 
 
-  /**
-   * Calls service to create sandbox definition and in case of success navigates to the sandbox definition overview path
-   */
-  create() {
-    this.sandboxDefinitionService.create(new SandboxDefinitionCreateInfo(this.gitlabUrl.value, this.revision.value))
-      .pipe(
-        takeWhile(_ => this.isAlive)
-      )
-      .subscribe();
+  onControlsAction(control: ControlButton) {
+    if (control.id === SandboxDefinitionDetailControls.CREATE_ACTION_ID) {
+      this.sandboxDefinitionService.create(new SandboxDefinitionCreateInfo(this.gitlabUrl.value, this.revision.value))
+        .pipe(
+          takeWhile(_ => this.isAlive)
+        )
+        .subscribe();
+    }
   }
-
 }

@@ -1,4 +1,13 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {interval} from 'rxjs';
 import {takeWhile} from 'rxjs/operators';
@@ -17,7 +26,8 @@ import {TrainingInstanceFormGroup} from './training-instance-form-group';
 @Component({
   selector: 'kypo2-training-instance-edit',
   templateUrl: './training-instance-edit.component.html',
-  styleUrls: ['./training-instance-edit.component.css']
+  styleUrls: ['./training-instance-edit.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TrainingInstanceEditComponent extends BaseComponent implements OnInit, OnChanges {
 

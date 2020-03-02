@@ -1,5 +1,5 @@
 import {TrainingInstanceOverviewService} from './training-instance-overview.service';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, Observable, of} from 'rxjs';
 import {PaginatedResource} from '../../model/table/other/paginated-resource';
 import {TrainingInstance} from '../../model/training/training-instance';
 import {environment} from '../../../environments/environment';
@@ -13,6 +13,8 @@ import {TrainingInstanceApi} from '../api/training-instance-api.service';
 import {SandboxInstanceApi} from '../api/sandbox-instance-api.service';
 import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
 import {Pagination} from '../../model/table/other/pagination';
+import {RouteFactory} from '../../model/routes/route-factory';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class TrainingInstanceOverviewConcreteService extends TrainingInstanceOverviewService {
@@ -22,6 +24,7 @@ export class TrainingInstanceOverviewConcreteService extends TrainingInstanceOve
 
   constructor(private trainingInstanceApi: TrainingInstanceApi,
               private sandboxInstanceApi: SandboxInstanceApi,
+              private router: Router,
               private alertService: AlertService,
               private errorHandler: ErrorHandlerService) {
     super();
@@ -43,6 +46,14 @@ export class TrainingInstanceOverviewConcreteService extends TrainingInstanceOve
             this.errorHandler.emit(err, 'Fetching training instances');
           })
       );
+  }
+
+  create(): Observable<any> {
+    return of(this.router.navigate([RouteFactory.toNewTrainingInstance()]));
+  }
+
+  edit(id: number): Observable<any> {
+    return of(this.router.navigate([RouteFactory.toTrainingInstanceEdit(id)]));
   }
 
   archive(id: number): Observable<any> {

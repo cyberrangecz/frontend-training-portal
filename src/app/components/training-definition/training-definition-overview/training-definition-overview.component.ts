@@ -4,11 +4,13 @@ import {BaseComponent} from '../../base.component';
 import {Observable} from 'rxjs';
 import {Kypo2Table, LoadTableEvent, RequestedPagination, TableActionEvent} from 'kypo2-table';
 import {TrainingDefinitionService} from '../../../services/training-definition/overview/training-definition.service';
-import {map, takeWhile} from 'rxjs/operators';
+import {map, take, takeWhile} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
 import {environment} from '../../../../environments/environment';
 import {TrainingDefinition} from '../../../model/training/training-definition';
 import {TrainingDefinitionTableCreator} from '../../../model/table/factory/training-definition-table-creator';
+import {ControlButton} from '../../../model/controls/control-button';
+import {TrainingDefinitionOverviewControls} from './training-definition-overview-controls';
 
 
 /**
@@ -28,6 +30,7 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent
   trainingDefinitions$: Observable<Kypo2Table<TrainingDefinition>>;
   hasError$: Observable<boolean>;
   isLoading$: Observable<boolean>;
+  controls: ControlButton[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -36,6 +39,7 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent
   }
 
   ngOnInit() {
+    this.controls = TrainingDefinitionOverviewControls.create(this.trainingDefinitionService);
     this.initTable();
   }
 
@@ -53,21 +57,12 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent
 
   /**
    * Resolves controls action and calls appropriate handler
-   * @param actionType type of action emitted by controls component
+   * @param control selected control emitted by controls component
    */
-  onControlsAction(actionType: 'create' | 'upload') {
-    let action$: Observable<any>;
-    switch (actionType) {
-      case 'create':
-        action$ = this.trainingDefinitionService.create();
-        break;
-      case 'upload':
-        action$ = this.trainingDefinitionService.upload();
-        break;
-    }
-    action$
+  onControlsAction(control: ControlButton) {
+    control.action$
       .pipe(
-        takeWhile(_ => this.isAlive)
+        take(1)
       ).subscribe();
   }
 

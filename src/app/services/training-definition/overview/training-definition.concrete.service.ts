@@ -1,6 +1,6 @@
 import {Filter} from '../../../model/utils/filter';
 import {TrainingDefinitionStateEnum} from '../../../model/enums/training-definition-state.enum';
-import {EMPTY, Observable, of} from 'rxjs';
+import {EMPTY, from, Observable, of} from 'rxjs';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {TrainingDefinitionApi} from '../../api/training-definition-api.service';
 import {TrainingDefinitionService} from './training-definition.service';
@@ -57,15 +57,15 @@ export class TrainingDefinitionConcreteService extends TrainingDefinitionService
   }
 
   create(): Observable<any> {
-    return of(this.router.navigate([RouteFactory.toNewTrainingDefinition()]));
+    return from(this.router.navigate([RouteFactory.toNewTrainingDefinition()]));
   }
 
   edit(trainingDefinition: TrainingDefinition): Observable<any> {
-    return of(this.router.navigate([RouteFactory.toTrainingDefinitionEdit(trainingDefinition.id)]));
+    return from(this.router.navigate([RouteFactory.toTrainingDefinitionEdit(trainingDefinition.id)]));
   }
 
   preview(trainingDefinition: TrainingDefinition): Observable<any> {
-    return of(this.router.navigate([RouteFactory.toTrainingDefinitionPreview(trainingDefinition.id)]));
+    return from(this.router.navigate([RouteFactory.toTrainingDefinitionPreview(trainingDefinition.id)]));
   }
 
   /**

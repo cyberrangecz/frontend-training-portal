@@ -13,32 +13,32 @@ import {TrainingDefinitionUploadDialogComponent} from './training-definition-upl
 import {Kypo2TableModule} from 'kypo2-table';
 import {TrainingDefinitionService} from '../../../services/training-definition/overview/training-definition.service';
 import {TrainingDefinitionConcreteService} from '../../../services/training-definition/overview/training-definition.concrete.service';
-import {TrainingDefinitionOverviewControlsComponent} from './training-definition-overview-controls/training-definition-overview-controls.component';
 import {FileUploadProgressService} from '../../../services/shared/file-upload-progress.service';
 import {TrainingDefinitionApi} from '../../../services/api/training-definition-api.service';
 import {TrainingInstanceApi} from '../../../services/api/training-instance-api.service';
+import {ControlsModule} from '../../shared/controls/controls.module';
 
 /**
  * Module containing components and providers for training definition overview.
  */
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ngfModule,
-    PipesModule,
-    SharedDirectivesModule,
-    TrainingDefinitionOverviewRoutingModule,
-    TrainingDefinitionOverviewMaterialModule,
-    ReactiveFormsModule,
-    Kypo2TableModule
-  ],
+    imports: [
+      CommonModule,
+      FormsModule,
+      ngfModule,
+      PipesModule,
+      SharedDirectivesModule,
+      TrainingDefinitionOverviewRoutingModule,
+      TrainingDefinitionOverviewMaterialModule,
+      ReactiveFormsModule,
+      Kypo2TableModule,
+      ControlsModule
+    ],
   declarations: [
     TrainingDefinitionOverviewComponent,
     TrainingDefinitionUploadDialogComponent,
     CloneDialogComponent,
     TrainingDefinitionDetailComponent,
-    TrainingDefinitionOverviewControlsComponent
   ],
   providers: [
     TrainingDefinitionApi,

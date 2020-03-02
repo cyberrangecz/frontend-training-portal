@@ -48,17 +48,6 @@ describe('ArchivedTrainingRunConcreteService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should call error handler on err', done => {
-    trainingInstanceFacadeSpy.getAssociatedTrainingRuns.and.returnValue(throwError(null));
-
-    service.getAll(1, createPagination()).subscribe(_ => fail,
-      _ => {
-        expect(errorHandlerSpy.emit).toHaveBeenCalledTimes(1);
-        done();
-      });
-    expect(trainingInstanceFacadeSpy.getAssociatedTrainingRuns).toHaveBeenCalledTimes(1);
-  });
-
   it('should emit hasError observable on err', done => {
     trainingInstanceFacadeSpy.getAssociatedTrainingRuns.and.returnValue(throwError(null));
 

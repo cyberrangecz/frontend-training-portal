@@ -7,7 +7,6 @@ import {RequestedPagination} from '../../../model/DTOs/other/requested-paginatio
 import {TrainingInstanceApi} from '../../api/training-instance-api.service';
 import {retryWhen, switchMap, tap} from 'rxjs/operators';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
-import {HttpErrorResponse} from '@angular/common/http';
 import {TrainingInstance} from '../../../model/training/training-instance';
 import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
 import {AlertService} from '../../shared/alert.service';
@@ -15,9 +14,9 @@ import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
 import {ActiveTrainingRunService} from './active-training-run.service';
 import {TrainingRun} from '../../../model/training/training-run';
 import {
+  CsirtMuConfirmationDialogComponent,
   CsirtMuConfirmationDialogConfig,
   CsirtMuDialogResultEnum,
-  CsirtMuNotificationDetailComponent
 } from 'csirt-mu-layout';
 import {MatDialog} from '@angular/material/dialog';
 
@@ -63,7 +62,7 @@ export class ActiveTrainingRunConcreteService extends ActiveTrainingRunService {
         tap( runs => {
             this.resourceSubject$.next(runs);
           },
-          err => this.onGetAllError(err)
+          err => this.onGetAllError()
         )
       );
   }
@@ -89,7 +88,7 @@ export class ActiveTrainingRunConcreteService extends ActiveTrainingRunService {
   }
 
   private displayDeleteSandboxDialog(trainingRun: TrainingRun): Observable<CsirtMuDialogResultEnum> {
-    const dialogRef = this.dialog.open(CsirtMuNotificationDetailComponent, {
+    const dialogRef = this.dialog.open(CsirtMuConfirmationDialogComponent, {
       data: new CsirtMuConfirmationDialogConfig(
         'Delete Sandbox Instance',
         `Do you want to delete sandbox instance of player "${trainingRun?.player?.name}"?`,
@@ -114,12 +113,11 @@ export class ActiveTrainingRunConcreteService extends ActiveTrainingRunService {
     this.hasErrorSubject$.next(false);
     return this.trainingInstanceFacade.getAssociatedTrainingRuns(this.trainingInstance.id, this.lastPagination)
       .pipe(
-        tap({ error: err => this.onGetAllError(err)})
+        tap({ error: err => this.onGetAllError()})
       );
   }
 
-  private onGetAllError(err: HttpErrorResponse) {
-    this.errorHandler.emit(err, 'Obtaining training runs');
+  private onGetAllError() {
     this.hasErrorSubject$.next(true);
   }
 

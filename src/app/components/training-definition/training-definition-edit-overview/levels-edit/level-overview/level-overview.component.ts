@@ -19,6 +19,8 @@ import {TrainingDefinition} from '../../../../../model/training/training-definit
 import {LevelEditService} from '../../../../../services/training-definition/edit/level-edit.service';
 import {BaseComponent} from '../../../../base.component';
 import {LevelStepperAdapter} from '../../../../../model/stepper/level-stepper-adapter';
+import {ControlButton} from '../../../../../model/controls/control-button';
+import {LevelOverviewControls} from './level-overview-controls';
 
 /**
  * Smart component for level stepper and level edit components
@@ -37,7 +39,7 @@ export class LevelOverviewComponent extends BaseComponent implements OnInit, OnC
 
   activeStep$: Observable<number>;
   stepperLevels: Observable<LevelStepperAdapter[]>;
-  activeLevelCanBeSaved$: Observable<boolean>;
+  controls: ControlButton[];
   levelMovingInProgress: boolean;
 
   constructor(private activeRoute: ActivatedRoute,
@@ -51,9 +53,14 @@ export class LevelOverviewComponent extends BaseComponent implements OnInit, OnC
     this.stepperLevels = this.levelService.levels$
       .pipe(
         map(levels => levels.map(level => new LevelStepperAdapter(level))),
-        tap(_ => this.unsavedLevels.emit(this.levelService.getUnsavedLevels()))
+        tap(_ => this.levelsCount.emit(this.levelService.getLevelsCount())),
       );
-    this.activeLevelCanBeSaved$ = this.levelService.activeLevelCanBeSaved$.pipe(debounceTime(0));
+
+    this.levelService.unsavedLevels$
+      .pipe(
+        takeWhile(_ => this.isAlive),
+      ).subscribe(unsavedLevels => this.unsavedLevels.emit(unsavedLevels));
+    this.initControl();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -70,20 +77,13 @@ export class LevelOverviewComponent extends BaseComponent implements OnInit, OnC
     this.levelService.setActiveLevel(levelIndex);
   }
 
-  /**
-   * Calls service to create new level of selected type
-   * @param levelType type of level to create
-   */
-  addLevel(levelType: AbstractLevelTypeEnum) {
-    this.levelService.add(levelType)
+  onControlAction(control: ControlButton) {
+    control.action$
       .pipe(
         takeWhile(_ => this.isAlive)
-      ).subscribe(_ => {
-        this.levelService.navigateToLastLevel();
-        this.levelsCount.emit(this.levelService.getLevelsCount());
-      }
-      );
+      ).subscribe();
   }
+
 
   /**
    * Call service to move level from original position to a new one
@@ -97,32 +97,9 @@ export class LevelOverviewComponent extends BaseComponent implements OnInit, OnC
       ).subscribe(
         _ => {
           this.levelMovingInProgress = false;
-          this.levelService.setActiveLevel(event.stepperStateChange.currentIndex);
         },
         _ => this.levelMovingInProgress = false
       );
-  }
-
-  /**
-   * Shows confirmation dialog to delete currently active level, calls service to delete the level, if confirmed
-   */
-  onDeleteSelected() {
-    this.levelService.delete(this.levelService.getSelected())
-      .pipe(
-        takeWhile(_ => this.isAlive)
-      ).subscribe(_ => this.levelsCount.emit(this.levelService.getLevelsCount()));
-  }
-
-  /**
-   * Calls service to save currently active level
-   */
-  onSave() {
-    this.levelService.forceStepperUpdate();
-    const level = this.levelService.getSelected();
-    this.levelService.save(level)
-      .pipe(
-        takeWhile(_ => this.isAlive)
-      ).subscribe(_ => this.unsavedLevels.emit(this.levelService.getUnsavedLevels()));
   }
 
   /**
@@ -133,4 +110,15 @@ export class LevelOverviewComponent extends BaseComponent implements OnInit, OnC
     this.levelService.onActiveLevelChanged(level);
   }
 
+  private initControl() {
+    const saveDisabled$ = this.levelService.activeLevelCanBeSaved$
+      .pipe(
+        map(canBeSaved => !canBeSaved)
+      );
+
+    const deleteDisabled$ = this.levelService.levels$.pipe(
+      map(levels => levels.length <= 0)
+    );
+    this.controls = LevelOverviewControls.create(this.levelService, saveDisabled$, deleteDisabled$);
+  }
 }

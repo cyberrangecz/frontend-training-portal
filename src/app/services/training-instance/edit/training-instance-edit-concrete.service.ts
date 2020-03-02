@@ -1,14 +1,15 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, ReplaySubject} from 'rxjs';
-import {filter, map, tap} from 'rxjs/operators';
+import {BehaviorSubject, from, Observable, ReplaySubject} from 'rxjs';
+import {filter, map, switchMap, tap} from 'rxjs/operators';
 import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
-import {ResourceSavedEvent} from '../../../model/events/resource-saved-event';
 import {TrainingInstanceChangeEvent} from '../../../model/events/training-instance-change-event';
 import {TrainingInstance} from '../../../model/training/training-instance';
 import {TrainingInstanceApi} from '../../api/training-instance-api.service';
 import {AlertService} from '../../shared/alert.service';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {TrainingInstanceEditService} from './training-instance-edit.service';
+import {RouteFactory} from '../../../model/routes/route-factory';
+import {Router} from '@angular/router';
 
 /**
  * Basic implementation of layer between component and API service.
@@ -40,6 +41,7 @@ export class TrainingInstanceEditConcreteService extends TrainingInstanceEditSer
   private editedSnapshot: TrainingInstance;
 
   constructor(private trainingInstanceFacade: TrainingInstanceApi,
+              private router: Router,
               private errorHandler: ErrorHandlerService,
               private alertService: AlertService) {
     super();
@@ -58,14 +60,22 @@ export class TrainingInstanceEditConcreteService extends TrainingInstanceEditSer
   /**
    * Saves/creates training instance based on current edit mode or handles error.
    */
-  save(): Observable<ResourceSavedEvent> {
+  save(): Observable<any> {
     if (this.editModeSubject.getValue()) {
-      return this.update()
-        .pipe(map(id => new ResourceSavedEvent(id, true)));
+      return this.update();
     } else {
       return this.create()
-        .pipe(map(id => new ResourceSavedEvent(id, false)));
+        .pipe(
+          switchMap(_ => from(this.router.navigate([RouteFactory.toTrainingInstanceOverview()])))
+        );
     }
+  }
+
+  createAndStay(): Observable<any> {
+    return this.create()
+      .pipe(
+        switchMap(id =>  from(this.router.navigate([RouteFactory.toTrainingInstanceEdit(id)])))
+      );
   }
 
   /**
