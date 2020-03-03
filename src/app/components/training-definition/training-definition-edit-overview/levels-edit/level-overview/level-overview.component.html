@@ -1,6 +1,6 @@
-<kypo2-controls [controls]="controls"
-                (action)="onControlAction($event)">
-</kypo2-controls>
+<kypo-controls [controls]="controls"
+               (itemClicked)="onControlAction($event)">
+</kypo-controls>
 <mat-divider></mat-divider>
 <div *ngIf="(stepperLevels | async).length > 0 else noLevels">
  <kypo2-levels-stepper [activeStep]="activeStep$ | async"

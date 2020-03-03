@@ -18,7 +18,7 @@ import {TrainingDefinitionListContentComponent} from './training-definition-sele
 import {TrainingDefinitionApi} from '../../../services/api/training-definition-api.service';
 import {TrainingInstanceApi} from '../../../services/api/training-instance-api.service';
 import {UserApi} from '../../../services/api/user-api.service';
-import {ControlsModule} from '../../shared/controls/controls.module';
+import {KypoControlsModule} from 'kypo-controls';
 
 /**
  * Main module of training instance edit components and providers
@@ -35,7 +35,7 @@ import {ControlsModule} from '../../shared/controls/controls.module';
         TrainingInstanceEditOverviewRoutingModule,
         OwlDateTimeModule,
         OwlNativeDateTimeModule,
-        ControlsModule,
+        KypoControlsModule,
     ],
   declarations: [
     TrainingInstanceEditOverviewComponent,

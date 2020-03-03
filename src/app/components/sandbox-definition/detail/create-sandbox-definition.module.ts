@@ -4,11 +4,9 @@ import {CreateSandboxDefinitionComponent} from './create-sandbox-definition.comp
 import {CreateSandboxDefinitionRoutingModule} from './create-sandbox-definition-routing.module';
 import {CreateSandboxDefinitionMaterial} from './create-sandbox-definition-material.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {SandboxDefinitionOverviewService} from '../../../services/sandbox-definition/sandbox-definition-overview.service';
-import {SandboxDefinitionOverviewConcreteService} from '../../../services/sandbox-definition/sandbox-definition-overview-concrete.service';
 import {SandboxDefinitionDetailService} from '../../../services/sandbox-definition/detail/sandbox-definition-detail.service';
 import {SandboxDefinitionDetailConcreteService} from '../../../services/sandbox-definition/detail/sandbox-definition-detail-concrete.service';
-import {ControlsModule} from '../../shared/controls/controls.module';
+import {KypoControlsModule} from 'kypo-controls';
 
 /**
  * Module for create sandbox definition page and components
@@ -20,7 +18,7 @@ import {ControlsModule} from '../../shared/controls/controls.module';
     ReactiveFormsModule,
     CreateSandboxDefinitionRoutingModule,
     CreateSandboxDefinitionMaterial,
-    ControlsModule
+    KypoControlsModule
   ],
   declarations: [
     CreateSandboxDefinitionComponent

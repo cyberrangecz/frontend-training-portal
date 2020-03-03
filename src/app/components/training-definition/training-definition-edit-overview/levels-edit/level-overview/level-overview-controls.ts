@@ -1,9 +1,7 @@
 import {LevelEditService} from '../../../../../services/training-definition/edit/level-edit.service';
 import {defer, NEVER, Observable, of} from 'rxjs';
-import {ControlButton} from '../../../../../model/controls/control-button';
-import {ExpandableControlButton} from '../../../../../model/controls/expandable-control-button';
-import {ExpandedMenuControlButton} from '../../../../../model/controls/expanded-menu-control-button';
 import {AbstractLevelTypeEnum} from '../../../../../model/enums/abstract-level-type.enum';
+import {KypoControlItem, KypoControlMenuItem, KypoExpandableControlItem} from 'kypo-controls';
 
 export class LevelOverviewControls {
 
@@ -14,24 +12,23 @@ export class LevelOverviewControls {
   static readonly ADD_ASSESSMENT_LEVEL_ID = 'add_assessment_level';
   static readonly ADD_INFO_LEVEL_ID = 'add_info_level';
 
-  static create(service: LevelEditService, saveDisabled$: Observable<boolean>, deleteDisabled$: Observable<boolean>): ControlButton[] {
+  static create(service: LevelEditService, saveDisabled$: Observable<boolean>, deleteDisabled$: Observable<boolean>): KypoControlItem[] {
     return [
-      new ExpandableControlButton(
+      new KypoExpandableControlItem(
         this.ADD_ACTION_ID,
         'Add',
         'primary',
         of(false),
-        of(NEVER),
         this.createAddExpandedMenuControlButtons(service)
       ),
-      new ControlButton(
+      new KypoControlItem(
         this.DELETE_ACTION_ID,
         'Delete',
         'warn',
         deleteDisabled$,
         defer(() => service.deleteSelected()),
       ),
-      new ControlButton(
+      new KypoControlItem(
         this.SAVE_ACTION_ID,
         'Save',
         'primary',
@@ -41,9 +38,9 @@ export class LevelOverviewControls {
     ];
   }
 
-  private static createAddExpandedMenuControlButtons(service: LevelEditService): ExpandedMenuControlButton[] {
+  private static createAddExpandedMenuControlButtons(service: LevelEditService): KypoControlMenuItem[] {
     return [
-      new ExpandedMenuControlButton(
+      new KypoControlMenuItem(
         this.ADD_GAME_LEVEL_ID,
         'Game Level',
         'primary',
@@ -51,7 +48,7 @@ export class LevelOverviewControls {
         defer(() => service.add(AbstractLevelTypeEnum.Game)),
         'videogame_asset'
       ),
-      new ExpandedMenuControlButton(
+      new KypoControlMenuItem(
         this.ADD_ASSESSMENT_LEVEL_ID,
         'Assessment Level',
         'primary',
@@ -59,7 +56,7 @@ export class LevelOverviewControls {
         defer(() => service.add(AbstractLevelTypeEnum.Assessment)),
         'assignment'
       ),
-      new ExpandedMenuControlButton(
+      new KypoControlMenuItem(
         this.ADD_INFO_LEVEL_ID,
         'Info Level',
         'primary',

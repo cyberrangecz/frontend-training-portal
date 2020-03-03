@@ -15,8 +15,8 @@ import {PoolCreationRequestsPollingService} from '../../../services/sandbox-inst
 import {PoolCleanupRequestsPollingService} from '../../../services/sandbox-instance/pool-request/cleanup/pool-cleanup-requests-polling.service';
 import {RouteFactory} from '../../../model/routes/route-factory';
 import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
-import {ControlButton} from '../../../model/controls/control-button';
 import {SandboxPoolDetailControls} from './sandbox-pool-detail-controls';
+import {KypoControlItem} from 'kypo-controls';
 
 /**
  * Smart component of sandbox pool detail page
@@ -40,7 +40,7 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
   cleanupRequests$: Observable<Kypo2Table<PoolRequest>>;
   cleanupRequestsTableHasError$: Observable<boolean>;
 
-  controls: ControlButton[];
+  controls: KypoControlItem[];
 
   constructor(private instanceService: SandboxInstanceService,
               private creationRequestService: PoolCreationRequestsPollingService,
@@ -67,8 +67,8 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
       .subscribe();
   }
 
-  onControlsAction(control: ControlButton) {
-    control.action$
+  onControlsAction(control: KypoControlItem) {
+    control.result$
       .pipe(
         takeWhile(_ => this.isAlive)
       ).subscribe();

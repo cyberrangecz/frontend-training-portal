@@ -20,8 +20,8 @@ import {
   CsirtMuConfirmationDialogConfig,
   CsirtMuDialogResultEnum
 } from 'csirt-mu-layout';
-import {ControlButton} from '../../../../../../../../model/controls/control-button';
 import {BehaviorSubject, defer, of} from 'rxjs';
+import {KypoControlItem} from 'kypo-controls';
 
 
 /**
@@ -51,7 +51,7 @@ export class HintsOverviewComponent extends BaseComponent implements OnInit, OnC
   penaltySum: number;
   selectedStep: number;
   stepperHints: Kypo2Stepper<HintStepperAdapter> = {items: []};
-  controls: ControlButton[];
+  controls: KypoControlItem[];
 
   constructor(public dialog: MatDialog) {
     super();
@@ -71,8 +71,8 @@ export class HintsOverviewComponent extends BaseComponent implements OnInit, OnC
     }
   }
 
-  onControlAction(control: ControlButton) {
-    control.action$
+  onControlAction(control: KypoControlItem) {
+    control.result$
       .pipe(
         takeWhile(_ => this.isAlive)
       ).subscribe();
@@ -206,14 +206,14 @@ export class HintsOverviewComponent extends BaseComponent implements OnInit, OnC
 
   private initControls() {
     this.controls = [
-      new ControlButton(
+      new KypoControlItem(
         'add',
         'Add',
         'primary',
         of(false),
         defer(() => this.addHint())
       ),
-      new ControlButton(
+      new KypoControlItem(
         'delete',
         'Delete',
         'warn',

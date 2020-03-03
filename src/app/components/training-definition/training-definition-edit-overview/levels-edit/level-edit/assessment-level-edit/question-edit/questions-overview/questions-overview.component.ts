@@ -21,11 +21,8 @@ import {
   CsirtMuConfirmationDialogConfig,
   CsirtMuDialogResultEnum
 } from 'csirt-mu-layout';
-import {ControlButton} from '../../../../../../../../model/controls/control-button';
-import {ExpandableControlButtonComponent} from '../../../../../../../shared/controls/expandable-control-button/expandable-control-button.component';
-import {ExpandableControlButton} from '../../../../../../../../model/controls/expandable-control-button';
 import {defer, NEVER, of} from 'rxjs';
-import {ExpandedMenuControlButton} from '../../../../../../../../model/controls/expanded-menu-control-button';
+import {KypoControlItem, KypoControlMenuItem, KypoExpandableControlItem} from 'kypo-controls';
 
 /**
  * Wrapper component for questions inside the assessment level
@@ -44,7 +41,7 @@ export class QuestionsOverviewComponent extends BaseComponent implements OnInit,
   @Output() questionsChange: EventEmitter<Question[]> = new EventEmitter();
 
   questionsHasError: boolean;
-  controls: ControlButton[];
+  controls: KypoControlItem[];
 
   constructor(public dialog: MatDialog) {
     super();
@@ -66,8 +63,8 @@ export class QuestionsOverviewComponent extends BaseComponent implements OnInit,
     }
   }
 
-  onControlAction(control: ControlButton) {
-    control.action$
+  onControlAction(control: KypoControlItem) {
+    control.result$
       .pipe(
         takeWhile(_ => this.isAlive)
       ).subscribe();
@@ -151,14 +148,13 @@ export class QuestionsOverviewComponent extends BaseComponent implements OnInit,
 
   private initControls() {
     this.controls = [
-      new ExpandableControlButton(
+      new KypoExpandableControlItem(
         'add',
         'Add',
         'primary',
         of(false),
-        NEVER,
         [
-          new ExpandedMenuControlButton(
+          new KypoControlMenuItem(
             'ffq',
             'Free Form Question',
             'primary',
@@ -166,7 +162,7 @@ export class QuestionsOverviewComponent extends BaseComponent implements OnInit,
             defer(() => this.addFFQ()),
             'help_outline'
           ),
-          new ExpandedMenuControlButton(
+          new KypoControlMenuItem(
             'mcq',
             'Multiple Choice Question',
             'primary',
@@ -174,7 +170,7 @@ export class QuestionsOverviewComponent extends BaseComponent implements OnInit,
             defer(() => this.addMCQ()),
             'check_circle'
           ),
-          new ExpandedMenuControlButton(
+          new KypoControlMenuItem(
             'emi',
             'Extended Matching Items Questions',
             'primary',

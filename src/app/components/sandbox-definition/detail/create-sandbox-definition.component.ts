@@ -4,8 +4,8 @@ import {SandboxDefinitionFormGroup} from './create-sandbox-definition-dialog-for
 import {SandboxDefinitionCreateInfo} from '../../../model/sandbox/definition/sandbox-definition-create-info';
 import {takeWhile} from 'rxjs/operators';
 import {SandboxDefinitionDetailService} from '../../../services/sandbox-definition/detail/sandbox-definition-detail.service';
-import {ControlButton} from '../../../model/controls/control-button';
 import {SandboxDefinitionDetailControls} from './sandbox-definition-detail-controls';
+import {KypoControlItem} from 'kypo-controls';
 
 /**
  * Component with form for creating new sandbox definition
@@ -19,7 +19,7 @@ import {SandboxDefinitionDetailControls} from './sandbox-definition-detail-contr
 export class CreateSandboxDefinitionComponent extends BaseComponent implements OnInit {
 
   sandboxDefinitionFormGroup: SandboxDefinitionFormGroup;
-  controls: ControlButton[];
+  controls: KypoControlItem[];
 
   constructor(private sandboxDefinitionService: SandboxDefinitionDetailService) {
     super();
@@ -35,7 +35,7 @@ export class CreateSandboxDefinitionComponent extends BaseComponent implements O
   get revision() {return this.sandboxDefinitionFormGroup.formGroup.get('revision'); }
 
 
-  onControlsAction(control: ControlButton) {
+  onControlsAction(control: KypoControlItem) {
     if (control.id === SandboxDefinitionDetailControls.CREATE_ACTION_ID) {
       this.sandboxDefinitionService.create(new SandboxDefinitionCreateInfo(this.gitlabUrl.value, this.revision.value))
         .pipe(

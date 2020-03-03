@@ -4,9 +4,9 @@ import {TrainingInstance} from '../../../../model/training/training-instance';
 import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {map, takeWhile, tap} from 'rxjs/operators';
-import {ControlButton} from '../../../../model/controls/control-button';
 import {TrainingInstanceSummaryControls} from './training-instance-summary-controls';
 import {TrainingInstanceSummaryService} from '../../../../services/training-instance/summary/training-instance-summary.service';
+import {KypoControlItem} from 'kypo-controls';
 
 /**
  * Smart component of training instance summary
@@ -20,7 +20,7 @@ import {TrainingInstanceSummaryService} from '../../../../services/training-inst
 export class TrainingInstanceSummaryComponent extends BaseComponent implements OnInit {
 
   trainingInstance$: Observable<TrainingInstance>;
-  controls: ControlButton[];
+  controls: KypoControlItem[];
   private expanded: Set<number> = new Set();
 
   constructor(private activeRoute: ActivatedRoute,
@@ -40,8 +40,8 @@ export class TrainingInstanceSummaryComponent extends BaseComponent implements O
       );
   }
 
-  onControlAction(control: ControlButton) {
-    control.action$
+  onControlAction(control: KypoControlItem) {
+    control.result$
       .pipe(
         takeWhile(_ => this.isAlive)
       ).subscribe();

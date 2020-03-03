@@ -19,8 +19,8 @@
     </mat-panel-description>
   </mat-expansion-panel-header>
   <ng-template matExpansionPanelContent>
-    <kypo2-controls [controls]="controls" (action)="onControlsAction($event)">
-    </kypo2-controls>
+    <kypo-controls [controls]="controls" (itemClicked)="onControlsAction($event)">
+    </kypo-controls>
     <mat-divider></mat-divider>
     <kypo2-training-instance-edit
       (edited)="onTrainingInstanceChanged($event)"

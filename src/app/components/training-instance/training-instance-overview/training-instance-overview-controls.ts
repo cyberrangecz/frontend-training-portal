@@ -1,14 +1,14 @@
 import {TrainingInstanceOverviewService} from '../../../services/training-instance/training-instance-overview.service';
-import {ControlButton} from '../../../model/controls/control-button';
 import {defer, of} from 'rxjs';
+import {KypoControlItem} from 'kypo-controls';
 
 export class TrainingInstanceOverviewControls {
 
   static CREATE_ACTION_ID = 'add';
 
-  static create(service: TrainingInstanceOverviewService): ControlButton[] {
+  static create(service: TrainingInstanceOverviewService): KypoControlItem[] {
     return [
-      new ControlButton(
+      new KypoControlItem(
         this.CREATE_ACTION_ID,
         'Create',
         'primary',

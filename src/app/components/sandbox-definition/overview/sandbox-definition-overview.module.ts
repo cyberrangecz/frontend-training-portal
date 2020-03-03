@@ -7,7 +7,7 @@ import {SandboxDefinitionDetailComponent} from './sandbox-definition-detail/sand
 import {SandboxDefinitionOverviewRoutingModule} from './sandbox-definition-overview-routing.module';
 import {SandboxDefinitionOverviewComponent} from './sandbox-definition-overview.component';
 import {SandboxDefinitionApi} from '../../../services/api/sandbox-definition-api.service';
-import {ControlsModule} from '../../shared/controls/controls.module';
+import {KypoControlsModule} from 'kypo-controls';
 
 /**
  * Module containing components and services for sandbox definition overview page
@@ -17,7 +17,7 @@ import {ControlsModule} from '../../shared/controls/controls.module';
     CommonModule,
     SandboxDefinitionOverviewRoutingModule,
     Kypo2TableModule,
-    ControlsModule,
+    KypoControlsModule,
   ],
   declarations: [
     SandboxDefinitionOverviewComponent,

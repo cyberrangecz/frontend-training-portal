@@ -16,7 +16,7 @@ import {TrainingDefinitionConcreteService} from '../../../services/training-defi
 import {FileUploadProgressService} from '../../../services/shared/file-upload-progress.service';
 import {TrainingDefinitionApi} from '../../../services/api/training-definition-api.service';
 import {TrainingInstanceApi} from '../../../services/api/training-instance-api.service';
-import {ControlsModule} from '../../shared/controls/controls.module';
+import {KypoControlsModule} from 'kypo-controls';
 
 /**
  * Module containing components and providers for training definition overview.
@@ -32,7 +32,7 @@ import {ControlsModule} from '../../shared/controls/controls.module';
       TrainingDefinitionOverviewMaterialModule,
       ReactiveFormsModule,
       Kypo2TableModule,
-      ControlsModule
+      KypoControlsModule
     ],
   declarations: [
     TrainingDefinitionOverviewComponent,

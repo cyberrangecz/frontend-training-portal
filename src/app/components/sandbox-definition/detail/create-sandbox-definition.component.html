@@ -1,6 +1,6 @@
 <h1>Create Sandbox Definition</h1>
 <mat-card>
-  <kypo2-controls [controls]="controls" (action)="onControlsAction($event)"></kypo2-controls>
+  <kypo-controls [controls]="controls" (itemClicked)="onControlsAction($event)"></kypo-controls>
 
   <form [formGroup]="sandboxDefinitionFormGroup.formGroup">
     <div class="content">
