@@ -11,8 +11,8 @@ import {SandboxDefinition} from '../../../model/sandbox/definition/sandbox-defin
 import {environment} from '../../../../environments/environment';
 import {Router} from '@angular/router';
 import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
-import {ControlButton} from '../../../model/controls/control-button';
 import {SandboxDefinitionOverviewControls} from './sandbox-definition-overview-controls';
+import {KypoControlItem} from 'kypo-controls';
 
 @Component({
   selector: 'kypo2-sandbox-definition-overview',
@@ -26,7 +26,7 @@ import {SandboxDefinitionOverviewControls} from './sandbox-definition-overview-c
  */
 export class SandboxDefinitionOverviewComponent extends BaseComponent implements OnInit {
 
-  controls: ControlButton[];
+  controls: KypoControlItem[];
   sandboxDefinitions$: Observable<Kypo2Table<SandboxDefinition>>;
   hasError$: Observable<boolean>;
 
@@ -70,8 +70,8 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
   /**
    * Navigates to create sandbox definition page
    */
-  onControlsActions(control: ControlButton) {
-    control.action$
+  onControlsActions(control: KypoControlItem) {
+    control.result$
       .pipe(
         take(1)
       ).subscribe();

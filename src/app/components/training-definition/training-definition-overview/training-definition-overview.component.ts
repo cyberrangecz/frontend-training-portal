@@ -9,8 +9,8 @@ import {ActivatedRoute} from '@angular/router';
 import {environment} from '../../../../environments/environment';
 import {TrainingDefinition} from '../../../model/training/training-definition';
 import {TrainingDefinitionTableCreator} from '../../../model/table/factory/training-definition-table-creator';
-import {ControlButton} from '../../../model/controls/control-button';
 import {TrainingDefinitionOverviewControls} from './training-definition-overview-controls';
+import {KypoControlItem} from 'kypo-controls';
 
 
 /**
@@ -30,7 +30,7 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent
   trainingDefinitions$: Observable<Kypo2Table<TrainingDefinition>>;
   hasError$: Observable<boolean>;
   isLoading$: Observable<boolean>;
-  controls: ControlButton[] = [];
+  controls: KypoControlItem[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -59,8 +59,8 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent
    * Resolves controls action and calls appropriate handler
    * @param control selected control emitted by controls component
    */
-  onControlsAction(control: ControlButton) {
-    control.action$
+  onControlsAction(control: KypoControlItem) {
+    control.result$
       .pipe(
         take(1)
       ).subscribe();

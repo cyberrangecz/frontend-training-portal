@@ -7,8 +7,8 @@ import {TrainingInstance} from '../../../model/training/training-instance';
 import {TrainingInstanceEditService} from '../../../services/training-instance/edit/training-instance-edit.service';
 import {BaseComponent} from '../../base.component';
 import {environment} from '../../../../environments/environment';
-import {ControlButton} from '../../../model/controls/control-button';
 import {TrainingInstanceEditControls} from './training-instance-edit-controls';
+import {KypoControlItem} from 'kypo-controls';
 
 /**
  * Main component of training instance edit/create page. Serves mainly as a smart component wrapper
@@ -27,7 +27,7 @@ export class TrainingInstanceEditOverviewComponent extends BaseComponent impleme
   canDeactivateOrganizers = true;
   canDeactivateTIEdit = true;
   defaultPaginationSize = environment.defaultPaginationSize;
-  controls: ControlButton[];
+  controls: KypoControlItem[];
 
   constructor(private router: Router,
               private activeRoute: ActivatedRoute,
@@ -58,8 +58,8 @@ export class TrainingInstanceEditOverviewComponent extends BaseComponent impleme
     return this.canDeactivateTIEdit && this.canDeactivateOrganizers;
   }
 
-  onControlsAction(control: ControlButton) {
-    control.action$
+  onControlsAction(control: KypoControlItem) {
+    control.result$
       .pipe(
         takeWhile(_ => this.isAlive)
       ).subscribe(_ => {

@@ -15,9 +15,9 @@
     </mat-panel-description>
   </mat-expansion-panel-header>
 
-  <kypo2-controls [controls]="controls"
-                  (action)="onControlAction($event)">
-  </kypo2-controls>
+  <kypo-controls [controls]="controls"
+                 (itemClicked)="onControlAction($event)">
+  </kypo-controls>
   <mat-divider></mat-divider>
 
 <!--     HINT stepper-->

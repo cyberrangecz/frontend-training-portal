@@ -1,6 +1,6 @@
 import {SandboxDefinitionOverviewService} from '../../../services/sandbox-definition/sandbox-definition-overview.service';
-import {ControlButton} from '../../../model/controls/control-button';
 import {defer, of} from 'rxjs';
+import {KypoControlItem} from 'kypo-controls';
 
 export class SandboxDefinitionOverviewControls {
 
@@ -8,7 +8,7 @@ export class SandboxDefinitionOverviewControls {
 
   static create(service: SandboxDefinitionOverviewService) {
     return [
-      new ControlButton(
+      new KypoControlItem(
         this.CREATE_ACTION_ID,
         'Create',
         'primary',

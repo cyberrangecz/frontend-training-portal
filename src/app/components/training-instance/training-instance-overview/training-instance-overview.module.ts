@@ -11,7 +11,7 @@ import {TrainingInstanceOverviewConcreteService} from '../../../services/trainin
 import {Kypo2TableModule} from 'kypo2-table';
 import {SandboxInstanceApi} from '../../../services/api/sandbox-instance-api.service';
 import {TrainingInstanceApi} from '../../../services/api/training-instance-api.service';
-import {ControlsModule} from '../../shared/controls/controls.module';
+import {KypoControlsModule} from 'kypo-controls';
 
 /**
  * Main module of training instance agenda. Contains components and providers for displaying table of training instance
@@ -25,7 +25,7 @@ import {ControlsModule} from '../../shared/controls/controls.module';
         ReactiveFormsModule,
         Kypo2TableModule,
         TrainingInstanceOverviewRoutingModule,
-        ControlsModule,
+        KypoControlsModule,
     ],
   declarations: [
     TrainingInstanceOverviewComponent,

@@ -8,8 +8,8 @@ import {RequestedPagination} from '../../../model/DTOs/other/requested-paginatio
 import {environment} from '../../../../environments/environment';
 import {TrainingInstanceTableCreator} from '../../../model/table/factory/training-instance-table-creator';
 import {map, takeWhile} from 'rxjs/operators';
-import {ControlButton} from '../../../model/controls/control-button';
 import {TrainingInstanceOverviewControls} from './training-instance-overview-controls';
+import {KypoControlItem} from 'kypo-controls';
 
 /**
  * Main component of organizer overview.
@@ -28,7 +28,7 @@ export class TrainingInstanceOverviewComponent extends BaseComponent implements 
   instances$: Observable<Kypo2Table<TrainingInstanceRowAdapter>>;
   hasError$: Observable<boolean>;
 
-  controls: ControlButton[];
+  controls: KypoControlItem[];
 
   constructor(private service: TrainingInstanceOverviewService) {
     super();
@@ -39,8 +39,8 @@ export class TrainingInstanceOverviewComponent extends BaseComponent implements 
     this.initControls();
   }
 
-  onControlAction(control: ControlButton) {
-    control.action$
+  onControlAction(control: KypoControlItem) {
+    control.result$
       .pipe(
         takeWhile(_ => this.isAlive)
       ).subscribe();

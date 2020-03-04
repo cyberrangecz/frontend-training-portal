@@ -16,7 +16,7 @@ import {SandboxDefinitionPickerComponent} from './training-definition-edit/sandb
 import {TrainingDefinitionEditComponent} from './training-definition-edit/training-definition-edit.component';
 import {Kypo2UserAssignModule, Kypo2UserAssignService} from 'kypo2-user-assign';
 import {SandboxDefinitionApi} from '../../../services/api/sandbox-definition-api.service';
-import {ControlsModule} from '../../shared/controls/controls.module';
+import {KypoControlsModule} from 'kypo-controls';
 
 /**
  * Module containing components and providers of training definition detail/edt/new actions.
@@ -32,7 +32,7 @@ import {ControlsModule} from '../../shared/controls/controls.module';
         LevelOverviewModule,
         PipesModule,
         ReactiveFormsModule,
-        ControlsModule,
+        KypoControlsModule,
     ],
   declarations: [
     TrainingDefinitionEditOverviewComponent,

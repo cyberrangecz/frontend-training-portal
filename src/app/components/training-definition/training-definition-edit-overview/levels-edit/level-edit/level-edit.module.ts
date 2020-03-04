@@ -19,7 +19,7 @@ import {InfoLevelEditComponent} from './info-level-edit/info-level-edit.componen
 import {LevelEditMaterialModule} from './level-edit-material.module';
 import {HttpClient} from '@angular/common/http';
 import {MarkedOptions} from 'ngx-markdown';
-import {ControlsModule} from '../../../../shared/controls/controls.module';
+import {KypoControlsModule} from 'kypo-controls';
 
 const markdownConfig = {
     markdownParser: {
@@ -55,7 +55,7 @@ const markdownConfig = {
         MatSlideToggleModule,
         ReactiveFormsModule,
         SharedModule,
-        ControlsModule
+        KypoControlsModule
     ],
   exports: [
     AbstractLevelEditComponent

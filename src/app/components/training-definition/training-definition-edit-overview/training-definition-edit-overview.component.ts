@@ -8,8 +8,8 @@ import {TrainingDefinition} from '../../../model/training/training-definition';
 import {TrainingDefinitionEditService} from '../../../services/training-definition/edit/training-definition-edit.service';
 import {BaseComponent} from '../../base.component';
 import {environment} from '../../../../environments/environment';
-import {ControlButton} from '../../../model/controls/control-button';
 import {TrainingDefinitionEditControls} from './training-definition-edit-controls';
+import {KypoControlItem} from 'kypo-controls';
 
 /**
  * Main smart component of training definition edit/new page.
@@ -31,7 +31,7 @@ export class TrainingDefinitionEditOverviewComponent extends BaseComponent imple
   canDeactivateAuthors = true;
   canDeactivateTDEdit = true;
   defaultPaginationSize = environment.defaultPaginationSize;
-  controls: ControlButton[];
+  controls: KypoControlItem[];
 
   constructor(private activeRoute: ActivatedRoute,
               private editService: TrainingDefinitionEditService) {
@@ -80,8 +80,8 @@ export class TrainingDefinitionEditOverviewComponent extends BaseComponent imple
     this.canDeactivateTDEdit = false;
   }
 
-  onControlsAction(control: ControlButton) {
-    control.action$
+  onControlsAction(control: KypoControlItem) {
+    control.result$
       .pipe(
         takeWhile(_ => this.isAlive)
       ).subscribe(_ => this.canDeactivateTDEdit = true);

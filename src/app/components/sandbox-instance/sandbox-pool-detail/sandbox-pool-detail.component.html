@@ -2,7 +2,7 @@
 <div class="content">
   <div class="overview">
     <h3>Sandbox Instances</h3>
-    <kypo2-controls [controls]="controls" (action)="onControlsAction($event)"></kypo2-controls>
+    <kypo-controls [controls]="controls" (itemClicked)="onControlsAction($event)"></kypo-controls>
     <kypo2-table
                   [data]="instances$ | async"
                  [hasError]="instancesTableHasError$ | async"

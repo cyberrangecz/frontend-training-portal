@@ -11,16 +11,15 @@ import {
 import {MatDialog} from '@angular/material/dialog';
 import {ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs';
-import {debounceTime, map, takeWhile, tap} from 'rxjs/operators';
-import {AbstractLevelTypeEnum} from '../../../../../model/enums/abstract-level-type.enum';
+import {map, takeWhile, tap} from 'rxjs/operators';
 import {LevelMoveEvent} from '../../../../../model/events/level-move-event';
 import {Level} from '../../../../../model/level/level';
 import {TrainingDefinition} from '../../../../../model/training/training-definition';
 import {LevelEditService} from '../../../../../services/training-definition/edit/level-edit.service';
 import {BaseComponent} from '../../../../base.component';
 import {LevelStepperAdapter} from '../../../../../model/stepper/level-stepper-adapter';
-import {ControlButton} from '../../../../../model/controls/control-button';
 import {LevelOverviewControls} from './level-overview-controls';
+import {KypoControlItem} from 'kypo-controls';
 
 /**
  * Smart component for level stepper and level edit components
@@ -39,7 +38,7 @@ export class LevelOverviewComponent extends BaseComponent implements OnInit, OnC
 
   activeStep$: Observable<number>;
   stepperLevels: Observable<LevelStepperAdapter[]>;
-  controls: ControlButton[];
+  controls: KypoControlItem[];
   levelMovingInProgress: boolean;
 
   constructor(private activeRoute: ActivatedRoute,
@@ -77,8 +76,8 @@ export class LevelOverviewComponent extends BaseComponent implements OnInit, OnC
     this.levelService.setActiveLevel(levelIndex);
   }
 
-  onControlAction(control: ControlButton) {
-    control.action$
+  onControlAction(control: KypoControlItem) {
+    control.result$
       .pipe(
         takeWhile(_ => this.isAlive)
       ).subscribe();

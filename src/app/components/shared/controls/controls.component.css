@@ -1,9 +1,0 @@
-.controls {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 10px;
-}
-
-.controls > * {
-  margin-left: 10px;
-}

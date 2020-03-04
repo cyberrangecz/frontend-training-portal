@@ -10,7 +10,7 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <ng-template matExpansionPanelContent>
-        <kypo2-controls [controls]="controls" (action)="onControlAction($event)"></kypo2-controls>
+        <kypo-controls [controls]="controls" (itemClicked)="onControlAction($event)"></kypo-controls>
         <kypo2-training-instance-info
           [trainingInstance]="trainingInstance">
         </kypo2-training-instance-info>

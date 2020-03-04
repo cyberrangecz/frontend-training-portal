@@ -8,8 +8,8 @@ import {SharedModule} from '../../../shared/shared.module';
 import {LevelEditModule} from './level-edit/level-edit.module';
 import {LevelOverviewComponent} from './level-overview/level-overview.component';
 import {TrainingLevelStepperComponent} from './training-level-stepper/training-level-stepper.component';
-import {ControlsModule} from '../../../shared/controls/controls.module';
 import {MatDividerModule} from '@angular/material/divider';
+import {KypoControlsModule} from 'kypo-controls';
 
 /**
  * Module containing component and providers for training definition levels' overview
@@ -24,7 +24,7 @@ import {MatDividerModule} from '@angular/material/divider';
       SharedModule,
       Kypo2StepperModule,
       MatDividerModule,
-      ControlsModule
+      KypoControlsModule
     ],
   declarations: [
     TrainingLevelStepperComponent,

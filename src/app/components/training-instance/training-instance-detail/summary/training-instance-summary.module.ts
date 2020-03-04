@@ -15,8 +15,8 @@ import {ActiveTrainingRunConcreteService} from '../../../../services/training-ru
 import {ActiveTrainingRunService} from '../../../../services/training-run/active/active-training-run.service';
 import {SandboxInstanceApi} from '../../../../services/api/sandbox-instance-api.service';
 import {TrainingRunApi} from '../../../../services/api/training-run-api.service';
-import {ControlsModule} from '../../../shared/controls/controls.module';
 import {TrainingInstanceSummaryService} from '../../../../services/training-instance/summary/training-instance-summary.service';
+import {KypoControlsModule} from 'kypo-controls';
 
 /**
  * Components and providers for training instance summaries.
@@ -29,7 +29,7 @@ import {TrainingInstanceSummaryService} from '../../../../services/training-inst
         TrainingInstanceSummaryMaterialModule,
         TrainingInstanceSummaryRoutingModule,
         Kypo2TableModule,
-        ControlsModule
+        KypoControlsModule
     ],
   declarations: [
   TrainingInstanceSummaryComponent,

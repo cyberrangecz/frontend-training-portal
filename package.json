@@ -33,6 +33,7 @@
     "file-saver": "^2.0.2",
     "csirt-mu-layout": "9.1.0",
     "csirt-mu-d3-service": "9.0.0",
+    "kypo-controls": "9.0.0",
     "kypo2-assessments-results-visualization": "9.0.0",
     "kypo2-auth": "9.0.0",
     "kypo2-markdown-editor": "9.0.0",

@@ -7,7 +7,7 @@ import {TrainingRunTableCreator} from '../../../../../model/table/factory/traini
 import {TrainingRunTableAdapter} from '../../../../../model/table/row/training-run-table-adapter';
 import {BaseComponent} from '../../../../base.component';
 import {TrainingInstance} from '../../../../../model/training/training-instance';
-import {ControlButton} from '../../../../../model/controls/control-button';
+import {KypoControlItem} from 'kypo-controls';
 /**
  * Component for displaying archived (finished by trainee and with sandbox removed) training runs for organizer in real-time.
  */
@@ -25,7 +25,7 @@ export class ArchivedTrainingRunOverviewComponent extends BaseComponent implemen
   trainingRuns$: Observable<Kypo2Table<TrainingRunTableAdapter>>;
   hasError$: Observable<boolean>;
   selectedTrainingRunIds: number[] = [];
-  controls: ControlButton[];
+  controls: KypoControlItem[];
 
   constructor(
     private service: ArchivedTrainingRunService) { super(); }
@@ -48,8 +48,8 @@ export class ArchivedTrainingRunOverviewComponent extends BaseComponent implemen
     }
   }
 
-  onControlsAction(control: ControlButton) {
-    control.action$
+  onControlsAction(control: KypoControlItem) {
+    control.result$
       .pipe(
         takeWhile(_ => this.isAlive)
       ).subscribe();
@@ -101,7 +101,7 @@ export class ArchivedTrainingRunOverviewComponent extends BaseComponent implemen
       ? `Delete (${this.selectedTrainingRunIds.length})`
       : 'Delete';
     this.controls = [
-      new ControlButton(
+      new KypoControlItem(
         'deleteMultiple',
         deleteLabel,
         'warn',
