@@ -6,8 +6,8 @@ import {TrainingInstanceRowAdapter} from '../../../model/table/row/training-inst
 import {TrainingInstanceOverviewService} from '../../../services/training-instance/training-instance-overview.service';
 import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
 import {environment} from '../../../../environments/environment';
-import {TrainingInstanceTableCreator} from '../../../model/table/factory/training-instance-table-creator';
-import {map, takeWhile} from 'rxjs/operators';
+import {TrainingInstanceTable} from '../../../model/table/training-instance/training-instance-table';
+import {map, take, takeWhile} from 'rxjs/operators';
 import {TrainingInstanceOverviewControls} from './training-instance-overview-controls';
 import {KypoControlItem} from 'kypo-controls';
 
@@ -35,8 +35,8 @@ export class TrainingInstanceOverviewComponent extends BaseComponent implements 
   }
 
   ngOnInit() {
+    this.controls = TrainingInstanceOverviewControls.create(this.service);
     this.initTable();
-    this.initControls();
   }
 
   onControlAction(control: KypoControlItem) {
@@ -54,20 +54,9 @@ export class TrainingInstanceOverviewComponent extends BaseComponent implements 
   }
 
   onInstanceAction(event: TableActionEvent<any>) {
-    let action$;
-    if (event.action.id === TrainingInstanceTableCreator.EDIT_ACTION_ID) {
-      action$ = this.service.edit(event.element.id);
-    }
-
-    if (event.action.id === TrainingInstanceTableCreator.ARCHIVE_ACTION_ID) {
-      action$ = this.service.archive(event.element.id);
-    }
-    if (event.action.id === TrainingInstanceTableCreator.DELETE_ACTION_ID) {
-      action$ = this.service.delete(event.element.id);
-    }
-    action$
+    event.action.result$
       .pipe(
-        takeWhile(_ => this.isAlive)
+        take(1)
       ).subscribe();
   }
 
@@ -77,13 +66,9 @@ export class TrainingInstanceOverviewComponent extends BaseComponent implements 
     );
     this.instances$ = this.service.resource$
       .pipe(
-        map(paginatedInstances => TrainingInstanceTableCreator.create(paginatedInstances, this.service))
+        map(paginatedInstances => new TrainingInstanceTable(paginatedInstances, this.service))
       );
     this.hasError$ = this.service.hasError$;
     this.onInstancesLoadEvent(initLoadEvent);
-  }
-
-  private initControls() {
-    this.controls = TrainingInstanceOverviewControls.create(this.service);
   }
 }

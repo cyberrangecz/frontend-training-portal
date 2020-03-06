@@ -40,4 +40,6 @@ export abstract class SandboxInstanceService extends PaginatedResourceService<Sa
    * @param sandboxInstance a sandbox instance to be locked
    */
   abstract lock(sandboxInstance: SandboxInstance): Observable<any>;
+
+  abstract showTopology(poolId: number, sandboxInstance: SandboxInstance): Observable<any>;
 }

@@ -6,7 +6,7 @@
     <kypo2-table
                   [data]="instances$ | async"
                  [hasError]="instancesTableHasError$ | async"
-                 (rowAction)="onInstanceAction($event)"
+                 (rowAction)="onTableAction($event)"
                  (refresh)="onInstanceLoadEvent($event)">
     </kypo2-table>
   </div>
@@ -17,7 +17,7 @@
         <kypo2-table
                       [data]="creationRequests$ | async"
                      [hasError]="creationRequestsTableHasError$ | async"
-                     (rowAction)="onCreationAction($event)"
+                     (rowAction)="onTableAction($event)"
                      (refresh)="onCreationRequestsLoadEvent($event)">
         </kypo2-table>
       </div>
@@ -26,7 +26,7 @@
         <kypo2-table
                      [data]="cleanupRequests$ | async"
                      [hasError]="cleanupRequestsTableHasError$ | async"
-                     (rowAction)="onCleanupAction($event)"
+                     (rowAction)="onTableAction($event)"
                      (refresh)="onCleanupRequestsLoadEvent($event)">
         </kypo2-table>
       </div>-->

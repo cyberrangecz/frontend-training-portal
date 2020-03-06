@@ -1,13 +1,13 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {defer, Observable, of} from 'rxjs';
-import {map, takeWhile} from 'rxjs/operators';
+import {map, take, takeWhile} from 'rxjs/operators';
 import {Kypo2Table, LoadTableEvent, TableActionEvent} from 'kypo2-table';
 import {ArchivedTrainingRunService} from '../../../../../services/training-run/archived/archived-training-run.service';
-import {TrainingRunTableCreator} from '../../../../../model/table/factory/training-run-table-creator';
-import {TrainingRunTableAdapter} from '../../../../../model/table/row/training-run-table-adapter';
+import {ActiveTrainingRunRowAdapter} from '../../../../../model/table/row/active-training-run-row-adapter';
 import {BaseComponent} from '../../../../base.component';
 import {TrainingInstance} from '../../../../../model/training/training-instance';
 import {KypoControlItem} from 'kypo-controls';
+import {ArchivedTrainingRunTable} from '../../../../../model/table/training-run/archived-training-run-table';
 /**
  * Component for displaying archived (finished by trainee and with sandbox removed) training runs for organizer in real-time.
  */
@@ -22,7 +22,7 @@ export class ArchivedTrainingRunOverviewComponent extends BaseComponent implemen
   @Input() trainingInstance: TrainingInstance;
   @Input() isPollingActive: boolean;
 
-  trainingRuns$: Observable<Kypo2Table<TrainingRunTableAdapter>>;
+  trainingRuns$: Observable<Kypo2Table<ActiveTrainingRunRowAdapter>>;
   hasError$: Observable<boolean>;
   selectedTrainingRunIds: number[] = [];
   controls: KypoControlItem[];
@@ -39,13 +39,11 @@ export class ArchivedTrainingRunOverviewComponent extends BaseComponent implemen
    * Resolves actions and calls related action handler
    * @param event event emitted by table
    */
-  onTableAction(event: TableActionEvent<TrainingRunTableAdapter>) {
-    if (event.action.id === TrainingRunTableCreator.DELETE_ACTION_ID) {
-      this.service.delete(event.element.trainingRun.id)
-        .pipe(
-          takeWhile(_ => this.isAlive)
-        ).subscribe();
-    }
+  onTableAction(event: TableActionEvent<ActiveTrainingRunRowAdapter>) {
+    event.action.result$
+      .pipe(
+        take(1)
+      ).subscribe();
   }
 
   onControlsAction(control: KypoControlItem) {
@@ -59,7 +57,7 @@ export class ArchivedTrainingRunOverviewComponent extends BaseComponent implemen
    * Stores selected training runs emitted by table
    * @param event event containing selected training runs emitted by table
    */
-  onRowSelection(event: TrainingRunTableAdapter[]) {
+  onRowSelection(event: ActiveTrainingRunRowAdapter[]) {
     this.selectedTrainingRunIds = [];
     event.forEach( selectedRun => {
       this.selectedTrainingRunIds.push(selectedRun.trainingRun.id);
@@ -79,19 +77,12 @@ export class ArchivedTrainingRunOverviewComponent extends BaseComponent implemen
       .subscribe();
   }
 
-  deleteSelectedTrainingRuns() {
-    this.service.deleteMultiple(this.selectedTrainingRunIds)
-      .pipe(
-        takeWhile(_ => this.isAlive)
-      ).subscribe();
-  }
-
   private startPolling() {
     this.service.startPolling(this.trainingInstance);
     this.trainingRuns$ = this.service.archivedTrainingRuns$
       .pipe(
         takeWhile(_ => this.isPollingActive),
-        map(paginatedRuns => TrainingRunTableCreator.create(paginatedRuns, 'archived'))
+        map(resource => new ArchivedTrainingRunTable(resource, this.service))
       );
     this.hasError$ = this.service.hasError$;
   }

@@ -4,19 +4,18 @@ import {Kypo2Table, LoadTableEvent, TableActionEvent} from 'kypo2-table';
 import {SandboxInstanceService} from '../../../services/sandbox-instance/sandbox/sandbox-instance.service';
 import {SandboxInstance} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance';
 import {Observable} from 'rxjs';
-import {map, takeWhile, tap} from 'rxjs/operators';
+import {map, take, takeWhile, tap} from 'rxjs/operators';
 import {PoolRequest} from '../../../model/sandbox/pool/request/pool-request';
 import {SandboxPool} from '../../../model/sandbox/pool/sandbox-pool';
 import {BaseComponent} from '../../base.component';
-import {SandboxInstanceTableCreator} from '../../../model/table/factory/sandbox-instance-table-creator';
+import {SandboxInstanceTable} from '../../../model/table/sandbox-instance/sandbox-instance-table';
 import {environment} from '../../../../environments/environment';
-import {PoolRequestTableCreator} from '../../../model/table/factory/pool-request-table-creator';
 import {PoolCreationRequestsPollingService} from '../../../services/sandbox-instance/pool-request/creation/pool-creation-requests-polling.service';
 import {PoolCleanupRequestsPollingService} from '../../../services/sandbox-instance/pool-request/cleanup/pool-cleanup-requests-polling.service';
-import {RouteFactory} from '../../../model/routes/route-factory';
 import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
 import {SandboxPoolDetailControls} from './sandbox-pool-detail-controls';
 import {KypoControlItem} from 'kypo-controls';
+import {CreationRequestTable} from '../../../model/table/sandbox-instance/pool-request/creation-request-table';
 
 /**
  * Smart component of sandbox pool detail page
@@ -45,7 +44,6 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
   constructor(private instanceService: SandboxInstanceService,
               private creationRequestService: PoolCreationRequestsPollingService,
               private cleanupRequestService: PoolCleanupRequestsPollingService,
-              private router: Router,
               private activeRoute: ActivatedRoute) {
     super();
   }
@@ -65,13 +63,6 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
         takeWhile(_ => this.isAlive),
       )
       .subscribe();
-  }
-
-  onControlsAction(control: KypoControlItem) {
-    control.result$
-      .pipe(
-        takeWhile(_ => this.isAlive)
-      ).subscribe();
   }
 
   /**
@@ -98,67 +89,22 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
       .subscribe();
   }
 
-  /**
-   * Resolves type of action emitted from sandbox instances table and calls appropriate handler
-   * @param event action event emitted from sandbox instances table
-   */
-  onInstanceAction(event: TableActionEvent<SandboxInstance>) {
-    if (event.action.id === SandboxInstanceTableCreator.DELETE_ACTION_ID) {
-      this.instanceService.delete(event.element)
-        .pipe(takeWhile(_ => this.isAlive))
-        .subscribe();
-    }
-    if (event.action.id === SandboxInstanceTableCreator.UNLOCK_ACTION_ID) {
-      this.instanceService.unlock(event.element)
-        .pipe(takeWhile(_ => this.isAlive))
-        .subscribe();
-    }
-    if (event.action.id === SandboxInstanceTableCreator.LOCK_ACTION_ID) {
-      this.instanceService.lock(event.element)
-        .pipe(takeWhile( _ => this.isAlive))
-        .subscribe();
-    }
-    if (event.action.id === SandboxInstanceTableCreator.TOPOLOGY_ACTION_ID) {
-      this.router.navigate([RouteFactory.toSandboxInstanceTopology(this.pool.id, event.element.id)]);
-    }
+  onControlsAction(control: KypoControlItem) {
+    control.result$
+      .pipe(
+        takeWhile(_ => this.isAlive)
+      ).subscribe();
   }
 
   /**
-   * Resolves type of action emitted from creation requests table and calls appropriate handler
-   * @param event action event emitted from creation requests table
+   * Subscribes to result of a table action event
+   * @param event action event emitted from table component
    */
-  onCreationAction(event: TableActionEvent<PoolRequest>) {
-    let action$: Observable<any>;
-    if (event.action.id === PoolRequestTableCreator.CANCEL_ACTION_ID) {
-      action$ = this.creationRequestService.cancel(this.pool.id, event.element);
-    }
-    if (event.action.id === PoolRequestTableCreator.RETRY_ACTION_Id) {
-      action$ = this.creationRequestService.retry(this.pool.id, event.element);
-    }
-    if (action$) {
-      action$
-        .pipe(takeWhile(_ => this.isAlive))
-        .subscribe();
-    }
-  }
-
-  /**
-   * Resolves type of action emitted from cleanup requests table and calls appropriate handler
-   * @param event action event emitted from cleanup requests table
-   */
-  onCleanupAction(event: TableActionEvent<PoolRequest>) {
-    let action$: Observable<any>;
-    if (event.action.label === PoolRequestTableCreator.CANCEL_ACTION_ID) {
-      action$ = this.cleanupRequestService.cancel(this.pool.id, event.element);
-    }
-    if (event.action.label === PoolRequestTableCreator.RETRY_ACTION_Id) {
-      action$ = this.cleanupRequestService.retry(this.pool.id, event.element);
-    }
-    if (action$) {
-      action$
-        .pipe(takeWhile(_ => this.isAlive))
-        .subscribe();
-    }
+  onTableAction(event: TableActionEvent<any>) {
+    event.action.result$
+      .pipe(
+        take(1)
+      ).subscribe();
   }
 
   private initTables() {
@@ -178,13 +124,13 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
 
     this.instances$ = this.instanceService.resource$
       .pipe(
-        map(paginatedInstance => SandboxInstanceTableCreator.create(paginatedInstance))
+        map(resource => new SandboxInstanceTable(resource, this.pool.id, this.instanceService))
       );
     this.instancesTableHasError$ = this.instanceService.hasError$;
 
     this.creationRequests$ = this.creationRequestService.resource$
       .pipe(
-        map(paginatedRequests => PoolRequestTableCreator.create(paginatedRequests, this.pool.id, 'CREATION')));
+        map(resource => new CreationRequestTable(resource, this.pool.id)));
     this.creationRequestsTableHasError$ = this.creationRequestService.hasError$;
 
    // TODO: Add  cleanup when backend API supports cleanup requests

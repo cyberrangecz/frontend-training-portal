@@ -1,13 +1,15 @@
 import {Injectable} from '@angular/core';
 import {AccessedTrainingRunService} from './accessed-training-run.service';
-import {Pagination, RequestedPagination} from 'kypo2-table';
+import {RequestedPagination} from 'kypo2-table';
 import {TrainingRunApi} from '../../api/training-run-api.service';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {from, Observable} from 'rxjs';
 import {AccessedTrainingRun} from '../../../model/table/row/accessed-training-run';
-import {tap} from 'rxjs/operators';
+import {switchMap, tap} from 'rxjs/operators';
 import {PaginatedResource} from '../../../model/table/other/paginated-resource';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
-import {environment} from '../../../../environments/environment';
+import {RunningTrainingRunService} from '../running/running-training-run.service';
+import {Router} from '@angular/router';
+import {RouteFactory} from '../../../model/routes/route-factory';
 
 /**
  * Basic implementation of layer between component and API service.
@@ -15,7 +17,9 @@ import {environment} from '../../../../environments/environment';
 @Injectable()
 export class AccessedTrainingRunConcreteService extends AccessedTrainingRunService {
 
-  constructor(private trainingRunFacade: TrainingRunApi,
+  constructor(private api: TrainingRunApi,
+              private router: Router,
+              private activeTrainingRun: RunningTrainingRunService,
               private errorHandler: ErrorHandlerService) {
     super();
   }
@@ -26,7 +30,7 @@ export class AccessedTrainingRunConcreteService extends AccessedTrainingRunServi
    */
   getAll(pagination: RequestedPagination): Observable<PaginatedResource<AccessedTrainingRun>> {
     this.hasErrorSubject$.next(false);
-    return this.trainingRunFacade.getAccessed(pagination).pipe(
+    return this.api.getAccessed(pagination).pipe(
       tap(trainingRuns => {
         this.resourceSubject$.next(trainingRuns);
       },
@@ -39,13 +43,29 @@ export class AccessedTrainingRunConcreteService extends AccessedTrainingRunServi
 
   /**
    * Resumes in already started training run or handles error.
-   * @param trainingRunId id of training run to resume
+   * @param id id of training run to resume
    */
-  resume(trainingRunId: number): Observable<any> {
-    return this.trainingRunFacade.resume(trainingRunId).pipe(
-     tap({
-       error: err => this.errorHandler.emit(err, 'Resuming training run')
-     })
-   );
+  resume(id: number): Observable<any> {
+    return this.api.resume(id)
+      .pipe(
+        tap(
+          trainingRunInfo => this.activeTrainingRun.setUpFromTrainingRun(trainingRunInfo),
+            err => this.errorHandler.emit(err, 'Resuming training run')
+        ),
+        switchMap(_ => from(this.router.navigate([RouteFactory.toTrainingRunGame(id)])))
+      );
+  }
+
+  access(token: string): Observable<any> {
+    return this.activeTrainingRun.access(token)
+      .pipe(
+        tap({error: err => this.errorHandler.emit(err, 'Accessing training run')}),
+        switchMap(    id => this.router.navigate([RouteFactory.toTrainingRunGame(id)]),
+        )
+      );
+  }
+
+  results(id: number): Observable<any> {
+    return from(this.router.navigate([RouteFactory.toTrainingRunResult(id)]));
   }
 }

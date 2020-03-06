@@ -22,7 +22,7 @@ export class PoolConcreteService extends PoolService {
 
   private lastPagination: RequestedPagination;
 
-  constructor(private sandboxInstanceFacade: SandboxInstanceApi,
+  constructor(private api: SandboxInstanceApi,
               private alertService: AlertService,
               private errorHandler: ErrorHandlerService) {
     super();
@@ -35,7 +35,7 @@ export class PoolConcreteService extends PoolService {
   getAll(pagination: RequestedPagination): Observable<PaginatedResource<SandboxPool>> {
     this.lastPagination = pagination;
     this.hasErrorSubject$.next(false);
-    return this.sandboxInstanceFacade.getPools(pagination)
+    return this.api.getPools(pagination)
       .pipe(
         tap(
           paginatedPools => {
@@ -57,9 +57,9 @@ export class PoolConcreteService extends PoolService {
   allocate(pool: SandboxPool, count: number = -1): Observable<any> {
     let allocation$: Observable<any>;
     if (count <= 0) {
-      allocation$ = this.sandboxInstanceFacade.allocate(pool.id);
+      allocation$ = this.api.allocate(pool.id);
     } else {
-      allocation$ = this.sandboxInstanceFacade.allocate(pool.id, count);
+      allocation$ = this.api.allocate(pool.id, count);
     }
     return allocation$
       .pipe(
@@ -75,7 +75,7 @@ export class PoolConcreteService extends PoolService {
    * @param pool a pool to be deleted
    */
   delete(pool: SandboxPool): Observable<any> {
-    return this.sandboxInstanceFacade.deletePool(pool.id)
+    return this.api.deletePool(pool.id)
       .pipe(
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Pool was successfully deleted'),
             err => this.errorHandler.emit(err, 'Deleting pool')
@@ -89,7 +89,7 @@ export class PoolConcreteService extends PoolService {
    * @param pool a pool to be cleared
    */
   clear(pool: SandboxPool): Observable<any> {
-    return this.sandboxInstanceFacade.clearPool(pool.id)
+    return this.api.clearPool(pool.id)
       .pipe(
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Pool was successfully cleared'),
           err => this.errorHandler.emit(err, 'Clear pool')

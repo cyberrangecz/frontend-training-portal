@@ -22,4 +22,8 @@ export abstract class AccessedTrainingRunService extends PaginatedResourceServic
    * @param trainingRunId id of training run to resume
    */
   abstract resume(trainingRunId: number): Observable<any>;
+
+  abstract results(trainingRunId: number): Observable<any>;
+
+  abstract access(token: string): Observable<any>;
 }

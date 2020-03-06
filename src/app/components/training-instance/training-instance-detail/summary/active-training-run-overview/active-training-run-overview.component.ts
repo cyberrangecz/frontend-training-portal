@@ -1,13 +1,14 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {map, takeWhile} from 'rxjs/operators';
+import {map, take, takeWhile} from 'rxjs/operators';
 import {Kypo2Table, LoadTableEvent} from 'kypo2-table';
-import {TrainingRunTableCreator} from '../../../../../model/table/factory/training-run-table-creator';
-import {TrainingRunTableAdapter} from '../../../../../model/table/row/training-run-table-adapter';
+import {ActiveTrainingRunTable} from '../../../../../model/table/training-run/active-training-run-table';
+import {ActiveTrainingRunRowAdapter} from '../../../../../model/table/row/active-training-run-row-adapter';
 import {BaseComponent} from '../../../../base.component';
 import {TrainingInstance} from '../../../../../model/training/training-instance';
 import {TableActionEvent} from 'kypo2-table/lib/model/table-action-event';
 import {ActiveTrainingRunService} from '../../../../../services/training-run/active/active-training-run.service';
+
 /**
  * Component displaying active training runs and its state in real time.
  */
@@ -22,7 +23,7 @@ export class ActiveTrainingRunOverviewComponent extends BaseComponent implements
   @Input() trainingInstance: TrainingInstance;
   @Input() isPollingActive: boolean;
 
-  activeTrainingRuns$: Observable<Kypo2Table<TrainingRunTableAdapter>>;
+  activeTrainingRuns$: Observable<Kypo2Table<ActiveTrainingRunRowAdapter>>;
   activeTrainingRunsTableHasError$: Observable<boolean>;
 
   constructor(
@@ -38,13 +39,11 @@ export class ActiveTrainingRunOverviewComponent extends BaseComponent implements
    * Resolves type of action and calls handler
    * @param event action event emitted from table
    */
-  onActiveTrainingRunAction(event: TableActionEvent<TrainingRunTableAdapter>) {
-    if (event.action.id === TrainingRunTableCreator.DELETE_ACTION_ID) {
-      this.activeTrainingRunService.deleteSandbox(event.element.trainingRun)
-        .pipe(
-          takeWhile(_ => this.isAlive)
-        ).subscribe();
-    }
+  onActiveTrainingRunAction(event: TableActionEvent<ActiveTrainingRunRowAdapter>) {
+    event.action.result$
+      .pipe(
+        take(1)
+      ).subscribe();
   }
 
   /**
@@ -64,7 +63,7 @@ export class ActiveTrainingRunOverviewComponent extends BaseComponent implements
     this.activeTrainingRuns$ = this.activeTrainingRunService.resource$
       .pipe(
           takeWhile(_ => this.isPollingActive),
-          map(paginatedRuns => TrainingRunTableCreator.create(paginatedRuns, 'active'))
+          map(resource => new ActiveTrainingRunTable(resource, this.activeTrainingRunService))
       );
     this.activeTrainingRunsTableHasError$ = this.activeTrainingRunService.hasError$;
   }

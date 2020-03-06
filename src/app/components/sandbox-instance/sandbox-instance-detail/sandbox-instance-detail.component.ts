@@ -7,7 +7,7 @@ import {Observable} from 'rxjs';
 import {Kypo2Table, LoadTableEvent} from 'kypo2-table';
 import {SandboxInstanceResource} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance-resource/sandbox-instance-resource';
 import {SandboxInstanceResourceService} from '../../../services/sandbox-instance/sandbox/sandbox-instance-resource.service';
-import {SandboxInstanceResourceTableCreator} from '../../../model/table/factory/sandbox-instance-resource-table-creator';
+import {SandboxInstanceResourceTable} from '../../../model/table/sandbox-instance/sandbox-instance-resource-table';
 
 /**
  * Smart component of sandbox instance detail page
@@ -56,7 +56,7 @@ export class SandboxInstanceDetailComponent extends BaseComponent implements OnI
     );
 
     this.resources$ = this.resourceService.resources$.pipe(
-      map(resources => SandboxInstanceResourceTableCreator.create(resources))
+      map(resources => new SandboxInstanceResourceTable(resources))
     );
     this.resourcesHasError$ = this.resourceService.hasError$;
   }
