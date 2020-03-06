@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {PaginatedResourceService} from '../../shared/paginated-resource.service';
 import {Observable} from 'rxjs';
 import {PaginatedResource} from '../../../model/table/other/paginated-resource';
-import {TrainingRunTableRow} from '../../../model/table/row/training-run-table-row';
 import {TrainingInstance} from '../../../model/training/training-instance';
 import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
 import {TrainingRun} from '../../../model/training/training-run';
@@ -13,7 +12,7 @@ import {TrainingRun} from '../../../model/training/training-run';
  * You can use get methods to get paginated resources and other actions to modify data.
  */
 @Injectable()
-export abstract class ActiveTrainingRunService extends PaginatedResourceService<TrainingRunTableRow> {
+export abstract class ActiveTrainingRunService extends PaginatedResourceService<TrainingRun> {
 
   /**
    * Starts polling in regular intervals
@@ -25,7 +24,7 @@ export abstract class ActiveTrainingRunService extends PaginatedResourceService<
    * @param trainingInstanceId id of associated training instance
    * @param pagination requested pagination
    */
-  abstract getAll(trainingInstanceId: number, pagination: RequestedPagination): Observable<PaginatedResource<TrainingRunTableRow>>;
+  abstract getAll(trainingInstanceId: number, pagination: RequestedPagination): Observable<PaginatedResource<TrainingRun>>;
 
   /**
    * Deletes sandbox associated with active training run

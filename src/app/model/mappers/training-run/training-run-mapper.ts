@@ -6,6 +6,10 @@ import {LevelMapper} from '../level/level-mapper';
 
 export class TrainingRunMapper {
 
+  static fromDTOs(dtos: TrainingRunDTO[]): TrainingRun[] {
+    return dtos.map(dto => this.fromDTO(dto));
+  }
+
   static fromDTO(dto: TrainingRunDTO): TrainingRun {
     const result = new TrainingRun();
     result.id = dto.id;

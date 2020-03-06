@@ -14,4 +14,3 @@ export class AccessedTrainingRun {
   trainingInstanceStartTime: Date;
   trainingInstanceEndTime: Date;
 }
-

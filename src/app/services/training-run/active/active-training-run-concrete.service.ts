@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {EMPTY, merge, Observable, Subject, timer} from 'rxjs';
 import {PaginatedResource} from '../../../model/table/other/paginated-resource';
-import {TrainingRunTableRow} from '../../../model/table/row/training-run-table-row';
 import {environment} from '../../../../environments/environment';
 import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
 import {TrainingInstanceApi} from '../../api/training-instance-api.service';
@@ -55,7 +54,7 @@ export class ActiveTrainingRunConcreteService extends ActiveTrainingRunService {
    * @param trainingInstanceId which active training runs should be requested
    * @param pagination requested pagination
    */
-  getAll(trainingInstanceId: number, pagination: RequestedPagination): Observable<PaginatedResource<TrainingRunTableRow>> {
+  getAll(trainingInstanceId: number, pagination: RequestedPagination): Observable<PaginatedResource<TrainingRun>> {
     this.onManualGetAll(pagination);
     return this.trainingInstanceFacade.getAssociatedTrainingRuns(trainingInstanceId, pagination)
       .pipe(
@@ -99,7 +98,7 @@ export class ActiveTrainingRunConcreteService extends ActiveTrainingRunService {
     return dialogRef.afterClosed();
   }
 
-  private callApiToDeleteSandbox(trainingRun): Observable<PaginatedResource<TrainingRunTableRow>> {
+  private callApiToDeleteSandbox(trainingRun): Observable<PaginatedResource<TrainingRun>> {
     return this.sandboxInstanceFacade.delete(trainingRun.sandboxInstanceId)
       .pipe(
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Deleting of sandbox instance started'),
@@ -109,7 +108,7 @@ export class ActiveTrainingRunConcreteService extends ActiveTrainingRunService {
       );
   }
 
-  private repeatLastGetAllRequest(): Observable<PaginatedResource<TrainingRunTableRow>> {
+  private repeatLastGetAllRequest(): Observable<PaginatedResource<TrainingRun>> {
     this.hasErrorSubject$.next(false);
     return this.trainingInstanceFacade.getAssociatedTrainingRuns(this.trainingInstance.id, this.lastPagination)
       .pipe(
@@ -129,7 +128,7 @@ export class ActiveTrainingRunConcreteService extends ActiveTrainingRunService {
     this.hasErrorSubject$.next(false);
   }
 
-  private createPoll(): Observable<PaginatedResource<TrainingRunTableRow>> {
+  private createPoll(): Observable<PaginatedResource<TrainingRun>> {
     return timer(0, environment.organizerSummaryPollingPeriod)
       .pipe(
         switchMap( _ => this.repeatLastGetAllRequest()),

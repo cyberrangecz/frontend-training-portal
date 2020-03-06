@@ -1,6 +1,6 @@
 import {Observable} from 'rxjs';
 import {RequestedPagination} from 'kypo2-table';
-import {AccessedTrainingRun} from '../../../model/table/row/accessed-training-run';
+import {AccessedTrainingRun} from '../../../model/table/rows/accessed-training-run';
 import {PaginatedResource} from '../../../model/table/other/paginated-resource';
 import {PaginatedResourceService} from '../../shared/paginated-resource.service';
 

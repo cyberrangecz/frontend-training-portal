@@ -3,7 +3,7 @@ import {defer, Observable, of} from 'rxjs';
 import {map, take, takeWhile} from 'rxjs/operators';
 import {Kypo2Table, LoadTableEvent, TableActionEvent} from 'kypo2-table';
 import {ArchivedTrainingRunService} from '../../../../../services/training-run/archived/archived-training-run.service';
-import {ActiveTrainingRunRowAdapter} from '../../../../../model/table/row/active-training-run-row-adapter';
+import {TrainingRunRowAdapter} from '../../../../../model/table/rows/training-run-row-adapter';
 import {BaseComponent} from '../../../../base.component';
 import {TrainingInstance} from '../../../../../model/training/training-instance';
 import {KypoControlItem} from 'kypo-controls';
@@ -22,7 +22,7 @@ export class ArchivedTrainingRunOverviewComponent extends BaseComponent implemen
   @Input() trainingInstance: TrainingInstance;
   @Input() isPollingActive: boolean;
 
-  trainingRuns$: Observable<Kypo2Table<ActiveTrainingRunRowAdapter>>;
+  trainingRuns$: Observable<Kypo2Table<TrainingRunRowAdapter>>;
   hasError$: Observable<boolean>;
   selectedTrainingRunIds: number[] = [];
   controls: KypoControlItem[];
@@ -39,7 +39,7 @@ export class ArchivedTrainingRunOverviewComponent extends BaseComponent implemen
    * Resolves actions and calls related action handler
    * @param event event emitted by table
    */
-  onTableAction(event: TableActionEvent<ActiveTrainingRunRowAdapter>) {
+  onTableAction(event: TableActionEvent<TrainingRunRowAdapter>) {
     event.action.result$
       .pipe(
         take(1)
@@ -57,7 +57,7 @@ export class ArchivedTrainingRunOverviewComponent extends BaseComponent implemen
    * Stores selected training runs emitted by table
    * @param event event containing selected training runs emitted by table
    */
-  onRowSelection(event: ActiveTrainingRunRowAdapter[]) {
+  onRowSelection(event: TrainingRunRowAdapter[]) {
     this.selectedTrainingRunIds = [];
     event.forEach( selectedRun => {
       this.selectedTrainingRunIds.push(selectedRun.trainingRun.id);

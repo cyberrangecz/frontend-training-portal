@@ -1,18 +1,18 @@
 import {Column, Kypo2Table, Row, RowAction} from 'kypo2-table';
 import {defer, of} from 'rxjs';
 import {PaginatedResource} from '../other/paginated-resource';
-import {ActiveTrainingRunRowAdapter} from '../row/active-training-run-row-adapter';
-import {TrainingRunTableRow} from '../row/training-run-table-row';
+import {TrainingRunRowAdapter} from '../rows/training-run-row-adapter';
 import {ActiveTrainingRunService} from '../../../services/training-run/active/active-training-run.service';
 import {DeleteAction} from '../actions/delete-action';
+import {TrainingRun} from '../../training/training-run';
 
 /**
  * Helper class transforming paginated resource to class for common table component
  */
-export class ActiveTrainingRunTable extends Kypo2Table<ActiveTrainingRunRowAdapter>{
+export class ActiveTrainingRunTable extends Kypo2Table<TrainingRunRowAdapter> {
 
 
-  constructor(resource: PaginatedResource<TrainingRunTableRow>, service: ActiveTrainingRunService) {
+  constructor(resource: PaginatedResource<TrainingRun>, service: ActiveTrainingRunService) {
     const columns =    [
       new Column('sandboxId', 'sandbox ID', false),
       new Column('sandboxState', 'sandbox state', false),
@@ -26,19 +26,18 @@ export class ActiveTrainingRunTable extends Kypo2Table<ActiveTrainingRunRowAdapt
     this.filterable = false;
   }
 
-  private static createRow(element: TrainingRunTableRow, service: ActiveTrainingRunService): Row<ActiveTrainingRunRowAdapter> {
-    return new Row(
-      new ActiveTrainingRunRowAdapter(element.trainingRun, element.deletionRequested),
+  private static createRow(element: TrainingRun, service: ActiveTrainingRunService): Row<TrainingRunRowAdapter> {
+    return new Row(new TrainingRunRowAdapter(element),
       this.createActions(element, service)
     );
   }
 
-  private static createActions(element: TrainingRunTableRow, service: ActiveTrainingRunService): RowAction[] {
+  private static createActions(element: TrainingRun, service: ActiveTrainingRunService): RowAction[] {
     return [
       new DeleteAction(
         'Delete sandbox of active training run',
         of(false),
-        defer(() => service.deleteSandbox(element.trainingRun))
+        defer(() => service.deleteSandbox(element))
       )
     ];
   }

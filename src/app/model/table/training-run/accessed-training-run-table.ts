@@ -1,4 +1,4 @@
-import {AccessedTrainingRun} from '../row/accessed-training-run';
+import {AccessedTrainingRun} from '../rows/accessed-training-run';
 import {PaginatedResource} from '../other/paginated-resource';
 import {Column, Kypo2Table, Row, RowAction} from 'kypo2-table';
 import {defer, of} from 'rxjs';

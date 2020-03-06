@@ -13,7 +13,7 @@ import {TrainingRunRestResource} from '../../model/DTOs/training-run/training-ru
 import {FlagCheck} from '../../model/level/flag-check';
 import {Hint} from '../../model/level/hint';
 import {Question} from '../../model/questions/question';
-import {AccessedTrainingRun} from '../../model/table/row/accessed-training-run';
+import {AccessedTrainingRun} from '../../model/table/rows/accessed-training-run';
 import {PaginatedResource} from '../../model/table/other/paginated-resource';
 import {AccessTrainingRunInfo} from '../../model/training/access-training-run-info';
 import {TrainingRun} from '../../model/training/training-run';
