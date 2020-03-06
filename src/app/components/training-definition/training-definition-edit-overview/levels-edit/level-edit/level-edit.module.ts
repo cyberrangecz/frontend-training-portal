@@ -31,7 +31,7 @@ const markdownConfig = {
           tables: true,
           breaks: false,
           pedantic: false,
-          sanitize: false,
+          sanitize: true,
           smartLists: true,
           smartypants: false,
         },
