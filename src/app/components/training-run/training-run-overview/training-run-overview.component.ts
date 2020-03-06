@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {BaseComponent} from '../../base.component';
 import {map, take, takeWhile} from 'rxjs/operators';
 import {Observable} from 'rxjs';
-import {AccessedTrainingRun} from '../../../model/table/row/accessed-training-run';
+import {AccessedTrainingRun} from '../../../model/table/rows/accessed-training-run';
 import {Kypo2Table, LoadTableEvent, RequestedPagination, TableActionEvent} from 'kypo2-table';
 import {AccessedTrainingRunService} from '../../../services/training-run/accessed/accessed-training-run.service';
 import {environment} from '../../../../environments/environment';

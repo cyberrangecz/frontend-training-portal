@@ -10,15 +10,15 @@ import {TrainingRunRestResource} from '../../model/DTOs/training-run/training-ru
 import {PaginationParams} from '../../model/http/params/pagination-params';
 import {ResponseHeaderContentDispositionReader} from '../../model/http/response-headers/response-header-content-disposition-reader';
 import {PaginatedResource} from '../../model/table/other/paginated-resource';
-import {TrainingRunTableRow} from '../../model/table/row/training-run-table-row';
 import {TrainingInstance} from '../../model/training/training-instance';
 import {Filter} from '../../model/utils/filter';
 import {ParamsMerger} from '../../model/http/params/params-merger';
 import {FilterParams} from '../../model/http/params/filter-params';
 import {JsonFromBlobConverter} from '../../model/http/response-headers/json-from-blob-converter';
 import {TrainingInstanceMapper} from '../../model/mappers/training-instance/training-instance-mapper';
-import {TrainingRunTableRowMapper} from '../../model/mappers/training-run/training-run-table-row-mapper';
 import {PaginationMapper} from '../../model/mappers/pagination-mapper';
+import {TrainingRun} from '../../model/training/training-run';
+import {TrainingRunMapper} from '../../model/mappers/training-run/training-run-mapper';
 
 /**
  * Service abstracting http communication with training instance endpoints.
@@ -69,7 +69,7 @@ export class TrainingInstanceApi {
    * @param isActive true if active training runs should be retrieved, false if archived training runs should be retrieved
    */
   getAssociatedTrainingRuns(trainingInstanceId: number, pagination: RequestedPagination, isActive = true)
-      : Observable<PaginatedResource<TrainingRunTableRow>> {
+      : Observable<PaginatedResource<TrainingRun>> {
       let params = PaginationParams.forJavaAPI(pagination);
       params = params.append('isActive', isActive.toString());
         return this.http.get<TrainingRunRestResource>(
@@ -77,7 +77,7 @@ export class TrainingInstanceApi {
           { params: params })
           .pipe(
             map(response => new PaginatedResource(
-              TrainingRunTableRowMapper.fromDTOs(response.content),
+              TrainingRunMapper.fromDTOs(response.content),
               PaginationMapper.fromJavaAPI(response.pagination)
             ))
           );

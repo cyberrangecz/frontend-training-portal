@@ -1,14 +1,14 @@
 import {Column, Kypo2Table, Row, RowAction} from 'kypo2-table';
-import {ActiveTrainingRunRowAdapter} from '../row/active-training-run-row-adapter';
+import {TrainingRunRowAdapter} from '../rows/training-run-row-adapter';
 import {PaginatedResource} from '../other/paginated-resource';
-import {TrainingRunTableRow} from '../row/training-run-table-row';
 import {ArchivedTrainingRunService} from '../../../services/training-run/archived/archived-training-run.service';
 import {DeleteAction} from '../actions/delete-action';
 import {defer, of} from 'rxjs';
+import {TrainingRun} from '../../training/training-run';
 
-export class ArchivedTrainingRunTable extends Kypo2Table<ActiveTrainingRunRowAdapter> {
+export class ArchivedTrainingRunTable extends Kypo2Table<TrainingRunRowAdapter> {
 
-  constructor(resource: PaginatedResource<TrainingRunTableRow>, service: ArchivedTrainingRunService) {
+  constructor(resource: PaginatedResource<TrainingRun>, service: ArchivedTrainingRunService) {
     const columns = [
       new Column('player', 'player', false),
       new Column('state', 'training run state', false),
@@ -20,19 +20,18 @@ export class ArchivedTrainingRunTable extends Kypo2Table<ActiveTrainingRunRowAda
     this.filterable = false;
   }
 
-  private static createRow(element: TrainingRunTableRow, service: ArchivedTrainingRunService): Row<ActiveTrainingRunRowAdapter> {
-    return new Row(
-      new ActiveTrainingRunRowAdapter(element.trainingRun, element.deletionRequested),
+  private static createRow(element: TrainingRun, service: ArchivedTrainingRunService): Row<TrainingRunRowAdapter> {
+    return new Row(new TrainingRunRowAdapter(element),
       this.createActions(element, service)
     );
   }
 
-  private static createActions(element: TrainingRunTableRow, service: ArchivedTrainingRunService): RowAction[] {
+  private static createActions(element: TrainingRun, service: ArchivedTrainingRunService): RowAction[] {
     return [
       new DeleteAction(
         'Delete archived training run',
         of(false),
-        defer(() => service.delete(element.trainingRun.id))
+        defer(() => service.delete(element.id))
       )
     ];
   }

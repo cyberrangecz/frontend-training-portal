@@ -1,7 +1,7 @@
 import {PaginatedResource} from '../other/paginated-resource';
 import {TrainingInstance} from '../../training/training-instance';
 import {Column, Kypo2Table, Row, RowAction} from 'kypo2-table';
-import {TrainingInstanceRowAdapter} from '../row/training-instance-row-adapter';
+import {TrainingInstanceRowAdapter} from '../rows/training-instance-row-adapter';
 import {defer, of} from 'rxjs';
 import {RouteFactory} from '../../routes/route-factory';
 import {TrainingInstanceOverviewService} from '../../../services/training-instance/training-instance-overview.service';

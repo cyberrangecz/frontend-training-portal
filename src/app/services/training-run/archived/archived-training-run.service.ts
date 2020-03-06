@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {TrainingRunTableRow} from '../../../model/table/row/training-run-table-row';
 import {PaginatedResource} from '../../../model/table/other/paginated-resource';
 import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
 import {PaginatedResourceService} from '../../shared/paginated-resource.service';
 import {TrainingInstance} from '../../../model/training/training-instance';
+import {TrainingRun} from '../../../model/training/training-run';
 
 /**
  * Layer between component and API service. Implement concrete service by extending this class.
@@ -13,12 +13,12 @@ import {TrainingInstance} from '../../../model/training/training-instance';
  * Subscribe to archivedTrainingRuns$ to receive latest data updates.
  */
 @Injectable()
-export abstract class ArchivedTrainingRunService extends PaginatedResourceService<TrainingRunTableRow> {
+export abstract class ArchivedTrainingRunService extends PaginatedResourceService<TrainingRun> {
 
   /**
    * @contract must be updated every time new data are received
    */
-  abstract archivedTrainingRuns$: Observable<PaginatedResource<TrainingRunTableRow>>;
+  abstract archivedTrainingRuns$: Observable<PaginatedResource<TrainingRun>>;
 
   /**
    * Starts polling in regular intervals
@@ -30,7 +30,7 @@ export abstract class ArchivedTrainingRunService extends PaginatedResourceServic
    * @param trainingInstanceId id of associated training instance
    * @param pagination requested pagination
    */
-  abstract getAll(trainingInstanceId: number, pagination?: RequestedPagination): Observable<PaginatedResource<TrainingRunTableRow>>;
+  abstract getAll(trainingInstanceId: number, pagination?: RequestedPagination): Observable<PaginatedResource<TrainingRun>>;
 
   /**
    * Deletes archived training run

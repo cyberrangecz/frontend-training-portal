@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {EMPTY, merge, Observable, Subject, timer} from 'rxjs';
-import {TrainingRunTableRow} from '../../../model/table/row/training-run-table-row';
 import {PaginatedResource} from '../../../model/table/other/paginated-resource';
 import {TrainingRunApi} from '../../api/training-run-api.service';
 import {TrainingInstanceApi} from '../../api/training-instance-api.service';
@@ -8,7 +7,6 @@ import {RequestedPagination} from '../../../model/DTOs/other/requested-paginatio
 import {retryWhen, switchMap, tap} from 'rxjs/operators';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {environment} from '../../../../environments/environment';
-import {HttpErrorResponse} from '@angular/common/http';
 import {AlertService} from '../../shared/alert.service';
 import {TrainingInstance} from '../../../model/training/training-instance';
 import {ArchivedTrainingRunService} from './archived-training-run.service';
@@ -18,6 +16,7 @@ import {
   CsirtMuDialogResultEnum
 } from 'csirt-mu-layout';
 import {MatDialog} from '@angular/material/dialog';
+import {TrainingRun} from '../../../model/training/training-run';
 
 /**
  * Basic implementation of layer between component and API service.
@@ -33,7 +32,7 @@ export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunServi
    * List of archived training runs with currently selected pagination options
    */
 
-  archivedTrainingRuns$: Observable<PaginatedResource<TrainingRunTableRow>>;
+  archivedTrainingRuns$: Observable<PaginatedResource<TrainingRun>>;
 
   constructor(
     private trainingRunFacade: TrainingRunApi,
@@ -61,10 +60,9 @@ export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunServi
    * @param trainingInstanceId which archived training runs should be requested
    * @param pagination requested pagination
    */
-  getAll(trainingInstanceId: number, pagination: RequestedPagination): Observable<PaginatedResource<TrainingRunTableRow>> {
+  getAll(trainingInstanceId: number, pagination: RequestedPagination): Observable<PaginatedResource<TrainingRun>> {
     this.onManualGetAll(pagination);
-    return this.trainingInstanceFacade
-      .getAssociatedTrainingRuns(trainingInstanceId, pagination, false)
+    return this.trainingInstanceFacade.getAssociatedTrainingRuns(trainingInstanceId, pagination, false)
       .pipe(
         tap(
           runs => {
@@ -80,7 +78,7 @@ export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunServi
    * as a side effect or handles error
    * @param id of archived training run to delete
    */
-  delete(id: number): Observable<PaginatedResource<TrainingRunTableRow>> {
+  delete(id: number): Observable<PaginatedResource<TrainingRun>> {
     return this.displayDialogToDelete()
       .pipe(
         switchMap(result => result === CsirtMuDialogResultEnum.CONFIRMED
@@ -94,7 +92,7 @@ export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunServi
    * as a side effect or handles error
    * @param idsToDelete ids of archived training run to delete
    */
-  deleteMultiple(idsToDelete: number[]): Observable<PaginatedResource<TrainingRunTableRow>> {
+  deleteMultiple(idsToDelete: number[]): Observable<PaginatedResource<TrainingRun>> {
     return this.displayDialogToDelete(true)
       .pipe(
         switchMap(result => result === CsirtMuDialogResultEnum.CONFIRMED
@@ -103,7 +101,7 @@ export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunServi
       );
   }
 
-  protected repeatLastGetAllRequest(): Observable<PaginatedResource<TrainingRunTableRow>> {
+  protected repeatLastGetAllRequest(): Observable<PaginatedResource<TrainingRun>> {
     this.hasErrorSubject$.next(false);
     return this.trainingInstanceFacade
       .getAssociatedTrainingRuns(
@@ -118,7 +116,7 @@ export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunServi
     this.hasErrorSubject$.next(true);
   }
 
-  protected createPoll(): Observable<PaginatedResource<TrainingRunTableRow>> {
+  protected createPoll(): Observable<PaginatedResource<TrainingRun>> {
     return timer(0, environment.organizerSummaryPollingPeriod)
       .pipe(
         switchMap( _ => this.repeatLastGetAllRequest()),
@@ -151,7 +149,7 @@ export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunServi
     return dialogRef.afterClosed();
   }
 
-  private callApiToDelete(id: number): Observable<PaginatedResource<TrainingRunTableRow>> {
+  private callApiToDelete(id: number): Observable<PaginatedResource<TrainingRun>> {
     return this.trainingRunFacade.delete(id).pipe(
       tap({
         error: err => this.errorHandler.emit(err, 'Deleting training run')
@@ -160,7 +158,7 @@ export class ArchivedTrainingRunConcreteService extends ArchivedTrainingRunServi
     );
   }
 
-  private callApiToDeleteMultiple(idsToDelete: number[]): Observable<PaginatedResource<TrainingRunTableRow>> {
+  private callApiToDeleteMultiple(idsToDelete: number[]): Observable<PaginatedResource<TrainingRun>> {
     return this.trainingRunFacade.deleteMultiple(idsToDelete)
       .pipe(
         tap({

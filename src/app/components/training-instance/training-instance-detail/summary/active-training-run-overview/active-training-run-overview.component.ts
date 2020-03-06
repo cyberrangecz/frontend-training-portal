@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {map, take, takeWhile} from 'rxjs/operators';
 import {Kypo2Table, LoadTableEvent} from 'kypo2-table';
 import {ActiveTrainingRunTable} from '../../../../../model/table/training-run/active-training-run-table';
-import {ActiveTrainingRunRowAdapter} from '../../../../../model/table/row/active-training-run-row-adapter';
+import {TrainingRunRowAdapter} from '../../../../../model/table/rows/training-run-row-adapter';
 import {BaseComponent} from '../../../../base.component';
 import {TrainingInstance} from '../../../../../model/training/training-instance';
 import {TableActionEvent} from 'kypo2-table/lib/model/table-action-event';
@@ -23,7 +23,7 @@ export class ActiveTrainingRunOverviewComponent extends BaseComponent implements
   @Input() trainingInstance: TrainingInstance;
   @Input() isPollingActive: boolean;
 
-  activeTrainingRuns$: Observable<Kypo2Table<ActiveTrainingRunRowAdapter>>;
+  activeTrainingRuns$: Observable<Kypo2Table<TrainingRunRowAdapter>>;
   activeTrainingRunsTableHasError$: Observable<boolean>;
 
   constructor(
@@ -39,7 +39,7 @@ export class ActiveTrainingRunOverviewComponent extends BaseComponent implements
    * Resolves type of action and calls handler
    * @param event action event emitted from table
    */
-  onActiveTrainingRunAction(event: TableActionEvent<ActiveTrainingRunRowAdapter>) {
+  onActiveTrainingRunAction(event: TableActionEvent<TrainingRunRowAdapter>) {
     event.action.result$
       .pipe(
         take(1)

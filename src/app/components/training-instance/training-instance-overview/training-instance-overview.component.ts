@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/co
 import {BaseComponent} from '../../base.component';
 import {Observable} from 'rxjs';
 import {Kypo2Table, LoadTableEvent, TableActionEvent} from 'kypo2-table';
-import {TrainingInstanceRowAdapter} from '../../../model/table/row/training-instance-row-adapter';
+import {TrainingInstanceRowAdapter} from '../../../model/table/rows/training-instance-row-adapter';
 import {TrainingInstanceOverviewService} from '../../../services/training-instance/training-instance-overview.service';
 import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
 import {environment} from '../../../../environments/environment';
