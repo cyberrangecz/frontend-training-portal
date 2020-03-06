@@ -56,7 +56,7 @@ export class TrainingInstanceOverviewConcreteService extends TrainingInstanceOve
     return of(this.router.navigate([RouteFactory.toTrainingInstanceEdit(id)]));
   }
 
-  archive(id: number): Observable<any> {
+  download(id: number): Observable<any> {
     return this.trainingInstanceApi.archive(id);
   }
 

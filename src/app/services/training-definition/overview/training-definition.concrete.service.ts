@@ -179,7 +179,7 @@ export class TrainingDefinitionConcreteService extends TrainingDefinitionService
   private callApiToDelete(trainingDefinition: TrainingDefinition): Observable<PaginatedResource<TrainingDefinition>> {
     return this.api.delete(trainingDefinition.id)
       .pipe(
-        tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Training definition was successfully deleted'),
+        tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Training definition was deleted'),
           err => this.errorHandler.emit(err, 'Deleting training definition')),
         switchMap(_ => this.getAll(this.lastPagination, this.lastFilters))
       );
@@ -191,7 +191,7 @@ export class TrainingDefinitionConcreteService extends TrainingDefinitionService
     });
     return dialogRef.afterClosed()
       .pipe(
-        map(result => result.title)
+        map(result => result && result.title ? result.title : undefined)
       );
   }
 

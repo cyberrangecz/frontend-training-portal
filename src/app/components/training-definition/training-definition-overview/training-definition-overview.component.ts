@@ -8,7 +8,7 @@ import {map, take, takeWhile} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
 import {environment} from '../../../../environments/environment';
 import {TrainingDefinition} from '../../../model/training/training-definition';
-import {TrainingDefinitionTableCreator} from '../../../model/table/factory/training-definition-table-creator';
+import {TrainingDefinitionTable} from '../../../model/table/training-definition/training-definition-table';
 import {TrainingDefinitionOverviewControls} from './training-definition-overview-controls';
 import {KypoControlItem} from 'kypo-controls';
 
@@ -71,37 +71,9 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent
    * @param event action event emitted from table component
    */
   onTableAction(event: TableActionEvent<TrainingDefinition>) {
-    let action$: Observable<any>;
-    switch (event.action.id) {
-      case TrainingDefinitionTableCreator.CLONE_ACTION_ID:
-        action$ = this.trainingDefinitionService.clone(event.element);
-        break;
-      case TrainingDefinitionTableCreator.DOWNLOAD_ACTION_ID:
-        action$ = this.trainingDefinitionService.download(event.element);
-        break;
-      case TrainingDefinitionTableCreator.PREVIEW_ACTION_ID:
-        action$ = this.trainingDefinitionService.preview(event.element);
-        break;
-      case TrainingDefinitionTableCreator.EDIT_ACTION_ID:
-        action$ = this.trainingDefinitionService.edit(event.element);
-        break;
-      case TrainingDefinitionTableCreator.DELETE_ACTION_ID:
-        action$ = this.trainingDefinitionService.delete(event.element);
-        break;
-      case TrainingDefinitionTableCreator.RELEASE_ACTION_ID:
-        action$ = this.trainingDefinitionService.changeState(event.element, TrainingDefinitionStateEnum.Released);
-        break;
-      case TrainingDefinitionTableCreator.UNRELEASE_ACTION_ID:
-        action$ = this.trainingDefinitionService.changeState(event.element, TrainingDefinitionStateEnum.Unreleased);
-        break;
-      case TrainingDefinitionTableCreator.ARCHIVE_ACTION_ID:
-        action$ = this.trainingDefinitionService.changeState(event.element, TrainingDefinitionStateEnum.Archived);
-        break;
-    }
-
-    action$
+    event.action.result$
       .pipe(
-        takeWhile(_ => this.isAlive)
+        take(1)
       ).subscribe();
   }
 
@@ -110,9 +82,8 @@ export class TrainingDefinitionOverviewComponent extends BaseComponent
     this.isLoading$ = this.trainingDefinitionService.isLoading$;
     this.trainingDefinitions$ = this.trainingDefinitionService.resource$
       .pipe(
-        map(tds => TrainingDefinitionTableCreator.create(tds))
+        map(resource => new TrainingDefinitionTable(resource, this.trainingDefinitionService))
       );
-
     const initialPagination = new RequestedPagination(0, environment.defaultPaginationSize, this.INIT_SORT_NAME, this.INIT_SORT_DIR);
     this.onLoadEvent(new LoadTableEvent(initialPagination, null));
   }

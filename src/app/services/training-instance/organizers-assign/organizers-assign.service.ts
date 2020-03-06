@@ -37,11 +37,13 @@ export class OrganizersAssignService extends Kypo2UserAssignService {
    * @param users list of users (organizers) to assign to a resource
    */
   assign(resourceId: number, users: User[]): Observable<any> {
-    return this.userFacade.updateOrganizers(resourceId, users.map(user => user.id), [])
-      .pipe(
-        tap({error: err => this.errorHandler.emit(err, 'Assigning organizers to training instance')}),
-        switchMap(_ => this.getAssigned(resourceId, this.lastAssignedPagination, this.lastAssignedFilter))
-      );
+   const userIds = users.map(user => user.id);
+    return this.callApiToAssign(resourceId, userIds);
+  }
+
+  assignSelected(resourceId: number): Observable<any> {
+    const userIds = this.selectedUsersToAssignSubject$.getValue().map(user => user.id);
+    return this.callApiToAssign(resourceId, userIds);
   }
 
   /**
@@ -51,6 +53,7 @@ export class OrganizersAssignService extends Kypo2UserAssignService {
    * @param filter username filter which should be applied on organizers
    */
   getAssigned(resourceId: number, pagination: RequestedPagination, filter: string = null): Observable<PaginatedResource<User>> {
+    this.clearSelectedAssignedUsers();
     this.lastAssignedPagination = pagination;
     this.lastAssignedFilter = filter;
     this.hasErrorSubject$.next(false);
@@ -82,7 +85,8 @@ export class OrganizersAssignService extends Kypo2UserAssignService {
       UserNameFilters.create(filter))
       .pipe(
         tap({error: err => this.errorHandler.emit(err, 'Fetching organizers')})
-      );  }
+      );
+  }
 
   /**
    * Deletes association between selected organizers and resource and refreshes observable of already assigned organizers or handles error
@@ -90,11 +94,13 @@ export class OrganizersAssignService extends Kypo2UserAssignService {
    * @param users organizers whose association should be deleted
    */
   unassign(resourceId: number, users: User[]): Observable<any> {
-    return this.userFacade.updateOrganizers(resourceId, [], users.map(user => user.id))
-      .pipe(
-        tap({error: err => this.errorHandler.emit(err, 'Deleting organizers from training instance')}),
-        switchMap(_ => this.getAssigned(resourceId, this.lastAssignedPagination, this.lastAssignedFilter))
-      );
+    const userIds = users.map(user => user.id);
+    return this.callApiToUnassign(resourceId, userIds);
+  }
+
+  unassignSelected(resourceId: number): Observable<any> {
+    const userIds = this.selectedAssignedUsersSubject$.getValue().map(user => user.id);
+    return this.callApiToUnassign(resourceId, userIds);
   }
 
   /**
@@ -114,5 +120,23 @@ export class OrganizersAssignService extends Kypo2UserAssignService {
 
   private initSubject(): PaginatedResource<User> {
     return new PaginatedResource([], new Pagination(0, 0, environment.defaultPaginationSize, 0, 0));
+  }
+
+  private callApiToAssign(resourceId: number, userIds: number[]): Observable<any> {
+    return this.userFacade.updateOrganizers(resourceId, userIds, [])
+      .pipe(
+        tap(_ => this.clearSelectedUsersToAssign(),
+          err => this.errorHandler.emit(err, 'Assigning organizers to training instance')),
+        switchMap(_ => this.getAssigned(resourceId, this.lastAssignedPagination, this.lastAssignedFilter))
+      );
+  }
+
+  private callApiToUnassign(resourceId: number, userIds: number[]): Observable<any> {
+    return this.userFacade.updateOrganizers(resourceId, [], userIds)
+      .pipe(
+        tap(_ => this.clearSelectedAssignedUsers(),
+          err => this.errorHandler.emit(err, 'Deleting organizers from training instance')),
+        switchMap(_ => this.getAssigned(resourceId, this.lastAssignedPagination, this.lastAssignedFilter))
+      );
   }
 }

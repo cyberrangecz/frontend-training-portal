@@ -9,7 +9,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {MaterialTestingModule} from '../../../../../testing/test-utils/material-testing.module';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ArchivedTrainingRunService} from '../../../../../services/training-run/archived/archived-training-run.service';
-import {TrainingRunTableAdapter} from '../../../../../model/table/row/training-run-table-adapter';
+import {ActiveTrainingRunRowAdapter} from '../../../../../model/table/row/active-training-run-row-adapter';
 import {TrainingRun} from '../../../../../model/training/training-run';
 import {User} from 'kypo2-auth';
 
@@ -49,16 +49,16 @@ describe('ArchivedTrainingRunOverviewComponent', () => {
 
   it('should add row to selected rows array', () => {
     component.onRowSelection([
-      new TrainingRunTableAdapter(createMockRun('1'), false),
+      new ActiveTrainingRunRowAdapter(createMockRun('1'), false),
     ]);
     expect(component.selectedTrainingRunIds.length).toEqual(1);
   });
 
   it('should add multiple rows to selected rows array', () => {
     component.onRowSelection([
-      new TrainingRunTableAdapter(createMockRun('1'), false),
-      new TrainingRunTableAdapter(createMockRun('2'), false),
-      new TrainingRunTableAdapter(createMockRun('3'), false)
+      new ActiveTrainingRunRowAdapter(createMockRun('1'), false),
+      new ActiveTrainingRunRowAdapter(createMockRun('2'), false),
+      new ActiveTrainingRunRowAdapter(createMockRun('3'), false)
     ]);
     expect(component.selectedTrainingRunIds.length).toEqual(3);
   });

@@ -12,7 +12,7 @@ export abstract class TrainingInstanceOverviewService extends PaginatedResourceS
 
   abstract edit(id: number): Observable<any>;
 
-  abstract archive(id: number): Observable<any>;
+  abstract download(id: number): Observable<any>;
 
   abstract delete(id: number): Observable<any>;
 

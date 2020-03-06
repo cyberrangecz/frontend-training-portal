@@ -6,7 +6,7 @@ import {SandboxInstanceState} from '../../enums/sandbox-instance-state';
 /**
  * Class representing row of training run table
  */
-export class TrainingRunTableAdapter extends TrainingRunTableRow {
+export class ActiveTrainingRunRowAdapter extends TrainingRunTableRow {
   player: string;
   state: TrainingRunStateEnum;
   sandboxId: number;

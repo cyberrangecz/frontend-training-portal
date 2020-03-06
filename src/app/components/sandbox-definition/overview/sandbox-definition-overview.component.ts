@@ -6,7 +6,7 @@ import {BaseComponent} from '../../base.component';
 import {SandboxDefinitionOverviewService} from '../../../services/sandbox-definition/sandbox-definition-overview.service';
 import {Kypo2Table, LoadTableEvent, TableActionEvent} from 'kypo2-table';
 import {ErrorHandlerService} from '../../../services/shared/error-handler.service';
-import {SandboxDefinitionTableCreator} from '../../../model/table/factory/sandbox-definition-table-creator';
+import {SandboxDefinitionTable} from '../../../model/table/sandbox-instance/sandbox-definition-table';
 import {SandboxDefinition} from '../../../model/sandbox/definition/sandbox-definition';
 import {environment} from '../../../../environments/environment';
 import {Router} from '@angular/router';
@@ -62,9 +62,10 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
    * @param event table action event emitted by child table component
    */
   onTableAction(event: TableActionEvent<SandboxDefinition>) {
-    if (event.action.id === SandboxDefinitionTableCreator.DELETE_ACTION_ID) {
-      this.sandboxDefinitionService.delete(event.element);
-    }
+    event.action.result$
+      .pipe(
+        take(1)
+      ).subscribe();
   }
 
   /**
@@ -80,7 +81,7 @@ export class SandboxDefinitionOverviewComponent extends BaseComponent implements
   private initTable() {
     this.sandboxDefinitions$ = this.sandboxDefinitionService.resource$
       .pipe(
-        map(paginatedSandboxes => SandboxDefinitionTableCreator.create(paginatedSandboxes))
+        map(resource => new SandboxDefinitionTable(resource, this.sandboxDefinitionService))
       );
     this.lastLoadEvent = new LoadTableEvent(new RequestedPagination(0, environment.defaultPaginationSize, '', ''), null);
     this.onLoadEvent(this.lastLoadEvent);

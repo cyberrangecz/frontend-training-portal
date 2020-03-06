@@ -1,8 +1,9 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {TrainingDefinition} from '../../../../model/training/training-definition';
 import {BaseComponent} from '../../../base.component';
 import {CloneDialogFormGroup} from './clone-dialog-form-group';
+import {takeWhile} from 'rxjs/operators';
 
 /**
  * Displays dialog with a form to select name of cloned training definition
@@ -10,11 +11,13 @@ import {CloneDialogFormGroup} from './clone-dialog-form-group';
 @Component({
   selector: 'kypo2-clone-dialog',
   templateUrl: './clone-dialog.component.html',
-  styleUrls: ['./clone-dialog.component.css']
+  styleUrls: ['./clone-dialog.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CloneDialogComponent extends BaseComponent implements OnInit {
 
   cloneDialogFormGroup: CloneDialogFormGroup;
+  valid = true;
 
   constructor(public dialogRef: MatDialogRef<CloneDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: TrainingDefinition) {
@@ -26,6 +29,10 @@ export class CloneDialogComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this.cloneDialogFormGroup = new CloneDialogFormGroup();
     this.clonedDefinitionTitle.setValue( 'Clone of ' + this.data.title);
+    this.cloneDialogFormGroup.formGroup.valueChanges
+      .pipe(
+        takeWhile(_ => this.isAlive)
+      ).subscribe(_ => this.valid = this.cloneDialogFormGroup.formGroup.valid);
   }
 
   /**

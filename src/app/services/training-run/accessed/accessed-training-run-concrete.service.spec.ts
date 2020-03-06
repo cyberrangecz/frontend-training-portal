@@ -5,20 +5,26 @@ import {TrainingRunApi} from '../../api/training-run-api.service';
 import {throwError} from 'rxjs';
 import {skip} from 'rxjs/operators';
 import {RequestedPagination} from 'kypo2-table';
+import {RouterTestingModule} from '@angular/router/testing';
+import {RunningTrainingRunService} from '../running/running-training-run.service';
 
 describe('AccessedTrainingRunConcreteService', () => {
 
   let service: AccessedTrainingRunConcreteService;
   let errorHandlerServiceSpy: jasmine.SpyObj<ErrorHandlerService>;
-  let trainingRunFacadeSpy: jasmine.SpyObj<TrainingRunApi>;
+  let apiSpy: jasmine.SpyObj<TrainingRunApi>;
+  let runningTrainingRunServiceSpy: jasmine.SpyObj<RunningTrainingRunService>;
 
   beforeEach(async(() => {
     errorHandlerServiceSpy = jasmine.createSpyObj('ErrorHandlerService', ['emit']);
-    trainingRunFacadeSpy = jasmine.createSpyObj('TrainingRunFacade', ['getAccessed']);
+    apiSpy = jasmine.createSpyObj('TrainingRunApi', ['getAccessed']);
+    runningTrainingRunServiceSpy = jasmine.createSpyObj('RunningTrainingRunService', ['setUpFromTrainingRun', 'access']);
     TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
       providers: [
         AccessedTrainingRunConcreteService,
-        { provide: TrainingRunApi, useValue: trainingRunFacadeSpy},
+        { provide: TrainingRunApi, useValue: apiSpy},
+        { provide: RunningTrainingRunService, useValue: runningTrainingRunServiceSpy },
         { provide: ErrorHandlerService, useValue: errorHandlerServiceSpy},
       ],
     });
@@ -30,18 +36,18 @@ describe('AccessedTrainingRunConcreteService', () => {
   });
 
   it('should call error handler on err', done => {
-    trainingRunFacadeSpy.getAccessed.and.returnValue(throwError(null));
+    apiSpy.getAccessed.and.returnValue(throwError(null));
 
     service.getAll(createPagination()).subscribe(_ => fail,
   _ => {
       expect(errorHandlerServiceSpy.emit).toHaveBeenCalledTimes(1);
       done();
     });
-    expect(trainingRunFacadeSpy.getAccessed).toHaveBeenCalledTimes(1);
+    expect(apiSpy.getAccessed).toHaveBeenCalledTimes(1);
   });
 
   it('should emit hasError observable on err', done => {
-    trainingRunFacadeSpy.getAccessed.and.returnValue(throwError(null));
+    apiSpy.getAccessed.and.returnValue(throwError(null));
 
     service.hasError$
       .pipe(

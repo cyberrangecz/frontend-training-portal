@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {BaseComponent} from '../../base.component';
-import {SandboxDefinitionFormGroup} from './create-sandbox-definition-dialog-form-group';
+import {SandboxDefinitionFormGroup} from './create-sandbox-definition-form-group';
 import {SandboxDefinitionCreateInfo} from '../../../model/sandbox/definition/sandbox-definition-create-info';
 import {takeWhile} from 'rxjs/operators';
 import {SandboxDefinitionDetailService} from '../../../services/sandbox-definition/detail/sandbox-definition-detail.service';
