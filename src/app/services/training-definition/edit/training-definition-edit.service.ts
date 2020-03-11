@@ -18,24 +18,24 @@ import {RouteFactory} from '../../../model/routes/route-factory';
  */
 @Injectable()
 export class TrainingDefinitionEditService {
-  private trainingDefinitionSubject: ReplaySubject<TrainingDefinition> = new ReplaySubject();
+  private trainingDefinitionSubject$: ReplaySubject<TrainingDefinition> = new ReplaySubject();
   /**
    * Currently edited training definition
    */
-  trainingDefinition$: Observable<TrainingDefinition> = this.trainingDefinitionSubject.asObservable()
+  trainingDefinition$: Observable<TrainingDefinition> = this.trainingDefinitionSubject$.asObservable()
     .pipe(filter(td => td !== undefined && td !== null));
 
-  private editModeSubject: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  private editModeSubject$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   /**
    * Current mode (edit - true or create - false)
    */
-  editMode$ = this.editModeSubject.asObservable();
+  editMode$ = this.editModeSubject$.asObservable();
 
-  private saveDisabledSubject: BehaviorSubject<boolean> = new BehaviorSubject(true);
+  private saveDisabledSubject$: BehaviorSubject<boolean> = new BehaviorSubject(true);
   /**
    * True if it is possible to save edited training definition in its current state, false otherwise
    */
-  saveDisabled$ = this.saveDisabledSubject.asObservable();
+  saveDisabled$ = this.saveDisabledSubject$.asObservable();
 
 
   private editedSnapshot: TrainingDefinition;
@@ -58,18 +58,18 @@ export class TrainingDefinitionEditService {
     if (td === null) {
       td = new TrainingDefinition();
     }
-    this.trainingDefinitionSubject.next(td);
+    this.trainingDefinitionSubject$.next(td);
   }
 
   private setEditMode(trainingDefinition: TrainingDefinition) {
-    this.editModeSubject.next(trainingDefinition !== null);
+    this.editModeSubject$.next(trainingDefinition !== null);
   }
 
   /**
    * Saves/creates training definition based on edit mode or handles error.
    */
   save(): Observable<any> {
-    if (this.editModeSubject.getValue()) {
+    if (this.editModeSubject$.getValue()) {
       return this.update();
     } else {
       return this.create()
@@ -91,7 +91,7 @@ export class TrainingDefinitionEditService {
    * @param changeEvent training definition object and its validity
    */
   change(changeEvent: TrainingDefinitionChangeEvent) {
-    this.saveDisabledSubject.next(!changeEvent.isValid);
+    this.saveDisabledSubject$.next(!changeEvent.isValid);
     this.editedSnapshot = changeEvent.trainingDefinition;
   }
 
@@ -111,19 +111,20 @@ export class TrainingDefinitionEditService {
    return this.trainingDefinitionFacade.create(this.editedSnapshot)
       .pipe(
         tap(
-          id => {
-            this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was saved');
+          _ => {
+            this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was created');
             this.onSaved();
             },
             err => this.errorHandler.emit(err, 'Creating new training definition')
-        )
+        ),
+        map(td => td.id)
       );
   }
 
   private onSaved() {
-    this.editModeSubject.next(true);
-    this.saveDisabledSubject.next(true);
-    this.trainingDefinitionSubject.next(this.editedSnapshot);
+    this.editModeSubject$.next(true);
+    this.saveDisabledSubject$.next(true);
+    this.trainingDefinitionSubject$.next(this.editedSnapshot);
     this.editedSnapshot = null;
   }
 }

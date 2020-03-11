@@ -1,14 +1,20 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {Question} from '../../../model/questions/question';
+import {TrainingRunAssessmentLevelService} from '../../training-run/running/training-run-assessment-level.service';
+import {RunningTrainingRunService} from '../../training-run/running/running-training-run.service';
 
 @Injectable()
 /**
  * Mocks behavior of training run assessment level service connected to backend for designers preview purposes
  */
-export class PreviewAssessmentLevelService {
+export class PreviewAssessmentLevelService extends TrainingRunAssessmentLevelService {
 
-  submit(trainingRunId: number, answers: Question[]): Observable<any> {
-    return of(true);
+  constructor(private runningTrainingRunService: RunningTrainingRunService) {
+    super();
+  }
+
+  submit(answers: Question[]): Observable<any> {
+    return this.runningTrainingRunService.next();
   }
 }

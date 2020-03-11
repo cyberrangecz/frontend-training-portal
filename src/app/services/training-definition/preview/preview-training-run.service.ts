@@ -1,45 +1,31 @@
-import {Location} from '@angular/common';
 import {Injectable} from '@angular/core';
-import {Observable, of, ReplaySubject} from 'rxjs';
+import {from, Observable, of} from 'rxjs';
 import {Level} from '../../../model/level/level';
-import {GameLevel} from '../../../model/level/game-level';
 import {AccessTrainingRunInfo} from '../../../model/training/access-training-run-info';
-import {TrainingRunGameLevelService} from '../../training-run/running/training-run-game-level.service';
-import {PreviewGameLevelService} from './preview-game-level.service';
+import {RunningTrainingRunService} from '../../training-run/running/running-training-run.service';
+import {Router} from '@angular/router';
+import {RouteFactory} from '../../../model/routes/route-factory';
 
 @Injectable()
 /**
  * Mocks behavior of training run service connected to backend for designers preview purposes
  */
-export class PreviewTrainingRunService {
+export class PreviewTrainingRunService extends RunningTrainingRunService {
 
-  constructor(private gameService: TrainingRunGameLevelService,
-              private location: Location) {}
+  constructor(private router: Router) {
+    super();
+  }
 
   private levels: Level[] = [];
   private activeLevelIndex: number;
   private isStepperDisplayed: boolean;
 
-  private activeLevelSubject: ReplaySubject<Level> = new ReplaySubject(1);
-  activeLevel$: Observable<Level> = this.activeLevelSubject.asObservable();
-
-  setUpFromTrainingRun(trainingRunInfo: AccessTrainingRunInfo) {
+  init(trainingRunInfo: AccessTrainingRunInfo) {
     this.levels = trainingRunInfo.levels;
     this.isStepperDisplayed = trainingRunInfo.isStepperDisplayed;
     this.activeLevelIndex = 0;
     const firstLevel = this.levels[this.activeLevelIndex];
-    this.activeLevelSubject.next(firstLevel);
-    if (firstLevel instanceof GameLevel && this.gameService instanceof PreviewGameLevelService) {
-      this.gameService.init(firstLevel);
-    }
-  }
-
-  access(accessToken: string): Observable<number> {
-    console.error(
-      'It seems like you tried to use access token method to start training run in preview mode.' +
-      ' Please you setUpFromTrainingRun() method to setup preview'
-    );
-    return of(-1);
+    this.activeLevelSubject$.next(firstLevel);
   }
 
   getLevels(): Level[] {
@@ -62,28 +48,29 @@ export class PreviewTrainingRunService {
     return this.isStepperDisplayed;
 }
 
-  nextLevel(): Observable<Level> {
-    this.activeLevelIndex++;
-    const nextLevel = this.levels[this.activeLevelIndex];
-    if (nextLevel instanceof GameLevel && this.gameService instanceof PreviewGameLevelService) {
-      this.gameService.init(nextLevel);
-    }
-    this.activeLevelSubject.next(nextLevel);
-    return of(nextLevel);
+  next(): Observable<any> {
+    return this.isLast() ? this.finish() : this.nextLevel();
   }
 
-  hasNextLevel(): boolean {
-    return this.activeLevelIndex < this.levels.length - 1;
-  }
-
-  finish(): Observable<any> {
-    this.clear();
-    this.location.back();
-    return of(true);
+  isLast(): boolean {
+    return this.activeLevelIndex >= this.levels.length - 1;
   }
 
   clear() {
     this.levels = [];
     this.activeLevelIndex = 0;
   }
+
+  private nextLevel(): Observable<any> {
+    this.activeLevelIndex++;
+    const nextLevel = this.levels[this.activeLevelIndex];
+    this.activeLevelSubject$.next(nextLevel);
+    return of(true);
+  }
+
+  private finish(): Observable<any> {
+    this.clear();
+    return from(this.router.navigate([RouteFactory.toTrainingDefinitionOverview()]));
+  }
+
 }

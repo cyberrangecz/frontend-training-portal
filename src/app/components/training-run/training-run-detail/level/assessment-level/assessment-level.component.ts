@@ -1,18 +1,28 @@
-import {Component, Input, OnChanges, OnInit, QueryList, SimpleChanges, ViewChildren} from '@angular/core';
-import {takeWhile} from 'rxjs/operators';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  QueryList,
+  SimpleChanges,
+  ViewChildren
+} from '@angular/core';
+import {take} from 'rxjs/operators';
 import {AssessmentTypeEnum} from '../../../../../model/enums/assessment-type.enum';
 import {AssessmentLevel} from '../../../../../model/level/assessment-level';
 import {Question} from '../../../../../model/questions/question';
-import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
-import {RunningTrainingRunService} from '../../../../../services/training-run/running/running-training-run.service';
-import {TrainingRunAssessmentLevelService} from '../../../../../services/training-run/running/training-run-assessment-level.service';
 import {BaseComponent} from '../../../../base.component';
 import {TraineeQuestionComponent} from './question/trainee-question.component';
+import {TrainingRunAssessmentLevelService} from '../../../../../services/training-run/running/training-run-assessment-level.service';
 
 @Component({
   selector: 'kypo2-assessment-level',
   templateUrl: './assessment-level.component.html',
-  styleUrls: ['./assessment-level.component.css']
+  styleUrls: ['./assessment-level.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 /**
  * Component that displays assessment level in a trainees training run. If the questions are type of test, trainee needs
@@ -21,29 +31,26 @@ import {TraineeQuestionComponent} from './question/trainee-question.component';
  */
 export class AssessmentLevelComponent extends BaseComponent implements OnInit, OnChanges {
 
+  @Input() level: AssessmentLevel;
+  @Input() isLast: boolean;
+  @Output() next: EventEmitter<void> = new EventEmitter();
   @ViewChildren(TraineeQuestionComponent) questionComponents: QueryList<TraineeQuestionComponent>;
-  @Input('level') level: AssessmentLevel;
 
-  hasNextLevel: boolean;
   canSubmit: boolean;
   isSubmitted = false;
 
-  constructor(private assessmentLevelService: TrainingRunAssessmentLevelService,
-              private activeLevelService: RunningTrainingRunService,
-              private errorHandler: ErrorHandlerService) {
+  constructor(private assessmentService: TrainingRunAssessmentLevelService) {
     super();
   }
 
   ngOnInit() {
     this.isSubmitted = false;
-    this.hasNextLevel = this.activeLevelService.hasNextLevel();
     this.initCanSubmit();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if ('level' in changes) {
       this.isSubmitted = false;
-      this.hasNextLevel = this.activeLevelService.hasNextLevel();
       this.initCanSubmit();
     }
   }
@@ -68,49 +75,19 @@ export class AssessmentLevelComponent extends BaseComponent implements OnInit, O
   }
 
   /**
-   * Calls service to move to the next level
+   * Emit event to next level to move to the next level
    */
-  nextLevel() {
-    this.activeLevelService.nextLevel()
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(
-        resp => {},
-        err => this.errorHandler.emit(err, 'Moving to next level')
-      );
-  }
-
-  /**
-   * Calls service to finish the training run
-   */
-  finish() {
-    this.activeLevelService.finish()
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(
-        resp => {},
-        err => this.errorHandler.emit(err, 'Finishing training')
-      );
+  onNext() {
+    this.next.emit();
   }
 
   private sendSubmitRequest(answers: Question[]) {
-    this.assessmentLevelService.submit(this.activeLevelService.trainingRunId, answers)
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(
-        resp => this.onSubmitted(),
-        err => this.onSubmittedError(err));
-  }
-
-  private onSubmittedError(err) {
-    this.errorHandler.emit(err, 'Submitting answers');
-    this.isSubmitted = false;
-  }
-
-  private onSubmitted() {
-    this.isSubmitted = true;
-    if (this.hasNextLevel) {
-      this.nextLevel();
-    } else {
-      this.finish();
-    }
+    this.assessmentService.submit(answers)
+      .pipe(
+        take(1)
+      ).subscribe(
+        _ => this.isSubmitted = true,
+        _ => this.isSubmitted = false);
   }
 
   private checkCanSubmit() {

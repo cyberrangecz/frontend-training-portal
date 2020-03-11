@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, HostListener, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs';
-import {map, takeWhile, tap} from 'rxjs/operators';
+import {map, skipWhile, take, takeWhile, tap} from 'rxjs/operators';
 import {TrainingInstanceChangeEvent} from '../../../model/events/training-instance-change-event';
 import {TrainingInstance} from '../../../model/training/training-instance';
 import {TrainingInstanceEditService} from '../../../services/training-instance/edit/training-instance-edit.service';
@@ -9,6 +9,7 @@ import {BaseComponent} from '../../base.component';
 import {environment} from '../../../../environments/environment';
 import {TrainingInstanceEditControls} from './training-instance-edit-controls';
 import {KypoControlItem} from 'kypo-controls';
+import {TrainingDefinitionEditControls} from '../../training-definition/training-definition-edit-overview/training-definition-edit-controls';
 
 /**
  * Main component of training instance edit/create page. Serves mainly as a smart component wrapper
@@ -39,12 +40,10 @@ export class TrainingInstanceEditOverviewComponent extends BaseComponent impleme
       .pipe(
         takeWhile(_ => this.isAlive)
       ).subscribe(data => this.editService.set(data.trainingInstance));
-
     this.editMode$ = this.editService.editMode$
       .pipe(
-        tap(editMode => this.controls = TrainingInstanceEditControls.create(this.editService, editMode, this.editService.saveDisabled$))
+        tap(isEditMode => this.controls = TrainingInstanceEditControls.create(this.editService, isEditMode, this.editService.saveDisabled$))
       );
-
   }
 
   ngOnInit() {
@@ -59,14 +58,11 @@ export class TrainingInstanceEditOverviewComponent extends BaseComponent impleme
   }
 
   onControlsAction(control: KypoControlItem) {
+    this.canDeactivateTIEdit = true;
     control.result$
       .pipe(
-        takeWhile(_ => this.isAlive)
-      ).subscribe(_ => {
-      if (control.id === TrainingInstanceEditControls.SAVE_ACTION_ID || control.id === TrainingInstanceEditControls.SAVE_AND_STAY_ACTION_ID) {
-        this.canDeactivateTIEdit = true;
-      }
-    });
+        take( 1)
+      ).subscribe();
   }
 
   /**

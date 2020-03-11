@@ -1,4 +1,14 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import {Question} from '../../../../../../model/questions/question';
 import {ExtendedMatchingItems} from '../../../../../../model/questions/extended-matching-items';
 import {FreeFormQuestion} from '../../../../../../model/questions/free-form-question';
@@ -11,7 +21,8 @@ import {MultipleChoiceQuestionTraineeComponent} from './multiple-choice-question
 @Component({
   selector: 'kypo2-trainee-question',
   templateUrl: './trainee-question.component.html',
-  styleUrls: ['./trainee-question.component.css']
+  styleUrls: ['./trainee-question.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 /**
  * Wrapper component for displaying questions in training run's assessment level. It selects the correct component to

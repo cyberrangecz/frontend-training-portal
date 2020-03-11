@@ -16,12 +16,6 @@ markdown ::ng-deep img {
   align-content: center;
 }
 
-.header {
-  margin-top: 10px;
-  text-align: center;
-  width: 60%;
-}
-
 .content {
   margin-top: 10px;
   display: flex;

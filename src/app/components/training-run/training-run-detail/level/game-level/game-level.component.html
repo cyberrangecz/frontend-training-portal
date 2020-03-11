@@ -1,50 +1,35 @@
 <div class="container">
-  <div class="header">
-    <h1>{{ level.title }}</h1>
-  </div>
   <div class="content">
     <div class="left-panel">
       <div class="level-content">
-        <markdown [data]="displayedText"></markdown>
+        <markdown [data]="level?.content"></markdown>
       </div>
     </div>
     <div class="right-panel" #rightPanel>
       <!-- TOPOLOGY COMPONENT-->
-      <kypo2-topology-graph #topology
-        *ngIf="!isPreviewMode"
+      <kypo2-topology-graph *ngIf="!isTopologyDisplayed else topologyPlaceholder"
         [width]="topologyWidth"
         [height]="topologyHeight"
         [sandboxId]="sandboxId"
         [style.width.px]="topologyWidth"
         [style.height.px]="topologyHeight">
       </kypo2-topology-graph>
-      <div *ngIf="isPreviewMode"
-        class="topology-placeholder"
-        [style.width.px]="topologyWidth"
-        [style.height.px]="topologyHeight">
-        <h3>There will be topology component</h3>
-        <img src="assets/images/placeholders/topology-placeholder.png"
-          alt="Topology placeholder"
-          [width]="topologyWidth"
-          [height]="topologyHeight">
-      </div>
 
       <div class="game-control-panel">
         <div class="game-control-bar">
           <!-- HINT BUTTONS-->
           <button
-            *ngFor="let hintButton of hintButtons; index as i"
+            *ngFor="let hintButton of (hintsButtons$ | async); index as i"
             mat-raised-button color="primary"
-            [disabled]="correctFlag || solutionShown || hintButton.displayed ||
-            waitingOnResponse"
-            (click)="revealHint(hintButton, i + 1);"
+            [disabled]="(isSolutionRevelead$ | async) || (isCorrectFlagSubmitted$ | async) || (hintButton.disabled$ | async) || (isLoading$ | async)"
+            (click)="revealHint(hintButton)"
             matTooltip="{{ hintButton.hint.title }}">
             Hint {{ i + 1 }}
           </button>
 
           <!-- SOLUTION BUTTON-->
           <button mat-raised-button color="warn"
-            [disabled]="correctFlag || solutionShown || waitingOnResponse"
+            [disabled]="(isSolutionRevelead$ | async) || (isCorrectFlagSubmitted$ | async) || (isLoading$ | async)"
             (click)="revealSolution()"
             matTooltip="Display solution">
             Solution
@@ -57,36 +42,53 @@
               <mat-form-field appearance="outline"
                               (keydown.enter)="$event.preventDefault()">
                 <mat-label>Flag</mat-label>
-                <input matInput placeholder="Flag" [disabled]="correctFlag"
-                       [(ngModel)]="flag" [ngModelOptions]="{standalone: true}">
-                <button mat-button *ngIf="flag" [disabled]="correctFlag" matSuffix
-                        mat-icon-button aria-label="Clear" (click)="flag=''">
+                <input matInput
+                       placeholder="Flag"
+                       [disabled]="isCorrectFlagSubmitted$ | async"
+                       [(ngModel)]="flag"
+                       [ngModelOptions]="{standalone: true}">
+                <button *ngIf="flag"
+                        mat-button
+                        matSuffix
+                        mat-icon-button
+                        aria-label="Clear"
+                        [disabled]="isCorrectFlagSubmitted$ | async"
+                        (click)="flag=''">
                   <mat-icon>close</mat-icon>
                 </button>
               </mat-form-field>
             </form>
             <button mat-button color="accent"
-              [disabled]="!flag || correctFlag"
+              [disabled]="!flag || (isCorrectFlagSubmitted$ | async)"
               (click)="submitFlag()">
-              Submit</button>
+              Submit
+            </button>
           </div>
         </div>
 
         <div class="hint-content">
-          <markdown *ngIf="displayedHints || displayedHints !== ''"
-            [data]="displayedHints"></markdown>
+          <markdown *ngIf="(displayedHintsContent$ | async) as hintsContent"
+            [data]="hintsContent">
+          </markdown>
         </div>
       </div>
     </div>
   </div>
-  <div *ngIf="correctFlag" class="footer">
-    <div *ngIf="hasNextLevel then nextLevelButton else finishButton"></div>
-    <ng-template #nextLevelButton>
-      <button mat-raised-button color="primary" (click)="nextLevel()">Next level</button>
-    </ng-template>
-    <ng-template #finishButton>
-      <button mat-raised-button color="primary" (click)="finish()">Finish
-        training</button>
-    </ng-template>
+  <div *ngIf="isCorrectFlagSubmitted$ | async" class="footer">
+    <kypo2-next-level-button [isLast]="isLast"
+                             (next)="onNext()">
+    </kypo2-next-level-button>
   </div>
 </div>
+
+<ng-template #topologyPlaceholder>
+  <div class="topology-placeholder"
+       [style.width.px]="topologyWidth"
+       [style.height.px]="topologyHeight">
+    <h3>There should be topology component</h3>
+    <img src="assets/images/placeholders/topology-placeholder.png"
+         alt="Topology placeholder"
+         [width]="topologyWidth"
+         [height]="topologyHeight">
+  </div>
+</ng-template>

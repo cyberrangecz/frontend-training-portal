@@ -205,10 +205,12 @@ export class TrainingDefinitionApi {
    * Sends http request to create new training definition
    * @param trainingDefinition training definition which should be created
    */
-  create(trainingDefinition: TrainingDefinition): Observable<number> {
+  create(trainingDefinition: TrainingDefinition): Observable<TrainingDefinition> {
     return this.http.post<TrainingDefinitionDTO>(this.trainingDefsEndpointUri, TrainingDefinitionMapper.toCreateDTO(trainingDefinition),
       { headers: this.createDefaultHeaders() })
-      .pipe(map(resp => resp.id));
+      .pipe(
+        map(resp => TrainingDefinitionMapper.fromDTO(resp, false))
+      );
   }
 
   /**

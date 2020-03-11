@@ -14,6 +14,7 @@ import {InfoLevelComponent} from './info-level/info-level.component';
 import {LevelMaterialModule} from './level-material.module';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../../../environments/environment';
+import {NextLevelButtonComponent} from '../next-level-button/next-level-button.component';
 
 const markdownParserConfig = {
       loader: HttpClient,
@@ -43,6 +44,7 @@ const markdownParserConfig = {
     LevelMaterialModule,
   ],
   declarations: [
+    NextLevelButtonComponent,
     AbstractLevelComponent,
     InfoLevelComponent,
     GameLevelComponent,

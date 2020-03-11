@@ -1,26 +1,20 @@
-<div class="loading" *ngIf="isLoading">
-  <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-</div>
-<div class="content">
   <div class="header">
-    <a routerLink="/home">
-      <img id="training-run-logo" alt="KYPO" src="./assets/images/kypo-logo-blue.svg"/>
-    </a>
     <!-- LEVEL STEPPER -->
-    <div class="training-run-stepper">
-      <div *ngIf="isStepperDisplayed && stepper?.levels">
-        <kypo2-stepper [dragDisabled]="true" [selectable]="false" [stepperItems]="stepper?.levels" [activeIndex]="selectedStep"></kypo2-stepper>
-      </div>
+    <div *ngIf="isStepperDisplayed && stepper?.items" class="training-run-stepper">
+      <kypo2-stepper [dragDisabled]="true" [selectable]="false" [stepperItems]="stepper" [activeIndex]="stepper.activeLevelIndex"></kypo2-stepper>
     </div>
 
-    <div class="spacer"></div>
+    <span class="spacer"></span>
     <div class="right-panel">
       <csirt-mu-user-card [user]="user$ | async"></csirt-mu-user-card>
       <kypo2-training-timer *ngIf="isTimerDisplayed && startTime" [startTime]="startTime"></kypo2-training-timer>
     </div>
-
   </div>
   <!-- CONTENT OF ACTIVE LEVEL -->
-  <kypo2-abstract-level></kypo2-abstract-level>
-</div>
+  <kypo2-abstract-level [level]="activeLevel$ | async"
+                        [isLast]="isLast"
+                        [sandboxId]="sandboxId"
+                        (next)="next()">
+  </kypo2-abstract-level>
+
 

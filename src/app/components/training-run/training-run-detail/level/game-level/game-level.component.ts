@@ -1,26 +1,30 @@
-import {Component, ElementRef, HostListener, Input, OnChanges, OnInit, SimpleChanges, ViewChild, } from '@angular/core';
-import {MatDialog} from '@angular/material/dialog';
-import {takeWhile} from 'rxjs/operators';
-import {FlagCheck} from '../../../../../model/level/flag-check';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
+import {take, takeWhile} from 'rxjs/operators';
 import {GameLevel} from '../../../../../model/level/game-level';
-import {Hint} from '../../../../../model/level/hint';
 import {HintButton} from '../../../../../model/level/hint-button';
 import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
-import {RunningTrainingRunService} from '../../../../../services/training-run/running/running-training-run.service';
-import {TrainingRunGameLevelService} from '../../../../../services/training-run/running/training-run-game-level.service';
 import {BaseComponent} from '../../../../base.component';
-import {ASCPECT_RATIO_Y, ASPECT_RATIO_X, DIVIDE_BY, WINDOW_WIDTH} from './game-level.constants';
 import {Kypo2TopologyErrorService} from 'kypo2-topology-graph';
-import {
-  CsirtMuConfirmationDialogComponent,
-  CsirtMuConfirmationDialogConfig,
-  CsirtMuDialogResultEnum
-} from 'csirt-mu-layout';
+import {Observable} from 'rxjs';
+import {TrainingRunGameLevelService} from '../../../../../services/training-run/running/training-run-game-level.service';
 
 @Component({
   selector: 'kypo2-game-level',
   templateUrl: './game-level.component.html',
   styleUrls: ['./game-level.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 /**
  * Component of a game level in a training run. Users needs to find out correct solution (flag) and submit it
@@ -29,27 +33,22 @@ import {
 export class GameLevelComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input() level: GameLevel;
-
+  @Input() isLast: boolean;
+  @Input() sandboxId: number;
+  @Output() next: EventEmitter<void> = new EventEmitter();
   @ViewChild('rightPanel', { static: true }) rightPanelDiv: ElementRef;
 
-  sandboxId: number;
   topologyWidth: number;
   topologyHeight: number;
-  hasNextLevel: boolean;
-  isPreviewMode: boolean;
-
-  displayedText: string;
-  displayedHints: string;
+  isTopologyDisplayed: boolean;
   flag: string;
-  correctFlag: boolean;
-  solutionShown: boolean;
-  waitingOnResponse: boolean;
-  hintButtons = Array<HintButton>();
+  displayedHintsContent$: Observable<string>;
+  isCorrectFlagSubmitted$: Observable<boolean>;
+  isSolutionRevelead$: Observable<boolean>;
+  isLoading$: Observable<boolean>;
+  hintsButtons$: Observable<HintButton[]>;
 
-  constructor(private dialog: MatDialog,
-              private errorHandler: ErrorHandlerService,
-            private gameLevelService: TrainingRunGameLevelService,
-            private activeLevelService: RunningTrainingRunService,
+  constructor(private gameLevelService: TrainingRunGameLevelService,
             private topologyErrorService: Kypo2TopologyErrorService,
             private errorHandlerService: ErrorHandlerService) {
     super();
@@ -61,222 +60,68 @@ export class GameLevelComponent extends BaseComponent implements OnInit, OnChang
   }
 
   ngOnInit() {
-    this.init();
+    this.initTopology();
+    this.subscribeToTopologyErrorHandler();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if ('level' in changes) {
-      this.init();
+      this.initTopology();
+      this.gameLevelService.init(this.level);
+      this.displayedHintsContent$ = this.gameLevelService.displayedHintsContent$;
+      this.isCorrectFlagSubmitted$ = this.gameLevelService.isCorrectFlagSubmitted$;
+      this.isSolutionRevelead$ = this.gameLevelService.isSolutionRevealed$;
+      this.isLoading$ = this.gameLevelService.isLoading$;
+      this.hintsButtons$ = this.gameLevelService.hints$;
     }
   }
 
-  /**
-   * Displays popup dialog asking for users confirmation of the action. If the action is confirmed by user,
-   * selected hint is displayed and information about penalty for taking the hint send to the endpoint
-   * @param hintButton hint button clicked by the user
-   * @param index index of the hint (order)
-   */
-  revealHint(hintButton: HintButton, index: number) {
-    const dialogRef = this.dialog.open(CsirtMuConfirmationDialogComponent, {
-      data: new CsirtMuConfirmationDialogConfig(
-        'Reveal Hint',
-        `Do you want to reveal hint "${hintButton.hint.title}"?
- It will cost you ${hintButton.hint.penalty} points.`,
-        'Cancel',
-        'Reveal'
-      )
-    });
-
-    dialogRef.afterClosed()
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(result => {
-      if (result === CsirtMuDialogResultEnum.CONFIRMED) {
-        this.sendRequestToShowHint(hintButton, index);
-      }
-    });
+  onNext() {
+    this.next.emit();
   }
 
   /**
-   * Displays popup dialog asking for users confirmation of the action. If the action is confirmed by user,
-   * the solution is displayed.
+   * Calls service to reveal hint
+   * @param hintButton hint button clicked by the user
+   */
+  revealHint(hintButton: HintButton) {
+    this.gameLevelService.revealHint(hintButton.hint)
+      .pipe(
+        take(1)
+      ).subscribe();
+  }
+
+  /**
+   * Calls service to reveal solution
    */
   revealSolution() {
-    let dialogMessage = 'Do you want to reveal solution of this level?';
-    dialogMessage += this.level.solutionPenalized
-      ? '\n All your points will be subtracted.'
-      : '';
-
-    const dialogRef = this.dialog.open(CsirtMuConfirmationDialogComponent, {
-      data: new CsirtMuConfirmationDialogConfig(
-        'Reveal Solution',
-        dialogMessage,
-        'Cancel',
-        'Reveal'
-      )
-    });
-
-    dialogRef.afterClosed()
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(result => {
-      if (result === CsirtMuDialogResultEnum.CONFIRMED) {
-        this.sendRequestToRevealSolution();
-      }
-    });
+    this.gameLevelService.revealSolution(this.level)
+      .pipe(
+        take(1)
+      ).subscribe();
   }
 
   /**
-   * Calls service to check whether the flag is correct, displays the result to the user and if flag was correct, moves to the next level
+   * Calls service to check whether the flag is correct
    */
   submitFlag() {
-    this.gameLevelService.isCorrectFlag(this.activeLevelService.trainingRunId, this.flag)
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(
-        resp => {
-            if (resp.isCorrect) {
-              this.onCorrectFlagSubmitted();
-            } else {
-              this.onWrongFlagSubmitted(resp);
-            }
-          },
-        err => this.errorHandler.emit(err, 'Submitting flag')
-      );
-  }
-
-  /**
-   * Calls service to move to the next level
-   */
-  nextLevel() {
-    this.activeLevelService.nextLevel()
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(
-        resp => {},
-        err => this.errorHandler.emit(err, 'Moving to next level')
-      );
-  }
-
-  /**
-   * Calls service to finish the training
-   */
-  finish() {
-    this.activeLevelService.finish()
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(
-        resp => {},
-        err => this.errorHandler.emit(err, 'Finishing training')
-      );
+    this.gameLevelService.submitFlag(this.flag)
+      .pipe(
+        take(1)
+      ).subscribe(resp => this.flag = '');
   }
 
 
-  private init() {
-    this.sandboxId = this.activeLevelService.sandboxInstanceId;
-    this.isPreviewMode = this.sandboxId === null || this.sandboxId === undefined;
-    this.correctFlag = false;
-    this.solutionShown = false;
-    this.displayedHints = '';
+  private initTopology() {
+    this.isTopologyDisplayed = this.sandboxId === null || this.sandboxId === undefined;
     this.calculateTopologySize();
-    this.displayedText = this.level.content;
-    this.hasNextLevel = this.activeLevelService.hasNextLevel();
-    this.initHintButtons();
-    if (!this.isPreviewMode && this.level.hasSolution()) {
-      this.showSolution();
-    }
-    this.subscribeToTopologyErrorHandler();
-  }
-
-  private showSolution(solution: string = null) {
-    if (solution !== null && solution !== undefined) {
-      this.level.solution = solution;
-    }
-    this.displayedHints = this.level.solution;
-    this.solutionShown = true;
-  }
-
-  private calculateHeightWith43AspectRatio(width: number): number {
-      return (width / ASPECT_RATIO_X) * ASCPECT_RATIO_Y;
-  }
-
-  private onCorrectFlagSubmitted() {
-    this.correctFlag = true;
-    this.flag = '';
-    if (this.hasNextLevel) {
-      this.nextLevel();
-    } else {
-      this.finish();
-    }
-  }
-
-  private onWrongFlagSubmitted(flagCheck: FlagCheck) {
-    this.flag = '';
-    if (!this.solutionShown && flagCheck.remainingAttempts === 0) {
-      this.showSolution(flagCheck.solution);
-    }
-
-    let dialogMessage = 'You have submitted incorrect flag.\n';
-    dialogMessage += !this.solutionShown && flagCheck.remainingAttempts > 0
-      ? `You have ${flagCheck.remainingAttempts} remaining attempts.`
-      : 'Please insert the flag shown in the solution.';
-
-    this.dialog.open(CsirtMuConfirmationDialogComponent, {
-      data: new CsirtMuConfirmationDialogConfig(
-        'Incorrect Flag',
-        dialogMessage,
-        '',
-        'OK'
-      )
-    });
-  }
-
-  private sendRequestToRevealSolution() {
-    this.waitingOnResponse = true;
-    this.gameLevelService.takeSolution(this.activeLevelService.trainingRunId)
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(resp => {
-        this.showSolution(resp);
-        this.waitingOnResponse = false;
-      },
-      err => {
-        this.waitingOnResponse = false;
-        this.errorHandler.emit(err, 'Loading solution');
-      });
-  }
-
-  private sendRequestToShowHint(hintButton, index: number) {
-    this.waitingOnResponse = true;
-    this.gameLevelService.takeHint(this.activeLevelService.trainingRunId, hintButton.hint.id)
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(resp => {
-          hintButton.displayed = true;
-          this.waitingOnResponse = false;
-          this.addHintToTextField(resp, index);
-        },
-        err => {
-          this.errorHandler.emit(err, 'Taking hint "' + hintButton.hint.title + '"');
-          this.waitingOnResponse = false;
-        });
-  }
-
-  /**
-   * Initializes hint buttons from hints of the game level
-   */
-  private initHintButtons() {
-    this.hintButtons = [];
-    this.level.hints.forEach((hint, index) => {
-        this.hintButtons.push(new HintButton(!this.isPreviewMode && hint.hasContent(), hint));
-        if (!this.isPreviewMode && hint.hasContent()) {
-          this.addHintToTextField(hint, index);
-        }
-    });
-  }
-
-  private addHintToTextField(hint: Hint, order: number) {
-    this.displayedHints += '\n\n## Hint ' + order + ': ' + hint.title + '\n' + hint.content;
   }
 
   private calculateTopologySize() {
-    this.topologyWidth = window.innerWidth >= WINDOW_WIDTH ?
-      this.rightPanelDiv.nativeElement.getBoundingClientRect().width :
-      (window.innerWidth / DIVIDE_BY);
-    this.topologyHeight = this.calculateHeightWith43AspectRatio(this.topologyWidth);
+    this.topologyWidth = window.innerWidth >= 1920
+      ? this.rightPanelDiv.nativeElement.getBoundingClientRect().width
+      : (window.innerWidth / 2);
+    this.topologyHeight = (this.topologyWidth / 4) * 3;
   }
 
   private subscribeToTopologyErrorHandler() {

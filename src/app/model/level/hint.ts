@@ -14,8 +14,7 @@ export class Hint {
     this.valid = true;
   }
 
-  hasContent(): boolean {
+  isRevealed(): boolean {
     return this.content !== null && this.content !== undefined;
   }
-
 }

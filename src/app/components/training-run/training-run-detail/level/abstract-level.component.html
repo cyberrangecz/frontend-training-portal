@@ -1,9 +1,21 @@
-<div *ngIf="(level$ | async) as level">
-  <ng-container [ngSwitch]="level?.type">
-    <kypo2-assessment-level *ngSwitchCase="levelTypes.Assessment" [level]="level"></kypo2-assessment-level>
-    <kypo2-game-level *ngSwitchCase="levelTypes.Game" [level]="level"></kypo2-game-level>
-    <kypo2-info-level *ngSwitchCase="levelTypes.Info" [level]="level"></kypo2-info-level>
-  </ng-container>
-</div>
+<h1>{{ level?.title }}</h1>
+<ng-container [ngSwitch]="level?.type">
+  <kypo2-assessment-level *ngSwitchCase="levelTypes.Assessment"
+                          [level]="level"
+                          [isLast]=isLast
+                          (next)="onNext()">
+  </kypo2-assessment-level>
+  <kypo2-game-level *ngSwitchCase="levelTypes.Game"
+                    [level]="level"
+                    [isLast]=isLast
+                    [sandboxId]="sandboxId"
+                    (next)="onNext()">
+  </kypo2-game-level>
+  <kypo2-info-level *ngSwitchCase="levelTypes.Info"
+                    [level]="level"
+                    [isLast]="isLast"
+                    (next)="onNext()">
+  </kypo2-info-level>
+</ng-container>
 
 

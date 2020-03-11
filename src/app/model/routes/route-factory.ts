@@ -23,8 +23,8 @@ import {
   TRAINING_RUN_PATH
 } from '../../paths';
 import {
-  TRAINING_RUN_GAME_PATH,
-  TRAINING_RUN_RESULTS_PATH
+  TRAINING_RUN_ACCESS_PATH,
+  TRAINING_RUN_RESULTS_PATH, TRAINING_RUN_RESULTS_SELECTOR, TRAINING_RUN_RESUME_PATH
 } from '../../components/training-run/training-run-overview/paths';
 import {Kypo2UserAndGroupRouteEvent} from 'kypo2-user-and-group-management';
 import {SANDBOX_DEFINITION_NEW_PATH} from '../../components/sandbox-definition/overview/paths';
@@ -131,12 +131,20 @@ export class RouteFactory {
     return `${TRAINING_INSTANCE_PATH}/${TRAINING_INSTANCE_NEW_PATH}`;
   }
 
+  static toTrainingRunOverview(): string {
+    return TRAINING_RUN_PATH;
+  }
+
   /**
    * Returns route to training run game page
    * @param id id of the training run
    */
-  static toTrainingRunGame(id: number | string): string {
-    return `${TRAINING_RUN_PATH}/${id}/${TRAINING_RUN_GAME_PATH}`;
+  static toResumeTrainingRunGame(id: number | string): string {
+    return `${TRAINING_RUN_PATH}/${TRAINING_RUN_RESUME_PATH}/${id}`;
+  }
+
+  static toAccessTrainingRunGame(token: string): string {
+    return `${TRAINING_RUN_PATH}/${TRAINING_RUN_ACCESS_PATH}/${token}`;
   }
 
   /**
@@ -144,7 +152,7 @@ export class RouteFactory {
    * @param id id of the training run
    */
   static toTrainingRunResult(id: number | string): string {
-    return `${TRAINING_RUN_PATH}/${id}/${TRAINING_RUN_RESULTS_PATH}`;
+    return `${TRAINING_RUN_PATH}/${TRAINING_RUN_RESULTS_PATH}/${id}`;
   }
 
   /**
@@ -249,5 +257,4 @@ export class RouteFactory {
       return '';
     }
   }
-
 }

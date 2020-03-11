@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MatCheckboxChange} from '@angular/material/checkbox';
 import {Question} from '../../../../../../../model/questions/question';
 import {MultipleChoiceQuestion} from '../../../../../../../model/questions/multiple-choice-question';
@@ -7,7 +7,8 @@ import {BaseComponent} from '../../../../../../base.component';
 @Component({
   selector: 'kypo2-trainee-multiple-choice-question',
   templateUrl: './multiple-choice-question-trainee.component.html',
-  styleUrls: ['./multiple-choice-question-trainee.component.css']
+  styleUrls: ['./multiple-choice-question-trainee.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 /**
  * Component displaying MCQ type of question in the assessment level of a trainees training run.

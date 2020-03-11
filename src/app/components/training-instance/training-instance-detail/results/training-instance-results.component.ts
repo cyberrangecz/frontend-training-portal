@@ -4,7 +4,6 @@ import {BaseComponent} from '../../../base.component';
 import {Observable} from 'rxjs';
 import {TrainingInstance} from '../../../../model/training/training-instance';
 import {map, takeWhile, tap} from 'rxjs/operators';
-import {DIVIDE_BY} from './traning-instance-results.constants';
 
 /**
  * Component displaying training instance results visualizations
@@ -25,7 +24,7 @@ export class TrainingInstanceResultsComponent extends BaseComponent implements O
     super();
   }
 
-  @HostListener('window:resize')
+  @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.calculateVisualizationSize(event.target.innerWidth, event.target.innerHeight);
   }
@@ -40,8 +39,8 @@ export class TrainingInstanceResultsComponent extends BaseComponent implements O
   }
 
   private calculateVisualizationSize(windowWidth: number, windowHeight: number) {
-    const width = windowWidth / DIVIDE_BY;
-    const height = windowHeight / DIVIDE_BY;
+    const width = windowWidth / 2;
+    const height = windowHeight / 2;
     this.vizSize = { width: width, height: height };
   }
 

@@ -1,0 +1,6 @@
+<button mat-raised-button color="primary" (click)="onNext()">
+  <span *ngIf="!isLast else finishButton">Next</span>
+</button>
+<ng-template #finishButton>
+  <span>Finish</span>
+</ng-template>

@@ -7,6 +7,7 @@ import {TrainingInstance} from '../../model/training/training-instance';
 import {TRAINING_INSTANCE_PATH} from '../../paths';
 import {TrainingInstanceApi} from '../api/training-instance-api.service';
 import {ErrorHandlerService} from '../shared/error-handler.service';
+import {RouteFactory} from '../../model/routes/route-factory';
 
 /**
  * Router data provider
@@ -14,7 +15,7 @@ import {ErrorHandlerService} from '../shared/error-handler.service';
 @Injectable()
 export class TrainingInstanceResolver implements Resolve<TrainingInstance> {
 
-  constructor(private trainingInstanceFacade: TrainingInstanceApi,
+  constructor(private api: TrainingInstanceApi,
               private errorHandler: ErrorHandlerService,
               private router: Router) {
   }
@@ -30,7 +31,7 @@ export class TrainingInstanceResolver implements Resolve<TrainingInstance> {
       return null;
     } else if (route.paramMap.has('id')) {
       const id = Number(route.paramMap.get('id'));
-      return this.trainingInstanceFacade.get(id)
+      return this.api.get(id)
         .pipe(
           take(1),
           mergeMap(ti => ti ? of(ti) : this.navigateToNew()),
@@ -45,7 +46,7 @@ export class TrainingInstanceResolver implements Resolve<TrainingInstance> {
   }
 
   private navigateToNew(): Observable<never> {
-    this.router.navigate([TRAINING_INSTANCE_NEW_PATH]);
+    this.router.navigate([RouteFactory.toTrainingInstanceOverview()]);
     return EMPTY;
   }
 }
