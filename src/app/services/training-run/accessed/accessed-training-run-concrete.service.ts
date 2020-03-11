@@ -7,7 +7,6 @@ import {AccessedTrainingRun} from '../../../model/table/rows/accessed-training-r
 import {switchMap, tap} from 'rxjs/operators';
 import {PaginatedResource} from '../../../model/table/other/paginated-resource';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
-import {RunningTrainingRunService} from '../running/running-training-run.service';
 import {Router} from '@angular/router';
 import {RouteFactory} from '../../../model/routes/route-factory';
 
@@ -19,7 +18,6 @@ export class AccessedTrainingRunConcreteService extends AccessedTrainingRunServi
 
   constructor(private api: TrainingRunApi,
               private router: Router,
-              private activeTrainingRun: RunningTrainingRunService,
               private errorHandler: ErrorHandlerService) {
     super();
   }
@@ -46,23 +44,11 @@ export class AccessedTrainingRunConcreteService extends AccessedTrainingRunServi
    * @param id id of training run to resume
    */
   resume(id: number): Observable<any> {
-    return this.api.resume(id)
-      .pipe(
-        tap(
-          trainingRunInfo => this.activeTrainingRun.setUpFromTrainingRun(trainingRunInfo),
-            err => this.errorHandler.emit(err, 'Resuming training run')
-        ),
-        switchMap(_ => from(this.router.navigate([RouteFactory.toTrainingRunGame(id)])))
-      );
+    return from(this.router.navigate([RouteFactory.toResumeTrainingRunGame(id)]));
   }
 
   access(token: string): Observable<any> {
-    return this.activeTrainingRun.access(token)
-      .pipe(
-        tap({error: err => this.errorHandler.emit(err, 'Accessing training run')}),
-        switchMap(    id => this.router.navigate([RouteFactory.toTrainingRunGame(id)]),
-        )
-      );
+    return from(this.router.navigate([RouteFactory.toAccessTrainingRunGame(token)]));
   }
 
   results(id: number): Observable<any> {

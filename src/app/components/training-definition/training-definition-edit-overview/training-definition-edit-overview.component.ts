@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, HostListener, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs/internal/Observable';
-import {map, takeWhile, tap} from 'rxjs/operators';
+import {map, skipWhile, takeWhile, tap} from 'rxjs/operators';
 import {TrainingDefinitionChangeEvent} from '../../../model/events/training-definition-change-event';
 import {Level} from '../../../model/level/level';
 import {TrainingDefinition} from '../../../model/training/training-definition';
@@ -37,18 +37,13 @@ export class TrainingDefinitionEditOverviewComponent extends BaseComponent imple
               private editService: TrainingDefinitionEditService) {
     super();
     this.trainingDefinition$ = this.editService.trainingDefinition$;
-    this.editMode$ = this.editService.editMode$.pipe(
-      tap(isEditMode => this.controls = TrainingDefinitionEditControls.create(this.editService, isEditMode, this.saveDisabled$))
-    );
     this.tdTitle$ = this.editService.trainingDefinition$.pipe(map(td => td.title));
     this.saveDisabled$ = this.editService.saveDisabled$;
     this.activeRoute.data
       .pipe(
         takeWhile(_ => this.isAlive),
       ).subscribe(data => this.editService.set(data.trainingDefinition));
-
-    this.editMode$.pipe(
-      takeWhile(_ => this.isAlive),
+    this.editMode$ = this.editService.editMode$.pipe(
       tap(isEditMode => this.controls = TrainingDefinitionEditControls.create(this.editService, isEditMode, this.saveDisabled$))
     );
   }

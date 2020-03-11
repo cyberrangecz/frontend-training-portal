@@ -10,6 +10,7 @@ import {Level} from '../../level/level';
 import {GameLevelMapper} from './game/game-level-mapper';
 import {InfoLevelMapper} from './info/info-level-mapper';
 import {AssessmentLevelMapper} from './assessment/assessment-level-mapper';
+import {AbstractLevelTypeEnum} from '../../enums/abstract-level-type.enum';
 
 export class LevelMapper {
 
@@ -47,16 +48,19 @@ export class LevelMapper {
   static fromBasicDTO(dto: BasicLevelInfoDTO): Level {
     let level: Level;
     switch (dto.level_type) {
-      case AbstractLevelDTO.LevelTypeEnum.GAME: {
+      case BasicLevelInfoDTO.LevelTypeEnum.GAME: {
         level = new GameLevel();
+        level.type = AbstractLevelTypeEnum.Game;
         break;
       }
-      case AbstractLevelDTO.LevelTypeEnum.INFO: {
+      case BasicLevelInfoDTO.LevelTypeEnum.INFO: {
         level = new InfoLevel();
+        level.type = AbstractLevelTypeEnum.Info;
         break;
       }
-      case AbstractLevelDTO.LevelTypeEnum.ASSESSMENT: {
+      case BasicLevelInfoDTO.LevelTypeEnum.ASSESSMENT: {
         level = new AssessmentLevel();
+        level.type = AbstractLevelTypeEnum.Assessment;
         break;
       }
     }

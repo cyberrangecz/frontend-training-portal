@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit,} from '@angular/core';
+import {ChangeDetectionStrategy, Component, HostListener, OnInit,} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Kypo2AuthService} from 'kypo2-auth';
 import {map, takeWhile} from 'rxjs/operators';
@@ -12,6 +12,7 @@ import {Kypo2TraineeModeInfo} from 'kypo2-trainings-visualization-overview-lib';
   selector: 'kypo2-training-run-results',
   templateUrl: './training-run-results.component.html',
   styleUrls: ['./training-run-results.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 /**
  * Component displaying visualization of training run results
@@ -33,7 +34,7 @@ export class TrainingRunResultsComponent extends BaseComponent implements OnInit
     this.loadVisualizationInfo();
   }
 
-  @HostListener('window:resize')
+  @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.setVisualizationSize(event.target.innerWidth, event.target.innerHeight);
   }

@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Observable, timer} from 'rxjs';
 import {map, takeWhile} from 'rxjs/operators';
 import {BaseComponent} from '../../../base.component';
@@ -9,7 +9,8 @@ import {BaseComponent} from '../../../base.component';
 @Component({
   selector: 'kypo2-training-timer',
   templateUrl: './training-timer.component.html',
-  styleUrls: ['./training-timer.component.css']
+  styleUrls: ['./training-timer.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class TrainingTimerComponent extends BaseComponent implements OnInit, OnChanges {

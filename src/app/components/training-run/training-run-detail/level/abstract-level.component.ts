@@ -1,8 +1,6 @@
-import {Component, HostListener, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AbstractLevelTypeEnum} from '../../../../model/enums/abstract-level-type.enum';
 import {Level} from '../../../../model/level/level';
-import {RunningTrainingRunService} from '../../../../services/training-run/running/running-training-run.service';
 import {BaseComponent} from '../../../base.component';
 
 /**
@@ -12,34 +10,26 @@ import {BaseComponent} from '../../../base.component';
 @Component({
   selector: 'kypo2-abstract-level',
   templateUrl: './abstract-level.component.html',
-  styleUrls: ['./abstract-level.component.css']
+  styleUrls: ['./abstract-level.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AbstractLevelComponent extends BaseComponent implements OnInit {
 
-  level$: Observable<Level>;
+  @Input() level: Level;
+  @Input() isLast: boolean;
+  @Input() sandboxId: number;
+
+  @Output() next: EventEmitter<void> = new EventEmitter();
   levelTypes = AbstractLevelTypeEnum;
 
-  constructor(private activeLevelsService: RunningTrainingRunService) {
+  constructor() {
     super();
   }
 
   ngOnInit() {
-    this.level$ = this.activeLevelsService.activeLevel$;
-  }
-  /**
-   * Shows dialog asking the user if he really wants to leave the page after clicking on back button
-   */
-  @HostListener('window:onpopstate')
-  canGoBack(): boolean {
-    return confirm('WARNING: You may lose progress in the current level. Do you really want to leave?');
   }
 
-  /**
-   * Shows dialog asking the user if he really wants to leave the page after refresh or navigating to another page
-   */
-  @HostListener('window:beforeunload')
-  canRefreshOrLeave(): boolean {
-    return confirm('WARNING: You may lose progress in the current level. Do you really want to leave?');
+  onNext() {
+    this.next.emit();
   }
-
 }

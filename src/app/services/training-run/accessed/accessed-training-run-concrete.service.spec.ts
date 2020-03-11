@@ -6,25 +6,21 @@ import {throwError} from 'rxjs';
 import {skip} from 'rxjs/operators';
 import {RequestedPagination} from 'kypo2-table';
 import {RouterTestingModule} from '@angular/router/testing';
-import {RunningTrainingRunService} from '../running/running-training-run.service';
 
 describe('AccessedTrainingRunConcreteService', () => {
 
   let service: AccessedTrainingRunConcreteService;
   let errorHandlerServiceSpy: jasmine.SpyObj<ErrorHandlerService>;
   let apiSpy: jasmine.SpyObj<TrainingRunApi>;
-  let runningTrainingRunServiceSpy: jasmine.SpyObj<RunningTrainingRunService>;
 
   beforeEach(async(() => {
     errorHandlerServiceSpy = jasmine.createSpyObj('ErrorHandlerService', ['emit']);
     apiSpy = jasmine.createSpyObj('TrainingRunApi', ['getAccessed']);
-    runningTrainingRunServiceSpy = jasmine.createSpyObj('RunningTrainingRunService', ['setUpFromTrainingRun', 'access']);
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       providers: [
         AccessedTrainingRunConcreteService,
         { provide: TrainingRunApi, useValue: apiSpy},
-        { provide: RunningTrainingRunService, useValue: runningTrainingRunServiceSpy },
         { provide: ErrorHandlerService, useValue: errorHandlerServiceSpy},
       ],
     });

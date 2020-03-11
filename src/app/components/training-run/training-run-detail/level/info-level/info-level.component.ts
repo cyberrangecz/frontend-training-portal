@@ -1,59 +1,30 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {takeWhile} from 'rxjs/operators';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {InfoLevel} from '../../../../../model/level/info-level';
-import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
-import {RunningTrainingRunService} from '../../../../../services/training-run/running/running-training-run.service';
 import {BaseComponent} from '../../../../base.component';
 
 @Component({
   selector: 'kypo2-info-level',
   templateUrl: './info-level.component.html',
-  styleUrls: ['./info-level.component.css']
+  styleUrls: ['./info-level.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 /**
  * Component to display training run's level of type INFO. Only displays markdown and allows user to continue immediately.
  */
-export class InfoLevelComponent extends BaseComponent implements OnInit, OnChanges {
+export class InfoLevelComponent extends BaseComponent implements OnInit {
 
-  @Input('level') level: InfoLevel;
-  hasNextLevel: boolean;
+  @Input() level: InfoLevel;
+  @Input() isLast: boolean;
+  @Output() next: EventEmitter<void> = new EventEmitter();
 
-  constructor(private activeLevelService: RunningTrainingRunService,
-              private errorHandler: ErrorHandlerService) {
+  constructor() {
     super();
   }
 
   ngOnInit() {
-    this.hasNextLevel = this.activeLevelService.hasNextLevel();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if ('level' in changes) {
-      this.hasNextLevel = this.activeLevelService.hasNextLevel();
-    }
-  }
-
-  /**
-   * Calls service to move to the next level of the training run
-   */
-  nextLevel() {
-    this.activeLevelService.nextLevel()
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(
-        resp => {},
-        err => this.errorHandler.emit(err, 'Moving to next level')
-      );
-  }
-
-  /**
-   * Calls service to finish training run
-   */
-  finish() {
-    this.activeLevelService.finish()
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(
-        resp => {},
-        err => this.errorHandler.emit(err, 'Finishing training')
-      );
+  onNext() {
+    this.next.emit();
   }
 }

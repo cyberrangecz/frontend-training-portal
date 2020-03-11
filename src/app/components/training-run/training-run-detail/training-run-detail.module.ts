@@ -1,7 +1,7 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {Kypo2StepperModule} from 'kypo2-stepper';
-import {TrainingRunLevelsGuard} from '../../../services/guards/training-run-levels-guard.service';
+import {TrainingRunLevelsDeactivateGuard} from '../../../services/guards/training-run-levels-guard.service';
 import {LevelModule} from './level/level.module';
 import {TrainingRunDetailComponentModule} from './training-run-detail-component.module';
 import {TrainingRunDetailRoutingModule} from './training-run-detail-routing.module';
@@ -24,7 +24,7 @@ import {TrainingRunApi} from '../../../services/api/training-run-api.service';
   providers: [
     TrainingRunApi,
     TrainingDefinitionApi,
-    TrainingRunLevelsGuard
+    TrainingRunLevelsDeactivateGuard
   ]
 })
 export class TrainingRunDetailModule { }

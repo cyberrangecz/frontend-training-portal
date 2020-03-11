@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Question} from '../../../../../../../model/questions/question';
 import {ExtendedMatchingItems} from '../../../../../../../model/questions/extended-matching-items';
 import {BaseComponent} from '../../../../../../base.component';
@@ -6,7 +6,8 @@ import {BaseComponent} from '../../../../../../base.component';
 @Component({
   selector: 'kypo2-trainee-extended-matching-items',
   templateUrl: './extended-matching-items-trainee.component.html',
-  styleUrls: ['./extended-matching-items-trainee.component.css']
+  styleUrls: ['./extended-matching-items-trainee.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 /**
  * Component displaying EMI type of question in the assessment level of a trainees training run.

@@ -6,4 +6,8 @@ export class FlagCheck {
   isCorrect: boolean;
   remainingAttempts: number;
   solution: string;
+
+  hasRemainingAttempts(): boolean {
+    return this.remainingAttempts > 0;
+  }
 }

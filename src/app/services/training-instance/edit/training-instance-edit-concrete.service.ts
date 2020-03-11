@@ -17,26 +17,26 @@ import {Router} from '@angular/router';
 @Injectable()
 export class TrainingInstanceEditConcreteService extends TrainingInstanceEditService {
 
-  private trainingInstanceSubject: ReplaySubject<TrainingInstance> = new ReplaySubject();
+  private trainingInstanceSubject$: ReplaySubject<TrainingInstance> = new ReplaySubject();
   /**
    * Currently edited training instance
    */
-  trainingInstance$: Observable<TrainingInstance> = this.trainingInstanceSubject.asObservable()
+  trainingInstance$: Observable<TrainingInstance> = this.trainingInstanceSubject$.asObservable()
     .pipe(filter(ti => ti !== undefined && ti !== null));
 
-  private editModeSubject: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  private editModeSubject$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   /**
    * Current mode (edit - true or create - false)
    */
-  editMode$: Observable<boolean> = this.editModeSubject.asObservable();
+  editMode$: Observable<boolean> = this.editModeSubject$.asObservable();
 
-  private saveDisabledSubject: BehaviorSubject<boolean> = new BehaviorSubject(true);
+  private saveDisabledSubject$: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
   /**
    * True if it is possible to save edited training instance in its current state, false otherwise
    */
-  saveDisabled$: Observable<boolean> = this.saveDisabledSubject.asObservable();
+  saveDisabled$: Observable<boolean> = this.saveDisabledSubject$.asObservable();
 
   private editedSnapshot: TrainingInstance;
 
@@ -52,7 +52,7 @@ export class TrainingInstanceEditConcreteService extends TrainingInstanceEditSer
    * @param changeEvent training instance object and its validity
    */
   change(changeEvent: TrainingInstanceChangeEvent) {
-    this.saveDisabledSubject.next(!changeEvent.isValid);
+    this.saveDisabledSubject$.next(!changeEvent.isValid);
     this.editedSnapshot = changeEvent.trainingInstance;
   }
 
@@ -61,7 +61,7 @@ export class TrainingInstanceEditConcreteService extends TrainingInstanceEditSer
    * Saves/creates training instance based on current edit mode or handles error.
    */
   save(): Observable<any> {
-    if (this.editModeSubject.getValue()) {
+    if (this.editModeSubject$.getValue()) {
       return this.update();
     } else {
       return this.create()
@@ -91,11 +91,11 @@ export class TrainingInstanceEditConcreteService extends TrainingInstanceEditSer
       ti.startTime = new Date();
       ti.startTime.setMinutes(ti.startTime.getMinutes() + delay);
     }
-    this.trainingInstanceSubject.next(ti);
+    this.trainingInstanceSubject$.next(ti);
   }
 
   private setEditMode(trainingInstance: TrainingInstance) {
-    this.editModeSubject.next(trainingInstance !== null);
+    this.editModeSubject$.next(trainingInstance !== null);
   }
 
   private update(): Observable<number> {
@@ -117,18 +117,18 @@ export class TrainingInstanceEditConcreteService extends TrainingInstanceEditSer
       .pipe(
         map(ti => ti.id),
         tap(_ => {
-          this.alertService.emitAlert(AlertTypeEnum.Success, 'Training instance was successfully saved');
+          this.alertService.emitAlert(AlertTypeEnum.Success, 'Training instance was created');
           this.onSaved();
         },
-          err => this.errorHandler.emit(err, 'Editing training instance')
+          err => this.errorHandler.emit(err, 'Creating training instance')
         )
       );
   }
 
   private onSaved() {
-    this.editModeSubject.next(true);
-    this.saveDisabledSubject.next(true);
-    this.trainingInstanceSubject.next(this.editedSnapshot);
+    this.editModeSubject$.next(true);
+    this.saveDisabledSubject$.next(true);
+    this.trainingInstanceSubject$.next(this.editedSnapshot);
     this.editedSnapshot = null;
   }
 }

@@ -1,45 +1,35 @@
-import {Kypo2Stepper, StepItem} from 'kypo2-stepper';
-import {AbstractLevelTypeEnum} from '../../../model/enums/abstract-level-type.enum';
-import {Level} from '../../../model/level/level';
+import {Kypo2Stepper} from 'kypo2-stepper';
 import {LevelStepperAdapter} from '../../../model/stepper/level-stepper-adapter';
 
 /**
  * Training run levels adapter to kypo stepper component
  */
-export class TrainingRunStepper {
+export class TrainingRunStepper implements Kypo2Stepper<LevelStepperAdapter> {
 
-  activeLevel: number;
-  isLoading: boolean;
+  activeLevelIndex: number;
+  items: LevelStepperAdapter[];
 
-  abstractLevels: LevelStepperAdapter[];
-  items: StepItem[] = [];
-  levels: Kypo2Stepper<StepItem> = {items: this.items as LevelStepperAdapter[]};
+  constructor(levels: LevelStepperAdapter[], activeLevelIndex: number) {
+    this.items = levels;
+    this.activeLevelIndex = activeLevelIndex;
+    this.markCompletedLevels();
+  }
 
-  constructor(levels: LevelStepperAdapter[], isLoading: boolean, activeLevel: number) {
-    this.abstractLevels = levels;
-    this.isLoading = isLoading;
-    if (activeLevel || activeLevel === 0) {
-      this.activeLevel = activeLevel;
-      this.markCompletedLevels();
+  onActiveLevelUpdated(activeLevelIndex: number) {
+    this.activeLevelIndex = activeLevelIndex;
+    this.markCompletedLevels();
+    const current =  this.items[activeLevelIndex];
+    if (current) {
+      current.isActive = true;
     }
-    this.initStepperData();
   }
-
-  /**
-   * Initialize icons for stepper items based on level type and inserts data to stepper
-   */
-  initStepperData() {
-    this.items = this.abstractLevels;
-    this.levels.items = this.items;
-  }
-
   /**
    * Marks already completed levels as done
    */
   private markCompletedLevels() {
-    for (let i = 0; i < this.activeLevel; i++) {
-      this.abstractLevels[i].state.hasState = true;
-      this.abstractLevels[i].state.icon = 'done';
+    for (let i = 0; i < this.activeLevelIndex; i++) {
+      this.items[i].primaryIcon = 'done';
+      this.items[i].isActive = true;
     }
   }
 }

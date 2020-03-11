@@ -1,8 +1,14 @@
 import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {TrainingRunOverviewComponent} from './training-run-overview.component';
-import {TRAINING_RUN_GAME_PATH, TRAINING_RUN_RESULTS_PATH} from './paths';
-import {TrainingRunResolver} from '../../../services/resolvers/training-run-resolver.service';
+import {
+  TRAINING_RUN_ACCESS_PATH,
+  TRAINING_RUN_ACCESS_SELECTOR,
+  TRAINING_RUN_RESULTS_PATH, TRAINING_RUN_RESULTS_SELECTOR,
+  TRAINING_RUN_RESUME_PATH, TRAINING_RUN_RESUME_SELECTOR
+} from './paths';
+import {AccessTrainingRunResolver} from '../../../services/resolvers/training-run-resolver.service';
+import {TrainingRunResultsResolver} from '../../../services/resolvers/training-run-results-resolver.service';
 
 const routes: Routes = [
   {
@@ -10,16 +16,23 @@ const routes: Routes = [
     component: TrainingRunOverviewComponent,
   },
   {
-    path: ':id/' + TRAINING_RUN_GAME_PATH,
+    path: `${TRAINING_RUN_ACCESS_PATH}/:${TRAINING_RUN_ACCESS_SELECTOR}`,
     loadChildren: () => import('app/components/training-run/training-run-detail/training-run-detail.module').then(m => m.TrainingRunDetailModule),
-    data: {breadcrumb: 'Game'}
+    data: {breadcrumb: 'Game'},
+    resolve: { trainingRunAccessInfo: AccessTrainingRunResolver }
+  },
+  {
+    path: `${TRAINING_RUN_RESUME_PATH}/:${TRAINING_RUN_RESUME_SELECTOR}`,
+    loadChildren: () => import('app/components/training-run/training-run-detail/training-run-detail.module').then(m => m.TrainingRunDetailModule),
+    data: {breadcrumb: 'Game'},
+    resolve: { trainingRunAccessInfo: AccessTrainingRunResolver }
 
   },
   {
-    path: ':id/' + TRAINING_RUN_RESULTS_PATH,
+    path: `${TRAINING_RUN_RESULTS_PATH}/:${TRAINING_RUN_RESULTS_SELECTOR}`,
     loadChildren: () => import('app/components/training-run/training-run-results/training-run-results.module').then(m => m.TrainingRunResultsModule),
     data: {breadcrumb: 'Results'},
-    resolve: { trainingRun: TrainingRunResolver }
+    resolve: { trainingRun: TrainingRunResultsResolver }
   }
 ];
 
