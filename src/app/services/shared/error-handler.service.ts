@@ -1,6 +1,5 @@
 import {HttpErrorResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {AlertTypeEnum} from '../../model/enums/alert-type.enum';
 import {HttpErrorCodesEnum} from '../../model/enums/http-error-codes.enum';
 import {CsirtMuNotification, CsirtMuNotificationService, CsirtMuNotificationTypeEnum} from 'csirt-mu-layout';
 

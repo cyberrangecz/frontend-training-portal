@@ -1,13 +1,11 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, merge, Observable} from 'rxjs';
+import {merge, Observable} from 'rxjs';
 import {PaginatedResource} from '../../../../model/table/other/paginated-resource';
 import {PoolRequest} from '../../../../model/sandbox/pool/request/pool-request';
 import {switchMap, tap} from 'rxjs/operators';
 import {SandboxInstanceApi} from '../../../api/sandbox-instance-api.service';
 import {ErrorHandlerService} from '../../../shared/error-handler.service';
 import {RequestedPagination} from '../../../../model/DTOs/other/requested-pagination';
-import {Pagination} from 'kypo2-table';
-import {environment} from '../../../../../environments/environment';
 import {PoolRequestPollingService} from '../pool-request-polling.service';
 import {HttpErrorResponse} from '@angular/common/http';
 

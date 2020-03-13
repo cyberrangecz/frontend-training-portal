@@ -4,7 +4,7 @@ import {RequestedPagination} from 'kypo2-table';
 import {TrainingRunApi} from '../../api/training-run-api.service';
 import {from, Observable} from 'rxjs';
 import {AccessedTrainingRun} from '../../../model/table/rows/accessed-training-run';
-import {switchMap, tap} from 'rxjs/operators';
+import {tap} from 'rxjs/operators';
 import {PaginatedResource} from '../../../model/table/other/paginated-resource';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {Router} from '@angular/router';

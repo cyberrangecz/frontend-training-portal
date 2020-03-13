@@ -1,15 +1,13 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, from, Observable} from 'rxjs';
+import {from, Observable} from 'rxjs';
 import {SandboxInstance} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance';
 import {switchMap, tap} from 'rxjs/operators';
 import {PaginatedResource} from '../../../model/table/other/paginated-resource';
 import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {SandboxInstanceService} from './sandbox-instance.service';
-import {environment} from '../../../../environments/environment';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
-import {Pagination} from 'kypo2-table';
 import {AlertService} from '../../shared/alert.service';
 import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
 import {RouteFactory} from '../../../model/routes/route-factory';

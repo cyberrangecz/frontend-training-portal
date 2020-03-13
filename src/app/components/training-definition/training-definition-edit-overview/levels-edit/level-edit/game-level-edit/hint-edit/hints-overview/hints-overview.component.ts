@@ -19,7 +19,7 @@ import {
   CsirtMuConfirmationDialogComponent,
   CsirtMuConfirmationDialogConfig,
   CsirtMuDialogResultEnum
-} from 'csirt-mu-layout';
+} from 'csirt-mu-common';
 import {BehaviorSubject, defer, of} from 'rxjs';
 import {KypoControlItem} from 'kypo-controls';
 

@@ -1,5 +1,5 @@
 import {SandboxDefinitionOverviewService} from './sandbox-definition-overview.service';
-import {BehaviorSubject, EMPTY, Observable, of} from 'rxjs';
+import {EMPTY, Observable, of} from 'rxjs';
 import {PaginatedResource} from '../../model/table/other/paginated-resource';
 import {RequestedPagination} from 'kypo2-table';
 import {switchMap, tap} from 'rxjs/operators';
@@ -15,7 +15,7 @@ import {
   CsirtMuConfirmationDialogComponent,
   CsirtMuConfirmationDialogConfig,
   CsirtMuDialogResultEnum
-} from 'csirt-mu-layout';
+} from 'csirt-mu-common';
 import {MatDialog} from '@angular/material/dialog';
 
 /**

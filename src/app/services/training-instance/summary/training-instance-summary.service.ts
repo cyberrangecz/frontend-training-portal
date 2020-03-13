@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {TrainingInstance} from '../../../model/training/training-instance';
-import {from, Observable, of, timer} from 'rxjs';
+import {from, Observable, timer} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import {RouteFactory} from '../../../model/routes/route-factory';
