@@ -15,7 +15,7 @@ import {
   CsirtMuConfirmationDialogComponent,
   CsirtMuConfirmationDialogConfig,
   CsirtMuDialogResultEnum
-} from 'csirt-mu-layout';
+} from 'csirt-mu-common';
 
 /**
  * Service handling editing of training definition's levels and related operations.

@@ -1,8 +1,7 @@
 import {TrainingInstanceOverviewService} from './training-instance-overview.service';
-import {BehaviorSubject, Observable, of} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {PaginatedResource} from '../../model/table/other/paginated-resource';
 import {TrainingInstance} from '../../model/training/training-instance';
-import {environment} from '../../../environments/environment';
 import {AlertService} from '../shared/alert.service';
 import {ErrorHandlerService} from '../shared/error-handler.service';
 import {TrainingInstanceFilter} from '../../model/utils/training-instance-filter';
@@ -12,7 +11,6 @@ import {Injectable} from '@angular/core';
 import {TrainingInstanceApi} from '../api/training-instance-api.service';
 import {SandboxInstanceApi} from '../api/sandbox-instance-api.service';
 import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
-import {Pagination} from '../../model/table/other/pagination';
 import {RouteFactory} from '../../model/routes/route-factory';
 import {Router} from '@angular/router';
 

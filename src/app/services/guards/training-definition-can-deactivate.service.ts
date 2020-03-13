@@ -6,7 +6,7 @@ import {
   CsirtMuConfirmationDialogComponent,
   CsirtMuConfirmationDialogConfig,
   CsirtMuDialogResultEnum
-} from 'csirt-mu-layout';
+} from 'csirt-mu-common';
 import {MatDialog} from '@angular/material/dialog';
 import {map} from 'rxjs/operators';
 

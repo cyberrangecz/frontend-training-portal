@@ -20,8 +20,8 @@ import {
   CsirtMuConfirmationDialogComponent,
   CsirtMuConfirmationDialogConfig,
   CsirtMuDialogResultEnum
-} from 'csirt-mu-layout';
-import {defer, NEVER, of} from 'rxjs';
+} from 'csirt-mu-common';
+import {defer, of} from 'rxjs';
 import {KypoControlItem, KypoControlMenuItem, KypoExpandableControlItem} from 'kypo-controls';
 
 /**

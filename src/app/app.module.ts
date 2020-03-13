@@ -20,6 +20,7 @@ import {LoadingInterceptor} from './services/http-interceptors/loading-intercept
 import {LoadingService} from './services/shared/loading.service';
 import {UserApi} from './services/api/user-api.service';
 import {CsirtMuLayout1Module} from 'csirt-mu-layout';
+import {CsirtMuConfirmationDialogModule} from 'csirt-mu-common';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import {CsirtMuLayout1Module} from 'csirt-mu-layout';
     AppRoutingModule,
     SharedModule,
     CsirtMuLayout1Module,
+    CsirtMuConfirmationDialogModule,
     HomeModule,
     Kypo2AuthModule.forRoot(environment.kypo2AuthConfig),
     MatIconModule,

@@ -5,7 +5,7 @@ import {GameLevel} from '../../../model/level/game-level';
 import {Hint} from '../../../model/level/hint';
 import {TrainingRunGameLevelService} from '../../training-run/running/training-run-game-level.service';
 import {switchMap, tap} from 'rxjs/operators';
-import {CsirtMuDialogResultEnum} from 'csirt-mu-layout';
+import {CsirtMuDialogResultEnum} from 'csirt-mu-common';
 import {HintButton} from '../../../model/level/hint-button';
 import {MatDialog} from '@angular/material/dialog';
 import {RunningTrainingRunService} from '../../training-run/running/running-training-run.service';

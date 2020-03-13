@@ -7,7 +7,7 @@ import {
   CsirtMuConfirmationDialogComponent,
   CsirtMuConfirmationDialogConfig,
   CsirtMuDialogResultEnum
-} from 'csirt-mu-layout';
+} from 'csirt-mu-common';
 import {MatDialog} from '@angular/material/dialog';
 import {RunningTrainingRunService} from './running-training-run.service';
 

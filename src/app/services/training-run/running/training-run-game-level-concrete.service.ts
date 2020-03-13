@@ -2,10 +2,9 @@ import {Injectable} from '@angular/core';
 import {EMPTY, Observable} from 'rxjs';
 import {Hint} from '../../../model/level/hint';
 import {TrainingRunApi} from '../../api/training-run-api.service';
-import {RunningTrainingRunConcreteService} from './running-training-run-concrete.service';
 import {
   CsirtMuDialogResultEnum
-} from 'csirt-mu-layout';
+} from 'csirt-mu-common';
 import { switchMap, tap} from 'rxjs/operators';
 import {MatDialog} from '@angular/material/dialog';
 import {ErrorHandlerService} from '../../shared/error-handler.service';

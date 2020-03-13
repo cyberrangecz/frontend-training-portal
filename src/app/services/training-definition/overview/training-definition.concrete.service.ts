@@ -1,6 +1,6 @@
 import {Filter} from '../../../model/utils/filter';
 import {TrainingDefinitionStateEnum} from '../../../model/enums/training-definition-state.enum';
-import {EMPTY, from, Observable, of} from 'rxjs';
+import {EMPTY, from, Observable} from 'rxjs';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {TrainingDefinitionApi} from '../../api/training-definition-api.service';
 import {TrainingDefinitionService} from './training-definition.service';
@@ -15,7 +15,7 @@ import {
   CsirtMuConfirmationDialogComponent,
   CsirtMuConfirmationDialogConfig,
   CsirtMuDialogResultEnum
-} from 'csirt-mu-layout';
+} from 'csirt-mu-common';
 import {MatDialog} from '@angular/material/dialog';
 import {CloneDialogComponent} from '../../../components/training-definition/training-definition-overview/clone-dialog/clone-dialog.component';
 import {TrainingDefinitionUploadDialogComponent} from '../../../components/training-definition/training-definition-overview/training-definition-upload-dialog/training-definition-upload-dialog.component';
