@@ -1,6 +1,6 @@
-import {Component, EventEmitter, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {BaseComponent} from '../../../base.component';
+import {Component, EventEmitter, OnInit} from '@angular/core';
+import {MatDialogRef} from '@angular/material/dialog';
+import {KypoBaseComponent} from 'kypo-common';
 import {Observable} from 'rxjs';
 import {FileUploadProgressService} from '../../../../services/shared/file-upload-progress.service';
 
@@ -12,7 +12,7 @@ import {FileUploadProgressService} from '../../../../services/shared/file-upload
   templateUrl: './training-definition-upload-dialog.component.html',
   styleUrls: ['./training-definition-upload-dialog.component.css']
 })
-export class TrainingDefinitionUploadDialogComponent extends BaseComponent implements OnInit {
+export class TrainingDefinitionUploadDialogComponent extends KypoBaseComponent implements OnInit {
 
   selectedFile: File;
   uploadInProgress$: Observable<boolean>;

@@ -1,7 +1,7 @@
 import {TrainingDefinitionStateEnum} from '../../enums/training-definition-state.enum';
 import {Column, Kypo2Table, Row, RowAction, RowExpand} from 'kypo2-table';
 import {defer, of} from 'rxjs';
-import {PaginatedResource} from '../other/paginated-resource';
+import {KypoPaginatedResource} from 'kypo-common';
 import {TrainingDefinitionDetailComponent} from '../../../components/training-definition/training-definition-overview/training-definition-detail/training-definition-detail.component';
 import {TrainingDefinition} from '../../training/training-definition';
 import {TrainingDefinitionService} from '../../../services/training-definition/overview/training-definition.service';
@@ -14,7 +14,7 @@ import {DownloadAction} from '../actions/download-action';
  */
 export class TrainingDefinitionTable extends Kypo2Table<TrainingDefinition>{
 
-  constructor(resource: PaginatedResource<TrainingDefinition>, service: TrainingDefinitionService) {
+  constructor(resource: KypoPaginatedResource<TrainingDefinition>, service: TrainingDefinitionService) {
     const columns = [
       new Column('id', 'id', true),
       new Column('title', 'title', true),

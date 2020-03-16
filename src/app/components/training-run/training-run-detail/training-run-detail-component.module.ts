@@ -2,7 +2,7 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {Kypo2StepperModule} from 'kypo2-stepper';
-import {PipesModule} from '../../../pipes/pipes.module';
+import {KypoPipesModule} from 'kypo-common';
 import {LevelComponentModule} from './level/level-component.module';
 import {TrainingRunDetailMaterialModule} from './training-run-detail-material.module';
 import {TrainingRunDetailComponent} from './training-run-detail.component';
@@ -18,7 +18,7 @@ import {CsirtUserCardModule} from 'csirt-mu-layout';
     TrainingRunDetailMaterialModule,
     RouterModule,
     LevelComponentModule,
-    PipesModule,
+    KypoPipesModule,
     Kypo2StepperModule,
     CsirtUserCardModule
   ],

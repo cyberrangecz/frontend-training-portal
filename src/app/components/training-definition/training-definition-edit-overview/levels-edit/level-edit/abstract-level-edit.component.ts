@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AbstractLevelTypeEnum} from '../../../../../model/enums/abstract-level-type.enum';
 import {Level} from '../../../../../model/level/level';
-import {BaseComponent} from '../../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 
 /**
  * Main component of level edit. Resolves which component should be display based on level type
@@ -12,7 +12,7 @@ import {BaseComponent} from '../../../../base.component';
   styleUrls: ['./abstract-level-edit.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AbstractLevelEditComponent extends BaseComponent implements OnInit {
+export class AbstractLevelEditComponent extends KypoBaseComponent implements OnInit {
 
   @Input() level: Level;
   @Output() levelChange: EventEmitter<Level> = new EventEmitter();

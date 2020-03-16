@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {SandboxInstance} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance';
 import {ActivatedRoute} from '@angular/router';
-import {BaseComponent} from '../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {map, takeWhile} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {Kypo2Table, LoadTableEvent} from 'kypo2-table';
@@ -18,7 +18,7 @@ import {SandboxInstanceResourceTable} from '../../../model/table/sandbox-instanc
   styleUrls: ['./sandbox-instance-detail.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SandboxInstanceDetailComponent extends BaseComponent implements OnInit {
+export class SandboxInstanceDetailComponent extends KypoBaseComponent implements OnInit {
 
   sandboxInstance: SandboxInstance;
   resources$: Observable<Kypo2Table<SandboxInstanceResource>>;

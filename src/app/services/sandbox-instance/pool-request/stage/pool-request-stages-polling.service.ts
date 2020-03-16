@@ -1,14 +1,14 @@
 import {merge, Observable, Subject, timer} from 'rxjs';
 import {environment} from '../../../../../environments/environment';
-import {map, retryWhen, switchMap, tap} from 'rxjs/operators';
+import {retryWhen, switchMap, tap} from 'rxjs/operators';
 import {RequestStage} from '../../../../model/sandbox/pool/request/stage/request-stage';
 import {PoolRequestStagesService} from './pool-request-stages.service';
 import {SandboxInstanceApi} from '../../../api/sandbox-instance-api.service';
 import {ErrorHandlerService} from '../../../shared/error-handler.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {RequestedPagination} from '../../../../model/DTOs/other/requested-pagination';
-import {PaginatedResource} from '../../../../model/table/other/paginated-resource';
+import {KypoRequestedPagination} from 'kypo-common';
+import {KypoPaginatedResource} from 'kypo-common';
 
 /**
  * Basic implementation of a layer between a component and an API service.
@@ -23,7 +23,7 @@ export class PoolRequestStagesPollingService extends PoolRequestStagesService {
 
   constructor(private sandboxInstanceFacade: SandboxInstanceApi,
               private errorHandler: ErrorHandlerService) {
-    super();
+    super(environment.defaultPaginationSize);
   }
 
   /**
@@ -45,9 +45,9 @@ export class PoolRequestStagesPollingService extends PoolRequestStagesService {
    * @param poolId id of a pool associated with stages
    * @param requestId id of a request associated with stages
    */
-  getAll(poolId: number, requestId: number): Observable<PaginatedResource<RequestStage>> {
+  getAll(poolId: number, requestId: number): Observable<KypoPaginatedResource<RequestStage>> {
     this.onManualGetAll(poolId, requestId);
-    const fakePagination = new RequestedPagination(0, 100, '', '');
+    const fakePagination = new KypoRequestedPagination(0, 100, '', '');
     // TODO: Add once supported by a backend API
 /*    const stagesRequest$ = this.type === 'CREATION'
       ? this.sandboxInstanceFacade.getCreationStages(poolId, requestId, mockPagination)
@@ -76,9 +76,9 @@ export class PoolRequestStagesPollingService extends PoolRequestStagesService {
       );
   }
 
-  private repeatLastGetAllRequest(): Observable<PaginatedResource<RequestStage>> {
+  private repeatLastGetAllRequest(): Observable<KypoPaginatedResource<RequestStage>> {
     this.hasErrorSubject$.next(false);
-    const mockPagination = new RequestedPagination(0, 100, '', '');
+    const mockPagination = new KypoRequestedPagination(0, 100, '', '');
     /*    const stagesRequest$ = this.type === 'CREATION'
           ? this.sandboxInstanceFacade.getCreationStages(poolId, requestId, mockPagination)
           : this.sandboxInstanceFacade.getCleanupStages(poolId, requestId, mockPagination);*/
@@ -89,7 +89,7 @@ export class PoolRequestStagesPollingService extends PoolRequestStagesService {
       );
   }
 
-  private createPoll(): Observable<PaginatedResource<RequestStage>> {
+  private createPoll(): Observable<KypoPaginatedResource<RequestStage>> {
     return timer(0, environment.apiPollingPeriod)
       .pipe(
         switchMap(_ => this.repeatLastGetAllRequest()),

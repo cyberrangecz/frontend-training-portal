@@ -1,7 +1,7 @@
 import {SandboxInstance} from '../../sandbox/pool/sandbox-instance/sandbox-instance';
 import {Column, Kypo2Table, Row, RowAction} from 'kypo2-table';
 import {defer, of} from 'rxjs';
-import {PaginatedResource} from '../other/paginated-resource';
+import {KypoPaginatedResource} from 'kypo-common';
 import {SandboxInstanceService} from '../../../services/sandbox-instance/sandbox/sandbox-instance.service';
 import {DeleteAction} from '../actions/delete-action';
 
@@ -11,7 +11,7 @@ import {DeleteAction} from '../actions/delete-action';
 export class SandboxInstanceTable extends Kypo2Table<SandboxInstance> {
 
 
-  constructor(resource: PaginatedResource<SandboxInstance>, poolId: number, service: SandboxInstanceService) {
+  constructor(resource: KypoPaginatedResource<SandboxInstance>, poolId: number, service: SandboxInstanceService) {
     const columns = [
       new Column('id', 'id', false),
       new Column('lockState', 'lock', false),

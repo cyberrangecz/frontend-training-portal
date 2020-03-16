@@ -1,7 +1,7 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {PipesModule} from '../../../../pipes/pipes.module';
+import {KypoPipesModule} from 'kypo-common';
 import {ActiveTrainingRunOverviewComponent} from './active-training-run-overview/active-training-run-overview.component';
 import {ArchivedTrainingRunOverviewComponent} from './archived-training-run-overview/archived-training-run-overview.component';
 import {TrainingInstanceInfoComponent} from './training-instance-info/training-instance-info.component';
@@ -25,7 +25,7 @@ import {KypoControlsModule} from 'kypo-controls';
     imports: [
         CommonModule,
         FormsModule,
-        PipesModule,
+        KypoPipesModule,
         TrainingInstanceSummaryMaterialModule,
         TrainingInstanceSummaryRoutingModule,
         Kypo2TableModule,

@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {BaseComponent} from '../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {SandboxDefinitionFormGroup} from './create-sandbox-definition-form-group';
 import {SandboxDefinitionCreateInfo} from '../../../model/sandbox/definition/sandbox-definition-create-info';
 import {takeWhile} from 'rxjs/operators';
@@ -16,7 +16,7 @@ import {KypoControlItem} from 'kypo-controls';
   styleUrls: ['./create-sandbox-definition.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CreateSandboxDefinitionComponent extends BaseComponent implements OnInit {
+export class CreateSandboxDefinitionComponent extends KypoBaseComponent implements OnInit {
 
   sandboxDefinitionFormGroup: SandboxDefinitionFormGroup;
   controls: KypoControlItem[];

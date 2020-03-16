@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AbstractLevelTypeEnum} from '../../../../model/enums/abstract-level-type.enum';
 import {Level} from '../../../../model/level/level';
-import {BaseComponent} from '../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 
 /**
  * Component to display one level in a training run. Serves mainly as a wrapper which determines the type of the training
@@ -13,7 +13,7 @@ import {BaseComponent} from '../../../base.component';
   styleUrls: ['./abstract-level.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AbstractLevelComponent extends BaseComponent implements OnInit {
+export class AbstractLevelComponent extends KypoBaseComponent implements OnInit {
 
   @Input() level: Level;
   @Input() isLast: boolean;

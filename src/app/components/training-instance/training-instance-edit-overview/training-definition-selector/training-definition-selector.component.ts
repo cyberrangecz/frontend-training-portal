@@ -2,12 +2,12 @@ import {ChangeDetectionStrategy, Component, Inject, OnInit, Optional} from '@ang
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {TrainingDefinition} from '../../../../model/training/training-definition';
 import {TrainingDefinitionInfo} from '../../../../model/training/training-definition-info';
-import {BaseComponent} from '../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {SandboxDefinitionPickerComponent} from '../../../training-definition/training-definition-edit-overview/training-definition-edit/sandbox-definition-picker/sandbox-definition-picker.component';
 import {TrainingDefinitionOrganizerSelectorService} from '../../../../services/training-instance/training-definition-selector/training-definition-organizer-selector.service';
 import {RequestedPagination} from 'kypo2-table';
 import {merge, Observable} from 'rxjs';
-import {PaginatedResource} from '../../../../model/table/other/paginated-resource';
+import {KypoPaginatedResource} from 'kypo-common';
 import {takeWhile} from 'rxjs/operators';
 
 /**
@@ -23,11 +23,11 @@ import {takeWhile} from 'rxjs/operators';
     { provide: 'unreleasedService', useClass: TrainingDefinitionOrganizerSelectorService }
   ]
 })
-export class TrainingDefinitionSelectorComponent extends BaseComponent implements OnInit {
+export class TrainingDefinitionSelectorComponent extends KypoBaseComponent implements OnInit {
 
-  released$: Observable<PaginatedResource<TrainingDefinitionInfo>>;
+  released$: Observable<KypoPaginatedResource<TrainingDefinitionInfo>>;
   releasedHasError$: Observable<boolean>;
-  unreleased$: Observable<PaginatedResource<TrainingDefinitionInfo>>;
+  unreleased$: Observable<KypoPaginatedResource<TrainingDefinitionInfo>>;
   unreleasedHasError$: Observable<boolean>;
   isLoading$: Observable<boolean>;
   selected: TrainingDefinitionInfo;

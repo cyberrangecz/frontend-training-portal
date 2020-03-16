@@ -2,10 +2,10 @@ import {async, TestBed} from '@angular/core/testing';
 import {AuthorsAssignService} from './authors-assign.service';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {UserApi} from '../../api/user-api.service';
-import {asyncData} from '../../../testing/helpers/async-data';
-import {RequestedPagination} from 'kypo2-table';
-import {PaginatedResource} from '../../../model/table/other/paginated-resource';
-import {Pagination} from '../../../model/table/other/pagination';
+import {asyncData} from 'kypo-common';
+import {KypoRequestedPagination} from 'kypo-common';
+import {KypoPaginatedResource} from 'kypo-common';
+import {KypoPagination} from 'kypo-common';
 import {User} from 'kypo2-auth';
 import {throwError} from 'rxjs';
 import {skip, take} from 'rxjs/operators';
@@ -169,7 +169,7 @@ describe('AuthorsAssignService', () => {
   });
 
   function createPagination() {
-    return new RequestedPagination(1, 5, '', '');
+    return new KypoRequestedPagination(1, 5, '', '');
   }
 
   function createMock() {
@@ -177,6 +177,6 @@ describe('AuthorsAssignService', () => {
     user1.id = 1;
     const user2 = new User([]);
     user2.id = 2;
-    return new PaginatedResource([user1, user2], new Pagination(1, 2, 5, 2, 1));
+    return new KypoPaginatedResource([user1, user2], new KypoPagination(1, 2, 5, 2, 1));
   }
 });

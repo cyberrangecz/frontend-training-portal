@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {TrainingDefinition} from '../../../../../model/training/training-definition';
 import {TrainingInstance} from '../../../../../model/training/training-instance';
-import {BaseComponent} from '../../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {RouteFactory} from '../../../../../model/routes/route-factory';
 
 /**
@@ -13,7 +13,7 @@ import {RouteFactory} from '../../../../../model/routes/route-factory';
   styleUrls: ['./training-instance-info.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TrainingInstanceInfoComponent extends BaseComponent implements OnInit, OnChanges {
+export class TrainingInstanceInfoComponent extends KypoBaseComponent implements OnInit, OnChanges {
 
   @Input() trainingInstance: TrainingInstance;
   trainingDefinition: TrainingDefinition;

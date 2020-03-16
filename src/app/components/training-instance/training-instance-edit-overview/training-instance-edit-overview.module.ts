@@ -2,7 +2,7 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {OwlDateTimeModule, OwlNativeDateTimeModule} from '@busacca/ng-pick-datetime';
-import {PipesModule} from '../../../pipes/pipes.module';
+import {KypoPipesModule} from 'kypo-common';
 import {TrainingInstanceCanDeactivate} from '../../../services/guards/training-instance-can-deactivate.service';
 import {OrganizersAssignService} from '../../../services/training-instance/organizers-assign/organizers-assign.service';
 import {TrainingInstanceEditConcreteService} from '../../../services/training-instance/edit/training-instance-edit-concrete.service';
@@ -30,7 +30,7 @@ import {KypoControlsModule} from 'kypo-controls';
         ReactiveFormsModule,
         Kypo2UserAssignModule,
         SharedModule,
-        PipesModule,
+        KypoPipesModule,
         TrainingInstanceEditOverviewMaterialModule,
         TrainingInstanceEditOverviewRoutingModule,
         OwlDateTimeModule,

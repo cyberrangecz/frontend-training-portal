@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {User} from 'kypo2-auth';
-import {Pagination, RequestedPagination} from 'kypo2-table';
+import {KypoPagination, KypoRequestedPagination} from 'kypo-common';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {switchMap, tap} from 'rxjs/operators';
-import {PaginatedResource} from '../../../model/table/other/paginated-resource';
+import {KypoPaginatedResource} from 'kypo-common';
 import {UserNameFilters} from '../../../model/utils/user-name-filters';
 import {UserApi} from '../../api/user-api.service';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
@@ -22,14 +22,14 @@ export class OrganizersAssignService extends Kypo2UserAssignService {
     super();
   }
 
-  private lastAssignedPagination: RequestedPagination;
+  private lastAssignedPagination: KypoRequestedPagination;
   private lastAssignedFilter: string;
-  private assignedUsersSubject: BehaviorSubject<PaginatedResource<User>> = new BehaviorSubject(this.initSubject());
+  private assignedUsersSubject: BehaviorSubject<KypoPaginatedResource<User>> = new BehaviorSubject(this.initSubject());
 
   /**
    * Currently assigned users (organizers)
    */
-  assignedUsers$: Observable<PaginatedResource<User>> = this.assignedUsersSubject.asObservable();
+  assignedUsers$: Observable<KypoPaginatedResource<User>> = this.assignedUsersSubject.asObservable();
 
   /***
    * Assigns organizer to a resource (creates association)
@@ -52,7 +52,7 @@ export class OrganizersAssignService extends Kypo2UserAssignService {
    * @param pagination requested pagination
    * @param filter username filter which should be applied on organizers
    */
-  getAssigned(resourceId: number, pagination: RequestedPagination, filter: string = null): Observable<PaginatedResource<User>> {
+  getAssigned(resourceId: number, pagination: KypoRequestedPagination, filter: string = null): Observable<KypoPaginatedResource<User>> {
     this.clearSelectedAssignedUsers();
     this.lastAssignedPagination = pagination;
     this.lastAssignedFilter = filter;
@@ -77,11 +77,11 @@ export class OrganizersAssignService extends Kypo2UserAssignService {
    * @param resourceId id of selected resource
    * @param filter username filter which should be applied on organizers
    */
-  getAvailableToAssign(resourceId: number, filter: string = null): Observable<PaginatedResource<User>> {
+  getAvailableToAssign(resourceId: number, filter: string = null): Observable<KypoPaginatedResource<User>> {
     const paginationSize = 25;
     return this.userFacade.getOrganizersNotInTI(
       resourceId,
-      new RequestedPagination(0, paginationSize, 'familyName', 'asc'),
+      new KypoRequestedPagination(0, paginationSize, 'familyName', 'asc'),
       UserNameFilters.create(filter))
       .pipe(
         tap({error: err => this.errorHandler.emit(err, 'Fetching organizers')})
@@ -118,8 +118,8 @@ export class OrganizersAssignService extends Kypo2UserAssignService {
       );
   }
 
-  private initSubject(): PaginatedResource<User> {
-    return new PaginatedResource([], new Pagination(0, 0, environment.defaultPaginationSize, 0, 0));
+  private initSubject(): KypoPaginatedResource<User> {
+    return new KypoPaginatedResource([], new KypoPagination(0, 0, environment.defaultPaginationSize, 0, 0));
   }
 
   private callApiToAssign(resourceId: number, userIds: number[]): Observable<any> {

@@ -2,13 +2,13 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {switchMap, tap} from 'rxjs/operators';
 import {SandboxPool} from '../../../model/sandbox/pool/sandbox-pool';
-import {PaginatedResource} from '../../../model/table/other/paginated-resource';
+import {KypoPaginatedResource} from 'kypo-common';
 import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {PoolService} from './pool.service';
 import {AlertService} from '../../shared/alert.service';
 import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
-import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
+import {KypoRequestedPagination} from 'kypo-common';
 
 
 /**
@@ -18,7 +18,7 @@ import {RequestedPagination} from '../../../model/DTOs/other/requested-paginatio
 @Injectable()
 export class PoolConcreteService extends PoolService {
 
-  private lastPagination: RequestedPagination;
+  private lastPagination: KypoRequestedPagination;
 
   constructor(private api: SandboxInstanceApi,
               private alertService: AlertService,
@@ -30,7 +30,7 @@ export class PoolConcreteService extends PoolService {
    * Gets all pools with passed pagination and updates related observables or handles an error
    * @param pagination requested pagination
    */
-  getAll(pagination: RequestedPagination): Observable<PaginatedResource<SandboxPool>> {
+  getAll(pagination: KypoRequestedPagination): Observable<KypoPaginatedResource<SandboxPool>> {
     this.lastPagination = pagination;
     this.hasErrorSubject$.next(false);
     return this.api.getPools(pagination)

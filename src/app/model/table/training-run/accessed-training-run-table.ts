@@ -1,5 +1,5 @@
 import {AccessedTrainingRun} from '../rows/accessed-training-run';
-import {PaginatedResource} from '../other/paginated-resource';
+import {KypoPaginatedResource} from 'kypo-common';
 import {Column, Kypo2Table, Row, RowAction} from 'kypo2-table';
 import {defer, of} from 'rxjs';
 import {TraineeAccessTrainingRunActionEnum} from '../../enums/trainee-access-training-run-actions.enum';
@@ -10,7 +10,7 @@ import {AccessedTrainingRunService} from '../../../services/training-run/accesse
  */
 export class AccessedTrainingRunTable extends Kypo2Table<AccessedTrainingRun> {
 
-  constructor(resource: PaginatedResource<AccessedTrainingRun>, service: AccessedTrainingRunService) {
+  constructor(resource: KypoPaginatedResource<AccessedTrainingRun>, service: AccessedTrainingRunService) {
     const columns = [
       new Column('trainingInstanceTitle', 'title', false),
       new Column('trainingInstanceFormattedDuration', 'Date', false),

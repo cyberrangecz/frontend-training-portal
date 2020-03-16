@@ -13,7 +13,7 @@ import {Question} from '../../../../../../../../model/questions/question';
 import {ExtendedMatchingItems} from '../../../../../../../../model/questions/extended-matching-items';
 import {FreeFormQuestion} from '../../../../../../../../model/questions/free-form-question';
 import {MultipleChoiceQuestion} from '../../../../../../../../model/questions/multiple-choice-question';
-import {BaseComponent} from '../../../../../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 
 /**
  * Wrapper component of a specific question type edit component. Resolves type of the question and creates sub component accordingly
@@ -24,7 +24,7 @@ import {BaseComponent} from '../../../../../../../base.component';
   styleUrls: ['./question-edit.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class QuestionEditComponent extends BaseComponent implements OnInit, OnChanges {
+export class QuestionEditComponent extends KypoBaseComponent implements OnInit, OnChanges {
 
   @Input() question: Question;
   @Input() isTest: boolean;

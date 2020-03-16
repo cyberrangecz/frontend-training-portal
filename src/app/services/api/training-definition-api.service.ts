@@ -7,23 +7,23 @@ import {AssessmentLevelDTO} from '../../model/DTOs/level/assessment/assessment-l
 import {BasicLevelInfoDTO} from '../../model/DTOs/level/basic-level-info-dto';
 import {GameLevelDTO} from '../../model/DTOs/level/game/game-level-dto';
 import {InfoLevelDTO} from '../../model/DTOs/level/info/info-level-dto';
-import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
+import {KypoRequestedPagination} from 'kypo-common';
 import {TrainingDefinitionDTO} from '../../model/DTOs/training-definition/training-definition-dto';
 import {TrainingDefinitionInfoRestResource} from '../../model/DTOs/training-definition/training-definition-info-rest-resource';
 import {TrainingDefinitionRestResource} from '../../model/DTOs/training-definition/training-definition-rest-resource';
 import {TrainingDefinitionStateEnum} from '../../model/enums/training-definition-state.enum';
 import {PaginationParams} from '../../model/http/params/pagination-params';
-import {ResponseHeaderContentDispositionReader} from '../../model/http/response-headers/response-header-content-disposition-reader';
+import {ResponseHeaderContentDispositionReader} from 'kypo-common';
 import {Level} from '../../model/level/level';
 import {AssessmentLevel} from '../../model/level/assessment-level';
 import {GameLevel} from '../../model/level/game-level';
 import {InfoLevel} from '../../model/level/info-level';
-import {PaginatedResource} from '../../model/table/other/paginated-resource';
+import {KypoPaginatedResource} from 'kypo-common';
 import {TrainingDefinition} from '../../model/training/training-definition';
 import {TrainingDefinitionInfo} from '../../model/training/training-definition-info';
-import {ParamsMerger} from '../../model/http/params/params-merger';
+import {KypoParamsMerger} from 'kypo-common';
 import {FilterParams} from '../../model/http/params/filter-params';
-import {Filter} from '../../model/utils/filter';
+import {KypoFilter} from 'kypo-common';
 import {fromEvent} from 'rxjs';
 import {JsonFromBlobConverter} from '../../model/http/response-headers/json-from-blob-converter';
 import {TrainingDefinitionMapper} from '../../model/mappers/training-definition/training-definition-mapper';
@@ -57,12 +57,12 @@ export class TrainingDefinitionApi {
    * @param pagination requested pagination
    * @param filters filters to be applied on result
    */
-  getAll(pagination: RequestedPagination, filters: Filter[] = []): Observable<PaginatedResource<TrainingDefinition>> {
-    const params = ParamsMerger.merge([PaginationParams.forJavaAPI(pagination), FilterParams.create(filters)]);
+  getAll(pagination: KypoRequestedPagination, filters: KypoFilter[] = []): Observable<KypoPaginatedResource<TrainingDefinition>> {
+    const params = KypoParamsMerger.merge([PaginationParams.forJavaAPI(pagination), FilterParams.create(filters)]);
     return this.http.get<TrainingDefinitionRestResource>(this.trainingDefsEndpointUri,
       { params: params })
       .pipe(
-        map(response => new PaginatedResource(
+        map(response => new KypoPaginatedResource(
           TrainingDefinitionMapper.fromDTOs(response.content, false),
           PaginationMapper.fromJavaAPI(response.pagination)
         ))
@@ -74,12 +74,12 @@ export class TrainingDefinitionApi {
    * @param pagination requested pagination
    * @param filters filters to be applied on result
    */
-  getAllForOrganizer(pagination: RequestedPagination, filters: Filter[] = []): Observable<PaginatedResource<TrainingDefinitionInfo>> {
-    const params = ParamsMerger.merge([PaginationParams.forJavaAPI(pagination), FilterParams.create(filters)]);
+  getAllForOrganizer(pagination: KypoRequestedPagination, filters: KypoFilter[] = []): Observable<KypoPaginatedResource<TrainingDefinitionInfo>> {
+    const params = KypoParamsMerger.merge([PaginationParams.forJavaAPI(pagination), FilterParams.create(filters)]);
     return this.http.get<TrainingDefinitionInfoRestResource>(this.trainingDefsEndpointUri + 'for-organizers',
       { params: params })
       .pipe(
-        map(response => new PaginatedResource(
+        map(response => new KypoPaginatedResource(
           TrainingDefinitionInfoMapper.fromDTOs(response.content),
           PaginationMapper.fromJavaAPI(response.pagination)
         ))

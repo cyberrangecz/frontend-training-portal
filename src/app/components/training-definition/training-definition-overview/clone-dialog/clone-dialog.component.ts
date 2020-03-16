@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {TrainingDefinition} from '../../../../model/training/training-definition';
-import {BaseComponent} from '../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {CloneDialogFormGroup} from './clone-dialog-form-group';
 import {takeWhile} from 'rxjs/operators';
 
@@ -14,7 +14,7 @@ import {takeWhile} from 'rxjs/operators';
   styleUrls: ['./clone-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CloneDialogComponent extends BaseComponent implements OnInit {
+export class CloneDialogComponent extends KypoBaseComponent implements OnInit {
 
   cloneDialogFormGroup: CloneDialogFormGroup;
   valid = true;

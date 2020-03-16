@@ -11,7 +11,7 @@ import {
 import {takeWhile} from 'rxjs/operators';
 import {GameLevel} from '../../../../../../model/level/game-level';
 import {Hint} from '../../../../../../model/level/hint';
-import {BaseComponent} from '../../../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {GameLevelEditFormGroup} from './game-level-edit-form-group';
 
 /**
@@ -23,7 +23,7 @@ import {GameLevelEditFormGroup} from './game-level-edit-form-group';
   styleUrls: ['./game-level-edit.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GameLevelEditComponent extends BaseComponent implements OnInit, OnChanges {
+export class GameLevelEditComponent extends KypoBaseComponent implements OnInit, OnChanges {
   @Input() level: GameLevel;
   @Output() levelChange: EventEmitter<GameLevel> = new EventEmitter();
   gameLevelConfigFormGroup: GameLevelEditFormGroup;

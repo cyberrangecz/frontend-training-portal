@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {PaginatedResourceService} from '../../shared/paginated-resource.service';
+import {KypoPaginatedResourceService} from 'kypo-common';
 import {Observable} from 'rxjs';
-import {PaginatedResource} from '../../../model/table/other/paginated-resource';
+import {KypoPaginatedResource} from 'kypo-common';
 import {TrainingInstance} from '../../../model/training/training-instance';
-import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
+import {KypoRequestedPagination} from 'kypo-common';
 import {TrainingRun} from '../../../model/training/training-run';
 
 /**
@@ -12,7 +12,7 @@ import {TrainingRun} from '../../../model/training/training-run';
  * You can use get methods to get paginated resources and other actions to modify data.
  */
 @Injectable()
-export abstract class ActiveTrainingRunService extends PaginatedResourceService<TrainingRun> {
+export abstract class ActiveTrainingRunService extends KypoPaginatedResourceService<TrainingRun> {
 
   /**
    * Starts polling in regular intervals
@@ -24,7 +24,7 @@ export abstract class ActiveTrainingRunService extends PaginatedResourceService<
    * @param trainingInstanceId id of associated training instance
    * @param pagination requested pagination
    */
-  abstract getAll(trainingInstanceId: number, pagination: RequestedPagination): Observable<PaginatedResource<TrainingRun>>;
+  abstract getAll(trainingInstanceId: number, pagination: KypoRequestedPagination): Observable<KypoPaginatedResource<TrainingRun>>;
 
   /**
    * Deletes sandbox associated with active training run

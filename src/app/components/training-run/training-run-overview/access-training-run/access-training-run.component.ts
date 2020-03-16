@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
-import {BaseComponent} from '../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {TraineeAccessTrainingFormGroup} from './trainee-access-training-form-group';
 import {MatButton} from '@angular/material/button';
 
@@ -12,7 +12,7 @@ import {MatButton} from '@angular/material/button';
   styleUrls: ['./access-training-run.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AccessTrainingRunComponent extends BaseComponent implements OnInit {
+export class AccessTrainingRunComponent extends KypoBaseComponent implements OnInit {
 
   @ViewChild('pin') accessTokenPinInput: ElementRef;
   @ViewChild('accessButton') accessButton: MatButton;

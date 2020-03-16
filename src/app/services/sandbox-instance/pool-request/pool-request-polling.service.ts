@@ -1,10 +1,10 @@
 import {PoolRequestService} from './pool-request.service';
 import {Observable, Subject, timer} from 'rxjs';
-import {PaginatedResource} from '../../../model/table/other/paginated-resource';
+import {KypoPaginatedResource} from 'kypo-common';
 import {PoolRequest} from '../../../model/sandbox/pool/request/pool-request';
 import {environment} from '../../../../environments/environment';
 import {delayWhen, retryWhen, switchMap} from 'rxjs/operators';
-import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
+import {KypoRequestedPagination} from 'kypo-common';
 
 /**
  * Service extending pool request service of polling behaviour
@@ -17,7 +17,7 @@ export abstract class PoolRequestPollingService extends PoolRequestService {
   /**
    * @contract must be updated on pagination change
    */
-  protected lastPagination: RequestedPagination;
+  protected lastPagination: KypoRequestedPagination;
   /**
    * Emission causes polling to start again
    */
@@ -29,24 +29,24 @@ export abstract class PoolRequestPollingService extends PoolRequestService {
   /**
    * Emits received data with every new poll response
    */
-  protected poll$: Observable<PaginatedResource<PoolRequest>>;
+  protected poll$: Observable<KypoPaginatedResource<PoolRequest>>;
 
   protected constructor() {
-    super();
+    super(environment.defaultPaginationSize);
     this.poll$ = this.createPoll();
   }
 
   /**
    * Repeats last recorded request
    */
-  protected abstract repeatLastGetAllRequest(): Observable<PaginatedResource<PoolRequest>>;
+  protected abstract repeatLastGetAllRequest(): Observable<KypoPaginatedResource<PoolRequest>>;
 
   /**
    * Updates polling info when request is made manually (by changing pagination for example) and delays poll period
    * @param poolId id of a pool associated with requests
    * @param pagination requested pagination
    */
-  protected onManualGetAll(poolId: number, pagination: RequestedPagination) {
+  protected onManualGetAll(poolId: number, pagination: KypoRequestedPagination) {
     this.lastPoolId = poolId;
     this.lastPagination = pagination;
     if (this.hasErrorSubject$.getValue()) {
@@ -56,7 +56,7 @@ export abstract class PoolRequestPollingService extends PoolRequestService {
     this.delayPolling$.next(environment.apiPollingPeriod);
   }
 
-  private createPoll(): Observable<PaginatedResource<PoolRequest>> {
+  private createPoll(): Observable<KypoPaginatedResource<PoolRequest>> {
     return timer(environment.apiPollingPeriod, environment.apiPollingPeriod)
       .pipe(
         switchMap(_ => this.repeatLastGetAllRequest()),

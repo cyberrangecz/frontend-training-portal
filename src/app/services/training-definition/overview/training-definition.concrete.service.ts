@@ -1,11 +1,11 @@
-import {Filter} from '../../../model/utils/filter';
+import {KypoFilter} from 'kypo-common';
 import {TrainingDefinitionStateEnum} from '../../../model/enums/training-definition-state.enum';
 import {EMPTY, from, Observable} from 'rxjs';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {TrainingDefinitionApi} from '../../api/training-definition-api.service';
 import {TrainingDefinitionService} from './training-definition.service';
-import {PaginatedResource} from '../../../model/table/other/paginated-resource';
-import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
+import {KypoPaginatedResource} from 'kypo-common';
+import {KypoRequestedPagination} from 'kypo-common';
 import {map, switchMap, take, tap} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {TrainingDefinition} from '../../../model/training/training-definition';
@@ -22,6 +22,7 @@ import {TrainingDefinitionUploadDialogComponent} from '../../../components/train
 import {FileUploadProgressService} from '../../shared/file-upload-progress.service';
 import {Router} from '@angular/router';
 import {RouteFactory} from '../../../model/routes/route-factory';
+import {environment} from '../../../../environments/environment';
 
 /**
  * Basic implementation of a layer between a component and an API service.
@@ -36,10 +37,10 @@ export class TrainingDefinitionConcreteService extends TrainingDefinitionService
     private alertService: AlertService,
     private fileUploadProgressService: FileUploadProgressService,
     private errorHandler: ErrorHandlerService) {
-    super();
+    super(environment.defaultPaginationSize);
   }
 
-  private lastPagination: RequestedPagination;
+  private lastPagination: KypoRequestedPagination;
   private lastFilters: string;
 
   /**
@@ -47,10 +48,10 @@ export class TrainingDefinitionConcreteService extends TrainingDefinitionService
    * @param pagination requested pagination
    * @param filter filter to be applied on training definitions (attribute title)
    */
-  getAll(pagination: RequestedPagination, filter: string): Observable<PaginatedResource<TrainingDefinition>> {
+  getAll(pagination: KypoRequestedPagination, filter: string): Observable<KypoPaginatedResource<TrainingDefinition>> {
   this.lastPagination = pagination;
   this.lastFilters = filter;
-  const filters = filter ? [new Filter('title', filter)] : [];
+  const filters = filter ? [new KypoFilter('title', filter)] : [];
   this.hasErrorSubject$.next(false);
   this.isLoadingSubject$.next(true);
   return this.callApiToGetAll(pagination, filters);
@@ -72,7 +73,7 @@ export class TrainingDefinitionConcreteService extends TrainingDefinitionService
    * Displays dialog to delete training definition and informs about the result and optionally updates list of training definitions or handles an error
    * @param trainingDefinition training definition to be deleted
    */
-  delete(trainingDefinition: TrainingDefinition): Observable<PaginatedResource<TrainingDefinition>> {
+  delete(trainingDefinition: TrainingDefinition): Observable<KypoPaginatedResource<TrainingDefinition>> {
     return this.displayDialogToDelete(trainingDefinition)
       .pipe(
         switchMap(result => result === CsirtMuDialogResultEnum.CONFIRMED
@@ -86,7 +87,7 @@ export class TrainingDefinitionConcreteService extends TrainingDefinitionService
    * Informs about the result and updates list of training definitions or handles an error
    * @param trainingDefinition training definition to clone
    */
-  clone(trainingDefinition: TrainingDefinition): Observable<PaginatedResource<TrainingDefinition>> {
+  clone(trainingDefinition: TrainingDefinition): Observable<KypoPaginatedResource<TrainingDefinition>> {
     return this.displayCloneDialog(trainingDefinition)
       .pipe(
         switchMap(title => title !== undefined
@@ -126,7 +127,7 @@ export class TrainingDefinitionConcreteService extends TrainingDefinitionService
    * Creates a new training definition by uploading a training definition description JSON file.
    * Informs about the result and updates list of training definitions or handles an error
    */
-  upload(): Observable<PaginatedResource<TrainingDefinition>> {
+  upload(): Observable<KypoPaginatedResource<TrainingDefinition>> {
     const dialogRef = this.dialog.open(TrainingDefinitionUploadDialogComponent);
     return dialogRef.componentInstance.onUpload$
       .pipe(
@@ -148,7 +149,7 @@ export class TrainingDefinitionConcreteService extends TrainingDefinitionService
       );
   }
 
-  private callApiToGetAll(pagination: RequestedPagination, filters: Filter[]): Observable<PaginatedResource<TrainingDefinition>> {
+  private callApiToGetAll(pagination: KypoRequestedPagination, filters: KypoFilter[]): Observable<KypoPaginatedResource<TrainingDefinition>> {
     return this.api.getAll(pagination, filters)
       .pipe(
         tap(
@@ -176,7 +177,7 @@ export class TrainingDefinitionConcreteService extends TrainingDefinitionService
     return dialogRef.afterClosed();
   }
 
-  private callApiToDelete(trainingDefinition: TrainingDefinition): Observable<PaginatedResource<TrainingDefinition>> {
+  private callApiToDelete(trainingDefinition: TrainingDefinition): Observable<KypoPaginatedResource<TrainingDefinition>> {
     return this.api.delete(trainingDefinition.id)
       .pipe(
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Training definition was deleted'),
@@ -195,7 +196,7 @@ export class TrainingDefinitionConcreteService extends TrainingDefinitionService
       );
   }
 
-  private callApiToClone(trainingDefinition: TrainingDefinition, title: string): Observable<PaginatedResource<TrainingDefinition>> {
+  private callApiToClone(trainingDefinition: TrainingDefinition, title: string): Observable<KypoPaginatedResource<TrainingDefinition>> {
     return this.api.clone(trainingDefinition.id, title)
       .pipe(
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Training definition was cloned'),

@@ -16,7 +16,7 @@ import {TrainingInstance} from '../../../../model/training/training-instance';
 import {TrainingInstanceApi} from '../../../../services/api/training-instance-api.service';
 import {AlertService} from '../../../../services/shared/alert.service';
 import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
-import {BaseComponent} from '../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {TrainingDefinitionSelectorComponent} from '../training-definition-selector/training-definition-selector.component';
 import {TrainingInstanceFormGroup} from './training-instance-form-group';
 
@@ -29,7 +29,7 @@ import {TrainingInstanceFormGroup} from './training-instance-form-group';
   styleUrls: ['./training-instance-edit.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TrainingInstanceEditComponent extends BaseComponent implements OnInit, OnChanges {
+export class TrainingInstanceEditComponent extends KypoBaseComponent implements OnInit, OnChanges {
 
   @Input() trainingInstance: TrainingInstance;
   @Output() edited: EventEmitter<TrainingInstanceChangeEvent> = new EventEmitter();

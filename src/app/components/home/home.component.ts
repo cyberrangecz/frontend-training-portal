@@ -12,7 +12,7 @@ import {
   TRAINING_INSTANCE_PATH,
   TRAINING_RUN_PATH
 } from '../../paths';
-import {BaseComponent} from '../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 
 /**
  * Main component of homepage (portal) page. Portal page is a main crossroad of possible sub pages. Only those matching with user
@@ -23,7 +23,7 @@ import {BaseComponent} from '../base.component';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent extends BaseComponent implements OnInit {
+export class HomeComponent extends KypoBaseComponent implements OnInit {
 
   trainingAgendas;
   sandboxAgendas;

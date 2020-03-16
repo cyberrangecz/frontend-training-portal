@@ -1,15 +1,14 @@
 import {ChangeDetectionStrategy, Component, HostListener, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs';
-import {map, skipWhile, take, takeWhile, tap} from 'rxjs/operators';
+import {map, take, takeWhile, tap} from 'rxjs/operators';
 import {TrainingInstanceChangeEvent} from '../../../model/events/training-instance-change-event';
 import {TrainingInstance} from '../../../model/training/training-instance';
 import {TrainingInstanceEditService} from '../../../services/training-instance/edit/training-instance-edit.service';
-import {BaseComponent} from '../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {environment} from '../../../../environments/environment';
 import {TrainingInstanceEditControls} from './training-instance-edit-controls';
 import {KypoControlItem} from 'kypo-controls';
-import {TrainingDefinitionEditControls} from '../../training-definition/training-definition-edit-overview/training-definition-edit-controls';
 
 /**
  * Main component of training instance edit/create page. Serves mainly as a smart component wrapper
@@ -20,7 +19,7 @@ import {TrainingDefinitionEditControls} from '../../training-definition/training
   styleUrls: ['./training-instance-edit-overview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TrainingInstanceEditOverviewComponent extends BaseComponent implements OnInit {
+export class TrainingInstanceEditOverviewComponent extends KypoBaseComponent implements OnInit {
 
   trainingInstance$: Observable<TrainingInstance>;
   editMode$: Observable<boolean>;

@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Kypo2AuthService, User} from 'kypo2-auth';
 import {Observable} from 'rxjs';
 import {debounceTime, filter, map, takeWhile} from 'rxjs/operators';
-import {BaseComponent} from './components/base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {AlertTypeEnum} from './model/enums/alert-type.enum';
 import {AlertService} from './services/shared/alert.service';
 import {LoadingService} from './services/shared/loading.service';
@@ -20,7 +20,7 @@ import {NOTIFICATIONS_PATH} from './paths';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent extends BaseComponent implements OnInit {
+export class AppComponent extends KypoBaseComponent implements OnInit {
   isLoading$: Observable<boolean>;
   activeUser$: Observable<User>;
   agendaContainers$: Observable<AgendaContainer[]>;

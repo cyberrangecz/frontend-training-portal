@@ -1,10 +1,10 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
-import {BaseComponent} from '../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {Observable} from 'rxjs';
 import {Kypo2Table, LoadTableEvent, TableActionEvent} from 'kypo2-table';
 import {TrainingInstanceRowAdapter} from '../../../model/table/rows/training-instance-row-adapter';
 import {TrainingInstanceOverviewService} from '../../../services/training-instance/training-instance-overview.service';
-import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
+import {KypoRequestedPagination} from 'kypo-common';
 import {environment} from '../../../../environments/environment';
 import {TrainingInstanceTable} from '../../../model/table/training-instance/training-instance-table';
 import {map, take, takeWhile} from 'rxjs/operators';
@@ -20,7 +20,7 @@ import {KypoControlItem} from 'kypo-controls';
   styleUrls: ['./training-instance-overview.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TrainingInstanceOverviewComponent extends BaseComponent implements OnInit, OnDestroy {
+export class TrainingInstanceOverviewComponent extends KypoBaseComponent implements OnInit, OnDestroy {
 
   readonly INITIAL_SORT_NAME = 'startTime';
   readonly INITIAL_SORT_DIR = 'desc';
@@ -62,7 +62,7 @@ export class TrainingInstanceOverviewComponent extends BaseComponent implements 
 
   private initTable() {
     const initLoadEvent = new LoadTableEvent(
-      new RequestedPagination(0, environment.defaultPaginationSize, this.INITIAL_SORT_NAME, this.INITIAL_SORT_DIR)
+      new KypoRequestedPagination(0, environment.defaultPaginationSize, this.INITIAL_SORT_NAME, this.INITIAL_SORT_DIR)
     );
     this.instances$ = this.service.resource$
       .pipe(

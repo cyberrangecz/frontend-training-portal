@@ -9,7 +9,7 @@
       <mat-radio-button [checked]="selected && training.id === selected.id"
                         [value]="training"
                         (change)="selectionChange.emit($event.value)">
-        {{ training.title | shortString: 50 }}
+        {{ training.title | kypoShortString: 50 }}
       </mat-radio-button>
     </mat-list-item>
     <mat-list-item *ngIf="!isEnd && !hasError">

@@ -13,7 +13,7 @@ import {Question} from '../../../../../../model/questions/question';
 import {ExtendedMatchingItems} from '../../../../../../model/questions/extended-matching-items';
 import {FreeFormQuestion} from '../../../../../../model/questions/free-form-question';
 import {MultipleChoiceQuestion} from '../../../../../../model/questions/multiple-choice-question';
-import {BaseComponent} from '../../../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {ExtendedMatchingItemsTraineeComponent} from './extended-matching-items/extended-matching-items-trainee.component';
 import {FreeFormQuestionTraineeComponent} from './free-form-question/free-form-question-trainee.component';
 import {MultipleChoiceQuestionTraineeComponent} from './multiple-choice-question/multiple-choice-question-trainee.component';
@@ -28,7 +28,7 @@ import {MultipleChoiceQuestionTraineeComponent} from './multiple-choice-question
  * Wrapper component for displaying questions in training run's assessment level. It selects the correct component to
  * display based on the question type.
  */
-export class TraineeQuestionComponent extends BaseComponent implements OnInit, OnChanges {
+export class TraineeQuestionComponent extends KypoBaseComponent implements OnInit, OnChanges {
 
   @Input() question: Question;
   @Input() index: number;

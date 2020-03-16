@@ -1,13 +1,14 @@
 import {Injectable} from '@angular/core';
 import {merge, Observable} from 'rxjs';
-import {PaginatedResource} from '../../../../model/table/other/paginated-resource';
+import {KypoPaginatedResource} from 'kypo-common';
 import {PoolRequest} from '../../../../model/sandbox/pool/request/pool-request';
 import {switchMap, tap} from 'rxjs/operators';
 import {SandboxInstanceApi} from '../../../api/sandbox-instance-api.service';
 import {ErrorHandlerService} from '../../../shared/error-handler.service';
-import {RequestedPagination} from '../../../../model/DTOs/other/requested-pagination';
+import {KypoRequestedPagination} from 'kypo-common';
 import {PoolRequestPollingService} from '../pool-request-polling.service';
 import {HttpErrorResponse} from '@angular/common/http';
+import {environment} from '../../../../../environments/environment';
 
 /**
  * Basic implementation of a layer between a component and an API service.
@@ -19,7 +20,7 @@ export class PoolCleanupRequestsPollingService extends PoolRequestPollingService
   /**
    * List of cleanup requests with currently selected pagination options
    */
-  resource$: Observable<PaginatedResource<PoolRequest>>;
+  resource$: Observable<KypoPaginatedResource<PoolRequest>>;
 
   constructor(private sandboxInstanceFacade: SandboxInstanceApi,
               private errorHandler: ErrorHandlerService) {
@@ -32,7 +33,7 @@ export class PoolCleanupRequestsPollingService extends PoolRequestPollingService
    * @param poolId id of a pool associated with cleanup requests
    * @param pagination requested pagination
    */
-  getAll(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<PoolRequest>> {
+  getAll(poolId: number, pagination: KypoRequestedPagination): Observable<KypoPaginatedResource<PoolRequest>> {
     this.onManualGetAll(poolId, pagination);
     return this.sandboxInstanceFacade.getCleanupRequests(poolId, pagination)
       .pipe(
@@ -72,7 +73,7 @@ export class PoolCleanupRequestsPollingService extends PoolRequestPollingService
   /**
    * Repeats last get all request for polling purposes
    */
-  protected repeatLastGetAllRequest(): Observable<PaginatedResource<PoolRequest>> {
+  protected repeatLastGetAllRequest(): Observable<KypoPaginatedResource<PoolRequest>> {
     this.hasErrorSubject$.next(false);
     return this.sandboxInstanceFacade.getCleanupRequests(this.lastPoolId, this.lastPagination)
       .pipe(

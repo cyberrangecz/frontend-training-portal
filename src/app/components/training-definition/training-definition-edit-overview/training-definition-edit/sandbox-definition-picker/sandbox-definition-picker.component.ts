@@ -3,7 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {takeWhile} from 'rxjs/operators';
 import {SandboxDefinition} from '../../../../../model/sandbox/definition/sandbox-definition';
 import {SandboxDefinitionApi} from '../../../../../services/api/sandbox-definition-api.service';
-import {BaseComponent} from '../../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 
 /**
  * Component of sandbox definition picker dialog window.
@@ -14,7 +14,7 @@ import {BaseComponent} from '../../../../base.component';
   templateUrl: './sandbox-definition-picker.component.html',
   styleUrls: ['./sandbox-definition-picker.component.css']
 })
-export class SandboxDefinitionPickerComponent extends BaseComponent implements OnInit {
+export class SandboxDefinitionPickerComponent extends KypoBaseComponent implements OnInit {
 
   sandboxDefs: SandboxDefinition[];
   selectedSandboxDef: SandboxDefinition;

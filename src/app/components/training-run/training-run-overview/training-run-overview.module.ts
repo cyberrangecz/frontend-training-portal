@@ -5,7 +5,7 @@ import {TrainingRunOverviewComponent} from './training-run-overview.component';
 import {TrainingRunOverviewMaterialModule} from './training-run-overview-material.module';
 import {AccessTrainingRunComponent} from './access-training-run/access-training-run.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {PipesModule} from '../../../pipes/pipes.module';
+import {KypoPipesModule} from 'kypo-common';
 import {RunningTrainingRunConcreteService} from '../../../services/training-run/running/running-training-run-concrete.service';
 import {AccessTrainingRunResolver} from '../../../services/resolvers/training-run-resolver.service';
 import {MatCardModule} from '@angular/material/card';
@@ -17,10 +17,6 @@ import {TrainingInstanceApi} from '../../../services/api/training-instance-api.s
 import {TrainingRunApi} from '../../../services/api/training-run-api.service';
 import {TrainingRunResultsResolver} from '../../../services/resolvers/training-run-results-resolver.service';
 import {RunningTrainingRunService} from '../../../services/training-run/running/running-training-run.service';
-import {TrainingRunGameLevelService} from '../../../services/training-run/running/training-run-game-level.service';
-import {TrainingRunGameLevelConcreteService} from '../../../services/training-run/running/training-run-game-level-concrete.service';
-import {TrainingRunAssessmentLevelService} from '../../../services/training-run/running/training-run-assessment-level.service';
-import {TrainingRunAssessmentLevelConcreteService} from '../../../services/training-run/running/training-run-assessment-level-concrete.service';
 
 /**
  * Main module for trainee agenda. Contains components and top level routing
@@ -31,7 +27,7 @@ import {TrainingRunAssessmentLevelConcreteService} from '../../../services/train
     FormsModule,
     TrainingRunOverviewRoutingModule,
     TrainingRunOverviewMaterialModule,
-    PipesModule,
+    KypoPipesModule,
     ReactiveFormsModule,
     MatCardModule,
     Kypo2TableModule

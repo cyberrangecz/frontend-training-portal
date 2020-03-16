@@ -1,12 +1,12 @@
 import {ChangeDetectionStrategy, Component, HostListener, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs/internal/Observable';
-import {map, skipWhile, takeWhile, tap} from 'rxjs/operators';
+import {map, takeWhile, tap} from 'rxjs/operators';
 import {TrainingDefinitionChangeEvent} from '../../../model/events/training-definition-change-event';
 import {Level} from '../../../model/level/level';
 import {TrainingDefinition} from '../../../model/training/training-definition';
 import {TrainingDefinitionEditService} from '../../../services/training-definition/edit/training-definition-edit.service';
-import {BaseComponent} from '../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {environment} from '../../../../environments/environment';
 import {TrainingDefinitionEditControls} from './training-definition-edit-controls';
 import {KypoControlItem} from 'kypo-controls';
@@ -20,7 +20,7 @@ import {KypoControlItem} from 'kypo-controls';
   styleUrls: ['./training-definition-edit-overview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TrainingDefinitionEditOverviewComponent extends BaseComponent implements OnInit {
+export class TrainingDefinitionEditOverviewComponent extends KypoBaseComponent implements OnInit {
 
   trainingDefinition$: Observable<TrainingDefinition>;
   editMode$: Observable<boolean>;

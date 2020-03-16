@@ -16,7 +16,7 @@ import {LevelMoveEvent} from '../../../../../model/events/level-move-event';
 import {Level} from '../../../../../model/level/level';
 import {TrainingDefinition} from '../../../../../model/training/training-definition';
 import {LevelEditService} from '../../../../../services/training-definition/edit/level-edit.service';
-import {BaseComponent} from '../../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {LevelStepperAdapter} from '../../../../../model/stepper/level-stepper-adapter';
 import {LevelOverviewControls} from './level-overview-controls';
 import {KypoControlItem} from 'kypo-controls';
@@ -30,7 +30,7 @@ import {KypoControlItem} from 'kypo-controls';
   styleUrls: ['./level-overview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LevelOverviewComponent extends BaseComponent implements OnInit, OnChanges {
+export class LevelOverviewComponent extends KypoBaseComponent implements OnInit, OnChanges {
 
   @Output() unsavedLevels: EventEmitter<Level[]> = new EventEmitter();
   @Output() levelsCount: EventEmitter<number> = new EventEmitter();

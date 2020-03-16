@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {LevelMoveEvent} from '../../../../../model/events/level-move-event';
-import {BaseComponent} from '../../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {Kypo2Stepper} from 'kypo2-stepper';
 import {StepperStateChange} from 'kypo2-stepper/lib/component/stepper-state-change';
 import {LevelStepperAdapter} from '../../../../../model/stepper/level-stepper-adapter';
@@ -24,7 +24,7 @@ import {LevelStepperAdapter} from '../../../../../model/stepper/level-stepper-ad
   styleUrls: ['./training-level-stepper.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TrainingLevelStepperComponent extends BaseComponent implements OnInit, OnChanges {
+export class TrainingLevelStepperComponent extends KypoBaseComponent implements OnInit, OnChanges {
 
   @Input() levels: LevelStepperAdapter[];
   @Input() movingInProgress: boolean;

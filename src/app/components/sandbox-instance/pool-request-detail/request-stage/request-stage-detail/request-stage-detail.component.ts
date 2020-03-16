@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit, ViewChild} from '@angular/core';
-import {BaseComponent} from '../../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
 import {StageDetail} from '../../../../../model/sandbox/pool/request/stage/stage-detail';
 
@@ -12,7 +12,7 @@ import {StageDetail} from '../../../../../model/sandbox/pool/request/stage/stage
   styleUrls: ['./request-stage-detail.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RequestStageDetailComponent extends BaseComponent implements OnInit {
+export class RequestStageDetailComponent extends KypoBaseComponent implements OnInit {
 
   @Input() stageDetail: StageDetail;
   @Input() totalLength: number;

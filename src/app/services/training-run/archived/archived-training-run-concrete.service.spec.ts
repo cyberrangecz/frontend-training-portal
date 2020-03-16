@@ -6,10 +6,10 @@ import {throwError} from 'rxjs';
 import {TrainingInstanceApi} from '../../api/training-instance-api.service';
 import {TrainingRunApi} from '../../api/training-run-api.service';
 import {skip} from 'rxjs/operators';
-import {asyncData} from '../../../testing/helpers/async-data';
-import {RequestedPagination} from 'kypo2-table';
-import {PaginatedResource} from '../../../model/table/other/paginated-resource';
-import {Pagination} from '../../../model/table/other/pagination';
+import {asyncData} from 'kypo-common';
+import {KypoRequestedPagination} from 'kypo-common';
+import {KypoPaginatedResource} from 'kypo-common';
+import {KypoPagination} from 'kypo-common';
 import {environment} from '../../../../environments/environment';
 import {AlertService} from '../../shared/alert.service';
 import {MatDialog} from '@angular/material/dialog';
@@ -116,11 +116,11 @@ describe('ArchivedTrainingRunConcreteService', () => {
   }));
 
   function createPagination() {
-    return new RequestedPagination(1, 5, '', '');
+    return new KypoRequestedPagination(1, 5, '', '');
   }
 
   function createMock() {
-    return new PaginatedResource([], new Pagination(1, 0, 5, 5, 1));
+    return new KypoPaginatedResource([], new KypoPagination(1, 0, 5, 5, 1));
   }
 
   function assertPoll(times: number, initialHaveBeenCalledTimes: number = 1) {

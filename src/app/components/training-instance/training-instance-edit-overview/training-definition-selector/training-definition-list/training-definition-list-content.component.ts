@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {TrainingDefinitionInfo} from '../../../../../model/training/training-definition-info';
-import {PaginatedResource} from '../../../../../model/table/other/paginated-resource';
-import {RequestedPagination} from '../../../../../model/DTOs/other/requested-pagination';
+import {KypoPaginatedResource} from 'kypo-common';
+import {KypoRequestedPagination} from 'kypo-common';
 
 /**
  * Displays training definitions list available for associating with a training instance
@@ -15,10 +15,10 @@ export class TrainingDefinitionListContentComponent implements OnInit, OnChanges
 
   @Input() state: string;
   @Input() selected: TrainingDefinitionInfo;
-  @Input() resource: PaginatedResource<TrainingDefinitionInfo>;
+  @Input() resource: KypoPaginatedResource<TrainingDefinitionInfo>;
   @Input() hasError: boolean;
   @Input() pageSize: number;
-  @Output() fetch: EventEmitter<RequestedPagination> = new EventEmitter();
+  @Output() fetch: EventEmitter<KypoRequestedPagination> = new EventEmitter();
   @Output() selectionChange: EventEmitter<TrainingDefinitionInfo> = new EventEmitter();
 
   cached: TrainingDefinitionInfo[] = [];
@@ -49,7 +49,7 @@ export class TrainingDefinitionListContentComponent implements OnInit, OnChanges
       return;
     } else {
       this.page += 1;
-      this.fetch.emit(new RequestedPagination(this.page, this.pageSize, 'title', 'asc'));
+      this.fetch.emit(new KypoRequestedPagination(this.page, this.pageSize, 'title', 'asc'));
     }
   }
 
@@ -65,6 +65,6 @@ export class TrainingDefinitionListContentComponent implements OnInit, OnChanges
    * Refreshes current page of training definitions
    */
   reload() {
-    this.fetch.emit(new RequestedPagination(this.page, this.pageSize, 'title', 'asc'));
+    this.fetch.emit(new KypoRequestedPagination(this.page, this.pageSize, 'title', 'asc'));
   }
 }

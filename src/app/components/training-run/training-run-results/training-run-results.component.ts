@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, HostListener, OnInit,} from '@angula
 import {ActivatedRoute} from '@angular/router';
 import {Kypo2AuthService} from 'kypo2-auth';
 import {map, takeWhile} from 'rxjs/operators';
-import {BaseComponent} from '../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {Observable} from 'rxjs';
 import {VisualizationInfo} from '../../../model/visualizations/visualization-info';
 import {TrainingRun} from '../../../model/training/training-run';
@@ -17,7 +17,7 @@ import {Kypo2TraineeModeInfo} from 'kypo2-trainings-visualization-overview-lib';
 /**
  * Component displaying visualization of training run results
  */
-export class TrainingRunResultsComponent extends BaseComponent implements OnInit {
+export class TrainingRunResultsComponent extends KypoBaseComponent implements OnInit {
 
   vizSize: {width: number, height: number};
 

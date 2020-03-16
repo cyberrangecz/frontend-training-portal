@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ngfModule} from 'angular-file';
 import {SharedDirectivesModule} from '../../../directives/shared-directives.module';
-import {PipesModule} from '../../../pipes/pipes.module';
+import {KypoPipesModule} from 'kypo-common';
 import {CloneDialogComponent} from './clone-dialog/clone-dialog.component';
 import {TrainingDefinitionOverviewMaterialModule} from './training-definition-overview-material.module';
 import {TrainingDefinitionOverviewRoutingModule} from './training-definition-overview-routing.module';
@@ -26,7 +26,7 @@ import {KypoControlsModule} from 'kypo-controls';
       CommonModule,
       FormsModule,
       ngfModule,
-      PipesModule,
+      KypoPipesModule,
       SharedDirectivesModule,
       TrainingDefinitionOverviewRoutingModule,
       TrainingDefinitionOverviewMaterialModule,

@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {BaseComponent} from '../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {TrainingInstance} from '../../../../model/training/training-instance';
 import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
@@ -17,7 +17,7 @@ import {KypoControlItem} from 'kypo-controls';
   styleUrls: ['./training-instance-summary.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TrainingInstanceSummaryComponent extends BaseComponent implements OnInit {
+export class TrainingInstanceSummaryComponent extends KypoBaseComponent implements OnInit {
 
   trainingInstance$: Observable<TrainingInstance>;
   controls: KypoControlItem[];

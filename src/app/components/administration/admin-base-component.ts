@@ -1,4 +1,4 @@
-import {BaseComponent} from '../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {OnInit} from '@angular/core';
 import {
   Kypo2UserAndGroupErrorService,
@@ -11,7 +11,7 @@ import {takeWhile} from 'rxjs/operators';
 import {RouteFactory} from '../../model/routes/route-factory';
 import {CsirtMuNotificationService, CsirtMuNotificationTypeEnum} from 'csirt-mu-layout';
 
-export class AdminBaseComponent extends BaseComponent implements OnInit {
+export class AdminBaseComponent extends KypoBaseComponent implements OnInit {
 
   constructor(protected userAndGroupRouting: Kypo2UserAndGroupRoutingEventService,
               protected userAndGroupNotificationService: Kypo2UserAndGroupNotificationService,

@@ -2,7 +2,7 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Kypo2StepperModule} from 'kypo2-stepper';
-import {PipesModule} from '../../../../pipes/pipes.module';
+import {KypoPipesModule} from 'kypo-common';
 import {LevelEditService} from '../../../../services/training-definition/edit/level-edit.service';
 import {SharedModule} from '../../../shared/shared.module';
 import {LevelEditModule} from './level-edit/level-edit.module';
@@ -18,7 +18,7 @@ import {KypoControlsModule} from 'kypo-controls';
     imports: [
       CommonModule,
       FormsModule,
-      PipesModule,
+      KypoPipesModule,
       LevelEditModule,
       ReactiveFormsModule,
       SharedModule,
