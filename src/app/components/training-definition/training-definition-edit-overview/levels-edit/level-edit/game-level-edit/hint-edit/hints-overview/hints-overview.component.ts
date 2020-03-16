@@ -1,4 +1,4 @@
-import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -20,8 +20,8 @@ import {
   CsirtMuConfirmationDialogConfig,
   CsirtMuDialogResultEnum
 } from 'csirt-mu-common';
-import {BehaviorSubject, defer, of} from 'rxjs';
-import {KypoControlItem} from 'kypo-controls';
+import { BehaviorSubject, defer, of } from 'rxjs';
+import { KypoControlItem } from 'kypo-controls';
 
 
 /**
@@ -42,6 +42,7 @@ import {KypoControlItem} from 'kypo-controls';
 export class HintsOverviewComponent extends KypoBaseComponent implements OnInit, OnChanges {
 
   @Input() hints: Hint[];
+  @Input() levelId: Hint[];
   @Input() levelMaxScore: number;
   @Output() hintsChange: EventEmitter<Hint[]> = new EventEmitter();
 
@@ -50,7 +51,7 @@ export class HintsOverviewComponent extends KypoBaseComponent implements OnInit,
   hintsHasErrors: boolean;
   penaltySum: number;
   selectedStep: number;
-  stepperHints: Kypo2Stepper<HintStepperAdapter> = {items: []};
+  stepperHints: Kypo2Stepper<HintStepperAdapter> = { items: [] };
   controls: KypoControlItem[];
 
   constructor(public dialog: MatDialog) {
@@ -63,6 +64,9 @@ export class HintsOverviewComponent extends KypoBaseComponent implements OnInit,
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    if ('levelId' in changes) {
+      this.selectedStep = 0;
+    }
     if ('hints' in changes) {
       this.deleteDisabledSubject$.next(this.hints.length <= 0);
       this.stepperHints.items = this.hints.map(hint => new HintStepperAdapter(hint));
@@ -117,7 +121,7 @@ export class HintsOverviewComponent extends KypoBaseComponent implements OnInit,
       .pipe(takeWhile(() => this.isAlive))
       .subscribe(result => {
         if (result === CsirtMuDialogResultEnum.CONFIRMED) {
-            this.stepperHints.items.splice(index, 1);
+          this.stepperHints.items.splice(index, 1);
           this.changeSelectedStepAfterRemoving(index);
           this.onOrderUpdate();
         }
