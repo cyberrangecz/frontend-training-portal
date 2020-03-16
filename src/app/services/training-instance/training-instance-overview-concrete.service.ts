@@ -1,6 +1,6 @@
 import {TrainingInstanceOverviewService} from './training-instance-overview.service';
 import {Observable, of} from 'rxjs';
-import {PaginatedResource} from '../../model/table/other/paginated-resource';
+import {KypoPaginatedResource} from 'kypo-common';
 import {TrainingInstance} from '../../model/training/training-instance';
 import {AlertService} from '../shared/alert.service';
 import {ErrorHandlerService} from '../shared/error-handler.service';
@@ -10,14 +10,15 @@ import {AlertTypeEnum} from '../../model/enums/alert-type.enum';
 import {Injectable} from '@angular/core';
 import {TrainingInstanceApi} from '../api/training-instance-api.service';
 import {SandboxInstanceApi} from '../api/sandbox-instance-api.service';
-import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
+import {KypoRequestedPagination} from 'kypo-common';
 import {RouteFactory} from '../../model/routes/route-factory';
 import {Router} from '@angular/router';
+import {environment} from '../../../environments/environment';
 
 @Injectable()
 export class TrainingInstanceOverviewConcreteService extends TrainingInstanceOverviewService {
 
-  private lastPagination: RequestedPagination;
+  private lastPagination: KypoRequestedPagination;
   private lastFilter: string;
 
   constructor(private trainingInstanceApi: TrainingInstanceApi,
@@ -25,10 +26,10 @@ export class TrainingInstanceOverviewConcreteService extends TrainingInstanceOve
               private router: Router,
               private alertService: AlertService,
               private errorHandler: ErrorHandlerService) {
-    super();
+    super(environment.defaultPaginationSize);
   }
 
-  getAll(pagination: RequestedPagination, filter: string = null): Observable<PaginatedResource<TrainingInstance>> {
+  getAll(pagination: KypoRequestedPagination, filter: string = null): Observable<KypoPaginatedResource<TrainingInstance>> {
     this.lastPagination = pagination;
     this.lastFilter = filter;
     this.hasErrorSubject$.next(false);

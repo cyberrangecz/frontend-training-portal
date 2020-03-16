@@ -15,7 +15,7 @@ import {take, takeWhile} from 'rxjs/operators';
 import {GameLevel} from '../../../../../model/level/game-level';
 import {HintButton} from '../../../../../model/level/hint-button';
 import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
-import {BaseComponent} from '../../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {Kypo2TopologyErrorService} from 'kypo2-topology-graph';
 import {Observable} from 'rxjs';
 import {TrainingRunGameLevelService} from '../../../../../services/training-run/running/training-run-game-level.service';
@@ -30,7 +30,7 @@ import {TrainingRunGameLevelService} from '../../../../../services/training-run/
  * Component of a game level in a training run. Users needs to find out correct solution (flag) and submit it
  * before he can continue to the next level. User can optionally take hints.
  */
-export class GameLevelComponent extends BaseComponent implements OnInit, OnChanges {
+export class GameLevelComponent extends KypoBaseComponent implements OnInit, OnChanges {
 
   @Input() level: GameLevel;
   @Input() isLast: boolean;

@@ -4,7 +4,7 @@ import {map, takeWhile} from 'rxjs/operators';
 import {AccessTrainingRunInfo} from '../../../model/training/access-training-run-info';
 import {TrainingDefinition} from '../../../model/training/training-definition';
 import {TrainingDefinitionApi} from '../../../services/api/training-definition-api.service';
-import {BaseComponent} from '../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {RunningTrainingRunService} from '../../../services/training-run/running/running-training-run.service';
 
 /**
@@ -16,7 +16,7 @@ import {RunningTrainingRunService} from '../../../services/training-run/running/
   templateUrl: './training-preview.component.html',
   styleUrls: ['./training-preview.component.css']
 })
-export class TrainingPreviewComponent extends BaseComponent implements OnInit {
+export class TrainingPreviewComponent extends KypoBaseComponent implements OnInit {
 
   constructor(private previewService: RunningTrainingRunService,
               private api: TrainingDefinitionApi,

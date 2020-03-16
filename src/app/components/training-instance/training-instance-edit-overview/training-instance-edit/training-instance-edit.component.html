@@ -102,7 +102,7 @@
         <!-- TRAINING DEFINITION field-->
         <div class="form-line">
           <p *ngIf="trainingDefinition.value">Training Definition: {{
-            trainingDefinition.value.title | shortString: 30 }}</p>
+            trainingDefinition.value.title | kypoShortString: 30 }}</p>
           <p *ngIf="!trainingDefinition.value">Training Definition*</p>
           <button (click)="chooseTrainingDefinition()"
             mat-button color="accent">

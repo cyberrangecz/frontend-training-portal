@@ -4,7 +4,7 @@ import {map, take, takeWhile} from 'rxjs/operators';
 import {Kypo2Table, LoadTableEvent} from 'kypo2-table';
 import {ActiveTrainingRunTable} from '../../../../../model/table/training-run/active-training-run-table';
 import {TrainingRunRowAdapter} from '../../../../../model/table/rows/training-run-row-adapter';
-import {BaseComponent} from '../../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {TrainingInstance} from '../../../../../model/training/training-instance';
 import {TableActionEvent} from 'kypo2-table/lib/model/table-action-event';
 import {ActiveTrainingRunService} from '../../../../../services/training-run/active/active-training-run.service';
@@ -18,7 +18,7 @@ import {ActiveTrainingRunService} from '../../../../../services/training-run/act
   styleUrls: ['./active-training-run-overview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ActiveTrainingRunOverviewComponent extends BaseComponent implements OnInit {
+export class ActiveTrainingRunOverviewComponent extends KypoBaseComponent implements OnInit {
 
   @Input() trainingInstance: TrainingInstance;
   @Input() isPollingActive: boolean;

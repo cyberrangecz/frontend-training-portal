@@ -3,12 +3,12 @@ import {ErrorHandlerService} from '../shared/error-handler.service';
 import {SandboxDefinitionOverviewConcreteService} from './sandbox-definition-overview-concrete.service';
 import {SandboxDefinitionApi} from '../api/sandbox-definition-api.service';
 import {throwError} from 'rxjs';
-import {RequestedPagination} from 'kypo2-table';
+import {KypoRequestedPagination} from 'kypo-common';
 import {AlertService} from '../shared/alert.service';
 import {skip} from 'rxjs/operators';
-import {asyncData} from '../../testing/helpers/async-data';
-import {PaginatedResource} from '../../model/table/other/paginated-resource';
-import {Pagination} from '../../model/table/other/pagination';
+import {asyncData} from 'kypo-common';
+import {KypoPaginatedResource} from 'kypo-common';
+import {KypoPagination} from 'kypo-common';
 import {SandboxDefinition} from '../../model/sandbox/definition/sandbox-definition';
 import {MatDialog} from '@angular/material/dialog';
 import {RouterTestingModule} from '@angular/router/testing';
@@ -74,7 +74,7 @@ describe('SandboxDefinitionOverviewConcreteService', () => {
   });
 
   function createPagination() {
-    return new RequestedPagination(1, 5, '', '');
+    return new KypoRequestedPagination(1, 5, '', '');
   }
 
   function createMockData() {
@@ -82,8 +82,8 @@ describe('SandboxDefinitionOverviewConcreteService', () => {
     sandbox1.id = 1;
     const sandbox2 = new SandboxDefinition();
     sandbox2.id = 2;
-    return new PaginatedResource<SandboxDefinition>([sandbox1, sandbox2],
-      new Pagination(1, 2, 5, 2, 1));
+    return new KypoPaginatedResource<SandboxDefinition>([sandbox1, sandbox2],
+      new KypoPagination(1, 2, 5, 2, 1));
   }
 
 });

@@ -3,7 +3,7 @@ import {ArchivedTrainingRunOverviewComponent} from './archived-training-run-over
 import {BrowserTestingModule} from '@angular/platform-browser/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {Kypo2TableModule} from 'kypo2-table';
-import {PipesModule} from '../../../../../pipes/pipes.module';
+import {KypoPipesModule} from 'kypo-common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MaterialTestingModule} from '../../../../../testing/test-utils/material-testing.module';
@@ -31,7 +31,7 @@ describe('ArchivedTrainingRunOverviewComponent', () => {
         MaterialTestingModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
-        PipesModule,
+        KypoPipesModule,
         RouterTestingModule.withRoutes([{path: 'training-run/1/results', component: ArchivedTrainingRunOverviewComponent}]),
         Kypo2TableModule
       ],

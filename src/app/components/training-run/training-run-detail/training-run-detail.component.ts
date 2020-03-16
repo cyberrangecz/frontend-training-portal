@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {skipWhile, take, takeWhile, tap} from 'rxjs/operators';
+import {take, takeWhile, tap} from 'rxjs/operators';
 import {Level} from '../../../model/level/level';
-import {BaseComponent} from '../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {TrainingRunStepper} from './training-run-stepper';
 import {Kypo2AuthService, User} from 'kypo2-auth';
 import {Observable} from 'rxjs';
@@ -18,7 +18,7 @@ import {RunningTrainingRunService} from '../../../services/training-run/running/
  * Main component of trainees training. Displays window with current level of a training and navigation to the next.
  * Optionally displays stepper with progress of the training and timer counting time from the start of a training.
  */
-export class TrainingRunDetailComponent extends BaseComponent implements OnInit {
+export class TrainingRunDetailComponent extends KypoBaseComponent implements OnInit {
 
   user$: Observable<User>;
   activeLevel$: Observable<Level>;

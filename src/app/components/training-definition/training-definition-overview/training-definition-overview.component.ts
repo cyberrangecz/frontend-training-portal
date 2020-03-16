@@ -1,6 +1,5 @@
-import {TrainingDefinitionStateEnum} from '../../../model/enums/training-definition-state.enum';
 import {Component, OnInit} from '@angular/core';
-import {BaseComponent} from '../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {Observable} from 'rxjs';
 import {Kypo2Table, LoadTableEvent, RequestedPagination, TableActionEvent} from 'kypo2-table';
 import {TrainingDefinitionService} from '../../../services/training-definition/overview/training-definition.service';
@@ -21,7 +20,7 @@ import {KypoControlItem} from 'kypo-controls';
   templateUrl: './training-definition-overview.component.html',
   styleUrls: ['./training-definition-overview.component.css']
 })
-export class TrainingDefinitionOverviewComponent extends BaseComponent
+export class TrainingDefinitionOverviewComponent extends KypoBaseComponent
   implements OnInit {
 
   readonly INIT_SORT_NAME = 'lastEdited';

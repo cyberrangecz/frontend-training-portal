@@ -1,7 +1,7 @@
 import {Observable} from 'rxjs';
-import {RequestedPagination} from 'kypo2-table';
-import {PaginatedResource} from '../../model/table/other/paginated-resource';
-import {PaginatedResourceService} from '../shared/paginated-resource.service';
+import {KypoRequestedPagination} from 'kypo-common';
+import {KypoPaginatedResource} from 'kypo-common';
+import {KypoPaginatedResourceService} from 'kypo-common';
 import {SandboxDefinition} from '../../model/sandbox/definition/sandbox-definition';
 
 /**
@@ -9,17 +9,17 @@ import {SandboxDefinition} from '../../model/sandbox/definition/sandbox-definiti
  * Provide a concrete class in Angular Module. For more info see https://angular.io/guide/dependency-injection-providers.
  * You can use get methods to get paginated sandbox definitions and other operations to modify data.
  */
-export abstract class SandboxDefinitionOverviewService extends PaginatedResourceService<SandboxDefinition> {
+export abstract class SandboxDefinitionOverviewService extends KypoPaginatedResourceService<SandboxDefinition> {
   /**
    * @param pagination requested pagination
    */
-  abstract getAll(pagination: RequestedPagination): Observable<PaginatedResource<SandboxDefinition>>;
+  abstract getAll(pagination: KypoRequestedPagination): Observable<KypoPaginatedResource<SandboxDefinition>>;
 
   /**
    * Deletes sandbox definition by given id
    * @param sandboxDefinition sandbox definition to delete
    */
-  abstract delete(sandboxDefinition: SandboxDefinition): Observable<PaginatedResource<SandboxDefinition>>;
+  abstract delete(sandboxDefinition: SandboxDefinition): Observable<KypoPaginatedResource<SandboxDefinition>>;
 
   /**
    * Creates a  new sandbox definition

@@ -12,7 +12,7 @@ import {FormArray, FormControl, Validators} from '@angular/forms';
 import {takeWhile} from 'rxjs/operators';
 import {Question} from '../../../../../../../../model/questions/question';
 import {FreeFormQuestion} from '../../../../../../../../model/questions/free-form-question';
-import {BaseComponent} from '../../../../../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {FreeFormItemsChangeEvent} from '../../../../../../../../model/utils/free-form-items-change-event';
 import {FreeFormQuestionFormGroup} from './free-form-question-form-group';
 
@@ -25,7 +25,7 @@ import {FreeFormQuestionFormGroup} from './free-form-question-form-group';
 /**
  * Component for editing a question of type Free Form
  */
-export class FreeFormQuestionEditComponent extends BaseComponent implements OnInit, OnChanges {
+export class FreeFormQuestionEditComponent extends KypoBaseComponent implements OnInit, OnChanges {
   @Input() question: FreeFormQuestion;
   @Input() isTest: boolean;
   @Input() required: boolean;

@@ -14,8 +14,8 @@
       </ng-container>
       <h3>{{ stage?.state }}</h3>
     </div>
-    <p *ngIf="stage.start">Started: {{ stage?.start | dateTimeFormat }}</p>
-    <p *ngIf="stage.start">Ended: {{ stage?.end | dateTimeFormat }}</p>
+    <p *ngIf="stage.start">Started: {{ stage?.start | kypoDateTimeFormat }}</p>
+    <p *ngIf="stage.start">Ended: {{ stage?.end | kypoDateTimeFormat }}</p>
     <p class="warn" *ngIf="stage.errorMessage"> {{ stage.errorMessage }}</p>
 
     <mat-expansion-panel  class="mat-elevation-z1"

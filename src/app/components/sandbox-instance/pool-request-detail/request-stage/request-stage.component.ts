@@ -8,7 +8,7 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
-import {BaseComponent} from '../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {RequestStage} from '../../../../model/sandbox/pool/request/stage/request-stage';
 import {RequestStageType} from '../../../../model/enums/request-stage-type.enum';
 import {OpenStackStage} from '../../../../model/sandbox/pool/request/stage/open-stack-stage';
@@ -27,7 +27,7 @@ import {StageDetailEventType} from '../../../../model/enums/stage-detail-event-t
   styleUrls: ['./request-stage.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RequestStageComponent extends BaseComponent implements OnInit, OnChanges {
+export class RequestStageComponent extends KypoBaseComponent implements OnInit, OnChanges {
 
   @Input() stage: RequestStage;
   @Input() stageDetail: StageDetail;

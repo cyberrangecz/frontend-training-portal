@@ -2,15 +2,16 @@ import {Injectable} from '@angular/core';
 import {from, Observable} from 'rxjs';
 import {SandboxInstance} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance';
 import {switchMap, tap} from 'rxjs/operators';
-import {PaginatedResource} from '../../../model/table/other/paginated-resource';
+import {KypoPaginatedResource} from 'kypo-common';
 import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {SandboxInstanceService} from './sandbox-instance.service';
 import {Router} from '@angular/router';
-import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
+import {KypoRequestedPagination} from 'kypo-common';
 import {AlertService} from '../../shared/alert.service';
 import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
 import {RouteFactory} from '../../../model/routes/route-factory';
+import {environment} from '../../../../environments/environment';
 
 /**
  * Basic implementation of a layer between a component and an API service.
@@ -19,13 +20,13 @@ import {RouteFactory} from '../../../model/routes/route-factory';
 @Injectable()
 export class SandboxInstanceConcreteService extends SandboxInstanceService {
 
-  private lastPagination: RequestedPagination;
+  private lastPagination: KypoRequestedPagination;
 
   constructor(private sandboxInstanceFacade: SandboxInstanceApi,
               private router: Router,
               private alertService: AlertService,
               private errorHandler: ErrorHandlerService) {
-    super();
+    super(environment.defaultPaginationSize);
   }
 
   /**
@@ -33,7 +34,7 @@ export class SandboxInstanceConcreteService extends SandboxInstanceService {
    * @param poolId id of a pool associated with sandbox instances
    * @param pagination requested pagination
    */
-  getAll(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<SandboxInstance>> {
+  getAll(poolId: number, pagination: KypoRequestedPagination): Observable<KypoPaginatedResource<SandboxInstance>> {
     this.hasErrorSubject$.next(false);
     this.lastPagination = pagination;
     return this.sandboxInstanceFacade.getSandboxes(poolId, pagination)

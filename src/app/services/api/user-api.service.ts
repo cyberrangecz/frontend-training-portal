@@ -4,13 +4,13 @@ import {User} from 'kypo2-auth';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
-import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
+import {KypoRequestedPagination} from 'kypo-common';
 import {UserRestResource} from '../../model/DTOs/other/user-rest-resource-dto';
 import {FilterParams} from '../../model/http/params/filter-params';
 import {PaginationParams} from '../../model/http/params/pagination-params';
-import {ParamsMerger} from '../../model/http/params/params-merger';
-import {PaginatedResource} from '../../model/table/other/paginated-resource';
-import {Filter} from '../../model/utils/filter';
+import {KypoParamsMerger} from 'kypo-common';
+import {KypoPaginatedResource} from 'kypo-common';
+import {KypoFilter} from 'kypo-common';
 import {PaginationMapper} from '../../model/mappers/pagination-mapper';
 import {UserMapper} from '../../model/mappers/user/user-mapper';
 
@@ -34,9 +34,9 @@ export class UserApi {
    * @param filters requested filtering
    */
   getOrganizersNotInTI(trainingInstanceId: number,
-                       pagination: RequestedPagination,
-                       filters: Filter[] = []): Observable<PaginatedResource<User>> {
-    const params = ParamsMerger.merge([PaginationParams.forJavaAPI(pagination), FilterParams.create(filters)]);
+                       pagination: KypoRequestedPagination,
+                       filters: KypoFilter[] = []): Observable<KypoPaginatedResource<User>> {
+    const params = KypoParamsMerger.merge([PaginationParams.forJavaAPI(pagination), FilterParams.create(filters)]);
     return this.http.get<UserRestResource>(`${this.trainingInstancesEndpointUri + trainingInstanceId}/organizers-not-in-training-instance`,
       { params: params})
       .pipe(
@@ -51,9 +51,9 @@ export class UserApi {
    * @param filters requested filtering
    */
   getDesignersNotInTD(trainingDefinitionId: number,
-                      pagination: RequestedPagination,
-                      filters: Filter[] = []): Observable<PaginatedResource<User>> {
-    const params = ParamsMerger.merge([PaginationParams.forJavaAPI(pagination), FilterParams.create(filters)]);
+                      pagination: KypoRequestedPagination,
+                      filters: KypoFilter[] = []): Observable<KypoPaginatedResource<User>> {
+    const params = KypoParamsMerger.merge([PaginationParams.forJavaAPI(pagination), FilterParams.create(filters)]);
     return this.http.get<UserRestResource>(`${this.trainingDefsEndpointUri + trainingDefinitionId}/designers-not-in-training-definition`,
       { params: params })
       .pipe(
@@ -68,9 +68,9 @@ export class UserApi {
    * @param filters requested filtering
    */
   getAuthors(trainingDefinitionId: number,
-             pagination: RequestedPagination,
-             filters: Filter[] = []): Observable<PaginatedResource<User>> {
-    const params = ParamsMerger.merge([PaginationParams.forJavaAPI(pagination), FilterParams.create(filters)]);
+             pagination: KypoRequestedPagination,
+             filters: KypoFilter[] = []): Observable<KypoPaginatedResource<User>> {
+    const params = KypoParamsMerger.merge([PaginationParams.forJavaAPI(pagination), FilterParams.create(filters)]);
     return this.http.get<UserRestResource>(`${this.trainingDefsEndpointUri + trainingDefinitionId}/authors`,
       { params: params})
       .pipe(
@@ -85,9 +85,9 @@ export class UserApi {
    * @param filters requested filtering
    */
   getOrganizers(trainingInstanceId: number,
-                pagination: RequestedPagination,
-                filters: Filter[] = []): Observable<PaginatedResource<User>> {
-    const params = ParamsMerger.merge([PaginationParams.forJavaAPI(pagination), FilterParams.create(filters)]);
+                pagination: KypoRequestedPagination,
+                filters: KypoFilter[] = []): Observable<KypoPaginatedResource<User>> {
+    const params = KypoParamsMerger.merge([PaginationParams.forJavaAPI(pagination), FilterParams.create(filters)]);
     return this.http.get<UserRestResource>(`${this.trainingInstancesEndpointUri + trainingInstanceId}/organizers`,
       { params: params})
       .pipe(
@@ -95,8 +95,8 @@ export class UserApi {
       );
   }
 
-  private paginatedUsersFromDTO(dto: UserRestResource): PaginatedResource<User> {
-    return new PaginatedResource<User>(
+  private paginatedUsersFromDTO(dto: UserRestResource): KypoPaginatedResource<User> {
+    return new KypoPaginatedResource<User>(
       UserMapper.fromDTOs(dto.content),
       PaginationMapper.fromJavaAPI(dto.pagination)
     );

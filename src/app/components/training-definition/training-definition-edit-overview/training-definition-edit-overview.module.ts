@@ -1,7 +1,7 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {PipesModule} from '../../../pipes/pipes.module';
+import {KypoPipesModule} from 'kypo-common';
 import {TrainingDefinitionCanDeactivate} from '../../../services/guards/training-definition-can-deactivate.service';
 import {TrainingDefinitionBreadcrumbResolver} from '../../../services/resolvers/training-definition-breadcrumb-resolver.service';
 import {TrainingDefinitionResolver} from '../../../services/resolvers/training-definition-resolver.service';
@@ -30,7 +30,7 @@ import {KypoControlsModule} from 'kypo-controls';
         TrainingDefinitionEditOverviewRoutingModule,
         TrainingDefinitionEditOverviewMaterialModule,
         LevelOverviewModule,
-        PipesModule,
+        KypoPipesModule,
         ReactiveFormsModule,
         KypoControlsModule,
     ],

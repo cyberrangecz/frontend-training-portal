@@ -1,18 +1,18 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {Kypo2Table, LoadTableEvent, TableActionEvent} from 'kypo2-table';
 import {SandboxInstanceService} from '../../../services/sandbox-instance/sandbox/sandbox-instance.service';
 import {SandboxInstance} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance';
 import {Observable} from 'rxjs';
-import {map, take, takeWhile, tap} from 'rxjs/operators';
+import {map, take, takeWhile} from 'rxjs/operators';
 import {PoolRequest} from '../../../model/sandbox/pool/request/pool-request';
 import {SandboxPool} from '../../../model/sandbox/pool/sandbox-pool';
-import {BaseComponent} from '../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {SandboxInstanceTable} from '../../../model/table/sandbox-instance/sandbox-instance-table';
 import {environment} from '../../../../environments/environment';
 import {PoolCreationRequestsPollingService} from '../../../services/sandbox-instance/pool-request/creation/pool-creation-requests-polling.service';
 import {PoolCleanupRequestsPollingService} from '../../../services/sandbox-instance/pool-request/cleanup/pool-cleanup-requests-polling.service';
-import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
+import {KypoRequestedPagination} from 'kypo-common';
 import {SandboxPoolDetailControls} from './sandbox-pool-detail-controls';
 import {KypoControlItem} from 'kypo-controls';
 import {CreationRequestTable} from '../../../model/table/sandbox-instance/pool-request/creation-request-table';
@@ -26,7 +26,7 @@ import {CreationRequestTable} from '../../../model/table/sandbox-instance/pool-r
   styleUrls: ['./sandbox-pool-detail.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SandboxPoolDetailComponent extends BaseComponent implements OnInit {
+export class SandboxPoolDetailComponent extends KypoBaseComponent implements OnInit {
 
   pool: SandboxPool;
 
@@ -109,7 +109,7 @@ export class SandboxPoolDetailComponent extends BaseComponent implements OnInit 
 
   private initTables() {
     const initialLoadEvent: LoadTableEvent = new LoadTableEvent(
-      new RequestedPagination(0, environment.defaultPaginationSize, '', ''));
+      new KypoRequestedPagination(0, environment.defaultPaginationSize, '', ''));
     this.activeRoute.data
       .pipe(
         takeWhile(_ => this.isAlive),

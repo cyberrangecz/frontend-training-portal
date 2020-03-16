@@ -9,7 +9,7 @@ import {RequestStageDetailComponent} from './request-stage/request-stage-detail/
 import {PoolRequestStagesPollingService} from '../../../services/sandbox-instance/pool-request/stage/pool-request-stages-polling.service';
 import {PoolResolver} from '../../../services/resolvers/sandbox-instance-resolvers/pool-resolver.service';
 import {PoolRequestTypeResolver} from '../../../services/resolvers/sandbox-instance-resolvers/pool-request-type-resolver.service';
-import {PipesModule} from '../../../pipes/pipes.module';
+import {KypoPipesModule} from 'kypo-common';
 import {StageDetailService} from '../../../services/sandbox-instance/pool-request/stage/stage-detail.service';
 import {StageDetailPollingService} from '../../../services/sandbox-instance/pool-request/stage/stage-detail-polling.service';
 import {SandboxInstanceApi} from '../../../services/api/sandbox-instance-api.service';
@@ -22,7 +22,7 @@ import {SandboxInstanceApi} from '../../../services/api/sandbox-instance-api.ser
       CommonModule,
       PoolRequestDetailRoutingModule,
       PoolRequestDetailMaterialModule,
-      PipesModule,
+      KypoPipesModule,
   ],
   declarations: [
     PoolRequestDetailComponent,

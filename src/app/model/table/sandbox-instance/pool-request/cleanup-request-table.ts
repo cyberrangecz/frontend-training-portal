@@ -1,10 +1,10 @@
-import {PaginatedResource} from '../../other/paginated-resource';
+import {KypoPaginatedResource} from 'kypo-common';
 import {Column, Kypo2Table, Row} from 'kypo2-table';
 import {RouteFactory} from '../../../routes/route-factory';
 import {PoolCleanupRequest} from '../../../sandbox/pool/request/pool-cleanup-request';
 
 export class CleanupRequestTable extends Kypo2Table<PoolCleanupRequest> {
-  constructor(resource: PaginatedResource<PoolCleanupRequest>, poolId: number) {
+  constructor(resource: KypoPaginatedResource<PoolCleanupRequest>, poolId: number) {
     const columns = [
       new Column('id', 'id', false),
       new Column('createdAtFormatted', 'created', false),

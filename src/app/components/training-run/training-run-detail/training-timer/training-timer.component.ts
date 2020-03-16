@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Observable, timer} from 'rxjs';
 import {map, takeWhile} from 'rxjs/operators';
-import {BaseComponent} from '../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 
 /**
  * Component of training timer displaying time passed from start of the training
@@ -13,7 +13,7 @@ import {BaseComponent} from '../../../base.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class TrainingTimerComponent extends BaseComponent implements OnInit, OnChanges {
+export class TrainingTimerComponent extends KypoBaseComponent implements OnInit, OnChanges {
 
   @Input() startTime: Date;
   timeElapsed: Observable<number>;

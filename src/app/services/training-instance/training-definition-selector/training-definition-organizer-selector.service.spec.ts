@@ -1,13 +1,13 @@
 import {async, TestBed} from '@angular/core/testing';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
-import {asyncData} from '../../../testing/helpers/async-data';
-import {RequestedPagination} from 'kypo2-table';
-import {PaginatedResource} from '../../../model/table/other/paginated-resource';
+import {asyncData} from 'kypo-common';
+import {KypoRequestedPagination} from 'kypo-common';
+import {KypoPaginatedResource} from 'kypo-common';
 import {throwError} from 'rxjs';
 import {skip, take} from 'rxjs/operators';
 import {TrainingDefinitionApi} from '../../api/training-definition-api.service';
 import {TrainingDefinitionOrganizerSelectorService} from './training-definition-organizer-selector.service';
-import {Pagination} from '../../../model/table/other/pagination';
+import {KypoPagination} from 'kypo-common';
 import {TrainingDefinitionInfo} from '../../../model/training/training-definition-info';
 
 
@@ -92,7 +92,7 @@ describe('TrainingDefinitionOrganizerSelectorService', () => {
   });
 
   function createPagination() {
-    return new RequestedPagination(1, 5, '', '');
+    return new KypoRequestedPagination(1, 5, '', '');
   }
 
   function createMock() {
@@ -100,6 +100,6 @@ describe('TrainingDefinitionOrganizerSelectorService', () => {
     td1.id = 0;
     const td2 = new TrainingDefinitionInfo();
     td2.id = 1;
-    return new PaginatedResource([td1, td2], new Pagination(1, 2, 5, 2, 1));
+    return new KypoPaginatedResource([td1, td2], new KypoPagination(1, 2, 5, 2, 1));
   }
 });

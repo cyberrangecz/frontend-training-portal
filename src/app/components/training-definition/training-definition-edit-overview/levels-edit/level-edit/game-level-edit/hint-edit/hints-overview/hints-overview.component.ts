@@ -13,7 +13,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {Kypo2Stepper} from 'kypo2-stepper';
 import {takeWhile} from 'rxjs/operators';
 import {Hint} from '../../../../../../../../model/level/hint';
-import {BaseComponent} from '../../../../../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {HintStepperAdapter} from '../../../../../../../../model/stepper/hint-stepper-adapter';
 import {
   CsirtMuConfirmationDialogComponent,
@@ -39,7 +39,7 @@ import {KypoControlItem} from 'kypo-controls';
     }
   ]
 })
-export class HintsOverviewComponent extends BaseComponent implements OnInit, OnChanges {
+export class HintsOverviewComponent extends KypoBaseComponent implements OnInit, OnChanges {
 
   @Input() hints: Hint[];
   @Input() levelMaxScore: number;

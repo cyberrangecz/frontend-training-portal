@@ -13,7 +13,7 @@ import {PoolRequest} from '../../model/sandbox/pool/request/pool-request';
 import {SandboxInstanceResource} from '../../model/sandbox/pool/sandbox-instance/sandbox-instance-resource/sandbox-instance-resource';
 import {SandboxInstanceResourceDTO} from '../../model/DTOs/sandbox-instance/sandbox-instance-resource-dto';
 import {SandboxPool} from '../../model/sandbox/pool/sandbox-pool';
-import {PaginatedResource} from '../../model/table/other/paginated-resource';
+import {KypoPaginatedResource} from 'kypo-common';
 import {RequestStage} from '../../model/sandbox/pool/request/stage/request-stage';
 import {RequestStageDTO} from '../../model/DTOs/sandbox-instance/request-stage-dto';
 import {PoolRequestMapper} from '../../model/mappers/sandbox-instance/pool-request-mapper';
@@ -22,7 +22,7 @@ import {SandboxInstanceMapper} from '../../model/mappers/sandbox-instance/sandbo
 import {RequestStageMapper} from '../../model/mappers/sandbox-instance/request-stage-mapper';
 import {SandboxInstanceResourceMapper} from '../../model/mappers/sandbox-instance/sandbox-instance-resource-mapper';
 import {PaginationMapper} from '../../model/mappers/pagination-mapper';
-import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
+import {KypoRequestedPagination} from 'kypo-common';
 
 /**
  * Service abstracting http communication with sandbox instances endpoints.
@@ -48,7 +48,7 @@ export class SandboxInstanceApi {
    * Sends http request to retrieve all training instances on specified page of a pagination
    * @param pagination requested pagination
    */
-  getPools(pagination: RequestedPagination = null): Observable<PaginatedResource<SandboxPool>> {
+  getPools(pagination: KypoRequestedPagination = null): Observable<KypoPaginatedResource<SandboxPool>> {
     return this.http.get<DjangoResourceDTO<SandboxPoolDTO>>(
       this.poolsEndpointUri,
       {
@@ -56,7 +56,7 @@ export class SandboxInstanceApi {
       })
       .pipe(
         map(response =>
-        new PaginatedResource<SandboxPool>(
+        new KypoPaginatedResource<SandboxPool>(
           SandboxPoolMapper.fromDTOs(response.results),
           PaginationMapper.fromDjangoAPI(response)
         ))
@@ -79,7 +79,7 @@ export class SandboxInstanceApi {
    * @param poolId id of the associated pool
    * @param pagination requested pagination
    */
-  getSandboxes(poolId: number, pagination: RequestedPagination = null): Observable<PaginatedResource<SandboxInstance>> {
+  getSandboxes(poolId: number, pagination: KypoRequestedPagination = null): Observable<KypoPaginatedResource<SandboxInstance>> {
     return this.http.get<DjangoResourceDTO<SandboxInstanceDTO>>(
       `${this.poolsEndpointUri + poolId}/${this.pythonSandboxInstancesUriExtension}`,
       {
@@ -87,7 +87,7 @@ export class SandboxInstanceApi {
       })
       .pipe(
         map(response =>
-          new PaginatedResource<SandboxInstance>(
+          new KypoPaginatedResource<SandboxInstance>(
             SandboxInstanceMapper.fromDTOs(response.results),
             PaginationMapper.fromDjangoAPI(response)
           ))
@@ -111,14 +111,14 @@ export class SandboxInstanceApi {
    * @param requestId id of the associated request
    * @param pagination requested pagination
    */
-  getCreationStages(poolId: number, requestId: number, pagination: RequestedPagination): Observable<PaginatedResource<RequestStage>> {
+  getCreationStages(poolId: number, requestId: number, pagination: KypoRequestedPagination): Observable<KypoPaginatedResource<RequestStage>> {
     return this.http.get<DjangoResourceDTO<RequestStageDTO>>(`${this.poolsEndpointUri + poolId}/${this.poolCreationRequestUriExtension + requestId}/${this.stagesUriExtension}`,
       {
         params: PaginationParams.forDjangoAPI(pagination)
       })
       .pipe(
         map(response =>
-          new PaginatedResource<RequestStage>(
+          new KypoPaginatedResource<RequestStage>(
             RequestStageMapper.fromDTOs(response.results),
             PaginationMapper.fromDjangoAPI(response)
           ))
@@ -132,14 +132,14 @@ export class SandboxInstanceApi {
    * @param poolId id of the associated pool
    * @param pagination requested pagination
    */
-  getCreationRequests(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<PoolRequest>> {
+  getCreationRequests(poolId: number, pagination: KypoRequestedPagination): Observable<KypoPaginatedResource<PoolRequest>> {
     return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(`${this.poolsEndpointUri + poolId}/${this.poolCreationRequestUriExtension}`,
       {
         params: PaginationParams.forDjangoAPI(pagination)
       })
       .pipe(
         map(response =>
-          new PaginatedResource<PoolRequest>(
+          new KypoPaginatedResource<PoolRequest>(
             PoolRequestMapper.fromDTOs(response.results, 'CREATION'),
             PaginationMapper.fromDjangoAPI(response)
           ))
@@ -151,14 +151,14 @@ export class SandboxInstanceApi {
    * @param poolId id of the associated pool
    * @param pagination requested pagination
    */
-  getCleanupRequests(poolId: number, pagination: RequestedPagination): Observable<PaginatedResource<PoolRequest>> {
+  getCleanupRequests(poolId: number, pagination: KypoRequestedPagination): Observable<KypoPaginatedResource<PoolRequest>> {
     return this.http.get<DjangoResourceDTO<PoolRequestDTO>>(`${this.poolsEndpointUri + poolId}/${this.poolCleanupRequestUriExtension}`,
       {
         params: PaginationParams.forDjangoAPI(pagination)
       })
       .pipe(
         map(response =>
-          new PaginatedResource<PoolRequest>(
+          new KypoPaginatedResource<PoolRequest>(
             PoolRequestMapper.fromDTOs(response.results, 'CLEANUP'),
             PaginationMapper.fromDjangoAPI(response)
           ))

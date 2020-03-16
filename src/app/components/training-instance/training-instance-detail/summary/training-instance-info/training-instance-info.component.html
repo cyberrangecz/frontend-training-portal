@@ -1,8 +1,8 @@
-<h2>{{ trainingInstance?.title | shortString: 30}}</h2>
-<h3>of Training Definition: {{ trainingDefinition?.title | shortString: 30 }}</h3>
+<h2>{{ trainingInstance?.title | kypoShortString: 30}}</h2>
+<h3>of Training Definition: {{ trainingDefinition?.title | kypoShortString: 30 }}</h3>
 <p>{{ trainingDefinition.description }}</p>
 <p>Access token: <a mat-button color="primary" [routerLink]="accessTokenLink">{{ trainingInstance.accessToken }}</a></p>
-<p>Start Time: {{ trainingInstance.startTime | dateTimeFormat }}</p>
-<p>End Time: {{ trainingInstance.endTime | dateTimeFormat }}</p>
+<p>Start Time: {{ trainingInstance.startTime | kypoDateTimeFormat }}</p>
+<p>End Time: {{ trainingInstance.endTime | kypoDateTimeFormat }}</p>
 <p>Pool Size: {{ trainingInstance.poolSize }}</p>
 <p>Pool Id: {{ trainingInstance.poolId }}</p>

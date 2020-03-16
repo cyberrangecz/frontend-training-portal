@@ -4,11 +4,11 @@ import {Observable} from 'rxjs/internal/Observable';
 import {map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {DjangoResourceDTO} from '../../model/DTOs/other/django-resource-dto';
-import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
+import {KypoRequestedPagination} from 'kypo-common';
 import {SandboxDefinitionDTO} from '../../model/DTOs/sandbox-definition/sandbox-definition-dto';
 import {PaginationParams} from '../../model/http/params/pagination-params';
 import {SandboxDefinition} from '../../model/sandbox/definition/sandbox-definition';
-import {PaginatedResource} from '../../model/table/other/paginated-resource';
+import {KypoPaginatedResource} from 'kypo-common';
 import {SandboxDefinitionMapper} from '../../model/mappers/sandbox-definition/sandbox-definition-mapper';
 import {PaginationMapper} from '../../model/mappers/pagination-mapper';
 
@@ -36,7 +36,7 @@ export class SandboxDefinitionApi {
   /**
    * Sends http request to retrieve all sandbox definitions on specified page of a pagination
    */
-  getAllPaginated(pagination?: RequestedPagination): Observable<PaginatedResource<SandboxDefinition>> {
+  getAllPaginated(pagination?: KypoRequestedPagination): Observable<KypoPaginatedResource<SandboxDefinition>> {
     return this.http.get<DjangoResourceDTO<SandboxDefinitionDTO>>(this.sandboxDefsEndpoint,
       {
         headers: this.createDefaultHeaders(),
@@ -44,7 +44,7 @@ export class SandboxDefinitionApi {
       })
       .pipe(
         map(response =>
-          new PaginatedResource<SandboxDefinition>(
+          new KypoPaginatedResource<SandboxDefinition>(
             SandboxDefinitionMapper.fromDTOs(response.results),
             PaginationMapper.fromDjangoAPI(response)
           )

@@ -4,10 +4,10 @@ import {Observable} from 'rxjs';
 import {map, take, takeWhile} from 'rxjs/operators';
 import {SandboxPool} from '../../../model/sandbox/pool/sandbox-pool';
 import {PoolService} from '../../../services/sandbox-instance/pool/pool.service';
-import {BaseComponent} from '../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {PoolTable} from '../../../model/table/sandbox-instance/pool-table';
 import {environment} from '../../../../environments/environment';
-import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
+import {KypoRequestedPagination} from 'kypo-common';
 
 /**
  * Smart component of sandbox pool overview page
@@ -18,7 +18,7 @@ import {RequestedPagination} from '../../../model/DTOs/other/requested-paginatio
   styleUrls: ['./sandbox-pool-overview.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SandboxPoolOverviewComponent extends BaseComponent implements OnInit {
+export class SandboxPoolOverviewComponent extends KypoBaseComponent implements OnInit {
 
   pools$: Observable<Kypo2Table<SandboxPool>>;
   hasError$: Observable<boolean>;
@@ -55,7 +55,7 @@ export class SandboxPoolOverviewComponent extends BaseComponent implements OnIni
 
   private initTable() {
     const initialLoadEvent: LoadTableEvent = new LoadTableEvent(
-      new RequestedPagination(0, environment.defaultPaginationSize, '', ''));
+      new KypoRequestedPagination(0, environment.defaultPaginationSize, '', ''));
     this.pools$ = this.poolService.resource$
       .pipe(
         map(resource => new PoolTable(resource, this.poolService))

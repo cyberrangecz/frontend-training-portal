@@ -15,7 +15,7 @@ import {Question} from '../../../../../../../../model/questions/question';
 import {ExtendedMatchingItems} from '../../../../../../../../model/questions/extended-matching-items';
 import {FreeFormQuestion} from '../../../../../../../../model/questions/free-form-question';
 import {MultipleChoiceQuestion} from '../../../../../../../../model/questions/multiple-choice-question';
-import {BaseComponent} from '../../../../../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {
   CsirtMuConfirmationDialogComponent,
   CsirtMuConfirmationDialogConfig,
@@ -33,7 +33,7 @@ import {KypoControlItem, KypoControlMenuItem, KypoExpandableControlItem} from 'k
   styleUrls: ['./questions-overview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class QuestionsOverviewComponent extends BaseComponent implements OnInit, OnChanges {
+export class QuestionsOverviewComponent extends KypoBaseComponent implements OnInit, OnChanges {
 
   @Input() questions: Question[];
   @Input() isTest: boolean;

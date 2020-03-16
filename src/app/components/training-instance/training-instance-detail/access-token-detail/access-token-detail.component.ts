@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {TrainingInstance} from '../../../../model/training/training-instance';
-import {BaseComponent} from '../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {map, takeWhile} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
@@ -14,7 +14,7 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./access-token-detail.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AccessTokenDetailComponent extends BaseComponent implements OnInit {
+export class AccessTokenDetailComponent extends KypoBaseComponent implements OnInit {
 
   trainingInstance$: Observable<TrainingInstance>;
 

@@ -2,7 +2,7 @@ import {SandboxInstanceApi} from '../../../api/sandbox-instance-api.service';
 import {ErrorHandlerService} from '../../../shared/error-handler.service';
 import {PoolRequestStagesPollingService} from './pool-request-stages-polling.service';
 import {async, fakeAsync, TestBed, tick} from '@angular/core/testing';
-import {asyncData} from '../../../../testing/helpers/async-data';
+import {asyncData} from 'kypo-common';
 import {skip} from 'rxjs/operators';
 import {throwError} from 'rxjs';
 import {PoolCreationRequest} from '../../../../model/sandbox/pool/request/pool-creation-request';

@@ -1,14 +1,15 @@
 import {Injectable} from '@angular/core';
 import {AccessedTrainingRunService} from './accessed-training-run.service';
-import {RequestedPagination} from 'kypo2-table';
+import {KypoRequestedPagination} from 'kypo-common';
 import {TrainingRunApi} from '../../api/training-run-api.service';
 import {from, Observable} from 'rxjs';
 import {AccessedTrainingRun} from '../../../model/table/rows/accessed-training-run';
 import {tap} from 'rxjs/operators';
-import {PaginatedResource} from '../../../model/table/other/paginated-resource';
+import {KypoPaginatedResource} from 'kypo-common';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {Router} from '@angular/router';
 import {RouteFactory} from '../../../model/routes/route-factory';
+import {environment} from '../../../../environments/environment';
 
 /**
  * Basic implementation of layer between component and API service.
@@ -19,14 +20,14 @@ export class AccessedTrainingRunConcreteService extends AccessedTrainingRunServi
   constructor(private api: TrainingRunApi,
               private router: Router,
               private errorHandler: ErrorHandlerService) {
-    super();
+    super(environment.defaultPaginationSize);
   }
 
   /**
    * Gets paginated accessed training runs and updates related observables or handles error.
    * @param pagination requested pagination info
    */
-  getAll(pagination: RequestedPagination): Observable<PaginatedResource<AccessedTrainingRun>> {
+  getAll(pagination: KypoRequestedPagination): Observable<KypoPaginatedResource<AccessedTrainingRun>> {
     this.hasErrorSubject$.next(false);
     return this.api.getAccessed(pagination).pipe(
       tap(trainingRuns => {

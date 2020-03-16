@@ -1,5 +1,5 @@
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {KypoValidators} from '../../../../model/validators/kypo-validators';
+import {FormControl, FormGroup} from '@angular/forms';
+import {KypoValidators} from 'kypo-common';
 
 /**
  * Form group controls for form in clone dialog component

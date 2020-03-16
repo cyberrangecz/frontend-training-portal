@@ -1,6 +1,6 @@
-import {Filter} from './filter';
+import {KypoFilter} from 'kypo-common';
 
-export class TrainingInstanceFilter extends Filter {
+export class TrainingInstanceFilter extends KypoFilter {
 
   constructor(value: string) {
     super('title', value);

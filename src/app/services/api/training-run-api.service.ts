@@ -6,7 +6,7 @@ import {environment} from '../../../environments/environment';
 import {AbstractLevelDTO} from '../../model/DTOs/level/abstract-level-dto';
 import {HintDTO} from '../../model/DTOs/level/game/hint-dto';
 import {IsCorrectFlagDTO} from '../../model/DTOs/level/game/is-correct-flag-dto';
-import {RequestedPagination} from '../../model/DTOs/other/requested-pagination';
+import {KypoRequestedPagination} from 'kypo-common';
 import {AccessTrainingRunDTO} from '../../model/DTOs/training-run/access-training-run-dto';
 import {TrainingRunDTO} from '../../model/DTOs/training-run/training-run-dto';
 import {TrainingRunRestResource} from '../../model/DTOs/training-run/training-run-rest-resource';
@@ -14,7 +14,7 @@ import {FlagCheck} from '../../model/level/flag-check';
 import {Hint} from '../../model/level/hint';
 import {Question} from '../../model/questions/question';
 import {AccessedTrainingRun} from '../../model/table/rows/accessed-training-run';
-import {PaginatedResource} from '../../model/table/other/paginated-resource';
+import {KypoPaginatedResource} from 'kypo-common';
 import {AccessTrainingRunInfo} from '../../model/training/access-training-run-info';
 import {TrainingRun} from '../../model/training/training-run';
 import {Level} from '../../model/level/level';
@@ -54,11 +54,11 @@ export class TrainingRunApi {
    * Sends http request to retrieve training run already accessed by logged in user
    * @param pagination requested pagination
    */
-  getAccessed(pagination: RequestedPagination): Observable<PaginatedResource<AccessedTrainingRun>> {
+  getAccessed(pagination: KypoRequestedPagination): Observable<KypoPaginatedResource<AccessedTrainingRun>> {
     return this.http.get<TrainingRunRestResource>(this.trainingRunsEndpointUri + 'accessible/',
       {params: PaginationParams.forJavaAPI(pagination)})
       .pipe(
-        map(response => new PaginatedResource<AccessedTrainingRun>(
+        map(response => new KypoPaginatedResource<AccessedTrainingRun>(
           AccessedTrainingRunMapper.fromDTOs(response.content),
           PaginationMapper.fromJavaAPI(response.pagination)
         )));

@@ -1,4 +1,4 @@
-import {PaginatedResource} from '../other/paginated-resource';
+import {KypoPaginatedResource} from 'kypo-common';
 import {TrainingInstance} from '../../training/training-instance';
 import {Column, Kypo2Table, Row, RowAction} from 'kypo2-table';
 import {TrainingInstanceRowAdapter} from '../rows/training-instance-row-adapter';
@@ -11,7 +11,7 @@ import {DownloadAction} from '../actions/download-action';
 
 export class TrainingInstanceTable extends Kypo2Table<TrainingInstanceRowAdapter> {
 
-  constructor(resource: PaginatedResource<TrainingInstance>, service: TrainingInstanceOverviewService) {
+  constructor(resource: KypoPaginatedResource<TrainingInstance>, service: TrainingInstanceOverviewService) {
     const columns = [
       new Column('id', 'Id', true),
       new Column('title', 'Title', true),

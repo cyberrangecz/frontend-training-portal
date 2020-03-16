@@ -1,10 +1,10 @@
 import {async, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {ErrorHandlerService} from '../../../shared/error-handler.service';
 import {SandboxInstanceApi} from '../../../api/sandbox-instance-api.service';
-import {RequestedPagination} from 'kypo2-table';
-import {asyncData} from '../../../../testing/helpers/async-data';
-import {PaginatedResource} from '../../../../model/table/other/paginated-resource';
-import {Pagination} from '../../../../model/table/other/pagination';
+import {KypoRequestedPagination} from 'kypo-common';
+import {asyncData} from 'kypo-common';
+import {KypoPaginatedResource} from 'kypo-common';
+import {KypoPagination} from 'kypo-common';
 import {skip} from 'rxjs/operators';
 import {environment} from '../../../../../environments/environment';
 import {throwError} from 'rxjs';
@@ -165,11 +165,11 @@ describe('PoolCleanupRequestsPollingService', () => {
   }));
 
   function createPagination() {
-    return new RequestedPagination(1, 5, '', '');
+    return new KypoRequestedPagination(1, 5, '', '');
   }
 
   function createMock() {
-    return new PaginatedResource([], new Pagination(1, 0, 5, 5, 1));
+    return new KypoPaginatedResource([], new KypoPagination(1, 0, 5, 5, 1));
   }
 
   function assertPoll(times: number, initialHaveBeenCalledTimes: number = 0) {

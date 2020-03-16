@@ -11,7 +11,7 @@ import {
 import {Validators} from '@angular/forms';
 import {takeWhile} from 'rxjs/operators';
 import {Hint} from '../../../../../../../../model/level/hint';
-import {BaseComponent} from '../../../../../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {HintEditFormGroup} from './hint-edit-form-group';
 
 @Component({
@@ -23,7 +23,7 @@ import {HintEditFormGroup} from './hint-edit-form-group';
 /**
  * Component to edit new or existing game level hint
  */
-export class HintDetailEditComponent extends BaseComponent implements OnInit, OnChanges {
+export class HintDetailEditComponent extends KypoBaseComponent implements OnInit, OnChanges {
 
   @Input() hint: Hint;
   @Input() levelMaxScore: number;

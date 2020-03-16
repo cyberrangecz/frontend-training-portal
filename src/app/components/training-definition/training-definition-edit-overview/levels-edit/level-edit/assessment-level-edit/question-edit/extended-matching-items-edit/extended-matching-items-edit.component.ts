@@ -16,7 +16,7 @@ import {MatRadioButton} from '@angular/material/radio';
 import {takeWhile} from 'rxjs/operators';
 import {Question} from '../../../../../../../../model/questions/question';
 import {ExtendedMatchingItems} from '../../../../../../../../model/questions/extended-matching-items';
-import {BaseComponent} from '../../../../../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {ExtendedMatchingItemsFormGroup} from './extended-matching-items-form-group';
 
 /**
@@ -28,7 +28,7 @@ import {ExtendedMatchingItemsFormGroup} from './extended-matching-items-form-gro
   styleUrls: ['./extended-matching-items-edit.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ExtendedMatchingItemsEditComponent extends BaseComponent
+export class ExtendedMatchingItemsEditComponent extends KypoBaseComponent
   implements OnInit, OnChanges, AfterViewInit {
   @Input() question: ExtendedMatchingItems;
   @Input() isTest: boolean;

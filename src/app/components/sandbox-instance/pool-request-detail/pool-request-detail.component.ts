@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {PoolRequest} from '../../../model/sandbox/pool/request/pool-request';
 import {map, takeWhile, tap} from 'rxjs/operators';
 import {RequestStage} from '../../../model/sandbox/pool/request/stage/request-stage';
-import {BaseComponent} from '../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {StageDetailService} from '../../../services/sandbox-instance/pool-request/stage/stage-detail.service';
 import {StageDetail} from '../../../model/sandbox/pool/request/stage/stage-detail';
 import {PoolRequestStagesPollingService} from '../../../services/sandbox-instance/pool-request/stage/pool-request-stages-polling.service';
@@ -20,7 +20,7 @@ import {StageDetailEvent} from '../../../model/events/stage-detail-event';
   styleUrls: ['./pool-request-detail.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PoolRequestDetailComponent extends BaseComponent implements OnInit {
+export class PoolRequestDetailComponent extends KypoBaseComponent implements OnInit {
 
   request$: Observable<PoolRequest>;
   stages$: Observable<RequestStage[]>;

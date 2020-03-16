@@ -13,7 +13,7 @@ import {MatCheckboxChange} from '@angular/material/checkbox';
 import {takeWhile} from 'rxjs/operators';
 import {Question} from '../../../../../../../../model/questions/question';
 import {MultipleChoiceQuestion} from '../../../../../../../../model/questions/multiple-choice-question';
-import {BaseComponent} from '../../../../../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {MultipleChoiceFormGroup} from './multiple-choice-question-edit-form-group';
 
 /**
@@ -25,7 +25,7 @@ import {MultipleChoiceFormGroup} from './multiple-choice-question-edit-form-grou
   styleUrls: ['./multiple-choice-question-edit.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MultipleChoiceQuestionEditComponent extends BaseComponent
+export class MultipleChoiceQuestionEditComponent extends KypoBaseComponent
   implements OnInit, OnChanges {
   @Input() question: MultipleChoiceQuestion;
   @Input() isTest: boolean;

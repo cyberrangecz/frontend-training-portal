@@ -1,5 +1,5 @@
 import {TrainingInstance} from '../../training/training-instance';
-import {DateTimeFormatPipe} from '../../../pipes/date-time-format.pipe';
+import {KypoDateTimeFormatPipe} from 'kypo-common';
 import {Observable} from 'rxjs';
 
 export class TrainingInstanceRowAdapter {
@@ -14,7 +14,7 @@ export class TrainingInstanceRowAdapter {
   poolSize: Observable<string>;
 
   constructor(trainingInstance: TrainingInstance) {
-    const datePipe = new DateTimeFormatPipe('en-EN');
+    const datePipe = new KypoDateTimeFormatPipe('en-EN');
     this.trainingInstance = trainingInstance;
     this.tdTitle = this.trainingInstance.trainingDefinition.title;
     this.title = trainingInstance.title;

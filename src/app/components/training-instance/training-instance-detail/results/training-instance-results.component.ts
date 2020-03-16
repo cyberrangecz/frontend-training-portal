@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, HostListener, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {BaseComponent} from '../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {Observable} from 'rxjs';
 import {TrainingInstance} from '../../../../model/training/training-instance';
 import {map, takeWhile, tap} from 'rxjs/operators';
@@ -14,7 +14,7 @@ import {map, takeWhile, tap} from 'rxjs/operators';
   styleUrls: ['./training-instance-results.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TrainingInstanceResultsComponent extends BaseComponent implements OnInit {
+export class TrainingInstanceResultsComponent extends KypoBaseComponent implements OnInit {
 
   trainingInstance$: Observable<TrainingInstance>;
   vizSize: { width: number, height: number };

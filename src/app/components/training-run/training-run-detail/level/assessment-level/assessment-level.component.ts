@@ -14,7 +14,7 @@ import {take} from 'rxjs/operators';
 import {AssessmentTypeEnum} from '../../../../../model/enums/assessment-type.enum';
 import {AssessmentLevel} from '../../../../../model/level/assessment-level';
 import {Question} from '../../../../../model/questions/question';
-import {BaseComponent} from '../../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {TraineeQuestionComponent} from './question/trainee-question.component';
 import {TrainingRunAssessmentLevelService} from '../../../../../services/training-run/running/training-run-assessment-level.service';
 
@@ -29,7 +29,7 @@ import {TrainingRunAssessmentLevelService} from '../../../../../services/trainin
  * to answer all of the questions before he can continue to the next level. If it questionnaire type, trainee can skip
  * answering the questions.
  */
-export class AssessmentLevelComponent extends BaseComponent implements OnInit, OnChanges {
+export class AssessmentLevelComponent extends KypoBaseComponent implements OnInit, OnChanges {
 
   @Input() level: AssessmentLevel;
   @Input() isLast: boolean;

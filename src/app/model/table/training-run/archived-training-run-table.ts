@@ -1,6 +1,6 @@
 import {Column, Kypo2Table, Row, RowAction} from 'kypo2-table';
 import {TrainingRunRowAdapter} from '../rows/training-run-row-adapter';
-import {PaginatedResource} from '../other/paginated-resource';
+import {KypoPaginatedResource} from 'kypo-common';
 import {ArchivedTrainingRunService} from '../../../services/training-run/archived/archived-training-run.service';
 import {DeleteAction} from '../actions/delete-action';
 import {defer, of} from 'rxjs';
@@ -8,7 +8,7 @@ import {TrainingRun} from '../../training/training-run';
 
 export class ArchivedTrainingRunTable extends Kypo2Table<TrainingRunRowAdapter> {
 
-  constructor(resource: PaginatedResource<TrainingRun>, service: ArchivedTrainingRunService) {
+  constructor(resource: KypoPaginatedResource<TrainingRun>, service: ArchivedTrainingRunService) {
     const columns = [
       new Column('player', 'player', false),
       new Column('state', 'training run state', false),

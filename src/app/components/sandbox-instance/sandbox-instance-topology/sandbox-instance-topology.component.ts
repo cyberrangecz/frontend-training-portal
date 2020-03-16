@@ -4,7 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Kypo2TopologyErrorService} from 'kypo2-topology-graph';
 import {ErrorHandlerService} from '../../../services/shared/error-handler.service';
 import {map, takeWhile} from 'rxjs/operators';
-import {BaseComponent} from '../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {Observable} from 'rxjs';
 
 /**
@@ -16,7 +16,7 @@ import {Observable} from 'rxjs';
   styleUrls: ['./sandbox-instance-topology.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SandboxInstanceTopologyComponent extends BaseComponent implements OnInit {
+export class SandboxInstanceTopologyComponent extends KypoBaseComponent implements OnInit {
 
   sandboxInstance$: Observable<SandboxInstance>;
   topologyWidth: number;

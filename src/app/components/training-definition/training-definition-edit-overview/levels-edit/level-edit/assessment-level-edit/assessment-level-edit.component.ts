@@ -11,7 +11,7 @@ import {
 import {takeWhile} from 'rxjs/operators';
 import {AssessmentLevel} from '../../../../../../model/level/assessment-level';
 import {Question} from '../../../../../../model/questions/question';
-import {BaseComponent} from '../../../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {AssessmentLevelEditFormGroup} from './assessment-level-edit-form-group';
 
 /**
@@ -23,7 +23,7 @@ import {AssessmentLevelEditFormGroup} from './assessment-level-edit-form-group';
   styleUrls: ['./assessment-level-edit.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AssessmentLevelEditComponent extends BaseComponent implements OnInit, OnChanges {
+export class AssessmentLevelEditComponent extends KypoBaseComponent implements OnInit, OnChanges {
 
   @Input() level: AssessmentLevel;
   @Output() levelChange: EventEmitter<AssessmentLevel> = new EventEmitter();

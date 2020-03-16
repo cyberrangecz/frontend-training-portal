@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {PaginatedResource} from '../../../model/table/other/paginated-resource';
-import {RequestedPagination} from '../../../model/DTOs/other/requested-pagination';
-import {PaginatedResourceService} from '../../shared/paginated-resource.service';
+import {KypoPaginatedResource} from 'kypo-common';
+import {KypoRequestedPagination} from 'kypo-common';
+import {KypoPaginatedResourceService} from 'kypo-common';
 import {TrainingInstance} from '../../../model/training/training-instance';
 import {TrainingRun} from '../../../model/training/training-run';
 
@@ -13,12 +13,12 @@ import {TrainingRun} from '../../../model/training/training-run';
  * Subscribe to archivedTrainingRuns$ to receive latest data updates.
  */
 @Injectable()
-export abstract class ArchivedTrainingRunService extends PaginatedResourceService<TrainingRun> {
+export abstract class ArchivedTrainingRunService extends KypoPaginatedResourceService<TrainingRun> {
 
   /**
    * @contract must be updated every time new data are received
    */
-  abstract archivedTrainingRuns$: Observable<PaginatedResource<TrainingRun>>;
+  abstract archivedTrainingRuns$: Observable<KypoPaginatedResource<TrainingRun>>;
 
   /**
    * Starts polling in regular intervals
@@ -30,7 +30,7 @@ export abstract class ArchivedTrainingRunService extends PaginatedResourceServic
    * @param trainingInstanceId id of associated training instance
    * @param pagination requested pagination
    */
-  abstract getAll(trainingInstanceId: number, pagination?: RequestedPagination): Observable<PaginatedResource<TrainingRun>>;
+  abstract getAll(trainingInstanceId: number, pagination?: KypoRequestedPagination): Observable<KypoPaginatedResource<TrainingRun>>;
 
   /**
    * Deletes archived training run

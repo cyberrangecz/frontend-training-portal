@@ -1,7 +1,7 @@
 import {Column, Kypo2Table, Row, RowExpand} from 'kypo2-table';
 import {defer, of} from 'rxjs';
 import {SandboxDefinitionDetailComponent} from '../../../components/sandbox-definition/overview/sandbox-definition-detail/sandbox-definition-detail.component';
-import {PaginatedResource} from '../other/paginated-resource';
+import {KypoPaginatedResource} from 'kypo-common';
 import {SandboxDefinition} from '../../sandbox/definition/sandbox-definition';
 import {SandboxDefinitionOverviewService} from '../../../services/sandbox-definition/sandbox-definition-overview.service';
 import {DeleteAction} from '../actions/delete-action';
@@ -11,7 +11,7 @@ import {DeleteAction} from '../actions/delete-action';
  */
 export class SandboxDefinitionTable extends Kypo2Table<SandboxDefinition> {
 
-  constructor(resource: PaginatedResource<SandboxDefinition>, service: SandboxDefinitionOverviewService) {
+  constructor(resource: KypoPaginatedResource<SandboxDefinition>, service: SandboxDefinitionOverviewService) {
     const columns = [
       new Column('id', 'id', false),
       new Column('title', 'title', false),

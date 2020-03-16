@@ -1,7 +1,7 @@
 import {SandboxDefinitionOverviewService} from './sandbox-definition-overview.service';
 import {EMPTY, Observable, of} from 'rxjs';
-import {PaginatedResource} from '../../model/table/other/paginated-resource';
-import {RequestedPagination} from 'kypo2-table';
+import {KypoPaginatedResource} from 'kypo-common';
+import {KypoRequestedPagination} from 'kypo-common';
 import {switchMap, tap} from 'rxjs/operators';
 import {SandboxDefinitionApi} from '../api/sandbox-definition-api.service';
 import {ErrorHandlerService} from '../shared/error-handler.service';
@@ -17,6 +17,7 @@ import {
   CsirtMuDialogResultEnum
 } from 'csirt-mu-common';
 import {MatDialog} from '@angular/material/dialog';
+import {environment} from '../../../environments/environment';
 
 /**
  * Basic implementation of a layer between a component and an API service.
@@ -30,16 +31,16 @@ export class SandboxDefinitionOverviewConcreteService extends SandboxDefinitionO
     private dialog: MatDialog,
     private alertService: AlertService,
     private errorHandler: ErrorHandlerService) {
-    super();
+    super(environment.defaultPaginationSize);
   }
 
-  private lastPagination: RequestedPagination;
+  private lastPagination: KypoRequestedPagination;
 
   /**
    * Gets all sandbox definitions with passed pagination and updates related observables or handles an error
    * @param pagination requested pagination
    */
-  getAll(pagination: RequestedPagination): Observable<PaginatedResource<SandboxDefinition>> {
+  getAll(pagination: KypoRequestedPagination): Observable<KypoPaginatedResource<SandboxDefinition>> {
     this.hasErrorSubject$.next(false);
     this.lastPagination = pagination;
     return this.sandboxDefinitionFacade.getAllPaginated(pagination).pipe(
@@ -61,7 +62,7 @@ export class SandboxDefinitionOverviewConcreteService extends SandboxDefinitionO
    * Deletes a sandbox definition, informs about the result and updates list of sandbox definitions or handles an error
    * @param sandboxDefinition sandbox definition to be deleted
    */
-  delete(sandboxDefinition: SandboxDefinition): Observable<PaginatedResource<SandboxDefinition>> {
+  delete(sandboxDefinition: SandboxDefinition): Observable<KypoPaginatedResource<SandboxDefinition>> {
     return this.displayDialogToDelete(sandboxDefinition)
       .pipe(
         switchMap(result => result === CsirtMuDialogResultEnum.CONFIRMED
@@ -83,7 +84,7 @@ export class SandboxDefinitionOverviewConcreteService extends SandboxDefinitionO
     return dialogRef.afterClosed();
   }
 
-  private callApiToDelete(sandboxDefinition: SandboxDefinition): Observable<PaginatedResource<SandboxDefinition>> {
+  private callApiToDelete(sandboxDefinition: SandboxDefinition): Observable<KypoPaginatedResource<SandboxDefinition>> {
     return this.sandboxDefinitionFacade.delete(sandboxDefinition.id)
       .pipe(
         tap(

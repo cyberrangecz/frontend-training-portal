@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {InfoLevel} from '../../../../../model/level/info-level';
-import {BaseComponent} from '../../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 
 @Component({
   selector: 'kypo2-info-level',
@@ -11,7 +11,7 @@ import {BaseComponent} from '../../../../base.component';
 /**
  * Component to display training run's level of type INFO. Only displays markdown and allows user to continue immediately.
  */
-export class InfoLevelComponent extends BaseComponent implements OnInit {
+export class InfoLevelComponent extends KypoBaseComponent implements OnInit {
 
   @Input() level: InfoLevel;
   @Input() isLast: boolean;

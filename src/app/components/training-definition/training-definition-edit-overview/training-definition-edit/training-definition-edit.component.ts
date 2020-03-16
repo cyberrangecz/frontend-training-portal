@@ -5,7 +5,7 @@ import {User} from 'kypo2-auth';
 import {takeWhile} from 'rxjs/operators';
 import {TrainingDefinitionChangeEvent} from '../../../../model/events/training-definition-change-event';
 import {TrainingDefinition} from '../../../../model/training/training-definition';
-import {BaseComponent} from '../../../base.component';
+import {KypoBaseComponent} from 'kypo-common';
 import {FreeFormItemsChangeEvent} from '../../../../model/utils/free-form-items-change-event';
 import {SandboxDefinitionPickerComponent} from './sandbox-definition-picker/sandbox-definition-picker.component';
 import {TrainingDefinitionEditFormGroup} from './training-definition-edit-form-group';
@@ -18,7 +18,7 @@ import {TrainingDefinitionEditFormGroup} from './training-definition-edit-form-g
   templateUrl: './training-definition-edit.component.html',
   styleUrls: ['./training-definition-edit.component.css']
 })
-export class TrainingDefinitionEditComponent extends BaseComponent implements OnInit, OnChanges {
+export class TrainingDefinitionEditComponent extends KypoBaseComponent implements OnInit, OnChanges {
 
   @Input() trainingDefinition: TrainingDefinition;
   @Input() activeUser: User;
