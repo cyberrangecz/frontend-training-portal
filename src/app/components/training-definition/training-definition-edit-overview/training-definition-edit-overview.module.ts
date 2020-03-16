@@ -12,10 +12,8 @@ import {LevelOverviewModule} from './levels-edit/level-overview.module';
 import {TrainingDefinitionEditOverviewMaterialModule} from './training-definition-edit-overview-material.module';
 import {TrainingDefinitionEditOverviewRoutingModule} from './training-definition-edit-overview-routing.module';
 import {TrainingDefinitionEditOverviewComponent} from './training-definition-edit-overview.component';
-import {SandboxDefinitionPickerComponent} from './training-definition-edit/sandbox-definition-picker/sandbox-definition-picker.component';
 import {TrainingDefinitionEditComponent} from './training-definition-edit/training-definition-edit.component';
 import {Kypo2UserAssignModule, Kypo2UserAssignService} from 'kypo2-user-assign';
-import {SandboxDefinitionApi} from '../../../services/api/sandbox-definition-api.service';
 import {KypoControlsModule} from 'kypo-controls';
 
 /**
@@ -37,10 +35,8 @@ import {KypoControlsModule} from 'kypo-controls';
   declarations: [
     TrainingDefinitionEditOverviewComponent,
     TrainingDefinitionEditComponent,
-    SandboxDefinitionPickerComponent,
   ],
   providers: [
-    SandboxDefinitionApi,
     TrainingDefinitionEditService,
     TrainingDefinitionCanDeactivate,
     TrainingDefinitionResolver,

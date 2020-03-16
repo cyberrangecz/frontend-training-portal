@@ -6,7 +6,6 @@ export class TrainingDefinitionDTO {
   id?: number;
   outcomes?: Array<string>;
   prerequisities?: Array<string>;
-  sandbox_definition_ref_id?: number;
   show_stepper_bar?: boolean;
   state?: TrainingDefinitionDTO.StateEnum;
   title?: string;

@@ -10,7 +10,6 @@ export class TrainingDefinitionMapper {
   static fromDTO(dto: TrainingDefinitionDTO, withLevels: boolean): TrainingDefinition {
     const result = new TrainingDefinition();
     result.id = dto.id;
-    result.sandboxDefinitionId = dto.sandbox_definition_ref_id;
     result.title = dto.title;
     result.description = dto.description;
     result.prerequisites = dto.prerequisities ? dto.prerequisities : [];
@@ -63,7 +62,6 @@ export class TrainingDefinitionMapper {
     const result = new TrainingDefinitionUpdateDTO();
     result.id = trainingDefinition.id;
     result.description = trainingDefinition.description;
-    result.sandbox_definition_ref_id = trainingDefinition.sandboxDefinitionId;
     result.show_stepper_bar = trainingDefinition.showStepperBar;
     result.prerequisities = trainingDefinition.prerequisites.filter(prerequisite => prerequisite.length > 1);
     result.outcomes = trainingDefinition.outcomes.filter(outcome => outcome.length > 1);
@@ -79,7 +77,6 @@ export class TrainingDefinitionMapper {
     result.description = trainingDefinition.description;
     result.state = TrainingDefinitionDTO.StateEnum.UNRELEASED;
     result.title = trainingDefinition.title;
-    result.sandbox_definition_ref_id = trainingDefinition.sandboxDefinitionId;
     result.show_stepper_bar = trainingDefinition.showStepperBar;
     return result;
   }

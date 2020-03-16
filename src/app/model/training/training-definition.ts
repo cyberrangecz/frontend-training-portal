@@ -7,6 +7,7 @@ import {formatDate} from '@angular/common';
  * Class representing training definition in a system.
  */
 export class TrainingDefinition implements DisplayableResource {
+
   get lastEditTime(): Date {
     return this._lastEditTime;
   }
@@ -17,7 +18,6 @@ export class TrainingDefinition implements DisplayableResource {
   }
 
   id: number;
-  sandboxDefinitionId: number;
   estimatedDuration: number;
   showStepperBar: boolean;
   title: string;
