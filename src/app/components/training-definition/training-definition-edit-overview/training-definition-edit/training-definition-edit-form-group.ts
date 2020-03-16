@@ -13,7 +13,6 @@ export class TrainingDefinitionEditFormGroup {
       description: new FormControl(trainingDefinition.description),
       prerequisites: new FormArray(trainingDefinition.prerequisites.map(prereq => new FormControl(prereq))),
       outcomes: new FormArray(trainingDefinition.outcomes.map(outcomes => new FormControl(outcomes))),
-      sandboxDefId: new FormControl(trainingDefinition.sandboxDefinitionId, Validators.required),
       showProgress: new FormControl(trainingDefinition.showStepperBar),
     });
   }
@@ -23,7 +22,6 @@ export class TrainingDefinitionEditFormGroup {
    * @param trainingDefinition training definition object to be filled with inputs from form
    */
   setValuesToTrainingDefinition(trainingDefinition: TrainingDefinition) {
-    trainingDefinition.sandboxDefinitionId = this.formGroup.get('sandboxDefId').value;
     trainingDefinition.title = this.formGroup.get('title').value;
     trainingDefinition.description = this.formGroup.get('description').value;
     trainingDefinition.showStepperBar = this.formGroup.get('showProgress').value;

@@ -29,50 +29,34 @@
           </button>
         </mat-form-field>
 
-        <!-- PREREQUISITES field-->
-        <kypo2-free-form (itemsChange)="prerequisitesChange($event)"
-          [required]="false" [hasHeader]="true" [formPlaceholder]="'Note'"
-          [formName]="'Notes for instructors'"
-          [formData]="trainingDefinition.prerequisites"></kypo2-free-form>
-
-        <!-- OUTCOMES field-->
-        <kypo2-free-form (itemsChange)="outcomesChange($event)"
-          [required]="false" [hasHeader]="true" [formPlaceholder]="'Outcome'"
-          [formName]="'Learning outcomes'"
-          [formData]="trainingDefinition.outcomes"></kypo2-free-form>
-
-      </div>
-
-      <div class="right-col">
-
-        <!-- SANDBOX DEFINITION field-->
-        <div class="form-line">
-          <div class="form-line-content">
-            <p *ngIf="!sandboxDefId.value">Sandbox Definition Id*</p>
-            <p *ngIf="sandboxDefId.value" style="color: black"> Sandbox
-              Definition Id: {{ sandboxDefId.value }}</p>
-            <button (click)="chooseSandboxDefs()"
-              mat-button color="accent">
-              Choose
-            </button>
-          </div>
-          <mat-error *ngIf="sandboxDefId.hasError('required')">No sandbox
-            definiton specified. Training definition requires one sandbox
-            definition</mat-error>
-        </div>
-
         <!-- SHOW STEPPER BAR checkbox-->
         <div class="form-line">
           <div class="form-line-content">
             <span class="spacer"></span>
             <mat-checkbox matTooltip="When active, trainee can see which level
               he is playing and how many there are until the end"
-              labelPosition="before"
-              formControlName="showProgress">
+                          labelPosition="before"
+                          formControlName="showProgress">
               Show Stepper Bar
             </mat-checkbox>
           </div>
         </div>
+      </div>
+
+      <div class="right-col">
+        <!-- PREREQUISITES field-->
+        <kypo2-free-form (itemsChange)="prerequisitesChange($event)"
+                         [required]="false" [hasHeader]="true" [formPlaceholder]="'Note'"
+                         [formName]="'Notes for instructors'"
+                         [formData]="trainingDefinition.prerequisites">
+        </kypo2-free-form>
+
+        <!-- OUTCOMES field-->
+        <kypo2-free-form (itemsChange)="outcomesChange($event)"
+                         [required]="false" [hasHeader]="true" [formPlaceholder]="'Outcome'"
+                         [formName]="'Learning outcomes'"
+                         [formData]="trainingDefinition.outcomes">
+        </kypo2-free-form>
       </div>
     </div>
   </form>

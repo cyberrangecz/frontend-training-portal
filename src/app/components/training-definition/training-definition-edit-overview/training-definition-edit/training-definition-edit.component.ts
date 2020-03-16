@@ -1,13 +1,11 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormArray, FormControl} from '@angular/forms';
-import {MatDialog} from '@angular/material/dialog';
 import {User} from 'kypo2-auth';
 import {takeWhile} from 'rxjs/operators';
 import {TrainingDefinitionChangeEvent} from '../../../../model/events/training-definition-change-event';
 import {TrainingDefinition} from '../../../../model/training/training-definition';
 import {KypoBaseComponent} from 'kypo-common';
 import {FreeFormItemsChangeEvent} from '../../../../model/utils/free-form-items-change-event';
-import {SandboxDefinitionPickerComponent} from './sandbox-definition-picker/sandbox-definition-picker.component';
 import {TrainingDefinitionEditFormGroup} from './training-definition-edit-form-group';
 
 /**
@@ -27,7 +25,7 @@ export class TrainingDefinitionEditComponent extends KypoBaseComponent implement
   trainingDefinitionEditFormGroup: TrainingDefinitionEditFormGroup;
   freeFormValid = true;
 
-  constructor(private dialog: MatDialog) {
+  constructor() {
     super();
   }
 
@@ -40,9 +38,7 @@ export class TrainingDefinitionEditComponent extends KypoBaseComponent implement
   get description() {
     return this.trainingDefinitionEditFormGroup.formGroup.get('description');
   }
-  get sandboxDefId() {
-    return this.trainingDefinitionEditFormGroup.formGroup.get('sandboxDefId');
-  }
+
   get showProgress() {
     return this.trainingDefinitionEditFormGroup.formGroup.get('showProgress');
   }
@@ -93,24 +89,6 @@ export class TrainingDefinitionEditComponent extends KypoBaseComponent implement
     } else {
       this.outcomes.at(event.index).setValue(event.items[event.index]);
     }
-  }
-
-  /**
-   * Displays dialog window with list of sandbox definitions and assigns selected sandbox definition to the training definition
-   */
-  chooseSandboxDefs() {
-    const dialogRef = this.dialog.open(SandboxDefinitionPickerComponent, {
-      data: this.sandboxDefId.value
-    });
-    dialogRef
-      .afterClosed()
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(result => {
-        if (result && result.type === 'confirm') {
-          this.sandboxDefId.setValue(result.sandboxDef.id);
-          this.sandboxDefId.markAsDirty();
-        }
-      });
   }
 
   private setupOnFormChangedEvent() {

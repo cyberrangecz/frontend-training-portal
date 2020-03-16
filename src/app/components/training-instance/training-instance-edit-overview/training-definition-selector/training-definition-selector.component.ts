@@ -3,7 +3,6 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {TrainingDefinition} from '../../../../model/training/training-definition';
 import {TrainingDefinitionInfo} from '../../../../model/training/training-definition-info';
 import {KypoBaseComponent} from 'kypo-common';
-import {SandboxDefinitionPickerComponent} from '../../../training-definition/training-definition-edit-overview/training-definition-edit/sandbox-definition-picker/sandbox-definition-picker.component';
 import {TrainingDefinitionOrganizerSelectorService} from '../../../../services/training-instance/training-definition-selector/training-definition-organizer-selector.service';
 import {RequestedPagination} from 'kypo2-table';
 import {merge, Observable} from 'rxjs';
@@ -35,7 +34,7 @@ export class TrainingDefinitionSelectorComponent extends KypoBaseComponent imple
   readonly pageSize = 10;
 
   constructor(@Optional() @Inject(MAT_DIALOG_DATA) public data: TrainingDefinition,
-              public dialogRef: MatDialogRef<SandboxDefinitionPickerComponent>,
+              public dialogRef: MatDialogRef<TrainingDefinitionSelectorComponent>,
               @Inject('releasedService') private releasedService: TrainingDefinitionOrganizerSelectorService,
               @Inject('unreleasedService') private unreleasedService: TrainingDefinitionOrganizerSelectorService) {
     super();
