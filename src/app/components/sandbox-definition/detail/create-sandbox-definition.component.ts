@@ -1,11 +1,10 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {KypoBaseComponent} from 'kypo-common';
 import {SandboxDefinitionFormGroup} from './create-sandbox-definition-form-group';
-import {SandboxDefinitionCreateInfo} from '../../../model/sandbox/definition/sandbox-definition-create-info';
 import {takeWhile} from 'rxjs/operators';
 import {SandboxDefinitionDetailService} from '../../../services/sandbox-definition/detail/sandbox-definition-detail.service';
-import {SandboxDefinitionDetailControls} from './sandbox-definition-detail-controls';
 import {KypoControlItem} from 'kypo-controls';
+import {defer, of} from 'rxjs';
 
 /**
  * Component with form for creating new sandbox definition
@@ -26,8 +25,12 @@ export class CreateSandboxDefinitionComponent extends KypoBaseComponent implemen
   }
 
   ngOnInit() {
-    this.controls = SandboxDefinitionDetailControls.create();
     this.sandboxDefinitionFormGroup = new SandboxDefinitionFormGroup();
+    this.initControls();
+    this.sandboxDefinitionFormGroup.formGroup.valueChanges
+      .pipe(
+        takeWhile(_ => this.isAlive)
+      ).subscribe(_ => this.initControls())
   }
 
   get gitlabUrl() {return this.sandboxDefinitionFormGroup.formGroup.get('gitlabUrl'); }
@@ -36,12 +39,22 @@ export class CreateSandboxDefinitionComponent extends KypoBaseComponent implemen
 
 
   onControlsAction(control: KypoControlItem) {
-    if (control.id === SandboxDefinitionDetailControls.CREATE_ACTION_ID) {
-      this.sandboxDefinitionService.create(new SandboxDefinitionCreateInfo(this.gitlabUrl.value, this.revision.value))
-        .pipe(
-          takeWhile(_ => this.isAlive)
-        )
-        .subscribe();
-    }
+    control.result$
+      .pipe(
+        takeWhile(_ => this.isAlive)
+      )
+      .subscribe();
+  }
+
+  private initControls() {
+    this.controls = [
+      new KypoControlItem(
+        'create',
+        'Create',
+        'primary',
+        of(!this.sandboxDefinitionFormGroup.formGroup.valid),
+        defer(() => this.sandboxDefinitionService.create(this.sandboxDefinitionFormGroup.createFromValues()))
+      )
+    ]
   }
 }

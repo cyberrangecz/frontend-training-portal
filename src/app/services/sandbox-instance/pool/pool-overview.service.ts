@@ -9,7 +9,7 @@ import {KypoRequestedPagination} from 'kypo-common';
  * Provide a concrete class in Angular Module. For more info see https://angular.io/guide/dependency-injection-providers.
  * You can use get methods to get paginated pools and other operations to modify data.
  */
-export abstract class PoolService extends KypoPaginatedResourceService<SandboxPool> {
+export abstract class PoolOverviewService extends KypoPaginatedResourceService<SandboxPool> {
 
   /**
    * @param pagination requested pagination
@@ -35,4 +35,7 @@ export abstract class PoolService extends KypoPaginatedResourceService<SandboxPo
    */
   abstract clear(pool: SandboxPool): Observable<any>;
 
+  abstract create(): Observable<any>;
+
 }
+

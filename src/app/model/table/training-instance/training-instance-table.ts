@@ -27,15 +27,18 @@ export class TrainingInstanceTable extends Kypo2Table<TrainingInstanceRowAdapter
     this.filterLabel = 'Filter by title';
     this.filterable = true;
     this.selectable = false;
-
   }
 
   private static createRow(ti: TrainingInstance, service: TrainingInstanceOverviewService): Row<TrainingInstanceRowAdapter> {
     const row = new Row(new TrainingInstanceRowAdapter(ti), this.createActions(ti, service));
-    row.element.poolSize = service.getPoolState(ti.poolId);
     row.addLink('title', RouteFactory.toTrainingInstanceDetail(ti.id));
-    row.addLink('poolId', RouteFactory.toPool(ti.poolId));
     row.addLink('accessToken', RouteFactory.toTrainingInstanceAccessToken(ti.id));
+    if (ti.hasPool()) {
+      row.element.poolSize = service.getPoolState(ti.poolId);
+      row.addLink('poolId', RouteFactory.toPool(ti.poolId));
+    } else {
+      row.element.poolSize = of('-');
+    }
     return row;
   }
 

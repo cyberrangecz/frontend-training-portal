@@ -34,6 +34,7 @@ import {
   RESULTS_PATH,
   SUMMARY_PATH
 } from '../../components/training-instance/training-instance-detail/paths';
+import {SANDBOX_POOL_NEW_PATH} from '../../components/sandbox-instance/sandbox-pool-overview/paths';
 
 /**
  * Class containing all possible routes in the system. Use absolute routing
@@ -182,6 +183,10 @@ export class RouteFactory {
    */
   static toPoolOverview(): string {
     return SANDBOX_POOL_PATH;
+  }
+
+  static toCreatePool() {
+    return `${SANDBOX_POOL_PATH}/${SANDBOX_POOL_NEW_PATH}`;
   }
 
   /**

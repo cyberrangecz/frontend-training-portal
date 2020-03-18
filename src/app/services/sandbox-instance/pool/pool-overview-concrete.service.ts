@@ -1,14 +1,16 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {from, Observable} from 'rxjs';
 import {switchMap, tap} from 'rxjs/operators';
 import {SandboxPool} from '../../../model/sandbox/pool/sandbox-pool';
 import {KypoPaginatedResource} from 'kypo-common';
 import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
-import {PoolService} from './pool.service';
+import {PoolOverviewService} from './pool-overview.service';
 import {AlertService} from '../../shared/alert.service';
 import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
 import {KypoRequestedPagination} from 'kypo-common';
+import {Router} from '@angular/router';
+import {RouteFactory} from '../../../model/routes/route-factory';
 
 
 /**
@@ -16,12 +18,13 @@ import {KypoRequestedPagination} from 'kypo-common';
  * Can manually get pools and perform various operations to modify them.
  */
 @Injectable()
-export class PoolConcreteService extends PoolService {
+export class PoolOverviewConcreteService extends PoolOverviewService {
 
   private lastPagination: KypoRequestedPagination;
 
   constructor(private api: SandboxInstanceApi,
               private alertService: AlertService,
+              private router: Router,
               private errorHandler: ErrorHandlerService) {
     super();
   }
@@ -94,5 +97,9 @@ export class PoolConcreteService extends PoolService {
         ),
         switchMap(_ => this.getAll(this.lastPagination))
       );
+  }
+
+  create(): Observable<any> {
+    return from(this.router.navigate([RouteFactory.toCreatePool()]))
   }
 }

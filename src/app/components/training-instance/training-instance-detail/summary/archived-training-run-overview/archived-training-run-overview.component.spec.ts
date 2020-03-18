@@ -12,6 +12,7 @@ import {ArchivedTrainingRunService} from '../../../../../services/training-run/a
 import {TrainingRunRowAdapter} from '../../../../../model/table/rows/training-run-row-adapter';
 import {TrainingRun} from '../../../../../model/training/training-run';
 import {User} from 'kypo2-auth';
+import {KypoControlsModule} from 'kypo-controls';
 
 describe('ArchivedTrainingRunOverviewComponent', () => {
 
@@ -32,6 +33,7 @@ describe('ArchivedTrainingRunOverviewComponent', () => {
         ReactiveFormsModule,
         BrowserAnimationsModule,
         KypoPipesModule,
+        KypoControlsModule,
         RouterTestingModule.withRoutes([{path: 'training-run/1/results', component: ArchivedTrainingRunOverviewComponent}]),
         Kypo2TableModule
       ],

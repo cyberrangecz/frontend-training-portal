@@ -37,7 +37,7 @@ describe('TrainingDefinitionOrganizerSelectorService', () => {
   it('should load training definitions from facade (called once)', done => {
     tdApiSpy.getAllForOrganizer.and.returnValue((asyncData(createMock())));
     const pagination = createPagination();
-    service.get(pagination, 'RELEASED')
+    service.getAll(pagination, 'RELEASED')
       .subscribe(_ => done(),
         fail);
     expect(tdApiSpy.getAllForOrganizer).toHaveBeenCalledTimes(1);
@@ -46,7 +46,7 @@ describe('TrainingDefinitionOrganizerSelectorService', () => {
   it('should call error handler on err', done => {
     tdApiSpy.getAllForOrganizer.and.returnValue((throwError(null)));
     const pagination = createPagination();
-    service.get(pagination, 'RELEASED')
+    service.getAll(pagination, 'RELEASED')
       .subscribe(_ => fail,
         err => {
           expect(errorHandlerSpy.emit).toHaveBeenCalledTimes(1);
@@ -63,7 +63,7 @@ describe('TrainingDefinitionOrganizerSelectorService', () => {
           done();
         },
         fail);
-    service.get(pagination, 'RELEASED')
+    service.getAll(pagination, 'RELEASED')
       .pipe(take(1))
       .subscribe(fail,
         _ => _);
@@ -83,7 +83,7 @@ describe('TrainingDefinitionOrganizerSelectorService', () => {
         },
         fail);
 
-    service.get(pagination, 'RELEASED')
+    service.getAll(pagination, 'RELEASED')
       .pipe(
         take(1)
       )

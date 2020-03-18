@@ -1,13 +1,14 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Kypo2Table, LoadTableEvent, TableActionEvent} from 'kypo2-table';
-import {Observable} from 'rxjs';
+import {defer, Observable, of} from 'rxjs';
 import {map, take, takeWhile} from 'rxjs/operators';
 import {SandboxPool} from '../../../model/sandbox/pool/sandbox-pool';
-import {PoolService} from '../../../services/sandbox-instance/pool/pool.service';
+import {PoolOverviewService} from '../../../services/sandbox-instance/pool/pool-overview.service';
 import {KypoBaseComponent} from 'kypo-common';
 import {PoolTable} from '../../../model/table/sandbox-instance/pool-table';
 import {environment} from '../../../../environments/environment';
 import {KypoRequestedPagination} from 'kypo-common';
+import {KypoControlItem} from 'kypo-controls';
 
 /**
  * Smart component of sandbox pool overview page
@@ -23,12 +24,15 @@ export class SandboxPoolOverviewComponent extends KypoBaseComponent implements O
   pools$: Observable<Kypo2Table<SandboxPool>>;
   hasError$: Observable<boolean>;
 
-  constructor(private poolService: PoolService) {
+  controls: KypoControlItem[] =[];
+
+  constructor(private poolService: PoolOverviewService) {
     super();
   }
 
   ngOnInit() {
     this.initTable();
+    this.initControls();
   }
 
   /**
@@ -53,6 +57,13 @@ export class SandboxPoolOverviewComponent extends KypoBaseComponent implements O
      ).subscribe();
   }
 
+  onControls(controlItem: KypoControlItem) {
+    controlItem.result$
+      .pipe(
+        take(1)
+      ).subscribe();
+  }
+
   private initTable() {
     const initialLoadEvent: LoadTableEvent = new LoadTableEvent(
       new KypoRequestedPagination(0, environment.defaultPaginationSize, '', ''));
@@ -64,4 +75,15 @@ export class SandboxPoolOverviewComponent extends KypoBaseComponent implements O
     this.onPoolsLoadEvent(initialLoadEvent);
   }
 
+  private initControls() {
+    this.controls = [
+      new KypoControlItem(
+        'create',
+        'Create',
+        'primary',
+        of(false),
+        defer(() => this.poolService.create())
+      )
+    ];
+  }
 }

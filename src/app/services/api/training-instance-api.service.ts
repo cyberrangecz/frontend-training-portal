@@ -19,6 +19,7 @@ import {TrainingInstanceMapper} from '../../model/mappers/training-instance/trai
 import {PaginationMapper} from '../../model/mappers/pagination-mapper';
 import {TrainingRun} from '../../model/training/training-run';
 import {TrainingRunMapper} from '../../model/mappers/training-run/training-run-mapper';
+import {TrainingInstanceAssignPoolDTO} from '../../model/DTOs/training-instance/training-instance-assign-pool-dto';
 
 /**
  * Service abstracting http communication with training instance endpoints.
@@ -130,5 +131,16 @@ export class TrainingInstanceApi {
           ResponseHeaderContentDispositionReader.getFilenameFromResponse(resp, 'archived-training-instance.zip'));
         return true;
       }));
+  }
+
+  assignPool(trainingInstanceId: number, poolId: number): Observable<any> {
+    return this.http.patch(
+      `${this.trainingInstancesEndpointUri + trainingInstanceId}/assign-pool`,
+      new TrainingInstanceAssignPoolDTO(poolId)
+    );
+  }
+
+  unassignPool(trainingInstanceId: number): Observable<any> {
+    return this.http.patch(`${this.trainingInstancesEndpointUri + trainingInstanceId}/unassign-pool`, {});
   }
 }

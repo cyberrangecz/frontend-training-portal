@@ -1,0 +1,13 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+.content {
+  min-width: 400px;
+}
+
+.empty-content {
+  color: darkgray;
+  text-align: center;
+  margin-top: 10px;
+}

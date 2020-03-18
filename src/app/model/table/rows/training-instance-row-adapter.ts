@@ -10,7 +10,7 @@ export class TrainingInstanceRowAdapter {
   date: string;
   accessToken: string;
   tdTitle: string;
-  poolId: number;
+  poolId: string;
   poolSize: Observable<string>;
 
   constructor(trainingInstance: TrainingInstance) {
@@ -20,7 +20,11 @@ export class TrainingInstanceRowAdapter {
     this.title = trainingInstance.title;
     this.id = trainingInstance.id;
     this.accessToken = trainingInstance.accessToken;
-    this.poolId = trainingInstance.poolId;
     this.date = `${datePipe.transform(this.trainingInstance.startTime)} - ${datePipe.transform(this.trainingInstance.endTime)}`;
+    if (trainingInstance.hasPool()) {
+      this.poolId = trainingInstance.poolId.toString();
+    } else {
+      this.poolId = '-'
+    }
   }
 }

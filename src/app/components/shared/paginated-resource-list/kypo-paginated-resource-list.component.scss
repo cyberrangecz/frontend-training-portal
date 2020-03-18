@@ -1,9 +1,4 @@
-@import "./src/variables.scss";
-
-cdk-virtual-scroll-viewport {
-  height: 300px;
-  width: 450px;
-}
+@import "../../../../variables";
 
 .error {
   color: $warn;
@@ -11,4 +6,9 @@ cdk-virtual-scroll-viewport {
   flex-direction: row;
   align-items: baseline;
   justify-content: center;
+}
+
+.list-item {
+  height: 25px;
+  padding: 10px 10px;
 }

@@ -16,7 +16,6 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
  */
 @NgModule({
   imports: [
-    ScrollingModule,
     MatButtonModule,
     MatIconModule,
     MatFormFieldModule,
@@ -25,11 +24,9 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     MatExpansionModule,
     MatDividerModule,
     MatProgressBarModule,
-    MatRadioModule,
-    MatListModule
+    MatListModule,
   ],
   exports: [
-    ScrollingModule,
     MatButtonModule,
     MatIconModule,
     MatFormFieldModule,
@@ -38,7 +35,6 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     MatExpansionModule,
     MatDividerModule,
     MatProgressBarModule,
-    MatRadioModule,
     MatListModule
   ]
 })

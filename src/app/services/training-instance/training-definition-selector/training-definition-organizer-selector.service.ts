@@ -26,7 +26,7 @@ export class TrainingDefinitionOrganizerSelectorService extends KypoPaginatedRes
    * @param pagination requested pagination
    * @param stateFilter filter (state attribute) which should be applied to requested training definitions
    */
-  get(pagination: KypoRequestedPagination, stateFilter: string): Observable<KypoPaginatedResource<TrainingDefinitionInfo>> {
+  getAll(pagination: KypoRequestedPagination, stateFilter: string): Observable<KypoPaginatedResource<TrainingDefinitionInfo>> {
     this.hasErrorSubject$.next(false);
     this.isLoadingSubject$.next(true);
     return this.api.getAllForOrganizer(pagination, [new KypoFilter('state', stateFilter)])

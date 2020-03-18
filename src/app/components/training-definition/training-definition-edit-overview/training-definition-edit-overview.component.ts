@@ -44,7 +44,9 @@ export class TrainingDefinitionEditOverviewComponent extends KypoBaseComponent i
         takeWhile(_ => this.isAlive),
       ).subscribe(data => this.editService.set(data.trainingDefinition));
     this.editMode$ = this.editService.editMode$.pipe(
-      tap(isEditMode => this.controls = TrainingDefinitionEditControls.create(this.editService, isEditMode, this.saveDisabled$))
+      tap(isEditMode => {
+        this.controls = TrainingDefinitionEditControls.create(this.editService, isEditMode, this.saveDisabled$)
+      })
     );
   }
 

@@ -3,7 +3,7 @@ import {defer, of} from 'rxjs';
 import {RouteFactory} from '../../routes/route-factory';
 import {SandboxPool} from '../../sandbox/pool/sandbox-pool';
 import {KypoPaginatedResource} from 'kypo-common';
-import {PoolService} from '../../../services/sandbox-instance/pool/pool.service';
+import {PoolOverviewService} from '../../../services/sandbox-instance/pool/pool-overview.service';
 import {DeleteAction} from '../actions/delete-action';
 
 /**
@@ -11,7 +11,7 @@ import {DeleteAction} from '../actions/delete-action';
  */
 export class PoolTable extends Kypo2Table<SandboxPool> {
 
-  constructor(resource: KypoPaginatedResource<SandboxPool>, service: PoolService) {
+  constructor(resource: KypoPaginatedResource<SandboxPool>, service: PoolOverviewService) {
     const rows = resource.elements.map(element => PoolTable.createRow(element, service));
     const columns = [
       new Column('id', 'id', false),
@@ -22,13 +22,13 @@ export class PoolTable extends Kypo2Table<SandboxPool> {
     this.pagination = resource.pagination;
   }
 
-  private static createRow(pool: SandboxPool, service: PoolService): Row<SandboxPool> {
+  private static createRow(pool: SandboxPool, service: PoolOverviewService): Row<SandboxPool> {
     const row = new Row(pool, this.createActions(pool, service));
     row.addLink('id', RouteFactory.toPool(pool.id));
     return row;
   }
 
-  private static createActions(pool: SandboxPool, service: PoolService): RowAction[] {
+  private static createActions(pool: SandboxPool, service: PoolOverviewService): RowAction[] {
     return [
       new DeleteAction(
         'Delete Pool',

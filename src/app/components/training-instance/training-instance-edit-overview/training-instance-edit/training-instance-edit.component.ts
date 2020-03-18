@@ -13,11 +13,8 @@ import {interval} from 'rxjs';
 import {takeWhile} from 'rxjs/operators';
 import {TrainingInstanceChangeEvent} from '../../../../model/events/training-instance-change-event';
 import {TrainingInstance} from '../../../../model/training/training-instance';
-import {TrainingInstanceApi} from '../../../../services/api/training-instance-api.service';
-import {AlertService} from '../../../../services/shared/alert.service';
-import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
 import {KypoBaseComponent} from 'kypo-common';
-import {TrainingDefinitionSelectorComponent} from '../training-definition-selector/training-definition-selector.component';
+import {TrainingDefinitionSelectComponent} from '../training-definition-select/training-definition-select.component';
 import {TrainingInstanceFormGroup} from './training-instance-form-group';
 
 /**
@@ -39,11 +36,7 @@ export class TrainingInstanceEditComponent extends KypoBaseComponent implements 
   userChangedStartTime = false;
   period = 60000;
 
-  constructor(
-    private alertService: AlertService,
-    private errorHandler: ErrorHandlerService,
-    private trainingInstanceFacade: TrainingInstanceApi,
-    private dialog: MatDialog) {
+  constructor(private dialog: MatDialog) {
     super();
   }
 
@@ -59,9 +52,6 @@ export class TrainingInstanceEditComponent extends KypoBaseComponent implements 
   }
   get title() {
     return this.trainingInstanceFormGroup.formGroup.get('title');
-  }
-  get poolSize() {
-    return this.trainingInstanceFormGroup.formGroup.get('poolSize');
   }
   get trainingDefinition() {
     return this.trainingInstanceFormGroup.formGroup.get('trainingDefinition');
@@ -81,8 +71,8 @@ export class TrainingInstanceEditComponent extends KypoBaseComponent implements 
   /**
    * Opens popup dialog to choose a training definition to associate with edited training instance
    */
-  chooseTrainingDefinition() {
-    const dialogRef = this.dialog.open(TrainingDefinitionSelectorComponent, { data: this.trainingDefinition.value });
+  selectTrainingDefinition() {
+    const dialogRef = this.dialog.open(TrainingDefinitionSelectComponent, { data: this.trainingDefinition.value });
 
     dialogRef.afterClosed()
       .pipe(takeWhile(() => this.isAlive))

@@ -1,0 +1,26 @@
+<div *ngIf="cached.length > 0 || hasError else isEmpty">
+  <h3 mat-subheader>{{ resourceName | titlecase }}</h3>
+  <div *ngIf="hasError" class="error">
+    <p>We have some trouble loading the data. Please try again later.</p>
+    <button mat-icon-button (click)="reload()" color="primary"><mat-icon>refresh</mat-icon></button>
+  </div>
+  <cdk-virtual-scroll-viewport itemSize="45" [style.height.px]="pageSize * 45">
+    <mat-list-item *cdkVirtualFor="let resource of cached" >
+      <div class="list-item">
+        <mat-radio-button [checked]="selected && resource[resourceMapping.id] === selected[resourceMapping.id]"
+                          [value]="resource"
+                          (change)="selectionChange.emit($event.value)">
+          {{ resource[resourceMapping.title] | kypoShortString: 50 }}
+        </mat-radio-button>
+      </div>
+    </mat-list-item>
+    <mat-list-item *ngIf="!isEnd && !hasError">
+      <div class="list-item">
+        <button mat-button color="primary" (click)="getNextPage()">Show more...</button>
+      </div>
+    </mat-list-item>
+  </cdk-virtual-scroll-viewport>
+</div>
+<ng-template #isEmpty>
+  <p>No {{ resourceName | lowercase }} found</p>
+</ng-template>

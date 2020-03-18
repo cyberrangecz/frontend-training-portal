@@ -1,0 +1,20 @@
+<div class="mat-typography">
+  <h1 mat-dialog-title>Select Sandbox Definition</h1>
+  <mat-divider></mat-divider>
+  <kypo-paginated-resource-list resourceName="Sandbox Definitions"
+                                [resource]="definitions$ | async"
+                                [hasError]="hasError$ | async"
+                                [selected]="selected"
+                                [pageSize]="PAGE_SIZE"
+                                (fetch)="fetch($event)"
+                                (selectionChange)="onSelectionChange($event)">
+</kypo-paginated-resource-list>
+  <div mat-dialog-actions>
+    <button (click)="cancel()"
+            mat-button color="warn">Cancel</button>
+    <span class="spacer"></span>
+    <button (click)="confirm()"
+            [disabled]="!selected"
+            mat-button color="primary">Select</button>
+  </div>
+</div>

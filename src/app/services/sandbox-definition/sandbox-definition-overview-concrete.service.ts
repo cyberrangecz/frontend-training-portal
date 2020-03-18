@@ -43,11 +43,12 @@ export class SandboxDefinitionOverviewConcreteService extends SandboxDefinitionO
   getAll(pagination: KypoRequestedPagination): Observable<KypoPaginatedResource<SandboxDefinition>> {
     this.hasErrorSubject$.next(false);
     this.lastPagination = pagination;
-    return this.sandboxDefinitionFacade.getAllPaginated(pagination).pipe(
-      tap(paginatedResource => {
-        this.resourceSubject$.next(paginatedResource);
-      },
-        err => {
+    return this.sandboxDefinitionFacade.getAllPaginated(pagination)
+      .pipe(
+        tap(paginatedResource => {
+          this.resourceSubject$.next(paginatedResource);
+          },
+            err => {
           this.errorHandler.emit(err, 'Fetching sandbox definitions');
           this.hasErrorSubject$.next(true);
         })

@@ -12,7 +12,6 @@ export class TrainingInstance implements DisplayableResource {
   startTime: Date;
   endTime: Date;
   title: string;
-  poolSize: number;
   accessToken: string;
 
   constructor() {
@@ -23,6 +22,10 @@ export class TrainingInstance implements DisplayableResource {
    */
   hasStarted(): boolean {
     return new Date().valueOf() >= this.startTime.valueOf();
+  }
+
+  hasPool(): boolean {
+    return this.poolId !== undefined && this.poolId !== null;
   }
 
   /**
