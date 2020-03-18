@@ -10,6 +10,7 @@ import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {TrainingInstanceEditService} from './training-instance-edit.service';
 import {RouteFactory} from '../../../model/routes/route-factory';
 import {Router} from '@angular/router';
+import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
 
 /**
  * Basic implementation of layer between component and API service.
@@ -40,7 +41,8 @@ export class TrainingInstanceEditConcreteService extends TrainingInstanceEditSer
 
   private editedSnapshot: TrainingInstance;
 
-  constructor(private trainingInstanceFacade: TrainingInstanceApi,
+  constructor(private trainingInstanceApi: TrainingInstanceApi,
+              private sandboxInstanceApi: SandboxInstanceApi,
               private router: Router,
               private errorHandler: ErrorHandlerService,
               private alertService: AlertService) {
@@ -99,7 +101,7 @@ export class TrainingInstanceEditConcreteService extends TrainingInstanceEditSer
   }
 
   private update(): Observable<number> {
-    return this.trainingInstanceFacade.update(this.editedSnapshot)
+    return this.trainingInstanceApi.update(this.editedSnapshot)
       .pipe(
         map(_ => this.editedSnapshot.id),
         tap(
@@ -113,7 +115,7 @@ export class TrainingInstanceEditConcreteService extends TrainingInstanceEditSer
   }
 
   private create(): Observable<number> {
-    return this.trainingInstanceFacade.create(this.editedSnapshot)
+    return this.trainingInstanceApi.create(this.editedSnapshot)
       .pipe(
         map(ti => ti.id),
         tap(_ => {
@@ -123,7 +125,8 @@ export class TrainingInstanceEditConcreteService extends TrainingInstanceEditSer
           err => this.errorHandler.emit(err, 'Creating training instance')
         )
       );
-  }
+    }
+
 
   private onSaved() {
     this.editModeSubject$.next(true);

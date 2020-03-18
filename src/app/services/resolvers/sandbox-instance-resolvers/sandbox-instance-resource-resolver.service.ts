@@ -3,7 +3,7 @@ import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@ang
 import {Injectable} from '@angular/core';
 import {EMPTY, Observable, of} from 'rxjs';
 import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
-import {POOL_ID_SELECTOR} from '../../../components/sandbox-instance/sandbox-pool-overview/paths';
+import {SANDBOX_POOL_ID_SELECTOR} from '../../../components/sandbox-instance/sandbox-pool-overview/paths';
 import {SANDBOX_INSTANCE_ID_SELECTOR} from '../../../components/sandbox-instance/sandbox-pool-detail/paths';
 import {catchError, mergeMap, take} from 'rxjs/operators';
 import {RouteFactory} from '../../../model/routes/route-factory';
@@ -28,10 +28,10 @@ export class SandboxInstanceResourceResolver implements Resolve<SandboxInstanceR
    */
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
     Observable<SandboxInstanceResource> | Promise<SandboxInstanceResource> | SandboxInstanceResource {
-    if (!route.paramMap.has(POOL_ID_SELECTOR)) {
+    if (!route.paramMap.has(SANDBOX_POOL_ID_SELECTOR)) {
       return this.navigateToPoolOverview();
     }
-    const poolId = Number(route.paramMap.get(POOL_ID_SELECTOR));
+    const poolId = Number(route.paramMap.get(SANDBOX_POOL_ID_SELECTOR));
     if (!route.paramMap.has(SANDBOX_INSTANCE_ID_SELECTOR)) {
       return this.navigateToPool(poolId);
     }

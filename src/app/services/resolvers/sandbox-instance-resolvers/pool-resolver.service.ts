@@ -2,11 +2,12 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
 import {EMPTY, Observable, of} from 'rxjs';
 import {catchError, mergeMap, take} from 'rxjs/operators';
-import {POOL_ID_SELECTOR} from '../../../components/sandbox-instance/sandbox-pool-overview/paths';
+import {SANDBOX_POOL_NEW_PATH, SANDBOX_POOL_ID_SELECTOR} from '../../../components/sandbox-instance/sandbox-pool-overview/paths';
 import {RouteFactory} from '../../../model/routes/route-factory';
 import {SandboxPool} from '../../../model/sandbox/pool/sandbox-pool';
 import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
+import {SANDBOX_POOL_PATH} from '../../../paths';
 
 /**
  * Router data provider
@@ -26,8 +27,11 @@ export class PoolResolver implements Resolve<SandboxPool> {
    */
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
     Observable<SandboxPool> | Promise<SandboxPool> | SandboxPool {
-    if (route.paramMap.has(POOL_ID_SELECTOR)) {
-      const id = Number(route.paramMap.get(POOL_ID_SELECTOR));
+    if (state.url.endsWith((`${SANDBOX_POOL_PATH}/${SANDBOX_POOL_NEW_PATH}`))) {
+      return null;
+    }
+    if (route.paramMap.has(SANDBOX_POOL_ID_SELECTOR)) {
+      const id = Number(route.paramMap.get(SANDBOX_POOL_ID_SELECTOR));
       return this.sandboxInstanceFacade.getPool(id)
         .pipe(
           take(1),

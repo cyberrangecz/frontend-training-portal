@@ -29,7 +29,8 @@ export class TrainingInstanceResolver implements Resolve<TrainingInstance> {
           state: RouterStateSnapshot): Observable<TrainingInstance> | Promise<TrainingInstance> | TrainingInstance {
     if (state.url.endsWith(`${TRAINING_INSTANCE_PATH}/${TRAINING_INSTANCE_NEW_PATH}`)) {
       return null;
-    } else if (route.paramMap.has('id')) {
+    }
+    if (route.paramMap.has('id')) {
       const id = Number(route.paramMap.get('id'));
       return this.api.get(id)
         .pipe(

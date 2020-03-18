@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {KypoBaseComponent} from 'kypo-common';
+import {KypoBaseComponent, KypoRequestedPagination} from 'kypo-common';
 import {map, take, takeWhile} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {AccessedTrainingRun} from '../../../model/table/rows/accessed-training-run';
-import {Kypo2Table, LoadTableEvent, RequestedPagination, TableActionEvent} from 'kypo2-table';
+import {Kypo2Table, LoadTableEvent, TableActionEvent} from 'kypo2-table';
 import {AccessedTrainingRunService} from '../../../services/training-run/accessed/accessed-training-run.service';
 import {environment} from '../../../../environments/environment';
 import {AccessedTrainingRunTable} from '../../../model/table/training-run/accessed-training-run-table';
@@ -66,7 +66,7 @@ export class TrainingRunOverviewComponent extends KypoBaseComponent implements O
 
   private initTable() {
     const initialLoadEvent: LoadTableEvent = new LoadTableEvent(
-      new RequestedPagination(0, environment.defaultPaginationSize, '', ''));
+      new KypoRequestedPagination(0, environment.defaultPaginationSize, '', ''));
 
     this.trainingRuns$ = this.trainingRunOverviewService.resource$
       .pipe(

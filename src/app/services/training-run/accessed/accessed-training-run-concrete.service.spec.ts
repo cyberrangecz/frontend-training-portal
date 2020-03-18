@@ -4,8 +4,8 @@ import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {TrainingRunApi} from '../../api/training-run-api.service';
 import {throwError} from 'rxjs';
 import {skip} from 'rxjs/operators';
-import {RequestedPagination} from 'kypo2-table';
 import {RouterTestingModule} from '@angular/router/testing';
+import {KypoRequestedPagination} from 'kypo-common';
 
 describe('AccessedTrainingRunConcreteService', () => {
 
@@ -60,7 +60,7 @@ describe('AccessedTrainingRunConcreteService', () => {
   });
 
   function createPagination() {
-    return new RequestedPagination(1, 5, '', '');
+    return new KypoRequestedPagination(1, 5, '', '');
   }
 });
 

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {KypoBaseComponent} from 'kypo-common';
+import {KypoBaseComponent, KypoRequestedPagination} from 'kypo-common';
 import {Observable} from 'rxjs';
-import {Kypo2Table, LoadTableEvent, RequestedPagination, TableActionEvent} from 'kypo2-table';
+import {Kypo2Table, LoadTableEvent, TableActionEvent} from 'kypo2-table';
 import {TrainingDefinitionService} from '../../../services/training-definition/overview/training-definition.service';
 import {map, take, takeWhile} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
@@ -83,7 +83,7 @@ export class TrainingDefinitionOverviewComponent extends KypoBaseComponent
       .pipe(
         map(resource => new TrainingDefinitionTable(resource, this.trainingDefinitionService))
       );
-    const initialPagination = new RequestedPagination(0, environment.defaultPaginationSize, this.INIT_SORT_NAME, this.INIT_SORT_DIR);
+    const initialPagination = new KypoRequestedPagination(0, environment.defaultPaginationSize, this.INIT_SORT_NAME, this.INIT_SORT_DIR);
     this.onLoadEvent(new LoadTableEvent(initialPagination, null));
   }
 }

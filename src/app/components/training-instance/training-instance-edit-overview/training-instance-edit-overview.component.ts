@@ -25,6 +25,7 @@ export class TrainingInstanceEditOverviewComponent extends KypoBaseComponent imp
   editMode$: Observable<boolean>;
   tiTitle$: Observable<string>;
   canDeactivateOrganizers = true;
+  canDeactivatePoolAssign = true;
   canDeactivateTIEdit = true;
   defaultPaginationSize = environment.defaultPaginationSize;
   controls: KypoControlItem[];
@@ -69,7 +70,7 @@ export class TrainingInstanceEditOverviewComponent extends KypoBaseComponent imp
    * @returns true if saved all his changes, false otherwise
    */
   canDeactivate(): boolean {
-    return this.canDeactivateTIEdit && this.canDeactivateOrganizers;
+    return this.canDeactivateTIEdit && this.canDeactivateOrganizers && this.canDeactivatePoolAssign;
   }
 
   /**

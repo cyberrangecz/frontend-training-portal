@@ -347,7 +347,11 @@ export class SandboxInstanceApi {
   /**
    * Sends http request to create a pool
    */
-  createPool() {
-    return this.http.post(this.poolsEndpointUri, null);
+  createPool(pool: SandboxPool): Observable<SandboxPool> {
+    const createPoolDTO = SandboxPoolMapper.toCreateDTO(pool);
+    return this.http.post<SandboxPoolDTO>(this.poolsEndpointUri, createPoolDTO)
+      .pipe(
+        map(dto => SandboxPoolMapper.fromDTO(dto))
+      );
   }
 }

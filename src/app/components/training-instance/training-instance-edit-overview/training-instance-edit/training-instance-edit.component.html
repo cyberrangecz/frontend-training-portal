@@ -15,36 +15,6 @@
 
     <div class="panel-wrapper">
       <div class="left-panel">
-        <!-- POOL SIZE filed -->
-        <mat-form-field appearance="outline" hintLabel="Pool of sandboxes that
-          can be allocated" class="multi-line-hint">
-          <mat-label>Sandbox pool size</mat-label>
-          <input matInput placeholder="Sandbox pool size" type="number" max="64"
-            min="1" formControlName="poolSize" required>
-          <mat-error *ngIf="poolSize.hasError('max') ||
-            poolSize.hasError('min')">Pool size must be number in range from
-            {{poolSize.hasError('min')}} to {{poolSize.hasError('max')}}</mat-error>
-          <mat-error *ngIf="poolSize.hasError('required')">This field is
-            required</mat-error>
-        </mat-form-field>
-
-        <!-- ACCESS TOKEN filed -->
-        <mat-form-field appearance="outline" hintLabel="Generated PIN code will
-          be added to your token" class="multi-line-hint"
-          (keydown.enter)="$event.preventDefault()">
-          <mat-label>Access Token Prefix</mat-label>
-          <input matInput placeholder="Access Token"
-            formControlName="accessToken" required>
-          <button mat-button *ngIf="accessToken.value" matSuffix mat-icon-button
-            aria-label="Clear" (click)="accessToken.setValue('');">
-            <mat-icon>close</mat-icon>
-          </button>
-          <mat-error *ngIf="accessToken.hasError('required')">This field is
-            required</mat-error>
-        </mat-form-field>
-      </div>
-
-      <div class="right-panel">
         <!-- START TIME field -->
         <mat-form-field
           class="multi-line-hint"
@@ -54,13 +24,13 @@
           <mat-label>Start Time</mat-label>
           <div class="input-wrapper">
             <input matInput
-              placeholder="Start Time"
-              required
-              [min]="now"
-              [max]="endTime.value"
-              formControlName="startTime"
-              (dateTimeChange)="onStartTimeChanged()"
-              [owlDateTime]="startTimePicker">
+                   placeholder="Start Time"
+                   required
+                   [min]="now"
+                   [max]="endTime.value"
+                   formControlName="startTime"
+                   (dateTimeChange)="onStartTimeChanged()"
+                   [owlDateTime]="startTimePicker">
             <owl-date-time #startTimePicker [startAt]="startTime.value"></owl-date-time>
           </div>
           <mat-error
@@ -98,15 +68,32 @@
             in the past</mat-error>
           <mat-error *ngIf="endTime.hasError('required')">This field is required</mat-error>
         </mat-form-field>
+      </div>
+
+      <div class="right-panel">
+        <!-- ACCESS TOKEN filed -->
+        <mat-form-field appearance="outline" hintLabel="Generated PIN code will
+          be added to your token" class="multi-line-hint"
+                        (keydown.enter)="$event.preventDefault()">
+          <mat-label>Access Token Prefix</mat-label>
+          <input matInput placeholder="Access Token"
+                 formControlName="accessToken" required>
+          <button mat-button *ngIf="accessToken.value" matSuffix mat-icon-button
+                  aria-label="Clear" (click)="accessToken.setValue('');">
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-error *ngIf="accessToken.hasError('required')">This field is
+            required</mat-error>
+        </mat-form-field>
 
         <!-- TRAINING DEFINITION field-->
         <div class="form-line">
           <p *ngIf="trainingDefinition.value">Training Definition: {{
             trainingDefinition.value.title | kypoShortString: 30 }}</p>
           <p *ngIf="!trainingDefinition.value">Training Definition*</p>
-          <button (click)="chooseTrainingDefinition()"
+          <button (click)="selectTrainingDefinition()"
             mat-button color="accent">
-            Choose
+            Select
           </button>
         </div>
       </div>

@@ -13,7 +13,6 @@ export class TrainingInstanceMapper {
     result.startTime = new Date(dto.start_time);
     result.endTime = new Date(dto.end_time);
     result.title = dto.title;
-    result.poolSize = dto.pool_size;
     result.accessToken = dto.access_token;
     result.poolId = dto.pool_id;
     return result;
@@ -26,7 +25,6 @@ export class TrainingInstanceMapper {
   static toCreateDTO(trainingInstance: TrainingInstance): TrainingInstanceCreateDTO {
     const result = new TrainingInstanceCreateDTO();
     result.title = trainingInstance.title;
-    result.pool_size = trainingInstance.poolSize;
     result.start_time = trainingInstance.startTime.toISOString();
     result.end_time = trainingInstance.endTime.toISOString();
     result.access_token = trainingInstance.accessToken;
@@ -38,7 +36,6 @@ export class TrainingInstanceMapper {
     const result = new TrainingInstanceUpdateDTO();
     result.id = trainingInstance.id;
     result.title = trainingInstance.title;
-    result.pool_size = trainingInstance.poolSize;
     result.start_time = trainingInstance.startTime.toISOString();
     result.end_time = trainingInstance.endTime.toISOString();
     result.access_token = trainingInstance.accessToken;

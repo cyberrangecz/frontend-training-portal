@@ -9,11 +9,11 @@ export class TrainingDefinitionEditControls {
 
   static create(service: TrainingDefinitionEditService, isEditMode: boolean, saveDisabled$: Observable<boolean>): KypoControlItem[] {
     return isEditMode
-      ? this.createModeControls(service, saveDisabled$)
-      : this.editModeControls(service, saveDisabled$);
+      ? this.editModeControls(service, saveDisabled$)
+      : this.createModeControls(service, saveDisabled$);
   }
 
-  private static createModeControls(service: TrainingDefinitionEditService, saveDisabled$: Observable<boolean>): KypoControlItem[] {
+  private static editModeControls(service: TrainingDefinitionEditService, saveDisabled$: Observable<boolean>): KypoControlItem[] {
     return [
       new KypoControlItem(
         this.SAVE_ACTION_ID,
@@ -25,7 +25,7 @@ export class TrainingDefinitionEditControls {
     ];
   }
 
-  private static editModeControls(service: TrainingDefinitionEditService, saveDisabled$: Observable<boolean>): KypoControlItem[] {
+  private static createModeControls(service: TrainingDefinitionEditService, saveDisabled$: Observable<boolean>): KypoControlItem[] {
     return [
       new KypoControlItem(
         this.SAVE_ACTION_ID,

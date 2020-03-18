@@ -31,6 +31,24 @@
 
 <mat-expansion-panel [disabled]="!(editMode$ | async)" [expanded]="editMode$ | async">
   <mat-expansion-panel-header>
+    <mat-panel-title>Assign Pool</mat-panel-title>
+    <mat-panel-description>
+      <span class="spacer"></span>
+      <div class="panel-description-error" *ngIf="!canDeactivatePoolAssign">
+        <mat-icon color="warn">warning</mat-icon>
+        <mat-error>Pool is not saved</mat-error>
+      </div>
+      <mat-icon>view_module</mat-icon>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <ng-template matExpansionPanelContent>
+    <kypo2-pool-assign [trainingInstance]="trainingInstance$ | async">
+    </kypo2-pool-assign>
+  </ng-template>
+</mat-expansion-panel>
+
+<mat-expansion-panel [disabled]="!(editMode$ | async)" [expanded]="editMode$ | async">
+  <mat-expansion-panel-header>
     <mat-panel-title>Edit Organizers</mat-panel-title>
     <mat-panel-description>
       <span class="spacer"></span>

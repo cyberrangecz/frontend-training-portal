@@ -17,7 +17,6 @@
 export class TrainingInstanceCreateDTO {
     end_time?: string;
     access_token?: string;
-    pool_size?: number;
     start_time?: string;
     title?: string;
     training_definition_id?: number;
