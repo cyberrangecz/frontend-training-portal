@@ -1,4 +1,4 @@
 export enum StageDetailEventType {
-  SUBSCRIBE,
-  UNSUBSCRIBE
+  OPEN,
+  CLOSE
 }

@@ -49,7 +49,7 @@ const routes: Routes = [
     path: SANDBOX_POOL_PATH,
     loadChildren: () => import('app/components/sandbox-instance/sandbox-pool-overview/sandbox-pool-overview.module').then(m => m.SandboxPoolOverviewModuleModule),
     canActivate: [OrganizerGuard],
-    data: { breadcrumb: 'Sandbox Pools' }
+    data: { breadcrumb: 'Pools' }
   },
   {
     path: TRAINING_RUN_PATH,

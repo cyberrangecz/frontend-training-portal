@@ -6,37 +6,40 @@ import {PoolRequestDetailRoutingModule} from './pool-request-detail-routing.modu
 import {PoolRequestDetailComponent} from './pool-request-detail.component';
 import {RequestStageComponent} from './request-stage/request-stage.component';
 import {RequestStageDetailComponent} from './request-stage/request-stage-detail/request-stage-detail.component';
-import {PoolRequestStagesPollingService} from '../../../services/sandbox-instance/pool-request/stage/pool-request-stages-polling.service';
 import {PoolResolver} from '../../../services/resolvers/sandbox-instance-resolvers/pool-resolver.service';
 import {PoolRequestTypeResolver} from '../../../services/resolvers/sandbox-instance-resolvers/pool-request-type-resolver.service';
 import {KypoPipesModule} from 'kypo-common';
-import {StageDetailService} from '../../../services/sandbox-instance/pool-request/stage/stage-detail.service';
-import {StageDetailPollingService} from '../../../services/sandbox-instance/pool-request/stage/stage-detail-polling.service';
 import {SandboxInstanceApi} from '../../../services/api/sandbox-instance-api.service';
+import {AnsibleAllocationStageDetailComponent} from './request-stage/request-stage-detail/ansible-allocation-stage-detail/ansible-allocation-stage-detail.component';
+import {OpenstackAllocationStageDetailComponent} from './request-stage/request-stage-detail/openstack-allocation-stage-detail/openstack-allocation-stage-detail.component';
+import {CleanupStageDetailComponent} from './request-stage/request-stage-detail/cleanup-stage-detail/cleanup-stage-detail.component';
+import {RequestStageCommonComponent} from './request-stage/stage-header/request-stage-common.component';
 
 /**
  * Contains components and providers for pool request detail page
  */
 @NgModule({
   imports: [
-      CommonModule,
-      PoolRequestDetailRoutingModule,
-      PoolRequestDetailMaterialModule,
-      KypoPipesModule,
+    CommonModule,
+    PoolRequestDetailRoutingModule,
+    PoolRequestDetailMaterialModule,
+    KypoPipesModule,
   ],
   declarations: [
     PoolRequestDetailComponent,
     RequestStageComponent,
-    RequestStageDetailComponent
+    RequestStageCommonComponent,
+    RequestStageDetailComponent,
+    AnsibleAllocationStageDetailComponent,
+    OpenstackAllocationStageDetailComponent,
+    CleanupStageDetailComponent
   ],
   providers: [
     SandboxInstanceApi,
     PoolResolver,
     PoolRequestResolver,
     PoolRequestTypeResolver,
-    PoolRequestStagesPollingService,
-    {provide: StageDetailService, useClass: StageDetailPollingService}
-  ]
+  ],
 })
 export class PoolRequestDetailModule {
 }

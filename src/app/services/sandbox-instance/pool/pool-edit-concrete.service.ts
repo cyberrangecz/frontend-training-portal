@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {PoolEditService} from './pool-edit.service';
-import {SandboxPool} from '../../../model/sandbox/pool/sandbox-pool';
+import {Pool} from '../../../model/sandbox/pool/pool';
 import {from, Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
@@ -24,7 +24,7 @@ export class PoolEditConcreteService extends PoolEditService {
     super();
   }
 
-  create(pool: SandboxPool): Observable<any> {
+  create(pool: Pool): Observable<any> {
     return this.api.createPool(pool)
       .pipe(
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Pool was created'),

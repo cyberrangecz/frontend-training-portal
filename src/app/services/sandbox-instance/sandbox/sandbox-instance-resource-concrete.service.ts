@@ -1,6 +1,6 @@
 import {SandboxInstanceResourceService} from './sandbox-instance-resource.service';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {SandboxInstanceResource} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance-resource/sandbox-instance-resource';
+import {SandboxResource} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance-resource/sandbox-resource';
 import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {tap} from 'rxjs/operators';
@@ -14,11 +14,11 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class SandboxInstanceResourceConcreteService extends SandboxInstanceResourceService {
 
-  private resourceSubject: BehaviorSubject<SandboxInstanceResource[]> = new BehaviorSubject([]);
+  private resourceSubject: BehaviorSubject<SandboxResource[]> = new BehaviorSubject([]);
   /**
    * List of sandbox instance resources
    */
-  resources$: Observable<SandboxInstanceResource[]> = this.resourceSubject.asObservable();
+  resources$: Observable<SandboxResource[]> = this.resourceSubject.asObservable();
 
   constructor(private sandboxInstanceFacade: SandboxInstanceApi,
               private errorHandler: ErrorHandlerService) {
@@ -30,7 +30,7 @@ export class SandboxInstanceResourceConcreteService extends SandboxInstanceResou
    * Is cached until cacheBuster emission
    * @param sandboxInstanceId id of a sandbox instance associated with requested resources.
    */
-  getAll(sandboxInstanceId: number): Observable<SandboxInstanceResource[]> {
+  getAll(sandboxInstanceId: number): Observable<SandboxResource[]> {
     return this.sandboxInstanceFacade.getResources(sandboxInstanceId)
       .pipe(
         tap(

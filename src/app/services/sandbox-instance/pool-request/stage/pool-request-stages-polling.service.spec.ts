@@ -1,32 +1,33 @@
 import {SandboxInstanceApi} from '../../../api/sandbox-instance-api.service';
 import {ErrorHandlerService} from '../../../shared/error-handler.service';
-import {PoolRequestStagesPollingService} from './pool-request-stages-polling.service';
+import {RequestAllocationStagesPollingService} from './request-allocation-stages-polling.service';
 import {async, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {asyncData} from 'kypo-common';
 import {skip} from 'rxjs/operators';
 import {throwError} from 'rxjs';
-import {PoolCreationRequest} from '../../../../model/sandbox/pool/request/pool-creation-request';
+import {AllocationRequest} from '../../../../model/sandbox/pool/request/allocation-request';
 import {environment} from '../../../../../environments/environment';
-import {AnsibleRunStage} from '../../../../model/sandbox/pool/request/stage/ansible-run-stage';
-import {OpenStackStage} from '../../../../model/sandbox/pool/request/stage/open-stack-stage';
+import {AnsibleAllocationStage} from '../../../../model/sandbox/pool/request/stage/ansible-allocation-stage';
+import {OpenStackAllocationStage} from '../../../../model/sandbox/pool/request/stage/open-stack-allocation-stage';
+import {Request} from '../../../../model/sandbox/pool/request/request';
 
 describe('PoolRequestStagesPollingService', () => {
 
   let errorHandlerSpy: jasmine.SpyObj<ErrorHandlerService>;
-  let facadeSpy: jasmine.SpyObj<SandboxInstanceApi>;
-  let service: PoolRequestStagesPollingService;
+  let apiSpy: jasmine.SpyObj<SandboxInstanceApi>;
+  let service: RequestAllocationStagesPollingService;
 
   beforeEach(async(() => {
     errorHandlerSpy = jasmine.createSpyObj('ErrorHandlerService', ['emit']);
-    facadeSpy = jasmine.createSpyObj('SandboxInstanceFacade', ['getCreationStages', 'forceStage']);
+    apiSpy = jasmine.createSpyObj('SandboxInstanceApi', ['getAllocationStages']);
     TestBed.configureTestingModule({
       providers: [
-        PoolRequestStagesPollingService,
-        {provide: SandboxInstanceApi, useValue: facadeSpy},
+        RequestAllocationStagesPollingService,
+        {provide: SandboxInstanceApi, useValue: apiSpy},
         {provide: ErrorHandlerService, useValue: errorHandlerSpy}
       ]
     });
-    service = TestBed.inject(PoolRequestStagesPollingService);
+    service = TestBed.inject(RequestAllocationStagesPollingService);
   }));
 
   it('should be created', () => {
@@ -34,18 +35,22 @@ describe('PoolRequestStagesPollingService', () => {
   });
 
   it('should load data from facade (called once)', done => {
-    facadeSpy.getCreationStages.and.returnValue(asyncData(new PoolCreationRequest()));
+    apiSpy.getAllocationStages.and.returnValue(asyncData(new AllocationRequest()));
+    const request = new AllocationRequest();
+    request.id = 1;
 
-    service.getAll(0, 0).subscribe(_ => done(),
+    service.getAll(request).subscribe(_ => done(),
       _ => fail);
-    expect(facadeSpy.getCreationStages).toHaveBeenCalledTimes(1);
+    expect(apiSpy.getAllocationStages).toHaveBeenCalledTimes(1);
   });
 
 
   it('should call error handler on err', done => {
-    facadeSpy.getCreationStages.and.returnValue(throwError(null));
+    apiSpy.getAllocationStages.and.returnValue(throwError(null));
+    const request = new AllocationRequest();
+    request.id = 1;
 
-    service.getAll(0, 0)
+    service.getAll(request)
       .subscribe(_ => fail,
         _ => {
         expect(errorHandlerSpy.emit).toHaveBeenCalledTimes(1);
@@ -54,7 +59,9 @@ describe('PoolRequestStagesPollingService', () => {
   });
 
   it('should emit hasError observable on err', done => {
-    facadeSpy.getCreationStages.and.returnValue(throwError(null));
+    apiSpy.getAllocationStages.and.returnValue(throwError(null));
+    const request = new AllocationRequest();
+    request.id = 1;
 
     service.hasError$
       .pipe(
@@ -64,46 +71,24 @@ describe('PoolRequestStagesPollingService', () => {
         done();
       },
       _ => fail);
-    service.getAll(0, 0).subscribe(
+    service.getAll(request).subscribe(
       _ => fail,
       _ => done()
     );
   });
 
-  it('should call facade on force cleanup', done => {
-    facadeSpy.forceStage.and.returnValue(asyncData(null));
-    facadeSpy.getCreationStages.and.returnValue(asyncData(createStages()));
-
-    service.force(0, 0, 0)
-      .subscribe(_ => {
-        expect(facadeSpy.forceStage).toHaveBeenCalledTimes(1);
-        done();
-        },
-        _ => fail);
-  });
-
-  it('should update the data on force cleanup request', done => {
-    facadeSpy.forceStage.and.returnValue(asyncData(null));
-    facadeSpy.getCreationStages.and.returnValue(asyncData(createStages()));
-
-    service.force(0, 0, 0)
-      .subscribe(_ => {
-          expect(facadeSpy.getCreationStages).toHaveBeenCalledTimes(1);
-          done();
-        },
-        _ => fail);
-  });
-
   it('should not start polling without calling startPolling', fakeAsync(() => {
     tick(5 * environment.apiPollingPeriod);
-    expect(facadeSpy.getCreationStages).toHaveBeenCalledTimes(0);
+    expect(apiSpy.getAllocationStages).toHaveBeenCalledTimes(0);
   }));
 
   it('should start polling after calling startPolling', fakeAsync(() => {
     const stages = createStages();
-    facadeSpy.getCreationStages.and.returnValue(asyncData(stages));
+    apiSpy.getAllocationStages.and.returnValue(asyncData(stages));
+    const request = new AllocationRequest();
+    request.id = 1;
 
-    service.startPolling(0, 0, 'CREATION');
+    service.startPolling(request);
     const subscription = service.resource$.subscribe();
     assertPoll(5);
     subscription.unsubscribe();
@@ -111,23 +96,26 @@ describe('PoolRequestStagesPollingService', () => {
 
   it('should stop polling on error', fakeAsync(() => {
     const stages = createStages();
-    facadeSpy.getCreationStages.and.returnValues(
+    apiSpy.getAllocationStages.and.returnValues(
       asyncData(stages),
       asyncData(stages),
       asyncData(stages),
       throwError(null)); // throw error on fourth period call
 
-    service.startPolling(0, 0, 'CREATION');
+    const request = new AllocationRequest();
+    request.id = 1;
+
+    service.startPolling(request);
     const subscription = service.resource$.subscribe();
     assertPoll(3);
     tick(5 * environment.apiPollingPeriod);
-    expect(facadeSpy.getCreationStages).toHaveBeenCalledTimes(4);
+    expect(apiSpy.getAllocationStages).toHaveBeenCalledTimes(4);
     subscription.unsubscribe();
   }));
 
   it('should start polling again after request is successful', fakeAsync(() => {
     const stages = createStages();
-    facadeSpy.getCreationStages.and.returnValues(
+    apiSpy.getAllocationStages.and.returnValues(
       asyncData(stages),
       asyncData(stages),
       asyncData(stages),
@@ -139,21 +127,24 @@ describe('PoolRequestStagesPollingService', () => {
       asyncData(stages)
     );
 
-    service.startPolling(0, 0, 'CREATION');
+    const request = new AllocationRequest();
+    request.id = 1;
+
+    service.startPolling(request);
     const subscription = service.resource$.subscribe();
     assertPoll(3);
     tick(environment.apiPollingPeriod);
-    expect(facadeSpy.getCreationStages).toHaveBeenCalledTimes(4);
+    expect(apiSpy.getAllocationStages).toHaveBeenCalledTimes(4);
     tick( 5 * environment.apiPollingPeriod);
-    expect(facadeSpy.getCreationStages).toHaveBeenCalledTimes(4);
-    service.getAll(0, 0).subscribe();
-    expect(facadeSpy.getCreationStages).toHaveBeenCalledTimes(5);
+    expect(apiSpy.getAllocationStages).toHaveBeenCalledTimes(4);
+    service.getAll(request).subscribe();
+    expect(apiSpy.getAllocationStages).toHaveBeenCalledTimes(5);
     assertPoll(3, 6);
     subscription.unsubscribe();
   }));
 
   function createStages() {
-    return [new AnsibleRunStage(), new OpenStackStage()];
+    return [new AnsibleAllocationStage(), new OpenStackAllocationStage()];
   }
 
   function assertPoll(times: number, initialHaveBeenCalledTimes: number = 1) {
@@ -161,7 +152,7 @@ describe('PoolRequestStagesPollingService', () => {
     for (let i = 0; i < times; i++) {
       tick(environment.apiPollingPeriod);
       calledTimes = calledTimes + 1;
-      expect(facadeSpy.getCreationStages).toHaveBeenCalledTimes(calledTimes);
+      expect(apiSpy.getAllocationStages).toHaveBeenCalledTimes(calledTimes);
     }
   }
 });

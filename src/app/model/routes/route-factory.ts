@@ -10,9 +10,9 @@ import {
 } from '../../components/training-instance/training-instance-overview/paths';
 import {
   POOL_CLEANUP_REQUEST_PATH,
-  POOL_CREATION_REQUEST_PATH,
+  POOL_ALLOCATION_REQUEST_PATH,
   SANDBOX_INSTANCE_PATH,
-  SANDBOX_INSTANCE_TOPOLOGY_PATH
+  SANDBOX_INSTANCE_TOPOLOGY_PATH, SANDBOX_ALLOCATION_UNIT_PATH
 } from '../../components/sandbox-instance/sandbox-pool-detail/paths';
 import {SANDBOX_INSTANCE_RESOURCE_PATH} from '../../components/sandbox-instance/sandbox-instance-resource-detail/paths';
 import {
@@ -220,19 +220,21 @@ export class RouteFactory {
   /**
    * Returns route to creation request detail page
    * @param poolId id of the pool associated with the request
+   * @param sandboxAllocationUnitId id of the sandbox allocation unit associated with the request
    * @param requestId id of the request
    */
-  static toCreationRequest(poolId: number | string, requestId: number | string): string {
-    return `${SANDBOX_POOL_PATH}/${poolId}/${POOL_CREATION_REQUEST_PATH}/${requestId}`;
+  static toAllocationRequest(poolId: number | string, sandboxAllocationUnitId: number | string,  requestId: number | string): string {
+    return `${SANDBOX_POOL_PATH}/${poolId}/${SANDBOX_ALLOCATION_UNIT_PATH}/${sandboxAllocationUnitId}/${POOL_ALLOCATION_REQUEST_PATH}/${requestId}`;
   }
 
   /**
    * Returns route to cleanup request detail page
    * @param poolId id of the pool associated with the request
+   * @param sandboxAllocationUnitId id of the sandbox allocation unit associated with the request
    * @param requestId id of the request
    */
-  static toCleanupRequest(poolId: number | string, requestId: number | string): string {
-    return `${SANDBOX_POOL_PATH}/${poolId}/${POOL_CLEANUP_REQUEST_PATH}/${requestId}`;
+  static toCleanupRequest(poolId: number | string, sandboxAllocationUnitId: number | string, requestId: number | string): string {
+    return `${SANDBOX_POOL_PATH}/${poolId}/${SANDBOX_ALLOCATION_UNIT_PATH}/${sandboxAllocationUnitId}/${POOL_CLEANUP_REQUEST_PATH}/${requestId}`;
   }
 
   /**

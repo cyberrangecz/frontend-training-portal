@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {SandboxPool} from '../../../model/sandbox/pool/sandbox-pool';
+import {Pool} from '../../../model/sandbox/pool/pool';
 import {PoolResolver} from './pool-resolver.service';
 import {SANDBOX_POOL_NEW_PATH} from '../../../components/sandbox-instance/sandbox-pool-overview/paths';
 
@@ -24,7 +24,7 @@ export class PoolBreadcrumbResolver implements Resolve<string> {
     if (state.url.endsWith(SANDBOX_POOL_NEW_PATH)) {
       return 'Create';
     }
-    const resolved = this.poolResolver.resolve(route, state) as Observable<SandboxPool>;
+    const resolved = this.poolResolver.resolve(route, state) as Observable<Pool>;
     return resolved.pipe(map(pool => `Pool ${pool.id}`));
   }
 }

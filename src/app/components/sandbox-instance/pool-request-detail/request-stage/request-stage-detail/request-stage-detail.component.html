@@ -1,14 +1,12 @@
-<!--<div class="actions">
-  <button mat-icon-button matTooltip="Scroll to start" (click)="scrollToStart()">
-    <mat-icon>vertical_align_top</mat-icon>
-  </button>
-  <button mat-icon-button matTooltip="Scroll to end" (click)=scrollToEnd()>
-    <mat-icon>vertical_align_bottom</mat-icon>
-  </button>
-</div>-->
-<div class="temp-viewport">
-  <p *ngFor="let row of stageDetail?.output">{{ row }}</p>
-</div>
-<!--<cdk-virtual-scroll-viewport #viewport itemSize="20" class="stage-output-viewport">
-  <div *cdkVirtualFor="let row of stageDetail?.output; templateCacheSize: 100" class="row">{{ row }}</div>
-</cdk-virtual-scroll-viewport>-->
+<ng-container [ngSwitch]="stage?.type">
+  <kypo2-ansible-allocation-stage-detail *ngSwitchCase="stageTypes.ANSIBLE_ALLOCATION"
+                                          [stageDetail]="stage"
+                                          (fetchAnsibleOutput)="onFetchAnsibleOutput($event)">
+  </kypo2-ansible-allocation-stage-detail>
+  <kypo2-openstack-allocation-stage-detail *ngSwitchCase="stageTypes.OPENSTACK_ALLOCATION"
+                                            [stageDetail]="stage">
+  </kypo2-openstack-allocation-stage-detail>
+  <kypo2-cleanup-stage-detail *ngSwitchCase="stageTypes.OPENSTACK_CLEANUP || stageTypes.ANSIBLE_CLEANUP"
+                              [stageDetail]="stage">
+  </kypo2-cleanup-stage-detail>
+</ng-container>

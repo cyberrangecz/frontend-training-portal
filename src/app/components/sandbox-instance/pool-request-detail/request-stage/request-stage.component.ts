@@ -8,15 +8,18 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
-import {KypoBaseComponent} from 'kypo-common';
+import {KypoBaseComponent, KypoRequestedPagination} from 'kypo-common';
 import {RequestStage} from '../../../../model/sandbox/pool/request/stage/request-stage';
-import {RequestStageType} from '../../../../model/enums/request-stage-type.enum';
-import {OpenStackStage} from '../../../../model/sandbox/pool/request/stage/open-stack-stage';
-import {AnsibleRunStage} from '../../../../model/sandbox/pool/request/stage/ansible-run-stage';
-import {RequestStageState} from '../../../../model/enums/request-stage-state.enum';
-import {StageDetail} from '../../../../model/sandbox/pool/request/stage/stage-detail';
+import {OpenStackAllocationStage} from '../../../../model/sandbox/pool/request/stage/open-stack-allocation-stage';
+import {AnsibleAllocationStage} from '../../../../model/sandbox/pool/request/stage/ansible-allocation-stage';
 import {StageDetailEvent} from '../../../../model/events/stage-detail-event';
 import {StageDetailEventType} from '../../../../model/enums/stage-detail-event-type';
+import {OpenStackCleanupStage} from '../../../../model/sandbox/pool/request/stage/open-stack-cleanup-stage';
+import {AnsibleCleanupStage} from '../../../../model/sandbox/pool/request/stage/ansible-cleanup-stage';
+import {ANSIBLE_LOGO_SRC, OPENSTACK_LOGO_SRC} from '../../../../model/sandbox/pool/request/stage/stage-logos';
+import {StageDetail} from '../../../../model/sandbox/pool/request/stage/stage-detail-adapter';
+import {AllocationRequestStage} from '../../../../model/sandbox/pool/request/stage/allocation-request-stage';
+import {CleanupRequestStage} from '../../../../model/sandbox/pool/request/stage/cleanup-request-stage';
 
 /**
  * Component of request stage basic info
@@ -31,21 +34,21 @@ export class RequestStageComponent extends KypoBaseComponent implements OnInit, 
 
   @Input() stage: RequestStage;
   @Input() stageDetail: StageDetail;
-  @Input() isCleanup: boolean;
-  @Output() forceCleanup: EventEmitter<RequestStage> = new EventEmitter();
   @Output() stageDetailEvent: EventEmitter<StageDetailEvent> = new EventEmitter();
 
+  @Output() fetchAnsibleOutput: EventEmitter<StageDetail> = new EventEmitter();
+
   stageDetailIsLoading = false;
-  stageType: RequestStageType;
   logoSrc: string;
-  stageStates = RequestStageState;
+  detailDisabled: boolean;
 
   ngOnInit() {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if ('stage' in changes) {
-      this.resolveStageType();
+      this.resolveStageLogo();
+      this.resolveDetailDisabled();
     }
     if ('stageDetail' in changes) {
       this.stageDetailIsLoading = false;
@@ -53,33 +56,39 @@ export class RequestStageComponent extends KypoBaseComponent implements OnInit, 
   }
 
   /**
-   * Emits event to force cleanup stage
-   */
-  onForceCleanup() {
-    this.forceCleanup.emit(this.stage);
-  }
-
-  /**
    * Changes internal state of the component and emits event to the parent component
-   * @param opened true if stage detail was opened, false if closed
+   * @param open true if stage detail was opened, false if closed
    */
-  onStageDetailEvent(opened: boolean) {
-    this.stageDetailIsLoading = opened;
+  onStageDetailEvent(open: boolean) {
+    this.stageDetailIsLoading = open;
     this.stageDetailEvent.emit(
         new StageDetailEvent(
             this.stage,
-            opened ? StageDetailEventType.SUBSCRIBE : StageDetailEventType.UNSUBSCRIBE
+          open ? StageDetailEventType.OPEN : StageDetailEventType.CLOSE
         )
     );
   }
 
-  private resolveStageType() {
-    if (this.stage instanceof OpenStackStage) {
-      this.stageType = RequestStageType.OPENSTACK;
-      this.logoSrc = 'openstack-logo.png';
-    } else if (this.stage instanceof AnsibleRunStage) {
-      this.stageType = RequestStageType.ANSIBLE_RUN;
-      this.logoSrc = 'ansible-logo.png';
+  onFetchAnsibleOutput(requestedPagination: KypoRequestedPagination) {
+    this.stageDetail.requestedPagination = requestedPagination;
+    this.fetchAnsibleOutput.emit(this.stageDetail);
+  }
+
+  private resolveStageLogo() {
+    if (this.stage instanceof OpenStackAllocationStage || this.stage instanceof OpenStackCleanupStage) {
+      this.logoSrc = OPENSTACK_LOGO_SRC;
+    } else if (this.stage instanceof AnsibleAllocationStage || this.stage instanceof AnsibleCleanupStage) {
+      this.logoSrc = ANSIBLE_LOGO_SRC;
+    }
+  }
+
+  private resolveDetailDisabled() {
+    if (this.stage.isInQueue()) {
+      this.detailDisabled = true;
+      return;
+    }
+    if (this.stage instanceof CleanupRequestStage && this.stage.hasFinished()) {
+      this.detailDisabled = true;
     }
   }
 }

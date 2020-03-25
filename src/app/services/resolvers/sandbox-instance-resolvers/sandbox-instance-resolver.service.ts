@@ -15,7 +15,7 @@ import {SandboxInstance} from '../../../model/sandbox/pool/sandbox-instance/sand
 @Injectable()
 export class SandboxInstanceResolver implements Resolve<SandboxInstance> {
 
-  constructor(private sandboxInstanceFacade: SandboxInstanceApi,
+  constructor(private api: SandboxInstanceApi,
               private errorHandler: ErrorHandlerService,
               private router: Router) {
   }
@@ -36,7 +36,7 @@ export class SandboxInstanceResolver implements Resolve<SandboxInstance> {
     }
 
     const sandboxId = Number(route.paramMap.get(SANDBOX_INSTANCE_ID_SELECTOR));
-    return this.sandboxInstanceFacade.getSandbox(sandboxId)
+    return this.api.getSandbox(sandboxId)
       .pipe(
         take(1),
         mergeMap(sandbox => sandbox ? of(sandbox) : this.navigateToPool(poolId)),

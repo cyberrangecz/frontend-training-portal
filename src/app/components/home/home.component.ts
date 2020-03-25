@@ -83,7 +83,7 @@ export class HomeComponent extends KypoBaseComponent implements OnInit {
         route: SANDBOX_DEFINITION_PATH
       },
       {
-        name: 'Sandbox Instance',
+        name: 'Pool',
         disabled: !this.authService.isTrainingDesigner(),
         route: SANDBOX_POOL_PATH
       },

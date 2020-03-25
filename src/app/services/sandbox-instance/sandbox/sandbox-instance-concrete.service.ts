@@ -21,6 +21,7 @@ import {environment} from '../../../../environments/environment';
 export class SandboxInstanceConcreteService extends SandboxInstanceService {
 
   private lastPagination: KypoRequestedPagination;
+  private lastPoolId: number;
 
   constructor(private sandboxInstanceFacade: SandboxInstanceApi,
               private router: Router,
@@ -36,6 +37,7 @@ export class SandboxInstanceConcreteService extends SandboxInstanceService {
    */
   getAll(poolId: number, pagination: KypoRequestedPagination): Observable<KypoPaginatedResource<SandboxInstance>> {
     this.hasErrorSubject$.next(false);
+    this.lastPoolId = poolId;
     this.lastPagination = pagination;
     return this.sandboxInstanceFacade.getSandboxes(poolId, pagination)
       .pipe(
@@ -56,11 +58,11 @@ export class SandboxInstanceConcreteService extends SandboxInstanceService {
    * @param sandboxInstance a sandbox instance to be deleted
    */
   delete(sandboxInstance: SandboxInstance): Observable<any> {
-    return this.sandboxInstanceFacade.delete(sandboxInstance.id)
+    return this.sandboxInstanceFacade.createCleanupRequest(sandboxInstance.allocationUnitId)
       .pipe(
-        tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox instance was successfully deleted'),
-          err => this.errorHandler.emit(err, 'Deleting sandbox instance')),
-        switchMap(_ => this.getAll(sandboxInstance.poolId, this.lastPagination))
+        tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, `Sandbox ${sandboxInstance.id} was deleted`),
+          err => this.errorHandler.emit(err, `Deleting sandbox ${sandboxInstance.id}`)),
+        switchMap(_ => this.getAll(this.lastPoolId, this.lastPagination))
       );
   }
 
@@ -69,11 +71,11 @@ export class SandboxInstanceConcreteService extends SandboxInstanceService {
    * @param poolId id of a pool in which the allocation will take place
    */
   allocate(poolId: number): Observable<any> {
-    return this.sandboxInstanceFacade.allocate(poolId)
+    return this.sandboxInstanceFacade.allocateSandboxes(poolId)
       .pipe(
-        tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Pool allocation has started'),
-          err => this.errorHandler.emit(err, 'Allocating pool')),
-        switchMap(_ => this.getAll(poolId, this.lastPagination))
+        tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, `Allocation of pool ${poolId} started`),
+          err => this.errorHandler.emit(err, `Allocating pool ${poolId}`)),
+        switchMap(_ => this.getAll(this.lastPoolId, this.lastPagination))
       );
   }
 
@@ -83,14 +85,12 @@ export class SandboxInstanceConcreteService extends SandboxInstanceService {
    * @param sandboxInstance a sandbox instance to be unlocked
    */
   unlock(sandboxInstance: SandboxInstance): Observable<any> {
-    return this.sandboxInstanceFacade.unlock(sandboxInstance.id)
+    return this.sandboxInstanceFacade.unlockSandbox(sandboxInstance.id, sandboxInstance.lockId)
       .pipe(
-        tap(_ => {
-          this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox instance was successfully unlocked');
-          this.onChangedLock(sandboxInstance.id, false);
-          },
-        err => this.errorHandler.emit(err, 'Unlocking sandbox instance')
+        tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, `Sandbox${sandboxInstance.id} was unlocked`),
+        err => this.errorHandler.emit(err, `Unlocking sandbox ${sandboxInstance.id}`)
         ),
+        switchMap(_ => this.getAll(this.lastPoolId, this.lastPagination))
       );
   }
 
@@ -100,14 +100,12 @@ export class SandboxInstanceConcreteService extends SandboxInstanceService {
    * @param sandboxInstance a sandbox instance to be locked
    */
   lock(sandboxInstance: SandboxInstance): Observable<any> {
-    return this.sandboxInstanceFacade.lock(sandboxInstance.id)
+    return this.sandboxInstanceFacade.lockSandbox(sandboxInstance.id)
       .pipe(
-        tap(_ => {
-            this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox instance was successfully locked');
-            this.onChangedLock(sandboxInstance.id, true);
-          },
-          err => this.errorHandler.emit(err, 'Locking sandbox instance')
+        tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, `Sandbox ${sandboxInstance.id} was locked` ),
+          err => this.errorHandler.emit(err, `Locking sandbox ${sandboxInstance.id}`)
         ),
+        switchMap(_ => this.getAll(this.lastPoolId, this.lastPagination))
       );
   }
 
@@ -115,15 +113,5 @@ export class SandboxInstanceConcreteService extends SandboxInstanceService {
     return from(this.router.navigate([RouteFactory.toSandboxInstanceTopology(poolId, sandboxInstance.id)]));
   }
 
-  private onChangedLock(sandboxId: number, locked: boolean) {
-    const sandboxes = this.resourceSubject$.getValue();
-    const changedSandboxIndex = sandboxes.elements.findIndex(element => element.id === sandboxId);
-    const changedSandbox = sandboxes.elements[changedSandboxIndex];
-    if (changedSandbox) {
-      changedSandbox.locked = locked;
-      sandboxes.elements[changedSandboxIndex] = changedSandbox;
-      this.resourceSubject$.next(sandboxes);
-    }
-  }
 }
 

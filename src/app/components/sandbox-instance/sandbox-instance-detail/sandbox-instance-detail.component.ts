@@ -5,7 +5,7 @@ import {KypoBaseComponent} from 'kypo-common';
 import {map, takeWhile} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {Kypo2Table, LoadTableEvent} from 'kypo2-table';
-import {SandboxInstanceResource} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance-resource/sandbox-instance-resource';
+import {SandboxResource} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance-resource/sandbox-resource';
 import {SandboxInstanceResourceService} from '../../../services/sandbox-instance/sandbox/sandbox-instance-resource.service';
 import {SandboxInstanceResourceTable} from '../../../model/table/sandbox-instance/sandbox-instance-resource-table';
 
@@ -21,7 +21,7 @@ import {SandboxInstanceResourceTable} from '../../../model/table/sandbox-instanc
 export class SandboxInstanceDetailComponent extends KypoBaseComponent implements OnInit {
 
   sandboxInstance: SandboxInstance;
-  resources$: Observable<Kypo2Table<SandboxInstanceResource>>;
+  resources$: Observable<Kypo2Table<SandboxResource>>;
   resourcesHasError$: Observable<boolean>;
 
   constructor(private activeRoute: ActivatedRoute,

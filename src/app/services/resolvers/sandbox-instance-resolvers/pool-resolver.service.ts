@@ -4,7 +4,7 @@ import {EMPTY, Observable, of} from 'rxjs';
 import {catchError, mergeMap, take} from 'rxjs/operators';
 import {SANDBOX_POOL_NEW_PATH, SANDBOX_POOL_ID_SELECTOR} from '../../../components/sandbox-instance/sandbox-pool-overview/paths';
 import {RouteFactory} from '../../../model/routes/route-factory';
-import {SandboxPool} from '../../../model/sandbox/pool/sandbox-pool';
+import {Pool} from '../../../model/sandbox/pool/pool';
 import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {SANDBOX_POOL_PATH} from '../../../paths';
@@ -13,7 +13,7 @@ import {SANDBOX_POOL_PATH} from '../../../paths';
  * Router data provider
  */
 @Injectable()
-export class PoolResolver implements Resolve<SandboxPool> {
+export class PoolResolver implements Resolve<Pool> {
 
   constructor(private sandboxInstanceFacade: SandboxInstanceApi,
               private errorHandler: ErrorHandlerService,
@@ -26,7 +26,7 @@ export class PoolResolver implements Resolve<SandboxPool> {
    * @param state router state snapshot
    */
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
-    Observable<SandboxPool> | Promise<SandboxPool> | SandboxPool {
+    Observable<Pool> | Promise<Pool> | Pool {
     if (state.url.endsWith((`${SANDBOX_POOL_PATH}/${SANDBOX_POOL_NEW_PATH}`))) {
       return null;
     }

@@ -2,7 +2,7 @@ import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/rou
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {SandboxInstanceResourceResolver} from './sandbox-instance-resource-resolver.service';
-import {SandboxInstanceResource} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance-resource/sandbox-instance-resource';
+import {SandboxResource} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance-resource/sandbox-resource';
 import {map} from 'rxjs/operators';
 
 /**
@@ -20,7 +20,7 @@ export class SandboxInstanceResourceBreadcrumbResolver implements Resolve<string
    * @param state router state snapshot
    */
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<string> | Promise<string> | string {
-    const resource$ = this.resourceResolver.resolve(route, state) as Observable<SandboxInstanceResource>;
+    const resource$ = this.resourceResolver.resolve(route, state) as Observable<SandboxResource>;
     return resource$.pipe(map(resource => resource.name));
   }
 }

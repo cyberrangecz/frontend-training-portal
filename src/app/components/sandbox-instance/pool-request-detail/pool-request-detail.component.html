@@ -1,8 +1,5 @@
 <ng-container *ngIf="(request$ | async) as request">
-  <h1 *ngIf="isCleanup else creationRequest">Cleanup Request {{ request.id }}</h1>
-  <ng-template #creationRequest>
-    <h1>Creation Request {{ request.id }}</h1>
-  </ng-template>
+  <h1>{{ request.type | titlecase}} Request {{ request.id }}</h1>
   <ng-container *ngIf="hasError$ | async">
     <mat-card class="error">
       <span>We had some trouble loading the data.</span>
@@ -12,11 +9,10 @@
   <ng-container *ngIf="(stages$ | async) as stages">
     <div *ngIf="stages.length > 0 else noStages">
       <kypo2-request-stage *ngFor="let stage of stages; trackBy: trackByFn; let i = index;"
-                           [isCleanup]="isCleanup"
                            [stage]="stage"
                            [stageDetail]="getStageDetail(stage.id)"
                            (stageDetailEvent)="onStageDetailEvent($event)"
-                           (forceCleanup)="onForceCleanup($event, i)">
+                           (fetchAnsibleOutput)="onFetchAnsibleOutput($event)">
       </kypo2-request-stage>
     </div>
     <ng-template #noStages>

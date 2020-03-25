@@ -17,11 +17,11 @@
       <div class="middle-line-header" >
         <h3>Sandboxes</h3>
       </div>
-      <button *ngFor="let cyberExerciseRole of sandboxAgendas"
+      <button *ngFor="let sandboxAgenda of sandboxAgendas"
               mat-raised-button color="primary"
-              [disabled]="cyberExerciseRole.disabled"
-              (click)="navigateToRoute(cyberExerciseRole.route)">
-        {{ cyberExerciseRole.name }}
+              [disabled]="sandboxAgenda.disabled"
+              (click)="navigateToRoute(sandboxAgenda.route)">
+        {{ sandboxAgenda.name }}
       </button>
     </div>
 
