@@ -21,6 +21,8 @@ import {LoadingService} from './services/shared/loading.service';
 import {UserApi} from './services/api/user-api.service';
 import {CsirtMuLayout1Module} from 'csirt-mu-layout';
 import {CsirtMuConfirmationDialogModule} from 'csirt-mu-common';
+import {SandboxDesignerGuard} from './services/guards/sandbox-designer-guard.service';
+import {SandboxOrganizerGuard} from './services/guards/sandbox-organizer-guard.service';
 
 @NgModule({
   declarations: [
@@ -41,6 +43,8 @@ import {CsirtMuConfirmationDialogModule} from 'csirt-mu-common';
   ],
   providers: [
     UserApi,
+    SandboxDesignerGuard,
+    SandboxOrganizerGuard,
     DesignerGuard,
     OrganizerGuard,
     AdminGuard,

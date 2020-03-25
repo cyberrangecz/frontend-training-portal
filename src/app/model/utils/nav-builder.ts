@@ -1,4 +1,4 @@
-import {User} from 'kypo2-auth';
+import {User, UserRole} from 'kypo2-auth';
 import {
   ADMIN_GROUP_PATH,
   ADMIN_MICROSERVICE_PATH,
@@ -10,6 +10,7 @@ import {
   TRAINING_RUN_PATH
 } from '../../paths';
 import {Agenda, AgendaContainer} from 'csirt-mu-layout';
+import {RoleResolver} from './role-resolver';
 
 export class NavBuilder {
 
@@ -33,13 +34,13 @@ export class NavBuilder {
 
   private static createTrainingAgendas(user: User): Agenda[] {
     const agendas: Agenda[] = [];
-    if (user.roles.some(role => role.roleType === 'ROLE_TRAINING_DESIGNER')) {
+    if (RoleResolver.isTrainingDesigner(user.roles)) {
       agendas.push(new Agenda('Definition', TRAINING_DEFINITION_PATH));
     }
-    if (user.roles.some(role => role.roleType === 'ROLE_TRAINING_ORGANIZER')) {
+    if (RoleResolver.isTrainingOrganizer(user.roles)) {
       agendas.push(new Agenda('Instance', TRAINING_INSTANCE_PATH));
     }
-    if (user.roles.some(role => role.roleType === 'ROLE_TRAINING_TRAINEE')) {
+    if (RoleResolver.isTrainingTrainee(user.roles)) {
       agendas.push(new Agenda('Run', TRAINING_RUN_PATH));
     }
     return agendas;
@@ -47,10 +48,10 @@ export class NavBuilder {
 
   private static createSandboxAgendas(user: User): Agenda[] {
     const agendas: Agenda[] = [];
-    if (user.roles.some(role => role.roleType === 'ROLE_KYPO.SANDBOX_SERVICE_PROJECT_DESIGNER')) {
+    if (RoleResolver.isSandboxDesigner(user.roles)) {
       agendas.push(new Agenda('Definition', SANDBOX_DEFINITION_PATH));
     }
-    if (user.roles.some(role => role.roleType === 'ROLE_KYPO.SANDBOX_SERVICE_PROJECT_ORGANIZER')) {
+    if (RoleResolver.isSandboxOrganizer(user.roles)) {
       agendas.push(new Agenda('Pool', SANDBOX_POOL_PATH));
     }
     return agendas;
@@ -58,7 +59,7 @@ export class NavBuilder {
 
   private static createAdminAgendas(user: User): Agenda[] {
     const agendas: Agenda[] = [];
-    if (user.roles.some(role => role.roleType === 'ROLE_USER_AND_GROUP_ADMINISTRATOR')) {
+    if (RoleResolver.isUserAndGroupAdmin(user.roles)) {
       agendas.push(new Agenda('User', ADMIN_USER_PATH));
       agendas.push(new Agenda('Group', ADMIN_GROUP_PATH));
       agendas.push(new Agenda('Microservice', ADMIN_MICROSERVICE_PATH));

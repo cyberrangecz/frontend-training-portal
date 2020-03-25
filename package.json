@@ -37,7 +37,7 @@
     "kypo-controls": "9.0.0",
     "kypo-common": "9.0.0",
     "kypo2-assessments-results-visualization": "9.0.0",
-    "kypo2-auth": "9.0.0",
+    "kypo2-auth": "9.1.0",
     "kypo2-markdown-editor": "9.0.0",
     "kypo2-stepper": "9.0.0",
     "kypo2-table": "9.3.0",
