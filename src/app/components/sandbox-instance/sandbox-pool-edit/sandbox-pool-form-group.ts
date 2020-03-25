@@ -1,5 +1,5 @@
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {SandboxPool} from '../../../model/sandbox/pool/sandbox-pool';
+import {Pool} from '../../../model/sandbox/pool/pool';
 
 export class SandboxPoolFormGroup {
 
@@ -12,8 +12,8 @@ export class SandboxPoolFormGroup {
     })
   }
 
-  createPoolFromValues(): SandboxPool {
-    const pool = new SandboxPool();
+  createPoolFromValues(): Pool {
+    const pool = new Pool();
     pool.definitionId = this.formGroup.get('sandboxDefinition').value?.id;
     pool.maxSize = this.formGroup.get('poolSize').value;
     return pool;

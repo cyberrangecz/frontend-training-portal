@@ -1,12 +1,12 @@
-import {NgModule} from '@angular/core';
+import {InjectionToken, NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {PoolRequestBreadcrumbResolver} from '../../../services/resolvers/sandbox-instance-resolvers/pool-request-breadcrumb-resolver.service';
 import {PoolResolver} from '../../../services/resolvers/sandbox-instance-resolvers/pool-resolver.service';
 import {SandboxInstanceBreadcrumbResolver} from '../../../services/resolvers/sandbox-instance-resolvers/sandbox-instance-breadcrumb-resolver.service';
 import {
   POOL_CLEANUP_REQUEST_PATH,
-  POOL_CREATION_REQUEST_PATH,
-  POOL_REQUEST_ID_SELECTOR,
+  POOL_ALLOCATION_REQUEST_PATH,
+  POOL_REQUEST_ID_SELECTOR, SANDBOX_ALLOCATION_UNIT_ID_SELECTOR, SANDBOX_ALLOCATION_UNIT_PATH,
   SANDBOX_INSTANCE_ID_SELECTOR,
   SANDBOX_INSTANCE_PATH,
   SANDBOX_INSTANCE_TOPOLOGY_PATH
@@ -26,7 +26,7 @@ const routes: Routes = [
     loadChildren: () => import('app/components/sandbox-instance/sandbox-instance-detail/sandbox-instance-detail.module').then(m => m.SandboxInstanceDetailModule),
     resolve: {
       breadcrumb: SandboxInstanceBreadcrumbResolver
-    }
+    },
   },
   {
     path: `${SANDBOX_INSTANCE_PATH}/:${SANDBOX_INSTANCE_ID_SELECTOR}/${SANDBOX_INSTANCE_TOPOLOGY_PATH}`,
@@ -36,15 +36,15 @@ const routes: Routes = [
     }
   },
   {
-    path: `${POOL_CREATION_REQUEST_PATH}/:${POOL_REQUEST_ID_SELECTOR}`,
-    loadChildren: () => import('app/components/sandbox-instance/pool-request-detail/pool-request-detail.module').then(m => m.PoolRequestDetailModule),
+    path: `${SANDBOX_ALLOCATION_UNIT_PATH}/:${SANDBOX_ALLOCATION_UNIT_ID_SELECTOR}/${POOL_ALLOCATION_REQUEST_PATH}/:${POOL_REQUEST_ID_SELECTOR}`,
+    loadChildren: () => import('app/components/sandbox-instance/pool-request-detail/pool-allocation-request-detail.module').then(m => m.PoolAllocationRequestDetailModule),
     resolve: {
       breadcrumb: PoolRequestBreadcrumbResolver,
     }
   },
   {
-    path: `${POOL_CLEANUP_REQUEST_PATH}/:${POOL_REQUEST_ID_SELECTOR}`,
-    loadChildren: () => import('app/components/sandbox-instance/pool-request-detail/pool-request-detail.module').then(m => m.PoolRequestDetailModule),
+    path: `${SANDBOX_ALLOCATION_UNIT_PATH}/:${SANDBOX_ALLOCATION_UNIT_ID_SELECTOR}/${POOL_CLEANUP_REQUEST_PATH}/:${POOL_REQUEST_ID_SELECTOR}`,
+    loadChildren: () => import('app/components/sandbox-instance/pool-request-detail/pool-cleanup-request-detail.module').then(m => m.PoolCleanupRequestDetailModule),
     resolve: {
       breadcrumb: PoolRequestBreadcrumbResolver,
     }

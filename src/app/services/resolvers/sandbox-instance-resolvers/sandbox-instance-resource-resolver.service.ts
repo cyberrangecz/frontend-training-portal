@@ -1,4 +1,4 @@
-import {SandboxInstanceResource} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance-resource/sandbox-instance-resource';
+import {SandboxResource} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance-resource/sandbox-resource';
 import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
 import {Injectable} from '@angular/core';
 import {EMPTY, Observable, of} from 'rxjs';
@@ -14,7 +14,7 @@ import {ErrorHandlerService} from '../../shared/error-handler.service';
  * Router data provider
  */
 @Injectable()
-export class SandboxInstanceResourceResolver implements Resolve<SandboxInstanceResource> {
+export class SandboxInstanceResourceResolver implements Resolve<SandboxResource> {
 
   constructor(private sandboxInstanceFacade: SandboxInstanceApi,
               private errorHandler: ErrorHandlerService,
@@ -27,7 +27,7 @@ export class SandboxInstanceResourceResolver implements Resolve<SandboxInstanceR
    * @param state router state snapshot
    */
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
-    Observable<SandboxInstanceResource> | Promise<SandboxInstanceResource> | SandboxInstanceResource {
+    Observable<SandboxResource> | Promise<SandboxResource> | SandboxResource {
     if (!route.paramMap.has(SANDBOX_POOL_ID_SELECTOR)) {
       return this.navigateToPoolOverview();
     }

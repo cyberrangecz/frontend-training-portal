@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Kypo2Table, LoadTableEvent, TableActionEvent} from 'kypo2-table';
 import {defer, Observable, of} from 'rxjs';
 import {map, take, takeWhile} from 'rxjs/operators';
-import {SandboxPool} from '../../../model/sandbox/pool/sandbox-pool';
+import {Pool} from '../../../model/sandbox/pool/pool';
 import {PoolOverviewService} from '../../../services/sandbox-instance/pool/pool-overview.service';
 import {KypoBaseComponent} from 'kypo-common';
 import {PoolTable} from '../../../model/table/sandbox-instance/pool-table';
@@ -21,7 +21,7 @@ import {KypoControlItem} from 'kypo-controls';
 })
 export class SandboxPoolOverviewComponent extends KypoBaseComponent implements OnInit {
 
-  pools$: Observable<Kypo2Table<SandboxPool>>;
+  pools$: Observable<Kypo2Table<Pool>>;
   hasError$: Observable<boolean>;
 
   controls: KypoControlItem[] =[];
@@ -50,7 +50,7 @@ export class SandboxPoolOverviewComponent extends KypoBaseComponent implements O
    * Resolves type of action and calls appropriate handler
    * @param event action event emitted from pool overview table
    */
-  onPoolAction(event: TableActionEvent<SandboxPool>) {
+  onPoolAction(event: TableActionEvent<Pool>) {
    event.action.result$
      .pipe(
        take(1)

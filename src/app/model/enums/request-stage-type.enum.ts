@@ -1,4 +1,6 @@
 export enum RequestStageType {
-  OPENSTACK = 'Openstack stage',
-  ANSIBLE_RUN = 'Ansible run stage'
+  OPENSTACK_ALLOCATION,
+  ANSIBLE_ALLOCATION,
+  OPENSTACK_CLEANUP,
+  ANSIBLE_CLEANUP
 }

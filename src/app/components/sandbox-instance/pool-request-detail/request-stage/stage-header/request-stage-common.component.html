@@ -1,0 +1,12 @@
+<div class="state">
+  <ng-container [ngSwitch]="stage?.state">
+    <mat-icon *ngSwitchCase="stageStates.IN_QUEUE" color="accent">hourglass_empty</mat-icon>
+    <mat-icon *ngSwitchCase="stageStates.FAILED" color="warn">error_outline</mat-icon>
+    <mat-icon *ngSwitchCase="stageStates.FINISHED" class="success">done</mat-icon>
+    <mat-icon *ngSwitchCase="stageStates.RUNNING" color="primary">play_arrow</mat-icon>
+  </ng-container>
+  <h3>{{ stage?.state }}</h3>
+</div>
+<p *ngIf="stage.start">Started: {{ stage?.start | kypoDateTimeFormat }}</p>
+<p *ngIf="stage.start">Ended: {{ stage?.end | kypoDateTimeFormat }}</p>
+<p class="warn" *ngIf="stage.errorMessage"> {{ stage.errorMessage }}</p>

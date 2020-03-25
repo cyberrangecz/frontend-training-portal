@@ -1,0 +1,27 @@
+.stage-output-viewport {
+  height: 800px;
+  background-color: black;
+  color: gainsboro;
+  font-family: 'Source Code Pro', monospace;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.viewport-last-row {
+  display: flex;
+  justify-content: center;
+  max-width: 1000px;
+ }
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.row {
+  height: 20px;
+  padding: 0 10px;
+  width: 100%;
+  margin: 0;
+}

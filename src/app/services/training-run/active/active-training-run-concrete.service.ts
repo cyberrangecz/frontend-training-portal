@@ -31,7 +31,7 @@ export class ActiveTrainingRunConcreteService extends ActiveTrainingRunService {
   private trainingInstance: TrainingInstance;
 
   constructor(private trainingInstanceFacade: TrainingInstanceApi,
-              private sandboxInstanceFacade: SandboxInstanceApi,
+              private sandboxApi: SandboxInstanceApi,
               private dialog: MatDialog,
               private alertService: AlertService,
               private errorHandler: ErrorHandlerService) {
@@ -98,9 +98,10 @@ export class ActiveTrainingRunConcreteService extends ActiveTrainingRunService {
     return dialogRef.afterClosed();
   }
 
-  private callApiToDeleteSandbox(trainingRun): Observable<KypoPaginatedResource<TrainingRun>> {
-    return this.sandboxInstanceFacade.delete(trainingRun.sandboxInstanceId)
+  private callApiToDeleteSandbox(trainingRun: TrainingRun): Observable<KypoPaginatedResource<TrainingRun>> {
+    return this.sandboxApi.getSandbox(trainingRun.sandboxInstanceId)
       .pipe(
+        switchMap(sandbox => this.sandboxApi.createCleanupRequest(sandbox.allocationUnitId)),
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Deleting of sandbox instance started'),
           err => this.errorHandler.emit(err, 'Deleting sandbox instance')
         ),

@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {KypoControlItem} from 'kypo-controls';
 import {map, take, takeWhile, tap} from 'rxjs/operators';
-import {SandboxPool} from '../../../../model/sandbox/pool/sandbox-pool';
+import {Pool} from '../../../../model/sandbox/pool/pool';
 import {Observable} from 'rxjs';
 import {TrainingInstance} from '../../../../model/training/training-instance';
 import {PoolAssignService} from '../../../../services/training-instance/pool-assign/pool-assign.service';
@@ -108,7 +108,7 @@ export class PoolAssignComponent extends KypoBaseComponent implements OnInit, On
     this.controls = PoolAssignControls.create(this.assignService, this.trainingInstance);
   }
 
-  private mapToAdapter(resource: KypoPaginatedResource<SandboxPool>): KypoPaginatedResource<SandboxPoolListAdapter> {
+  private mapToAdapter(resource: KypoPaginatedResource<Pool>): KypoPaginatedResource<SandboxPoolListAdapter> {
     const adapterElements = resource.elements.map(pool => new SandboxPoolListAdapter(pool));
     return new KypoPaginatedResource<SandboxPoolListAdapter>(adapterElements, resource.pagination)
   }

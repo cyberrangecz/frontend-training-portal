@@ -8,27 +8,27 @@ import {KypoPagination} from 'kypo-common';
 import {skip} from 'rxjs/operators';
 import {environment} from '../../../../../environments/environment';
 import {throwError} from 'rxjs';
-import {PoolCreationRequest} from '../../../../model/sandbox/pool/request/pool-creation-request';
+import {AllocationRequest} from '../../../../model/sandbox/pool/request/allocation-request';
 import {
-  PoolCleanupRequestsPollingService
-} from './pool-cleanup-requests-polling.service';
+  PoolCleanupRequestsConcreteService
+} from './pool-cleanup-requests-concrete.service';
 
 describe('PoolCleanupRequestsPollingService', () => {
   let errorHandlerSpy: jasmine.SpyObj<ErrorHandlerService>;
   let facadeSpy: jasmine.SpyObj<SandboxInstanceApi>;
-  let service: PoolCleanupRequestsPollingService;
+  let service: PoolCleanupRequestsConcreteService;
 
   beforeEach(async(() => {
     errorHandlerSpy = jasmine.createSpyObj('ErrorHandlerService', ['emit']);
-    facadeSpy = jasmine.createSpyObj('SandboxInstanceFacade', ['getCleanupRequests', 'cancelCleanupRequest', 'retryCleanupRequest']);
+    facadeSpy = jasmine.createSpyObj('SandboxInstanceFacade', ['getCleanupRequests']);
     TestBed.configureTestingModule({
       providers: [
-        PoolCleanupRequestsPollingService,
+        PoolCleanupRequestsConcreteService,
         {provide: SandboxInstanceApi, useValue: facadeSpy},
         {provide: ErrorHandlerService, useValue: errorHandlerSpy}
       ]
     });
-    service = TestBed.inject(PoolCleanupRequestsPollingService);
+    service = TestBed.inject(PoolCleanupRequestsConcreteService);
   }));
 
   it('should be created', () => {
@@ -88,37 +88,6 @@ describe('PoolCleanupRequestsPollingService', () => {
         _ => _);
   });
 
-  it('should call facade on cancel', done => {
-    const mockData = createMock();
-    const request = new PoolCreationRequest();
-    request.id = 0;
-    facadeSpy.getCleanupRequests.and.returnValue(asyncData(mockData));
-    facadeSpy.cancelCleanupRequest.and.returnValue(asyncData(null));
-
-    service.cancel(0, request)
-      .subscribe(_ => {
-        expect(facadeSpy.cancelCleanupRequest).toHaveBeenCalledTimes(1);
-        done();
-        },
-        fail
-      );
-  });
-
-  it('should update the data on cancel', done => {
-    const mockData = createMock();
-    const request = new PoolCreationRequest();
-    request.id = 0;
-    facadeSpy.getCleanupRequests.and.returnValue(asyncData(mockData));
-    facadeSpy.cancelCleanupRequest.and.returnValue(asyncData(null));
-
-    service.cancel(0, request)
-      .subscribe(_ => {
-        expect(facadeSpy.getCleanupRequests).toHaveBeenCalledTimes(1);
-        done();
-        },
-        fail
-      );
-  });
 
   it('should start polling', fakeAsync(() => {
     const mockData = createMock();

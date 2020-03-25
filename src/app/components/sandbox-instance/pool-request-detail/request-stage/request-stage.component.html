@@ -1,31 +1,18 @@
 <mat-card>
   <mat-card-header>
-      <img mat-card-avatar [src]="'assets/images/request-stages/' + logoSrc">
+      <img mat-card-avatar [src]="logoSrc">
       <mat-card-title>Stage {{ stage?.id }}</mat-card-title>
-      <mat-card-subtitle>{{ stage?.description }}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <div class="state">
-      <ng-container [ngSwitch]="stage?.state">
-        <mat-icon *ngSwitchCase="stageStates.IN_QUEUE" color="accent">hourglass_empty</mat-icon>
-        <mat-icon *ngSwitchCase="stageStates.FAILED" color="warn">error_outline</mat-icon>
-        <mat-icon *ngSwitchCase="stageStates.FINISHED" class="success">done</mat-icon>
-        <mat-icon *ngSwitchCase="stageStates.RUNNING" color="primary">play_arrow</mat-icon>
-      </ng-container>
-      <h3>{{ stage?.state }}</h3>
-    </div>
-    <p *ngIf="stage.start">Started: {{ stage?.start | kypoDateTimeFormat }}</p>
-    <p *ngIf="stage.start">Ended: {{ stage?.end | kypoDateTimeFormat }}</p>
-    <p class="warn" *ngIf="stage.errorMessage"> {{ stage.errorMessage }}</p>
-
+    <kypo2-request-stage-common [stage]="stage"></kypo2-request-stage-common>
     <mat-expansion-panel  class="mat-elevation-z1"
-                          [disabled]="stage?.state === stageStates.IN_QUEUE"
+                          [disabled]="detailDisabled"
                           (closed)="onStageDetailEvent(false)"
                           (opened)="onStageDetailEvent(true)">
       <mat-expansion-panel-header>
         <mat-panel-title>Stage detail</mat-panel-title>
       </mat-expansion-panel-header>
-      <div class="stage-output" *ngIf="!stageDetailIsLoading else stageOutputLoading">
+      <div *ngIf="!stageDetailIsLoading else stageOutputLoading">
         <div *ngIf="stageDetail?.hasError" class="error">
           <p class="warn">We have some trouble loading the data. Please try again.</p>
           <button mat-icon-button color="primary" (click)="onStageDetailEvent(true)">
@@ -33,9 +20,9 @@
           </button>
         </div>
         <div *ngIf="!stageDetail?.hasError">
-          <kypo2-request-stage-detail *ngIf="stageDetail && stageDetail.output?.length > 0 else noStageOutput"
-                                      [stageDetail]="stageDetail"
-                                      [totalLength]="stageDetail.output?.length">
+          <kypo2-request-stage-detail *ngIf="stageDetail else noStageOutput"
+                                      [stage]="stageDetail?.stage"
+                                      (fetchAnsibleOutput)="onFetchAnsibleOutput($event)">
           </kypo2-request-stage-detail>
           <ng-template #noStageOutput>
             <h3>Stage has no output</h3>
@@ -44,14 +31,11 @@
 
       </div>
       <ng-template #stageOutputLoading>
-        <div class="stage-output">
+        <div class="loading">
           <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
         </div>
       </ng-template>
 
     </mat-expansion-panel>
   </mat-card-content>
-  <mat-card-actions align="end" *ngIf="isCleanup">
-    <button *ngIf="stage.state === stageStates.FAILED"  mat-button color="primary" (click)=onForceCleanup()>Force</button>
-  </mat-card-actions>
 </mat-card>

@@ -1,15 +1,15 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs';
-import {PoolRequest} from '../../../model/sandbox/pool/request/pool-request';
+import {Request} from '../../../model/sandbox/pool/request/request';
 import {map, takeWhile, tap} from 'rxjs/operators';
 import {RequestStage} from '../../../model/sandbox/pool/request/stage/request-stage';
 import {KypoBaseComponent} from 'kypo-common';
-import {StageDetailService} from '../../../services/sandbox-instance/pool-request/stage/stage-detail.service';
-import {StageDetail} from '../../../model/sandbox/pool/request/stage/stage-detail';
-import {PoolRequestStagesPollingService} from '../../../services/sandbox-instance/pool-request/stage/pool-request-stages-polling.service';
+import {StageDetailService} from '../../../services/sandbox-instance/pool-request/stage/detail/stage-detail.service';
 import {StageDetailEventType} from '../../../model/enums/stage-detail-event-type';
 import {StageDetailEvent} from '../../../model/events/stage-detail-event';
+import {RequestStagesPollingService} from '../../../services/sandbox-instance/pool-request/stage/request-stages-polling.service';
+import {StageDetail} from '../../../model/sandbox/pool/request/stage/stage-detail-adapter';
 
 /**
  * Smart component for pool request detail page
@@ -22,20 +22,18 @@ import {StageDetailEvent} from '../../../model/events/stage-detail-event';
 })
 export class PoolRequestDetailComponent extends KypoBaseComponent implements OnInit {
 
-  request$: Observable<PoolRequest>;
+  request$: Observable<Request>;
   stages$: Observable<RequestStage[]>;
   hasError$: Observable<boolean>;
-  isCleanup: boolean;
 
-  private poolId: number;
-  private requestId: number;
+  private request: Request;
   private stageDetails: StageDetail[];
 
   constructor(private activeRoute: ActivatedRoute,
               private stageDetailService: StageDetailService,
-              private requestStagesService: PoolRequestStagesPollingService) {
+              private requestStagesService: RequestStagesPollingService) {
     super();
-    this.initDataSource();
+    this.init();
   }
 
   ngOnInit() {
@@ -51,22 +49,10 @@ export class PoolRequestDetailComponent extends KypoBaseComponent implements OnI
   }
 
   /**
-   * Calls service to force cleanup stage
-   * @param stage cleanup stage to force
-   * @param index index of stage to force
-   */
-  onForceCleanup(stage: RequestStage, index: number) {
-    this.requestStagesService.force(this.poolId, this.requestId, stage.id)
-      .pipe(
-        takeWhile(_ => this.isAlive)
-      ).subscribe();
-  }
-
-  /**
    * Reloads stages of pool request
    */
   reloadStages() {
-    this.requestStagesService.getAll(this.poolId, this.requestId)
+    this.requestStagesService.getAll(this.request)
       .pipe(
         takeWhile(_ => this.isAlive)
       )
@@ -75,15 +61,26 @@ export class PoolRequestDetailComponent extends KypoBaseComponent implements OnI
 
   /**
    * Resolves type of stage detail event and calls appropriate handler
-   * @param event stage detail event emitted from child component (subcribe or unsubsribe)
+   * @param event stage detail event emitted from child component (subscribe or unsubscribe)
    */
   onStageDetailEvent(event: StageDetailEvent) {
-    if (event.type === StageDetailEventType.SUBSCRIBE) {
-      this.stageDetailService.subscribe(event.stage)
+    if (event.type === StageDetailEventType.OPEN) {
+      this.stageDetailService.add(event.stage)
+        .pipe(
+          takeWhile(_ => this.isAlive)
+        )
         .subscribe();
     } else {
-      this.stageDetailService.unsubscribe(event.stage);
+      this.stageDetailService.remove(event.stage);
     }
+  }
+
+
+  onFetchAnsibleOutput(stageDetail: StageDetail) {
+    this.stageDetailService.add(stageDetail.stage, stageDetail.requestedPagination)
+      .pipe(
+        takeWhile(_ => this.isAlive)
+      ).subscribe();
   }
 
   /**
@@ -91,23 +88,21 @@ export class PoolRequestDetailComponent extends KypoBaseComponent implements OnI
    * @param id id of stage which detail should be retrieved
    */
   getStageDetail(id: number): StageDetail {
-    return this.stageDetails.find(stageDetail => stageDetail.stageId === id);
+    return this.stageDetails.find(stageDetail => stageDetail.stage.id === id);
   }
 
-  private initDataSource() {
+  private init() {
     const data$ = this.activeRoute.data;
     this.request$ = data$.pipe(
       tap(data => {
-        this.poolId = data.pool.id;
-        this.requestId = data.poolRequest.id;
-        this.isCleanup = data.poolRequestType === 'CLEANUP';
+        this.request = data.poolRequest;
       }),
       map(data => data.poolRequest),
     );
     // We need to initialize polling with ids first
     data$
       .pipe(
-        tap(data => this.requestStagesService.startPolling(data.pool.id, data.poolRequest.id, data.poolRequestType)),
+        tap(data => this.requestStagesService.startPolling(data.poolRequest)),
         takeWhile(_ => this.isAlive)
       ).subscribe();
 
@@ -117,10 +112,10 @@ export class PoolRequestDetailComponent extends KypoBaseComponent implements OnI
       );
 
     this.hasError$ = this.requestStagesService.hasError$;
-    this.stageDetailService.stageDetail$
+    this.stageDetailService.stageDetails$
       .pipe(
-        takeWhile(_ => this.isAlive)
+        takeWhile(_ => this.isAlive),
       ).subscribe(stageDetails => this.stageDetails = stageDetails);
-
   }
+
 }

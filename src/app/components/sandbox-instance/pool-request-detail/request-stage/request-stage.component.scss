@@ -3,16 +3,7 @@
 mat-card {
   margin: 10px;
 }
-
-.state {
-  display: flex;
-  flex-direction: row;
-  margin: 10px;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-.stage-output {
+.loading {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -25,21 +16,6 @@ mat-card {
   justify-content: center;
 }
 
-.success {
-  color: $success;
-}
-
-.warn {
-  color: $warn;
-}
-
-.primary {
-  color: $primary;
-}
-
-.state h3 {
-  margin: 0 0 0 5px;
-}
 
 mat-expansion-panel {
   margin: 10px;

@@ -14,8 +14,7 @@ export class SandboxInstanceTable extends Kypo2Table<SandboxInstance> {
   constructor(resource: KypoPaginatedResource<SandboxInstance>, poolId: number, service: SandboxInstanceService) {
     const columns = [
       new Column('id', 'id', false),
-      new Column('lockState', 'lock', false),
-      new Column('stateLabel', 'state', false),
+      new Column('lockState', 'state', false),
     ];
     const rows = resource.elements.map(element => SandboxInstanceTable.createRow(element, poolId, service));
     super(rows, columns);
@@ -41,27 +40,33 @@ export class SandboxInstanceTable extends Kypo2Table<SandboxInstance> {
         'device_hub',
         'primary',
         'Display topology',
-        of(!instance.isCreated()),
+        of(false),
         defer(() => service.showTopology(poolId, instance))
       ),
-      instance.locked
-        ? new RowAction(
-          'unlock',
+      this.createLockAction(instance, service)
+    ];
+  }
+
+  private static createLockAction(instance: SandboxInstance, service: SandboxInstanceService): RowAction {
+    if (instance.isLocked()) {
+      return new RowAction(
+        'unlock',
         'Unlock',
         'lock_open',
         'primary',
         'Unlock sandbox instance',
-        of(!instance.isCreated()),
-        defer(() => service.unlock(instance)))
-        : new RowAction(
-          'lock',
+        of(false),
+        defer(() => service.unlock(instance)));
+    } else {
+      return new RowAction(
+        'lock',
         'Lock',
         'lock',
         'primary',
         'Lock sandbox instance',
-        of(!instance.isCreated()),
+        of(false),
         defer(() => service.lock(instance))
-        )
-    ];
+      );
+    }
   }
 }

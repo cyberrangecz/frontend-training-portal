@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {PoolRequest} from '../../../model/sandbox/pool/request/pool-request';
+import {Request} from '../../../model/sandbox/pool/request/request';
 import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
 import {PoolRequestResolver} from './pool-request-resolver.service';
-import {POOL_CREATION_REQUEST_PATH} from '../../../components/sandbox-instance/sandbox-pool-detail/paths';
+import {POOL_ALLOCATION_REQUEST_PATH} from '../../../components/sandbox-instance/sandbox-pool-detail/paths';
 
 /**
  * Router breadcrumb title provider
@@ -23,9 +23,9 @@ export class PoolRequestBreadcrumbResolver implements Resolve<string> {
    * @param state router state snapshot
    */
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<string> | Promise<string> | string {
-    const resolved = this.poolRequestResolver.resolve(route, state) as Observable<PoolRequest>;
-    const requestTypeName = state.url.includes(POOL_CREATION_REQUEST_PATH)
-      ? 'Creation Request'
+    const resolved = this.poolRequestResolver.resolve(route, state) as Observable<Request>;
+    const requestTypeName = state.url.includes(POOL_ALLOCATION_REQUEST_PATH)
+      ? 'Allocation Request'
       : 'Cleanup Request';
     return resolved.pipe(map(poolRequest => `${requestTypeName} ${poolRequest.id}`));
   }

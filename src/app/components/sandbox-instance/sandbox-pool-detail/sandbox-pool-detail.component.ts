@@ -4,18 +4,19 @@ import {Kypo2Table, LoadTableEvent, TableActionEvent} from 'kypo2-table';
 import {SandboxInstanceService} from '../../../services/sandbox-instance/sandbox/sandbox-instance.service';
 import {SandboxInstance} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance';
 import {Observable} from 'rxjs';
-import {map, take, takeWhile} from 'rxjs/operators';
-import {PoolRequest} from '../../../model/sandbox/pool/request/pool-request';
-import {SandboxPool} from '../../../model/sandbox/pool/sandbox-pool';
+import {map, take, takeWhile, tap} from 'rxjs/operators';
+import {Request} from '../../../model/sandbox/pool/request/request';
+import {Pool} from '../../../model/sandbox/pool/pool';
 import {KypoBaseComponent} from 'kypo-common';
 import {SandboxInstanceTable} from '../../../model/table/sandbox-instance/sandbox-instance-table';
 import {environment} from '../../../../environments/environment';
-import {PoolCreationRequestsPollingService} from '../../../services/sandbox-instance/pool-request/creation/pool-creation-requests-polling.service';
-import {PoolCleanupRequestsPollingService} from '../../../services/sandbox-instance/pool-request/cleanup/pool-cleanup-requests-polling.service';
 import {KypoRequestedPagination} from 'kypo-common';
 import {SandboxPoolDetailControls} from './sandbox-pool-detail-controls';
 import {KypoControlItem} from 'kypo-controls';
-import {CreationRequestTable} from '../../../model/table/sandbox-instance/pool-request/creation-request-table';
+import {AllocationRequestTable} from '../../../model/table/sandbox-instance/pool-request/allocation-request-table';
+import {PoolAllocationRequestsPollingService} from '../../../services/sandbox-instance/pool-request/allocation/pool-allocation-requests-polling.service';
+import {PoolCleanupRequestsPollingService} from '../../../services/sandbox-instance/pool-request/cleanup/pool-cleanup-requests-polling.service';
+import {CleanupRequestTable} from '../../../model/table/sandbox-instance/pool-request/cleanup-request-table';
 
 /**
  * Smart component of sandbox pool detail page
@@ -28,21 +29,21 @@ import {CreationRequestTable} from '../../../model/table/sandbox-instance/pool-r
 })
 export class SandboxPoolDetailComponent extends KypoBaseComponent implements OnInit {
 
-  pool: SandboxPool;
+  pool: Pool;
 
   instances$: Observable<Kypo2Table<SandboxInstance>>;
   instancesTableHasError$: Observable<boolean>;
 
-  creationRequests$: Observable<Kypo2Table<PoolRequest>>;
-  creationRequestsTableHasError$: Observable<boolean>;
+  allocationRequests$: Observable<Kypo2Table<Request>>;
+  allocationRequestsTableHasError$: Observable<boolean>;
 
-  cleanupRequests$: Observable<Kypo2Table<PoolRequest>>;
+  cleanupRequests$: Observable<Kypo2Table<Request>>;
   cleanupRequestsTableHasError$: Observable<boolean>;
 
   controls: KypoControlItem[];
 
   constructor(private instanceService: SandboxInstanceService,
-              private creationRequestService: PoolCreationRequestsPollingService,
+              private allocationRequestService: PoolAllocationRequestsPollingService,
               private cleanupRequestService: PoolCleanupRequestsPollingService,
               private activeRoute: ActivatedRoute) {
     super();
@@ -69,8 +70,8 @@ export class SandboxPoolDetailComponent extends KypoBaseComponent implements OnI
    * Gets new data for creation requests overview table
    * @param loadEvent load event emitted from creation requests table
    */
-  onCreationRequestsLoadEvent(loadEvent: LoadTableEvent) {
-    this.creationRequestService.getAll(this.pool.id, loadEvent.pagination)
+  onAllocationRequestsLoadEvent(loadEvent: LoadTableEvent) {
+    this.allocationRequestService.getAll(this.pool.id, loadEvent.pagination)
       .pipe(
         takeWhile(_ => this.isAlive),
       )
@@ -116,9 +117,8 @@ export class SandboxPoolDetailComponent extends KypoBaseComponent implements OnI
       ).subscribe(data => {
         this.pool = data.pool;
         this.onInstanceLoadEvent(initialLoadEvent);
-        this.onCreationRequestsLoadEvent(initialLoadEvent);
-      // TODO: Add when backend API supports cleanup requests
-      // this.onCleanupRequestsLoadEvent(initialLoadEvent);
+        this.onAllocationRequestsLoadEvent(initialLoadEvent);
+         this.onCleanupRequestsLoadEvent(initialLoadEvent);
       }
     );
 
@@ -128,12 +128,16 @@ export class SandboxPoolDetailComponent extends KypoBaseComponent implements OnI
       );
     this.instancesTableHasError$ = this.instanceService.hasError$;
 
-    this.creationRequests$ = this.creationRequestService.resource$
+    this.allocationRequests$ = this.allocationRequestService.resource$
       .pipe(
-        map(resource => new CreationRequestTable(resource, this.pool.id)));
-    this.creationRequestsTableHasError$ = this.creationRequestService.hasError$;
+        map(resource => new AllocationRequestTable(resource, this.pool.id, this.allocationRequestService)));
+    this.allocationRequestsTableHasError$ = this.allocationRequestService.hasError$;
 
-   // TODO: Add  cleanup when backend API supports cleanup requests
+    this.cleanupRequests$ = this.cleanupRequestService.resource$
+      .pipe(
+        map(resource => new CleanupRequestTable(resource, this.pool.id))
+      );
+    this.cleanupRequestsTableHasError$ = this.cleanupRequestService.hasError$;
   }
 
   private initControls() {

@@ -1,7 +1,7 @@
 import {PoolAssignService} from './pool-assign.service';
 import {TrainingInstance} from '../../../model/training/training-instance';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {SandboxPool} from '../../../model/sandbox/pool/sandbox-pool';
+import {Pool} from '../../../model/sandbox/pool/pool';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
 import {tap} from 'rxjs/operators';
@@ -27,7 +27,7 @@ export class PoolAssignConcreteService extends PoolAssignService {
     this.assignedPoolSubject$.next(trainingInstance.poolId);
   }
 
-  getAll(requestedPagination: KypoRequestedPagination): Observable<KypoPaginatedResource<SandboxPool>> {
+  getAll(requestedPagination: KypoRequestedPagination): Observable<KypoPaginatedResource<Pool>> {
     this.lastPagination = requestedPagination;
     this.isLoadingSubject$.next(true);
     this.hasErrorSubject$.next(false);

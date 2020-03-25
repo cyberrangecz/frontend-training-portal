@@ -1,10 +1,10 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit, ViewChild} from '@angular/core';
-import {KypoBaseComponent} from 'kypo-common';
-import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
-import {StageDetail} from '../../../../../model/sandbox/pool/request/stage/stage-detail';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {KypoBaseComponent, KypoRequestedPagination} from 'kypo-common';
+import {RequestStage} from '../../../../../model/sandbox/pool/request/stage/request-stage';
+import {RequestStageType} from '../../../../../model/enums/request-stage-type.enum';
 
 /**
- * Component with virtual scroll displaying output of request stage
+ * Component inserting concrete component based on request stage type
  */
 @Component({
   selector: 'kypo2-request-stage-detail',
@@ -14,24 +14,15 @@ import {StageDetail} from '../../../../../model/sandbox/pool/request/stage/stage
 })
 export class RequestStageDetailComponent extends KypoBaseComponent implements OnInit {
 
-  @Input() stageDetail: StageDetail;
-  @Input() totalLength: number;
-  @ViewChild(CdkVirtualScrollViewport, {static: true}) viewPort: CdkVirtualScrollViewport;
+  @Input() stage: RequestStage;
+  @Output() fetchAnsibleOutput: EventEmitter<KypoRequestedPagination> = new EventEmitter();
+
+  stageTypes = RequestStageType;
 
   ngOnInit() {
   }
 
-  /**
-   * Scrolls to the end of virtual scroll
-   */
-  scrollToEnd() {
-    this.viewPort.scrollToIndex(this.totalLength, 'auto');
-  }
-
-  /**
-   * Scrolls to the start of virtual scroll
-   */
-  scrollToStart() {
-    this.viewPort.scrollToIndex(0, 'auto');
+  onFetchAnsibleOutput(pagination: KypoRequestedPagination) {
+    this.fetchAnsibleOutput.emit(pagination);
   }
 }

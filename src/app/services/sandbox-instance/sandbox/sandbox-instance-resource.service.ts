@@ -1,5 +1,5 @@
 import {BehaviorSubject, Observable} from 'rxjs';
-import {SandboxInstanceResource} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance-resource/sandbox-instance-resource';
+import {SandboxResource} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance-resource/sandbox-resource';
 
 /**
  * A layer between a component and an API service. Implement a concrete service by extending this class.
@@ -22,10 +22,10 @@ export abstract class SandboxInstanceResourceService {
   /**
    * @contract must be updated every time new data are received
    */
-  abstract resources$: Observable<SandboxInstanceResource[]>;
+  abstract resources$: Observable<SandboxResource[]>;
 
   /**
    * @param sandboxInstanceId id of a sandbox instance associated with requested resources
    */
-  abstract getAll(sandboxInstanceId: number): Observable<SandboxInstanceResource[]>;
+  abstract getAll(sandboxInstanceId: number): Observable<SandboxResource[]>;
 }

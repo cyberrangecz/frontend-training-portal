@@ -13,15 +13,15 @@
   <div class="overview">
     <div class="requests">
       <div class="request">
-        <h3>Creation Requests</h3>
+        <h3>Allocation Requests</h3>
         <kypo2-table
-                      [data]="creationRequests$ | async"
-                     [hasError]="creationRequestsTableHasError$ | async"
+                      [data]="allocationRequests$ | async"
+                     [hasError]="allocationRequestsTableHasError$ | async"
                      (rowAction)="onTableAction($event)"
-                     (refresh)="onCreationRequestsLoadEvent($event)">
+                     (refresh)="onAllocationRequestsLoadEvent($event)">
         </kypo2-table>
       </div>
-<!--      <div class="request">
+      <div class="request">
         <h3>Cleanup Requests</h3>
         <kypo2-table
                      [data]="cleanupRequests$ | async"
@@ -29,7 +29,7 @@
                      (rowAction)="onTableAction($event)"
                      (refresh)="onCleanupRequestsLoadEvent($event)">
         </kypo2-table>
-      </div>-->
+      </div>
     </div>
   </div>
 </div>

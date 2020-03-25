@@ -47,11 +47,11 @@ export class NavBuilder {
 
   private static createSandboxAgendas(user: User): Agenda[] {
     const agendas: Agenda[] = [];
-    if (user.roles.some(role => role.roleType === 'ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_DESIGNER')) {
+    if (user.roles.some(role => role.roleType === 'ROLE_KYPO.SANDBOX_SERVICE_PROJECT_DESIGNER')) {
       agendas.push(new Agenda('Definition', SANDBOX_DEFINITION_PATH));
     }
-    if (user.roles.some(role => role.roleType === 'ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_ORGANIZER')) {
-      agendas.push(new Agenda('Instance', SANDBOX_POOL_PATH));
+    if (user.roles.some(role => role.roleType === 'ROLE_KYPO.SANDBOX_SERVICE_PROJECT_ORGANIZER')) {
+      agendas.push(new Agenda('Pool', SANDBOX_POOL_PATH));
     }
     return agendas;
   }

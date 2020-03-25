@@ -58,7 +58,7 @@ export class KypoPaginatedResourceListComponent<T> implements OnInit, OnChanges 
   }
 
   /**
-   * Refreshes current page of training definitions
+   * Emits event to fetch requested page
    */
   reload() {
     this.fetch.emit(new KypoRequestedPagination(this.page, this.pageSize, this.sortByAttribute, this.sortDir));
