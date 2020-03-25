@@ -5,6 +5,7 @@ import {Observable} from 'rxjs/internal/Observable';
 import {map} from 'rxjs/operators';
 import {HOME_PATH} from '../../paths';
 import {CanActivateToObservable} from './can-activate-to-observable';
+import {RoleResolver} from '../../model/utils/role-resolver';
 
 @Injectable()
 /**
@@ -26,7 +27,7 @@ export class TraineeGuard implements CanActivate {
   }
 
   private isTrainee(): boolean {
-    if (this.authService.isTrainingTrainee()) {
+    if (RoleResolver.isTrainingTrainee(this.authService.getRoles())) {
       return true;
     }
     this.router.navigate([HOME_PATH]);

@@ -6,6 +6,7 @@ import {map} from 'rxjs/operators';
 import {TRAINING_RUN_PATH} from '../../paths';
 import {LoadingService} from '../shared/loading.service';
 import {CanActivateToObservable} from './can-activate-to-observable';
+import {RoleResolver} from '../../model/utils/role-resolver';
 
 /**
  * Route guard determining if user is signed in and has ONLY role of a trainee.
@@ -28,10 +29,12 @@ export class NotOnlyTraineeGuard implements CanActivate {
   }
 
   private isTraineeOnly(): boolean {
+    const roles = this.authService.getRoles();
     if (
-      this.authService.isTrainingTrainee() &&
-      !this.authService.isTrainingOrganizer() &&
-      !this.authService.isTrainingDesigner() && !this.authService.isUserAndGroupAdmin()
+      RoleResolver.isTrainingTrainee(roles)
+      && !RoleResolver.isTrainingOrganizer(roles)
+      && !RoleResolver.isTrainingDesigner(roles)
+      && !RoleResolver.isUserAndGroupAdmin(roles)
     ) {
       this.router.navigate([TRAINING_RUN_PATH]);
       return false;

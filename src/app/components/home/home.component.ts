@@ -13,6 +13,7 @@ import {
   TRAINING_RUN_PATH
 } from '../../paths';
 import {KypoBaseComponent} from 'kypo-common';
+import {RoleResolver} from '../../model/utils/role-resolver';
 
 /**
  * Main component of homepage (portal) page. Portal page is a main crossroad of possible sub pages. Only those matching with user
@@ -55,56 +56,59 @@ export class HomeComponent extends KypoBaseComponent implements OnInit {
   }
 
   private createTrainingButtons() {
+    const roles = this.authService.getRoles();
     this.trainingAgendas = [
       {
         name: 'Training Definition',
-        disabled: !this.authService.isTrainingDesigner(),
+        disabled: !RoleResolver.isTrainingDesigner(roles),
         route: TRAINING_DEFINITION_PATH
       },
       {
         name: 'Training Instance',
-        disabled: !this.authService.isTrainingOrganizer(),
+        disabled: !RoleResolver.isTrainingOrganizer(roles),
         route: TRAINING_INSTANCE_PATH
 
       },
       {
         name: 'Training Run',
-        disabled: !this.authService.isTrainingTrainee(),
+        disabled: !RoleResolver.isTrainingTrainee(roles),
         route: TRAINING_RUN_PATH
       }
     ];
   }
 
   private createSanboxButtons() {
+    const roles = this.authService.getRoles();
     this.sandboxAgendas = [
       {
         name: 'Sandbox Definition',
-        disabled: !this.authService.isTrainingDesigner(),
+        disabled: !RoleResolver.isSandboxDesigner(roles),
         route: SANDBOX_DEFINITION_PATH
       },
       {
         name: 'Pool',
-        disabled: !this.authService.isTrainingDesigner(),
+        disabled: !RoleResolver.isSandboxOrganizer(roles),
         route: SANDBOX_POOL_PATH
       },
     ];
   }
 
   private createAdminButtons() {
+    const disabled = !RoleResolver.isUserAndGroupAdmin(this.authService.getRoles());
     this.adminAgendas = [
       {
         name: 'User',
-        disabled: !this.authService.isUserAndGroupAdmin(),
+        disabled: disabled,
         route: ADMIN_USER_PATH
       },
       {
         name: 'Group',
-        disabled: !this.authService.isUserAndGroupAdmin(),
+        disabled: disabled,
         route: ADMIN_GROUP_PATH
       },
       {
         name: 'Microservice',
-        disabled: !this.authService.isUserAndGroupAdmin(),
+        disabled: disabled,
         route: ADMIN_MICROSERVICE_PATH
       },
     ];
@@ -117,5 +121,7 @@ export class HomeComponent extends KypoBaseComponent implements OnInit {
       this.initRoutes();
     });
   }
+
+
 
 }

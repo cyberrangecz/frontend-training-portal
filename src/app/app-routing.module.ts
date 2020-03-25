@@ -19,6 +19,8 @@ import {DesignerGuard} from './services/guards/designer-guard.service';
 import {NotOnlyTraineeGuard} from './services/guards/only-trainee.guard.service';
 import {OrganizerGuard} from './services/guards/organizer-guard.service';
 import {TraineeGuard} from './services/guards/trainee-guard.service';
+import {SandboxDesignerGuard} from './services/guards/sandbox-designer-guard.service';
+import {SandboxOrganizerGuard} from './services/guards/sandbox-organizer-guard.service';
 
 const routes: Routes = [
   {
@@ -35,7 +37,7 @@ const routes: Routes = [
   {
     path: SANDBOX_DEFINITION_PATH,
     loadChildren: () => import('app/components/sandbox-definition/overview/sandbox-definition-overview.module').then(m => m.SandboxDefinitionOverviewModule),
-    canActivate: [DesignerGuard],
+    canActivate: [SandboxDesignerGuard],
     data: { breadcrumb: 'Sandbox Definitions' }
   },
   {
@@ -48,7 +50,7 @@ const routes: Routes = [
   {
     path: SANDBOX_POOL_PATH,
     loadChildren: () => import('app/components/sandbox-instance/sandbox-pool-overview/sandbox-pool-overview.module').then(m => m.SandboxPoolOverviewModuleModule),
-    canActivate: [OrganizerGuard],
+    canActivate: [SandboxOrganizerGuard],
     data: { breadcrumb: 'Pools' }
   },
   {
