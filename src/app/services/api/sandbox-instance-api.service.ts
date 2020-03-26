@@ -34,6 +34,8 @@ import {AnsibleCleanupStageDTO} from '../../model/DTOs/sandbox-instance/stages/a
 import {AnsibleAllocationOutputDTO} from '../../model/DTOs/sandbox-instance/stages/ansible-allocation-output-dto';
 import {CleanupRequestStage} from '../../model/sandbox/pool/request/stage/cleanup-request-stage';
 import {AllocationRequestStage} from '../../model/sandbox/pool/request/stage/allocation-request-stage';
+import {CleanupRequest} from '../../model/sandbox/pool/request/cleanup-request';
+import {AllocationRequest} from '../../model/sandbox/pool/request/allocation-request';
 
 /**
  * Service abstracting http communication with sandbox instances endpoints.
@@ -41,14 +43,14 @@ import {AllocationRequestStage} from '../../model/sandbox/pool/request/stage/all
 @Injectable()
 export class SandboxInstanceApi {
 
-  private readonly sandboxInstancesUriExtension = 'sandboxes/';
-  private readonly poolsUriExtension = 'pools/';
-  private readonly locksUriExtension = 'locks/';
-  private readonly sandboxAllocationUnitsUriExtension = 'sandbox-allocation-units/';
-  private readonly allocationRequestUriExtension = 'allocation-requests/';
-  private readonly cleanupRequestUriExtension = 'cleanup-requests/';
-  private readonly stagesUriExtension = 'stages/';
-  private readonly sandboxResourceExtension = 'resources/';
+  private readonly sandboxInstancesUriExtension = 'sandboxes';
+  private readonly poolsUriExtension = 'pools';
+  private readonly locksUriExtension = 'locks';
+  private readonly sandboxAllocationUnitsUriExtension = 'sandbox-allocation-units';
+  private readonly allocationRequestUriExtension = 'allocation-requests';
+  private readonly cleanupRequestUriExtension = 'cleanup-requests';
+  private readonly stagesUriExtension = 'stages';
+  private readonly sandboxResourceExtension = 'resources';
 
   private readonly stagesEndpointUri = environment.sandboxRestBasePath + this.stagesUriExtension;
   private readonly poolsEndpointUri = environment.sandboxRestBasePath + this.poolsUriExtension;
@@ -82,7 +84,7 @@ export class SandboxInstanceApi {
    * @param poolId id of the pool
    */
   getPool(poolId: number): Observable<Pool>  {
-  return this.http.get<PoolDTO>(`${this.poolsEndpointUri}${poolId}/`)
+  return this.http.get<PoolDTO>(`${this.poolsEndpointUri}/${poolId}`)
     .pipe(
       map(response => PoolMapper.fromDTO(response))
     );
@@ -93,7 +95,7 @@ export class SandboxInstanceApi {
    * @param poolId id of the pool to delete
    */
   deletePool(poolId: number): Observable<any> {
-    return this.http.delete(`${this.poolsEndpointUri + poolId}/`);
+    return this.http.delete(`${this.poolsEndpointUri}/${poolId}`);
   }
 
   /**
@@ -116,12 +118,12 @@ export class SandboxInstanceApi {
   }
 
   lockPool(poolId: number): Observable<any> {
-    return this.http.post(`${this.poolsEndpointUri}${poolId}/${this.locksUriExtension}/`,
+    return this.http.post(`${this.poolsEndpointUri}/${poolId}/${this.locksUriExtension}`,
       {});
   }
 
   unlockPool(poolId: number, lockId: number): Observable<any> {
-    return this.http.delete(`${this.poolsEndpointUri}${poolId}/${this.locksUriExtension}/${lockId}/`)
+    return this.http.delete(`${this.poolsEndpointUri}/${poolId}/${this.locksUriExtension}/${lockId}`)
   }
 
   /**
@@ -131,7 +133,7 @@ export class SandboxInstanceApi {
    */
   getSandboxes(poolId: number, pagination: KypoRequestedPagination): Observable<KypoPaginatedResource<SandboxInstance>> {
     return this.http.get<DjangoResourceDTO<SandboxInstanceDTO>>(
-      `${this.poolsEndpointUri + poolId}/${this.sandboxInstancesUriExtension}`,
+      `${this.poolsEndpointUri}/${poolId}/${this.sandboxInstancesUriExtension}`,
       {
         params: PaginationParams.forDjangoAPI(pagination)
       })
@@ -149,7 +151,7 @@ export class SandboxInstanceApi {
    * @param sandboxId id of the sandbox instance
    */
   getSandbox(sandboxId: number): Observable<SandboxInstance> {
-    return this.http.get<SandboxInstanceDTO>(`${this.sandboxEndpointUri + sandboxId}/`)
+    return this.http.get<SandboxInstanceDTO>(`${this.sandboxEndpointUri}/${sandboxId}`)
       .pipe(
         map(response => SandboxInstanceMapper.fromDTO(response))
       );
@@ -165,7 +167,7 @@ export class SandboxInstanceApi {
     if (count > 0) {
       params = new HttpParams().set('count', count.toString());
     }
-    return this.http.post(`${this.poolsEndpointUri + poolId}/${this.sandboxAllocationUnitsUriExtension}`, null,
+    return this.http.post(`${this.poolsEndpointUri}/${poolId}/${this.sandboxAllocationUnitsUriExtension}`, null,
       {params: params});
   }
 
@@ -175,7 +177,7 @@ export class SandboxInstanceApi {
    * @param lockId od of the lock on sandbox instance
    */
   unlockSandbox(sandboxId: number, lockId: number): Observable<any> {
-    return this.http.delete(`${this.sandboxEndpointUri + sandboxId}/${this.locksUriExtension + lockId}/`);
+    return this.http.delete(`${this.sandboxEndpointUri}/${sandboxId}/${this.locksUriExtension}/${lockId}`);
   }
 
   /**
@@ -183,7 +185,7 @@ export class SandboxInstanceApi {
    * @param sandboxId id of the sandbox instance to lock
    */
   lockSandbox(sandboxId: number): Observable<any> {
-    return this.http.post(`${this.sandboxEndpointUri + sandboxId}/${this.locksUriExtension}`, {});
+    return this.http.post(`${this.sandboxEndpointUri}/${sandboxId}/${this.locksUriExtension}`, {});
   }
 
   /**
@@ -191,15 +193,15 @@ export class SandboxInstanceApi {
    * @param poolId id of the allocation unit
    * @param pagination requested pagination
    */
-  getAllocationRequests(poolId: number, pagination: KypoRequestedPagination): Observable<KypoPaginatedResource<Request>> {
-    return this.http.get<DjangoResourceDTO<RequestDTO>>(`${this.poolsEndpointUri + poolId}/${this.allocationRequestUriExtension}`,
+  getAllocationRequests(poolId: number, pagination: KypoRequestedPagination): Observable<KypoPaginatedResource<AllocationRequest>> {
+    return this.http.get<DjangoResourceDTO<RequestDTO>>(`${this.poolsEndpointUri}/${poolId}/${this.allocationRequestUriExtension}`,
       {
         params: PaginationParams.forDjangoAPI(pagination)
       })
       .pipe(
         map(response =>
           new KypoPaginatedResource<Request>(
-            RequestMapper.fromDTOs(response.results, 'ALLOCATION'),
+            RequestMapper.fromAllocationDTOs(response.results),
             PaginationMapper.fromDjangoAPI(response)
           ))
       );
@@ -210,15 +212,15 @@ export class SandboxInstanceApi {
    * @param poolId id of the associated pool
    * @param pagination requested pagination
    */
-  getCleanupRequests(poolId: number, pagination: KypoRequestedPagination): Observable<KypoPaginatedResource<Request>> {
-    return this.http.get<DjangoResourceDTO<RequestDTO>>(`${this.poolsEndpointUri + poolId}/${this.cleanupRequestUriExtension}`,
+  getCleanupRequests(poolId: number, pagination: KypoRequestedPagination): Observable<KypoPaginatedResource<CleanupRequest>> {
+    return this.http.get<DjangoResourceDTO<RequestDTO>>(`${this.poolsEndpointUri}/${poolId}/${this.cleanupRequestUriExtension}`,
       {
         params: PaginationParams.forDjangoAPI(pagination)
       })
       .pipe(
         map(response =>
           new KypoPaginatedResource<Request>(
-            RequestMapper.fromDTOs(response.results, 'CLEANUP'),
+            RequestMapper.fromCleanupDTOs(response.results),
             PaginationMapper.fromDjangoAPI(response)
           ))
       );
@@ -229,17 +231,18 @@ export class SandboxInstanceApi {
    * @param allocationUnitId id of the associated allocation unit
    */
   getAllocationRequest(allocationUnitId: number): Observable<Request> {
-    return this.http.get<RequestDTO>(`${this.sandboxAllocationEndpointUri + allocationUnitId}/allocation-request/`)
-      .pipe(map(response => RequestMapper.fromDTO(response, 'ALLOCATION')));
+    return this.http.get<RequestDTO>(`${this.sandboxAllocationEndpointUri}/${allocationUnitId}/allocation-request`)
+      .pipe(map(response => RequestMapper.fromAllocationDTO(response)));
   }
 
   /**
    * Sends http request to get cleanup request
    * @param allocationUnitId id of the associated allocation unit
+   * @param requestId id of request to retrieve
    */
-  getCleanupRequest(allocationUnitId: number, requestId: number): Observable<Request> {
-    return this.http.get<RequestDTO>(`${this.sandboxAllocationEndpointUri + allocationUnitId}/cleanup-requests/${requestId}/`)
-      .pipe(map(response => RequestMapper.fromDTO(response, 'CLEANUP')));
+  getCleanupRequest(allocationUnitId: number, requestId: number): Observable<CleanupRequest> {
+    return this.http.get<RequestDTO>(`${this.sandboxAllocationEndpointUri}/${allocationUnitId}/${this.cleanupRequestUriExtension}/${requestId}`)
+      .pipe(map(response => RequestMapper.fromAllocationDTO(response)));
   }
 
   /**
@@ -249,7 +252,7 @@ export class SandboxInstanceApi {
    */
   cancelAllocationRequest(allocationUnitId: number, requestId: number): Observable<any> {
     return this.http.patch(
-      `${this.sandboxAllocationEndpointUri + allocationUnitId}/${this.allocationRequestUriExtension}${requestId}/cancel/`,
+      `${this.sandboxAllocationEndpointUri}/${allocationUnitId}/${this.allocationRequestUriExtension}/${requestId}/cancel`,
       {});
   }
 
@@ -258,7 +261,7 @@ export class SandboxInstanceApi {
    * @param allocationUnitId id of the sandbox allocation unit to cleanup
    */
   createCleanupRequest(allocationUnitId: number) {
-    return this.http.post(`${this.sandboxAllocationEndpointUri + allocationUnitId}/${this.cleanupRequestUriExtension}`, {});
+    return this.http.post(`${this.sandboxAllocationEndpointUri}/${allocationUnitId}/${this.cleanupRequestUriExtension}`, {});
   }
 
   /**
@@ -269,7 +272,7 @@ export class SandboxInstanceApi {
    */
   getAllocationStages(allocationUnitId: number, requestId: number, pagination: KypoRequestedPagination): Observable<KypoPaginatedResource<AllocationRequestStage>> {
     return this.http.get<DjangoResourceDTO<RequestStageDTO>>(
-      `${this.sandboxAllocationEndpointUri + allocationUnitId}/${this.allocationRequestUriExtension + requestId}/${this.stagesUriExtension}`,
+      `${this.sandboxAllocationEndpointUri}/${allocationUnitId}/${this.allocationRequestUriExtension}/${requestId}/${this.stagesUriExtension}`,
       {
         params: PaginationParams.forDjangoAPI(pagination)
       })
@@ -290,7 +293,7 @@ export class SandboxInstanceApi {
    */
   getCleanupStages(allocationUnitId: number, requestId: number, pagination: KypoRequestedPagination): Observable<KypoPaginatedResource<CleanupRequestStage>> {
     return this.http.get<DjangoResourceDTO<RequestStageDTO>>(
-      `${this.sandboxAllocationEndpointUri + allocationUnitId}/${this.cleanupRequestUriExtension + requestId}/${this.stagesUriExtension}`,
+      `${this.sandboxAllocationEndpointUri}/${allocationUnitId}/${this.cleanupRequestUriExtension}/${requestId}/${this.stagesUriExtension}`,
       {
         params: PaginationParams.forDjangoAPI(pagination)
       })
@@ -308,28 +311,28 @@ export class SandboxInstanceApi {
    * @param stageId of the requested stage id
    */
   getOpenstackAllocationStage(stageId: number): Observable<OpenStackAllocationStage> {
-    return this.http.get<OpenstackAllocationStageDTO>(`${this.stagesEndpointUri}allocation/${stageId}/openstack/`)
+    return this.http.get<OpenstackAllocationStageDTO>(`${this.stagesEndpointUri}/allocation/${stageId}/openstack`)
       .pipe(
         map(resp => RequestStageMapper.fromOpenstackAllocationDTO(resp))
       )
   }
 
   getOpenstackCleanupStage(stageId: number): Observable<OpenStackCleanupStage> {
-    return this.http.get<OpenstackCleanupStageDTO>(`${this.stagesEndpointUri}cleanup/${stageId}/openstack/`)
+    return this.http.get<OpenstackCleanupStageDTO>(`${this.stagesEndpointUri}/cleanup/${stageId}/openstack`)
       .pipe(
         map(resp => RequestStageMapper.fromOpenstackCleanupDTO(resp))
       )
   }
 
   getAnsibleAllocationStage(stageId: number): Observable<AnsibleAllocationStage> {
-    return this.http.get<AnsibleAllocationStageDTO>(`${this.stagesEndpointUri}allocation/${stageId}/ansible/`)
+    return this.http.get<AnsibleAllocationStageDTO>(`${this.stagesEndpointUri}/allocation/${stageId}/ansible`)
       .pipe(
         map(resp => RequestStageMapper.fromAnsibleAllocationDTO(resp))
       )
   }
 
   getAnsibleCleanupStage(stageId: number): Observable<AnsibleCleanupStage> {
-    return this.http.get<AnsibleCleanupStageDTO>(`${this.stagesEndpointUri}cleanup/${stageId}/ansible/`)
+    return this.http.get<AnsibleCleanupStageDTO>(`${this.stagesEndpointUri}/cleanup/${stageId}/ansible`)
       .pipe(
         map(resp => RequestStageMapper.fromAnsibleCleanupDTO(resp))
       )
@@ -340,7 +343,7 @@ export class SandboxInstanceApi {
    * @param stageId of the requested stage id
    */
   getAnsibleAllocationStageOutput(stageId: number, pagination: KypoRequestedPagination): Observable<KypoPaginatedResource<string>> {
-    return this.http.get<DjangoResourceDTO<AnsibleAllocationOutputDTO>>(`${this.stagesEndpointUri}allocation/${stageId}/ansible/outputs/`,
+    return this.http.get<DjangoResourceDTO<AnsibleAllocationOutputDTO>>(`${this.stagesEndpointUri}/allocation/${stageId}/ansible/outputs`,
       {
         params: PaginationParams.forDjangoAPI(pagination)
       })
@@ -358,7 +361,7 @@ export class SandboxInstanceApi {
    */
   getResources(allocationUnitId: number): Observable<SandboxResource[]> {
     return this.http.get<SandboxResourceDTO[]>(
-      `${this.sandboxEndpointUri + allocationUnitId}/${this.sandboxResourceExtension}`
+      `${this.sandboxEndpointUri}/${allocationUnitId}/${this.sandboxResourceExtension}`
     ).pipe(
       map(response => SandboxResourceMapper.fromDTOs(response))
     );
@@ -372,7 +375,7 @@ export class SandboxInstanceApi {
   getResource(sandboxId: number, resourceId: string): Observable<SandboxResource> {
     // TODO: Endpoint is currently only for vms, not all resources. Needs to be updated either here or on backend
     return this.http.get<SandboxResourceDTO>(
-      `${this.sandboxEndpointUri + sandboxId}/vms/${resourceId}/`
+      `${this.sandboxEndpointUri}/${sandboxId}/vms/${resourceId}`
     ).pipe(
       map(response => SandboxResourceMapper.fromDTO(response))
     );

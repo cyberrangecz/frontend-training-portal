@@ -27,9 +27,9 @@ import {TrainingInstanceAssignPoolDTO} from '../../model/DTOs/training-instance/
 @Injectable()
 export class TrainingInstanceApi {
 
-  readonly exportsUriExtension = 'exports/';
-  readonly trainingInstancesUriExtension = 'training-instances/';
-  readonly trainingRunsUriExtension = 'training-runs/';
+  readonly exportsUriExtension = 'exports';
+  readonly trainingInstancesUriExtension = 'training-instances';
+  readonly trainingRunsUriExtension = 'training-runs';
 
   readonly trainingInstancesEndpointUri = environment.trainingRestBasePath + this.trainingInstancesUriExtension;
   readonly trainingExportsEndpointUri = environment.trainingRestBasePath + this.exportsUriExtension;
@@ -59,7 +59,7 @@ export class TrainingInstanceApi {
    * @param id id of the training instance
    */
   get(id: number): Observable<TrainingInstance> {
-    return this.http.get<TrainingInstanceDTO>(this.trainingInstancesEndpointUri + id)
+    return this.http.get<TrainingInstanceDTO>(`${this.trainingInstancesEndpointUri}/${id}`)
       .pipe(map(response => TrainingInstanceMapper.fromDTO(response)));
   }
 
@@ -69,12 +69,10 @@ export class TrainingInstanceApi {
    * @param pagination requested pagination
    * @param isActive true if active training runs should be retrieved, false if archived training runs should be retrieved
    */
-  getAssociatedTrainingRuns(trainingInstanceId: number, pagination: KypoRequestedPagination, isActive = true)
-      : Observable<KypoPaginatedResource<TrainingRun>> {
+  getAssociatedTrainingRuns(trainingInstanceId: number, pagination: KypoRequestedPagination, isActive = true): Observable<KypoPaginatedResource<TrainingRun>> {
       let params = PaginationParams.forJavaAPI(pagination);
       params = params.append('isActive', isActive.toString());
-        return this.http.get<TrainingRunRestResource>(
-          this.trainingInstancesEndpointUri + trainingInstanceId + '/' + this.trainingRunsUriExtension,
+        return this.http.get<TrainingRunRestResource>(`${this.trainingInstancesEndpointUri}/${trainingInstanceId}/${this.trainingRunsUriExtension}`,
           { params: params })
           .pipe(
             map(response => new KypoPaginatedResource(
@@ -108,7 +106,7 @@ export class TrainingInstanceApi {
    * @param trainingInstanceId id of training instance which should be deleted
    */
   delete(trainingInstanceId: number): Observable<any> {
-    return this.http.delete<any>(this.trainingInstancesEndpointUri + trainingInstanceId);
+    return this.http.delete<any>(`${this.trainingInstancesEndpointUri}/${trainingInstanceId}`);
   }
 
   /**
@@ -120,7 +118,7 @@ export class TrainingInstanceApi {
     headers.set('Accept', [
       'application/octet-stream'
     ]);
-    return this.http.get(this.trainingExportsEndpointUri + this.trainingInstancesUriExtension + id,
+    return this.http.get(`${this.trainingExportsEndpointUri}/${this.trainingInstancesUriExtension}/${id}`,
       {
           responseType: 'blob',
           observe: 'response',
@@ -135,12 +133,12 @@ export class TrainingInstanceApi {
 
   assignPool(trainingInstanceId: number, poolId: number): Observable<any> {
     return this.http.patch(
-      `${this.trainingInstancesEndpointUri + trainingInstanceId}/assign-pool`,
+      `${this.trainingInstancesEndpointUri}/${trainingInstanceId}/assign-pool`,
       new TrainingInstanceAssignPoolDTO(poolId)
     );
   }
 
   unassignPool(trainingInstanceId: number): Observable<any> {
-    return this.http.patch(`${this.trainingInstancesEndpointUri + trainingInstanceId}/unassign-pool`, {});
+    return this.http.patch(`${this.trainingInstancesEndpointUri}/${trainingInstanceId}/unassign-pool`, {});
   }
 }

@@ -18,7 +18,7 @@ import {PaginationMapper} from '../../model/mappers/pagination-mapper';
 @Injectable()
 export class SandboxDefinitionApi {
 
-  private readonly sandboxDefsEndpoint = environment.sandboxRestBasePath + 'definitions/';
+  private readonly sandboxDefsEndpoint = environment.sandboxRestBasePath + 'definitions';
 
   constructor(private http: HttpClient) {
   }
@@ -57,7 +57,7 @@ export class SandboxDefinitionApi {
    * @param id id of the sandbox definition that should be retrieved
    */
   get(id: number): Observable<SandboxDefinition> {
-    return this.http.get<SandboxDefinitionDTO>(this.sandboxDefsEndpoint + id, { headers: this.createDefaultHeaders() })
+    return this.http.get<SandboxDefinitionDTO>(`${this.sandboxDefsEndpoint}/${id}`, { headers: this.createDefaultHeaders() })
       .pipe(
         map(response => SandboxDefinitionMapper.fromDTO(response))
       );
@@ -68,7 +68,7 @@ export class SandboxDefinitionApi {
    * @param id id of sandbox definition which should be removed
    */
   delete(id: number): Observable<any> {
-    return this.http.delete(this.sandboxDefsEndpoint + id);
+    return this.http.delete(`${this.sandboxDefsEndpoint}/${id}`);
   }
 
   /**

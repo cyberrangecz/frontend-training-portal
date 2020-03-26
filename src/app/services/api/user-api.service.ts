@@ -19,8 +19,8 @@ import {UserMapper} from '../../model/mappers/user/user-mapper';
  */
 @Injectable()
 export class UserApi {
-  readonly trainingDefinitionUriExtension = 'training-definitions/';
-  readonly trainingInstanceUrlExtension = 'training-instances/';
+  readonly trainingDefinitionUriExtension = 'training-definitions';
+  readonly trainingInstanceUrlExtension = 'training-instances';
   readonly trainingDefsEndpointUri = environment.trainingRestBasePath + this.trainingDefinitionUriExtension;
   readonly trainingInstancesEndpointUri = environment.trainingRestBasePath + this.trainingInstanceUrlExtension;
 
@@ -37,7 +37,7 @@ export class UserApi {
                        pagination: KypoRequestedPagination,
                        filters: KypoFilter[] = []): Observable<KypoPaginatedResource<User>> {
     const params = KypoParamsMerger.merge([PaginationParams.forJavaAPI(pagination), FilterParams.create(filters)]);
-    return this.http.get<UserRestResource>(`${this.trainingInstancesEndpointUri + trainingInstanceId}/organizers-not-in-training-instance`,
+    return this.http.get<UserRestResource>(`${this.trainingInstancesEndpointUri}/${trainingInstanceId}/organizers-not-in-training-instance`,
       { params: params})
       .pipe(
         map(resp => this.paginatedUsersFromDTO(resp))
@@ -54,7 +54,7 @@ export class UserApi {
                       pagination: KypoRequestedPagination,
                       filters: KypoFilter[] = []): Observable<KypoPaginatedResource<User>> {
     const params = KypoParamsMerger.merge([PaginationParams.forJavaAPI(pagination), FilterParams.create(filters)]);
-    return this.http.get<UserRestResource>(`${this.trainingDefsEndpointUri + trainingDefinitionId}/designers-not-in-training-definition`,
+    return this.http.get<UserRestResource>(`${this.trainingDefsEndpointUri}/${trainingDefinitionId}/designers-not-in-training-definition`,
       { params: params })
       .pipe(
         map(resp => this.paginatedUsersFromDTO(resp))
@@ -71,7 +71,7 @@ export class UserApi {
              pagination: KypoRequestedPagination,
              filters: KypoFilter[] = []): Observable<KypoPaginatedResource<User>> {
     const params = KypoParamsMerger.merge([PaginationParams.forJavaAPI(pagination), FilterParams.create(filters)]);
-    return this.http.get<UserRestResource>(`${this.trainingDefsEndpointUri + trainingDefinitionId}/authors`,
+    return this.http.get<UserRestResource>(`${this.trainingDefsEndpointUri}/${trainingDefinitionId}/authors`,
       { params: params})
       .pipe(
         map(resp => this.paginatedUsersFromDTO(resp))
@@ -88,7 +88,7 @@ export class UserApi {
                 pagination: KypoRequestedPagination,
                 filters: KypoFilter[] = []): Observable<KypoPaginatedResource<User>> {
     const params = KypoParamsMerger.merge([PaginationParams.forJavaAPI(pagination), FilterParams.create(filters)]);
-    return this.http.get<UserRestResource>(`${this.trainingInstancesEndpointUri + trainingInstanceId}/organizers`,
+    return this.http.get<UserRestResource>(`${this.trainingInstancesEndpointUri}/${trainingInstanceId}/organizers`,
       { params: params})
       .pipe(
         map(resp => this.paginatedUsersFromDTO(resp))
@@ -109,7 +109,7 @@ export class UserApi {
    * @param removals  ids of designers which should stop being associated with training definition
    */
   updateAuthors(trainingDefinitionId: number, additions: number[], removals: number[]): Observable<any> {
-    return this.http.put(`${this.trainingDefsEndpointUri + trainingDefinitionId}/authors`, {}, {
+    return this.http.put(`${this.trainingDefsEndpointUri}/${trainingDefinitionId}/authors`, {}, {
       params: new HttpParams()
         .set('authorsAddition', additions.toString())
         .set('authorsRemoval', removals.toString())
@@ -123,7 +123,7 @@ export class UserApi {
    * @param removals  ids of organizers which should stop being associated with training instance
    */
   updateOrganizers(trainingInstanceId: number, additions: number[], removals: number[]): Observable<any> {
-    return this.http.put(`${this.trainingInstancesEndpointUri + trainingInstanceId}/organizers`, {}, {
+    return this.http.put(`${this.trainingInstancesEndpointUri}/${trainingInstanceId}/organizers`, {}, {
       params: new HttpParams()
         .set('organizersAddition', additions.toString())
         .set('organizersRemoval', removals.toString())
