@@ -39,10 +39,10 @@ import {AssessmentLevelMapper} from '../../model/mappers/level/assessment/assess
  */
 @Injectable()
 export class TrainingDefinitionApi {
-  readonly trainingDefinitionUriExtension = 'training-definitions/';
-  readonly exportsUriExtension = 'exports/';
-  readonly importsUriExtension = 'imports/';
-  readonly levelsUriExtension = 'levels/';
+  readonly trainingDefinitionUriExtension = 'training-definitions';
+  readonly exportsUriExtension = 'exports';
+  readonly importsUriExtension = 'imports';
+  readonly levelsUriExtension = 'levels';
 
   readonly trainingDefsEndpointUri = environment.trainingRestBasePath + this.trainingDefinitionUriExtension;
   readonly trainingExportEndpointUri = environment.trainingRestBasePath + this.exportsUriExtension;
@@ -76,7 +76,7 @@ export class TrainingDefinitionApi {
    */
   getAllForOrganizer(pagination: KypoRequestedPagination, filters: KypoFilter[] = []): Observable<KypoPaginatedResource<TrainingDefinitionInfo>> {
     const params = KypoParamsMerger.merge([PaginationParams.forJavaAPI(pagination), FilterParams.create(filters)]);
-    return this.http.get<TrainingDefinitionInfoRestResource>(this.trainingDefsEndpointUri + 'for-organizers',
+    return this.http.get<TrainingDefinitionInfoRestResource>(`${this.trainingDefsEndpointUri}/for-organizers`,
       { params: params })
       .pipe(
         map(response => new KypoPaginatedResource(
@@ -92,7 +92,7 @@ export class TrainingDefinitionApi {
    * @param withLevels true if training definition should be mapped with levels, false otherwise
    */
   get(id: number, withLevels = false): Observable<TrainingDefinition> {
-    return this.http.get<TrainingDefinitionDTO>(this.trainingDefsEndpointUri + id)
+    return this.http.get<TrainingDefinitionDTO>(`${this.trainingDefsEndpointUri}/${id}`)
       .pipe(
         map(response => TrainingDefinitionMapper.fromDTO(response, withLevels))
       );
@@ -105,9 +105,7 @@ export class TrainingDefinitionApi {
    */
   changeState(trainingDefinitionId: number, newState: TrainingDefinitionStateEnum): Observable<any> {
     return this.http.put(
-      `${
-      this.trainingDefsEndpointUri +
-      trainingDefinitionId}/states/${TrainingDefinitionMapper.stateToDTO(newState)}`,
+      `${this.trainingDefsEndpointUri}/${trainingDefinitionId}/states/${TrainingDefinitionMapper.stateToDTO(newState)}`,
       {});
   }
 
@@ -116,7 +114,7 @@ export class TrainingDefinitionApi {
    * @param levelId id of level which should be retrieved
    */
   getLevel(levelId: number): Observable<Level> {
-    return this.http.get<GameLevelDTO | InfoLevelDTO | AssessmentLevelDTO>(this.trainingDefsEndpointUri + this.levelsUriExtension + levelId)
+    return this.http.get<GameLevelDTO | InfoLevelDTO | AssessmentLevelDTO>(`${this.trainingDefsEndpointUri}/${this.levelsUriExtension}/${levelId}`)
       .pipe(map(response => LevelMapper.fromDTO(response)));
   }
 
@@ -131,7 +129,7 @@ export class TrainingDefinitionApi {
     ]);
 
 
-    return this.http.get(this.trainingExportEndpointUri + this.trainingDefinitionUriExtension + id,
+    return this.http.get(`${this.trainingExportEndpointUri}/${this.trainingDefinitionUriExtension}/${id}`,
       {
         responseType: 'blob',
         observe: 'response',
@@ -158,7 +156,7 @@ export class TrainingDefinitionApi {
     const fileRead$ = fromEvent(fileReader, 'load')
       .pipe(mergeMap(e => {
         const jsonBody = JSON.parse(fileReader.result as string);
-        return this.http.post<TrainingDefinitionDTO>(this.trainingImportEndpointUri + this.trainingDefinitionUriExtension, jsonBody);
+        return this.http.post<TrainingDefinitionDTO>(`${this.trainingImportEndpointUri}/${this.trainingDefinitionUriExtension}`, jsonBody);
       }));
     fileReader.readAsText(file);
     return fileRead$
@@ -172,7 +170,7 @@ export class TrainingDefinitionApi {
    * @param id id of training definition which should be deleted
    */
   delete(id: number) {
-    return this.http.delete(this.trainingDefsEndpointUri + id,
+    return this.http.delete(`${this.trainingDefsEndpointUri}/${id}`,
       { headers: this.createDefaultHeaders() });
   }
 
@@ -184,7 +182,7 @@ export class TrainingDefinitionApi {
   clone(id: number, title: string): Observable<number> {
     let params = new HttpParams();
     params = params.append('title', title);
-    return this.http.post<number>(this.trainingDefsEndpointUri + id,
+    return this.http.post<number>(`${this.trainingDefsEndpointUri}/${id}`,
       {},
       {
         params: params,
@@ -218,7 +216,7 @@ export class TrainingDefinitionApi {
    * @param trainingDefinitionId id of training definition which should be associated with the new level
    */
   createAssessmentLevel(trainingDefinitionId: number): Observable<AssessmentLevel> {
-    return this.http.post<BasicLevelInfoDTO>(`${this.trainingDefsEndpointUri + trainingDefinitionId}/${this.levelsUriExtension}ASSESSMENT`,
+    return this.http.post<BasicLevelInfoDTO>(`${this.trainingDefsEndpointUri}/${trainingDefinitionId}/${this.levelsUriExtension}/ASSESSMENT`,
       {},
       { headers: this.createDefaultHeaders() })
       .pipe(map(resp => LevelMapper.fromBasicDTO(resp) as AssessmentLevel));
@@ -229,7 +227,7 @@ export class TrainingDefinitionApi {
    * @param trainingDefinitionId id of training definition which should be associated with the new level
    */
   createGameLevel(trainingDefinitionId: number): Observable<GameLevel> {
-    return this.http.post<BasicLevelInfoDTO>(`${this.trainingDefsEndpointUri + trainingDefinitionId}/${this.levelsUriExtension}GAME`,
+    return this.http.post<BasicLevelInfoDTO>(`${this.trainingDefsEndpointUri}/${trainingDefinitionId}/${this.levelsUriExtension}/GAME`,
       {},
       { headers: this.createDefaultHeaders() })
       .pipe(map(resp => LevelMapper.fromBasicDTO(resp) as GameLevel));
@@ -240,7 +238,7 @@ export class TrainingDefinitionApi {
    * @param trainingDefId id of training definition which should be associated with the new level
    */
   createInfoLevel(trainingDefId: number): Observable<InfoLevel> {
-    return this.http.post<BasicLevelInfoDTO>(`${this.trainingDefsEndpointUri + trainingDefId}/${this.levelsUriExtension}INFO`,
+    return this.http.post<BasicLevelInfoDTO>(`${this.trainingDefsEndpointUri}/${trainingDefId}/${this.levelsUriExtension}/INFO`,
       {},
       { headers: this.createDefaultHeaders() })
       .pipe(map(resp => LevelMapper.fromBasicDTO(resp) as InfoLevel));
@@ -252,7 +250,7 @@ export class TrainingDefinitionApi {
    * @param levelId id of level which should be deleted
    */
   deleteLevel(trainingDefinitionId: number, levelId: number): Observable<Level[]> {
-    return this.http.delete<BasicLevelInfoDTO[]>(`${this.trainingDefsEndpointUri + trainingDefinitionId}/${this.levelsUriExtension}${levelId}`,
+    return this.http.delete<BasicLevelInfoDTO[]>(`${this.trainingDefsEndpointUri}/${trainingDefinitionId}/${this.levelsUriExtension}/${levelId}`,
       { headers: this.createDefaultHeaders() })
       .pipe(map(resp => LevelMapper.fromBasicDTOs(resp)));
   }
@@ -263,7 +261,7 @@ export class TrainingDefinitionApi {
    * @param gameLevel game level which should be updated
    */
   updateGameLevel(trainingDefinitionId: number, gameLevel: GameLevel) {
-    return this.http.put(`${this.trainingDefsEndpointUri + trainingDefinitionId}/game-levels`,
+    return this.http.put(`${this.trainingDefsEndpointUri}/${trainingDefinitionId}/game-levels`,
       GameLevelMapper.toUpdateDTO(gameLevel),
       { headers: this.createDefaultHeaders() });
   }
@@ -274,7 +272,7 @@ export class TrainingDefinitionApi {
    * @param infoLevel info level which should be updated
    */
   updateInfoLevel(trainingDefinitionId: number, infoLevel: InfoLevel) {
-    return this.http.put(`${this.trainingDefsEndpointUri + trainingDefinitionId}/info-levels`,
+    return this.http.put(`${this.trainingDefsEndpointUri}/${trainingDefinitionId}/info-levels`,
       InfoLevelMapper.toUpdateDTO(infoLevel),
       { headers: this.createDefaultHeaders() });
   }
@@ -285,7 +283,7 @@ export class TrainingDefinitionApi {
    * @param assessmentLevel assessment level which should be updated
    */
   updateAssessmentLevel(trainingDefId: number, assessmentLevel: AssessmentLevel) {
-    return this.http.put(`${this.trainingDefsEndpointUri + trainingDefId}/assessment-levels`,
+    return this.http.put(`${this.trainingDefsEndpointUri}/${trainingDefId}/assessment-levels`,
       AssessmentLevelMapper.toUpdateDTO(assessmentLevel),
       { headers: this.createDefaultHeaders() });
   }
@@ -298,7 +296,7 @@ export class TrainingDefinitionApi {
    */
   moveLevelTo(trainingDefinitionId: number, levelId: number, toPosition: number): Observable<Level[]> {
     return this.http.put<BasicLevelInfoDTO[]>(
-      `${this.trainingDefsEndpointUri + trainingDefinitionId}/${this.levelsUriExtension}${levelId}/move-to/${toPosition}`,
+      `${this.trainingDefsEndpointUri}/${trainingDefinitionId}/${this.levelsUriExtension}/${levelId}/move-to/${toPosition}`,
       {},
       { headers: this.createDefaultHeaders() })
       .pipe(

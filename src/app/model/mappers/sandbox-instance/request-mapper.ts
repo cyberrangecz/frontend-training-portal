@@ -5,15 +5,30 @@ import {RequestDTO} from '../../DTOs/sandbox-instance/request-dto';
 
 export class RequestMapper {
 
-  static fromDTOs(dtos: RequestDTO[], type: 'ALLOCATION' | 'CLEANUP'): Request[] {
-    return dtos.map(dto => RequestMapper.fromDTO(dto, type));
+  static fromAllocationDTOs(dtos: RequestDTO[]): AllocationRequest[] {
+    return dtos.map(dto => RequestMapper.fromAllocationDTO(dto));
   }
 
-  static fromDTO(dto: RequestDTO, type: 'ALLOCATION' | 'CLEANUP'): Request {
-    const request = type === 'ALLOCATION' ? new AllocationRequest() : new CleanupRequest();
+  static fromAllocationDTO(dto: RequestDTO): AllocationRequest {
+    const request = new AllocationRequest();
+    this.setGeneralAttributes(request, dto);
+    return request;
+  }
+
+  static fromCleanupDTOs(dtos: RequestDTO[]): CleanupRequest[] {
+    return dtos.map(dto => RequestMapper.fromCleanupDTO(dto));
+
+  }
+
+  static fromCleanupDTO(dto: RequestDTO): CleanupRequest {
+    const request = new CleanupRequest();
+    this.setGeneralAttributes(request, dto);
+    return request;
+  }
+
+  private static setGeneralAttributes(request: Request, dto: RequestDTO) {
     request.id = dto.id;
     request.allocationUnitId = dto.allocation_unit;
     request.createdAt = new Date(dto.created);
-    return request;
   }
 }

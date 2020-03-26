@@ -34,7 +34,7 @@ import {PaginationMapper} from '../../model/mappers/pagination-mapper';
 @Injectable()
 export class TrainingRunApi {
 
-  readonly trainingRunsUriExtension = 'training-runs/';
+  readonly trainingRunsUriExtension = 'training-runs';
 
   readonly trainingRunsEndpointUri = environment.trainingRestBasePath + this.trainingRunsUriExtension;
 
@@ -55,7 +55,7 @@ export class TrainingRunApi {
    * @param pagination requested pagination
    */
   getAccessed(pagination: KypoRequestedPagination): Observable<KypoPaginatedResource<AccessedTrainingRun>> {
-    return this.http.get<TrainingRunRestResource>(this.trainingRunsEndpointUri + 'accessible/',
+    return this.http.get<TrainingRunRestResource>(`{this.trainingRunsEndpointUri}/accessible`,
       {params: PaginationParams.forJavaAPI(pagination)})
       .pipe(
         map(response => new KypoPaginatedResource<AccessedTrainingRun>(
@@ -69,7 +69,7 @@ export class TrainingRunApi {
    * @param trainingRunId id of a training run which should be deleted
    */
   delete(trainingRunId: number): Observable<any> {
-    return this.http.delete(this.trainingRunsEndpointUri + trainingRunId);
+    return this.http.delete(`${this.trainingRunsEndpointUri}/${trainingRunId}`);
   }
 
   /**
@@ -86,7 +86,8 @@ export class TrainingRunApi {
    * @param token access token to access the training run
    */
   access(token: string): Observable<AccessTrainingRunInfo> {
-    return this.http.post<AccessTrainingRunDTO>(this.trainingRunsEndpointUri + '?accessToken=' + token, {})
+    const params = new HttpParams().append('accessToken', token);
+    return this.http.post<AccessTrainingRunDTO>(this.trainingRunsEndpointUri, {}, {params: params})
       .pipe(
         map(response => AccessTrainingRunMapper.fromDTO(response)),
       );
@@ -97,19 +98,18 @@ export class TrainingRunApi {
    * @param trainingRunId id of a training run to resume
    */
   resume(trainingRunId: number): Observable<AccessTrainingRunInfo> {
-    return this.http.get<AccessTrainingRunDTO>(this.trainingRunsEndpointUri + trainingRunId + '/resumption')
+    return this.http.get<AccessTrainingRunDTO>(`${this.trainingRunsEndpointUri}/${trainingRunId}/resumption`)
       .pipe(
         map(response => AccessTrainingRunMapper.fromDTO(response)),
       );
   }
-
 
   /**
    * Sends http request to move to next level
    * @param trainingRunId id of a training run
    */
   nextLevel(trainingRunId: number): Observable<Level> {
-    return this.http.get<AbstractLevelDTO>(this.trainingRunsEndpointUri + trainingRunId + '/next-levels')
+    return this.http.get<AbstractLevelDTO>(`${this.trainingRunsEndpointUri}/${trainingRunId}/next-levels`)
       .pipe(
         map(response => LevelMapper.fromDTO(response)),
       );
@@ -121,7 +121,8 @@ export class TrainingRunApi {
    * @param flag a flag submitted by user
    */
   isCorrectFlag(trainingRunId: number, flag: string): Observable<FlagCheck> {
-    return this.http.get<IsCorrectFlagDTO>(this.trainingRunsEndpointUri + trainingRunId + '/is-correct-flag?flag=' + flag)
+    const params = new HttpParams().append('flag', flag);
+    return this.http.get<IsCorrectFlagDTO>(`${this.trainingRunsEndpointUri}/${trainingRunId}/is-correct-flag`, {params: params})
       .pipe(map(response => FlagMapper.fromDTO(response)));
   }
 
@@ -131,25 +132,25 @@ export class TrainingRunApi {
    * @param hintId id of requested hint
    */
   takeHint(trainingRunId: number, hintId: number): Observable<Hint> {
-    return this.http.get<HintDTO>(this.trainingRunsEndpointUri + trainingRunId + '/hints/' + hintId)
+    return this.http.get<HintDTO>(`${this.trainingRunsEndpointUri}/${trainingRunId}/hints/${hintId}`)
       .pipe(map(response => HintMapper.fromDTO(response)));
   }
 
   /**
    * Sends http request to display solution to a level
-   * @param trainingRun id of the training run in which, solution should be revealed
+   * @param trainingRunId id of the training run in which, solution should be revealed
    */
-  takeSolution(trainingRun: number): Observable<string> {
-    return this.http.get(this.trainingRunsEndpointUri + trainingRun + '/solutions', {responseType: 'text' });
+  takeSolution(trainingRunId: number): Observable<string> {
+    return this.http.get(`${this.trainingRunsEndpointUri}/${trainingRunId}/solutions`, {responseType: 'text' });
   }
 
   /**
    * Sends http request to submit user answers for questions in assessment level
-   * @param trainingRun id of the training run in which, questions should be submitted
+   * @param trainingRunId id of the training run in which, questions should be submitted
    * @param questions questions which answers should be submitted
    */
-  submitAnswers(trainingRun: number, questions: Question[]): Observable<any> {
-    return this.http.put(this.trainingRunsEndpointUri + trainingRun + '/assessment-evaluations',
+  submitAnswers(trainingRunId: number, questions: Question[]): Observable<any> {
+    return this.http.put(`${this.trainingRunsEndpointUri}/${trainingRunId}/assessment-evaluations`,
        QuestionMapper.toAnswersDTOs(questions));
   }
 
@@ -158,7 +159,7 @@ export class TrainingRunApi {
    * @param trainingRunId id of a training run which should be finished
    */
   finish(trainingRunId: number): Observable<any> {
-    return this.http.put(this.trainingRunsEndpointUri + trainingRunId, null);
+    return this.http.put(`${this.trainingRunsEndpointUri}/${trainingRunId}`, null);
   }
 
 }
