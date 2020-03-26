@@ -2,6 +2,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {HttpErrorCodesEnum} from '../../model/enums/http-error-codes.enum';
 import {CsirtMuNotification, CsirtMuNotificationService, CsirtMuNotificationTypeEnum} from 'csirt-mu-layout';
+import {JavaApiError} from '../../model/DTOs/other/java-api-error';
 
 @Injectable()
 /**
@@ -28,11 +29,6 @@ export class ErrorHandlerService {
       this.notificationService.emit(notification);
       return;
     }
-    if (err.status === HttpErrorCodesEnum.ERROR_404) {
-      notification.additionalInfo = ['404 - Not found. Please report the issue to developers', err?.message];
-      this.notificationService.emit(notification);
-      return;
-    }
     if (err.status === HttpErrorCodesEnum.ERROR_401) {
       notification.additionalInfo = ['Unauthorized. Try to refresh page or login again', err?.message];
       this.notificationService.emit(notification);
@@ -43,8 +39,8 @@ export class ErrorHandlerService {
       this.notificationService.emit(notification);
       return;
     }
-    if (err.error.message) { // JAVA API
-      notification.additionalInfo = [err.error.message];
+    if (err.error instanceof JavaApiError) {
+      notification.additionalInfo = [err.error.toString()];
       this.notificationService.emit(notification);
     } else if (err.error.detail) { // PYTHON API
       notification.additionalInfo = [err.error.detail];
