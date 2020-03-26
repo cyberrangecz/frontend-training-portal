@@ -28,7 +28,7 @@ export class RequestMapper {
 
   private static setGeneralAttributes(request: Request, dto: RequestDTO) {
     request.id = dto.id;
-    request.allocationUnitId = dto.allocation_unit;
+    request.allocationUnitId = dto.allocation_unit_id;
     request.createdAt = new Date(dto.created);
   }
 }

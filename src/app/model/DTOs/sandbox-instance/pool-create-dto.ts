@@ -1,4 +1,4 @@
 export class PoolCreateDTO {
-  definition: number;
+  definition_id: number;
   max_size: number;
 }
