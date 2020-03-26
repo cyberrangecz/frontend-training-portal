@@ -7,8 +7,8 @@ export class PoolMapper {
   static fromDTO(dto: PoolDTO): Pool {
     const pool = new Pool();
     pool.id = dto.id;
-    pool.definitionId = dto.definition;
-    pool.lockId = dto.lock;
+    pool.definitionId = dto.definition_id;
+    pool.lockId = dto.lock_id;
     pool.usedSize = dto.size;
     pool.maxSize = dto.max_size;
     return pool;
@@ -20,7 +20,7 @@ export class PoolMapper {
 
   static toCreateDTO(pool: Pool): PoolCreateDTO {
     const dto = new PoolCreateDTO();
-    dto.definition = pool.definitionId;
+    dto.definition_id = pool.definitionId;
     dto.max_size = pool.maxSize;
     return dto;
   }

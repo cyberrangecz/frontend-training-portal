@@ -3,7 +3,7 @@ import {CleanupRequestStage} from './cleanup-request-stage';
 
 export class OpenStackCleanupStage extends CleanupRequestStage {
 
-  allocationStage: string;
+  allocationStageId: number;
 
   constructor() {
     super(RequestStageType.OPENSTACK_CLEANUP);

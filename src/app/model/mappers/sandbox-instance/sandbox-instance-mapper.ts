@@ -6,8 +6,8 @@ export class SandboxInstanceMapper {
   static fromDTO(dto: SandboxInstanceDTO): SandboxInstance {
     const result = new SandboxInstance();
     result.id = dto.id;
-    result.allocationUnitId = dto.id;
-    result.lockId = dto.lock;
+    result.allocationUnitId = dto.allocation_unit_id;
+    result.lockId = dto.lock_id;
     return result;
   }
 

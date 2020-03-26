@@ -61,7 +61,7 @@ export class RequestStageMapper {
   static fromOpenstackCleanupDTO(dto: OpenstackCleanupStageDTO): OpenStackCleanupStage {
     const stage = new OpenStackCleanupStage();
     this.setGeneralAttributes(dto, stage);
-    stage.allocationStage = dto.allocation_stage;
+    stage.allocationStageId = dto.allocation_stage_id;
     return stage;
   }
 
@@ -76,7 +76,7 @@ export class RequestStageMapper {
   static fromAnsibleCleanupDTO(dto: AnsibleCleanupStageDTO): AnsibleCleanupStage {
     const stage = new AnsibleCleanupStage();
     this.setGeneralAttributes(dto, stage);
-    stage.allocationStage = dto.allocation_stage;
+    stage.allocationStageId = dto.allocation_stage_id;
     return stage;
   }
 
