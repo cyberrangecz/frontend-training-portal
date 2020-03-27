@@ -19,7 +19,7 @@ import {TrainingInstanceApi} from '../../../services/api/training-instance-api.s
 import {UserApi} from '../../../services/api/user-api.service';
 import {KypoControlsModule} from 'kypo-controls';
 import {PoolAssignComponent} from './pool-assign/pool-assign.component';
-import {KypoPaginatedResourceListModule} from '../../shared/paginated-resource-list/kypo-paginated-resource-list.module';
+import {KypoListModule} from 'kypo-list';
 
 /**
  * Main module of training instance edit components and providers
@@ -30,7 +30,7 @@ import {KypoPaginatedResourceListModule} from '../../shared/paginated-resource-l
       FormsModule,
       ReactiveFormsModule,
       Kypo2UserAssignModule,
-      KypoPaginatedResourceListModule,
+      KypoListModule,
       SharedModule,
       KypoPipesModule,
       TrainingInstanceEditOverviewMaterialModule,

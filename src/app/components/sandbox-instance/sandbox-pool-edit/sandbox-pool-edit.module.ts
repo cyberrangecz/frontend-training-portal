@@ -7,10 +7,10 @@ import {KypoControlsModule} from 'kypo-controls';
 import {SandboxDefinitionSelectComponent} from './sandbox-definition-select/sandbox-definition-select.component';
 import {PoolEditService} from '../../../services/sandbox-instance/pool/pool-edit.service';
 import {PoolEditConcreteService} from '../../../services/sandbox-instance/pool/pool-edit-concrete.service';
-import {KypoPaginatedResourceListModule} from '../../shared/paginated-resource-list/kypo-paginated-resource-list.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import {SandboxDefinitionApi} from '../../../services/api/sandbox-definition-api.service';
 import {SandboxInstanceApi} from '../../../services/api/sandbox-instance-api.service';
+import {KypoListModule} from 'kypo-list';
 
 @NgModule({
   declarations: [
@@ -22,7 +22,7 @@ import {SandboxInstanceApi} from '../../../services/api/sandbox-instance-api.ser
     SandboxPoolEditMaterialModule,
     SandboxPoolEditRoutingModule,
     KypoControlsModule,
-    KypoPaginatedResourceListModule,
+    KypoListModule,
     ReactiveFormsModule,
 
   ],

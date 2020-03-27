@@ -4,22 +4,22 @@
   <div mat-dialog-content>
     <mat-progress-bar *ngIf="isLoading$ | async" mode="indeterminate"></mat-progress-bar>
     <mat-list>
-      <kypo-paginated-resource-list resourceName="Released Training Definitions"
+      <kypo-radio-list resourceName="Released Training Definitions"
                                     [resource]="released$ | async"
                                     [hasError]="releasedHasError$ | async"
                                     [selected]="selected"
                                     [pageSize]="PAGE_SIZE"
                                     (fetch)="fetch($event, true)"
                                     (selectionChange)="onSelectionChange($event)">
-      </kypo-paginated-resource-list>
-      <kypo-paginated-resource-list resourceName="Unreleased Training Definitions"
+      </kypo-radio-list>
+      <kypo-radio-list resourceName="Unreleased Training Definitions"
                                     [resource]="unreleased$ | async"
                                     [hasError]="unreleasedHasError$ | async"
                                     [selected]="selected"
                                     [pageSize]="PAGE_SIZE"
                                     (fetch)="fetch($event, false)"
                                     (selectionChange)="onSelectionChange($event)">
-      </kypo-paginated-resource-list>
+      </kypo-radio-list>
     </mat-list>
   </div>
 
