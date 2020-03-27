@@ -2,7 +2,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {HttpErrorCodesEnum} from '../../model/enums/http-error-codes.enum';
 import {CsirtMuNotification, CsirtMuNotificationService, CsirtMuNotificationTypeEnum} from 'csirt-mu-layout';
-import {JavaApiError} from '../../model/DTOs/other/java-api-error';
+import {environment} from '../../../environments/environment';
 
 @Injectable()
 /**
@@ -39,18 +39,25 @@ export class ErrorHandlerService {
       this.notificationService.emit(notification);
       return;
     }
-    if (err.error instanceof JavaApiError) {
-      notification.additionalInfo = [err.error.toString()];
-      this.notificationService.emit(notification);
-    } else if (err.error.detail) { // PYTHON API
-      notification.additionalInfo = [err.error.detail];
-      this.notificationService.emit(notification);
-    } else if (err.error.non_field_errors) { // PYTHON API
-      notification.additionalInfo = [err.error.non_field_errors];
-      this.notificationService.emit(notification);
+    if (err.url.startsWith(environment.trainingRestBasePath) || err.url.startsWith(environment.kypo2UserAndGroupConfig.userAndGroupRestBasePath)) {
+      this.setJavaApiErrorNotification(err, notification)
+    } else if (err.url.startsWith(environment.sandboxRestBasePath)) {
+      this.setPythonApiErrorToNotification(err, notification)
     } else { // UNKNOWN API
       notification.additionalInfo = ['Failed with unsupported error message. Please report the following message to developers', err?.message?.toString()];
-      this.notificationService.emit(notification);
+    }
+    this.notificationService.emit(notification);
+  }
+
+  private setJavaApiErrorNotification(err: HttpErrorResponse, notification: CsirtMuNotification) {
+    notification.additionalInfo = [err.error.message];
+  }
+
+  private setPythonApiErrorToNotification(err: HttpErrorResponse, notification: CsirtMuNotification) {
+    if (err.error.detail) { // PYTHON API
+      notification.additionalInfo = [err.error.detail];
+    } else if (err.error.non_field_errors) { // PYTHON API
+      notification.additionalInfo = [err.error.non_field_errors];
     }
   }
 }
