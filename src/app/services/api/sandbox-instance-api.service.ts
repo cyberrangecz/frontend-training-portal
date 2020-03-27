@@ -103,7 +103,7 @@ export class SandboxInstanceApi {
    * @param poolId id of the pool to clear
    */
   clearPool(poolId: number): Observable<any> {
-    return this.http.delete(`${this.poolsEndpointUri + poolId}/${this.sandboxAllocationUnitsUriExtension}`);
+    return this.http.delete(`${this.poolsEndpointUri}/${poolId}/${this.sandboxAllocationUnitsUriExtension}`);
   }
 
   /**
