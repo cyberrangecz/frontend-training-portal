@@ -55,7 +55,7 @@ export class TrainingRunApi {
    * @param pagination requested pagination
    */
   getAccessed(pagination: KypoRequestedPagination): Observable<KypoPaginatedResource<AccessedTrainingRun>> {
-    return this.http.get<TrainingRunRestResource>(`{this.trainingRunsEndpointUri}/accessible`,
+    return this.http.get<TrainingRunRestResource>(`${this.trainingRunsEndpointUri}/accessible`,
       {params: PaginationParams.forJavaAPI(pagination)})
       .pipe(
         map(response => new KypoPaginatedResource<AccessedTrainingRun>(
