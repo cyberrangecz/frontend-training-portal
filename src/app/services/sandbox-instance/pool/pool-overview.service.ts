@@ -1,5 +1,5 @@
 import {Observable} from 'rxjs';
-import {Pool} from '../../../model/sandbox/pool/pool';
+import {Pool} from 'kypo-sandbox-model';
 import {KypoPaginatedResource} from 'kypo-common';
 import {KypoPaginatedResourceService} from 'kypo-common';
 import {KypoRequestedPagination} from 'kypo-common';

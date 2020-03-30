@@ -2,7 +2,7 @@ import {StageDetailService} from './stage-detail.service';
 import {combineLatest, merge, Observable, Subject, timer} from 'rxjs';
 import {environment} from '../../../../../../environments/environment';
 import {retryWhen, switchMap} from 'rxjs/operators';
-import {StageDetail} from '../../../../../model/sandbox/pool/request/stage/stage-detail-adapter';
+import {StageDetail} from '../../../../../model/sandbox/stage-detail-adapter';
 
 export abstract  class StageDetailPollingService extends StageDetailService {
   protected retryPolling$: Subject<boolean> = new Subject();

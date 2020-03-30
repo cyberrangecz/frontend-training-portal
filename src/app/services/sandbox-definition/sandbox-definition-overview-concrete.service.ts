@@ -3,12 +3,12 @@ import {EMPTY, Observable, of} from 'rxjs';
 import {KypoPaginatedResource} from 'kypo-common';
 import {KypoRequestedPagination} from 'kypo-common';
 import {switchMap, tap} from 'rxjs/operators';
-import {SandboxDefinitionApi} from '../api/sandbox-definition-api.service';
+import {SandboxDefinitionApi} from 'kypo-sandbox-api';
 import {ErrorHandlerService} from '../shared/error-handler.service';
 import {Injectable} from '@angular/core';
 import {AlertTypeEnum} from '../../model/enums/alert-type.enum';
 import {AlertService} from '../shared/alert.service';
-import {SandboxDefinition} from '../../model/sandbox/definition/sandbox-definition';
+import {SandboxDefinition} from 'kypo-sandbox-model';
 import {RouteFactory} from '../../model/routes/route-factory';
 import {Router} from '@angular/router';
 import {
@@ -26,7 +26,7 @@ import {environment} from '../../../environments/environment';
 @Injectable()
 export class SandboxDefinitionOverviewConcreteService extends SandboxDefinitionOverviewService {
 
-  constructor(private sandboxDefinitionFacade: SandboxDefinitionApi,
+  constructor(private api: SandboxDefinitionApi,
     private router: Router,
     private dialog: MatDialog,
     private alertService: AlertService,
@@ -43,7 +43,7 @@ export class SandboxDefinitionOverviewConcreteService extends SandboxDefinitionO
   getAll(pagination: KypoRequestedPagination): Observable<KypoPaginatedResource<SandboxDefinition>> {
     this.hasErrorSubject$.next(false);
     this.lastPagination = pagination;
-    return this.sandboxDefinitionFacade.getAllPaginated(pagination)
+    return this.api.getAll(pagination)
       .pipe(
         tap(paginatedResource => {
           this.resourceSubject$.next(paginatedResource);
@@ -86,7 +86,7 @@ export class SandboxDefinitionOverviewConcreteService extends SandboxDefinitionO
   }
 
   private callApiToDelete(sandboxDefinition: SandboxDefinition): Observable<KypoPaginatedResource<SandboxDefinition>> {
-    return this.sandboxDefinitionFacade.delete(sandboxDefinition.id)
+    return this.api.delete(sandboxDefinition.id)
       .pipe(
         tap(
           _ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Sandbox definition was successfully deleted'),

@@ -9,10 +9,11 @@ import {environment} from '../../../../environments/environment';
 import {KypoRequestedPagination} from 'kypo-common';
 import {KypoPaginatedResource} from 'kypo-common';
 import {KypoPagination} from 'kypo-common';
-import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
+import {SandboxInstanceApi} from 'kypo-sandbox-api';
 import {AlertService} from '../../shared/alert.service';
 import {TrainingInstance} from '../../../model/training/training-instance';
 import {MatDialog} from '@angular/material/dialog';
+import {PoolRequestApi} from 'kypo-sandbox-api';
 
 describe('ActiveTrainingRunConcreteService', () => {
 
@@ -21,13 +22,15 @@ describe('ActiveTrainingRunConcreteService', () => {
   let dialogSpy: jasmine.SpyObj<MatDialog>;
   let trainingInstanceApiSpy: jasmine.SpyObj<TrainingInstanceApi>;
   let sandboxInstanceApiSpy: jasmine.SpyObj<SandboxInstanceApi>;
+  let requestApiSpy: jasmine.SpyObj<PoolRequestApi>;
 
   let service: ActiveTrainingRunConcreteService;
 
   beforeEach(async(() => {
     errorHandlerSpy = jasmine.createSpyObj('ErrorHandlerService', ['emit']);
     alertServiceSpy = jasmine.createSpyObj('AlertService', ['emitAlert']);
-    sandboxInstanceApiSpy = jasmine.createSpyObj('SandboxInstanceApi', ['deleteByTrainingInstance']);
+    sandboxInstanceApiSpy = jasmine.createSpyObj('SandboxInstanceApi', ['getSandbox']);
+    requestApiSpy = jasmine.createSpyObj('PoolRequestApi', ['createCleanupRequest']);
     trainingInstanceApiSpy = jasmine.createSpyObj('TrainingInstanceApi', ['getAssociatedTrainingRuns']);
     dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
     TestBed.configureTestingModule({
@@ -35,6 +38,7 @@ describe('ActiveTrainingRunConcreteService', () => {
         ActiveTrainingRunConcreteService,
         {provide: MatDialog, useValue: dialogSpy},
         {provide: TrainingInstanceApi, useValue: trainingInstanceApiSpy},
+        {provide: PoolRequestApi, useValue: requestApiSpy},
         {provide: SandboxInstanceApi, useValue: sandboxInstanceApiSpy },
         {provide: ErrorHandlerService, useValue: errorHandlerSpy},
         {provide: AlertService, useValue: alertServiceSpy}

@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {KypoControlItem} from 'kypo-controls';
 import {map, take, takeWhile, tap} from 'rxjs/operators';
-import {Pool} from '../../../../model/sandbox/pool/pool';
+import {Pool} from 'kypo-sandbox-model';
 import {Observable} from 'rxjs';
 import {TrainingInstance} from '../../../../model/training/training-instance';
 import {PoolAssignService} from '../../../../services/training-instance/pool-assign/pool-assign.service';

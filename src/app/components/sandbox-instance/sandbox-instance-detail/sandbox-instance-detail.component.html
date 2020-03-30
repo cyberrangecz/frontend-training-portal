@@ -1,8 +1,0 @@
-<h1>Sandbox Instance {{ sandboxInstance?.id }}</h1>
-<kypo2-table class="mat-elevation-z8"
-  [data]="resources$ | async"
-  [hasError]="resourcesHasError$ | async"
-  (refresh)="onResourceLoadEvent($event)">
-</kypo2-table>
-
-

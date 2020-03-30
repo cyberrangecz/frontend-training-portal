@@ -9,7 +9,6 @@ import {RequestStageDetailComponent} from './request-stage/request-stage-detail/
 import {PoolResolver} from '../../../services/resolvers/sandbox-instance-resolvers/pool-resolver.service';
 import {PoolRequestTypeResolver} from '../../../services/resolvers/sandbox-instance-resolvers/pool-request-type-resolver.service';
 import {KypoPipesModule} from 'kypo-common';
-import {SandboxInstanceApi} from '../../../services/api/sandbox-instance-api.service';
 import {AnsibleAllocationStageDetailComponent} from './request-stage/request-stage-detail/ansible-allocation-stage-detail/ansible-allocation-stage-detail.component';
 import {OpenstackAllocationStageDetailComponent} from './request-stage/request-stage-detail/openstack-allocation-stage-detail/openstack-allocation-stage-detail.component';
 import {CleanupStageDetailComponent} from './request-stage/request-stage-detail/cleanup-stage-detail/cleanup-stage-detail.component';
@@ -23,7 +22,7 @@ import {RequestStageCommonComponent} from './request-stage/stage-header/request-
     CommonModule,
     PoolRequestDetailRoutingModule,
     PoolRequestDetailMaterialModule,
-    KypoPipesModule,
+    KypoPipesModule
   ],
   declarations: [
     PoolRequestDetailComponent,
@@ -35,7 +34,6 @@ import {RequestStageCommonComponent} from './request-stage/stage-header/request-
     CleanupStageDetailComponent
   ],
   providers: [
-    SandboxInstanceApi,
     PoolResolver,
     PoolRequestResolver,
     PoolRequestTypeResolver,

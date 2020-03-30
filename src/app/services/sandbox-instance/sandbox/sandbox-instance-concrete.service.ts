@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {from, Observable} from 'rxjs';
-import {SandboxInstance} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance';
+import {SandboxInstance} from 'kypo-sandbox-model';
 import {switchMap, tap} from 'rxjs/operators';
 import {KypoPaginatedResource} from 'kypo-common';
-import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
+import {PoolRequestApi, SandboxInstanceApi} from 'kypo-sandbox-api';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {SandboxInstanceService} from './sandbox-instance.service';
 import {Router} from '@angular/router';
@@ -23,7 +23,8 @@ export class SandboxInstanceConcreteService extends SandboxInstanceService {
   private lastPagination: KypoRequestedPagination;
   private lastPoolId: number;
 
-  constructor(private sandboxInstanceFacade: SandboxInstanceApi,
+  constructor(private sandboxApi: SandboxInstanceApi,
+              private requestApi: PoolRequestApi,
               private router: Router,
               private alertService: AlertService,
               private errorHandler: ErrorHandlerService) {
@@ -39,7 +40,7 @@ export class SandboxInstanceConcreteService extends SandboxInstanceService {
     this.hasErrorSubject$.next(false);
     this.lastPoolId = poolId;
     this.lastPagination = pagination;
-    return this.sandboxInstanceFacade.getSandboxes(poolId, pagination)
+    return this.sandboxApi.getSandboxes(poolId, pagination)
       .pipe(
         tap(
           paginatedInstances => {
@@ -58,7 +59,7 @@ export class SandboxInstanceConcreteService extends SandboxInstanceService {
    * @param sandboxInstance a sandbox instance to be deleted
    */
   delete(sandboxInstance: SandboxInstance): Observable<any> {
-    return this.sandboxInstanceFacade.createCleanupRequest(sandboxInstance.allocationUnitId)
+    return this.requestApi.createCleanupRequest(sandboxInstance.allocationUnitId)
       .pipe(
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, `Sandbox ${sandboxInstance.id} was deleted`),
           err => this.errorHandler.emit(err, `Deleting sandbox ${sandboxInstance.id}`)),
@@ -71,7 +72,7 @@ export class SandboxInstanceConcreteService extends SandboxInstanceService {
    * @param poolId id of a pool in which the allocation will take place
    */
   allocate(poolId: number): Observable<any> {
-    return this.sandboxInstanceFacade.allocateSandboxes(poolId)
+    return this.sandboxApi.allocateSandboxes(poolId)
       .pipe(
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, `Allocation of pool ${poolId} started`),
           err => this.errorHandler.emit(err, `Allocating pool ${poolId}`)),
@@ -85,7 +86,7 @@ export class SandboxInstanceConcreteService extends SandboxInstanceService {
    * @param sandboxInstance a sandbox instance to be unlocked
    */
   unlock(sandboxInstance: SandboxInstance): Observable<any> {
-    return this.sandboxInstanceFacade.unlockSandbox(sandboxInstance.id, sandboxInstance.lockId)
+    return this.sandboxApi.unlockSandbox(sandboxInstance.id, sandboxInstance.lockId)
       .pipe(
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, `Sandbox${sandboxInstance.id} was unlocked`),
         err => this.errorHandler.emit(err, `Unlocking sandbox ${sandboxInstance.id}`)
@@ -100,7 +101,7 @@ export class SandboxInstanceConcreteService extends SandboxInstanceService {
    * @param sandboxInstance a sandbox instance to be locked
    */
   lock(sandboxInstance: SandboxInstance): Observable<any> {
-    return this.sandboxInstanceFacade.lockSandbox(sandboxInstance.id)
+    return this.sandboxApi.lockSandbox(sandboxInstance.id)
       .pipe(
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, `Sandbox ${sandboxInstance.id} was locked` ),
           err => this.errorHandler.emit(err, `Locking sandbox ${sandboxInstance.id}`)

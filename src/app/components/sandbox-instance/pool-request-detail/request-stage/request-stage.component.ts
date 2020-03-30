@@ -9,17 +9,16 @@ import {
   SimpleChanges
 } from '@angular/core';
 import {KypoBaseComponent, KypoRequestedPagination} from 'kypo-common';
-import {RequestStage} from '../../../../model/sandbox/pool/request/stage/request-stage';
-import {OpenStackAllocationStage} from '../../../../model/sandbox/pool/request/stage/open-stack-allocation-stage';
-import {AnsibleAllocationStage} from '../../../../model/sandbox/pool/request/stage/ansible-allocation-stage';
+import {RequestStage} from 'kypo-sandbox-model';
+import {OpenStackAllocationStage} from 'kypo-sandbox-model';
+import {AnsibleAllocationStage} from 'kypo-sandbox-model';
 import {StageDetailEvent} from '../../../../model/events/stage-detail-event';
 import {StageDetailEventType} from '../../../../model/enums/stage-detail-event-type';
-import {OpenStackCleanupStage} from '../../../../model/sandbox/pool/request/stage/open-stack-cleanup-stage';
-import {AnsibleCleanupStage} from '../../../../model/sandbox/pool/request/stage/ansible-cleanup-stage';
-import {ANSIBLE_LOGO_SRC, OPENSTACK_LOGO_SRC} from '../../../../model/sandbox/pool/request/stage/stage-logos';
-import {StageDetail} from '../../../../model/sandbox/pool/request/stage/stage-detail-adapter';
-import {AllocationRequestStage} from '../../../../model/sandbox/pool/request/stage/allocation-request-stage';
-import {CleanupRequestStage} from '../../../../model/sandbox/pool/request/stage/cleanup-request-stage';
+import {OpenStackCleanupStage} from 'kypo-sandbox-model';
+import {AnsibleCleanupStage} from 'kypo-sandbox-model';
+import {ANSIBLE_LOGO_SRC, OPENSTACK_LOGO_SRC} from '../../../../model/sandbox/stage-logos';
+import {StageDetail} from '../../../../model/sandbox/stage-detail-adapter';
+import {CleanupRequestStage} from 'kypo-sandbox-model';
 
 /**
  * Component of request stage basic info

@@ -1,10 +1,10 @@
 import {RequestStagesService} from './request-stages.service';
 import {merge, Observable, Subject, timer} from 'rxjs';
 import {KypoPaginatedResource} from 'kypo-common';
-import {RequestStage} from '../../../../model/sandbox/pool/request/stage/request-stage';
+import {RequestStage} from 'kypo-sandbox-model';
 import {environment} from '../../../../../environments/environment';
 import {retryWhen, switchMap} from 'rxjs/operators';
-import {Request} from '../../../../model/sandbox/pool/request/request';
+import {Request} from 'kypo-sandbox-model';
 
 export abstract class RequestStagesPollingService extends RequestStagesService {
   protected request: Request;

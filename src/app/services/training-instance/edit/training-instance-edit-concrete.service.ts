@@ -10,7 +10,7 @@ import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {TrainingInstanceEditService} from './training-instance-edit.service';
 import {RouteFactory} from '../../../model/routes/route-factory';
 import {Router} from '@angular/router';
-import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
+import {SandboxInstanceApi} from 'kypo-sandbox-api';
 
 /**
  * Basic implementation of layer between component and API service.

@@ -1,12 +1,11 @@
 import {ChangeDetectionStrategy, Component, Inject, OnInit, Optional} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {SandboxDefinition} from '../../../../model/sandbox/definition/sandbox-definition';
+import {SandboxDefinition} from 'kypo-sandbox-model';
 import {SandboxDefinitionOverviewService} from '../../../../services/sandbox-definition/sandbox-definition-overview.service';
 import {Observable} from 'rxjs';
 import {KypoBaseComponent, KypoPaginatedResource, KypoRequestedPagination} from 'kypo-common';
 import {environment} from '../../../../../environments/environment';
 import {takeWhile} from 'rxjs/operators';
-import {ListResourceMapping} from '../../../../model/utils/list-resource-mapping';
 import {SandboxDefinitionOverviewConcreteService} from '../../../../services/sandbox-definition/sandbox-definition-overview-concrete.service';
 
 @Component({

@@ -1,5 +1,5 @@
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Pool} from '../../../model/sandbox/pool/pool';
+import {Pool} from 'kypo-sandbox-model';
 
 export class SandboxPoolFormGroup {
 

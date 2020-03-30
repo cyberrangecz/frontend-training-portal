@@ -5,9 +5,9 @@ import {catchError, mergeMap, take} from 'rxjs/operators';
 import {SANDBOX_INSTANCE_ID_SELECTOR} from '../../../components/sandbox-instance/sandbox-pool-detail/paths';
 import {SANDBOX_POOL_ID_SELECTOR} from '../../../components/sandbox-instance/sandbox-pool-overview/paths';
 import {RouteFactory} from '../../../model/routes/route-factory';
-import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
+import {SandboxInstanceApi} from 'kypo-sandbox-api';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
-import {SandboxInstance} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance';
+import {SandboxInstance} from 'kypo-sandbox-model';
 
 /**
  * Router data provider

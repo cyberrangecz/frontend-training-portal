@@ -1,15 +1,15 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs';
-import {Request} from '../../../model/sandbox/pool/request/request';
+import {Request} from 'kypo-sandbox-model';
 import {map, takeWhile, tap} from 'rxjs/operators';
-import {RequestStage} from '../../../model/sandbox/pool/request/stage/request-stage';
+import {RequestStage} from 'kypo-sandbox-model';
 import {KypoBaseComponent} from 'kypo-common';
 import {StageDetailService} from '../../../services/sandbox-instance/pool-request/stage/detail/stage-detail.service';
 import {StageDetailEventType} from '../../../model/enums/stage-detail-event-type';
 import {StageDetailEvent} from '../../../model/events/stage-detail-event';
 import {RequestStagesPollingService} from '../../../services/sandbox-instance/pool-request/stage/request-stages-polling.service';
-import {StageDetail} from '../../../model/sandbox/pool/request/stage/stage-detail-adapter';
+import {StageDetail} from '../../../model/sandbox/stage-detail-adapter';
 
 /**
  * Smart component for pool request detail page

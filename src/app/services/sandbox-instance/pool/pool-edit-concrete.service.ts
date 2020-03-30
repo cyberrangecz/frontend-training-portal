@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
 import {PoolEditService} from './pool-edit.service';
-import {Pool} from '../../../model/sandbox/pool/pool';
+import {Pool} from 'kypo-sandbox-model';
 import {from, Observable} from 'rxjs';
 import {Router} from '@angular/router';
-import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
 import {switchMap, tap} from 'rxjs/operators';
 import {AlertService} from '../../shared/alert.service';
 import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
@@ -11,7 +10,8 @@ import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {RouteFactory} from '../../../model/routes/route-factory';
 import {MatDialog} from '@angular/material/dialog';
 import {SandboxDefinitionSelectComponent} from '../../../components/sandbox-instance/sandbox-pool-edit/sandbox-definition-select/sandbox-definition-select.component';
-import {SandboxDefinition} from '../../../model/sandbox/definition/sandbox-definition';
+import {SandboxDefinition} from 'kypo-sandbox-model';
+import {PoolApi} from 'kypo-sandbox-api';
 
 @Injectable()
 export class PoolEditConcreteService extends PoolEditService {
@@ -20,7 +20,7 @@ export class PoolEditConcreteService extends PoolEditService {
               private alertService: AlertService,
               private dialog: MatDialog,
               private errorHandler: ErrorHandlerService,
-              private api: SandboxInstanceApi) {
+              private api: PoolApi) {
     super();
   }
 

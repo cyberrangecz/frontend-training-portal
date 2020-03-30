@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
 import {KypoBaseComponent, KypoPaginatedResource, KypoPagination, KypoRequestedPagination} from 'kypo-common';
-import {AnsibleAllocationStage} from '../../../../../../model/sandbox/pool/request/stage/ansible-allocation-stage';
+import {AnsibleAllocationStage} from 'kypo-sandbox-model';
 
 @Component({
   selector: 'kypo2-ansible-allocation-stage-detail',

@@ -1,4 +1,4 @@
-import {AllocationRequest} from '../../../../model/sandbox/pool/request/allocation-request';
+import {AllocationRequest} from 'kypo-sandbox-model';
 import {Observable} from 'rxjs';
 import {PoolRequestsPollingService} from '../pool-requests-polling.service';
 

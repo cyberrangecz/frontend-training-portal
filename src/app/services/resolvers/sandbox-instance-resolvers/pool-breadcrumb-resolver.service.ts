@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Pool} from '../../../model/sandbox/pool/pool';
+import {Pool} from 'kypo-sandbox-model';
 import {PoolResolver} from './pool-resolver.service';
 import {SANDBOX_POOL_NEW_PATH} from '../../../components/sandbox-instance/sandbox-pool-overview/paths';
 

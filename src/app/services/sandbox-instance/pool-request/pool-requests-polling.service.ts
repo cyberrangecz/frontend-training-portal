@@ -1,9 +1,9 @@
 import {PoolRequestsService} from './pool-requests.service';
 import {Observable, Subject, timer} from 'rxjs';
 import {KypoPaginatedResource} from 'kypo-common';
-import {Request} from '../../../model/sandbox/pool/request/request';
+import {Request} from 'kypo-sandbox-model';
 import {environment} from '../../../../environments/environment';
-import {delayWhen, retryWhen, switchMap} from 'rxjs/operators';
+import {retryWhen, switchMap} from 'rxjs/operators';
 import {KypoRequestedPagination} from 'kypo-common';
 
 /**

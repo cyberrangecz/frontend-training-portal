@@ -1,5 +1,5 @@
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {SandboxDefinitionCreateInfo} from '../../../model/sandbox/definition/sandbox-definition-create-info';
+import {SandboxDefinition} from 'kypo-sandbox-model';
 
 /**
  * Sandbox Definition create form
@@ -15,9 +15,10 @@ export class SandboxDefinitionFormGroup {
         });
     }
 
-    createFromValues(): SandboxDefinitionCreateInfo {
-      return new SandboxDefinitionCreateInfo(
-        this.formGroup.get('gitlabUrl').value,
-        this.formGroup.get('revision').value)
+    createFromValues(): SandboxDefinition {
+      const definition = new SandboxDefinition();
+      definition.url = this.formGroup.get('gitlabUrl').value;
+      definition.rev =  this.formGroup.get('revision').value;
+      return definition;
     }
 }

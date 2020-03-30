@@ -1,15 +1,15 @@
-import {merge, Observable, Subject, timer} from 'rxjs';
+import {Observable} from 'rxjs';
 import {environment} from '../../../../../environments/environment';
-import {retryWhen, switchMap, tap} from 'rxjs/operators';
-import {RequestStage} from '../../../../model/sandbox/pool/request/stage/request-stage';
-import {SandboxInstanceApi} from '../../../api/sandbox-instance-api.service';
+import {tap} from 'rxjs/operators';
+import {RequestStage} from 'kypo-sandbox-model';
 import {ErrorHandlerService} from '../../../shared/error-handler.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {KypoRequestedPagination} from 'kypo-common';
 import {KypoPaginatedResource} from 'kypo-common';
-import {Request} from '../../../../model/sandbox/pool/request/request';
+import {Request} from 'kypo-sandbox-model';
 import {RequestStagesPollingService} from './request-stages-polling.service';
+import {StagesApi} from 'kypo-sandbox-api';
 
 /**
  * Basic implementation of a layer between a component and an API service.
@@ -18,7 +18,7 @@ import {RequestStagesPollingService} from './request-stages-polling.service';
 @Injectable()
 export class RequestAllocationStagesPollingService extends RequestStagesPollingService {
 
-  constructor(private api: SandboxInstanceApi,
+  constructor(private api: StagesApi,
               private errorHandler: ErrorHandlerService) {
     super(environment.defaultPaginationSize);
   }

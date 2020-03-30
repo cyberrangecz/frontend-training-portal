@@ -7,8 +7,9 @@ import {PoolOverviewConcreteService} from '../../../services/sandbox-instance/po
 import {PoolOverviewService} from '../../../services/sandbox-instance/pool/pool-overview.service';
 import {SandboxPoolOverviewRoutingModule} from './sandbox-pool-overview-routing.module';
 import {SandboxPoolOverviewComponent} from './sandbox-pool-overview.component';
-import {SandboxInstanceApi} from '../../../services/api/sandbox-instance-api.service';
 import {KypoControlsModule} from 'kypo-controls';
+import {KypoSandboxApiModule, KypoSandboxConfig} from 'kypo-sandbox-api';
+import {environment} from '../../../../environments/environment';
 
 /**
  * Module containing components and providers for sandbox pool overview page
@@ -16,13 +17,13 @@ import {KypoControlsModule} from 'kypo-controls';
 @NgModule({
   declarations: [SandboxPoolOverviewComponent],
     imports: [
-        CommonModule,
-        Kypo2TableModule,
-        SandboxPoolOverviewRoutingModule,
-        KypoControlsModule,
+      CommonModule,
+      Kypo2TableModule,
+      SandboxPoolOverviewRoutingModule,
+      KypoControlsModule,
+      KypoSandboxApiModule.forRoot(new KypoSandboxConfig(environment.sandboxRestBasePath))
     ],
   providers: [
-    SandboxInstanceApi,
     PoolResolver,
     PoolBreadcrumbResolver,
     { provide: PoolOverviewService, useClass: PoolOverviewConcreteService }

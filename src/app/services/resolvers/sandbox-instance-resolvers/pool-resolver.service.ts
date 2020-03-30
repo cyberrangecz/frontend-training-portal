@@ -4,10 +4,10 @@ import {EMPTY, Observable, of} from 'rxjs';
 import {catchError, mergeMap, take} from 'rxjs/operators';
 import {SANDBOX_POOL_NEW_PATH, SANDBOX_POOL_ID_SELECTOR} from '../../../components/sandbox-instance/sandbox-pool-overview/paths';
 import {RouteFactory} from '../../../model/routes/route-factory';
-import {Pool} from '../../../model/sandbox/pool/pool';
-import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
+import {Pool} from 'kypo-sandbox-model';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {SANDBOX_POOL_PATH} from '../../../paths';
+import {PoolApi} from 'kypo-sandbox-api';
 
 /**
  * Router data provider
@@ -15,7 +15,7 @@ import {SANDBOX_POOL_PATH} from '../../../paths';
 @Injectable()
 export class PoolResolver implements Resolve<Pool> {
 
-  constructor(private sandboxInstanceFacade: SandboxInstanceApi,
+  constructor(private api: PoolApi,
               private errorHandler: ErrorHandlerService,
               private router: Router) {
   }
@@ -32,7 +32,7 @@ export class PoolResolver implements Resolve<Pool> {
     }
     if (route.paramMap.has(SANDBOX_POOL_ID_SELECTOR)) {
       const id = Number(route.paramMap.get(SANDBOX_POOL_ID_SELECTOR));
-      return this.sandboxInstanceFacade.getPool(id)
+      return this.api.getPool(id)
         .pipe(
           take(1),
           mergeMap(pool => pool ? of(pool) : this.navigateToOverview()),

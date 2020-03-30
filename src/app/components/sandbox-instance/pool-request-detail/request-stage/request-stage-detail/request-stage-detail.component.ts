@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {KypoBaseComponent, KypoRequestedPagination} from 'kypo-common';
-import {RequestStage} from '../../../../../model/sandbox/pool/request/stage/request-stage';
-import {RequestStageType} from '../../../../../model/enums/request-stage-type.enum';
+import {RequestStage} from 'kypo-sandbox-model';
+import {RequestStageType} from 'kypo-sandbox-model';
 
 /**
  * Component inserting concrete component based on request stage type

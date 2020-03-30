@@ -9,9 +9,10 @@ import {TrainingInstanceOverviewComponent} from './training-instance-overview.co
 import {TrainingInstanceOverviewService} from '../../../services/training-instance/training-instance-overview.service';
 import {TrainingInstanceOverviewConcreteService} from '../../../services/training-instance/training-instance-overview-concrete.service';
 import {Kypo2TableModule} from 'kypo2-table';
-import {SandboxInstanceApi} from '../../../services/api/sandbox-instance-api.service';
 import {TrainingInstanceApi} from '../../../services/api/training-instance-api.service';
 import {KypoControlsModule} from 'kypo-controls';
+import {KypoSandboxApiModule, KypoSandboxConfig} from 'kypo-sandbox-api';
+import {environment} from '../../../../environments/environment';
 
 /**
  * Main module of training instance agenda. Contains components and providers for displaying table of training instance
@@ -19,20 +20,20 @@ import {KypoControlsModule} from 'kypo-controls';
  */
 @NgModule({
     imports: [
-        CommonModule,
-        SharedModule,
-        FormsModule,
-        ReactiveFormsModule,
-        Kypo2TableModule,
-        TrainingInstanceOverviewRoutingModule,
-        KypoControlsModule,
+      CommonModule,
+      SharedModule,
+      FormsModule,
+      ReactiveFormsModule,
+      Kypo2TableModule,
+      TrainingInstanceOverviewRoutingModule,
+      KypoControlsModule,
+      KypoSandboxApiModule.forRoot(new KypoSandboxConfig(environment.sandboxRestBasePath))
     ],
   declarations: [
     TrainingInstanceOverviewComponent,
   ],
   providers: [
     TrainingInstanceApi,
-    SandboxInstanceApi,
     TrainingInstanceResolver,
     TrainingInstanceBreadcrumbResolver,
     { provide: TrainingInstanceOverviewService, useClass: TrainingInstanceOverviewConcreteService }

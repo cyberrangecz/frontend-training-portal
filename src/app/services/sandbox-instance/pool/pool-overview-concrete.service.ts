@@ -1,15 +1,15 @@
 import {Injectable} from '@angular/core';
 import {from, Observable} from 'rxjs';
 import {switchMap, tap} from 'rxjs/operators';
-import {Pool} from '../../../model/sandbox/pool/pool';
+import {Pool} from 'kypo-sandbox-model';
 import {KypoPaginatedResource, KypoRequestedPagination} from 'kypo-common';
-import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {PoolOverviewService} from './pool-overview.service';
 import {AlertService} from '../../shared/alert.service';
 import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
 import {Router} from '@angular/router';
 import {RouteFactory} from '../../../model/routes/route-factory';
+import {PoolApi, SandboxInstanceApi} from 'kypo-sandbox-api';
 
 
 /**
@@ -21,7 +21,8 @@ export class PoolOverviewConcreteService extends PoolOverviewService {
 
   private lastPagination: KypoRequestedPagination;
 
-  constructor(private api: SandboxInstanceApi,
+  constructor(private poolApi: PoolApi,
+              private sandboxApi: SandboxInstanceApi,
               private alertService: AlertService,
               private router: Router,
               private errorHandler: ErrorHandlerService) {
@@ -35,7 +36,7 @@ export class PoolOverviewConcreteService extends PoolOverviewService {
   getAll(pagination: KypoRequestedPagination): Observable<KypoPaginatedResource<Pool>> {
     this.lastPagination = pagination;
     this.hasErrorSubject$.next(false);
-    return this.api.getPools(pagination)
+    return this.poolApi.getPools(pagination)
       .pipe(
         tap(
           paginatedPools => {
@@ -57,9 +58,9 @@ export class PoolOverviewConcreteService extends PoolOverviewService {
   allocate(pool: Pool, count: number = -1): Observable<any> {
     let allocation$: Observable<any>;
     if (count <= 0) {
-      allocation$ = this.api.allocateSandboxes(pool.id);
+      allocation$ = this.sandboxApi.allocateSandboxes(pool.id);
     } else {
-      allocation$ = this.api.allocateSandboxes(pool.id, count);
+      allocation$ = this.sandboxApi.allocateSandboxes(pool.id, count);
     }
     return allocation$
       .pipe(
@@ -75,7 +76,7 @@ export class PoolOverviewConcreteService extends PoolOverviewService {
    * @param pool a pool to be deleted
    */
   delete(pool: Pool): Observable<any> {
-    return this.api.deletePool(pool.id)
+    return this.poolApi.deletePool(pool.id)
       .pipe(
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, `Pool ${pool.id} was deleted`),
             err => this.errorHandler.emit(err, `Deleting pool ${pool.id}`)
@@ -89,7 +90,7 @@ export class PoolOverviewConcreteService extends PoolOverviewService {
    * @param pool a pool to be cleared
    */
   clear(pool: Pool): Observable<any> {
-    return this.api.clearPool(pool.id)
+    return this.poolApi.clearPool(pool.id)
       .pipe(
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, `Pool ${pool.id} was cleared`),
           err => this.errorHandler.emit(err, `Clearing pool ${pool.id}`)
@@ -104,7 +105,7 @@ export class PoolOverviewConcreteService extends PoolOverviewService {
 
 
   lock(pool: Pool): Observable<any> {
-    return this.api.lockPool(pool.id)
+    return this.poolApi.lockPool(pool.id)
       .pipe(
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, `Pool ${pool.id} was locked`),
           err => this.errorHandler.emit(err, `Locking pool ${pool.id}`)),
@@ -113,7 +114,7 @@ export class PoolOverviewConcreteService extends PoolOverviewService {
   }
 
   unlock(pool: Pool): Observable<any> {
-    return this.api.unlockPool(pool.id, pool.lockId)
+    return this.poolApi.unlockPool(pool.id, pool.lockId)
       .pipe(
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, `Pool ${pool.id} was unlocked`),
           err => this.errorHandler.emit(err, `Unlocking pool ${pool.id}`)),

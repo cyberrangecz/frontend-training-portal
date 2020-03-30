@@ -2,8 +2,7 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Request} from '../../../model/sandbox/pool/request/request';
-import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
+import {Request} from 'kypo-sandbox-model';
 import {PoolRequestResolver} from './pool-request-resolver.service';
 import {POOL_ALLOCATION_REQUEST_PATH} from '../../../components/sandbox-instance/sandbox-pool-detail/paths';
 
@@ -13,8 +12,7 @@ import {POOL_ALLOCATION_REQUEST_PATH} from '../../../components/sandbox-instance
 @Injectable()
 export class PoolRequestBreadcrumbResolver implements Resolve<string> {
 
-  constructor(private sandboxInstanceFacade: SandboxInstanceApi,
-              private poolRequestResolver: PoolRequestResolver) {
+  constructor(private poolRequestResolver: PoolRequestResolver) {
   }
 
   /**

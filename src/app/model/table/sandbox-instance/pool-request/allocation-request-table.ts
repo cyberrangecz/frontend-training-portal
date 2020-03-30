@@ -2,7 +2,7 @@ import {KypoPaginatedResource} from 'kypo-common';
 import {Column, DeleteAction, Kypo2Table, Row, RowAction} from 'kypo2-table';
 import {RouteFactory} from '../../../routes/route-factory';
 import {defer, of} from 'rxjs';
-import {AllocationRequest} from '../../../sandbox/pool/request/allocation-request';
+import {AllocationRequest} from 'kypo-sandbox-model';
 import {PoolAllocationRequestsPollingService} from '../../../../services/sandbox-instance/pool-request/allocation/pool-allocation-requests-polling.service';
 
 export class AllocationRequestTable extends Kypo2Table<AllocationRequest> {

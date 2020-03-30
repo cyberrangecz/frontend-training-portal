@@ -8,8 +8,6 @@ import {SandboxDefinitionSelectComponent} from './sandbox-definition-select/sand
 import {PoolEditService} from '../../../services/sandbox-instance/pool/pool-edit.service';
 import {PoolEditConcreteService} from '../../../services/sandbox-instance/pool/pool-edit-concrete.service';
 import {ReactiveFormsModule} from '@angular/forms';
-import {SandboxDefinitionApi} from '../../../services/api/sandbox-definition-api.service';
-import {SandboxInstanceApi} from '../../../services/api/sandbox-instance-api.service';
 import {KypoListModule} from 'kypo-list';
 
 @NgModule({
@@ -24,11 +22,8 @@ import {KypoListModule} from 'kypo-list';
     KypoControlsModule,
     KypoListModule,
     ReactiveFormsModule,
-
   ],
   providers: [
-    SandboxDefinitionApi,
-    SandboxInstanceApi,
     { provide: PoolEditService, useClass: PoolEditConcreteService },
   ]
 })

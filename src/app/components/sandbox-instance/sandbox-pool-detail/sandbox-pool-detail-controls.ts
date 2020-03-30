@@ -1,5 +1,5 @@
 import {SandboxInstanceService} from '../../../services/sandbox-instance/sandbox/sandbox-instance.service';
-import {Pool} from '../../../model/sandbox/pool/pool';
+import {Pool} from 'kypo-sandbox-model';
 import {defer, of} from 'rxjs';
 import {KypoControlItem} from 'kypo-controls';
 

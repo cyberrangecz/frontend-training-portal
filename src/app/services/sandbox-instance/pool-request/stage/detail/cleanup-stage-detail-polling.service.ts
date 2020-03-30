@@ -1,17 +1,17 @@
 import {StageDetailPollingService} from './stage-detail-polling.service';
 import {Injectable} from '@angular/core';
-import {Observable, pipe, throwError} from 'rxjs';
-import {RequestStageType} from '../../../../../model/enums/request-stage-type.enum';
-import {RequestStage} from '../../../../../model/sandbox/pool/request/stage/request-stage';
-import {SandboxInstanceApi} from '../../../../api/sandbox-instance-api.service';
+import {Observable, throwError} from 'rxjs';
+import {RequestStageType} from 'kypo-sandbox-model';
+import {RequestStage} from 'kypo-sandbox-model';
 import {map} from 'rxjs/operators';
-import {StageDetail} from '../../../../../model/sandbox/pool/request/stage/stage-detail-adapter';
+import {StageDetail} from '../../../../../model/sandbox/stage-detail-adapter';
 import {ErrorHandlerService} from '../../../../shared/error-handler.service';
+import {StagesApi} from 'kypo-sandbox-api';
 
 @Injectable()
 export class CleanupStageDetailPollingService extends StageDetailPollingService {
 
-  constructor(private api: SandboxInstanceApi,
+  constructor(private api: StagesApi,
               private errorHandler: ErrorHandlerService) {
     super();
   }

@@ -1,15 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Observable, throwError, zip} from 'rxjs';
-import {SandboxInstanceApi} from '../../../../api/sandbox-instance-api.service';
 import {StageDetailPollingService} from './stage-detail-polling.service';
-import {RequestStage} from '../../../../../model/sandbox/pool/request/stage/request-stage';
-import {RequestStageType} from '../../../../../model/enums/request-stage-type.enum';
-import {OpenStackAllocationStage} from '../../../../../model/sandbox/pool/request/stage/open-stack-allocation-stage';
-import {AnsibleAllocationStage} from '../../../../../model/sandbox/pool/request/stage/ansible-allocation-stage';
+import {RequestStageType} from 'kypo-sandbox-model';
 import {map} from 'rxjs/operators';
-import {StageDetail} from '../../../../../model/sandbox/pool/request/stage/stage-detail-adapter';
+import {StageDetail} from '../../../../../model/sandbox/stage-detail-adapter';
 import {ErrorHandlerService} from '../../../../shared/error-handler.service';
 import {KypoRequestedPagination} from 'kypo-common';
+import {StagesApi} from 'kypo-sandbox-api';
 
 /**
  * Service extending stage detail service of polling behaviour.
@@ -18,7 +15,7 @@ import {KypoRequestedPagination} from 'kypo-common';
 @Injectable()
 export class AllocationStageDetailPollingService extends StageDetailPollingService {
 
-  constructor(private api: SandboxInstanceApi,
+  constructor(private api: StagesApi,
               private errorHandler: ErrorHandlerService) {
     super();
   }

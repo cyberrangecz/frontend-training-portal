@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {SandboxDefinition} from '../../../../model/sandbox/definition/sandbox-definition';
+import {SandboxDefinition} from 'kypo-sandbox-model';
 
 /**
  * Table detail of expanded row displaying sandbox definition details

@@ -7,7 +7,7 @@ import {SandboxDefinitionOverviewService} from '../../../services/sandbox-defini
 import {Kypo2Table, LoadTableEvent, TableActionEvent} from 'kypo2-table';
 import {ErrorHandlerService} from '../../../services/shared/error-handler.service';
 import {SandboxDefinitionTable} from '../../../model/table/sandbox-instance/sandbox-definition-table';
-import {SandboxDefinition} from '../../../model/sandbox/definition/sandbox-definition';
+import {SandboxDefinition} from 'kypo-sandbox-model';
 import {environment} from '../../../../environments/environment';
 import {Router} from '@angular/router';
 import {KypoRequestedPagination} from 'kypo-common';

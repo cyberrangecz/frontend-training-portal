@@ -1,29 +1,28 @@
-import {SandboxInstanceApi} from '../../../api/sandbox-instance-api.service';
 import {ErrorHandlerService} from '../../../shared/error-handler.service';
 import {RequestAllocationStagesPollingService} from './request-allocation-stages-polling.service';
 import {async, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {asyncData} from 'kypo-common';
 import {skip} from 'rxjs/operators';
 import {throwError} from 'rxjs';
-import {AllocationRequest} from '../../../../model/sandbox/pool/request/allocation-request';
+import {AllocationRequest} from 'kypo-sandbox-model';
 import {environment} from '../../../../../environments/environment';
-import {AnsibleAllocationStage} from '../../../../model/sandbox/pool/request/stage/ansible-allocation-stage';
-import {OpenStackAllocationStage} from '../../../../model/sandbox/pool/request/stage/open-stack-allocation-stage';
-import {Request} from '../../../../model/sandbox/pool/request/request';
+import {AnsibleAllocationStage} from 'kypo-sandbox-model';
+import {OpenStackAllocationStage} from 'kypo-sandbox-model';
+import {StagesApi} from 'kypo-sandbox-api';
 
 describe('PoolRequestStagesPollingService', () => {
 
   let errorHandlerSpy: jasmine.SpyObj<ErrorHandlerService>;
-  let apiSpy: jasmine.SpyObj<SandboxInstanceApi>;
+  let apiSpy: jasmine.SpyObj<StagesApi>;
   let service: RequestAllocationStagesPollingService;
 
   beforeEach(async(() => {
     errorHandlerSpy = jasmine.createSpyObj('ErrorHandlerService', ['emit']);
-    apiSpy = jasmine.createSpyObj('SandboxInstanceApi', ['getAllocationStages']);
+    apiSpy = jasmine.createSpyObj('StagesApi', ['getAllocationStages']);
     TestBed.configureTestingModule({
       providers: [
         RequestAllocationStagesPollingService,
-        {provide: SandboxInstanceApi, useValue: apiSpy},
+        {provide: StagesApi, useValue: apiSpy},
         {provide: ErrorHandlerService, useValue: errorHandlerSpy}
       ]
     });
@@ -34,7 +33,7 @@ describe('PoolRequestStagesPollingService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should load data from facade (called once)', done => {
+  it('should load data from api (called once)', done => {
     apiSpy.getAllocationStages.and.returnValue(asyncData(new AllocationRequest()));
     const request = new AllocationRequest();
     request.id = 1;

@@ -1,4 +1,4 @@
-import {RequestStage} from '../sandbox/pool/request/stage/request-stage';
+import {RequestStage} from 'kypo-sandbox-model';
 import {StageDetailEventType} from '../enums/stage-detail-event-type';
 
 /**

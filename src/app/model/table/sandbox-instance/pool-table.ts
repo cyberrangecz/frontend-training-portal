@@ -1,10 +1,10 @@
 import {Column, Kypo2Table, Row, RowAction} from 'kypo2-table';
 import {defer, of} from 'rxjs';
 import {RouteFactory} from '../../routes/route-factory';
-import {Pool} from '../../sandbox/pool/pool';
+import {Pool} from 'kypo-sandbox-model';
 import {KypoPaginatedResource} from 'kypo-common';
 import {PoolOverviewService} from '../../../services/sandbox-instance/pool/pool-overview.service';
-import {DeleteAction} from '../actions/delete-action';
+import {DeleteAction} from 'kypo2-table';
 
 /**
  * Helper class transforming paginated resource to class for common table component

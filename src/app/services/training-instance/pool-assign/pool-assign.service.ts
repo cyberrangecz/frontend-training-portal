@@ -1,5 +1,5 @@
 import {TrainingInstance} from '../../../model/training/training-instance';
-import {Pool} from '../../../model/sandbox/pool/pool';
+import {Pool} from 'kypo-sandbox-model';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {KypoPaginatedResource, KypoPaginatedResourceService, KypoRequestedPagination} from 'kypo-common';
 
