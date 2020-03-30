@@ -1,8 +1,8 @@
 import {Observable} from 'rxjs';
-import {RequestStage} from '../../../../model/sandbox/pool/request/stage/request-stage';
+import {RequestStage} from 'kypo-sandbox-model';
 import {KypoPaginatedResourceService} from 'kypo-common';
 import {KypoPaginatedResource} from 'kypo-common';
-import {Request} from '../../../../model/sandbox/pool/request/request';
+import {Request} from 'kypo-sandbox-model';
 
 /**
  * A layer between a component and an API service. Implement a concrete service by extending this class.

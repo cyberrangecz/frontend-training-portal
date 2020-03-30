@@ -2,9 +2,9 @@ import {Column, Kypo2Table, Row, RowExpand} from 'kypo2-table';
 import {defer, of} from 'rxjs';
 import {SandboxDefinitionDetailComponent} from '../../../components/sandbox-definition/overview/sandbox-definition-detail/sandbox-definition-detail.component';
 import {KypoPaginatedResource} from 'kypo-common';
-import {SandboxDefinition} from '../../sandbox/definition/sandbox-definition';
+import {SandboxDefinition} from 'kypo-sandbox-model';
 import {SandboxDefinitionOverviewService} from '../../../services/sandbox-definition/sandbox-definition-overview.service';
-import {DeleteAction} from '../actions/delete-action';
+import {DeleteAction} from 'kypo2-table';
 
 /**
  * Helper class transforming paginated resource to class for common table component

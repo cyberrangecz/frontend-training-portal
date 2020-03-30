@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {KypoBaseComponent} from 'kypo-common';
-import {OpenStackAllocationStage} from '../../../../../../model/sandbox/pool/request/stage/open-stack-allocation-stage';
+import {OpenStackAllocationStage} from 'kypo-sandbox-model';
 
 @Component({
   selector: 'kypo2-openstack-allocation-stage-detail',

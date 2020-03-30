@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, HostListener, OnInit} from '@angular/core';
-import {SandboxInstance} from '../../../model/sandbox/pool/sandbox-instance/sandbox-instance';
+import {SandboxInstance} from 'kypo-sandbox-model';
 import {ActivatedRoute} from '@angular/router';
 import {Kypo2TopologyErrorService} from 'kypo2-topology-graph';
 import {ErrorHandlerService} from '../../../services/shared/error-handler.service';

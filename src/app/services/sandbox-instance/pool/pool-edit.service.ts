@@ -1,6 +1,6 @@
-import {Pool} from '../../../model/sandbox/pool/pool';
+import {Pool} from 'kypo-sandbox-model';
 import {Observable} from 'rxjs';
-import {SandboxDefinition} from '../../../model/sandbox/definition/sandbox-definition';
+import {SandboxDefinition} from 'kypo-sandbox-model';
 
 export abstract class PoolEditService {
   abstract create(pool: Pool): Observable<any>;

@@ -6,8 +6,9 @@ import {SandboxDefinitionOverviewConcreteService} from '../../../services/sandbo
 import {SandboxDefinitionDetailComponent} from './sandbox-definition-detail/sandbox-definition-detail.component';
 import {SandboxDefinitionOverviewRoutingModule} from './sandbox-definition-overview-routing.module';
 import {SandboxDefinitionOverviewComponent} from './sandbox-definition-overview.component';
-import {SandboxDefinitionApi} from '../../../services/api/sandbox-definition-api.service';
 import {KypoControlsModule} from 'kypo-controls';
+import {KypoSandboxApiModule, KypoSandboxConfig} from 'kypo-sandbox-api';
+import {environment} from '../../../../environments/environment';
 
 /**
  * Module containing components and services for sandbox definition overview page
@@ -18,14 +19,14 @@ import {KypoControlsModule} from 'kypo-controls';
     SandboxDefinitionOverviewRoutingModule,
     Kypo2TableModule,
     KypoControlsModule,
+    KypoSandboxApiModule.forRoot(new KypoSandboxConfig(environment.sandboxRestBasePath))
   ],
   declarations: [
     SandboxDefinitionOverviewComponent,
     SandboxDefinitionDetailComponent
   ],
   providers: [
-    SandboxDefinitionApi,
-    {provide: SandboxDefinitionOverviewService, useClass: SandboxDefinitionOverviewConcreteService}
+    { provide: SandboxDefinitionOverviewService, useClass: SandboxDefinitionOverviewConcreteService }
   ],
 })
 

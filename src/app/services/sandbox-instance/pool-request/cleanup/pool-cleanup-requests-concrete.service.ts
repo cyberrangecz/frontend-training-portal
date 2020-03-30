@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {merge, Observable} from 'rxjs';
 import {KypoPaginatedResource} from 'kypo-common';
-import {Request} from '../../../../model/sandbox/pool/request/request';
+import {Request} from 'kypo-sandbox-model';
 import {tap} from 'rxjs/operators';
-import {SandboxInstanceApi} from '../../../api/sandbox-instance-api.service';
 import {ErrorHandlerService} from '../../../shared/error-handler.service';
 import {KypoRequestedPagination} from 'kypo-common';
 import {HttpErrorResponse} from '@angular/common/http';
 import {PoolCleanupRequestsPollingService} from './pool-cleanup-requests-polling.service';
+import {PoolRequestApi} from 'kypo-sandbox-api';
 
 /**
  * Basic implementation of a layer between a component and an API service.
@@ -21,7 +21,7 @@ export class PoolCleanupRequestsConcreteService extends PoolCleanupRequestsPolli
    */
   resource$: Observable<KypoPaginatedResource<Request>>;
 
-  constructor(private sandboxInstanceFacade: SandboxInstanceApi,
+  constructor(private api: PoolRequestApi,
               private errorHandler: ErrorHandlerService) {
     super();
     this.resource$ = merge(this.poll$, this.resourceSubject$.asObservable());
@@ -34,7 +34,7 @@ export class PoolCleanupRequestsConcreteService extends PoolCleanupRequestsPolli
    */
   getAll(poolId: number, pagination: KypoRequestedPagination): Observable<KypoPaginatedResource<Request>> {
     this.onManualGetAll(poolId, pagination);
-    return this.sandboxInstanceFacade.getCleanupRequests(poolId, pagination)
+    return this.api.getCleanupRequests(poolId, pagination)
       .pipe(
         tap(
           paginatedRequests => this.resourceSubject$.next(paginatedRequests),
@@ -48,7 +48,7 @@ export class PoolCleanupRequestsConcreteService extends PoolCleanupRequestsPolli
    */
   protected repeatLastGetAllRequest(): Observable<KypoPaginatedResource<Request>> {
     this.hasErrorSubject$.next(false);
-    return this.sandboxInstanceFacade.getCleanupRequests(this.lastPoolId, this.lastPagination)
+    return this.api.getCleanupRequests(this.lastPoolId, this.lastPagination)
       .pipe(
         tap({ error: err => this.onGetAllError(err)})
       );

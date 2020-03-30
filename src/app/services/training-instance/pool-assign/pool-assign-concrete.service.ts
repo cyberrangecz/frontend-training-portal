@@ -1,15 +1,15 @@
 import {PoolAssignService} from './pool-assign.service';
 import {TrainingInstance} from '../../../model/training/training-instance';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {Pool} from '../../../model/sandbox/pool/pool';
+import {Observable} from 'rxjs';
+import {Pool} from 'kypo-sandbox-model';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
-import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
 import {tap} from 'rxjs/operators';
 import {TrainingInstanceApi} from '../../api/training-instance-api.service';
 import {AlertService} from '../../shared/alert.service';
 import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
 import {Injectable} from '@angular/core';
 import {KypoPaginatedResource, KypoRequestedPagination} from 'kypo-common';
+import {PoolApi} from 'kypo-sandbox-api';
 
 @Injectable()
 export class PoolAssignConcreteService extends PoolAssignService {
@@ -19,7 +19,7 @@ export class PoolAssignConcreteService extends PoolAssignService {
   constructor(private errorHandler: ErrorHandlerService,
               private alertService: AlertService,
               private trainingInstanceApi: TrainingInstanceApi,
-              private sandboxInstanceApi: SandboxInstanceApi) {
+              private poolApi: PoolApi) {
     super();
   }
 
@@ -31,7 +31,7 @@ export class PoolAssignConcreteService extends PoolAssignService {
     this.lastPagination = requestedPagination;
     this.isLoadingSubject$.next(true);
     this.hasErrorSubject$.next(false);
-    return this.sandboxInstanceApi.getPools(requestedPagination)
+    return this.poolApi.getPools(requestedPagination)
       .pipe(
         tap(pools => {
           this.resourceSubject$.next(pools);

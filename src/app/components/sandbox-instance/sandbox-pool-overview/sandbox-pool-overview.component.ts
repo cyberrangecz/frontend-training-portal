@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Kypo2Table, LoadTableEvent, TableActionEvent} from 'kypo2-table';
 import {defer, Observable, of} from 'rxjs';
 import {map, take, takeWhile} from 'rxjs/operators';
-import {Pool} from '../../../model/sandbox/pool/pool';
+import {Pool} from 'kypo-sandbox-model';
 import {PoolOverviewService} from '../../../services/sandbox-instance/pool/pool-overview.service';
 import {KypoBaseComponent} from 'kypo-common';
 import {PoolTable} from '../../../model/table/sandbox-instance/pool-table';

@@ -1,9 +1,9 @@
 import {BehaviorSubject, Observable} from 'rxjs';
-import {RequestStage} from '../../../../../model/sandbox/pool/request/stage/request-stage';
+import {RequestStage} from 'kypo-sandbox-model';
 import {Dictionary} from 'typescript-collections';
 import {tap} from 'rxjs/operators';
-import {RequestStageType} from '../../../../../model/enums/request-stage-type.enum';
-import {StageDetail} from '../../../../../model/sandbox/pool/request/stage/stage-detail-adapter';
+import {RequestStageType} from 'kypo-sandbox-model';
+import {StageDetail} from '../../../../../model/sandbox/stage-detail-adapter';
 import {KypoRequestedPagination} from 'kypo-common';
 
 /**

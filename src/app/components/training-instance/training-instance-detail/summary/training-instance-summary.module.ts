@@ -13,7 +13,6 @@ import {ArchivedTrainingRunService} from '../../../../services/training-run/arch
 import {ArchivedTrainingRunConcreteService} from '../../../../services/training-run/archived/archived-training-run-concrete.service';
 import {ActiveTrainingRunConcreteService} from '../../../../services/training-run/active/active-training-run-concrete.service';
 import {ActiveTrainingRunService} from '../../../../services/training-run/active/active-training-run.service';
-import {SandboxInstanceApi} from '../../../../services/api/sandbox-instance-api.service';
 import {TrainingRunApi} from '../../../../services/api/training-run-api.service';
 import {TrainingInstanceSummaryService} from '../../../../services/training-instance/summary/training-instance-summary.service';
 import {KypoControlsModule} from 'kypo-controls';
@@ -23,13 +22,13 @@ import {KypoControlsModule} from 'kypo-controls';
  */
 @NgModule({
     imports: [
-        CommonModule,
-        FormsModule,
-        KypoPipesModule,
-        TrainingInstanceSummaryMaterialModule,
-        TrainingInstanceSummaryRoutingModule,
-        Kypo2TableModule,
-        KypoControlsModule
+      CommonModule,
+      FormsModule,
+      KypoPipesModule,
+      TrainingInstanceSummaryMaterialModule,
+      TrainingInstanceSummaryRoutingModule,
+      Kypo2TableModule,
+      KypoControlsModule
     ],
   declarations: [
   TrainingInstanceSummaryComponent,
@@ -39,7 +38,6 @@ import {KypoControlsModule} from 'kypo-controls';
   ],
   providers: [
     TrainingInstanceSummaryService,
-    SandboxInstanceApi,
     TrainingRunApi,
     {provide: ArchivedTrainingRunService, useClass: ArchivedTrainingRunConcreteService},
     {provide: ActiveTrainingRunService, useClass: ActiveTrainingRunConcreteService},

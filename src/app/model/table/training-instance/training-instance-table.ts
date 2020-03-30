@@ -5,9 +5,9 @@ import {TrainingInstanceRowAdapter} from '../rows/training-instance-row-adapter'
 import {defer, of} from 'rxjs';
 import {RouteFactory} from '../../routes/route-factory';
 import {TrainingInstanceOverviewService} from '../../../services/training-instance/training-instance-overview.service';
-import {EditAction} from '../actions/edit-action';
-import {DeleteAction} from '../actions/delete-action';
-import {DownloadAction} from '../actions/download-action';
+import {EditAction} from 'kypo2-table';
+import {DeleteAction} from 'kypo2-table';
+import {DownloadAction} from 'kypo2-table';
 
 export class TrainingInstanceTable extends Kypo2Table<TrainingInstanceRowAdapter> {
 

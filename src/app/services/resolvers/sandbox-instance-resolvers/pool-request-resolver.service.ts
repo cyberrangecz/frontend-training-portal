@@ -7,10 +7,10 @@ import {
 } from '../../../components/sandbox-instance/sandbox-pool-detail/paths';
 import {SANDBOX_POOL_ID_SELECTOR} from '../../../components/sandbox-instance/sandbox-pool-overview/paths';
 import {RouteFactory} from '../../../model/routes/route-factory';
-import {Request} from '../../../model/sandbox/pool/request/request';
-import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
+import {Request} from 'kypo-sandbox-model';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {catchError, mergeMap, take} from 'rxjs/operators';
+import {PoolRequestApi} from 'kypo-sandbox-api';
 
 /**
  * Router data provider
@@ -18,7 +18,7 @@ import {catchError, mergeMap, take} from 'rxjs/operators';
 @Injectable()
 export class PoolRequestResolver implements Resolve<Request> {
 
-  constructor(private api: SandboxInstanceApi,
+  constructor(private api: PoolRequestApi,
               private errorHandler: ErrorHandlerService,
               private router: Router) {
   }

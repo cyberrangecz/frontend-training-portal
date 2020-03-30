@@ -7,7 +7,7 @@ import {TrainingInstanceApi} from '../../api/training-instance-api.service';
 import {retryWhen, switchMap, tap} from 'rxjs/operators';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {TrainingInstance} from '../../../model/training/training-instance';
-import {SandboxInstanceApi} from '../../api/sandbox-instance-api.service';
+import {PoolRequestApi, SandboxInstanceApi} from 'kypo-sandbox-api';
 import {AlertService} from '../../shared/alert.service';
 import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
 import {ActiveTrainingRunService} from './active-training-run.service';
@@ -32,6 +32,7 @@ export class ActiveTrainingRunConcreteService extends ActiveTrainingRunService {
 
   constructor(private trainingInstanceFacade: TrainingInstanceApi,
               private sandboxApi: SandboxInstanceApi,
+              private requestApi: PoolRequestApi,
               private dialog: MatDialog,
               private alertService: AlertService,
               private errorHandler: ErrorHandlerService) {
@@ -101,7 +102,7 @@ export class ActiveTrainingRunConcreteService extends ActiveTrainingRunService {
   private callApiToDeleteSandbox(trainingRun: TrainingRun): Observable<KypoPaginatedResource<TrainingRun>> {
     return this.sandboxApi.getSandbox(trainingRun.sandboxInstanceId)
       .pipe(
-        switchMap(sandbox => this.sandboxApi.createCleanupRequest(sandbox.allocationUnitId)),
+        switchMap(sandbox => this.requestApi.createCleanupRequest(sandbox.allocationUnitId)),
         tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Deleting of sandbox instance started'),
           err => this.errorHandler.emit(err, 'Deleting sandbox instance')
         ),

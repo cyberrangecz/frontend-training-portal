@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {KypoBaseComponent} from 'kypo-common';
-import {AnsibleCleanupStage} from '../../../../../../model/sandbox/pool/request/stage/ansible-cleanup-stage';
-import {OpenStackCleanupStage} from '../../../../../../model/sandbox/pool/request/stage/open-stack-cleanup-stage';
+import {AnsibleCleanupStage} from 'kypo-sandbox-model';
+import {OpenStackCleanupStage} from 'kypo-sandbox-model';
 
 @Component({
   selector: 'kypo2-cleanup-stage-detail',

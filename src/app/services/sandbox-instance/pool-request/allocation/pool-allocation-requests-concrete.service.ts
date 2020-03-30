@@ -1,14 +1,14 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, merge, Observable} from 'rxjs';
 import {switchMap, tap} from 'rxjs/operators';
-import {Request} from '../../../../model/sandbox/pool/request/request';
+import {Request} from 'kypo-sandbox-model';
 import {KypoPaginatedResource, KypoRequestedPagination} from 'kypo-common';
-import {SandboxInstanceApi} from '../../../api/sandbox-instance-api.service';
 import {ErrorHandlerService} from '../../../shared/error-handler.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {PoolAllocationRequestsPollingService} from './pool-allocation-requests-polling.service';
 import {AlertService} from '../../../shared/alert.service';
 import {AlertTypeEnum} from '../../../../model/enums/alert-type.enum';
+import {PoolRequestApi} from 'kypo-sandbox-api';
 
 /**
  * Basic implementation of a layer between a component and an API service.
@@ -19,7 +19,7 @@ export class PoolAllocationRequestsConcreteService extends PoolAllocationRequest
 
   private manuallyUpdatedRequests$: BehaviorSubject<KypoPaginatedResource<Request>> = new BehaviorSubject(this.initSubject());
 
-  constructor(private api: SandboxInstanceApi,
+  constructor(private api: PoolRequestApi,
               private alertService: AlertService,
               private errorHandler: ErrorHandlerService) {
     super();

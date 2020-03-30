@@ -2,7 +2,7 @@ import {Observable} from 'rxjs';
 import {KypoRequestedPagination} from 'kypo-common';
 import {KypoPaginatedResource} from 'kypo-common';
 import {KypoPaginatedResourceService} from 'kypo-common';
-import {SandboxDefinition} from '../../model/sandbox/definition/sandbox-definition';
+import {SandboxDefinition} from 'kypo-sandbox-model';
 
 /**
  * A layer between a component and an API service. Implement a concrete service by extending this class.

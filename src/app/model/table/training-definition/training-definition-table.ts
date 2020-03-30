@@ -5,9 +5,9 @@ import {KypoPaginatedResource} from 'kypo-common';
 import {TrainingDefinitionDetailComponent} from '../../../components/training-definition/training-definition-overview/training-definition-detail/training-definition-detail.component';
 import {TrainingDefinition} from '../../training/training-definition';
 import {TrainingDefinitionService} from '../../../services/training-definition/overview/training-definition.service';
-import {DeleteAction} from '../actions/delete-action';
-import {EditAction} from '../actions/edit-action';
-import {DownloadAction} from '../actions/download-action';
+import {DeleteAction} from 'kypo2-table';
+import {EditAction} from 'kypo2-table';
+import {DownloadAction} from 'kypo2-table';
 
 /**
  * Helper class transforming paginated resource to class for common table component

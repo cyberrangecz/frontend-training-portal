@@ -9,11 +9,11 @@ import {map, switchMap, tap} from 'rxjs/operators';
 import {AlertTypeEnum} from '../../model/enums/alert-type.enum';
 import {Injectable} from '@angular/core';
 import {TrainingInstanceApi} from '../api/training-instance-api.service';
-import {SandboxInstanceApi} from '../api/sandbox-instance-api.service';
 import {KypoRequestedPagination} from 'kypo-common';
 import {RouteFactory} from '../../model/routes/route-factory';
 import {Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
+import {PoolApi} from 'kypo-sandbox-api';
 
 @Injectable()
 export class TrainingInstanceOverviewConcreteService extends TrainingInstanceOverviewService {
@@ -22,7 +22,7 @@ export class TrainingInstanceOverviewConcreteService extends TrainingInstanceOve
   private lastFilter: string;
 
   constructor(private trainingInstanceApi: TrainingInstanceApi,
-              private sandboxInstanceApi: SandboxInstanceApi,
+              private poolApi: PoolApi,
               private router: Router,
               private alertService: AlertService,
               private errorHandler: ErrorHandlerService) {
@@ -69,7 +69,7 @@ export class TrainingInstanceOverviewConcreteService extends TrainingInstanceOve
   }
 
   getPoolState(poolId: number): Observable<string> {
-    return this.sandboxInstanceApi.getPool(poolId)
+    return this.poolApi.getPool(poolId)
       .pipe(
         map(pool => `${pool.maxSize} (${pool.maxSize - pool.usedSize} free)`)
       );

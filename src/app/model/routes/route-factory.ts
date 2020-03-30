@@ -14,7 +14,6 @@ import {
   SANDBOX_INSTANCE_PATH,
   SANDBOX_INSTANCE_TOPOLOGY_PATH, SANDBOX_ALLOCATION_UNIT_PATH
 } from '../../components/sandbox-instance/sandbox-pool-detail/paths';
-import {SANDBOX_INSTANCE_RESOURCE_PATH} from '../../components/sandbox-instance/sandbox-instance-resource-detail/paths';
 import {
   SANDBOX_DEFINITION_PATH,
   SANDBOX_POOL_PATH,
@@ -190,31 +189,12 @@ export class RouteFactory {
   }
 
   /**
-   * Returns route to sandbox instance detail page
-   * @param poolId id of the pool associated with the sandbox instance
-   * @param sandboxId id of the sandbox
-   */
-  static toSandboxInstance(poolId: number | string, sandboxId: number | string): string {
-    return `${SANDBOX_POOL_PATH}/${poolId}/${SANDBOX_INSTANCE_PATH}/${sandboxId}`;
-  }
-
-  /**
    * Returns route to sandbox instance topology page
    * @param poolId id of the pool associated with the sandbox instance
    * @param sandboxId id of the sandbox
    */
   static toSandboxInstanceTopology(poolId: number | string, sandboxId: number | string): string {
     return `${SANDBOX_POOL_PATH}/${poolId}/${SANDBOX_INSTANCE_PATH}/${sandboxId}/${SANDBOX_INSTANCE_TOPOLOGY_PATH}`;
-  }
-
-  /**
-   * Returns route to sandbox instance resource detail page
-   * @param poolId id of the pool associated with the sandbox instance
-   * @param sandboxId id of the sandbox
-   * @param resourceName identifier of the resource
-   */
-  static toSandboxInstanceResource(poolId: number | string, sandboxId: number | string, resourceName: number | string): string {
-    return `${SANDBOX_POOL_PATH}/${poolId}/${SANDBOX_INSTANCE_PATH}/${sandboxId}/${SANDBOX_INSTANCE_RESOURCE_PATH}/${resourceName}`;
   }
 
   /**

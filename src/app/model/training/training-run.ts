@@ -1,5 +1,4 @@
 import {User} from 'kypo2-auth';
-import {SandboxInstanceState} from '../enums/sandbox-instance-state';
 import {TrainingRunStateEnum} from '../enums/training-run-state.enum';
 import {Level} from '../level/level';
 
@@ -18,7 +17,6 @@ export class TrainingRun {
   currentLevel: Level | number;
   eventLogReference: string;
   state: TrainingRunStateEnum;
-  sandboxInstanceState: SandboxInstanceState;
 
   isRunning(): boolean {
     return this.state === TrainingRunStateEnum.RUNNING;

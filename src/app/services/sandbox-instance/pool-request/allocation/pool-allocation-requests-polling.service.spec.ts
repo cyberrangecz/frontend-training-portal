@@ -1,7 +1,6 @@
 import {async, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {PoolAllocationRequestsConcreteService} from './pool-allocation-requests-concrete.service';
 import {ErrorHandlerService} from '../../../shared/error-handler.service';
-import {SandboxInstanceApi} from '../../../api/sandbox-instance-api.service';
 import {KypoRequestedPagination} from 'kypo-common';
 import {asyncData} from 'kypo-common';
 import {KypoPaginatedResource} from 'kypo-common';
@@ -9,24 +8,25 @@ import {KypoPagination} from 'kypo-common';
 import {skip} from 'rxjs/operators';
 import {environment} from '../../../../../environments/environment';
 import {throwError} from 'rxjs';
-import {AllocationRequest} from '../../../../model/sandbox/pool/request/allocation-request';
+import {AllocationRequest} from 'kypo-sandbox-model';
 import {AlertService} from '../../../shared/alert.service';
+import {PoolRequestApi} from 'kypo-sandbox-api';
 
 describe('PoolAllocationRequestsPollingService', () => {
   let errorHandlerSpy: jasmine.SpyObj<ErrorHandlerService>;
   let alertSpy: jasmine.SpyObj<AlertService>;
-  let apiSpy: jasmine.SpyObj<SandboxInstanceApi>;
+  let apiSpy: jasmine.SpyObj<PoolRequestApi>;
   let service: PoolAllocationRequestsConcreteService;
 
   beforeEach(async(() => {
     errorHandlerSpy = jasmine.createSpyObj('ErrorHandlerService', ['emit']);
     alertSpy = jasmine.createSpyObj('AlertService', ['emitAlert']);
-    apiSpy = jasmine.createSpyObj('SandboxInstanceApi', ['getAllocationRequests', 'cancelAllocationRequest']);
+    apiSpy = jasmine.createSpyObj('PoolRequestApi', ['getAllocationRequests', 'cancelAllocationRequest']);
 
     TestBed.configureTestingModule({
     providers: [
       PoolAllocationRequestsConcreteService,
-      {provide: SandboxInstanceApi, useValue: apiSpy},
+      {provide: PoolRequestApi, useValue: apiSpy},
       {provide: AlertService, useValue: alertSpy},
       {provide: ErrorHandlerService, useValue: errorHandlerSpy}
     ]

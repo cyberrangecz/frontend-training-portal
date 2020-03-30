@@ -1,12 +1,11 @@
 import {RequestStagesPollingService} from './request-stages-polling.service';
-import {SandboxInstanceApi} from '../../../api/sandbox-instance-api.service';
 import {ErrorHandlerService} from '../../../shared/error-handler.service';
 import {environment} from '../../../../../environments/environment';
-import {Request} from '../../../../model/sandbox/pool/request/request';
+import {Request} from 'kypo-sandbox-model';
 import {Observable} from 'rxjs';
 import {KypoPaginatedResource, KypoRequestedPagination} from 'kypo-common';
-import {RequestStage} from '../../../../model/sandbox/pool/request/stage/request-stage';
-import {take, takeWhile, tap} from 'rxjs/operators';
+import {RequestStage} from 'kypo-sandbox-model';
+import {take, tap} from 'rxjs/operators';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -14,11 +13,12 @@ import {AlertService} from '../../../shared/alert.service';
 import {AlertTypeEnum} from '../../../../model/enums/alert-type.enum';
 import {RouteFactory} from '../../../../model/routes/route-factory';
 import {SANDBOX_POOL_ID_SELECTOR} from '../../../../components/sandbox-instance/sandbox-pool-overview/paths';
+import {StagesApi} from 'kypo-sandbox-api';
 
 @Injectable()
 export class RequestCleanupStagesPollingService extends RequestStagesPollingService {
 
-  constructor(private api: SandboxInstanceApi,
+  constructor(private api: StagesApi,
               private router: Router,
               private route: ActivatedRoute,
               private alertService: AlertService,

@@ -1,7 +1,7 @@
 import {KypoPaginatedResource} from 'kypo-common';
 import {Column, Kypo2Table, Row} from 'kypo2-table';
 import {RouteFactory} from '../../../routes/route-factory';
-import {CleanupRequest} from '../../../sandbox/pool/request/cleanup-request';
+import {CleanupRequest} from 'kypo-sandbox-model';
 
 export class CleanupRequestTable extends Kypo2Table<CleanupRequest> {
   constructor(resource: KypoPaginatedResource<CleanupRequest>, poolId: number) {

@@ -1,7 +1,7 @@
 import {async, TestBed} from '@angular/core/testing';
 import {ErrorHandlerService} from '../shared/error-handler.service';
 import {SandboxDefinitionOverviewConcreteService} from './sandbox-definition-overview-concrete.service';
-import {SandboxDefinitionApi} from '../api/sandbox-definition-api.service';
+import {SandboxDefinitionApi} from 'kypo-sandbox-api';
 import {throwError} from 'rxjs';
 import {KypoRequestedPagination} from 'kypo-common';
 import {AlertService} from '../shared/alert.service';
@@ -9,7 +9,7 @@ import {skip} from 'rxjs/operators';
 import {asyncData} from 'kypo-common';
 import {KypoPaginatedResource} from 'kypo-common';
 import {KypoPagination} from 'kypo-common';
-import {SandboxDefinition} from '../../model/sandbox/definition/sandbox-definition';
+import {SandboxDefinition} from 'kypo-sandbox-model';
 import {MatDialog} from '@angular/material/dialog';
 import {RouterTestingModule} from '@angular/router/testing';
 
@@ -26,7 +26,7 @@ describe('SandboxDefinitionOverviewConcreteService', () => {
     errorHandlerSpy = jasmine.createSpyObj('ErrorHandlerService', ['emit']);
     alertHandlerSpy = jasmine.createSpyObj('AlertService', ['emitAlert']);
     dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
-    apiSpy = jasmine.createSpyObj('SandboxDefinitionApi', ['getAllPaginated', 'delete', 'add']);
+    apiSpy = jasmine.createSpyObj('SandboxDefinitionApi', ['getAll', 'delete', 'add']);
 
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
@@ -47,20 +47,20 @@ describe('SandboxDefinitionOverviewConcreteService', () => {
 
   it('should call error handler on err', done => {
     const pagination = createPagination();
-    apiSpy.getAllPaginated.and.returnValue(throwError(null));
+    apiSpy.getAll.and.returnValue(throwError(null));
 
     service.getAll(pagination).subscribe( _ => fail,
       _ => {
         expect(errorHandlerSpy.emit).toHaveBeenCalledTimes(1);
         done();
       });
-    expect(apiSpy.getAllPaginated).toHaveBeenCalledTimes(1);
+    expect(apiSpy.getAll).toHaveBeenCalledTimes(1);
   });
 
   it('should emit next value on update (sandboxDefinitions)', done => {
     const pagination = createPagination();
     const mockData = createMockData();
-    apiSpy.getAllPaginated.and.returnValue(asyncData(mockData));
+    apiSpy.getAll.and.returnValue(asyncData(mockData));
 
     service.resource$.pipe(skip(1))
       .subscribe(emitted => {

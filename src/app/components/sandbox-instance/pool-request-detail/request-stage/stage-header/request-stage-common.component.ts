@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {RequestStage} from '../../../../../model/sandbox/pool/request/stage/request-stage';
-import {RequestStageState} from '../../../../../model/enums/request-stage-state.enum';
+import {RequestStage} from 'kypo-sandbox-model';
+import {RequestStageState} from 'kypo-sandbox-model';
 
 @Component({
   selector: 'kypo2-request-stage-common',

@@ -1,9 +1,9 @@
-import {SandboxInstance} from '../../sandbox/pool/sandbox-instance/sandbox-instance';
+import {SandboxInstance} from 'kypo-sandbox-model';
 import {Column, Kypo2Table, Row, RowAction} from 'kypo2-table';
 import {defer, of} from 'rxjs';
 import {KypoPaginatedResource} from 'kypo-common';
 import {SandboxInstanceService} from '../../../services/sandbox-instance/sandbox/sandbox-instance.service';
-import {DeleteAction} from '../actions/delete-action';
+import {DeleteAction} from 'kypo2-table';
 
 /**
  * Helper class transforming paginated resource to class for common table component

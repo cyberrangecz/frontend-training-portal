@@ -3,7 +3,7 @@ import {defer, of} from 'rxjs';
 import {KypoPaginatedResource} from 'kypo-common';
 import {TrainingRunRowAdapter} from '../rows/training-run-row-adapter';
 import {ActiveTrainingRunService} from '../../../services/training-run/active/active-training-run.service';
-import {DeleteAction} from '../actions/delete-action';
+import {DeleteAction} from 'kypo2-table';
 import {TrainingRun} from '../../training/training-run';
 
 /**
@@ -15,7 +15,6 @@ export class ActiveTrainingRunTable extends Kypo2Table<TrainingRunRowAdapter> {
   constructor(resource: KypoPaginatedResource<TrainingRun>, service: ActiveTrainingRunService) {
     const columns =    [
       new Column('sandboxId', 'sandbox ID', false),
-      new Column('sandboxState', 'sandbox state', false),
       new Column('player', 'player', false),
       new Column('state', 'training run state', false),
     ];
