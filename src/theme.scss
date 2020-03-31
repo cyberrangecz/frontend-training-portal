@@ -9,9 +9,3 @@
 @include angular-material-typography($csirt-mu-typography);
 @include kypo2-table-theme($csirt-mu-theme);
 @include kypo2-resource-selector-theme($csirt-mu-theme);
-
-$kypo2-white-theme: mat-light-theme($kypo2-white-primary-palette, $kypo2-white-primary-palette, $kypo2-white-primary-palette);
-
-.white-navigation-theme {
-  @include angular-material-theme($kypo2-white-theme);
-}

@@ -6,11 +6,3 @@ $accent: mat-color($csirt-mu-accent-palette);
 $warn: mat-color($csirt-mu-warn-palette);
 $success: #6DF000;
 $non-accent: #808080;
-
-$kypo2-white-primary-palette: mat-palette($mat-gray, A100);
-$primary-inverted: mat-color($kypo2-white-primary-palette);
-$accent-inverted: mat-color($kypo2-white-primary-palette);
-$warn-inverted: mat-color($kypo2-white-primary-palette);
-
-$darker-white-primary-palette: mat-palette($mat-gray, 200);
-$breadcrumbs-primary: mat-color($darker-white-primary-palette);
