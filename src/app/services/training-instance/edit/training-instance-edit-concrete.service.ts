@@ -106,7 +106,7 @@ export class TrainingInstanceEditConcreteService extends TrainingInstanceEditSer
         map(_ => this.editedSnapshot.id),
         tap(
           _ => {
-            this.alertService.emitAlert(AlertTypeEnum.Success, 'Training instance was successfully saved');
+            this.alertService.emit('success', 'Training instance was successfully saved');
             this.onSaved();
           },
           err => this.errorHandler.emit(err, 'Creating new training instance')
@@ -119,7 +119,7 @@ export class TrainingInstanceEditConcreteService extends TrainingInstanceEditSer
       .pipe(
         map(ti => ti.id),
         tap(_ => {
-          this.alertService.emitAlert(AlertTypeEnum.Success, 'Training instance was created');
+          this.alertService.emit('success', 'Training instance was created');
           this.onSaved();
         },
           err => this.errorHandler.emit(err, 'Creating training instance')

@@ -11,8 +11,9 @@ import {TrainingInstanceOverviewConcreteService} from '../../../services/trainin
 import {Kypo2TableModule} from 'kypo2-table';
 import {TrainingInstanceApi} from '../../../services/api/training-instance-api.service';
 import {KypoControlsModule} from 'kypo-controls';
-import {KypoSandboxApiModule, KypoSandboxConfig} from 'kypo-sandbox-api';
+import {KypoSandboxApiModule} from 'kypo-sandbox-api';
 import {environment} from '../../../../environments/environment';
+import {SandboxDefaultNavigator, SandboxNavigator} from 'kypo-sandbox-agenda';
 
 /**
  * Main module of training instance agenda. Contains components and providers for displaying table of training instance
@@ -27,7 +28,7 @@ import {environment} from '../../../../environments/environment';
       Kypo2TableModule,
       TrainingInstanceOverviewRoutingModule,
       KypoControlsModule,
-      KypoSandboxApiModule.forRoot(new KypoSandboxConfig(environment.sandboxRestBasePath))
+      KypoSandboxApiModule.forRoot(environment.sandboxApiConfig)
     ],
   declarations: [
     TrainingInstanceOverviewComponent,
@@ -36,6 +37,7 @@ import {environment} from '../../../../environments/environment';
     TrainingInstanceApi,
     TrainingInstanceResolver,
     TrainingInstanceBreadcrumbResolver,
+    { provide: SandboxNavigator, useClass: SandboxDefaultNavigator},
     { provide: TrainingInstanceOverviewService, useClass: TrainingInstanceOverviewConcreteService }
   ]
 })

@@ -9,9 +9,9 @@ import {ListResourceMapping} from '../../../../model/utils/list-resource-mapping
 import {PoolAssignControls} from './pool-assign-controls';
 import {PoolAssignConcreteService} from '../../../../services/training-instance/pool-assign/pool-assign-concrete.service';
 import {KypoBaseComponent, KypoPaginatedResource, KypoRequestedPagination} from 'kypo-common';
-import {RouteFactory} from '../../../../model/routes/route-factory';
 import {environment} from '../../../../../environments/environment';
 import {SandboxPoolListAdapter} from '../../../../model/list/sandbox-pool-list-adapter';
+import {SandboxNavigator} from 'kypo-sandbox-agenda';
 
 @Component({
   selector: 'kypo2-pool-assign',
@@ -39,7 +39,8 @@ export class PoolAssignComponent extends KypoBaseComponent implements OnInit, On
   poolDetailRoute: string;
   hasPool$: Observable<boolean>;
 
-  constructor(private assignService: PoolAssignService) {
+  constructor(private assignService: PoolAssignService,
+              private sandboxNavigator: SandboxNavigator) {
     super();
   }
 
@@ -58,7 +59,7 @@ export class PoolAssignComponent extends KypoBaseComponent implements OnInit, On
     if ('trainingInstance' in changes) {
       this.assignService.init(this.trainingInstance);
       this.initControls();
-      this.poolDetailRoute = `/${RouteFactory.toPool(this.trainingInstance.poolId)}`;
+      this.poolDetailRoute = `/${this.sandboxNavigator.toPool(this.trainingInstance.poolId)}`;
     }
   }
 

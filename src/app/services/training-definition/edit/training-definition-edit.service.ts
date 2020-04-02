@@ -99,7 +99,7 @@ export class TrainingDefinitionEditService {
     return this.trainingDefinitionFacade.update(this.editedSnapshot)
       .pipe(
         tap(id => {
-          this.alertService.emitAlert(AlertTypeEnum.Success, 'Changes were saved');
+          this.alertService.emit('success', 'Changes were saved');
           this.onSaved();
           },
             err => this.errorHandler.emit(err, 'Editing training definition')
@@ -112,7 +112,7 @@ export class TrainingDefinitionEditService {
       .pipe(
         tap(
           _ => {
-            this.alertService.emitAlert(AlertTypeEnum.Success, 'Training was created');
+            this.alertService.emit('success', 'Training was created');
             this.onSaved();
             },
             err => this.errorHandler.emit(err, 'Creating new training definition')

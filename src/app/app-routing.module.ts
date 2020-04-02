@@ -32,50 +32,73 @@ const routes: Routes = [
     path: TRAINING_DEFINITION_PATH,
     loadChildren: () => import('app/components/training-definition/training-definition-overview/training-definition-overview.module').then(m => m.TrainingDefinitionOverviewModule),
     canActivate: [DesignerGuard],
-    data: {breadcrumb: 'Training Definitions'}
+    data: {
+      breadcrumb: 'Training Definitions',
+      title: 'Training Definition Overview'
+    }
   },
   {
     path: SANDBOX_DEFINITION_PATH,
-    loadChildren: () => import('app/components/sandbox-definition/overview/sandbox-definition-overview.module').then(m => m.SandboxDefinitionOverviewModule),
+    loadChildren: () => import('./components/sandbox-agenda/sandbox-definition/sandbox-definition-overview.module').then(m => m.SandboxDefinitionOverviewModule),
     canActivate: [SandboxDesignerGuard],
-    data: { breadcrumb: 'Sandbox Definitions' }
+    data: {
+      breadcrumb: 'Sandbox Definitions',
+      title: 'Sandbox Definition Overview'
+    }
   },
   {
     path: TRAINING_INSTANCE_PATH,
     loadChildren: () => import('app/components/training-instance/training-instance-overview/training-instance-overview.module').then(m => m.TrainingInstanceOverviewModule),
     canActivate: [OrganizerGuard],
-    data: { breadcrumb: 'Training Instances' }
-
+    data: {
+      breadcrumb: 'Training Instances',
+      title: 'Training Instance Overview'
+    }
   },
   {
     path: SANDBOX_POOL_PATH,
-    loadChildren: () => import('app/components/sandbox-instance/sandbox-pool-overview/sandbox-pool-overview.module').then(m => m.SandboxPoolOverviewModuleModule),
+    loadChildren: () => import('./components/sandbox-agenda/pool/sandbox-pool-overview.module').then(m => m.SandboxPoolOverviewModule),
     canActivate: [SandboxOrganizerGuard],
-    data: { breadcrumb: 'Pools' }
+    data: {
+      breadcrumb: 'Pools',
+      title: 'Pool Overview'
+    }
   },
   {
     path: TRAINING_RUN_PATH,
     loadChildren: () => import('app/components/training-run/training-run-overview/training-run-overview.module').then(m => m.TrainingRunOverviewModule),
     canActivate: [TraineeGuard],
-    data: { breadcrumb: 'Training Runs' }
+    data: {
+      breadcrumb: 'Training Runs',
+      title: 'Training Run Overview'
+    }
   },
   {
     path: ADMIN_USER_PATH,
     loadChildren: () => import('app/components/administration/admin-user/admin-user.module').then(m => m.AdminUserModule),
     canActivate: [AdminGuard],
-    data: { breadcrumb: 'Users' }
+    data: {
+      breadcrumb: 'Users',
+      title: 'User Overview'
+    }
   },
   {
     path: ADMIN_GROUP_PATH,
     loadChildren: () => import('app/components/administration/admin-group/admin-group.module').then(m => m.AdminGroupModule),
     canActivate: [AdminGuard],
-    data: { breadcrumb: 'Groups' }
+    data: {
+      breadcrumb: 'Groups',
+      title: 'Group Overview'
+    }
   },
   {
     path: ADMIN_MICROSERVICE_PATH,
     loadChildren: () => import('app/components/administration/admin-microservice/admin-microservice.module').then(m => m.AdminMicroserviceModule),
     canActivate: [AdminGuard],
-    data: { breadcrumb: 'Microservice'}
+    data: {
+      breadcrumb: 'Microservice',
+      title: 'Microservice Registration'
+    }
   },
   {
     path: LOGIN_PATH,

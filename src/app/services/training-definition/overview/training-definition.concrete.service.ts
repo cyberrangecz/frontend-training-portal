@@ -136,7 +136,7 @@ export class TrainingDefinitionConcreteService extends TrainingDefinitionService
         switchMap(file => this.api.upload(file)),
         tap(
           _ =>  {
-            this.alertService.emitAlert(AlertTypeEnum.Success, 'Training definition was uploaded');
+            this.alertService.emit('success', 'Training definition was uploaded');
             this.fileUploadProgressService.finish();
             dialogRef.close();
           },
@@ -180,7 +180,7 @@ export class TrainingDefinitionConcreteService extends TrainingDefinitionService
   private callApiToDelete(trainingDefinition: TrainingDefinition): Observable<KypoPaginatedResource<TrainingDefinition>> {
     return this.api.delete(trainingDefinition.id)
       .pipe(
-        tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Training definition was deleted'),
+        tap(_ => this.alertService.emit('success', 'Training definition was deleted'),
           err => this.errorHandler.emit(err, 'Deleting training definition')),
         switchMap(_ => this.getAll(this.lastPagination, this.lastFilters))
       );
@@ -199,7 +199,7 @@ export class TrainingDefinitionConcreteService extends TrainingDefinitionService
   private callApiToClone(trainingDefinition: TrainingDefinition, title: string): Observable<KypoPaginatedResource<TrainingDefinition>> {
     return this.api.clone(trainingDefinition.id, title)
       .pipe(
-        tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Training definition was cloned'),
+        tap(_ => this.alertService.emit('success', 'Training definition was cloned'),
           err => this.errorHandler.emit(err, 'Cloning training definition')),
         switchMap(_ => this.getAll(this.lastPagination, this.lastFilters))
       );
@@ -233,6 +233,6 @@ export class TrainingDefinitionConcreteService extends TrainingDefinitionService
       lastResources.elements[changedIndex] = changedTd;
       this.resourceSubject$.next(lastResources);
     }
-    this.alertService.emitAlert(AlertTypeEnum.Success, `Training definition state was changed to ${newState}`);
+    this.alertService.emit('success', `Training definition state was changed to ${newState}`);
   }
 }

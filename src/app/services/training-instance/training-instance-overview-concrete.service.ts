@@ -62,7 +62,7 @@ export class TrainingInstanceOverviewConcreteService extends TrainingInstanceOve
   delete(id: number): Observable<any> {
     return this.trainingInstanceApi.delete(id)
       .pipe(
-        tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Training instance was successfully deleted'),
+        tap(_ => this.alertService.emit('success', 'Training instance was successfully deleted'),
           err => this.errorHandler.emit(err, 'Deleting training instance')),
         switchMap(_ => this.getAll(this.lastPagination, this.lastFilter))
       );

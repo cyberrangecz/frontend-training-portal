@@ -159,7 +159,7 @@ export class LevelEditService {
       .pipe(
         tap(_ => {
           this.onLevelSaved(level);
-            this.alertService.emitAlert(AlertTypeEnum.Success, `Level ${level.title} saved`);
+            this.alertService.emit('success', `Level ${level.title} saved`);
         },
           err => {
             this.setLevelCanBeSaved(level);

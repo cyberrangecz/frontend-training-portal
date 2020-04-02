@@ -9,14 +9,6 @@ import {
   TRAINING_INSTANCE_NEW_PATH
 } from '../../components/training-instance/training-instance-overview/paths';
 import {
-  POOL_CLEANUP_REQUEST_PATH,
-  POOL_ALLOCATION_REQUEST_PATH,
-  SANDBOX_INSTANCE_PATH,
-  SANDBOX_INSTANCE_TOPOLOGY_PATH, SANDBOX_ALLOCATION_UNIT_PATH
-} from '../../components/sandbox-instance/sandbox-pool-detail/paths';
-import {
-  SANDBOX_DEFINITION_PATH,
-  SANDBOX_POOL_PATH,
   TRAINING_DEFINITION_PATH,
   TRAINING_INSTANCE_PATH,
   TRAINING_RUN_PATH
@@ -26,14 +18,12 @@ import {
   TRAINING_RUN_RESULTS_PATH, TRAINING_RUN_RESUME_PATH
 } from '../../components/training-run/training-run-overview/paths';
 import {Kypo2UserAndGroupRouteEvent} from 'kypo2-user-and-group-management';
-import {SANDBOX_DEFINITION_NEW_PATH} from '../../components/sandbox-definition/overview/paths';
 import {
   ACCESS_TOKEN_PATH,
   PROGRESS_PATH,
   RESULTS_PATH,
   SUMMARY_PATH
 } from '../../components/training-instance/training-instance-detail/paths';
-import {SANDBOX_POOL_NEW_PATH} from '../../components/sandbox-instance/sandbox-pool-overview/paths';
 
 /**
  * Class containing all possible routes in the system. Use absolute routing
@@ -153,68 +143,6 @@ export class RouteFactory {
    */
   static toTrainingRunResult(id: number | string): string {
     return `${TRAINING_RUN_PATH}/${TRAINING_RUN_RESULTS_PATH}/${id}`;
-  }
-
-  /**
-   * Returns route to sandbox definition page
-   */
-  static toSandboxDefinitionOverview() {
-    return SANDBOX_DEFINITION_PATH;
-  }
-
-  /**
-   * Returns route to new sandbox definition page
-   */
-  static toNewSandboxDefinition() {
-    return `${SANDBOX_DEFINITION_PATH}/${SANDBOX_DEFINITION_NEW_PATH}`;
-  }
-
-  /**
-   * Returns route to pool detail page
-   * @param id id of the pool
-   */
-  static toPool(id: number | string): string {
-    return `${SANDBOX_POOL_PATH}/${id}`;
-  }
-
-  /**
-   * Returns route to pool overview page
-   */
-  static toPoolOverview(): string {
-    return SANDBOX_POOL_PATH;
-  }
-
-  static toCreatePool() {
-    return `${SANDBOX_POOL_PATH}/${SANDBOX_POOL_NEW_PATH}`;
-  }
-
-  /**
-   * Returns route to sandbox instance topology page
-   * @param poolId id of the pool associated with the sandbox instance
-   * @param sandboxId id of the sandbox
-   */
-  static toSandboxInstanceTopology(poolId: number | string, sandboxId: number | string): string {
-    return `${SANDBOX_POOL_PATH}/${poolId}/${SANDBOX_INSTANCE_PATH}/${sandboxId}/${SANDBOX_INSTANCE_TOPOLOGY_PATH}`;
-  }
-
-  /**
-   * Returns route to creation request detail page
-   * @param poolId id of the pool associated with the request
-   * @param sandboxAllocationUnitId id of the sandbox allocation unit associated with the request
-   * @param requestId id of the request
-   */
-  static toAllocationRequest(poolId: number | string, sandboxAllocationUnitId: number | string,  requestId: number | string): string {
-    return `${SANDBOX_POOL_PATH}/${poolId}/${SANDBOX_ALLOCATION_UNIT_PATH}/${sandboxAllocationUnitId}/${POOL_ALLOCATION_REQUEST_PATH}/${requestId}`;
-  }
-
-  /**
-   * Returns route to cleanup request detail page
-   * @param poolId id of the pool associated with the request
-   * @param sandboxAllocationUnitId id of the sandbox allocation unit associated with the request
-   * @param requestId id of the request
-   */
-  static toCleanupRequest(poolId: number | string, sandboxAllocationUnitId: number | string, requestId: number | string): string {
-    return `${SANDBOX_POOL_PATH}/${poolId}/${SANDBOX_ALLOCATION_UNIT_PATH}/${sandboxAllocationUnitId}/${POOL_CLEANUP_REQUEST_PATH}/${requestId}`;
   }
 
   /**

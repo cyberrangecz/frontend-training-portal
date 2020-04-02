@@ -7,8 +7,16 @@ export const trainingsURL = baseURL + ':8083/kypo2-rest-training/api/v1/';
 // sandboxes service url
 export const sandboxesURL = baseURL + ':8080/kypo-sandbox-service/api/v1/';
 
-// user and gorup service url
+// user and group service url
 export const userAngGroupURL = baseURL + ':8084/kypo2-rest-user-and-group/api/v1/';
+
+export const kypo2TopologyConfig =  {
+    topologyRestUrl: sandboxesURL,
+    decoratorsRestUrl: '', // OBSOLETE
+    defaultDecoratorRefreshPeriodInSeconds: 3, // OBSOLETE
+    useRealTime: false, // OBSOLETE
+    useDecorators: false, // OBSOLETE
+};
 
 export const environment = {
   production: false,
@@ -17,13 +25,14 @@ export const environment = {
   defaultAlertDuration: 5000, // 0 to display until user dismisses it
   defaultPaginationSize: 10,
   organizerSummaryPollingPeriod: 5000, // api polling period in training instance detail page
-  apiPollingPeriod: 5000, // api polling during sandbox allocation
-  kypo2TopologyConfig: {
-    topologyRestUrl: sandboxesURL,
-    decoratorsRestUrl: '', // OBSOLETE
-    defaultDecoratorRefreshPeriodInSeconds: 3, // OBSOLETE
-    useRealTime: false, // OBSOLETE
-    useDecorators: false, // OBSOLETE
+
+  sandboxAgendaConfig: {
+    pollingPeriod: 5000,
+    defaultPaginationSize: 10,
+    kypo2TopologyConfig: kypo2TopologyConfig
+  },
+  sandboxApiConfig: {
+    sandboxRestBasePath: sandboxesURL
   },
   kypo2UserAndGroupConfig: {
     userAndGroupRestBasePath: userAngGroupURL,
