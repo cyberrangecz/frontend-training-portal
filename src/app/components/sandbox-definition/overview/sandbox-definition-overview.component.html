@@ -1,8 +1,0 @@
-<h1>Sandbox Definition Overview</h1>
-<kypo-controls [controls]="controls" (itemClicked)="onControlsActions($event)"></kypo-controls>
-<kypo2-table
-  [data] ="sandboxDefinitions$ | async"
-  [hasError]="hasError$ | async"
-  (refresh)="onLoadEvent($event)"
-  (rowAction)="onTableAction($event)">
-</kypo2-table>

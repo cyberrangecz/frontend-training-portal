@@ -38,7 +38,7 @@ const markdownParserConfig = {
 @NgModule({
   imports: [
     CommonModule,
-    Kypo2TopologyGraphModule.forRoot(environment.kypo2TopologyConfig),
+    Kypo2TopologyGraphModule.forRoot(environment.sandboxAgendaConfig.kypo2TopologyConfig),
     MarkdownModule.forRoot(markdownParserConfig),
     FormsModule,
     LevelMaterialModule,

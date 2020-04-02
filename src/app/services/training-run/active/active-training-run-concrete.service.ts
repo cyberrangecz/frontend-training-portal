@@ -103,7 +103,7 @@ export class ActiveTrainingRunConcreteService extends ActiveTrainingRunService {
     return this.sandboxApi.getSandbox(trainingRun.sandboxInstanceId)
       .pipe(
         switchMap(sandbox => this.requestApi.createCleanupRequest(sandbox.allocationUnitId)),
-        tap(_ => this.alertService.emitAlert(AlertTypeEnum.Success, 'Deleting of sandbox instance started'),
+        tap(_ => this.alertService.emit('success', 'Deleting of sandbox instance started'),
           err => this.errorHandler.emit(err, 'Deleting sandbox instance')
         ),
         switchMap(_ => this.getAll(trainingRun.trainingInstanceId, this.lastPagination))

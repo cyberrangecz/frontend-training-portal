@@ -14,25 +14,25 @@ export class AlertService {
 
   /**
    * Adds new alert to the queue and if its the only element in queue calls method to display it.
-   * @param {AlertTypeEnum} alertType type of alert
+   * @param type type of alert
    * @param {string} message alert to display to user
    * @param {number} duration how long should the alert be displayed.
    *  In millis, use 0 if it should be displayed until users clicks on button
    */
-  emitAlert(alertType: AlertTypeEnum, message: string, duration = environment.defaultAlertDuration) {
+  emit(type: 'success' | 'error' | 'warning' | 'info', message: string, duration = environment.defaultAlertDuration) {
     const notification: CsirtMuNotification = {
-      type: this.convertToNotificationType(alertType),
+      type: this.convertToCsirtNotificationType(type),
       duration: duration,
       title: message
     };
     this.notificationService.emit(notification);
   }
 
-  private convertToNotificationType(alertType: AlertTypeEnum): CsirtMuNotificationTypeEnum {
-    switch (alertType) {
-      case AlertTypeEnum.Warning: return CsirtMuNotificationTypeEnum.Warning;
-      case AlertTypeEnum.Error: return CsirtMuNotificationTypeEnum.Error;
-      case AlertTypeEnum.Success: return CsirtMuNotificationTypeEnum.Success;
+  private convertToCsirtNotificationType(type: 'success' | 'error' | 'warning' | 'info'): CsirtMuNotificationTypeEnum {
+    switch (type) {
+      case 'warning': return CsirtMuNotificationTypeEnum.Warning;
+      case 'error': return CsirtMuNotificationTypeEnum.Error;
+      case 'success': return CsirtMuNotificationTypeEnum.Success;
       default: return CsirtMuNotificationTypeEnum.Info;
     }
   }

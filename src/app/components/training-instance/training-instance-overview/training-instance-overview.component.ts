@@ -10,6 +10,7 @@ import {TrainingInstanceTable} from '../../../model/table/training-instance/trai
 import {map, take, takeWhile} from 'rxjs/operators';
 import {TrainingInstanceOverviewControls} from './training-instance-overview-controls';
 import {KypoControlItem} from 'kypo-controls';
+import {SandboxNavigator} from 'kypo-sandbox-agenda';
 
 /**
  * Main component of organizer overview.
@@ -30,7 +31,8 @@ export class TrainingInstanceOverviewComponent extends KypoBaseComponent impleme
 
   controls: KypoControlItem[];
 
-  constructor(private service: TrainingInstanceOverviewService) {
+  constructor(private service: TrainingInstanceOverviewService,
+              private navigator: SandboxNavigator) {
     super();
   }
 
@@ -66,7 +68,7 @@ export class TrainingInstanceOverviewComponent extends KypoBaseComponent impleme
     );
     this.instances$ = this.service.resource$
       .pipe(
-        map(paginatedInstances => new TrainingInstanceTable(paginatedInstances, this.service))
+        map(paginatedInstances => new TrainingInstanceTable(paginatedInstances, this.service, this.navigator))
       );
     this.hasError$ = this.service.hasError$;
     this.onInstancesLoadEvent(initLoadEvent);

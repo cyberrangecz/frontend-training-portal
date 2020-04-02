@@ -49,7 +49,7 @@ export class PoolAssignConcreteService extends PoolAssignService {
     return this.trainingInstanceApi.assignPool(trainingInstance.id, poolId)
       .pipe(
         tap(_ => {
-          this.alertService.emitAlert(AlertTypeEnum.Success, `Pool ${poolId} was assigned`);
+          this.alertService.emit('success', `Pool ${poolId} was assigned`);
           this.assignedPoolSubject$.next(poolId);
           },
             err => this.errorHandler.emit(err, `Assigning pool ${poolId}`))
@@ -60,7 +60,7 @@ export class PoolAssignConcreteService extends PoolAssignService {
     return this.trainingInstanceApi.unassignPool(trainingInstance.id)
       .pipe(
         tap(_ => {
-          this.alertService.emitAlert(AlertTypeEnum.Success, `Pool was unassigned`);
+          this.alertService.emit('success', `Pool was unassigned`);
             this.assignedPoolSubject$.next(undefined);
           },
           err => this.errorHandler.emit(err, `Unassigning pool`))

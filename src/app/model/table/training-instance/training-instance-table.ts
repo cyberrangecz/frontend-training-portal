@@ -8,10 +8,11 @@ import {TrainingInstanceOverviewService} from '../../../services/training-instan
 import {EditAction} from 'kypo2-table';
 import {DeleteAction} from 'kypo2-table';
 import {DownloadAction} from 'kypo2-table';
+import {SandboxNavigator} from 'kypo-sandbox-agenda';
 
 export class TrainingInstanceTable extends Kypo2Table<TrainingInstanceRowAdapter> {
 
-  constructor(resource: KypoPaginatedResource<TrainingInstance>, service: TrainingInstanceOverviewService) {
+  constructor(resource: KypoPaginatedResource<TrainingInstance>, service: TrainingInstanceOverviewService, sandboxNavigator: SandboxNavigator) {
     const columns = [
       new Column('id', 'Id', true),
       new Column('title', 'Title', true),
@@ -21,7 +22,7 @@ export class TrainingInstanceTable extends Kypo2Table<TrainingInstanceRowAdapter
       new Column('poolSize', 'Pool Size', false),
       new Column('accessToken', 'Access Token', false)
     ];
-    const rows = resource.elements.map(element => TrainingInstanceTable.createRow(element, service));
+    const rows = resource.elements.map(element => TrainingInstanceTable.createRow(element, service, sandboxNavigator));
     super(rows, columns);
     this.pagination = resource.pagination;
     this.filterLabel = 'Filter by title';
@@ -29,13 +30,13 @@ export class TrainingInstanceTable extends Kypo2Table<TrainingInstanceRowAdapter
     this.selectable = false;
   }
 
-  private static createRow(ti: TrainingInstance, service: TrainingInstanceOverviewService): Row<TrainingInstanceRowAdapter> {
+  private static createRow(ti: TrainingInstance, service: TrainingInstanceOverviewService, sandboxNavigator: SandboxNavigator): Row<TrainingInstanceRowAdapter> {
     const row = new Row(new TrainingInstanceRowAdapter(ti), this.createActions(ti, service));
     row.addLink('title', RouteFactory.toTrainingInstanceDetail(ti.id));
     row.addLink('accessToken', RouteFactory.toTrainingInstanceAccessToken(ti.id));
     if (ti.hasPool()) {
       row.element.poolSize = service.getPoolState(ti.poolId);
-      row.addLink('poolId', RouteFactory.toPool(ti.poolId));
+      row.addLink('poolId', sandboxNavigator.toPool(ti.poolId));
     } else {
       row.element.poolSize = of('-');
     }

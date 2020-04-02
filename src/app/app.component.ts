@@ -62,6 +62,6 @@ export class AppComponent extends KypoBaseComponent implements OnInit {
       .pipe(
         takeWhile(() => this.isAlive)
       )
-      .subscribe(error => this.alertService.emitAlert(AlertTypeEnum.Error, error.toString()));
+      .subscribe(error => this.alertService.emit('error', error.toString()));
   }
 }

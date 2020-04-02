@@ -5,6 +5,7 @@ export const homeURL = baseURL;
 export const trainingsURL = baseURL + ':8083/kypo2-rest-training/api/v1/';
 export const sandboxesURL = baseURL + ':8080/kypo-sandbox-service/api/v1/';
 export const userAngGroupURL = baseURL + ':8084/kypo2-rest-user-and-group/api/v1/';
+
 export const environment = {
   production: NG_ENV.production,
   trainingRestBasePath: NG_ENV.trainingRestBasePath,
@@ -13,13 +14,28 @@ export const environment = {
   defaultAlertDuration: Number(NG_ENV.defaultAlertDuration), // 0 to display until user dismisses it
   defaultPaginationSize: Number(NG_ENV.defaultPaginationSize),
   organizerSummaryPollingPeriod: Number(NG_ENV.organizerSummaryPollingPeriod),
-  apiPollingPeriod: Number(NG_ENV.apiPollingPeriod),
+
+  sandboxAgendaConfig: {
+    pollingPeriod: Number(NG_ENV.pollingPeriod),
+    defaultPaginationSize: Number(NG_ENV.defaultPaginationSize),
+    kypo2TopologyConfig: {
+      topologyRestUrl: NG_ENV.topologyRestUrl,
+      decoratorsRestUrl: NG_ENV.decoratorsRestUrl,
+      defaultDecoratorRefreshPeriodInSeconds: Number(NG_ENV.defaultDecoratorRefreshPeriodInSeconds),
+      useRealTime: Boolean(NG_ENV.useRealTime),
+      useDecorators: Boolean(NG_ENV.useDecorators),
+    },
+  },
+  sandboxApiConfig: {
+    sandboxRestBasePath: NG_ENV.sandboxRestBasePath
+  },
+
   kypo2TopologyConfig: {
-    topologyRestUrl: NG_ENV.topologyRestUrl,
+  topologyRestUrl: NG_ENV.topologyRestUrl,
     decoratorsRestUrl: NG_ENV.decoratorsRestUrl,
-    defaultDecoratorRefreshPeriodInSeconds: Number(NG_ENV.defaultDecoratorRefreshPeriodInSeconds),
-    useRealTime: Boolean(NG_ENV.useRealTime),
-    useDecorators: Boolean(NG_ENV.useDecorators),
+  defaultDecoratorRefreshPeriodInSeconds: Number(NG_ENV.defaultDecoratorRefreshPeriodInSeconds),
+  useRealTime: Boolean(NG_ENV.useRealTime),
+  useDecorators: Boolean(NG_ENV.useDecorators),
   },
   kypo2UserAndGroupConfig: {
     userAndGroupRestBasePath: NG_ENV.userAndGroupRestBasePath,

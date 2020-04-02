@@ -11,6 +11,14 @@ export const sandboxesURL = baseURL + ':3000/kypo2-django-openstack/api/v1/';
 export const userAngGroupURL =
   baseURL + ':3000/kypo2-rest-user-and-group/api/v1/';
 
+export const kypo2TopologyConfig =  {
+  topologyRestUrl: sandboxesURL,
+  decoratorsRestUrl: '', // OBSOLETE
+  defaultDecoratorRefreshPeriodInSeconds: 3, // OBSOLETE
+  useRealTime: false, // OBSOLETE
+  useDecorators: false, // OBSOLETE
+};
+
 export const environment = {
   production: false,
   trainingRestBasePath: trainingsURL,
@@ -18,17 +26,18 @@ export const environment = {
   defaultAlertDuration: 5000, // 0 to display until user dismisses it
   defaultPaginationSize: 10,
   organizerSummaryPollingPeriod: 5000, // api polling period in training instance detail page
-  apiPollingPeriod: 5000, // api polling during sandbox allocation
-  kypo2TopologyConfig: {
-    topologyRestUrl: sandboxesURL,
-    decoratorsRestUrl: '', // OBSOLETE
-    defaultDecoratorRefreshPeriodInSeconds: 3, // OBSOLETE
-    useRealTime: false, // OBSOLETE
-    useDecorators: false // OBSOLETE
+
+  sandboxAgendaConfig: {
+    pollingPeriod: 5000,
+    defaultPaginationSize: 10,
+    kypo2TopologyConfig: kypo2TopologyConfig
+  },
+  sandboxApiConfig: {
+    sandboxRestBasePath: sandboxesURL
   },
   kypo2UserAndGroupConfig: {
     userAndGroupRestBasePath: userAngGroupURL,
-    defaultPaginationSize: 10
+    defaultPaginationSize: 10,
   },
   kypo2AuthConfig: {
     maxRetryAttempts: 3, // How many attempts to try to get user info from user and group service before emitting error
