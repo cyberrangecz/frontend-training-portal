@@ -1,6 +1,7 @@
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AssessmentTypeEnum} from '../../../../../../model/enums/assessment-type.enum';
 import {AssessmentLevel} from '../../../../../../model/level/assessment-level';
+import { KypoValidators } from 'kypo-common';
 
 /**
  * Form control class for assessment level edit component
@@ -12,7 +13,7 @@ export class AssessmentLevelEditFormGroup {
     constructor(level: AssessmentLevel) {
         const maxLevelDuration = 60;
         this.formGroup = new FormGroup({
-          title: new FormControl(level.title, Validators.required),
+          title: new FormControl(level.title, KypoValidators.noWhitespace),
           instructions: new FormControl(level.instructions),
           isTest: new FormControl(level.assessmentType === AssessmentTypeEnum.Test),
           estimatedDuration: new FormControl(level.estimatedDuration, [

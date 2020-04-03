@@ -9,7 +9,7 @@
         aria-label="Clear" (click)="title.setValue('')">
         <mat-icon>close</mat-icon>
       </button>
-      <mat-error *ngIf="title.hasError('required')">Title cannot be empty</mat-error>
+      <mat-error *ngIf="title.hasError('whitespace')">Title cannot be empty</mat-error>
     </mat-form-field>
 
     <div class="inline-input">

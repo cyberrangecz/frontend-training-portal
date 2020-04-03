@@ -18,6 +18,7 @@ import {Question} from '../../../../../../../../model/questions/question';
 import {ExtendedMatchingItems} from '../../../../../../../../model/questions/extended-matching-items';
 import {KypoBaseComponent} from 'kypo-common';
 import {ExtendedMatchingItemsFormGroup} from './extended-matching-items-form-group';
+import { KypoValidators } from 'kypo-common';
 
 /**
  * Component for editing a question of type Extended Matching Items
@@ -162,7 +163,7 @@ export class ExtendedMatchingItemsEditComponent extends KypoBaseComponent
    * Adds new row to the EMI table
    */
   addRow() {
-    this.rows.push(new FormControl('', Validators.required));
+    this.rows.push(new FormControl('', KypoValidators.noWhitespace));
     this.questionChanged();
   }
 
@@ -180,7 +181,7 @@ export class ExtendedMatchingItemsEditComponent extends KypoBaseComponent
    * Adds new column to the EMI table
    */
   addColumn() {
-    this.cols.push(new FormControl('', Validators.required));
+    this.cols.push(new FormControl('', KypoValidators.noWhitespace));
     this.questionChanged();
   }
 

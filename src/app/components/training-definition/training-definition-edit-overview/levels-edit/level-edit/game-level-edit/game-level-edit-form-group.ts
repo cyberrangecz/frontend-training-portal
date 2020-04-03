@@ -1,6 +1,7 @@
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {GameLevel} from '../../../../../../model/level/game-level';
 import {INCORRECT_FLAG_LIMIT, MAX_ESTIMATED_DURATION, MAX_FLAG, MAX_SCORE} from './game-level-edit.contants';
+import { KypoValidators } from 'kypo-common';
 
 /**
  * Form control class for game level edit component
@@ -10,9 +11,9 @@ export class GameLevelEditFormGroup {
 
   constructor(level: GameLevel) {
     this.formGroup = new FormGroup({
-      title: new FormControl(level.title, Validators.required),
-      content: new FormControl(level.content, Validators.required),
-      solution: new FormControl(level.solution, Validators.required),
+      title: new FormControl(level.title,KypoValidators.noWhitespace),
+      content: new FormControl(level.content, KypoValidators.noWhitespace),
+      solution: new FormControl(level.solution, KypoValidators.noWhitespace),
       maxScore: new FormControl(level.maxScore, [
         Validators.required,
         Validators.pattern('^[0-9]*$'),
@@ -27,7 +28,7 @@ export class GameLevelEditFormGroup {
         Validators.max(INCORRECT_FLAG_LIMIT)
       ]),
       flag: new FormControl(level.flag, [
-        Validators.required,
+        KypoValidators.noWhitespace,
         Validators.maxLength(MAX_FLAG)
       ]),
       estimatedDuration: new FormControl(level.estimatedDuration, [

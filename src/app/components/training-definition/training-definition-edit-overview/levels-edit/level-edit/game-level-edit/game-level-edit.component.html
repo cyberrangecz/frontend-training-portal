@@ -24,7 +24,7 @@
           >
             <mat-icon>close</mat-icon>
           </button>
-          <mat-error *ngIf="title.hasError('required')"
+          <mat-error *ngIf="title.hasError('whitespace')"
             >Title cannot be empty</mat-error
           >
         </mat-form-field>
@@ -58,7 +58,7 @@
           (contentChange)="content.setValue($event)"
           [content]="content.value"
         ></kypo2-markdown-editor>
-        <mat-error *ngIf="content.hasError('required')"
+        <mat-error *ngIf="content.hasError('whitespace')"
           >Content cannot be empty</mat-error
         >
         <!--SOLUTION field -->
@@ -69,7 +69,7 @@
           (contentChange)="solution.setValue($event)"
           [content]="solution.value"
         ></kypo2-markdown-editor>
-        <mat-error *ngIf="solution.hasError('required')"
+        <mat-error *ngIf="solution.hasError('whitespace')"
           >Solution cannot be empty</mat-error
         >
       </div>

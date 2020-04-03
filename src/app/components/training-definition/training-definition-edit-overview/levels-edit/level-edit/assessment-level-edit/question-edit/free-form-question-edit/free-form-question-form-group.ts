@@ -1,6 +1,7 @@
 import {FormArray, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import {Question} from '../../../../../../../../model/questions/question';
 import {FreeFormQuestion} from '../../../../../../../../model/questions/free-form-question';
+import { KypoValidators } from 'kypo-common';
 
 /**
  * Form control for free form question component
@@ -11,7 +12,7 @@ export class FreeFormQuestionFormGroup {
   constructor(ffq: FreeFormQuestion) {
     this.formGroup = new FormGroup(
       {
-        title: new FormControl(ffq.title, Validators.required),
+        title: new FormControl(ffq.title, KypoValidators.noWhitespace),
         score: new FormControl(ffq.score, [
           Validators.required,
           Validators.pattern('^[0-9]*$'),
@@ -24,7 +25,7 @@ export class FreeFormQuestionFormGroup {
           Validators.min(0),
           Validators.max(Question.MAX_QUESTION_PENALTY)
         ]),
-        answers: new FormArray(ffq.correctAnswers.map(answer => new FormControl(answer, Validators.required)))
+        answers: new FormArray(ffq.correctAnswers.map(answer => new FormControl(answer, KypoValidators.noWhitespace)))
       },
       this.noSelectedAnswers);
   }

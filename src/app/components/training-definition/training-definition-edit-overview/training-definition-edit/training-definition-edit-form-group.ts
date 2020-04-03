@@ -1,5 +1,6 @@
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {TrainingDefinition} from '../../../../model/training/training-definition';
+import { KypoValidators } from 'kypo-common';
 
 /**
  * Form control class of training definition edit form
@@ -9,7 +10,7 @@ export class TrainingDefinitionEditFormGroup {
 
   constructor(trainingDefinition: TrainingDefinition) {
     this.formGroup = new FormGroup({
-      title: new FormControl(trainingDefinition.title, Validators.required),
+      title: new FormControl(trainingDefinition.title, KypoValidators.noWhitespace),
       description: new FormControl(trainingDefinition.description),
       prerequisites: new FormArray(trainingDefinition.prerequisites.map(prereq => new FormControl(prereq))),
       outcomes: new FormArray(trainingDefinition.outcomes.map(outcomes => new FormControl(outcomes))),

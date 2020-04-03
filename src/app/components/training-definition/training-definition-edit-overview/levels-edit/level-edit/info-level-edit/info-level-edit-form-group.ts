@@ -1,5 +1,6 @@
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {InfoLevel} from '../../../../../../model/level/info-level';
+import { KypoValidators } from 'kypo-common';
 
 /**
  * Form control class for info level edit component
@@ -10,8 +11,8 @@ export class InfoLevelEditFormGroup {
 
     constructor(level: InfoLevel) {
         this.formGroup = new FormGroup({
-            'title': new FormControl(level.title, Validators.required),
-            'content': new FormControl(level.content, Validators.required)
+            'title': new FormControl(level.title, KypoValidators.noWhitespace),
+            'content': new FormControl(level.content, KypoValidators.noWhitespace)
         });
     }
 

@@ -1,5 +1,6 @@
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Hint} from '../../../../../../../../model/level/hint';
+import { KypoValidators } from 'kypo-common';
 
 /**
  * Form control for hint edit component
@@ -9,8 +10,8 @@ export class HintEditFormGroup {
 
   constructor(hint: Hint) {
     this.formGroup = new FormGroup({
-      title: new FormControl(hint.title, Validators.required),
-      content: new FormControl(hint.content, Validators.required),
+      title: new FormControl(hint.title, KypoValidators.noWhitespace),
+      content: new FormControl(hint.content, KypoValidators.noWhitespace),
       hintPenalty: new FormControl(hint.penalty, [
         Validators.required,
         Validators.min(0)

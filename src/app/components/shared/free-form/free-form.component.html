@@ -25,7 +25,7 @@
             aria-label="Clear" (click)="item.setValue(''); onChanged(i)">
             <mat-icon>close</mat-icon>
           </button>
-          <mat-error *ngIf="item.hasError('required')">{{formName}} cannot be
+          <mat-error *ngIf="item.hasError('whitespace')">{{formName}} cannot be
             empty</mat-error>
         </mat-form-field>
 

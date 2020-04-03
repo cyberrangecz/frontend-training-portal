@@ -1,5 +1,6 @@
-import {FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
-import {TrainingInstance} from '../../../../model/training/training-instance';
+import { FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { TrainingInstance } from '../../../../model/training/training-instance';
+import { KypoValidators } from 'kypo-common';
 
 /**
  * Training instance edit form group control
@@ -9,13 +10,13 @@ export class TrainingInstanceFormGroup {
   formGroup: FormGroup;
 
   constructor(trainingInstance: TrainingInstance) {
-      this.formGroup = new FormGroup({
-          'startTime': new FormControl(trainingInstance.startTime, [Validators.required, this.dateValidator]),
-          'endTime': new FormControl(trainingInstance.endTime, [Validators.required, this.dateValidator]),
-          'title': new FormControl(trainingInstance.title, [Validators.required]),
-          'trainingDefinition': new FormControl(trainingInstance.trainingDefinition, [Validators.required]),
-          'accessToken': new FormControl(trainingInstance.accessToken, [Validators.required]),
-      },  { validators: this.dateSequenceValidator });
+    this.formGroup = new FormGroup({
+      'startTime': new FormControl(trainingInstance.startTime, [Validators.required, this.dateValidator]),
+      'endTime': new FormControl(trainingInstance.endTime, [Validators.required, this.dateValidator]),
+      'title': new FormControl(trainingInstance.title, [KypoValidators.noWhitespace]),
+      'trainingDefinition': new FormControl(trainingInstance.trainingDefinition, [Validators.required]),
+      'accessToken': new FormControl(trainingInstance.accessToken, [KypoValidators.noWhitespace]),
+    }, { validators: this.dateSequenceValidator });
   }
 
   private dateSequenceValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
