@@ -1,6 +1,7 @@
 import {FormArray, FormControl, FormGroup, Validators,} from '@angular/forms';
 import {Question} from '../../../../../../../../model/questions/question';
 import {MultipleChoiceQuestion} from '../../../../../../../../model/questions/multiple-choice-question';
+import { KypoValidators } from 'kypo-common';
 
 /**
  * Form control class for form in mcq edit component
@@ -12,8 +13,8 @@ export class MultipleChoiceFormGroup {
 
   constructor(mcq: MultipleChoiceQuestion) {
     this.formGroup = new FormGroup({
-      title: new FormControl(mcq.title, Validators.required),
-      options: new FormArray(mcq.options.map(option => new FormControl(option, Validators.required)), Validators.required),
+      title: new FormControl(mcq.title, KypoValidators.noWhitespace),
+      options: new FormArray(mcq.options.map(option => new FormControl(option, KypoValidators.noWhitespace)), Validators.required),
       correctAnswersIndices: new FormControl(mcq.correctAnswersIndices, Validators.required),
       score: new FormControl(mcq.score, [
         Validators.required,

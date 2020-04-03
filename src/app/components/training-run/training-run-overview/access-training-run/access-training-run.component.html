@@ -16,7 +16,7 @@
           (click)="accessTokenPrefix.setValue('')">
           <mat-icon>close</mat-icon>
         </button>
-        <mat-error *ngIf="accessTokenPrefix.hasError('required')">Prefix cannot
+        <mat-error *ngIf="accessTokenPrefix.hasError('whitespace')">Prefix cannot
           be empty</mat-error>
       </mat-form-field>
 

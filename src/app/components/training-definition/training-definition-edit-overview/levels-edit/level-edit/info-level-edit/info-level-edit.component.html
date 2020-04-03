@@ -9,7 +9,7 @@
         aria-label="Clear" (click)="title.setValue('');">
         <mat-icon>close</mat-icon>
       </button>
-      <mat-error>Title cannot be empty</mat-error>
+      <mat-error *ngIf="title.hasError('whitespace')">Title cannot be empty</mat-error>
     </mat-form-field>
 
     <!-- CONTENT filed -->
@@ -17,6 +17,6 @@
     <kypo2-markdown-editor [kypo2-markdown-file-upload]="false"
       (contentChange)="this.content.setValue($event);"
       [content]="content.value"></kypo2-markdown-editor>
-    <mat-error *ngIf="content.hasError('required')">Content cannot be empty</mat-error>
+    <mat-error *ngIf="content.hasError('whitespace')">Content cannot be empty</mat-error>
   </form>
 </div>

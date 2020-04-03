@@ -10,7 +10,7 @@
           aria-label="Clear" (click)="title.setValue('')">
           <mat-icon>close</mat-icon>
         </button>
-        <mat-error *ngIf="title.hasError('required')">Title cannot be empty</mat-error>
+        <mat-error *ngIf="title.hasError('whitespace')">Title cannot be empty</mat-error>
       </mat-form-field>
 
       <!--SCORE field -->
@@ -141,7 +141,7 @@
     <mat-error *ngIf="isTest &&
       extendedMatchingQuestionFormGroup.formGroup.hasError('noSelectedAnswers')">Test
       question must have selected correct answers</mat-error>
-    <mat-error *ngIf="rows.hasError('required')">Rows cannot be empty</mat-error>
-    <mat-error *ngIf="cols.hasError('required')">Columns cannot be empty</mat-error>
+    <mat-error *ngIf="rows.hasError('whitespace')">Rows cannot be empty</mat-error>
+    <mat-error *ngIf="cols.hasError('whitespace')">Columns cannot be empty</mat-error>
   </div>
 </form>

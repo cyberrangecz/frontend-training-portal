@@ -1,6 +1,7 @@
 import {FormArray, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import {Question} from '../../../../../../../../model/questions/question';
 import {ExtendedMatchingItems} from '../../../../../../../../model/questions/extended-matching-items';
+import { KypoValidators } from 'kypo-common';
 
 /**
  * Form control group for form in EMI edit component
@@ -11,9 +12,9 @@ export class ExtendedMatchingItemsFormGroup {
   constructor(emi: ExtendedMatchingItems) {
     this.formGroup = new FormGroup(
       {
-        title: new FormControl(emi.title, Validators.required),
-        rows: new FormArray(emi.rows.map(row => new FormControl(row, Validators.required))),
-        cols: new FormArray(emi.cols.map(col => new FormControl(col, Validators.required))),
+        title: new FormControl(emi.title, KypoValidators.noWhitespace),
+        rows: new FormArray(emi.rows.map(row => new FormControl(row, KypoValidators.noWhitespace))),
+        cols: new FormArray(emi.cols.map(col => new FormControl(col, KypoValidators.noWhitespace))),
         correctAnswers: new FormArray(emi.correctAnswers.map(answer => new FormControl(answer))),
         score: new FormControl(emi.score, [
           Validators.required,

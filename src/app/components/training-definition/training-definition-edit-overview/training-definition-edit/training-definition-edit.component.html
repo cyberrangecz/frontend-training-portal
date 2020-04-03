@@ -12,7 +12,7 @@
             title.markAsDirty();">
             <mat-icon>close</mat-icon>
           </button>
-          <mat-error>Title cannot be empty</mat-error>
+          <mat-error *ngIf="title.hasError('whitespace')">Title cannot be empty</mat-error>
         </mat-form-field>
 
 

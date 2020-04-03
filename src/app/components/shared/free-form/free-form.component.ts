@@ -12,6 +12,7 @@ import {FormArray, FormControl, Validators} from '@angular/forms';
 import {KypoBaseComponent} from 'kypo-common';
 import {FreeFormItemFormGroup} from '../../../model/utils/free-form-item-form-group';
 import {FreeFormItemsChangeEvent} from '../../../model/utils/free-form-items-change-event';
+import { KypoValidators } from 'kypo-common';
 
 /**
  * Component coupling multiple form inputs with possibility to add more inputs and remove already existing.
@@ -78,7 +79,7 @@ export class FreeFormComponent extends KypoBaseComponent implements OnInit, OnCh
    * Adds new input to the form
    */
   addItem() {
-    (this.items as FormArray).push(new FormControl('', this.required ? Validators.required : undefined));
+    (this.items as FormArray).push(new FormControl('', this.required ? KypoValidators.noWhitespace : undefined));
     this.freeFormItemFormGroup.formGroup.markAsDirty();
     this.freeFormItemFormGroup.formGroup.updateValueAndValidity();
     this.itemsChange.emit({

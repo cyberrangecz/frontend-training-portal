@@ -15,6 +15,7 @@ import {FreeFormQuestion} from '../../../../../../../../model/questions/free-for
 import {KypoBaseComponent} from 'kypo-common';
 import {FreeFormItemsChangeEvent} from '../../../../../../../../model/utils/free-form-items-change-event';
 import {FreeFormQuestionFormGroup} from './free-form-question-form-group';
+import { KypoValidators } from 'kypo-common';
 
 @Component({
   selector: 'kypo2-free-form-question-edit',
@@ -91,7 +92,7 @@ export class FreeFormQuestionEditComponent extends KypoBaseComponent implements 
   answerChanged(event: FreeFormItemsChangeEvent) {
     this.freeFormValid = event.validity;
     if (event.isAdded) {
-      (this.answers as FormArray).push(new FormControl('', this.required ? Validators.required : undefined));
+      (this.answers as FormArray).push(new FormControl('', this.required ? KypoValidators.noWhitespace : undefined));
     } else if (event.isDeleted) {
       this.answers.removeAt(event.index);
     } else if (event.cleared) {
