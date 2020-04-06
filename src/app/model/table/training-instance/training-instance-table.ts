@@ -1,5 +1,5 @@
 import {KypoPaginatedResource} from 'kypo-common';
-import {TrainingInstance} from '../../training/training-instance';
+import {TrainingInstance} from 'kypo-training-model';
 import {Column, Kypo2Table, Row, RowAction} from 'kypo2-table';
 import {TrainingInstanceRowAdapter} from '../rows/training-instance-row-adapter';
 import {defer, of} from 'rxjs';

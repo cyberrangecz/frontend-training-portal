@@ -1,4 +1,4 @@
-import {Question} from '../questions/question';
+import {Question} from 'kypo-training-model';
 
 /**
  * Event representing change of edited question

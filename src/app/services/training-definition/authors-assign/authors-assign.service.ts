@@ -1,15 +1,16 @@
 import {Injectable} from '@angular/core';
-import {User} from 'kypo2-auth';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {switchMap, tap} from 'rxjs/operators';
 import {KypoRequestedPagination} from 'kypo-common';
 import {KypoPaginatedResource} from 'kypo-common';
 import {UserNameFilters} from '../../../model/utils/user-name-filters';
-import {UserApi} from '../../api/user-api.service';
+import {UserApi} from 'kypo-training-api';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {Kypo2UserAssignService} from 'kypo2-user-assign';
 import {KypoPagination} from 'kypo-common';
 import {environment} from '../../../../environments/environment';
+import {Designer} from 'kypo-training-model';
+import {User} from 'kypo2-auth';
 
 /**
  * Designer/Author implementation of UserAssignService from user assign library.
@@ -18,25 +19,25 @@ import {environment} from '../../../../environments/environment';
 @Injectable()
 export class AuthorsAssignService extends Kypo2UserAssignService {
 
-  constructor(private userFacade: UserApi,
+  constructor(private userApi: UserApi,
               private errorHandler: ErrorHandlerService) {
     super();
   }
 
   private lastAssignedPagination: KypoRequestedPagination;
   private lastAssignedFilter: string;
-  private assignedUsersSubject: BehaviorSubject<KypoPaginatedResource<User>> = new BehaviorSubject(this.initSubject());
+  private assignedUsersSubject: BehaviorSubject<KypoPaginatedResource<Designer>> = new BehaviorSubject(this.initSubject());
   /**
    * Currently assigned users (authors)
    */
-  assignedUsers$: Observable<KypoPaginatedResource<User>> = this.assignedUsersSubject.asObservable();
+  assignedUsers$: Observable<KypoPaginatedResource<Designer>> = this.assignedUsersSubject.asObservable();
 
   /***
    * Assigns designer to a resource (creates association)
    * @param resourceId id of resource (training definition for example)
    * @param users list of users (designers) to assign to a resource
    */
-  assign(resourceId: number, users: User[]): Observable<any> {
+  assign(resourceId: number, users: Designer[]): Observable<any> {
     const userIds = users.map(user => user.id);
     return this.callApiToAssign(resourceId, userIds);
   }
@@ -51,7 +52,7 @@ export class AuthorsAssignService extends Kypo2UserAssignService {
    * @param resourceId id of selected resource
    * @param users authors whose association should be deleted
    */
-  unassign(resourceId: number, users: User[]): Observable<any> {
+  unassign(resourceId: number, users: Designer[]): Observable<any> {
     const userIds = users.map(user => user.id);
     return this.callApiToUnassign(resourceId, userIds);
   }
@@ -67,13 +68,13 @@ export class AuthorsAssignService extends Kypo2UserAssignService {
    * @param pagination requested pagination
    * @param filter username filter which should be applied on authors
    */
-  getAssigned(resourceId: number, pagination: KypoRequestedPagination, filter: string = null): Observable<KypoPaginatedResource<User>> {
+  getAssigned(resourceId: number, pagination: KypoRequestedPagination, filter: string = null): Observable<KypoPaginatedResource<Designer>> {
     this.clearSelectedAssignedUsers();
     this.lastAssignedPagination = pagination;
     this.lastAssignedFilter = filter;
     this.hasErrorSubject$.next(false);
     this.isLoadingAssignedSubject.next(true);
-    return this.userFacade.getAuthors(resourceId, pagination, UserNameFilters.create(filter))
+    return this.userApi.getAuthors(resourceId, pagination, UserNameFilters.create(filter))
       .pipe(
         tap(
           paginatedUsers => {
@@ -93,9 +94,9 @@ export class AuthorsAssignService extends Kypo2UserAssignService {
    * @param resourceId id of selected resource
    * @param filter username filter which should be applied on designers
    */
-  getAvailableToAssign(resourceId: number, filter: string = null): Observable<KypoPaginatedResource<User>> {
+  getAvailableToAssign(resourceId: number, filter: string = null): Observable<KypoPaginatedResource<Designer>> {
     const paginationSize = 25;
-    return this.userFacade.getDesignersNotInTD(
+    return this.userApi.getDesignersNotInTD(
       resourceId,
       new KypoRequestedPagination(0, paginationSize, 'familyName', 'asc'),
       UserNameFilters.create(filter))
@@ -110,8 +111,8 @@ export class AuthorsAssignService extends Kypo2UserAssignService {
    * @param additions designers to assign to selected resource
    * @param removals authors whose association with resource should be removed
    */
-  update(resourceId: number, additions: User[], removals: User[]): Observable<any> {
-    return this.userFacade.updateAuthors(resourceId, additions.map(user => user.id), removals.map(user => user.id))
+  update(resourceId: number, additions: Designer[], removals: Designer[]): Observable<any> {
+    return this.userApi.updateAuthors(resourceId, additions.map(user => user.id), removals.map(user => user.id))
       .pipe(
         tap({error: err => this.errorHandler.emit(err, 'Updating authors')}),
         switchMap(_ => this.getAssigned(resourceId, this.lastAssignedPagination, this.lastAssignedFilter))
@@ -119,7 +120,7 @@ export class AuthorsAssignService extends Kypo2UserAssignService {
   }
 
   private callApiToAssign(resourceId: number, userIds: number[]): Observable<any> {
-    return this.userFacade.updateAuthors(resourceId, userIds, [])
+    return this.userApi.updateAuthors(resourceId, userIds, [])
       .pipe(
         tap(_ => this.clearSelectedUsersToAssign(),
           err => this.errorHandler.emit(err, 'Adding authors')),
@@ -128,7 +129,7 @@ export class AuthorsAssignService extends Kypo2UserAssignService {
   }
 
   private callApiToUnassign(resourceId: number, usersIds: number[]) {
-    return this.userFacade.updateAuthors(resourceId, [], usersIds)
+    return this.userApi.updateAuthors(resourceId, [], usersIds)
       .pipe(
         tap(_ => this.clearSelectedAssignedUsers(),
           err => this.errorHandler.emit(err, 'Deleting authors from training definition')),
@@ -137,7 +138,7 @@ export class AuthorsAssignService extends Kypo2UserAssignService {
   }
 
 
-  private initSubject(): KypoPaginatedResource<User> {
+  private initSubject(): KypoPaginatedResource<Designer> {
     return new KypoPaginatedResource([], new KypoPagination(0, 0, environment.defaultPaginationSize, 0, 0));
   }
 }

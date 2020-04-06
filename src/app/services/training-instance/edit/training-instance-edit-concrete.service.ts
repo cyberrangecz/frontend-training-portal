@@ -1,10 +1,9 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, from, Observable, ReplaySubject} from 'rxjs';
 import {filter, map, switchMap, tap} from 'rxjs/operators';
-import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
 import {TrainingInstanceChangeEvent} from '../../../model/events/training-instance-change-event';
-import {TrainingInstance} from '../../../model/training/training-instance';
-import {TrainingInstanceApi} from '../../api/training-instance-api.service';
+import {TrainingInstance} from 'kypo-training-model';
+import {TrainingInstanceApi} from 'kypo-training-api';
 import {AlertService} from '../../shared/alert.service';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {TrainingInstanceEditService} from './training-instance-edit.service';

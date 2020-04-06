@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {TrainingDefinition} from '../../../../model/training/training-definition';
+import {TrainingDefinition} from 'kypo-training-model';
 import {KypoBaseComponent} from 'kypo-common';
 import {CloneDialogFormGroup} from './clone-dialog-form-group';
 import {takeWhile} from 'rxjs/operators';

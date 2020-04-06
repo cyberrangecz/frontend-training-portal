@@ -1,12 +1,11 @@
 import {PoolAssignService} from './pool-assign.service';
-import {TrainingInstance} from '../../../model/training/training-instance';
+import {TrainingInstance} from 'kypo-training-model';
 import {Observable} from 'rxjs';
 import {Pool} from 'kypo-sandbox-model';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {tap} from 'rxjs/operators';
-import {TrainingInstanceApi} from '../../api/training-instance-api.service';
+import {TrainingInstanceApi} from 'kypo-training-api';
 import {AlertService} from '../../shared/alert.service';
-import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
 import {Injectable} from '@angular/core';
 import {KypoPaginatedResource, KypoRequestedPagination} from 'kypo-common';
 import {PoolApi} from 'kypo-sandbox-api';

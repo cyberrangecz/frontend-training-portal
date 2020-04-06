@@ -12,7 +12,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {interval} from 'rxjs';
 import {takeWhile} from 'rxjs/operators';
 import {TrainingInstanceChangeEvent} from '../../../../model/events/training-instance-change-event';
-import {TrainingInstance} from '../../../../model/training/training-instance';
+import {TrainingInstance} from 'kypo-training-model';
 import {KypoBaseComponent} from 'kypo-common';
 import {TrainingDefinitionSelectComponent} from '../training-definition-select/training-definition-select.component';
 import {TrainingInstanceFormGroup} from './training-instance-form-group';

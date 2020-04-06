@@ -1,4 +1,4 @@
-import {Question} from '../../../model/questions/question';
+import {Question} from 'kypo-training-model';
 import {Observable} from 'rxjs';
 
 export abstract class TrainingRunAssessmentLevelService {

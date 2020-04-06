@@ -3,9 +3,9 @@ import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@ang
 import {EMPTY, Observable, of} from 'rxjs';
 import {catchError, mergeMap, take} from 'rxjs/operators';
 import {TRAINING_DEFINITION_NEW_PATH} from '../../components/training-definition/training-definition-overview/paths';
-import {TrainingDefinition} from '../../model/training/training-definition';
+import {TrainingDefinition} from 'kypo-training-model';
 import {TRAINING_DEFINITION_PATH} from '../../paths';
-import {TrainingDefinitionApi} from '../api/training-definition-api.service';
+import {TrainingDefinitionApi} from 'kypo-training-api';
 import {ErrorHandlerService} from '../shared/error-handler.service';
 
 /**
@@ -14,7 +14,7 @@ import {ErrorHandlerService} from '../shared/error-handler.service';
 @Injectable()
 export class TrainingDefinitionResolver implements Resolve<TrainingDefinition> {
 
-  constructor(private trainingDefinitionFacade: TrainingDefinitionApi,
+  constructor(private api: TrainingDefinitionApi,
               private errorHandler: ErrorHandlerService,
               private router: Router) {
   }
@@ -30,7 +30,7 @@ export class TrainingDefinitionResolver implements Resolve<TrainingDefinition> {
       return null;
     } else if (route.paramMap.has('id')) {
       const id = Number(route.paramMap.get('id'));
-      return this.trainingDefinitionFacade.get(id, true)
+      return this.api.get(id, true)
         .pipe(
           take(1),
           mergeMap(td => td ? of(td) : this.navigateToNew()),

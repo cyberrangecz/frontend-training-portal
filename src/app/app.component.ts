@@ -3,7 +3,6 @@ import {Kypo2AuthService, User} from 'kypo2-auth';
 import {Observable} from 'rxjs';
 import {debounceTime, filter, map, takeWhile} from 'rxjs/operators';
 import {KypoBaseComponent} from 'kypo-common';
-import {AlertTypeEnum} from './model/enums/alert-type.enum';
 import {AlertService} from './services/shared/alert.service';
 import {LoadingService} from './services/shared/loading.service';
 import {Router} from '@angular/router';

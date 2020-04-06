@@ -3,15 +3,15 @@ import {KypoControlItem} from 'kypo-controls';
 import {map, take, takeWhile, tap} from 'rxjs/operators';
 import {Pool} from 'kypo-sandbox-model';
 import {Observable} from 'rxjs';
-import {TrainingInstance} from '../../../../model/training/training-instance';
+import {TrainingInstance} from 'kypo-training-model';
 import {PoolAssignService} from '../../../../services/training-instance/pool-assign/pool-assign.service';
-import {ListResourceMapping} from '../../../../model/utils/list-resource-mapping';
 import {PoolAssignControls} from './pool-assign-controls';
 import {PoolAssignConcreteService} from '../../../../services/training-instance/pool-assign/pool-assign-concrete.service';
 import {KypoBaseComponent, KypoPaginatedResource, KypoRequestedPagination} from 'kypo-common';
 import {environment} from '../../../../../environments/environment';
 import {SandboxPoolListAdapter} from '../../../../model/list/sandbox-pool-list-adapter';
 import {SandboxNavigator} from 'kypo-sandbox-agenda';
+import {KypoListResourceMapping} from 'kypo-list';
 
 @Component({
   selector: 'kypo2-pool-assign',
@@ -35,7 +35,7 @@ export class PoolAssignComponent extends KypoBaseComponent implements OnInit, On
   selected$: Observable<SandboxPoolListAdapter>;
 
   controls: KypoControlItem[];
-  resourceMapping: ListResourceMapping = {id: 'id', title: 'title'};
+  resourceMapping: KypoListResourceMapping = {id: 'id', title: 'title'};
   poolDetailRoute: string;
   hasPool$: Observable<boolean>;
 

@@ -1,14 +1,14 @@
 import {Injectable} from '@angular/core';
 import {EMPTY, merge, Observable, Subject, timer} from 'rxjs';
 import {KypoPaginatedResource} from 'kypo-common';
-import {TrainingRunApi} from '../../api/training-run-api.service';
-import {TrainingInstanceApi} from '../../api/training-instance-api.service';
+import {TrainingRunApi} from 'kypo-training-api';
+import {TrainingInstanceApi} from 'kypo-training-api';
 import {KypoRequestedPagination} from 'kypo-common';
 import {retryWhen, switchMap, tap} from 'rxjs/operators';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {environment} from '../../../../environments/environment';
 import {AlertService} from '../../shared/alert.service';
-import {TrainingInstance} from '../../../model/training/training-instance';
+import {TrainingInstance} from 'kypo-training-model';
 import {ArchivedTrainingRunService} from './archived-training-run.service';
 import {
   CsirtMuConfirmationDialogComponent,
@@ -16,7 +16,7 @@ import {
   CsirtMuDialogResultEnum
 } from 'csirt-mu-common';
 import {MatDialog} from '@angular/material/dialog';
-import {TrainingRun} from '../../../model/training/training-run';
+import {TrainingRun} from 'kypo-training-model';
 
 /**
  * Basic implementation of layer between component and API service.

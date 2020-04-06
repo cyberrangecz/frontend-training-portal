@@ -1,5 +1,5 @@
 import {StepItem, StepperItemState} from 'kypo2-stepper';
-import {Hint} from '../level/hint';
+import {Hint} from 'kypo-training-model';
 
 export class HintStepperAdapter implements StepItem {
 

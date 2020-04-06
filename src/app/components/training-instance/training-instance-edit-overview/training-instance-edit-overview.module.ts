@@ -14,9 +14,6 @@ import {TrainingInstanceEditOverviewRoutingModule} from './training-instance-edi
 import {TrainingInstanceEditOverviewComponent} from './training-instance-edit-overview.component';
 import {TrainingInstanceEditComponent} from './training-instance-edit/training-instance-edit.component';
 import {Kypo2UserAssignModule, Kypo2UserAssignService} from 'kypo2-user-assign';
-import {TrainingDefinitionApi} from '../../../services/api/training-definition-api.service';
-import {TrainingInstanceApi} from '../../../services/api/training-instance-api.service';
-import {UserApi} from '../../../services/api/user-api.service';
 import {KypoControlsModule} from 'kypo-controls';
 import {PoolAssignComponent} from './pool-assign/pool-assign.component';
 import {KypoListModule} from 'kypo-list';
@@ -46,9 +43,6 @@ import {KypoListModule} from 'kypo-list';
     PoolAssignComponent
   ],
   providers: [
-    UserApi,
-    TrainingInstanceApi,
-    TrainingDefinitionApi,
     TrainingInstanceCanDeactivate,
     { provide: Kypo2UserAssignService, useClass: OrganizersAssignService },
     { provide: TrainingInstanceEditService, useClass: TrainingInstanceEditConcreteService }

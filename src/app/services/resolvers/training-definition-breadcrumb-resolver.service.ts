@@ -6,7 +6,7 @@ import {
   TRAINING_DEFINITION_EDIT_PATH,
   TRAINING_DEFINITION_NEW_PATH
 } from '../../components/training-definition/training-definition-overview/paths';
-import {TrainingDefinition} from '../../model/training/training-definition';
+import {TrainingDefinition} from 'kypo-training-model';
 import {TrainingDefinitionResolver} from './training-definition-resolver.service';
 
 /**

@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
 import {EMPTY, Observable, of} from 'rxjs';
 import {catchError, mergeMap, take, tap} from 'rxjs/operators';
-import {TrainingRunApi} from '../api/training-run-api.service';
+import {TrainingRunApi} from 'kypo-training-api';
 import {ErrorHandlerService} from '../shared/error-handler.service';
 import {RouteFactory} from '../../model/routes/route-factory';
-import {AccessTrainingRunInfo} from '../../model/training/access-training-run-info';
+import {AccessTrainingRunInfo} from 'kypo-training-model';
 import {RunningTrainingRunService} from '../training-run/running/running-training-run.service';
 
 

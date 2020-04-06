@@ -11,9 +11,9 @@ import {
   ViewChildren
 } from '@angular/core';
 import {take} from 'rxjs/operators';
-import {AssessmentTypeEnum} from '../../../../../model/enums/assessment-type.enum';
-import {AssessmentLevel} from '../../../../../model/level/assessment-level';
-import {Question} from '../../../../../model/questions/question';
+import {AssessmentTypeEnum} from 'kypo-training-model';
+import {AssessmentLevel} from 'kypo-training-model';
+import {Question} from 'kypo-training-model';
 import {KypoBaseComponent} from 'kypo-common';
 import {TraineeQuestionComponent} from './question/trainee-question.component';
 import {TrainingRunAssessmentLevelService} from '../../../../../services/training-run/running/training-run-assessment-level.service';

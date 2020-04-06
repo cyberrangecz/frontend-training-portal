@@ -1,5 +1,5 @@
+import {TrainingInstance} from 'kypo-training-model';
 import { FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { TrainingInstance } from '../../../../model/training/training-instance';
 import { KypoValidators } from 'kypo-common';
 
 /**

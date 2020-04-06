@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {InfoLevel} from '../../../../../model/level/info-level';
+import {InfoLevel} from 'kypo-training-model';
 import {KypoBaseComponent} from 'kypo-common';
 
 @Component({

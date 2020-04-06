@@ -14,8 +14,8 @@ import {
 import {FormArray, FormControl, Validators} from '@angular/forms';
 import {MatRadioButton} from '@angular/material/radio';
 import {takeWhile} from 'rxjs/operators';
-import {Question} from '../../../../../../../../model/questions/question';
-import {ExtendedMatchingItems} from '../../../../../../../../model/questions/extended-matching-items';
+import {Question} from 'kypo-training-model';
+import {ExtendedMatchingItems} from 'kypo-training-model';
 import {KypoBaseComponent} from 'kypo-common';
 import {ExtendedMatchingItemsFormGroup} from './extended-matching-items-form-group';
 import { KypoValidators } from 'kypo-common';

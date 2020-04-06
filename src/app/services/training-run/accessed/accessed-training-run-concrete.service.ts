@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {AccessedTrainingRunService} from './accessed-training-run.service';
 import {KypoRequestedPagination} from 'kypo-common';
-import {TrainingRunApi} from '../../api/training-run-api.service';
+import {TrainingRunApi} from 'kypo-training-api';
 import {from, Observable} from 'rxjs';
-import {AccessedTrainingRun} from '../../../model/table/rows/accessed-training-run';
+import {AccessedTrainingRun} from 'kypo-training-model';
 import {tap} from 'rxjs/operators';
 import {KypoPaginatedResource} from 'kypo-common';
 import {ErrorHandlerService} from '../../shared/error-handler.service';

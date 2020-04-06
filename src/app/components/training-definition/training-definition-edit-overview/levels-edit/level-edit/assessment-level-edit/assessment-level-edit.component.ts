@@ -9,8 +9,8 @@ import {
   SimpleChanges
 } from '@angular/core';
 import {takeWhile} from 'rxjs/operators';
-import {AssessmentLevel} from '../../../../../../model/level/assessment-level';
-import {Question} from '../../../../../../model/questions/question';
+import {AssessmentLevel} from 'kypo-training-model';
+import {Question} from 'kypo-training-model';
 import {KypoBaseComponent} from 'kypo-common';
 import {AssessmentLevelEditFormGroup} from './assessment-level-edit-form-group';
 

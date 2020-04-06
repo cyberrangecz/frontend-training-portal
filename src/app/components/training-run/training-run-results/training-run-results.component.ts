@@ -5,7 +5,7 @@ import {map, takeWhile} from 'rxjs/operators';
 import {KypoBaseComponent} from 'kypo-common';
 import {Observable} from 'rxjs';
 import {VisualizationInfo} from '../../../model/visualizations/visualization-info';
-import {TrainingRun} from '../../../model/training/training-run';
+import {TrainingRun} from 'kypo-training-model';
 import {Kypo2TraineeModeInfo} from 'kypo2-trainings-visualization-overview-lib';
 
 @Component({

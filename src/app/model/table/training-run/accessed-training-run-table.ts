@@ -1,8 +1,8 @@
-import {AccessedTrainingRun} from '../rows/accessed-training-run';
+import {AccessedTrainingRun} from 'kypo-training-model';
 import {KypoPaginatedResource} from 'kypo-common';
 import {Column, Kypo2Table, Row, RowAction} from 'kypo2-table';
 import {defer, of} from 'rxjs';
-import {TraineeAccessTrainingRunActionEnum} from '../../enums/trainee-access-training-run-actions.enum';
+import {TraineeAccessTrainingRunActionEnum} from 'kypo-training-model';
 import {AccessedTrainingRunService} from '../../../services/training-run/accessed/accessed-training-run.service';
 
 /**

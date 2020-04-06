@@ -1,6 +1,6 @@
 import {Observable} from 'rxjs';
 import {TrainingInstanceChangeEvent} from '../../../model/events/training-instance-change-event';
-import {TrainingInstance} from '../../../model/training/training-instance';
+import {TrainingInstance} from 'kypo-training-model';
 
 /**
  * Layer between component and API service. Implement concrete service by extending this class.

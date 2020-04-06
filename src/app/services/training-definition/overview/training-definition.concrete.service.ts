@@ -1,16 +1,15 @@
 import {KypoFilter} from 'kypo-common';
-import {TrainingDefinitionStateEnum} from '../../../model/enums/training-definition-state.enum';
+import {TrainingDefinitionStateEnum} from 'kypo-training-model';
 import {EMPTY, from, Observable} from 'rxjs';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
-import {TrainingDefinitionApi} from '../../api/training-definition-api.service';
+import {TrainingDefinitionApi} from 'kypo-training-api';
 import {TrainingDefinitionService} from './training-definition.service';
 import {KypoPaginatedResource} from 'kypo-common';
 import {KypoRequestedPagination} from 'kypo-common';
 import {map, switchMap, take, tap} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
-import {TrainingDefinition} from '../../../model/training/training-definition';
+import {TrainingDefinition} from 'kypo-training-model';
 import {AlertService} from '../../shared/alert.service';
-import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
 import {
   CsirtMuConfirmationDialogComponent,
   CsirtMuConfirmationDialogConfig,

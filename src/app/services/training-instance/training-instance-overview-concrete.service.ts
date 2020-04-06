@@ -1,14 +1,13 @@
 import {TrainingInstanceOverviewService} from './training-instance-overview.service';
 import {Observable, of} from 'rxjs';
 import {KypoPaginatedResource} from 'kypo-common';
-import {TrainingInstance} from '../../model/training/training-instance';
+import {TrainingInstance} from 'kypo-training-model';
 import {AlertService} from '../shared/alert.service';
 import {ErrorHandlerService} from '../shared/error-handler.service';
 import {TrainingInstanceFilter} from '../../model/utils/training-instance-filter';
 import {map, switchMap, tap} from 'rxjs/operators';
-import {AlertTypeEnum} from '../../model/enums/alert-type.enum';
 import {Injectable} from '@angular/core';
-import {TrainingInstanceApi} from '../api/training-instance-api.service';
+import {TrainingInstanceApi} from 'kypo-training-api';
 import {KypoRequestedPagination} from 'kypo-common';
 import {RouteFactory} from '../../model/routes/route-factory';
 import {Router} from '@angular/router';

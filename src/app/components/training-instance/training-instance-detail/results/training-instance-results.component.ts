@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, HostListener, OnInit} from '@angular
 import {ActivatedRoute} from '@angular/router';
 import {KypoBaseComponent} from 'kypo-common';
 import {Observable} from 'rxjs';
-import {TrainingInstance} from '../../../../model/training/training-instance';
+import {TrainingInstance} from 'kypo-training-model';
 import {map, takeWhile, tap} from 'rxjs/operators';
 
 /**

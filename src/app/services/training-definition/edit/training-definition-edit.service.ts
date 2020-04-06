@@ -3,10 +3,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Kypo2AuthService} from 'kypo2-auth';
 import {BehaviorSubject, Observable, ReplaySubject} from 'rxjs';
 import {filter, map, tap} from 'rxjs/operators';
-import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
 import {TrainingDefinitionChangeEvent} from '../../../model/events/training-definition-change-event';
-import {TrainingDefinition} from '../../../model/training/training-definition';
-import {TrainingDefinitionApi} from '../../api/training-definition-api.service';
+import {TrainingDefinition} from 'kypo-training-model';
+import {TrainingDefinitionApi} from 'kypo-training-api';
 import {AlertService} from '../../shared/alert.service';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {RouteFactory} from '../../../model/routes/route-factory';
@@ -42,7 +41,7 @@ export class TrainingDefinitionEditService {
 
   constructor(private router: Router,
               private activeRoute: ActivatedRoute,
-              private trainingDefinitionFacade: TrainingDefinitionApi,
+              private api: TrainingDefinitionApi,
               private authService: Kypo2AuthService,
               private errorHandler: ErrorHandlerService,
               private alertService: AlertService) {
@@ -96,7 +95,7 @@ export class TrainingDefinitionEditService {
   }
 
   private update(): Observable<number> {
-    return this.trainingDefinitionFacade.update(this.editedSnapshot)
+    return this.api.update(this.editedSnapshot)
       .pipe(
         tap(id => {
           this.alertService.emit('success', 'Changes were saved');
@@ -108,7 +107,7 @@ export class TrainingDefinitionEditService {
   }
 
   private create(): Observable<number> {
-   return this.trainingDefinitionFacade.create(this.editedSnapshot)
+   return this.api.create(this.editedSnapshot)
       .pipe(
         tap(
           _ => {

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {TrainingInstance} from '../../../model/training/training-instance';
+import {TrainingInstance} from 'kypo-training-model';
 import {from, Observable, timer} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {Router} from '@angular/router';

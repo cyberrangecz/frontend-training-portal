@@ -5,7 +5,7 @@ import {Kypo2Table, LoadTableEvent} from 'kypo2-table';
 import {ActiveTrainingRunTable} from '../../../../../model/table/training-run/active-training-run-table';
 import {TrainingRunRowAdapter} from '../../../../../model/table/rows/training-run-row-adapter';
 import {KypoBaseComponent} from 'kypo-common';
-import {TrainingInstance} from '../../../../../model/training/training-instance';
+import {TrainingInstance} from 'kypo-training-model';
 import {TableActionEvent} from 'kypo2-table/lib/model/table-action-event';
 import {ActiveTrainingRunService} from '../../../../../services/training-run/active/active-training-run.service';
 

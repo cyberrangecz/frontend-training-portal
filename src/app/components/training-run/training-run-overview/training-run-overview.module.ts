@@ -12,11 +12,10 @@ import {MatCardModule} from '@angular/material/card';
 import {Kypo2TableModule} from 'kypo2-table';
 import {AccessedTrainingRunService} from '../../../services/training-run/accessed/accessed-training-run.service';
 import {AccessedTrainingRunConcreteService} from '../../../services/training-run/accessed/accessed-training-run-concrete.service';
-import {TrainingDefinitionApi} from '../../../services/api/training-definition-api.service';
-import {TrainingInstanceApi} from '../../../services/api/training-instance-api.service';
-import {TrainingRunApi} from '../../../services/api/training-run-api.service';
 import {TrainingRunResultsResolver} from '../../../services/resolvers/training-run-results-resolver.service';
 import {RunningTrainingRunService} from '../../../services/training-run/running/running-training-run.service';
+import {KypoTrainingApiModule} from 'kypo-training-api';
+import {environment} from '../../../../environments/environment';
 
 /**
  * Main module for trainee agenda. Contains components and top level routing
@@ -30,16 +29,14 @@ import {RunningTrainingRunService} from '../../../services/training-run/running/
     KypoPipesModule,
     ReactiveFormsModule,
     MatCardModule,
-    Kypo2TableModule
+    Kypo2TableModule,
+    KypoTrainingApiModule.forRoot(environment.trainingApiConfig)
   ],
   declarations: [
     TrainingRunOverviewComponent,
     AccessTrainingRunComponent
   ],
   providers: [
-    TrainingRunApi,
-    TrainingInstanceApi,
-    TrainingDefinitionApi,
     AccessTrainingRunResolver,
     TrainingRunResultsResolver,
     {provide: RunningTrainingRunService, useClass: RunningTrainingRunConcreteService},

@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {take, takeWhile, tap} from 'rxjs/operators';
-import {Level} from '../../../model/level/level';
+import {Level} from 'kypo-training-model';
 import {KypoBaseComponent} from 'kypo-common';
 import {TrainingRunStepper} from './training-run-stepper';
 import {Kypo2AuthService, User} from 'kypo2-auth';

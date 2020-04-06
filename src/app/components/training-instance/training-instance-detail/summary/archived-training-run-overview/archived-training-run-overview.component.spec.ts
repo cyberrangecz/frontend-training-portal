@@ -10,7 +10,7 @@ import {MaterialTestingModule} from '../../../../../testing/test-utils/material-
 import {RouterTestingModule} from '@angular/router/testing';
 import {ArchivedTrainingRunService} from '../../../../../services/training-run/archived/archived-training-run.service';
 import {TrainingRunRowAdapter} from '../../../../../model/table/rows/training-run-row-adapter';
-import {TrainingRun} from '../../../../../model/training/training-run';
+import {TrainingRun} from 'kypo-training-model';
 import {User} from 'kypo2-auth';
 import {KypoControlsModule} from 'kypo-controls';
 

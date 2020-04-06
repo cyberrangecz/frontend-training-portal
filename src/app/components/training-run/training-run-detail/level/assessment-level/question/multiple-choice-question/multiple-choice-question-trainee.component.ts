@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MatCheckboxChange} from '@angular/material/checkbox';
-import {Question} from '../../../../../../../model/questions/question';
-import {MultipleChoiceQuestion} from '../../../../../../../model/questions/multiple-choice-question';
+import {Question} from 'kypo-training-model';
+import {MultipleChoiceQuestion} from 'kypo-training-model';
 import {KypoBaseComponent} from 'kypo-common';
 
 @Component({

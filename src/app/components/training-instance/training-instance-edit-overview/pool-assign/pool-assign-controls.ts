@@ -1,7 +1,7 @@
 import {PoolAssignService} from '../../../../services/training-instance/pool-assign/pool-assign.service';
 import {defer, of} from 'rxjs';
 import {KypoControlItem} from 'kypo-controls';
-import {TrainingInstance} from '../../../../model/training/training-instance';
+import {TrainingInstance} from 'kypo-training-model';
 import {map} from 'rxjs/operators';
 
 export class PoolAssignControls {

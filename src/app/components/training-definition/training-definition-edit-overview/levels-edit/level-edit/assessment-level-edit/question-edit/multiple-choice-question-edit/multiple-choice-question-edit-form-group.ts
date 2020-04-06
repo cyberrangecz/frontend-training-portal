@@ -1,6 +1,6 @@
 import {FormArray, FormControl, FormGroup, Validators,} from '@angular/forms';
-import {Question} from '../../../../../../../../model/questions/question';
-import {MultipleChoiceQuestion} from '../../../../../../../../model/questions/multiple-choice-question';
+import {Question} from 'kypo-training-model';
+import {MultipleChoiceQuestion} from 'kypo-training-model';
 import { KypoValidators } from 'kypo-common';
 
 /**

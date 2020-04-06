@@ -3,7 +3,7 @@ import {map, takeWhile} from 'rxjs/operators';
 import {KypoBaseComponent} from 'kypo-common';
 import {ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs';
-import {TrainingInstance} from '../../../../model/training/training-instance';
+import {TrainingInstance} from 'kypo-training-model';
 
 /**
  * Component displaying progress visualization

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {from, Observable, of} from 'rxjs';
-import {Level} from '../../../model/level/level';
-import {AccessTrainingRunInfo} from '../../../model/training/access-training-run-info';
+import {Level} from 'kypo-training-model';
+import {AccessTrainingRunInfo} from 'kypo-training-model';
 import {RunningTrainingRunService} from '../../training-run/running/running-training-run.service';
 import {Router} from '@angular/router';
 import {RouteFactory} from '../../../model/routes/route-factory';

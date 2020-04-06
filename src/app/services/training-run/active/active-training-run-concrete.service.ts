@@ -3,15 +3,14 @@ import {EMPTY, merge, Observable, Subject, timer} from 'rxjs';
 import {KypoPaginatedResource} from 'kypo-common';
 import {environment} from '../../../../environments/environment';
 import {KypoRequestedPagination} from 'kypo-common';
-import {TrainingInstanceApi} from '../../api/training-instance-api.service';
+import {TrainingInstanceApi} from 'kypo-training-api';
 import {retryWhen, switchMap, tap} from 'rxjs/operators';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
-import {TrainingInstance} from '../../../model/training/training-instance';
+import {TrainingInstance} from 'kypo-training-model';
 import {PoolRequestApi, SandboxInstanceApi} from 'kypo-sandbox-api';
 import {AlertService} from '../../shared/alert.service';
-import {AlertTypeEnum} from '../../../model/enums/alert-type.enum';
 import {ActiveTrainingRunService} from './active-training-run.service';
-import {TrainingRun} from '../../../model/training/training-run';
+import {TrainingRun} from 'kypo-training-model';
 import {
   CsirtMuConfirmationDialogComponent,
   CsirtMuConfirmationDialogConfig,

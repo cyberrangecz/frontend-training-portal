@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {TrainingInstance} from '../../../../model/training/training-instance';
+import {TrainingInstance} from 'kypo-training-model';
 import {KypoBaseComponent} from 'kypo-common';
 import {map, takeWhile} from 'rxjs/operators';
 import {Observable} from 'rxjs';

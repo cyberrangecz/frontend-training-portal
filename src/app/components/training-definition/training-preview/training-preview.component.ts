@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {map, takeWhile} from 'rxjs/operators';
-import {AccessTrainingRunInfo} from '../../../model/training/access-training-run-info';
-import {TrainingDefinition} from '../../../model/training/training-definition';
-import {TrainingDefinitionApi} from '../../../services/api/training-definition-api.service';
+import {AccessTrainingRunInfo} from 'kypo-training-model';
+import {TrainingDefinition} from 'kypo-training-model';
+import {TrainingDefinitionApi} from 'kypo-training-api';
 import {KypoBaseComponent} from 'kypo-common';
 import {RunningTrainingRunService} from '../../../services/training-run/running/running-training-run.service';
 

@@ -11,10 +11,10 @@ import {
 import {MatDialog} from '@angular/material/dialog';
 import {takeWhile} from 'rxjs/operators';
 import {QuestionChangeEvent} from '../../../../../../../../model/events/question-change-event';
-import {Question} from '../../../../../../../../model/questions/question';
-import {ExtendedMatchingItems} from '../../../../../../../../model/questions/extended-matching-items';
-import {FreeFormQuestion} from '../../../../../../../../model/questions/free-form-question';
-import {MultipleChoiceQuestion} from '../../../../../../../../model/questions/multiple-choice-question';
+import {Question} from 'kypo-training-model';
+import {ExtendedMatchingItems} from 'kypo-training-model';
+import {FreeFormQuestion} from 'kypo-training-model';
+import {MultipleChoiceQuestion} from 'kypo-training-model';
 import {KypoBaseComponent} from 'kypo-common';
 import {
   CsirtMuConfirmationDialogComponent,

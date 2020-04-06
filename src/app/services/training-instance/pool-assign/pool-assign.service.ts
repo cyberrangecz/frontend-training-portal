@@ -1,4 +1,4 @@
-import {TrainingInstance} from '../../../model/training/training-instance';
+import {TrainingInstance} from 'kypo-training-model';
 import {Pool} from 'kypo-sandbox-model';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {KypoPaginatedResource, KypoPaginatedResourceService, KypoRequestedPagination} from 'kypo-common';

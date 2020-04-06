@@ -9,7 +9,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import {takeWhile} from 'rxjs/operators';
-import {InfoLevel} from '../../../../../../model/level/info-level';
+import {InfoLevel} from 'kypo-training-model';
 import {KypoBaseComponent} from 'kypo-common';
 import {InfoLevelEditFormGroup} from './info-level-edit-form-group';
 

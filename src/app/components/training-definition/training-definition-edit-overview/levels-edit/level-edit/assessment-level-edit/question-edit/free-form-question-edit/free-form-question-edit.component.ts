@@ -10,8 +10,8 @@ import {
 } from '@angular/core';
 import {FormArray, FormControl, Validators} from '@angular/forms';
 import {takeWhile} from 'rxjs/operators';
-import {Question} from '../../../../../../../../model/questions/question';
-import {FreeFormQuestion} from '../../../../../../../../model/questions/free-form-question';
+import {Question} from 'kypo-training-model';
+import {FreeFormQuestion} from 'kypo-training-model';
 import {KypoBaseComponent} from 'kypo-common';
 import {FreeFormItemsChangeEvent} from '../../../../../../../../model/utils/free-form-items-change-event';
 import {FreeFormQuestionFormGroup} from './free-form-question-form-group';

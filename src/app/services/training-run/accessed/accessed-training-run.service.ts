@@ -1,6 +1,6 @@
 import {Observable} from 'rxjs';
 import {KypoRequestedPagination} from 'kypo-common';
-import {AccessedTrainingRun} from '../../../model/table/rows/accessed-training-run';
+import {AccessedTrainingRun} from 'kypo-training-model';
 import {KypoPaginatedResource} from 'kypo-common';
 import {KypoPaginatedResourceService} from 'kypo-common';
 

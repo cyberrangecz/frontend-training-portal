@@ -1,6 +1,5 @@
 import {HttpErrorResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {HttpErrorCodesEnum} from '../../model/enums/http-error-codes.enum';
 import {CsirtMuNotification, CsirtMuNotificationService, CsirtMuNotificationTypeEnum} from 'csirt-mu-layout';
 import {environment} from '../../../environments/environment';
 
@@ -29,12 +28,12 @@ export class ErrorHandlerService {
       this.notificationService.emit(notification);
       return;
     }
-    if (err.status === HttpErrorCodesEnum.ERROR_401) {
+    if (err.status === 401) {
       notification.additionalInfo = ['Unauthorized. Try to refresh page or login again', err?.message];
       this.notificationService.emit(notification);
       return;
     }
-    if (err.status === HttpErrorCodesEnum.ERROR_403) {
+    if (err.status === 403) {
       notification.additionalInfo = ['You may not have access rights to requested resource. Contact system administrator.', err?.message];
       this.notificationService.emit(notification);
       return;

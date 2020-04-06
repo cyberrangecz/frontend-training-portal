@@ -1,5 +1,5 @@
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
-import {TrainingDefinition} from '../../../../model/training/training-definition';
+import {TrainingDefinition} from 'kypo-training-model';
 import { KypoValidators } from 'kypo-common';
 
 /**

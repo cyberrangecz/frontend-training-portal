@@ -1,6 +1,6 @@
 import {FormArray, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
-import {Question} from '../../../../../../../../model/questions/question';
-import {ExtendedMatchingItems} from '../../../../../../../../model/questions/extended-matching-items';
+import {Question} from 'kypo-training-model';
+import {ExtendedMatchingItems} from 'kypo-training-model';
 import { KypoValidators } from 'kypo-common';
 
 /**

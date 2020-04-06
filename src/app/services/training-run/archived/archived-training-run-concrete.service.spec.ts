@@ -1,10 +1,10 @@
-import {TrainingInstance} from '../../../model/training/training-instance';
+import {TrainingInstance} from 'kypo-training-model';
 import {async, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
 import {ArchivedTrainingRunConcreteService} from './archived-training-run-concrete.service';
 import {throwError} from 'rxjs';
-import {TrainingInstanceApi} from '../../api/training-instance-api.service';
-import {TrainingRunApi} from '../../api/training-run-api.service';
+import {TrainingInstanceApi} from 'kypo-training-api';
+import {TrainingRunApi} from 'kypo-training-api';
 import {skip} from 'rxjs/operators';
 import {asyncData} from 'kypo-common';
 import {KypoRequestedPagination} from 'kypo-common';

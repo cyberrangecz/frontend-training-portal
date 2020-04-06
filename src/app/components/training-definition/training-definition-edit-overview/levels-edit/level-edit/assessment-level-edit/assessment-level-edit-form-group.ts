@@ -1,6 +1,6 @@
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {AssessmentTypeEnum} from '../../../../../../model/enums/assessment-type.enum';
-import {AssessmentLevel} from '../../../../../../model/level/assessment-level';
+import {AssessmentTypeEnum} from 'kypo-training-model';
+import {AssessmentLevel} from 'kypo-training-model';
 import { KypoValidators } from 'kypo-common';
 
 /**

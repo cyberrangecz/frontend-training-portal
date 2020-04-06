@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {EMPTY, Observable, of} from 'rxjs';
-import {FlagCheck} from '../../../model/level/flag-check';
-import {GameLevel} from '../../../model/level/game-level';
-import {Hint} from '../../../model/level/hint';
+import {FlagCheck} from 'kypo-training-model';
+import {GameLevel} from 'kypo-training-model';
+import {Hint} from 'kypo-training-model';
 import {TrainingRunGameLevelService} from '../../training-run/running/training-run-game-level.service';
 import {switchMap, tap} from 'rxjs/operators';
 import {CsirtMuDialogResultEnum} from 'csirt-mu-common';
