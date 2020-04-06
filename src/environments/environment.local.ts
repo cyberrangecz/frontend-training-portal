@@ -5,13 +5,13 @@ export const homeURL = 'https://localhost:4200';
 // trainings service url
 export const trainingsURL = baseURL + ':3000/kypo2-rest-training/api/v1/';
 // sandboxes service url
-export const sandboxesURL = baseURL + ':3000/kypo2-django-openstack/api/v1/';
+export const sandboxesURL = baseURL + ':3000/kypo-sandbox-service/api/v1/';
 
 // user and gorup service url
 export const userAngGroupURL =
   baseURL + ':3000/kypo2-rest-user-and-group/api/v1/';
 
-export const kypo2TopologyConfig =  {
+export const kypo2TopologyConfig = {
   topologyRestUrl: sandboxesURL,
   decoratorsRestUrl: '', // OBSOLETE
   defaultDecoratorRefreshPeriodInSeconds: 3, // OBSOLETE
