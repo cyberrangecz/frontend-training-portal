@@ -9,21 +9,7 @@ module.exports = function() {
       family_name: "Name",
       roles: [
         {
-          id: 1,
-          id_of_microservice: 4,
-          name_of_microservice: "kypo2_django_openstack_project",
-          description: null,
-          role_type: "ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_TRAINEE"
-        },
-        {
-          id: 2,
-          id_of_microservice: 1,
-          name_of_microservice: "kypo2-user-and-group",
-          description: "",
-          role_type: "ROLE_USER_AND_GROUP_USER"
-        },
-        {
-          id: 3,
+          id: 6,
           id_of_microservice: 2,
           name_of_microservice: "kypo2-training",
           description:
@@ -31,21 +17,50 @@ module.exports = function() {
           role_type: "ROLE_TRAINING_DESIGNER"
         },
         {
-          id: 4,
-          id_of_microservice: 5,
-          name_of_microservice: "kypo2-topology",
-          description: null,
-          role_type: "ROLE_TOPOLOGY_TRAINEE"
+          id: 2,
+          id_of_microservice: 1,
+          name_of_microservice: "kypo2-user-and-group",
+          description: "This role is user role.",
+          role_type: "ROLE_USER_AND_GROUP_USER"
         },
         {
-          id: 5,
+          id: 10,
           id_of_microservice: 3,
-          name_of_microservice: "kypo2_django_openstack",
+          name_of_microservice: "kypo.sandbox_service_project",
           description: null,
-          role_type: "ROLE_KYPO2_DJANGO_OPENSTACK_TRAINEE"
+          role_type: "ROLE_KYPO.SANDBOX_SERVICE_PROJECT_ADMIN"
         },
         {
-          id: 6,
+          id: 7,
+          id_of_microservice: 2,
+          name_of_microservice: "kypo2-training",
+          description:
+            "This role will allow you to do every operation in KYPO Trainings.",
+          role_type: "ROLE_TRAINING_ADMINISTRATOR"
+        },
+        {
+          id: 11,
+          id_of_microservice: 3,
+          name_of_microservice: "kypo.sandbox_service_project",
+          description: null,
+          role_type: "ROLE_KYPO.SANDBOX_SERVICE_PROJECT_ORGANIZER"
+        },
+        {
+          id: 8,
+          id_of_microservice: 3,
+          name_of_microservice: "kypo.sandbox_service_project",
+          description: null,
+          role_type: "ROLE_KYPO.SANDBOX_SERVICE_PROJECT_DESIGNER"
+        },
+        {
+          id: 9,
+          id_of_microservice: 3,
+          name_of_microservice: "kypo.sandbox_service_project",
+          description: null,
+          role_type: "ROLE_KYPO.SANDBOX_SERVICE_PROJECT_TRAINEE"
+        },
+        {
+          id: 1,
           id_of_microservice: 1,
           name_of_microservice: "kypo2-user-and-group",
           description:
@@ -53,14 +68,15 @@ module.exports = function() {
           role_type: "ROLE_USER_AND_GROUP_ADMINISTRATOR"
         },
         {
-          id: 7,
+          id: 3,
           id_of_microservice: 1,
           name_of_microservice: "kypo2-user-and-group",
-          description: "This role is default role.",
+          description:
+            "Default role for user and group microservice. It is usually required, e.g., to see basic data about user.",
           role_type: "ROLE_USER_AND_GROUP_GUEST"
         },
         {
-          id: 8,
+          id: 5,
           id_of_microservice: 2,
           name_of_microservice: "kypo2-training",
           description:
@@ -68,26 +84,12 @@ module.exports = function() {
           role_type: "ROLE_TRAINING_TRAINEE"
         },
         {
-          id: 9,
-          id_of_microservice: 3,
-          name_of_microservice: "kypo2_django_openstack",
-          description: null,
-          role_type: "ROLE_KYPO2_DJANGO_OPENSTACK_DESIGNER"
-        },
-        {
-          id: 10,
+          id: 4,
           id_of_microservice: 2,
           name_of_microservice: "kypo2-training",
           description:
             "This role will allow you to prepare training instances from training definitions and manage them, restart sandbox instances and view situational awareness in KYPO Trainings.",
           role_type: "ROLE_TRAINING_ORGANIZER"
-        },
-        {
-          id: 11,
-          id_of_microservice: 3,
-          name_of_microservice: "kypo2_django_openstack",
-          description: null,
-          role_type: "ROLE_KYPO2_DJANGO_OPENSTACK_ORGANIZER"
         }
       ],
       iss: "https://oidc.muni.cz/oidc/",
@@ -118,7 +120,7 @@ module.exports = function() {
           show_stepper_bar: true,
           can_be_archived: true,
           estimated_duration: 100,
-          last_edited: "2019-01-01T07:00:00.841937Z"
+          last_edited: "2020-04-01T09:39:10.629727Z"
         },
         {
           id: 2,
@@ -142,7 +144,7 @@ module.exports = function() {
           show_stepper_bar: true,
           can_be_archived: true,
           estimated_duration: 100,
-          last_edited: "2019-01-01T07:00:00.841937Z"
+          last_edited: "2020-04-01T09:39:10.629727Z"
         },
         {
           id: 3,
@@ -166,7 +168,7 @@ module.exports = function() {
           show_stepper_bar: true,
           can_be_archived: true,
           estimated_duration: 100,
-          last_edited: "2019-01-01T07:00:00.841937Z"
+          last_edited: "2020-04-01T09:39:10.629727Z"
         },
         {
           id: 4,
@@ -190,7 +192,7 @@ module.exports = function() {
           show_stepper_bar: true,
           can_be_archived: true,
           estimated_duration: 100,
-          last_edited: "2019-01-01T07:00:00.841937Z"
+          last_edited: "2020-04-01T09:39:10.629727Z"
         },
         {
           id: 5,
@@ -214,7 +216,7 @@ module.exports = function() {
           show_stepper_bar: true,
           can_be_archived: true,
           estimated_duration: 100,
-          last_edited: "2019-01-01T07:00:00.841937Z"
+          last_edited: "2020-04-01T09:39:10.629727Z"
         }
       ],
       pagination: {
@@ -285,57 +287,43 @@ module.exports = function() {
       ]
     },
     training_definition: {
-      content: [
+      can_be_archived: true,
+      description: "Unreleased training definition",
+      estimated_duration: 5,
+      id: 1,
+      last_edited: "2020-04-01T09:39:10.629727Z",
+      levels: [
         {
-          beta_testing_group_id: 2,
-          can_be_archived: true,
-          description: "Unreleased training definition",
           estimated_duration: 5,
           id: 1,
-          last_edited: "2017-10-19 10:23:54+02",
-          levels: [
-            {
-              estimated_duration: 5,
-              id: 1,
-              level_type: "GAME",
-              max_score: 20,
-              order: 2,
-              snapshot_hook: {
-                id: 8,
-                snapshot: "Snapshot 1"
-              },
-              title: "Game Level1",
-              training_definition: {
-                beta_testing_group_id: 14,
-                can_be_archived: false,
-                description: "Unreleased training definition",
-                estimated_duration: 5,
-                id: 1,
-                last_edited: "2017-10-19 10:23:54+02",
-                outcomes: ["string"],
-                prerequisities: ["string"],
-                sandbox_definition_ref_id: 1,
-                show_stepper_bar: false,
-                state: "UNRELEASED",
-                title: "TrainingDefinition2"
-              }
-            }
-          ],
-          outcomes: ["string"],
-          prerequisities: ["string"],
-          sandbox_definition_ref_id: 3,
-          show_stepper_bar: false,
-          state: "Unreleased",
-          title: "TrainingDefinition2"
+          level_type: "INFO_LEVEL",
+          max_score: 20,
+          order: 0,
+          content: "Content of info level should be here.",
+          snapshot_hook: null,
+          title: "Game Level1",
+          training_definition: {
+            beta_testing_group_id: 14,
+            can_be_archived: false,
+            description: "Unreleased training definition",
+            estimated_duration: 5,
+            id: 1,
+            last_edited: "2020-04-01T09:39:10.629727Z",
+            outcomes: ["string"],
+            prerequisities: ["string"],
+            sandbox_definition_ref_id: 1,
+            show_stepper_bar: false,
+            state: "UNRELEASED",
+            title: "TrainingDefinition2"
+          }
         }
       ],
-      pagination: {
-        number: 0,
-        number_of_elements: 5,
-        size: 5,
-        total_elements: 5,
-        total_pages: 1
-      }
+      outcomes: ["string"],
+      prerequisities: ["string"],
+      sandbox_definition_ref_id: 3,
+      show_stepper_bar: false,
+      state: "UNRELEASED",
+      title: "TrainingDefinition2"
     },
     game: {
       id: 27,
@@ -3321,6 +3309,55 @@ module.exports = function() {
       update_time: "2019-10-14T14:26:54Z",
       image_id: "7cba2bef-041b-45e4-b14f-ac6e035ff602",
       flavor_id: null
+    },
+    training_run: {
+      abstract_level_dto: {
+        estimated_duration: 5,
+        id: 1,
+        level_type: "GAME",
+        max_score: 20,
+        order: 2,
+        snapshot_hook: {
+          id: 8,
+          snapshot: "Snapshot 1"
+        },
+        title: "Game Level1",
+        training_definition: {
+          beta_testing_group_id: 14,
+          can_be_archived: false,
+          description: "Unreleased training definition",
+          estimated_duration: 5,
+          id: 1,
+          last_edited: "2017-10-19 10:23:54+02",
+          outcomes: ["string"],
+          prerequisities: ["string"],
+          show_stepper_bar: false,
+          state: "UNRELEASED",
+          title: "TrainingDefinition2"
+        }
+      },
+      info_about_levels: [
+        {
+          id: 1,
+          level_type: "GAME_LEVEL",
+          order: 1,
+          title: "Game Level1"
+        }
+      ],
+      instance_id: 1,
+      sandbox_instance_ref_id: 2,
+      show_stepper_bar: false,
+      start_time: "2016-10-19 10:23:54+02",
+      taken_hints: [
+        {
+          content: "Very good advice",
+          id: 1,
+          order: 1,
+          title: "Hint1"
+        }
+      ],
+      taken_solution: true,
+      training_run_id: 1
     }
   };
 };
