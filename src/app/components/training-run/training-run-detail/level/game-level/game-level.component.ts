@@ -12,7 +12,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import {take, takeWhile} from 'rxjs/operators';
-import {GameLevel} from '../../../../../model/level/game-level';
+import {GameLevel} from 'kypo-training-model';
 import {HintButton} from '../../../../../model/level/hint-button';
 import {ErrorHandlerService} from '../../../../../services/shared/error-handler.service';
 import {KypoBaseComponent} from 'kypo-common';

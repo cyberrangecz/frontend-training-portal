@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Inject, OnInit, Optional} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {TrainingDefinition} from '../../../../model/training/training-definition';
-import {TrainingDefinitionInfo} from '../../../../model/training/training-definition-info';
+import {TrainingDefinition} from 'kypo-training-model';
+import {TrainingDefinitionInfo} from 'kypo-training-model';
 import {KypoBaseComponent, KypoRequestedPagination} from 'kypo-common';
 import {TrainingDefinitionOrganizerSelectorService} from '../../../../services/training-instance/training-definition-selector/training-definition-organizer-selector.service';
 import {merge, Observable} from 'rxjs';

@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Question} from '../../../../../../../model/questions/question';
-import {FreeFormQuestion} from '../../../../../../../model/questions/free-form-question';
+import {Question} from 'kypo-training-model';
+import {FreeFormQuestion} from 'kypo-training-model';
 import {KypoBaseComponent} from 'kypo-common';
 
 @Component({

@@ -6,7 +6,7 @@ import {TrainingDefinitionService} from '../../../services/training-definition/o
 import {map, take, takeWhile} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
 import {environment} from '../../../../environments/environment';
-import {TrainingDefinition} from '../../../model/training/training-definition';
+import {TrainingDefinition} from 'kypo-training-model';
 import {TrainingDefinitionTable} from '../../../model/table/training-definition/training-definition-table';
 import {TrainingDefinitionOverviewControls} from './training-definition-overview-controls';
 import {KypoControlItem} from 'kypo-controls';

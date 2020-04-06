@@ -1,6 +1,7 @@
+
 export const baseURL = 'https://kypo-devel.ics.muni.cz';
 export const homeURL = baseURL;
-export const trainingsURL = baseURL + ':8083/kypo2-rest-training/api/v1/';
+export const trainingURL = baseURL + ':8083/kypo2-rest-training/api/v1/';
 export const sandboxesURL = baseURL + ':8080/kypo-sandbox-service/api/v1/';
 export const userAngGroupURL = baseURL + ':8084/kypo2-rest-user-and-group/api/v1/';
 
@@ -14,7 +15,7 @@ export const kypo2TopologyConfig =  {
 
 export const environment = {
   production: true,
-  trainingRestBasePath: trainingsURL,
+  trainingRestBasePath: trainingURL,
   sandboxRestBasePath: sandboxesURL,
   defaultAlertDuration: 5000, // 0 to display until user dismisses it
   defaultPaginationSize: 10,
@@ -27,6 +28,9 @@ export const environment = {
   },
   sandboxApiConfig: {
     sandboxRestBasePath: sandboxesURL
+  },
+  trainingApiConfig: {
+    trainingBasePath: trainingURL
   },
   kypo2UserAndGroupConfig: {
     userAndGroupRestBasePath: userAngGroupURL,

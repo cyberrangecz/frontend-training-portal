@@ -5,10 +5,10 @@ import {KypoRequestedPagination} from 'kypo-common';
 import {KypoPaginatedResource} from 'kypo-common';
 import {throwError} from 'rxjs';
 import {skip, take} from 'rxjs/operators';
-import {TrainingDefinitionApi} from '../../api/training-definition-api.service';
+import {TrainingDefinitionApi} from 'kypo-training-api';
 import {TrainingDefinitionOrganizerSelectorService} from './training-definition-organizer-selector.service';
 import {KypoPagination} from 'kypo-common';
-import {TrainingDefinitionInfo} from '../../../model/training/training-definition-info';
+import {TrainingDefinitionInfo} from 'kypo-training-model';
 
 
 describe('TrainingDefinitionOrganizerSelectorService', () => {

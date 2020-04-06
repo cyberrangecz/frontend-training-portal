@@ -1,14 +1,14 @@
 import {Injectable} from '@angular/core';
 import {EMPTY, Observable} from 'rxjs';
-import {Hint} from '../../../model/level/hint';
-import {TrainingRunApi} from '../../api/training-run-api.service';
+import {Hint} from 'kypo-training-model';
+import {TrainingRunApi} from 'kypo-training-api';
 import {
   CsirtMuDialogResultEnum
 } from 'csirt-mu-common';
 import { switchMap, tap} from 'rxjs/operators';
 import {MatDialog} from '@angular/material/dialog';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
-import {GameLevel} from '../../../model/level/game-level';
+import {GameLevel} from 'kypo-training-model';
 import {TrainingRunGameLevelService} from './training-run-game-level.service';
 import {RunningTrainingRunService} from './running-training-run.service';
 

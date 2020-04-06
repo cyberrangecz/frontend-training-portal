@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AbstractLevelTypeEnum} from '../../../../../model/enums/abstract-level-type.enum';
-import {Level} from '../../../../../model/level/level';
+import {AbstractLevelTypeEnum} from 'kypo-training-model';
+import {Level} from 'kypo-training-model';
 import {KypoBaseComponent} from 'kypo-common';
 
 /**

@@ -1,4 +1,4 @@
-import {TrainingInstance} from '../../training/training-instance';
+import {TrainingInstance} from 'kypo-training-model';
 import {KypoDateTimeFormatPipe} from 'kypo-common';
 import {Observable} from 'rxjs';
 

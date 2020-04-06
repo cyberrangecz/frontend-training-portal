@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {map, take, takeWhile, tap} from 'rxjs/operators';
 import {TrainingInstanceChangeEvent} from '../../../model/events/training-instance-change-event';
-import {TrainingInstance} from '../../../model/training/training-instance';
+import {TrainingInstance} from 'kypo-training-model';
 import {TrainingInstanceEditService} from '../../../services/training-instance/edit/training-instance-edit.service';
 import {KypoBaseComponent} from 'kypo-common';
 import {environment} from '../../../../environments/environment';

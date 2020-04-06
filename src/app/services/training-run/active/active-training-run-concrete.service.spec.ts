@@ -1,7 +1,7 @@
 import {async, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {ActiveTrainingRunConcreteService} from './active-training-run-concrete.service';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
-import {TrainingInstanceApi} from '../../api/training-instance-api.service';
+import {TrainingInstanceApi} from 'kypo-training-api';
 import {skip} from 'rxjs/operators';
 import {throwError} from 'rxjs';
 import {asyncData} from 'kypo-common';
@@ -11,7 +11,7 @@ import {KypoPaginatedResource} from 'kypo-common';
 import {KypoPagination} from 'kypo-common';
 import {SandboxInstanceApi} from 'kypo-sandbox-api';
 import {AlertService} from '../../shared/alert.service';
-import {TrainingInstance} from '../../../model/training/training-instance';
+import {TrainingInstance} from 'kypo-training-model';
 import {MatDialog} from '@angular/material/dialog';
 import {PoolRequestApi} from 'kypo-sandbox-api';
 

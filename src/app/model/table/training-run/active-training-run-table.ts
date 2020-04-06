@@ -4,7 +4,7 @@ import {KypoPaginatedResource} from 'kypo-common';
 import {TrainingRunRowAdapter} from '../rows/training-run-row-adapter';
 import {ActiveTrainingRunService} from '../../../services/training-run/active/active-training-run.service';
 import {DeleteAction} from 'kypo2-table';
-import {TrainingRun} from '../../training/training-run';
+import {TrainingRun} from 'kypo-training-model';
 
 /**
  * Helper class transforming paginated resource to class for common table component

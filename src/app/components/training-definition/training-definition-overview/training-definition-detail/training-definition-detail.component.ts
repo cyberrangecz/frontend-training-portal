@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TrainingDefinition} from '../../../../model/training/training-definition';
+import {TrainingDefinition} from 'kypo-training-model';
 
 @Component({
   selector: 'kypo2-training-definition-detail',

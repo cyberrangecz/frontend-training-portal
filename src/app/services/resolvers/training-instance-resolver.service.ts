@@ -3,9 +3,9 @@ import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@ang
 import {EMPTY, Observable, of} from 'rxjs';
 import {catchError, mergeMap, take} from 'rxjs/operators';
 import {TRAINING_INSTANCE_NEW_PATH} from '../../components/training-instance/training-instance-overview/paths';
-import {TrainingInstance} from '../../model/training/training-instance';
+import {TrainingInstance} from 'kypo-training-model';
 import {TRAINING_INSTANCE_PATH} from '../../paths';
-import {TrainingInstanceApi} from '../api/training-instance-api.service';
+import {TrainingInstanceApi} from 'kypo-training-api';
 import {ErrorHandlerService} from '../shared/error-handler.service';
 import {RouteFactory} from '../../model/routes/route-factory';
 

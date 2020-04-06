@@ -1,7 +1,7 @@
 import {async, TestBed} from '@angular/core/testing';
 import {AuthorsAssignService} from './authors-assign.service';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
-import {UserApi} from '../../api/user-api.service';
+import {UserApi} from 'kypo-training-api';
 import {asyncData} from 'kypo-common';
 import {KypoRequestedPagination} from 'kypo-common';
 import {KypoPaginatedResource} from 'kypo-common';

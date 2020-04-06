@@ -11,8 +11,8 @@ import {
 import {FormArray, FormControl, Validators} from '@angular/forms';
 import {MatCheckboxChange} from '@angular/material/checkbox';
 import {takeWhile} from 'rxjs/operators';
-import {Question} from '../../../../../../../../model/questions/question';
-import {MultipleChoiceQuestion} from '../../../../../../../../model/questions/multiple-choice-question';
+import {Question} from 'kypo-training-model';
+import {MultipleChoiceQuestion} from 'kypo-training-model';
 import {KypoBaseComponent} from 'kypo-common';
 import {MultipleChoiceFormGroup} from './multiple-choice-question-edit-form-group';
 

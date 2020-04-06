@@ -1,6 +1,6 @@
 import {LevelEditService} from '../../../../../services/training-definition/edit/level-edit.service';
-import {defer, NEVER, Observable, of} from 'rxjs';
-import {AbstractLevelTypeEnum} from '../../../../../model/enums/abstract-level-type.enum';
+import {defer, Observable, of} from 'rxjs';
+import {AbstractLevelTypeEnum} from 'kypo-training-model';
 import {KypoControlItem, KypoControlMenuItem, KypoExpandableControlItem} from 'kypo-controls';
 
 export class LevelOverviewControls {

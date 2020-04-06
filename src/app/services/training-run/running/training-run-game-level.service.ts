@@ -1,8 +1,8 @@
 import {BehaviorSubject, Observable} from 'rxjs';
 import {HintButton} from '../../../model/level/hint-button';
-import {GameLevel} from '../../../model/level/game-level';
-import {Hint} from '../../../model/level/hint';
-import {FlagCheck} from '../../../model/level/flag-check';
+import {GameLevel} from 'kypo-training-model';
+import {Hint} from 'kypo-training-model';
+import {FlagCheck} from 'kypo-training-model';
 import {
   CsirtMuConfirmationDialogComponent,
   CsirtMuConfirmationDialogConfig,

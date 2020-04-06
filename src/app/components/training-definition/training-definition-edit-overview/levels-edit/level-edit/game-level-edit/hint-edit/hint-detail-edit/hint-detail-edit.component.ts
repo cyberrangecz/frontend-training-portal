@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import {Validators} from '@angular/forms';
 import {takeWhile} from 'rxjs/operators';
-import {Hint} from '../../../../../../../../model/level/hint';
+import {Hint} from 'kypo-training-model';
 import {KypoBaseComponent} from 'kypo-common';
 import {HintEditFormGroup} from './hint-edit-form-group';
 

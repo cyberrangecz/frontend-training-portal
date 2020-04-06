@@ -1,6 +1,6 @@
 import {async, TestBed} from '@angular/core/testing';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
-import {UserApi} from '../../api/user-api.service';
+import {UserApi} from 'kypo-training-api';
 import {asyncData} from 'kypo-common';
 import {KypoRequestedPagination} from 'kypo-common';
 import {KypoPaginatedResource} from 'kypo-common';
@@ -13,17 +13,17 @@ import {OrganizersAssignService} from './organizers-assign.service';
 
 describe('OrganizersAssignService', () => {
   let errorHandlerSpy: jasmine.SpyObj<ErrorHandlerService>;
-  let facadeSpy: jasmine.SpyObj<UserApi>;
+  let apiSpy: jasmine.SpyObj<UserApi>;
   let service: OrganizersAssignService;
 
   beforeEach(async(() => {
     errorHandlerSpy = jasmine.createSpyObj('ErrorHandlerService', ['emit']);
-    facadeSpy = jasmine.createSpyObj('UserFacade', ['getOrganizersNotInTI', 'getOrganizers', 'updateOrganizers']);
+    apiSpy = jasmine.createSpyObj('UserApi', ['getOrganizersNotInTI', 'getOrganizers', 'updateOrganizers']);
 
     TestBed.configureTestingModule({
       providers: [
         OrganizersAssignService,
-        {provide: UserApi, useValue: facadeSpy},
+        {provide: UserApi, useValue: apiSpy},
         {provide: ErrorHandlerService, useValue: errorHandlerSpy}
       ]
     });
@@ -35,68 +35,68 @@ describe('OrganizersAssignService', () => {
   });
 
   it('should load available organizers from facade (called once)', done => {
-    facadeSpy.getOrganizers.and.returnValue((asyncData(createMock())));
+    apiSpy.getOrganizers.and.returnValue((asyncData(createMock())));
     const pagination = createPagination();
     service.getAssigned(0, pagination)
       .subscribe(_ => done(),
         fail);
-    expect(facadeSpy.getOrganizers).toHaveBeenCalledTimes(1);
+    expect(apiSpy.getOrganizers).toHaveBeenCalledTimes(1);
   });
 
   it('should load assigned organizers from facade (called once)', done => {
-    facadeSpy.getOrganizersNotInTI.and.returnValue((asyncData(createMock())));
+    apiSpy.getOrganizersNotInTI.and.returnValue((asyncData(createMock())));
     service.getAvailableToAssign(0)
       .subscribe(_ => done(),
         fail);
-    expect(facadeSpy.getOrganizersNotInTI).toHaveBeenCalledTimes(1);
+    expect(apiSpy.getOrganizersNotInTI).toHaveBeenCalledTimes(1);
   });
 
   it('should assign organizers through facade (called once)', done => {
-    facadeSpy.updateOrganizers.and.returnValue(asyncData(null));
-    facadeSpy.getOrganizers.and.returnValue((asyncData(createMock())));
+    apiSpy.updateOrganizers.and.returnValue(asyncData(null));
+    apiSpy.getOrganizers.and.returnValue((asyncData(createMock())));
     const usersToAssign = createMock().elements;
     const idsToAssign = usersToAssign.map(user => user.id);
     service.assign(0, usersToAssign).subscribe(_ => done(),
       fail);
-    expect(facadeSpy.updateOrganizers).toHaveBeenCalledTimes(1);
-    expect(facadeSpy.updateOrganizers).toHaveBeenCalledWith(0, idsToAssign, []);
+    expect(apiSpy.updateOrganizers).toHaveBeenCalledTimes(1);
+    expect(apiSpy.updateOrganizers).toHaveBeenCalledWith(0, idsToAssign, []);
   });
 
   it('should refresh organizers after assign action', done => {
-    facadeSpy.updateOrganizers.and.returnValue(asyncData(null));
-    facadeSpy.getOrganizers.and.returnValue((asyncData(createMock())));
+    apiSpy.updateOrganizers.and.returnValue(asyncData(null));
+    apiSpy.getOrganizers.and.returnValue((asyncData(createMock())));
     const usersToAssign = createMock().elements;
     service.assign(0, usersToAssign).subscribe(_ => {
-        expect(facadeSpy.getOrganizers).toHaveBeenCalledTimes(1);
+        expect(apiSpy.getOrganizers).toHaveBeenCalledTimes(1);
         done();
       },
       fail);
   });
 
   it('should unassign organizers through facade (called once)', done => {
-    facadeSpy.updateOrganizers.and.returnValue(asyncData(null));
-    facadeSpy.getOrganizers.and.returnValue((asyncData(createMock())));
+    apiSpy.updateOrganizers.and.returnValue(asyncData(null));
+    apiSpy.getOrganizers.and.returnValue((asyncData(createMock())));
     const usersToUnassign = createMock().elements;
     const idsToUnassign = usersToUnassign.map(user => user.id);
     service.unassign(0, usersToUnassign).subscribe(_ => done(),
       fail);
-    expect(facadeSpy.updateOrganizers).toHaveBeenCalledTimes(1);
-    expect(facadeSpy.updateOrganizers).toHaveBeenCalledWith(0, [], idsToUnassign);
+    expect(apiSpy.updateOrganizers).toHaveBeenCalledTimes(1);
+    expect(apiSpy.updateOrganizers).toHaveBeenCalledWith(0, [], idsToUnassign);
   });
 
   it('should refresh asssigned organizers after unassign action', done => {
-    facadeSpy.updateOrganizers.and.returnValue(asyncData(null));
-    facadeSpy.getOrganizers.and.returnValue((asyncData(createMock())));
+    apiSpy.updateOrganizers.and.returnValue(asyncData(null));
+    apiSpy.getOrganizers.and.returnValue((asyncData(createMock())));
     const usersToUnassign = createMock().elements;
     service.unassign(0, usersToUnassign).subscribe(_ => {
-        expect(facadeSpy.updateOrganizers).toHaveBeenCalledTimes(1);
+        expect(apiSpy.updateOrganizers).toHaveBeenCalledTimes(1);
         done();
       },
       fail);
   });
 
   it('should call error handler on err (getAvailableToAssign)', done => {
-    facadeSpy.getOrganizersNotInTI.and.returnValue((throwError(null)));
+    apiSpy.getOrganizersNotInTI.and.returnValue((throwError(null)));
     service.getAvailableToAssign(0)
       .subscribe(_ => fail,
         err => {
@@ -106,7 +106,7 @@ describe('OrganizersAssignService', () => {
   });
 
   it('should call error handler on err (getAssigned)', done => {
-    facadeSpy.getOrganizers.and.returnValue((throwError(null)));
+    apiSpy.getOrganizers.and.returnValue((throwError(null)));
     service.getAssigned(0, null)
       .subscribe(_ => fail,
         err => {
@@ -116,7 +116,7 @@ describe('OrganizersAssignService', () => {
   });
 
   it('should call error handler on err (assign)', done => {
-    facadeSpy.updateOrganizers.and.returnValue((throwError(null)));
+    apiSpy.updateOrganizers.and.returnValue((throwError(null)));
     service.assign(0, [])
       .subscribe(_ => fail,
         err => {
@@ -126,7 +126,7 @@ describe('OrganizersAssignService', () => {
   });
 
   it('should call error handler on err (unassign)', done => {
-    facadeSpy.updateOrganizers.and.returnValue((throwError(null)));
+    apiSpy.updateOrganizers.and.returnValue((throwError(null)));
     service.unassign(0, [])
       .subscribe(_ => fail,
         err => {
@@ -136,7 +136,7 @@ describe('OrganizersAssignService', () => {
   });
 
   it ('should emit hasError on err', done => {
-    facadeSpy.getOrganizers.and.returnValue((throwError(null)));
+    apiSpy.getOrganizers.and.returnValue((throwError(null)));
     const pagination = createPagination();
     service.hasError$.pipe(skip(2)) // we ignore initial value and value emitted before the call is made
       .subscribe(emitted => {
@@ -152,7 +152,7 @@ describe('OrganizersAssignService', () => {
 
   it('should emit next value on get assigned organizers', done => {
     const mockData = createMock();
-    facadeSpy.getOrganizers.and.returnValue((asyncData(mockData)));
+    apiSpy.getOrganizers.and.returnValue((asyncData(mockData)));
     const pagination = createPagination();
     service.assignedUsers$
       .pipe(skip(1))

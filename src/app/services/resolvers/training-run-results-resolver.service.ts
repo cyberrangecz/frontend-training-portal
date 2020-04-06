@@ -1,9 +1,9 @@
-import {TrainingRun} from '../../model/training/training-run';
+import {TrainingRun} from 'kypo-training-model';
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
 import {EMPTY, Observable, of} from 'rxjs';
 import {ErrorHandlerService} from '../shared/error-handler.service';
-import {TrainingRunApi} from '../api/training-run-api.service';
+import {TrainingRunApi} from 'kypo-training-api';
 import {catchError, mergeMap, take} from 'rxjs/operators';
 import {RouteFactory} from '../../model/routes/route-factory';
 import {TRAINING_RUN_RESULTS_SELECTOR} from '../../components/training-run/training-run-overview/paths';

@@ -1,6 +1,6 @@
 import {StepItem, StepperItemState} from 'kypo2-stepper';
-import {Level} from '../level/level';
-import {AbstractLevelTypeEnum} from '../enums/abstract-level-type.enum';
+import {Level} from 'kypo-training-model';
+import {AbstractLevelTypeEnum} from 'kypo-training-model';
 
 export class LevelStepperAdapter implements StepItem {
   id: number;

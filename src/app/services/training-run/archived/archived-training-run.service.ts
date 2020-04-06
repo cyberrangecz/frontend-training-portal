@@ -3,8 +3,8 @@ import {Observable} from 'rxjs';
 import {KypoPaginatedResource} from 'kypo-common';
 import {KypoRequestedPagination} from 'kypo-common';
 import {KypoPaginatedResourceService} from 'kypo-common';
-import {TrainingInstance} from '../../../model/training/training-instance';
-import {TrainingRun} from '../../../model/training/training-run';
+import {TrainingInstance} from 'kypo-training-model';
+import {TrainingRun} from 'kypo-training-model';
 
 /**
  * Layer between component and API service. Implement concrete service by extending this class.

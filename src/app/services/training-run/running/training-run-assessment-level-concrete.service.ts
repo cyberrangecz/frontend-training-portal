@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {Question} from '../../../model/questions/question';
-import {TrainingRunApi} from '../../api/training-run-api.service';
+import {Question} from 'kypo-training-model';
+import {TrainingRunApi} from 'kypo-training-api';
 import {TrainingRunAssessmentLevelService} from './training-run-assessment-level.service';
 import {RunningTrainingRunService} from './running-training-run.service';
 import {switchMap, tap} from 'rxjs/operators';

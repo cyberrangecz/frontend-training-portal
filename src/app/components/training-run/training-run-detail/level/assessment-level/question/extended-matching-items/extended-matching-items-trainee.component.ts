@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Question} from '../../../../../../../model/questions/question';
-import {ExtendedMatchingItems} from '../../../../../../../model/questions/extended-matching-items';
+import {Question} from 'kypo-training-model';
+import {ExtendedMatchingItems} from 'kypo-training-model';
 import {KypoBaseComponent} from 'kypo-common';
 
 @Component({

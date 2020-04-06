@@ -1,7 +1,7 @@
 /**
  * Class representing hint button in a training level.
  */
-import {Hint} from './hint';
+import {Hint} from 'kypo-training-model';
 import {BehaviorSubject, Observable} from 'rxjs';
 
 export class HintButton {

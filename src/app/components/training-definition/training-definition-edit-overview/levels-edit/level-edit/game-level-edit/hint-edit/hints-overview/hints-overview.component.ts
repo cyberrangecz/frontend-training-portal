@@ -12,7 +12,7 @@ import {
 import {MatDialog} from '@angular/material/dialog';
 import {Kypo2Stepper} from 'kypo2-stepper';
 import {takeWhile} from 'rxjs/operators';
-import {Hint} from '../../../../../../../../model/level/hint';
+import {Hint} from 'kypo-training-model';
 import {KypoBaseComponent} from 'kypo-common';
 import {HintStepperAdapter} from '../../../../../../../../model/stepper/hint-stepper-adapter';
 import {

@@ -1,5 +1,5 @@
-import {TrainingRunStateEnum} from '../../enums/training-run-state.enum';
-import {TrainingRun} from '../../training/training-run';
+import {TrainingRunStateEnum} from 'kypo-training-model';
+import {TrainingRun} from 'kypo-training-model';
 
 /**
  * Class representing row of training run table

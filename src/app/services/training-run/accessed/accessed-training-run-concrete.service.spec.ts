@@ -1,7 +1,7 @@
 import {AccessedTrainingRunConcreteService} from './accessed-training-run-concrete.service';
 import {async, TestBed} from '@angular/core/testing';
 import {ErrorHandlerService} from '../../shared/error-handler.service';
-import {TrainingRunApi} from '../../api/training-run-api.service';
+import {TrainingRunApi} from 'kypo-training-api';
 import {throwError} from 'rxjs';
 import {skip} from 'rxjs/operators';
 import {RouterTestingModule} from '@angular/router/testing';

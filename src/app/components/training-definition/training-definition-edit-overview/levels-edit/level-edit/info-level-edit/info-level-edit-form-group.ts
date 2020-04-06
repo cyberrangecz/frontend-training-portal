@@ -1,5 +1,5 @@
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {InfoLevel} from '../../../../../../model/level/info-level';
+import {InfoLevel} from 'kypo-training-model';
 import { KypoValidators } from 'kypo-common';
 
 /**

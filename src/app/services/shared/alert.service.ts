@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../../environments/environment';
-import {AlertTypeEnum} from '../../model/enums/alert-type.enum';
 import {CsirtMuNotification, CsirtMuNotificationService, CsirtMuNotificationTypeEnum} from 'csirt-mu-layout';
 
 /**

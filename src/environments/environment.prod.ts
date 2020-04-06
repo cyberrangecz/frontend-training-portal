@@ -2,7 +2,7 @@ import {NG_ENV} from 'angular-server-side-configuration/ng-env';
 
 export const baseURL = 'https://kypo.ics.muni.cz';
 export const homeURL = baseURL;
-export const trainingsURL = baseURL + ':8083/kypo2-rest-training/api/v1/';
+export const trainingURL = baseURL + ':8083/kypo2-rest-training/api/v1/';
 export const sandboxesURL = baseURL + ':8080/kypo-sandbox-service/api/v1/';
 export const userAngGroupURL = baseURL + ':8084/kypo2-rest-user-and-group/api/v1/';
 
@@ -29,7 +29,9 @@ export const environment = {
   sandboxApiConfig: {
     sandboxRestBasePath: NG_ENV.sandboxRestBasePath
   },
-
+  trainingApiConfig: {
+    trainingBasePath: NG_ENV.trainingRestBasePath
+  },
   kypo2TopologyConfig: {
   topologyRestUrl: NG_ENV.topologyRestUrl,
     decoratorsRestUrl: NG_ENV.decoratorsRestUrl,

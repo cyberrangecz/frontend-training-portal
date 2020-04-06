@@ -6,7 +6,7 @@ import {
   TRAINING_INSTANCE_EDIT_PATH,
   TRAINING_INSTANCE_NEW_PATH
 } from '../../components/training-instance/training-instance-overview/paths';
-import {TrainingInstance} from '../../model/training/training-instance';
+import {TrainingInstance} from 'kypo-training-model';
 import {TrainingInstanceResolver} from './training-instance-resolver.service';
 
 /**

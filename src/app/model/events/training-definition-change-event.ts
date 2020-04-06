@@ -1,4 +1,4 @@
-import {TrainingDefinition} from '../training/training-definition';
+import {TrainingDefinition} from 'kypo-training-model';
 
 /**
  * Event representing training definition change (edit)

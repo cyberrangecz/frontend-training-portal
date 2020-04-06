@@ -1,5 +1,5 @@
-import {TrainingDefinitionStateEnum} from '../../../model/enums/training-definition-state.enum';
-import {TrainingDefinition} from '../../../model/training/training-definition';
+import {TrainingDefinitionStateEnum} from 'kypo-training-model';
+import {TrainingDefinition} from 'kypo-training-model';
 import {Observable} from 'rxjs';
 import {KypoRequestedPagination} from 'kypo-common';
 import {KypoPaginatedResource} from 'kypo-common';

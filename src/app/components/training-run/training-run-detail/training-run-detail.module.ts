@@ -5,8 +5,6 @@ import {TrainingRunLevelsDeactivateGuard} from '../../../services/guards/trainin
 import {LevelModule} from './level/level.module';
 import {TrainingRunDetailComponentModule} from './training-run-detail-component.module';
 import {TrainingRunDetailRoutingModule} from './training-run-detail-routing.module';
-import {TrainingDefinitionApi} from '../../../services/api/training-definition-api.service';
-import {TrainingRunApi} from '../../../services/api/training-run-api.service';
 
 /**
  * Module containing imports and providers for training run detail
@@ -22,8 +20,6 @@ import {TrainingRunApi} from '../../../services/api/training-run-api.service';
   declarations: [
   ],
   providers: [
-    TrainingRunApi,
-    TrainingDefinitionApi,
     TrainingRunLevelsDeactivateGuard
   ]
 })

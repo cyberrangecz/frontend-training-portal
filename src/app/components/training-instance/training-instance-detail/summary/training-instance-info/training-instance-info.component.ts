@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {TrainingDefinition} from '../../../../../model/training/training-definition';
-import {TrainingInstance} from '../../../../../model/training/training-instance';
+import {TrainingDefinition} from 'kypo-training-model';
+import {TrainingInstance} from 'kypo-training-model';
 import {KypoBaseComponent} from 'kypo-common';
 import {RouteFactory} from '../../../../../model/routes/route-factory';
 

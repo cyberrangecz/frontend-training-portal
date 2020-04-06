@@ -3,7 +3,7 @@ import {FormArray, FormControl} from '@angular/forms';
 import {User} from 'kypo2-auth';
 import {takeWhile} from 'rxjs/operators';
 import {TrainingDefinitionChangeEvent} from '../../../../model/events/training-definition-change-event';
-import {TrainingDefinition} from '../../../../model/training/training-definition';
+import {TrainingDefinition} from 'kypo-training-model';
 import {KypoBaseComponent} from 'kypo-common';
 import {FreeFormItemsChangeEvent} from '../../../../model/utils/free-form-items-change-event';
 import {TrainingDefinitionEditFormGroup} from './training-definition-edit-form-group';

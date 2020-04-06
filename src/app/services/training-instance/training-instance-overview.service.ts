@@ -1,7 +1,7 @@
 import {KypoPaginatedResourceService} from 'kypo-common';
 import {Observable} from 'rxjs';
 import {KypoPaginatedResource} from 'kypo-common';
-import {TrainingInstance} from '../../model/training/training-instance';
+import {TrainingInstance} from 'kypo-training-model';
 import {KypoRequestedPagination} from 'kypo-common';
 
 export abstract class TrainingInstanceOverviewService extends KypoPaginatedResourceService<TrainingInstance> {

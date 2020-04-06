@@ -1,5 +1,5 @@
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Hint} from '../../../../../../../../model/level/hint';
+import {Hint} from 'kypo-training-model';
 import { KypoValidators } from 'kypo-common';
 
 /**

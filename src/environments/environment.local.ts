@@ -3,7 +3,7 @@ export const baseURL = 'http://localhost';
 // Frontend url
 export const homeURL = 'https://localhost:4200';
 // trainings service url
-export const trainingsURL = baseURL + ':3000/kypo2-rest-training/api/v1/';
+export const trainingURL = baseURL + ':3000/kypo2-rest-training/api/v1/';
 // sandboxes service url
 export const sandboxesURL = baseURL + ':3000/kypo-sandbox-service/api/v1/';
 
@@ -21,7 +21,7 @@ export const kypo2TopologyConfig = {
 
 export const environment = {
   production: false,
-  trainingRestBasePath: trainingsURL,
+  trainingRestBasePath: trainingURL,
   sandboxRestBasePath: sandboxesURL,
   defaultAlertDuration: 5000, // 0 to display until user dismisses it
   defaultPaginationSize: 10,
@@ -34,6 +34,9 @@ export const environment = {
   },
   sandboxApiConfig: {
     sandboxRestBasePath: sandboxesURL
+  },
+  trainingApiConfig: {
+    trainingBasePath: trainingURL
   },
   kypo2UserAndGroupConfig: {
     userAndGroupRestBasePath: userAngGroupURL,
