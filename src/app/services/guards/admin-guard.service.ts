@@ -5,7 +5,7 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {HOME_PATH} from '../../paths';
 import {CanActivateToObservable} from './can-activate-to-observable';
-import {RoleResolver} from '../../model/utils/role-resolver';
+import {RoleResolver} from '../../utils/role-resolver';
 
 @Injectable()
 /**

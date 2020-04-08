@@ -30,7 +30,7 @@ const routes: Routes = [
   },
   {
     path: TRAINING_DEFINITION_PATH,
-    loadChildren: () => import('app/components/training-definition/training-definition-overview/training-definition-overview.module').then(m => m.TrainingDefinitionOverviewModule),
+    loadChildren: () => import('./modules/training-agenda/definition/overview/training-definition-overview.module').then(m => m.TrainingDefinitionOverviewModule),
     canActivate: [DesignerGuard],
     data: {
       breadcrumb: 'Training Definitions',
@@ -39,7 +39,7 @@ const routes: Routes = [
   },
   {
     path: SANDBOX_DEFINITION_PATH,
-    loadChildren: () => import('./components/sandbox-agenda/sandbox-definition/sandbox-definition-overview.module').then(m => m.SandboxDefinitionOverviewModule),
+    loadChildren: () => import('./modules/sandbox-agenda/sandbox-definition/sandbox-definition-overview.module').then(m => m.SandboxDefinitionOverviewModule),
     canActivate: [SandboxDesignerGuard],
     data: {
       breadcrumb: 'Sandbox Definitions',
@@ -48,7 +48,7 @@ const routes: Routes = [
   },
   {
     path: TRAINING_INSTANCE_PATH,
-    loadChildren: () => import('app/components/training-instance/training-instance-overview/training-instance-overview.module').then(m => m.TrainingInstanceOverviewModule),
+    loadChildren: () => import('./modules/training-agenda/instance/overview/training-instance-overview.module').then(m => m.TrainingInstanceOverviewModule),
     canActivate: [OrganizerGuard],
     data: {
       breadcrumb: 'Training Instances',
@@ -57,7 +57,7 @@ const routes: Routes = [
   },
   {
     path: SANDBOX_POOL_PATH,
-    loadChildren: () => import('./components/sandbox-agenda/pool/sandbox-pool-overview.module').then(m => m.SandboxPoolOverviewModule),
+    loadChildren: () => import('./modules/sandbox-agenda/pool/sandbox-pool-overview.module').then(m => m.SandboxPoolOverviewModule),
     canActivate: [SandboxOrganizerGuard],
     data: {
       breadcrumb: 'Pools',
@@ -66,7 +66,7 @@ const routes: Routes = [
   },
   {
     path: TRAINING_RUN_PATH,
-    loadChildren: () => import('app/components/training-run/training-run-overview/training-run-overview.module').then(m => m.TrainingRunOverviewModule),
+    loadChildren: () => import('./modules/training-agenda/run/overview/training-run-overview.module').then(m => m.TrainingRunOverviewModule),
     canActivate: [TraineeGuard],
     data: {
       breadcrumb: 'Training Runs',
@@ -107,7 +107,7 @@ const routes: Routes = [
   },
   {
     path: NOTIFICATIONS_PATH,
-    loadChildren: () => import('./components/notifications/notifications-overview.module').then(m => m.NotificationsOverviewModule),
+    loadChildren: () => import('./modules/notifications/notifications-overview.module').then(m => m.NotificationsOverviewModule),
     data: { breadcrumb: 'Notifications'}
   },
  {

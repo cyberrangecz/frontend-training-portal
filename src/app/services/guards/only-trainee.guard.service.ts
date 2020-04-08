@@ -6,7 +6,7 @@ import {map} from 'rxjs/operators';
 import {TRAINING_RUN_PATH} from '../../paths';
 import {LoadingService} from '../shared/loading.service';
 import {CanActivateToObservable} from './can-activate-to-observable';
-import {RoleResolver} from '../../model/utils/role-resolver';
+import {RoleResolver} from '../../utils/role-resolver';
 
 /**
  * Route guard determining if user is signed in and has ONLY role of a trainee.
