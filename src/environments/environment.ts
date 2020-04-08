@@ -1,4 +1,5 @@
 // Server url
+
 export const baseURL = 'https://kypo-devel.ics.muni.cz';
 // Frontend url
 export const homeURL = 'https://localhost:4200';
@@ -18,14 +19,23 @@ export const kypo2TopologyConfig =  {
     useDecorators: false, // OBSOLETE
 };
 
+export const visualizationConfig = {
+  trainingBasePath: trainingURL
+};
+
 export const environment = {
   production: false,
-  trainingRestBasePath: trainingURL,
-  sandboxRestBasePath: sandboxesURL,
-  defaultAlertDuration: 5000, // 0 to display until user dismisses it
-  defaultPaginationSize: 10,
-  organizerSummaryPollingPeriod: 5000, // api polling period in training instance detail page
+  defaultNotificationDuration: 5000, // 0 to display until user dismisses it
 
+  trainingAgendaConfig: {
+    pollingPeriod: 5000,
+    defaultPaginationSize: 10,
+    visualizationConfig,
+    kypo2TopologyConfig
+  },
+  trainingApiConfig: {
+    trainingBasePath: trainingURL
+  },
   sandboxAgendaConfig: {
     pollingPeriod: 5000,
     defaultPaginationSize: 10,
@@ -34,38 +44,35 @@ export const environment = {
   sandboxApiConfig: {
     sandboxRestBasePath: sandboxesURL
   },
-  trainingApiConfig: {
-    trainingBasePath: trainingURL
-  },
   kypo2UserAndGroupConfig: {
     userAndGroupRestBasePath: userAngGroupURL,
     defaultPaginationSize: 10,
   },
   kypo2AuthConfig: {
-    maxRetryAttempts: 3, // How many attempts to try to get user info from user and group service before emitting error
-    guardMainPageRedirect: 'home', // Redirect from login page if user is logged in
-    guardLoginPageRedirect: 'login', // Redirect to login page if user is not logged in
-    tokenInterceptorAllowedUrls: [ // all matching urls will have authorization token header
+    maxRetryAttempts: 3,
+    guardMainPageRedirect: 'home',
+    guardLoginPageRedirect: 'login',
+    tokenInterceptorAllowedUrls: [
       baseURL
     ],
     userInfoRestUri: userAngGroupURL,
-    providers: [ // OIDC providers
+    providers: [
       {
         label: 'Login with MUNI',
         textColor: 'white',
         backgroundColor: '#002776',
-        tokenRefreshTime: 30000, // how often check if tokens are still valid
+        tokenRefreshTime: 30000,
         oidcConfig: {
           issuer: 'https://oidc.muni.cz/oidc/',
           clientId: 'b53f2660-8fa0-4d32-94e4-23a59d7e7077',
-          redirectUri: homeURL, // redirect after successful login
+          redirectUri: homeURL,
           scope: 'openid email profile',
           logoutUrl: 'https://oidc.muni.cz/oidc/endsession',
           postLogoutRedirectUri: homeURL + '/logout-confirmed/',
           silentRefreshRedirectUri: homeURL + '/silent-refresh.html',
-          clearHashAfterLogin: true // remove token and other info from url after login
+          clearHashAfterLogin: true
         },
-      },
+      }
     ]
   }
 };

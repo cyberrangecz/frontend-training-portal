@@ -13,7 +13,7 @@ import {
   TRAINING_RUN_PATH
 } from '../../paths';
 import {KypoBaseComponent} from 'kypo-common';
-import {RoleResolver} from '../../model/utils/role-resolver';
+import {RoleResolver} from '../../utils/role-resolver';
 
 /**
  * Main component of homepage (portal) page. Portal page is a main crossroad of possible sub pages. Only those matching with user

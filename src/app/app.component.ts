@@ -1,15 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {Kypo2AuthService, User} from 'kypo2-auth';
 import {Observable} from 'rxjs';
-import {debounceTime, filter, map, takeWhile} from 'rxjs/operators';
+import {filter, map, takeWhile} from 'rxjs/operators';
 import {KypoBaseComponent} from 'kypo-common';
-import {AlertService} from './services/shared/alert.service';
+import {NotificationService} from './services/shared/notification.service';
 import {LoadingService} from './services/shared/loading.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {ErrorHandlerService} from './services/shared/error-handler.service';
-import {NavBuilder} from './model/utils/nav-builder';
 import {AgendaContainer} from 'csirt-mu-layout';
 import {NOTIFICATIONS_PATH} from './paths';
+import {NavBuilder} from './utils/nav-builder';
 
 /**
  * Main component serving as wrapper for layout and router outlet
@@ -22,30 +22,44 @@ import {NOTIFICATIONS_PATH} from './paths';
 export class AppComponent extends KypoBaseComponent implements OnInit {
   isLoading$: Observable<boolean>;
   activeUser$: Observable<User>;
+  title$: Observable<string>;
   agendaContainers$: Observable<AgendaContainer[]>;
   notificationRoute = NOTIFICATIONS_PATH;
 
   constructor(private router: Router,
-              private alertService: AlertService,
+              private activatedRoute: ActivatedRoute,
+              private notificationService: NotificationService,
               private loadingService: LoadingService,
               private errorHandler: ErrorHandlerService,
               private auth: Kypo2AuthService,
 ) {
     super();
     this.activeUser$ = this.auth.activeUser$;
+    this.title$ = this.getTitleFromRouter();
     this.agendaContainers$ = this.auth.activeUser$
       .pipe(
         filter(user => user !== null && user !== undefined),
         map(user => NavBuilder.build(user))
       );
-    this.isLoading$ = this.loadingService.isLoading$
-      .pipe(
-        debounceTime(0)
-      );
+    this.isLoading$ = this.loadingService.isLoading$;
     this.subscribeKypo2AuthErrors();
   }
 
   ngOnInit() {
+  }
+
+  private getTitleFromRouter(): Observable<string> {
+    return this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      map(() => {
+        let route = this.activatedRoute;
+        while (route.firstChild) { route = route.firstChild; }
+        return route;
+      }),
+      filter((route) => route.outlet === 'primary'),
+      map((route) => route.snapshot),
+      map((snapshot) => snapshot.data.title)
+    );
   }
 
   onLogin() {
@@ -61,6 +75,6 @@ export class AppComponent extends KypoBaseComponent implements OnInit {
       .pipe(
         takeWhile(() => this.isAlive)
       )
-      .subscribe(error => this.alertService.emit('error', error.toString()));
+      .subscribe(error => this.notificationService.emit('error', error.toString()));
   }
 }

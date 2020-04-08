@@ -8,8 +8,8 @@ import {
 import {Router} from '@angular/router';
 import {ErrorHandlerService} from '../../services/shared/error-handler.service';
 import {takeWhile} from 'rxjs/operators';
-import {RouteFactory} from '../../model/routes/route-factory';
 import {CsirtMuNotificationService, CsirtMuNotificationTypeEnum} from 'csirt-mu-layout';
+import {RouteFactory} from '../../utils/route-factory';
 
 export class AdminBaseComponent extends KypoBaseComponent implements OnInit {
 

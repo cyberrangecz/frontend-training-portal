@@ -5,7 +5,7 @@ import {
   Kypo2UserAndGroupRoutingEventService
 } from 'kypo2-user-and-group-management';
 import {Router} from '@angular/router';
-import {AlertService} from '../../../../services/shared/alert.service';
+import {NotificationService} from '../../../../services/shared/notification.service';
 import {ErrorHandlerService} from '../../../../services/shared/error-handler.service';
 import {AdminBaseComponent} from '../../admin-base-component';
 import {CsirtMuNotificationService} from 'csirt-mu-layout';

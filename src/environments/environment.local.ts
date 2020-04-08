@@ -19,14 +19,23 @@ export const kypo2TopologyConfig = {
   useDecorators: false, // OBSOLETE
 };
 
+export const visualizationConfig = {
+  trainingBasePath: trainingURL
+};
+
 export const environment = {
   production: false,
-  trainingRestBasePath: trainingURL,
-  sandboxRestBasePath: sandboxesURL,
-  defaultAlertDuration: 5000, // 0 to display until user dismisses it
-  defaultPaginationSize: 10,
-  organizerSummaryPollingPeriod: 5000, // api polling period in training instance detail page
+  defaultNotificationDuration: 5000, // 0 to display until user dismisses it
 
+  trainingAgendaConfig: {
+    pollingPeriod: 5000,
+    defaultPaginationSize: 10,
+    visualizationConfig,
+    kypo2TopologyConfig
+  },
+  trainingApiConfig: {
+    trainingBasePath: trainingURL
+  },
   sandboxAgendaConfig: {
     pollingPeriod: 5000,
     defaultPaginationSize: 10,
@@ -34,9 +43,6 @@ export const environment = {
   },
   sandboxApiConfig: {
     sandboxRestBasePath: sandboxesURL
-  },
-  trainingApiConfig: {
-    trainingBasePath: trainingURL
   },
   kypo2UserAndGroupConfig: {
     userAndGroupRestBasePath: userAngGroupURL,

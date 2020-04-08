@@ -9,7 +9,6 @@ import {environment} from '../environments/environment';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HomeModule} from './components/home/home.module';
-import {SharedModule} from './components/shared/shared.module';
 import {AdminGuard} from './services/guards/admin-guard.service';
 import {DesignerGuard} from './services/guards/designer-guard.service';
 import {NotOnlyTraineeGuard} from './services/guards/only-trainee.guard.service';
@@ -22,6 +21,8 @@ import {CsirtMuLayout1Module} from 'csirt-mu-layout';
 import {CsirtMuConfirmationDialogModule} from 'csirt-mu-common';
 import {SandboxDesignerGuard} from './services/guards/sandbox-designer-guard.service';
 import {SandboxOrganizerGuard} from './services/guards/sandbox-organizer-guard.service';
+import {ErrorHandlerService} from './services/shared/error-handler.service';
+import {NotificationService} from './services/shared/notification.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,6 @@ import {SandboxOrganizerGuard} from './services/guards/sandbox-organizer-guard.s
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    SharedModule,
     CsirtMuLayout1Module,
     CsirtMuConfirmationDialogModule,
     HomeModule,
@@ -49,6 +49,8 @@ import {SandboxOrganizerGuard} from './services/guards/sandbox-organizer-guard.s
     TraineeGuard,
     NotOnlyTraineeGuard,
     LoadingService,
+    NotificationService,
+    ErrorHandlerService,
     { provide: HTTP_INTERCEPTORS, useClass: Kypo2AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorLogInterceptor, multi: true },

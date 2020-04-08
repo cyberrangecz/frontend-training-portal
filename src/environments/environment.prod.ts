@@ -1,19 +1,28 @@
 import {NG_ENV} from 'angular-server-side-configuration/ng-env';
 
-export const baseURL = 'https://kypo.ics.muni.cz';
-export const homeURL = baseURL;
-export const trainingURL = baseURL + ':8083/kypo2-rest-training/api/v1/';
-export const sandboxesURL = baseURL + ':8080/kypo-sandbox-service/api/v1/';
-export const userAngGroupURL = baseURL + ':8084/kypo2-rest-user-and-group/api/v1/';
-
 export const environment = {
   production: NG_ENV.production,
-  trainingRestBasePath: NG_ENV.trainingRestBasePath,
-  sandboxRestBasePath: NG_ENV.sandboxRestBasePath,
   // BEHAVIOUR SETTINGS
-  defaultAlertDuration: Number(NG_ENV.defaultAlertDuration), // 0 to display until user dismisses it
-  defaultPaginationSize: Number(NG_ENV.defaultPaginationSize),
-  organizerSummaryPollingPeriod: Number(NG_ENV.organizerSummaryPollingPeriod),
+  defaultNotificationDuration: Number(NG_ENV.defaultAlertDuration), // 0 to display until user dismisses it
+
+  trainingAgendaConfig: {
+    pollingPeriod: 5000,
+    defaultPaginationSize: 10,
+    visualizationConfig: {
+      trainingBasePath: NG_ENV.trainingRestBasePath
+    },
+    kypo2TopologyConfig: {
+      topologyRestUrl: NG_ENV.topologyRestUrl,
+      decoratorsRestUrl: NG_ENV.decoratorsRestUrl,
+      defaultDecoratorRefreshPeriodInSeconds: Number(NG_ENV.defaultDecoratorRefreshPeriodInSeconds),
+      useRealTime: Boolean(NG_ENV.useRealTime),
+      useDecorators: Boolean(NG_ENV.useDecorators),
+    },
+  },
+
+  trainingApiConfig: {
+    trainingBasePath: NG_ENV.trainingRestBasePath
+  },
 
   sandboxAgendaConfig: {
     pollingPeriod: Number(NG_ENV.pollingPeriod),
@@ -28,9 +37,6 @@ export const environment = {
   },
   sandboxApiConfig: {
     sandboxRestBasePath: NG_ENV.sandboxRestBasePath
-  },
-  trainingApiConfig: {
-    trainingBasePath: NG_ENV.trainingRestBasePath
   },
   kypo2TopologyConfig: {
   topologyRestUrl: NG_ENV.topologyRestUrl,
@@ -49,7 +55,7 @@ export const environment = {
     guardLoginPageRedirect: NG_ENV.guardLoginPageRedirect,
     userInfoRestUri: NG_ENV.userInfoRestUri,
     tokenInterceptorAllowedUrls: [
-      baseURL
+      NG_ENV.baseUrl
     ],
     providers: [
       {

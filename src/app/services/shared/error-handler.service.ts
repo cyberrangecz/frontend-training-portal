@@ -38,10 +38,15 @@ export class ErrorHandlerService {
       this.notificationService.emit(notification);
       return;
     }
-    if (err.url.startsWith(environment.trainingRestBasePath) || err.url.startsWith(environment.kypo2UserAndGroupConfig.userAndGroupRestBasePath)) {
-      this.setJavaApiErrorNotification(err, notification)
-    } else if (err.url.startsWith(environment.sandboxRestBasePath)) {
+    if (err.url.startsWith(environment.trainingApiConfig.trainingBasePath)) {
+      this.setJavaApiErrorNotification(err, notification);
+      notification.source = 'Training Agenda';
+    } else if (err.url.startsWith(environment.kypo2UserAndGroupConfig.userAndGroupRestBasePath)) {
+      this.setJavaApiErrorNotification(err, notification);
+      notification.source = 'User & Group Agenda';
+    } else if (err.url.startsWith(environment.sandboxApiConfig.sandboxRestBasePath)) {
       this.setPythonApiErrorToNotification(err, notification)
+      notification.source = 'Sandbox Agenda';
     } else { // UNKNOWN API
       notification.additionalInfo = ['Failed with unsupported error message. Please report the following message to developers', err?.message?.toString()];
     }

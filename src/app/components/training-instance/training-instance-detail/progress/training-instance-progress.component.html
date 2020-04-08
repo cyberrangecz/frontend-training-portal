@@ -1,9 +1,0 @@
-<h1>{{ (trainingInstance$ | async)?.title | titlecase}} Progress</h1>
-<mat-card>
-  <kypo2-viz-hurdling *ngIf="(trainingInstance$ | async) as trainingInstance"
-                      showProgressView="true"
-                      [trainingInstanceId]="trainingInstance?.id"
-                      [trainingDefinitionId]="trainingInstance?.trainingDefinition?.id">
-  </kypo2-viz-hurdling>
-</mat-card>
-
