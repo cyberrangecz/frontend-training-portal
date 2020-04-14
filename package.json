@@ -27,7 +27,6 @@
     "@busacca/ng-pick-datetime": "9.0.0",
     "angular-file": "3.0.0",
     "angular-oauth2-oidc": "^8.0.4",
-    "angular-server-side-configuration": "9.0.2",
     "core-js": "^3.4.0",
     "csirt-mu-common": "9.0.0",
     "csirt-mu-d3-service": "9.0.0",

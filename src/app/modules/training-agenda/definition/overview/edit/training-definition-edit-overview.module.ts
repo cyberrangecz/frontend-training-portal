@@ -2,12 +2,12 @@ import {NgModule} from '@angular/core';
 import {TrainingDefinitionEditOverviewComponentsModule} from 'kypo-training-agenda';
 import {CommonModule} from '@angular/common';
 import {TrainingDefinitionEditOverviewRoutingModule} from './training-definition-edit-overview-routing.module';
-import {environment} from '../../../../../../environments/environment';
+import {DynamicEnvironment} from '../../../../../../environments/dynamic-environment';
 
 @NgModule({
   imports: [
     CommonModule,
-    TrainingDefinitionEditOverviewComponentsModule.forRoot(environment.trainingAgendaConfig),
+    TrainingDefinitionEditOverviewComponentsModule.forRoot(DynamicEnvironment.getConfig().trainingAgendaConfig),
     TrainingDefinitionEditOverviewRoutingModule
   ]
 })

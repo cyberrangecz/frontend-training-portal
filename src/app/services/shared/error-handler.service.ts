@@ -1,14 +1,16 @@
 import {HttpErrorResponse} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import {CsirtMuNotification, CsirtMuNotificationService, CsirtMuNotificationTypeEnum} from 'csirt-mu-layout';
-import {environment} from '../../../environments/environment';
+import {APP_CONFIG} from './config.provider';
+import {KypoConfig} from '../../utils/config';
 
 @Injectable()
 /**
  * Resolves type of error and emits alert with appropriate message
  */
 export class ErrorHandlerService {
-  constructor(private notificationService: CsirtMuNotificationService) {
+  constructor(private notificationService: CsirtMuNotificationService,
+              @Inject(APP_CONFIG) private appConfig: KypoConfig) {
   }
 
   /**
@@ -38,13 +40,13 @@ export class ErrorHandlerService {
       this.notificationService.emit(notification);
       return;
     }
-    if (err.url.startsWith(environment.trainingApiConfig.trainingBasePath)) {
+    if (err.url.startsWith(this.appConfig.trainingApiConfig.trainingBasePath)) {
       this.setJavaApiErrorNotification(err, notification);
       notification.source = 'Training Agenda';
-    } else if (err.url.startsWith(environment.kypo2UserAndGroupConfig.userAndGroupRestBasePath)) {
+    } else if (err.url.startsWith(this.appConfig.userAndGroupConfig.userAndGroupRestBasePath)) {
       this.setJavaApiErrorNotification(err, notification);
       notification.source = 'User & Group Agenda';
-    } else if (err.url.startsWith(environment.sandboxApiConfig.sandboxRestBasePath)) {
+    } else if (err.url.startsWith(this.appConfig.sandboxApiConfig.sandboxRestBasePath)) {
       this.setPythonApiErrorToNotification(err, notification)
       notification.source = 'Sandbox Agenda';
     } else { // UNKNOWN API
