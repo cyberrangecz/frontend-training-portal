@@ -63,29 +63,6 @@
               "vendorChunk": false,
               "buildOptimizer": true
             },
-            "staging": {
-              "budgets": [
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
-                }
-              ],
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.staging.ts"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
-            },
             "local": {
               "budgets": [
                 {
@@ -95,8 +72,8 @@
               ],
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.local.ts"
+                  "replace": "src/assets/kypo-config.json",
+                  "with": "src/assets/kypo-config.local.json"
                 }
               ]
             }
@@ -174,19 +151,6 @@
           "configurations": {
             "production": {
               "devServerTarget": "csirt-mu-example-app:serve:production"
-            }
-          }
-        },
-        "ngsscbuild": {
-          "builder": "angular-server-side-configuration:ngsscbuild",
-          "options": {
-            "additionalEnvironmentVariables": [],
-            "browserTarget": "trainings:build",
-            "ngsscEnvironmentFile": "src/environments/environment.prod.ts"
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "trainings:build:production"
             }
           }
         }

@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {environment} from '../../../environments/environment';
 import {CsirtMuNotification, CsirtMuNotificationService, CsirtMuNotificationTypeEnum} from 'csirt-mu-layout';
 
 /**
@@ -18,7 +17,7 @@ export class NotificationService {
    * @param {number} duration how long should the alert be displayed.
    *  In millis, use 0 if it should be displayed until users clicks on button
    */
-  emit(type: 'success' | 'error' | 'warning' | 'info', message: string, duration = environment.defaultNotificationDuration) {
+  emit(type: 'success' | 'error' | 'warning' | 'info', message: string, duration = 500) {
     const notification: CsirtMuNotification = {
       type: this.convertToCsirtNotificationType(type),
       duration: duration,
