@@ -2,18 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {Kypo2AuthService} from 'kypo2-auth';
 import {takeWhile} from 'rxjs/operators';
-import {
-  ADMIN_GROUP_PATH,
-  ADMIN_MICROSERVICE_PATH,
-  ADMIN_USER_PATH,
-  SANDBOX_DEFINITION_PATH,
-  SANDBOX_POOL_PATH,
-  TRAINING_DEFINITION_PATH,
-  TRAINING_INSTANCE_PATH,
-  TRAINING_RUN_PATH
-} from '../../paths';
 import {KypoBaseComponent} from 'kypo-common';
 import {RoleResolver} from '../../utils/role-resolver';
+import {TRAINING_DEFINITION_PATH, TRAINING_INSTANCE_PATH, TRAINING_RUN_PATH} from 'kypo-training-agenda';
+import {SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH} from 'kypo-sandbox-agenda';
+import {GROUP_PATH, MICROSERVICE_PATH, USER_PATH} from 'kypo2-user-and-group-management';
 
 /**
  * Main component of homepage (portal) page. Portal page is a main crossroad of possible sub pages. Only those matching with user
@@ -99,17 +92,17 @@ export class HomeComponent extends KypoBaseComponent implements OnInit {
       {
         name: 'User',
         disabled: disabled,
-        route: ADMIN_USER_PATH
+        route: USER_PATH
       },
       {
         name: 'Group',
         disabled: disabled,
-        route: ADMIN_GROUP_PATH
+        route: GROUP_PATH
       },
       {
         name: 'Microservice',
         disabled: disabled,
-        route: ADMIN_MICROSERVICE_PATH
+        route: MICROSERVICE_PATH
       },
     ];
   }
@@ -121,7 +114,4 @@ export class HomeComponent extends KypoBaseComponent implements OnInit {
       this.initRoutes();
     });
   }
-
-
-
 }

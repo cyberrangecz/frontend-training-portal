@@ -14,7 +14,7 @@ import {CsirtMuLayout1Module} from 'csirt-mu-layout';
 import {CsirtMuConfirmationDialogModule} from 'csirt-mu-common';
 import {ErrorHandlerService} from './services/shared/error-handler.service';
 import {NotificationService} from './services/shared/notification.service';
-import {AuthModule} from './auth-module';
+import {AuthModule} from './auth.module';
 import {appConfigProvider} from './services/shared/config.provider';
 
 @NgModule({

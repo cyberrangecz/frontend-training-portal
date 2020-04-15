@@ -9,5 +9,5 @@ import {ErrorHandlerService} from '../../services/shared/error-handler.service';
     {provide: SandboxNotificationService, useClass: NotificationService}
   ]
 })
-export class SharedProvidersModule {
+export class SandboxAgendaSharedProvidersModule {
 }

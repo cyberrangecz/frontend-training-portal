@@ -3,17 +3,17 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '
 import {Kypo2AuthGuardWithLogin, Kypo2AuthService} from 'kypo2-auth';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {TRAINING_RUN_PATH} from '../../paths';
 import {LoadingService} from '../shared/loading.service';
 import {CanActivateToObservable} from './can-activate-to-observable';
 import {RoleResolver} from '../../utils/role-resolver';
+import {TRAINING_RUN_PATH} from 'kypo-training-agenda';
 
 /**
  * Route guard determining if user is signed in and has ONLY role of a trainee.
  * If true, user is navigated directly to trainee agenda instead of the homepage
  */
 @Injectable()
-export class NotOnlyTraineeGuard implements CanActivate {
+export class OnlyTraineeGuard implements CanActivate {
 
   constructor(private router: Router,
               private authGuard: Kypo2AuthGuardWithLogin,
