@@ -3,10 +3,10 @@
     "pollingPeriod": 5000,
     "defaultPaginationSize": 10,
     "visualizationConfig": {
-      "trainingBasePath": "https://localhost:3000/kypo2-rest-training/api/v1/"
+      "trainingBasePath": "http://localhost:3000/kypo2-rest-training/api/v1/"
     },
     "kypo2TopologyConfig": {
-      "topologyRestUrl": "https://localhost:3000/kypo-sandbox-service/api/v1/",
+      "topologyRestUrl": "http://localhost:3000/kypo-sandbox-service/api/v1/",
       "decoratorsRestUrl": "",
       "defaultDecoratorRefreshPeriodInSeconds": 3,
       "useRealTime": false,
@@ -14,13 +14,13 @@
     }
   },
   "trainingApiConfig": {
-    "trainingBasePath": "https://localhost:3000/kypo2-rest-training/api/v1/"
+    "trainingBasePath": "http://localhost:3000/kypo2-rest-training/api/v1/"
   },
   "sandboxAgendaConfig": {
     "pollingPeriod": 5000,
     "defaultPaginationSize": 10,
     "kypo2TopologyConfig": {
-      "topologyRestUrl": "https://localhost:3000/kypo-sandbox-service/api/v1/",
+      "topologyRestUrl": "http://localhost:3000/kypo-sandbox-service/api/v1/",
       "decoratorsRestUrl": "",
       "defaultDecoratorRefreshPeriodInSeconds": 3,
       "useRealTime": false,
@@ -28,10 +28,10 @@
     }
   },
   "sandboxApiConfig": {
-    "sandboxRestBasePath": "https://localhost:3000/kypo-sandbox-service/api/v1/"
+    "sandboxRestBasePath": "http://localhost:3000/kypo-sandbox-service/api/v1/"
   },
   "userAndGroupConfig": {
-    "userAndGroupRestBasePath": "https://localhost:3000/kypo2-rest-user-and-group/api/v1/",
+    "userAndGroupRestBasePath": "http://localhost:3000/kypo2-rest-user-and-group/api/v1/",
     "defaultPaginationSize": 10
   },
   "authConfig": {
@@ -39,9 +39,9 @@
     "guardMainPageRedirect": "home",
     "guardLoginPageRedirect": "login",
     "tokenInterceptorAllowedUrls": [
-      "https://localhost:3000"
+      "http://localhost:3000"
     ],
-    "userInfoRestUri": "https://localhost:3000/kypo2-rest-user-and-group/api/v1/",
+    "userInfoRestUri": "http://localhost:3000/kypo2-rest-user-and-group/api/v1/",
     "providers": [
       {
         "label": "Login with MUNI",
@@ -51,11 +51,11 @@
         "oidcConfig": {
           "issuer": "https://oidc.muni.cz/oidc/",
           "clientId": "b53f2660-8fa0-4d32-94e4-23a59d7e7077",
-          "redirectUri": "https://localhost:4200",
+          "redirectUri": "http://localhost:4200",
           "scope": "openid email profile",
           "logoutUrl": "https://oidc.muni.cz/oidc/endsession",
-          "postLogoutRedirectUri": "https://localhost:4200/logout-confirmed/",
-          "silentRefreshRedirectUri": "https://localhost:4200/silent-refresh.html",
+          "postLogoutRedirectUri": "http://localhost:4200/logout-confirmed/",
+          "silentRefreshRedirectUri": "http://localhost:4200/silent-refresh.html",
           "clearHashAfterLogin": true
         }
       }
