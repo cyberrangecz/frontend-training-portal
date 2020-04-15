@@ -73,7 +73,7 @@
               "fileReplacements": [
                 {
                   "replace": "src/assets/kypo-config.json",
-                  "with": "src/assets/kypo-config.local.json"
+                  "with": "src/environments/kypo-config.local.json"
                 }
               ]
             }
@@ -82,8 +82,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "trainings:build",
-            "ssl": true
+            "browserTarget": "trainings:build"
           },
           "configurations": {
             "production": {
