@@ -4,11 +4,11 @@ import {Kypo2AuthConfig, Kypo2AuthInterceptor, Kypo2AuthModule} from 'kypo2-auth
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {SandboxDesignerGuard} from './services/guards/sandbox-designer-guard.service';
 import {SandboxOrganizerGuard} from './services/guards/sandbox-organizer-guard.service';
-import {DesignerGuard} from './services/guards/designer-guard.service';
-import {OrganizerGuard} from './services/guards/organizer-guard.service';
-import {AdminGuard} from './services/guards/admin-guard.service';
+import {TrainingDesignerGuard} from './services/guards/training-designer-guard.service';
+import {TrainingOrganizerGuard} from './services/guards/training-organizer-guard.service';
+import {UserAndGroupGuard} from './services/guards/user-and-group-guard.service';
 import {TraineeGuard} from './services/guards/trainee-guard.service';
-import {NotOnlyTraineeGuard} from './services/guards/only-trainee.guard.service';
+import {OnlyTraineeGuard} from './services/guards/only-trainee.guard.service';
 import {APP_CONFIG, configurableModuleFactory} from './services/shared/config.provider';
 
 @NgModule({
@@ -19,11 +19,11 @@ import {APP_CONFIG, configurableModuleFactory} from './services/shared/config.pr
   providers: [
     SandboxDesignerGuard,
     SandboxOrganizerGuard,
-    DesignerGuard,
-    OrganizerGuard,
-    AdminGuard,
+    TrainingDesignerGuard,
+    TrainingOrganizerGuard,
+    UserAndGroupGuard,
     TraineeGuard,
-    NotOnlyTraineeGuard,
+    OnlyTraineeGuard,
     { provide: HTTP_INTERCEPTORS, useClass: Kypo2AuthInterceptor, multi: true },
     {
       provide: Kypo2AuthConfig,

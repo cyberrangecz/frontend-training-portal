@@ -9,25 +9,25 @@ import {RoleResolver} from '../../utils/role-resolver';
 
 @Injectable()
 /**
- * Route guard determining if user is signed in and has role of a designer.
+ * Route guard determining if user is signed in and has role of an organizer.
  */
-export class DesignerGuard implements CanActivate {
+export class TrainingOrganizerGuard implements CanActivate {
 
   constructor(private router: Router,
-              private authGuard: Kypo2AuthGuardWithLogin,
-              private authService: Kypo2AuthService) {
+    private authGuard: Kypo2AuthGuardWithLogin,
+    private authService: Kypo2AuthService) {
 
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     return CanActivateToObservable.convert(this.authGuard.canActivate(route, state))
       .pipe(
-        map(canActivate => canActivate ? this.isDesigner() : false)
+        map(canActivate => canActivate ? this.isOrganizer() : false)
       );
   }
 
-  private isDesigner(): boolean {
-    if (RoleResolver.isTrainingDesigner(this.authService.getRoles())) {
+  private isOrganizer(): boolean {
+    if (RoleResolver.isTrainingOrganizer(this.authService.getRoles())) {
       return true;
     }
     this.router.navigate([HOME_PATH]);

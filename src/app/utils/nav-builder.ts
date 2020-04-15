@@ -1,16 +1,9 @@
-import {User, UserRole} from 'kypo2-auth';
-import {
-  ADMIN_GROUP_PATH,
-  ADMIN_MICROSERVICE_PATH,
-  ADMIN_USER_PATH,
-  SANDBOX_DEFINITION_PATH,
-  SANDBOX_POOL_PATH,
-  TRAINING_DEFINITION_PATH,
-  TRAINING_INSTANCE_PATH,
-  TRAINING_RUN_PATH
-} from '../paths';
+import {User} from 'kypo2-auth';
 import {Agenda, AgendaContainer} from 'csirt-mu-layout';
 import {RoleResolver} from './role-resolver';
+import {TRAINING_DEFINITION_PATH, TRAINING_INSTANCE_PATH, TRAINING_RUN_PATH} from 'kypo-training-agenda';
+import {SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH} from 'kypo-sandbox-agenda';
+import {GROUP_PATH, MICROSERVICE_PATH, USER_PATH} from 'kypo2-user-and-group-management';
 
 export class NavBuilder {
 
@@ -60,9 +53,9 @@ export class NavBuilder {
   private static createAdminAgendas(user: User): Agenda[] {
     const agendas: Agenda[] = [];
     if (RoleResolver.isUserAndGroupAdmin(user.roles)) {
-      agendas.push(new Agenda('User', ADMIN_USER_PATH));
-      agendas.push(new Agenda('Group', ADMIN_GROUP_PATH));
-      agendas.push(new Agenda('Microservice', ADMIN_MICROSERVICE_PATH));
+      agendas.push(new Agenda('User', USER_PATH));
+      agendas.push(new Agenda('Group', GROUP_PATH));
+      agendas.push(new Agenda('Microservice', MICROSERVICE_PATH));
     }
     return agendas;
   }

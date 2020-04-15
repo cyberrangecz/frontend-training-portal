@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {KypoTrainingApiModule} from 'kypo-training-api';
-import {SharedProvidersModule} from '../../shared-providers.module';
+import {TraininigAgendaSharedProvidersModule} from '../../traininig-agenda-shared-providers.module';
 import {TrainingRunOverviewRoutingModule} from './training-run-overview-routing.module';
 import {TrainingRunOverviewComponentsModule} from 'kypo-training-agenda';
 import {CommonModule} from '@angular/common';
@@ -9,7 +9,7 @@ import {DynamicEnvironment} from '../../../../../environments/dynamic-environmen
 @NgModule({
   imports: [
     CommonModule,
-    SharedProvidersModule,
+    TraininigAgendaSharedProvidersModule,
     KypoTrainingApiModule.forRoot(DynamicEnvironment.getConfig().trainingApiConfig),
     TrainingRunOverviewComponentsModule.forRoot(DynamicEnvironment.getConfig().trainingAgendaConfig),
     TrainingRunOverviewRoutingModule

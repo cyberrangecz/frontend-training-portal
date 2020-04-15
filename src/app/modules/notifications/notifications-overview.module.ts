@@ -19,7 +19,7 @@ import {
       {
         path: ':id',
         loadChildren: () => import('./notification-detail.module').then(m => m.NotificationDetailModule),
-        data: { breadcrumb: 'Detail'},
+        data: { breadcrumb: 'Detail' },
         resolve: { csirtMuNotification: NotificationResolver }
       }
     ])

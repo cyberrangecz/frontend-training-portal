@@ -1,6 +1,6 @@
 import {NavBuilder} from './nav-builder';
 import {User, UserRole} from 'kypo2-auth';
-import {TRAINING_DEFINITION_PATH} from '../paths';
+import {TRAINING_DEFINITION_PATH} from 'kypo-training-agenda';
 
 describe('NavBuilder', () => {
   it('should create training definition agenda', () => {
