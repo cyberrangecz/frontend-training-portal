@@ -1,10 +1,10 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {RouterModule} from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import {
   CsirtMuNotificationOverviewComponent,
   CsirtMuNotificationOverviewModule,
-  NotificationResolver
+  NotificationResolver,
 } from 'csirt-mu-layout';
 
 @NgModule({
@@ -14,15 +14,15 @@ import {
     RouterModule.forChild([
       {
         path: '',
-        component: CsirtMuNotificationOverviewComponent
+        component: CsirtMuNotificationOverviewComponent,
       },
       {
         path: ':id',
-        loadChildren: () => import('./notification-detail.module').then(m => m.NotificationDetailModule),
+        loadChildren: () => import('./notification-detail.module').then((m) => m.NotificationDetailModule),
         data: { breadcrumb: 'Detail' },
-        resolve: { csirtMuNotification: NotificationResolver }
-      }
-    ])
-  ]
+        resolve: { csirtMuNotification: NotificationResolver },
+      },
+    ]),
+  ],
 })
 export class NotificationsOverviewModule {}

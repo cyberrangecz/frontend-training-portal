@@ -1,12 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {Kypo2AuthService} from 'kypo2-auth';
-import {takeWhile} from 'rxjs/operators';
-import {KypoBaseComponent} from 'kypo-common';
-import {RoleResolver} from '../../utils/role-resolver';
-import {TRAINING_DEFINITION_PATH, TRAINING_INSTANCE_PATH, TRAINING_RUN_PATH} from 'kypo-training-agenda';
-import {SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH} from 'kypo-sandbox-agenda';
-import {GROUP_PATH, MICROSERVICE_PATH, USER_PATH} from 'kypo2-user-and-group-management';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { KypoBaseComponent } from 'kypo-common';
+import { SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH } from 'kypo-sandbox-agenda';
+import { TRAINING_DEFINITION_PATH, TRAINING_INSTANCE_PATH, TRAINING_RUN_PATH } from 'kypo-training-agenda';
+import { Kypo2AuthService } from 'kypo2-auth';
+import { GROUP_PATH, MICROSERVICE_PATH, USER_PATH } from 'kypo2-user-and-group-management';
+import { takeWhile } from 'rxjs/operators';
+import { RoleResolver } from '../../utils/role-resolver';
 
 /**
  * Main component of homepage (portal) page. Portal page is a main crossroad of possible sub pages. Only those matching with user
@@ -15,17 +15,14 @@ import {GROUP_PATH, MICROSERVICE_PATH, USER_PATH} from 'kypo2-user-and-group-man
 @Component({
   selector: 'kypo2-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent extends KypoBaseComponent implements OnInit {
-
   trainingAgendas;
   sandboxAgendas;
   adminAgendas;
 
-  constructor(
-    private authService: Kypo2AuthService,
-    private router: Router) {
+  constructor(private authService: Kypo2AuthService, private router: Router) {
     super();
   }
 
@@ -54,19 +51,18 @@ export class HomeComponent extends KypoBaseComponent implements OnInit {
       {
         name: 'Training Definition',
         disabled: !RoleResolver.isTrainingDesigner(roles),
-        route: TRAINING_DEFINITION_PATH
+        route: TRAINING_DEFINITION_PATH,
       },
       {
         name: 'Training Instance',
         disabled: !RoleResolver.isTrainingOrganizer(roles),
-        route: TRAINING_INSTANCE_PATH
-
+        route: TRAINING_INSTANCE_PATH,
       },
       {
         name: 'Training Run',
         disabled: !RoleResolver.isTrainingTrainee(roles),
-        route: TRAINING_RUN_PATH
-      }
+        route: TRAINING_RUN_PATH,
+      },
     ];
   }
 
@@ -76,12 +72,12 @@ export class HomeComponent extends KypoBaseComponent implements OnInit {
       {
         name: 'Sandbox Definition',
         disabled: !RoleResolver.isSandboxDesigner(roles),
-        route: SANDBOX_DEFINITION_PATH
+        route: SANDBOX_DEFINITION_PATH,
       },
       {
         name: 'Pool',
         disabled: !RoleResolver.isSandboxOrganizer(roles),
-        route: SANDBOX_POOL_PATH
+        route: SANDBOX_POOL_PATH,
       },
     ];
   }
@@ -91,26 +87,24 @@ export class HomeComponent extends KypoBaseComponent implements OnInit {
     this.adminAgendas = [
       {
         name: 'User',
-        disabled: disabled,
-        route: USER_PATH
+        disabled,
+        route: USER_PATH,
       },
       {
         name: 'Group',
-        disabled: disabled,
-        route: GROUP_PATH
+        disabled,
+        route: GROUP_PATH,
       },
       {
         name: 'Microservice',
-        disabled: disabled,
-        route: MICROSERVICE_PATH
+        disabled,
+        route: MICROSERVICE_PATH,
       },
     ];
   }
 
   private subscribeUserChange() {
-    this.authService.activeUser$
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(user => {
+    this.authService.activeUser$.pipe(takeWhile(() => this.isAlive)).subscribe((user) => {
       this.initRoutes();
     });
   }

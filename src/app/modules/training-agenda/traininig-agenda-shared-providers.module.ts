@@ -1,13 +1,12 @@
-import {NgModule} from '@angular/core';
-import {TrainingErrorHandler, TrainingNotificationService} from 'kypo-training-agenda';
-import {ErrorHandlerService} from '../../services/shared/error-handler.service';
-import {NotificationService} from '../../services/shared/notification.service';
+import { NgModule } from '@angular/core';
+import { TrainingErrorHandler, TrainingNotificationService } from 'kypo-training-agenda';
+import { ErrorHandlerService } from '../../services/shared/error-handler.service';
+import { NotificationService } from '../../services/shared/notification.service';
 
 @NgModule({
   providers: [
-    {provide: TrainingErrorHandler, useClass: ErrorHandlerService},
-    {provide: TrainingNotificationService, useClass: NotificationService}
-  ]
+    { provide: TrainingErrorHandler, useClass: ErrorHandlerService },
+    { provide: TrainingNotificationService, useClass: NotificationService },
+  ],
 })
-export class TraininigAgendaSharedProvidersModule {
-}
+export class TraininigAgendaSharedProvidersModule {}

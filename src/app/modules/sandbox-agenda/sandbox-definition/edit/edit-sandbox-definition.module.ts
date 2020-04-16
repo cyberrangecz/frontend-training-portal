@@ -1,13 +1,8 @@
-import {NgModule} from '@angular/core';
-import {EditSandboxDefinitionRoutingModule} from './edit-sandbox-definition-routing.module';
-import {EditSandboxDefinitionComponentsModule} from 'kypo-sandbox-agenda';
+import { NgModule } from '@angular/core';
+import { EditSandboxDefinitionComponentsModule } from 'kypo-sandbox-agenda';
+import { EditSandboxDefinitionRoutingModule } from './edit-sandbox-definition-routing.module';
 
 @NgModule({
-  imports: [
-    EditSandboxDefinitionComponentsModule,
-    EditSandboxDefinitionRoutingModule
-  ]
+  imports: [EditSandboxDefinitionComponentsModule, EditSandboxDefinitionRoutingModule],
 })
-export class EditSandboxDefinitionModule {
-
-}
+export class EditSandboxDefinitionModule {}

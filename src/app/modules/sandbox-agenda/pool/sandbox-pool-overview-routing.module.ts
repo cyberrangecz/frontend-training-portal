@@ -1,6 +1,11 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {PoolBreadcrumbResolver, SANDBOX_POOL_ID_SELECTOR, SANDBOX_POOL_NEW_PATH, SandboxPoolOverviewComponent} from 'kypo-sandbox-agenda';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import {
+  PoolBreadcrumbResolver,
+  SANDBOX_POOL_ID_SELECTOR,
+  SANDBOX_POOL_NEW_PATH,
+  SandboxPoolOverviewComponent,
+} from 'kypo-sandbox-agenda';
 
 const routes: Routes = [
   {
@@ -9,24 +14,24 @@ const routes: Routes = [
   },
   {
     path: SANDBOX_POOL_NEW_PATH,
-    loadChildren: () => import('./edit/sandbox-pool-edit.module').then(m => m.SandboxPoolEditModule),
+    loadChildren: () => import('./edit/sandbox-pool-edit.module').then((m) => m.SandboxPoolEditModule),
     resolve: {
       breadcrumb: PoolBreadcrumbResolver,
     },
     data: {
-      title: 'Create Pool'
-    }
+      title: 'Create Pool',
+    },
   },
   {
     path: `:${SANDBOX_POOL_ID_SELECTOR}`,
-    loadChildren: () => import('./detail/sandbox-pool-detail.module').then(m => m.SandboxPoolDetailModule),
+    loadChildren: () => import('./detail/sandbox-pool-detail.module').then((m) => m.SandboxPoolDetailModule),
     resolve: {
       breadcrumb: PoolBreadcrumbResolver,
     },
     data: {
-      title: 'Pool Detail'
-    }
-  }
+      title: 'Pool Detail',
+    },
+  },
 ];
 
 /**
@@ -34,6 +39,6 @@ const routes: Routes = [
  */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class SandboxPoolOverviewRoutingModule { }
+export class SandboxPoolOverviewRoutingModule {}

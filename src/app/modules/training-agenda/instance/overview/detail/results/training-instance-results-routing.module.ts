@@ -1,12 +1,12 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {TrainingInstanceResultsComponent} from 'kypo-training-agenda';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { TrainingInstanceResultsComponent } from 'kypo-training-agenda';
 
 const routes: Routes = [
   {
     path: '',
     component: TrainingInstanceResultsComponent,
-  }
+  },
 ];
 
 /**
@@ -14,8 +14,6 @@ const routes: Routes = [
  */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class TrainingInstanceResultsRoutingModule {
-
-}
+export class TrainingInstanceResultsRoutingModule {}

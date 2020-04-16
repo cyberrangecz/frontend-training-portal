@@ -1,16 +1,14 @@
-import {NgModule} from '@angular/core';
-import {TrainingPreviewRoutingModule} from './training-preview-routing.module';
-import {TrainingPreviewComponentsModule} from 'kypo-training-agenda';
-import {CommonModule} from '@angular/common';
-import {DynamicEnvironment} from '../../../../../../environments/dynamic-environment';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { TrainingPreviewComponentsModule } from 'kypo-training-agenda';
+import { DynamicEnvironment } from '../../../../../../environments/dynamic-environment';
+import { TrainingPreviewRoutingModule } from './training-preview-routing.module';
 
 @NgModule({
   imports: [
     CommonModule,
     TrainingPreviewComponentsModule.forRoot(DynamicEnvironment.getConfig().trainingAgendaConfig),
-    TrainingPreviewRoutingModule
-  ]
+    TrainingPreviewRoutingModule,
+  ],
 })
-export class TrainingPreviewModule {
-
-}
+export class TrainingPreviewModule {}

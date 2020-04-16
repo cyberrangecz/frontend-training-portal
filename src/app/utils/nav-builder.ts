@@ -1,12 +1,11 @@
-import {User} from 'kypo2-auth';
-import {Agenda, AgendaContainer} from 'csirt-mu-layout';
-import {RoleResolver} from './role-resolver';
-import {TRAINING_DEFINITION_PATH, TRAINING_INSTANCE_PATH, TRAINING_RUN_PATH} from 'kypo-training-agenda';
-import {SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH} from 'kypo-sandbox-agenda';
-import {GROUP_PATH, MICROSERVICE_PATH, USER_PATH} from 'kypo2-user-and-group-management';
+import { Agenda, AgendaContainer } from 'csirt-mu-layout';
+import { SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH } from 'kypo-sandbox-agenda';
+import { TRAINING_DEFINITION_PATH, TRAINING_INSTANCE_PATH, TRAINING_RUN_PATH } from 'kypo-training-agenda';
+import { User } from 'kypo2-auth';
+import { GROUP_PATH, MICROSERVICE_PATH, USER_PATH } from 'kypo2-user-and-group-management';
+import { RoleResolver } from './role-resolver';
 
 export class NavBuilder {
-
   static build(user: User): AgendaContainer[] {
     const containers: AgendaContainer[] = [];
     const trainingAgendas = this.createTrainingAgendas(user);

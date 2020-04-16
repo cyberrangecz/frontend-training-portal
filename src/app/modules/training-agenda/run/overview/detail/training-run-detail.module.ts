@@ -1,16 +1,14 @@
-import {NgModule} from '@angular/core';
-import {TrainingRunDetailRoutingModule} from './training-run-detail-routing.module';
-import {TrainingRunDetailGameModule} from 'kypo-training-agenda';
-import {CommonModule} from '@angular/common';
-import {DynamicEnvironment} from '../../../../../../environments/dynamic-environment';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { TrainingRunDetailGameModule } from 'kypo-training-agenda';
+import { DynamicEnvironment } from '../../../../../../environments/dynamic-environment';
+import { TrainingRunDetailRoutingModule } from './training-run-detail-routing.module';
 
 @NgModule({
   imports: [
     CommonModule,
     TrainingRunDetailGameModule.forRoot(DynamicEnvironment.getConfig().trainingAgendaConfig),
-    TrainingRunDetailRoutingModule
-  ]
+    TrainingRunDetailRoutingModule,
+  ],
 })
-export class TrainingRunDetailModule {
-
-}
+export class TrainingRunDetailModule {}

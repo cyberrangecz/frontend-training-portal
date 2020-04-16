@@ -1,6 +1,6 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {UserOverviewComponent} from 'kypo2-user-and-group-management';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { UserOverviewComponent } from 'kypo2-user-and-group-management';
 
 const routes: Routes = [
   {
@@ -14,8 +14,6 @@ const routes: Routes = [
  */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class UserOverviewRoutingModule {
-
-}
+export class UserOverviewRoutingModule {}

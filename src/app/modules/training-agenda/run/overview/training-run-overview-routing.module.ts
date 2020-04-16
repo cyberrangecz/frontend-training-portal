@@ -1,5 +1,5 @@
-import {RouterModule, Routes} from '@angular/router';
-import {NgModule} from '@angular/core';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import {
   AccessTrainingRunResolver,
   TRAINING_RUN_ACCESS_INFO_DATA_ATTRIBUTE_NAME,
@@ -10,7 +10,7 @@ import {
   TRAINING_RUN_RESUME_PATH,
   TRAINING_RUN_SELECTOR,
   TrainingRunOverviewComponent,
-  TrainingRunResultsResolver
+  TrainingRunResultsResolver,
 } from 'kypo-training-agenda';
 
 const routes: Routes = [
@@ -20,39 +20,35 @@ const routes: Routes = [
   },
   {
     path: `${TRAINING_RUN_ACCESS_PATH}/:${TRAINING_RUN_ACCESS_SELECTOR}`,
-    loadChildren: () => import('./detail/training-run-detail.module').then(m => m.TrainingRunDetailModule),
+    loadChildren: () => import('./detail/training-run-detail.module').then((m) => m.TrainingRunDetailModule),
     data: {
       breadcrumb: 'Game',
-      title: undefined
+      title: undefined,
     },
-    resolve: { [TRAINING_RUN_ACCESS_INFO_DATA_ATTRIBUTE_NAME]: AccessTrainingRunResolver }
+    resolve: { [TRAINING_RUN_ACCESS_INFO_DATA_ATTRIBUTE_NAME]: AccessTrainingRunResolver },
   },
   {
     path: `${TRAINING_RUN_RESUME_PATH}/:${TRAINING_RUN_SELECTOR}`,
-    loadChildren: () => import('./detail/training-run-detail.module').then(m => m.TrainingRunDetailModule),
+    loadChildren: () => import('./detail/training-run-detail.module').then((m) => m.TrainingRunDetailModule),
     data: {
       breadcrumb: 'Game',
-      title: undefined
+      title: undefined,
     },
-    resolve: { [TRAINING_RUN_ACCESS_INFO_DATA_ATTRIBUTE_NAME]: AccessTrainingRunResolver }
-
+    resolve: { [TRAINING_RUN_ACCESS_INFO_DATA_ATTRIBUTE_NAME]: AccessTrainingRunResolver },
   },
   {
     path: `${TRAINING_RUN_RESULTS_PATH}/:${TRAINING_RUN_SELECTOR}`,
-    loadChildren: () => import('./results/training-run-results.module').then(m => m.TrainingRunResultsModule),
+    loadChildren: () => import('./results/training-run-results.module').then((m) => m.TrainingRunResultsModule),
     data: {
       breadcrumb: 'Results',
-      title: 'Training Run Results'
+      title: 'Training Run Results',
     },
-    resolve: { [TRAINING_RUN_DATA_ATTRIBUTE_NAME]: TrainingRunResultsResolver }
-  }
+    resolve: { [TRAINING_RUN_DATA_ATTRIBUTE_NAME]: TrainingRunResultsResolver },
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-
-export class TrainingRunOverviewRoutingModule {
-
-}
+export class TrainingRunOverviewRoutingModule {}

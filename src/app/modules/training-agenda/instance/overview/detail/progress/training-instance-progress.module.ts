@@ -1,16 +1,14 @@
-import {NgModule} from '@angular/core';
-import {TrainingInstanceProgressRoutingModule} from './training-instance-progress-routing.module';
-import {TrainingInstanceProgressComponentsModule} from 'kypo-training-agenda';
-import {CommonModule} from '@angular/common';
-import {DynamicEnvironment} from '../../../../../../../environments/dynamic-environment';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { TrainingInstanceProgressComponentsModule } from 'kypo-training-agenda';
+import { DynamicEnvironment } from '../../../../../../../environments/dynamic-environment';
+import { TrainingInstanceProgressRoutingModule } from './training-instance-progress-routing.module';
 
 @NgModule({
   imports: [
     CommonModule,
     TrainingInstanceProgressComponentsModule.forRoot(DynamicEnvironment.getConfig().trainingAgendaConfig),
-    TrainingInstanceProgressRoutingModule
-  ]
+    TrainingInstanceProgressRoutingModule,
+  ],
 })
-export class TrainingInstanceProgressModule {
-
-}
+export class TrainingInstanceProgressModule {}

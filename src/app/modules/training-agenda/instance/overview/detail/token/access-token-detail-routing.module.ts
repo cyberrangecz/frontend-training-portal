@@ -1,12 +1,12 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {AccessTokenDetailComponent} from 'kypo-training-agenda';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { AccessTokenDetailComponent } from 'kypo-training-agenda';
 
 const routes: Routes = [
   {
     path: '',
-    component: AccessTokenDetailComponent
-  }
+    component: AccessTokenDetailComponent,
+  },
 ];
 
 /**
@@ -14,8 +14,6 @@ const routes: Routes = [
  */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AccessTokenDetailRoutingModule {
-
-}
+export class AccessTokenDetailRoutingModule {}
