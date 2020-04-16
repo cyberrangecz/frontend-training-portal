@@ -1,10 +1,14 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import {
-  GROUP_DATA_ATTRIBUTE_NAME, GROUP_EDIT_PATH,
-  GROUP_NEW_PATH, GROUP_SELECTOR, GroupBreadcrumbResolver,
+  GROUP_DATA_ATTRIBUTE_NAME,
+  GROUP_EDIT_PATH,
+  GROUP_NEW_PATH,
+  GROUP_SELECTOR,
+  GroupBreadcrumbResolver,
   GroupOverviewComponent,
-  GroupResolver, GroupTitleResolver
+  GroupResolver,
+  GroupTitleResolver,
 } from 'kypo2-user-and-group-management';
 
 const routes: Routes = [
@@ -14,21 +18,21 @@ const routes: Routes = [
   },
   {
     path: GROUP_NEW_PATH,
-    loadChildren: () => import('./edit/group-edit.module').then(m => m.GroupEditModule),
+    loadChildren: () => import('./edit/group-edit.module').then((m) => m.GroupEditModule),
     resolve: {
       [GROUP_DATA_ATTRIBUTE_NAME]: GroupResolver,
       breadcrumb: GroupBreadcrumbResolver,
-      title: GroupTitleResolver
-    }
+      title: GroupTitleResolver,
+    },
   },
   {
     path: `:${GROUP_SELECTOR}/${GROUP_EDIT_PATH}`,
-    loadChildren: () => import('./edit/group-edit.module').then(m => m.GroupEditModule),
+    loadChildren: () => import('./edit/group-edit.module').then((m) => m.GroupEditModule),
     resolve: {
       [GROUP_DATA_ATTRIBUTE_NAME]: GroupResolver,
       breadcrumb: GroupBreadcrumbResolver,
-      title: GroupTitleResolver
-    }
+      title: GroupTitleResolver,
+    },
   },
 ];
 
@@ -37,8 +41,6 @@ const routes: Routes = [
  */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class GroupOverviewRoutingModule {
-
-}
+export class GroupOverviewRoutingModule {}

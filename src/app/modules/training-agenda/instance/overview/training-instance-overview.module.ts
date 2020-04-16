@@ -1,11 +1,11 @@
-import {NgModule} from '@angular/core';
-import {TraininigAgendaSharedProvidersModule} from '../../traininig-agenda-shared-providers.module';
-import {KypoTrainingApiConfig, KypoTrainingApiModule} from 'kypo-training-api';
-import {TrainingInstanceOverviewRoutingModule} from './training-instance-overview-routing.module';
-import {TrainingInstanceOverviewComponentsModule} from 'kypo-training-agenda';
-import {CommonModule} from '@angular/common';
-import {KypoSandboxApiModule} from 'kypo-sandbox-api';
-import {DynamicEnvironment} from '../../../../../environments/dynamic-environment';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { KypoSandboxApiModule } from 'kypo-sandbox-api';
+import { TrainingInstanceOverviewComponentsModule } from 'kypo-training-agenda';
+import { KypoTrainingApiConfig, KypoTrainingApiModule } from 'kypo-training-api';
+import { DynamicEnvironment } from '../../../../../environments/dynamic-environment';
+import { TraininigAgendaSharedProvidersModule } from '../../traininig-agenda-shared-providers.module';
+import { TrainingInstanceOverviewRoutingModule } from './training-instance-overview-routing.module';
 
 @NgModule({
   imports: [
@@ -14,9 +14,7 @@ import {DynamicEnvironment} from '../../../../../environments/dynamic-environmen
     KypoTrainingApiModule.forRoot(DynamicEnvironment.getConfig().trainingApiConfig),
     KypoSandboxApiModule.forRoot(DynamicEnvironment.getConfig().sandboxApiConfig),
     TrainingInstanceOverviewRoutingModule,
-    TrainingInstanceOverviewComponentsModule.forRoot(DynamicEnvironment.getConfig().trainingAgendaConfig)
-  ]
+    TrainingInstanceOverviewComponentsModule.forRoot(DynamicEnvironment.getConfig().trainingAgendaConfig),
+  ],
 })
-export class TrainingInstanceOverviewModule {
-
-}
+export class TrainingInstanceOverviewModule {}

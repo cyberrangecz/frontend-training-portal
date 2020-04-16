@@ -1,15 +1,12 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {
-  MicroserviceEditCanDeactivate,
-  MicroserviceEditOverviewComponent
-} from 'kypo2-user-and-group-management';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { MicroserviceEditCanDeactivate, MicroserviceEditOverviewComponent } from 'kypo2-user-and-group-management';
 
 const routes: Routes = [
   {
     path: '',
     component: MicroserviceEditOverviewComponent,
-    canDeactivate: [ MicroserviceEditCanDeactivate ]
+    canDeactivate: [MicroserviceEditCanDeactivate],
   },
 ];
 
@@ -18,8 +15,6 @@ const routes: Routes = [
  */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class MicroserviceNewRoutingModule {
-
-}
+export class MicroserviceNewRoutingModule {}

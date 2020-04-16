@@ -1,9 +1,11 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import {
   TRAINING_DEFINITION_EDIT_PATH,
-  TRAINING_DEFINITION_NEW_PATH, TRAINING_DEFINITION_PREVIEW_PATH, TRAINING_DEFINITION_SELECTOR,
-  TrainingDefinitionOverviewComponent
+  TRAINING_DEFINITION_NEW_PATH,
+  TRAINING_DEFINITION_PREVIEW_PATH,
+  TRAINING_DEFINITION_SELECTOR,
+  TrainingDefinitionOverviewComponent,
 } from 'kypo-training-agenda';
 
 const routes: Routes = [
@@ -13,16 +15,18 @@ const routes: Routes = [
   },
   {
     path: TRAINING_DEFINITION_NEW_PATH,
-    loadChildren: () => import('./edit/training-definition-edit-overview.module').then(m => m.TrainingDefinitionEditOverviewModule),
+    loadChildren: () =>
+      import('./edit/training-definition-edit-overview.module').then((m) => m.TrainingDefinitionEditOverviewModule),
   },
   {
     path: `:${TRAINING_DEFINITION_SELECTOR}/${TRAINING_DEFINITION_EDIT_PATH}`,
-    loadChildren: () => import('./edit/training-definition-edit-overview.module').then(m => m.TrainingDefinitionEditOverviewModule),
+    loadChildren: () =>
+      import('./edit/training-definition-edit-overview.module').then((m) => m.TrainingDefinitionEditOverviewModule),
   },
   {
     path: `:${TRAINING_DEFINITION_SELECTOR}/${TRAINING_DEFINITION_PREVIEW_PATH}`,
-    loadChildren: () => import('./preview/training-preview.module').then(m => m.TrainingPreviewModule),
-  }
+    loadChildren: () => import('./preview/training-preview.module').then((m) => m.TrainingPreviewModule),
+  },
 ];
 
 /**
@@ -30,8 +34,6 @@ const routes: Routes = [
  */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class TrainingDefinitionOverviewRoutingModule {
-
-}
+export class TrainingDefinitionOverviewRoutingModule {}

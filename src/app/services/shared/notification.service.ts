@@ -1,14 +1,12 @@
-import {Injectable} from '@angular/core';
-import {CsirtMuNotification, CsirtMuNotificationService, CsirtMuNotificationTypeEnum} from 'csirt-mu-layout';
+import { Injectable } from '@angular/core';
+import { CsirtMuNotification, CsirtMuNotificationService, CsirtMuNotificationTypeEnum } from 'csirt-mu-layout';
 
 /**
  * Global service emitting alert events.
  */
 @Injectable()
 export class NotificationService {
-
-  constructor(private notificationService: CsirtMuNotificationService) {
-  }
+  constructor(private notificationService: CsirtMuNotificationService) {}
 
   /**
    * Adds new alert to the queue and if its the only element in queue calls method to display it.
@@ -20,18 +18,22 @@ export class NotificationService {
   emit(type: 'success' | 'error' | 'warning' | 'info', message: string, duration = 500) {
     const notification: CsirtMuNotification = {
       type: this.convertToCsirtNotificationType(type),
-      duration: duration,
-      title: message
+      duration,
+      title: message,
     };
     this.notificationService.emit(notification);
   }
 
   private convertToCsirtNotificationType(type: 'success' | 'error' | 'warning' | 'info'): CsirtMuNotificationTypeEnum {
     switch (type) {
-      case 'warning': return CsirtMuNotificationTypeEnum.Warning;
-      case 'error': return CsirtMuNotificationTypeEnum.Error;
-      case 'success': return CsirtMuNotificationTypeEnum.Success;
-      default: return CsirtMuNotificationTypeEnum.Info;
+      case 'warning':
+        return CsirtMuNotificationTypeEnum.Warning;
+      case 'error':
+        return CsirtMuNotificationTypeEnum.Error;
+      case 'success':
+        return CsirtMuNotificationTypeEnum.Success;
+      default:
+        return CsirtMuNotificationTypeEnum.Info;
     }
   }
 }

@@ -1,10 +1,10 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import {
   TRAINING_DEFINITION_DATA_ATTRIBUTE_NAME,
   TrainingDefinitionBreadcrumbResolver,
   TrainingDefinitionResolver,
-  TrainingPreviewComponent
+  TrainingPreviewComponent,
 } from 'kypo-training-agenda';
 
 const routes: Routes = [
@@ -12,13 +12,13 @@ const routes: Routes = [
     path: '',
     component: TrainingPreviewComponent,
     data: {
-      title: undefined
+      title: undefined,
     },
     resolve: {
       [TRAINING_DEFINITION_DATA_ATTRIBUTE_NAME]: TrainingDefinitionResolver,
       breadcrumb: TrainingDefinitionBreadcrumbResolver,
-    }
-  }
+    },
+  },
 ];
 
 /**
@@ -26,8 +26,6 @@ const routes: Routes = [
  */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class TrainingPreviewRoutingModule {
-
-}
+export class TrainingPreviewRoutingModule {}

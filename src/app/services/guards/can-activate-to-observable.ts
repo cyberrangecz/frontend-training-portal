@@ -1,4 +1,4 @@
-import {from, Observable, of} from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 
 /**
  * Util class to simplify chaining two guards by narrowing the type to an observable

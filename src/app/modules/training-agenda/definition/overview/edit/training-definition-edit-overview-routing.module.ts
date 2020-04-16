@@ -1,10 +1,12 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import {
   TRAINING_DEFINITION_DATA_ATTRIBUTE_NAME,
-  TrainingDefinitionBreadcrumbResolver, TrainingDefinitionCanDeactivate,
+  TrainingDefinitionBreadcrumbResolver,
+  TrainingDefinitionCanDeactivate,
   TrainingDefinitionEditOverviewComponent,
-  TrainingDefinitionResolver, TrainingDefinitionTitleResolver
+  TrainingDefinitionResolver,
+  TrainingDefinitionTitleResolver,
 } from 'kypo-training-agenda';
 
 const routes: Routes = [
@@ -14,7 +16,7 @@ const routes: Routes = [
     resolve: {
       [TRAINING_DEFINITION_DATA_ATTRIBUTE_NAME]: TrainingDefinitionResolver,
       breadcrumb: TrainingDefinitionBreadcrumbResolver,
-      title: TrainingDefinitionTitleResolver
+      title: TrainingDefinitionTitleResolver,
     },
     canDeactivate: [TrainingDefinitionCanDeactivate],
   },
@@ -25,8 +27,6 @@ const routes: Routes = [
  */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class TrainingDefinitionEditOverviewRoutingModule {
-
-}
+export class TrainingDefinitionEditOverviewRoutingModule {}
