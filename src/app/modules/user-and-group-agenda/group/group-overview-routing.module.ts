@@ -9,7 +9,7 @@ import {
   GroupOverviewComponent,
   GroupResolver,
   GroupTitleResolver,
-} from 'kypo2-user-and-group-management';
+} from 'kypo-user-and-group-agenda';
 
 const routes: Routes = [
   {

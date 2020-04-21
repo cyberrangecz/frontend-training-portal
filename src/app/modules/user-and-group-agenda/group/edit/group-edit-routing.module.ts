@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { GroupEditCanDeactivate, GroupEditOverviewComponent } from 'kypo2-user-and-group-management';
+import { GroupEditCanDeactivate, GroupEditOverviewComponent } from 'kypo-user-and-group-agenda';
 
 const routes: Routes = [
   {

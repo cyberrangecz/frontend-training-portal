@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { KypoBaseComponent } from 'kypo-common';
 import { SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH } from 'kypo-sandbox-agenda';
 import { TRAINING_DEFINITION_PATH, TRAINING_INSTANCE_PATH, TRAINING_RUN_PATH } from 'kypo-training-agenda';
+import { GROUP_PATH, MICROSERVICE_PATH, USER_PATH } from 'kypo-user-and-group-agenda';
 import { Kypo2AuthService } from 'kypo2-auth';
-import { GROUP_PATH, MICROSERVICE_PATH, USER_PATH } from 'kypo2-user-and-group-management';
 import { takeWhile } from 'rxjs/operators';
 import { RoleResolver } from '../../utils/role-resolver';
 

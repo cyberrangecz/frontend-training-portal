@@ -37,7 +37,7 @@ export class ErrorHandlerService {
     if (err.url.startsWith(this.appConfig.trainingApiConfig.trainingBasePath)) {
       this.setJavaApiErrorNotification(err, notification);
       notification.source = 'Training Agenda';
-    } else if (err.url.startsWith(this.appConfig.userAndGroupConfig.userAndGroupRestBasePath)) {
+    } else if (err.url.startsWith(this.appConfig.userAndGroupApiConfig.userAndGroupRestBasePath)) {
       this.setJavaApiErrorNotification(err, notification);
       notification.source = 'User & Group Agenda';
     } else if (err.url.startsWith(this.appConfig.sandboxApiConfig.sandboxRestBasePath)) {

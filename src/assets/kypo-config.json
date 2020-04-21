@@ -30,9 +30,11 @@
   "sandboxApiConfig": {
     "sandboxRestBasePath": "https://kypo-devel.ics.muni.cz:8080/kypo-sandbox-service/api/v1/"
   },
-  "userAndGroupConfig": {
-    "userAndGroupRestBasePath": "https://kypo-devel.ics.muni.cz:8084/kypo2-rest-user-and-group/api/v1/",
+  "userAndGroupAgendaConfig": {
     "defaultPaginationSize": 10
+  },
+  "userAndGroupApiConfig": {
+    "userAndGroupRestBasePath": "https://kypo-devel.ics.muni.cz:8084/kypo2-rest-user-and-group/api/v1/"
   },
   "authConfig": {
     "maxRetryAttempts": 3,
