@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MicroserviceEditCanDeactivate, MicroserviceEditOverviewComponent } from 'kypo2-user-and-group-management';
+import { MicroserviceEditCanDeactivate, MicroserviceEditOverviewComponent } from 'kypo-user-and-group-agenda';
 
 const routes: Routes = [
   {

@@ -2,15 +2,17 @@ import { SandboxAgendaConfig } from 'kypo-sandbox-agenda';
 import { KypoSandboxConfig } from 'kypo-sandbox-api';
 import { TrainingAgendaConfig } from 'kypo-training-agenda';
 import { KypoTrainingApiConfig } from 'kypo-training-api';
+import { UserAndGroupAgendaConfig } from 'kypo-user-and-group-agenda';
+import { KypoUserAndGroupApiConfig } from 'kypo-user-and-group-api';
 import { Kypo2AuthConfig } from 'kypo2-auth';
-import { UserAndGroupConfig } from 'kypo2-user-and-group-management';
 
 export interface KypoConfig {
   trainingAgendaConfig: TrainingAgendaConfig;
   trainingApiConfig: KypoTrainingApiConfig;
   sandboxAgendaConfig: SandboxAgendaConfig;
   sandboxApiConfig: KypoSandboxConfig;
-  userAndGroupConfig: UserAndGroupConfig;
+  userAndGroupAgendaConfig: UserAndGroupAgendaConfig;
+  userAndGroupApiConfig: KypoUserAndGroupApiConfig;
   authConfig: Kypo2AuthConfig;
 }
 
