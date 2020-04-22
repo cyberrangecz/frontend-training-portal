@@ -1,27 +1,42 @@
 import { Injectable } from '@angular/core';
-import { CsirtMuNotification, CsirtMuNotificationService, CsirtMuNotificationTypeEnum } from 'csirt-mu-layout';
+import {
+  CsirtMuNotification,
+  CsirtMuNotificationResult,
+  CsirtMuNotificationService,
+  CsirtMuNotificationTypeEnum,
+} from 'csirt-mu-layout';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 /**
  * Global service emitting alert events.
  */
 @Injectable()
 export class NotificationService {
-  constructor(private notificationService: CsirtMuNotificationService) {}
+  constructor(private layoutNotificationService: CsirtMuNotificationService) {}
 
   /**
    * Adds new alert to the queue and if its the only element in queue calls method to display it.
    * @param type type of alert
-   * @param {string} message alert to display to user
-   * @param {number} duration how long should the alert be displayed.
+   * @param message alert to display to user
+   * @param action name of the action button displayed in the notification
+   * @param duration how long should the alert be displayed.
    *  In millis, use 0 if it should be displayed until users clicks on button
+   *  Returns observable.
+   *  Value of the observable is true if the provided action was selected, false otherwise (no reaction or dismissed)
    */
-  emit(type: 'success' | 'error' | 'warning' | 'info', message: string, duration = 500) {
+  emit(type: 'success' | 'error' | 'warning' | 'info', message: string, action?: string): Observable<boolean> {
     const notification: CsirtMuNotification = {
       type: this.convertToCsirtNotificationType(type),
-      duration,
+      duration: 5000,
       title: message,
     };
-    this.notificationService.emit(notification);
+    if (action !== undefined) {
+      notification.action = action;
+    }
+    return this.layoutNotificationService
+      .emit(notification)
+      .pipe(map((result) => result === CsirtMuNotificationResult.CONFIRMED));
   }
 
   private convertToCsirtNotificationType(type: 'success' | 'error' | 'warning' | 'info'): CsirtMuNotificationTypeEnum {

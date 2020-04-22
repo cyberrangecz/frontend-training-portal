@@ -1,6 +1,13 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { CsirtMuNotification, CsirtMuNotificationService, CsirtMuNotificationTypeEnum } from 'csirt-mu-layout';
+import {
+  CsirtMuNotification,
+  CsirtMuNotificationResult,
+  CsirtMuNotificationService,
+  CsirtMuNotificationTypeEnum,
+} from 'csirt-mu-layout';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { KypoConfig } from '../../utils/config';
 import { APP_CONFIG } from './config.provider';
 
@@ -17,22 +24,25 @@ export class ErrorHandlerService {
   /**
    * Handles various error types from different servers and displays alert with user-friendly message
    * @param err http error
+   * @param action name of the action button displayed in the notification
    * @param operation description of an operation which caused the error
-   * @param source source of the error
    */
-  emit(err: HttpErrorResponse, operation: string, source?: string) {
+  emit(err: HttpErrorResponse, operation: string, action?: string): Observable<boolean> {
     const notification: CsirtMuNotification = {
       type: CsirtMuNotificationTypeEnum.Error,
       title: operation,
-      source,
     };
+    if (action !== undefined) {
+      notification.action = action;
+    }
     if (err === null || err === undefined || err.status === 0 || err.error === null || err.error === undefined) {
       notification.additionalInfo = [
         'Unknown error. Please check your internet connection or report the issue to developers',
         err?.message,
       ];
-      this.notificationService.emit(notification);
-      return;
+      return this.notificationService
+        .emit(notification)
+        .pipe(map((result) => result === CsirtMuNotificationResult.CONFIRMED));
     }
     if (err.url.startsWith(this.appConfig.trainingApiConfig.trainingBasePath)) {
       this.setJavaApiErrorNotification(err, notification);
@@ -50,7 +60,10 @@ export class ErrorHandlerService {
         err?.message?.toString(),
       ];
     }
-    this.notificationService.emit(notification);
+
+    return this.notificationService
+      .emit(notification)
+      .pipe(map((result) => result === CsirtMuNotificationResult.CONFIRMED));
   }
 
   private setJavaApiErrorNotification(err: HttpErrorResponse, notification: CsirtMuNotification) {

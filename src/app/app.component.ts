@@ -31,7 +31,6 @@ export class AppComponent extends KypoBaseComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private notificationService: NotificationService,
     private loadingService: LoadingService,
-    private errorHandler: ErrorHandlerService,
     private auth: Kypo2AuthService
   ) {
     super();
