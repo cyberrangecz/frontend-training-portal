@@ -11,4 +11,5 @@ FROM alpine
 RUN apk add lighttpd
 COPY --from=builder /app/dist/trainings /app
 COPY ./etc/lighttpd.conf /etc/lighttpd/lighttpd.conf
+EXPOSE 80
 CMD lighttpd -D -f /etc/lighttpd/lighttpd.conf
