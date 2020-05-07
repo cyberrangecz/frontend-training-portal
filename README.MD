@@ -13,6 +13,10 @@ Implementation of the frontend for KYPO Trainings (former Capture the flag games
 - [Angular v8](https://angular.io/guide/quickstart)
 - [Angular Material v8](https://material.angular.io/guide/getting-started)
 
+Make sure you have:
+- latest version of Chrome
+- properly configured local time (until this [PR](https://github.com/manfredsteyer/angular-oauth2-oidc/pull/596) is resolved)
+
 ## UX/UI Guidelines
 If extending the project, consult [Google Material Guildelines](https://material.io/design/guidelines-overview/).
 
