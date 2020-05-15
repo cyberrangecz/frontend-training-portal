@@ -1,4 +1,12 @@
 {
+  "roleMapping": {
+    "uagAdmin": "ROLE_USER_AND_GROUP_ADMINISTRATOR",
+    "trainingDesigner": "ROLE_TRAINING_DESIGNER",
+    "trainingOrganizer": "ROLE_TRAINING_ORGANIZER",
+    "trainingTrainee": "ROLE_TRAINING_TRAINEE",
+    "sandboxDesigner": "ROLE_KYPO.SANDBOX_SERVICE_PROJECT_DESIGNER",
+    "sandboxOrganizer": "ROLE_KYPO.SANDBOX_SERVICE_PROJECT_ORGANIZER"
+  },
   "trainingAgendaConfig": {
     "pollingPeriod": 5000,
     "defaultPaginationSize": 10,

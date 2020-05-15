@@ -1,27 +1,28 @@
 import { UserRole } from 'kypo2-auth';
+import { DynamicEnvironment } from '../../environments/dynamic-environment';
 
 export class RoleResolver {
   static isUserAndGroupAdmin(roles: UserRole[]): boolean {
-    return roles.some((role) => role.roleType === 'ROLE_USER_AND_GROUP_ADMINISTRATOR');
+    return roles.some((role) => role.roleType === DynamicEnvironment.getConfig().roleMapping.uagAdmin);
   }
 
   static isTrainingDesigner(roles: UserRole[]): boolean {
-    return roles.some((role) => role.roleType === 'ROLE_TRAINING_DESIGNER');
+    return roles.some((role) => role.roleType === DynamicEnvironment.getConfig().roleMapping.trainingDesigner);
   }
 
   static isTrainingOrganizer(roles: UserRole[]): boolean {
-    return roles.some((role) => role.roleType === 'ROLE_TRAINING_ORGANIZER');
+    return roles.some((role) => role.roleType === DynamicEnvironment.getConfig().roleMapping.trainingOrganizer);
   }
 
   static isTrainingTrainee(roles: UserRole[]): boolean {
-    return roles.some((role) => role.roleType === 'ROLE_TRAINING_TRAINEE');
+    return roles.some((role) => role.roleType === DynamicEnvironment.getConfig().roleMapping.trainingTrainee);
   }
 
   static isSandboxDesigner(roles: UserRole[]): boolean {
-    return roles.some((role) => role.roleType === 'ROLE_KYPO.SANDBOX_SERVICE_PROJECT_DESIGNER');
+    return roles.some((role) => role.roleType === DynamicEnvironment.getConfig().roleMapping.sandboxDesigner);
   }
 
   static isSandboxOrganizer(roles: UserRole[]): boolean {
-    return roles.some((role) => role.roleType === 'ROLE_KYPO.SANDBOX_SERVICE_PROJECT_ORGANIZER');
+    return roles.some((role) => role.roleType === DynamicEnvironment.getConfig().roleMapping.sandboxOrganizer);
   }
 }
