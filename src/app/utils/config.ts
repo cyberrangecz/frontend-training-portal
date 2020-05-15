@@ -5,8 +5,10 @@ import { KypoTrainingApiConfig } from 'kypo-training-api';
 import { UserAndGroupAgendaConfig } from 'kypo-user-and-group-agenda';
 import { KypoUserAndGroupApiConfig } from 'kypo-user-and-group-api';
 import { Kypo2AuthConfig } from 'kypo2-auth';
+import { RoleMapping } from './role-mapping';
 
 export interface KypoConfig {
+  roleMapping: RoleMapping;
   trainingAgendaConfig: TrainingAgendaConfig;
   trainingApiConfig: KypoTrainingApiConfig;
   sandboxAgendaConfig: SandboxAgendaConfig;
