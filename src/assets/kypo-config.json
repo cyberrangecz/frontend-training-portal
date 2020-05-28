@@ -4,17 +4,17 @@
     "trainingDesigner": "ROLE_TRAINING_DESIGNER",
     "trainingOrganizer": "ROLE_TRAINING_ORGANIZER",
     "trainingTrainee": "ROLE_TRAINING_TRAINEE",
-    "sandboxDesigner": "ROLE_KYPO.SANDBOX_SERVICE_PROJECT_DESIGNER",
-    "sandboxOrganizer": "ROLE_KYPO.SANDBOX_SERVICE_PROJECT_ORGANIZER"
+    "sandboxDesigner": "ROLE_KYPO-SANDBOX-SERVICE_DESIGNER",
+    "sandboxOrganizer": "ROLE_KYPO-SANDBOX-SERVICE_ORGANIZER"
   },
   "trainingAgendaConfig": {
     "pollingPeriod": 5000,
     "defaultPaginationSize": 10,
     "visualizationConfig": {
-      "trainingBasePath": "http://localhost:8083/kypo2-rest-training/api/v1/"
+      "trainingBasePath": "https://172.19.0.22/kypo2-rest-training/api/v1/"
     },
     "kypo2TopologyConfig": {
-      "topologyRestUrl": "http://localhost:8000/kypo-sandbox-service/api/v1/",
+      "topologyRestUrl": "https://172.19.0.22/kypo-sandbox-service/api/v1/",
       "decoratorsRestUrl": "",
       "defaultDecoratorRefreshPeriodInSeconds": 3,
       "useRealTime": false,
@@ -22,13 +22,13 @@
     }
   },
   "trainingApiConfig": {
-    "trainingBasePath": "http://localhost:8083/kypo2-rest-training/api/v1/"
+    "trainingBasePath": "https://172.19.0.22/kypo2-rest-training/api/v1/"
   },
   "sandboxAgendaConfig": {
     "pollingPeriod": 5000,
     "defaultPaginationSize": 10,
     "kypo2TopologyConfig": {
-      "topologyRestUrl": "http://localhost:8000/kypo-sandbox-service/api/v1/",
+      "topologyRestUrl": "https://172.19.0.22/kypo-sandbox-service/api/v1/",
       "decoratorsRestUrl": "",
       "defaultDecoratorRefreshPeriodInSeconds": 3,
       "useRealTime": false,
@@ -36,22 +36,22 @@
     }
   },
   "sandboxApiConfig": {
-    "sandboxRestBasePath": "http://localhost:8000/kypo-sandbox-service/api/v1/"
+    "sandboxRestBasePath": "https://172.19.0.22/kypo-sandbox-service/api/v1/"
   },
   "userAndGroupAgendaConfig": {
     "defaultPaginationSize": 10
   },
   "userAndGroupApiConfig": {
-    "userAndGroupRestBasePath": "http://localhost:8084/kypo2-rest-user-and-group/api/v1/"
+    "userAndGroupRestBasePath": "https://172.19.0.22/kypo2-rest-user-and-group/api/v1/"
   },
   "authConfig": {
     "maxRetryAttempts": 3,
     "guardMainPageRedirect": "home",
     "guardLoginPageRedirect": "login",
     "tokenInterceptorAllowedUrls": [
-      "http://localhost"
+      "https://172.19.0.22"
     ],
-    "userInfoRestUri": "http://localhost:8084/kypo2-rest-user-and-group/api/v1/",
+    "userInfoRestUri": "https://172.19.0.22/kypo2-rest-user-and-group/api/v1/",
     "providers": [
       {
         "label": "Login with local issuer",
@@ -59,14 +59,14 @@
         "backgroundColor": "#002776",
         "tokenRefreshTime": 30000,
         "oidcConfig": {
-          "requireHttps": false,
-          "issuer": "http://172.19.0.2:8080/csirtmu-dummy-issuer-server/",
+          "requireHttps": true,
+          "issuer": "https://172.19.0.22:443/csirtmu-dummy-issuer-server/",
           "clientId": "0bf33f00-2700-4efb-ab09-186076f85c7d",
-          "redirectUri": "http://localhost:80",
+          "redirectUri": "https://localhost:4200",
           "scope": "openid email profile",
-          "logoutUrl": "http://172.19.0.2:8080/csirtmu-dummy-issuer-server/endsession",
-          "postLogoutRedirectUri": "http://localhost:80/logout-confirmed",
-          "silentRefreshRedirectUri": "http://localhost:80/silent-refresh.html",
+          "logoutUrl": "https://172.19.0.22/csirtmu-dummy-issuer-server/endsession",
+          "postLogoutRedirectUri": "https://localhost:4200/logout-confirmed",
+          "silentRefreshRedirectUri": "https://localhost:4200/silent-refresh.html",
           "clearHashAfterLogin": true
         }
       }
