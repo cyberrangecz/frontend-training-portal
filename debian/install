@@ -1,2 +1,0 @@
-dist /opt/kypo2/kypo2-trainings
-debian/kypo2-trainings-ssl.conf /etc/apache2/sites-available

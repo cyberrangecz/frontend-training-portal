@@ -5,7 +5,6 @@ variables:
     ABI_TAG: none
     PLATFORM_TAG: any
     PACKAGE_EXTENSION: whl
-    DEBIAN_PACKAGE_EXTENSION: deb
     LANG: C.UTF-8
     LC_ALL: C.UTF-8
 
@@ -13,20 +12,12 @@ stages:
     - testAngular
     - installAngular
     - deployAngular
-    - buildDebian
-    - deployDebian
 
 before_script:
     # Get version.
     #     Variable CI_COMMIT_TAG is set only when tag was pushed.
     - export VERSION=$(if [[ "$CI_COMMIT_TAG" == "" ]]; then echo $(dpkg-parsechangelog --show-field version); else echo $CI_COMMIT_TAG | cut -c 2-; fi)
     - echo VERSION
-    # Get machine distribution
-    - export DEBIAN_DISTRIBUTION=$(cat /etc/os-release | grep VERSION | grep -Po "(?<=\().*(?=\))")
-    - echo $DEBIAN_DISTRIBUTION
-    # Get debian package filename
-    - export DEBIAN_PACKAGE=$(dpkg-parsechangelog --show-field source)_${VERSION}_$(dpkg --print-architecture).$DEBIAN_PACKAGE_EXTENSION
-    - echo $DEBIAN_PACKAGE
     # Set additional Apt repository
     - echo "$APT_SOURCE_LIST" > /etc/apt/sources.list.d/kypo.list
 
@@ -40,7 +31,7 @@ testAngular:
         - triggers
         - branches
         - tags
-        
+
 installAngular:
     stage: installAngular
     script:
@@ -55,44 +46,3 @@ installAngular:
       paths:
         - ./dist
       expire_in: 1 hour
-
-buildDebian:
-    image: gitbuildpackage
-    stage: buildDebian
-    script:
-        # --distribution $DEBIAN_DISTRIBUTION
-        - >
-            gbp dch
-            --debian-tag="v%(version)s"
-            --new-version $VERSION
-            --distribution stable
-            --force-distribution
-            --release
-            --spawn-editor none
-            --id-length 8
-            --ignore-branch
-            --git-log="--merges --grep=into[[:space:]]'master'"
-        # -uc do not sign .changes file, -us do not sign source package (see dpkg-buildpackage)
-        # -i -I exclude .git directory (see dpkg-source)
-        - > 
-            gbp buildpackage
-            --git-ignore-new
-            --git-ignore-branch
-            --git-builder=debuild -rfakeroot -us -uc -i -I
-        - cp ../$DEBIAN_PACKAGE .
-    only:
-        - triggers
-        - branches
-        - tags
-    artifacts:
-        paths:
-            - ./*.$DEBIAN_PACKAGE_EXTENSION
-        expire_in: 1 hour
-
-deployDebian:
-    stage: deployDebian
-    script:
-        - 'curl -u $APT_USER:$APT_PASSWORD -X POST -H "Content-Type: multipart/form-data" --data-binary "@$DEBIAN_PACKAGE" "$APT_UPLOAD_URL"'
-        - '$TRIGGER_PIPELINE'
-    only:
-        - tags
