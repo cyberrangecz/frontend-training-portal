@@ -1,42 +1,32 @@
 image: angulardeploy
 
 variables:
-    PYTHON_TAG: py3
-    ABI_TAG: none
-    PLATFORM_TAG: any
-    PACKAGE_EXTENSION: whl
     LANG: C.UTF-8
     LC_ALL: C.UTF-8
 
 stages:
     - testAngular
-    - installAngular
-    - deployAngular
+    - buildAngular
 
 before_script:
     # Get version.
     #     Variable CI_COMMIT_TAG is set only when tag was pushed.
     - export VERSION=$(if [[ "$CI_COMMIT_TAG" == "" ]]; then echo $(dpkg-parsechangelog --show-field version); else echo $CI_COMMIT_TAG | cut -c 2-; fi)
-    - echo VERSION
-    # Set additional Apt repository
-    - echo "$APT_SOURCE_LIST" > /etc/apt/sources.list.d/kypo.list
+    - cp $NPMRC_PULL ~/.npmrc
+    - npm install
 
 testAngular:
     stage: testAngular
     script:
-        - cp /usr/local/npmrc ~/.npmrc
-        - npm install
         - ng test --browsers ChromeHeadlessNoSandbox --watch=false
     only:
         - triggers
         - branches
         - tags
 
-installAngular:
-    stage: installAngular
+buildAngular:
+    stage: buildAngular
     script:
-        - cp /usr/local/npmrc ~/.npmrc
-        - npm install
         - ng build --configuration=production
     only:
         - triggers
