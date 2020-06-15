@@ -5,7 +5,6 @@ ARG PROPRIETARY_NPM_REGISTRY
 COPY e2e /build/e2e
 COPY src /build/src
 COPY *.json /build/
-COPY *.js /build/
 
 RUN cd /build && \
     npm set registry $PROPRIETARY_NPM_REGISTRY && \
