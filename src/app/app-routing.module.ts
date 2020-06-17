@@ -3,7 +3,7 @@ import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH } from 'kypo-sandbox-agenda';
 import { TRAINING_DEFINITION_PATH, TRAINING_INSTANCE_PATH, TRAINING_RUN_PATH } from 'kypo-training-agenda';
 import { GROUP_PATH, MICROSERVICE_PATH, USER_PATH } from 'kypo-user-and-group-agenda';
-import { Kypo2AuthProviderPickerComponent, Kypo2NotAuthGuardService } from 'kypo2-auth';
+import { Kypo2AuthGuardWithLogin, Kypo2AuthProviderPickerComponent, Kypo2NotAuthGuardService } from 'kypo2-auth';
 import { HomeComponent } from './components/home/home.component';
 import { HOME_PATH, LOGIN_PATH, NOTIFICATIONS_PATH } from './paths';
 import { OnlyTraineeGuard } from './services/guards/only-trainee.guard.service';
@@ -117,6 +117,7 @@ const routes: Routes = [
   },
   {
     path: NOTIFICATIONS_PATH,
+    canActivate: [Kypo2AuthGuardWithLogin],
     loadChildren: () =>
       import('./modules/notifications/notifications-overview.module').then((m) => m.NotificationsOverviewModule),
     data: { breadcrumb: 'Notifications' },
