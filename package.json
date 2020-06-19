@@ -7,7 +7,6 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "compodoc": "./node_modules/.bin/compodoc -p src/tsconfig.app.json",
-    "build:ngssc": "ng run trainings:ngsscbuild:production",
     "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points"
   },
   "husky": {
