@@ -1,71 +1,38 @@
 image: angulardeploy
 
+variables:
+    LANG: C.UTF-8
+    LC_ALL: C.UTF-8
+
 stages:
-  - install
-  - codeStyle
-  - test
-  - build
+    - testAngular
+    - buildAngular
 
-cache:
-  key: ${CI_COMMIT_REF_SLUG}
-  paths:
-    - node_modules/
-
-installAngular:
-  stage: install
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
-    paths:
-      - node_modules/
-  script:
+before_script:
+    # Get version.
+    #     Variable CI_COMMIT_TAG is set only when tag was pushed.
+    - export VERSION=$(if [[ "$CI_COMMIT_TAG" == "" ]]; then echo $(dpkg-parsechangelog --show-field version); else echo $CI_COMMIT_TAG | cut -c 2-; fi)
     - cp $NPMRC_PULL ~/.npmrc
-    - npm ci
-  only:
-    changes:
-      - package-lock.json
+    - npm install
 
-codeStyle:
-  stage: codeStyle
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
-    paths:
-      - node_modules/
-    policy: pull
-  script:
-    - ng lint
-  only:
-    - triggers
-    - branches
-    - tags
-
-unitTests:
-  stage: test
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
-    paths:
-      - node_modules/
-    policy: pull
-  script:
-    - ng test --browsers ChromeHeadlessNoSandbox --watch=false
-  only:
-    - triggers
-    - branches
-    - tags
+testAngular:
+    stage: testAngular
+    script:
+        - ng test --browsers ChromeHeadlessNoSandbox --watch=false
+    only:
+        - triggers
+        - branches
+        - tags
 
 buildAngular:
-  stage: build
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
-    paths:
-      - node_modules/
-    policy: pull
-  script:
-    - ng build --configuration=production
-  only:
-    - triggers
-    - branches
-    - tags
-  artifacts:
-    paths:
-      - ./dist
-    expire_in: 1 hour
+    stage: buildAngular
+    script:
+        - ng build --configuration=production
+    only:
+        - triggers
+        - branches
+        - tags
+    artifacts:
+      paths:
+        - ./dist
+      expire_in: 1 hour
