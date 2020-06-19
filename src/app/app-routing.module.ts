@@ -120,7 +120,7 @@ const routes: Routes = [
     canActivate: [Kypo2AuthGuardWithLogin],
     loadChildren: () =>
       import('./modules/notifications/notifications-overview.module').then((m) => m.NotificationsOverviewModule),
-    data: { breadcrumb: 'Notifications' },
+    data: { breadcrumb: 'Notifications', title: 'Notifications' },
   },
   {
     path: '',
