@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { AgendaContainer } from 'csirt-mu-layout';
-import { KypoBaseComponent } from 'kypo-common';
+import { KypoBaseDirective } from 'kypo-common';
 import { Kypo2AuthService, User } from 'kypo2-auth';
 import { Observable } from 'rxjs';
 import { filter, map, takeWhile } from 'rxjs/operators';
 import { NOTIFICATIONS_PATH } from './paths';
-import { ErrorHandlerService } from './services/shared/error-handler.service';
 import { LoadingService } from './services/shared/loading.service';
 import { NotificationService } from './services/shared/notification.service';
 import { NavBuilder } from './utils/nav-builder';
@@ -19,7 +18,7 @@ import { NavBuilder } from './utils/nav-builder';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent extends KypoBaseComponent implements OnInit {
+export class AppComponent extends KypoBaseDirective implements OnInit {
   isLoading$: Observable<boolean>;
   activeUser$: Observable<User>;
   title$: Observable<string>;
