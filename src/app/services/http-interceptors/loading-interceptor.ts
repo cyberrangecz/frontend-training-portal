@@ -8,7 +8,7 @@ import { LoadingService } from '../shared/loading.service';
  */
 @Injectable()
 export class LoadingInterceptor implements HttpInterceptor {
-  private requests: Array<HttpRequest<any>> = [];
+  private requests: HttpRequest<any>[] = [];
 
   constructor(private loadingService: LoadingService) {}
 
