@@ -7,18 +7,16 @@ import {
   POOL_REQUEST_ID_SELECTOR,
   PoolRequestBreadcrumbResolver,
   PoolResolver,
-  SANDBOX_ALLOCATION_UNIT_ID_SELECTOR,
-  SANDBOX_ALLOCATION_UNIT_PATH,
   SANDBOX_INSTANCE_ID_SELECTOR,
   SANDBOX_INSTANCE_PATH,
   SANDBOX_INSTANCE_TOPOLOGY_PATH,
   SandboxInstanceBreadcrumbResolver,
-  SandboxPoolDetailComponent,
+  PoolDetailComponent,
 } from 'kypo-sandbox-agenda';
 const routes: Routes = [
   {
     path: '',
-    component: SandboxPoolDetailComponent,
+    component: PoolDetailComponent,
     resolve: {
       [POOL_DATA_ATTRIBUTE_NAME]: PoolResolver,
     },
@@ -35,7 +33,7 @@ const routes: Routes = [
     },
   },
   {
-    path: `${SANDBOX_ALLOCATION_UNIT_PATH}/:${SANDBOX_ALLOCATION_UNIT_ID_SELECTOR}/${POOL_ALLOCATION_REQUEST_PATH}/:${POOL_REQUEST_ID_SELECTOR}`,
+    path: `${POOL_ALLOCATION_REQUEST_PATH}/:${POOL_REQUEST_ID_SELECTOR}`,
     loadChildren: () =>
       import('./request/pool-allocation-request-detail.module').then((m) => m.PoolAllocationRequestDetailModule),
     resolve: {
@@ -46,7 +44,7 @@ const routes: Routes = [
     },
   },
   {
-    path: `${SANDBOX_ALLOCATION_UNIT_PATH}/:${SANDBOX_ALLOCATION_UNIT_ID_SELECTOR}/${POOL_CLEANUP_REQUEST_PATH}/:${POOL_REQUEST_ID_SELECTOR}`,
+    path: `${POOL_CLEANUP_REQUEST_PATH}/:${POOL_REQUEST_ID_SELECTOR}`,
     loadChildren: () =>
       import('./request/pool-cleanup-request-detail.module').then((m) => m.PoolCleanupRequestDetailModule),
     resolve: {
