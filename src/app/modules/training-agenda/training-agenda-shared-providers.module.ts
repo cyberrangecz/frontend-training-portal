@@ -9,4 +9,4 @@ import { NotificationService } from '../../services/shared/notification.service'
     { provide: TrainingNotificationService, useClass: NotificationService },
   ],
 })
-export class TraininigAgendaSharedProvidersModule {}
+export class TrainingAgendaSharedProvidersModule {}

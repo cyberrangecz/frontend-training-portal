@@ -1,8 +1,8 @@
 @import '~@angular/material/theming';
-@import '~csirt-mu-layout/assets/csirt-mu-variables';
+@import '~@sentinel/layout/assets/sentinel-variables';
 
-$primary: mat-color($csirt-mu-primary-palette);
-$accent: mat-color($csirt-mu-accent-palette);
-$warn: mat-color($csirt-mu-warn-palette);
+$primary: mat-color($sentinel-primary-palette);
+$accent: mat-color($sentinel-accent-palette);
+$warn: mat-color($sentinel-warn-palette);
 $success: #6DF000;
 $non-accent: #808080;

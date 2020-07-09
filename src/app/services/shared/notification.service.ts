@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import {
-  CsirtMuNotification,
-  CsirtMuNotificationResult,
-  CsirtMuNotificationService,
-  CsirtMuNotificationTypeEnum,
-} from 'csirt-mu-layout';
+  SentinelNotification,
+  SentinelNotificationResult,
+  SentinelNotificationService,
+  SentinelNotificationTypeEnum,
+} from '@sentinel/layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -13,7 +13,7 @@ import { map } from 'rxjs/operators';
  */
 @Injectable()
 export class NotificationService {
-  constructor(private layoutNotificationService: CsirtMuNotificationService) {}
+  constructor(private layoutNotificationService: SentinelNotificationService) {}
 
   /**
    * Adds new alert to the queue and if its the only element in queue calls method to display it.
@@ -26,7 +26,7 @@ export class NotificationService {
    *  Value of the observable is true if the provided action was selected, false otherwise (no reaction or dismissed)
    */
   emit(type: 'success' | 'error' | 'warning' | 'info', message: string, action?: string): Observable<boolean> {
-    const notification: CsirtMuNotification = {
+    const notification: SentinelNotification = {
       type: this.convertToCsirtNotificationType(type),
       duration: 5000,
       title: message,
@@ -36,19 +36,19 @@ export class NotificationService {
     }
     return this.layoutNotificationService
       .emit(notification)
-      .pipe(map((result) => result === CsirtMuNotificationResult.CONFIRMED));
+      .pipe(map((result) => result === SentinelNotificationResult.CONFIRMED));
   }
 
-  private convertToCsirtNotificationType(type: 'success' | 'error' | 'warning' | 'info'): CsirtMuNotificationTypeEnum {
+  private convertToCsirtNotificationType(type: 'success' | 'error' | 'warning' | 'info'): SentinelNotificationTypeEnum {
     switch (type) {
       case 'warning':
-        return CsirtMuNotificationTypeEnum.Warning;
+        return SentinelNotificationTypeEnum.Warning;
       case 'error':
-        return CsirtMuNotificationTypeEnum.Error;
+        return SentinelNotificationTypeEnum.Error;
       case 'success':
-        return CsirtMuNotificationTypeEnum.Success;
+        return SentinelNotificationTypeEnum.Success;
       default:
-        return CsirtMuNotificationTypeEnum.Info;
+        return SentinelNotificationTypeEnum.Info;
     }
   }
 }

@@ -2,25 +2,25 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
-  CsirtMuNotificationOverviewComponent,
-  CsirtMuNotificationOverviewModule,
+  SentinelNotificationOverviewComponent,
+  SentinelNotificationOverviewModule,
   NotificationResolver,
-} from 'csirt-mu-layout';
+} from '@sentinel/layout';
 
 @NgModule({
   imports: [
     CommonModule,
-    CsirtMuNotificationOverviewModule,
+    SentinelNotificationOverviewModule,
     RouterModule.forChild([
       {
         path: '',
-        component: CsirtMuNotificationOverviewComponent,
+        component: SentinelNotificationOverviewComponent,
       },
       {
         path: ':id',
         loadChildren: () => import('./notification-detail.module').then((m) => m.NotificationDetailModule),
         data: { breadcrumb: 'Detail' },
-        resolve: { csirtMuNotification: NotificationResolver },
+        resolve: { sentinelNotification: NotificationResolver },
       },
     ]),
   ],
