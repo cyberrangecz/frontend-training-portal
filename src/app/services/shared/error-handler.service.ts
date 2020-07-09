@@ -1,11 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import {
-  CsirtMuNotification,
-  CsirtMuNotificationResult,
-  CsirtMuNotificationService,
-  CsirtMuNotificationTypeEnum,
-} from 'csirt-mu-layout';
+  SentinelNotification,
+  SentinelNotificationResult,
+  SentinelNotificationService,
+  SentinelNotificationTypeEnum,
+} from '@sentinel/layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { KypoConfig } from '../../utils/config';
@@ -17,7 +17,7 @@ import { APP_CONFIG } from './config.provider';
  */
 export class ErrorHandlerService {
   constructor(
-    private notificationService: CsirtMuNotificationService,
+    private notificationService: SentinelNotificationService,
     @Inject(APP_CONFIG) private appConfig: KypoConfig
   ) {}
 
@@ -28,8 +28,8 @@ export class ErrorHandlerService {
    * @param operation description of an operation which caused the error
    */
   emit(err: HttpErrorResponse, operation: string, action?: string): Observable<boolean> {
-    const notification: CsirtMuNotification = {
-      type: CsirtMuNotificationTypeEnum.Error,
+    const notification: SentinelNotification = {
+      type: SentinelNotificationTypeEnum.Error,
       title: operation,
     };
     if (action !== undefined) {
@@ -42,7 +42,7 @@ export class ErrorHandlerService {
       ];
       return this.notificationService
         .emit(notification)
-        .pipe(map((result) => result === CsirtMuNotificationResult.CONFIRMED));
+        .pipe(map((result) => result === SentinelNotificationResult.CONFIRMED));
     }
     if (err.url.startsWith(this.appConfig.trainingApiConfig.trainingBasePath)) {
       this.setJavaApiErrorNotification(err, notification);
@@ -63,14 +63,14 @@ export class ErrorHandlerService {
 
     return this.notificationService
       .emit(notification)
-      .pipe(map((result) => result === CsirtMuNotificationResult.CONFIRMED));
+      .pipe(map((result) => result === SentinelNotificationResult.CONFIRMED));
   }
 
-  private setJavaApiErrorNotification(err: HttpErrorResponse, notification: CsirtMuNotification) {
+  private setJavaApiErrorNotification(err: HttpErrorResponse, notification: SentinelNotification) {
     notification.additionalInfo = [err.error.message];
   }
 
-  private setPythonApiErrorToNotification(err: HttpErrorResponse, notification: CsirtMuNotification) {
+  private setPythonApiErrorToNotification(err: HttpErrorResponse, notification: SentinelNotification) {
     if (err.error.detail) {
       // PYTHON API
       notification.additionalInfo = [err.error.detail];

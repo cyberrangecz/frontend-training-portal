@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { AgendaContainer } from 'csirt-mu-layout';
-import { KypoBaseDirective } from 'kypo-common';
+import { AgendaContainer } from '@sentinel/layout';
+import { SentinelBaseDirective } from '@sentinel/common';
 import { Kypo2AuthService, User } from 'kypo2-auth';
 import { Observable } from 'rxjs';
 import { filter, map, takeWhile } from 'rxjs/operators';
@@ -18,7 +18,7 @@ import { NavBuilder } from './utils/nav-builder';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent extends KypoBaseDirective implements OnInit {
+export class AppComponent extends SentinelBaseDirective implements OnInit {
   isLoading$: Observable<boolean>;
   activeUser$: Observable<User>;
   title$: Observable<string>;

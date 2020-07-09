@@ -4,8 +4,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CsirtMuConfirmationDialogModule } from 'csirt-mu-common';
-import { CsirtMuLayout1Module } from 'csirt-mu-layout';
+import { SentinelLayout1Module } from '@sentinel/layout';
+import { SentinelConfirmationDialogModule } from '@sentinel/components/dialogs';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth.module';
@@ -25,8 +25,8 @@ import { NotificationService } from './services/shared/notification.service';
     HttpClientModule,
     AppRoutingModule,
     AuthModule,
-    CsirtMuLayout1Module,
-    CsirtMuConfirmationDialogModule,
+    SentinelLayout1Module,
+    SentinelConfirmationDialogModule,
     HomeModule,
     MatIconModule,
     MatButtonModule,

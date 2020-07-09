@@ -1,16 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CsirtMuNotificationDetailComponent, CsirtMuNotificationDetailModule } from 'csirt-mu-layout';
+import { SentinelNotificationDetailComponent, SentinelNotificationDetailModule } from '@sentinel/layout';
 
 @NgModule({
   imports: [
     CommonModule,
-    CsirtMuNotificationDetailModule,
+    SentinelNotificationDetailModule,
     RouterModule.forChild([
       {
         path: '',
-        component: CsirtMuNotificationDetailComponent,
+        component: SentinelNotificationDetailComponent,
       },
     ]),
   ],
