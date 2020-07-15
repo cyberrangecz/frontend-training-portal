@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SANDBOX_DEFINITION_NEW_PATH, SandboxDefinitionOverviewComponent } from 'kypo-sandbox-agenda';
+import { SANDBOX_DEFINITION_NEW_PATH } from 'kypo-sandbox-agenda';
+import { SandboxDefinitionOverviewComponent } from 'kypo-sandbox-agenda/sandbox-definition-overview';
 
 const routes: Routes = [
   {
@@ -9,7 +10,7 @@ const routes: Routes = [
   },
   {
     path: SANDBOX_DEFINITION_NEW_PATH,
-    loadChildren: () => import('./edit/edit-sandbox-definition.module').then((m) => m.EditSandboxDefinitionModule),
+    loadChildren: () => import('./edit/sandbox-definition-edit.module').then((m) => m.SandboxDefinitionEditModule),
     data: {
       breadcrumb: 'Create',
       title: 'Create Sandbox Definition',

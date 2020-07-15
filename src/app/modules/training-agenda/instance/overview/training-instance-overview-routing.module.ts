@@ -6,11 +6,13 @@ import {
   TRAINING_INSTANCE_EDIT_PATH,
   TRAINING_INSTANCE_NEW_PATH,
   TRAINING_INSTANCE_SELECTOR,
+} from 'kypo-training-agenda';
+import { TrainingInstanceOverviewComponent } from 'kypo-training-agenda/instance-overview';
+import {
   TrainingInstanceBreadcrumbResolver,
-  TrainingInstanceOverviewComponent,
   TrainingInstanceResolver,
   TrainingInstanceTitleResolver,
-} from 'kypo-training-agenda';
+} from 'kypo-training-agenda/resolvers';
 
 const routes: Routes = [
   {

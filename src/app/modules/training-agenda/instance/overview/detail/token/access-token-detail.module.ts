@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { AccessTokenDetailComponentsModule } from 'kypo-training-agenda';
+import { AccessTokenDetailComponentsModule } from 'kypo-training-agenda/instance-access-token';
 import { DynamicEnvironment } from '../../../../../../../environments/dynamic-environment';
 import { AccessTokenDetailRoutingModule } from './access-token-detail-routing.module';
 

@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { KypoSandboxApiModule } from 'kypo-sandbox-api';
-import { TrainingInstanceOverviewComponentsModule } from 'kypo-training-agenda';
-import { KypoTrainingApiConfig, KypoTrainingApiModule } from 'kypo-training-api';
+import { TrainingInstanceOverviewComponentsModule } from 'kypo-training-agenda/instance-overview';
+import { KypoTrainingApiModule } from 'kypo-training-api';
 import { DynamicEnvironment } from '../../../../../environments/dynamic-environment';
 import { TrainingAgendaSharedProvidersModule } from '../../training-agenda-shared-providers.module';
 import { TrainingInstanceOverviewRoutingModule } from './training-instance-overview-routing.module';

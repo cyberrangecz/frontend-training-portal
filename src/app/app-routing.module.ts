@@ -35,7 +35,7 @@ const routes: Routes = [
   {
     path: SANDBOX_DEFINITION_PATH,
     loadChildren: () =>
-      import('./modules/sandbox-agenda/sandbox-definition/sandbox-definition-overview.module').then(
+      import('./modules/sandbox-agenda/definition/sandbox-definition-overview.module').then(
         (m) => m.SandboxDefinitionOverviewModule
       ),
     canActivate: [SandboxDesignerGuard],
@@ -58,8 +58,7 @@ const routes: Routes = [
   },
   {
     path: SANDBOX_POOL_PATH,
-    loadChildren: () =>
-      import('./modules/sandbox-agenda/pool/sandbox-pool-overview.module').then((m) => m.SandboxPoolOverviewModule),
+    loadChildren: () => import('./modules/sandbox-agenda/pool/pool-overview.module').then((m) => m.PoolOverviewModule),
     canActivate: [SandboxOrganizerGuard],
     data: {
       breadcrumb: 'Pools',
