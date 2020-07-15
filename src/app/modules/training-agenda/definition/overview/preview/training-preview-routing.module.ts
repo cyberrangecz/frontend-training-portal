@@ -1,11 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {
-  TRAINING_DEFINITION_DATA_ATTRIBUTE_NAME,
-  TrainingDefinitionBreadcrumbResolver,
-  TrainingDefinitionResolver,
-  TrainingPreviewComponent,
-} from 'kypo-training-agenda';
+import { TRAINING_DEFINITION_DATA_ATTRIBUTE_NAME } from 'kypo-training-agenda';
+import { TrainingPreviewComponent } from 'kypo-training-agenda/definition-preview';
+import { TrainingDefinitionBreadcrumbResolver, TrainingDefinitionResolver } from 'kypo-training-agenda/resolvers';
 
 const routes: Routes = [
   {

@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {
-  SANDBOX_INSTANCE_DATA_ATTRIBUTE_NAME,
-  SandboxInstanceResolver,
-  SandboxInstanceTopologyComponent,
-} from 'kypo-sandbox-agenda';
+import { SANDBOX_INSTANCE_DATA_ATTRIBUTE_NAME } from 'kypo-sandbox-agenda';
+import { SandboxInstanceResolver } from 'kypo-sandbox-agenda/resolvers';
+import { SandboxInstanceTopologyComponent } from 'kypo-sandbox-agenda/topology';
 
 const routes: Routes = [
   {

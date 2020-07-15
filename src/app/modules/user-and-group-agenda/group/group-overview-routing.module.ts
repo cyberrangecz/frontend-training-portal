@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { GROUP_DATA_ATTRIBUTE_NAME, GROUP_EDIT_PATH, GROUP_NEW_PATH, GROUP_SELECTOR } from 'kypo-user-and-group-agenda';
+
 import {
-  GROUP_DATA_ATTRIBUTE_NAME,
-  GROUP_EDIT_PATH,
-  GROUP_NEW_PATH,
-  GROUP_SELECTOR,
   GroupBreadcrumbResolver,
   GroupOverviewComponent,
   GroupResolver,
   GroupTitleResolver,
-} from 'kypo-user-and-group-agenda';
+} from 'kypo-user-and-group-agenda/group-overview';
 
 const routes: Routes = [
   {

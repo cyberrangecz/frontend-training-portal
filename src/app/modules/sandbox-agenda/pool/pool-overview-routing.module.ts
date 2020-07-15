@@ -1,20 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {
-  PoolBreadcrumbResolver,
-  SANDBOX_POOL_ID_SELECTOR,
-  SANDBOX_POOL_NEW_PATH,
-  SandboxPoolOverviewComponent,
-} from 'kypo-sandbox-agenda';
+import { SANDBOX_POOL_ID_SELECTOR, SANDBOX_POOL_NEW_PATH } from 'kypo-sandbox-agenda';
+import { PoolOverviewComponent } from 'kypo-sandbox-agenda/pool-overview';
+import { PoolBreadcrumbResolver } from 'kypo-sandbox-agenda/resolvers';
 
 const routes: Routes = [
   {
     path: '',
-    component: SandboxPoolOverviewComponent,
+    component: PoolOverviewComponent,
   },
   {
     path: SANDBOX_POOL_NEW_PATH,
-    loadChildren: () => import('./edit/sandbox-pool-edit.module').then((m) => m.SandboxPoolEditModule),
+    loadChildren: () => import('./edit/pool-edit.module').then((m) => m.PoolEditModule),
     resolve: {
       breadcrumb: PoolBreadcrumbResolver,
     },
@@ -24,7 +21,7 @@ const routes: Routes = [
   },
   {
     path: `:${SANDBOX_POOL_ID_SELECTOR}`,
-    loadChildren: () => import('./detail/sandbox-pool-detail.module').then((m) => m.SandboxPoolDetailModule),
+    loadChildren: () => import('./detail/pool-detail.module').then((m) => m.PoolDetailModule),
     resolve: {
       breadcrumb: PoolBreadcrumbResolver,
     },
@@ -41,4 +38,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class SandboxPoolOverviewRoutingModule {}
+export class PoolOverviewRoutingModule {}

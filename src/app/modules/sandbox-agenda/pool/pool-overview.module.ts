@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
-import { SandboxDefinitionOverviewComponentsModule } from 'kypo-sandbox-agenda';
+import { PoolOverviewComponentsModule } from 'kypo-sandbox-agenda/pool-overview';
 import { KypoSandboxApiModule } from 'kypo-sandbox-api';
 import { DynamicEnvironment } from '../../../../environments/dynamic-environment';
 import { SandboxAgendaSharedProvidersModule } from '../sandbox-agenda-shared-providers.module';
-import { SandboxDefinitionOverviewRoutingModule } from './sandbox-definition-overview-routing.module';
+import { PoolOverviewRoutingModule } from './pool-overview-routing.module';
 @NgModule({
   imports: [
     SandboxAgendaSharedProvidersModule,
     KypoSandboxApiModule.forRoot(DynamicEnvironment.getConfig().sandboxApiConfig),
-    SandboxDefinitionOverviewComponentsModule.forRoot(DynamicEnvironment.getConfig().trainingAgendaConfig),
-    SandboxDefinitionOverviewRoutingModule,
+    PoolOverviewComponentsModule.forRoot(DynamicEnvironment.getConfig().sandboxAgendaConfig),
+    PoolOverviewRoutingModule,
   ],
 })
-export class SandboxDefinitionOverviewModule {}
+export class PoolOverviewModule {}

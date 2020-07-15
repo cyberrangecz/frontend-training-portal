@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SandboxPoolEditComponent } from 'kypo-sandbox-agenda';
+import { PoolEditComponent } from 'kypo-sandbox-agenda/pool-edit';
 
 const routes: Routes = [
   {
     path: '',
-    component: SandboxPoolEditComponent,
+    component: PoolEditComponent,
   },
 ];
 
@@ -13,4 +13,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class SandboxPoolEditRoutingModule {}
+export class PoolEditRoutingModule {}

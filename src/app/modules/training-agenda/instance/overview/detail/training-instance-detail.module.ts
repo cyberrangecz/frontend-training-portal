@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { TrainingInstanceDetailComponentsModule } from 'kypo-training-agenda';
+import { TrainingInstanceDetailComponentsModule } from 'kypo-training-agenda/instance-detail';
 import { DynamicEnvironment } from '../../../../../../environments/dynamic-environment';
 import { TrainingInstanceDetailRoutingModule } from './training-instance-detail-routing.module';
 
