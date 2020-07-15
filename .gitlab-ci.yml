@@ -1,4 +1,4 @@
-image: angulardeploy
+image: cypress/browsers:node12.18.0-chrome83-ff77
 
 stages:
   - codeStyle
@@ -22,7 +22,7 @@ codeStyle:
       - .npm/
     policy: pull
   script:
-    - ng lint
+    - npm run ci-lint
   only:
     - triggers
     - branches
@@ -36,7 +36,7 @@ unitTests:
       - .npm/
     policy: pull
   script:
-    - ng test --browsers ChromeHeadless --watch=false
+    - npm run ci-test
   only:
     - triggers
     - branches
@@ -50,7 +50,7 @@ buildAngular:
       - .npm/
     policy: pull
   script:
-    - ng build --configuration=production
+    - npm run ci-build
   only:
     - triggers
     - branches
