@@ -6,6 +6,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "ci-build": "ng build --configuration=production",
+    "ci-test": "ng test --browsers ChromeHeadless --watch=false",
+    "ci-lint": "ng lint",
     "bundle-report": "webpack-bundle-analyzer dist/trainings/stats.json",
     "compodoc": "./node_modules/.bin/compodoc -p src/tsconfig.app.json",
     "postinstall": "ngcc"
