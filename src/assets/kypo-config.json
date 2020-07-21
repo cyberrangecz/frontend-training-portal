@@ -11,7 +11,8 @@
     "pollingPeriod": 5000,
     "defaultPaginationSize": 10,
     "visualizationConfig": {
-      "trainingBasePath": "https://172.19.0.22/kypo2-rest-training/api/v1/"
+      "trainingBasePath": "https://172.19.0.22/kypo2-rest-training/api/v1/",
+      "elasticSearchBasePath": "https://172.19.0.22/kypo-elasticsearch-service/api/v1/"
     },
     "kypo2TopologyConfig": {
       "topologyRestUrl": "https://172.19.0.22/kypo-sandbox-service/api/v1/",
