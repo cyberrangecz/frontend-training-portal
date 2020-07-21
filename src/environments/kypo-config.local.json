@@ -11,7 +11,8 @@
     "pollingPeriod": 5000,
     "defaultPaginationSize": 10,
     "visualizationConfig": {
-      "trainingBasePath": "http://localhost:3000/kypo2-rest-training/api/v1/"
+      "trainingBasePath": "http://localhost:3000/kypo2-rest-training/api/v1/",
+      "elasticSearchBasePath": "http://localhost:3000/kypo-elasticsearch-service/api/v1/"
     },
     "kypo2TopologyConfig": {
       "topologyRestUrl": "http://localhost:3000/kypo-sandbox-service/api/v1/",
