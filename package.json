@@ -53,7 +53,7 @@
     "kypo-user-and-group-api": "~10.1.0",
     "kypo-user-and-group-model": "~10.0.0",
     "kypo2-assessments-results-visualization": "~10.2.0",
-    "kypo2-auth": "~10.0.2",
+    "kypo2-auth": "~10.1.0",
     "kypo2-topology-graph": "~10.0.0",
     "kypo2-topology-graph-model": "~10.0.0",
     "kypo2-trainings-hurdling-viz-lib": "~10.2.0",
