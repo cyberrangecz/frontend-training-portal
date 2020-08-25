@@ -1,5 +1,5 @@
 import { Agenda, AgendaContainer } from '@sentinel/layout';
-import { SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH } from 'kypo-sandbox-agenda';
+import { SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH, SANDBOX_RESOURCES_PATH } from 'kypo-sandbox-agenda';
 import { TRAINING_DEFINITION_PATH, TRAINING_INSTANCE_PATH, TRAINING_RUN_PATH } from 'kypo-training-agenda';
 import { GROUP_PATH, MICROSERVICE_PATH, USER_PATH } from 'kypo-user-and-group-agenda';
 import { User } from 'kypo2-auth';
@@ -45,6 +45,9 @@ export class NavBuilder {
     }
     if (RoleResolver.isSandboxOrganizer(user.roles)) {
       agendas.push(new Agenda('Pool', SANDBOX_POOL_PATH));
+    }
+    if (RoleResolver.isSandboxOrganizer(user.roles)) {
+      agendas.push(new Agenda('Resources', SANDBOX_RESOURCES_PATH));
     }
     return agendas;
   }
