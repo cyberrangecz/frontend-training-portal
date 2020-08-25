@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
-import { SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH } from 'kypo-sandbox-agenda';
+import { SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH, SANDBOX_RESOURCES_PATH } from 'kypo-sandbox-agenda';
 import { TRAINING_DEFINITION_PATH, TRAINING_INSTANCE_PATH, TRAINING_RUN_PATH } from 'kypo-training-agenda';
 import { GROUP_PATH, MICROSERVICE_PATH, USER_PATH } from 'kypo-user-and-group-agenda';
 import { Kypo2AuthGuardWithLogin, Kypo2AuthProviderPickerComponent, Kypo2NotAuthGuardService } from 'kypo2-auth';
@@ -63,6 +63,18 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Pools',
       title: 'Pool Overview',
+    },
+  },
+  {
+    path: SANDBOX_RESOURCES_PATH,
+    loadChildren: () =>
+      import('./modules/sandbox-agenda/resources/sandbox-resources.module').then(
+        (m) => m.SandboxResourcesOverviewModule
+      ),
+    canActivate: [SandboxOrganizerGuard],
+    data: {
+      breadcrumb: 'Resources',
+      title: 'Resources Overview',
     },
   },
   {

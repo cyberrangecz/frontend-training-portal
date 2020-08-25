@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SentinelBaseDirective } from '@sentinel/common';
-import { SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH } from 'kypo-sandbox-agenda';
+import { SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH, SANDBOX_RESOURCES_PATH } from 'kypo-sandbox-agenda';
 import { TRAINING_DEFINITION_PATH, TRAINING_INSTANCE_PATH, TRAINING_RUN_PATH } from 'kypo-training-agenda';
 import { GROUP_PATH, MICROSERVICE_PATH, USER_PATH } from 'kypo-user-and-group-agenda';
 import { Kypo2AuthService } from 'kypo2-auth';
@@ -78,6 +78,11 @@ export class HomeComponent extends SentinelBaseDirective implements OnInit {
         name: 'Pool',
         disabled: !RoleResolver.isSandboxOrganizer(roles),
         route: SANDBOX_POOL_PATH,
+      },
+      {
+        name: 'Resources',
+        disabled: !RoleResolver.isSandboxOrganizer(roles),
+        route: SANDBOX_RESOURCES_PATH,
       },
     ];
   }

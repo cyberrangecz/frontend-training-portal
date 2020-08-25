@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { POOL_DATA_ATTRIBUTE_NAME, POOL_REQUEST_DATA_ATTRIBUTE_NAME } from 'kypo-sandbox-agenda';
 import { RequestResolver, PoolResolver } from 'kypo-sandbox-agenda/resolvers';
-import { RequestDetailComponent } from 'kypo-sandbox-agenda/request-detail';
+import { AllocationRequestDetailComponent } from 'kypo-sandbox-agenda/request-detail';
 
 const routes: Routes = [
   {
     path: '',
-    component: RequestDetailComponent,
+    component: AllocationRequestDetailComponent,
     resolve: {
       [POOL_DATA_ATTRIBUTE_NAME]: PoolResolver,
       [POOL_REQUEST_DATA_ATTRIBUTE_NAME]: RequestResolver,
@@ -22,4 +22,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class RequestDetailRoutingModule {}
+export class AllocationRequestDetailRoutingModule {}
