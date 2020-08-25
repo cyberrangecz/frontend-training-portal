@@ -12,7 +12,6 @@ import { MicroserviceNewRoutingModule } from './microservice-new-routing.module'
     UserAndGroupSharedProvidersModule,
     MicroserviceNewRoutingModule,
     MicroserviceEditComponentsModule.forRoot(DynamicEnvironment.getConfig().userAndGroupAgendaConfig),
-    KypoUserAndGroupApiModule.forRoot(DynamicEnvironment.getConfig().userAndGroupApiConfig),
   ],
 })
-export class MicroserviceNewModuleModule {}
+export class MicroserviceNewModule {}

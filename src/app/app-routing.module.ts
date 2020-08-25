@@ -100,13 +100,13 @@ const routes: Routes = [
   {
     path: MICROSERVICE_PATH,
     loadChildren: () =>
-      import('./modules/user-and-group-agenda/microservice/new/microservice-new.module').then(
-        (m) => m.MicroserviceNewModuleModule
+      import('./modules/user-and-group-agenda/microservice/microservice-overview.module').then(
+        (m) => m.MicroserviceOverviewModule
       ),
     canActivate: [UserAndGroupGuard],
     data: {
       breadcrumb: 'Microservice',
-      title: 'Microservice Registration',
+      title: 'Microservice Overview',
     },
   },
   {
