@@ -1,11 +1,11 @@
-import { SandboxResourcesComponent } from 'kypo-sandbox-agenda/sandbox-resources';
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
+import { ResourcesPageComponent } from 'kypo-sandbox-agenda/sandbox-resources';
 
 const routes: Routes = [
   {
     path: '',
-    component: SandboxResourcesComponent,
+    component: ResourcesPageComponent,
   },
 ];
 
