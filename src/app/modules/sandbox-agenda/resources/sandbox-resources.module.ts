@@ -3,13 +3,13 @@ import { SandboxAgendaSharedProvidersModule } from './../sandbox-agenda-shared-p
 import { NgModule } from '@angular/core';
 import { KypoSandboxApiModule } from 'kypo-sandbox-api';
 import { SandboxResourcesOverviewRoutingModule } from './sandbox-resources-overview-routing.module';
-import { SandboxResourcesModule } from 'kypo-sandbox-agenda/sandbox-resources';
+import { ResourcesPageModule } from 'kypo-sandbox-agenda/sandbox-resources';
 
 @NgModule({
   imports: [
     SandboxAgendaSharedProvidersModule,
     KypoSandboxApiModule.forRoot(DynamicEnvironment.getConfig().sandboxApiConfig),
-    SandboxResourcesModule,
+    ResourcesPageModule.forRoot(DynamicEnvironment.getConfig().trainingAgendaConfig),
     SandboxResourcesOverviewRoutingModule,
   ],
 })
