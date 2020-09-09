@@ -1,0 +1,20 @@
+.providers {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+}
+
+#consent-address {
+  text-decoration:none;
+  color: rgb(0, 39, 118);
+}
+
+button {
+  width: 100%;
+  margin: 5px;
+}
+
+mat-card:nth-child(2) {
+  margin-top: 100px;
+}

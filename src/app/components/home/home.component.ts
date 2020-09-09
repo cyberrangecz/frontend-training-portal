@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { SentinelAuthService } from '@sentinel/auth';
 import { SentinelBaseDirective } from '@sentinel/common';
 import { SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH, SANDBOX_RESOURCES_PATH } from 'kypo-sandbox-agenda';
 import { TRAINING_DEFINITION_PATH, TRAINING_INSTANCE_PATH, TRAINING_RUN_PATH } from 'kypo-training-agenda';
 import { GROUP_PATH, MICROSERVICE_PATH, USER_PATH } from 'kypo-user-and-group-agenda';
-import { Kypo2AuthService } from 'kypo2-auth';
 import { takeWhile } from 'rxjs/operators';
 import { RoleResolver } from '../../utils/role-resolver';
 
@@ -22,7 +22,7 @@ export class HomeComponent extends SentinelBaseDirective implements OnInit {
   sandboxAgendas;
   adminAgendas;
 
-  constructor(private authService: Kypo2AuthService, private router: Router) {
+  constructor(private authService: SentinelAuthService, private router: Router) {
     super();
   }
 

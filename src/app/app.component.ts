@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { SentinelAuthService, User } from '@sentinel/auth';
 import { AgendaContainer } from '@sentinel/layout';
 import { SentinelBaseDirective } from '@sentinel/common';
-import { Kypo2AuthService, User } from 'kypo2-auth';
 import { Observable } from 'rxjs';
-import { filter, map, takeWhile } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { NOTIFICATIONS_PATH } from './paths';
 import { LoadingService } from './services/shared/loading.service';
 import { NotificationService } from './services/shared/notification.service';
@@ -30,9 +30,12 @@ export class AppComponent extends SentinelBaseDirective implements OnInit {
     private activatedRoute: ActivatedRoute,
     private notificationService: NotificationService,
     private loadingService: LoadingService,
-    private auth: Kypo2AuthService
+    private auth: SentinelAuthService
   ) {
     super();
+  }
+
+  ngOnInit() {
     this.activeUser$ = this.auth.activeUser$;
     this.title$ = this.getTitleFromRouter();
     this.agendaContainers$ = this.auth.activeUser$.pipe(
@@ -40,10 +43,7 @@ export class AppComponent extends SentinelBaseDirective implements OnInit {
       map((user) => NavBuilder.build(user))
     );
     this.isLoading$ = this.loadingService.isLoading$;
-    this.subscribeKypo2AuthErrors();
   }
-
-  ngOnInit() {}
 
   private getTitleFromRouter(): Observable<string> {
     return this.router.events.pipe(
@@ -67,11 +67,5 @@ export class AppComponent extends SentinelBaseDirective implements OnInit {
 
   onLogout() {
     this.auth.logout();
-  }
-
-  private subscribeKypo2AuthErrors() {
-    this.auth.authError$
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe((error) => this.notificationService.emit('error', error.toString()));
   }
 }

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { SentinelAuthService } from '@sentinel/auth';
+import { SentinelAuthGuardWithLogin } from '@sentinel/auth/guards';
 import { TRAINING_RUN_PATH } from 'kypo-training-agenda';
-import { Kypo2AuthGuardWithLogin, Kypo2AuthService } from 'kypo2-auth';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RoleResolver } from '../../utils/role-resolver';
@@ -16,9 +17,8 @@ import { CanActivateToObservable } from './can-activate-to-observable';
 export class OnlyTraineeGuard implements CanActivate {
   constructor(
     private router: Router,
-    private authGuard: Kypo2AuthGuardWithLogin,
-    private loadingService: LoadingService,
-    private authService: Kypo2AuthService
+    private authGuard: SentinelAuthGuardWithLogin,
+    private authService: SentinelAuthService
   ) {}
 
   canActivate(

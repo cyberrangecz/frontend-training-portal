@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
-import { Kypo2AuthGuardWithLogin, Kypo2AuthService } from 'kypo2-auth';
+import { SentinelAuthService } from '@sentinel/auth';
+import { SentinelAuthGuardWithLogin } from '@sentinel/auth/guards';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HOME_PATH } from '../../paths';
@@ -14,8 +15,8 @@ import { CanActivateToObservable } from './can-activate-to-observable';
 export class SandboxOrganizerGuard implements CanActivate {
   constructor(
     private router: Router,
-    private authGuard: Kypo2AuthGuardWithLogin,
-    private authService: Kypo2AuthService
+    private authGuard: SentinelAuthGuardWithLogin,
+    private authService: SentinelAuthService
   ) {}
 
   canActivate(

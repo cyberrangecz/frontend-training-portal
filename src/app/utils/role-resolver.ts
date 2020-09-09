@@ -1,4 +1,4 @@
-import { UserRole } from 'kypo2-auth';
+import { UserRole } from '@sentinel/auth';
 import { DynamicEnvironment } from '../../environments/dynamic-environment';
 
 export class RoleResolver {

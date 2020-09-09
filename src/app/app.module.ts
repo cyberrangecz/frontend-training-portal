@@ -1,7 +1,5 @@
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SentinelLayout1Module } from '@sentinel/layout';
@@ -10,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth.module';
 import { HomeModule } from './components/home/home.module';
+import { LoginModule } from './components/login/login.module';
 import { ErrorLogInterceptor } from './services/http-interceptors/error-log-interceptor';
 import { LoadingInterceptor } from './services/http-interceptors/loading-interceptor';
 import { appConfigProvider } from './services/shared/config.provider';
@@ -25,11 +24,10 @@ import { NotificationService } from './services/shared/notification.service';
     HttpClientModule,
     AppRoutingModule,
     AuthModule,
+    LoginModule,
     SentinelLayout1Module,
     SentinelConfirmationDialogModule,
     HomeModule,
-    MatIconModule,
-    MatButtonModule,
   ],
   providers: [
     LoadingService,

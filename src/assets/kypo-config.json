@@ -46,19 +46,19 @@
     "userAndGroupRestBasePath": "https://172.19.0.22/kypo2-rest-user-and-group/api/v1/"
   },
   "authConfig": {
-    "maxRetryAttempts": 3,
     "guardMainPageRedirect": "home",
     "guardLoginPageRedirect": "login",
-    "tokenInterceptorAllowedUrls": [
+    "interceptorAllowedUrls": [
       "https://172.19.0.22"
     ],
-    "userInfoRestUri": "https://172.19.0.22/kypo2-rest-user-and-group/api/v1/",
+    "authorizationStrategyConfig": {
+      "authorizationUrl": "https://172.19.0.22/kypo2-rest-user-and-group/api/v1/users/info"
+    },
     "providers": [
       {
         "label": "Login with local issuer",
         "textColor": "white",
         "backgroundColor": "#002776",
-        "tokenRefreshTime": 30000,
         "oidcConfig": {
           "requireHttps": true,
           "issuer": "https://172.19.0.22:443/csirtmu-dummy-issuer-server/",
