@@ -1,10 +1,10 @@
+import { SentinelAuthConfig } from '@sentinel/auth';
 import { SandboxAgendaConfig } from 'kypo-sandbox-agenda';
 import { KypoSandboxConfig } from 'kypo-sandbox-api';
 import { TrainingAgendaConfig } from 'kypo-training-agenda';
 import { KypoTrainingApiConfig } from 'kypo-training-api';
 import { UserAndGroupAgendaConfig } from 'kypo-user-and-group-agenda';
 import { KypoUserAndGroupApiConfig } from 'kypo-user-and-group-api';
-import { Kypo2AuthConfig } from 'kypo2-auth';
 import { RoleMapping } from './role-mapping';
 
 export interface KypoConfig {
@@ -15,7 +15,7 @@ export interface KypoConfig {
   sandboxApiConfig: KypoSandboxConfig;
   userAndGroupAgendaConfig: UserAndGroupAgendaConfig;
   userAndGroupApiConfig: KypoUserAndGroupApiConfig;
-  authConfig: Kypo2AuthConfig;
+  authConfig: SentinelAuthConfig;
 }
 
 export interface ExtendedWindow extends Window {

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { Kypo2AuthConfig, Kypo2AuthInterceptor, Kypo2AuthModule } from 'kypo2-auth';
+import { SentinelAuthConfig, SentinelAuthErrorHandler, SentinelAuthModule } from '@sentinel/auth';
+import { SentinelAuthGuardWithLogin, SentinelNegativeAuthGuard } from '@sentinel/auth/guards';
 import { OnlyTraineeGuard } from './services/guards/only-trainee.guard.service';
 import { SandboxDesignerGuard } from './services/guards/sandbox-designer-guard.service';
 import { SandboxOrganizerGuard } from './services/guards/sandbox-organizer-guard.service';
@@ -10,9 +10,10 @@ import { TrainingDesignerGuard } from './services/guards/training-designer-guard
 import { TrainingOrganizerGuard } from './services/guards/training-organizer-guard.service';
 import { UserAndGroupGuard } from './services/guards/user-and-group-guard.service';
 import { APP_CONFIG, configurableModuleFactory } from './services/shared/config.provider';
+import { ErrorHandlerService } from './services/shared/error-handler.service';
 
 @NgModule({
-  imports: [CommonModule, Kypo2AuthModule.forRoot(null)],
+  imports: [CommonModule, SentinelAuthModule.forRoot(null)],
   providers: [
     SandboxDesignerGuard,
     SandboxOrganizerGuard,
@@ -21,11 +22,16 @@ import { APP_CONFIG, configurableModuleFactory } from './services/shared/config.
     UserAndGroupGuard,
     TraineeGuard,
     OnlyTraineeGuard,
-    { provide: HTTP_INTERCEPTORS, useClass: Kypo2AuthInterceptor, multi: true },
+    SentinelAuthGuardWithLogin,
+    SentinelNegativeAuthGuard,
     {
-      provide: Kypo2AuthConfig,
+      provide: SentinelAuthConfig,
       useFactory: configurableModuleFactory('authConfig'),
       deps: [APP_CONFIG],
+    },
+    {
+      provide: SentinelAuthErrorHandler,
+      useClass: ErrorHandlerService,
     },
   ],
 })
