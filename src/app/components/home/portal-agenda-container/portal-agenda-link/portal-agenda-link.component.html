@@ -1,0 +1,11 @@
+<div class="portal-item-container" *ngIf="!portalAgendaLink.disabled">
+  <button
+    mat-raised-button color="primary"
+    [ngClass]="{'button-elevation' : (elevation === portalAgendaLink.label + ' button')}"
+    (mouseover)="setElevation(portalAgendaLink.label)"
+    (mouseleave)="setElevation('')"
+    (click)="setRoute(portalAgendaLink.path)">
+    <mat-icon>{{ portalAgendaLink.icon }}</mat-icon>
+  </button>
+  <h3>{{ portalAgendaLink.label }}</h3>
+</div>

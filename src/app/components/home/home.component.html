@@ -1,42 +1,14 @@
 <div class="portal-content">
   <h1>KYPO Portal</h1>
   <div class="portal-menu">
-    <div class="left-line">
-      <div class="left-line-header">
-        <h3>Trainings</h3>
-      </div>
-      <button *ngFor="let trainingRole of trainingAgendas"
-              mat-raised-button color="primary"
-              [disabled]="trainingRole.disabled"
-              (click)="navigateToRoute(trainingRole.route)">
-        {{ trainingRole.name }}
-      </button>
-    </div>
-
-    <div class="middle-line">
-      <div class="middle-line-header" >
-        <h3>Sandboxes</h3>
-      </div>
-      <button *ngFor="let sandboxAgenda of sandboxAgendas"
-              mat-raised-button color="primary"
-              [disabled]="sandboxAgenda.disabled"
-              (click)="navigateToRoute(sandboxAgenda.route)">
-        {{ sandboxAgenda.name }}
-      </button>
-    </div>
-
-    <div class="right-line">
-      <div class="right-line-header">
-        <h3>Administration</h3>
-      </div>
-      <button *ngFor="let otherAgendaRole of adminAgendas"
-              mat-raised-button color="primary"
-              [disabled]="otherAgendaRole.disabled"
-              (click)="navigateToRoute(otherAgendaRole.route)">
-        {{ otherAgendaRole.name }}
-      </button>
+    <div *ngFor="let portalAgendaContainer of portalAgendaContainers; let last = last">
+      <kypo2-portal-agenda-container
+        [portalAgendaContainer]="portalAgendaContainer"
+        [elevation]="elevated"
+        [isLast]="last"
+        (navigation)="navigateToRoute($event)"
+        (setElevation)="setElevation($event)">
+      </kypo2-portal-agenda-container>
     </div>
   </div>
 </div>
-
-
