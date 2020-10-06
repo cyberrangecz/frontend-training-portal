@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { SentinelAuthService } from '@sentinel/auth';
 import { SentinelBaseDirective } from '@sentinel/common';
 import { SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH, SANDBOX_RESOURCES_PATH } from 'kypo-sandbox-agenda';
 import { TRAINING_DEFINITION_PATH, TRAINING_INSTANCE_PATH, TRAINING_RUN_PATH } from 'kypo-training-agenda';
 import { GROUP_PATH, MICROSERVICE_PATH, USER_PATH } from 'kypo-user-and-group-agenda';
+import { SentinelAuthService } from '@sentinel/auth';
 import { takeWhile } from 'rxjs/operators';
 import { RoleResolver } from '../../utils/role-resolver';
+import { UserRole } from 'kypo2-auth/lib/model/user-role';
+import { PortalAgendaContainer } from '../../model/portal-agenda-container';
+import { AgendaPortalLink } from '../../model/agenda-portal-link';
 
 /**
  * Main component of homepage (portal) page. Portal page is a main crossroad of possible sub pages. Only those matching with user
@@ -18,15 +21,16 @@ import { RoleResolver } from '../../utils/role-resolver';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent extends SentinelBaseDirective implements OnInit {
-  trainingAgendas;
-  sandboxAgendas;
-  adminAgendas;
+  elevated: string;
+  roles: UserRole[];
+  portalAgendaContainers: PortalAgendaContainer[] = [];
 
   constructor(private authService: SentinelAuthService, private router: Router) {
     super();
   }
 
   ngOnInit() {
+    this.roles = this.authService.getRoles();
     this.initRoutes();
     this.subscribeUserChange();
   }
@@ -39,72 +43,116 @@ export class HomeComponent extends SentinelBaseDirective implements OnInit {
     this.router.navigate([route]);
   }
 
+  setElevation(buttonName: string) {
+    this.elevated = buttonName;
+  }
+
   private initRoutes() {
-    this.createTrainingButtons();
-    this.createSanboxButtons();
-    this.createAdminButtons();
-  }
-
-  private createTrainingButtons() {
-    const roles = this.authService.getRoles();
-    this.trainingAgendas = [
+    this.portalAgendaContainers = [
       {
-        name: 'Training Definition',
-        disabled: !RoleResolver.isTrainingDesigner(roles),
-        route: TRAINING_DEFINITION_PATH,
+        agendas: this.createParticipateButtons(),
+        label: 'Participate',
+        displayed: RoleResolver.isTrainingTrainee(this.roles),
       },
       {
-        name: 'Training Instance',
-        disabled: !RoleResolver.isTrainingOrganizer(roles),
-        route: TRAINING_INSTANCE_PATH,
+        agendas: this.createDesignButtons(),
+        label: 'Design',
+        displayed: RoleResolver.isTrainingDesigner(this.roles) || RoleResolver.isSandboxDesigner(this.roles),
       },
       {
-        name: 'Training Run',
-        disabled: !RoleResolver.isTrainingTrainee(roles),
-        route: TRAINING_RUN_PATH,
+        agendas: this.createOrganizeButtons(),
+        label: 'Organize',
+        displayed: RoleResolver.isTrainingOrganizer(this.roles) || RoleResolver.isSandboxOrganizer(this.roles),
+      },
+      {
+        agendas: this.createManageButtons(),
+        label: 'Manage',
+        displayed: RoleResolver.isUserAndGroupAdmin(this.roles),
       },
     ];
   }
 
-  private createSanboxButtons() {
-    const roles = this.authService.getRoles();
-    this.sandboxAgendas = [
-      {
-        name: 'Sandbox Definition',
-        disabled: !RoleResolver.isSandboxDesigner(roles),
-        route: SANDBOX_DEFINITION_PATH,
-      },
-      {
-        name: 'Pool',
-        disabled: !RoleResolver.isSandboxOrganizer(roles),
-        route: SANDBOX_POOL_PATH,
-      },
-      {
-        name: 'Resources',
-        disabled: !RoleResolver.isSandboxOrganizer(roles),
-        route: SANDBOX_RESOURCES_PATH,
-      },
+  private createParticipateButtons() {
+    return [
+      new AgendaPortalLink(
+        'Training Run',
+        !RoleResolver.isTrainingTrainee(this.roles),
+        TRAINING_RUN_PATH,
+        'Training Run allows you to start a new capture the flag (CTF) game, return to unfinished one, or to access results of those you already finished.',
+        'games'
+      ),
     ];
   }
 
-  private createAdminButtons() {
-    const disabled = !RoleResolver.isUserAndGroupAdmin(this.authService.getRoles());
-    this.adminAgendas = [
-      {
-        name: 'User',
+  private createDesignButtons(): AgendaPortalLink[] {
+    return [
+      new AgendaPortalLink(
+        'Sandbox Definition',
+        !RoleResolver.isSandboxDesigner(this.roles),
+        SANDBOX_DEFINITION_PATH,
+        'In the sandbox definition agenda, you can manage sandbox configurations, i.e., descriptions of virtual networks and computers that can be instantiated in isolated sandboxes.',
+        'event_note'
+      ),
+      new AgendaPortalLink(
+        'Training Definition',
+        !RoleResolver.isTrainingDesigner(this.roles),
+        TRAINING_DEFINITION_PATH,
+        'The training definition is a plot of the single-player CTF games. You can manage your own and design new ones.',
+        'assignment'
+      ),
+    ];
+  }
+
+  private createOrganizeButtons() {
+    return [
+      new AgendaPortalLink(
+        'Pool',
+        !RoleResolver.isSandboxOrganizer(this.roles),
+        SANDBOX_POOL_PATH,
+        'As an organizer, you can create Pools of sandboxes that serve for the instantiating and management of sandbox definitions.',
+        'subscriptions'
+      ),
+      new AgendaPortalLink(
+        'Training Instance',
+        !RoleResolver.isTrainingOrganizer(this.roles),
+        TRAINING_INSTANCE_PATH,
+        'You can also create training instances that are necessary if you want to organize a CTF game hands-on session.',
+        'event'
+      ),
+      new AgendaPortalLink(
+        'Resources',
+        !RoleResolver.isSandboxOrganizer(this.roles),
+        SANDBOX_RESOURCES_PATH,
+        'In the resources agenda, you can view cloud resources and its state.',
+        'donut_large'
+      ),
+    ];
+  }
+
+  private createManageButtons() {
+    const disabled = !RoleResolver.isUserAndGroupAdmin(this.roles);
+    return [
+      new AgendaPortalLink(
+        'Groups',
         disabled,
-        route: USER_PATH,
-      },
-      {
-        name: 'Group',
+        GROUP_PATH,
+        'In Groups, you can manage groups and define access rights available to the group members.',
+        'group'
+      ),
+      new AgendaPortalLink(
+        'Users',
         disabled,
-        route: GROUP_PATH,
-      },
-      {
-        name: 'Microservice',
+        USER_PATH,
+        'The Users agenda serves for assigning KYPO users to existing groups.',
+        'person'
+      ),
+      new AgendaPortalLink(
+        'Microservices',
         disabled,
-        route: MICROSERVICE_PATH,
-      },
+        MICROSERVICE_PATH,
+        'You can also manage microservices that provide the KYPO Cyber Range functionality. Please do not mess with it unless you know what you are doing.',
+        'account_tree'
+      ),
     ];
   }
 

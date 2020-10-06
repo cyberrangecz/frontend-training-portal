@@ -1,0 +1,48 @@
+button {
+  height: 85px;
+  border-radius: 12px;
+  width: 120px;
+}
+mat-icon {
+  font-size: 35px;
+}
+
+.mat-icon {
+  height: 35px;
+  width: 35px;
+}
+
+.mat-button-wrapper {
+  width: 50px;
+}
+
+.portal-item-container {
+  display: flex;
+  padding-left: 30px;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.portal-item-container:nth-child(1) {
+  padding-left: 60px;
+}
+
+.portal-item-container h3 {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+.button-elevation {
+  box-shadow: 0 0 11px midnightblue;
+}
+
+@media screen and (max-width: 1580px) {
+  .portal-item-container, .portal-item-container:nth-child(1) {
+    padding-left: 0;
+  }
+
+  .portal-item-container {
+    padding-right: 25px;
+  }
+}
