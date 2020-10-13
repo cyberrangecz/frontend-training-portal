@@ -1,0 +1,355 @@
+{
+  "TrainingDefinition": {
+    "anchors": [
+      {
+        "anchorId": "start.td-overview-1",
+        "title": "Training definition",
+        "content": "On this page, you can see all the training definitions that you can manage.",
+        "position": {
+          "selector": "h1",
+          "index": "0"
+        }
+      },
+      {
+        "anchorId": "next.td-overview-2",
+        "title": "Create",
+        "content": "By this button, you can create a new training definition.",
+        "position": {
+          "selector": "button",
+          "index": "3"
+        }
+      },
+      {
+        "anchorId": "next.td-overview-3",
+        "title": "Upload",
+        "content": "Use this button to upload existing training definition from the file.",
+        "position": {
+          "selector": "button",
+          "index": "4"
+        }
+      },
+      {
+        "anchorId": "next.td-overview-4",
+        "title": "Table",
+        "content": "Here you can see all the training definitions that you can manage. You can, edit, remove, clone, download, preview or release each definition.",
+        "position": {
+          "selector": "mat-paginator",
+          "index": "0"
+        }
+      },
+      {
+        "anchorId": "end.td-overview-5",
+        "title": "Icons",
+        "content":  "Edit the training definition: you can edit only unreleased training definitions. Delete the training definition: you can remove only those, that are unreleased or archived. Under the three dots, there are other operations for the training definition: You can clone released or archived ones, download them,preview or release (i.e., make it available for use).",
+        "position": {
+          "selector": "th",
+          "index": "6"
+        }
+      }
+    ]
+  },
+  "TrainingDefinitionCreate": {
+    "anchors": [
+      {
+        "anchorId": "start.create-new-td-1",
+        "title": "Create training definition ",
+        "content": "On this page you can create new training definitions, which can be later used in the creation of training instances. It consists of three parts: metadata describing the training definition, list of co-authors, and the content of the training levels.",
+        "position": {
+          "selector": "h1",
+          "index": "0"
+        }
+      },
+      {
+        "anchorId": "next.create-new-td-2",
+        "title": "Title and description",
+        "content": "Each training definition must be named. The description is optional but highly recommended.",
+        "position": {
+          "selector": "mat-form-field",
+          "index": "0"
+        }
+      },
+      {
+        "anchorId": "next.create-new-td-3",
+        "title": "Notes for instructors and learning outcomes",
+        "content": "You can also add some notes for the instructors or specify learning outcomes of the training.",
+        "position": {
+          "selector": "button",
+          "index": "6"
+        }
+      },
+      {
+        "anchorId": "end.create-new-td-5",
+        "title": "Create",
+        "content": "By Create button, you create a training definition stub while being redirected to the overview page. Create and continue editing button will create a training definition while remaining on the same page.",
+        "position": {
+          "selector": "button",
+          "index": "4"
+        }
+      }
+    ]
+  },
+  "TrainingDefinitionDetailEdit": {
+    "anchors": [
+      {
+        "anchorId": "start.edit-authors-1",
+        "title": "Edit authors and levels",
+        "content": "In these sections you can edit the authors of the definition, and define content of the training levels. This is possible only after completing the metadata section.",
+        "position": {
+          "selector": "mat-expansion-panel-header",
+          "index": "1"
+        }
+      },
+      {
+        "anchorId": "end.edit-authors-2",
+        "title": "Edit authors",
+        "content": "In this section you can add other co-authors of the training definition. They all will be able to edit the content and all the details.",
+        "position": {
+          "selector": "mat-card-header",
+          "index": "0"
+        }
+      },
+      {
+        "anchorId": "start.game-level-1",
+        "title": "Edit levels",
+        "content": "You can change a level type (info level, game level,and assessment level), save or delete current one or add a new one.",
+        "position": {
+          "nodeName": "KYPO-LEVEL-EDIT",
+          "selector": "kypo-levels-stepper",
+          "index": "0"
+        }
+      },
+      {
+        "anchorId": "next.game-level-2",
+        "title": "Title",
+        "content": "Each level should have a name and estimate duration.",
+        "position": {
+          "selector": "mat-form-field",
+          "index": "4"
+        }
+      },
+      {
+        "anchorId": "next.game-level-3",
+        "title": "Points",
+        "content": "You can also set the maximum number of points for the level.",
+        "position": {
+          "selector": "mat-form-field",
+          "index": "5"
+        }
+      },
+      {
+        "anchorId": "next.game-level-4",
+        "title": "Flag",
+        "content": "Here you should provide the flag which enables next level.",
+        "position": {
+          "selector": "mat-form-field",
+          "index": "7"
+        }
+      },
+      {
+        "anchorId": "next.game-level-5",
+        "title": "Content, Solution, Hints",
+        "content": "For description of content, solution and hints, you can use markdown editor to format the text. In this editor you can write the level content.",
+        "position": {
+          "selector": "sentinel-markdown-editor",
+          "index": "1"
+        }
+      }
+    ]
+  },
+  "TrainingInstance": {
+    "anchors": [
+      {
+        "anchorId": "start.ti-overview-1",
+        "title": "Training instance overview",
+        "content": "On this page you can see the list of all the training instances (i.e., sessions), you can modify them and also create new ones.",
+        "position": {
+          "selector": "h1",
+          "index": "0"
+        }
+      },
+      {
+        "anchorId": "next.ti-overview-2",
+        "title": "Create",
+        "content": "This button takes you to the instance creation page.",
+        "position": {
+          "selector": "button",
+          "index": "3"
+        }
+      },
+      {
+        "anchorId": "next.ti-overview-3",
+        "title": "Table",
+        "content": "Training instances table displays all existing training instances organized by you. The table shows information about the training instance. If the training instance date is still valid,the you can access the training instance summary page.",
+        "position": {
+          "selector": "mat-paginator",
+          "index": "0"
+        }
+      },
+      {
+        "anchorId": "end.ti-overview-4",
+        "title": "Edit",
+        "content": "The pencil icon opens the instance editing page. You can only edit training instances before their start. Before you start the training instance, you have to allocate resources. This step must be done early enough before the start date since the allocation process takes time and depends on the number of requested sandboxes. Down arrow button downloads all instance data from already finished training instances. The trash icon removes the training instance from the database. You can only remove training instances which are not currently running.",
+        "position": {
+          "selector": "th",
+          "index": "6"
+        }
+      }
+    ]
+  },
+  "TrainingInstanceCreate": {
+    "anchors": [
+      {
+        "anchorId": "start.create-new-ti-1",
+        "title": "Create training instance",
+        "content": "On this page you can create a new training instance.",
+        "position": {
+          "selector": "h1",
+          "index": "0"
+        }
+      },
+      {
+        "anchorId": "next.create-new-ti-2",
+        "title": "Title",
+        "content": "Choose the title of the instance.",
+        "position": {
+          "selector": "mat-form-field",
+          "index": "0"
+        }
+      },
+      {
+        "anchorId": "next.create-new-ti-3",
+        "title": "Access token prefix",
+        "content": "Access token which the trainees can use to run the instance. Pin code will be generated automatically.",
+        "position": {
+          "selector": "mat-form-field",
+          "index": "3"
+        }
+      },
+      {
+        "anchorId": "next.create-new-ti-4",
+        "title": "Start time",
+        "content": "Set the time range when the training will occur by specifying start and end times.",
+        "position": {
+          "selector": "owl-date-time",
+          "index": "0"
+        }
+      },
+      {
+        "anchorId": "next.create-new-ti-5",
+        "title": "Training definition",
+        "content": "Here you can select from the available training definitions.",
+        "position": {
+          "selector": "button",
+          "index": "6"
+        }
+      },
+      {
+        "anchorId": "end.create-new-ti-6",
+        "title": "Buttons",
+        "content": "By clicking the create button you will create and store the instance into the database and be taken to the overview page. You can choose to click the other button which will allow you to continue editing after creation.",
+        "position": {
+          "selector": "button",
+          "index": "4"
+        }
+      }
+    ]
+  },
+  "TrainingInstanceDetailEdit": {
+    "anchors": [
+      {
+        "anchorId": "start.edit-pool-ti-1",
+        "title": "Sandbox pool size",
+        "content": "Set the number of sandboxes based on the number of expected players. You need one sandbox for each player.",
+        "position": {
+          "selector": "mat-panel-title",
+          "index": "1"
+        }
+      },
+      {
+        "anchorId": "start.edit-ti-organizers-1",
+        "title": "Edit organizers",
+        "content": "In this section, you can edit the organizers of this instance.",
+        "position": {
+          "selector": "mat-panel-title",
+          "index": "2"
+        }
+      },
+      {
+        "anchorId": "next.edit-ti-organizers-2",
+        "title": "Add",
+        "content": "You can add more organizers. Search them by their first name or surname.",
+        "position": {
+          "selector": "mat-chip-list",
+          "index": "0"
+        }
+      },
+      {
+        "anchorId": "next.edit-ti-organizers-3",
+        "title": "Table",
+        "content": "This table contains the organizers of this instance, and info about them.",
+        "position": {
+          "selector": "mat-card-header",
+          "index": "1"
+        }
+      },
+      {
+        "anchorId": "next.edit-ti-organizers-4",
+        "title": "Remove",
+        "content": "By clicking the trash icon you can remove the organizer from this instance.",
+        "position": {
+          "selector": "th",
+          "index": "4"
+        }
+      },
+      {
+        "anchorId": "end.edit-ti-organizers-5",
+        "title": "Add",
+        "content": "By clicking this button you will add the chosen organizers to the instance.",
+        "position": {
+          "selector": "button",
+          "index": "5"
+        }
+      }
+    ]
+  },
+  "TrainingRun": {
+    "anchors": [
+      {
+        "anchorId": "start.tr-overview-1",
+        "title": "Training Run Overview",
+        "content": "On this page, you can see the list of all trainings you already passed and you can access the new one if you know the token.",
+        "position": {
+          "selector": "h1",
+          "index": "0"
+        }
+      },
+      {
+        "anchorId": "next.tr-overview-2",
+        "title": "Access",
+        "content": "Enter the provided access token and pin to enter the new training.",
+        "position": {
+          "selector": "mat-form-field",
+          "index": "0"
+        }
+      },
+      {
+        "anchorId": "next.tr-overview-3",
+        "title": "Training runs table",
+        "content": "In this table, you can see all the training that you have already passed.",
+        "position": {
+          "selector": "th",
+          "index": "0"
+        }
+      },
+      {
+        "anchorId": "end.tr-overview-4",
+        "title": "Access",
+        "content": "If the training instance date is still valid, you can re-access the training and continue where you left off. Use the stats button to see the results of the training that you have successfully completed.",
+        "position": {
+          "selector": "th",
+          "index": "2"
+        }
+      }
+    ]
+  }
+}
