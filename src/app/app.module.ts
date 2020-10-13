@@ -15,6 +15,8 @@ import { appConfigProvider } from './services/shared/config.provider';
 import { ErrorHandlerService } from './services/shared/error-handler.service';
 import { LoadingService } from './services/shared/loading.service';
 import { NotificationService } from './services/shared/notification.service';
+import { SentinelTourGuideConcreteService, SentinelTourGuideModule } from '@sentinel/components/tour-guide';
+import { TourStarterService } from './services/tour-starter.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,6 +28,7 @@ import { NotificationService } from './services/shared/notification.service';
     AuthModule,
     LoginModule,
     SentinelLayout1Module,
+    SentinelTourGuideModule,
     SentinelConfirmationDialogModule,
     HomeModule,
   ],
@@ -33,6 +36,8 @@ import { NotificationService } from './services/shared/notification.service';
     LoadingService,
     NotificationService,
     ErrorHandlerService,
+    TourStarterService,
+    SentinelTourGuideConcreteService,
     appConfigProvider,
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorLogInterceptor, multi: true },
