@@ -1,12 +1,5 @@
 Implementation of the frontend for KYPO Trainings (former Capture the flag games).
 
-- Contact person: [Vit Rusňák](mailto:rusnak@ics.muni.cz)
-- Lead developer: [Martin Hamerník](https://gitlab.ics.muni.cz/xhamern2)
-- Developer: [Erik Kočamba](https://gitlab.ics.muni.cz/445661)
-- Developer: [Igor Ignác](https://gitlab.ics.muni.cz/igorignac5)
-- Visualizations developer: [Karolína Burská](https://gitlab.ics.muni.cz/396296)
-- Former visualizations developer: [Hai Duong Tran](https://gitlab.ics.muni.cz/445437)
-
 ## Prerequisites
 
 - NPM with private [KYPO Nexus repository](https://projects.ics.muni.cz/projects/kbase/knowledgebase/articles/153)
