@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
+  NotificationResolver,
   SentinelNotificationOverviewComponent,
   SentinelNotificationOverviewModule,
-  NotificationResolver,
 } from '@sentinel/layout';
 
 @NgModule({

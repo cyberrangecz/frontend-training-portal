@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { SentinelAuthService, User } from '@sentinel/auth';
-import { AgendaContainer } from '@sentinel/layout';
 import { SentinelBaseDirective } from '@sentinel/common';
+import { AgendaContainer } from '@sentinel/layout';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { NOTIFICATIONS_PATH } from './paths';

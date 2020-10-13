@@ -1,5 +1,5 @@
-import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import { ResourcesPageComponent } from 'kypo-sandbox-agenda/sandbox-resources';
 
 const routes: Routes = [

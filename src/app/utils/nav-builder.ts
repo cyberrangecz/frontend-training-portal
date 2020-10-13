@@ -1,8 +1,8 @@
+import { User } from '@sentinel/auth';
 import { Agenda, AgendaContainer } from '@sentinel/layout';
 import { SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH, SANDBOX_RESOURCES_PATH } from 'kypo-sandbox-agenda';
 import { TRAINING_DEFINITION_PATH, TRAINING_INSTANCE_PATH, TRAINING_RUN_PATH } from 'kypo-training-agenda';
 import { GROUP_PATH, MICROSERVICE_PATH, USER_PATH } from 'kypo-user-and-group-agenda';
-import { User } from '@sentinel/auth';
 import { RoleResolver } from './role-resolver';
 
 export class NavBuilder {
