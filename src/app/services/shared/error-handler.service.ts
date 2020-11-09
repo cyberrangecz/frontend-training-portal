@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   SentinelNotification,
   SentinelNotificationResult,
@@ -9,17 +9,14 @@ import {
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { KypoConfig } from '../../utils/config';
-import { APP_CONFIG } from './config.provider';
+import { KypoDynamicEnvironment } from '../../../environments/kypo-dynamic-environment';
 
 @Injectable()
 /**
  * Resolves type of error and emits alert with appropriate message
  */
 export class ErrorHandlerService {
-  constructor(
-    private notificationService: SentinelNotificationService,
-    @Inject(APP_CONFIG) private appConfig: KypoConfig
-  ) {}
+  constructor(private notificationService: SentinelNotificationService) {}
 
   /**
    * Handles various error types from different servers and displays alert with user-friendly message
@@ -44,13 +41,16 @@ export class ErrorHandlerService {
         .emit(notification)
         .pipe(map((result) => result === SentinelNotificationResult.CONFIRMED));
     }
-    if (err.url.startsWith(this.appConfig.trainingApiConfig.trainingBasePath)) {
+
+    const config: KypoConfig = KypoDynamicEnvironment.getConfig();
+
+    if (err.url.startsWith(config.trainingApiConfig.trainingBasePath)) {
       this.setJavaApiErrorNotification(err, notification);
       notification.source = 'Training Agenda';
-    } else if (err.url.startsWith(this.appConfig.userAndGroupApiConfig.userAndGroupRestBasePath)) {
+    } else if (err.url.startsWith(config.userAndGroupApiConfig.userAndGroupRestBasePath)) {
       this.setJavaApiErrorNotification(err, notification);
       notification.source = 'User & Group Agenda';
-    } else if (err.url.startsWith(this.appConfig.sandboxApiConfig.sandboxRestBasePath)) {
+    } else if (err.url.startsWith(config.sandboxApiConfig.sandboxRestBasePath)) {
       this.setPythonApiErrorToNotification(err, notification);
       notification.source = 'Sandbox Agenda';
     } else {

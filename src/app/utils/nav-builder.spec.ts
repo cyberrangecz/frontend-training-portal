@@ -1,7 +1,7 @@
 import { NavBuilder } from './nav-builder';
 import { User, UserRole } from '@sentinel/auth';
 import { TRAINING_DEFINITION_PATH } from 'kypo-training-agenda';
-import { DynamicEnvironment } from '../../environments/dynamic-environment';
+import { DynamicEnvironment } from '@sentinel/common';
 
 describe('NavBuilder', () => {
   it('should create training definition agenda', () => {

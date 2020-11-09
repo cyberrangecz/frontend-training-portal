@@ -9,8 +9,9 @@ import { TraineeGuard } from './services/guards/trainee-guard.service';
 import { TrainingDesignerGuard } from './services/guards/training-designer-guard.service';
 import { TrainingOrganizerGuard } from './services/guards/training-organizer-guard.service';
 import { UserAndGroupGuard } from './services/guards/user-and-group-guard.service';
-import { APP_CONFIG, configurableModuleFactory } from './services/shared/config.provider';
+import { APP_CONFIG, configurableModuleFactory } from '@sentinel/common';
 import { ErrorHandlerService } from './services/shared/error-handler.service';
+import { KypoConfig } from './utils/config';
 
 @NgModule({
   imports: [CommonModule, SentinelAuthModule.forRoot(null)],
@@ -26,7 +27,7 @@ import { ErrorHandlerService } from './services/shared/error-handler.service';
     SentinelNegativeAuthGuard,
     {
       provide: SentinelAuthConfig,
-      useFactory: configurableModuleFactory('authConfig'),
+      useFactory: configurableModuleFactory<KypoConfig>('authConfig'),
       deps: [APP_CONFIG],
     },
     {

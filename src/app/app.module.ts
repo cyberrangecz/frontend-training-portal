@@ -11,7 +11,7 @@ import { HomeModule } from './components/home/home.module';
 import { LoginModule } from './components/login/login.module';
 import { ErrorLogInterceptor } from './services/http-interceptors/error-log-interceptor';
 import { LoadingInterceptor } from './services/http-interceptors/loading-interceptor';
-import { appConfigProvider } from './services/shared/config.provider';
+import { appConfigProvider } from '@sentinel/common';
 import { ErrorHandlerService } from './services/shared/error-handler.service';
 import { LoadingService } from './services/shared/loading.service';
 import { NotificationService } from './services/shared/notification.service';
