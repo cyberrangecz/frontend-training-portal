@@ -58,7 +58,7 @@
     "kypo2-topology-graph": "~10.0.0",
     "kypo2-topology-graph-model": "~10.0.0",
     "kypo2-trainings-hurdling-viz-lib": "~10.3.0",
-    "kypo2-trainings-visualization-overview-lib": "~10.3.0",
+    "kypo2-trainings-visualization-overview-lib": "~10.3.1",
     "marked": "^1.1.0",
     "moment-mini": "^2.24.0",
     "ngx-cookie-service": "^2.2.0",
