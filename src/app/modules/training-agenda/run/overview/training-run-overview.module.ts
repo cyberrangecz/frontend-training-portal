@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { TrainingRunOverviewComponentsModule } from 'kypo-training-agenda/run-overview';
 import { KypoTrainingApiModule } from 'kypo-training-api';
-import { DynamicEnvironment } from '../../../../../environments/dynamic-environment';
+import { KypoDynamicEnvironment } from '../../../../../environments/kypo-dynamic-environment';
 import { TrainingAgendaSharedProvidersModule } from '../../training-agenda-shared-providers.module';
 import { TrainingRunOverviewRoutingModule } from './training-run-overview-routing.module';
 
@@ -10,8 +10,8 @@ import { TrainingRunOverviewRoutingModule } from './training-run-overview-routin
   imports: [
     CommonModule,
     TrainingAgendaSharedProvidersModule,
-    KypoTrainingApiModule.forRoot(DynamicEnvironment.getConfig().trainingApiConfig),
-    TrainingRunOverviewComponentsModule.forRoot(DynamicEnvironment.getConfig().trainingAgendaConfig),
+    KypoTrainingApiModule.forRoot(KypoDynamicEnvironment.getConfig().trainingApiConfig),
+    TrainingRunOverviewComponentsModule.forRoot(KypoDynamicEnvironment.getConfig().trainingAgendaConfig),
     TrainingRunOverviewRoutingModule,
   ],
 })

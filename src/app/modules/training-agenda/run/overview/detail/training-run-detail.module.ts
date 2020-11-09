@@ -2,14 +2,14 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { KypoSandboxApiModule } from 'kypo-sandbox-api';
 import { TrainingRunDetailGameModule } from 'kypo-training-agenda/run-detail';
-import { DynamicEnvironment } from '../../../../../../environments/dynamic-environment';
+import { KypoDynamicEnvironment } from '../../../../../../environments/kypo-dynamic-environment';
 import { TrainingRunDetailRoutingModule } from './training-run-detail-routing.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    TrainingRunDetailGameModule.forRoot(DynamicEnvironment.getConfig().trainingAgendaConfig),
-    KypoSandboxApiModule.forRoot(DynamicEnvironment.getConfig().sandboxApiConfig),
+    TrainingRunDetailGameModule.forRoot(KypoDynamicEnvironment.getConfig().trainingAgendaConfig),
+    KypoSandboxApiModule.forRoot(KypoDynamicEnvironment.getConfig().sandboxApiConfig),
     TrainingRunDetailRoutingModule,
   ],
 })
