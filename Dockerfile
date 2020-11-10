@@ -14,5 +14,6 @@ RUN cd /build && \
 
 FROM nginx:alpine
 COPY --from=builder /build/dist/trainings /app
+RUN chmod o-rwx -R /app && chgrp nginx -R /app
 COPY etc/nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 8000
