@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SANDBOX_POOL_ID_SELECTOR, SANDBOX_POOL_NEW_PATH } from 'kypo-sandbox-agenda';
-import { PoolOverviewComponent } from 'kypo-sandbox-agenda/pool-overview';
-import { PoolBreadcrumbResolver } from 'kypo-sandbox-agenda/resolvers';
+import { SANDBOX_POOL_ID_SELECTOR, SANDBOX_POOL_NEW_PATH } from '@kypo/sandbox-agenda';
+import { PoolOverviewComponent } from '@kypo/sandbox-agenda/pool-overview';
+import { PoolBreadcrumbResolver } from '@kypo/sandbox-agenda/resolvers';
 
 const routes: Routes = [
   {

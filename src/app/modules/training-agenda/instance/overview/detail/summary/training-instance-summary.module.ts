@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { TrainingInstanceSummaryComponentsModule } from 'kypo-training-agenda/instance-summary';
+import { TrainingInstanceSummaryComponentsModule } from '@kypo/training-agenda/instance-summary';
 import { KypoDynamicEnvironment } from '../../../../../../../environments/kypo-dynamic-environment';
 import { TrainingInstanceSummaryRoutingModule } from './training-instance-summary-routing.module';
 

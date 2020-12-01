@@ -5,8 +5,8 @@ import {
   TRAINING_DEFINITION_NEW_PATH,
   TRAINING_DEFINITION_PREVIEW_PATH,
   TRAINING_DEFINITION_SELECTOR,
-} from 'kypo-training-agenda';
-import { TrainingDefinitionOverviewComponent } from 'kypo-training-agenda/definition-overview';
+} from '@kypo/training-agenda';
+import { TrainingDefinitionOverviewComponent } from '@kypo/training-agenda/definition-overview';
 
 const routes: Routes = [
   {

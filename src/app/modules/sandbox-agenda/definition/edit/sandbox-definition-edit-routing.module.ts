@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SandboxDefinitionEditComponent } from 'kypo-sandbox-agenda/sandbox-definition-edit';
+import { SandboxDefinitionEditComponent } from '@kypo/sandbox-agenda/sandbox-definition-edit';
 
 const routes: Routes = [
   {

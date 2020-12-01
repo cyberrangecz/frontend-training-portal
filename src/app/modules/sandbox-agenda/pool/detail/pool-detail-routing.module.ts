@@ -8,13 +8,13 @@ import {
   SANDBOX_INSTANCE_ID_SELECTOR,
   SANDBOX_INSTANCE_PATH,
   SANDBOX_INSTANCE_TOPOLOGY_PATH,
-} from 'kypo-sandbox-agenda';
-import { PoolDetailComponent } from 'kypo-sandbox-agenda/pool-detail';
+} from '@kypo/sandbox-agenda';
+import { PoolDetailComponent } from '@kypo/sandbox-agenda/pool-detail';
 import {
   PoolResolver,
   RequestBreadcrumbResolver,
   SandboxInstanceBreadcrumbResolver,
-} from 'kypo-sandbox-agenda/resolvers';
+} from '@kypo/sandbox-agenda/resolvers';
 const routes: Routes = [
   {
     path: '',
