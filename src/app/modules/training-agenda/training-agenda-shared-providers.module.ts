@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { TrainingErrorHandler, TrainingNotificationService } from 'kypo-training-agenda';
+import { TrainingErrorHandler, TrainingNotificationService } from '@kypo/training-agenda';
 import { ErrorHandlerService } from '../../services/shared/error-handler.service';
 import { NotificationService } from '../../services/shared/notification.service';
 

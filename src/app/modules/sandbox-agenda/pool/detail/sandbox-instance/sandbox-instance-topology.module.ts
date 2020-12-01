@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { SandboxInstanceTopologyComponentsModule } from 'kypo-sandbox-agenda/topology';
+import { SandboxInstanceTopologyComponentsModule } from '@kypo/sandbox-agenda/topology';
 import { SandboxInstanceTopologyRoutingModule } from './sandbox-instance-topology-routing.module';
 import { KypoDynamicEnvironment } from '../../../../../../environments/kypo-dynamic-environment';
 

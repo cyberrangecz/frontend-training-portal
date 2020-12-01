@@ -33,7 +33,7 @@
               "src/theme.scss",
               "src/variables.scss",
               "src/styles.scss",
-              "node_modules/kypo2-trainings-visualization-overview-lib/styles.css"
+              "node_modules/@kypo/overview-visualization/styles.css"
             ],
             "scripts": [
               "node_modules/marked/lib/marked.js"
@@ -118,7 +118,7 @@
               "src/theme.scss",
               "src/variables.scss",
               "src/styles.scss",
-              "node_modules/kypo2-trainings-visualization-overview-lib/styles.css"
+              "node_modules/@kypo/overview-visualization/styles.css"
             ],
             "scripts": [],
             "assets": [
@@ -149,7 +149,7 @@
           },
           "configurations": {
             "production": {
-              "devServerTarget": "csirt-mu-example-app:serve:production"
+              "devServerTarget": "trainings:serve:production"
             }
           }
         }

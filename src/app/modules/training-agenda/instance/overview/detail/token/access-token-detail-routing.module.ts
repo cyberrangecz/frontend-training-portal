@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AccessTokenDetailComponent } from 'kypo-training-agenda/instance-access-token';
+import { AccessTokenDetailComponent } from '@kypo/training-agenda/instance-access-token';
 
 const routes: Routes = [
   {

@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TRAINING_DEFINITION_DATA_ATTRIBUTE_NAME } from 'kypo-training-agenda';
+import { TRAINING_DEFINITION_DATA_ATTRIBUTE_NAME } from '@kypo/training-agenda';
 import {
   TrainingDefinitionCanDeactivate,
   TrainingDefinitionEditOverviewComponent,
-} from 'kypo-training-agenda/definition-edit';
+} from '@kypo/training-agenda/definition-edit';
 import {
   TrainingDefinitionBreadcrumbResolver,
   TrainingDefinitionResolver,
   TrainingDefinitionTitleResolver,
-} from 'kypo-training-agenda/resolvers';
+} from '@kypo/training-agenda/resolvers';
 
 const routes: Routes = [
   {
