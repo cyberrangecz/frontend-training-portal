@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MICROSERVICE_NEW_PATH } from '@kypo/user-and-group-agenda';
-import { MicroserviceOverviewComponent } from '@kypo/user-and-group-agenda/microservice-overview';
+import { MICROSERVICE_NEW_PATH } from '@muni-kypo-crp/user-and-group-agenda';
+import { MicroserviceOverviewComponent } from '@muni-kypo-crp/user-and-group-agenda/microservice-overview';
 
 const routes: Routes = [
   {

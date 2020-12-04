@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { TrainingDefinitionEditOverviewComponentsModule } from '@kypo/training-agenda/definition-edit';
+import { TrainingDefinitionEditOverviewComponentsModule } from '@muni-kypo-crp/training-agenda/definition-edit';
 import { KypoDynamicEnvironment } from '../../../../../../environments/kypo-dynamic-environment';
 import { TrainingDefinitionEditOverviewRoutingModule } from './training-definition-edit-overview-routing.module';
 

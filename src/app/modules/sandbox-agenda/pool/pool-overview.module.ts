@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
-import { PoolOverviewComponentsModule } from '@kypo/sandbox-agenda/pool-overview';
-import { KypoSandboxApiModule } from '@kypo/sandbox-api';
+import { PoolOverviewComponentsModule } from '@muni-kypo-crp/sandbox-agenda/pool-overview';
+import { KypoSandboxApiModule } from '@muni-kypo-crp/sandbox-api';
 import { SandboxAgendaSharedProvidersModule } from '../sandbox-agenda-shared-providers.module';
 import { PoolOverviewRoutingModule } from './pool-overview-routing.module';
 import { KypoDynamicEnvironment } from '../../../../environments/kypo-dynamic-environment';

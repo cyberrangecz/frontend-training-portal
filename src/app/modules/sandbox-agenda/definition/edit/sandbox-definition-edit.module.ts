@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { SandboxDefinitionEditComponentsModule } from '@kypo/sandbox-agenda/sandbox-definition-edit';
+import { SandboxDefinitionEditComponentsModule } from '@muni-kypo-crp/sandbox-agenda/sandbox-definition-edit';
 import { SandboxDefinitionEditRoutingModule } from './sandbox-definition-edit-routing.module';
 
 @NgModule({

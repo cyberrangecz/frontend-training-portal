@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { AllocationRequestDetailComponentsModule } from '@kypo/sandbox-agenda/request-detail';
+import { AllocationRequestDetailComponentsModule } from '@muni-kypo-crp/sandbox-agenda/request-detail';
 import { AllocationRequestDetailRoutingModule } from './allocation-request-detail-routing.module';
 
 @NgModule({

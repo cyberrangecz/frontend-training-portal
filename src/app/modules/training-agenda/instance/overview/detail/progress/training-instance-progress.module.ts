@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { TrainingInstanceProgressComponentsModule } from '@kypo/training-agenda/instance-progress';
+import { TrainingInstanceProgressComponentsModule } from '@muni-kypo-crp/training-agenda/instance-progress';
 import { KypoDynamicEnvironment } from '../../../../../../../environments/kypo-dynamic-environment';
 import { TrainingInstanceProgressRoutingModule } from './training-instance-progress-routing.module';
 
