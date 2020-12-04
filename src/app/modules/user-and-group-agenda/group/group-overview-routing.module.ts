@@ -5,14 +5,14 @@ import {
   GROUP_EDIT_PATH,
   GROUP_NEW_PATH,
   GROUP_SELECTOR,
-} from '@kypo/user-and-group-agenda';
+} from '@muni-kypo-crp/user-and-group-agenda';
 
 import {
   GroupBreadcrumbResolver,
   GroupOverviewComponent,
   GroupResolver,
   GroupTitleResolver,
-} from '@kypo/user-and-group-agenda/group-overview';
+} from '@muni-kypo-crp/user-and-group-agenda/group-overview';
 
 const routes: Routes = [
   {

@@ -33,7 +33,7 @@
               "src/theme.scss",
               "src/variables.scss",
               "src/styles.scss",
-              "node_modules/@kypo/overview-visualization/styles.css"
+              "node_modules/@muni-kypo-crp/overview-visualization/styles.css"
             ],
             "scripts": [
               "node_modules/marked/lib/marked.js"
@@ -118,7 +118,7 @@
               "src/theme.scss",
               "src/variables.scss",
               "src/styles.scss",
-              "node_modules/@kypo/overview-visualization/styles.css"
+              "node_modules/@muni-kypo-crp/overview-visualization/styles.css"
             ],
             "scripts": [],
             "assets": [
