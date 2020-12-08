@@ -1,6 +1,9 @@
 FROM node:12 as builder
 RUN NG_CLI_ANALYTICS=false npm install -g @angular/cli
-ARG PROPRIETARY_NPM_REGISTRY
+ARG SENTINEL_REGISTRY_HOST_NO_PROTO
+ARG SENTINEL_REGISTRY_ACCESS_TOKEN
+ARG KYPO_REGISTRY_HOST_NO_PROTO
+ARG KYPO_REGISTRY_ACCESS_TOKEN
 ARG PROD=true
 
 COPY e2e /build/e2e
@@ -8,7 +11,10 @@ COPY src /build/src
 COPY *.json /build/
 
 RUN cd /build && \
-    npm set registry $PROPRIETARY_NPM_REGISTRY && \
+    npm config set @sentinel:registry https://$SENTINEL_REGISTRY_HOST_NO_PROTO && \
+    npm config set //$SENTINEL_REGISTRY_HOST_NO_PROTO:_authToken $SENTINEL_REGISTRY_ACCESS_TOKEN && \
+    npm config set @muni-kypo-crp:registry https://$KYPO_REGISTRY_HOST_NO_PROTO && \
+    npm config set //$KYPO_REGISTRY_HOST_NO_PROTO:_authToken $KYPO_REGISTRY_ACCESS_TOKEN && \
     npm install && \
     ng build --prod=$PROD
 
