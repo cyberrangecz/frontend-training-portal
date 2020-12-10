@@ -64,7 +64,7 @@ buildAngular:
 docker_image_push:
   before_script: [] #prevent global before_script from running
   variables:
-    IMAGE_DESTINATION: munikypo/crp-demo-angular-frontend
+    CI_CUSTOM_IMAGE_NAME: kypo-frontend
   stage: docker_image_push
   image:
     name: gcr.io/kaniko-project/executor:v1.3.0-debug
