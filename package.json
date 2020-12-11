@@ -4,8 +4,10 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
-    "lint": "ng lint",
+    "lint": "ng lint && npm run prettier-check",
     "e2e": "ng e2e",
+    "prettier-check": "prettier --check \"src/**/*.ts\"",
+    "prettier-fix": "prettier --write \"./src/**/*.ts\"",
     "ci-build": "ng build --configuration=production",
     "ci-test": "ng test --browsers ChromeHeadless --watch=false",
     "ci-lint": "ng lint",
@@ -15,7 +17,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "ng lint"
+      "pre-commit": "npm run prettier-check"
     }
   },
   "name": "kypo2-trainings",
@@ -32,6 +34,14 @@
     "@angular/platform-browser": "^10.0.1",
     "@angular/platform-browser-dynamic": "^10.0.1",
     "@angular/router": "^10.0.1",
+    "@angular-eslint/builder": "^0.8.0-beta.0",
+    "@angular-eslint/eslint-plugin": "^0.8.0-beta.0",
+    "@angular-eslint/eslint-plugin-template": "^0.8.0-beta.0",
+    "@angular-eslint/schematics": "^0.8.0-beta.0",
+    "@angular-eslint/template-parser": "^0.8.0-beta.0",
+    "@typescript-eslint/parser": "^4.3.0",
+    "@typescript-eslint/eslint-plugin": "^4.7.0",
+    "eslint": "^7.13.0",
     "@sentinel/auth": "~10.0.0",
     "@sentinel/common": "~10.1.0",
     "@sentinel/components": "~10.4.1",
@@ -79,7 +89,6 @@
     "@types/jasmine": "~2.8.6",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
-    "codelyzer": "^5.1.2",
     "cypress": "^4.0.1",
     "husky": "^4.2.5",
     "jasmine-core": "^3.5.0",
@@ -92,9 +101,6 @@
     "moment": "^2.27.0",
     "prettier": "2.0.4",
     "ts-node": "~8.4.1",
-    "tslint": "~6.1.0",
-    "tslint-config-prettier": "1.18.0",
-    "tslint-plugin-prettier": "2.3.0",
     "typescript": "~3.9.5",
     "webpack-bundle-analyzer": "^3.8.0"
   }

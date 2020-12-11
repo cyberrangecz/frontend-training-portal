@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'kypo2-portal-agenda-description',
@@ -6,18 +6,14 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output
   styleUrls: ['./portal-agenda-description.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PortalAgendaDescriptionComponent implements OnInit {
+export class PortalAgendaDescriptionComponent {
   @Input() label: string;
   @Input() description: string;
   @Input() elevation: string;
   @Input() disabled: boolean;
   @Output() elevate: EventEmitter<string> = new EventEmitter();
 
-  constructor() {}
-
-  ngOnInit() {}
-
-  setElevation(agendaLabel: string) {
+  setElevation(agendaLabel: string): void {
     this.elevate.emit(agendaLabel);
   }
 }

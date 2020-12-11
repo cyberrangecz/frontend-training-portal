@@ -6,7 +6,6 @@ import { TRAINING_RUN_PATH } from '@muni-kypo-crp/training-agenda';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RoleResolver } from '../../utils/role-resolver';
-import { LoadingService } from '../shared/loading.service';
 import { CanActivateToObservable } from './can-activate-to-observable';
 
 /**

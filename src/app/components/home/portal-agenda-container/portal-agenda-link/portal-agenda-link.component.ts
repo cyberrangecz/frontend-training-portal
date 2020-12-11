@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { AgendaPortalLink } from '../../../../model/agenda-portal-link';
 
 @Component({
@@ -7,21 +7,17 @@ import { AgendaPortalLink } from '../../../../model/agenda-portal-link';
   styleUrls: ['./portal-agenda-link.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PortalAgendaLinkComponent implements OnInit {
+export class PortalAgendaLinkComponent {
   @Input() portalAgendaLink: AgendaPortalLink;
   @Input() elevation: string;
   @Output() navigate: EventEmitter<string> = new EventEmitter();
   @Output() elevate: EventEmitter<string> = new EventEmitter();
 
-  constructor() {}
-
-  ngOnInit(): void {}
-
-  setElevation(elevation: string) {
+  setElevation(elevation: string): void {
     this.elevate.emit(elevation);
   }
 
-  setRoute(route: string) {
+  setRoute(route: string): void {
     this.navigate.emit(route);
   }
 }

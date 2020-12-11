@@ -28,7 +28,7 @@ export class HomeComponent extends SentinelBaseDirective implements OnInit {
     super();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.roles = this.authService.getRoles();
     this.initRoutes();
     this.subscribeUserChange();
@@ -38,11 +38,11 @@ export class HomeComponent extends SentinelBaseDirective implements OnInit {
    * Navigates to specified route
    * @param route route to which should router navigate
    */
-  navigateToRoute(route: string) {
+  navigateToRoute(route: string): void {
     this.router.navigate([route]);
   }
 
-  setElevation(buttonName: string) {
+  setElevation(buttonName: string): void {
     this.elevated = buttonName;
   }
 
@@ -77,7 +77,8 @@ export class HomeComponent extends SentinelBaseDirective implements OnInit {
         'Training Run',
         !RoleResolver.isTrainingTrainee(this.roles),
         TRAINING_RUN_PATH,
-        'Training Run allows you to start a new capture the flag (CTF) game, return to unfinished one, or to access results of those you already finished.',
+        'Training Run allows you to start a new capture the flag (CTF) game, return to unfinished one,' +
+          ' or to access results of those you already finished.',
         'games'
       ),
     ];
@@ -89,7 +90,8 @@ export class HomeComponent extends SentinelBaseDirective implements OnInit {
         'Sandbox Definition',
         !RoleResolver.isSandboxDesigner(this.roles),
         SANDBOX_DEFINITION_PATH,
-        'In the sandbox definition agenda, you can manage sandbox configurations, i.e., descriptions of virtual networks and computers that can be instantiated in isolated sandboxes.',
+        'In the sandbox definition agenda, you can manage sandbox configurations, i.e., descriptions' +
+          ' of virtual networks and computers that can be instantiated in isolated sandboxes.',
         'event_note'
       ),
       new AgendaPortalLink(
@@ -149,14 +151,15 @@ export class HomeComponent extends SentinelBaseDirective implements OnInit {
         'Microservices',
         disabled,
         MICROSERVICE_PATH,
-        'You can also manage microservices that provide the KYPO Cyber Range functionality. Please do not mess with it unless you know what you are doing.',
+        'You can also manage microservices that provide the KYPO Cyber Range functionality.' +
+          ' Please do not mess with it unless you know what you are doing.',
         'account_tree'
       ),
     ];
   }
 
   private subscribeUserChange() {
-    this.authService.activeUser$.pipe(takeWhile(() => this.isAlive)).subscribe((user) => {
+    this.authService.activeUser$.pipe(takeWhile(() => this.isAlive)).subscribe(() => {
       this.initRoutes();
     });
   }

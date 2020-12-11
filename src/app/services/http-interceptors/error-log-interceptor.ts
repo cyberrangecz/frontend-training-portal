@@ -8,8 +8,6 @@ import { tap } from 'rxjs/operators';
  * Intercepts HTTP requests and logs error responses to console
  */
 export class ErrorLogInterceptor implements HttpInterceptor {
-  constructor() {}
-
   /**  Intercepts HTTP requests and logs error responses to console
    * @param req http request
    * @param next next http handler
@@ -17,7 +15,7 @@ export class ErrorLogInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       tap(
-        (event: HttpEvent<any>) => {},
+        (_) => _,
         (err) => {
           if (err instanceof HttpErrorResponse) {
             console.error(err);

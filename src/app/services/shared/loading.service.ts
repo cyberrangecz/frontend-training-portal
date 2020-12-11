@@ -24,7 +24,7 @@ export class LoadingService {
     });
   }
 
-  set(value: boolean) {
+  set(value: boolean): void {
     this._isLoadingSubject.next(value);
   }
 }

@@ -5,7 +5,7 @@ export class TourGuideSelectorFormatter {
    * Route is then transformed to camel case TrainingDefinitionDetailEdit
    * @param route current route in application.
    */
-  static format(route: string) {
+  static format(route: string): string {
     route = this.replaceIdWithKeyword(route);
     route = this.camelize(route);
     return route;
@@ -26,7 +26,7 @@ export class TourGuideSelectorFormatter {
    * @param route current route in application.
    */
   private static camelize(route: string): string {
-    route = route.replace(/[\/]|[-]/g, ' ');
+    route = route.replace(/[/]|[-]/g, ' ');
     return route
       .replace(/(?:^\w|[A-Z]|\b\w)/g, (word, index) => {
         return index === 0 ? word.toLowerCase() : word.toUpperCase();
