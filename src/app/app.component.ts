@@ -38,7 +38,7 @@ export class AppComponent extends SentinelBaseDirective implements OnInit, After
     super();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.activeUser$ = this.auth.activeUser$;
     this.title$ = this.getTitleFromRouter();
     this.agendaContainers$ = this.auth.activeUser$.pipe(
@@ -48,7 +48,7 @@ export class AppComponent extends SentinelBaseDirective implements OnInit, After
     this.isLoading$ = this.loadingService.isLoading$;
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
@@ -73,11 +73,11 @@ export class AppComponent extends SentinelBaseDirective implements OnInit, After
     );
   }
 
-  onLogin() {
+  onLogin(): void {
     this.auth.login();
   }
 
-  onLogout() {
+  onLogout(): void {
     this.auth.logout();
   }
 }

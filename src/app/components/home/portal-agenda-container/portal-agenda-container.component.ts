@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { PortalAgendaContainer } from '../../../model/portal-agenda-container';
 
 @Component({
@@ -7,7 +7,7 @@ import { PortalAgendaContainer } from '../../../model/portal-agenda-container';
   styleUrls: ['./portal-agenda-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PortalAgendaContainerComponent implements OnInit {
+export class PortalAgendaContainerComponent {
   @Input() portalAgendaContainer: PortalAgendaContainer;
   @Input() elevation: string;
   @Input() isLast: boolean;
@@ -15,15 +15,11 @@ export class PortalAgendaContainerComponent implements OnInit {
   @Output() navigation: EventEmitter<string> = new EventEmitter();
   @Output() setElevation: EventEmitter<string> = new EventEmitter();
 
-  constructor() {}
-
-  ngOnInit() {}
-
-  elevate(event: string) {
+  elevate(event: string): void {
     this.setElevation.emit(event);
   }
 
-  navigate(event: string) {
+  navigate(event: string): void {
     this.navigation.emit(event);
   }
 }
