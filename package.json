@@ -53,7 +53,7 @@
     "@muni-kypo-crp/hurdling-visualization": "~11.0.0",
     "@muni-kypo-crp/overview-visualization": "~11.0.0",
     "@muni-kypo-crp/d3-service": "~11.0.1",
-    "@danielmoncada/angular-datetime-picker": "^10.1.0",
+    "@danielmoncada/angular-datetime-picker": "^11.0.0",
     "angular-file": "^3.4.0",
     "angular-oauth2-oidc": "^10.0.3",
     "angular-oauth2-oidc-jwks": "^9.0.0",
