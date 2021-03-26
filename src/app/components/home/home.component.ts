@@ -3,12 +3,19 @@ import { Router } from '@angular/router';
 import { SentinelAuthService, UserRole } from '@sentinel/auth';
 import { SentinelBaseDirective } from '@sentinel/common';
 import { SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH, SANDBOX_RESOURCES_PATH } from '@muni-kypo-crp/sandbox-agenda';
-import { TRAINING_DEFINITION_PATH, TRAINING_INSTANCE_PATH, TRAINING_RUN_PATH } from '@muni-kypo-crp/training-agenda';
+import {
+  ADAPTIVE_DEFINITION_PATH,
+  ADAPTIVE_INSTANCE_PATH,
+  TRAINING_DEFINITION_PATH,
+  TRAINING_INSTANCE_PATH,
+  TRAINING_RUN_PATH,
+} from '@muni-kypo-crp/training-agenda';
 import { GROUP_PATH, MICROSERVICE_PATH, USER_PATH } from '@muni-kypo-crp/user-and-group-agenda';
 import { takeWhile } from 'rxjs/operators';
 import { AgendaPortalLink } from '../../model/agenda-portal-link';
 import { PortalAgendaContainer } from '../../model/portal-agenda-container';
 import { RoleResolver } from '../../utils/role-resolver';
+import { AgendaMenuItem } from '../../model/agenda-menu-item';
 
 /**
  * Main component of homepage (portal) page. Portal page is a main crossroad of possible sub pages. Only those matching with user
@@ -26,6 +33,13 @@ export class HomeComponent extends SentinelBaseDirective implements OnInit {
 
   constructor(private authService: SentinelAuthService, private router: Router) {
     super();
+  }
+
+  static createExpandedControlButtons(path: string[]): AgendaMenuItem[] {
+    return [
+      new AgendaMenuItem('timeline', 'Adaptive', path[0]),
+      new AgendaMenuItem('videogame_asset', 'Linear', path[1]),
+    ];
   }
 
   ngOnInit(): void {
@@ -52,21 +66,25 @@ export class HomeComponent extends SentinelBaseDirective implements OnInit {
         agendas: this.createParticipateButtons(),
         label: 'Participate',
         displayed: RoleResolver.isTrainingTrainee(this.roles),
+        children: [],
       },
       {
         agendas: this.createDesignButtons(),
         label: 'Design',
         displayed: RoleResolver.isTrainingDesigner(this.roles) || RoleResolver.isSandboxDesigner(this.roles),
+        children: [],
       },
       {
         agendas: this.createOrganizeButtons(),
         label: 'Organize',
         displayed: RoleResolver.isTrainingOrganizer(this.roles) || RoleResolver.isSandboxOrganizer(this.roles),
+        children: [],
       },
       {
         agendas: this.createManageButtons(),
         label: 'Manage',
         displayed: RoleResolver.isUserAndGroupAdmin(this.roles),
+        children: [],
       },
     ];
   }
@@ -99,7 +117,8 @@ export class HomeComponent extends SentinelBaseDirective implements OnInit {
         !RoleResolver.isTrainingDesigner(this.roles),
         TRAINING_DEFINITION_PATH,
         'The training definition is a plot of the single-player CTF games. You can manage your own and design new ones.',
-        'assignment'
+        'assignment',
+        HomeComponent.createExpandedControlButtons([ADAPTIVE_DEFINITION_PATH, TRAINING_DEFINITION_PATH])
       ),
     ];
   }
@@ -118,7 +137,8 @@ export class HomeComponent extends SentinelBaseDirective implements OnInit {
         !RoleResolver.isTrainingOrganizer(this.roles),
         TRAINING_INSTANCE_PATH,
         'You can also create training instances that are necessary if you want to organize a CTF game hands-on session.',
-        'event'
+        'event',
+        HomeComponent.createExpandedControlButtons([ADAPTIVE_INSTANCE_PATH, TRAINING_INSTANCE_PATH])
       ),
       new AgendaPortalLink(
         'Resources',

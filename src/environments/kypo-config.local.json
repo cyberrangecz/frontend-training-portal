@@ -23,7 +23,8 @@
     }
   },
   "trainingApiConfig": {
-    "trainingBasePath": "http://localhost:3000/kypo2-rest-training/api/v1/"
+    "trainingBasePath": "http://localhost:3000/kypo2-rest-training/api/v1/",
+    "adaptiveBasePath": "https://172.19.0.22/kypo-adaptive-training/api/v1/"
   },
   "sandboxAgendaConfig": {
     "pollingPeriod": 5000,

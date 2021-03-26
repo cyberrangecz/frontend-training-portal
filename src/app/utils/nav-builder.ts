@@ -1,7 +1,13 @@
 import { User } from '@sentinel/auth';
 import { Agenda, AgendaContainer } from '@sentinel/layout';
 import { SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH, SANDBOX_RESOURCES_PATH } from '@muni-kypo-crp/sandbox-agenda';
-import { TRAINING_DEFINITION_PATH, TRAINING_INSTANCE_PATH, TRAINING_RUN_PATH } from '@muni-kypo-crp/training-agenda';
+import {
+  ADAPTIVE_DEFINITION_PATH,
+  ADAPTIVE_INSTANCE_PATH,
+  TRAINING_DEFINITION_PATH,
+  TRAINING_INSTANCE_PATH,
+  TRAINING_RUN_PATH,
+} from '@muni-kypo-crp/training-agenda';
 import { GROUP_PATH, MICROSERVICE_PATH, USER_PATH } from '@muni-kypo-crp/user-and-group-agenda';
 import { RoleResolver } from './role-resolver';
 
@@ -25,12 +31,22 @@ export class NavBuilder {
   }
 
   private static createTrainingAgendas(user: User): Agenda[] {
-    const agendas: Agenda[] = [];
+    const agendas = [];
     if (RoleResolver.isTrainingDesigner(user.roles)) {
-      agendas.push(new Agenda('Definition', TRAINING_DEFINITION_PATH));
+      agendas.push(
+        new AgendaContainer('Definition', [
+          new Agenda('Adaptive', ADAPTIVE_DEFINITION_PATH),
+          new Agenda('Linear', TRAINING_DEFINITION_PATH),
+        ])
+      );
     }
     if (RoleResolver.isTrainingOrganizer(user.roles)) {
-      agendas.push(new Agenda('Instance', TRAINING_INSTANCE_PATH));
+      agendas.push(
+        new AgendaContainer('Instance', [
+          new Agenda('Adaptive', ADAPTIVE_INSTANCE_PATH),
+          new Agenda('Linear', TRAINING_INSTANCE_PATH),
+        ])
+      );
     }
     if (RoleResolver.isTrainingTrainee(user.roles)) {
       agendas.push(new Agenda('Run', TRAINING_RUN_PATH));

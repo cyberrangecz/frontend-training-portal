@@ -7,12 +7,14 @@ import { HomeComponent } from './home.component';
 import { PortalAgendaContainerComponent } from './portal-agenda-container/portal-agenda-container.component';
 import { PortalAgendaDescriptionComponent } from './portal-agenda-container/portal-agenda-description/portal-agenda-description.component';
 import { PortalAgendaLinkComponent } from './portal-agenda-container/portal-agenda-link/portal-agenda-link.component';
+import { SentinelControlsModule } from '@sentinel/components/controls';
+import { MatMenuModule } from '@angular/material/menu';
 
 /**
  * Portal home page module
  */
 @NgModule({
-  imports: [CommonModule, HomeRoutingModule, HomeMaterialModule, MatIconModule],
+  imports: [CommonModule, HomeRoutingModule, HomeMaterialModule, MatIconModule, SentinelControlsModule, MatMenuModule],
   declarations: [
     HomeComponent,
     PortalAgendaContainerComponent,
