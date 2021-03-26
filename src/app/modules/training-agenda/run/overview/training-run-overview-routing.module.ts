@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
+  ADAPTIVE_RUN_ACCESS_INFO_DATA_ATTRIBUTE_NAME,
+  ADAPTIVE_RUN_PATH,
   TRAINING_RUN_ACCESS_INFO_DATA_ATTRIBUTE_NAME,
   TRAINING_RUN_ACCESS_PATH,
   TRAINING_RUN_ACCESS_SELECTOR,
@@ -9,7 +11,11 @@ import {
   TRAINING_RUN_RESUME_PATH,
   TRAINING_RUN_SELECTOR,
 } from '@muni-kypo-crp/training-agenda';
-import { AccessTrainingRunResolver, TrainingRunResultsResolver } from '@muni-kypo-crp/training-agenda/resolvers';
+import {
+  AccessAdaptiveRunResolver,
+  AccessTrainingRunResolver,
+  TrainingRunResultsResolver,
+} from '@muni-kypo-crp/training-agenda/resolvers';
 import { TrainingRunOverviewComponent } from '@muni-kypo-crp/training-agenda/run-overview';
 
 const routes: Routes = [
@@ -18,8 +24,26 @@ const routes: Routes = [
     component: TrainingRunOverviewComponent,
   },
   {
+    path: `${ADAPTIVE_RUN_PATH}/${TRAINING_RUN_ACCESS_PATH}/:${TRAINING_RUN_ACCESS_SELECTOR}`,
+    loadChildren: () => import('./detail/adaptive/adaptive-run-detail.module').then((m) => m.AdaptiveRunDetailModule),
+    data: {
+      breadcrumb: 'Game',
+      title: undefined,
+    },
+    resolve: { [ADAPTIVE_RUN_ACCESS_INFO_DATA_ATTRIBUTE_NAME]: AccessAdaptiveRunResolver },
+  },
+  {
+    path: `${ADAPTIVE_RUN_PATH}/${TRAINING_RUN_RESUME_PATH}/:${TRAINING_RUN_SELECTOR}`,
+    loadChildren: () => import('./detail/adaptive/adaptive-run-detail.module').then((m) => m.AdaptiveRunDetailModule),
+    data: {
+      breadcrumb: 'Game',
+      title: undefined,
+    },
+    resolve: { [ADAPTIVE_RUN_ACCESS_INFO_DATA_ATTRIBUTE_NAME]: AccessAdaptiveRunResolver },
+  },
+  {
     path: `${TRAINING_RUN_ACCESS_PATH}/:${TRAINING_RUN_ACCESS_SELECTOR}`,
-    loadChildren: () => import('./detail/training-run-detail.module').then((m) => m.TrainingRunDetailModule),
+    loadChildren: () => import('./detail/training/training-run-detail.module').then((m) => m.TrainingRunDetailModule),
     data: {
       breadcrumb: 'Game',
       title: undefined,
@@ -28,7 +52,7 @@ const routes: Routes = [
   },
   {
     path: `${TRAINING_RUN_RESUME_PATH}/:${TRAINING_RUN_SELECTOR}`,
-    loadChildren: () => import('./detail/training-run-detail.module').then((m) => m.TrainingRunDetailModule),
+    loadChildren: () => import('./detail/training/training-run-detail.module').then((m) => m.TrainingRunDetailModule),
     data: {
       breadcrumb: 'Game',
       title: undefined,

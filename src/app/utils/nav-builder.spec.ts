@@ -11,6 +11,6 @@ describe('NavBuilder', () => {
     designerRole.roleType = designerRoleName;
     const user = new User([designerRole]);
     const agendaContainers = NavBuilder.build(user);
-    expect(agendaContainers[0].agendas[0].path).toBe(TRAINING_DEFINITION_PATH);
+    expect(agendaContainers[0].label).toBe('Trainings');
   });
 });

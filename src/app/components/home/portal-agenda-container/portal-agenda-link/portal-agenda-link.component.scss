@@ -1,4 +1,4 @@
-button {
+.simple-button {
   height: 85px;
   border-radius: 12px;
   width: 120px;
@@ -37,6 +37,10 @@ mat-icon {
   box-shadow: 0 0 11px midnightblue;
 }
 
+.expanded-menu-item {
+  min-width: 100px;
+}
+
 @media screen and (max-width: 1580px) {
   .portal-item-container, .portal-item-container:nth-child(1) {
     padding-left: 0;
@@ -46,3 +50,5 @@ mat-icon {
     padding-right: 25px;
   }
 }
+
+

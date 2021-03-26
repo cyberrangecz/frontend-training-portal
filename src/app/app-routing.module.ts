@@ -2,7 +2,13 @@ import { NgModule } from '@angular/core';
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { SentinelAuthGuardWithLogin, SentinelNegativeAuthGuard } from '@sentinel/auth/guards';
 import { SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH, SANDBOX_RESOURCES_PATH } from '@muni-kypo-crp/sandbox-agenda';
-import { TRAINING_DEFINITION_PATH, TRAINING_INSTANCE_PATH, TRAINING_RUN_PATH } from '@muni-kypo-crp/training-agenda';
+import {
+  ADAPTIVE_DEFINITION_PATH,
+  ADAPTIVE_INSTANCE_PATH,
+  TRAINING_DEFINITION_PATH,
+  TRAINING_INSTANCE_PATH,
+  TRAINING_RUN_PATH,
+} from '@muni-kypo-crp/training-agenda';
 import { GROUP_PATH, MICROSERVICE_PATH, USER_PATH } from '@muni-kypo-crp/user-and-group-agenda';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
@@ -29,8 +35,20 @@ const routes: Routes = [
       ),
     canActivate: [TrainingDesignerGuard],
     data: {
-      breadcrumb: 'Training Definitions',
-      title: 'Training Definition Overview',
+      breadcrumb: 'Linear Training Definitions',
+      title: 'Linear Training Definition Overview',
+    },
+  },
+  {
+    path: ADAPTIVE_DEFINITION_PATH,
+    loadChildren: () =>
+      import('./modules/training-agenda/adaptive-definition/overview/adaptive-definition-overview.module').then(
+        (m) => m.AdaptiveDefinitionOverviewModule
+      ),
+    canActivate: [TrainingDesignerGuard],
+    data: {
+      breadcrumb: 'Adaptive Training Definitions',
+      title: 'Adaptive Training Definition Overview',
     },
   },
   {
@@ -53,8 +71,20 @@ const routes: Routes = [
       ),
     canActivate: [TrainingOrganizerGuard],
     data: {
-      breadcrumb: 'Training Instances',
-      title: 'Training Instance Overview',
+      breadcrumb: 'Linear Training Instances',
+      title: 'Linear Training Instance Overview',
+    },
+  },
+  {
+    path: ADAPTIVE_INSTANCE_PATH,
+    loadChildren: () =>
+      import('./modules/training-agenda/adaptive-instance/overview/adaptive-instance-overview.module').then(
+        (m) => m.AdaptiveInstanceOverviewModule
+      ),
+    canActivate: [TrainingOrganizerGuard],
+    data: {
+      breadcrumb: 'Adaptive Training Instances',
+      title: 'Adaptive Training Instance Overview',
     },
   },
   {
