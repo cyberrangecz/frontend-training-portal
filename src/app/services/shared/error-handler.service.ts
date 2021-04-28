@@ -44,7 +44,10 @@ export class ErrorHandlerService {
 
     const config: KypoConfig = KypoDynamicEnvironment.getConfig();
 
-    if (err.url.startsWith(config.trainingApiConfig.trainingBasePath)) {
+    if (
+      err.url.startsWith(config.trainingApiConfig.trainingBasePath) ||
+      err.url.startsWith(config.trainingApiConfig.adaptiveBasePath)
+    ) {
       this.setJavaApiErrorNotification(err, notification);
       notification.source = 'Training Agenda';
     } else if (err.url.startsWith(config.userAndGroupApiConfig.userAndGroupRestBasePath)) {
