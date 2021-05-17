@@ -35,7 +35,7 @@
     "@angular/platform-browser-dynamic": "^11.0.9",
     "@angular/router": "^11.0.9",
     "@danielmoncada/angular-datetime-picker": "^11.0.0",
-    "@muni-kypo-crp/adaptive-visualization": "~11.0.0",
+    "@muni-kypo-crp/adaptive-visualization": "~11.0.2",
     "@muni-kypo-crp/assessment-visualization": "~11.0.0",
     "@muni-kypo-crp/d3-service": "~11.0.1",
     "@muni-kypo-crp/hurdling-visualization": "~11.1.1",
