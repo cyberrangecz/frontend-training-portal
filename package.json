@@ -45,7 +45,7 @@
     "@muni-kypo-crp/sandbox-model": "~11.0.1",
     "@muni-kypo-crp/topology-graph": "~11.0.1",
     "@muni-kypo-crp/topology-model": "~11.0.1",
-    "@muni-kypo-crp/training-agenda": "~11.1.11",
+    "@muni-kypo-crp/training-agenda": "~11.1.12",
     "@muni-kypo-crp/training-api": "~11.1.2",
     "@muni-kypo-crp/training-model": "~11.1.1",
     "@muni-kypo-crp/user-and-group-agenda": "~11.0.0",
