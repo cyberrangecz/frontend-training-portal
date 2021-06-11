@@ -1,8 +1,8 @@
-@import '~@angular/material/theming';
-@import '~@sentinel/layout/assets/sentinel-variables';
+@use '~@angular/material' as mat;
+@import "~@sentinel/layout/src/assets/sentinel-layout/sentinel-variables";
 
-$primary: mat-color($sentinel-primary-palette);
-$accent: mat-color($sentinel-accent-palette);
-$warn: mat-color($sentinel-warn-palette);
+$primary: mat.get-color-from-palette($sentinel-primary-palette);
+$accent: mat.get-color-from-palette($sentinel-accent-palette);
+$warn: mat.get-color-from-palette($sentinel-warn-palette);
 $success: #6DF000;
 $non-accent: #808080;

@@ -62,7 +62,7 @@
         "tokenRefreshTime": 30000,
         "oidcConfig": {
           "issuer": "https://oidc.muni.cz/oidc/",
-          "clientId": "b53f2660-8fa0-4d32-94e4-23a59d7e7077",
+          "clientId": "2614c0ab-a21d-4fba-bd54-49eea5318e57",
           "redirectUri": "http://localhost:4200",
           "scope": "openid email profile",
           "logoutUrl": "https://oidc.muni.cz/oidc/endsession",

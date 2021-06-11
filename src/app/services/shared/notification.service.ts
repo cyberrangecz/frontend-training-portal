@@ -4,7 +4,7 @@ import {
   SentinelNotificationResult,
   SentinelNotificationService,
   SentinelNotificationTypeEnum,
-} from '@sentinel/layout';
+} from '@sentinel/layout/notification';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 

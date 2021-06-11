@@ -1,13 +1,13 @@
-@import '~@angular/material/theming';
+@use '~@angular/material' as mat;
 @import 'variables.scss';
 @import '~@sentinel/components/table/assets/sentinel-table-theme';
 @import '~@sentinel/components/stepper/assets/sentinel-stepper-theme';
 @import '~@sentinel/components/resource-selector/assets/sentinel-resource-selector-theme';
-@import '~@sentinel/layout/assets/sentinel-variables';
+@import "~@sentinel/layout/src/assets/sentinel-layout/sentinel-variables";
 
-@include mat-core();
-@include angular-material-theme($sentinel-theme);
-@include angular-material-typography($sentinel-typography);
+@include mat.core();
+@include mat.all-component-themes($sentinel-theme);
+@include mat.all-component-typographies($sentinel-typography);
 @include sentinel-table-theme($sentinel-theme);
 @include sentinel-stepper-theme($sentinel-theme);
 @include sentinel-resource-selector-theme($sentinel-theme);
