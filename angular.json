@@ -18,7 +18,6 @@
             ]
           },
           "options": {
-            "aot": true,
             "outputPath": "dist/trainings",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -37,7 +36,13 @@
             ],
             "scripts": [
               "node_modules/marked/lib/marked.js"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -57,7 +62,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
@@ -76,7 +80,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",

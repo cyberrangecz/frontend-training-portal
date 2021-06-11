@@ -64,7 +64,7 @@
         "oidcConfig": {
           "requireHttps": true,
           "issuer": "https://172.19.0.22:8443/csirtmu-dummy-issuer-server/",
-          "clientId": "8f8c0aea-3890-483d-b6e2-b5ceaa157664",
+          "clientId": "2614c0ab-a21d-4fba-bd54-49eea5318e57",
           "redirectUri": "https://localhost:4200",
           "scope": "openid email profile",
           "logoutUrl": "https://172.19.0.22/csirtmu-dummy-issuer-server/endsession",

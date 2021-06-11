@@ -2,9 +2,20 @@ Implementation of the frontend for KYPO Trainings (former Capture the flag games
 
 ## Prerequisites
 
-- NPM with private [KYPO Nexus repository](https://projects.ics.muni.cz/projects/kbase/knowledgebase/articles/153)
-- [Angular 11](https://angular.io/guide/quickstart)
-- [Angular Material 11](https://material.angular.io/guide/getting-started)
+- [Angular 12](https://angular.io/guide/start)
+- [Angular Material 12](https://material.angular.io/guide/getting-started)
+
+Additionally, you need to have access to Sentinel and MUNI KYPO crp package repository.
+Then, you need to set up the @sentinel and @muni-kypo-crp scope to point to that registry. You can do this by adding following lines to your .npmrc file:
+
+```
+@sentinel:registry=https://gitlab.ics.muni.cz/api/v4/projects/2396/packages/npm/
+@muni-kypo-crp:registry=https://gitlab.ics.muni.cz/api/v4/projects/2358/packages/npm/
+//gitlab.ics.muni.cz/api/v4/projects/2396/packages/npm/:_authToken=<YOUR_AUTH_TOKEN>
+//gitlab.ics.muni.cz/api/v4/projects/2358/packages/npm/:_authToken=<YOUR_AUTH_TOKEN>
+```
+
+where `<YOUR_AUTH_TOKEN>` is a Gitlab access token with `read_registry` scope and `api` score of a user with access to [Sentinel package repository](https://gitlab.ics.muni.cz/sentinel/sentinel-artifact-repository)
 
 Make sure you have:
 - latest version of Chrome
@@ -36,7 +47,7 @@ Alternatively you can use json-server as mock backend with provided dummy data.
 
 To deploy on a server:
 
-1.  Make sure you are running all necessary backend services and have access to NPM with private [KYPO Nexus repository](https://projects.ics.muni.cz/projects/kbase/knowledgebase/articles/153)
+1.  Make sure you are running all necessary backend services.
 2.  Create new config file. For example `kypo-config.myserver.ts`.
 3.  Add the configuration to `configurations` in `angular.json`. For example:
 

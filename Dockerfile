@@ -16,7 +16,12 @@ RUN cd /build && \
     npm config set @muni-kypo-crp:registry https://$KYPO_REGISTRY_HOST_NO_PROTO && \
     npm config set //$KYPO_REGISTRY_HOST_NO_PROTO:_authToken $KYPO_REGISTRY_ACCESS_TOKEN && \
     npm install && \
-    ng build --prod=$PROD
+    if [ "$PROD" = true ] ; then \
+      ng build --configuration production \
+    else \
+      ng build --configuration development \
+    fi 
+    
 
 FROM nginx:alpine
 COPY --from=builder /build/dist/trainings /app

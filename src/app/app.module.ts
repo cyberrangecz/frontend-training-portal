@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SentinelConfirmationDialogModule } from '@sentinel/components/dialogs';
-import { SentinelLayout1Module } from '@sentinel/layout';
+import { SentinelLayout1Module } from '@sentinel/layout/layout1';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth.module';

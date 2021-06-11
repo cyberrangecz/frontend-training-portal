@@ -3,6 +3,7 @@
               [isLoading]="isLoading$ | async"
               [agendaContainers]="agendaContainers$ | async"
               [notificationsRoute]="notificationRoute"
+              [version]="version"
               (login)="onLogin()"
               (logout)="onLogout()">
   <h1 *ngIf="title$ | async as title">{{ title }}</h1>
