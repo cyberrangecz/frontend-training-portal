@@ -17,11 +17,10 @@ RUN cd /build && \
     npm config set //$KYPO_REGISTRY_HOST_NO_PROTO:_authToken $KYPO_REGISTRY_ACCESS_TOKEN && \
     npm install && \
     if [ "$PROD" = true ] ; then \
-      ng build --configuration production \
+      ng build --configuration production; \
     else \
-      ng build --configuration development \
-    fi 
-    
+      ng build --configuration development; \
+    fi
 
 FROM nginx:alpine
 COPY --from=builder /build/dist/trainings /app
