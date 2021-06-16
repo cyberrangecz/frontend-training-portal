@@ -4,6 +4,7 @@ stages:
   - codeStyle
   - test
   - build
+  - auto-tag
   - docker_image_push
 
 cache:
@@ -23,11 +24,13 @@ codeStyle:
       - .npm/
     policy: pull
   script:
-    - npm run ci-lint
+    - npm run lint
   only:
     - triggers
     - branches
-    - tags
+  except:
+      changes:
+        - "CHANGELOG.md"
 
 unitTests:
   stage: test
@@ -41,7 +44,9 @@ unitTests:
   only:
     - triggers
     - branches
-    - tags
+  except:
+    changes:
+      - "CHANGELOG.md"
 
 buildAngular:
   stage: build
@@ -60,6 +65,27 @@ buildAngular:
     paths:
       - ./dist
     expire_in: 1 hour
+  except:
+    changes:
+      - "CHANGELOG.md"
+
+auto-tag:
+  image: 'registry.gitlab.ics.muni.cz:443/csirt-mu-devel/csirt-mu-devel-artifact-repository/docker-common-ci:v0.1.6'
+  variables:
+    GIT_STRATEGY: clone
+  stage: auto-tag
+  script:
+    - source /app/export-tag-vars.sh VERSION.txt
+    - echo $TAG_VERSION && echo $TAG_MESSAGE
+    - /app/import-ssh-key.sh
+    - /app/prepare-git.sh
+    - /app/create-changelog.sh
+    - /app/tag-and-push.sh
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+      changes:
+        - VERSION.txt
+
 
 docker_image_push:
   before_script: [] #prevent global before_script from running
