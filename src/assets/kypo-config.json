@@ -11,7 +11,7 @@
     "pollingPeriod": 5000,
     "defaultPaginationSize": 10,
     "visualizationConfig": {
-      "trainingBasePath": "https://172.19.0.22/kypo2-rest-training/api/v1/",
+      "trainingBasePath": "https://172.19.0.22/kypo-rest-training/api/v1/",
       "adaptiveBasePath" : "https://172.19.0.22/kypo-adaptive-training/api/v1/",
       "elasticSearchBasePath": "https://172.19.0.22/kypo-elasticsearch-service/api/v1/"
     },
@@ -24,7 +24,7 @@
     }
   },
   "trainingApiConfig": {
-    "trainingBasePath": "https://172.19.0.22/kypo2-rest-training/api/v1/",
+    "trainingBasePath": "https://172.19.0.22/kypo-rest-training/api/v1/",
     "adaptiveBasePath": "https://172.19.0.22/kypo-adaptive-training/api/v1/"
   },
   "sandboxAgendaConfig": {
@@ -45,7 +45,7 @@
     "defaultPaginationSize": 10
   },
   "userAndGroupApiConfig": {
-    "userAndGroupRestBasePath": "https://172.19.0.22/kypo2-rest-user-and-group/api/v1/"
+    "userAndGroupRestBasePath": "https://172.19.0.22/kypo-rest-user-and-group/api/v1/"
   },
   "authConfig": {
     "guardMainPageRedirect": "home",
@@ -54,7 +54,7 @@
       "https://172.19.0.22"
     ],
     "authorizationStrategyConfig": {
-      "authorizationUrl": "https://172.19.0.22/kypo2-rest-user-and-group/api/v1/users/info"
+      "authorizationUrl": "https://172.19.0.22/kypo-rest-user-and-group/api/v1/users/info"
     },
     "providers": [
       {
@@ -64,7 +64,7 @@
         "oidcConfig": {
           "requireHttps": true,
           "issuer": "https://172.19.0.22:8443/csirtmu-dummy-issuer-server/",
-          "clientId": "2614c0ab-a21d-4fba-bd54-49eea5318e57",
+          "clientId": "0be13eb3-0855-4f89-9681-6c39360d4211",
           "redirectUri": "https://localhost:4200",
           "scope": "openid email profile",
           "logoutUrl": "https://172.19.0.22/csirtmu-dummy-issuer-server/endsession",
