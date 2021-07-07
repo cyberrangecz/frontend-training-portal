@@ -20,6 +20,8 @@ import { TraineeGuard } from './services/guards/trainee-guard.service';
 import { TrainingDesignerGuard } from './services/guards/training-designer-guard.service';
 import { TrainingOrganizerGuard } from './services/guards/training-organizer-guard.service';
 import { UserAndGroupGuard } from './services/guards/user-and-group-guard.service';
+import { RoleBasedPreloader } from './utils/role-based-preloading';
+import { RoleResolver } from './utils/role-resolver';
 
 const routes: Routes = [
   {
@@ -37,6 +39,7 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Linear Training Definitions',
       title: 'Linear Training Definition Overview',
+      roleResolver: RoleResolver.isTrainingDesigner,
     },
   },
   {
@@ -49,6 +52,7 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Adaptive Training Definitions',
       title: 'Adaptive Training Definition Overview',
+      roleResolver: RoleResolver.isTrainingDesigner,
     },
   },
   {
@@ -61,6 +65,7 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Sandbox Definitions',
       title: 'Sandbox Definition Overview',
+      roleResolver: RoleResolver.isSandboxDesigner,
     },
   },
   {
@@ -73,6 +78,7 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Linear Training Instances',
       title: 'Linear Training Instance Overview',
+      roleResolver: RoleResolver.isTrainingOrganizer,
     },
   },
   {
@@ -85,6 +91,7 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Adaptive Training Instances',
       title: 'Adaptive Training Instance Overview',
+      roleResolver: RoleResolver.isTrainingOrganizer,
     },
   },
   {
@@ -94,6 +101,7 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Pools',
       title: 'Pool Overview',
+      roleResolver: RoleResolver.isSandboxOrganizer,
     },
   },
   {
@@ -106,6 +114,7 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Resources',
       title: 'Resources Overview',
+      roleResolver: RoleResolver.isSandboxOrganizer,
     },
   },
   {
@@ -118,6 +127,7 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Training Runs',
       title: 'Training Run Overview',
+      roleResolver: RoleResolver.isTrainingTrainee,
     },
   },
   {
@@ -128,6 +138,7 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Users',
       title: 'User Overview',
+      roleResolver: RoleResolver.isUserAndGroupAdmin,
     },
   },
   {
@@ -138,6 +149,7 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Groups',
       title: 'Group Overview',
+      roleResolver: RoleResolver.isUserAndGroupAdmin,
     },
   },
   {
@@ -150,6 +162,7 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Microservice',
       title: 'Microservice Overview',
+      roleResolver: RoleResolver.isUserAndGroupAdmin,
     },
   },
   {
@@ -180,6 +193,7 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes, {
       initialNavigation: 'enabledNonBlocking',
+      preloadingStrategy: RoleBasedPreloader,
     } as ExtraOptions),
   ],
   exports: [RouterModule],
