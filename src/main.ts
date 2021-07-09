@@ -3,9 +3,10 @@ import { environment } from './environments/environment';
 import { AppModule } from './app/app.module';
 import { SentinelBootstrapper } from '@sentinel/common';
 import { KypoConfig } from './app/utils/config';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 if (environment.production) {
   enableProdMode();
 }
 
-SentinelBootstrapper.bootstrap<AppModule, KypoConfig>('assets/kypo-config.json', AppModule);
+SentinelBootstrapper.bootstrap<AppModule, KypoConfig>('assets/kypo-config.json', AppModule, platformBrowserDynamic());
