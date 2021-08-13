@@ -109,9 +109,9 @@
         }
       },
       {
-        "anchorId": "start.game-level-1",
+        "anchorId": "start.training-level-1",
         "title": "Edit levels",
-        "content": "You can change a level type (info level, game level,and assessment level), save or delete current one or add a new one.",
+        "content": "You can change a level type (info level, training level,and assessment level), save or delete current one or add a new one.",
         "position": {
           "nodeName": "KYPO-LEVEL-EDIT",
           "selector": "kypo-levels-stepper",
@@ -119,7 +119,7 @@
         }
       },
       {
-        "anchorId": "next.game-level-2",
+        "anchorId": "next.training-level-2",
         "title": "Title",
         "content": "Each level should have a name and estimate duration.",
         "position": {
@@ -128,7 +128,7 @@
         }
       },
       {
-        "anchorId": "next.game-level-3",
+        "anchorId": "next.training-level-3",
         "title": "Points",
         "content": "You can also set the maximum number of points for the level.",
         "position": {
@@ -137,16 +137,16 @@
         }
       },
       {
-        "anchorId": "next.game-level-4",
-        "title": "Flag",
-        "content": "Here you should provide the flag which enables next level.",
+        "anchorId": "next.training-level-4",
+        "title": "Answer",
+        "content": "Here you should provide the answer which enables next level.",
         "position": {
           "selector": "mat-form-field",
           "index": "7"
         }
       },
       {
-        "anchorId": "next.game-level-5",
+        "anchorId": "next.training-level-5",
         "title": "Content, Solution, Hints",
         "content": "For description of content, solution and hints, you can use markdown editor to format the text. In this editor you can write the level content.",
         "position": {

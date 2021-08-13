@@ -78,7 +78,7 @@ module.exports = function () {
           id_of_microservice: 2,
           name_of_microservice: 'kypo2-training',
           description:
-            'This role is default and will allow you to access training run and play a game in KYPO Trainings.',
+            'This role is default and will allow you to access training run and play a training in KYPO Trainings.',
           role_type: 'ROLE_TRAINING_TRAINEE',
         },
         {
@@ -299,7 +299,7 @@ module.exports = function () {
           order: 0,
           content: 'Content of info level should be here.',
           snapshot_hook: null,
-          title: 'Game Level1',
+          title: 'Training Level1',
           training_definition: {
             beta_testing_group_id: 14,
             can_be_archived: false,
@@ -323,11 +323,11 @@ module.exports = function () {
       state: 'UNRELEASED',
       title: 'TrainingDefinition2',
     },
-    game: {
+    training: {
       id: 27,
-      title: 'Title of game level',
+      title: 'Title of training level',
       order: 1,
-      level_type: 'GAME_LEVEL',
+      level_type: 'TRAINING_LEVEL',
     },
     assessment: {
       id: 31,
@@ -357,10 +357,10 @@ module.exports = function () {
     ],
     level: {
       id: 1,
-      title: 'Title of game level',
+      title: 'Title of training level',
       max_score: 100,
       snapshot_hook: null,
-      level_type: 'GAME_LEVEL',
+      level_type: 'TRAINING_LEVEL',
       estimated_duration: 1,
       training_definition: {
         id: 1,
@@ -387,12 +387,12 @@ module.exports = function () {
         last_edited: '2019-01-1T11:17:31.843221Z',
       },
       order: 0,
-      flag: 'Secret flag',
+      answer: 'Secret answer',
       content: 'The test entry should be here',
-      solution: 'Solution of the game should be here',
+      solution: 'Solution of the training should be here',
       solution_penalized: true,
       hints: [],
-      incorrect_flag_limit: 100,
+      incorrect_answer_limit: 100,
     },
     organizers: [
       {
@@ -948,10 +948,10 @@ module.exports = function () {
       sandbox_instance_ref_id: 1,
       abstract_level_dto: {
         id: 1,
-        title: 'Title of game level',
+        title: 'Title of training level',
         max_score: 100,
         snapshot_hook: null,
-        level_type: 'GAME_LEVEL',
+        level_type: 'TRAINING_LEVEL',
         estimated_duration: 1,
         training_definition: {
           id: 1,
@@ -980,15 +980,15 @@ module.exports = function () {
         order: 0,
         content: 'The test entry should be here',
         solution_penalized: true,
-        incorrect_flag_limit: 100,
+        incorrect_answer_limit: 100,
         hints: [],
       },
       info_about_levels: [
         {
           id: 1,
-          title: 'Title of game level',
+          title: 'Title of training level',
           order: 0,
-          level_type: 'GAME_LEVEL',
+          level_type: 'TRAINING_LEVEL',
         },
       ],
       instance_id: 1,
@@ -1102,7 +1102,7 @@ module.exports = function () {
               id_of_microservice: 2,
               name_of_microservice: 'kypo2-training',
               description:
-                'This role is default and will allow you to access training run and play a game in KYPO Trainings.',
+                'This role is default and will allow you to access training run and play a training in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_TRAINEE',
             },
             {
@@ -1231,7 +1231,7 @@ module.exports = function () {
               id_of_microservice: 2,
               name_of_microservice: 'kypo2-training',
               description:
-                'This role is default and will allow you to access training run and play a game in KYPO Trainings.',
+                'This role is default and will allow you to access training run and play a training in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_TRAINEE',
             },
             {
@@ -1325,7 +1325,7 @@ module.exports = function () {
               id_of_microservice: 2,
               name_of_microservice: 'kypo2-training',
               description:
-                'This role is default and will allow you to access training run and play a game in KYPO Trainings.',
+                'This role is default and will allow you to access training run and play a training in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_TRAINEE',
             },
             {
@@ -1419,7 +1419,7 @@ module.exports = function () {
               id_of_microservice: 2,
               name_of_microservice: 'kypo2-training',
               description:
-                'This role is default and will allow you to access training run and play a game in KYPO Trainings.',
+                'This role is default and will allow you to access training run and play a training in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_TRAINEE',
             },
             {
@@ -1498,7 +1498,7 @@ module.exports = function () {
               id_of_microservice: 2,
               name_of_microservice: 'kypo2-training',
               description:
-                'This role is default and will allow you to access training run and play a game in KYPO Trainings.',
+                'This role is default and will allow you to access training run and play a training in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_TRAINEE',
             },
             {
@@ -1592,7 +1592,7 @@ module.exports = function () {
               id_of_microservice: 2,
               name_of_microservice: 'kypo2-training',
               description:
-                'This role is default and will allow you to access training run and play a game in KYPO Trainings.',
+                'This role is default and will allow you to access training run and play a training in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_TRAINEE',
             },
             {
@@ -1663,7 +1663,7 @@ module.exports = function () {
               id_of_microservice: 2,
               name_of_microservice: 'kypo2-training',
               description:
-                'This role is default and will allow you to access training run and play a game in KYPO Trainings.',
+                'This role is default and will allow you to access training run and play a training in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_TRAINEE',
             },
           ],
@@ -1720,7 +1720,7 @@ module.exports = function () {
               id_of_microservice: 2,
               name_of_microservice: 'kypo2-training',
               description:
-                'This role is default and will allow you to access training run and play a game in KYPO Trainings.',
+                'This role is default and will allow you to access training run and play a training in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_TRAINEE',
             },
             {
@@ -1849,7 +1849,7 @@ module.exports = function () {
               id_of_microservice: 2,
               name_of_microservice: 'kypo2-training',
               description:
-                'This role is default and will allow you to access training run and play a game in KYPO Trainings.',
+                'This role is default and will allow you to access training run and play a training in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_TRAINEE',
             },
             {
@@ -1978,7 +1978,7 @@ module.exports = function () {
               id_of_microservice: 2,
               name_of_microservice: 'kypo2-training',
               description:
-                'This role is default and will allow you to access training run and play a game in KYPO Trainings.',
+                'This role is default and will allow you to access training run and play a training in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_TRAINEE',
             },
             {
@@ -2072,7 +2072,7 @@ module.exports = function () {
               id_of_microservice: 2,
               name_of_microservice: 'kypo2-training',
               description:
-                'This role is default and will allow you to access training run and play a game in KYPO Trainings.',
+                'This role is default and will allow you to access training run and play a training in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_TRAINEE',
             },
             {
@@ -2314,7 +2314,7 @@ module.exports = function () {
           id_of_microservice: 2,
           name_of_microservice: 'kypo2-training',
           description:
-            'This role is default and will allow you to access training run and play a game in KYPO Trainings.',
+            'This role is default and will allow you to access training run and play a training in KYPO Trainings.',
           role_type: 'ROLE_TRAINING_TRAINEE',
         },
         {
@@ -2568,18 +2568,18 @@ module.exports = function () {
       show_stepper_bar: true,
       levels: [
         {
-          type: 'GameLevelImportDTO',
-          title: 'Title of game level',
+          type: 'TrainingLevelImportDTO',
+          title: 'Title of training level',
           max_score: 100,
-          level_type: 'GAME_LEVEL',
+          level_type: 'TRAINING_LEVEL',
           order: 0,
           estimated_duration: 1,
-          flag: 'Secret flag',
+          answer: 'Secret answer',
           content: 'The test entry should be here',
-          solution: 'Solution of the game should be here',
+          solution: 'Solution of the training should be here',
           solution_penalized: true,
           hints: [],
-          incorrect_flag_limit: 100,
+          incorrect_answer_limit: 100,
         },
         {
           type: 'AssessmentLevelImportDTO',
@@ -3305,14 +3305,14 @@ module.exports = function () {
       abstract_level_dto: {
         estimated_duration: 5,
         id: 1,
-        level_type: 'GAME',
+        level_type: 'TRAINING',
         max_score: 20,
         order: 2,
         snapshot_hook: {
           id: 8,
           snapshot: 'Snapshot 1',
         },
-        title: 'Game Level1',
+        title: 'Training Level1',
         training_definition: {
           beta_testing_group_id: 14,
           can_be_archived: false,
@@ -3330,9 +3330,9 @@ module.exports = function () {
       info_about_levels: [
         {
           id: 1,
-          level_type: 'GAME_LEVEL',
+          level_type: 'TRAINING_LEVEL',
           order: 1,
-          title: 'Game Level1',
+          title: 'Training Level1',
         },
       ],
       instance_id: 1,
