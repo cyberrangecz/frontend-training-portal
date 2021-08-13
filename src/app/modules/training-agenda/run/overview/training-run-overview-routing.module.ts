@@ -27,7 +27,7 @@ const routes: Routes = [
     path: `${ADAPTIVE_RUN_PATH}/${TRAINING_RUN_ACCESS_PATH}/:${TRAINING_RUN_ACCESS_SELECTOR}`,
     loadChildren: () => import('./detail/adaptive/adaptive-run-detail.module').then((m) => m.AdaptiveRunDetailModule),
     data: {
-      breadcrumb: 'Game',
+      breadcrumb: 'Training',
       title: undefined,
     },
     resolve: { [ADAPTIVE_RUN_ACCESS_INFO_DATA_ATTRIBUTE_NAME]: AccessAdaptiveRunResolver },
@@ -36,7 +36,7 @@ const routes: Routes = [
     path: `${ADAPTIVE_RUN_PATH}/${TRAINING_RUN_RESUME_PATH}/:${TRAINING_RUN_SELECTOR}`,
     loadChildren: () => import('./detail/adaptive/adaptive-run-detail.module').then((m) => m.AdaptiveRunDetailModule),
     data: {
-      breadcrumb: 'Game',
+      breadcrumb: 'Training',
       title: undefined,
     },
     resolve: { [ADAPTIVE_RUN_ACCESS_INFO_DATA_ATTRIBUTE_NAME]: AccessAdaptiveRunResolver },
@@ -45,7 +45,7 @@ const routes: Routes = [
     path: `${TRAINING_RUN_ACCESS_PATH}/:${TRAINING_RUN_ACCESS_SELECTOR}`,
     loadChildren: () => import('./detail/training/training-run-detail.module').then((m) => m.TrainingRunDetailModule),
     data: {
-      breadcrumb: 'Game',
+      breadcrumb: 'Training',
       title: undefined,
     },
     resolve: { [TRAINING_RUN_ACCESS_INFO_DATA_ATTRIBUTE_NAME]: AccessTrainingRunResolver },
@@ -54,7 +54,7 @@ const routes: Routes = [
     path: `${TRAINING_RUN_RESUME_PATH}/:${TRAINING_RUN_SELECTOR}`,
     loadChildren: () => import('./detail/training/training-run-detail.module').then((m) => m.TrainingRunDetailModule),
     data: {
-      breadcrumb: 'Game',
+      breadcrumb: 'Training',
       title: undefined,
     },
     resolve: { [TRAINING_RUN_ACCESS_INFO_DATA_ATTRIBUTE_NAME]: AccessTrainingRunResolver },

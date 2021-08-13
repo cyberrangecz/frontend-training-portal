@@ -95,7 +95,7 @@ export class HomeComponent extends SentinelBaseDirective implements OnInit {
         'Training Run',
         !RoleResolver.isTrainingTrainee(this.roles),
         TRAINING_RUN_PATH,
-        'Training Run allows you to start a new capture the flag (CTF) game, return to unfinished one,' +
+        'Training Run allows you to start a new training, return to unfinished one,' +
           ' or to access results of those you already finished.',
         'games'
       ),
@@ -116,7 +116,7 @@ export class HomeComponent extends SentinelBaseDirective implements OnInit {
         'Training Definition',
         !RoleResolver.isTrainingDesigner(this.roles),
         TRAINING_DEFINITION_PATH,
-        'The training definition is a plot of the single-player CTF games. You can manage your own and design new ones.',
+        'The training definition is a plot of the single-player trainings. You can manage your own and design new ones.',
         'assignment',
         HomeComponent.createExpandedControlButtons([ADAPTIVE_DEFINITION_PATH, TRAINING_DEFINITION_PATH])
       ),
@@ -136,7 +136,7 @@ export class HomeComponent extends SentinelBaseDirective implements OnInit {
         'Training Instance',
         !RoleResolver.isTrainingOrganizer(this.roles),
         TRAINING_INSTANCE_PATH,
-        'You can also create training instances that are necessary if you want to organize a CTF game hands-on session.',
+        'You can also create training instances that are necessary if you want to organize a training hands-on session.',
         'event',
         HomeComponent.createExpandedControlButtons([ADAPTIVE_INSTANCE_PATH, TRAINING_INSTANCE_PATH])
       ),
