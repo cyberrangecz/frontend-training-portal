@@ -10,6 +10,7 @@ import { LoadingService } from './services/shared/loading.service';
 import { NotificationService } from './services/shared/notification.service';
 import { NavBuilder } from './utils/nav-builder';
 import { TourStarterService } from './services/tour-starter.service';
+import { KypoDynamicEnvironment } from 'environments/kypo-dynamic-environment';
 
 /**
  * Main component serving as wrapper for layout and router outlet
@@ -47,6 +48,7 @@ export class AppComponent extends SentinelBaseDirective implements OnInit, After
       map((user) => NavBuilder.build(user))
     );
     this.isLoading$ = this.loadingService.isLoading$;
+    this.version = KypoDynamicEnvironment.getConfig().version;
   }
 
   ngAfterViewInit(): void {

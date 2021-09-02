@@ -17,4 +17,5 @@ export interface KypoConfig extends SentinelConfig {
   userAndGroupAgendaConfig: UserAndGroupAgendaConfig;
   userAndGroupApiConfig: KypoUserAndGroupApiConfig;
   authConfig: SentinelAuthConfig;
+  version: string;
 }
