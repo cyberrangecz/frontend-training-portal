@@ -10,6 +10,7 @@ import { AgendaPortalLink } from '../../../../model/agenda-portal-link';
 export class PortalAgendaLinkComponent {
   @Input() portalAgendaLink: AgendaPortalLink;
   @Input() elevation: string;
+
   @Output() navigate: EventEmitter<string> = new EventEmitter();
   @Output() elevate: EventEmitter<string> = new EventEmitter();
 
