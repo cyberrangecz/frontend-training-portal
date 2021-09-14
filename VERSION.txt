@@ -1,4 +1,4 @@
-12.0.7 Add version to kypo config
+12.0.7 Bump version of training agenda and overview visualization
 12.0.6 Bump version of training agenda
 12.0.5 Add theme for sentinel markdown
 12.0.4 Summer clean up
