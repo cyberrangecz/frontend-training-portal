@@ -20,7 +20,12 @@
       "decoratorsRestUrl": "",
       "defaultDecoratorRefreshPeriodInSeconds": 3,
       "useRealTime": false,
-      "useDecorators": false
+      "useDecorators": false,
+      "guacamoleConfig": {
+        "url": "https://172.19.0.22/guacamole/",
+        "username": "guacuser",
+        "password": "guacuser"
+      }
     }
   },
   "trainingApiConfig": {
@@ -35,7 +40,12 @@
       "decoratorsRestUrl": "",
       "defaultDecoratorRefreshPeriodInSeconds": 3,
       "useRealTime": false,
-      "useDecorators": false
+      "useDecorators": false,
+      "guacamoleConfig": {
+        "url": "https://172.19.0.22/guacamole/",
+        "username": "guacuser",
+        "password": "guacuser"
+      }
     }
   },
   "sandboxApiConfig": {
