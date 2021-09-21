@@ -1,3 +1,4 @@
+12.0.9 Integration of the Apache Guacamole to topology graph
 12.0.8 Summer clean up hotfix
 12.0.7 Bump version of training agenda and overview visualization
 12.0.6 Bump version of training agenda
