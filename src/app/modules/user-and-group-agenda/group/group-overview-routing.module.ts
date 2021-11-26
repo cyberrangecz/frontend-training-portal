@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
   GROUP_DATA_ATTRIBUTE_NAME,
+  GROUP_DETAIL_PATH,
   GROUP_EDIT_PATH,
   GROUP_NEW_PATH,
   GROUP_SELECTOR,
@@ -31,6 +32,15 @@ const routes: Routes = [
   {
     path: `:${GROUP_SELECTOR}/${GROUP_EDIT_PATH}`,
     loadChildren: () => import('./edit/group-edit.module').then((m) => m.GroupEditModule),
+    resolve: {
+      [GROUP_DATA_ATTRIBUTE_NAME]: GroupResolver,
+      breadcrumb: GroupBreadcrumbResolver,
+      title: GroupTitleResolver,
+    },
+  },
+  {
+    path: `:${GROUP_SELECTOR}/${GROUP_DETAIL_PATH}`,
+    loadChildren: () => import('./detail/group-detail.module').then((m) => m.GroupDetailModule),
     resolve: {
       [GROUP_DATA_ATTRIBUTE_NAME]: GroupResolver,
       breadcrumb: GroupBreadcrumbResolver,

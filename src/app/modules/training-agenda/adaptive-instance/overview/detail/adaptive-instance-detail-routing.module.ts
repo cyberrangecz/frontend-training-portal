@@ -2,7 +2,9 @@ import { RouterModule, Routes } from '@angular/router';
 import {
   ACCESS_TOKEN_PATH,
   ADAPTIVE_INSTANCE_DATA_ATTRIBUTE_NAME,
+  PROGRESS_PATH,
   RESULTS_PATH,
+  RUNS_PATH,
   SUMMARY_PATH,
 } from '@muni-kypo-crp/training-agenda';
 import { NgModule } from '@angular/core';
@@ -39,6 +41,16 @@ const routes: Routes = [
       import('./results/adaptive-instance-results.module').then((m) => m.AdaptiveInstanceResultsModule),
   },
   {
+    path: PROGRESS_PATH,
+    resolve: {
+      trainingInstance: AdaptiveInstanceResolver,
+      breadcrumb: AdaptiveInstanceDetailBreadcrumbResolver,
+      title: AdaptiveInstanceDetailTitleResolver,
+    },
+    loadChildren: () =>
+      import('./progress/adaptive-instance-progress.module').then((m) => m.AdaptiveInstanceProgressModule),
+  },
+  {
     path: ACCESS_TOKEN_PATH,
     resolve: {
       trainingInstance: AdaptiveInstanceResolver,
@@ -47,6 +59,15 @@ const routes: Routes = [
     },
     loadChildren: () =>
       import('./token/adaptive-access-token-detail.module').then((m) => m.AdaptiveAccessTokenDetailModule),
+  },
+  {
+    path: RUNS_PATH,
+    resolve: {
+      trainingInstance: AdaptiveInstanceResolver,
+      breadcrumb: AdaptiveInstanceDetailBreadcrumbResolver,
+      title: AdaptiveInstanceDetailTitleResolver,
+    },
+    loadChildren: () => import('./runs/adaptive-instance-runs.module').then((m) => m.AdaptiveInstanceRunsModule),
   },
 ];
 

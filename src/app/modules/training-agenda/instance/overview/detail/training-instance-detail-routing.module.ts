@@ -4,6 +4,7 @@ import {
   ACCESS_TOKEN_PATH,
   PROGRESS_PATH,
   RESULTS_PATH,
+  RUNS_PATH,
   SUMMARY_PATH,
   TRAINING_INSTANCE_DATA_ATTRIBUTE_NAME,
 } from '@muni-kypo-crp/training-agenda';
@@ -57,6 +58,15 @@ const routes: Routes = [
       title: TrainingInstanceDetailTitleResolver,
     },
     loadChildren: () => import('./token/access-token-detail.module').then((m) => m.AccessTokenDetailModule),
+  },
+  {
+    path: RUNS_PATH,
+    resolve: {
+      trainingInstance: TrainingInstanceResolver,
+      breadcrumb: TrainingInstanceDetailBreadcrumbResolver,
+      title: TrainingInstanceDetailTitleResolver,
+    },
+    loadChildren: () => import('./runs/training-instance-runs.module').then((m) => m.TrainingInstanceRunsModule),
   },
 ];
 
