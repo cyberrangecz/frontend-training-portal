@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { TrainingRunResultsComponentsModule } from '@muni-kypo-crp/training-agenda/run-results';
-import { KypoDynamicEnvironment } from '../../../../../../environments/kypo-dynamic-environment';
+import { KypoDynamicEnvironment } from '../../../../../../../environments/kypo-dynamic-environment';
 import { TrainingRunResultsRoutingModule } from './training-run-results-routing.module';
 
 @NgModule({
