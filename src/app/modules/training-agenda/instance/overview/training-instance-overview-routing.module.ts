@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
-  RUNS_PATH,
   TRAINING_INSTANCE_DATA_ATTRIBUTE_NAME,
   TRAINING_INSTANCE_DETAIL_PATH,
   TRAINING_INSTANCE_EDIT_PATH,
@@ -11,8 +10,6 @@ import {
 import { TrainingInstanceOverviewComponent } from '@muni-kypo-crp/training-agenda/instance-overview';
 import {
   TrainingInstanceBreadcrumbResolver,
-  TrainingInstanceDetailBreadcrumbResolver,
-  TrainingInstanceDetailTitleResolver,
   TrainingInstanceResolver,
   TrainingInstanceTitleResolver,
 } from '@muni-kypo-crp/training-agenda/resolvers';

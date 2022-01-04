@@ -4,12 +4,11 @@ import { SentinelAuthService, User } from '@sentinel/auth';
 import { SentinelBaseDirective } from '@sentinel/common';
 import { AgendaContainer } from '@sentinel/layout';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { NOTIFICATIONS_PATH } from './paths';
 import { LoadingService } from './services/shared/loading.service';
 import { NotificationService } from './services/shared/notification.service';
 import { NavBuilder } from './utils/nav-builder';
-import { TourStarterService } from './services/tour-starter.service';
 import { KypoDynamicEnvironment } from 'environments/kypo-dynamic-environment';
 
 /**
@@ -32,7 +31,6 @@ export class AppComponent extends SentinelBaseDirective implements OnInit, After
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private notificationService: NotificationService,
-    private tourStarterService: TourStarterService,
     private loadingService: LoadingService,
     private elementRef: ElementRef,
     private auth: SentinelAuthService
@@ -52,12 +50,7 @@ export class AppComponent extends SentinelBaseDirective implements OnInit, After
   }
 
   ngAfterViewInit(): void {
-    this.router.events
-      .pipe(
-        filter((event) => event instanceof NavigationEnd),
-        switchMap((event: NavigationEnd) => this.tourStarterService.startTourGuide(event, this.elementRef))
-      )
-      .subscribe();
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe();
   }
 
   private getTitleFromRouter(): Observable<string> {
