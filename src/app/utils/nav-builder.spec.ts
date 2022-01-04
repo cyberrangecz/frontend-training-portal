@@ -1,6 +1,5 @@
 import { NavBuilder } from './nav-builder';
 import { User, UserRole } from '@sentinel/auth';
-import { TRAINING_DEFINITION_PATH } from '@muni-kypo-crp/training-agenda';
 import { DynamicEnvironment } from '@sentinel/common';
 
 describe('NavBuilder', () => {
