@@ -1,4 +1,4 @@
-FROM node:12 as builder
+FROM node:14 as builder
 RUN NG_CLI_ANALYTICS=false npm install -g @angular/cli
 ARG SENTINEL_REGISTRY_HOST_NO_PROTO
 ARG SENTINEL_REGISTRY_ACCESS_TOKEN
