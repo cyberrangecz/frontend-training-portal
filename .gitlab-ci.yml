@@ -1,4 +1,4 @@
-image: cypress/browsers:node12.18.0-chrome83-ff77
+image: cypress/browsers:node14.17.0-chrome88-ff89
 
 stages:
   - codeStyle
@@ -29,8 +29,10 @@ codeStyle:
     - triggers
     - branches
   except:
-      changes:
-        - "CHANGELOG.md"
+    changes:
+      - "CHANGELOG.md"
+    refs:
+      - master
 
 unitTests:
   stage: test
@@ -47,6 +49,8 @@ unitTests:
   except:
     changes:
       - "CHANGELOG.md"
+    refs:
+      - master
 
 buildAngular:
   stage: build
@@ -68,6 +72,8 @@ buildAngular:
   except:
     changes:
       - "CHANGELOG.md"
+    refs:
+      - master
 
 auto-tag:
   image: 'registry.gitlab.ics.muni.cz:443/csirt-mu-devel/csirt-mu-devel-artifact-repository/docker-common-ci:v0.1.6'
