@@ -7,6 +7,7 @@ import {
   ADAPTIVE_DEFINITION_SELECTOR,
   TRAINING_DEFINITION_EDIT_PATH,
   TRAINING_DEFINITION_NEW_PATH,
+  TRAINING_DEFINITION_PREVIEW_PATH,
 } from '@muni-kypo-crp/training-agenda';
 import {
   AdaptiveDefinitionBreadcrumbResolver,
@@ -28,6 +29,10 @@ const routes: Routes = [
     path: `:${ADAPTIVE_DEFINITION_SELECTOR}/${TRAINING_DEFINITION_EDIT_PATH}`,
     loadChildren: () =>
       import('./edit/adaptive-definition-edit-overview.module').then((m) => m.AdaptiveDefinitionEditOverviewModule),
+  },
+  {
+    path: `:${ADAPTIVE_DEFINITION_SELECTOR}/${TRAINING_DEFINITION_PREVIEW_PATH}`,
+    loadChildren: () => import('./preview/adaptive-preview.module').then((m) => m.AdaptivePreviewModule),
   },
   {
     path: `:${ADAPTIVE_DEFINITION_SELECTOR}/${ADAPTIVE_DEFINITION_DETAIL_PATH}`,
