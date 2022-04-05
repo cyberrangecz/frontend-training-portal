@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SANDBOX_INSTANCE_DATA_ATTRIBUTE_NAME } from '@muni-kypo-crp/sandbox-agenda';
-import { SandboxInstanceResolver } from '@muni-kypo-crp/sandbox-agenda/resolvers';
 import { SandboxTopologyComponent } from '@muni-kypo-crp/sandbox-agenda/topology';
+import { SANDBOX_DEFINITION_DATA_ATTRIBUTE_NAME } from '@muni-kypo-crp/sandbox-agenda';
+import { SandboxDefinitionResolver } from '@muni-kypo-crp/sandbox-agenda/resolvers';
 
 const routes: Routes = [
   {
     path: '',
     component: SandboxTopologyComponent,
     resolve: {
-      [SANDBOX_INSTANCE_DATA_ATTRIBUTE_NAME]: SandboxInstanceResolver,
+      [SANDBOX_DEFINITION_DATA_ATTRIBUTE_NAME]: SandboxDefinitionResolver,
     },
   },
 ];
@@ -21,4 +21,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class SandboxInstanceTopologyRoutingModule {}
+export class SandboxDefinitionTopologyRoutingModule {}
