@@ -1,7 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SANDBOX_DEFINITION_NEW_PATH } from '@muni-kypo-crp/sandbox-agenda';
+import {
+  SANDBOX_DEFINITION_ID_SELECTOR,
+  SANDBOX_DEFINITION_NEW_PATH,
+  SANDBOX_TOPOLOGY_PATH,
+} from '@muni-kypo-crp/sandbox-agenda';
 import { SandboxDefinitionOverviewComponent } from '@muni-kypo-crp/sandbox-agenda/sandbox-definition-overview';
+import { SandboxDefinitionBreadcrumbResolver } from '@muni-kypo-crp/sandbox-agenda/resolvers';
 
 const routes: Routes = [
   {
@@ -14,6 +19,17 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Create',
       title: 'Create Sandbox Definition',
+    },
+  },
+  {
+    path: `:${SANDBOX_DEFINITION_ID_SELECTOR}/${SANDBOX_TOPOLOGY_PATH}`,
+    loadChildren: () =>
+      import('./topology/sandbox-definition-topology.module').then((m) => m.SandboxDefinitionTopologyModule),
+    resolve: {
+      breadcrumb: SandboxDefinitionBreadcrumbResolver,
+    },
+    data: {
+      title: 'Sandbox Definition Topology',
     },
   },
 ];

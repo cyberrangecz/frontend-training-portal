@@ -7,7 +7,7 @@ import {
   POOL_REQUEST_ID_SELECTOR,
   SANDBOX_INSTANCE_ID_SELECTOR,
   SANDBOX_INSTANCE_PATH,
-  SANDBOX_INSTANCE_TOPOLOGY_PATH,
+  SANDBOX_TOPOLOGY_PATH,
 } from '@muni-kypo-crp/sandbox-agenda';
 import { PoolDetailComponent } from '@muni-kypo-crp/sandbox-agenda/pool-detail';
 import {
@@ -24,7 +24,7 @@ const routes: Routes = [
     },
   },
   {
-    path: `${SANDBOX_INSTANCE_PATH}/:${SANDBOX_INSTANCE_ID_SELECTOR}/${SANDBOX_INSTANCE_TOPOLOGY_PATH}`,
+    path: `${SANDBOX_INSTANCE_PATH}/:${SANDBOX_INSTANCE_ID_SELECTOR}/${SANDBOX_TOPOLOGY_PATH}`,
     loadChildren: () =>
       import('./sandbox-instance/sandbox-instance-topology.module').then((m) => m.SandboxInstanceTopologyModule),
     resolve: {

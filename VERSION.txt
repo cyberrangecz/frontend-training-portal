@@ -1,3 +1,4 @@
+13.1.0-rc Preview of reference graph added, replaced openstack with terraform, topology can now be displayed for sandbox definition in overview table. Stage detail is now available from pipeline status bar.
 13.0.1 Fix failing CI/CD.
 13.0.0 Update to Angular 13, CI/CD optimization, support for usage of local sandboxes, allocation pipeline retry, preview of adaptive definition added, bug fixes.
 12.1.5 Bump version of training agenda.
