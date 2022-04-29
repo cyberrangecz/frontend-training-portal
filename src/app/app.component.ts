@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { SentinelAuthService, User } from '@sentinel/auth';
 import { SentinelBaseDirective } from '@sentinel/common';
@@ -10,6 +10,7 @@ import { LoadingService } from './services/shared/loading.service';
 import { NotificationService } from './services/shared/notification.service';
 import { NavBuilder } from './utils/nav-builder';
 import { KypoDynamicEnvironment } from 'environments/kypo-dynamic-environment';
+import { DOCUMENT } from '@angular/common';
 
 /**
  * Main component serving as wrapper for layout and router outlet
@@ -28,6 +29,7 @@ export class AppComponent extends SentinelBaseDirective implements OnInit, After
   version = 'v21.06';
 
   constructor(
+    @Inject(DOCUMENT) private document: Document,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private notificationService: NotificationService,
@@ -50,6 +52,21 @@ export class AppComponent extends SentinelBaseDirective implements OnInit, After
   }
 
   ngAfterViewInit(): void {
+    /* eslint-disable */
+    (function (h, o, t, j, a, r) {
+      h.hj =
+        h.hj ||
+        function () {
+          (h.hj.q = h.hj.q || []).push(arguments);
+        };
+      h._hjSettings = { hjid: 2932480, hjsv: 6 };
+      a = o.getElementsByTagName('head')[0];
+      r = o.createElement('script');
+      r.async = 1;
+      r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+      a.appendChild(r);
+    })(window as any, this.document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
+
     this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe();
   }
 
