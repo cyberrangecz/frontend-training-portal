@@ -1,3 +1,4 @@
+13.1.0-rc.2 Add routing for training run visualization tabs.
 13.1.0-rc.1 Update to dashboard, overview and hurdling visualizations to address the latest issues. Changes in linear and adaptive training definition removing minimal restrictions from solve time field and add trim to passkey and answer field. Fix pagination size in sandbox agenda.
 13.1.0-rc Preview of reference graph added, replaced openstack with terraform, topology can now be displayed for sandbox definition in overview table. Stage detail is now available from pipeline status bar.
 13.0.1 Fix failing CI/CD.
