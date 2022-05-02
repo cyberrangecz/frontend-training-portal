@@ -194,6 +194,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes, {
       initialNavigation: 'enabledNonBlocking',
       preloadingStrategy: RoleBasedPreloader,
+      paramsInheritanceStrategy: 'always',
     } as ExtraOptions),
   ],
   exports: [RouterModule],
