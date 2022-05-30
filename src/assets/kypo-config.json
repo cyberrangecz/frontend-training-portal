@@ -30,7 +30,8 @@
   },
   "trainingApiConfig": {
     "trainingBasePath": "https://172.19.0.22/kypo-rest-training/api/v1/",
-    "adaptiveBasePath": "https://172.19.0.22/kypo-adaptive-training/api/v1/"
+    "adaptiveBasePath": "https://172.19.0.22/kypo-adaptive-training/api/v1/",
+    "mitreTechniqueBasePath": "https://172.19.0.22/kypo-mitre-technique-service/api/v1/"
   },
   "sandboxAgendaConfig": {
     "pollingPeriod": 5000,
@@ -73,8 +74,8 @@
         "backgroundColor": "#002776",
         "oidcConfig": {
           "requireHttps": true,
-          "issuer": "https://172.19.0.22:8443/csirtmu-dummy-issuer-server/",
-          "clientId": "9333e00b-b413-42ca-9aab-65cd2709dfdf",
+          "issuer": "https://172.19.0.22:443/csirtmu-dummy-issuer-server/",
+          "clientId": "kOWRLqukGxxJPEcclxoajjqSvQcmHxaGPZJA",
           "redirectUri": "https://localhost:4200",
           "scope": "openid email profile",
           "logoutUrl": "https://172.19.0.22/csirtmu-dummy-issuer-server/endsession",

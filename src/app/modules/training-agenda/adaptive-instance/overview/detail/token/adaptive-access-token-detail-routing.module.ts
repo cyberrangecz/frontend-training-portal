@@ -1,11 +1,11 @@
 import { RouterModule, Routes } from '@angular/router';
-import { AdaptiveAccessTokenDetailComponent } from '@muni-kypo-crp/training-agenda/adaptive-instance-access-token';
 import { NgModule } from '@angular/core';
+import { AccessTokenDetailComponent } from '@muni-kypo-crp/training-agenda/instance-access-token';
 
 const routes: Routes = [
   {
     path: '',
-    component: AdaptiveAccessTokenDetailComponent,
+    component: AccessTokenDetailComponent,
   },
 ];
 

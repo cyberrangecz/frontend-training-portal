@@ -187,6 +187,16 @@ const routes: Routes = [
     redirectTo: HOME_PATH,
     pathMatch: 'full',
   },
+  {
+    path: 'mitre-techniques',
+    loadChildren: () =>
+      import('./modules/training-agenda/mitre-techniques/mitre-techniques.module').then((m) => m.MitreTechniquesModule),
+    data: {
+      title: 'MITRE ATT&CK Techniques',
+      breadcrumb: 'MITRE ATT&CK Techniques',
+      showSwitch: false,
+    },
+  },
 ];
 
 @NgModule({

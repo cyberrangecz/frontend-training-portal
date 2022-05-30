@@ -6,6 +6,7 @@ import {
   ADAPTIVE_RUN_PATH,
   ADAPTIVE_RUN_RESULTS_PATH,
   ADAPTIVE_RUN_SELECTOR,
+  MITRE_TECHNIQUES_PATH,
   TRAINING_RUN_ACCESS_INFO_DATA_ATTRIBUTE_NAME,
   TRAINING_RUN_ACCESS_PATH,
   TRAINING_RUN_ACCESS_SELECTOR,
@@ -81,6 +82,10 @@ const routes: Routes = [
       title: 'Training Run Results',
     },
     resolve: { [ADAPTIVE_RUN_DATA_ATTRIBUTE_NAME]: AdaptiveRunResultsResolver },
+  },
+  {
+    path: `:${MITRE_TECHNIQUES_PATH}`,
+    loadChildren: () => import('./mitre-techniques/mitre-techniques.module').then((m) => m.MitreTechniquesModule),
   },
 ];
 
