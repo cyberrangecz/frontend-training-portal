@@ -24,7 +24,8 @@
   },
   "trainingApiConfig": {
     "trainingBasePath": "http://localhost:3000/kypo2-rest-training/api/v1/",
-    "adaptiveBasePath": "https://172.19.0.22/kypo-adaptive-training/api/v1/"
+    "adaptiveBasePath": "https://172.19.0.22/kypo-adaptive-training/api/v1/",
+    "mitreTechniqueBasePath": "https://172.19.0.22/kypo-mitre-technique-service/api/v1/"
   },
   "sandboxAgendaConfig": {
     "pollingPeriod": 5000,
@@ -62,7 +63,7 @@
         "tokenRefreshTime": 30000,
         "oidcConfig": {
           "issuer": "https://oidc.muni.cz/oidc/",
-          "clientId": "0be13eb3-0855-4f89-9681-6c39360d4211",
+          "clientId": "kOWRLqukGxxJPEcclxoajjqSvQcmHxaGPZJA",
           "redirectUri": "http://localhost:4200",
           "scope": "openid email profile",
           "logoutUrl": "https://oidc.muni.cz/oidc/endsession",
