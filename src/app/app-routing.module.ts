@@ -5,6 +5,7 @@ import { SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH, SANDBOX_RESOURCES_PATH } fr
 import {
   ADAPTIVE_DEFINITION_PATH,
   ADAPTIVE_INSTANCE_PATH,
+  MITRE_TECHNIQUES_PATH,
   TRAINING_DEFINITION_PATH,
   TRAINING_INSTANCE_PATH,
   TRAINING_RUN_PATH,
@@ -128,6 +129,18 @@ const routes: Routes = [
       breadcrumb: 'Training Runs',
       title: 'Training Run Overview',
       roleResolver: RoleResolver.isTrainingTrainee,
+    },
+  },
+  {
+    path: MITRE_TECHNIQUES_PATH,
+    loadChildren: () =>
+      import('./modules/training-agenda/mitre-techniques/mitre-techniques.module').then((m) => m.MitreTechniquesModule),
+    canActivate: [TrainingDesignerGuard],
+    data: {
+      breadcrumb: 'MITRE Techniques',
+      title: 'MITRE Techniques',
+      roleResolver: RoleResolver.isTrainingDesigner,
+      showSwitch: false,
     },
   },
   {
