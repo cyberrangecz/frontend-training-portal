@@ -5,6 +5,7 @@ import { AdaptiveRunResultsComponent } from '@muni-kypo-crp/training-agenda/adap
 const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
     component: AdaptiveRunResultsComponent,
   },
 ];

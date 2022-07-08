@@ -22,7 +22,7 @@ import { AgendaMenuItem } from '../../model/agenda-menu-item';
  * role are accessible.
  */
 @Component({
-  selector: 'kypo2-home',
+  selector: 'kypo-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })

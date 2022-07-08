@@ -5,6 +5,7 @@ import {
   ADAPTIVE_DEFINITION_DATA_ATTRIBUTE_NAME,
   ADAPTIVE_DEFINITION_DETAIL_PATH,
   ADAPTIVE_DEFINITION_SELECTOR,
+  SIMULATOR_PATH,
   TRAINING_DEFINITION_EDIT_PATH,
   TRAINING_DEFINITION_NEW_PATH,
   TRAINING_DEFINITION_PREVIEW_PATH,
@@ -43,6 +44,11 @@ const routes: Routes = [
       breadcrumb: AdaptiveDefinitionBreadcrumbResolver,
       title: AdaptiveDefinitionTitleResolver,
     },
+  },
+  {
+    path: SIMULATOR_PATH,
+    loadChildren: () =>
+      import('./simulator/adaptive-definition-simulator.module').then((m) => m.AdaptiveDefinitionSimulatorModule),
   },
 ];
 

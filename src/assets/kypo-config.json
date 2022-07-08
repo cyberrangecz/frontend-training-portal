@@ -15,7 +15,7 @@
       "adaptiveBasePath" : "https://172.19.0.22/kypo-adaptive-training/api/v1/",
       "elasticSearchBasePath": "https://172.19.0.22/kypo-elasticsearch-service/api/v1/"
     },
-    "kypo2TopologyConfig": {
+    "kypoTopologyConfig": {
       "topologyRestUrl": "https://172.19.0.22/kypo-sandbox-service/api/v1/",
       "decoratorsRestUrl": "",
       "defaultDecoratorRefreshPeriodInSeconds": 3,
@@ -36,7 +36,7 @@
   "sandboxAgendaConfig": {
     "pollingPeriod": 5000,
     "defaultPaginationSize": 10,
-    "kypo2TopologyConfig": {
+    "kypoTopologyConfig": {
       "topologyRestUrl": "https://172.19.0.22/kypo-sandbox-service/api/v1/",
       "decoratorsRestUrl": "",
       "defaultDecoratorRefreshPeriodInSeconds": 3,
@@ -75,7 +75,7 @@
         "oidcConfig": {
           "requireHttps": true,
           "issuer": "https://172.19.0.22:443/csirtmu-dummy-issuer-server/",
-          "clientId": "kOWRLqukGxxJPEcclxoajjqSvQcmHxaGPZJA",
+          "clientId": "bxPXhdWNeqhWssxbSGiRjQbnQqmqxDdiTTDJ",
           "redirectUri": "https://localhost:4200",
           "scope": "openid email profile",
           "logoutUrl": "https://172.19.0.22/csirtmu-dummy-issuer-server/endsession",

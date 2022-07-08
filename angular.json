@@ -7,7 +7,7 @@
       "root": "./",
       "sourceRoot": "src",
       "projectType": "application",
-      "prefix": "kypo2",
+      "prefix": "kypo",
       "schematics": {},
       "architect": {
         "build": {
@@ -34,9 +34,7 @@
               "src/styles.scss",
               "node_modules/@muni-kypo-crp/overview-visualization/styles.css"
             ],
-            "scripts": [
-              "node_modules/marked/lib/marked.js"
-            ],
+           
             "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,
@@ -156,7 +154,6 @@
       }
     }
   },
-  "defaultProject": "trainings",
   "schematics": {
     "@schematics/angular:component": {
       "style": "scss"
