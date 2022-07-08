@@ -11,10 +11,10 @@
     "pollingPeriod": 5000,
     "defaultPaginationSize": 10,
     "visualizationConfig": {
-      "trainingBasePath": "http://localhost:3000/kypo2-rest-training/api/v1/",
+      "trainingBasePath": "http://localhost:3000/kypo-rest-training/api/v1/",
       "elasticSearchBasePath": "http://localhost:3000/kypo-elasticsearch-service/api/v1/"
     },
-    "kypo2TopologyConfig": {
+    "kypoTopologyConfig": {
       "topologyRestUrl": "http://localhost:3000/kypo-sandbox-service/api/v1/",
       "decoratorsRestUrl": "",
       "defaultDecoratorRefreshPeriodInSeconds": 3,
@@ -23,14 +23,14 @@
     }
   },
   "trainingApiConfig": {
-    "trainingBasePath": "http://localhost:3000/kypo2-rest-training/api/v1/",
+    "trainingBasePath": "http://localhost:3000/kypo-rest-training/api/v1/",
     "adaptiveBasePath": "https://172.19.0.22/kypo-adaptive-training/api/v1/",
     "mitreTechniqueBasePath": "https://172.19.0.22/kypo-mitre-technique-service/api/v1/"
   },
   "sandboxAgendaConfig": {
     "pollingPeriod": 5000,
     "defaultPaginationSize": 10,
-    "kypo2TopologyConfig": {
+    "kypoTopologyConfig": {
       "topologyRestUrl": "http://localhost:3000/kypo-sandbox-service/api/v1/",
       "decoratorsRestUrl": "",
       "defaultDecoratorRefreshPeriodInSeconds": 3,
@@ -45,7 +45,7 @@
     "defaultPaginationSize": 10
   },
   "userAndGroupApiConfig": {
-    "userAndGroupRestBasePath": "http://localhost:3000/kypo2-rest-user-and-group/api/v1/"
+    "userAndGroupRestBasePath": "http://localhost:3000/kypo-rest-user-and-group/api/v1/"
   },
   "authConfig": {
     "maxRetryAttempts": 3,
@@ -54,7 +54,7 @@
     "tokenInterceptorAllowedUrls": [
       "http://localhost:3000"
     ],
-    "userInfoRestUri": "http://localhost:3000/kypo2-rest-user-and-group/api/v1/",
+    "userInfoRestUri": "http://localhost:3000/kypo-rest-user-and-group/api/v1/",
     "providers": [
       {
         "label": "Login with MUNI",
@@ -63,7 +63,7 @@
         "tokenRefreshTime": 30000,
         "oidcConfig": {
           "issuer": "https://oidc.muni.cz/oidc/",
-          "clientId": "kOWRLqukGxxJPEcclxoajjqSvQcmHxaGPZJA",
+          "clientId": "bxPXhdWNeqhWssxbSGiRjQbnQqmqxDdiTTDJ",
           "redirectUri": "http://localhost:4200",
           "scope": "openid email profile",
           "logoutUrl": "https://oidc.muni.cz/oidc/endsession",

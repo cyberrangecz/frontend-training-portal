@@ -16,7 +16,7 @@ import { DOCUMENT } from '@angular/common';
  * Main component serving as wrapper for layout and router outlet
  */
 @Component({
-  selector: 'kypo2-app-root',
+  selector: 'kypo-app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })

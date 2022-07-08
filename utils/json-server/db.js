@@ -11,7 +11,7 @@ module.exports = function () {
         {
           id: 6,
           id_of_microservice: 2,
-          name_of_microservice: 'kypo2-training',
+          name_of_microservice: 'kypo-training',
           description:
             'This role will allow you to manage, test, import and export training definitions and assign organizers to beta testing group in KYPO Trainings.',
           role_type: 'ROLE_TRAINING_DESIGNER',
@@ -19,7 +19,7 @@ module.exports = function () {
         {
           id: 2,
           id_of_microservice: 1,
-          name_of_microservice: 'kypo2-user-and-group',
+          name_of_microservice: 'kypo-user-and-group',
           description: 'This role is user role.',
           role_type: 'ROLE_USER_AND_GROUP_USER',
         },
@@ -33,7 +33,7 @@ module.exports = function () {
         {
           id: 7,
           id_of_microservice: 2,
-          name_of_microservice: 'kypo2-training',
+          name_of_microservice: 'kypo-training',
           description: 'This role will allow you to do every operation in KYPO Trainings.',
           role_type: 'ROLE_TRAINING_ADMINISTRATOR',
         },
@@ -61,14 +61,14 @@ module.exports = function () {
         {
           id: 1,
           id_of_microservice: 1,
-          name_of_microservice: 'kypo2-user-and-group',
+          name_of_microservice: 'kypo-user-and-group',
           description: 'This role will allow you to create, edit, delete and manage users, groups and roles in KYPO.',
           role_type: 'ROLE_USER_AND_GROUP_ADMINISTRATOR',
         },
         {
           id: 3,
           id_of_microservice: 1,
-          name_of_microservice: 'kypo2-user-and-group',
+          name_of_microservice: 'kypo-user-and-group',
           description:
             'Default role for user and group microservice. It is usually required, e.g., to see basic data about user.',
           role_type: 'ROLE_USER_AND_GROUP_GUEST',
@@ -76,7 +76,7 @@ module.exports = function () {
         {
           id: 5,
           id_of_microservice: 2,
-          name_of_microservice: 'kypo2-training',
+          name_of_microservice: 'kypo-training',
           description:
             'This role is default and will allow you to access training run and play a training in KYPO Trainings.',
           role_type: 'ROLE_TRAINING_TRAINEE',
@@ -84,7 +84,7 @@ module.exports = function () {
         {
           id: 4,
           id_of_microservice: 2,
-          name_of_microservice: 'kypo2-training',
+          name_of_microservice: 'kypo-training',
           description:
             'This role will allow you to prepare training instances from training definitions and manage them, restart sandbox instances and view situational awareness in KYPO Trainings.',
           role_type: 'ROLE_TRAINING_ORGANIZER',
@@ -714,7 +714,7 @@ module.exports = function () {
         {
           id: 1,
           name: 'small-sandbox',
-          url: 'git@gitlab.ics.muni.cz:kypo2/openstack/sandbox-definitions/small-sandbox.git',
+          url: 'git@gitlab.ics.muni.cz:kypo/openstack/sandbox-definitions/small-sandbox.git',
           rev: 'master',
         },
         {
@@ -1014,7 +1014,7 @@ module.exports = function () {
             {
               id: 6,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role will allow you to manage, test, import and export training definitions and assign organizers to beta testing group in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_DESIGNER',
@@ -1022,70 +1022,70 @@ module.exports = function () {
             {
               id: 2,
               id_of_microservice: 1,
-              name_of_microservice: 'kypo2-user-and-group',
+              name_of_microservice: 'kypo-user-and-group',
               description: '',
               role_type: 'ROLE_USER_AND_GROUP_USER',
             },
             {
               id: 8,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_ADMIN',
             },
             {
               id: 7,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description: 'This role will allow you to do every operation in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_ADMINISTRATOR',
             },
             {
               id: 11,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_TRAINEE',
             },
             {
               id: 15,
               id_of_microservice: 4,
-              name_of_microservice: 'kypo2_django_openstack_project',
+              name_of_microservice: 'kypo_django_openstack_project',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_DESIGNER',
             },
             {
               id: 10,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_DESIGNER',
             },
             {
               id: 12,
               id_of_microservice: 4,
-              name_of_microservice: 'kypo2_django_openstack_project',
+              name_of_microservice: 'kypo_django_openstack_project',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_TRAINEE',
             },
             {
               id: 17,
               id_of_microservice: 5,
-              name_of_microservice: 'kypo2-topology',
+              name_of_microservice: 'kypo-topology',
               description: null,
               role_type: 'ROLE_TOPOLOGY_TRAINEE',
             },
             {
               id: 13,
               id_of_microservice: 4,
-              name_of_microservice: 'kypo2_django_openstack_project',
+              name_of_microservice: 'kypo_django_openstack_project',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_ORGANIZER',
             },
             {
               id: 1,
               id_of_microservice: 1,
-              name_of_microservice: 'kypo2-user-and-group',
+              name_of_microservice: 'kypo-user-and-group',
               description:
                 'This role will allow you to create, edit, delete and manage users, groups and roles in KYPO.',
               role_type: 'ROLE_USER_AND_GROUP_ADMINISTRATOR',
@@ -1093,14 +1093,14 @@ module.exports = function () {
             {
               id: 3,
               id_of_microservice: 1,
-              name_of_microservice: 'kypo2-user-and-group',
+              name_of_microservice: 'kypo-user-and-group',
               description: 'This role is default role.',
               role_type: 'ROLE_USER_AND_GROUP_GUEST',
             },
             {
               id: 5,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role is default and will allow you to access training run and play a training in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_TRAINEE',
@@ -1108,7 +1108,7 @@ module.exports = function () {
             {
               id: 4,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role will allow you to prepare training instances from training definitions and manage them, restart sandbox instances and view situational awareness in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_ORGANIZER',
@@ -1116,14 +1116,14 @@ module.exports = function () {
             {
               id: 14,
               id_of_microservice: 4,
-              name_of_microservice: 'kypo2_django_openstack_project',
+              name_of_microservice: 'kypo_django_openstack_project',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_ADMIN',
             },
             {
               id: 9,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_ORGANIZER',
             },
@@ -1143,14 +1143,14 @@ module.exports = function () {
             {
               id: 2,
               id_of_microservice: 1,
-              name_of_microservice: 'kypo2-user-and-group',
+              name_of_microservice: 'kypo-user-and-group',
               description: '',
               role_type: 'ROLE_USER_AND_GROUP_USER',
             },
             {
               id: 6,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role will allow you to manage, test, import and export training definitions and assign organizers to beta testing group in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_DESIGNER',
@@ -1158,63 +1158,63 @@ module.exports = function () {
             {
               id: 8,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_ADMIN',
             },
             {
               id: 7,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description: 'This role will allow you to do every operation in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_ADMINISTRATOR',
             },
             {
               id: 11,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_TRAINEE',
             },
             {
               id: 15,
               id_of_microservice: 4,
-              name_of_microservice: 'kypo2_django_openstack_project',
+              name_of_microservice: 'kypo_django_openstack_project',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_DESIGNER',
             },
             {
               id: 10,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_DESIGNER',
             },
             {
               id: 12,
               id_of_microservice: 4,
-              name_of_microservice: 'kypo2_django_openstack_project',
+              name_of_microservice: 'kypo_django_openstack_project',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_TRAINEE',
             },
             {
               id: 17,
               id_of_microservice: 5,
-              name_of_microservice: 'kypo2-topology',
+              name_of_microservice: 'kypo-topology',
               description: null,
               role_type: 'ROLE_TOPOLOGY_TRAINEE',
             },
             {
               id: 13,
               id_of_microservice: 4,
-              name_of_microservice: 'kypo2_django_openstack_project',
+              name_of_microservice: 'kypo_django_openstack_project',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_ORGANIZER',
             },
             {
               id: 1,
               id_of_microservice: 1,
-              name_of_microservice: 'kypo2-user-and-group',
+              name_of_microservice: 'kypo-user-and-group',
               description:
                 'This role will allow you to create, edit, delete and manage users, groups and roles in KYPO.',
               role_type: 'ROLE_USER_AND_GROUP_ADMINISTRATOR',
@@ -1222,14 +1222,14 @@ module.exports = function () {
             {
               id: 3,
               id_of_microservice: 1,
-              name_of_microservice: 'kypo2-user-and-group',
+              name_of_microservice: 'kypo-user-and-group',
               description: 'This role is default role.',
               role_type: 'ROLE_USER_AND_GROUP_GUEST',
             },
             {
               id: 5,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role is default and will allow you to access training run and play a training in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_TRAINEE',
@@ -1237,7 +1237,7 @@ module.exports = function () {
             {
               id: 4,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role will allow you to prepare training instances from training definitions and manage them, restart sandbox instances and view situational awareness in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_ORGANIZER',
@@ -1245,14 +1245,14 @@ module.exports = function () {
             {
               id: 14,
               id_of_microservice: 4,
-              name_of_microservice: 'kypo2_django_openstack_project',
+              name_of_microservice: 'kypo_django_openstack_project',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_ADMIN',
             },
             {
               id: 9,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_ORGANIZER',
             },
@@ -1272,21 +1272,21 @@ module.exports = function () {
             {
               id: 12,
               id_of_microservice: 4,
-              name_of_microservice: 'kypo2_django_openstack_project',
+              name_of_microservice: 'kypo_django_openstack_project',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_TRAINEE',
             },
             {
               id: 2,
               id_of_microservice: 1,
-              name_of_microservice: 'kypo2-user-and-group',
+              name_of_microservice: 'kypo-user-and-group',
               description: '',
               role_type: 'ROLE_USER_AND_GROUP_USER',
             },
             {
               id: 6,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role will allow you to manage, test, import and export training definitions and assign organizers to beta testing group in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_DESIGNER',
@@ -1294,21 +1294,21 @@ module.exports = function () {
             {
               id: 17,
               id_of_microservice: 5,
-              name_of_microservice: 'kypo2-topology',
+              name_of_microservice: 'kypo-topology',
               description: null,
               role_type: 'ROLE_TOPOLOGY_TRAINEE',
             },
             {
               id: 11,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_TRAINEE',
             },
             {
               id: 1,
               id_of_microservice: 1,
-              name_of_microservice: 'kypo2-user-and-group',
+              name_of_microservice: 'kypo-user-and-group',
               description:
                 'This role will allow you to create, edit, delete and manage users, groups and roles in KYPO.',
               role_type: 'ROLE_USER_AND_GROUP_ADMINISTRATOR',
@@ -1316,14 +1316,14 @@ module.exports = function () {
             {
               id: 3,
               id_of_microservice: 1,
-              name_of_microservice: 'kypo2-user-and-group',
+              name_of_microservice: 'kypo-user-and-group',
               description: 'This role is default role.',
               role_type: 'ROLE_USER_AND_GROUP_GUEST',
             },
             {
               id: 5,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role is default and will allow you to access training run and play a training in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_TRAINEE',
@@ -1331,14 +1331,14 @@ module.exports = function () {
             {
               id: 10,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_DESIGNER',
             },
             {
               id: 4,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role will allow you to prepare training instances from training definitions and manage them, restart sandbox instances and view situational awareness in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_ORGANIZER',
@@ -1346,7 +1346,7 @@ module.exports = function () {
             {
               id: 9,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_ORGANIZER',
             },
@@ -1366,21 +1366,21 @@ module.exports = function () {
             {
               id: 12,
               id_of_microservice: 4,
-              name_of_microservice: 'kypo2_django_openstack_project',
+              name_of_microservice: 'kypo_django_openstack_project',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_TRAINEE',
             },
             {
               id: 2,
               id_of_microservice: 1,
-              name_of_microservice: 'kypo2-user-and-group',
+              name_of_microservice: 'kypo-user-and-group',
               description: '',
               role_type: 'ROLE_USER_AND_GROUP_USER',
             },
             {
               id: 6,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role will allow you to manage, test, import and export training definitions and assign organizers to beta testing group in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_DESIGNER',
@@ -1388,21 +1388,21 @@ module.exports = function () {
             {
               id: 17,
               id_of_microservice: 5,
-              name_of_microservice: 'kypo2-topology',
+              name_of_microservice: 'kypo-topology',
               description: null,
               role_type: 'ROLE_TOPOLOGY_TRAINEE',
             },
             {
               id: 11,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_TRAINEE',
             },
             {
               id: 1,
               id_of_microservice: 1,
-              name_of_microservice: 'kypo2-user-and-group',
+              name_of_microservice: 'kypo-user-and-group',
               description:
                 'This role will allow you to create, edit, delete and manage users, groups and roles in KYPO.',
               role_type: 'ROLE_USER_AND_GROUP_ADMINISTRATOR',
@@ -1410,14 +1410,14 @@ module.exports = function () {
             {
               id: 3,
               id_of_microservice: 1,
-              name_of_microservice: 'kypo2-user-and-group',
+              name_of_microservice: 'kypo-user-and-group',
               description: 'This role is default role.',
               role_type: 'ROLE_USER_AND_GROUP_GUEST',
             },
             {
               id: 5,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role is default and will allow you to access training run and play a training in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_TRAINEE',
@@ -1425,14 +1425,14 @@ module.exports = function () {
             {
               id: 10,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_DESIGNER',
             },
             {
               id: 4,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role will allow you to prepare training instances from training definitions and manage them, restart sandbox instances and view situational awareness in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_ORGANIZER',
@@ -1440,7 +1440,7 @@ module.exports = function () {
             {
               id: 9,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_ORGANIZER',
             },
@@ -1460,14 +1460,14 @@ module.exports = function () {
             {
               id: 12,
               id_of_microservice: 4,
-              name_of_microservice: 'kypo2_django_openstack_project',
+              name_of_microservice: 'kypo_django_openstack_project',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_TRAINEE',
             },
             {
               id: 6,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role will allow you to manage, test, import and export training definitions and assign organizers to beta testing group in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_DESIGNER',
@@ -1475,28 +1475,28 @@ module.exports = function () {
             {
               id: 17,
               id_of_microservice: 5,
-              name_of_microservice: 'kypo2-topology',
+              name_of_microservice: 'kypo-topology',
               description: null,
               role_type: 'ROLE_TOPOLOGY_TRAINEE',
             },
             {
               id: 11,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_TRAINEE',
             },
             {
               id: 3,
               id_of_microservice: 1,
-              name_of_microservice: 'kypo2-user-and-group',
+              name_of_microservice: 'kypo-user-and-group',
               description: 'This role is default role.',
               role_type: 'ROLE_USER_AND_GROUP_GUEST',
             },
             {
               id: 5,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role is default and will allow you to access training run and play a training in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_TRAINEE',
@@ -1504,14 +1504,14 @@ module.exports = function () {
             {
               id: 10,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_DESIGNER',
             },
             {
               id: 4,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role will allow you to prepare training instances from training definitions and manage them, restart sandbox instances and view situational awareness in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_ORGANIZER',
@@ -1519,7 +1519,7 @@ module.exports = function () {
             {
               id: 9,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_ORGANIZER',
             },
@@ -1539,21 +1539,21 @@ module.exports = function () {
             {
               id: 12,
               id_of_microservice: 4,
-              name_of_microservice: 'kypo2_django_openstack_project',
+              name_of_microservice: 'kypo_django_openstack_project',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_TRAINEE',
             },
             {
               id: 2,
               id_of_microservice: 1,
-              name_of_microservice: 'kypo2-user-and-group',
+              name_of_microservice: 'kypo-user-and-group',
               description: '',
               role_type: 'ROLE_USER_AND_GROUP_USER',
             },
             {
               id: 6,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role will allow you to manage, test, import and export training definitions and assign organizers to beta testing group in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_DESIGNER',
@@ -1561,21 +1561,21 @@ module.exports = function () {
             {
               id: 17,
               id_of_microservice: 5,
-              name_of_microservice: 'kypo2-topology',
+              name_of_microservice: 'kypo-topology',
               description: null,
               role_type: 'ROLE_TOPOLOGY_TRAINEE',
             },
             {
               id: 11,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_TRAINEE',
             },
             {
               id: 1,
               id_of_microservice: 1,
-              name_of_microservice: 'kypo2-user-and-group',
+              name_of_microservice: 'kypo-user-and-group',
               description:
                 'This role will allow you to create, edit, delete and manage users, groups and roles in KYPO.',
               role_type: 'ROLE_USER_AND_GROUP_ADMINISTRATOR',
@@ -1583,14 +1583,14 @@ module.exports = function () {
             {
               id: 3,
               id_of_microservice: 1,
-              name_of_microservice: 'kypo2-user-and-group',
+              name_of_microservice: 'kypo-user-and-group',
               description: 'This role is default role.',
               role_type: 'ROLE_USER_AND_GROUP_GUEST',
             },
             {
               id: 5,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role is default and will allow you to access training run and play a training in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_TRAINEE',
@@ -1598,14 +1598,14 @@ module.exports = function () {
             {
               id: 10,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_DESIGNER',
             },
             {
               id: 4,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role will allow you to prepare training instances from training definitions and manage them, restart sandbox instances and view situational awareness in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_ORGANIZER',
@@ -1613,7 +1613,7 @@ module.exports = function () {
             {
               id: 9,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_ORGANIZER',
             },
@@ -1633,35 +1633,35 @@ module.exports = function () {
             {
               id: 12,
               id_of_microservice: 4,
-              name_of_microservice: 'kypo2_django_openstack_project',
+              name_of_microservice: 'kypo_django_openstack_project',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_TRAINEE',
             },
             {
               id: 17,
               id_of_microservice: 5,
-              name_of_microservice: 'kypo2-topology',
+              name_of_microservice: 'kypo-topology',
               description: null,
               role_type: 'ROLE_TOPOLOGY_TRAINEE',
             },
             {
               id: 11,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_TRAINEE',
             },
             {
               id: 3,
               id_of_microservice: 1,
-              name_of_microservice: 'kypo2-user-and-group',
+              name_of_microservice: 'kypo-user-and-group',
               description: 'This role is default role.',
               role_type: 'ROLE_USER_AND_GROUP_GUEST',
             },
             {
               id: 5,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role is default and will allow you to access training run and play a training in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_TRAINEE',
@@ -1682,14 +1682,14 @@ module.exports = function () {
             {
               id: 12,
               id_of_microservice: 4,
-              name_of_microservice: 'kypo2_django_openstack_project',
+              name_of_microservice: 'kypo_django_openstack_project',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_TRAINEE',
             },
             {
               id: 6,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role will allow you to manage, test, import and export training definitions and assign organizers to beta testing group in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_DESIGNER',
@@ -1697,28 +1697,28 @@ module.exports = function () {
             {
               id: 17,
               id_of_microservice: 5,
-              name_of_microservice: 'kypo2-topology',
+              name_of_microservice: 'kypo-topology',
               description: null,
               role_type: 'ROLE_TOPOLOGY_TRAINEE',
             },
             {
               id: 11,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_TRAINEE',
             },
             {
               id: 3,
               id_of_microservice: 1,
-              name_of_microservice: 'kypo2-user-and-group',
+              name_of_microservice: 'kypo-user-and-group',
               description: 'This role is default role.',
               role_type: 'ROLE_USER_AND_GROUP_GUEST',
             },
             {
               id: 5,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role is default and will allow you to access training run and play a training in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_TRAINEE',
@@ -1726,14 +1726,14 @@ module.exports = function () {
             {
               id: 10,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_DESIGNER',
             },
             {
               id: 4,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role will allow you to prepare training instances from training definitions and manage them, restart sandbox instances and view situational awareness in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_ORGANIZER',
@@ -1741,7 +1741,7 @@ module.exports = function () {
             {
               id: 9,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_ORGANIZER',
             },
@@ -1761,14 +1761,14 @@ module.exports = function () {
             {
               id: 2,
               id_of_microservice: 1,
-              name_of_microservice: 'kypo2-user-and-group',
+              name_of_microservice: 'kypo-user-and-group',
               description: '',
               role_type: 'ROLE_USER_AND_GROUP_USER',
             },
             {
               id: 6,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role will allow you to manage, test, import and export training definitions and assign organizers to beta testing group in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_DESIGNER',
@@ -1776,63 +1776,63 @@ module.exports = function () {
             {
               id: 8,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_ADMIN',
             },
             {
               id: 7,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description: 'This role will allow you to do every operation in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_ADMINISTRATOR',
             },
             {
               id: 11,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_TRAINEE',
             },
             {
               id: 15,
               id_of_microservice: 4,
-              name_of_microservice: 'kypo2_django_openstack_project',
+              name_of_microservice: 'kypo_django_openstack_project',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_DESIGNER',
             },
             {
               id: 10,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_DESIGNER',
             },
             {
               id: 12,
               id_of_microservice: 4,
-              name_of_microservice: 'kypo2_django_openstack_project',
+              name_of_microservice: 'kypo_django_openstack_project',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_TRAINEE',
             },
             {
               id: 17,
               id_of_microservice: 5,
-              name_of_microservice: 'kypo2-topology',
+              name_of_microservice: 'kypo-topology',
               description: null,
               role_type: 'ROLE_TOPOLOGY_TRAINEE',
             },
             {
               id: 13,
               id_of_microservice: 4,
-              name_of_microservice: 'kypo2_django_openstack_project',
+              name_of_microservice: 'kypo_django_openstack_project',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_ORGANIZER',
             },
             {
               id: 1,
               id_of_microservice: 1,
-              name_of_microservice: 'kypo2-user-and-group',
+              name_of_microservice: 'kypo-user-and-group',
               description:
                 'This role will allow you to create, edit, delete and manage users, groups and roles in KYPO.',
               role_type: 'ROLE_USER_AND_GROUP_ADMINISTRATOR',
@@ -1840,14 +1840,14 @@ module.exports = function () {
             {
               id: 3,
               id_of_microservice: 1,
-              name_of_microservice: 'kypo2-user-and-group',
+              name_of_microservice: 'kypo-user-and-group',
               description: 'This role is default role.',
               role_type: 'ROLE_USER_AND_GROUP_GUEST',
             },
             {
               id: 5,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role is default and will allow you to access training run and play a training in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_TRAINEE',
@@ -1855,7 +1855,7 @@ module.exports = function () {
             {
               id: 4,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role will allow you to prepare training instances from training definitions and manage them, restart sandbox instances and view situational awareness in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_ORGANIZER',
@@ -1863,14 +1863,14 @@ module.exports = function () {
             {
               id: 14,
               id_of_microservice: 4,
-              name_of_microservice: 'kypo2_django_openstack_project',
+              name_of_microservice: 'kypo_django_openstack_project',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_ADMIN',
             },
             {
               id: 9,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_ORGANIZER',
             },
@@ -1890,14 +1890,14 @@ module.exports = function () {
             {
               id: 2,
               id_of_microservice: 1,
-              name_of_microservice: 'kypo2-user-and-group',
+              name_of_microservice: 'kypo-user-and-group',
               description: '',
               role_type: 'ROLE_USER_AND_GROUP_USER',
             },
             {
               id: 6,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role will allow you to manage, test, import and export training definitions and assign organizers to beta testing group in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_DESIGNER',
@@ -1905,63 +1905,63 @@ module.exports = function () {
             {
               id: 8,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_ADMIN',
             },
             {
               id: 7,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description: 'This role will allow you to do every operation in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_ADMINISTRATOR',
             },
             {
               id: 11,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_TRAINEE',
             },
             {
               id: 15,
               id_of_microservice: 4,
-              name_of_microservice: 'kypo2_django_openstack_project',
+              name_of_microservice: 'kypo_django_openstack_project',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_DESIGNER',
             },
             {
               id: 10,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_DESIGNER',
             },
             {
               id: 12,
               id_of_microservice: 4,
-              name_of_microservice: 'kypo2_django_openstack_project',
+              name_of_microservice: 'kypo_django_openstack_project',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_TRAINEE',
             },
             {
               id: 17,
               id_of_microservice: 5,
-              name_of_microservice: 'kypo2-topology',
+              name_of_microservice: 'kypo-topology',
               description: null,
               role_type: 'ROLE_TOPOLOGY_TRAINEE',
             },
             {
               id: 13,
               id_of_microservice: 4,
-              name_of_microservice: 'kypo2_django_openstack_project',
+              name_of_microservice: 'kypo_django_openstack_project',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_ORGANIZER',
             },
             {
               id: 1,
               id_of_microservice: 1,
-              name_of_microservice: 'kypo2-user-and-group',
+              name_of_microservice: 'kypo-user-and-group',
               description:
                 'This role will allow you to create, edit, delete and manage users, groups and roles in KYPO.',
               role_type: 'ROLE_USER_AND_GROUP_ADMINISTRATOR',
@@ -1969,14 +1969,14 @@ module.exports = function () {
             {
               id: 3,
               id_of_microservice: 1,
-              name_of_microservice: 'kypo2-user-and-group',
+              name_of_microservice: 'kypo-user-and-group',
               description: 'This role is default role.',
               role_type: 'ROLE_USER_AND_GROUP_GUEST',
             },
             {
               id: 5,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role is default and will allow you to access training run and play a training in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_TRAINEE',
@@ -1984,7 +1984,7 @@ module.exports = function () {
             {
               id: 4,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role will allow you to prepare training instances from training definitions and manage them, restart sandbox instances and view situational awareness in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_ORGANIZER',
@@ -1992,14 +1992,14 @@ module.exports = function () {
             {
               id: 14,
               id_of_microservice: 4,
-              name_of_microservice: 'kypo2_django_openstack_project',
+              name_of_microservice: 'kypo_django_openstack_project',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_ADMIN',
             },
             {
               id: 9,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_ORGANIZER',
             },
@@ -2019,21 +2019,21 @@ module.exports = function () {
             {
               id: 12,
               id_of_microservice: 4,
-              name_of_microservice: 'kypo2_django_openstack_project',
+              name_of_microservice: 'kypo_django_openstack_project',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_TRAINEE',
             },
             {
               id: 2,
               id_of_microservice: 1,
-              name_of_microservice: 'kypo2-user-and-group',
+              name_of_microservice: 'kypo-user-and-group',
               description: '',
               role_type: 'ROLE_USER_AND_GROUP_USER',
             },
             {
               id: 6,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role will allow you to manage, test, import and export training definitions and assign organizers to beta testing group in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_DESIGNER',
@@ -2041,21 +2041,21 @@ module.exports = function () {
             {
               id: 17,
               id_of_microservice: 5,
-              name_of_microservice: 'kypo2-topology',
+              name_of_microservice: 'kypo-topology',
               description: null,
               role_type: 'ROLE_TOPOLOGY_TRAINEE',
             },
             {
               id: 11,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_TRAINEE',
             },
             {
               id: 1,
               id_of_microservice: 1,
-              name_of_microservice: 'kypo2-user-and-group',
+              name_of_microservice: 'kypo-user-and-group',
               description:
                 'This role will allow you to create, edit, delete and manage users, groups and roles in KYPO.',
               role_type: 'ROLE_USER_AND_GROUP_ADMINISTRATOR',
@@ -2063,14 +2063,14 @@ module.exports = function () {
             {
               id: 3,
               id_of_microservice: 1,
-              name_of_microservice: 'kypo2-user-and-group',
+              name_of_microservice: 'kypo-user-and-group',
               description: 'This role is default role.',
               role_type: 'ROLE_USER_AND_GROUP_GUEST',
             },
             {
               id: 5,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role is default and will allow you to access training run and play a training in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_TRAINEE',
@@ -2078,14 +2078,14 @@ module.exports = function () {
             {
               id: 10,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_DESIGNER',
             },
             {
               id: 4,
               id_of_microservice: 2,
-              name_of_microservice: 'kypo2-training',
+              name_of_microservice: 'kypo-training',
               description:
                 'This role will allow you to prepare training instances from training definitions and manage them, restart sandbox instances and view situational awareness in KYPO Trainings.',
               role_type: 'ROLE_TRAINING_ORGANIZER',
@@ -2093,7 +2093,7 @@ module.exports = function () {
             {
               id: 9,
               id_of_microservice: 3,
-              name_of_microservice: 'kypo2_django_openstack',
+              name_of_microservice: 'kypo_django_openstack',
               description: null,
               role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_ORGANIZER',
             },
@@ -2121,7 +2121,7 @@ module.exports = function () {
             {
               id: 1,
               id_of_microservice: 1,
-              name_of_microservice: 'kypo2-user-and-group',
+              name_of_microservice: 'kypo-user-and-group',
               description: '',
               role_type: 'ROLE_USER_AND_GROUP_USER',
             },
@@ -2173,7 +2173,7 @@ module.exports = function () {
             {
               id: 1,
               id_of_microservice: 1,
-              name_of_microservice: 'kypo2-user-and-group',
+              name_of_microservice: 'kypo-user-and-group',
               description: '',
               role_type: 'ROLE_USER_AND_GROUP_USER',
             },
@@ -2225,7 +2225,7 @@ module.exports = function () {
             {
               id: 1,
               id_of_microservice: 1,
-              name_of_microservice: 'kypo2-user-and-group',
+              name_of_microservice: 'kypo-user-and-group',
               description: '',
               role_type: 'ROLE_USER_AND_GROUP_USER',
             },
@@ -2283,28 +2283,28 @@ module.exports = function () {
         {
           id: 1,
           id_of_microservice: 1,
-          name_of_microservice: 'kypo2-user-and-group',
+          name_of_microservice: 'kypo-user-and-group',
           description: 'This role will allow you to create, edit, delete and manage users, groups and roles in KYPO.',
           role_type: 'ROLE_USER_AND_GROUP_ADMINISTRATOR',
         },
         {
           id: 2,
           id_of_microservice: 1,
-          name_of_microservice: 'kypo2-user-and-group',
+          name_of_microservice: 'kypo-user-and-group',
           description: '',
           role_type: 'ROLE_USER_AND_GROUP_USER',
         },
         {
           id: 3,
           id_of_microservice: 1,
-          name_of_microservice: 'kypo2-user-and-group',
+          name_of_microservice: 'kypo-user-and-group',
           description: 'This role is default role.',
           role_type: 'ROLE_USER_AND_GROUP_GUEST',
         },
         {
           id: 4,
           id_of_microservice: 2,
-          name_of_microservice: 'kypo2-training',
+          name_of_microservice: 'kypo-training',
           description:
             'This role will allow you to prepare training instances from training definitions and manage them, restart sandbox instances and view situational awareness in KYPO Trainings.',
           role_type: 'ROLE_TRAINING_ORGANIZER',
@@ -2312,7 +2312,7 @@ module.exports = function () {
         {
           id: 5,
           id_of_microservice: 2,
-          name_of_microservice: 'kypo2-training',
+          name_of_microservice: 'kypo-training',
           description:
             'This role is default and will allow you to access training run and play a training in KYPO Trainings.',
           role_type: 'ROLE_TRAINING_TRAINEE',
@@ -2320,7 +2320,7 @@ module.exports = function () {
         {
           id: 6,
           id_of_microservice: 2,
-          name_of_microservice: 'kypo2-training',
+          name_of_microservice: 'kypo-training',
           description:
             'This role will allow you to manage, test, import and export training definitions and assign organizers to beta testing group in KYPO Trainings.',
           role_type: 'ROLE_TRAINING_DESIGNER',
@@ -2328,77 +2328,77 @@ module.exports = function () {
         {
           id: 7,
           id_of_microservice: 2,
-          name_of_microservice: 'kypo2-training',
+          name_of_microservice: 'kypo-training',
           description: 'This role will allow you to do every operation in KYPO Trainings.',
           role_type: 'ROLE_TRAINING_ADMINISTRATOR',
         },
         {
           id: 8,
           id_of_microservice: 3,
-          name_of_microservice: 'kypo2_django_openstack',
+          name_of_microservice: 'kypo_django_openstack',
           description: null,
           role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_ADMIN',
         },
         {
           id: 9,
           id_of_microservice: 3,
-          name_of_microservice: 'kypo2_django_openstack',
+          name_of_microservice: 'kypo_django_openstack',
           description: null,
           role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_ORGANIZER',
         },
         {
           id: 10,
           id_of_microservice: 3,
-          name_of_microservice: 'kypo2_django_openstack',
+          name_of_microservice: 'kypo_django_openstack',
           description: null,
           role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_DESIGNER',
         },
         {
           id: 11,
           id_of_microservice: 3,
-          name_of_microservice: 'kypo2_django_openstack',
+          name_of_microservice: 'kypo_django_openstack',
           description: null,
           role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_TRAINEE',
         },
         {
           id: 12,
           id_of_microservice: 4,
-          name_of_microservice: 'kypo2_django_openstack_project',
+          name_of_microservice: 'kypo_django_openstack_project',
           description: null,
           role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_TRAINEE',
         },
         {
           id: 13,
           id_of_microservice: 4,
-          name_of_microservice: 'kypo2_django_openstack_project',
+          name_of_microservice: 'kypo_django_openstack_project',
           description: null,
           role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_ORGANIZER',
         },
         {
           id: 14,
           id_of_microservice: 4,
-          name_of_microservice: 'kypo2_django_openstack_project',
+          name_of_microservice: 'kypo_django_openstack_project',
           description: null,
           role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_ADMIN',
         },
         {
           id: 15,
           id_of_microservice: 4,
-          name_of_microservice: 'kypo2_django_openstack_project',
+          name_of_microservice: 'kypo_django_openstack_project',
           description: null,
           role_type: 'ROLE_KYPO2_DJANGO_OPENSTACK_PROJECT_DESIGNER',
         },
         {
           id: 16,
           id_of_microservice: 5,
-          name_of_microservice: 'kypo2-topology',
+          name_of_microservice: 'kypo-topology',
           description: null,
           role_type: 'ROLE_TOPOLOGY_ADMINISTRATOR',
         },
         {
           id: 17,
           id_of_microservice: 5,
-          name_of_microservice: 'kypo2-topology',
+          name_of_microservice: 'kypo-topology',
           description: null,
           role_type: 'ROLE_TOPOLOGY_TRAINEE',
         },

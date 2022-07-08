@@ -111,4 +111,4 @@ We try to use smart-dumb architecture in our components and to outsource most of
 
 No state management library, like NGRX is utilized, but the data should flow through services and components in similar architecture as the figure below shows.
 
-![Recommended architecture](https://gitlab.ics.muni.cz/kypo2/frontend-new/kypo2-trainings/wikis/uploads/2ab19735a374e035b509c6a04fb29282/frontend-dataflow.png)
+![Recommended architecture](https://gitlab.ics.muni.cz/kypo/frontend-new/kypo-trainings/wikis/uploads/2ab19735a374e035b509c6a04fb29282/frontend-dataflow.png)

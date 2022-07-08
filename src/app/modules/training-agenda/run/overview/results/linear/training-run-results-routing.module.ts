@@ -5,6 +5,7 @@ import { TrainingRunResultsComponent } from '@muni-kypo-crp/training-agenda/run-
 const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
     component: TrainingRunResultsComponent,
   },
 ];
