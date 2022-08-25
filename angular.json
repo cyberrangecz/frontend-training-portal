@@ -26,7 +26,8 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/silent-refresh.html"
+              "src/silent-refresh.html",
+              "src/.well-known/security.txt"
             ],
             "styles": [
               "src/theme.scss",
@@ -34,7 +35,7 @@
               "src/styles.scss",
               "node_modules/@muni-kypo-crp/overview-visualization/styles.css"
             ],
-           
+
             "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,
@@ -124,6 +125,7 @@
             ],
             "scripts": [],
             "assets": [
+              "src/.well-known/security.txt",
               "src/favicon.ico",
               "src/assets"
             ]
