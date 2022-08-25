@@ -12,8 +12,7 @@
     "defaultPaginationSize": 10,
     "visualizationConfig": {
       "trainingBasePath": "https://172.19.0.22/kypo-rest-training/api/v1/",
-      "adaptiveBasePath" : "https://172.19.0.22/kypo-adaptive-training/api/v1/",
-      "elasticSearchBasePath": "https://172.19.0.22/kypo-elasticsearch-service/api/v1/"
+      "adaptiveBasePath" : "https://172.19.0.22/kypo-adaptive-training/api/v1/"
     },
     "kypoTopologyConfig": {
       "topologyRestUrl": "https://172.19.0.22/kypo-sandbox-service/api/v1/",
@@ -75,12 +74,12 @@
         "oidcConfig": {
           "requireHttps": true,
           "issuer": "https://172.19.0.22:443/csirtmu-dummy-issuer-server/",
-          "clientId": "bxPXhdWNeqhWssxbSGiRjQbnQqmqxDdiTTDJ",
+          "clientId": "ztJxraMTteXYGOiJreWjFfvmJhHXhHiRhcXo",
           "redirectUri": "https://localhost:4200",
           "scope": "openid email profile",
           "logoutUrl": "https://172.19.0.22/csirtmu-dummy-issuer-server/endsession",
           "postLogoutRedirectUri": "https://localhost:4200/logout-confirmed",
-          "silentRefreshRedirectUri": "https://localhost:4200/silent-refresh.html",
+          "silentRefreshRedirectUri": "https://172.19.0.22:443/silent-refresh.html",
           "clearHashAfterLogin": true
         }
       }

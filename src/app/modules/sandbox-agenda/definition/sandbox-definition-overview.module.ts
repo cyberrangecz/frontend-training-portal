@@ -8,7 +8,7 @@ import { SandboxDefinitionOverviewRoutingModule } from './sandbox-definition-ove
   imports: [
     SandboxAgendaSharedProvidersModule,
     KypoSandboxApiModule.forRoot(KypoDynamicEnvironment.getConfig().sandboxApiConfig),
-    SandboxDefinitionOverviewComponentsModule.forRoot(KypoDynamicEnvironment.getConfig().trainingAgendaConfig),
+    SandboxDefinitionOverviewComponentsModule.forRoot(KypoDynamicEnvironment.getConfig().sandboxAgendaConfig),
     SandboxDefinitionOverviewRoutingModule,
   ],
 })

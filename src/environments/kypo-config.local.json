@@ -12,7 +12,7 @@
     "defaultPaginationSize": 10,
     "visualizationConfig": {
       "trainingBasePath": "http://localhost:3000/kypo-rest-training/api/v1/",
-      "elasticSearchBasePath": "http://localhost:3000/kypo-elasticsearch-service/api/v1/"
+      "adaptiveBasePath" : "http://localhost:3000/kypo-adaptive-training/api/v1/"
     },
     "kypoTopologyConfig": {
       "topologyRestUrl": "http://localhost:3000/kypo-sandbox-service/api/v1/",
@@ -24,8 +24,8 @@
   },
   "trainingApiConfig": {
     "trainingBasePath": "http://localhost:3000/kypo-rest-training/api/v1/",
-    "adaptiveBasePath": "https://172.19.0.22/kypo-adaptive-training/api/v1/",
-    "mitreTechniqueBasePath": "https://172.19.0.22/kypo-mitre-technique-service/api/v1/"
+    "adaptiveBasePath": "http://localhost:3000/kypo-adaptive-training/api/v1/",
+    "mitreTechniqueBasePath": "http://localhost:3000/kypo-mitre-technique-service/api/v1/"
   },
   "sandboxAgendaConfig": {
     "pollingPeriod": 5000,
@@ -68,7 +68,7 @@
           "scope": "openid email profile",
           "logoutUrl": "https://oidc.muni.cz/oidc/endsession",
           "postLogoutRedirectUri": "http://localhost:4200/logout-confirmed/",
-          "silentRefreshRedirectUri": "http://localhost:4200/silent-refresh.html",
+          "silentRefreshRedirectUri": "https://172.19.0.22:443/silent-refresh.html",
           "clearHashAfterLogin": true
         }
       }

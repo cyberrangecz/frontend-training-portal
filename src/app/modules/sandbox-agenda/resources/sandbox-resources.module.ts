@@ -9,7 +9,7 @@ import { SandboxResourcesOverviewRoutingModule } from './sandbox-resources-overv
   imports: [
     SandboxAgendaSharedProvidersModule,
     KypoSandboxApiModule.forRoot(KypoDynamicEnvironment.getConfig().sandboxApiConfig),
-    ResourcesPageModule.forRoot(KypoDynamicEnvironment.getConfig().trainingAgendaConfig),
+    ResourcesPageModule.forRoot(KypoDynamicEnvironment.getConfig().sandboxAgendaConfig),
     SandboxResourcesOverviewRoutingModule,
   ],
 })
