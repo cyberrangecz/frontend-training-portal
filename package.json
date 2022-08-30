@@ -12,13 +12,10 @@
     "ci-test": "ng test --browsers ChromeHeadless --watch=false",
     "ci-lint": "ng lint",
     "bundle-report": "webpack-bundle-analyzer dist/trainings/stats.json",
-    "compodoc": "./node_modules/.bin/compodoc -p src/tsconfig.app.json"
+    "compodoc": "./node_modules/.bin/compodoc -p src/tsconfig.app.json",
+    "prepare": "husky install"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run prettier-check"
-    }
-  },
+
   "name": "kypo-trainings",
   "version": "0.0.0",
   "private": true,
@@ -42,7 +39,7 @@
     "@muni-kypo-crp/d3-service": "~14.0.0",
     "@muni-kypo-crp/hurdling-visualization": "~14.1.0",
     "@muni-kypo-crp/overview-visualization": "~14.1.0",
-    "@muni-kypo-crp/sandbox-agenda": "~14.1.0",
+    "@muni-kypo-crp/sandbox-agenda": "~14.1.1",
     "@muni-kypo-crp/sandbox-api": "~14.1.0",
     "@muni-kypo-crp/sandbox-model": "~14.1.0",
     "@muni-kypo-crp/statistical-visualizations": "~14.0.0",
