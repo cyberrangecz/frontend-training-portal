@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { SentinelAuthService, User } from '@sentinel/auth';
 import { SentinelBaseDirective } from '@sentinel/common';
@@ -10,7 +10,6 @@ import { LoadingService } from './services/shared/loading.service';
 import { NotificationService } from './services/shared/notification.service';
 import { NavBuilder } from './utils/nav-builder';
 import { KypoDynamicEnvironment } from 'environments/kypo-dynamic-environment';
-import { DOCUMENT } from '@angular/common';
 
 /**
  * Main component serving as wrapper for layout and router outlet
