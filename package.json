@@ -51,7 +51,7 @@
     "@muni-kypo-crp/user-and-group-api": "~14.0.0",
     "@muni-kypo-crp/user-and-group-model": "~14.0.0",
     "@muni-kypo-crp/visualization-dashboard": "~14.1.0",
-    "@muni-kypo-crp/walkthrough-visualization": "~14.0.1",
+    "@muni-kypo-crp/walkthrough-visualization": "~14.0.2",
     "@sentinel/auth": "~14.0.0",
     "@sentinel/common": "~14.0.1",
     "@sentinel/components": "~14.0.4",
