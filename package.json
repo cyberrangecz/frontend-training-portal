@@ -36,7 +36,7 @@
     "@muni-kypo-crp/assessment-visualization": "~14.1.0",
     "@muni-kypo-crp/command-visualizations": "~14.2.1",
     "@muni-kypo-crp/d3-service": "~14.0.0",
-    "@muni-kypo-crp/hurdling-visualization": "~14.1.0",
+    "@muni-kypo-crp/hurdling-visualization": "~14.2.0",
     "@muni-kypo-crp/overview-visualization": "~14.1.0",
     "@muni-kypo-crp/sandbox-agenda": "~14.2.1",
     "@muni-kypo-crp/sandbox-api": "~14.4.0",
