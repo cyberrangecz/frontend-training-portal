@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
   ACCESS_TOKEN_PATH,
+  CHEATING_DETECTION_PATH,
   PROGRESS_PATH,
   RESULTS_PATH,
   RUNS_PATH,
@@ -39,6 +40,18 @@ const routes: Routes = [
     },
     loadChildren: () =>
       import('./progress/training-instance-progress.module').then((m) => m.TrainingInstanceProgressModule),
+  },
+  {
+    path: CHEATING_DETECTION_PATH,
+    resolve: {
+      trainingInstance: TrainingInstanceResolver,
+      breadcrumb: TrainingInstanceDetailBreadcrumbResolver,
+      title: TrainingInstanceDetailTitleResolver,
+    },
+    loadChildren: () =>
+      import('./cheating-detection/training-instance-cheating-detection.module').then(
+        (m) => m.CheatingDetectionOverviewModule
+      ),
   },
   {
     path: RESULTS_PATH,
