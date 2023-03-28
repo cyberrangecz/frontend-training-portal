@@ -41,21 +41,18 @@ const routes: Routes = [
     loadChildren: () =>
       import('./progress/training-instance-progress.module').then((m) => m.TrainingInstanceProgressModule),
   },
-  /**
-   * DISABLED FOR THE 22.12 release
-   */
-  // {
-  //   path: CHEATING_DETECTION_PATH,
-  //   resolve: {
-  //     trainingInstance: TrainingInstanceResolver,
-  //     breadcrumb: TrainingInstanceDetailBreadcrumbResolver,
-  //     title: TrainingInstanceDetailTitleResolver,
-  //   },
-  //   loadChildren: () =>
-  //     import('./cheating-detection/training-instance-cheating-detection.module').then(
-  //       (m) => m.CheatingDetectionOverviewModule
-  //     ),
-  // },
+  {
+    path: CHEATING_DETECTION_PATH,
+    resolve: {
+      trainingInstance: TrainingInstanceResolver,
+      breadcrumb: TrainingInstanceDetailBreadcrumbResolver,
+      title: TrainingInstanceDetailTitleResolver,
+    },
+    loadChildren: () =>
+      import('./cheating-detection/training-instance-cheating-detection.module').then(
+        (m) => m.CheatingDetectionOverviewModule
+      ),
+  },
   {
     path: RESULTS_PATH,
     resolve: {
