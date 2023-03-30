@@ -1,13 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { environment } from '../../../../../../../environments/environment';
-import { TrainingInstanceCheatingDetectionEditComponentsModule } from '../../../../../../../../../kypo-training-agenda/instance-cheating-detection-edit/src/components/cheating-detection-edit-component.module';
 import { CheatingDetectionEditRoutingModule } from './cheating-detection-create-routing.module';
+import { KypoDynamicEnvironment } from '../../../../../../../../environments/kypo-dynamic-environment';
+import { TrainingInstanceCheatingDetectionEditComponentsModule } from '@muni-kypo-crp/training-agenda/instance-cheating-detection-edit';
 
 @NgModule({
   imports: [
     CommonModule,
-    TrainingInstanceCheatingDetectionEditComponentsModule.forRoot(environment.trainingAgendaConfig),
+    TrainingInstanceCheatingDetectionEditComponentsModule.forRoot(
+      KypoDynamicEnvironment.getConfig().trainingAgendaConfig
+    ),
     CheatingDetectionEditRoutingModule,
   ],
 })

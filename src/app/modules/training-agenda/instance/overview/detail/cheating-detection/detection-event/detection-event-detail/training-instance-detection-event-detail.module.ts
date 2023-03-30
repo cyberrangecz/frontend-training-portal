@@ -1,13 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { environment } from '../../../../../../../../environments/environment';
 import { TrainingInstanceDetectionEventDetailRoutingModule } from './training-instance-detection-event-detail-routing.module';
-import { TrainingInstanceDetectionEventDetailComponentsModule } from '../../../../../../../../../../kypo-training-agenda/instance-detection-event-detail/components/training-instance-detection-event-detail-component.module';
+import { KypoDynamicEnvironment } from '../../../../../../../../../environments/kypo-dynamic-environment';
+import { TrainingInstanceDetectionEventDetailComponentsModule } from '@muni-kypo-crp/training-agenda/instance-detection-event-detail';
 
 @NgModule({
   imports: [
     CommonModule,
-    TrainingInstanceDetectionEventDetailComponentsModule.forRoot(environment.trainingAgendaConfig),
+    TrainingInstanceDetectionEventDetailComponentsModule.forRoot(
+      KypoDynamicEnvironment.getConfig().trainingAgendaConfig
+    ),
     TrainingInstanceDetectionEventDetailRoutingModule,
   ],
 })
