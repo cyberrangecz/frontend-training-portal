@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CheatingDetectionEditComponent } from '../../../../../../../../../kypo-training-agenda/instance-cheating-detection-edit/src/components/cheating-detection-edit.component';
 import { CHEATING_DETECTION_PATH } from '@muni-kypo-crp/training-agenda';
+import { CheatingDetectionEditComponent } from '@muni-kypo-crp/training-agenda/instance-cheating-detection-edit';
 
 const routes: Routes = [
   {
