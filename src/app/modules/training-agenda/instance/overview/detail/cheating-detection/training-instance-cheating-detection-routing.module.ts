@@ -10,6 +10,7 @@ import { CheatingDetectionOverviewComponent } from '@muni-kypo-crp/training-agen
 const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
     component: CheatingDetectionOverviewComponent,
   },
   {
