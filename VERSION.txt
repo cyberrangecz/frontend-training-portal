@@ -1,3 +1,4 @@
+14.2.2 Bump version of training agenda and api for cheating detection archive.
 14.2.1 Fixed cheating detection routing.
 14.2.0 Enabled cheating detection.
 14.1.4 Bump version of training agenda, api and model, sandbox api, hurdling visualizations, angular topology.
