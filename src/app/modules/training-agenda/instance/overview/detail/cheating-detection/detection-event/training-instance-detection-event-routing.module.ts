@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CHEATING_DETECTION_EVENTS_PATH } from '@muni-kypo-crp/training-agenda';
+import { CHEATING_DETECTION_EVENT_DETAIL_PATH, DETECTION_EVENT_SELECTOR } from '@muni-kypo-crp/training-agenda';
 import { TrainingInstanceDetectionEventComponent } from '@muni-kypo-crp/training-agenda/instance-detection-event';
 
 const routes: Routes = [
@@ -9,11 +9,14 @@ const routes: Routes = [
     component: TrainingInstanceDetectionEventComponent,
   },
   {
-    path: CHEATING_DETECTION_EVENTS_PATH,
+    path: `:${DETECTION_EVENT_SELECTOR}/${CHEATING_DETECTION_EVENT_DETAIL_PATH}`,
     loadChildren: () =>
-      import('./training-instance-detection-event.module').then((m) => m.TrainingInstanceDetectionEventModule),
+      import('./detection-event-detail/training-instance-detection-event-detail.module').then(
+        (m) => m.TrainingInstanceDetectionEventDetailModule
+      ),
     data: {
-      title: 'Detection Events of Cheating Detection',
+      title: 'Detection Event Detail',
+      breadcrumb: 'Detail',
     },
   },
 ];

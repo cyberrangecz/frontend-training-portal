@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CheatingDetectionOverviewRoutingModule } from './training-instance-cheating-detection-routing.module';
-import { CheatingDetectionOverviewComponentsModule } from '@muni-kypo-crp/training-agenda/instance-cheating-detection';
 import { KypoDynamicEnvironment } from '../../../../../../../environments/kypo-dynamic-environment';
+import { CheatingDetectionOverviewComponentsModule } from '@muni-kypo-crp/training-agenda/instance-cheating-detection';
 
 @NgModule({
   imports: [

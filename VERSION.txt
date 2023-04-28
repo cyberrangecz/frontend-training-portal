@@ -1,3 +1,9 @@
+14.2.4 Bump version of training agenda for minor cheating detection fixes.
+14.2.3 Bump version of sandbox-api for sandbox allocation unit endpoint fix.
+14.2.2 Bump version of training agenda and api for cheating detection archive.
+14.2.1 Fixed cheating detection routing.
+14.2.0 Enabled cheating detection.
+14.1.6 Fix topology, command timeline, and sandbox api display
 14.1.5 Bump version of topology model and update topology assets.
 14.1.4 Bump version of training agenda, api and model, sandbox api, hurdling visualizations, angular topology.
 22.12-rc.1 Release candidate for the 22.12 release.

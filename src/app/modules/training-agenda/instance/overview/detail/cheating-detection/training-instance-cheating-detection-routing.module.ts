@@ -10,30 +10,31 @@ import { CheatingDetectionOverviewComponent } from '@muni-kypo-crp/training-agen
 const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
     component: CheatingDetectionOverviewComponent,
   },
-  // {
-  //   path: CHEATING_DETECTION_CREATE_PATH,
-  //   loadChildren: () =>
-  //     import('./cheating-detection-create/cheating-detection-create.module').then(
-  //       (m) => m.CheatingDetectionCreateOverviewModule
-  //     ),
-  //   data: {
-  //     title: 'Create Cheating Detection',
-  //     breadcrumb: 'Create',
-  //   },
-  // },
-  // {
-  //   path: `:${TRAINING_INSTANCE_SELECTOR}/${CHEATING_DETECTION_EVENTS_PATH}`,
-  //   loadChildren: () =>
-  //     import('./detection-event/training-instance-detection-event.module').then(
-  //       (m) => m.TrainingInstanceDetectionEventModule
-  //     ),
-  //   data: {
-  //     title: 'Detection Events',
-  //     breadcrumb: 'Events',
-  //   },
-  // },
+  {
+    path: CHEATING_DETECTION_CREATE_PATH,
+    loadChildren: () =>
+      import('./cheating-detection-create/cheating-detection-create.module').then(
+        (m) => m.CheatingDetectionCreateOverviewModule
+      ),
+    data: {
+      title: 'Create Cheating Detection',
+      breadcrumb: 'Create',
+    },
+  },
+  {
+    path: `:${TRAINING_INSTANCE_SELECTOR}/${CHEATING_DETECTION_EVENTS_PATH}`,
+    loadChildren: () =>
+      import('./detection-event/training-instance-detection-event.module').then(
+        (m) => m.TrainingInstanceDetectionEventModule
+      ),
+    data: {
+      title: 'Detection Events',
+      breadcrumb: 'Events',
+    },
+  },
 ];
 
 /**
