@@ -1,3 +1,4 @@
+14.2.6 Update training, sandbox, and user-and-group agendas to address new bugfixes.
 14.2.5 Bump versions of training agenda, sandbox agenda and topology graph for bugfix release.
 14.2.4 Bump version of training agenda for minor cheating detection fixes.
 14.2.3 Bump version of sandbox-api for sandbox allocation unit endpoint fix.
