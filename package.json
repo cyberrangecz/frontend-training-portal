@@ -13,6 +13,7 @@
     "ci-lint": "ng lint",
     "bundle-report": "webpack-bundle-analyzer dist/trainings/stats.json",
     "compodoc": "./node_modules/.bin/compodoc -p src/tsconfig.app.json",
+    "api": "json-server -w ./utils/json-server/db.js --routes ./utils/json-server/routes.json --middlewares ./utils/json-server/server.js",
     "prepare": "husky install"
   },
   "name": "kypo-trainings",
@@ -101,6 +102,7 @@
     "husky": "^8.0.1",
     "jasmine-core": "~4.2.0",
     "jasmine-spec-reporter": "~7.0.0",
+    "json-server": "^0.17.4",
     "karma": "^6.4.0",
     "karma-chrome-launcher": "~3.1.1",
     "karma-coverage-istanbul-reporter": "^3.0.3",

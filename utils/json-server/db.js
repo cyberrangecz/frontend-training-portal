@@ -2111,6 +2111,107 @@ module.exports = function () {
         total_pages: 1,
       },
     },
+    user: {
+      "id" : 1,
+      "sub" : "666@muni.cz",
+      "iss" : "https://oidc.muni.cz/oidc/",
+      "full_name" : "Dr. Ambrož Kysela",
+      "mail" : "666@mail.muni.cz",
+      "given_name" : "Ambrož",
+      "family_name" : "Kysela",
+      "roles" : [ {
+        "id" : 2,
+        "id_of_microservice" : 1,
+        "name_of_microservice" : "kypo-user-and-group",
+        "description" : "This role is user role.",
+        "role_type" : "ROLE_USER_AND_GROUP_USER"
+      }, {
+        "id" : 8,
+        "id_of_microservice" : 3,
+        "name_of_microservice" : "kypo-adaptive-training",
+        "description" : "This role will allow you to prepare adaptive training instances from adaptive training definitions and manage them, restart sandbox instances and view situational awareness in KYPO adaptive training microservice.",
+        "role_type" : "ROLE_ADAPTIVE_TRAINING_ORGANIZER"
+      }, {
+        "id" : 1,
+        "id_of_microservice" : 1,
+        "name_of_microservice" : "kypo-user-and-group",
+        "description" : "This role will allow you to create, edit, delete and manage users, groups and roles in KYPO.",
+        "role_type" : "ROLE_USER_AND_GROUP_ADMINISTRATOR"
+      }, {
+        "id" : 12,
+        "id_of_microservice" : 4,
+        "name_of_microservice" : "kypo-training",
+        "description" : "This role will allow you to prepare training instances from training definitions and manage them, restart sandbox instances and view situational awareness in KYPO Trainings.",
+        "role_type" : "ROLE_TRAINING_ORGANIZER"
+      }, {
+        "id" : 14,
+        "id_of_microservice" : 4,
+        "name_of_microservice" : "kypo-training",
+        "description" : "This role is default and will allow you to access training run and play a training in KYPO Trainings.",
+        "role_type" : "ROLE_TRAINING_TRAINEE"
+      }, {
+        "id" : 3,
+        "id_of_microservice" : 1,
+        "name_of_microservice" : "kypo-user-and-group",
+        "description" : "Default role for user and group microservice. It is usually required, e.g., to see basic data about user.",
+        "role_type" : "ROLE_USER_AND_GROUP_GUEST"
+      }, {
+        "id" : 15,
+        "id_of_microservice" : 4,
+        "name_of_microservice" : "kypo-training",
+        "description" : "This role will allow you to do every operation in KYPO Trainings.",
+        "role_type" : "ROLE_TRAINING_ADMINISTRATOR"
+      }, {
+        "id" : 5,
+        "id_of_microservice" : 2,
+        "name_of_microservice" : "kypo-sandbox-service",
+        "description" : null,
+        "role_type" : "ROLE_KYPO-SANDBOX-SERVICE_ADMIN"
+      }, {
+        "id" : 7,
+        "id_of_microservice" : 2,
+        "name_of_microservice" : "kypo-sandbox-service",
+        "description" : null,
+        "role_type" : "ROLE_KYPO-SANDBOX-SERVICE_TRAINEE"
+      }, {
+        "id" : 9,
+        "id_of_microservice" : 3,
+        "name_of_microservice" : "kypo-adaptive-training",
+        "description" : "This role will allow you to do any operation in KYPO adaptive training microservice.",
+        "role_type" : "ROLE_ADAPTIVE_TRAINING_ADMINISTRATOR"
+      }, {
+        "id" : 6,
+        "id_of_microservice" : 2,
+        "name_of_microservice" : "kypo-sandbox-service",
+        "description" : null,
+        "role_type" : "ROLE_KYPO-SANDBOX-SERVICE_DESIGNER"
+      }, {
+        "id" : 11,
+        "id_of_microservice" : 3,
+        "name_of_microservice" : "kypo-adaptive-training",
+        "description" : "This role will allow you to manage, test, import and export adaptive training definitions in KYPO adaptive training microservice.",
+        "role_type" : "ROLE_ADAPTIVE_TRAINING_DESIGNER"
+      }, {
+        "id" : 13,
+        "id_of_microservice" : 4,
+        "name_of_microservice" : "kypo-training",
+        "description" : "This role will allow you to manage, test, import and export training definitions and assign organizers to beta testing group in KYPO Trainings.",
+        "role_type" : "ROLE_TRAINING_DESIGNER"
+      }, {
+        "id" : 10,
+        "id_of_microservice" : 3,
+        "name_of_microservice" : "kypo-adaptive-training",
+        "description" : "This role is default and will allow you to access adaptive training run and play a game in KYPO adaptive training microservice.",
+        "role_type" : "ROLE_ADAPTIVE_TRAINING_TRAINEE"
+      }, {
+        "id" : 4,
+        "id_of_microservice" : 2,
+        "name_of_microservice" : "kypo-sandbox-service",
+        "description" : null,
+        "role_type" : "ROLE_KYPO-SANDBOX-SERVICE_ORGANIZER"
+      } ],
+      "picture" : "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAACC0lEQVR4Xu3YsW0FQAgEUTdl9+P+i/jOB10wRgKtRPASpAOW8L4+n8/Xf/18/37SMINRCgYXScAMRikYXCQBMxilYHCRBMxglILBRRIwg1EKBhdJwAxGKRhcJAEzGKVgcJEEzGCUgsFFEjCDUQoGF0nADEYpGFwkATMYpWBwkQTMYJSCwUUSMINRCgYXScAMRikYXCQBMxitwGyWgBmM1mMukoAZjNZjLpKAGYzWYy6SgBmM1mMukoAZjNZjLpKAGYzWYy6SgBmM1mMukoAZjNZjLpKAGYzWYy6SgBmM1mMukoAZjNZjLpKAGYzWYy6SgBmM1mMukoAZjNZjLpKAGYzW4w6GMNhrytpgHsBgrylrg3kAg72mrA3mAQz2mrI2mAcw2GvK2mAewGCvKWuDeQCDvaasDeYBDPaasjaYBzDYa8raYB7AYK8pa4N5AIO9pqwN5gEM9pqyNpgHMNhrytpgHsBgrylrg3kAg72mlEXOWymct1I4b6Vw3krhvJXCeSuF81YK560UzlspnLdSOG+lcN5K4byVwnkrhfO29jfERQz2mrI2mAcw2GvK2mAewGCvKWuDeQCDvaasDeYBDPaasjaYBzDYa8raYB7AYK8pa4N5AIO9pqwN5gEM9pqyNpgHMNhrytpgHsBgrylrg3kAg72mrA3mAQz2mrI2mAcw2GvK2mAewGCvKX8CYQPYW7B32AAAAABJRU5ErkJggg=="
+    },
     groups: {
       content: [
         {
