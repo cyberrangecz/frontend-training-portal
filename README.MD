@@ -22,9 +22,9 @@ Make sure you have:
 - properly configured local time (until this [PR](https://github.com/manfredsteyer/angular-oauth2-oidc/pull/596) is resolved)
 
 ## Usage
-This app is a frontend part of the KYPO. To run KYPO locally, follow this [guide](https://gitlab.ics.muni.cz/kypo-crp/prototypes-and-examples/kypo-crp-local-demo).
+This app is a frontend part of the KYPO. To run KYPO locally, follow this [guide](https://gitlab.ics.muni.cz/muni-kypo-crp/devops/kypo-crp-helm).
 
-To run the app locally against the KYPO backend, follow the previously mentioned [guide](https://gitlab.ics.muni.cz/kypo-crp/prototypes-and-examples/kypo-crp-local-demo) with these additional steps:
+To run the app locally against the KYPO backend, follow the previously mentioned [guide](https://gitlab.ics.muni.cz/muni-kypo-crp/devops/kypo-crp-helm) with these additional steps:
 
 1.  Configure OIDC client to allow a redirect on `https://localhost:4200`. If your local dummy OIDC issuer is running, you can edit the client on this [address](https://172.19.0.22:8443/csirtmu-dummy-issuer-server/manage/admin/clients).
 2.  Configure CORS for kypo-sandbox-service by changing attribute `cors_origin_whitelist` to `cors_origin_whitelist: ["{{ kypo_crp_url }}", "https://localhost:4200"]` and setting attribute `cors_origin_allow_all` to `cors_origin_allow_all: True` in `provisioning/roles/kypo-crp-configuration/templates/configuration/sandbox-service/kypo-sandbox-service-config.yml`

@@ -35,7 +35,6 @@
               "src/styles.scss",
               "node_modules/@muni-kypo-crp/overview-visualization/styles.css"
             ],
-
             "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,
@@ -159,6 +158,12 @@
   "schematics": {
     "@schematics/angular:component": {
       "style": "scss"
+    },
+    "@angular-eslint/schematics:application": {
+      "setParserOptionsProject": true
+    },
+    "@angular-eslint/schematics:library": {
+      "setParserOptionsProject": true
     }
   },
   "cli": {

@@ -1,6 +1,6 @@
 import { NavBuilder } from './nav-builder';
 import { User, UserRole } from '@sentinel/auth';
-import { DynamicEnvironment } from '@sentinel/common';
+import { DynamicEnvironment } from '@sentinel/common/dynamic-env';
 
 describe('NavBuilder', () => {
   it('should create training definition agenda', () => {

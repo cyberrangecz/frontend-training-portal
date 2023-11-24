@@ -1,4 +1,4 @@
-import { DynamicEnvironment } from '@sentinel/common';
+import { DynamicEnvironment } from '@sentinel/common/dynamic-env';
 import { KypoConfig } from '../app/utils/config';
 
 export class KypoDynamicEnvironment {

@@ -6,7 +6,7 @@ import { KypoTrainingApiConfig } from '@muni-kypo-crp/training-api';
 import { UserAndGroupAgendaConfig } from '@muni-kypo-crp/user-and-group-agenda';
 import { KypoUserAndGroupApiConfig } from '@muni-kypo-crp/user-and-group-api';
 import { RoleMapping } from './role-mapping';
-import { SentinelConfig } from '@sentinel/common';
+import { SentinelConfig } from '@sentinel/common/dynamic-env';
 
 export interface KypoConfig extends SentinelConfig {
   roleMapping: RoleMapping;

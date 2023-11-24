@@ -4,7 +4,7 @@
   width: 120px;
 }
 mat-icon {
-  font-size: 35px;
+  font-size: 35px !important;
 }
 
 .mat-icon {
@@ -12,6 +12,7 @@ mat-icon {
   width: 35px;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
 .mat-button-wrapper {
   width: 50px;
 }
