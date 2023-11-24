@@ -705,31 +705,97 @@ module.exports = function () {
       previous_sandbox_instance_ref_id: 225,
     },
     sandbox_definitions: {
-      page: 1,
-      page_size: 5,
-      page_count: 1,
-      count: 1,
-      total_count: 1,
-      results: [
+      "page": 1,
+      "page_size": 13,
+      "page_count": 1,
+      "count": 10,
+      "total_count": 10,
+      "results": [
         {
-          id: 1,
-          name: 'small-sandbox',
-          url: 'git@gitlab.ics.muni.cz:kypo/openstack/sandbox-definitions/small-sandbox.git',
-          rev: 'master',
+          "id": 1,
+          "name": "kypo-crp-demo-training",
+          "url": "git@gitlab.ics.muni.cz:muni-kypo-crp/prototypes-and-examples/sandbox-definitions/kypo-crp-demo-training.git",
+          "rev": "master",
+          "created_by": {
+            "id": 3,
+            "sub": "user-3|https://stage.crp.kypo.muni.cz:443/csirtmu-dummy-issuer-server",
+            "full_name": "User3 Generated",
+            "given_name": "User3",
+            "family_name": "Generated",
+            "mail": "\"user3@kypo\""
+          }
         },
         {
-          id: 2,
-          name: 'small-sandbox2',
-          url: '',
-          rev: 'master',
+          "id": 2,
+          "name": "premium-tier-topology",
+          "url": "git@gitlab.ics.muni.cz:cerit/exercises/premium-tier/premium-tier-topology.git",
+          "rev": "master",
+          "created_by": {
+            "id": 5,
+            "sub": "user-1|https://stage.crp.kypo.muni.cz:443/csirtmu-dummy-issuer-server",
+            "full_name": "User1 Generated",
+            "given_name": "User1",
+            "family_name": "Generated",
+            "mail": "\"user1@kypo\""
+          }
         },
         {
-          id: 3,
-          name: 'small-sandbox3',
-          url: '',
-          rev: 'master',
+          "id": 3,
+          "name": "premium-tier-topology",
+          "url": "git@gitlab.ics.muni.cz:cerit/exercises/premium-tier/premium-tier-topology.git",
+          "rev": "volumes",
+          "created_by": {
+            "id": 5,
+            "sub": "user-1|https://stage.crp.kypo.muni.cz:443/csirtmu-dummy-issuer-server",
+            "full_name": "User1 Generated",
+            "given_name": "User1",
+            "family_name": "Generated",
+            "mail": "\"user1@kypo\""
+          }
         },
-      ],
+        {
+          "id": 4,
+          "name": "kypo-crp-demo-training",
+          "url": "git@gitlab.ics.muni.cz:muni-kypo-crp/prototypes-and-examples/sandbox-definitions/kypo-crp-demo-training.git",
+          "rev": "force-sandbox-error",
+          "created_by": {
+            "id": 5,
+            "sub": "user-1|https://stage.crp.kypo.muni.cz:443/csirtmu-dummy-issuer-server",
+            "full_name": "User1 Generated",
+            "given_name": "User1",
+            "family_name": "Generated",
+            "mail": "\"user1@kypo\""
+          }
+        },
+        {
+          "id": 5,
+          "name": "kypo-crp-demo-training",
+          "url": "git@gitlab.ics.muni.cz:muni-kypo-crp/prototypes-and-examples/sandbox-definitions/kypo-crp-demo-training.git",
+          "rev": "monitoring",
+          "created_by": {
+            "id": 5,
+            "sub": "user-1|https://stage.crp.kypo.muni.cz:443/csirtmu-dummy-issuer-server",
+            "full_name": "User1 Generated",
+            "given_name": "User1",
+            "family_name": "Generated",
+            "mail": "\"user1@kypo\""
+          }
+        },
+        {
+          "id": 6,
+          "name": "small-sandbox",
+          "url": "git@gitlab.ics.muni.cz:muni-kypo-crp/prototypes-and-examples/sandbox-definitions/small-sandbox.git",
+          "rev": "master",
+          "created_by": {
+            "id": 5,
+            "sub": "user-1|https://stage.crp.kypo.muni.cz:443/csirtmu-dummy-issuer-server",
+            "full_name": "User1 Generated",
+            "given_name": "User1",
+            "family_name": "Generated",
+            "mail": "\"user1@kypo\""
+          }
+        }
+      ]
     },
     training_runs_for_organizer: {
       content: [
@@ -2379,6 +2445,93 @@ module.exports = function () {
         total_pages: 1,
       },
     },
+    group: {
+      content: [{
+      id: 1,
+      name: 'GROUP-NAME',
+      description: 'Dummy group',
+      roles: [
+        {
+          id: 1,
+          id_of_microservice: 1,
+          name_of_microservice: 'kypo-user-and-group',
+          description: '',
+          role_type: 'ROLE_USER_AND_GROUP_USER',
+        },
+      ],
+      users: [
+        {
+          id: 2,
+          full_name: 'User Name',
+          given_name: 'User',
+          family_name: 'Name',
+          login: 'mail@muni.cz',
+          mail: 'mail@mail.muni.cz',
+          iss: 'https://oidc.muni.cz/oidc/',
+          picture:
+            'iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAB7ElEQVR4Xu3YIY4dQRAE0T3SSia+/8W+eYQahFdKAxd4JEFMq+B8fT6fr3/h+/evz99ia0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGlZ4gIKtFQ0rPEDB1oqGFR6gYGtFwwoPULC1omGFByjYWtGwwgMUbK1oWOEBCrZWNKzwAAVbKxpWeICCrRUNKzxAwdaKhhUeoGBrRcMKD1CwtaJhhQco2FrRsMIDFGytaFjhAQq2VjSs8AAFWysaVniAgq0VDSs8QMHWioYVHqBga0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGs6bhvOm4bxpOG8azpuG86bhvGk4bxrOm4bzpuG8aThvGs6bhvOm4bxpKPifqWCrYKtgq9BQ8CEFWwVbBVuFhoIPKdgq2CrYKjQUfEjBVsFWwVahoeBDCrYKtgq2Cg0FH1KwVbBVsFVoKPiQgq2CrYKtQkPBhxRsFWwVbBUaCj6kYKtgq2Cr0FDwIQVbBVsFW4WGgg8p2CrYKtgqNBR8SMFWwVbBVqGh4EMKtgq2CrYKDQUfUrBVsFWwVWgo+JCCrYKtgq3iRx/+39yxgjtWcMcK7ljBHSu4YwV3rOCOFdyxgjtWcMcK7ljBHSu4YwV/AHz9tCW4MSiLAAAAAElFTkSuQmCC',
+        },
+        {
+          id: 3,
+          full_name: 'User Name',
+          given_name: 'User',
+          family_name: 'Name',
+          login: 'mail@muni.cz',
+          mail: 'mail@mail.muni.cz',
+          iss: 'https://oidc.muni.cz/oidc/',
+          picture:
+            'iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAB7ElEQVR4Xu3YIY4dQRAE0T3SSia+/8W+eYQahFdKAxd4JEFMq+B8fT6fr3/h+/evz99ia0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGlZ4gIKtFQ0rPEDB1oqGFR6gYGtFwwoPULC1omGFByjYWtGwwgMUbK1oWOEBCrZWNKzwAAVbKxpWeICCrRUNKzxAwdaKhhUeoGBrRcMKD1CwtaJhhQco2FrRsMIDFGytaFjhAQq2VjSs8AAFWysaVniAgq0VDSs8QMHWioYVHqBga0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGs6bhvOm4bxpOG8azpuG86bhvGk4bxrOm4bzpuG8aThvGs6bhvOm4bxpKPifqWCrYKtgq9BQ8CEFWwVbBVuFhoIPKdgq2CrYKjQUfEjBVsFWwVahoeBDCrYKtgq2Cg0FH1KwVbBVsFVoKPiQgq2CrYKtQkPBhxRsFWwVbBUaCj6kYKtgq2Cr0FDwIQVbBVsFW4WGgg8p2CrYKtgqNBR8SMFWwVbBVqGh4EMKtgq2CrYKDQUfUrBVsFWwVWgo+JCCrYKtgq3iRx/+39yxgjtWcMcK7ljBHSu4YwV3rOCOFdyxgjtWcMcK7ljBHSu4YwV/AHz9tCW4MSiLAAAAAElFTkSuQmCC',
+        },
+        {
+          id: 4,
+          full_name: 'User Name',
+          given_name: 'User',
+          family_name: 'Name',
+          login: 'mail@muni.cz',
+          mail: 'mail@mail.muni.cz',
+          iss: 'https://oidc.muni.cz/oidc/',
+          picture:
+            'iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAB7ElEQVR4Xu3YIY4dQRAE0T3SSia+/8W+eYQahFdKAxd4JEFMq+B8fT6fr3/h+/evz99ia0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGlZ4gIKtFQ0rPEDB1oqGFR6gYGtFwwoPULC1omGFByjYWtGwwgMUbK1oWOEBCrZWNKzwAAVbKxpWeICCrRUNKzxAwdaKhhUeoGBrRcMKD1CwtaJhhQco2FrRsMIDFGytaFjhAQq2VjSs8AAFWysaVniAgq0VDSs8QMHWioYVHqBga0XDCg9QsLWiYYUHKNha0bDCAxRsrWhY4QEKtlY0rPAABVsrGs6bhvOm4bxpOG8azpuG86bhvGk4bxrOm4bzpuG8aThvGs6bhvOm4bxpKPifqWCrYKtgq9BQ8CEFWwVbBVuFhoIPKdgq2CrYKjQUfEjBVsFWwVahoeBDCrYKtgq2Cg0FH1KwVbBVsFVoKPiQgq2CrYKtQkPBhxRsFWwVbBUaCj6kYKtgq2Cr0FDwIQVbBVsFW4WGgg8p2CrYKtgqNBR8SMFWwVbBVqGh4EMKtgq2CrYKDQUfUrBVsFWwVWgo+JCCrYKtgq3iRx/+39yxgjtWcMcK7ljBHSu4YwV3rOCOFdyxgjtWcMcK7ljBHSu4YwV/AHz9tCW4MSiLAAAAAElFTkSuQmCC',
+        },
+      ],
+      source: null,
+      can_be_deleted: false,
+      expiration_date: null,
+    }],
+      pagination: {
+    number: 0,
+      number_of_elements: 6,
+      size: 20,
+      total_elements: 6,
+      total_pages: 1,
+  },
+    },
+    microservices: {
+      content : [ {
+        id : 3,
+        name : "kypo-adaptive-training",
+        endpoint : "BASE_URL:8082/kypo-adaptive-training/api/v1/"
+      }, {
+        id : 2,
+        name : "kypo-sandbox-service",
+        endpoint : "kypo.sandbox_service_project"
+      }, {
+        id : 4,
+        name : "kypo-training",
+        endpoint : "BASE_URL:8083/kypo-rest-training/api/v1/"
+      }, {
+        id : 1,
+        name : "kypo-user-and-group",
+        endpoint : "BASE_URL:8084/kypo-rest-user-and-group/api/v1/"
+      } ],
+      pagination : {
+        number : 0,
+        number_of_elements : 4,
+        size : 13,
+        total_elements : 4,
+        total_pages : 1
+      }
+    },
     roles: {
       content: [
         {
@@ -3224,44 +3377,234 @@ module.exports = function () {
         },
       ],
     },
+    images: {
+      "page":1,
+      "page_size":13,
+      "page_count":18,
+      "count":13,
+      "total_count":227,
+      "results":[
+        {
+          "os_distro":null,
+          "os_type":null,
+          "disk_format":"raw",
+          "container_format":"bare",
+          "visibility":"public",
+          "size":7.8125,
+          "status":"active",
+          "min_ram":1024,
+          "min_disk":0,
+          "created_at":"2023-09-25T08:57:03Z",
+          "updated_at":"2023-09-25T09:07:52Z",
+          "tags":[
+
+          ],
+          "default_user":null,
+          "name":"EGI Ubuntu 22.04",
+          "owner_specified":{
+            "md5":"",
+            "object":"images/EGI Ubuntu 22.04",
+            "sha256":""
+          }
+        },
+        {
+          "os_distro":"almalinux",
+          "os_type":"linux",
+          "disk_format":"raw",
+          "container_format":"bare",
+          "visibility":"public",
+          "size":10.0,
+          "status":"active",
+          "min_ram":1024,
+          "min_disk":8,
+          "created_at":"2023-10-25T00:17:52Z",
+          "updated_at":"2023-10-25T00:28:42Z",
+          "tags":[
+
+          ],
+          "default_user":"almalinux",
+          "name":"almalinux-8-x86_64",
+          "owner_specified":{
+            "md5":"",
+            "object":"images/almalinux-8-x86_64-image-rotation-20231025T001658",
+            "sha256":""
+          }
+        },
+        {
+          "os_distro":"almalinux",
+          "os_type":"linux",
+          "disk_format":"raw",
+          "container_format":"bare",
+          "visibility":"public",
+          "size":10.0,
+          "status":"active",
+          "min_ram":1024,
+          "min_disk":8,
+          "created_at":"2022-04-18T09:12:37Z",
+          "updated_at":"2022-11-28T10:27:11Z",
+          "tags":[
+            "image-rotation/timestamp-delete-as-obsoleted=20241127T101624",
+            "image-rotation/timestamp-move-from-public-to-community=20231128T101624"
+          ],
+          "default_user":"almalinux",
+          "name":"almalinux-8-x86_64-2022-04-18",
+          "owner_specified":{
+            "md5":"",
+            "object":"images/almalinux-8-x86_64",
+            "sha256":""
+          }
+        },
+        {
+          "os_distro":"almalinux",
+          "os_type":"linux",
+          "disk_format":"raw",
+          "container_format":"bare",
+          "visibility":"public",
+          "size":10.0,
+          "status":"active",
+          "min_ram":1024,
+          "min_disk":8,
+          "created_at":"2022-11-28T10:17:18Z",
+          "updated_at":"2023-02-01T00:24:38Z",
+          "tags":[
+            "image-rotation/timestamp-move-from-public-to-community=20240201T001431",
+            "image-rotation/timestamp-delete-as-obsoleted=20250131T001431"
+          ],
+          "default_user":"almalinux",
+          "name":"almalinux-8-x86_64-2022-11-28",
+          "owner_specified":{
+            "md5":"",
+            "object":"images/almalinux-8-x86_64-image-rotation-20221128T101624",
+            "sha256":""
+          }
+        }
+      ]
+    },
+    apiInfo: {
+      "project_name":"kypo-platform-staging","quotas":{"vcpu":{"limit":100.0,"in_use":65.0},"ram":{"limit":409.6,"in_use":157.7},"instances":{"limit":100.0,"in_use":44.0},"network":{"limit":200.0,"in_use":38.0},"subnet":{"limit":200.0,"in_use":36.0},"port":{"limit":800.0,"in_use":153.0}}
+    },
     pools: {
-      page: 1,
-      page_size: 5,
-      page_count: 2,
-      count: 5,
-      total_count: 7,
-      results: [
+      "page": 1,
+      "page_size": 13,
+      "page_count": 1,
+      "count": 6,
+      "total_count": 6,
+      "results": [
         {
-          id: 1,
-          definition: 1,
-          size: 1,
-          max_size: 2,
+          "id": 1,
+          "size": 1,
+          "max_size": 3,
+          "lock_id": null,
+          "rev": "master",
+          "rev_sha": "9d268bc5fbb718341aae902391f82428a5c976bc",
+          "created_by": {
+            "id": 3,
+            "sub": "user-3|https://stage.crp.kypo.muni.cz:443/csirtmu-dummy-issuer-server",
+            "full_name": "User3 Generated",
+            "given_name": "User3",
+            "family_name": "Generated",
+            "mail": "\"user3@kypo\""
+          },
+          "hardware_usage": {
+            "vcpu": "0.040",
+            "ram": "0.020",
+            "instances": "0.040",
+            "network": "0.020",
+            "subnet": "0.020",
+            "port": "0.013"
+          },
+          "definition": {
+            "id": 1,
+            "name": "kypo-crp-demo-training",
+            "url": "git@gitlab.ics.muni.cz:muni-kypo-crp/prototypes-and-examples/sandbox-definitions/kypo-crp-demo-training.git",
+            "rev": "master",
+            "created_by": {
+              "id": 3,
+              "sub": "user-3|https://stage.crp.kypo.muni.cz:443/csirtmu-dummy-issuer-server",
+              "full_name": "User3 Generated",
+              "given_name": "User3",
+              "family_name": "Generated",
+              "mail": "\"user3@kypo\""
+            }
+          }
         },
         {
-          id: 2,
-          definition: 1,
-          size: 3,
-          max_size: 3,
+          "id": 4,
+          "size": 1,
+          "max_size": 1,
+          "lock_id": null,
+          "rev": "force-sandbox-error",
+          "rev_sha": "ae5473dc2ac6ae5f12a7306967775ae79a4cc420",
+          "created_by": {
+            "id": 5,
+            "sub": "user-1|https://stage.crp.kypo.muni.cz:443/csirtmu-dummy-issuer-server",
+            "full_name": "User1 Generated",
+            "given_name": "User1",
+            "family_name": "Generated",
+            "mail": "\"user1@kypo\""
+          },
+          "hardware_usage": {
+            "vcpu": "0.040",
+            "ram": "0.020",
+            "instances": "0.040",
+            "network": "0.020",
+            "subnet": "0.020",
+            "port": "0.013"
+          },
+          "definition": {
+            "id": 4,
+            "name": "kypo-crp-demo-training",
+            "url": "git@gitlab.ics.muni.cz:muni-kypo-crp/prototypes-and-examples/sandbox-definitions/kypo-crp-demo-training.git",
+            "rev": "force-sandbox-error",
+            "created_by": {
+              "id": 5,
+              "sub": "user-1|https://stage.crp.kypo.muni.cz:443/csirtmu-dummy-issuer-server",
+              "full_name": "User1 Generated",
+              "given_name": "User1",
+              "family_name": "Generated",
+              "mail": "\"user1@kypo\""
+            }
+          }
         },
         {
-          id: 3,
-          definition: 1,
-          size: 0,
-          max_size: 3,
-        },
-        {
-          id: 5,
-          definition: 1,
-          size: 1,
-          max_size: 1,
-        },
-        {
-          id: 7,
-          definition: 1,
-          size: 2,
-          max_size: 3,
-        },
-      ],
+          "id": 31,
+          "size": 1,
+          "max_size": 2,
+          "lock_id": null,
+          "rev": "master",
+          "rev_sha": "e9d3fad474b9f7f1fda08b0f4d8a7c74fecb64f6",
+          "created_by": {
+            "id": 2,
+            "sub": "111@muni.cz|https://oidc.muni.cz/oidc",
+            "full_name": "User Gen",
+            "given_name": "User",
+            "family_name": "Gen",
+            "mail": "111@mail.muni.cz"
+          },
+          "hardware_usage": {
+            "vcpu": "0.050",
+            "ram": "0.024",
+            "instances": "0.050",
+            "network": "0.020",
+            "subnet": "0.020",
+            "port": "0.015"
+          },
+          "definition": {
+            "id": 9,
+            "name": "junior-hacker-sandbox",
+            "url": "git@gitlab.ics.muni.cz:muni-kypo-trainings/games/junior-hacker.git",
+            "rev": "master",
+            "created_by": {
+              "id": 2,
+              "sub": "445519@muni.cz|https://oidc.muni.cz/oidc",
+              "full_name": "User Gen",
+              "given_name": "User",
+              "family_name": "Gen",
+              "mail": "111@mail.muni.cz"
+            }
+          }
+        }
+      ]
     },
     pool: {
       id: 72,
