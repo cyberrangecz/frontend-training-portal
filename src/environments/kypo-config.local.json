@@ -4,8 +4,8 @@
     "trainingDesigner": "ROLE_TRAINING_DESIGNER",
     "trainingOrganizer": "ROLE_TRAINING_ORGANIZER",
     "trainingTrainee": "ROLE_TRAINING_TRAINEE",
-    "sandboxDesigner": "ROLE_KYPO.SANDBOX_SERVICE_PROJECT_DESIGNER",
-    "sandboxOrganizer": "ROLE_KYPO.SANDBOX_SERVICE_PROJECT_ORGANIZER"
+    "sandboxDesigner": "ROLE_KYPO-SANDBOX-SERVICE_DESIGNER",
+    "sandboxOrganizer": "ROLE_KYPO-SANDBOX-SERVICE_ORGANIZER"
   },
   "trainingAgendaConfig": {
     "pollingPeriod": 5000,
