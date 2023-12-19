@@ -46,7 +46,7 @@
     "@muni-kypo-crp/statistical-visualizations": "~15.0.0",
     "@muni-kypo-crp/topology-graph": "~15.0.0",
     "@muni-kypo-crp/topology-model": "~15.0.0",
-    "@muni-kypo-crp/training-agenda": "~15.0.6",
+    "@muni-kypo-crp/training-agenda": "~15.0.7",
     "@muni-kypo-crp/training-api": "~15.0.3",
     "@muni-kypo-crp/training-model": "~15.0.1",
     "@muni-kypo-crp/user-and-group-agenda": "~15.0.0",
