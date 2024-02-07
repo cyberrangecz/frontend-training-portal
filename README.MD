@@ -2,8 +2,8 @@ Implementation of the frontend for KYPO Trainings (former Capture the flag games
 
 ## Prerequisites
 
-- [Angular 12](https://angular.io/guide/start)
-- [Angular Material 12](https://material.angular.io/guide/getting-started)
+- [Angular 15](https://angular.io/guide/start)
+- [Angular Material 15](https://material.angular.io/guide/getting-started)
 
 Additionally, you need to have access to Sentinel and MUNI KYPO crp package repository.
 Then, you need to set up the @sentinel and @muni-kypo-crp scope to point to that registry. You can do this by adding following lines to your .npmrc file:
