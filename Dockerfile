@@ -1,4 +1,4 @@
-FROM node:14 as builder
+FROM node:18 as builder
 RUN NG_CLI_ANALYTICS=false npm install -g @angular/cli
 ARG SENTINEL_REGISTRY_HOST_NO_PROTO
 ARG SENTINEL_REGISTRY_ACCESS_TOKEN
@@ -15,7 +15,7 @@ RUN cd /build && \
     npm config set //$SENTINEL_REGISTRY_HOST_NO_PROTO:_authToken $SENTINEL_REGISTRY_ACCESS_TOKEN && \
     npm config set @muni-kypo-crp:registry https://$KYPO_REGISTRY_HOST_NO_PROTO && \
     npm config set //$KYPO_REGISTRY_HOST_NO_PROTO:_authToken $KYPO_REGISTRY_ACCESS_TOKEN && \
-    npm install && \
+    npm install --legacy-peer-deps && \
     if [ "$PROD" = true ] ; then \
       ng build --configuration production; \
     else \

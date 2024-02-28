@@ -2,8 +2,8 @@ Implementation of the frontend for KYPO Trainings (former Capture the flag games
 
 ## Prerequisites
 
-- [Angular 12](https://angular.io/guide/start)
-- [Angular Material 12](https://material.angular.io/guide/getting-started)
+- [Angular 15](https://angular.io/guide/start)
+- [Angular Material 15](https://material.angular.io/guide/getting-started)
 
 Additionally, you need to have access to Sentinel and MUNI KYPO crp package repository.
 Then, you need to set up the @sentinel and @muni-kypo-crp scope to point to that registry. You can do this by adding following lines to your .npmrc file:
@@ -22,9 +22,9 @@ Make sure you have:
 - properly configured local time (until this [PR](https://github.com/manfredsteyer/angular-oauth2-oidc/pull/596) is resolved)
 
 ## Usage
-This app is a frontend part of the KYPO. To run KYPO locally, follow this [guide](https://gitlab.ics.muni.cz/kypo-crp/prototypes-and-examples/kypo-crp-local-demo).
+This app is a frontend part of the KYPO. To run KYPO locally, follow this [guide](https://gitlab.ics.muni.cz/muni-kypo-crp/devops/kypo-crp-helm).
 
-To run the app locally against the KYPO backend, follow the previously mentioned [guide](https://gitlab.ics.muni.cz/kypo-crp/prototypes-and-examples/kypo-crp-local-demo) with these additional steps:
+To run the app locally against the KYPO backend, follow the previously mentioned [guide](https://gitlab.ics.muni.cz/muni-kypo-crp/devops/kypo-crp-helm) with these additional steps:
 
 1.  Configure OIDC client to allow a redirect on `https://localhost:4200`. If your local dummy OIDC issuer is running, you can edit the client on this [address](https://172.19.0.22:8443/csirtmu-dummy-issuer-server/manage/admin/clients).
 2.  Configure CORS for kypo-sandbox-service by changing attribute `cors_origin_whitelist` to `cors_origin_whitelist: ["{{ kypo_crp_url }}", "https://localhost:4200"]` and setting attribute `cors_origin_allow_all` to `cors_origin_allow_all: True` in `provisioning/roles/kypo-crp-configuration/templates/configuration/sandbox-service/kypo-sandbox-service-config.yml`
@@ -38,10 +38,9 @@ To run the app locally against the KYPO backend, follow the previously mentioned
 
 Alternatively you can use json-server as mock backend with provided dummy data.
 
-1.  Install json-server `npm install -g json-server`.
-3.  Run the server with provided parameters `json-server -w ./utils/json-server/db.js --routes ./utils/json-server/routes.json --middlewares ./utils/json-server/server.js`.
-4.  Run `npm install`.
-5.  Run the app in local environment and ssl `ng serve --configuration=local --ssl` and access it on `https://localhost:4200`.
+1.  Run `npm install`.
+2.  Run the mock server with provided parameters via `npm run api`.
+3.  Run the app in local environment and ssl `ng serve --configuration=local --ssl` and access it on `https://localhost:4200`.
 
 ## Deployment
 
