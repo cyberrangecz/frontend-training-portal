@@ -1,3 +1,4 @@
+15.1.1 Update training model, api and agenda with detection event detail page fixes.
 15.1.0 Update command-timeline, training agenda, model and api versions for cheating detection enhancements.
 15.0.0 Update to Angular 15, update all corresponding agendas and their libraries.
 14.2.7 Fix faulty sandbox-agenda allocation call for a single sandbox.
