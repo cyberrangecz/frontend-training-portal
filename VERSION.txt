@@ -1,3 +1,4 @@
+15.1.6 Add new version of command timeline.
 15.1.5 Bump version of agenda and command visualizations.
 15.1.4 Bump version of training agenda.
 15.1.3 Implement sorting of abstract detection event table.
