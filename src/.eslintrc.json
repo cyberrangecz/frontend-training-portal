@@ -1,25 +1,41 @@
 {
-  "extends": ["../.eslintrc.json"],
+  "extends": [
+    "../.eslintrc.json"
+  ],
   "overrides": [
     {
-      "files": ["*.ts"],
+      "files": [
+        "*.ts"
+      ],
       "parserOptions": {
-        "project": ["projects/trainings/tsconfig.*?.json"],
+        "project": [
+          "projects/trainings/tsconfig.*?.json"
+        ],
         "createDefaultProgram": true
       },
       "rules": {
         "@angular-eslint/directive-selector": [
           "error",
-          { "type": "attribute", "prefix": "kypo", "style": "camelCase" }
+          {
+            "type": "attribute",
+            "prefix": "kypo",
+            "style": "camelCase"
+          }
         ],
         "@angular-eslint/component-selector": [
           "error",
-          { "type": "element", "prefix": "kypo", "style": "kebab-case" }
+          {
+            "type": "element",
+            "prefix": "kypo",
+            "style": "kebab-case"
+          }
         ]
       }
     },
     {
-      "files": ["*.component.html"],
+      "files": [
+        "*.component.html"
+      ],
       "rules": {}
     }
   ]

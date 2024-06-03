@@ -3497,6 +3497,7 @@ module.exports = function () {
           "lock_id": null,
           "rev": "master",
           "rev_sha": "9d268bc5fbb718341aae902391f82428a5c976bc",
+          "comment": "An example long comment",
           "created_by": {
             "id": 3,
             "sub": "user-3|https://stage.crp.kypo.muni.cz:443/csirtmu-dummy-issuer-server",
@@ -3607,10 +3608,131 @@ module.exports = function () {
       ]
     },
     pool: {
-      id: 72,
-      definition: 3,
+      id: 1,
+      definition: {
+        id: 1,
+        title: 'name',
+        url: '',
+        rev: 'master',
+        created_by: {
+          id: 3,
+          sub: "user-3",
+          full_name: "User3 Generated",
+          given_name: "User3",
+          family_name: "Generated",
+          mail: "user3@kypo"
+        },
+      },
+      hardware_usage: {
+        vcpu: "0.040",
+        ram: "0.020",
+        instances: "0.040",
+        network: "0.020",
+        subnet: "0.020",
+        port: "0.013"
+      },
+      created_by: {
+        id: 3,
+        sub: "user-3",
+        full_name: "User3 Generated",
+        given_name: "User3",
+        family_name: "Generated",
+        mail: "user3@kypo"
+      },
+      comment: "An example comment",
       size: 3,
       max_size: 4,
+    },
+    allocation_units: {
+      count: 3,
+      page: 1,
+      page_count: 1,
+      page_size: 5,
+      results: [
+        {
+          id: 205,
+          pool_id: 5,
+          comment: "A note for a single sandbox",
+          created_by: {
+            id: 3,
+            sub: "user-3",
+            full_name: "User3 Generated",
+            given_name: "User3",
+            family_name: "Generated",
+            mail: "user3@kypo"
+          },
+          cleanup_request: null,
+          allocation_request: {
+            allocation_unit_id: 55,
+            created: "2023-12-19T17:00:09.695814+01:00",
+            id: 55,
+            stages: ["FINISHED", "FINISHED", "FINISHED"]
+          },
+          locked: false,
+        },
+        {
+          id: 206,
+          pool_id: 5,
+          created_by: {
+            id: 3,
+            sub: "user-3",
+            full_name: "User3 Generated",
+            given_name: "User3",
+            family_name: "Generated",
+            mail: "user3@kypo"
+          },
+          cleanup_request: null,
+          allocation_request: {
+            allocation_unit_id: 55,
+            created: "2023-12-19T17:00:09.695814+01:00",
+            id: 55,
+            stages: ["FINISHED", "FINISHED", "RUNNING"]
+          },
+          locked: false,
+        },
+        {
+          id: 208,
+          pool_id: 5,
+          created_by: {
+            id: 3,
+            sub: "user-3",
+            full_name: "User3 Generated",
+            given_name: "User3",
+            family_name: "Generated",
+            mail: "user3@kypo"
+          },
+          cleanup_request: null,
+          allocation_request: {
+            allocation_unit_id: 55,
+            created: "2023-12-19T17:00:09.695814+01:00",
+            id: 55,
+            stages: ["RUNNING"]
+          },
+          locked: false,
+        },
+      ],
+      total_count: 3
+    },
+    allocation_unit: {
+      id: 205,
+      pool_id: 5,
+      comment: "A note for a single sandbox",
+      created_by: {
+        id: 3,
+        sub: "user-3",
+        full_name: "User3 Generated",
+        given_name: "User3",
+        family_name: "Generated",
+        mail: "user3@kypo"
+      },
+      cleanup_request: null,
+      allocation_request: {
+        allocation_unit_id: 55,
+        created: "2023-12-19T17:00:09.695814+01:00",
+        id: 55,
+        stages: ["FINISHED", "FINISHED", "FINISHED"]
+      },
+      locked: false,
     },
     sandbox_instances: {
       page: 1,

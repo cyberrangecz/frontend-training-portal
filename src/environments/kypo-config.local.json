@@ -62,14 +62,18 @@
         "backgroundColor": "#002776",
         "tokenRefreshTime": 30000,
         "oidcConfig": {
-          "issuer": "https://oidc.muni.cz/oidc/",
-          "clientId": "bxPXhdWNeqhWssxbSGiRjQbnQqmqxDdiTTDJ",
+          "issuer": "https://172.19.0.22/keycloak/realms/KYPO",
+          "clientId": "KYPO-client",
           "redirectUri": "http://localhost:4200",
-          "scope": "openid email profile",
-          "logoutUrl": "https://oidc.muni.cz/oidc/endsession",
+          "scope": "openid email profile offline_access",
+          "logoutUrl": "https://172.19.0.22/keycloak/realms/KYPO/protocol/openid-connect/logout",
           "postLogoutRedirectUri": "http://localhost:4200/logout-confirmed/",
           "silentRefreshRedirectUri": "https://172.19.0.22:443/silent-refresh.html",
-          "clearHashAfterLogin": true
+          "clearHashAfterLogin": true,
+          "strictDiscoveryDocumentValidation": false,
+          "skipIssuerCheck": true,
+          "responseType": "code",
+          "oidc": true
         }
       }
     ]

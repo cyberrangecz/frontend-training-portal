@@ -33,10 +33,12 @@ export class ErrorHandlerService {
       notification.action = action;
     }
     if (err === null || err === undefined || err.status === 0 || err.error === null || err.error === undefined) {
+      const msg = err?.message ? err.message : typeof err == 'string' ? err : '';
       notification.additionalInfo = [
         'Unknown error. Please check your internet connection or report the issue to developers',
-        err?.message,
+        msg.toString(),
       ];
+      this.checkForClockSyncErr(err, notification);
       return this.notificationService
         .emit(notification)
         .pipe(map((result) => result === SentinelNotificationResult.CONFIRMED));
@@ -80,6 +82,19 @@ export class ErrorHandlerService {
     } else if (err.error.non_field_errors) {
       // PYTHON API
       notification.additionalInfo = [err.error.non_field_errors];
+    }
+  }
+
+  /**
+   * A check for one specific type of error message - an out-of-sync clock. In this case, the user will be notified about the issue.
+   * @param err a HttpErrorResponse in general, but in some cases can be a string with a simple error message
+   */
+  private checkForClockSyncErr(err: HttpErrorResponse | string, notification: SentinelNotification) {
+    if (err == 'Token has expired') {
+      notification.source = err;
+      notification.additionalInfo = [
+        'Failed due to an expired authentication. Please, make sure your local date and time is correct.',
+      ];
     }
   }
 }

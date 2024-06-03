@@ -1,3 +1,4 @@
+16.0.0 Update to Angular 16, indicate an expired token error to user.
 15.1.6 Add new version of command timeline.
 15.1.5 Bump version of agenda and command visualizations.
 15.1.4 Bump version of training agenda.
@@ -5,6 +6,7 @@
 15.1.2 Fix timeline module in cheating detection.
 15.1.1 Update training model, api and agenda with detection event detail page fixes.
 15.1.0 Update command-timeline, training agenda, model and api versions for cheating detection enhancements.
+15.0.1 Sync sandbox agenda with sandbox service to accept paginated results.
 15.0.0 Update to Angular 15, update all corresponding agendas and their libraries.
 14.2.7 Fix faulty sandbox-agenda allocation call for a single sandbox.
 14.2.6 Update training, sandbox, and user-and-group agendas to address new bugfixes.
