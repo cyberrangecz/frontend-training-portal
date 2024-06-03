@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { SentinelAuthService } from '@sentinel/auth';
 import { SentinelAuthGuardWithLogin } from '@sentinel/auth/guards';
 import { Observable } from 'rxjs/internal/Observable';
@@ -12,7 +12,7 @@ import { CanActivateToObservable } from './can-activate-to-observable';
 /**
  * Route guard determining if user is signed in and has role of a trainee.
  */
-export class TraineeGuard implements CanActivate {
+export class TraineeGuard {
   constructor(
     private router: Router,
     private authGuard: SentinelAuthGuardWithLogin,
@@ -23,7 +23,7 @@ export class TraineeGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-    return CanActivateToObservable.convert(this.authGuard.canActivate(route, state)).pipe(
+    return CanActivateToObservable.convert(this.authGuard.canActivate()).pipe(
       map((canActivate) => (canActivate ? this.isTrainee() : false))
     );
   }
