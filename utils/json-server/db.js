@@ -3493,6 +3493,7 @@ module.exports = function () {
         {
           "id": 1,
           "size": 1,
+          "send_emails": true,
           "max_size": 3,
           "lock_id": null,
           "rev": "master",
@@ -3533,6 +3534,7 @@ module.exports = function () {
           "id": 4,
           "size": 1,
           "max_size": 1,
+          "send_emails": false,
           "lock_id": null,
           "rev": "force-sandbox-error",
           "rev_sha": "ae5473dc2ac6ae5f12a7306967775ae79a4cc420",
@@ -3570,6 +3572,7 @@ module.exports = function () {
         {
           "id": 31,
           "size": 1,
+          "send_emails": false,
           "max_size": 2,
           "lock_id": null,
           "rev": "master",
@@ -3589,6 +3592,45 @@ module.exports = function () {
             "network": "0.020",
             "subnet": "0.020",
             "port": "0.015"
+          },
+          "definition": {
+            "id": 9,
+            "name": "junior-hacker-sandbox",
+            "url": "git@gitlab.ics.muni.cz:muni-kypo-trainings/games/junior-hacker.git",
+            "rev": "master",
+            "created_by": {
+              "id": 2,
+              "sub": "445519@muni.cz|https://oidc.muni.cz/oidc",
+              "full_name": "User Gen",
+              "given_name": "User",
+              "family_name": "Gen",
+              "mail": "111@mail.muni.cz"
+            }
+          }
+        },
+        {
+          "id": 32,
+          "size": 0,
+          "send_emails": false,
+          "max_size": 2,
+          "lock_id": null,
+          "rev": "master",
+          "rev_sha": "e9d3fad474b9f7f1fda08b0f4d8a7c74fecb64f6",
+          "created_by": {
+            "id": 2,
+            "sub": "111@muni.cz|https://oidc.muni.cz/oidc",
+            "full_name": "User Gen",
+            "given_name": "User",
+            "family_name": "Gen",
+            "mail": "111@mail.muni.cz"
+          },
+          "hardware_usage": {
+            "vcpu": "0.0",
+            "ram": "0.0",
+            "instances": "0.0",
+            "network": "0.0",
+            "subnet": "0.0",
+            "port": "0.0"
           },
           "definition": {
             "id": 9,

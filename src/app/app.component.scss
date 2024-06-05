@@ -1,5 +1,9 @@
-h1 {
+h1, .subtitle {
   text-align: center;
+}
+
+.subtitle {
+  font-style: italic;
 }
 
 main {

@@ -23,6 +23,7 @@ export class AppComponent extends SentinelBaseDirective implements OnInit, After
   isLoading$: Observable<boolean>;
   activeUser$: Observable<User>;
   title$: Observable<string>;
+  subtitle$: Observable<string>;
   agendaContainers$: Observable<AgendaContainer[]>;
   notificationRoute = NOTIFICATIONS_PATH;
   version = 'v24.06';
@@ -41,11 +42,12 @@ export class AppComponent extends SentinelBaseDirective implements OnInit, After
   ngOnInit(): void {
     this.activeUser$ = this.auth.activeUser$;
     this.title$ = this.getTitleFromRouter();
+    this.subtitle$ = this.getSubtitleFromRouter();
     this.agendaContainers$ = this.auth.activeUser$.pipe(
       filter((user) => user !== null && user !== undefined),
       map((user) => NavBuilder.build(user))
     );
-    this.isLoading$ = this.loadingService.isLoading$;
+    this.isLoading$ = this.loadingService.isLoading$; // <-- causes angular error
     this.version = KypoDynamicEnvironment.getConfig().version;
   }
 
@@ -66,6 +68,22 @@ export class AppComponent extends SentinelBaseDirective implements OnInit, After
       filter((route) => route.outlet === 'primary'),
       map((route) => route.snapshot),
       map((snapshot) => snapshot.data.title)
+    );
+  }
+
+  private getSubtitleFromRouter(): Observable<string> {
+    return this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      map(() => {
+        let route = this.activatedRoute;
+        while (route.firstChild) {
+          route = route.firstChild;
+        }
+        return route;
+      }),
+      filter((route) => route.outlet === 'primary'),
+      map((route) => route.snapshot),
+      map((snapshot) => snapshot.data.subtitle)
     );
   }
 

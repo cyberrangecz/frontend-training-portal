@@ -1,4 +1,4 @@
-16.0.0 Update to Angular 16, indicate an expired token error to user.
+16.0.0 Update to Angular 16, update sandbox pool agenda with new functions, indicate an expired token error to user.
 15.1.6 Add new version of command timeline.
 15.1.5 Bump version of agenda and command visualizations.
 15.1.4 Bump version of training agenda.
