@@ -113,5 +113,8 @@
     "ts-node": "~10.8.2",
     "typescript": "~4.9.5",
     "webpack-bundle-analyzer": "^4.5.0"
+  },
+  "optionalDependencies": {
+    "@esbuild/android-arm": "^0.21.5"
   }
 }
