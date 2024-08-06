@@ -15,6 +15,8 @@ import { appConfigProvider } from '@sentinel/common/dynamic-env';
 import { ErrorHandlerService } from './services/shared/error-handler.service';
 import { LoadingService } from './services/shared/loading.service';
 import { NotificationService } from './services/shared/notification.service';
+import { TokenRefreshInterceptor } from './services/http-interceptors/token-refresh-interceptor';
+import { TokenRefreshService } from './services/shared/token-refresh.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -33,8 +35,10 @@ import { NotificationService } from './services/shared/notification.service';
     LoadingService,
     NotificationService,
     ErrorHandlerService,
+    TokenRefreshService,
     appConfigProvider,
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: TokenRefreshInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorLogInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
