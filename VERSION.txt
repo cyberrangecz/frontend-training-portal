@@ -1,3 +1,4 @@
+16.0.1 Add interceptor for handling errors related to expired tokens.
 16.0.0 Update to Angular 16, update sandbox pool agenda with new functions, indicate an expired token error to user.
 15.1.6 Add new version of command timeline.
 15.1.5 Bump version of agenda and command visualizations.
