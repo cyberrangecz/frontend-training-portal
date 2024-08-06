@@ -7,7 +7,9 @@ import { catchError } from 'rxjs/operators';
 /**
  * Intercepts http requests, in case of 401 response, refreshes the token and
  * retries the request
- * When refreshing the token, it will wait for the token to be refreshed before
+ *
+ * If token is being refreshed at the moment, request is postponed until
+ * refresh is finished
  */
 @Injectable()
 export class TokenRefreshInterceptor implements HttpInterceptor {
