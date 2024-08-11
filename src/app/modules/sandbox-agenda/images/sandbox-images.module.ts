@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
-import { ResourcesPageModule } from '@muni-kypo-crp/sandbox-agenda/sandbox-resources';
 import { KypoSandboxApiModule } from '@muni-kypo-crp/sandbox-api';
 import { KypoDynamicEnvironment } from '../../../../environments/kypo-dynamic-environment';
 import { SandboxAgendaSharedProvidersModule } from '../sandbox-agenda-shared-providers.module';
-import { SandboxResourcesOverviewRoutingModule } from './sandbox-resources-overview-routing.module';
+import { ImagesPageModule } from '@muni-kypo-crp/sandbox-agenda/sandbox-images';
+import { SandboxImagesOverviewRoutingModule } from './sandbox-images-overview-routing.module';
 
 @NgModule({
   imports: [
     SandboxAgendaSharedProvidersModule,
     KypoSandboxApiModule.forRoot(KypoDynamicEnvironment.getConfig().sandboxApiConfig),
-    ResourcesPageModule.forRoot(KypoDynamicEnvironment.getConfig().sandboxAgendaConfig),
-    SandboxResourcesOverviewRoutingModule,
+    ImagesPageModule.forRoot(KypoDynamicEnvironment.getConfig().sandboxAgendaConfig),
+    SandboxImagesOverviewRoutingModule,
   ],
 })
-export class SandboxResourcesOverviewModule {}
+export class SandboxImagesOverviewModule {}

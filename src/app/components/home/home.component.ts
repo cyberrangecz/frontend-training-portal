@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SentinelAuthService, UserRole } from '@sentinel/auth';
 import { SentinelBaseDirective } from '@sentinel/common';
-import { SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH, SANDBOX_RESOURCES_PATH } from '@muni-kypo-crp/sandbox-agenda';
+import { SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH, SANDBOX_IMAGES_PATH } from '@muni-kypo-crp/sandbox-agenda';
 import {
   ADAPTIVE_DEFINITION_PATH,
   ADAPTIVE_INSTANCE_PATH,
@@ -141,10 +141,10 @@ export class HomeComponent extends SentinelBaseDirective implements OnInit {
         HomeComponent.createExpandedControlButtons([ADAPTIVE_INSTANCE_PATH, TRAINING_INSTANCE_PATH])
       ),
       new AgendaPortalLink(
-        'Resources',
+        'Images',
         !RoleResolver.isSandboxOrganizer(this.roles),
-        SANDBOX_RESOURCES_PATH,
-        'In the resources agenda, you can view cloud resources and its state.',
+        SANDBOX_IMAGES_PATH,
+        'In the images agenda, you can view cloud images and its state.',
         'donut_large'
       ),
     ];

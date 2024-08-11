@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ResourcesPageComponent } from '@muni-kypo-crp/sandbox-agenda/sandbox-resources';
+import { ImagesPageComponent } from '@muni-kypo-crp/sandbox-agenda/sandbox-images';
 
 const routes: Routes = [
   {
     path: '',
-    component: ResourcesPageComponent,
+    component: ImagesPageComponent,
   },
 ];
 
 /**
- * Sandbox resources overview routing
+ * Sandbox images overview routing
  */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class SandboxResourcesOverviewRoutingModule {}
+export class SandboxImagesOverviewRoutingModule {}

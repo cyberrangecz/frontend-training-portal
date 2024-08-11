@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { SentinelAuthGuardWithLogin, SentinelNegativeAuthGuard } from '@sentinel/auth/guards';
-import { SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH, SANDBOX_RESOURCES_PATH } from '@muni-kypo-crp/sandbox-agenda';
+import { SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH, SANDBOX_IMAGES_PATH } from '@muni-kypo-crp/sandbox-agenda';
 import {
   ADAPTIVE_DEFINITION_PATH,
   ADAPTIVE_INSTANCE_PATH,
@@ -106,15 +106,13 @@ const routes: Routes = [
     },
   },
   {
-    path: SANDBOX_RESOURCES_PATH,
+    path: SANDBOX_IMAGES_PATH,
     loadChildren: () =>
-      import('./modules/sandbox-agenda/resources/sandbox-resources.module').then(
-        (m) => m.SandboxResourcesOverviewModule
-      ),
+      import('./modules/sandbox-agenda/images/sandbox-images.module').then((m) => m.SandboxImagesOverviewModule),
     canActivate: [SandboxOrganizerGuard],
     data: {
-      breadcrumb: 'Resources',
-      title: 'Resources Overview',
+      breadcrumb: 'Images',
+      title: 'Images Overview',
       roleResolver: RoleResolver.isSandboxOrganizer,
     },
   },

@@ -1,6 +1,6 @@
 import { User } from '@sentinel/auth';
 import { Agenda, AgendaContainer } from '@sentinel/layout';
-import { SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH, SANDBOX_RESOURCES_PATH } from '@muni-kypo-crp/sandbox-agenda';
+import { SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH, SANDBOX_IMAGES_PATH } from '@muni-kypo-crp/sandbox-agenda';
 import {
   ADAPTIVE_DEFINITION_PATH,
   ADAPTIVE_INSTANCE_PATH,
@@ -63,7 +63,7 @@ export class NavBuilder {
       agendas.push(new Agenda('Pool', SANDBOX_POOL_PATH));
     }
     if (RoleResolver.isSandboxOrganizer(user.roles)) {
-      agendas.push(new Agenda('Resources', SANDBOX_RESOURCES_PATH));
+      agendas.push(new Agenda('Images', SANDBOX_IMAGES_PATH));
     }
     return agendas;
   }
