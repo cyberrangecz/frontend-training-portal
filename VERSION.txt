@@ -1,3 +1,4 @@
+16.3.0 Update agendas, apis and sentinel components.
 16.2.0 Update resources tab to images tab and remove resources overview from it.
 16.1.0 Add token refresh interceptor and token refresh service to ensure requests have up-to-date access token.
 16.0.0 Update to Angular 16, update sandbox pool agenda with new functions, indicate an expired token error to user.
