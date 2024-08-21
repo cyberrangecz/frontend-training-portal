@@ -26,7 +26,7 @@ export class AppComponent extends SentinelBaseDirective implements OnInit, After
   subtitle$: Observable<string>;
   agendaContainers$: Observable<AgendaContainer[]>;
   notificationRoute = NOTIFICATIONS_PATH;
-  version = 'v24.06';
+  version = 'v24.08';
 
   constructor(
     private router: Router,
