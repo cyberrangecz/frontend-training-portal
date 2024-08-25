@@ -1,4 +1,4 @@
-16.3.3 Revert pool locking changes.
+16.3.3 Revert pool locking changes. Update agenda versions.
 16.3.2 Bumped versions of agendas and components.
 16.3.1 Fix training api not being provisioned.
 16.3.0 Update agendas, apis and sentinel components.
