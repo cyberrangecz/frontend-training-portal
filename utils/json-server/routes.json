@@ -51,7 +51,7 @@
   "/kypo-rest-training/api/v1/training-runs/:id/is-correct-answer?answer=:answer": "/is_correct",
   "/kypo-rest-training/api/v1/training-runs?accessToken=:token": "/run",
   "/kypo-rest-user-and-group/api/v1/users?page=:page&size=:size&sort=:sort": "/users",
-  "/kypo-rest-user-and-group/api/v1/users/not-in-groups/:id?page=:page&size=:size&sort=:sort": "/users",
+  "/kypo-rest-user-and-group/api/v1/users/not-in-group/:id?page=:page&size=:size&sort=:sort": "/users",
   "/kypo-rest-user-and-group/api/v1/users/:id": "/user",
   "/kypo-rest-user-and-group/api/v1/users/": "/empty",
   "/kypo-rest-user-and-group/api/v1/groups?page=:page&size=:size&sort=:sort": "/groups",
