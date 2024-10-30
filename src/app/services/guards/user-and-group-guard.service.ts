@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { CanActivate, Router } from '@angular/router';
 import { SentinelAuthService } from '@sentinel/auth';
 import { SentinelAuthGuardWithLogin } from '@sentinel/auth/guards';
 import { Observable } from 'rxjs';
@@ -16,12 +16,12 @@ export class UserAndGroupGuard implements CanActivate {
   constructor(
     private router: Router,
     private authGuard: SentinelAuthGuardWithLogin,
-    private authService: SentinelAuthService
+    private authService: SentinelAuthService,
   ) {}
 
   canActivate(): Observable<boolean> | Promise<boolean> | boolean {
     return CanActivateToObservable.convert(this.authGuard.canActivate()).pipe(
-      map((canActivate) => (canActivate ? this.isAdmin() : false))
+      map((canActivate) => (canActivate ? this.isAdmin() : false)),
     );
   }
 
