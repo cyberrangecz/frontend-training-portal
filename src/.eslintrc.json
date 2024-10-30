@@ -9,7 +9,7 @@
       ],
       "parserOptions": {
         "project": [
-          "projects/trainings/tsconfig.*?.json"
+          "tsconfig.*?.json"
         ],
         "createDefaultProgram": true
       },
