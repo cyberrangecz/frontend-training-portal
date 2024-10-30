@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { SentinelAuthService } from '@sentinel/auth';
 import { SentinelAuthGuardWithLogin } from '@sentinel/auth/guards';
 import { Observable } from 'rxjs';
@@ -12,17 +12,14 @@ import { CanActivateToObservable } from './can-activate-to-observable';
 /**
  * Route guard determining if user is signed in and has role of an sandbox organizer.
  */
-export class SandboxDesignerGuard {
+export class SandboxDesignerGuard implements CanActivate{
   constructor(
     private router: Router,
     private authGuard: SentinelAuthGuardWithLogin,
     private authService: SentinelAuthService
   ) {}
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean> | Promise<boolean> | boolean {
+  canActivate(): Observable<boolean> | Promise<boolean> | boolean {
     return CanActivateToObservable.convert(this.authGuard.canActivate()).pipe(
       map((canActivate) => (canActivate ? this.isDesigner() : false))
     );
