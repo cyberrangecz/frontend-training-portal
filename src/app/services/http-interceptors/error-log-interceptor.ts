@@ -20,8 +20,8 @@ export class ErrorLogInterceptor implements HttpInterceptor {
           if (err instanceof HttpErrorResponse) {
             console.error(err);
           }
-        }
-      )
+        },
+      ),
     );
   }
 }

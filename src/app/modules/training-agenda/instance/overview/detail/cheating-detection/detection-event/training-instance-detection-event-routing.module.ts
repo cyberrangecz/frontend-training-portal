@@ -12,7 +12,7 @@ const routes: Routes = [
     path: `:${DETECTION_EVENT_SELECTOR}/${CHEATING_DETECTION_EVENT_DETAIL_PATH}`,
     loadChildren: () =>
       import('./detection-event-detail/training-instance-detection-event-detail.module').then(
-        (m) => m.TrainingInstanceDetectionEventDetailModule
+        (m) => m.TrainingInstanceDetectionEventDetailModule,
       ),
     data: {
       title: 'Detection Event Detail',

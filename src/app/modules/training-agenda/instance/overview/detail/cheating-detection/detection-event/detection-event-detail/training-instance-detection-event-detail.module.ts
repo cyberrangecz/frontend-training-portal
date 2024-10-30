@@ -8,7 +8,7 @@ import { TrainingInstanceDetectionEventDetailComponentsModule } from '@muni-kypo
   imports: [
     CommonModule,
     TrainingInstanceDetectionEventDetailComponentsModule.forRoot(
-      KypoDynamicEnvironment.getConfig().trainingAgendaConfig
+      KypoDynamicEnvironment.getConfig().trainingAgendaConfig,
     ),
     TrainingInstanceDetectionEventDetailRoutingModule,
   ],

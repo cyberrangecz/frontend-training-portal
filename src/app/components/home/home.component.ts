@@ -7,7 +7,7 @@ import {
   ADAPTIVE_INSTANCE_PATH,
   TRAINING_DEFINITION_PATH,
   TRAINING_INSTANCE_PATH,
-  TRAINING_RUN_PATH
+  TRAINING_RUN_PATH,
 } from '@muni-kypo-crp/training-agenda';
 import { GROUP_PATH, MICROSERVICE_PATH, USER_PATH } from '@muni-kypo-crp/user-and-group-agenda';
 import { AgendaPortalLink } from '../../model/agenda-portal-link';
@@ -32,8 +32,10 @@ export class HomeComponent implements OnInit {
 
   destroyRef = inject(DestroyRef);
 
-  constructor(private authService: SentinelAuthService, private router: Router) {
-  }
+  constructor(
+    private authService: SentinelAuthService,
+    private router: Router,
+  ) {}
 
   static createExpandedControlButtons(path: string[]): AgendaMenuItem[] {
     return [
@@ -97,7 +99,7 @@ export class HomeComponent implements OnInit {
         TRAINING_RUN_PATH,
         'Training Run allows you to start a new training, return to unfinished one,' +
           ' or to access results of those you already finished.',
-        'games'
+        'games',
       ),
     ];
   }
@@ -110,7 +112,7 @@ export class HomeComponent implements OnInit {
         SANDBOX_DEFINITION_PATH,
         'In the sandbox definition agenda, you can manage sandbox configurations, i.e., descriptions' +
           ' of virtual networks and computers that can be instantiated in isolated sandboxes.',
-        'event_note'
+        'event_note',
       ),
       new AgendaPortalLink(
         'Training Definition',
@@ -118,7 +120,7 @@ export class HomeComponent implements OnInit {
         TRAINING_DEFINITION_PATH,
         'The training definition is a plot of the single-player trainings. You can manage your own and design new ones.',
         'assignment',
-        HomeComponent.createExpandedControlButtons([ADAPTIVE_DEFINITION_PATH, TRAINING_DEFINITION_PATH])
+        HomeComponent.createExpandedControlButtons([ADAPTIVE_DEFINITION_PATH, TRAINING_DEFINITION_PATH]),
       ),
     ];
   }
@@ -130,7 +132,7 @@ export class HomeComponent implements OnInit {
         !RoleResolver.isSandboxOrganizer(this.roles),
         SANDBOX_POOL_PATH,
         'As an instructor, you can create Pools of sandboxes that serve for the instantiating and management of sandbox definitions.',
-        'subscriptions'
+        'subscriptions',
       ),
       new AgendaPortalLink(
         'Training Instance',
@@ -138,14 +140,14 @@ export class HomeComponent implements OnInit {
         TRAINING_INSTANCE_PATH,
         'You can also create training instances that are necessary if you want to organize a training hands-on session.',
         'event',
-        HomeComponent.createExpandedControlButtons([ADAPTIVE_INSTANCE_PATH, TRAINING_INSTANCE_PATH])
+        HomeComponent.createExpandedControlButtons([ADAPTIVE_INSTANCE_PATH, TRAINING_INSTANCE_PATH]),
       ),
       new AgendaPortalLink(
         'Images',
         !RoleResolver.isSandboxOrganizer(this.roles),
         SANDBOX_IMAGES_PATH,
         'In the images agenda, you can view cloud images and its state.',
-        'donut_large'
+        'donut_large',
       ),
     ];
   }
@@ -158,14 +160,14 @@ export class HomeComponent implements OnInit {
         disabled,
         GROUP_PATH,
         'In Groups, you can manage groups and define access rights available to the group members.',
-        'group'
+        'group',
       ),
       new AgendaPortalLink(
         'Users',
         disabled,
         USER_PATH,
         'The Users agenda serves for assigning KYPO users to existing groups.',
-        'person'
+        'person',
       ),
       new AgendaPortalLink(
         'Microservices',
@@ -173,7 +175,7 @@ export class HomeComponent implements OnInit {
         MICROSERVICE_PATH,
         'You can also manage microservices that provide the KYPO Cyber Range functionality.' +
           ' Please do not mess with it unless you know what you are doing.',
-        'account_tree'
+        'account_tree',
       ),
     ];
   }

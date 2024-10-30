@@ -34,7 +34,7 @@ const routes: Routes = [
     path: TRAINING_DEFINITION_PATH,
     loadChildren: () =>
       import('./modules/training-agenda/definition/overview/training-definition-overview.module').then(
-        (m) => m.TrainingDefinitionOverviewModule
+        (m) => m.TrainingDefinitionOverviewModule,
       ),
     canActivate: [TrainingDesignerGuard],
     data: {
@@ -47,7 +47,7 @@ const routes: Routes = [
     path: ADAPTIVE_DEFINITION_PATH,
     loadChildren: () =>
       import('./modules/training-agenda/adaptive-definition/overview/adaptive-definition-overview.module').then(
-        (m) => m.AdaptiveDefinitionOverviewModule
+        (m) => m.AdaptiveDefinitionOverviewModule,
       ),
     canActivate: [TrainingDesignerGuard],
     data: {
@@ -60,7 +60,7 @@ const routes: Routes = [
     path: SANDBOX_DEFINITION_PATH,
     loadChildren: () =>
       import('./modules/sandbox-agenda/definition/sandbox-definition-overview.module').then(
-        (m) => m.SandboxDefinitionOverviewModule
+        (m) => m.SandboxDefinitionOverviewModule,
       ),
     canActivate: [SandboxDesignerGuard],
     data: {
@@ -73,7 +73,7 @@ const routes: Routes = [
     path: TRAINING_INSTANCE_PATH,
     loadChildren: () =>
       import('./modules/training-agenda/instance/overview/training-instance-overview.module').then(
-        (m) => m.TrainingInstanceOverviewModule
+        (m) => m.TrainingInstanceOverviewModule,
       ),
     canActivate: [TrainingOrganizerGuard],
     data: {
@@ -86,7 +86,7 @@ const routes: Routes = [
     path: ADAPTIVE_INSTANCE_PATH,
     loadChildren: () =>
       import('./modules/training-agenda/adaptive-instance/overview/adaptive-instance-overview.module').then(
-        (m) => m.AdaptiveInstanceOverviewModule
+        (m) => m.AdaptiveInstanceOverviewModule,
       ),
     canActivate: [TrainingOrganizerGuard],
     data: {
@@ -120,7 +120,7 @@ const routes: Routes = [
     path: TRAINING_RUN_PATH,
     loadChildren: () =>
       import('./modules/training-agenda/run/overview/training-run-overview.module').then(
-        (m) => m.TrainingRunOverviewModule
+        (m) => m.TrainingRunOverviewModule,
       ),
     canActivate: [TraineeGuard],
     data: {
@@ -167,7 +167,7 @@ const routes: Routes = [
     path: MICROSERVICE_PATH,
     loadChildren: () =>
       import('./modules/user-and-group-agenda/microservice/microservice-overview.module').then(
-        (m) => m.MicroserviceOverviewModule
+        (m) => m.MicroserviceOverviewModule,
       ),
     canActivate: [UserAndGroupGuard],
     data: {

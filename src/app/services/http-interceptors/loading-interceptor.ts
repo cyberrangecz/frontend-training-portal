@@ -30,7 +30,7 @@ export class LoadingInterceptor implements HttpInterceptor {
         () => {
           this.removeRequest(req);
           observer.complete();
-        }
+        },
       );
       return () => {
         this.removeRequest(req);

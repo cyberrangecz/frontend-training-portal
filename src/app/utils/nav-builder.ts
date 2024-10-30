@@ -37,7 +37,7 @@ export class NavBuilder {
         new AgendaContainer('Definition', [
           new Agenda('Adaptive', ADAPTIVE_DEFINITION_PATH),
           new Agenda('Linear', TRAINING_DEFINITION_PATH),
-        ])
+        ]),
       );
     }
     if (RoleResolver.isTrainingOrganizer(user.roles)) {
@@ -45,7 +45,7 @@ export class NavBuilder {
         new AgendaContainer('Instance', [
           new Agenda('Adaptive', ADAPTIVE_INSTANCE_PATH),
           new Agenda('Linear', TRAINING_INSTANCE_PATH),
-        ])
+        ]),
       );
     }
     if (RoleResolver.isTrainingTrainee(user.roles)) {

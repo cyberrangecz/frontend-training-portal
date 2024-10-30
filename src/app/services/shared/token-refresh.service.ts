@@ -45,7 +45,7 @@ export class TokenRefreshService {
     if (this.isTokenExpired()) {
       this.stateSubject.next(TokenRefreshState.REFRESHING);
       return from(
-        this.oauthService.discoveryDocumentLoaded ? Promise.resolve() : this.oauthService.loadDiscoveryDocument()
+        this.oauthService.discoveryDocumentLoaded ? Promise.resolve() : this.oauthService.loadDiscoveryDocument(),
       ).pipe(
         concatMap(() =>
           this.oauthService.refreshToken().then(
@@ -56,9 +56,9 @@ export class TokenRefreshService {
             () => {
               this.stateSubject.next(TokenRefreshState.FAILED);
               return TokenRefreshState.FAILED;
-            }
-          )
-        )
+            },
+          ),
+        ),
       );
     }
     this.stateSubject.next(TokenRefreshState.OK);

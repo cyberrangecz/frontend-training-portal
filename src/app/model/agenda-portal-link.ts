@@ -13,7 +13,7 @@ export class AgendaPortalLink extends Agenda {
     route: string,
     description: string,
     icon: string,
-    menu?: AgendaMenuItem[]
+    menu?: AgendaMenuItem[],
   ) {
     super(name, route);
     this.disabled = disabled;

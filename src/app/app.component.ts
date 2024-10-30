@@ -33,9 +33,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     private notificationService: NotificationService,
     private loadingService: LoadingService,
     private elementRef: ElementRef,
-    private auth: SentinelAuthService
-  ) {
-  }
+    private auth: SentinelAuthService,
+  ) {}
 
   ngOnInit(): void {
     this.activeUser$ = this.auth.activeUser$;
@@ -43,7 +42,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.subtitle$ = this.getSubtitleFromRouter();
     this.agendaContainers$ = this.auth.activeUser$.pipe(
       filter((user) => user !== null && user !== undefined),
-      map((user) => NavBuilder.build(user))
+      map((user) => NavBuilder.build(user)),
     );
     this.isLoading$ = this.loadingService.isLoading$; // <-- causes angular error
     this.version = KypoDynamicEnvironment.getConfig().version;
@@ -65,7 +64,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       }),
       filter((route) => route.outlet === 'primary'),
       map((route) => route.snapshot),
-      map((snapshot) => snapshot.data.title)
+      map((snapshot) => snapshot.data.title),
     );
   }
 
@@ -81,7 +80,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       }),
       filter((route) => route.outlet === 'primary'),
       map((route) => route.snapshot),
-      map((snapshot) => snapshot.data.subtitle)
+      map((snapshot) => snapshot.data.subtitle),
     );
   }
 

@@ -23,7 +23,7 @@ export class TokenRefreshInterceptor implements HttpInterceptor {
   constructor(
     private tokenRefreshService: TokenRefreshService,
     private sentinelAuthService: SentinelAuthService,
-    private sentinelAuthConfig: SentinelAuthConfig
+    private sentinelAuthConfig: SentinelAuthConfig,
   ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -37,7 +37,7 @@ export class TokenRefreshInterceptor implements HttpInterceptor {
   private handleCurrentState(
     state: TokenRefreshState,
     next: HttpHandler,
-    req: HttpRequest<any>
+    req: HttpRequest<any>,
   ): Observable<HttpEvent<any>> {
     switch (state) {
       case TokenRefreshState.REFRESHING:
@@ -57,20 +57,20 @@ export class TokenRefreshInterceptor implements HttpInterceptor {
     return this.tokenRefreshService.stateObservable.pipe(
       skipWhile((state) => state === TokenRefreshState.REFRESHING),
       take(1),
-      switchMap((state) => this.handleCurrentState(state, next, this.tokenRefreshService.updateRequestToken(req)))
+      switchMap((state) => this.handleCurrentState(state, next, this.tokenRefreshService.updateRequestToken(req))),
     );
   }
 
   private refreshAndSend(next: HttpHandler, req: HttpRequest<any>): Observable<HttpEvent<any>> {
     return this.tokenRefreshService.refreshToken().pipe(
       take(1),
-      concatMap((state) => this.handleCurrentState(state, next, this.tokenRefreshService.updateRequestToken(req)))
+      concatMap((state) => this.handleCurrentState(state, next, this.tokenRefreshService.updateRequestToken(req))),
     );
   }
 
   private isOIDCRequest(req: HttpRequest<any>): boolean {
     return this.sentinelAuthConfig.providers.some(
-      (provider) => provider.oidcConfig?.issuer && req.url.startsWith(provider.oidcConfig?.issuer)
+      (provider) => provider.oidcConfig?.issuer && req.url.startsWith(provider.oidcConfig?.issuer),
     );
   }
 }

@@ -50,7 +50,7 @@ const routes: Routes = [
     },
     loadChildren: () =>
       import('./cheating-detection/training-instance-cheating-detection.module').then(
-        (m) => m.CheatingDetectionOverviewModule
+        (m) => m.CheatingDetectionOverviewModule,
       ),
   },
   {

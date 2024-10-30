@@ -13,16 +13,16 @@ import { CanActivateToObservable } from './can-activate-to-observable';
  * If true, user is navigated directly to trainee agenda instead of the homepage
  */
 @Injectable()
-export class OnlyTraineeGuard implements CanActivate{
+export class OnlyTraineeGuard implements CanActivate {
   constructor(
     private router: Router,
     private authGuard: SentinelAuthGuardWithLogin,
-    private authService: SentinelAuthService
+    private authService: SentinelAuthService,
   ) {}
 
   canActivate(): Observable<boolean> | Promise<boolean> | boolean {
     return CanActivateToObservable.convert(this.authGuard.canActivate()).pipe(
-      map((canActivate) => (canActivate ? this.isTraineeOnly() : false))
+      map((canActivate) => (canActivate ? this.isTraineeOnly() : false)),
     );
   }
 

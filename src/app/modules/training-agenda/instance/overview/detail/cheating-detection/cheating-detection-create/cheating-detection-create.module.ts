@@ -8,7 +8,7 @@ import { TrainingInstanceCheatingDetectionEditComponentsModule } from '@muni-kyp
   imports: [
     CommonModule,
     TrainingInstanceCheatingDetectionEditComponentsModule.forRoot(
-      KypoDynamicEnvironment.getConfig().trainingAgendaConfig
+      KypoDynamicEnvironment.getConfig().trainingAgendaConfig,
     ),
     CheatingDetectionEditRoutingModule,
   ],
