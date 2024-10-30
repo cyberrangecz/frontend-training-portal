@@ -1,4 +1,4 @@
-image: cypress/browsers:node18.12.0-chrome103-ff107
+image: cypress/browsers:node-20.17.0-chrome-129.0.6668.70-1-ff-130.0.1-edge-129.0.2792.52-1
 
 stages:
   - codeStyle
@@ -77,7 +77,7 @@ buildAngular:
       - master
 
 auto-tag:
-  image: 'registry.gitlab.ics.muni.cz:443/csirt-mu-devel/csirt-mu-devel-artifact-repository/docker-common-ci:v0.1.6'
+  image: 'registry.gitlab.ics.muni.cz:443/muni-kypo-crp/dependency-forks/csirtmu-docker-common-ci/docker-common-ci:v0.2.0'
   variables:
     GIT_STRATEGY: clone
   stage: auto-tag

@@ -1,6 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
-
-@import "~@danielmoncada/angular-datetime-picker/assets/style/picker.min.css";
+@import "@danielmoncada/angular-datetime-picker/assets/style/picker.min.css";
 @import "variables";
 
 html {
@@ -10,6 +8,30 @@ html {
 body {
   margin: 0;
   min-height:100vh;
+}
+
+:root .mat-typography h1 {
+  font-size: 2.25rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+:root .mat-typography h2 {
+  font-size: 1.75rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+:root .mat-typography h3 {
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+:root .mat-typography h4 {
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.2;
 }
 
 kypo-login {

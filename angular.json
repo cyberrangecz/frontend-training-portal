@@ -30,10 +30,10 @@
               "src/.well-known/security.txt"
             ],
             "styles": [
-              "src/theme.scss",
+              "node_modules/@muni-kypo-crp/overview-visualization/styles.css",
               "src/variables.scss",
-              "src/styles.scss",
-              "node_modules/@muni-kypo-crp/overview-visualization/styles.css"
+              "src/theme.scss",
+              "src/styles.scss"
             ],
             "vendorChunk": true,
             "extractLicenses": false,
@@ -84,24 +84,24 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "trainings:build"
+            "buildTarget": "trainings:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "trainings:build:production"
+              "buildTarget": "trainings:build:production"
             },
             "staging": {
-              "browserTarget": "trainings:build:staging"
+              "buildTarget": "trainings:build:staging"
             },
             "local": {
-              "browserTarget": "trainings:build:local"
+              "buildTarget": "trainings:build:local"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "trainings:build"
+            "buildTarget": "trainings:build"
           }
         },
         "test": {
@@ -117,10 +117,10 @@
               ]
             },
             "styles": [
-              "src/theme.scss",
+              "node_modules/@muni-kypo-crp/overview-visualization/styles.css",
               "src/variables.scss",
-              "src/styles.scss",
-              "node_modules/@muni-kypo-crp/overview-visualization/styles.css"
+              "src/theme.scss",
+              "src/styles.scss"
             ],
             "scripts": [],
             "assets": [
@@ -167,6 +167,9 @@
     }
   },
   "cli": {
-    "analytics": false
+    "analytics": false,
+    "cache": {
+      "enabled": false
+    }
   }
 }

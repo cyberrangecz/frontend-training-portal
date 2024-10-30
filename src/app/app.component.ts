@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { SentinelAuthService, User } from '@sentinel/auth';
-import { SentinelBaseDirective } from '@sentinel/common';
 import { AgendaContainer } from '@sentinel/layout';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -19,7 +18,7 @@ import { KypoDynamicEnvironment } from 'environments/kypo-dynamic-environment';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent extends SentinelBaseDirective implements OnInit, AfterViewInit {
+export class AppComponent implements OnInit, AfterViewInit {
   isLoading$: Observable<boolean>;
   activeUser$: Observable<User>;
   title$: Observable<string>;
@@ -36,7 +35,6 @@ export class AppComponent extends SentinelBaseDirective implements OnInit, After
     private elementRef: ElementRef,
     private auth: SentinelAuthService
   ) {
-    super();
   }
 
   ngOnInit(): void {

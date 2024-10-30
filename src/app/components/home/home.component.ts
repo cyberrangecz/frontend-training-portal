@@ -1,21 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SentinelAuthService, UserRole } from '@sentinel/auth';
-import { SentinelBaseDirective } from '@sentinel/common';
-import { SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH, SANDBOX_IMAGES_PATH } from '@muni-kypo-crp/sandbox-agenda';
+import { SANDBOX_DEFINITION_PATH, SANDBOX_IMAGES_PATH, SANDBOX_POOL_PATH } from '@muni-kypo-crp/sandbox-agenda';
 import {
   ADAPTIVE_DEFINITION_PATH,
   ADAPTIVE_INSTANCE_PATH,
   TRAINING_DEFINITION_PATH,
   TRAINING_INSTANCE_PATH,
-  TRAINING_RUN_PATH,
+  TRAINING_RUN_PATH
 } from '@muni-kypo-crp/training-agenda';
 import { GROUP_PATH, MICROSERVICE_PATH, USER_PATH } from '@muni-kypo-crp/user-and-group-agenda';
-import { takeWhile } from 'rxjs/operators';
 import { AgendaPortalLink } from '../../model/agenda-portal-link';
 import { PortalAgendaContainer } from '../../model/portal-agenda-container';
 import { RoleResolver } from '../../utils/role-resolver';
 import { AgendaMenuItem } from '../../model/agenda-menu-item';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 /**
  * Main component of homepage (portal) page. Portal page is a main crossroad of possible sub pages. Only those matching with user
@@ -26,13 +25,14 @@ import { AgendaMenuItem } from '../../model/agenda-menu-item';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
-export class HomeComponent extends SentinelBaseDirective implements OnInit {
+export class HomeComponent implements OnInit {
   elevated: string;
   roles: UserRole[];
   portalAgendaContainers: PortalAgendaContainer[] = [];
 
+  destroyRef = inject(DestroyRef);
+
   constructor(private authService: SentinelAuthService, private router: Router) {
-    super();
   }
 
   static createExpandedControlButtons(path: string[]): AgendaMenuItem[] {
@@ -179,7 +179,7 @@ export class HomeComponent extends SentinelBaseDirective implements OnInit {
   }
 
   private subscribeUserChange() {
-    this.authService.activeUser$.pipe(takeWhile(() => this.isAlive)).subscribe(() => {
+    this.authService.activeUser$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.initRoutes();
     });
   }
