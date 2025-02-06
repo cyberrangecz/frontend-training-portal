@@ -1,9 +1,9 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import {
-  AdaptiveRunPhasesDeactivateGuard,
   AdaptiveRunDetailComponent,
-} from '@muni-kypo-crp/training-agenda/adaptive-run-detail';
+  AdaptiveRunPhasesDeactivateGuard,
+} from '@cyberrangecz-platform/training-agenda/adaptive-run-detail';
 
 const routes: Routes = [
   {

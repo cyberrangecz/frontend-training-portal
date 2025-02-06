@@ -1,5 +1,5 @@
 export class HomePage {
-  static goToPage(): void {
-    cy.visit('/home');
-  }
+    static goToPage(): void {
+        cy.visit('/home');
+    }
 }

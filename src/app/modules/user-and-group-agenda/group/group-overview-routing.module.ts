@@ -6,14 +6,14 @@ import {
   GROUP_EDIT_PATH,
   GROUP_NEW_PATH,
   GROUP_SELECTOR,
-} from '@muni-kypo-crp/user-and-group-agenda';
+} from '@cyberrangecz-platform/user-and-group-agenda';
 
 import {
   GroupBreadcrumbResolver,
   GroupOverviewComponent,
   GroupResolver,
   GroupTitleResolver,
-} from '@muni-kypo-crp/user-and-group-agenda/group-overview';
+} from '@cyberrangecz-platform/user-and-group-agenda/group-overview';
 
 const routes: Routes = [
   {

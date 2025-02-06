@@ -1,14 +1,14 @@
 import { User } from '@sentinel/auth';
 import { Agenda, AgendaContainer } from '@sentinel/layout';
-import { SANDBOX_DEFINITION_PATH, SANDBOX_POOL_PATH, SANDBOX_IMAGES_PATH } from '@muni-kypo-crp/sandbox-agenda';
+import { SANDBOX_DEFINITION_PATH, SANDBOX_IMAGES_PATH, SANDBOX_POOL_PATH } from '@cyberrangecz-platform/sandbox-agenda';
 import {
   ADAPTIVE_DEFINITION_PATH,
   ADAPTIVE_INSTANCE_PATH,
   TRAINING_DEFINITION_PATH,
   TRAINING_INSTANCE_PATH,
   TRAINING_RUN_PATH,
-} from '@muni-kypo-crp/training-agenda';
-import { GROUP_PATH, MICROSERVICE_PATH, USER_PATH } from '@muni-kypo-crp/user-and-group-agenda';
+} from '@cyberrangecz-platform/training-agenda';
+import { GROUP_PATH, MICROSERVICE_PATH, USER_PATH } from '@cyberrangecz-platform/user-and-group-agenda';
 import { RoleResolver } from './role-resolver';
 
 export class NavBuilder {

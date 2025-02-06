@@ -6,13 +6,13 @@ import {
   RESULTS_PATH,
   RUNS_PATH,
   SUMMARY_PATH,
-} from '@muni-kypo-crp/training-agenda';
+} from '@cyberrangecz-platform/training-agenda';
 import { NgModule } from '@angular/core';
 import {
   AdaptiveInstanceDetailBreadcrumbResolver,
   AdaptiveInstanceDetailTitleResolver,
   AdaptiveInstanceResolver,
-} from '@muni-kypo-crp/training-agenda/resolvers';
+} from '@cyberrangecz-platform/training-agenda/resolvers';
 
 const routes: Routes = [
   {

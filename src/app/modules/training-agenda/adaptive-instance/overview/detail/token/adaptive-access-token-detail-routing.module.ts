@@ -1,6 +1,6 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { AccessTokenDetailComponent } from '@muni-kypo-crp/training-agenda/instance-access-token';
+import { AccessTokenDetailComponent } from '@cyberrangecz-platform/training-agenda/instance-access-token';
 
 const routes: Routes = [
   {

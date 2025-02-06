@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TrainingInstanceRunsComponent } from '@muni-kypo-crp/training-agenda/instance-runs';
+import { TrainingInstanceRunsComponent } from '@cyberrangecz-platform/training-agenda/instance-runs';
 
 const routes: Routes = [
   {

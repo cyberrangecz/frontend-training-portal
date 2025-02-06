@@ -13,7 +13,7 @@ COPY *.json /build/
 RUN cd /build && \
     npm config set @sentinel:registry https://$SENTINEL_REGISTRY_HOST_NO_PROTO && \
     npm config set //$SENTINEL_REGISTRY_HOST_NO_PROTO:_authToken $SENTINEL_REGISTRY_ACCESS_TOKEN && \
-    npm config set @muni-kypo-crp:registry https://$KYPO_REGISTRY_HOST_NO_PROTO && \
+    npm config set @cyberrangecz-platform:registry https://$KYPO_REGISTRY_HOST_NO_PROTO && \
     npm config set //$KYPO_REGISTRY_HOST_NO_PROTO:_authToken $KYPO_REGISTRY_ACCESS_TOKEN && \
     npm install && \
     if [ "$PROD" = true ] ; then \

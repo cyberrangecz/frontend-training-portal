@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MitreTechniquesComponent } from '@muni-kypo-crp/training-agenda/mitre-techniques';
+import { MitreTechniquesComponent } from '@cyberrangecz-platform/training-agenda/mitre-techniques';
 
 const routes: Routes = [
   {

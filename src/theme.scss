@@ -10,18 +10,18 @@ $kypo-theme: sentinel-variables.$sentinel-theme;
 
 
 :root {
-  @include mat.core();
-  @include mat.color-variants-backwards-compatibility($kypo-theme);
-  @include mat.all-component-themes($kypo-theme);
-  @include mat.system-level-colors($kypo-theme);
-  @include sentinel-components.all-component-themes($kypo-theme);
-  @include layout.sentinel-layout-theme($kypo-theme);
-  @include sentinel-layout-sidebar.sidebar-page-layout-theme($kypo-theme);
+    @include mat.core();
+    @include mat.color-variants-backwards-compatibility($kypo-theme);
+    @include mat.all-component-themes($kypo-theme);
+    @include mat.system-level-colors($kypo-theme);
+    @include sentinel-components.all-component-themes($kypo-theme);
+    @include layout.sentinel-layout-theme($kypo-theme);
+    @include sentinel-layout-sidebar.sidebar-page-layout-theme($kypo-theme);
 
-  @include mat.typography-hierarchy(sentinel-variables.$sentinel-theme);
-  @include mat.all-component-typographies(sentinel-variables.$sentinel-theme);
-  @include mat.system-level-typography(sentinel-variables.$sentinel-theme);
-  @include sentinel-typography.all-component-typographies(sentinel-variables.$sentinel-theme);
+    @include mat.typography-hierarchy(sentinel-variables.$sentinel-theme);
+    @include mat.all-component-typographies(sentinel-variables.$sentinel-theme);
+    @include mat.system-level-typography(sentinel-variables.$sentinel-theme);
+    @include sentinel-typography.all-component-typographies(sentinel-variables.$sentinel-theme);
 }
 
 

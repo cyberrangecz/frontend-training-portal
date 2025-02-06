@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import {
   AdaptiveInstanceCanDeactivate,
   AdaptiveInstanceEditOverviewComponent,
-} from '@muni-kypo-crp/training-agenda/adaptive-instance-edit';
+} from '@cyberrangecz-platform/training-agenda/adaptive-instance-edit';
 
 const routes: Routes = [
   {

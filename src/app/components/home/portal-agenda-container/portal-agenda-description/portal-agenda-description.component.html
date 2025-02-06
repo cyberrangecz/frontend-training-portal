@@ -1,7 +1,7 @@
 <span
-  *ngIf="!disabled"
-  [ngClass]="{'text-elevation' : (elevation === label)}"
-  (mouseover)="setElevation( label + ' button')"
-  (mouseleave)="setElevation('')">
+    *ngIf="!disabled"
+    [ngClass]="{'text-elevation' : (elevation === label)}"
+    (mouseover)="setElevation( label + ' button')"
+    (mouseleave)="setElevation('')">
     {{ description }}
 </span>

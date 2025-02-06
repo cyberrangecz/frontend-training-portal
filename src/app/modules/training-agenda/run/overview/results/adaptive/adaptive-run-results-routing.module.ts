@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AdaptiveRunResultsComponent } from '@muni-kypo-crp/training-agenda/adaptive-run-results';
+import { AdaptiveRunResultsComponent } from '@cyberrangecz-platform/training-agenda/adaptive-run-results';
 
 const routes: Routes = [
   {

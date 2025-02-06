@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { SentinelAuthService } from '@sentinel/auth';
 import { SentinelAuthGuardWithLogin } from '@sentinel/auth/guards';
-import { TRAINING_RUN_PATH } from '@muni-kypo-crp/training-agenda';
+import { TRAINING_RUN_PATH } from '@cyberrangecz-platform/training-agenda';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RoleResolver } from '../../utils/role-resolver';

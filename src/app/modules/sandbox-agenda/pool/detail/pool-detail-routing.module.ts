@@ -8,13 +8,14 @@ import {
   SANDBOX_INSTANCE_ID_SELECTOR,
   SANDBOX_INSTANCE_PATH,
   SANDBOX_TOPOLOGY_PATH,
-} from '@muni-kypo-crp/sandbox-agenda';
-import { PoolDetailComponent } from '@muni-kypo-crp/sandbox-agenda/pool-detail';
+} from '@cyberrangecz-platform/sandbox-agenda';
+import { PoolDetailComponent } from '@cyberrangecz-platform/sandbox-agenda/pool-detail';
 import {
   PoolResolver,
   RequestBreadcrumbResolver,
   SandboxInstanceBreadcrumbResolver,
-} from '@muni-kypo-crp/sandbox-agenda/resolvers';
+} from '@cyberrangecz-platform/sandbox-agenda/resolvers';
+
 const routes: Routes = [
   {
     path: '',

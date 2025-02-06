@@ -5,8 +5,8 @@ import {
   UserOverviewComponent,
   UserResolverService,
   UserTitleResolverService,
-} from '@muni-kypo-crp/user-and-group-agenda/user-overview';
-import { USER_DATA_ATTRIBUTE_NAME, USER_DETAIL_PATH, USER_SELECTOR } from '@muni-kypo-crp/user-and-group-agenda';
+} from '@cyberrangecz-platform/user-and-group-agenda/user-overview';
+import { USER_DATA_ATTRIBUTE_NAME, USER_DETAIL_PATH, USER_SELECTOR } from '@cyberrangecz-platform/user-and-group-agenda';
 
 const routes: Routes = [
   {

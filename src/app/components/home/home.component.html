@@ -1,14 +1,14 @@
 <div class="portal-content">
-  <h1>KYPO Portal</h1>
-  <div class="portal-menu">
-    <div *ngFor="let portalAgendaContainer of portalAgendaContainers; let last = last">
-      <kypo-portal-agenda-container
-        [portalAgendaContainer]="portalAgendaContainer"
-        [elevation]="elevated"
-        [isLast]="last"
-        (navigation)="navigateToRoute($event)"
-        (setElevation)="setElevation($event)">
-      </kypo-portal-agenda-container>
+    <h1>KYPO Portal</h1>
+    <div class="portal-menu">
+        <div *ngFor="let portalAgendaContainer of portalAgendaContainers; let last = last">
+            <kypo-portal-agenda-container
+                [portalAgendaContainer]="portalAgendaContainer"
+                [elevation]="elevated"
+                [isLast]="last"
+                (navigation)="navigateToRoute($event)"
+                (setElevation)="setElevation($event)">
+            </kypo-portal-agenda-container>
+        </div>
     </div>
-  </div>
 </div>

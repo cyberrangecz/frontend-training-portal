@@ -1,16 +1,17 @@
 h1, .subtitle {
-  text-align: center;
+    text-align: center;
 }
 
 .subtitle {
-  font-style: italic;
+    font-style: italic;
 }
 
 main {
-  display: flex;
-  flex-direction: column;
-  > *:not(router-outlet) {
-    flex: 1;
-    display: block;
-  }
+    display: flex;
+    flex-direction: column;
+
+    > *:not(router-outlet) {
+        flex: 1;
+        display: block;
+    }
 }

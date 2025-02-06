@@ -4,12 +4,12 @@ import {
   AdaptiveDefinitionBreadcrumbResolver,
   AdaptiveDefinitionResolver,
   AdaptiveDefinitionTitleResolver,
-} from '@muni-kypo-crp/training-agenda/resolvers';
-import { ADAPTIVE_DEFINITION_DATA_ATTRIBUTE_NAME } from '@muni-kypo-crp/training-agenda';
+} from '@cyberrangecz-platform/training-agenda/resolvers';
+import { ADAPTIVE_DEFINITION_DATA_ATTRIBUTE_NAME } from '@cyberrangecz-platform/training-agenda';
 import {
-  AdaptiveDefinitionEditOverviewComponent,
   AdaptiveDefinitionCanDeactivate,
-} from '@muni-kypo-crp/training-agenda/adaptive-definition-edit';
+  AdaptiveDefinitionEditOverviewComponent,
+} from '@cyberrangecz-platform/training-agenda/adaptive-definition-edit';
 
 const routes: Routes = [
   {

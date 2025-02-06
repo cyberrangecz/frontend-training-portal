@@ -1,15 +1,15 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SentinelAuthService, UserRole } from '@sentinel/auth';
-import { SANDBOX_DEFINITION_PATH, SANDBOX_IMAGES_PATH, SANDBOX_POOL_PATH } from '@muni-kypo-crp/sandbox-agenda';
+import { SANDBOX_DEFINITION_PATH, SANDBOX_IMAGES_PATH, SANDBOX_POOL_PATH } from '@cyberrangecz-platform/sandbox-agenda';
 import {
   ADAPTIVE_DEFINITION_PATH,
   ADAPTIVE_INSTANCE_PATH,
   TRAINING_DEFINITION_PATH,
   TRAINING_INSTANCE_PATH,
   TRAINING_RUN_PATH,
-} from '@muni-kypo-crp/training-agenda';
-import { GROUP_PATH, MICROSERVICE_PATH, USER_PATH } from '@muni-kypo-crp/user-and-group-agenda';
+} from '@cyberrangecz-platform/training-agenda';
+import { GROUP_PATH, MICROSERVICE_PATH, USER_PATH } from '@cyberrangecz-platform/user-and-group-agenda';
 import { AgendaPortalLink } from '../../model/agenda-portal-link';
 import { PortalAgendaContainer } from '../../model/portal-agenda-container';
 import { RoleResolver } from '../../utils/role-resolver';

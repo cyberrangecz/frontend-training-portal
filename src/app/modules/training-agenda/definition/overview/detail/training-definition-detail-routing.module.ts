@@ -1,11 +1,11 @@
 import { RouterModule, Routes } from '@angular/router';
-import { SUMMARY_PATH, TRAINING_DEFINITION_DATA_ATTRIBUTE_NAME } from '@muni-kypo-crp/training-agenda';
+import { SUMMARY_PATH, TRAINING_DEFINITION_DATA_ATTRIBUTE_NAME } from '@cyberrangecz-platform/training-agenda';
 import { NgModule } from '@angular/core';
 import {
-  TrainingDefinitionResolver,
   TrainingDefinitionDetailBreadcrumbResolver,
   TrainingDefinitionDetailTitleResolver,
-} from '@muni-kypo-crp/training-agenda/resolvers';
+  TrainingDefinitionResolver,
+} from '@cyberrangecz-platform/training-agenda/resolvers';
 
 const routes: Routes = [
   {

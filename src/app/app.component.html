@@ -1,12 +1,12 @@
 <sentinel-layout1 logoSrc="./assets/images/kypo-logo.svg"
-              [user]="activeUser$ | async"
-              [isLoading]="isLoading$ | async"
-              [agendaContainers]="agendaContainers$ | async"
-              [notificationsRoute]="notificationRoute"
-              [version]="version"
-              (login)="onLogin()"
-              (logout)="onLogout()">
-  <h1 *ngIf="title$ | async as title">{{ title }}</h1>
-  <p class="subtitle" *ngIf="subtitle$ | async as subtitle">{{ subtitle }}</p>
-  <router-outlet></router-outlet>
+                  [user]="activeUser$ | async"
+                  [isLoading]="isLoading$ | async"
+                  [agendaContainers]="agendaContainers$ | async"
+                  [notificationsRoute]="notificationRoute"
+                  [version]="version"
+                  (login)="onLogin()"
+                  (logout)="onLogout()">
+    <h1 *ngIf="title$ | async as title">{{ title }}</h1>
+    <p class="subtitle" *ngIf="subtitle$ | async as subtitle">{{ subtitle }}</p>
+    <router-outlet></router-outlet>
 </sentinel-layout1>

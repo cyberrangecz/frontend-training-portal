@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TRAINING_DEFINITION_DATA_ATTRIBUTE_NAME } from '@muni-kypo-crp/training-agenda';
+import { TRAINING_DEFINITION_DATA_ATTRIBUTE_NAME } from '@cyberrangecz-platform/training-agenda';
 import {
   TrainingDefinitionCanDeactivate,
   TrainingDefinitionEditOverviewComponent,
-} from '@muni-kypo-crp/training-agenda/definition-edit';
+} from '@cyberrangecz-platform/training-agenda/definition-edit';
 import {
   TrainingDefinitionBreadcrumbResolver,
   TrainingDefinitionResolver,
   TrainingDefinitionTitleResolver,
-} from '@muni-kypo-crp/training-agenda/resolvers';
+} from '@cyberrangecz-platform/training-agenda/resolvers';
 
 const routes: Routes = [
   {

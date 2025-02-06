@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { SandboxErrorHandler, SandboxNotificationService } from '@muni-kypo-crp/sandbox-agenda';
+import { SandboxErrorHandler, SandboxNotificationService } from '@cyberrangecz-platform/sandbox-agenda';
 import { ErrorHandlerService } from '../../services/shared/error-handler.service';
 import { NotificationService } from '../../services/shared/notification.service';
 

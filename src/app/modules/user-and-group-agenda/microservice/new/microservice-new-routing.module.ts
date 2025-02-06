@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {
   MicroserviceEditCanDeactivate,
   MicroserviceEditOverviewComponent,
-} from '@muni-kypo-crp/user-and-group-agenda/microservice-registration';
+} from '@cyberrangecz-platform/user-and-group-agenda/microservice-registration';
 
 const routes: Routes = [
   {

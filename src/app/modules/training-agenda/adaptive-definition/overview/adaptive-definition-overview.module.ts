@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TrainingAgendaSharedProvidersModule } from '../../training-agenda-shared-providers.module';
 import { AdaptiveDefinitionOverviewRoutingModule } from './adaptive-definition-overview-routing.module';
-import { KypoTrainingApiModule } from '@muni-kypo-crp/training-api';
+import { KypoTrainingApiModule } from '@cyberrangecz-platform/training-api';
 import { KypoDynamicEnvironment } from '../../../../../environments/kypo-dynamic-environment';
-import { AdaptiveDefinitionOverviewComponentsModule } from '@muni-kypo-crp/training-agenda/adaptive-definition-overview';
-import { KypoSandboxApiModule } from '@muni-kypo-crp/sandbox-api';
+import { AdaptiveDefinitionOverviewComponentsModule } from '@cyberrangecz-platform/training-agenda/adaptive-definition-overview';
+import { KypoSandboxApiModule } from '@cyberrangecz-platform/sandbox-api';
 
 @NgModule({
   imports: [

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { AdaptiveDefinitionDetailComponentsModule } from '@muni-kypo-crp/training-agenda/definition-detail';
+import { AdaptiveDefinitionDetailComponentsModule } from '@cyberrangecz-platform/training-agenda/definition-detail';
 import { AdaptiveDefinitionDetailRoutingModule } from './adaptive-definition-detail-routing.module';
 import { KypoDynamicEnvironment } from '../../../../../../environments/kypo-dynamic-environment';
 

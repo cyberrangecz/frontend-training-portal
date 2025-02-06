@@ -5,14 +5,14 @@ import {
   TRAINING_INSTANCE_DETAIL_PATH,
   TRAINING_INSTANCE_EDIT_PATH,
   TRAINING_INSTANCE_NEW_PATH,
-} from '@muni-kypo-crp/training-agenda';
+} from '@cyberrangecz-platform/training-agenda';
 import { NgModule } from '@angular/core';
 import {
   AdaptiveInstanceBreadcrumbResolver,
   AdaptiveInstanceResolver,
   AdaptiveInstanceTitleResolver,
-} from '@muni-kypo-crp/training-agenda/resolvers';
-import { AdaptiveInstanceOverviewComponent } from '@muni-kypo-crp/training-agenda/adaptive-instance-overview';
+} from '@cyberrangecz-platform/training-agenda/resolvers';
+import { AdaptiveInstanceOverviewComponent } from '@cyberrangecz-platform/training-agenda/adaptive-instance-overview';
 
 const routes: Routes = [
   {

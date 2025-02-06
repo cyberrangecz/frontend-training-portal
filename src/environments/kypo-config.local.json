@@ -1,82 +1,82 @@
 {
-  "roleMapping": {
-    "uagAdmin": "ROLE_USER_AND_GROUP_ADMINISTRATOR",
-    "trainingDesigner": "ROLE_TRAINING_DESIGNER",
-    "trainingOrganizer": "ROLE_TRAINING_ORGANIZER",
-    "trainingTrainee": "ROLE_TRAINING_TRAINEE",
-    "sandboxDesigner": "ROLE_KYPO-SANDBOX-SERVICE_DESIGNER",
-    "sandboxOrganizer": "ROLE_KYPO-SANDBOX-SERVICE_ORGANIZER"
-  },
-  "trainingAgendaConfig": {
-    "pollingPeriod": 5000,
-    "defaultPaginationSize": 10,
-    "visualizationConfig": {
-      "trainingBasePath": "http://localhost:3000/kypo-rest-training/api/v1/",
-      "adaptiveBasePath" : "http://localhost:3000/kypo-adaptive-training/api/v1/"
+    "roleMapping": {
+        "uagAdmin": "ROLE_USER_AND_GROUP_ADMINISTRATOR",
+        "trainingDesigner": "ROLE_TRAINING_DESIGNER",
+        "trainingOrganizer": "ROLE_TRAINING_ORGANIZER",
+        "trainingTrainee": "ROLE_TRAINING_TRAINEE",
+        "sandboxDesigner": "ROLE_KYPO-SANDBOX-SERVICE_DESIGNER",
+        "sandboxOrganizer": "ROLE_KYPO-SANDBOX-SERVICE_ORGANIZER"
     },
-    "kypoTopologyConfig": {
-      "topologyRestUrl": "http://localhost:3000/kypo-sandbox-service/api/v1/",
-      "decoratorsRestUrl": "",
-      "defaultDecoratorRefreshPeriodInSeconds": 3,
-      "useRealTime": false,
-      "useDecorators": false
-    }
-  },
-  "trainingApiConfig": {
-    "trainingBasePath": "http://localhost:3000/kypo-rest-training/api/v1/",
-    "adaptiveBasePath": "http://localhost:3000/kypo-adaptive-training/api/v1/",
-    "mitreTechniqueBasePath": "http://localhost:3000/kypo-mitre-technique-service/api/v1/"
-  },
-  "sandboxAgendaConfig": {
-    "pollingPeriod": 5000,
-    "defaultPaginationSize": 10,
-    "kypoTopologyConfig": {
-      "topologyRestUrl": "http://localhost:3000/kypo-sandbox-service/api/v1/",
-      "decoratorsRestUrl": "",
-      "defaultDecoratorRefreshPeriodInSeconds": 3,
-      "useRealTime": false,
-      "useDecorators": false
-    }
-  },
-  "sandboxApiConfig": {
-    "sandboxRestBasePath": "http://localhost:3000/kypo-sandbox-service/api/v1/"
-  },
-  "userAndGroupAgendaConfig": {
-    "defaultPaginationSize": 10
-  },
-  "userAndGroupApiConfig": {
-    "userAndGroupRestBasePath": "http://localhost:3000/kypo-rest-user-and-group/api/v1/"
-  },
-  "authConfig": {
-    "maxRetryAttempts": 3,
-    "guardMainPageRedirect": "home",
-    "guardLoginPageRedirect": "login",
-    "tokenInterceptorAllowedUrls": [
-      "http://localhost:3000"
-    ],
-    "userInfoRestUri": "http://localhost:3000/kypo-rest-user-and-group/api/v1/",
-    "providers": [
-      {
-        "label": "Login with MUNI",
-        "textColor": "white",
-        "backgroundColor": "#002776",
-        "tokenRefreshTime": 30000,
-        "oidcConfig": {
-          "issuer": "https://172.19.0.22/keycloak/realms/KYPO",
-          "clientId": "KYPO-client",
-          "redirectUri": "http://localhost:4200",
-          "scope": "openid email profile offline_access",
-          "logoutUrl": "https://172.19.0.22/keycloak/realms/KYPO/protocol/openid-connect/logout",
-          "postLogoutRedirectUri": "http://localhost:4200/logout-confirmed/",
-          "silentRefreshRedirectUri": "https://172.19.0.22:443/silent-refresh.html",
-          "clearHashAfterLogin": true,
-          "strictDiscoveryDocumentValidation": false,
-          "skipIssuerCheck": true,
-          "responseType": "code",
-          "oidc": true
+    "trainingAgendaConfig": {
+        "pollingPeriod": 5000,
+        "defaultPaginationSize": 10,
+        "visualizationConfig": {
+            "trainingBasePath": "http://localhost:3000/kypo-rest-training/api/v1/",
+            "adaptiveBasePath": "http://localhost:3000/kypo-adaptive-training/api/v1/"
+        },
+        "kypoTopologyConfig": {
+            "topologyRestUrl": "http://localhost:3000/kypo-sandbox-service/api/v1/",
+            "decoratorsRestUrl": "",
+            "defaultDecoratorRefreshPeriodInSeconds": 3,
+            "useRealTime": false,
+            "useDecorators": false
         }
-      }
-    ]
-  },
-  "version": "v21.12"
+    },
+    "trainingApiConfig": {
+        "trainingBasePath": "http://localhost:3000/kypo-rest-training/api/v1/",
+        "adaptiveBasePath": "http://localhost:3000/kypo-adaptive-training/api/v1/",
+        "mitreTechniqueBasePath": "http://localhost:3000/kypo-mitre-technique-service/api/v1/"
+    },
+    "sandboxAgendaConfig": {
+        "pollingPeriod": 5000,
+        "defaultPaginationSize": 10,
+        "kypoTopologyConfig": {
+            "topologyRestUrl": "http://localhost:3000/kypo-sandbox-service/api/v1/",
+            "decoratorsRestUrl": "",
+            "defaultDecoratorRefreshPeriodInSeconds": 3,
+            "useRealTime": false,
+            "useDecorators": false
+        }
+    },
+    "sandboxApiConfig": {
+        "sandboxRestBasePath": "http://localhost:3000/kypo-sandbox-service/api/v1/"
+    },
+    "userAndGroupAgendaConfig": {
+        "defaultPaginationSize": 10
+    },
+    "userAndGroupApiConfig": {
+        "userAndGroupRestBasePath": "http://localhost:3000/kypo-rest-user-and-group/api/v1/"
+    },
+    "authConfig": {
+        "maxRetryAttempts": 3,
+        "guardMainPageRedirect": "home",
+        "guardLoginPageRedirect": "login",
+        "tokenInterceptorAllowedUrls": [
+            "http://localhost:3000"
+        ],
+        "userInfoRestUri": "http://localhost:3000/kypo-rest-user-and-group/api/v1/",
+        "providers": [
+            {
+                "label": "Login with MUNI",
+                "textColor": "white",
+                "backgroundColor": "#002776",
+                "tokenRefreshTime": 30000,
+                "oidcConfig": {
+                    "issuer": "https://172.19.0.22/keycloak/realms/KYPO",
+                    "clientId": "KYPO-client",
+                    "redirectUri": "http://localhost:4200",
+                    "scope": "openid email profile offline_access",
+                    "logoutUrl": "https://172.19.0.22/keycloak/realms/KYPO/protocol/openid-connect/logout",
+                    "postLogoutRedirectUri": "http://localhost:4200/logout-confirmed/",
+                    "silentRefreshRedirectUri": "https://172.19.0.22:443/silent-refresh.html",
+                    "clearHashAfterLogin": true,
+                    "strictDiscoveryDocumentValidation": false,
+                    "skipIssuerCheck": true,
+                    "responseType": "code",
+                    "oidc": true
+                }
+            }
+        ]
+    },
+    "version": "v21.12"
 }

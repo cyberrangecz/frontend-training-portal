@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdaptiveDefinitionEditOverviewComponentsModule } from '@muni-kypo-crp/training-agenda/adaptive-definition-edit';
+import { AdaptiveDefinitionEditOverviewComponentsModule } from '@cyberrangecz-platform/training-agenda/adaptive-definition-edit';
 import { KypoDynamicEnvironment } from '../../../../../../environments/kypo-dynamic-environment';
 import { AdaptiveDefinitionEditOverviewRoutingModule } from './adaptive-definition-edit-overview-routing.module';
 

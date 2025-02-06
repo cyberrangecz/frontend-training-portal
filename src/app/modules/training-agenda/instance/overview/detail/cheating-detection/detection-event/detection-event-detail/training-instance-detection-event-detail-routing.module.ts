@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TrainingInstanceDetectionEventDetailComponent } from '@muni-kypo-crp/training-agenda/instance-detection-event-detail';
+import { TrainingInstanceDetectionEventDetailComponent } from '@cyberrangecz-platform/training-agenda/instance-detection-event-detail';
 
 const routes: Routes = [
   {

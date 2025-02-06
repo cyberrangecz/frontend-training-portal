@@ -14,14 +14,14 @@ import {
   TRAINING_RUN_RESULTS_PATH,
   TRAINING_RUN_RESUME_PATH,
   TRAINING_RUN_SELECTOR,
-} from '@muni-kypo-crp/training-agenda';
+} from '@cyberrangecz-platform/training-agenda';
 import {
   AccessAdaptiveRunResolver,
   AccessTrainingRunResolver,
   AdaptiveRunResultsResolver,
   TrainingRunResultsResolver,
-} from '@muni-kypo-crp/training-agenda/resolvers';
-import { TrainingRunOverviewComponent } from '@muni-kypo-crp/training-agenda/run-overview';
+} from '@cyberrangecz-platform/training-agenda/resolvers';
+import { TrainingRunOverviewComponent } from '@cyberrangecz-platform/training-agenda/run-overview';
 
 const routes: Routes = [
   {

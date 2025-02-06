@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { GroupDetailComponentsModule } from '@muni-kypo-crp/user-and-group-agenda/group-detail';
+import { GroupDetailComponentsModule } from '@cyberrangecz-platform/user-and-group-agenda/group-detail';
 import { GroupDetailRoutingModule } from './group-detail-routing.module';
 import { KypoDynamicEnvironment } from '../../../../../environments/kypo-dynamic-environment';
 import { CommonModule } from '@angular/common';

@@ -4,8 +4,8 @@ import {
   CHEATING_DETECTION_CREATE_PATH,
   CHEATING_DETECTION_EVENTS_PATH,
   TRAINING_INSTANCE_SELECTOR,
-} from '@muni-kypo-crp/training-agenda';
-import { CheatingDetectionOverviewComponent } from '@muni-kypo-crp/training-agenda/instance-cheating-detection';
+} from '@cyberrangecz-platform/training-agenda';
+import { CheatingDetectionOverviewComponent } from '@cyberrangecz-platform/training-agenda/instance-cheating-detection';
 
 const routes: Routes = [
   {

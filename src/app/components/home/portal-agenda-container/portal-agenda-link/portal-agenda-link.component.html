@@ -1,39 +1,39 @@
 <div class="portal-item-container" *ngIf="!portalAgendaLink.disabled">
-  <div *ngIf="portalAgendaLink.menu else simpleButton">
-    <button
-      mat-raised-button
-      color="primary"
-      class="simple-button"
-      [ngClass]="{'button-elevation' : (elevation === portalAgendaLink.label + ' button')}"
-      (mouseover)="setElevation(portalAgendaLink.label)"
-      (mouseleave)="setElevation('')"
-      [matMenuTriggerFor]="controlMenu"
-    >
-      <mat-icon>{{ portalAgendaLink.icon }}</mat-icon>
-      <mat-icon inline="true">arrow_drop_down</mat-icon>
-    </button>
-    <mat-menu #controlMenu="matMenu">
-      <button
-        *ngFor="let expandedControl of portalAgendaLink.menu"
-        mat-menu-item
-        class="expanded-menu-item"
-        (click)="setRoute(expandedControl.path)"
-      >
-        <mat-icon>{{ expandedControl?.icon }}</mat-icon>
-        <span>{{ expandedControl?.label }}</span>
-      </button>
-    </mat-menu>
-  </div>
-  <ng-template #simpleButton>
-    <button
-      mat-raised-button color="primary"
-      class="simple-button"
-      [ngClass]="{'button-elevation' : (elevation === portalAgendaLink.label + ' button')}"
-      (mouseover)="setElevation(portalAgendaLink.label)"
-      (mouseleave)="setElevation('')"
-      (click)="setRoute(portalAgendaLink.path)">
-      <mat-icon>{{ portalAgendaLink.icon }}</mat-icon>
-    </button>
-  </ng-template>
-  <h3>{{ portalAgendaLink.label }}</h3>
+    <div *ngIf="portalAgendaLink.menu else simpleButton">
+        <button
+            mat-raised-button
+            color="primary"
+            class="simple-button"
+            [ngClass]="{'button-elevation' : (elevation === portalAgendaLink.label + ' button')}"
+            (mouseover)="setElevation(portalAgendaLink.label)"
+            (mouseleave)="setElevation('')"
+            [matMenuTriggerFor]="controlMenu"
+        >
+            <mat-icon>{{ portalAgendaLink.icon }}</mat-icon>
+            <mat-icon inline="true">arrow_drop_down</mat-icon>
+        </button>
+        <mat-menu #controlMenu="matMenu">
+            <button
+                *ngFor="let expandedControl of portalAgendaLink.menu"
+                mat-menu-item
+                class="expanded-menu-item"
+                (click)="setRoute(expandedControl.path)"
+            >
+                <mat-icon>{{ expandedControl?.icon }}</mat-icon>
+                <span>{{ expandedControl?.label }}</span>
+            </button>
+        </mat-menu>
+    </div>
+    <ng-template #simpleButton>
+        <button
+            mat-raised-button color="primary"
+            class="simple-button"
+            [ngClass]="{'button-elevation' : (elevation === portalAgendaLink.label + ' button')}"
+            (mouseover)="setElevation(portalAgendaLink.label)"
+            (mouseleave)="setElevation('')"
+            (click)="setRoute(portalAgendaLink.path)">
+            <mat-icon>{{ portalAgendaLink.icon }}</mat-icon>
+        </button>
+    </ng-template>
+    <h3>{{ portalAgendaLink.label }}</h3>
 </div>

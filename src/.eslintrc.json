@@ -1,42 +1,42 @@
 {
-  "extends": [
-    "../.eslintrc.json"
-  ],
-  "overrides": [
-    {
-      "files": [
-        "*.ts"
-      ],
-      "parserOptions": {
-        "project": [
-          "tsconfig.*?.json"
-        ],
-        "createDefaultProgram": true
-      },
-      "rules": {
-        "@angular-eslint/directive-selector": [
-          "error",
-          {
-            "type": "attribute",
-            "prefix": "kypo",
-            "style": "camelCase"
-          }
-        ],
-        "@angular-eslint/component-selector": [
-          "error",
-          {
-            "type": "element",
-            "prefix": "kypo",
-            "style": "kebab-case"
-          }
-        ]
-      }
-    },
-    {
-      "files": [
-        "*.component.html"
-      ],
-      "rules": {}
-    }
-  ]
+    "extends": [
+        "../.eslintrc.json"
+    ],
+    "overrides": [
+        {
+            "files": [
+                "*.ts"
+            ],
+            "parserOptions": {
+                "project": [
+                    "tsconfig.*?.json"
+                ],
+                "createDefaultProgram": true
+            },
+            "rules": {
+                "@angular-eslint/directive-selector": [
+                    "error",
+                    {
+                        "type": "attribute",
+                        "prefix": "kypo",
+                        "style": "camelCase"
+                    }
+                ],
+                "@angular-eslint/component-selector": [
+                    "error",
+                    {
+                        "type": "element",
+                        "prefix": "kypo",
+                        "style": "kebab-case"
+                    }
+                ]
+            }
+        },
+        {
+            "files": [
+                "*.component.html"
+            ],
+            "rules": {}
+        }
+    ]
 }

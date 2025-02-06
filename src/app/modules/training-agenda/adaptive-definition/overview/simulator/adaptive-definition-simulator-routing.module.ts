@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AdaptiveDefinitionBreadcrumbResolver } from '@muni-kypo-crp/training-agenda/resolvers';
-import { AdaptiveDefinitionSimulatorComponent } from '@muni-kypo-crp/training-agenda/adaptive-definition-simulator';
+import { AdaptiveDefinitionBreadcrumbResolver } from '@cyberrangecz-platform/training-agenda/resolvers';
+import { AdaptiveDefinitionSimulatorComponent } from '@cyberrangecz-platform/training-agenda/adaptive-definition-simulator';
 
 const routes: Routes = [
   {

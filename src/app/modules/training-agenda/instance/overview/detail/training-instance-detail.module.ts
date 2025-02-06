@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { TrainingInstanceDetailComponentsModule } from '@muni-kypo-crp/training-agenda/instance-detail';
+import { TrainingInstanceDetailComponentsModule } from '@cyberrangecz-platform/training-agenda/instance-detail';
 import { KypoDynamicEnvironment } from '../../../../../../environments/kypo-dynamic-environment';
 import { TrainingInstanceDetailRoutingModule } from './training-instance-detail-routing.module';
 

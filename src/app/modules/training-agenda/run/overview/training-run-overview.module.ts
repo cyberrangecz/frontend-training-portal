@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { TrainingRunOverviewComponentsModule } from '@muni-kypo-crp/training-agenda/run-overview';
-import { KypoTrainingApiModule } from '@muni-kypo-crp/training-api';
+import { TrainingRunOverviewComponentsModule } from '@cyberrangecz-platform/training-agenda/run-overview';
+import { KypoTrainingApiModule } from '@cyberrangecz-platform/training-api';
 import { KypoDynamicEnvironment } from '../../../../../environments/kypo-dynamic-environment';
 import { TrainingAgendaSharedProvidersModule } from '../../training-agenda-shared-providers.module';
 import { TrainingRunOverviewRoutingModule } from './training-run-overview-routing.module';
-import { KypoSandboxApiModule } from '@muni-kypo-crp/sandbox-api';
+import { KypoSandboxApiModule } from '@cyberrangecz-platform/sandbox-api';
 
 @NgModule({
   imports: [

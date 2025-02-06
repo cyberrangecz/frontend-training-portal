@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { UserAndGroupErrorHandler, UserAndGroupNotificationService } from '@muni-kypo-crp/user-and-group-agenda';
+import { UserAndGroupErrorHandler, UserAndGroupNotificationService } from '@cyberrangecz-platform/user-and-group-agenda';
 import { ErrorHandlerService } from '../../services/shared/error-handler.service';
 import { NotificationService } from '../../services/shared/notification.service';
 

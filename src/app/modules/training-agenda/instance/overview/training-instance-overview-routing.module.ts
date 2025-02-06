@@ -6,13 +6,13 @@ import {
   TRAINING_INSTANCE_EDIT_PATH,
   TRAINING_INSTANCE_NEW_PATH,
   TRAINING_INSTANCE_SELECTOR,
-} from '@muni-kypo-crp/training-agenda';
-import { TrainingInstanceOverviewComponent } from '@muni-kypo-crp/training-agenda/instance-overview';
+} from '@cyberrangecz-platform/training-agenda';
+import { TrainingInstanceOverviewComponent } from '@cyberrangecz-platform/training-agenda/instance-overview';
 import {
   TrainingInstanceBreadcrumbResolver,
   TrainingInstanceResolver,
   TrainingInstanceTitleResolver,
-} from '@muni-kypo-crp/training-agenda/resolvers';
+} from '@cyberrangecz-platform/training-agenda/resolvers';
 
 const routes: Routes = [
   {

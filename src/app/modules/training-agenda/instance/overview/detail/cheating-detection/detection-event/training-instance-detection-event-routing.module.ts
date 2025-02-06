@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CHEATING_DETECTION_EVENT_DETAIL_PATH, DETECTION_EVENT_SELECTOR } from '@muni-kypo-crp/training-agenda';
-import { TrainingInstanceDetectionEventComponent } from '@muni-kypo-crp/training-agenda/instance-detection-event';
+import { CHEATING_DETECTION_EVENT_DETAIL_PATH, DETECTION_EVENT_SELECTOR } from '@cyberrangecz-platform/training-agenda';
+import { TrainingInstanceDetectionEventComponent } from '@cyberrangecz-platform/training-agenda/instance-detection-event';
 
 const routes: Routes = [
   {

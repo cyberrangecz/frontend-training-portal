@@ -8,12 +8,12 @@ import {
   RUNS_PATH,
   SUMMARY_PATH,
   TRAINING_INSTANCE_DATA_ATTRIBUTE_NAME,
-} from '@muni-kypo-crp/training-agenda';
+} from '@cyberrangecz-platform/training-agenda';
 import {
   TrainingInstanceDetailBreadcrumbResolver,
   TrainingInstanceDetailTitleResolver,
   TrainingInstanceResolver,
-} from '@muni-kypo-crp/training-agenda/resolvers';
+} from '@cyberrangecz-platform/training-agenda/resolvers';
 
 const routes: Routes = [
   {

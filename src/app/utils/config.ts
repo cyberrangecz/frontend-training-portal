@@ -1,10 +1,10 @@
 import { SentinelAuthConfig } from '@sentinel/auth';
-import { SandboxAgendaConfig } from '@muni-kypo-crp/sandbox-agenda';
-import { KypoSandboxConfig } from '@muni-kypo-crp/sandbox-api';
-import { TrainingAgendaConfig } from '@muni-kypo-crp/training-agenda';
-import { KypoTrainingApiConfig } from '@muni-kypo-crp/training-api';
-import { UserAndGroupAgendaConfig } from '@muni-kypo-crp/user-and-group-agenda';
-import { KypoUserAndGroupApiConfig } from '@muni-kypo-crp/user-and-group-api';
+import { SandboxAgendaConfig } from '@cyberrangecz-platform/sandbox-agenda';
+import { KypoSandboxConfig } from '@cyberrangecz-platform/sandbox-api';
+import { TrainingAgendaConfig } from '@cyberrangecz-platform/training-agenda';
+import { KypoTrainingApiConfig } from '@cyberrangecz-platform/training-api';
+import { UserAndGroupAgendaConfig } from '@cyberrangecz-platform/user-and-group-agenda';
+import { KypoUserAndGroupApiConfig } from '@cyberrangecz-platform/user-and-group-api';
 import { RoleMapping } from './role-mapping';
 import { SentinelConfig } from '@sentinel/common/dynamic-env';
 

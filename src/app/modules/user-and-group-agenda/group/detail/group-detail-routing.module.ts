@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { GroupDetailComponent } from '@muni-kypo-crp/user-and-group-agenda/group-detail';
+import { GroupDetailComponent } from '@cyberrangecz-platform/user-and-group-agenda/group-detail';
 
 const routes: Routes = [
   {

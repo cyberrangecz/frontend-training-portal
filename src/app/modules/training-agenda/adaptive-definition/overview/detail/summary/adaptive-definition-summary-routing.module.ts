@@ -1,6 +1,6 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { AdaptiveDefinitionSummaryComponent } from '@muni-kypo-crp/training-agenda/adaptive-definition-summary';
+import { AdaptiveDefinitionSummaryComponent } from '@cyberrangecz-platform/training-agenda/adaptive-definition-summary';
 
 const routes: Routes = [
   {

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { KypoDynamicEnvironment } from '../../../../../../../environments/kypo-dynamic-environment';
 import { AdaptiveInstanceResultsRoutingModule } from './adaptive-instance-results-routing.module';
-import { AdaptiveInstanceResultsComponentsModule } from '@muni-kypo-crp/training-agenda/adaptive-instance-results';
+import { AdaptiveInstanceResultsComponentsModule } from '@cyberrangecz-platform/training-agenda/adaptive-instance-results';
 
 @NgModule({
   imports: [

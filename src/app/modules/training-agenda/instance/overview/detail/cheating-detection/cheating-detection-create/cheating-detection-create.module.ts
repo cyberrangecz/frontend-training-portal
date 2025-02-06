@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CheatingDetectionEditRoutingModule } from './cheating-detection-create-routing.module';
 import { KypoDynamicEnvironment } from '../../../../../../../../environments/kypo-dynamic-environment';
-import { TrainingInstanceCheatingDetectionEditComponentsModule } from '@muni-kypo-crp/training-agenda/instance-cheating-detection-edit';
+import { TrainingInstanceCheatingDetectionEditComponentsModule } from '@cyberrangecz-platform/training-agenda/instance-cheating-detection-edit';
 
 @NgModule({
   imports: [

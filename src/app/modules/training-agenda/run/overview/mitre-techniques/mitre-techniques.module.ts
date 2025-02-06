@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MitreTechniquesComponentsModule } from '@muni-kypo-crp/training-agenda/mitre-techniques';
+import { MitreTechniquesComponentsModule } from '@cyberrangecz-platform/training-agenda/mitre-techniques';
 import { KypoDynamicEnvironment } from '../../../../../../environments/kypo-dynamic-environment';
 import { MitreTechniquesRoutingModule } from './mitre-techniques-routing.module';
 

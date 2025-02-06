@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TrainingInstanceProgressComponent } from '@muni-kypo-crp/training-agenda/instance-progress';
+import { TrainingInstanceProgressComponent } from '@cyberrangecz-platform/training-agenda/instance-progress';
 
 const routes: Routes = [
   {

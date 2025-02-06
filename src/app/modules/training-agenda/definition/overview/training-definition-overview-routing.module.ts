@@ -7,13 +7,13 @@ import {
   TRAINING_DEFINITION_NEW_PATH,
   TRAINING_DEFINITION_PREVIEW_PATH,
   TRAINING_DEFINITION_SELECTOR,
-} from '@muni-kypo-crp/training-agenda';
-import { TrainingDefinitionOverviewComponent } from '@muni-kypo-crp/training-agenda/definition-overview';
+} from '@cyberrangecz-platform/training-agenda';
+import { TrainingDefinitionOverviewComponent } from '@cyberrangecz-platform/training-agenda/definition-overview';
 import {
   TrainingDefinitionBreadcrumbResolver,
   TrainingDefinitionResolver,
   TrainingDefinitionTitleResolver,
-} from '@muni-kypo-crp/training-agenda/resolvers';
+} from '@cyberrangecz-platform/training-agenda/resolvers';
 
 const routes: Routes = [
   {

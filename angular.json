@@ -1,175 +1,175 @@
 {
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1,
-  "newProjectRoot": "projects",
-  "projects": {
-    "trainings": {
-      "root": "./",
-      "sourceRoot": "src",
-      "projectType": "application",
-      "prefix": "kypo",
-      "schematics": {},
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:browser",
-          "stylePreprocessorOptions": {
-            "includePaths": [
-              "src/variables"
-            ]
-          },
-          "options": {
-            "outputPath": "dist/trainings",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.app.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets",
-              "src/silent-refresh.html",
-              "src/.well-known/security.txt"
-            ],
-            "styles": [
-              "node_modules/@muni-kypo-crp/overview-visualization/styles.css",
-              "src/variables.scss",
-              "src/theme.scss",
-              "src/styles.scss"
-            ],
-            "vendorChunk": true,
-            "extractLicenses": false,
-            "buildOptimizer": false,
-            "sourceMap": true,
-            "optimization": false,
-            "namedChunks": true
-          },
-          "configurations": {
-            "production": {
-              "budgets": [
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
+    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+    "version": 1,
+    "newProjectRoot": "projects",
+    "projects": {
+        "trainings": {
+            "root": "./",
+            "sourceRoot": "src",
+            "projectType": "application",
+            "prefix": "kypo",
+            "schematics": {},
+            "architect": {
+                "build": {
+                    "builder": "@angular-devkit/build-angular:browser",
+                    "stylePreprocessorOptions": {
+                        "includePaths": [
+                            "src/variables"
+                        ]
+                    },
+                    "options": {
+                        "outputPath": "dist/trainings",
+                        "index": "src/index.html",
+                        "main": "src/main.ts",
+                        "polyfills": "src/polyfills.ts",
+                        "tsConfig": "src/tsconfig.app.json",
+                        "assets": [
+                            "src/favicon.ico",
+                            "src/assets",
+                            "src/silent-refresh.html",
+                            "src/.well-known/security.txt"
+                        ],
+                        "styles": [
+                            "node_modules/@cyberrangecz-platform/overview-visualization/styles.css",
+                            "src/variables.scss",
+                            "src/theme.scss",
+                            "src/styles.scss"
+                        ],
+                        "vendorChunk": true,
+                        "extractLicenses": false,
+                        "buildOptimizer": false,
+                        "sourceMap": true,
+                        "optimization": false,
+                        "namedChunks": true
+                    },
+                    "configurations": {
+                        "production": {
+                            "budgets": [
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "6kb"
+                                }
+                            ],
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.prod.ts"
+                                }
+                            ],
+                            "optimization": true,
+                            "outputHashing": "all",
+                            "sourceMap": false,
+                            "namedChunks": false,
+                            "extractLicenses": true,
+                            "vendorChunk": false,
+                            "buildOptimizer": true
+                        },
+                        "local": {
+                            "budgets": [
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "6kb"
+                                }
+                            ],
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/assets/kypo-config.json",
+                                    "with": "src/environments/kypo-config.local.json"
+                                }
+                            ]
+                        }
+                    },
+                    "defaultConfiguration": ""
+                },
+                "serve": {
+                    "builder": "@angular-devkit/build-angular:dev-server",
+                    "options": {
+                        "buildTarget": "trainings:build"
+                    },
+                    "configurations": {
+                        "production": {
+                            "buildTarget": "trainings:build:production"
+                        },
+                        "staging": {
+                            "buildTarget": "trainings:build:staging"
+                        },
+                        "local": {
+                            "buildTarget": "trainings:build:local"
+                        }
+                    }
+                },
+                "extract-i18n": {
+                    "builder": "@angular-devkit/build-angular:extract-i18n",
+                    "options": {
+                        "buildTarget": "trainings:build"
+                    }
+                },
+                "test": {
+                    "builder": "@angular-devkit/build-angular:karma",
+                    "options": {
+                        "main": "src/test.ts",
+                        "polyfills": "src/polyfills.ts",
+                        "tsConfig": "src/tsconfig.spec.json",
+                        "karmaConfig": "src/karma.conf.js",
+                        "stylePreprocessorOptions": {
+                            "includePaths": [
+                                "src/variables"
+                            ]
+                        },
+                        "styles": [
+                            "node_modules/@cyberrangecz-platform/overview-visualization/styles.css",
+                            "src/variables.scss",
+                            "src/theme.scss",
+                            "src/styles.scss"
+                        ],
+                        "scripts": [],
+                        "assets": [
+                            "src/.well-known/security.txt",
+                            "src/favicon.ico",
+                            "src/assets"
+                        ]
+                    }
+                },
+                "lint": {
+                    "builder": "@angular-eslint/builder:lint",
+                    "options": {
+                        "lintFilePatterns": [
+                            ".//**/*.ts",
+                            ".//**/*.component.html"
+                        ]
+                    }
+                },
+                "e2e": {
+                    "builder": "@nrwl/cypress:cypress",
+                    "options": {
+                        "cypressConfig": "e2e/cypress.json",
+                        "tsConfig": "e2e/tsconfig.e2e.json",
+                        "devServerTarget": "trainings:serve"
+                    },
+                    "configurations": {
+                        "production": {
+                            "devServerTarget": "trainings:serve:production"
+                        }
+                    }
                 }
-              ],
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
-            },
-            "local": {
-              "budgets": [
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
-                }
-              ],
-              "fileReplacements": [
-                {
-                  "replace": "src/assets/kypo-config.json",
-                  "with": "src/environments/kypo-config.local.json"
-                }
-              ]
             }
-          },
-          "defaultConfiguration": ""
-        },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "buildTarget": "trainings:build"
-          },
-          "configurations": {
-            "production": {
-              "buildTarget": "trainings:build:production"
-            },
-            "staging": {
-              "buildTarget": "trainings:build:staging"
-            },
-            "local": {
-              "buildTarget": "trainings:build:local"
-            }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "trainings:build"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.spec.json",
-            "karmaConfig": "src/karma.conf.js",
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "src/variables"
-              ]
-            },
-            "styles": [
-              "node_modules/@muni-kypo-crp/overview-visualization/styles.css",
-              "src/variables.scss",
-              "src/theme.scss",
-              "src/styles.scss"
-            ],
-            "scripts": [],
-            "assets": [
-              "src/.well-known/security.txt",
-              "src/favicon.ico",
-              "src/assets"
-            ]
-          }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              ".//**/*.ts",
-              ".//**/*.component.html"
-            ]
-          }
-        },
-        "e2e": {
-          "builder": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "e2e/cypress.json",
-            "tsConfig": "e2e/tsconfig.e2e.json",
-            "devServerTarget": "trainings:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "trainings:serve:production"
-            }
-          }
         }
-      }
-    }
-  },
-  "schematics": {
-    "@schematics/angular:component": {
-      "style": "scss"
     },
-    "@angular-eslint/schematics:application": {
-      "setParserOptionsProject": true
+    "schematics": {
+        "@schematics/angular:component": {
+            "style": "scss"
+        },
+        "@angular-eslint/schematics:application": {
+            "setParserOptionsProject": true
+        },
+        "@angular-eslint/schematics:library": {
+            "setParserOptionsProject": true
+        }
     },
-    "@angular-eslint/schematics:library": {
-      "setParserOptionsProject": true
+    "cli": {
+        "analytics": false,
+        "cache": {
+            "enabled": false
+        }
     }
-  },
-  "cli": {
-    "analytics": false,
-    "cache": {
-      "enabled": false
-    }
-  }
 }
