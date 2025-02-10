@@ -7,7 +7,7 @@
             "root": "./",
             "sourceRoot": "src",
             "projectType": "application",
-            "prefix": "kypo",
+            "prefix": "crczp",
             "schematics": {},
             "architect": {
                 "build": {
@@ -73,8 +73,8 @@
                             ],
                             "fileReplacements": [
                                 {
-                                    "replace": "src/assets/kypo-config.json",
-                                    "with": "src/environments/kypo-config.local.json"
+                                    "replace": "src/assets/config.json",
+                                    "with": "src/environments/config.local.json"
                                 }
                             ]
                         }

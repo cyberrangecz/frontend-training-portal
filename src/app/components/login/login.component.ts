@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'kypo-login',
+  selector: 'crczp-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })

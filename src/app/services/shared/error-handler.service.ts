@@ -8,8 +8,8 @@ import {
 } from '@sentinel/layout/notification';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { KypoConfig } from '../../utils/config';
-import { KypoDynamicEnvironment } from '../../../environments/kypo-dynamic-environment';
+import { PortalConfig } from '../../utils/config';
+import { DynamicEnvironment } from '../../../environments/dynamic-environment';
 
 @Injectable()
 /**
@@ -44,7 +44,7 @@ export class ErrorHandlerService {
         .pipe(map((result) => result === SentinelNotificationResult.CONFIRMED));
     }
 
-    const config: KypoConfig = KypoDynamicEnvironment.getConfig();
+    const config: PortalConfig = DynamicEnvironment.getConfig();
 
     if (
       err.url.startsWith(config.trainingApiConfig.trainingBasePath) ||

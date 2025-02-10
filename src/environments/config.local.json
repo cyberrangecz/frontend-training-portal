@@ -4,18 +4,18 @@
         "trainingDesigner": "ROLE_TRAINING_DESIGNER",
         "trainingOrganizer": "ROLE_TRAINING_ORGANIZER",
         "trainingTrainee": "ROLE_TRAINING_TRAINEE",
-        "sandboxDesigner": "ROLE_KYPO-SANDBOX-SERVICE_DESIGNER",
-        "sandboxOrganizer": "ROLE_KYPO-SANDBOX-SERVICE_ORGANIZER"
+        "sandboxDesigner": "ROLE_SANDBOX-SERVICE_DESIGNER",
+        "sandboxOrganizer": "ROLE_SANDBOX-SERVICE_ORGANIZER"
     },
     "trainingAgendaConfig": {
         "pollingPeriod": 5000,
         "defaultPaginationSize": 10,
         "visualizationConfig": {
-            "trainingBasePath": "http://localhost:3000/kypo-rest-training/api/v1/",
-            "adaptiveBasePath": "http://localhost:3000/kypo-adaptive-training/api/v1/"
+            "trainingBasePath": "http://localhost:3000/training/api/v1/",
+            "adaptiveBasePath": "http://localhost:3000/adaptive-training/api/v1/"
         },
-        "kypoTopologyConfig": {
-            "topologyRestUrl": "http://localhost:3000/kypo-sandbox-service/api/v1/",
+        "topologyConfig": {
+            "topologyRestUrl": "http://localhost:3000/sandbox-service/api/v1/",
             "decoratorsRestUrl": "",
             "defaultDecoratorRefreshPeriodInSeconds": 3,
             "useRealTime": false,
@@ -23,15 +23,15 @@
         }
     },
     "trainingApiConfig": {
-        "trainingBasePath": "http://localhost:3000/kypo-rest-training/api/v1/",
-        "adaptiveBasePath": "http://localhost:3000/kypo-adaptive-training/api/v1/",
-        "mitreTechniqueBasePath": "http://localhost:3000/kypo-mitre-technique-service/api/v1/"
+        "trainingBasePath": "http://localhost:3000/training/api/v1/",
+        "adaptiveBasePath": "http://localhost:3000/adaptive-training/api/v1/",
+        "mitreTechniqueBasePath": "http://localhost:3000/mitre-technique-service/api/v1/"
     },
     "sandboxAgendaConfig": {
         "pollingPeriod": 5000,
         "defaultPaginationSize": 10,
-        "kypoTopologyConfig": {
-            "topologyRestUrl": "http://localhost:3000/kypo-sandbox-service/api/v1/",
+        "topologyConfig": {
+            "topologyRestUrl": "http://localhost:3000/sandbox-service/api/v1/",
             "decoratorsRestUrl": "",
             "defaultDecoratorRefreshPeriodInSeconds": 3,
             "useRealTime": false,
@@ -39,13 +39,13 @@
         }
     },
     "sandboxApiConfig": {
-        "sandboxRestBasePath": "http://localhost:3000/kypo-sandbox-service/api/v1/"
+        "sandboxRestBasePath": "http://localhost:3000/sandbox-service/api/v1/"
     },
     "userAndGroupAgendaConfig": {
         "defaultPaginationSize": 10
     },
     "userAndGroupApiConfig": {
-        "userAndGroupRestBasePath": "http://localhost:3000/kypo-rest-user-and-group/api/v1/"
+        "userAndGroupRestBasePath": "http://localhost:3000/user-and-group/api/v1/"
     },
     "authConfig": {
         "maxRetryAttempts": 3,
@@ -54,7 +54,7 @@
         "tokenInterceptorAllowedUrls": [
             "http://localhost:3000"
         ],
-        "userInfoRestUri": "http://localhost:3000/kypo-rest-user-and-group/api/v1/",
+        "userInfoRestUri": "http://localhost:3000/user-and-group/api/v1/",
         "providers": [
             {
                 "label": "Login with MUNI",

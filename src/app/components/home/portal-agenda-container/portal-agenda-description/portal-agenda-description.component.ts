@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-  selector: 'kypo-portal-agenda-description',
+  selector: 'crczp-portal-agenda-description',
   templateUrl: './portal-agenda-description.component.html',
   styleUrls: ['./portal-agenda-description.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

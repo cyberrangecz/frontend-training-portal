@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { KypoDynamicEnvironment } from '../../../../../../../environments/kypo-dynamic-environment';
+import { DynamicEnvironment } from '../../../../../../../environments/dynamic-environment';
 import { AdaptiveInstanceResultsRoutingModule } from './adaptive-instance-results-routing.module';
 import { AdaptiveInstanceResultsComponentsModule } from '@cyberrangecz-platform/training-agenda/adaptive-instance-results';
 
 @NgModule({
   imports: [
     CommonModule,
-    AdaptiveInstanceResultsComponentsModule.forRoot(KypoDynamicEnvironment.getConfig().trainingAgendaConfig),
+    AdaptiveInstanceResultsComponentsModule.forRoot(DynamicEnvironment.getConfig().trainingAgendaConfig),
     AdaptiveInstanceResultsRoutingModule,
   ],
 })

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { PortalAgendaContainer } from '../../../model/portal-agenda-container';
 
 @Component({
-  selector: 'kypo-portal-agenda-container',
+  selector: 'crczp-portal-agenda-container',
   templateUrl: './portal-agenda-container.component.html',
   styleUrls: ['./portal-agenda-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

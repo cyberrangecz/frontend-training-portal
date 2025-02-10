@@ -10,7 +10,7 @@ import { TrainingDesignerGuard } from './services/guards/training-designer-guard
 import { TrainingOrganizerGuard } from './services/guards/training-organizer-guard.service';
 import { UserAndGroupGuard } from './services/guards/user-and-group-guard.service';
 import { ErrorHandlerService } from './services/shared/error-handler.service';
-import { KypoConfig } from './utils/config';
+import { PortalConfig } from './utils/config';
 import { APP_CONFIG, configurableModuleFactory } from '@sentinel/common/dynamic-env';
 
 @NgModule({
@@ -27,7 +27,7 @@ import { APP_CONFIG, configurableModuleFactory } from '@sentinel/common/dynamic-
     SentinelNegativeAuthGuard,
     {
       provide: SentinelAuthConfig,
-      useFactory: configurableModuleFactory<KypoConfig>('authConfig'),
+      useFactory: configurableModuleFactory<PortalConfig>('authConfig'),
       deps: [APP_CONFIG],
     },
     {

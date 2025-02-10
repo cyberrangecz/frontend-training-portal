@@ -21,7 +21,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
  * role are accessible.
  */
 @Component({
-  selector: 'kypo-home',
+  selector: 'crczp-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
@@ -166,14 +166,14 @@ export class HomeComponent implements OnInit {
         'Users',
         disabled,
         USER_PATH,
-        'The Users agenda serves for assigning KYPO users to existing groups.',
+        'The Users agenda serves for assigning users to existing groups.',
         'person',
       ),
       new AgendaPortalLink(
         'Microservices',
         disabled,
         MICROSERVICE_PATH,
-        'You can also manage microservices that provide the KYPO Cyber Range functionality.' +
+        'You can also manage microservices that provide the CyberRangeᶜᶻ Platform`s functionality.' +
           ' Please do not mess with it unless you know what you are doing.',
         'account_tree',
       ),

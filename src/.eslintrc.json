@@ -18,7 +18,7 @@
                     "error",
                     {
                         "type": "attribute",
-                        "prefix": "kypo",
+                        "prefix": "crczp",
                         "style": "camelCase"
                     }
                 ],
@@ -26,7 +26,7 @@
                     "error",
                     {
                         "type": "element",
-                        "prefix": "kypo",
+                        "prefix": "crczp",
                         "style": "kebab-case"
                     }
                 ]

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { GroupEditComponentsModule } from '@cyberrangecz-platform/user-and-group-agenda/group-edit';
-import { KypoDynamicEnvironment } from '../../../../../environments/kypo-dynamic-environment';
+import { DynamicEnvironment } from '../../../../../environments/dynamic-environment';
 import { UserAndGroupSharedProvidersModule } from '../../user-and-group-shared-providers.module';
 import { GroupEditRoutingModule } from './group-edit-routing.module';
 
@@ -10,7 +10,7 @@ import { GroupEditRoutingModule } from './group-edit-routing.module';
     CommonModule,
     UserAndGroupSharedProvidersModule,
     GroupEditRoutingModule,
-    GroupEditComponentsModule.forRoot(KypoDynamicEnvironment.getConfig().userAndGroupAgendaConfig),
+    GroupEditComponentsModule.forRoot(DynamicEnvironment.getConfig().userAndGroupAgendaConfig),
   ],
 })
 export class GroupEditModule {}

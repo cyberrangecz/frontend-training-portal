@@ -4,18 +4,18 @@
         "trainingDesigner": "ROLE_TRAINING_DESIGNER",
         "trainingOrganizer": "ROLE_TRAINING_ORGANIZER",
         "trainingTrainee": "ROLE_TRAINING_TRAINEE",
-        "sandboxDesigner": "ROLE_KYPO-SANDBOX-SERVICE_DESIGNER",
-        "sandboxOrganizer": "ROLE_KYPO-SANDBOX-SERVICE_ORGANIZER"
+        "sandboxDesigner": "ROLE_SANDBOX-SERVICE_DESIGNER",
+        "sandboxOrganizer": "ROLE_SANDBOX-SERVICE_ORGANIZER"
     },
     "trainingAgendaConfig": {
         "pollingPeriod": 5000,
         "defaultPaginationSize": 10,
         "visualizationConfig": {
-            "trainingBasePath": "https://172.19.0.22/kypo-rest-training/api/v1/",
-            "adaptiveBasePath": "https://172.19.0.22/kypo-adaptive-training/api/v1/"
+            "trainingBasePath": "https://172.19.0.22/training/api/v1/",
+            "adaptiveBasePath": "https://172.19.0.22/adaptive-training/api/v1/"
         },
-        "kypoTopologyConfig": {
-            "topologyRestUrl": "https://172.19.0.22/kypo-sandbox-service/api/v1/",
+        "topologyConfig": {
+            "topologyRestUrl": "https://172.19.0.22/sandbox-service/api/v1/",
             "decoratorsRestUrl": "",
             "defaultDecoratorRefreshPeriodInSeconds": 3,
             "useRealTime": false,
@@ -28,15 +28,15 @@
         }
     },
     "trainingApiConfig": {
-        "trainingBasePath": "https://172.19.0.22/kypo-rest-training/api/v1/",
-        "adaptiveBasePath": "https://172.19.0.22/kypo-adaptive-training/api/v1/",
-        "mitreTechniqueBasePath": "https://172.19.0.22/kypo-mitre-technique-service/api/v1/"
+        "trainingBasePath": "https://172.19.0.22/training/api/v1/",
+        "adaptiveBasePath": "https://172.19.0.22/adaptive-training/api/v1/",
+        "mitreTechniqueBasePath": "https://172.19.0.22/mitre-technique-service/api/v1/"
     },
     "sandboxAgendaConfig": {
         "pollingPeriod": 5000,
         "defaultPaginationSize": 10,
-        "kypoTopologyConfig": {
-            "topologyRestUrl": "https://172.19.0.22/kypo-sandbox-service/api/v1/",
+        "topologyConfig": {
+            "topologyRestUrl": "https://172.19.0.22/sandbox-service/api/v1/",
             "decoratorsRestUrl": "",
             "defaultDecoratorRefreshPeriodInSeconds": 3,
             "useRealTime": false,
@@ -49,13 +49,13 @@
         }
     },
     "sandboxApiConfig": {
-        "sandboxRestBasePath": "https://172.19.0.22/kypo-sandbox-service/api/v1/"
+        "sandboxRestBasePath": "https://172.19.0.22/sandbox-service/api/v1/"
     },
     "userAndGroupAgendaConfig": {
         "defaultPaginationSize": 10
     },
     "userAndGroupApiConfig": {
-        "userAndGroupRestBasePath": "https://172.19.0.22/kypo-rest-user-and-group/api/v1/"
+        "userAndGroupRestBasePath": "https://172.19.0.22/user-and-group/api/v1/"
     },
     "authConfig": {
         "guardMainPageRedirect": "home",
@@ -64,7 +64,7 @@
             "https://172.19.0.22"
         ],
         "authorizationStrategyConfig": {
-            "authorizationUrl": "https://172.19.0.22/kypo-rest-user-and-group/api/v1/users/info"
+            "authorizationUrl": "https://172.19.0.22/user-and-group/api/v1/users/info"
         },
         "providers": [
             {

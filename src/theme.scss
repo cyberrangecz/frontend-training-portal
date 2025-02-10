@@ -6,17 +6,17 @@
 @use '@sentinel/components/theming' as sentinel-components ;
 @use '@sentinel/components/typography' as sentinel-typography ;
 
-$kypo-theme: sentinel-variables.$sentinel-theme;
+$crczp-theme: sentinel-variables.$sentinel-theme;
 
 
 :root {
     @include mat.core();
-    @include mat.color-variants-backwards-compatibility($kypo-theme);
-    @include mat.all-component-themes($kypo-theme);
-    @include mat.system-level-colors($kypo-theme);
-    @include sentinel-components.all-component-themes($kypo-theme);
-    @include layout.sentinel-layout-theme($kypo-theme);
-    @include sentinel-layout-sidebar.sidebar-page-layout-theme($kypo-theme);
+    @include mat.color-variants-backwards-compatibility($crczp-theme);
+    @include mat.all-component-themes($crczp-theme);
+    @include mat.system-level-colors($crczp-theme);
+    @include sentinel-components.all-component-themes($crczp-theme);
+    @include layout.sentinel-layout-theme($crczp-theme);
+    @include sentinel-layout-sidebar.sidebar-page-layout-theme($crczp-theme);
 
     @include mat.typography-hierarchy(sentinel-variables.$sentinel-theme);
     @include mat.all-component-typographies(sentinel-variables.$sentinel-theme);

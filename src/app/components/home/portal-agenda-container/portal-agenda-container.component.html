@@ -1,24 +1,24 @@
 <div *ngIf="portalAgendaContainer.displayed" class="portal-row" [ngClass]="{'last-agenda': isLast}">
     <div class="portal-items-container">
         <div *ngFor="let agendaPortalLink of portalAgendaContainer.agendas">
-            <kypo-portal-agenda-link
+            <crczp-portal-agenda-link
                 [portalAgendaLink]="agendaPortalLink"
                 [elevation]="elevation"
                 (navigate)="navigate($event)"
                 (elevate)="elevate($event)">
-            </kypo-portal-agenda-link>
+            </crczp-portal-agenda-link>
         </div>
     </div>
     <div class="portal-description-container">
         <h2>{{ portalAgendaContainer.label }}</h2>
         <div *ngFor="let agenda of portalAgendaContainer.agendas">
-            <kypo-portal-agenda-description
+            <crczp-portal-agenda-description
                 [label]="agenda.label"
                 [description]="agenda.description"
                 [disabled]="agenda.disabled"
                 [elevation]="elevation"
                 (elevate)="elevate($event)">
-            </kypo-portal-agenda-description>
+            </crczp-portal-agenda-description>
         </div>
     </div>
 </div>

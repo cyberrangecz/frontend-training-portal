@@ -8,13 +8,13 @@ import { NOTIFICATIONS_PATH } from './paths';
 import { LoadingService } from './services/shared/loading.service';
 import { NotificationService } from './services/shared/notification.service';
 import { NavBuilder } from './utils/nav-builder';
-import { KypoDynamicEnvironment } from 'environments/kypo-dynamic-environment';
+import { DynamicEnvironment } from 'environments/dynamic-environment';
 
 /**
  * Main component serving as wrapper for layout and router outlet
  */
 @Component({
-  selector: 'kypo-app-root',
+  selector: 'crczp-app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
@@ -45,7 +45,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       map((user) => NavBuilder.build(user)),
     );
     this.isLoading$ = this.loadingService.isLoading$; // <-- causes angular error
-    this.version = KypoDynamicEnvironment.getConfig().version;
+    this.version = DynamicEnvironment.getConfig().version;
   }
 
   ngAfterViewInit(): void {
