@@ -57,16 +57,16 @@
         "userInfoRestUri": "http://localhost:3000/user-and-group/api/v1/",
         "providers": [
             {
-                "label": "Login with MUNI",
+                "label": "Login with local Keycloak",
                 "textColor": "white",
                 "backgroundColor": "#002776",
                 "tokenRefreshTime": 30000,
                 "oidcConfig": {
-                    "issuer": "https://172.19.0.22/keycloak/realms/KYPO",
-                    "clientId": "KYPO-client",
+                    "issuer": "https://172.19.0.22/keycloak/realms/CRCZP",
+                    "clientId": "CRCZP-client",
                     "redirectUri": "http://localhost:4200",
                     "scope": "openid email profile offline_access",
-                    "logoutUrl": "https://172.19.0.22/keycloak/realms/KYPO/protocol/openid-connect/logout",
+                    "logoutUrl": "https://172.19.0.22/keycloak/realms/CRCZP/protocol/openid-connect/logout",
                     "postLogoutRedirectUri": "http://localhost:4200/logout-confirmed/",
                     "silentRefreshRedirectUri": "https://172.19.0.22:443/silent-refresh.html",
                     "clearHashAfterLogin": true,
@@ -77,6 +77,5 @@
                 }
             }
         ]
-    },
-    "version": "v21.12"
+    }
 }

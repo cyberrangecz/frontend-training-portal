@@ -7,9 +7,7 @@ import { TrainingInstanceDetectionEventDetailComponentsModule } from '@cyberrang
 @NgModule({
   imports: [
     CommonModule,
-    TrainingInstanceDetectionEventDetailComponentsModule.forRoot(
-      DynamicEnvironment.getConfig().trainingAgendaConfig,
-    ),
+    TrainingInstanceDetectionEventDetailComponentsModule.forRoot(DynamicEnvironment.getConfig().trainingAgendaConfig),
     TrainingInstanceDetectionEventDetailRoutingModule,
   ],
 })

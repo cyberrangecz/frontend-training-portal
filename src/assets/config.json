@@ -68,16 +68,16 @@
         },
         "providers": [
             {
-                "label": "Login with local issuer",
+                "label": "Login with local Keycloak",
                 "textColor": "white",
-                "backgroundColor": "#002776",
+                "backgroundColor": "#1e2173",
                 "oidcConfig": {
                     "requireHttps": true,
-                    "issuer": "https://172.19.0.22/keycloak/realms/KYPO",
-                    "clientId": "KYPO-client",
+                    "issuer": "https://172.19.0.22/keycloak/realms/CRCZP",
+                    "clientId": "CRCZP-client",
                     "redirectUri": "https://localhost:4200",
                     "scope": "openid email profile offline_access",
-                    "logoutUrl": "https://172.19.0.22/keycloak/realms/KYPO/protocol/openid-connect/logout",
+                    "logoutUrl": "https://172.19.0.22/keycloak/realms/CRCZP/protocol/openid-connect/logout",
                     "postLogoutRedirectUri": "https://localhost:4200/logout-confirmed",
                     "silentRefreshRedirectUri": "https://172.19.0.22:443/silent-refresh.html",
                     "clearHashAfterLogin": true,

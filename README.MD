@@ -4,50 +4,27 @@ Implementation of the frontend for CyberRangeᶜᶻ Platform.
 
 ## Prerequisites
 
-You need to have access to Sentinel package repository.
+- You need to have access to Sentinel package repository.
 Then, you need to set up the @sentinel scope to point to that registry. You can do this by
 adding following lines to your .npmrc file:
 
-```
-@sentinel:registry=https://gitlab.ics.muni.cz/api/v4/projects/2396/packages/npm/
-```
+    ```
+    @sentinel:registry=https://gitlab.ics.muni.cz/api/v4/projects/2396/packages/npm/
+    //gitlab.ics.muni.cz/api/v4/projects/2396/packages/npm/:_authToken=<YOUR_AUTH_TOKEN>
+    ```
 
-where `<YOUR_AUTH_TOKEN>` is a Gitlab access token with `read_registry` scope and `api` score of a user with access
-to [Sentinel package repository](https://gitlab.ics.muni.cz/sentinel/sentinel-artifact-repository)
+    where `<YOUR_AUTH_TOKEN>` is a Gitlab access token with `read_registry` scope and `api` score of a user with access
+    to [Sentinel package repository](https://gitlab.ics.muni.cz/sentinel/sentinel-artifact-repository)
 
-Make sure you have latest version of Chrome.
+- For running the app, you will need to have node version >=18.19.1 and backend services running.
 
-## Usage
+## Running the app locally against the CyberRangeᶜᶻ Platform backend
 
-This app is a frontend part of the CyberRangeᶜᶻ Platform. To run CyberRangeᶜᶻ Platform locally, follow
-this [guide](https://github.com/cyberrangecz/devops-helm).
-
-To run the app locally against the CyberRangeᶜᶻ Platform backend, follow the previously
-mentioned [guide](https://github.com/cyberrangecz/devops-helm) with these additional steps:
-
-1. Run and configure a OIDC client to allow a redirect on `https://localhost:4200`.
-2. Configure CORS for sandbox-service by changing attribute `cors_origin_whitelist` to
-   `cors_origin_whitelist: ["{{ crp_url }}", "https://localhost:4200"]` and setting attribute
-   `cors_origin_allow_all` to `cors_origin_allow_all: True` in
-   `provisioning/roles/crp-configuration/templates/configuration/sandbox-service/sandbox-service-config.yml`
-3. Configure CORS for training-service by changing attribute `cors.allowed.origins` to `cors.allowed.origins=*` in
-   `provisioning/roles/crp-configuration/templates/configuration/training-service/training.properties`
-4. Configure CORS for user-and-group-service by changing attribute `cors.allowed.origins` to
-   `cors.allowed.origins=*` in
-   `provisioning/roles/crp-configuration/templates/configuration/user-and-group-service/user-and-group.properties`
-5. Configure `crczp_instance_name` from default value to your uniquely chosen one in `local-demo-extra-vars.yml`
-6. Run `npm install`
-7. Run `ng serve --ssl` to run the app on `https://localhost:4200`
-
-**NOTE:** You will need to recreate the docker containers after steps 2, 3 and 4. You can do this by running
-`docker-compose up -d --force-recreate`. This can be run only from `/opt/crczp/` directory.
-
-Alternatively you can use json-server as mock backend with provided dummy data.
-
-1. Run `npm install`.
-2. Run the mock server with provided parameters via `npm run api`.
-3. Run the app in local environment and ssl `ng serve --configuration=local --ssl` and access it on
-   `https://localhost:4200`.
+1. Configure and run the [Helm deployment](https://github.com/cyberrangecz/devops-helm). Make sure to use `development: true` for Keycloak configuration in `vagrant-values.yaml`. This will add `https://localhost:4200` to the OIDC redirect URIs.
+   - in case, you need to override CORS, edit it in the (Helm deployment file)[https://github.com/cyberrangecz/devops-helm/blob/master/helm/crczp-head/values.yaml]using corsWhitelist
+2. Run `npm install`
+3. Run `ng serve --ssl`
+4. Open `https://localhost:4200` in your browser. The app will automatically reload if you change any of the source files. App will be using self-signed certificate, so you need to accept it in your browser.
 
 ## Deployment
 
@@ -112,7 +89,7 @@ and [Material Icons](https://material.io/resources/icons/) if possible.
 Codestyle should roughly comply with [Angular Codestyle](https://angular.io/guide/styleguide) and is enforced
 through [TSLint](https://palantir.github.io/tslint/) and Prettier.
 
-`ng lint` is run before committing, and it blocks your commit if there are lint errors.
+`prettier-check` is run before committing, and it blocks your commit if there are lint errors.
 
 We try to use smart-dumb architecture in our components and to outsource most of the "business logic" that smart
 components needs to handle to injected implementations of abstract services to allow for reuse in different context

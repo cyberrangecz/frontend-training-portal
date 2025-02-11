@@ -7,9 +7,7 @@ import { TrainingInstanceCheatingDetectionEditComponentsModule } from '@cyberran
 @NgModule({
   imports: [
     CommonModule,
-    TrainingInstanceCheatingDetectionEditComponentsModule.forRoot(
-      DynamicEnvironment.getConfig().trainingAgendaConfig,
-    ),
+    TrainingInstanceCheatingDetectionEditComponentsModule.forRoot(DynamicEnvironment.getConfig().trainingAgendaConfig),
     CheatingDetectionEditRoutingModule,
   ],
 })
