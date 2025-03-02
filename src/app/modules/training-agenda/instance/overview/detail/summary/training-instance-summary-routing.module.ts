@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TrainingInstanceSummaryComponent } from '@cyberrangecz-platform/training-agenda/instance-summary';
+import { TrainingInstanceSummaryComponent } from '@crczp/training-agenda/instance-summary';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: TrainingInstanceSummaryComponent,
-  },
+    {
+        path: '',
+        component: TrainingInstanceSummaryComponent,
+    },
 ];
 
 /**
  * Routing module for training instance summary
  */
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
 export class TrainingInstanceSummaryRoutingModule {}

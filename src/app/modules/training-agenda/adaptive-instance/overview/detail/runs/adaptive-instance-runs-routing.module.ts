@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AdaptiveInstanceRunsComponent } from '@cyberrangecz-platform/training-agenda/adaptive-instance-runs';
+import { AdaptiveInstanceRunsComponent } from '@crczp/training-agenda/adaptive-instance-runs';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: AdaptiveInstanceRunsComponent,
-  },
+    {
+        path: '',
+        component: AdaptiveInstanceRunsComponent,
+    },
 ];
 
 /**
  * Routing module for training instance runs
  */
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
 export class AdaptiveInstanceRunsRoutingModule {}

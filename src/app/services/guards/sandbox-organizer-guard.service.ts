@@ -13,23 +13,23 @@ import { CanActivateToObservable } from './can-activate-to-observable';
  * Route guard determining if user is signed in and has role of an sandbox organizer.
  */
 export class SandboxOrganizerGuard implements CanActivate {
-  constructor(
-    private router: Router,
-    private authGuard: SentinelAuthGuardWithLogin,
-    private authService: SentinelAuthService,
-  ) {}
+    constructor(
+        private router: Router,
+        private authGuard: SentinelAuthGuardWithLogin,
+        private authService: SentinelAuthService,
+    ) {}
 
-  canActivate(): Observable<boolean> | Promise<boolean> | boolean {
-    return CanActivateToObservable.convert(this.authGuard.canActivate()).pipe(
-      map((canActivate) => (canActivate ? this.isDesigenr() : false)),
-    );
-  }
-
-  private isDesigenr(): boolean {
-    if (RoleResolver.isSandboxOrganizer(this.authService.getRoles())) {
-      return true;
+    canActivate(): Observable<boolean> | Promise<boolean> | boolean {
+        return CanActivateToObservable.convert(this.authGuard.canActivate()).pipe(
+            map((canActivate) => (canActivate ? this.isDesigenr() : false)),
+        );
     }
-    this.router.navigate([HOME_PATH]);
-    return false;
-  }
+
+    private isDesigenr(): boolean {
+        if (RoleResolver.isSandboxOrganizer(this.authService.getRoles())) {
+            return true;
+        }
+        this.router.navigate([HOME_PATH]);
+        return false;
+    }
 }

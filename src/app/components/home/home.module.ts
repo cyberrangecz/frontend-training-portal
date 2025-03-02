@@ -14,20 +14,20 @@ import { MatMenuModule } from '@angular/material/menu';
  * Portal home page module
  */
 @NgModule({
-  imports: [
-    CommonModule,
-    HomeRoutingModule,
-    HomeMaterialModule,
-    MatIconModule,
-    SentinelControlsComponent,
-    MatMenuModule,
-  ],
-  declarations: [
-    HomeComponent,
-    PortalAgendaContainerComponent,
-    PortalAgendaLinkComponent,
-    PortalAgendaDescriptionComponent,
-  ],
-  providers: [],
+    imports: [
+        CommonModule,
+        HomeRoutingModule,
+        HomeMaterialModule,
+        MatIconModule,
+        SentinelControlsComponent,
+        MatMenuModule,
+    ],
+    declarations: [
+        HomeComponent,
+        PortalAgendaContainerComponent,
+        PortalAgendaLinkComponent,
+        PortalAgendaDescriptionComponent,
+    ],
+    providers: [],
 })
 export class HomeModule {}

@@ -5,8 +5,8 @@ import { SentinelAuthProviderListModule } from '@sentinel/auth/components';
 import { LoginComponent } from './login.component';
 
 @NgModule({
-  declarations: [LoginComponent],
-  imports: [CommonModule, SentinelAuthProviderListModule, MatCardModule],
-  exports: [LoginComponent],
+    declarations: [LoginComponent],
+    imports: [CommonModule, SentinelAuthProviderListModule, MatCardModule],
+    exports: [LoginComponent],
 })
 export class LoginModule {}

@@ -30,9 +30,7 @@
                             "src/.well-known/security.txt"
                         ],
                         "styles": [
-                            "node_modules/@cyberrangecz-platform/overview-visualization/styles.css",
-                            "src/variables.scss",
-                            "src/theme.scss",
+                            "node_modules/@crczp/theme/theming/apply-all.scss",
                             "src/styles.scss"
                         ],
                         "vendorChunk": true,
@@ -117,9 +115,7 @@
                             ]
                         },
                         "styles": [
-                            "node_modules/@cyberrangecz-platform/overview-visualization/styles.css",
-                            "src/variables.scss",
-                            "src/theme.scss",
+                            "node_modules/@crczp/theme/theming/apply-all.scss",
                             "src/styles.scss"
                         ],
                         "scripts": [],

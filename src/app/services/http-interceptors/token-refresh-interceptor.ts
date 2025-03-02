@@ -20,57 +20,61 @@ import { SentinelAuthConfig, SentinelAuthService } from '@sentinel/auth';
  */
 @Injectable()
 export class TokenRefreshInterceptor implements HttpInterceptor {
-  constructor(
-    private tokenRefreshService: TokenRefreshService,
-    private sentinelAuthService: SentinelAuthService,
-    private sentinelAuthConfig: SentinelAuthConfig,
-  ) {}
+    constructor(
+        private tokenRefreshService: TokenRefreshService,
+        private sentinelAuthService: SentinelAuthService,
+        private sentinelAuthConfig: SentinelAuthConfig,
+    ) {}
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this.isOIDCRequest(req)) {
-      return next.handle(req);
-    }
-
-    return this.handleCurrentState(this.tokenRefreshService.immediateState, next, req);
-  }
-
-  private handleCurrentState(
-    state: TokenRefreshState,
-    next: HttpHandler,
-    req: HttpRequest<any>,
-  ): Observable<HttpEvent<any>> {
-    switch (state) {
-      case TokenRefreshState.REFRESHING:
-        return this.waitUntilRefreshed(next, req);
-      case TokenRefreshState.OK:
-        if (this.tokenRefreshService.isTokenExpired() && this.tokenRefreshService.canRefresh()) {
-          return this.refreshAndSend(next, req);
+    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        if (this.isOIDCRequest(req)) {
+            return next.handle(req);
         }
-        return next.handle(req);
-      case TokenRefreshState.FAILED:
-        this.sentinelAuthService.logout();
-        return EMPTY;
+
+        return this.handleCurrentState(this.tokenRefreshService.immediateState, next, req);
     }
-  }
 
-  private waitUntilRefreshed(next: HttpHandler, req: HttpRequest<any>): Observable<HttpEvent<any>> {
-    return this.tokenRefreshService.stateObservable.pipe(
-      skipWhile((state) => state === TokenRefreshState.REFRESHING),
-      take(1),
-      switchMap((state) => this.handleCurrentState(state, next, this.tokenRefreshService.updateRequestToken(req))),
-    );
-  }
+    private handleCurrentState(
+        state: TokenRefreshState,
+        next: HttpHandler,
+        req: HttpRequest<any>,
+    ): Observable<HttpEvent<any>> {
+        switch (state) {
+            case TokenRefreshState.REFRESHING:
+                return this.waitUntilRefreshed(next, req);
+            case TokenRefreshState.OK:
+                if (this.tokenRefreshService.isTokenExpired() && this.tokenRefreshService.canRefresh()) {
+                    return this.refreshAndSend(next, req);
+                }
+                return next.handle(req);
+            case TokenRefreshState.FAILED:
+                this.sentinelAuthService.logout();
+                return EMPTY;
+        }
+    }
 
-  private refreshAndSend(next: HttpHandler, req: HttpRequest<any>): Observable<HttpEvent<any>> {
-    return this.tokenRefreshService.refreshToken().pipe(
-      take(1),
-      concatMap((state) => this.handleCurrentState(state, next, this.tokenRefreshService.updateRequestToken(req))),
-    );
-  }
+    private waitUntilRefreshed(next: HttpHandler, req: HttpRequest<any>): Observable<HttpEvent<any>> {
+        return this.tokenRefreshService.stateObservable.pipe(
+            skipWhile((state) => state === TokenRefreshState.REFRESHING),
+            take(1),
+            switchMap((state) =>
+                this.handleCurrentState(state, next, this.tokenRefreshService.updateRequestToken(req)),
+            ),
+        );
+    }
 
-  private isOIDCRequest(req: HttpRequest<any>): boolean {
-    return this.sentinelAuthConfig.providers.some(
-      (provider) => provider.oidcConfig?.issuer && req.url.startsWith(provider.oidcConfig?.issuer),
-    );
-  }
+    private refreshAndSend(next: HttpHandler, req: HttpRequest<any>): Observable<HttpEvent<any>> {
+        return this.tokenRefreshService.refreshToken().pipe(
+            take(1),
+            concatMap((state) =>
+                this.handleCurrentState(state, next, this.tokenRefreshService.updateRequestToken(req)),
+            ),
+        );
+    }
+
+    private isOIDCRequest(req: HttpRequest<any>): boolean {
+        return this.sentinelAuthConfig.providers.some(
+            (provider) => provider.oidcConfig?.issuer && req.url.startsWith(provider.oidcConfig?.issuer),
+        );
+    }
 }

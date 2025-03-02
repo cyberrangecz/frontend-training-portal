@@ -19,29 +19,29 @@ import { TokenRefreshInterceptor } from './services/http-interceptors/token-refr
 import { TokenRefreshService } from './services/shared/token-refresh.service';
 
 @NgModule({
-  declarations: [AppComponent],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    AppRoutingModule,
-    AuthModule,
-    LoginModule,
-    SentinelLayout1Module,
-    SentinelConfirmationDialogComponent,
-    HomeModule,
-  ],
-  providers: [
-    LoadingService,
-    NotificationService,
-    ErrorHandlerService,
-    TokenRefreshService,
-    appConfigProvider,
-    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: TokenRefreshInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorLogInterceptor, multi: true },
-  ],
-  bootstrap: [AppComponent],
+    declarations: [AppComponent],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        AppRoutingModule,
+        AuthModule,
+        LoginModule,
+        SentinelLayout1Module,
+        SentinelConfirmationDialogComponent,
+        HomeModule,
+    ],
+    providers: [
+        LoadingService,
+        NotificationService,
+        ErrorHandlerService,
+        TokenRefreshService,
+        appConfigProvider,
+        { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: TokenRefreshInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorLogInterceptor, multi: true },
+    ],
+    bootstrap: [AppComponent],
 })
 /**
  * Main app module. Contains global providers and module imports.

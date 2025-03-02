@@ -14,26 +14,26 @@ import { PortalConfig } from './utils/config';
 import { APP_CONFIG, configurableModuleFactory } from '@sentinel/common/dynamic-env';
 
 @NgModule({
-  imports: [CommonModule, SentinelAuthModule.forRoot(null)],
-  providers: [
-    SandboxDesignerGuard,
-    SandboxOrganizerGuard,
-    TrainingDesignerGuard,
-    TrainingOrganizerGuard,
-    UserAndGroupGuard,
-    TraineeGuard,
-    OnlyTraineeGuard,
-    SentinelAuthGuardWithLogin,
-    SentinelNegativeAuthGuard,
-    {
-      provide: SentinelAuthConfig,
-      useFactory: configurableModuleFactory<PortalConfig>('authConfig'),
-      deps: [APP_CONFIG],
-    },
-    {
-      provide: SentinelAuthErrorHandler,
-      useClass: ErrorHandlerService,
-    },
-  ],
+    imports: [CommonModule, SentinelAuthModule.forRoot(null)],
+    providers: [
+        SandboxDesignerGuard,
+        SandboxOrganizerGuard,
+        TrainingDesignerGuard,
+        TrainingOrganizerGuard,
+        UserAndGroupGuard,
+        TraineeGuard,
+        OnlyTraineeGuard,
+        SentinelAuthGuardWithLogin,
+        SentinelNegativeAuthGuard,
+        {
+            provide: SentinelAuthConfig,
+            useFactory: configurableModuleFactory<PortalConfig>('authConfig'),
+            deps: [APP_CONFIG],
+        },
+        {
+            provide: SentinelAuthErrorHandler,
+            useClass: ErrorHandlerService,
+        },
+    ],
 })
 export class AuthModule {}

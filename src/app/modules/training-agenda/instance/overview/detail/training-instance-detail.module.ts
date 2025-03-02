@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { TrainingInstanceDetailComponentsModule } from '@cyberrangecz-platform/training-agenda/instance-detail';
-import { DynamicEnvironment } from '../../../../../../environments/dynamic-environment';
+import { TrainingInstanceDetailComponentsModule } from '@crczp/training-agenda/instance-detail';
+import { PortalDynamicEnvironment } from '../../../../../../environments/portal-dynamic-environment';
 import { TrainingInstanceDetailRoutingModule } from './training-instance-detail-routing.module';
 
 @NgModule({
-  imports: [
-    TrainingInstanceDetailComponentsModule.forRoot(DynamicEnvironment.getConfig().trainingAgendaConfig),
-    TrainingInstanceDetailRoutingModule,
-  ],
+    imports: [
+        TrainingInstanceDetailComponentsModule.forRoot(PortalDynamicEnvironment.getConfig().trainingAgendaConfig),
+        TrainingInstanceDetailRoutingModule,
+    ],
 })
 export class TrainingInstanceDetailModule {}

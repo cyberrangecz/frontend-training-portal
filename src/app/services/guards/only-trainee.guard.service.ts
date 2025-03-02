@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { SentinelAuthService } from '@sentinel/auth';
 import { SentinelAuthGuardWithLogin } from '@sentinel/auth/guards';
-import { TRAINING_RUN_PATH } from '@cyberrangecz-platform/training-agenda';
+import { TRAINING_RUN_PATH } from '@crczp/training-agenda';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RoleResolver } from '../../utils/role-resolver';
@@ -14,29 +14,29 @@ import { CanActivateToObservable } from './can-activate-to-observable';
  */
 @Injectable()
 export class OnlyTraineeGuard implements CanActivate {
-  constructor(
-    private router: Router,
-    private authGuard: SentinelAuthGuardWithLogin,
-    private authService: SentinelAuthService,
-  ) {}
+    constructor(
+        private router: Router,
+        private authGuard: SentinelAuthGuardWithLogin,
+        private authService: SentinelAuthService,
+    ) {}
 
-  canActivate(): Observable<boolean> | Promise<boolean> | boolean {
-    return CanActivateToObservable.convert(this.authGuard.canActivate()).pipe(
-      map((canActivate) => (canActivate ? this.isTraineeOnly() : false)),
-    );
-  }
-
-  private isTraineeOnly(): boolean {
-    const roles = this.authService.getRoles();
-    if (
-      RoleResolver.isTrainingTrainee(roles) &&
-      !RoleResolver.isTrainingOrganizer(roles) &&
-      !RoleResolver.isTrainingDesigner(roles) &&
-      !RoleResolver.isUserAndGroupAdmin(roles)
-    ) {
-      this.router.navigate([TRAINING_RUN_PATH]);
-      return false;
+    canActivate(): Observable<boolean> | Promise<boolean> | boolean {
+        return CanActivateToObservable.convert(this.authGuard.canActivate()).pipe(
+            map((canActivate) => (canActivate ? this.isTraineeOnly() : false)),
+        );
     }
-    return true;
-  }
+
+    private isTraineeOnly(): boolean {
+        const roles = this.authService.getRoles();
+        if (
+            RoleResolver.isTrainingTrainee(roles) &&
+            !RoleResolver.isTrainingOrganizer(roles) &&
+            !RoleResolver.isTrainingDesigner(roles) &&
+            !RoleResolver.isUserAndGroupAdmin(roles)
+        ) {
+            this.router.navigate([TRAINING_RUN_PATH]);
+            return false;
+        }
+        return true;
+    }
 }

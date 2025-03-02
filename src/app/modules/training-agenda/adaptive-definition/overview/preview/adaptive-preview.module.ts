@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { AdaptivePreviewRoutingModule } from './adaptive-preview-routing.module';
-import { AdaptivePreviewComponentsModule } from '@cyberrangecz-platform/training-agenda/adaptive-definition-preview';
-import { DynamicEnvironment } from '../../../../../../environments/dynamic-environment';
+import { AdaptivePreviewComponentsModule } from '@crczp/training-agenda/adaptive-definition-preview';
+import { PortalDynamicEnvironment } from '../../../../../../environments/portal-dynamic-environment';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    AdaptivePreviewComponentsModule.forRoot(DynamicEnvironment.getConfig().trainingAgendaConfig),
-    AdaptivePreviewRoutingModule,
-  ],
+    imports: [
+        CommonModule,
+        AdaptivePreviewComponentsModule.forRoot(PortalDynamicEnvironment.getConfig().trainingAgendaConfig),
+        AdaptivePreviewRoutingModule,
+    ],
 })
 export class AdaptivePreviewModule {}

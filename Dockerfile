@@ -2,8 +2,8 @@ FROM node:20 as builder
 RUN NG_CLI_ANALYTICS=false npm install -g @angular/cli
 ARG SENTINEL_REGISTRY_HOST_NO_PROTO
 ARG SENTINEL_REGISTRY_ACCESS_TOKEN
-ARG KYPO_REGISTRY_HOST_NO_PROTO
-ARG KYPO_REGISTRY_ACCESS_TOKEN
+ARG REGISTRY_HOST_NO_PROTO
+ARG REGISTRY_ACCESS_TOKEN
 ARG PROD=true
 
 COPY e2e /build/e2e
@@ -13,8 +13,8 @@ COPY *.json /build/
 RUN cd /build && \
     npm config set @sentinel:registry https://$SENTINEL_REGISTRY_HOST_NO_PROTO && \
     npm config set //$SENTINEL_REGISTRY_HOST_NO_PROTO:_authToken $SENTINEL_REGISTRY_ACCESS_TOKEN && \
-    npm config set @cyberrangecz-platform:registry https://$KYPO_REGISTRY_HOST_NO_PROTO && \
-    npm config set //$KYPO_REGISTRY_HOST_NO_PROTO:_authToken $KYPO_REGISTRY_ACCESS_TOKEN && \
+    npm config set @crczp:registry https://$REGISTRY_HOST_NO_PROTO && \
+    npm config set //$REGISTRY_HOST_NO_PROTO:_authToken $REGISTRY_ACCESS_TOKEN && \
     npm install && \
     if [ "$PROD" = true ] ; then \
       ng build --configuration production; \

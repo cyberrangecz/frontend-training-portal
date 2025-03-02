@@ -2,19 +2,19 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TrainingAgendaSharedProvidersModule } from '../../training-agenda-shared-providers.module';
 import { AdaptiveDefinitionOverviewRoutingModule } from './adaptive-definition-overview-routing.module';
-import { TrainingApiModule } from '@cyberrangecz-platform/training-api';
-import { DynamicEnvironment } from '../../../../../environments/dynamic-environment';
-import { AdaptiveDefinitionOverviewComponentsModule } from '@cyberrangecz-platform/training-agenda/adaptive-definition-overview';
-import { SandboxApiModule } from '@cyberrangecz-platform/sandbox-api';
+import { TrainingApiModule } from '@crczp/training-api';
+import { PortalDynamicEnvironment } from '../../../../../environments/portal-dynamic-environment';
+import { AdaptiveDefinitionOverviewComponentsModule } from '@crczp/training-agenda/adaptive-definition-overview';
+import { SandboxApiModule } from '@crczp/sandbox-api';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    TrainingAgendaSharedProvidersModule,
-    AdaptiveDefinitionOverviewRoutingModule,
-    SandboxApiModule.forRoot(DynamicEnvironment.getConfig().sandboxApiConfig),
-    TrainingApiModule.forRoot(DynamicEnvironment.getConfig().trainingApiConfig),
-    AdaptiveDefinitionOverviewComponentsModule.forRoot(DynamicEnvironment.getConfig().trainingAgendaConfig),
-  ],
+    imports: [
+        CommonModule,
+        TrainingAgendaSharedProvidersModule,
+        AdaptiveDefinitionOverviewRoutingModule,
+        SandboxApiModule.forRoot(PortalDynamicEnvironment.getConfig().sandboxApiConfig),
+        TrainingApiModule.forRoot(PortalDynamicEnvironment.getConfig().trainingApiConfig),
+        AdaptiveDefinitionOverviewComponentsModule.forRoot(PortalDynamicEnvironment.getConfig().trainingAgendaConfig),
+    ],
 })
 export class AdaptiveDefinitionOverviewModule {}

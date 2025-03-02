@@ -13,23 +13,23 @@ import { CanActivateToObservable } from './can-activate-to-observable';
  * Route guard determining if user is signed in and has role of a trainee.
  */
 export class TraineeGuard implements CanActivate {
-  constructor(
-    private router: Router,
-    private authGuard: SentinelAuthGuardWithLogin,
-    private authService: SentinelAuthService,
-  ) {}
+    constructor(
+        private router: Router,
+        private authGuard: SentinelAuthGuardWithLogin,
+        private authService: SentinelAuthService,
+    ) {}
 
-  canActivate(): Observable<boolean> | Promise<boolean> | boolean {
-    return CanActivateToObservable.convert(this.authGuard.canActivate()).pipe(
-      map((canActivate) => (canActivate ? this.isTrainee() : false)),
-    );
-  }
-
-  private isTrainee(): boolean {
-    if (RoleResolver.isTrainingTrainee(this.authService.getRoles())) {
-      return true;
+    canActivate(): Observable<boolean> | Promise<boolean> | boolean {
+        return CanActivateToObservable.convert(this.authGuard.canActivate()).pipe(
+            map((canActivate) => (canActivate ? this.isTrainee() : false)),
+        );
     }
-    this.router.navigate([HOME_PATH]);
-    return false;
-  }
+
+    private isTrainee(): boolean {
+        if (RoleResolver.isTrainingTrainee(this.authService.getRoles())) {
+            return true;
+        }
+        this.router.navigate([HOME_PATH]);
+        return false;
+    }
 }

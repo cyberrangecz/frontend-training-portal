@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { DynamicEnvironment } from '../../../../../../environments/dynamic-environment';
+import { PortalDynamicEnvironment } from '../../../../../../environments/portal-dynamic-environment';
 import { AdaptiveDefinitionSimulatorRoutingModule } from './adaptive-definition-simulator-routing.module';
-import { AdaptiveDefinitionSimulatorComponentsModule } from '@cyberrangecz-platform/training-agenda/adaptive-definition-simulator';
+import { AdaptiveDefinitionSimulatorComponentsModule } from '@crczp/training-agenda/adaptive-definition-simulator';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    AdaptiveDefinitionSimulatorComponentsModule.forRoot(DynamicEnvironment.getConfig().trainingAgendaConfig),
-    AdaptiveDefinitionSimulatorRoutingModule,
-  ],
+    imports: [
+        CommonModule,
+        AdaptiveDefinitionSimulatorComponentsModule.forRoot(PortalDynamicEnvironment.getConfig().trainingAgendaConfig),
+        AdaptiveDefinitionSimulatorRoutingModule,
+    ],
 })
 export class AdaptiveDefinitionSimulatorModule {}

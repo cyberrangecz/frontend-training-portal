@@ -6,7 +6,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { SentinelBootstrapper } from '@sentinel/common/dynamic-env';
 
 if (environment.production) {
-  enableProdMode();
+    enableProdMode();
 }
 
 SentinelBootstrapper.bootstrap<AppModule, PortalConfig>('assets/config.json', AppModule, platformBrowserDynamic());

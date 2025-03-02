@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
-import { SandboxDefinitionOverviewComponentsModule } from '@cyberrangecz-platform/sandbox-agenda/sandbox-definition-overview';
-import { SandboxApiModule } from '@cyberrangecz-platform/sandbox-api';
-import { DynamicEnvironment } from '../../../../environments/dynamic-environment';
+import { SandboxDefinitionOverviewComponentsModule } from '@crczp/sandbox-agenda/sandbox-definition-overview';
+import { SandboxApiModule } from '@crczp/sandbox-api';
+import { PortalDynamicEnvironment } from '../../../../environments/portal-dynamic-environment';
 import { SandboxAgendaSharedProvidersModule } from '../sandbox-agenda-shared-providers.module';
 import { SandboxDefinitionOverviewRoutingModule } from './sandbox-definition-overview-routing.module';
 
 @NgModule({
-  imports: [
-    SandboxAgendaSharedProvidersModule,
-    SandboxApiModule.forRoot(DynamicEnvironment.getConfig().sandboxApiConfig),
-    SandboxDefinitionOverviewComponentsModule.forRoot(DynamicEnvironment.getConfig().sandboxAgendaConfig),
-    SandboxDefinitionOverviewRoutingModule,
-  ],
+    imports: [
+        SandboxAgendaSharedProvidersModule,
+        SandboxApiModule.forRoot(PortalDynamicEnvironment.getConfig().sandboxApiConfig),
+        SandboxDefinitionOverviewComponentsModule.forRoot(PortalDynamicEnvironment.getConfig().sandboxAgendaConfig),
+        SandboxDefinitionOverviewRoutingModule,
+    ],
 })
 export class SandboxDefinitionOverviewModule {}

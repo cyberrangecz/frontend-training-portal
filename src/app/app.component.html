@@ -8,5 +8,5 @@
                   (logout)="onLogout()">
     <h1 *ngIf="title$ | async as title">{{ title }}</h1>
     <p class="subtitle" *ngIf="subtitle$ | async as subtitle">{{ subtitle }}</p>
-    <router-outlet></router-outlet>
+    <router-outlet/>
 </sentinel-layout1>
