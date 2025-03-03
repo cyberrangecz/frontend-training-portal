@@ -1,0 +1,102 @@
+name: Training portal CI
+
+on:
+  push:
+    branches-ignore:
+      - master
+      - develop
+  pull_request:
+    branches:
+      - master
+      - develop
+  workflow_dispatch:
+    inputs:
+      confirm_action:
+        description: "Type 'yes' if you want to publish and create a new tag"
+        required: true
+        default: "no"
+
+jobs:
+  get_current_version:
+    uses: cyberrangecz/actions-templates/.github/workflows/get_version.yml@master
+    with:
+      file_path: "package.json"
+
+  codeStyle:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.17.0'
+          cache: 'npm'
+
+      - name: Copy .npmrc for authentication
+        run: echo "${{ secrets.SENTINEL_PULL }}" >> .npmrc
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline --ignore-scripts
+
+      - name: Run Lint
+        run: npm run lint
+
+  unitTests:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-24.04
+    container:
+      image: ${{ vars.CONTAINER_IMAGE }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.17.0'
+          cache: 'npm'
+
+      - name: Copy .npmrc for authentication
+        run: echo "${{ secrets.SENTINEL_PULL }}" >> .npmrc
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline --ignore-scripts
+
+      - name: Run tests
+        run: npm run ci-test
+
+  build_container:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-24.04
+    needs: [codeStyle, unitTests, get_current_version]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        env:
+          IMAGE_NAME: "training-portal"
+          IMAGE_TAG: ${{ github.ref == 'refs/heads/master' && format('{0}', needs.get_current_version.outputs.version ) || format('{0}-dev', needs.get_current_version.outputs.version) }}
+        uses: docker/build-push-action@v6
+        with:
+          context: .  # Path to the Dockerfile
+          file: ./Dockerfile
+          build-args: |  
+            PROPRIETARY_REPO_URL=${{ vars.PROPRIETARY_REPO_URL }}
+            GITHUB_ACTOR=${{ github.actor }}
+            READ_PACKAGES_TOKEN=${{ secrets.READ_PACKAGES }}
+            MAVEN_CLI_OPTS=${{ inputs.MAVEN_CLI_OPTS }}
+          push: true
+          tags: ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+
