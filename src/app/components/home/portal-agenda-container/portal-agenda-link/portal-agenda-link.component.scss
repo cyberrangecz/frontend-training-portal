@@ -22,13 +22,9 @@ mat-icon {
 
 .portal-item-container {
     display: flex;
-    padding-left: 30px;
-    justify-content: center;
     flex-direction: column;
-}
-
-.portal-item-container:nth-child(1) {
-    padding-left: 60px;
+    justify-content: center;
+    align-items: center;
 }
 
 .portal-item-container h3 {
@@ -45,14 +41,7 @@ mat-icon {
     min-width: 100px;
 }
 
-@media screen and (max-width: 1580px) {
-    .portal-item-container, .portal-item-container:nth-child(1) {
-        padding-left: 0;
-    }
-
-    .portal-item-container {
-        padding-right: 25px;
-    }
+.agenda-link-label {
+    text-align: center;
 }
-
 

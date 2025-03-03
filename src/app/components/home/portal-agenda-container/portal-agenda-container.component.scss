@@ -9,6 +9,7 @@ h2 {
     justify-content: space-between;
     padding-bottom: 40px;
     width: 100%;
+    gap: 3rem;
 }
 
 .last-agenda {
@@ -18,9 +19,15 @@ h2 {
 .portal-items-container {
     display: flex;
     flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
     padding-top: 25px;
     padding-left: 25px;
     width: 50%;
+}
+
+.portal-items-container > * {
+    flex: 1;
 }
 
 .portal-description-container {

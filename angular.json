@@ -12,11 +12,6 @@
             "architect": {
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
-                    "stylePreprocessorOptions": {
-                        "includePaths": [
-                            "src/variables"
-                        ]
-                    },
                     "options": {
                         "outputPath": "dist/trainings",
                         "index": "src/index.html",
@@ -27,11 +22,15 @@
                             "src/favicon.ico",
                             "src/assets",
                             "src/silent-refresh.html",
-                            "src/.well-known/security.txt"
+                            "src/.well-known/security.txt",
+                            {
+                                "glob": "**/*",
+                                "input": "node_modules/@crczp/theme/assets",
+                                "output": "assets/"
+                            }
                         ],
                         "styles": [
-                            "node_modules/@crczp/theme/theming/apply-all.scss",
-                            "src/styles.scss"
+                            "node_modules/@crczp/theme/theming/apply-all.scss"
                         ],
                         "vendorChunk": true,
                         "extractLicenses": false,
@@ -109,21 +108,21 @@
                         "polyfills": "src/polyfills.ts",
                         "tsConfig": "src/tsconfig.spec.json",
                         "karmaConfig": "src/karma.conf.js",
-                        "stylePreprocessorOptions": {
-                            "includePaths": [
-                                "src/variables"
-                            ]
-                        },
-                        "styles": [
-                            "node_modules/@crczp/theme/theming/apply-all.scss",
-                            "src/styles.scss"
-                        ],
-                        "scripts": [],
                         "assets": [
-                            "src/.well-known/security.txt",
                             "src/favicon.ico",
-                            "src/assets"
-                        ]
+                            "src/assets",
+                            "src/silent-refresh.html",
+                            "src/.well-known/security.txt",
+                            {
+                                "glob": "**/*",
+                                "input": "node_modules/@crczp/theme/assets",
+                                "output": "assets/"
+                            }
+                        ],
+                        "styles": [
+                            "node_modules/@crczp/theme/theming/apply-all.scss"
+                        ],
+                        "scripts": []
                     }
                 },
                 "lint": {

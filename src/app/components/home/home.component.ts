@@ -131,7 +131,8 @@ export class HomeComponent implements OnInit {
                 'Pool',
                 !RoleResolver.isSandboxOrganizer(this.roles),
                 SANDBOX_POOL_PATH,
-                'As an instructor, you can create Pools of sandboxes that serve for the instantiating and management of sandbox definitions.',
+                'As an instructor, you can create Pools of sandboxes that serve for the ' +
+                    'instantiating and management of sandbox definitions.',
                 'subscriptions',
             ),
             new AgendaPortalLink(

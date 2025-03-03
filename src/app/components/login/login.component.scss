@@ -1,3 +1,20 @@
+.login-wrapper {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5rem;
+}
+
+.login-card {
+    max-width: 45rem;
+}
+
+.consent-card {
+    max-width: 1280px;
+}
+
 .providers {
     width: 100%;
     display: flex;
@@ -13,11 +30,6 @@
 button {
     width: 100%;
     margin: 5px;
-}
-
-mat-card:nth-child(2) {
-    padding: 16px;
-    margin-top: 100px;
 }
 
 mat-card {

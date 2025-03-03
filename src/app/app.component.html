@@ -1,4 +1,4 @@
-<sentinel-layout1 logoSrc="./assets/images/logo.svg"
+<sentinel-layout1 logoSrc="./assets/logo/logo.svg"
                   [user]="activeUser$ | async"
                   [isLoading]="isLoading$ | async"
                   [agendaContainers]="agendaContainers$ | async"
@@ -6,6 +6,11 @@
                   [version]="version"
                   (login)="onLogin()"
                   (logout)="onLogout()">
+    <div role="toolbar">
+        @if (activeUser$ | async) {
+            <span class="username">{{ (activeUser$ | async).nameWithAcademicTitles }}</span>
+        }
+    </div>
     <h1 *ngIf="title$ | async as title">{{ title }}</h1>
     <p class="subtitle" *ngIf="subtitle$ | async as subtitle">{{ subtitle }}</p>
     <router-outlet/>

@@ -49,11 +49,11 @@ To deploy on a server:
 5. Run `ng build --configuration=myserver`
 
 **NOTE:** If you wish add configuration different from the prod, but it should use all perks of production build (
-recommended), you must specify following options in angular.json.
+recommended), you must specify the build option in angular.json.
 
 Previous example with build for production environment would look like this:
 
-```
+```json
 "myserver": {
   "fileReplacements": [
       {
@@ -61,36 +61,6 @@ Previous example with build for production environment would look like this:
         "with": "src/environments/config.myserver.json"
       }
    ],
-   "optimization": true,
-   "outputHashing": "all",
-   "sourceMap": false,
-   "extractCss": true,
-   "namedChunks": false,
-   "aot": true,
-   "extractLicenses": true,
-   "vendorChunk": false,
-   "buildOptimizer": true
+   ...
  }
 ```
-
-## Documentation
-
-You can generate documentation with tools like [Compodoc](https://compodoc.app/) or [TypeDoc](https://typedoc.org/)
-
-## UX/UI Guidelines
-
-If extending the project, consult [Google Material Guildelines](https://material.io/design/guidelines-overview/).
-
-Also prefer usage of [Angular Material Components](https://material.angular.io/)
-and [Material Icons](https://material.io/resources/icons/) if possible.
-
-## Codestyle and Architecture
-
-Codestyle should roughly comply with [Angular Codestyle](https://angular.io/guide/styleguide) and is enforced
-through [TSLint](https://palantir.github.io/tslint/) and Prettier.
-
-`prettier-check` is run before committing, and it blocks your commit if there are lint errors.
-
-We try to use smart-dumb architecture in our components and to outsource most of the "business logic" that smart
-components needs to handle to injected implementations of abstract services to allow for reuse in different context
-easily.
