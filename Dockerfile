@@ -1,4 +1,4 @@
-FROM node:20 as builder
+FROM node:20 AS builder
 RUN NG_CLI_ANALYTICS=false npm install -g @angular/cli
 ARG SENTINEL_REGISTRY_HOST_NO_PROTO
 ARG SENTINEL_REGISTRY_ACCESS_TOKEN
@@ -6,7 +6,6 @@ ARG REGISTRY_HOST_NO_PROTO
 ARG REGISTRY_ACCESS_TOKEN
 ARG PROD=true
 
-COPY e2e /build/e2e
 COPY src /build/src
 COPY *.json /build/
 
@@ -15,7 +14,7 @@ RUN cd /build && \
     npm config set //$SENTINEL_REGISTRY_HOST_NO_PROTO:_authToken $SENTINEL_REGISTRY_ACCESS_TOKEN && \
     npm config set @crczp:registry https://$REGISTRY_HOST_NO_PROTO && \
     npm config set //$REGISTRY_HOST_NO_PROTO:_authToken $REGISTRY_ACCESS_TOKEN && \
-    npm install && \
+    npm ci && \
     if [ "$PROD" = true ] ; then \
       ng build --configuration production; \
     else \
@@ -23,7 +22,7 @@ RUN cd /build && \
     fi
 
 FROM nginx:alpine
-COPY --from=builder /build/dist/trainings /app
+COPY --from=builder /build/dist/training-portal /app
 RUN chmod o-rwx -R /app && chgrp nginx -R /app
 COPY etc/nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 8000

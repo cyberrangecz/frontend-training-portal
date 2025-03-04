@@ -3,7 +3,7 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-        "trainings": {
+        "training-portal": {
             "root": "./",
             "sourceRoot": "src",
             "projectType": "application",
@@ -13,7 +13,7 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-                        "outputPath": "dist/trainings",
+                        "outputPath": "dist/training-portal",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
@@ -61,6 +61,24 @@
                             "vendorChunk": false,
                             "buildOptimizer": true
                         },
+                        "development": {
+                            "budgets": [
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "6kb"
+                                }
+                            ],
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.prod.ts"
+                                }
+                            ],
+                            "optimization": false,
+                            "sourceMap": true,
+                            "namedChunks": true,
+                            "extractLicenses": true
+                        },
                         "local": {
                             "budgets": [
                                 {
@@ -81,24 +99,18 @@
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "options": {
-                        "buildTarget": "trainings:build"
+                        "buildTarget": "training-portal:build"
                     },
                     "configurations": {
                         "production": {
-                            "buildTarget": "trainings:build:production"
+                            "buildTarget": "training-portal:build:production"
                         },
-                        "staging": {
-                            "buildTarget": "trainings:build:staging"
+                        "development": {
+                            "buildTarget": "training-portal:build:development"
                         },
                         "local": {
-                            "buildTarget": "trainings:build:local"
+                            "buildTarget": "training-portal:build:local"
                         }
-                    }
-                },
-                "extract-i18n": {
-                    "builder": "@angular-devkit/build-angular:extract-i18n",
-                    "options": {
-                        "buildTarget": "trainings:build"
                     }
                 },
                 "test": {
@@ -139,11 +151,11 @@
                     "options": {
                         "cypressConfig": "e2e/cypress.json",
                         "tsConfig": "e2e/tsconfig.e2e.json",
-                        "devServerTarget": "trainings:serve"
+                        "devServerTarget": "training-portal:serve"
                     },
                     "configurations": {
                         "production": {
-                            "devServerTarget": "trainings:serve:production"
+                            "devServerTarget": "training-portal:serve:production"
                         }
                     }
                 }
