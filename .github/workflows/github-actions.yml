@@ -4,11 +4,9 @@ on:
   push:
     branches-ignore:
       - master
-      - develop
   pull_request:
     branches:
       - master
-      - develop
   workflow_dispatch:
     inputs:
       confirm_action:
@@ -84,19 +82,37 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Copy .npmrc for authentication
+        run: echo "${{ secrets.SENTINEL_PULL }}" >> .npmrc
+
       - name: Build and push Docker image
         env:
           IMAGE_NAME: "training-portal"
           IMAGE_TAG: ${{ github.ref == 'refs/heads/master' && format('{0}', needs.get_current_version.outputs.version ) || format('{0}-dev', needs.get_current_version.outputs.version) }}
+          PROD_VAL: ${{ github.ref == 'refs/heads/master' && 'true' || 'false' }}
         uses: docker/build-push-action@v6
         with:
           context: .  # Path to the Dockerfile
           file: ./Dockerfile
           build-args: |  
-            PROPRIETARY_REPO_URL=${{ vars.PROPRIETARY_REPO_URL }}
-            GITHUB_ACTOR=${{ github.actor }}
-            READ_PACKAGES_TOKEN=${{ secrets.READ_PACKAGES }}
-            MAVEN_CLI_OPTS=${{ inputs.MAVEN_CLI_OPTS }}
+            PROD=${{ env.PROD_VAL }}
+            --snapshotMode=redo
+            --single-snapshot
           push: true
           tags: ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+
+  # Controls if version consistent with semver and higner than last git tag.
+  control_tag:
+    if: ( github.event.pull_request.base.ref == 'master' || github.ref == 'refs/heads/master' )
+    needs: get_current_version
+    uses: cyberrangecz/actions-templates/.github/workflows/tag_control_template.yml@master
+    with:
+      VERSION: ${{ needs.get_current_version.outputs.version }}
+
+  # Push tag only from manual workflow_dispatch with confirmed tag creation
+  push_tag:
+    needs: [get_current_version, control_tag, build_container]
+    uses: cyberrangecz/actions-templates/.github/workflows/tag_push_template.yml@master
+    with:
+      VERSION: ${{ needs.get_current_version.outputs.version }}
 
