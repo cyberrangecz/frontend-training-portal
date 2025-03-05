@@ -94,7 +94,7 @@ jobs:
         with:
           context: .  # Path to the Dockerfile
           file: ./Dockerfile
-          build-args: |  
+          build-args: |
             PROD=${{ env.PROD_VAL }}
             --snapshotMode=redo
             --single-snapshot
