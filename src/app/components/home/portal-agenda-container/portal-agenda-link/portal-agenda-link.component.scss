@@ -4,6 +4,10 @@
     width: 120px;
 }
 
+.simple-button:hover {
+    box-shadow: 0 0 11px var(--primary-20);
+}
+
 mat-icon {
     font-size: 35px !important;
 }
@@ -39,6 +43,7 @@ mat-icon {
 
 .expanded-menu-item {
     min-width: 100px;
+
 }
 
 .agenda-link-label {

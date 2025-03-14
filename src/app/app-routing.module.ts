@@ -14,7 +14,7 @@ import { GROUP_PATH, MICROSERVICE_PATH, USER_PATH } from '@crczp/user-and-group-
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { HOME_PATH, LOGIN_PATH, NOTIFICATIONS_PATH } from './paths';
-import { OnlyTraineeGuard } from './services/guards/only-trainee.guard.service';
+import { AdvancedUserGuard } from './services/guards/advanced-user.guard.service';
 import { SandboxDesignerGuard } from './services/guards/sandbox-designer-guard.service';
 import { SandboxOrganizerGuard } from './services/guards/sandbox-organizer-guard.service';
 import { TraineeGuard } from './services/guards/trainee-guard.service';
@@ -23,12 +23,14 @@ import { TrainingOrganizerGuard } from './services/guards/training-organizer-gua
 import { UserAndGroupGuard } from './services/guards/user-and-group-guard.service';
 import { RoleBasedPreloader } from './utils/role-based-preloading';
 import { RoleResolver } from './utils/role-resolver';
+import { AdaptiveTrainingOrganizerGuard } from './services/guards/training-adaptive-organizer-guard.service';
+import { AdaptiveTrainingDesignerGuard } from './services/guards/training-adaptive-designer-guard.service';
 
 const routes: Routes = [
     {
         path: HOME_PATH,
         component: HomeComponent,
-        canActivate: [OnlyTraineeGuard],
+        canActivate: [AdvancedUserGuard],
     },
     {
         path: TRAINING_DEFINITION_PATH,
@@ -49,11 +51,11 @@ const routes: Routes = [
             import('./modules/training-agenda/adaptive-definition/overview/adaptive-definition-overview.module').then(
                 (m) => m.AdaptiveDefinitionOverviewModule,
             ),
-        canActivate: [TrainingDesignerGuard],
+        canActivate: [AdaptiveTrainingDesignerGuard],
         data: {
             breadcrumb: 'Adaptive Training Definitions',
             title: 'Adaptive Training Definition Overview',
-            roleResolver: RoleResolver.isTrainingDesigner,
+            roleResolver: RoleResolver.isAdaptiveTrainingDesigner,
         },
     },
     {
@@ -88,11 +90,11 @@ const routes: Routes = [
             import('./modules/training-agenda/adaptive-instance/overview/adaptive-instance-overview.module').then(
                 (m) => m.AdaptiveInstanceOverviewModule,
             ),
-        canActivate: [TrainingOrganizerGuard],
+        canActivate: [AdaptiveTrainingOrganizerGuard],
         data: {
             breadcrumb: 'Adaptive Training Instances',
             title: 'Adaptive Training Instance Overview',
-            roleResolver: RoleResolver.isTrainingOrganizer,
+            roleResolver: RoleResolver.isAdaptiveTrainingOrganizer,
         },
     },
     {

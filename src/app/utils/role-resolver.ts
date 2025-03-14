@@ -18,6 +18,18 @@ export class RoleResolver {
         );
     }
 
+    static isAdaptiveTrainingDesigner(roles: UserRole[]): boolean {
+        return roles.some(
+            (role) => role.roleType === PortalDynamicEnvironment.getConfig().roleMapping.adaptiveTrainingDesigner,
+        );
+    }
+
+    static isAdaptiveTrainingOrganizer(roles: UserRole[]): boolean {
+        return roles.some(
+            (role) => role.roleType === PortalDynamicEnvironment.getConfig().roleMapping.adaptiveTrainingOrganizer,
+        );
+    }
+
     static isTrainingTrainee(roles: UserRole[]): boolean {
         return roles.some((role) => role.roleType === PortalDynamicEnvironment.getConfig().roleMapping.trainingTrainee);
     }
