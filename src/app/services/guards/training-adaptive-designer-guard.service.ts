@@ -17,7 +17,6 @@ export class AdaptiveTrainingDesignerGuard extends AbstractGuardService implemen
         private authService: SentinelAuthService,
     ) {
         super(router, authGuard, HOME_PATH);
-        console.log(authService.getRoles());
     }
 
     protected hasRole = () => RoleResolver.isAdaptiveTrainingDesigner(this.authService.getRoles());

@@ -25,11 +25,6 @@ export class RoleResolver {
     }
 
     static isAdaptiveTrainingOrganizer(roles: UserRole[]): boolean {
-        console.log(
-            'roles has',
-            roles.map((role) => role.roleType),
-        );
-        console.log('searched', PortalDynamicEnvironment.getConfig().roleMapping.adaptiveTrainingOrganizer);
         return roles.some(
             (role) => role.roleType === PortalDynamicEnvironment.getConfig().roleMapping.adaptiveTrainingOrganizer,
         );
