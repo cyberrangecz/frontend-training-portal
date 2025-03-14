@@ -2,34 +2,22 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { SentinelAuthService } from '@sentinel/auth';
 import { SentinelAuthGuardWithLogin } from '@sentinel/auth/guards';
-import { Observable } from 'rxjs/internal/Observable';
-import { map } from 'rxjs/operators';
 import { HOME_PATH } from '../../paths';
 import { RoleResolver } from '../../utils/role-resolver';
-import { CanActivateToObservable } from './can-activate-to-observable';
+import { AbstractGuardService } from './abstract.guard.service';
 
 @Injectable()
 /**
  * Route guard determining if user is signed in and has role of an organizer.
  */
-export class TrainingOrganizerGuard implements CanActivate {
+export class TrainingOrganizerGuard extends AbstractGuardService implements CanActivate {
     constructor(
-        private router: Router,
-        private authGuard: SentinelAuthGuardWithLogin,
+        router: Router,
+        authGuard: SentinelAuthGuardWithLogin,
         private authService: SentinelAuthService,
-    ) {}
-
-    canActivate(): Observable<boolean> | Promise<boolean> | boolean {
-        return CanActivateToObservable.convert(this.authGuard.canActivate()).pipe(
-            map((canActivate) => (canActivate ? this.isOrganizer() : false)),
-        );
+    ) {
+        super(router, authGuard, HOME_PATH);
     }
 
-    private isOrganizer(): boolean {
-        if (RoleResolver.isTrainingOrganizer(this.authService.getRoles())) {
-            return true;
-        }
-        this.router.navigate([HOME_PATH]);
-        return false;
-    }
+    protected hasRole = () => RoleResolver.isTrainingOrganizer(this.authService.getRoles());
 }

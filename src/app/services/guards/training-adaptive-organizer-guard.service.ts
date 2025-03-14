@@ -8,9 +8,9 @@ import { AbstractGuardService } from './abstract.guard.service';
 
 @Injectable()
 /**
- * Route guard determining if user is signed in and has role of an sandbox organizer.
+ * Route guard determining if user is signed in and has role of an organizer.
  */
-export class SandboxOrganizerGuard extends AbstractGuardService implements CanActivate {
+export class AdaptiveTrainingOrganizerGuard extends AbstractGuardService implements CanActivate {
     constructor(
         router: Router,
         authGuard: SentinelAuthGuardWithLogin,
@@ -19,5 +19,5 @@ export class SandboxOrganizerGuard extends AbstractGuardService implements CanAc
         super(router, authGuard, HOME_PATH);
     }
 
-    protected hasRole = () => RoleResolver.isSandboxOrganizer(this.authService.getRoles());
+    protected hasRole = () => RoleResolver.isAdaptiveTrainingOrganizer(this.authService.getRoles());
 }

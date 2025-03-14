@@ -4,6 +4,8 @@ span {
     transition: 0.3s;
 }
 
-.text-elevation {
-    text-shadow: 1px 0 0 black;
+
+
+.text-elevation, .text-reactive:hover {
+    text-shadow: 1px 0 black;
 }

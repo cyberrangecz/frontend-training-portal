@@ -1,6 +1,6 @@
 {
     "name": "@crczp/training-portal",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "license": "MIT",
     "private": true,
     "scripts": {
@@ -56,7 +56,7 @@
         "@sentinel/auth": "^18.0.3",
         "@sentinel/common": "^18.0.4",
         "@sentinel/components": "^18.2.7",
-        "@sentinel/layout": "^18.1.4",
+        "@sentinel/layout": "^18.1.5",
         "angular-file": "^4.0.2",
         "angular-mgl-timeline": "^1.1.0",
         "angular-oauth2-oidc": "^17.0.2",

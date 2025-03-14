@@ -25,8 +25,13 @@
                             "src/.well-known/security.txt",
                             {
                                 "glob": "**/*",
-                                "input": "node_modules/@crczp/theme/assets",
-                                "output": "assets/"
+                                "input": "node_modules/@crczp/theme/assets/",
+                                "output": "/assets/"
+                            },
+                            {
+                                "glob": "**/*",
+                                "input": "node_modules/@crczp/topology-graph/src/assets/",
+                                "output": "assets/topology-graph/"
                             }
                         ],
                         "styles": [
@@ -127,8 +132,13 @@
                             "src/.well-known/security.txt",
                             {
                                 "glob": "**/*",
-                                "input": "node_modules/@crczp/theme/assets",
+                                "input": "node_modules/@crczp/theme/assets/",
                                 "output": "assets/"
+                            },
+                            {
+                                "glob": "**/*",
+                                "input": "node_modules/@crczp/topology-graph/src/assets/",
+                                "output": "assets/topology-graph/"
                             }
                         ],
                         "styles": [
