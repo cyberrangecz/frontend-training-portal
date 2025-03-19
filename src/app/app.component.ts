@@ -25,7 +25,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     subtitle$: Observable<string>;
     agendaContainers$: Observable<AgendaContainer[]>;
     notificationRoute = NOTIFICATIONS_PATH;
-    version = 'v24.08';
+    version = 'v25.03';
 
     constructor(
         private router: Router,
@@ -45,7 +45,7 @@ export class AppComponent implements OnInit, AfterViewInit {
             map((user) => NavBuilder.build(user)),
         );
         this.isLoading$ = this.loadingService.isLoading$; // <-- causes angular error
-        this.version = PortalDynamicEnvironment.getConfig().version;
+        this.version = PortalDynamicEnvironment.getConfig().version || this.version;
     }
 
     ngAfterViewInit(): void {
