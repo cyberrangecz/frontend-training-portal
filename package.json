@@ -1,6 +1,6 @@
 {
     "name": "@crczp/training-portal",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "license": "MIT",
     "private": true,
     "scripts": {
