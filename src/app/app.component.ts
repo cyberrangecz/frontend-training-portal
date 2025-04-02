@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { SentinelAuthService, User } from '@sentinel/auth';
 import { AgendaContainer } from '@sentinel/layout';
@@ -6,10 +6,10 @@ import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { NOTIFICATIONS_PATH } from './paths';
 import { LoadingService } from './services/shared/loading.service';
-import { NotificationService } from './services/shared/notification.service';
-import { NavBuilder } from './utils/nav-builder';
+import { NavConfigFactory } from './utils/nav-config-factory';
 import { PortalDynamicEnvironment } from 'environments/portal-dynamic-environment';
 import packagejson from '../../package.json';
+import { NavBuilder } from '@crczp/theme';
 
 /**
  * Main component serving as wrapper for layout and router outlet
@@ -41,7 +41,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.subtitle$ = this.getSubtitleFromRouter();
         this.agendaContainers$ = this.auth.activeUser$.pipe(
             filter((user) => user !== null && user !== undefined),
-            map((user) => NavBuilder.build(user)),
+            map((user) => NavBuilder.buildNav(NavConfigFactory.buildNavConfig(user))),
         );
         this.isLoading$ = this.loadingService.isLoading$; // <-- causes angular error
         this.version = PortalDynamicEnvironment.getConfig().version || packagejson.version;

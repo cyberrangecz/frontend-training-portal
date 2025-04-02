@@ -12,7 +12,7 @@
     "trainingAgendaConfig": {
         "pollingPeriod": 5000,
         "defaultPaginationSize": 10,
-        "localModeAllowed": false,
+        "localModeAllowed": true,
         "visualizationConfig": {
             "trainingBasePath": "http://localhost:3000/training/api/v1/",
             "adaptiveBasePath": "http://localhost:3000/adaptive-training/api/v1/"
