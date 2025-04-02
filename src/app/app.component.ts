@@ -9,6 +9,7 @@ import { LoadingService } from './services/shared/loading.service';
 import { NotificationService } from './services/shared/notification.service';
 import { NavBuilder } from './utils/nav-builder';
 import { PortalDynamicEnvironment } from 'environments/portal-dynamic-environment';
+import packagejson from '../../package.json';
 
 /**
  * Main component serving as wrapper for layout and router outlet
@@ -25,14 +26,12 @@ export class AppComponent implements OnInit, AfterViewInit {
     subtitle$: Observable<string>;
     agendaContainers$: Observable<AgendaContainer[]>;
     notificationRoute = NOTIFICATIONS_PATH;
-    version = 'v25.03';
+    version: string;
 
     constructor(
         private router: Router,
         private activatedRoute: ActivatedRoute,
-        private notificationService: NotificationService,
         private loadingService: LoadingService,
-        private elementRef: ElementRef,
         private auth: SentinelAuthService,
     ) {}
 
@@ -45,7 +44,7 @@ export class AppComponent implements OnInit, AfterViewInit {
             map((user) => NavBuilder.build(user)),
         );
         this.isLoading$ = this.loadingService.isLoading$; // <-- causes angular error
-        this.version = PortalDynamicEnvironment.getConfig().version || this.version;
+        this.version = PortalDynamicEnvironment.getConfig().version || packagejson.version;
     }
 
     ngAfterViewInit(): void {
