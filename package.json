@@ -1,6 +1,6 @@
 {
     "name": "@crczp/training-portal",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "license": "MIT",
     "private": true,
     "scripts": {
@@ -44,7 +44,7 @@
         "@crczp/statistical-visualizations": "^1.0.0",
         "@crczp/topology-graph": "^1.0.0",
         "@crczp/topology-graph-model": "^1.0.0",
-        "@crczp/training-agenda": "^1.0.0",
+        "@crczp/training-agenda": "file:./crczp-training-agenda-1.0.1.tgz",
         "@crczp/training-api": "^1.0.0",
         "@crczp/training-model": "^1.0.0",
         "@crczp/user-and-group-agenda": "^1.0.0",

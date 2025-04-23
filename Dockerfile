@@ -5,6 +5,7 @@ ARG PROD=false
 COPY src /build/src
 COPY *.json /build/
 COPY .npmrc /build/
+COPY crczp-training-agenda-1.0.1.tgz /build/crczp-training-agenda-1.0.1.tgz
 
 RUN cd /build && \
     npm ci && \
