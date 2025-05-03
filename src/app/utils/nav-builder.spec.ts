@@ -1,4 +1,4 @@
-import { NavBuilder } from './nav-builder';
+import { NavConfigFactory } from './nav-config-factory';
 import { User, UserRole } from '@sentinel/auth';
 import { DynamicEnvironment } from '@sentinel/common/dynamic-env';
 
@@ -9,7 +9,7 @@ describe('NavBuilder', () => {
         const designerRole = new UserRole();
         designerRole.roleType = designerRoleName;
         const user = new User([designerRole]);
-        const agendaContainers = NavBuilder.build(user);
+        const agendaContainers = NavConfigFactory.buildNavConfig(user);
         expect(agendaContainers[0].label).toBe('Trainings');
     });
 });
