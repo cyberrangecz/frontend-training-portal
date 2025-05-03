@@ -2,7 +2,7 @@
     <div *ngIf="portalAgendaLink.menu else simpleButton">
         <button
             mat-raised-button
-            class="simple-button b-40-f f-100-f"
+            class="simple-button bg-40-f fg-100-f"
             [ngClass]="{'button-elevation' : (elevation === portalAgendaLink.label + ' button')}"
             (mouseover)="setElevation(portalAgendaLink.label)"
             (mouseleave)="setElevation('')"
@@ -11,11 +11,11 @@
             <mat-icon>{{ portalAgendaLink.icon }}</mat-icon>
             <mat-icon inline="true">arrow_drop_down</mat-icon>
         </button>
-        <mat-menu #controlMenu="matMenu">
+        <mat-menu #controlMenu="matMenu" class="bg-98-f expand-menu">
             <button
                 *ngFor="let expandedControl of portalAgendaLink.menu"
                 mat-menu-item
-                class="expanded-menu-item b-98-f"
+                class="expanded-menu-item bg-98 g-0-5rem"
                 (click)="setRoute(expandedControl.path)"
             >
                 <mat-icon>{{expandedControl?.icon }}</mat-icon>
@@ -26,7 +26,7 @@
     <ng-template #simpleButton>
         <button
             mat-raised-button
-            class="simple-button b-40-f f-100-f"
+            class="simple-button bg-40-f fg-100-f"
             [ngClass]="{'button-elevation' : (elevation === portalAgendaLink.label + ' button')}"
             (mouseover)="setElevation(portalAgendaLink.label)"
             (mouseleave)="setElevation('')"

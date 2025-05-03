@@ -3,11 +3,11 @@ import { Router } from '@angular/router';
 import { SentinelAuthService, UserRole } from '@sentinel/auth';
 import { SANDBOX_DEFINITION_PATH, SANDBOX_IMAGES_PATH, SANDBOX_POOL_PATH } from '@crczp/sandbox-agenda';
 import {
-    ADAPTIVE_DEFINITION_PATH,
-    ADAPTIVE_INSTANCE_PATH,
-    TRAINING_DEFINITION_PATH,
-    TRAINING_INSTANCE_PATH,
-    TRAINING_RUN_PATH,
+    COOP_DEFINITION_PATH,
+    COOP_INSTANCE_PATH,
+    LINEAR_DEFINITION_PATH,
+    LINEAR_INSTANCE_PATH,
+    RUN_PATH,
 } from '@crczp/training-agenda';
 import { GROUP_PATH, MICROSERVICE_PATH, USER_PATH } from '@crczp/user-and-group-agenda';
 import { AgendaPortalLink } from '../../model/agenda-portal-link';
@@ -39,8 +39,8 @@ export class HomeComponent implements OnInit {
 
     static createExpandedControlButtons(path: string[]): AgendaMenuItem[] {
         return [
-            new AgendaMenuItem('timeline', 'Adaptive', path[0]),
-            new AgendaMenuItem('videogame_asset', 'Linear', path[1]),
+            new AgendaMenuItem('videogame_asset', 'Linear', path[0]),
+            new AgendaMenuItem('groups', 'Coop', path[1]),
         ];
     }
 
@@ -96,7 +96,7 @@ export class HomeComponent implements OnInit {
             new AgendaPortalLink(
                 'Training Run',
                 !RoleResolver.isTrainingTrainee(this.roles),
-                TRAINING_RUN_PATH,
+                RUN_PATH,
                 'Training Run allows you to start a new training, return to unfinished one,' +
                     ' or to access results of those you already finished.',
                 'games',
@@ -117,10 +117,10 @@ export class HomeComponent implements OnInit {
             new AgendaPortalLink(
                 'Training Definition',
                 !RoleResolver.isTrainingDesigner(this.roles),
-                TRAINING_DEFINITION_PATH,
+                LINEAR_DEFINITION_PATH,
                 'The training definition is a plot of the single-player trainings. You can manage your own and design new ones.',
                 'assignment',
-                HomeComponent.createExpandedControlButtons([ADAPTIVE_DEFINITION_PATH, TRAINING_DEFINITION_PATH]),
+                HomeComponent.createExpandedControlButtons([LINEAR_DEFINITION_PATH, COOP_DEFINITION_PATH]),
             ),
         ];
     }
@@ -138,10 +138,10 @@ export class HomeComponent implements OnInit {
             new AgendaPortalLink(
                 'Training Instance',
                 !RoleResolver.isTrainingOrganizer(this.roles),
-                TRAINING_INSTANCE_PATH,
+                LINEAR_INSTANCE_PATH,
                 'You can also create training instances that are necessary if you want to organize a training hands-on session.',
                 'event',
-                HomeComponent.createExpandedControlButtons([ADAPTIVE_INSTANCE_PATH, TRAINING_INSTANCE_PATH]),
+                HomeComponent.createExpandedControlButtons([LINEAR_INSTANCE_PATH, COOP_INSTANCE_PATH]),
             ),
             new AgendaPortalLink(
                 'Images',

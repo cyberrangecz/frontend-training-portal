@@ -3,12 +3,12 @@ import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { SentinelAuthGuardWithLogin, SentinelNegativeAuthGuard } from '@sentinel/auth/guards';
 import { SANDBOX_DEFINITION_PATH, SANDBOX_IMAGES_PATH, SANDBOX_POOL_PATH } from '@crczp/sandbox-agenda';
 import {
-    ADAPTIVE_DEFINITION_PATH,
-    ADAPTIVE_INSTANCE_PATH,
+    COOP_DEFINITION_PATH,
+    COOP_INSTANCE_PATH,
+    LINEAR_DEFINITION_PATH,
+    LINEAR_INSTANCE_PATH,
     MITRE_TECHNIQUES_PATH,
-    TRAINING_DEFINITION_PATH,
-    TRAINING_INSTANCE_PATH,
-    TRAINING_RUN_PATH,
+    RUN_PATH,
 } from '@crczp/training-agenda';
 import { GROUP_PATH, MICROSERVICE_PATH, USER_PATH } from '@crczp/user-and-group-agenda';
 import { HomeComponent } from './components/home/home.component';
@@ -23,8 +23,6 @@ import { TrainingOrganizerGuard } from './services/guards/training-organizer-gua
 import { UserAndGroupGuard } from './services/guards/user-and-group-guard.service';
 import { RoleBasedPreloader } from './utils/role-based-preloading';
 import { RoleResolver } from './utils/role-resolver';
-import { AdaptiveTrainingOrganizerGuard } from './services/guards/training-adaptive-organizer-guard.service';
-import { AdaptiveTrainingDesignerGuard } from './services/guards/training-adaptive-designer-guard.service';
 
 const routes: Routes = [
     {
@@ -33,10 +31,10 @@ const routes: Routes = [
         canActivate: [AdvancedUserGuard],
     },
     {
-        path: TRAINING_DEFINITION_PATH,
+        path: LINEAR_DEFINITION_PATH,
         loadChildren: () =>
-            import('./modules/training-agenda/definition/overview/training-definition-overview.module').then(
-                (m) => m.TrainingDefinitionOverviewModule,
+            import('./modules/training-agenda/definition/overview/linear-training-definition-overview.module').then(
+                (m) => m.LinearTrainingDefinitionOverviewModule,
             ),
         canActivate: [TrainingDesignerGuard],
         data: {
@@ -46,16 +44,16 @@ const routes: Routes = [
         },
     },
     {
-        path: ADAPTIVE_DEFINITION_PATH,
+        path: COOP_DEFINITION_PATH,
         loadChildren: () =>
-            import('./modules/training-agenda/adaptive-definition/overview/adaptive-definition-overview.module').then(
-                (m) => m.AdaptiveDefinitionOverviewModule,
+            import('./modules/training-agenda/definition/overview/coop-training-definition-overview.module').then(
+                (m) => m.CoopTrainingDefinitionOverviewModule,
             ),
-        canActivate: [AdaptiveTrainingDesignerGuard],
+        canActivate: [TrainingDesignerGuard],
         data: {
-            breadcrumb: 'Adaptive Training Definitions',
-            title: 'Adaptive Training Definition Overview',
-            roleResolver: RoleResolver.isAdaptiveTrainingDesigner,
+            breadcrumb: 'Coop Training Definitions',
+            title: 'Coop Training Definition Overview',
+            roleResolver: RoleResolver.isTrainingDesigner,
         },
     },
     {
@@ -72,10 +70,10 @@ const routes: Routes = [
         },
     },
     {
-        path: TRAINING_INSTANCE_PATH,
+        path: LINEAR_INSTANCE_PATH,
         loadChildren: () =>
-            import('./modules/training-agenda/instance/overview/training-instance-overview.module').then(
-                (m) => m.TrainingInstanceOverviewModule,
+            import('./modules/training-agenda/instance/overview/linear-training-instance-overview.module').then(
+                (m) => m.LinearTrainingInstanceOverviewModule,
             ),
         canActivate: [TrainingOrganizerGuard],
         data: {
@@ -85,16 +83,16 @@ const routes: Routes = [
         },
     },
     {
-        path: ADAPTIVE_INSTANCE_PATH,
+        path: COOP_INSTANCE_PATH,
         loadChildren: () =>
-            import('./modules/training-agenda/adaptive-instance/overview/adaptive-instance-overview.module').then(
-                (m) => m.AdaptiveInstanceOverviewModule,
+            import('./modules/training-agenda/instance/overview/coop-training-instance-overview.module').then(
+                (m) => m.CoopTrainingInstanceOverviewModule,
             ),
-        canActivate: [AdaptiveTrainingOrganizerGuard],
+        canActivate: [TrainingOrganizerGuard],
         data: {
-            breadcrumb: 'Adaptive Training Instances',
-            title: 'Adaptive Training Instance Overview',
-            roleResolver: RoleResolver.isAdaptiveTrainingOrganizer,
+            breadcrumb: 'Coop Training Instances',
+            title: 'Coop Training Instance Overview',
+            roleResolver: RoleResolver.isTrainingOrganizer,
         },
     },
     {
@@ -120,7 +118,7 @@ const routes: Routes = [
         },
     },
     {
-        path: TRAINING_RUN_PATH,
+        path: RUN_PATH,
         loadChildren: () =>
             import('./modules/training-agenda/run/overview/training-run-overview.module').then(
                 (m) => m.TrainingRunOverviewModule,

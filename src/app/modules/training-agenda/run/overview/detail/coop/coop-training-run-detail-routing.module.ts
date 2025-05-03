@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TrainingRunDetailComponent, TrainingRunLevelsDeactivateGuard } from '@crczp/training-agenda/run-detail';
+import { TrainingRunLevelsDeactivateGuard } from '@crczp/training-agenda/run-detail';
+import { CoopTrainingRunDetailComponent } from '@crczp/training-agenda/run-detail';
 
 const routes: Routes = [
     {
         path: '',
-        component: TrainingRunDetailComponent,
+        component: CoopTrainingRunDetailComponent,
         canDeactivate: [TrainingRunLevelsDeactivateGuard],
     },
 ];
@@ -17,4 +18,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class TrainingRunDetailRoutingModule {}
+export class CoopTrainingRunDetailRoutingModule {}

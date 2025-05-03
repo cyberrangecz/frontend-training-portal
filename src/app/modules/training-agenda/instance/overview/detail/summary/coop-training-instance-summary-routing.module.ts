@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TrainingInstanceSummaryComponent } from '@crczp/training-agenda/instance-summary';
+import {
+    CoopTrainingInstanceSummaryComponent,
+    LinearTrainingInstanceSummaryComponent,
+} from '@crczp/training-agenda/instance-summary';
 
 const routes: Routes = [
     {
         path: '',
-        component: TrainingInstanceSummaryComponent,
+        component: CoopTrainingInstanceSummaryComponent,
     },
 ];
 
@@ -16,4 +19,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class TrainingInstanceSummaryRoutingModule {}
+export class CoopTrainingInstanceSummaryRoutingModule {}

@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TRAINING_DEFINITION_DATA_ATTRIBUTE_NAME } from '@crczp/training-agenda';
 import {
     TrainingDefinitionCanDeactivate,
     TrainingDefinitionEditOverviewComponent,
 } from '@crczp/training-agenda/definition-edit';
+import { TRAINING_DEFINITION_DATA_ATTRIBUTE_NAME } from '@crczp/training-agenda';
 import {
+    CoopTrainingDefinitionResolver,
+    CoopTrainingDefinitionTitleResolver,
     TrainingDefinitionBreadcrumbResolver,
-    TrainingDefinitionResolver,
-    TrainingDefinitionTitleResolver,
 } from '@crczp/training-agenda/resolvers';
 
 const routes: Routes = [
@@ -16,9 +16,9 @@ const routes: Routes = [
         path: '',
         component: TrainingDefinitionEditOverviewComponent,
         resolve: {
-            [TRAINING_DEFINITION_DATA_ATTRIBUTE_NAME]: TrainingDefinitionResolver,
+            [TRAINING_DEFINITION_DATA_ATTRIBUTE_NAME]: CoopTrainingDefinitionResolver,
             breadcrumb: TrainingDefinitionBreadcrumbResolver,
-            title: TrainingDefinitionTitleResolver,
+            title: CoopTrainingDefinitionTitleResolver,
         },
         canDeactivate: [TrainingDefinitionCanDeactivate],
     },
@@ -31,4 +31,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class TrainingDefinitionEditOverviewRoutingModule {}
+export class CoopTrainingDefinitionEditOverviewRoutingModule {}

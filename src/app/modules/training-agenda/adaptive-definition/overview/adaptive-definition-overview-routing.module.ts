@@ -5,9 +5,9 @@ import {
     ADAPTIVE_DEFINITION_DATA_ATTRIBUTE_NAME,
     ADAPTIVE_DEFINITION_DETAIL_PATH,
     ADAPTIVE_DEFINITION_SELECTOR,
+    DEFINITION_NEW_PATH,
     SIMULATOR_PATH,
     TRAINING_DEFINITION_EDIT_PATH,
-    TRAINING_DEFINITION_NEW_PATH,
     TRAINING_DEFINITION_PREVIEW_PATH,
 } from '@crczp/training-agenda';
 import {
@@ -22,7 +22,7 @@ const routes: Routes = [
         component: AdaptiveDefinitionOverviewComponent,
     },
     {
-        path: TRAINING_DEFINITION_NEW_PATH,
+        path: DEFINITION_NEW_PATH,
         loadChildren: () =>
             import('./edit/adaptive-definition-edit-overview.module').then(
                 (m) => m.AdaptiveDefinitionEditOverviewModule,

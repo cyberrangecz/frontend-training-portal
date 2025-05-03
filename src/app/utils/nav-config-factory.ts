@@ -1,11 +1,11 @@
 import { User } from '@sentinel/auth';
 import { NavAgendaContainerConfig } from '@crczp/theme';
 import {
-    ADAPTIVE_DEFINITION_PATH,
-    ADAPTIVE_INSTANCE_PATH,
-    TRAINING_DEFINITION_PATH,
-    TRAINING_INSTANCE_PATH,
-    TRAINING_RUN_PATH,
+    COOP_DEFINITION_PATH,
+    COOP_INSTANCE_PATH,
+    LINEAR_DEFINITION_PATH,
+    LINEAR_INSTANCE_PATH,
+    RUN_PATH,
 } from '@crczp/training-agenda';
 import { RoleResolver } from './role-resolver';
 import { SANDBOX_DEFINITION_PATH, SANDBOX_IMAGES_PATH, SANDBOX_POOL_PATH } from '@crczp/sandbox-agenda';
@@ -21,13 +21,13 @@ export class NavConfigFactory {
                         label: 'Definition',
                         agendas: [
                             {
-                                label: 'Adaptive',
-                                path: ADAPTIVE_DEFINITION_PATH,
-                                canActivate: () => RoleResolver.isAdaptiveTrainingDesigner(user.roles),
+                                label: 'Linear',
+                                path: LINEAR_DEFINITION_PATH,
+                                canActivate: () => RoleResolver.isTrainingDesigner(user.roles),
                             },
                             {
-                                label: 'Linear',
-                                path: TRAINING_DEFINITION_PATH,
+                                label: 'Coop',
+                                path: COOP_DEFINITION_PATH,
                                 canActivate: () => RoleResolver.isTrainingDesigner(user.roles),
                             },
                         ],
@@ -36,20 +36,20 @@ export class NavConfigFactory {
                         label: 'Instance',
                         agendas: [
                             {
-                                label: 'Adaptive',
-                                path: ADAPTIVE_INSTANCE_PATH,
-                                canActivate: () => RoleResolver.isAdaptiveTrainingOrganizer(user.roles),
+                                label: 'Linear',
+                                path: LINEAR_INSTANCE_PATH,
+                                canActivate: () => RoleResolver.isTrainingOrganizer(user.roles),
                             },
                             {
-                                label: 'Linear',
-                                path: TRAINING_INSTANCE_PATH,
+                                label: 'Coop',
+                                path: COOP_INSTANCE_PATH,
                                 canActivate: () => RoleResolver.isTrainingOrganizer(user.roles),
                             },
                         ],
                     },
                     {
                         label: 'Run',
-                        path: TRAINING_RUN_PATH,
+                        path: RUN_PATH,
                     },
                 ],
             },
@@ -64,12 +64,12 @@ export class NavConfigFactory {
                     {
                         label: 'Pool',
                         path: SANDBOX_POOL_PATH,
-                        canActivate: () => RoleResolver.isTrainingOrganizer(user.roles),
+                        canActivate: () => RoleResolver.isSandboxOrganizer(user.roles),
                     },
                     {
                         label: 'Images',
                         path: SANDBOX_IMAGES_PATH,
-                        canActivate: () => RoleResolver.isTrainingOrganizer(user.roles),
+                        canActivate: () => RoleResolver.isSandboxOrganizer(user.roles),
                     },
                 ],
             },

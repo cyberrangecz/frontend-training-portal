@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
+    LinearTrainingInstanceEditOverviewComponent,
     TrainingInstanceCanDeactivate,
-    TrainingInstanceEditOverviewComponent,
 } from '@crczp/training-agenda/instance-edit';
 
 const routes: Routes = [
     {
         path: '',
-        component: TrainingInstanceEditOverviewComponent,
-        canDeactivate: [TrainingInstanceCanDeactivate],
+        component: LinearTrainingInstanceEditOverviewComponent,
+        canDeactivate: [TrainingInstanceCanDeactivate<LinearTrainingInstanceEditOverviewComponent>],
     },
 ];
 
@@ -20,4 +20,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class TrainingInstanceEditOverviewRoutingModule {}
+export class LinearTrainingInstanceEditOverviewRoutingModule {}

@@ -11,4 +11,4 @@ import { TrainingPreviewRoutingModule } from './training-preview-routing.module'
         TrainingPreviewRoutingModule,
     ],
 })
-export class TrainingPreviewModule {}
+export class LinearTrainingPreviewModule {}

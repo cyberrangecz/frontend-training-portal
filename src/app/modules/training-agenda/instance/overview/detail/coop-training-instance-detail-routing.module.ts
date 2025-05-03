@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
     ACCESS_TOKEN_PATH,
-    CHEATING_DETECTION_PATH,
+    LOBBY_MANAGEMENT_PATH,
     PROGRESS_PATH,
     RESULTS_PATH,
     RUNS_PATH,
@@ -10,9 +10,9 @@ import {
     TRAINING_INSTANCE_DATA_ATTRIBUTE_NAME,
 } from '@crczp/training-agenda';
 import {
+    CoopTrainingInstanceResolver,
     TrainingInstanceDetailBreadcrumbResolver,
     TrainingInstanceDetailTitleResolver,
-    TrainingInstanceResolver,
 } from '@crczp/training-agenda/resolvers';
 
 const routes: Routes = [
@@ -24,39 +24,27 @@ const routes: Routes = [
     {
         path: SUMMARY_PATH,
         resolve: {
-            [TRAINING_INSTANCE_DATA_ATTRIBUTE_NAME]: TrainingInstanceResolver,
+            [TRAINING_INSTANCE_DATA_ATTRIBUTE_NAME]: CoopTrainingInstanceResolver,
             breadcrumb: TrainingInstanceDetailBreadcrumbResolver,
             title: TrainingInstanceDetailTitleResolver,
         },
         loadChildren: () =>
-            import('./summary/training-instance-summary.module').then((m) => m.TrainingInstanceSummaryModule),
+            import('./summary/coop-training-instance-summary.module').then((m) => m.CoopTrainingInstanceSummaryModule),
     },
     {
         path: PROGRESS_PATH,
         resolve: {
-            [TRAINING_INSTANCE_DATA_ATTRIBUTE_NAME]: TrainingInstanceResolver,
+            [TRAINING_INSTANCE_DATA_ATTRIBUTE_NAME]: CoopTrainingInstanceResolver,
             breadcrumb: TrainingInstanceDetailBreadcrumbResolver,
             title: TrainingInstanceDetailTitleResolver,
         },
         loadChildren: () =>
-            import('./progress/training-instance-progress.module').then((m) => m.TrainingInstanceProgressModule),
-    },
-    {
-        path: CHEATING_DETECTION_PATH,
-        resolve: {
-            trainingInstance: TrainingInstanceResolver,
-            breadcrumb: TrainingInstanceDetailBreadcrumbResolver,
-            title: TrainingInstanceDetailTitleResolver,
-        },
-        loadChildren: () =>
-            import('./cheating-detection/training-instance-cheating-detection.module').then(
-                (m) => m.CheatingDetectionOverviewModule,
-            ),
+            import('./progress/coop-instance-progress.module').then((m) => m.CoopInstanceProgressModule),
     },
     {
         path: RESULTS_PATH,
         resolve: {
-            trainingInstance: TrainingInstanceResolver,
+            trainingInstance: CoopTrainingInstanceResolver,
             breadcrumb: TrainingInstanceDetailBreadcrumbResolver,
             title: TrainingInstanceDetailTitleResolver,
         },
@@ -66,7 +54,7 @@ const routes: Routes = [
     {
         path: ACCESS_TOKEN_PATH,
         resolve: {
-            trainingInstance: TrainingInstanceResolver,
+            trainingInstance: CoopTrainingInstanceResolver,
             breadcrumb: TrainingInstanceDetailBreadcrumbResolver,
             title: TrainingInstanceDetailTitleResolver,
         },
@@ -75,11 +63,23 @@ const routes: Routes = [
     {
         path: RUNS_PATH,
         resolve: {
-            trainingInstance: TrainingInstanceResolver,
+            trainingInstance: CoopTrainingInstanceResolver,
             breadcrumb: TrainingInstanceDetailBreadcrumbResolver,
             title: TrainingInstanceDetailTitleResolver,
         },
         loadChildren: () => import('./runs/training-instance-runs.module').then((m) => m.TrainingInstanceRunsModule),
+    },
+    {
+        path: LOBBY_MANAGEMENT_PATH,
+        resolve: {
+            trainingInstance: CoopTrainingInstanceResolver,
+            breadcrumb: TrainingInstanceDetailBreadcrumbResolver,
+            title: TrainingInstanceDetailTitleResolver,
+        },
+        loadChildren: () =>
+            import('./teams-management/coop-training-instance-teams-management.module').then(
+                (m) => m.CoopTrainingInstanceTeamsManagementModule,
+            ),
     },
 ];
 
@@ -90,4 +90,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class TrainingInstanceDetailRoutingModule {}
+export class CoopTrainingInstanceDetailRoutingModule {}

@@ -2,9 +2,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { SUMMARY_PATH, TRAINING_DEFINITION_DATA_ATTRIBUTE_NAME } from '@crczp/training-agenda';
 import { NgModule } from '@angular/core';
 import {
+    CoopTrainingDefinitionResolver,
     TrainingDefinitionDetailBreadcrumbResolver,
     TrainingDefinitionDetailTitleResolver,
-    TrainingDefinitionResolver,
 } from '@crczp/training-agenda/resolvers';
 
 const routes: Routes = [
@@ -16,7 +16,7 @@ const routes: Routes = [
     {
         path: SUMMARY_PATH,
         resolve: {
-            [TRAINING_DEFINITION_DATA_ATTRIBUTE_NAME]: TrainingDefinitionResolver,
+            [TRAINING_DEFINITION_DATA_ATTRIBUTE_NAME]: CoopTrainingDefinitionResolver,
             breadcrumb: TrainingDefinitionDetailBreadcrumbResolver,
             title: TrainingDefinitionDetailTitleResolver,
         },
@@ -32,4 +32,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class TrainingDefinitionDetailRoutingModule {}
+export class CoopDefinitionDetailRoutingModule {}

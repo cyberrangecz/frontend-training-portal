@@ -7,24 +7,24 @@ import {
     TRAINING_INSTANCE_NEW_PATH,
     TRAINING_INSTANCE_SELECTOR,
 } from '@crczp/training-agenda';
-import { TrainingInstanceOverviewComponent } from '@crczp/training-agenda/instance-overview';
 import {
+    CoopTrainingInstanceResolver,
     TrainingInstanceBreadcrumbResolver,
-    TrainingInstanceResolver,
     TrainingInstanceTitleResolver,
 } from '@crczp/training-agenda/resolvers';
+import { CoopTrainingInstanceOverviewComponent } from '@crczp/training-agenda/instance-overview';
 
 const routes: Routes = [
     {
         path: '',
-        component: TrainingInstanceOverviewComponent,
+        component: CoopTrainingInstanceOverviewComponent,
     },
     {
         path: `:${TRAINING_INSTANCE_SELECTOR}/${TRAINING_INSTANCE_DETAIL_PATH}`,
         loadChildren: () =>
-            import('./detail/training-instance-detail.module').then((m) => m.TrainingInstanceDetailModule),
+            import('./detail/coop-training-instance-detail.module').then((m) => m.CoopTrainingInstanceDetailModule),
         resolve: {
-            [TRAINING_INSTANCE_DATA_ATTRIBUTE_NAME]: TrainingInstanceResolver,
+            [TRAINING_INSTANCE_DATA_ATTRIBUTE_NAME]: CoopTrainingInstanceResolver,
             breadcrumb: TrainingInstanceBreadcrumbResolver,
             title: TrainingInstanceTitleResolver,
         },
@@ -32,9 +32,11 @@ const routes: Routes = [
     {
         path: TRAINING_INSTANCE_NEW_PATH,
         loadChildren: () =>
-            import('./edit/training-instance-edit-overview.module').then((m) => m.TrainingInstanceEditOverviewModule),
+            import('./edit/coop-training-instance-edit-overview.module').then(
+                (m) => m.CoopTrainingInstanceEditOverviewModule,
+            ),
         resolve: {
-            [TRAINING_INSTANCE_DATA_ATTRIBUTE_NAME]: TrainingInstanceResolver,
+            [TRAINING_INSTANCE_DATA_ATTRIBUTE_NAME]: CoopTrainingInstanceResolver,
             breadcrumb: TrainingInstanceBreadcrumbResolver,
             title: TrainingInstanceTitleResolver,
         },
@@ -42,9 +44,11 @@ const routes: Routes = [
     {
         path: `:${TRAINING_INSTANCE_SELECTOR}/${TRAINING_INSTANCE_EDIT_PATH}`,
         loadChildren: () =>
-            import('./edit/training-instance-edit-overview.module').then((m) => m.TrainingInstanceEditOverviewModule),
+            import('./edit/coop-training-instance-edit-overview.module').then(
+                (m) => m.CoopTrainingInstanceEditOverviewModule,
+            ),
         resolve: {
-            [TRAINING_INSTANCE_DATA_ATTRIBUTE_NAME]: TrainingInstanceResolver,
+            [TRAINING_INSTANCE_DATA_ATTRIBUTE_NAME]: CoopTrainingInstanceResolver,
             breadcrumb: TrainingInstanceBreadcrumbResolver,
             title: TrainingInstanceTitleResolver,
         },
@@ -58,4 +62,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class TrainingInstanceOverviewRoutingModule {}
+export class CoopTrainingInstanceOverviewRoutingModule {}

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { SentinelAuthService } from '@sentinel/auth';
 import { SentinelAuthGuardWithLogin } from '@sentinel/auth/guards';
-import { TRAINING_RUN_PATH } from '@crczp/training-agenda';
+import { RUN_PATH } from '@crczp/training-agenda';
 import { AbstractGuardService } from './abstract.guard.service';
 import { RoleResolver } from '../../utils/role-resolver';
 
@@ -17,7 +17,7 @@ export class AdvancedUserGuard extends AbstractGuardService implements CanActiva
         authGuard: SentinelAuthGuardWithLogin,
         private authService: SentinelAuthService,
     ) {
-        super(router, authGuard, TRAINING_RUN_PATH);
+        super(router, authGuard, RUN_PATH);
     }
 
     protected hasRole(): boolean {

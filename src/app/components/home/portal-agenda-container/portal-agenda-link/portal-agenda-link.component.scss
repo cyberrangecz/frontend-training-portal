@@ -43,7 +43,12 @@ mat-icon {
 
 .expanded-menu-item {
     min-width: 100px;
+}
 
+.expanded-menu-item:hover {
+    background: var(--primary-90);
+    scale: 1.1;
+    width: 95%;
 }
 
 .agenda-link-label {
