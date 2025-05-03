@@ -1,1 +1,2 @@
-npm run prettier-check && npm ci --dry-run
+
+
