@@ -1,13 +1,16 @@
 FROM node:20 AS builder
 RUN NG_CLI_ANALYTICS=false npm install -g @angular/cli
-ARG PROD=false
+ARG PROD=true
 
 COPY src /build/src
 COPY *.json /build/
 COPY .npmrc /build/
 
+# Modification to use offline built packages of the thesis
+COPY .built /.built
+
 RUN cd /build && \
-    npm ci && \
+    npm i && \
     if [ "$PROD" = true ] ; then \
       ng build --configuration production; \
     else \
