@@ -35,7 +35,11 @@
                             }
                         ],
                         "styles": [
-                            "node_modules/@crczp/theme/theming/apply-all.scss"
+                            "node_modules/@crczp/theme/theming/apply-all.scss",
+                            "node_modules/prismjs/themes/prism.css"
+                        ],
+                        "scripts": [
+                            "node_modules/@hpcc-js/wasm/dist/graphviz.umd.js"
                         ],
                         "vendorChunk": true,
                         "extractLicenses": false,
