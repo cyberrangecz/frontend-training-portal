@@ -36,7 +36,7 @@ jobs:
         run: echo "${{ secrets.SENTINEL_PULL }}" >> .npmrc
 
       - name: Install dependencies
-        run: npm ci --prefer-offline --ignore-scripts
+        run: npm i --prefer-offline --ignore-scripts
 
       - name: Run Lint
         run: npm run lint
@@ -59,7 +59,7 @@ jobs:
         run: echo "${{ secrets.SENTINEL_PULL }}" >> .npmrc
 
       - name: Install dependencies
-        run: npm ci --prefer-offline --ignore-scripts
+        run: npm i --prefer-offline --ignore-scripts
 
       - name: Run tests
         run: npm run ci-test
