@@ -52,7 +52,8 @@
         "@crczp/user-and-group-model": "^1.0.0",
         "@crczp/visualization-dashboard": "^1.0.0",
         "@crczp/walkthrough-visualization": "^1.0.0",
-        "@crczp/theme": "^1.0.0",
+        "@crczp/theme": "1.1.1",
+        "@hpcc-js/wasm": "^2.26.3",
         "@sentinel/auth": "^18.0.3",
         "@sentinel/common": "^18.0.4",
         "@sentinel/components": "^18.2.7",
@@ -112,8 +113,9 @@
         "webpack-bundle-analyzer": "4.10.2"
     },
     "optionalDependencies": {
-        "@esbuild/android-arm": "0.24.0",
-        "@nx/nx-darwin-arm64": "19.8.0",
         "fsevents": "2.3.3"
+    },
+    "overrides": {
+        "theme": "1.1.1"
     }
 }
