@@ -7,7 +7,7 @@ COPY *.json /build/
 COPY .npmrc /build/
 
 RUN cd /build && \
-    npm i --ignore-scripts && \
+    npm ci --ignore-scripts && \
     if [ "$PROD" = true ] ; then \
       ng build --configuration production; \
     else \

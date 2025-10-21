@@ -1,6 +1,6 @@
 {
     "name": "@crczp/training-portal",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "license": "MIT",
     "private": true,
     "scripts": {
@@ -52,7 +52,7 @@
         "@crczp/user-and-group-model": "^1.0.0",
         "@crczp/visualization-dashboard": "^1.0.0",
         "@crczp/walkthrough-visualization": "^1.0.0",
-        "@crczp/theme": "1.1.1",
+        "@crczp/theme": "1.1.2",
         "@hpcc-js/wasm": "^2.26.3",
         "@sentinel/auth": "^18.0.3",
         "@sentinel/common": "^18.0.4",
